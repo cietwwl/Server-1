@@ -9,6 +9,7 @@ import java.util.Map;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
@@ -76,7 +77,7 @@ public class DropItemManager {
 		}
 	}
 	
-	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本,扫荡，道具预计掉落*/
+	/**聚宝之地 ！炼息山谷！生存幻境,无尽战火；普通本精英本,扫荡，道具预计掉落*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -205,11 +206,13 @@ public class DropItemManager {
 			}
 			
 			if(!firstDrop&&copyCfg != null){
-				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);							
-
+				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
 				for(ItemInfo iteminfo : dropItemInfoList){
 					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
 				}
+				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
+				int tmp = dropItemInfoList.size();
+				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
 			}
 				
 			

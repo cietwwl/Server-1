@@ -1,16 +1,18 @@
 package com.rw.service.redpoint.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Set;
 
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class HeroFixEquipChecker implements RedPointCollector {
 
@@ -30,65 +32,76 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		HeroMgr heroMgr = player.getHeroMgr();
 		List<String> heroIdList = heroMgr.getHeroIdList();
 
-		checkQualityUP(map, player, heroMgr, heroIdList);
+		Set<String> heroIdSet = new HashSet<String>();
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+			
+			checkQualityUP(map, player, heroMgr, heroIdList, heroIdSet);
+		}
 		
-		checkStarUp(map, player, heroMgr, heroIdList);
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
+			
+			checkStarUp(map, player, heroMgr, heroIdList, heroIdSet);
+		}
+		
+		if(!heroIdSet.isEmpty()){
+			List<String> redHeroIdList = new ArrayList<String>(heroIdSet);
+			map.put(RedPointType.FIX_EQUIP_HERO_LIST, redHeroIdList);
+		}
 
 	}
 
-	private void checkStarUp(Map<RedPointType, List<String>> map,
-			Player player, HeroMgr heroMgr, List<String> heroIdList) {
-		List<String> starParamList = new ArrayList<String>();
+	private void checkStarUp(Map<RedPointType, List<String>> map, Player player, HeroMgr heroMgr, List<String> heroIdList, Set<String> heroIdSet) {
+		List<String> starUPList = new ArrayList<String>();
 		for (String id : heroIdList) {
 			Hero hero = heroMgr.getHeroById(id);
 			String heroId = hero.getUUId();	
 			
 			
-			List<String> starUpList = hero.getFixExpEquipMgr().starUpList(player, heroId);			
-			starUpList.addAll(hero.getFixNormEquipMgr().starUpList(player, heroId));
-			if(!starUpList.isEmpty()){
-				String param = toParam(heroId,starUpList);
-				starParamList.add(param);
+			List<String> starUpListTmp = hero.getFixExpEquipMgr().starUpList(player, heroId);			
+			starUpListTmp.addAll(hero.getFixNormEquipMgr().starUpList(player, heroId));
+			if(!starUpListTmp.isEmpty()){
+				starUPList.addAll(starUpListTmp);
+				heroIdSet.add(hero.getTemplateId());
 			}		
 			
 			
 		}
-		if(!starParamList.isEmpty()){
-			map.put(RedPointType.HERO_FIX_EQUIP_START_UP, starParamList);
+		if(!starUPList.isEmpty()){
+			map.put(RedPointType.HERO_FIX_EQUIP_START_UP, starUPList);
 		}
 	}
 
-	private void checkQualityUP(Map<RedPointType, List<String>> map,Player player, HeroMgr heroMgr, List<String> heroIdList) {
+	private void checkQualityUP(Map<RedPointType, List<String>> map,Player player, HeroMgr heroMgr, List<String> heroIdList, Set<String> heroIdSet) {
 		
-		List<String> qualityParamList = new ArrayList<String>();
+		List<String> qualityUpList = new ArrayList<String>();
 		for (String id : heroIdList) {
 			Hero hero = heroMgr.getHeroById(id);
 			String heroId = hero.getUUId();
 			
-			List<String> qualityUpList = hero.getFixExpEquipMgr().qualityUpList(player, heroId);			
-			qualityUpList.addAll(hero.getFixNormEquipMgr().qualityUpList(player, heroId));
-			if(!qualityUpList.isEmpty()){
-				String param = toParam(heroId,qualityUpList);
-				qualityParamList.add(param);
+			List<String> qualityUpListTmp = hero.getFixExpEquipMgr().qualityUpList(player, heroId);			
+			qualityUpListTmp.addAll(hero.getFixNormEquipMgr().qualityUpList(player, heroId));
+			if(!qualityUpListTmp.isEmpty()){
+				qualityUpList.addAll(qualityUpListTmp);
+				heroIdSet.add(hero.getTemplateId());
 			}
 			
 			
 		}
-		if(!qualityParamList.isEmpty()){
-			map.put(RedPointType.HERO_FIX_EQUIP_QUALITY_UP, qualityParamList);
+		if(!qualityUpList.isEmpty()){
+			map.put(RedPointType.HERO_FIX_EQUIP_QUALITY_UP, qualityUpList);
 		}
 	}
 
-	private String toParam(String heroId, List<String> fixEquipIdList) {
-
-		StringBuilder param = new StringBuilder(heroId);
-		param.append(":");
-		for (String fixEquipId : fixEquipIdList) {
-			param.append(fixEquipId);
-			param.append(",");
-		}
-		return StringUtils.removeEnd(param.toString(), ",");
-	}
+//	private String toParam(String heroId, List<String> fixEquipIdList) {
+//
+//		StringBuilder param = new StringBuilder(heroId);
+//		param.append(":");
+//		for (String fixEquipId : fixEquipIdList) {
+//			param.append(fixEquipId);
+//			param.append(",");
+//		}
+//		return StringUtils.removeEnd(param.toString(), ",");
+//	}
 
 
 	

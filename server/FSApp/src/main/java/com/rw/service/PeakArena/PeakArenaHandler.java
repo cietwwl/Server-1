@@ -376,8 +376,7 @@ public class PeakArenaHandler {
 		final long currentTimeMillis = System.currentTimeMillis();
 		arenaData.setFightStartTime(currentTimeMillis);
 
-		int challengeCount = arenaData.getChallengeCount() + 1;
-		arenaData.setChallengeCount(challengeCount);
+		int challengeCount = arenaData.getChallengeCount();
 		TablePeakArenaDataDAO.getInstance().update(arenaData);
 		response.setChallengeCount(challengeCount);
 		
@@ -438,7 +437,9 @@ public class PeakArenaHandler {
 
 		// 重置对手
 		playerArenaData.setLastFightEnemy("");
-		
+		//结束时再减少挑战次数
+		playerArenaData.setChallengeCount(playerArenaData.getChallengeCount() + 1);
+
 		// 巅峰排行榜超出上限的容错处理
 		 ListRankingEntry<String, PeakArenaExtAttribute> playerEntry = peakBM.getPlayerRankEntry(player, playerArenaData);
 		if (playerEntry == null) {
@@ -721,8 +722,8 @@ public class PeakArenaHandler {
 			
 			if (selectedMagic != null){
 				teamBuilder.setMagicId(selectedMagic.getId());
-				teamBuilder.setMagicLevel(magic.getMagicLevel());
-				teamBuilder.setEnemyMagicModelId(magic.getModelId());
+				teamBuilder.setMagicLevel(selectedMagic.getMagicLevel());
+				teamBuilder.setEnemyMagicModelId(selectedMagic.getModelId());
 			}else{
 				GameLog.error("巅峰竞技场", userId, "找不到法宝,ID="+magicId);
 			}

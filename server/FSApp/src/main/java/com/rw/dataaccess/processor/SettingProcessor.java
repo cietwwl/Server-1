@@ -21,7 +21,9 @@ public class SettingProcessor implements PlayerCoreCreation<TableSettingData> {
 		settingData.setLastRenameTimeInMill(0);
 		List<HeadTypeList> headTypeList = new ArrayList<HeadTypeList>();
 		List<HeadTypeList> headBoxList = new ArrayList<HeadTypeList>();
-		for (int i = 0; i < 3; i++) {
+		int minRange = HeadBoxType.getMin();
+		int maxRange = HeadBoxType.getMax() +1;
+		for (int i = minRange; i < maxRange; i++) {//类型定义在HeadBoxType
 			List<String> headlist = new ArrayList<String>();
 			List<String> headBoxlist = new ArrayList<String>();
 			HeadTypeList headType = new HeadTypeList();

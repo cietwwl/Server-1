@@ -1,4 +1,7 @@
 key,remarks,order,atlas,spriteName,spriteId,tips,littleThing,type
-1,,1,Assets/UIPrefab/Textures/Common.prefab,head_TouXiangDi_01,20001,默认头像,,
-2,,2,Assets/UIPrefab/Textures/Common.prefab,head_TouXiangDi_02,20002,VIP等级2可解锁,,1
-3,,3,Assets/UIPrefab/Textures/Common.prefab,head_TouXiangDi_03,20003,情人节活动解锁,,1
+1,,1,Assets/UIPrefab/Textures/Lead.prefab,head_TouXiangDi_01,20001,默认头像,,
+2,,2,Assets/UIPrefab/Textures/Lead.prefab,head_TouXiangDi_02,20002,VIP等级2可解锁,,1
+3,,3,Assets/UIPrefab/Textures/Lead.prefab,bg_head_xiari,20003,时装斗星衣解锁,,1
+4,,4,Assets/UIPrefab/Textures/Lead.prefab,bg_head_tianshi,20004,时装天翎霞衣解锁,,1
+5,,5,Assets/UIPrefab/Textures/Lead.prefab,bg_head_emo,20005,时装魅影蝠袍解锁,,1
+6,,6,Assets/UIPrefab/Textures/Lead.prefab,bg_head_haitan,20006,时装唤海轻纱解锁,,1

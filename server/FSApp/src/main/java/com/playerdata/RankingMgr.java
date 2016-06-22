@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
@@ -152,6 +153,7 @@ public class RankingMgr {
 	 */
 	@SuppressWarnings("unchecked")
 	public void resetUpdateState() {
+		GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			GameWorld world = GameWorldFactory.getGameWorld();
 			String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
@@ -161,7 +163,7 @@ public class RankingMgr {
 					return;
 				}
 			}
-
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 			// 第一次初始化的时候调用
 			if (lastResetText == null || lastResetText.isEmpty()) {
 				ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
@@ -198,12 +200,14 @@ public class RankingMgr {
 			// // 初始化万仙阵数据
 			// changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
 			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		} catch (Exception e) {
 			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
 		}
 	}
 
 	public void arenaCalculate() {
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		GameWorld world = GameWorldFactory.getGameWorld();
 		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
 		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
@@ -213,6 +217,7 @@ public class RankingMgr {
 				return;
 			}
 		}
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
 			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
@@ -224,6 +229,7 @@ public class RankingMgr {
 			rewardOnlinePlayers();
 		} finally {
 			world.updateAttribute(GameWorldKey.ARENA_CALCULATE, String.valueOf(System.currentTimeMillis()));
+			GameLog.info("RankingMgr", "arenaCalculate", "执行结算结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		}
 	}
 
@@ -406,10 +412,10 @@ public class RankingMgr {
 			case Priest:
 				rankingType = RankType.PRIEST_ARENA_DAILY;
 				break;
-			// TODO 这样做真的好吗
 			default:
-				rankingType = RankType.WARRIOR_ARENA_DAILY;
-				break;
+				return null;
+//				rankingType = RankType.WARRIOR_ARENA_DAILY;
+//				break;
 			}
 
 			Ranking ranking = RankingFactory.getRanking(rankingType);

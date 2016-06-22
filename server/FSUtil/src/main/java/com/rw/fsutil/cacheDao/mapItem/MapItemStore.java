@@ -24,10 +24,12 @@ public class MapItemStore<T extends IMapItem> {
 	private final ConcurrentHashMap<String, Boolean> updatedMap;
 
 	private static final Boolean PRESENT = true;
+	
+	private final boolean writeDirect;     //写操作立刻更新数据库
 
 	private DataUpdater<String> updater;
 
-	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater) {
+	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater, boolean writeDirect) {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
@@ -36,6 +38,7 @@ public class MapItemStore<T extends IMapItem> {
 		for (T tmpItem : itemList) {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
+		this.writeDirect = writeDirect;
 	}
 
 	public MapItemStore(String searchFieldP, String searchIdP, Class<T> clazzP) {
@@ -48,8 +51,21 @@ public class MapItemStore<T extends IMapItem> {
 		if (t == null) {
 			return false;
 		}
+		if(writeDirect){
+			return updateImmediately(key, t);
+		}
 		if (updatedMap.putIfAbsent(key, PRESENT) == null) {
 			updater.submitUpdateTask(searchId);
+		}
+		return true;
+	}
+	
+	private boolean updateImmediately(String key, T item){
+		try{
+			commonJdbc.updateToDB(searchId, key, item);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
 		}
 		return true;
 	}
@@ -169,7 +185,7 @@ public class MapItemStore<T extends IMapItem> {
 	}
 
 	public void flush() {
-		flush(false);
+		flush(writeDirect);
 	}
 
 	// 此方法需要再封装

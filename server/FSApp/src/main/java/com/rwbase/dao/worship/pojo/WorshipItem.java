@@ -7,6 +7,7 @@ public class WorshipItem {
 	private int fightingAll;
 	private String userName;
 	private String imageId;
+	private String headFrame;//用户头像框
 	private int career;
 	private int sex;
 	private int careerLevel;
@@ -43,6 +44,12 @@ public class WorshipItem {
 	}
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
+	}
+	public String getHeadFrame() {
+		return headFrame;
+	}
+	public void setHeadFrame(String headFrame) {
+		this.headFrame = headFrame;
 	}
 	public int getCareer() {
 		return career;

@@ -118,15 +118,13 @@ public class ActivityDailyTypeMgr {
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
-		}
-		
-		
+		}		
 	}
 	private void checkNewOpen(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
 		if(activityCountTypeCfg == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return;
 		}
 		
@@ -145,7 +143,7 @@ public class ActivityDailyTypeMgr {
 	public ActivityDailyTypeCfg getparentCfg(){
 		List<ActivityDailyTypeCfg> allCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();		
 		if(allCfgList == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
 			return null;			
 		}		
 		if(allCfgList.size() != 1){
@@ -163,7 +161,7 @@ public class ActivityDailyTypeMgr {
 
 
 
-	private boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();
@@ -177,7 +175,7 @@ public class ActivityDailyTypeMgr {
 	public boolean isLevelEnough(Player player) {
 		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
 		if(activityCountTypeCfg == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
 		}
 		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){

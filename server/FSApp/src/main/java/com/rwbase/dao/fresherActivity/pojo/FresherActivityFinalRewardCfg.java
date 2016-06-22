@@ -4,6 +4,17 @@ public class FresherActivityFinalRewardCfg {
 	private int id;
 	private int progress;
 	private String reward;
+	private int activityCode;
+	
+	
+	
+	
+	public int getActivityCode() {
+		return activityCode;
+	}
+	public void setActivityCode(int activityCode) {
+		this.activityCode = activityCode;
+	}
 	public int getId() {
 		return id;
 	}

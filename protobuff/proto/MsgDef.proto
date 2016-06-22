@@ -82,13 +82,14 @@ enum Command {
 	MSG_ACTIVITY_DAILY_TYPE = 180;//通用活动每日
 	MSG_ACTIVITY_VITALITY_TYPE = 181;//通用活动活跃度
 	MSG_ACTIVITY_EXCHANGE_TYPE = 182;//通用活动兑换币
-	
+	MSG_ACTIVITY_DailyDiscount_TYPE = 183;//通用活动每日折扣
 	
 	MSG_TAOIST = 200;//道术系统
 	MSG_FIX_EQUIP = 201;//专属装备
 	MSG_GROUP_SECRET = 202;//帮派秘境
 	MSG_MAGIC_SECRET = 203;//法宝秘境
 	MSG_GROUP_SECRET_MATCH = 204;//帮派秘境探索
+	MSG_GROUP_FIGHT_ONLINE=205;//在线帮战
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆

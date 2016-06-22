@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityDailyDiscountTypeProto";
+
+package activityDailyDiscountType;
+
+
+enum RequestType{
+
+	BUY_ITEM = 1;//购买商品
+
+}
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string activityId = 2; //活动id
+	optional string subItemId = 3;  //子项id 对应这个活动的某一天的某一个道具的id
+
+}
+
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+
+}

@@ -3832,6 +3832,51 @@ public final class FriendServiceProtos {
      */
     com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getBlackListOrBuilder(
         int index);
+
+    // repeated .FriendInfo recommandList = 4;
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> 
+        getRecommandListList();
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index);
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    int getRecommandListCount();
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
+        getRecommandListOrBuilderList();
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code AllList}
@@ -3908,6 +3953,14 @@ public final class FriendServiceProtos {
               blackList_.add(input.readMessage(com.rwproto.FriendServiceProtos.FriendInfo.PARSER, extensionRegistry));
               break;
             }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                recommandList_ = new java.util.ArrayList<com.rwproto.FriendServiceProtos.FriendInfo>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              recommandList_.add(input.readMessage(com.rwproto.FriendServiceProtos.FriendInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3924,6 +3977,9 @@ public final class FriendServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           blackList_ = java.util.Collections.unmodifiableList(blackList_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          recommandList_ = java.util.Collections.unmodifiableList(recommandList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4124,10 +4180,67 @@ public final class FriendServiceProtos {
       return blackList_.get(index);
     }
 
+    // repeated .FriendInfo recommandList = 4;
+    public static final int RECOMMANDLIST_FIELD_NUMBER = 4;
+    private java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> recommandList_;
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> getRecommandListList() {
+      return recommandList_;
+    }
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
+        getRecommandListOrBuilderList() {
+      return recommandList_;
+    }
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    public int getRecommandListCount() {
+      return recommandList_.size();
+    }
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    public com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index) {
+      return recommandList_.get(index);
+    }
+    /**
+     * <code>repeated .FriendInfo recommandList = 4;</code>
+     *
+     * <pre>
+     *推荐好友列表
+     * </pre>
+     */
+    public com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
+        int index) {
+      return recommandList_.get(index);
+    }
+
     private void initFields() {
       friendList_ = java.util.Collections.emptyList();
       requestList_ = java.util.Collections.emptyList();
       blackList_ = java.util.Collections.emptyList();
+      recommandList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4152,6 +4265,12 @@ public final class FriendServiceProtos {
           return false;
         }
       }
+      for (int i = 0; i < getRecommandListCount(); i++) {
+        if (!getRecommandList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4167,6 +4286,9 @@ public final class FriendServiceProtos {
       }
       for (int i = 0; i < blackList_.size(); i++) {
         output.writeMessage(3, blackList_.get(i));
+      }
+      for (int i = 0; i < recommandList_.size(); i++) {
+        output.writeMessage(4, recommandList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -4188,6 +4310,10 @@ public final class FriendServiceProtos {
       for (int i = 0; i < blackList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, blackList_.get(i));
+      }
+      for (int i = 0; i < recommandList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, recommandList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4300,6 +4426,7 @@ public final class FriendServiceProtos {
           getFriendListFieldBuilder();
           getRequestListFieldBuilder();
           getBlackListFieldBuilder();
+          getRecommandListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4325,6 +4452,12 @@ public final class FriendServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           blackListBuilder_.clear();
+        }
+        if (recommandListBuilder_ == null) {
+          recommandList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          recommandListBuilder_.clear();
         }
         return this;
       }
@@ -4379,6 +4512,15 @@ public final class FriendServiceProtos {
           result.blackList_ = blackList_;
         } else {
           result.blackList_ = blackListBuilder_.build();
+        }
+        if (recommandListBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            recommandList_ = java.util.Collections.unmodifiableList(recommandList_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.recommandList_ = recommandList_;
+        } else {
+          result.recommandList_ = recommandListBuilder_.build();
         }
         onBuilt();
         return result;
@@ -4473,6 +4615,32 @@ public final class FriendServiceProtos {
             }
           }
         }
+        if (recommandListBuilder_ == null) {
+          if (!other.recommandList_.isEmpty()) {
+            if (recommandList_.isEmpty()) {
+              recommandList_ = other.recommandList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureRecommandListIsMutable();
+              recommandList_.addAll(other.recommandList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.recommandList_.isEmpty()) {
+            if (recommandListBuilder_.isEmpty()) {
+              recommandListBuilder_.dispose();
+              recommandListBuilder_ = null;
+              recommandList_ = other.recommandList_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              recommandListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRecommandListFieldBuilder() : null;
+            } else {
+              recommandListBuilder_.addAllMessages(other.recommandList_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4492,6 +4660,12 @@ public final class FriendServiceProtos {
         }
         for (int i = 0; i < getBlackListCount(); i++) {
           if (!getBlackList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getRecommandListCount(); i++) {
+          if (!getRecommandList(i).isInitialized()) {
             
             return false;
           }
@@ -5452,6 +5626,318 @@ public final class FriendServiceProtos {
           blackList_ = null;
         }
         return blackListBuilder_;
+      }
+
+      // repeated .FriendInfo recommandList = 4;
+      private java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> recommandList_ =
+        java.util.Collections.emptyList();
+      private void ensureRecommandListIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          recommandList_ = new java.util.ArrayList<com.rwproto.FriendServiceProtos.FriendInfo>(recommandList_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FriendServiceProtos.FriendInfo, com.rwproto.FriendServiceProtos.FriendInfo.Builder, com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> recommandListBuilder_;
+
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> getRecommandListList() {
+        if (recommandListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(recommandList_);
+        } else {
+          return recommandListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public int getRecommandListCount() {
+        if (recommandListBuilder_ == null) {
+          return recommandList_.size();
+        } else {
+          return recommandListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index) {
+        if (recommandListBuilder_ == null) {
+          return recommandList_.get(index);
+        } else {
+          return recommandListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder setRecommandList(
+          int index, com.rwproto.FriendServiceProtos.FriendInfo value) {
+        if (recommandListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRecommandListIsMutable();
+          recommandList_.set(index, value);
+          onChanged();
+        } else {
+          recommandListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder setRecommandList(
+          int index, com.rwproto.FriendServiceProtos.FriendInfo.Builder builderForValue) {
+        if (recommandListBuilder_ == null) {
+          ensureRecommandListIsMutable();
+          recommandList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          recommandListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder addRecommandList(com.rwproto.FriendServiceProtos.FriendInfo value) {
+        if (recommandListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRecommandListIsMutable();
+          recommandList_.add(value);
+          onChanged();
+        } else {
+          recommandListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder addRecommandList(
+          int index, com.rwproto.FriendServiceProtos.FriendInfo value) {
+        if (recommandListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRecommandListIsMutable();
+          recommandList_.add(index, value);
+          onChanged();
+        } else {
+          recommandListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder addRecommandList(
+          com.rwproto.FriendServiceProtos.FriendInfo.Builder builderForValue) {
+        if (recommandListBuilder_ == null) {
+          ensureRecommandListIsMutable();
+          recommandList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          recommandListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder addRecommandList(
+          int index, com.rwproto.FriendServiceProtos.FriendInfo.Builder builderForValue) {
+        if (recommandListBuilder_ == null) {
+          ensureRecommandListIsMutable();
+          recommandList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          recommandListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder addAllRecommandList(
+          java.lang.Iterable<? extends com.rwproto.FriendServiceProtos.FriendInfo> values) {
+        if (recommandListBuilder_ == null) {
+          ensureRecommandListIsMutable();
+          super.addAll(values, recommandList_);
+          onChanged();
+        } else {
+          recommandListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder clearRecommandList() {
+        if (recommandListBuilder_ == null) {
+          recommandList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          recommandListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public Builder removeRecommandList(int index) {
+        if (recommandListBuilder_ == null) {
+          ensureRecommandListIsMutable();
+          recommandList_.remove(index);
+          onChanged();
+        } else {
+          recommandListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public com.rwproto.FriendServiceProtos.FriendInfo.Builder getRecommandListBuilder(
+          int index) {
+        return getRecommandListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
+          int index) {
+        if (recommandListBuilder_ == null) {
+          return recommandList_.get(index);  } else {
+          return recommandListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
+           getRecommandListOrBuilderList() {
+        if (recommandListBuilder_ != null) {
+          return recommandListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(recommandList_);
+        }
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public com.rwproto.FriendServiceProtos.FriendInfo.Builder addRecommandListBuilder() {
+        return getRecommandListFieldBuilder().addBuilder(
+            com.rwproto.FriendServiceProtos.FriendInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public com.rwproto.FriendServiceProtos.FriendInfo.Builder addRecommandListBuilder(
+          int index) {
+        return getRecommandListFieldBuilder().addBuilder(
+            index, com.rwproto.FriendServiceProtos.FriendInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FriendInfo recommandList = 4;</code>
+       *
+       * <pre>
+       *推荐好友列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo.Builder> 
+           getRecommandListBuilderList() {
+        return getRecommandListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FriendServiceProtos.FriendInfo, com.rwproto.FriendServiceProtos.FriendInfo.Builder, com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
+          getRecommandListFieldBuilder() {
+        if (recommandListBuilder_ == null) {
+          recommandListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FriendServiceProtos.FriendInfo, com.rwproto.FriendServiceProtos.FriendInfo.Builder, com.rwproto.FriendServiceProtos.FriendInfoOrBuilder>(
+                  recommandList_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          recommandList_ = null;
+        }
+        return recommandListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:AllList)
@@ -7671,27 +8157,28 @@ public final class FriendServiceProtos {
       "(\t\022\031\n\004list\030\004 \003(\0132\013.FriendInfo\022\031\n\007allList" +
       "\030\005 \001(\0132\010.AllList\022\037\n\nupdateList\030\006 \003(\0132\013.F" +
       "riendInfo\022\021\n\tresultMsg\030\007 \001(\t\022\025\n\risSearch" +
-      "Value\030\010 \001(\010\"l\n\007AllList\022\037\n\nfriendList\030\001 \003",
-      "(\0132\013.FriendInfo\022 \n\013requestList\030\002 \003(\0132\013.F" +
-      "riendInfo\022\036\n\tblackList\030\003 \003(\0132\013.FriendInf" +
-      "o\"\332\001\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010user" +
-      "Name\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\016\n\006career\030" +
-      "\004 \002(\005\022\024\n\014lastLoginTip\030\005 \002(\t\022\025\n\rlastLogin" +
-      "Time\030\006 \002(\002\022\r\n\005level\030\007 \002(\005\022\021\n\tunionName\030\010" +
-      " \002(\t\022\021\n\tgiveState\030\t \001(\010\022\024\n\014receiveState\030" +
-      "\n \001(\010\022\017\n\007headbox\030\013 \001(\t*\364\002\n\022EFriendReques" +
-      "tType\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLAC" +
-      "K_LIST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRI",
-      "END\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006" +
-      "\022\022\n\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_AL" +
-      "L\020\010\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FR" +
-      "IEND\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022" +
-      "\026\n\022CONSENT_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_F" +
-      "RIEND\020\016\022\032\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026R" +
-      "EFUSED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021*G\n" +
-      "\021EFriendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020" +
-      "\001\022\n\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rw" +
-      "protoB\023FriendServiceProtos"
+      "Value\030\010 \001(\010\"\220\001\n\007AllList\022\037\n\nfriendList\030\001 ",
+      "\003(\0132\013.FriendInfo\022 \n\013requestList\030\002 \003(\0132\013." +
+      "FriendInfo\022\036\n\tblackList\030\003 \003(\0132\013.FriendIn" +
+      "fo\022\"\n\rrecommandList\030\004 \003(\0132\013.FriendInfo\"\332" +
+      "\001\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userNam" +
+      "e\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\016\n\006career\030\004 \002" +
+      "(\005\022\024\n\014lastLoginTip\030\005 \002(\t\022\025\n\rlastLoginTim" +
+      "e\030\006 \002(\002\022\r\n\005level\030\007 \002(\005\022\021\n\tunionName\030\010 \002(" +
+      "\t\022\021\n\tgiveState\030\t \001(\010\022\024\n\014receiveState\030\n \001" +
+      "(\010\022\017\n\007headbox\030\013 \001(\t*\364\002\n\022EFriendRequestTy" +
+      "pe\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLACK_L",
+      "IST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRIEND" +
+      "\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006\022\022\n" +
+      "\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_ALL\020\010" +
+      "\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FRIEN" +
+      "D\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022\026\n\022" +
+      "CONSENT_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_FRIE" +
+      "ND\020\016\022\032\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026REFU" +
+      "SED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021*G\n\021EF" +
+      "riendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n" +
+      "\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rwpro",
+      "toB\023FriendServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7715,7 +8202,7 @@ public final class FriendServiceProtos {
           internal_static_AllList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_AllList_descriptor,
-              new java.lang.String[] { "FriendList", "RequestList", "BlackList", });
+              new java.lang.String[] { "FriendList", "RequestList", "BlackList", "RecommandList", });
           internal_static_FriendInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_FriendInfo_fieldAccessorTable = new

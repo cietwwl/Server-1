@@ -29,12 +29,12 @@ public class GamePlayerOpHelper {
 	
 	private List<PlayerCallBackTask> callBackList = new ArrayList<PlayerCallBackTask>();
 	
-	private ExecutorService executorService;
+	//private ExecutorService executorService;
 	
 	private ExecutorService monitorService;	
 	
 	public GamePlayerOpHelper(int workThreads){
-		executorService = Executors.newFixedThreadPool(workThreads);
+		//executorService = Executors.newFixedThreadPool(workThreads);
 		monitorService = Executors.newFixedThreadPool(1);
 		 
 	}

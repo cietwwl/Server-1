@@ -177,7 +177,6 @@ public class MagicSecretMgr {
 			if(MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
 				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1));
 			else handleNextDungeonPrepare(player, dungeonID);
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		}
 		//清空刚战斗的关卡
 		msData.setCurrentDungeonID(null);
@@ -473,6 +472,7 @@ public class MagicSecretMgr {
 		MSInnerProcessor.addCanOpenBoxes(player, chapterID);
 		
 		result.addAll(fightingDung.getDropItem());
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		return result;
 	}
 	
@@ -541,6 +541,23 @@ public class MagicSecretMgr {
 		MagicChapterInfoHolder.getInstance().resetAllItem(player);
 		UserMagicSecretHolder.getInstance().get(player).saveDailyScoreData();
 		MagicChapterInfoHolder.getInstance().synAllData(player);
+	}
+	
+	/**
+	 * 用于前端判断红点
+	 * @param player
+	 * @return
+	 */
+	public boolean hasScoreReward(Player player){
+		List<DungeonScoreCfg> dungScoreCfgList = DungeonScoreCfgDAO.getInstance().getAllCfg();
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return false;
+		int totalScore = getTotalScore(umsData.getHistoryScore(), umsData.getTodayScore());
+		for(DungeonScoreCfg cfg : dungScoreCfgList) {
+			if(umsData.getGotScoreReward().contains(cfg.getKey())) continue;
+			if(totalScore >= cfg.getScore()) return true;
+		}
+		return false;
 	}
 	
 	/**

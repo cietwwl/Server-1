@@ -82,7 +82,7 @@ public class FixExpEquipMgr {
 			FixExpEquipDataItem.setId( id );
 			FixExpEquipDataItem.setCfgId(cfgId);
 			FixExpEquipDataItem.setOwnerId(ownerId);
-			FixExpEquipDataItem.setQuality(1);
+			FixExpEquipDataItem.setQuality(0);
 			FixExpEquipDataItem.setLevel(1);
 			FixExpEquipDataItem.setStar(0);
 			FixExpEquipDataItem.setSlot(slot);
@@ -280,7 +280,12 @@ public class FixExpEquipMgr {
 				for (SelectItem selectItem : selectItemList) {
 					int modelId = selectItem.getModelId();
 					int count = selectItem.getCount();
-					itemsSelected.put(modelId, count);
+					if(itemsSelected.containsKey(modelId)){
+						count = count + itemsSelected.get(modelId);
+						itemsSelected.put(modelId, count);						
+					}else{
+						itemsSelected.put(modelId, count);						
+					}
 				}
 				result = FixEquipHelper.takeItemCost(player, itemsSelected);
 			}
@@ -392,6 +397,12 @@ public class FixExpEquipMgr {
 			
 			
 		}
+		if(result.isSuccess()){
+			int curQuality = dataItem.getQuality();
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+		
+			result = FixEquipHelper.checkCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
+		}
 		return result;
 	}
 
@@ -450,6 +461,12 @@ public class FixExpEquipMgr {
 					result.setSuccess(true);
 				}
 			}
+		}
+		if(result.isSuccess()){
+			int curStar = dataItem.getStar();
+			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+			
+			result = FixEquipHelper.checkCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
 		}
 		return result;
 	}

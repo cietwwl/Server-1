@@ -16,6 +16,7 @@ message FashionRequest {
 	required FashionEventType eventType = 1;
 	optional int32 fashionId = 2;//策划配表(FashionCommonCfg)的ID
 	optional string buyRenewPlanId = 3;//购买或者续费方案ID
+	optional bool wearNow = 4;//购买的时候允许马上穿上
 }
 
 message FashionResponse {

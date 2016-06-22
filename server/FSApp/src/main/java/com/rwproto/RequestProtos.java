@@ -948,6 +948,24 @@ public final class RequestProtos {
      * </pre>
      */
     int getRedpointVersion();
+
+    // optional int32 entranceId = 8;
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    boolean hasEntranceId();
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    int getEntranceId();
   }
   /**
    * Protobuf type {@code RequestHeader}
@@ -1046,6 +1064,11 @@ public final class RequestProtos {
             case 56: {
               bitField0_ |= 0x00000020;
               redpointVersion_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              entranceId_ = input.readInt32();
               break;
             }
           }
@@ -1296,6 +1319,30 @@ public final class RequestProtos {
       return redpointVersion_;
     }
 
+    // optional int32 entranceId = 8;
+    public static final int ENTRANCEID_FIELD_NUMBER = 8;
+    private int entranceId_;
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    public boolean hasEntranceId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    public int getEntranceId() {
+      return entranceId_;
+    }
+
     private void initFields() {
       command_ = com.rwproto.MsgDef.Command.MSG_HeartBeat;
       userId_ = "";
@@ -1303,6 +1350,7 @@ public final class RequestProtos {
       seqID_ = 0;
       clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
       redpointVersion_ = 0;
+      entranceId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1344,6 +1392,9 @@ public final class RequestProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(7, redpointVersion_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(8, entranceId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1376,6 +1427,10 @@ public final class RequestProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, redpointVersion_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, entranceId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1514,6 +1569,8 @@ public final class RequestProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         redpointVersion_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        entranceId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1570,6 +1627,10 @@ public final class RequestProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.redpointVersion_ = redpointVersion_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.entranceId_ = entranceId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1607,6 +1668,9 @@ public final class RequestProtos {
         }
         if (other.hasRedpointVersion()) {
           setRedpointVersion(other.getRedpointVersion());
+        }
+        if (other.hasEntranceId()) {
+          setEntranceId(other.getEntranceId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2128,6 +2192,55 @@ public final class RequestProtos {
         return this;
       }
 
+      // optional int32 entranceId = 8;
+      private int entranceId_ ;
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public boolean hasEntranceId() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public int getEntranceId() {
+        return entranceId_;
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public Builder setEntranceId(int value) {
+        bitField0_ |= 0x00000040;
+        entranceId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public Builder clearEntranceId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        entranceId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RequestHeader)
     }
 
@@ -2565,13 +2678,13 @@ public final class RequestProtos {
       "\n\rrequest.proto\032\020ClientView.proto\032\014MsgDe" +
       "f.proto\"R\n\007Request\022\036\n\006header\030\001 \002(\0132\016.Req" +
       "uestHeader\022\032\n\004body\030\002 \002(\0132\014.RequestBody\022\013" +
-      "\n\003num\030\003 \001(\005\"\255\001\n\rRequestHeader\022 \n\007command" +
+      "\n\003num\030\003 \001(\005\"\301\001\n\rRequestHeader\022 \n\007command" +
       "\030\001 \002(\0162\017.MsgDef.Command\022\016\n\006userId\030\002 \001(\t\022" +
       "\r\n\005token\030\003 \001(\t\022\r\n\005seqID\030\004 \001(\005\0223\n\017clientG" +
       "enerated\030\006 \001(\0132\032.ClientView.ClientViewDa" +
-      "ta\022\027\n\017redpointVersion\030\007 \001(\005\")\n\013RequestBo" +
-      "dy\022\032\n\022serialized_content\030\001 \001(\014B\034\n\013com.rw" +
-      "protoB\rRequestProtos"
+      "ta\022\027\n\017redpointVersion\030\007 \001(\005\022\022\n\nentranceI" +
+      "d\030\010 \001(\005\")\n\013RequestBody\022\032\n\022serialized_con" +
+      "tent\030\001 \001(\014B\034\n\013com.rwprotoB\rRequestProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2589,7 +2702,7 @@ public final class RequestProtos {
           internal_static_RequestHeader_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RequestHeader_descriptor,
-              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", "ClientGenerated", "RedpointVersion", });
+              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", "ClientGenerated", "RedpointVersion", "EntranceId", });
           internal_static_RequestBody_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_RequestBody_fieldAccessorTable = new

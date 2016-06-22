@@ -3,40 +3,14 @@ package com.rw.service.redpoint;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.log.GameLog;
-import com.playerdata.EquipMgr;
-import com.playerdata.FriendMgr;
-import com.playerdata.Hero;
-import com.playerdata.HeroMgr;
-import com.playerdata.ItemBagMgr;
-import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.RedPointMgr;
 import com.rw.service.redpoint.impl.RedPointCollector;
-import com.rwbase.dao.business.SevenDayGifInfo;
-import com.rwbase.dao.equipment.EquipItem;
-import com.rwbase.dao.gamble.pojo.TableGamble;
-import com.rwbase.dao.item.ComposeCfgDAO;
-import com.rwbase.dao.item.pojo.HeroEquipCfg;
-import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
-import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
-import com.rwbase.dao.role.RoleCfgDAO;
-import com.rwbase.dao.role.RoleQualityCfgDAO;
-import com.rwbase.dao.role.pojo.RoleCfg;
-import com.rwbase.dao.task.pojo.DailyActivityData;
-import com.rwbase.dao.task.pojo.TaskItem;
-import com.rwproto.GambleServiceProtos.EGambleType;
-import com.rwproto.GambleServiceProtos.ELotteryType;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
 import com.rwproto.RedPointProtos.RedPoint;
@@ -121,7 +95,7 @@ public class RedPointManager {
 		for (int i = list.size(); --i >= 0;) {
 			try {
 				list.get(i).fillRedPoints(player, map);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				GameLog.error("RedPointManager", "#getRedPointMap()", "红点刷新异常", e);
 			}
 		}
