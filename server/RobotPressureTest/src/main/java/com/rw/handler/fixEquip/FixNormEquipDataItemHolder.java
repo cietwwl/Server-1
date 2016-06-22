@@ -26,6 +26,7 @@ public class FixNormEquipDataItemHolder{
 	
 	private static FixNormEquipDataItemHolder instance = new FixNormEquipDataItemHolder();
 	
+	private static int num ;
 	public static FixNormEquipDataItemHolder getInstance(){
 		return instance;
 	}
@@ -50,7 +51,7 @@ public class FixNormEquipDataItemHolder{
 	public void syn(MsgDataSyn msgDataSyn){
 		listHolder.Syn(msgDataSyn);
 		List<FixNormEquipDataItem> itemList = listHolder.getItemList();
-		int num = 0;
+		
 		for(FixNormEquipDataItem item : itemList){
 			String tmp = item.getOwnerId()+"_"+item.getCfgId();
 			equiplist.put(num, tmp);

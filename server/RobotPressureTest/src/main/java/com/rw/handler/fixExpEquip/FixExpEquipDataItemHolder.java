@@ -23,7 +23,7 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 	private  Map<Integer, String> equiplist = new HashMap<Integer, String>();
 	
 	private static FixExpEquipDataItemHolder instance = new FixExpEquipDataItemHolder();
-	
+	private static int num ;
 	public static FixExpEquipDataItemHolder getInstance(){
 		return instance;
 	}
@@ -48,7 +48,7 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 	public void syn(MsgDataSyn msgDataSyn){
 		listHolder.Syn(msgDataSyn);
 		List<FixExpEquipDataItem> itemList = listHolder.getItemList();
-		int num = 0;
+		
 		for(FixExpEquipDataItem item : itemList){
 			String tmp = item.getOwnerId()+"_"+item.getCfgId();
 			equiplist.put(num, tmp);
