@@ -78,6 +78,7 @@ message ArenaInfo{
 	repeated string heroImages = 10;
 	optional int32 modelId = 11;	//模型id，应该是required，为了调试方便先用optional
 	optional FashionService.FashionUsed fashionUsage = 12;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 sex = 13;// 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
 }
 
 message ArenaRecord{

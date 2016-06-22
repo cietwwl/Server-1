@@ -81,6 +81,7 @@ message ArenaInfo{//保存对手概要信息
 	optional int32 career = 12;
 	optional string headFrame = 13;//对手的头像框
 	optional FashionService.FashionUsed fashionUsage = 14;//TODO 玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 sex = 15;// 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
 }
 
 message ArenaRecord{
