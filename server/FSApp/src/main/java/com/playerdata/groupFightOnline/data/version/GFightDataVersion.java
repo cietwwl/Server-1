@@ -34,9 +34,4 @@ public class GFightDataVersion {
 	public int getUserOnlineData() {
 		return userOnlineData;
 	}
-	
-
-	
-	
-	
 }

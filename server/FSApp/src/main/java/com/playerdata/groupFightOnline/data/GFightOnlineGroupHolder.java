@@ -1,5 +1,6 @@
 package com.playerdata.groupFightOnline.data;
 
+import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.playerdata.Player;
 
 public class GFightOnlineGroupHolder {
@@ -18,8 +19,13 @@ public class GFightOnlineGroupHolder {
 		return gfGroupDao.get(groupId);
 	}
 	
+	public GFightOnlineGroupData getByUser(Player player) {
+		String groupID = player.getGuildUserMgr().getGuildId();
+		return get(groupID);
+	}
+	
 	public void update(Player player, GFightOnlineGroupData data) {
 		gfGroupDao.update(data);
-		// GFGroupBiddingRankMgr.addOrUpdateGFGroupBidRank(player, data);
+		GFGroupBiddingRankMgr.addOrUpdateGFGroupBidRank(player, data);
 	}
 }

@@ -4,7 +4,6 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /**
@@ -20,11 +19,15 @@ public class GFDefendArmySimpleLeader{
 	
 	private String groupID;
 	
-	private ArmyHeroSimple leaderHero;
+	private int modeId;	//英雄模型Id
 	
-	private long lastOperateTime; 
+	private int starLevel;	//星级
 	
-	private int state;	
+	private String qualityId;	//品阶Id
+	
+	private int level;	//等级
+	
+	private int state;
 
 	public String getArmyID() {
 		return armyID;
@@ -42,20 +45,36 @@ public class GFDefendArmySimpleLeader{
 		this.groupID = groupID;
 	}
 
-	public ArmyHeroSimple getLeaderHero() {
-		return leaderHero;
+	public int getModeId() {
+		return modeId;
 	}
 
-	public void setLeaderHero(ArmyHeroSimple leaderHero) {
-		this.leaderHero = leaderHero;
+	public void setModeId(int modeId) {
+		this.modeId = modeId;
 	}
 
-	public long getLastOperateTime() {
-		return lastOperateTime;
+	public int getStarLevel() {
+		return starLevel;
 	}
 
-	public void setLastOperateTime(long lastOperateTime) {
-		this.lastOperateTime = lastOperateTime;
+	public void setStarLevel(int starLevel) {
+		this.starLevel = starLevel;
+	}
+
+	public String getQualityId() {
+		return qualityId;
+	}
+
+	public void setQualityId(String qualityId) {
+		this.qualityId = qualityId;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public int getState() {

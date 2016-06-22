@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -80,6 +81,7 @@ public class GFDefendArmyItemHolder {
 			if(item.getUserID().equals(player.getUserId()))
 				itemlist.add(item);
 		}
+		// 如果个人防守队伍为空，就为个人创建最大数量的空队伍
 		return itemlist;
 	}
 	
@@ -159,5 +161,18 @@ public class GFDefendArmyItemHolder {
 	private MapItemStore<GFDefendArmyItem> getItemStore(String groupID) {
 		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
 		return cache.getMapItemStore(groupID, GFDefendArmyItem.class);
+	}
+	
+	private void initPersonalDefendArmy(Player player) {
+		List<GFDefendArmyItem> initItems = new ArrayList<GFDefendArmyItem>();
+		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
+			String teamID = player.getUserId() + "_" + i;
+			GFDefendArmyItem item = new GFDefendArmyItem();
+			item.setArmyID(teamID);
+			item.setUserID(player.getUserId());
+			item.setState(GFArmyState.EMPTY.getValue());
+			initItems.add(item);
+		}
+		addItems(player, initItems);
 	}
 }

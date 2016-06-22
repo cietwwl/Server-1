@@ -10,6 +10,8 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceDAO;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFGroupSimpleInfo;
@@ -61,7 +63,13 @@ public class GFightGroupBidMgr {
 	}
 	
 	public void groupBidding(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, int bidCount){
-		if(!canBidForGroup(player)) return ;
+		GFResultType canBid = GFightConditionJudge.getInstance().canBidForGroup(player, resourceID, bidCount);
+		if(canBid != GFResultType.SUCCESS) {
+			gfRsp.setRstType(canBid);
+			return;
+		}
+		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().getByUser(player);
+		gfGroupData.setBiddingCount(biddingCount);
 	}
 	
 	private GFResourceInfo toClientResourceData(String userID, GFightOnlineResourceData resData){
@@ -81,9 +89,5 @@ public class GFightGroupBidMgr {
 		resInfo.setResourceID(resData.getResourceID());
 		resInfo.setGroupInfo(groupSimple);
 		return resInfo;
-	}
-	
-	private boolean canBidForGroup(Player player){
-		return true;
 	}
 }

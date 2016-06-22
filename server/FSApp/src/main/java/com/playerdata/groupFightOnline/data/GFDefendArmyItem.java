@@ -33,10 +33,13 @@ public class GFDefendArmyItem implements IMapItem{
 	private long lastOperateTime; // 被操作的时间，需要判断是否过期(包括选中和挑战) ::注意多线程并发问题
 	
 	@CombineSave
-	private int state;	// 是否正在被挑战,是否被选中,以及是否阵亡 ::注意多线程并发问题
+	private int state;	// 是否正在被挑战,是否被选中,以及是否阵亡 ::注意多线程并发问题<-1，没有上阵；1，正常；2，被选中；3，正在被挑战；4，阵亡>
 	
 	@CombineSave
 	private long setDefenderTime;	// 上阵时间（用于排序）
+	
+	@CombineSave
+	private int version = 0;
 
 	public String getId() {
 		return armyID;
@@ -104,5 +107,13 @@ public class GFDefendArmyItem implements IMapItem{
 
 	public void setSetDefenderTime(long setDefenderTime) {
 		this.setDefenderTime = setDefenderTime;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }
