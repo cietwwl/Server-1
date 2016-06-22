@@ -125,6 +125,7 @@ public class GroupSecretHandler {
 				GroupSecretCommonRspMsg resp = GroupSecretCommonRspMsg.parseFrom(bs);
 				if (resp.getIsSuccess()) {
 					RobotLog.info(parseFunctionDesc() + "成功");
+					return true;
 				} else {
 					throw new Exception(resp.getTipMsg());
 				}
