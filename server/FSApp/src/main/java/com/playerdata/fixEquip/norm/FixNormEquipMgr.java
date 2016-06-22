@@ -169,10 +169,9 @@ public class FixNormEquipMgr {
 		
 		
 		int toLevel = curQualityCfg.getLevelNeed();
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		int heroLevel = targetHero.getLevel();
-		if(toLevel > heroLevel){
-			toLevel = heroLevel;
+		int playerLevel = player.getLevel();
+		if(toLevel > playerLevel){
+			toLevel = playerLevel;
 		}
 		return toLevel;
 	}
