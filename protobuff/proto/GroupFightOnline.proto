@@ -70,5 +70,5 @@ message GroupFightOnlineRspMsg{
 	optional int32 currentPage = 9;	//防守队伍的总页数
 	repeated string fightRecord = 10; //战斗记录
 	repeated string gfRewardInfo = 11;	//可以领取的奖励
-	optional string serverVersion = 12;	//服务端当前数据的版本（对应结构GFightDataVersion）
+	optional int32 serverVersion = 12;	//服务端当前数据的版本（对应结构GFightDataVersion）
 }
