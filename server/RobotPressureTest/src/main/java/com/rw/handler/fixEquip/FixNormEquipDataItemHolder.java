@@ -22,7 +22,7 @@ public class FixNormEquipDataItemHolder{
 	
 	private SynDataListHolder<FixNormEquipDataItem> listHolder = new SynDataListHolder<FixNormEquipDataItem>(FixNormEquipDataItem.class);
 	
-	private  Map<Integer, String> equiplist = new HashMap<Integer, String>();
+	private  List<String> equiplist = new ArrayList<String>();
 	
 	private static FixNormEquipDataItemHolder instance = new FixNormEquipDataItemHolder();
 	
@@ -32,20 +32,15 @@ public class FixNormEquipDataItemHolder{
 	}
 	
 	
-	
-	
 
-	
-	
-
-	
-	
-	public Map<Integer, String> getEquiplist() {
+	public List<String> getEquiplist() {
 		return equiplist;
 	}
 
 
-
+	public void setEquiplist(List<String> equiplist) {
+		this.equiplist = equiplist;
+	}
 
 
 	public void syn(MsgDataSyn msgDataSyn){
@@ -53,8 +48,8 @@ public class FixNormEquipDataItemHolder{
 		List<FixNormEquipDataItem> itemList = listHolder.getItemList();
 		
 		for(FixNormEquipDataItem item : itemList){
-			String tmp = item.getOwnerId()+"_"+item.getCfgId();
-			equiplist.put(num, tmp);
+			String tmp = item.getId();
+			equiplist.add(tmp);
 			num++;
 		}
 	}
