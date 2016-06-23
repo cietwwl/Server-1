@@ -794,7 +794,7 @@ public class Robot {
 	}
 	
 	public boolean WearPet(){
-		return FashionHandler.getInstance().processBuyPet(client);
+		return FashionHandler.getInstance().processWearPet(client);
 	}
 	
 	public boolean BuyCoin(){

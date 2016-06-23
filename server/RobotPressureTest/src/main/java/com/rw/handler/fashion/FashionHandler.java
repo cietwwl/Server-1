@@ -57,11 +57,11 @@ public class FashionHandler {
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿翅膀"));
 	}
 	
-	public void processWearPet(Client client){
+	public boolean processWearPet(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.on);
 		request.setFashionId(10004);
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
 	}
 	
 	private class FashionMsgReceier extends PrintMsgReciver{
