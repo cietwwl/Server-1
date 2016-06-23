@@ -243,23 +243,13 @@ public class Player implements PlayerIF {
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 
-		long n = System.currentTimeMillis();
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-			System.err.println("HC----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>耗时111：" + (System.currentTimeMillis() - n));
-			n = System.currentTimeMillis();
 			this.getHeroMgr().init(this, false);
-			System.err.println("HC----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>耗时222：" + (System.currentTimeMillis() - n));
-			n = System.currentTimeMillis();
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
-			System.err.println("HC----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>耗时333：" + (System.currentTimeMillis() - n));
-			n = System.currentTimeMillis();
 			notifyCreated();
-			System.err.println("HC----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>耗时444：" + (System.currentTimeMillis() - n));
 		} else {
 			m_HeroMgr.init(this, true);
-			long e = System.currentTimeMillis();
-			System.err.println("HC------------<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<耗时：" + (e - n));
 		}
 
 		// 这两个mgr一定要初始化
