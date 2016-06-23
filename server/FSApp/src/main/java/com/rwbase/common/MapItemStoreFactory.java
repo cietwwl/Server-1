@@ -94,7 +94,7 @@ public class MapItemStoreFactory {
 	private static boolean init = false;
 
 	static {
-		init();
+		//init();
 	}
 
 	public static void init() {

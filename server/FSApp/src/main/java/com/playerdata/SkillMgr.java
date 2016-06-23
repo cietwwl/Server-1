@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.Action;
+import com.log.GameLog;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -505,7 +506,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 
 		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
 
-		// StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			Skill skill = itemList.get(i);
 			if (skill == null) {
@@ -514,12 +515,11 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 
 			skillItemHolder.updateItem(m_pPlayer, skill);
 
-			// sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
-			// skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-			// skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
+			sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(), skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
+					skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
 		}
 
-		// GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
+		GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
 
 		// pSkill.setSkillRate();
 		// pSkill.setExtraDamage();
@@ -818,4 +818,39 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return m_pPlayer.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillThreshold);
 	}
 
+	/**
+	 * 检查英雄的技能数据，主要是想做数据普攻的数据兼容，以及能从配置表中读取的数据，就不存储到数据库
+	 * 
+	 * @param heroTemplateId
+	 */
+	public void checkSkill(String heroTemplateId) {
+		// 检查是否增加了普攻数据
+		String attackId = RoleCfgDAO.getInstance().getAttackId(heroTemplateId);
+		if (StringUtils.isNotBlank(attackId)) {// 有没有普攻
+			List<Skill> skillList = getSkillList();
+			boolean hasNormalSkill = false;
+			for (int i = skillList.size() - 1; i >= 0; --i) {
+				Skill skill = skillList.get(i);
+				if (skill == null) {
+					continue;
+				}
+
+				if (skill.getSkillId().equals(attackId)) {
+					hasNormalSkill = true;
+					break;
+				}
+			}
+
+			if (!hasNormalSkill) {
+				Skill normalSkill = new Skill();
+				normalSkill.setSkillId(attackId);
+				normalSkill.setOrder(-1);
+				normalSkill.setLevel(1);
+				skillItemHolder.addItem(m_pPlayer, normalSkill, false);
+			}
+		}
+
+		// 初始化各个技能之间的影响的buffer等
+		SkillHelper.checkAllSkill(skillItemHolder.getItemList());
+	}
 }
