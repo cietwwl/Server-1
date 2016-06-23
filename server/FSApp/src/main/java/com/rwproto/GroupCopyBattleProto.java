@@ -33,6 +33,14 @@ public final class GroupCopyBattleProto {
      * </pre>
      */
     FIGHT_END(1, 2),
+    /**
+     * <code>ENTER_APPLY = 3;</code>
+     *
+     * <pre>
+     *请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
+     * </pre>
+     */
+    ENTER_APPLY(2, 3),
     ;
 
     /**
@@ -51,6 +59,14 @@ public final class GroupCopyBattleProto {
      * </pre>
      */
     public static final int FIGHT_END_VALUE = 2;
+    /**
+     * <code>ENTER_APPLY = 3;</code>
+     *
+     * <pre>
+     *请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
+     * </pre>
+     */
+    public static final int ENTER_APPLY_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -59,6 +75,7 @@ public final class GroupCopyBattleProto {
       switch (value) {
         case 1: return FIGHT_BEGIN;
         case 2: return FIGHT_END;
+        case 3: return ENTER_APPLY;
         default: return null;
       }
     }
@@ -236,6 +253,20 @@ public final class GroupCopyBattleProto {
      * </pre>
      */
     com.rwproto.GroupCopyBattleProto.HeroListOrBuilder getHerosOrBuilder();
+
+    // optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    boolean hasBattleRoleData();
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRoleData();
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleDataOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyBattle.GroupCopyBattleComReqMsg}
@@ -337,6 +368,19 @@ public final class GroupCopyBattleProto {
                 heros_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = battleRoleData_.toBuilder();
+              }
+              battleRoleData_ = input.readMessage(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(battleRoleData_);
+                battleRoleData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -581,12 +625,35 @@ public final class GroupCopyBattleProto {
       return heros_;
     }
 
+    // optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;
+    public static final int BATTLEROLEDATA_FIELD_NUMBER = 6;
+    private com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct battleRoleData_;
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    public boolean hasBattleRoleData() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRoleData() {
+      return battleRoleData_;
+    }
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleDataOrBuilder() {
+      return battleRoleData_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyBattleProto.RequestType.FIGHT_BEGIN;
       version_ = "";
       level_ = "";
       mData_ = com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData.getDefaultInstance();
       heros_ = com.rwproto.GroupCopyBattleProto.HeroList.getDefaultInstance();
+      battleRoleData_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -601,8 +668,8 @@ public final class GroupCopyBattleProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (hasMData()) {
-        if (!getMData().isInitialized()) {
+      if (hasBattleRoleData()) {
+        if (!getBattleRoleData().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -628,6 +695,9 @@ public final class GroupCopyBattleProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, heros_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, battleRoleData_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -657,6 +727,10 @@ public final class GroupCopyBattleProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, heros_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, battleRoleData_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -772,6 +846,7 @@ public final class GroupCopyBattleProto {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getMDataFieldBuilder();
           getHerosFieldBuilder();
+          getBattleRoleDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -798,6 +873,12 @@ public final class GroupCopyBattleProto {
           herosBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (battleRoleDataBuilder_ == null) {
+          battleRoleData_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+        } else {
+          battleRoleDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -854,6 +935,14 @@ public final class GroupCopyBattleProto {
         } else {
           result.heros_ = herosBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (battleRoleDataBuilder_ == null) {
+          result.battleRoleData_ = battleRoleData_;
+        } else {
+          result.battleRoleData_ = battleRoleDataBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -889,6 +978,9 @@ public final class GroupCopyBattleProto {
         if (other.hasHeros()) {
           mergeHeros(other.getHeros());
         }
+        if (other.hasBattleRoleData()) {
+          mergeBattleRoleData(other.getBattleRoleData());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -902,8 +994,8 @@ public final class GroupCopyBattleProto {
           
           return false;
         }
-        if (hasMData()) {
-          if (!getMData().isInitialized()) {
+        if (hasBattleRoleData()) {
+          if (!getBattleRoleData().isInitialized()) {
             
             return false;
           }
@@ -1484,6 +1576,123 @@ public final class GroupCopyBattleProto {
         return herosBuilder_;
       }
 
+      // optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;
+      private com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct battleRoleData_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder> battleRoleDataBuilder_;
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public boolean hasBattleRoleData() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRoleData() {
+        if (battleRoleDataBuilder_ == null) {
+          return battleRoleData_;
+        } else {
+          return battleRoleDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public Builder setBattleRoleData(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct value) {
+        if (battleRoleDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          battleRoleData_ = value;
+          onChanged();
+        } else {
+          battleRoleDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public Builder setBattleRoleData(
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder builderForValue) {
+        if (battleRoleDataBuilder_ == null) {
+          battleRoleData_ = builderForValue.build();
+          onChanged();
+        } else {
+          battleRoleDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public Builder mergeBattleRoleData(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct value) {
+        if (battleRoleDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              battleRoleData_ != com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance()) {
+            battleRoleData_ =
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.newBuilder(battleRoleData_).mergeFrom(value).buildPartial();
+          } else {
+            battleRoleData_ = value;
+          }
+          onChanged();
+        } else {
+          battleRoleDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public Builder clearBattleRoleData() {
+        if (battleRoleDataBuilder_ == null) {
+          battleRoleData_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+          onChanged();
+        } else {
+          battleRoleDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder getBattleRoleDataBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getBattleRoleDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleDataOrBuilder() {
+        if (battleRoleDataBuilder_ != null) {
+          return battleRoleDataBuilder_.getMessageOrBuilder();
+        } else {
+          return battleRoleData_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRoleData = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder> 
+          getBattleRoleDataFieldBuilder() {
+        if (battleRoleDataBuilder_ == null) {
+          battleRoleDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder>(
+                  battleRoleData_,
+                  getParentForChildren(),
+                  isClean());
+          battleRoleData_ = null;
+        }
+        return battleRoleDataBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyBattle.GroupCopyBattleComReqMsg)
     }
 
@@ -2003,50 +2212,41 @@ public final class GroupCopyBattleProto {
   public interface GroupCopyMonsterDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;
+    // repeated string monsterData = 1;
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> 
-        getMonsterDataList();
+    java.util.List<java.lang.String>
+    getMonsterDataList();
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
-     * </pre>
-     */
-    com.rwproto.GroupCopyBattleProto.CopyMonsterStruct getMonsterData(int index);
-    /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-     *
-     * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
     int getMonsterDataCount();
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder> 
-        getMonsterDataOrBuilderList();
+    java.lang.String getMonsterData(int index);
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder getMonsterDataOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getMonsterDataBytes(int index);
   }
   /**
    * Protobuf type {@code GroupCopyBattle.GroupCopyMonsterData}
@@ -2101,10 +2301,10 @@ public final class GroupCopyBattleProto {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                monsterData_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct>();
+                monsterData_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              monsterData_.add(input.readMessage(com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.PARSER, extensionRegistry));
+              monsterData_.add(input.readBytes());
               break;
             }
           }
@@ -2116,7 +2316,7 @@ public final class GroupCopyBattleProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          monsterData_ = java.util.Collections.unmodifiableList(monsterData_);
+          monsterData_ = new com.google.protobuf.UnmodifiableLazyStringList(monsterData_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2149,76 +2349,60 @@ public final class GroupCopyBattleProto {
       return PARSER;
     }
 
-    // repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;
+    // repeated string monsterData = 1;
     public static final int MONSTERDATA_FIELD_NUMBER = 1;
-    private java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> monsterData_;
+    private com.google.protobuf.LazyStringList monsterData_;
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    public java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> getMonsterDataList() {
+    public java.util.List<java.lang.String>
+        getMonsterDataList() {
       return monsterData_;
     }
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder> 
-        getMonsterDataOrBuilderList() {
-      return monsterData_;
-    }
-    /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-     *
-     * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
     public int getMonsterDataCount() {
       return monsterData_.size();
     }
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct getMonsterData(int index) {
+    public java.lang.String getMonsterData(int index) {
       return monsterData_.get(index);
     }
     /**
-     * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+     * <code>repeated string monsterData = 1;</code>
      *
      * <pre>
-     *战斗怪物信息
+     *战斗怪物信息 json
      * </pre>
      */
-    public com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder getMonsterDataOrBuilder(
-        int index) {
-      return monsterData_.get(index);
+    public com.google.protobuf.ByteString
+        getMonsterDataBytes(int index) {
+      return monsterData_.getByteString(index);
     }
 
     private void initFields() {
-      monsterData_ = java.util.Collections.emptyList();
+      monsterData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      for (int i = 0; i < getMonsterDataCount(); i++) {
-        if (!getMonsterData(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2227,7 +2411,7 @@ public final class GroupCopyBattleProto {
                         throws java.io.IOException {
       getSerializedSize();
       for (int i = 0; i < monsterData_.size(); i++) {
-        output.writeMessage(1, monsterData_.get(i));
+        output.writeBytes(1, monsterData_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2238,9 +2422,14 @@ public final class GroupCopyBattleProto {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < monsterData_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, monsterData_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < monsterData_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(monsterData_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getMonsterDataList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2350,7 +2539,6 @@ public final class GroupCopyBattleProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getMonsterDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2359,12 +2547,8 @@ public final class GroupCopyBattleProto {
 
       public Builder clear() {
         super.clear();
-        if (monsterDataBuilder_ == null) {
-          monsterData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          monsterDataBuilder_.clear();
-        }
+        monsterData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -2392,15 +2576,12 @@ public final class GroupCopyBattleProto {
       public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData buildPartial() {
         com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData result = new com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData(this);
         int from_bitField0_ = bitField0_;
-        if (monsterDataBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            monsterData_ = java.util.Collections.unmodifiableList(monsterData_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.monsterData_ = monsterData_;
-        } else {
-          result.monsterData_ = monsterDataBuilder_.build();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          monsterData_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              monsterData_);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
+        result.monsterData_ = monsterData_;
         onBuilt();
         return result;
       }
@@ -2416,43 +2597,21 @@ public final class GroupCopyBattleProto {
 
       public Builder mergeFrom(com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData other) {
         if (other == com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData.getDefaultInstance()) return this;
-        if (monsterDataBuilder_ == null) {
-          if (!other.monsterData_.isEmpty()) {
-            if (monsterData_.isEmpty()) {
-              monsterData_ = other.monsterData_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureMonsterDataIsMutable();
-              monsterData_.addAll(other.monsterData_);
-            }
-            onChanged();
+        if (!other.monsterData_.isEmpty()) {
+          if (monsterData_.isEmpty()) {
+            monsterData_ = other.monsterData_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureMonsterDataIsMutable();
+            monsterData_.addAll(other.monsterData_);
           }
-        } else {
-          if (!other.monsterData_.isEmpty()) {
-            if (monsterDataBuilder_.isEmpty()) {
-              monsterDataBuilder_.dispose();
-              monsterDataBuilder_ = null;
-              monsterData_ = other.monsterData_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              monsterDataBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getMonsterDataFieldBuilder() : null;
-            } else {
-              monsterDataBuilder_.addAllMessages(other.monsterData_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        for (int i = 0; i < getMonsterDataCount(); i++) {
-          if (!getMonsterData(i).isInitialized()) {
-            
-            return false;
-          }
-        }
         return true;
       }
 
@@ -2475,316 +2634,133 @@ public final class GroupCopyBattleProto {
       }
       private int bitField0_;
 
-      // repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;
-      private java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> monsterData_ =
-        java.util.Collections.emptyList();
+      // repeated string monsterData = 1;
+      private com.google.protobuf.LazyStringList monsterData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureMonsterDataIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          monsterData_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct>(monsterData_);
+          monsterData_ = new com.google.protobuf.LazyStringArrayList(monsterData_);
           bitField0_ |= 0x00000001;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCopyBattleProto.CopyMonsterStruct, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder> monsterDataBuilder_;
-
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
-      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> getMonsterDataList() {
-        if (monsterDataBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(monsterData_);
-        } else {
-          return monsterDataBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.String>
+          getMonsterDataList() {
+        return java.util.Collections.unmodifiableList(monsterData_);
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
       public int getMonsterDataCount() {
-        if (monsterDataBuilder_ == null) {
-          return monsterData_.size();
-        } else {
-          return monsterDataBuilder_.getCount();
-        }
+        return monsterData_.size();
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct getMonsterData(int index) {
-        if (monsterDataBuilder_ == null) {
-          return monsterData_.get(index);
-        } else {
-          return monsterDataBuilder_.getMessage(index);
-        }
+      public java.lang.String getMonsterData(int index) {
+        return monsterData_.get(index);
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
-      public Builder setMonsterData(
-          int index, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct value) {
-        if (monsterDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMonsterDataIsMutable();
-          monsterData_.set(index, value);
-          onChanged();
-        } else {
-          monsterDataBuilder_.setMessage(index, value);
-        }
-        return this;
+      public com.google.protobuf.ByteString
+          getMonsterDataBytes(int index) {
+        return monsterData_.getByteString(index);
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
       public Builder setMonsterData(
-          int index, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder builderForValue) {
-        if (monsterDataBuilder_ == null) {
-          ensureMonsterDataIsMutable();
-          monsterData_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          monsterDataBuilder_.setMessage(index, builderForValue.build());
-        }
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMonsterDataIsMutable();
+        monsterData_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public Builder addMonsterData(com.rwproto.GroupCopyBattleProto.CopyMonsterStruct value) {
-        if (monsterDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMonsterDataIsMutable();
-          monsterData_.add(value);
-          onChanged();
-        } else {
-          monsterDataBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
       public Builder addMonsterData(
-          int index, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct value) {
-        if (monsterDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMonsterDataIsMutable();
-          monsterData_.add(index, value);
-          onChanged();
-        } else {
-          monsterDataBuilder_.addMessage(index, value);
-        }
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMonsterDataIsMutable();
+        monsterData_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public Builder addMonsterData(
-          com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder builderForValue) {
-        if (monsterDataBuilder_ == null) {
-          ensureMonsterDataIsMutable();
-          monsterData_.add(builderForValue.build());
-          onChanged();
-        } else {
-          monsterDataBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public Builder addMonsterData(
-          int index, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder builderForValue) {
-        if (monsterDataBuilder_ == null) {
-          ensureMonsterDataIsMutable();
-          monsterData_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          monsterDataBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
       public Builder addAllMonsterData(
-          java.lang.Iterable<? extends com.rwproto.GroupCopyBattleProto.CopyMonsterStruct> values) {
-        if (monsterDataBuilder_ == null) {
-          ensureMonsterDataIsMutable();
-          super.addAll(values, monsterData_);
-          onChanged();
-        } else {
-          monsterDataBuilder_.addAllMessages(values);
-        }
+          java.lang.Iterable<java.lang.String> values) {
+        ensureMonsterDataIsMutable();
+        super.addAll(values, monsterData_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
       public Builder clearMonsterData() {
-        if (monsterDataBuilder_ == null) {
-          monsterData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          monsterDataBuilder_.clear();
-        }
+        monsterData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
+       * <code>repeated string monsterData = 1;</code>
        *
        * <pre>
-       *战斗怪物信息
+       *战斗怪物信息 json
        * </pre>
        */
-      public Builder removeMonsterData(int index) {
-        if (monsterDataBuilder_ == null) {
-          ensureMonsterDataIsMutable();
-          monsterData_.remove(index);
-          onChanged();
-        } else {
-          monsterDataBuilder_.remove(index);
-        }
+      public Builder addMonsterDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMonsterDataIsMutable();
+        monsterData_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder getMonsterDataBuilder(
-          int index) {
-        return getMonsterDataFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder getMonsterDataOrBuilder(
-          int index) {
-        if (monsterDataBuilder_ == null) {
-          return monsterData_.get(index);  } else {
-          return monsterDataBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder> 
-           getMonsterDataOrBuilderList() {
-        if (monsterDataBuilder_ != null) {
-          return monsterDataBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(monsterData_);
-        }
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder addMonsterDataBuilder() {
-        return getMonsterDataFieldBuilder().addBuilder(
-            com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder addMonsterDataBuilder(
-          int index) {
-        return getMonsterDataFieldBuilder().addBuilder(
-            index, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .GroupCopyBattle.CopyMonsterStruct monsterData = 1;</code>
-       *
-       * <pre>
-       *战斗怪物信息
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder> 
-           getMonsterDataBuilderList() {
-        return getMonsterDataFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCopyBattleProto.CopyMonsterStruct, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder> 
-          getMonsterDataFieldBuilder() {
-        if (monsterDataBuilder_ == null) {
-          monsterDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GroupCopyBattleProto.CopyMonsterStruct, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder>(
-                  monsterData_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          monsterData_ = null;
-        }
-        return monsterDataBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyBattle.GroupCopyMonsterData)
@@ -2915,6 +2891,32 @@ public final class GroupCopyBattleProto {
      * </pre>
      */
     com.rwproto.GroupCopyBattleProto.CopyRewardInfoOrBuilder getDropInfoOrBuilder();
+
+    // optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    boolean hasBattleRole();
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRole();
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyBattle.GroupCopyBattleComRspMsg}
@@ -3016,6 +3018,19 @@ public final class GroupCopyBattleProto {
                 dropInfo_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = battleRole_.toBuilder();
+              }
+              battleRole_ = input.readMessage(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(battleRole_);
+                battleRole_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -3229,12 +3244,47 @@ public final class GroupCopyBattleProto {
       return dropInfo_;
     }
 
+    // optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;
+    public static final int BATTLEROLE_FIELD_NUMBER = 6;
+    private com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct battleRole_;
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    public boolean hasBattleRole() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRole() {
+      return battleRole_;
+    }
+    /**
+     * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+     *
+     * <pre>
+     *占用关卡的角色数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleOrBuilder() {
+      return battleRole_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyBattleProto.RequestType.FIGHT_BEGIN;
       isSuccess_ = false;
       tipMsg_ = "";
       mData_ = com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData.getDefaultInstance();
       dropInfo_ = com.rwproto.GroupCopyBattleProto.CopyRewardInfo.getDefaultInstance();
+      battleRole_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3249,14 +3299,14 @@ public final class GroupCopyBattleProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (hasMData()) {
-        if (!getMData().isInitialized()) {
+      if (hasDropInfo()) {
+        if (!getDropInfo().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (hasDropInfo()) {
-        if (!getDropInfo().isInitialized()) {
+      if (hasBattleRole()) {
+        if (!getBattleRole().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -3282,6 +3332,9 @@ public final class GroupCopyBattleProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, dropInfo_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, battleRole_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3311,6 +3364,10 @@ public final class GroupCopyBattleProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, dropInfo_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, battleRole_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3426,6 +3483,7 @@ public final class GroupCopyBattleProto {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getMDataFieldBuilder();
           getDropInfoFieldBuilder();
+          getBattleRoleFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3452,6 +3510,12 @@ public final class GroupCopyBattleProto {
           dropInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (battleRoleBuilder_ == null) {
+          battleRole_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+        } else {
+          battleRoleBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -3508,6 +3572,14 @@ public final class GroupCopyBattleProto {
         } else {
           result.dropInfo_ = dropInfoBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (battleRoleBuilder_ == null) {
+          result.battleRole_ = battleRole_;
+        } else {
+          result.battleRole_ = battleRoleBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3541,6 +3613,9 @@ public final class GroupCopyBattleProto {
         if (other.hasDropInfo()) {
           mergeDropInfo(other.getDropInfo());
         }
+        if (other.hasBattleRole()) {
+          mergeBattleRole(other.getBattleRole());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3554,14 +3629,14 @@ public final class GroupCopyBattleProto {
           
           return false;
         }
-        if (hasMData()) {
-          if (!getMData().isInitialized()) {
+        if (hasDropInfo()) {
+          if (!getDropInfo().isInitialized()) {
             
             return false;
           }
         }
-        if (hasDropInfo()) {
-          if (!getDropInfo().isInitialized()) {
+        if (hasBattleRole()) {
+          if (!getBattleRole().isInitialized()) {
             
             return false;
           }
@@ -4091,6 +4166,159 @@ public final class GroupCopyBattleProto {
           dropInfo_ = null;
         }
         return dropInfoBuilder_;
+      }
+
+      // optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;
+      private com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct battleRole_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder> battleRoleBuilder_;
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public boolean hasBattleRole() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getBattleRole() {
+        if (battleRoleBuilder_ == null) {
+          return battleRole_;
+        } else {
+          return battleRoleBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public Builder setBattleRole(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct value) {
+        if (battleRoleBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          battleRole_ = value;
+          onChanged();
+        } else {
+          battleRoleBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public Builder setBattleRole(
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder builderForValue) {
+        if (battleRoleBuilder_ == null) {
+          battleRole_ = builderForValue.build();
+          onChanged();
+        } else {
+          battleRoleBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public Builder mergeBattleRole(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct value) {
+        if (battleRoleBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              battleRole_ != com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance()) {
+            battleRole_ =
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.newBuilder(battleRole_).mergeFrom(value).buildPartial();
+          } else {
+            battleRole_ = value;
+          }
+          onChanged();
+        } else {
+          battleRoleBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public Builder clearBattleRole() {
+        if (battleRoleBuilder_ == null) {
+          battleRole_ = com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
+          onChanged();
+        } else {
+          battleRoleBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder getBattleRoleBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getBattleRoleFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder getBattleRoleOrBuilder() {
+        if (battleRoleBuilder_ != null) {
+          return battleRoleBuilder_.getMessageOrBuilder();
+        } else {
+          return battleRole_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyBattle.CopyBattleRoleStruct battleRole = 6;</code>
+       *
+       * <pre>
+       *占用关卡的角色数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder> 
+          getBattleRoleFieldBuilder() {
+        if (battleRoleBuilder_ == null) {
+          battleRoleBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder>(
+                  battleRole_,
+                  getParentForChildren(),
+                  isClean());
+          battleRole_ = null;
+        }
+        return battleRoleBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyBattle.GroupCopyBattleComRspMsg)
@@ -5299,122 +5527,87 @@ public final class GroupCopyBattleProto {
     // @@protoc_insertion_point(class_scope:GroupCopyBattle.CopyRewardStruct)
   }
 
-  public interface CopyMonsterStructOrBuilder
+  public interface CopyBattleRoleStructOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 monsterID = 1;
+    // required string roleName = 1;
     /**
-     * <code>required int32 monsterID = 1;</code>
-     *
-     * <pre>
-     *怪物id
-     * </pre>
+     * <code>required string roleName = 1;</code>
      */
-    boolean hasMonsterID();
+    boolean hasRoleName();
     /**
-     * <code>required int32 monsterID = 1;</code>
-     *
-     * <pre>
-     *怪物id
-     * </pre>
+     * <code>required string roleName = 1;</code>
      */
-    int getMonsterID();
+    java.lang.String getRoleName();
+    /**
+     * <code>required string roleName = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getRoleNameBytes();
 
-    // required int32 totalHp = 2;
+    // required string roleIcon = 2;
     /**
-     * <code>required int32 totalHp = 2;</code>
-     *
-     * <pre>
-     *总HP
-     * </pre>
+     * <code>required string roleIcon = 2;</code>
      */
-    boolean hasTotalHp();
+    boolean hasRoleIcon();
     /**
-     * <code>required int32 totalHp = 2;</code>
-     *
-     * <pre>
-     *总HP
-     * </pre>
+     * <code>required string roleIcon = 2;</code>
      */
-    int getTotalHp();
+    java.lang.String getRoleIcon();
+    /**
+     * <code>required string roleIcon = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getRoleIconBytes();
 
-    // optional int32 currentHp = 3;
+    // required string state = 3;
     /**
-     * <code>optional int32 currentHp = 3;</code>
-     *
-     * <pre>
-     *进入战斗时HP， 如果没有这个值，则表示满血
-     * </pre>
+     * <code>required string state = 3;</code>
      */
-    boolean hasCurrentHp();
+    boolean hasState();
     /**
-     * <code>optional int32 currentHp = 3;</code>
-     *
-     * <pre>
-     *进入战斗时HP， 如果没有这个值，则表示满血
-     * </pre>
+     * <code>required string state = 3;</code>
      */
-    int getCurrentHp();
+    java.lang.String getState();
+    /**
+     * <code>required string state = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getStateBytes();
 
-    // required int32 totalMp = 4;
+    // required int32 lv = 4;
     /**
-     * <code>required int32 totalMp = 4;</code>
-     *
-     * <pre>
-     *总MP
-     * </pre>
+     * <code>required int32 lv = 4;</code>
      */
-    boolean hasTotalMp();
+    boolean hasLv();
     /**
-     * <code>required int32 totalMp = 4;</code>
-     *
-     * <pre>
-     *总MP
-     * </pre>
+     * <code>required int32 lv = 4;</code>
      */
-    int getTotalMp();
-
-    // optional int32 currentMp = 5;
-    /**
-     * <code>optional int32 currentMp = 5;</code>
-     *
-     * <pre>
-     *进入战斗时MP,如果没有这个值，则表示满血
-     * </pre>
-     */
-    boolean hasCurrentMp();
-    /**
-     * <code>optional int32 currentMp = 5;</code>
-     *
-     * <pre>
-     *进入战斗时MP,如果没有这个值，则表示满血
-     * </pre>
-     */
-    int getCurrentMp();
+    int getLv();
   }
   /**
-   * Protobuf type {@code GroupCopyBattle.CopyMonsterStruct}
+   * Protobuf type {@code GroupCopyBattle.CopyBattleRoleStruct}
    *
    * <pre>
-   *【副本怪物数据结构】
+   *【占用关卡角色数据结构】
    * </pre>
    */
-  public static final class CopyMonsterStruct extends
+  public static final class CopyBattleRoleStruct extends
       com.google.protobuf.GeneratedMessage
-      implements CopyMonsterStructOrBuilder {
-    // Use CopyMonsterStruct.newBuilder() to construct.
-    private CopyMonsterStruct(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements CopyBattleRoleStructOrBuilder {
+    // Use CopyBattleRoleStruct.newBuilder() to construct.
+    private CopyBattleRoleStruct(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private CopyMonsterStruct(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private CopyBattleRoleStruct(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final CopyMonsterStruct defaultInstance;
-    public static CopyMonsterStruct getDefaultInstance() {
+    private static final CopyBattleRoleStruct defaultInstance;
+    public static CopyBattleRoleStruct getDefaultInstance() {
       return defaultInstance;
     }
 
-    public CopyMonsterStruct getDefaultInstanceForType() {
+    public CopyBattleRoleStruct getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -5424,7 +5617,7 @@ public final class GroupCopyBattleProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private CopyMonsterStruct(
+    private CopyBattleRoleStruct(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5447,29 +5640,24 @@ public final class GroupCopyBattleProto {
               }
               break;
             }
-            case 8: {
+            case 10: {
               bitField0_ |= 0x00000001;
-              monsterID_ = input.readInt32();
+              roleName_ = input.readBytes();
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              totalHp_ = input.readInt32();
+              roleIcon_ = input.readBytes();
               break;
             }
-            case 24: {
+            case 26: {
               bitField0_ |= 0x00000004;
-              currentHp_ = input.readInt32();
+              state_ = input.readBytes();
               break;
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              totalMp_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
-              currentMp_ = input.readInt32();
+              lv_ = input.readInt32();
               break;
             }
           }
@@ -5486,173 +5674,201 @@ public final class GroupCopyBattleProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor;
+      return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyMonsterStruct_fieldAccessorTable
+      return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyBattleRoleStruct_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.class, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder.class);
+              com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.class, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<CopyMonsterStruct> PARSER =
-        new com.google.protobuf.AbstractParser<CopyMonsterStruct>() {
-      public CopyMonsterStruct parsePartialFrom(
+    public static com.google.protobuf.Parser<CopyBattleRoleStruct> PARSER =
+        new com.google.protobuf.AbstractParser<CopyBattleRoleStruct>() {
+      public CopyBattleRoleStruct parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CopyMonsterStruct(input, extensionRegistry);
+        return new CopyBattleRoleStruct(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CopyMonsterStruct> getParserForType() {
+    public com.google.protobuf.Parser<CopyBattleRoleStruct> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required int32 monsterID = 1;
-    public static final int MONSTERID_FIELD_NUMBER = 1;
-    private int monsterID_;
+    // required string roleName = 1;
+    public static final int ROLENAME_FIELD_NUMBER = 1;
+    private java.lang.Object roleName_;
     /**
-     * <code>required int32 monsterID = 1;</code>
-     *
-     * <pre>
-     *怪物id
-     * </pre>
+     * <code>required string roleName = 1;</code>
      */
-    public boolean hasMonsterID() {
+    public boolean hasRoleName() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 monsterID = 1;</code>
-     *
-     * <pre>
-     *怪物id
-     * </pre>
+     * <code>required string roleName = 1;</code>
      */
-    public int getMonsterID() {
-      return monsterID_;
+    public java.lang.String getRoleName() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRoleNameBytes() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // required int32 totalHp = 2;
-    public static final int TOTALHP_FIELD_NUMBER = 2;
-    private int totalHp_;
+    // required string roleIcon = 2;
+    public static final int ROLEICON_FIELD_NUMBER = 2;
+    private java.lang.Object roleIcon_;
     /**
-     * <code>required int32 totalHp = 2;</code>
-     *
-     * <pre>
-     *总HP
-     * </pre>
+     * <code>required string roleIcon = 2;</code>
      */
-    public boolean hasTotalHp() {
+    public boolean hasRoleIcon() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 totalHp = 2;</code>
-     *
-     * <pre>
-     *总HP
-     * </pre>
+     * <code>required string roleIcon = 2;</code>
      */
-    public int getTotalHp() {
-      return totalHp_;
+    public java.lang.String getRoleIcon() {
+      java.lang.Object ref = roleIcon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleIcon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleIcon = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRoleIconBytes() {
+      java.lang.Object ref = roleIcon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleIcon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // optional int32 currentHp = 3;
-    public static final int CURRENTHP_FIELD_NUMBER = 3;
-    private int currentHp_;
+    // required string state = 3;
+    public static final int STATE_FIELD_NUMBER = 3;
+    private java.lang.Object state_;
     /**
-     * <code>optional int32 currentHp = 3;</code>
-     *
-     * <pre>
-     *进入战斗时HP， 如果没有这个值，则表示满血
-     * </pre>
+     * <code>required string state = 3;</code>
      */
-    public boolean hasCurrentHp() {
+    public boolean hasState() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 currentHp = 3;</code>
-     *
-     * <pre>
-     *进入战斗时HP， 如果没有这个值，则表示满血
-     * </pre>
+     * <code>required string state = 3;</code>
      */
-    public int getCurrentHp() {
-      return currentHp_;
+    public java.lang.String getState() {
+      java.lang.Object ref = state_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          state_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string state = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStateBytes() {
+      java.lang.Object ref = state_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        state_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // required int32 totalMp = 4;
-    public static final int TOTALMP_FIELD_NUMBER = 4;
-    private int totalMp_;
+    // required int32 lv = 4;
+    public static final int LV_FIELD_NUMBER = 4;
+    private int lv_;
     /**
-     * <code>required int32 totalMp = 4;</code>
-     *
-     * <pre>
-     *总MP
-     * </pre>
+     * <code>required int32 lv = 4;</code>
      */
-    public boolean hasTotalMp() {
+    public boolean hasLv() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 totalMp = 4;</code>
-     *
-     * <pre>
-     *总MP
-     * </pre>
+     * <code>required int32 lv = 4;</code>
      */
-    public int getTotalMp() {
-      return totalMp_;
-    }
-
-    // optional int32 currentMp = 5;
-    public static final int CURRENTMP_FIELD_NUMBER = 5;
-    private int currentMp_;
-    /**
-     * <code>optional int32 currentMp = 5;</code>
-     *
-     * <pre>
-     *进入战斗时MP,如果没有这个值，则表示满血
-     * </pre>
-     */
-    public boolean hasCurrentMp() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional int32 currentMp = 5;</code>
-     *
-     * <pre>
-     *进入战斗时MP,如果没有这个值，则表示满血
-     * </pre>
-     */
-    public int getCurrentMp() {
-      return currentMp_;
+    public int getLv() {
+      return lv_;
     }
 
     private void initFields() {
-      monsterID_ = 0;
-      totalHp_ = 0;
-      currentHp_ = 0;
-      totalMp_ = 0;
-      currentMp_ = 0;
+      roleName_ = "";
+      roleIcon_ = "";
+      state_ = "";
+      lv_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasMonsterID()) {
+      if (!hasRoleName()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTotalHp()) {
+      if (!hasRoleIcon()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasTotalMp()) {
+      if (!hasState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLv()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5664,19 +5880,16 @@ public final class GroupCopyBattleProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, monsterID_);
+        output.writeBytes(1, getRoleNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, totalHp_);
+        output.writeBytes(2, getRoleIconBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, currentHp_);
+        output.writeBytes(3, getStateBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, totalMp_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, currentMp_);
+        output.writeInt32(4, lv_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5689,23 +5902,19 @@ public final class GroupCopyBattleProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, monsterID_);
+          .computeBytesSize(1, getRoleNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, totalHp_);
+          .computeBytesSize(2, getRoleIconBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, currentHp_);
+          .computeBytesSize(3, getStateBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, totalMp_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, currentMp_);
+          .computeInt32Size(4, lv_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5719,53 +5928,53 @@ public final class GroupCopyBattleProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(byte[] data)
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseDelimitedFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parseFrom(
+    public static com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5774,7 +5983,7 @@ public final class GroupCopyBattleProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupCopyBattleProto.CopyMonsterStruct prototype) {
+    public static Builder newBuilder(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -5786,28 +5995,28 @@ public final class GroupCopyBattleProto {
       return builder;
     }
     /**
-     * Protobuf type {@code GroupCopyBattle.CopyMonsterStruct}
+     * Protobuf type {@code GroupCopyBattle.CopyBattleRoleStruct}
      *
      * <pre>
-     *【副本怪物数据结构】
+     *【占用关卡角色数据结构】
      * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupCopyBattleProto.CopyMonsterStructOrBuilder {
+       implements com.rwproto.GroupCopyBattleProto.CopyBattleRoleStructOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor;
+        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyMonsterStruct_fieldAccessorTable
+        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyBattleRoleStruct_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.class, com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.Builder.class);
+                com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.class, com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.newBuilder()
+      // Construct using com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5827,16 +6036,14 @@ public final class GroupCopyBattleProto {
 
       public Builder clear() {
         super.clear();
-        monsterID_ = 0;
+        roleName_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        totalHp_ = 0;
+        roleIcon_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        currentHp_ = 0;
+        state_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        totalMp_ = 0;
+        lv_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        currentMp_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -5846,90 +6053,93 @@ public final class GroupCopyBattleProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor;
+        return com.rwproto.GroupCopyBattleProto.internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor;
       }
 
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct getDefaultInstanceForType() {
-        return com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.getDefaultInstance();
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance();
       }
 
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct build() {
-        com.rwproto.GroupCopyBattleProto.CopyMonsterStruct result = buildPartial();
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct build() {
+        com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.GroupCopyBattleProto.CopyMonsterStruct buildPartial() {
-        com.rwproto.GroupCopyBattleProto.CopyMonsterStruct result = new com.rwproto.GroupCopyBattleProto.CopyMonsterStruct(this);
+      public com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct buildPartial() {
+        com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct result = new com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.monsterID_ = monsterID_;
+        result.roleName_ = roleName_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.totalHp_ = totalHp_;
+        result.roleIcon_ = roleIcon_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.currentHp_ = currentHp_;
+        result.state_ = state_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.totalMp_ = totalMp_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.currentMp_ = currentMp_;
+        result.lv_ = lv_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupCopyBattleProto.CopyMonsterStruct) {
-          return mergeFrom((com.rwproto.GroupCopyBattleProto.CopyMonsterStruct)other);
+        if (other instanceof com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct) {
+          return mergeFrom((com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.GroupCopyBattleProto.CopyMonsterStruct other) {
-        if (other == com.rwproto.GroupCopyBattleProto.CopyMonsterStruct.getDefaultInstance()) return this;
-        if (other.hasMonsterID()) {
-          setMonsterID(other.getMonsterID());
+      public Builder mergeFrom(com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct other) {
+        if (other == com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct.getDefaultInstance()) return this;
+        if (other.hasRoleName()) {
+          bitField0_ |= 0x00000001;
+          roleName_ = other.roleName_;
+          onChanged();
         }
-        if (other.hasTotalHp()) {
-          setTotalHp(other.getTotalHp());
+        if (other.hasRoleIcon()) {
+          bitField0_ |= 0x00000002;
+          roleIcon_ = other.roleIcon_;
+          onChanged();
         }
-        if (other.hasCurrentHp()) {
-          setCurrentHp(other.getCurrentHp());
+        if (other.hasState()) {
+          bitField0_ |= 0x00000004;
+          state_ = other.state_;
+          onChanged();
         }
-        if (other.hasTotalMp()) {
-          setTotalMp(other.getTotalMp());
-        }
-        if (other.hasCurrentMp()) {
-          setCurrentMp(other.getCurrentMp());
+        if (other.hasLv()) {
+          setLv(other.getLv());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasMonsterID()) {
+        if (!hasRoleName()) {
           
           return false;
         }
-        if (!hasTotalHp()) {
+        if (!hasRoleIcon()) {
           
           return false;
         }
-        if (!hasTotalMp()) {
+        if (!hasState()) {
+          
+          return false;
+        }
+        if (!hasLv()) {
           
           return false;
         }
@@ -5940,11 +6150,11 @@ public final class GroupCopyBattleProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.GroupCopyBattleProto.CopyMonsterStruct parsedMessage = null;
+        com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupCopyBattleProto.CopyMonsterStruct) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -5955,260 +6165,270 @@ public final class GroupCopyBattleProto {
       }
       private int bitField0_;
 
-      // required int32 monsterID = 1;
-      private int monsterID_ ;
+      // required string roleName = 1;
+      private java.lang.Object roleName_ = "";
       /**
-       * <code>required int32 monsterID = 1;</code>
-       *
-       * <pre>
-       *怪物id
-       * </pre>
+       * <code>required string roleName = 1;</code>
        */
-      public boolean hasMonsterID() {
+      public boolean hasRoleName() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 monsterID = 1;</code>
-       *
-       * <pre>
-       *怪物id
-       * </pre>
+       * <code>required string roleName = 1;</code>
        */
-      public int getMonsterID() {
-        return monsterID_;
+      public java.lang.String getRoleName() {
+        java.lang.Object ref = roleName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 monsterID = 1;</code>
-       *
-       * <pre>
-       *怪物id
-       * </pre>
+       * <code>required string roleName = 1;</code>
        */
-      public Builder setMonsterID(int value) {
-        bitField0_ |= 0x00000001;
-        monsterID_ = value;
+      public com.google.protobuf.ByteString
+          getRoleNameBytes() {
+        java.lang.Object ref = roleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleName = 1;</code>
+       */
+      public Builder setRoleName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        roleName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 monsterID = 1;</code>
-       *
-       * <pre>
-       *怪物id
-       * </pre>
+       * <code>required string roleName = 1;</code>
        */
-      public Builder clearMonsterID() {
+      public Builder clearRoleName() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        monsterID_ = 0;
+        roleName_ = getDefaultInstance().getRoleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleName = 1;</code>
+       */
+      public Builder setRoleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        roleName_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 totalHp = 2;
-      private int totalHp_ ;
+      // required string roleIcon = 2;
+      private java.lang.Object roleIcon_ = "";
       /**
-       * <code>required int32 totalHp = 2;</code>
-       *
-       * <pre>
-       *总HP
-       * </pre>
+       * <code>required string roleIcon = 2;</code>
        */
-      public boolean hasTotalHp() {
+      public boolean hasRoleIcon() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 totalHp = 2;</code>
-       *
-       * <pre>
-       *总HP
-       * </pre>
+       * <code>required string roleIcon = 2;</code>
        */
-      public int getTotalHp() {
-        return totalHp_;
+      public java.lang.String getRoleIcon() {
+        java.lang.Object ref = roleIcon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleIcon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 totalHp = 2;</code>
-       *
-       * <pre>
-       *总HP
-       * </pre>
+       * <code>required string roleIcon = 2;</code>
        */
-      public Builder setTotalHp(int value) {
-        bitField0_ |= 0x00000002;
-        totalHp_ = value;
+      public com.google.protobuf.ByteString
+          getRoleIconBytes() {
+        java.lang.Object ref = roleIcon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleIcon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleIcon = 2;</code>
+       */
+      public Builder setRoleIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleIcon_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 totalHp = 2;</code>
-       *
-       * <pre>
-       *总HP
-       * </pre>
+       * <code>required string roleIcon = 2;</code>
        */
-      public Builder clearTotalHp() {
+      public Builder clearRoleIcon() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        totalHp_ = 0;
+        roleIcon_ = getDefaultInstance().getRoleIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleIcon = 2;</code>
+       */
+      public Builder setRoleIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleIcon_ = value;
         onChanged();
         return this;
       }
 
-      // optional int32 currentHp = 3;
-      private int currentHp_ ;
+      // required string state = 3;
+      private java.lang.Object state_ = "";
       /**
-       * <code>optional int32 currentHp = 3;</code>
-       *
-       * <pre>
-       *进入战斗时HP， 如果没有这个值，则表示满血
-       * </pre>
+       * <code>required string state = 3;</code>
        */
-      public boolean hasCurrentHp() {
+      public boolean hasState() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 currentHp = 3;</code>
-       *
-       * <pre>
-       *进入战斗时HP， 如果没有这个值，则表示满血
-       * </pre>
+       * <code>required string state = 3;</code>
        */
-      public int getCurrentHp() {
-        return currentHp_;
+      public java.lang.String getState() {
+        java.lang.Object ref = state_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          state_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 currentHp = 3;</code>
-       *
-       * <pre>
-       *进入战斗时HP， 如果没有这个值，则表示满血
-       * </pre>
+       * <code>required string state = 3;</code>
        */
-      public Builder setCurrentHp(int value) {
-        bitField0_ |= 0x00000004;
-        currentHp_ = value;
+      public com.google.protobuf.ByteString
+          getStateBytes() {
+        java.lang.Object ref = state_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          state_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string state = 3;</code>
+       */
+      public Builder setState(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        state_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 currentHp = 3;</code>
-       *
-       * <pre>
-       *进入战斗时HP， 如果没有这个值，则表示满血
-       * </pre>
+       * <code>required string state = 3;</code>
        */
-      public Builder clearCurrentHp() {
+      public Builder clearState() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        currentHp_ = 0;
+        state_ = getDefaultInstance().getState();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string state = 3;</code>
+       */
+      public Builder setStateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        state_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 totalMp = 4;
-      private int totalMp_ ;
+      // required int32 lv = 4;
+      private int lv_ ;
       /**
-       * <code>required int32 totalMp = 4;</code>
-       *
-       * <pre>
-       *总MP
-       * </pre>
+       * <code>required int32 lv = 4;</code>
        */
-      public boolean hasTotalMp() {
+      public boolean hasLv() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 totalMp = 4;</code>
-       *
-       * <pre>
-       *总MP
-       * </pre>
+       * <code>required int32 lv = 4;</code>
        */
-      public int getTotalMp() {
-        return totalMp_;
+      public int getLv() {
+        return lv_;
       }
       /**
-       * <code>required int32 totalMp = 4;</code>
-       *
-       * <pre>
-       *总MP
-       * </pre>
+       * <code>required int32 lv = 4;</code>
        */
-      public Builder setTotalMp(int value) {
+      public Builder setLv(int value) {
         bitField0_ |= 0x00000008;
-        totalMp_ = value;
+        lv_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 totalMp = 4;</code>
-       *
-       * <pre>
-       *总MP
-       * </pre>
+       * <code>required int32 lv = 4;</code>
        */
-      public Builder clearTotalMp() {
+      public Builder clearLv() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        totalMp_ = 0;
+        lv_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 currentMp = 5;
-      private int currentMp_ ;
-      /**
-       * <code>optional int32 currentMp = 5;</code>
-       *
-       * <pre>
-       *进入战斗时MP,如果没有这个值，则表示满血
-       * </pre>
-       */
-      public boolean hasCurrentMp() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional int32 currentMp = 5;</code>
-       *
-       * <pre>
-       *进入战斗时MP,如果没有这个值，则表示满血
-       * </pre>
-       */
-      public int getCurrentMp() {
-        return currentMp_;
-      }
-      /**
-       * <code>optional int32 currentMp = 5;</code>
-       *
-       * <pre>
-       *进入战斗时MP,如果没有这个值，则表示满血
-       * </pre>
-       */
-      public Builder setCurrentMp(int value) {
-        bitField0_ |= 0x00000010;
-        currentMp_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 currentMp = 5;</code>
-       *
-       * <pre>
-       *进入战斗时MP,如果没有这个值，则表示满血
-       * </pre>
-       */
-      public Builder clearCurrentMp() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        currentMp_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:GroupCopyBattle.CopyMonsterStruct)
+      // @@protoc_insertion_point(builder_scope:GroupCopyBattle.CopyBattleRoleStruct)
     }
 
     static {
-      defaultInstance = new CopyMonsterStruct(true);
+      defaultInstance = new CopyBattleRoleStruct(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:GroupCopyBattle.CopyMonsterStruct)
+    // @@protoc_insertion_point(class_scope:GroupCopyBattle.CopyBattleRoleStruct)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -6242,10 +6462,10 @@ public final class GroupCopyBattleProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GroupCopyBattle_CopyRewardStruct_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor;
+    internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_GroupCopyBattle_CopyMonsterStruct_fieldAccessorTable;
+      internal_static_GroupCopyBattle_CopyBattleRoleStruct_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6256,27 +6476,29 @@ public final class GroupCopyBattleProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\025GroupCopyBattle.proto\022\017GroupCopyBattle" +
-      "\"\311\001\n\030GroupCopyBattleComReqMsg\022-\n\007reqType" +
+      "\"\210\002\n\030GroupCopyBattleComReqMsg\022-\n\007reqType" +
       "\030\001 \002(\0162\034.GroupCopyBattle.RequestType\022\017\n\007" +
       "version\030\002 \001(\t\022\r\n\005level\030\003 \002(\t\0224\n\005mData\030\004 " +
       "\001(\0132%.GroupCopyBattle.GroupCopyMonsterDa" +
       "ta\022(\n\005heros\030\005 \001(\0132\031.GroupCopyBattle.Hero" +
-      "List\"\026\n\010HeroList\022\n\n\002id\030\001 \003(\t\"O\n\024GroupCop" +
-      "yMonsterData\0227\n\013monsterData\030\001 \003(\0132\".Grou" +
-      "pCopyBattle.CopyMonsterStruct\"\325\001\n\030GroupC" +
-      "opyBattleComRspMsg\022-\n\007reqType\030\001 \002(\0162\034.Gr",
-      "oupCopyBattle.RequestType\022\021\n\tisSuccess\030\002" +
-      " \002(\010\022\016\n\006tipMsg\030\003 \001(\t\0224\n\005mData\030\004 \001(\0132%.Gr" +
-      "oupCopyBattle.GroupCopyMonsterData\0221\n\010dr" +
-      "opInfo\030\005 \001(\0132\037.GroupCopyBattle.CopyRewar" +
-      "dInfo\"A\n\016CopyRewardInfo\022/\n\004drop\030\001 \003(\0132!." +
-      "GroupCopyBattle.CopyRewardStruct\"1\n\020Copy" +
-      "RewardStruct\022\016\n\006itemID\030\001 \002(\005\022\r\n\005count\030\002 " +
-      "\002(\005\"n\n\021CopyMonsterStruct\022\021\n\tmonsterID\030\001 " +
-      "\002(\005\022\017\n\007totalHp\030\002 \002(\005\022\021\n\tcurrentHp\030\003 \001(\005\022" +
-      "\017\n\007totalMp\030\004 \002(\005\022\021\n\tcurrentMp\030\005 \001(\005*-\n\013R",
-      "equestType\022\017\n\013FIGHT_BEGIN\020\001\022\r\n\tFIGHT_END" +
-      "\020\002B#\n\013com.rwprotoB\024GroupCopyBattleProto"
+      "List\022=\n\016battleRoleData\030\006 \001(\0132%.GroupCopy" +
+      "Battle.CopyBattleRoleStruct\"\026\n\010HeroList\022" +
+      "\n\n\002id\030\001 \003(\t\"+\n\024GroupCopyMonsterData\022\023\n\013m" +
+      "onsterData\030\001 \003(\t\"\220\002\n\030GroupCopyBattleComR",
+      "spMsg\022-\n\007reqType\030\001 \002(\0162\034.GroupCopyBattle" +
+      ".RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
+      "g\030\003 \001(\t\0224\n\005mData\030\004 \001(\0132%.GroupCopyBattle" +
+      ".GroupCopyMonsterData\0221\n\010dropInfo\030\005 \001(\0132" +
+      "\037.GroupCopyBattle.CopyRewardInfo\0229\n\nbatt" +
+      "leRole\030\006 \001(\0132%.GroupCopyBattle.CopyBattl" +
+      "eRoleStruct\"A\n\016CopyRewardInfo\022/\n\004drop\030\001 " +
+      "\003(\0132!.GroupCopyBattle.CopyRewardStruct\"1" +
+      "\n\020CopyRewardStruct\022\016\n\006itemID\030\001 \002(\005\022\r\n\005co" +
+      "unt\030\002 \002(\005\"U\n\024CopyBattleRoleStruct\022\020\n\010rol",
+      "eName\030\001 \002(\t\022\020\n\010roleIcon\030\002 \002(\t\022\r\n\005state\030\003" +
+      " \002(\t\022\n\n\002lv\030\004 \002(\005*>\n\013RequestType\022\017\n\013FIGHT" +
+      "_BEGIN\020\001\022\r\n\tFIGHT_END\020\002\022\017\n\013ENTER_APPLY\020\003" +
+      "B#\n\013com.rwprotoB\024GroupCopyBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6288,7 +6510,7 @@ public final class GroupCopyBattleProto {
           internal_static_GroupCopyBattle_GroupCopyBattleComReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyBattle_GroupCopyBattleComReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "Level", "MData", "Heros", });
+              new java.lang.String[] { "ReqType", "Version", "Level", "MData", "Heros", "BattleRoleData", });
           internal_static_GroupCopyBattle_HeroList_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GroupCopyBattle_HeroList_fieldAccessorTable = new
@@ -6306,7 +6528,7 @@ public final class GroupCopyBattleProto {
           internal_static_GroupCopyBattle_GroupCopyBattleComRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyBattle_GroupCopyBattleComRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "MData", "DropInfo", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "MData", "DropInfo", "BattleRole", });
           internal_static_GroupCopyBattle_CopyRewardInfo_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_GroupCopyBattle_CopyRewardInfo_fieldAccessorTable = new
@@ -6319,12 +6541,12 @@ public final class GroupCopyBattleProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyBattle_CopyRewardStruct_descriptor,
               new java.lang.String[] { "ItemID", "Count", });
-          internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor =
+          internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor =
             getDescriptor().getMessageTypes().get(6);
-          internal_static_GroupCopyBattle_CopyMonsterStruct_fieldAccessorTable = new
+          internal_static_GroupCopyBattle_CopyBattleRoleStruct_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_GroupCopyBattle_CopyMonsterStruct_descriptor,
-              new java.lang.String[] { "MonsterID", "TotalHp", "CurrentHp", "TotalMp", "CurrentMp", });
+              internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor,
+              new java.lang.String[] { "RoleName", "RoleIcon", "State", "Lv", });
           return null;
         }
       };

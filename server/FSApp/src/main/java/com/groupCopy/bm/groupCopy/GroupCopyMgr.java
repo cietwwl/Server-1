@@ -3,6 +3,8 @@ package com.groupCopy.bm.groupCopy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.group.GroupBM;
+import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
@@ -10,6 +12,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
@@ -18,16 +21,20 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
-import com.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
+import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
 import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.monster.cfg.CopyMonsterCfg;
+import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.readonly.PlayerIF;
 
 /**
  * 
@@ -99,7 +106,7 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	public synchronized GroupCopyResult  endFight(Player player, String levelId, 
-			List<CopyMonsterStruct> mData, List<String> heroList){
+			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
 		//获取伤害
 		int damage = getDamage(mData, levelId);
 		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData);
@@ -113,9 +120,43 @@ public class GroupCopyMgr {
 		
 		return result;
 	}
+	
+	
+	/**
+	 * 作弊通关 
+	 * @param player
+	 * @param levelID
+	 * @return
+	 */
+	public GroupCopyResult cheatEndFight(Player player, String levelID){
+		//先找到原来的记录
+		GroupCopyLevelRecord lvRecord = lvRecordHolder.getByLevel(levelID);
+		GroupCopyProgress p;
+		List<GroupCopyMonsterSynStruct> monsterList = new ArrayList<GroupCopyMonsterSynStruct>();
+		if(lvRecord == null || lvRecord.getProgress() == null){
+			//原来没有记录，则从配置表初始化
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelID);
+			List<String> list = levelCfg.getmIDList();
+			CopyMonsterCfg monsterCfg = null;
+			GroupCopyMonsterSynStruct mStruct = null;
+			for (String id : list) {
+				 monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
+				 mStruct = new GroupCopyMonsterSynStruct(monsterCfg);
+				 monsterList.add(mStruct);
+			}
+		}else{
+			List<GroupCopyMonsterSynStruct> getmDatas = lvRecord.getProgress().getmDatas();
+			
+			
+		}
+		
+		//这些怪物扣掉500HP
+		return null;
+		
+	}
 
 	
-	private int getDamage(List<CopyMonsterStruct> mData, String level){
+	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
 		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
 		if(record.getProgress().getCurrentHp() == 0){
@@ -252,6 +293,79 @@ public class GroupCopyMgr {
 		
 	}
 
+
+	
+	/**
+	 * 请求是否可以进入关卡
+	 * @param player
+	 * @param level
+	 * @return
+	 */
+	public synchronized GroupCopyResult applyEnterCopy(Player player, String level) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		try {
+			GroupCopyLevelRecord lvData = lvRecordHolder.getByLevel(level);
+			if(lvData == null){
+				lvData = new GroupCopyLevelRecord();
+				lvData.setId(level);
+				String groupId = GroupHelper.getGroupId(player);
+				lvData.setGroupId(groupId);
+				lvRecordHolder.addItem(player, lvData);
+				
+			}
+			if(lvData != null && GroupCopyLevelBL.isFighting(lvData)){
+				int status = lvData.getStatus();
+				//返回一下正在战斗角色信息
+				String fighterId = lvData.getFighterId();
+				PlayerIF fighter = PlayerMgr.getInstance().getReadOnlyPlayer(fighterId);
+				
+				CopyBattleRoleStruct.Builder roleStruct = CopyBattleRoleStruct.newBuilder();
+				roleStruct.setRoleIcon(fighter.getHeadImage());
+				roleStruct.setRoleName(fighter.getUserName());
+				roleStruct.setState(GroupCopyLevelBL.getCopyStateTips(status));
+				roleStruct.setLv(fighter.getLevel());
+				result.setSuccess(false);
+				result.setItem(roleStruct);
+			}else{
+				//可以进入
+				boolean enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
+				result.setSuccess(enter);
+			}
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[applyEnterCopy]", "角色请求进入关卡异常", e);
+		}
+		
+		
+		
+		return result;
+	}
+
+
+	/**
+	 * 更新关卡状态
+	 * @param player
+	 * @param lvData
+	 * @param state TODO
+	 * @return
+	 */
+	private boolean updateCopyState(Player player, GroupCopyLevelRecord lvData, int state) {
+		try {
+			lvData.setFighterId(player.getUserId());
+			lvData.setLastBeginFightTime(System.currentTimeMillis());;
+			lvData.setStatus(state);
+			lvRecordHolder.updateItem(player, lvData);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+
+	
+
+	
 
 	
 

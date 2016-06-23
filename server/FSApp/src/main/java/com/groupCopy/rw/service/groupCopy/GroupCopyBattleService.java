@@ -32,12 +32,16 @@ public class GroupCopyBattleService implements FsService {
 			case FIGHT_END:
 				byteString = handler.endFight(player, commonReq);
 				break;
+				
+			case ENTER_APPLY:
+				byteString = handler.applyEnterCopy(player,commonReq);
+				break;
 			default:
 				GameLog.error(LogModule.COPY, "GroupCopyBattleService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
 			
-			GroupCopyDataVersionMgr.synAllDataByVersion(player, commonReq.getVersion());			
+//			GroupCopyDataVersionMgr.synAllDataByVersion(player, commonReq.getVersion());			
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyBattleService[doTask]", "出现了Exception异常", e);

@@ -21,7 +21,7 @@ public class UserGroupCopyMapRecord implements IMapItem {
 	
 	private String userId;
 	
-	private int fightCount;
+	private int leftFightCount;
 	
 	public String getId() {
 		return id;
@@ -29,15 +29,17 @@ public class UserGroupCopyMapRecord implements IMapItem {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getFightCount() {
-		return fightCount;
+	public int getLeftFightCount() {
+		return leftFightCount;
 	}
-	public void setFightCount(int fightCount) {
-		this.fightCount = fightCount;
+	public void setLeftFightCount(int fightCount) {
+		this.leftFightCount = fightCount;
 	}
 	
 	public void incrFightCount(){
-		this.fightCount = this.fightCount+1;
+		if(leftFightCount > 0){
+			this.leftFightCount -= 1;
+		}
 	}
 	public String getUserId() {
 		return userId;

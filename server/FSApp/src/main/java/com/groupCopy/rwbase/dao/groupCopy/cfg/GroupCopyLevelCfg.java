@@ -1,6 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.cfg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,13 @@ public class GroupCopyLevelCfg {
 	
 	private String roleReward;
 	
+	private String monsters;
+	
 	private Map<Integer, String> dropMap;//格式化后的掉落数据
 	
 	private List<Integer> roleRewardList;//格式化后的个人奖励
 	
+	private List<String> mIDList;//格式化后的怪物列表
 	
 	/**
 	 * 格式化数据
@@ -57,6 +61,14 @@ public class GroupCopyLevelCfg {
 		
 		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
 		cfg.addLvID(id);
+		
+		if(mIDList == null){
+			mIDList = new ArrayList<String>();
+		}
+		dStr = monsters.split(",");
+		for (String str : dStr) {
+			mIDList.add(str);
+		}
 		
 	}
 
@@ -93,11 +105,19 @@ public class GroupCopyLevelCfg {
 	}
 
 	public Map<Integer, String> getDropMap() {
-		return dropMap;
+		return Collections.unmodifiableMap(dropMap);
 	}
 
 	public List<Integer> getRoleRewardList() {
-		return roleRewardList;
+		return Collections.unmodifiableList(roleRewardList);
+	}
+
+	/**
+	 * 获取本关卡的怪物id列表
+	 * @return
+	 */
+	public List<String> getmIDList() {
+		return mIDList;
 	}
 
 	

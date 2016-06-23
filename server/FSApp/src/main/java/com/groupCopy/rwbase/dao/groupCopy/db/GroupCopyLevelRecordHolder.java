@@ -53,6 +53,7 @@ public class GroupCopyLevelRecordHolder{
 		boolean success = getItemStore().updateItem(item);
 		if(success){
 			updateVersion();
+			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		}
 		return success;
 	}
@@ -74,7 +75,7 @@ public class GroupCopyLevelRecordHolder{
 	public GroupCopyLevelRecord getByLevel(String level){
 		GroupCopyLevelRecord target = null;
 		for (GroupCopyLevelRecord item : getItemList()) {
-			if(StringUtils.equals(item.getLevel() , level)){
+			if(StringUtils.equals(item.getId() , level)){
 				target = item;
 			}
 		}
@@ -83,9 +84,9 @@ public class GroupCopyLevelRecordHolder{
 	
 	public void synSingleData(Player player, String level){
 		GroupCopyLevelRecord groupRecord = getByLevel(level);
-		UserGroupCopyMapRecord userRecord = player.getUserGroupCopyRecordMgr().getByLevel(level);
-		GroupCopyLevelRecord4Client record4client = new GroupCopyLevelRecord4Client(groupRecord, userRecord);
-		ClientDataSynMgr.updateData(player, record4client, synType, eSynOpType.UPDATE_SINGLE);
+//		UserGroupCopyMapRecord userRecord = player.getUserGroupCopyRecordMgr().getByLevel(level);
+//		GroupCopyLevelRecord4Client record4client = new GroupCopyLevelRecord4Client(groupRecord, userRecord);
+		ClientDataSynMgr.updateData(player, groupRecord, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public void synAllData(Player player, int version){
@@ -105,7 +106,7 @@ public class GroupCopyLevelRecordHolder{
 		
 		Map<String,UserGroupCopyMapRecord> levelMap = toLevelMap(userRecordList);
 		for (GroupCopyLevelRecord groupLevelRecordP : groupRecordList) {
-			UserGroupCopyMapRecord userLevelRecord = levelMap.get(groupLevelRecordP.getLevel());
+			UserGroupCopyMapRecord userLevelRecord = levelMap.get(groupLevelRecordP.getId());
 			GroupCopyLevelRecord4Client levelRecord4Client = new GroupCopyLevelRecord4Client(groupLevelRecordP, userLevelRecord);
 			record4ClientList.add(levelRecord4Client);
 		}

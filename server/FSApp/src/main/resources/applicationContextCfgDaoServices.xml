@@ -152,6 +152,7 @@
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillAttributeCfgDAO" init-method="init" />
 	
 	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao" init-method="init" />
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
@@ -227,6 +228,10 @@
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
+	
+	<!-- 怪物 -->
+	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />
+	
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

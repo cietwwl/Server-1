@@ -8,7 +8,9 @@ package GroupCopyBattle;
 enum RequestType{
 	FIGHT_BEGIN = 1;//战斗开始
 	FIGHT_END = 2;//战斗结束
+	ENTER_APPLY = 3;//请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
 }
+
 
 
 //【帮派副本战斗消息】
@@ -18,15 +20,16 @@ message GroupCopyBattleComReqMsg{
 	required string level = 3; //关卡id
 	optional GroupCopyMonsterData mData = 4;//退出战斗时怪物信息(服务器要计算进度及保存)
 	optional HeroList heros = 5;//退出战斗时返回
+	optional CopyBattleRoleStruct battleRoleData = 6;
 }
 
 //【佣兵列表】
 message HeroList{
-	repeated string id;
+	repeated string id = 1;
 }
 
 message GroupCopyMonsterData{
-    repeated CopyMonsterStruct monsterData = 1;//战斗怪物信息
+    repeated string monsterData = 1;//战斗怪物信息 json
 }
 
 //【帮派副本战斗响应消息】
@@ -36,6 +39,7 @@ message GroupCopyBattleComRspMsg{
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
 	optional GroupCopyMonsterData mData = 4;//进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
 	optional CopyRewardInfo dropInfo = 5;//掉落列表
+	optional CopyBattleRoleStruct battleRole = 6;//占用关卡的角色数据
 }
 
 //【掉落列表】
@@ -50,12 +54,11 @@ message CopyRewardStruct{
 	
 }
 
- //【副本怪物数据结构】
- message CopyMonsterStruct{
-   required int32 monsterID = 1;//怪物id
-   required int32 totalHp = 2;//总HP
-   optional int32 currentHp = 3;//进入战斗时HP， 如果没有这个值，则表示满血
-   required int32 totalMp = 4;//总MP
-   optional int32 currentMp = 5;//进入战斗时MP,如果没有这个值，则表示满血
-   
- }
+//【占用关卡角色数据结构】
+message CopyBattleRoleStruct{
+	required string roleName = 1;
+	required string roleIcon = 2;
+	required string state = 3;
+	required int32 lv = 4;
+}
+

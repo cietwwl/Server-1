@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,9 +14,9 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
-import com.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
 import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
@@ -34,10 +35,17 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
  */
 public class GroupCopyLevelBL {
 
-	final private static long MAX_FIGHT_SPAN = 2*60*1000;  //战斗最多持续时间，超过了认为断线，重置关卡状态。
+	final private static long MAX_FIGHT_SPAN = TimeUnit.MILLISECONDS.convert(2L, TimeUnit.MINUTES);  //战斗最多持续时间，超过了认为断线，重置关卡状态。
+	private final static long MAX_WAIT_SPAN = TimeUnit.MILLISECONDS.convert(1L, TimeUnit.MINUTES);  //准备最多持续时间，超过了重置关卡状态。
+	
 	
 	private final static int MAX_FIGHT_COUNT = 2;//每天章节最大挑战次数
 	public final static int MAX_ALLOT_COUNT = 2;//每天分配的最大次数
+	public final static int STATE_COPY_EMPTY = 1;  //副本空闲
+	public final static int STATE_COPY_WAIT = 2;  //副本准备进入
+	public final static int STATE_COPY_FIGHT = 3; //副本战斗中
+	public final static String COPY_WAIT_TIPS = "准备中...";
+	public final static String COPY_FIGHT_TIPS = "战斗中...";
 	
 	public static GroupCopyResult beginFight(Player player, GroupCopyLevelRecordHolder groupCopyLevelRecordHolder,String level) {
 		GroupCopyResult result = GroupCopyResult.newResult();
@@ -62,12 +70,12 @@ public class GroupCopyLevelBL {
 				UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 				UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(levelCfg.getChaterID());
 				
-				if(userRecord.getFightCount() >= MAX_FIGHT_COUNT){
+				if(userRecord.getLeftFightCount() >= MAX_FIGHT_COUNT){
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
 					groupRecord.setFighterId(player.getUserId());
-					groupRecord.setFighting(true);
+					groupRecord.setStatus(STATE_COPY_FIGHT);
 					groupRecord.setLastBeginFightTime(System.currentTimeMillis());
 					
 					userRecord.incrFightCount();
@@ -89,9 +97,49 @@ public class GroupCopyLevelBL {
 		return result;
 	}
 	
-	private static boolean isFighting(GroupCopyLevelRecord groupRecord){
-		return groupRecord.isFighting() && System.currentTimeMillis() < groupRecord.getLastBeginFightTime()+MAX_FIGHT_SPAN;
+	/**
+	 * 检查关卡是否在战斗状态
+	 * @param groupRecord
+	 * @return
+	 */
+	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord){
+		
+		if(groupRecord.getStatus() == STATE_COPY_EMPTY){
+			return true;
+		}
+		if(groupRecord.getStatus() == STATE_COPY_FIGHT){
+			//检查战斗是否超时
+			long curTime = System.currentTimeMillis();
+			long endTime = groupRecord.getLastBeginFightTime() + MAX_FIGHT_SPAN;
+			if(endTime < curTime){
+				return true;
+			}
+			
+		}
+		if(groupRecord.getStatus() == STATE_COPY_WAIT){
+			long curTime = System.currentTimeMillis();
+			long endTime = groupRecord.getLastBeginFightTime() + MAX_WAIT_SPAN;
+			if(endTime < curTime){
+				return true;
+			}
+		}
+		return false;
 				
+	}
+	
+	public static String getCopyStateTips(int state){
+		String tips = null;
+		switch (state) {
+		case STATE_COPY_FIGHT:
+			tips = COPY_FIGHT_TIPS;
+			break;
+		case STATE_COPY_WAIT:
+			tips = COPY_WAIT_TIPS;
+			break;
+		default:
+			break;
+		}
+		return tips;
 	}
 	
 	/**
@@ -104,7 +152,7 @@ public class GroupCopyLevelBL {
 	 */
 	public static GroupCopyResult endFight(Player player, 
 			GroupCopyLevelRecordHolder recordHolder,String level,
-			List<CopyMonsterStruct> mData) {
+			List<GroupCopyMonsterSynStruct> mData) {
 		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		StringBuilder reason = new StringBuilder();
@@ -150,7 +198,7 @@ public class GroupCopyLevelBL {
 			userRecord.incrFightCount();
 			
 			copyLvRecd.setFighterId("");
-			copyLvRecd.setFighting(false);
+			copyLvRecd.setStatus(STATE_COPY_EMPTY);
 			
 			boolean success = recordHolder.updateItem(player, copyLvRecd);
 			if(success){
@@ -225,6 +273,7 @@ public class GroupCopyLevelBL {
 	
 	
 
+	
 	
 
 

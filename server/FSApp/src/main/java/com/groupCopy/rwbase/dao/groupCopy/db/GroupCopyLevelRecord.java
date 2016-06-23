@@ -1,9 +1,15 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.junit.Ignore;
+
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -19,11 +25,9 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class GroupCopyLevelRecord implements IMapItem {
 
 	@Id
-	private String id; // 唯一id 关卡id
+	private String id; // 唯一id 对应关卡id
+	@IgnoreSynField
 	private String groupId; // 帮派ID
-	
-	@CombineSave
-	private String level;
 	
 	/**
 	 * 副本进度
@@ -35,13 +39,15 @@ public class GroupCopyLevelRecord implements IMapItem {
 	private long lastBeginFightTime;//上次战斗的时间
 	
 	@CombineSave
-	private boolean isFighting;//是否在战斗中
+	@IgnoreSynField
+	private int status;//是否在战斗中
 	@CombineSave	
+	@IgnoreSynField
 	private String fighterId;//挑战者Id
 	
 	/**当前关卡的赞助*/
 	@CombineSave
-	private GroupCopyLevelBuffRecord buffRecord;
+	private Map<String, Integer> buffMap = new HashMap<String, Integer>();
 	
 	public String getId() {
 		return id;
@@ -54,12 +60,6 @@ public class GroupCopyLevelRecord implements IMapItem {
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
-	}
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
 	}
 	
 	public GroupCopyProgress getProgress() {
@@ -75,11 +75,14 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setLastBeginFightTime(long lastBeginFightTime) {
 		this.lastBeginFightTime = lastBeginFightTime;
 	}
-	public boolean isFighting() {
-		return isFighting;
+
+
+	
+	public int getStatus() {
+		return status;
 	}
-	public void setFighting(boolean isFighting) {
-		this.isFighting = isFighting;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public String getFighterId() {
 		return fighterId;
@@ -87,12 +90,7 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setFighterId(String fighterId) {
 		this.fighterId = fighterId;
 	}
-	public GroupCopyLevelBuffRecord getBuffRecord() {
-		return buffRecord;
-	}
-	public void setBuffRecord(GroupCopyLevelBuffRecord buffRecord) {
-		this.buffRecord = buffRecord;
-	}
+	
 
 	/**
 	 * <pre>
@@ -102,16 +100,17 @@ public class GroupCopyLevelRecord implements IMapItem {
 	 * @param playerID
 	 * @param count
 	 */
-	public void addBuff(String playerID, int count){
-		if(buffRecord == null){
-			buffRecord  = new GroupCopyLevelBuffRecord();
+	public synchronized void addBuff(String playerID, int count) {
+		Integer v = buffMap.get(playerID);
+		if(v != null){
+			buffMap.put(playerID, v + count);
+		}else{
+			buffMap.put(playerID, count);
 		}
-		buffRecord.addBuff(playerID, count);
 	}
-	
 	
 	public synchronized void resetLevelData(){
 		progress = new GroupCopyProgress();
-		buffRecord.clearBuff();
+		buffMap.clear();
 	}
 }

@@ -3,7 +3,6 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
 
 public class GroupCopyProgress {
 
@@ -12,7 +11,7 @@ public class GroupCopyProgress {
 	
 	private double progress;//0-1
 	
-	private List<CopyMonsterStruct> mDatas = new ArrayList<CopyMonsterStruct>();
+	private List<GroupCopyMonsterSynStruct> mDatas = new ArrayList<GroupCopyMonsterSynStruct>();
 	
 	
 	public GroupCopyProgress() {
@@ -20,7 +19,8 @@ public class GroupCopyProgress {
 		initProgress();
 	}
 
-	public GroupCopyProgress(List<CopyMonsterStruct> mData) {
+	public GroupCopyProgress(List<GroupCopyMonsterSynStruct> mData) {
+		this.mDatas.clear();
 		this.mDatas.addAll(mData);
 		initProgress();
 	}
@@ -29,9 +29,9 @@ public class GroupCopyProgress {
 
 		totalHp = 0;
 		currentHp = 0;
-		for (CopyMonsterStruct struct : mDatas) {
-			totalHp += struct.getTotalHp();
-			currentHp += struct.getCurrentHp();
+		for (GroupCopyMonsterSynStruct struct : mDatas) {
+			totalHp += struct.getCurHP();
+			currentHp += struct.getCurHP();
 		}
 		
 		progress = (totalHp - currentHp) / totalHp;
@@ -61,11 +61,11 @@ public class GroupCopyProgress {
 		this.progress = progress;
 	}
 
-	public List<CopyMonsterStruct> getmDatas() {
+	public List<GroupCopyMonsterSynStruct> getmDatas() {
 		return mDatas;
 	}
 
-	public void setmDatas(List<CopyMonsterStruct> mDatas) {
+	public void setmDatas(List<GroupCopyMonsterSynStruct> mDatas) {
 		this.mDatas = mDatas;
 	}
 

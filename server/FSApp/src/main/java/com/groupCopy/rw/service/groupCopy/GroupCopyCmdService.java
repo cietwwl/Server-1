@@ -35,7 +35,7 @@ public class GroupCopyCmdService implements FsService{
 				GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-//			GroupCopyDataVersionMgr.synByVersion(player, reqMsg.getVersion());
+			
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "出现了Exception异常", e);

@@ -1,16 +1,22 @@
 package com.groupCopy.rw.service.groupCopy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
+import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyBattleProto;
+import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
 import com.rwproto.GroupCopyBattleProto.RequestType;
-import com.playerdata.Player;
-import com.rwbase.dao.group.pojo.Group;
 
 /*
  * @author HC
@@ -52,16 +58,30 @@ public class GroupCopyBattleHandler {
 		return commonRsp.build().toByteString();
 	}
 	
+	
+	
 	public ByteString endFight(Player player, GroupCopyBattleComReqMsg req) {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIGHT_END);
 		String levelID = req.getLevel();
 		GroupCopyMonsterData mData = req.getMData();
-
+		
+		List<GroupCopyMonsterSynStruct> monsterList = new ArrayList<GroupCopyMonsterSynStruct>();
+		GroupCopyMonsterSynStruct struct = null;
+		for (String s : mData.getMonsterDataList()) {
+			try {
+				struct = (GroupCopyMonsterSynStruct) ClientDataSynMgr.fromClientJson2Data(GroupCopyMonsterSynStruct.class, s);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			monsterList.add(struct);
+		}
+		
+		
 		Group group = GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
-			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, mData.getMonsterDataList(), null);
+			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, monsterList, null);
 			success = result.isSuccess();
 			commonRsp.setTipMsg(result.getTipMsg());
 			commonRsp.setDropInfo((CopyRewardInfo) result.getItem());
@@ -69,7 +89,60 @@ public class GroupCopyBattleHandler {
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
 	}
+
 	
+	
+	
+	/**
+	 * 客户端请求是否可以进入关卡战斗
+	 * @param player
+	 * @param req
+	 * @return
+	 */
+	public ByteString applyEnterCopy(Player player, GroupCopyBattleComReqMsg req) {
+		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
+		commonRsp.setReqType(RequestType.FIGHT_END);
+		String level = req.getLevel();
+		Group group = GroupHelper.getGroup(player);
+		boolean success = false;
+		if(group!=null){
+			GroupCopyResult result = group.getGroupCopyMgr().applyEnterCopy(player, level);
+			success = result.isSuccess();
+			if(!success){
+				commonRsp.setBattleRole((CopyBattleRoleStruct) result.getItem());
+			}
+		}
+		commonRsp.setIsSuccess(success);		
+		return commonRsp.build().toByteString();
+	}
+	
+	/**
+	 * 作弊通关
+	 * @param player
+	 * @param req
+	 * @return
+	 */
+	public ByteString cheatEndFight(Player player, GroupCopyBattleComReqMsg req){
+		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
+		commonRsp.setReqType(RequestType.FIGHT_END);
+		String levelID = req.getLevel();
+		GroupCopyMonsterData mData = req.getMData();
+		
+		
+		
+		
+		
+		Group group = GroupHelper.getGroup(player);
+		boolean success = false;
+		if(group!=null){
+			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, null, null);
+			success = result.isSuccess();
+			commonRsp.setTipMsg(result.getTipMsg());
+			commonRsp.setDropInfo((CopyRewardInfo) result.getItem());
+		}	
+		commonRsp.setIsSuccess(success);		
+		return commonRsp.build().toByteString();
+	}
 
 
 	
