@@ -39,6 +39,7 @@ public class GFightOnlineHandler {
 	public ByteString modifySelfDefender(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightPrepareMgr.getInstance().modifySelfDefender(player, gfRsp, msgGFRequest.getHeroIDList());
 		return gfRsp.build().toByteString();
 	}
 	

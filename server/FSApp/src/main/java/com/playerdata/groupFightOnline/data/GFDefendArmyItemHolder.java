@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -50,7 +55,7 @@ public class GFDefendArmyItemHolder {
 		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupID).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();
-			if(item.getVersion() > version)
+			if(item.getVersion() > version && !GFArmyState.EMPTY.equals(item.getState()))
 				defendArmyList.add(item);
 		}
 		return defendArmyList;
@@ -63,7 +68,7 @@ public class GFDefendArmyItemHolder {
 	 * @return
 	 */
 	public List<GFDefendArmyItem> getItem(Player player){
-		String groupID = player.getGuildUserMgr().getGuildId();
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		Enumeration<GFDefendArmyItem> itemEnum = getItemStore(groupID).getEnum();
 		List<GFDefendArmyItem> itemlist = new ArrayList<GFDefendArmyItem>();
 		while(itemEnum.hasMoreElements()) {
@@ -86,7 +91,7 @@ public class GFDefendArmyItemHolder {
 	 * @return
 	 */
 	public GFDefendArmyItem getItem(Player player, String armyId){
-		String groupID = player.getGuildUserMgr().getGuildId();
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		return getItemStore(groupID).getItem(armyId);
 	}
 	
@@ -101,25 +106,70 @@ public class GFDefendArmyItemHolder {
 	}
 	
 	/**
+	 * 更新一条自己防守队伍信息（一定是自己的帮派）
+	 * 主要用在备战阶段
+	 * @param player
+	 * @param armyItem 队伍信息
+	 * @param state 最新的状态
+	 */
+	public void updateItem(Player player, GFDefendArmyItem armyItem, GFArmyState state){
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		updateItem(groupID, armyItem, state);
+	}
+	
+	/**
+	 * 更新一条防守队伍信息
+	 * 主要用在开战阶段
+	 * @param groupId 所属帮派（不一定是自己的帮派）
+	 * @param armyItem 队伍信息
+	 * @param state 最新的状态
+	 */
+	public void updateItem(String groupId, GFDefendArmyItem armyItem, GFArmyState state){
+		if(state.equals(GFArmyState.EMPTY)){
+			GFightOnlineGroupHolder.getInstance().addDefenderCount(groupId, -1);
+			armyItem.setVersion(0);
+		}else {
+			int newVersion = defendArmyVersion.incrementAndGet();
+			if(state.equals(GFArmyState.NEWADD)) 
+				GFightOnlineGroupHolder.getInstance().addDefenderCount(groupId, 1);
+			if(state.equals(GFArmyState.DEFEATED)) 
+				GFightOnlineGroupHolder.getInstance().deductAliveCount(groupId);
+			armyItem.setVersion(newVersion);
+		}
+		armyItem.setState(state.getValue());
+		getItemStore(groupId).updateItem(armyItem);
+	}
+	
+	/**
 	 * 重置个人的防守队伍信息
 	 * @param player
 	 * @param items
 	 * @return 最新的版本号
+	 * @throws GFArmyDataException 
 	 */
-	public void resetItems(Player player, List<GFDefendArmyItem> items){
-		int newVersion = defendArmyVersion.incrementAndGet();
-		long operateTime = System.currentTimeMillis();
-		for(GFDefendArmyItem item : items) {
-			GFDefendArmyItem needUpateItem = getItem(player, item.getArmyID());
-			if(needUpateItem == null) continue;  //TODO  需要错误log
-			needUpateItem.setSetDefenderTime(operateTime);
-			needUpateItem.setSimpleArmy(item.getSimpleArmy());
-			needUpateItem.setState(GFArmyState.NORMAL.getValue());
-			needUpateItem.setVersion(newVersion);
-			updateItem(player, needUpateItem);
+	public void resetItems(Player player, List<DefendArmyHerosInfo> items) throws GFArmyDataException{
+		for(DefendArmyHerosInfo heros : items) {
+			GFDefendArmyItem armyItem = getItem(player, heros.getDefendArmyID());
+			if(heros.getHeroIDs().size() == 0) {
+				if(GFArmyState.NORMAL.equals(armyItem.getState())){
+					armyItem.setSimpleArmy(null);
+					updateItem(player, armyItem, GFArmyState.EMPTY);
+				}else if(!GFArmyState.EMPTY.equals(armyItem.getState())){
+					throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能置空");
+				}
+			} else {
+				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getHeroIDs());
+				if(simpleArmy == null) throw new GFArmyDataException("heros无法生成防守队伍信息");
+				long operateTime = System.currentTimeMillis();
+				armyItem.setSetDefenderTime(operateTime);
+				armyItem.setSimpleArmy(simpleArmy);
+				if(GFArmyState.EMPTY.equals(armyItem.getState())){
+					updateItem(player, armyItem, GFArmyState.NEWADD);
+				}else if(GFArmyState.NORMAL.equals(armyItem.getState())){
+					updateItem(player, armyItem, GFArmyState.NORMAL);
+				}else throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能更改");
+			}
 		}
-		// TODO 添加防守队伍总数
-		// GFightOnlineGroupHolder.getInstance().addDefenderCount(groupID, MAX_DEFEND_ARMY_COUNT);
 		synAllData(player);
 	}
 	
@@ -145,16 +195,7 @@ public class GFDefendArmyItemHolder {
 	public void synAllData(Player player){
 		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_LIST, defendArmyVersion.get());
 	}
-	
-	/**
-	 * 更新个人的一个防守队伍
-	 * @param player
-	 * @param item
-	 */
-	private void updateItem(Player player, GFDefendArmyItem item){
-		getItemStore(item.getGroupID()).updateItem(item);
-	}
-	
+
 	/**
 	 * 添加一组防守队伍
 	 * @param player
@@ -162,7 +203,7 @@ public class GFDefendArmyItemHolder {
 	 * @return
 	 */
 	private boolean addItems(Player player, List<GFDefendArmyItem> items){
-		String groupID = player.getGuildUserMgr().getGuildId();
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		try {
 			return getItemStore(groupID).addItem(items);
 		} catch (DuplicatedKeyException e) {
@@ -176,7 +217,7 @@ public class GFDefendArmyItemHolder {
 	 * @param player
 	 */
 	private void initPersonalDefendArmy(Player player) {
-		String groupID = player.getGuildUserMgr().getGuildId();
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		List<GFDefendArmyItem> initItems = new ArrayList<GFDefendArmyItem>();
 		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
 			String armyID = player.getUserId() + "_" + i;

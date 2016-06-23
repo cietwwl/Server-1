@@ -1,6 +1,7 @@
 package com.playerdata.groupFightOnline.data;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -10,6 +11,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "gf_resource_data")
 public class GFightOnlineResourceData {
 	
 	@Id
@@ -19,7 +21,7 @@ public class GFightOnlineResourceData {
 	private String ownerGroupID;
 
 	public int getResourceID() {
-		return resourceID;
+		return Integer.valueOf(resourceID);
 	}
 
 	public void setResourceID(int resourceID) {
@@ -33,5 +35,4 @@ public class GFightOnlineResourceData {
 	public void setOwnerGroupID(String ownerGroupID) {
 		this.ownerGroupID = ownerGroupID;
 	}
-
 }

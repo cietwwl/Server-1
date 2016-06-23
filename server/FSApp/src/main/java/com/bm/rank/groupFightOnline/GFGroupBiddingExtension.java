@@ -1,9 +1,11 @@
 package com.bm.rank.groupFightOnline;
 
+import com.bm.group.GroupBM;
 import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.service.group.helper.GroupHelper;
 
 public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBiddingComparable, GFGroupBiddingItem>{
 
@@ -22,8 +24,13 @@ public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBidd
 		}
 		Player player = (Player)param;
 		GFGroupBiddingItem toData = new GFGroupBiddingItem();
-		toData.setGroupID(player.getGuildUserMgr().getGuildId());
-		toData.setGroupName(player.getGuildUserMgr().getGuildName());
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		toData.setGroupID(groupID);
+		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
+		String leaderName = GroupBM.get(groupID).getGroupMemberMgr().getGroupLeader().getName();
+		String iconID = GroupBM.get(groupID).getGroupBaseDataMgr().getGroupData().getIconId();
+		toData.setLeaderName(leaderName);
+		toData.setIconID(iconID);
 		return toData;
 	}
 }

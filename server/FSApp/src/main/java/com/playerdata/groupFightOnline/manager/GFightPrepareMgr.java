@@ -3,7 +3,9 @@ package com.playerdata.groupFightOnline.manager;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyHeroSimple;
+import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
@@ -53,7 +55,23 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
-	public void viewDefenderTeam(Player player, Builder gfRsp, String groupID, String viewTeamID) {
+	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewTeamID) {
 		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewTeamID);
+		if(defendTeam == null) {
+			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			return;
+		}
+		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defendTeam));
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+
+	public void modifySelfDefender(Player player, Builder gfRsp, List<String> heroIDList, String teamID) {
+		ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heroIDList);
+		if(simpleArmy == null) {
+			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			return;
+		}
+		GFDefendArmyItemHolder.getInstance().
+		GFDefendArmyItemHolder.getInstance().resetItems(player, items);
 	}
 }

@@ -16,6 +16,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -76,6 +77,11 @@ public class GFightGroupBidMgr {
 			gfRsp.setRstType(GFResultType.BID_UNREACH_LEAST_COUNT);
 			return;
 		}
+		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
+			gfRsp.setRstType(GFResultType.DATA_ERROR); //TODO 
+			return;
+		}
+		gfGroupData.setResourceID(resourceID);
 		gfGroupData.setBiddingCount(gfGroupData.getBiddingCount() + bidCount);
 		GFightOnlineGroupHolder.getInstance().update(player, gfGroupData, true);
 		// 排行榜有改变
@@ -90,7 +96,6 @@ public class GFightGroupBidMgr {
 		GroupBaseDataIF groupData = GroupBM.get(resData.getOwnerGroupID()).getGroupBaseDataMgr().getGroupData();
 		if(groupData == null) {
 			GameLog.error(LogModule.GroupFightOnline.getName(), userID, String.format("getResourceInfo, 占领资源点[%s]的帮派[%s]信息不存在", resData.getResourceID(), resData.getOwnerGroupID()));
-			return null;
 		}
 		String leaderName = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getGroupLeader().getName();
 		GFGroupBiddingItem groupSimple = new GFGroupBiddingItem();

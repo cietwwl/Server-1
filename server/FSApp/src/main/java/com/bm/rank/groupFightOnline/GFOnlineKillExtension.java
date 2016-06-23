@@ -4,6 +4,7 @@ import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.service.group.helper.GroupHelper;
 
 public class GFOnlineKillExtension extends RankingJacksonExtension<GFOnlineKillComparable, GFOnlineKillItem>{
 
@@ -24,7 +25,7 @@ public class GFOnlineKillExtension extends RankingJacksonExtension<GFOnlineKillC
 		GFOnlineKillItem toData = new GFOnlineKillItem();
 		toData.setUserId(player.getUserId());
 		toData.setUserName(player.getUserName());
-		toData.setGroupID(player.getGuildUserMgr().getGuildId());
+		toData.setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
 		return toData;
 	}
 }

@@ -5,6 +5,7 @@ import com.playerdata.Player;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.service.group.helper.GroupHelper;
 
 public class GFOnlineHurtExtension extends RankingJacksonExtension<GFOnlineHurtComparable, GFOnlineHurtItem>{
 
@@ -24,7 +25,7 @@ public class GFOnlineHurtExtension extends RankingJacksonExtension<GFOnlineHurtC
 		Player player = (Player)param;
 		GFOnlineHurtItem toData = new GFOnlineHurtItem();
 		toData.setUserId(player.getUserId());
-		toData.setGroupID(player.getGuildUserMgr().getGuildId());
+		toData.setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
 		toData.setUserName(player.getUserName());
 		return toData;
 	}

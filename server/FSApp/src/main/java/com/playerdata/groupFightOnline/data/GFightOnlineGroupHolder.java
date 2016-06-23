@@ -8,6 +8,7 @@ import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -25,7 +26,12 @@ public class GFightOnlineGroupHolder {
 	final private eSynType synType = eSynType.GFightOnlineGroupData;
 	
 	public GFightOnlineGroupData get(String groupId) {
-		return getItem(groupId, 0);
+		GFightOnlineGroupData groupData = getItem(groupId, -1);
+		if(groupData == null) {
+			initGroupData(groupId);
+			groupData = getItem(groupId, -1);
+		}
+		return groupData;
 	}
 	
 	public GFightOnlineGroupData getItem(String groupId, int version) {
@@ -35,7 +41,8 @@ public class GFightOnlineGroupHolder {
 	}
 	
 	public GFightOnlineGroupData getByUser(Player player) {
-		String groupID = player.getGuildUserMgr().getGuildId();
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(groupID.isEmpty()) return null;
 		return get(groupID);
 	}
 	
@@ -75,7 +82,7 @@ public class GFightOnlineGroupHolder {
 		int newVersion = gfGroupVersion.incrementAndGet();
 		GFightOnlineGroupData groupData = get(groupId);
 		groupData.setVersion(newVersion);
-		groupData.setDefenderCount(count);
+		groupData.addDefenderCount(count);
 		gfGroupDao.update(groupData);
 	}
 	
@@ -90,5 +97,11 @@ public class GFightOnlineGroupHolder {
 		groupData.setVersion(newVersion);
 		groupData.deductAliveCount();
 		gfGroupDao.update(groupData);
+	}
+	
+	private void initGroupData(String groupId) {
+		GFightOnlineGroupData data = new GFightOnlineGroupData();
+		data.setGroupID(groupId);
+		gfGroupDao.update(data);
 	}
 }

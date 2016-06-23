@@ -1,7 +1,5 @@
 package com.playerdata.groupFightOnline.dataForClient;
 
-import java.util.List;
-
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -14,7 +12,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class DefendArmySimpleInfo {
 	private String groupID;
 	private String defendArmyID;
-	private List<ArmyInfoSimple> simpleArmy;
+	private ArmyInfoSimple simpleArmy;
 	
 	public String getGroupID() {
 		return groupID;
@@ -32,11 +30,11 @@ public class DefendArmySimpleInfo {
 		this.defendArmyID = defendArmyID;
 	}
 
-	public List<ArmyInfoSimple> getSimpleArmy() {
+	public ArmyInfoSimple getSimpleArmy() {
 		return simpleArmy;
 	}
 
-	public void setSimpleArmy(List<ArmyInfoSimple> simpleArmy) {
+	public void setSimpleArmy(ArmyInfoSimple simpleArmy) {
 		this.simpleArmy = simpleArmy;
 	}
 }

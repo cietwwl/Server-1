@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -15,6 +16,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "gf_group_data")
 public class GFightOnlineGroupData {
 	
 	@Id
@@ -39,7 +41,7 @@ public class GFightOnlineGroupData {
 	@CombineSave
 	private int aliveCount;		//存活队伍数
 	
-	private int version = 0;
+	private int version = 0;	//初始版本号
 	
 	@IgnoreSynField
 	private byte[] recordLock = new byte[0];

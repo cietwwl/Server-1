@@ -2,7 +2,7 @@ package com.playerdata.groupFightOnline.dataForClient;
 
 public enum GFArmyState {
 	/**
-	 * 未上阵
+	 * 未上阵或撤阵
 	 */
 	EMPTY(-1),
 	/**
@@ -20,7 +20,11 @@ public enum GFArmyState {
 	/**
 	 * 战败
 	 */
-	DEFEATED(4);
+	DEFEATED(4),
+	/**
+	 * 新添加（添加完毕，状态立刻变NORMAL）
+	 */
+	NEWADD(5);
 	
 	private int value;
 	GFArmyState(int value){
@@ -28,6 +32,7 @@ public enum GFArmyState {
 	}
 	
 	public int getValue(){
+		if(value == 5) return 1;
 		return value;
 	}
 	
