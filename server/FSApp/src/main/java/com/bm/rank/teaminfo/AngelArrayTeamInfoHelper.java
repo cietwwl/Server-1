@@ -30,7 +30,6 @@ import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.param.MagicParam;
 import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.equipment.EquipItem;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -278,10 +277,7 @@ public class AngelArrayTeamInfoHelper {
 		teamInfo.setVip(p.getVip());
 		teamInfo.setName(p.getUserName());
 		teamInfo.setHeadId(p.getHeadImage());
-		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if (userGroupAttributeData != null) {
-			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
-		}
+		teamInfo.setGroupName(p.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
 		teamInfo.setLevel(p.getLevel());
 		teamInfo.setUuid(p.getUserId());
 
