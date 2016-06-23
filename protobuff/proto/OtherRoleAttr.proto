@@ -1,47 +1,46 @@
 syntax = "proto2";
+
 option java_package = "com.rwproto";
 option java_outer_classname = "OtherRoleAttrProtos";
 import "EquipService.proto";
+import "FashionService.proto";
 
 enum EMsgType {
-	BaseMsg = 0;//基本信息
-	OtherMsg = 1;//其它信息
-
+	BaseMsg = 0; //基本信息
+	OtherMsg = 1; //其它信息
 }
 
 message OtherRoleAttrResponse {
- optional OtherRoleAttr info = 1;
- optional EMsgType type = 2;
- 
+	optional OtherRoleAttr info = 1;
+	optional EMsgType type = 2;
 }
 
 message OtherRoleAttrRequest {
-   optional string userId = 1;// 用户ID
-   optional EMsgType type = 2;
-   
+	optional string userId = 1; // 用户ID
+	optional EMsgType type = 2;
 }
-
 
 message OtherRoleAttr {
 	repeated OtherHero heroList = 1;
-	optional string userId = 2;// 用户ID
-	optional string userName = 3;//  用户昵称
+	optional string userId = 2; // 用户ID
+	optional string userName = 3; //  用户昵称
 	optional int32 sex = 4; //0女1男
 	optional int32 level = 5; //等级
-	optional string headImage = 6;//  图标
+	optional string headImage = 6; //  图标
 	optional string templateId = 7; //英雄模板Id
-	repeated SkillInfo skillInfo = 8;//技能
+	repeated SkillInfo skillInfo = 8; //技能
 	repeated EquipService.EquipData equipInfo = 10; //装备信息
 	optional int32 fighting = 11; //战斗力
-	optional string headbox =12; //头像框
-	
-	
+	optional string headbox = 12; //头像框
+	optional FashionService.FashionUsed fashionUsage = 13; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 job = 14;// 显示时装需要职业
 }
-message OtherHero{
-    repeated SkillInfo skillInfo = 1;//技能
-    optional string id = 2;//  名称
-	optional string name = 3;//  名称
-	optional string icon = 4;//  图标
+
+message OtherHero {
+	repeated SkillInfo skillInfo = 1; //技能
+	optional string id = 2; //  名称
+	optional string name = 3; //  名称
+	optional string icon = 4; //  图标
 	optional int32 level = 5; //等级
 	optional int32 starLevel = 6; //星级
 	optional string qualityId = 7; //品阶Id
@@ -50,18 +49,11 @@ message OtherHero{
 	optional string modeId = 10; //英雄模型Id，标识玩家可拥有的唯一英雄
 	optional int32 career = 11; //职业
 	repeated EquipService.EquipData equipInfo = 12; //装备信息
-	
-	
-}
-message SkillInfo{
-optional string id = 1;//
-optional int32 level = 2; //等级
-optional int32 order = 3; //第几个技能
-
 }
 
-
-
-
-
+message SkillInfo {
+	optional string id = 1; //
+	optional int32 level = 2; //等级
+	optional int32 order = 3; //第几个技能
+}
 
