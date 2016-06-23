@@ -53,14 +53,33 @@ public class ComGiftMgr {
 	 * @return
 	 */
 	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid ,String mark){
+		boolean isadd = false;		
+		String sb = makegiftToMailStr(giftid);		
+		isadd = addRewardToEmail(player,sb,emailid,mark);
+		return isadd;
+	}
+	/**
+	 * 传入id_number,id_number格式的奖励
+	 * @param player
+	 * @param tagInfo
+	 * @param emailid
+	 * @param mark
+	 * @return
+	 */
+	public boolean addtagInfoTOEmail(Player player, String tagInfo  ,String emailid ,String mark){
+		boolean isadd = false;		
+		String sb = makeTagInfoToMailStr(tagInfo);	
+		isadd = addRewardToEmail(player,sb,emailid,mark);
+		return isadd;
+	}
+	
+	
+	private boolean addRewardToEmail(Player player,String rewardStr,String emailid ,String mark){
 		boolean isadd = false;
-		
-		
-		String sb = makegiftToMail(giftid);		
 		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(emailid);	
 		EmailData emailData = new EmailData();
 		if(cfg != null){
-		emailData.setEmailAttachment(sb);
+		emailData.setEmailAttachment(rewardStr);
 		
 		emailData.setTitle(replace(cfg.getTitle(),mark));
 		emailData.setContent(replace(cfg.getContent(),mark));
@@ -73,6 +92,7 @@ public class ComGiftMgr {
 		EmailUtils.sendEmail(player.getUserId(), emailData);
 		isadd = true;
 		}
+		
 		return isadd;
 	}
 	
@@ -89,7 +109,7 @@ public class ComGiftMgr {
 	
 	
 	/**通过gift奖励包的id，生成 邮箱的奖励表字符串 */
-	private String makegiftToMail(String giftid){
+	private String makegiftToMailStr(String giftid){
 		StringBuilder sb = new StringBuilder();
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(giftid);
 		if(giftcfg == null){
@@ -106,12 +126,24 @@ public class ComGiftMgr {
 			if (--prizeSize > 0) {
 				sb.append(",");
 			}
-		}
-		
-		
-		return sb.toString();
-		
+		}		
+		return sb.toString();		
 	}
-
+	
+	/**通过副本发送格式的奖励类格式，生成 邮箱的奖励表字符串 */
+	private String makeTagInfoToMailStr(String tagInfo){
+		StringBuilder sb = new StringBuilder();
+		String[] idAndNums = tagInfo.split(",");
+		int prizeSize = idAndNums.length;
+		for(String idAndNum:idAndNums){
+			String[] idOrNum = idAndNum.split("_");
+			sb.append(Integer.parseInt(idOrNum[0])).append("~").append(Integer.parseInt(idOrNum[1]));
+			if (--prizeSize > 0) {
+				sb.append(",");
+			}
+		}			
+		return sb.toString();		
+	}
+	
 
 }

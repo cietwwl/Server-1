@@ -11,6 +11,7 @@ import com.bm.rank.RankType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.mysql.jdbc.TimeUtil;
+import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
@@ -101,6 +102,8 @@ public class ActivityRankTypeMgr {
 					activityRankTypeItem.setTaken(true);
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
+					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), MAKEUPEMAIL+"", activityRankTypeItem.getEmailTitle());
+					
 				}
 				long sendtime = sendMap.get(activityRankTypeItem.getCfgId()).getLasttime();
 				if(sendtime ==0){					
@@ -185,7 +188,7 @@ public class ActivityRankTypeMgr {
 			int isrealtime = cfg.getDailyOrRealtime();
 			for(Integer ranktype:activityRankTypeEnum.getRankTypes()){//该配表对应的所有排行榜，比如竞技场就分4个职业
 				int noitem = 0;
-				RankType rankType = RankType.getRankType(ranktype,isrealtime);
+				RankType rankType = RankType.getRankType(ranktype,1);
 				List<RankInfo> rankList = new ArrayList<RankInfo>();
 				List<RankingLevelData> tableranklist = RankingMgr.getInstance().getRankList(rankType, 800);
 				for (int i = 0; i < tableranklist.size(); i++) {
@@ -224,14 +227,17 @@ public class ActivityRankTypeMgr {
 					
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
+					String emailTitle = null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
+							emailTitle = subCfg.getEmailTitle();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
 						targetItem.setReward(tmpReward);
+						targetItem.setEmailTitle(emailTitle);
 						dataHolder.updateItem(player, targetItem);
 						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
 					}else{//所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致
