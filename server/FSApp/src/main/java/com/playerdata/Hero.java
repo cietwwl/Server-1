@@ -54,7 +54,7 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setStarLevel(heroCfg.getStarLevel());
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
-		m_SkillMgr.initSkill(heroCfg);
+//		m_SkillMgr.initSkill(heroCfg);
 
 		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
 

@@ -47,6 +47,9 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
+		if (player.isRobot()) {
+			return;
+		}
 		UserGroupAttributeData data = new UserGroupAttributeData();
 		data.setUserId(userId);
 		data.setGroupId("");
@@ -506,7 +509,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
-		// GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
 			return map;
 		}
 
