@@ -45,6 +45,14 @@ public final class RankServiceProtos {
      * </pre>
      */
     RANK_LIST_PART2(3, 4),
+    /**
+     * <code>RANK_MY_INFO = 5;</code>
+     *
+     * <pre>
+     *我自己的各种榜排名
+     * </pre>
+     */
+    RANK_MY_INFO(4, 5),
     ;
 
     /**
@@ -79,6 +87,14 @@ public final class RankServiceProtos {
      * </pre>
      */
     public static final int RANK_LIST_PART2_VALUE = 4;
+    /**
+     * <code>RANK_MY_INFO = 5;</code>
+     *
+     * <pre>
+     *我自己的各种榜排名
+     * </pre>
+     */
+    public static final int RANK_MY_INFO_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -89,6 +105,7 @@ public final class RankServiceProtos {
         case 2: return RANK_HERO_INFO;
         case 3: return RANK_LIST_PART1;
         case 4: return RANK_LIST_PART2;
+        case 5: return RANK_MY_INFO;
         default: return null;
       }
     }
@@ -10588,11 +10605,12 @@ public final class RankServiceProtos {
       "\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022\020\n\010" +
       "heroHead\030\005 \002(\t\"U\n\020RankingMagicData\022\022\n\nma",
       "gicImage\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022\027\n\017" +
-      "magicAttackType\030\003 \002(\005*_\n\020ERankRequestTyp" +
+      "magicAttackType\030\003 \002(\005*q\n\020ERankRequestTyp" +
       "e\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022\023\n\017" +
-      "RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004*-" +
-      "\n\017ERankResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT_LE" +
-      "VEL\020\001B \n\013com.rwprotoB\021RankServiceProtos"
+      "RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004\022\020" +
+      "\n\014RANK_MY_INFO\020\005*-\n\017ERankResultType\022\013\n\007S" +
+      "UCCESS\020\000\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021" +
+      "RankServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
