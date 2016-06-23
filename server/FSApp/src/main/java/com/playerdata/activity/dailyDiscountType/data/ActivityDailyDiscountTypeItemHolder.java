@@ -72,6 +72,7 @@ public class ActivityDailyDiscountTypeItemHolder{
 	
 	public boolean addItemList(Player player, List<ActivityDailyDiscountTypeItem> itemList){
 		try {
+			
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
 				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);

@@ -56,7 +56,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
 			item.setId(itemId);
 			item.setUserId(player.getUserId());
-			item.setCfgid(cfgById.getId());
+			item.setCfgId(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
 			item.setLastTime(System.currentTimeMillis());
 			item.setSubItemList(newSubItemList(countTypeEnum));

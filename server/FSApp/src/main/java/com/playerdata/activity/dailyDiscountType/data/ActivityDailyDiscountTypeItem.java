@@ -27,7 +27,7 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 	@CombineSave
-    private String cfgid;
+    private String cfgId;
 
 	@CombineSave
 	private boolean closed = false;
@@ -56,12 +56,14 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.userId = userId;
 	}
 
-	public String getCfgid() {
-		return cfgid;
+	
+
+	public String getCfgId() {
+		return cfgId;
 	}
 
-	public void setCfgid(String cfgid) {
-		this.cfgid = cfgid;
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
 	}
 
 	public boolean isClosed() {
