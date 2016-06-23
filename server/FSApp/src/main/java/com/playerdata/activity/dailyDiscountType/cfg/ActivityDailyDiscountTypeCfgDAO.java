@@ -68,7 +68,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		}	
 	}
 	
-	private List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeEnum countTypeEnum) {
+	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeEnum countTypeEnum) {
 		int day = getday(countTypeEnum);
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(countTypeEnum);

@@ -16,6 +16,7 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCf
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
+import com.rw.fsutil.util.DateUtils;
 
 
 public class ActivityDailyDiscountTypeMgr {
@@ -37,8 +38,8 @@ public class ActivityDailyDiscountTypeMgr {
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
 		checkCfgVersion(player);	
-//		checkOtherDay(player);
-//		checkClose(player);
+		checkOtherDay(player);
+		checkClose(player);
 
 	}
 
@@ -102,53 +103,60 @@ public class ActivityDailyDiscountTypeMgr {
 			}			
 			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-//				targetItem.reset(targetCfg);
+				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
 		}		
 	}
 	
-//	private void checkOtherDay(Player player) {
-//		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-//		List<ActivityDailyTypeItem> item = dataHolder.getItemList(player.getUserId());
-//		ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(ActivityDailyTypeEnum.Daily.getCfgId());
-//		if(targetCfg == null){
-//			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//			return;
-//		}
-//		for (ActivityDailyTypeItem targetItem : item) {
-//			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
-//				targetItem.reset(targetCfg);
-//				dataHolder.updateItem(player, targetItem);
-//			}
-//		}
-//	}
+	private void checkOtherDay(Player player) {
+		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		List<ActivityDailyDiscountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		List<ActivityDailyDiscountTypeCfg> cfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityDailyDiscountTypeItem targetItem : itemList) {
+			ActivityDailyDiscountTypeCfg cfgtmp = null;
+			for(ActivityDailyDiscountTypeCfg cfg:cfglist){
+				if(StringUtils.equals(cfg.getId(), targetItem.getCfgId())){
+					cfgtmp = cfg;
+					break;
+				}
+			}
+			if(cfgtmp == null){
+				//以前开过的活动现在没找到配置文件
+				continue;
+			}			
+			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+				targetItem.reset(cfgtmp);
+				dataHolder.updateItem(player, targetItem);
+			}
+		}		
+	}
 	
-//	private void checkClose(Player player) {
-//		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-//		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//
-//		for (ActivityDailyTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
-//			if (isClose(activityDailyCountTypeItem)) {
-//				activityDailyCountTypeItem.setClosed(true);
-//				dataHolder.updateItem(player, activityDailyCountTypeItem);
-//			}
-//		}
-//	}
+	private void checkClose(Player player) {
+		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		List<ActivityDailyDiscountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+
+		for (ActivityDailyDiscountTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
+			if (isClose(activityDailyCountTypeItem)) {
+				activityDailyCountTypeItem.setClosed(true);
+				dataHolder.updateItem(player, activityDailyCountTypeItem);
+			}
+		}
+	}
 	
-//	private boolean isClose(ActivityDailyTypeItem activityDailyCountTypeItem) {
-//		if (activityDailyCountTypeItem != null) {
-//			ActivityDailyTypeCfg cfgById = ActivityDailyTypeCfgDAO.getInstance().getCfgById(ActivityDailyTypeEnum.Daily.getCfgId());
-//			if(cfgById!=null){
-//				long endTime = cfgById.getEndTime();
-//				long currentTime = System.currentTimeMillis();
-//				return currentTime > endTime;
-//			}else{
-//				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyTypeEnum.Daily);
-//			}
-//		}
-//		return false;
-//	}
+	private boolean isClose(ActivityDailyDiscountTypeItem activityDailyCountTypeItem) {
+		if (activityDailyCountTypeItem != null) {
+			ActivityDailyDiscountTypeCfg cfgById = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(activityDailyCountTypeItem.getCfgId());
+			if(cfgById!=null){
+				long endTime = cfgById.getEndTime();
+				long currentTime = System.currentTimeMillis();
+				return currentTime > endTime;
+			}else{
+				GameLog.error("activitydailyDiscounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyDiscountTypeEnum.getById(activityDailyCountTypeItem.getCfgId()));
+			}
+		}
+		return false;
+	}
 	
 //	public boolean isLevelEnough(Player player) {
 //		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();

@@ -11,9 +11,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -105,7 +109,12 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	}
 
 	public void reset(ActivityDailyDiscountTypeCfg targetCfg) {
-		// TODO Auto-generated method stub
-		
-	}	
+		this.closed = false;
+		this.lastTime = System.currentTimeMillis();
+		this.version = targetCfg.getVersion();
+		this.subItemList = ActivityDailyDiscountTypeCfgDAO
+				.getInstance()
+				.newSubItemList(
+						ActivityDailyDiscountTypeEnum.getById(targetCfg.getId()));
+	}
 }
