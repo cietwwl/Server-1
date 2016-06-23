@@ -48,10 +48,10 @@ message GroupFightOnlineReqMsg{
 	required GFRequestType reqType = 1; //请求功能协议类型
 	optional int32 bidCount = 2; //帮派竞标令牌数量
 	optional int32 selfBidRate = 3; //个人选择的压标倍率
-	repeated string heroID = 4; //个人调整的防守队伍信息（List<string> heroID）不用包括主角
+	repeated string armyHeros = 4; //个人调整的防守队伍信息（List<DefendArmyHerosInfo>）不用包括主角
 	optional int32 page = 5;	//请求查看的防守队伍的页面
 	optional string viewTeamGroupID = 6;	//要查看的队伍（或页面）所属的公会ID
-	optional string viewTeamID = 7;	//要查看详情的队伍ID
+	optional string teamID = 7;	//要查看详情的队伍ID
 	optional string rewardID = 8;	//要获取的奖励ID
 	optional int32 resourceID = 9; //请求的资源点ID
 	optional string groupID = 10;  //请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
@@ -71,5 +71,4 @@ message GroupFightOnlineRspMsg{
 	optional int32 currentPage = 9;	//防守队伍的总页数
 	repeated string fightRecord = 10; //战斗记录
 	repeated string gfRewardInfo = 11;	//可以领取的奖励
-	optional int32 serverVersion = 12;	//服务端当前数据的版本（对应结构GFightDataVersion）
 }

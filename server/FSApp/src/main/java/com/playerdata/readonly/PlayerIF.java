@@ -40,6 +40,10 @@ public interface PlayerIF {
 	public StoreMgrIF getStoreMgr();
 
 	public int getModelId();
+	
+	public int getSex();
+	
+	public int getCareer();
 
 	// public int getLogoutTimer();
 

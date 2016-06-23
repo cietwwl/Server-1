@@ -412,10 +412,10 @@ public class RankingMgr {
 			case Priest:
 				rankingType = RankType.PRIEST_ARENA_DAILY;
 				break;
-			// TODO 这样做真的好吗
 			default:
-				rankingType = RankType.WARRIOR_ARENA_DAILY;
-				break;
+				return null;
+//				rankingType = RankType.WARRIOR_ARENA_DAILY;
+//				break;
 			}
 
 			Ranking ranking = RankingFactory.getRanking(rankingType);
