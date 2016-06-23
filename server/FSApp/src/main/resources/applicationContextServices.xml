@@ -82,7 +82,7 @@
 			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyTypeService" />
 			     <entry key="MSG_ACTIVITY_EXCHANGE_TYPE" value-ref="activityExchangeTypeService" />
 			     <entry key="MSG_ACTIVITY_VITALITY_TYPE" value-ref="activityVitalityTypeService" />
-			     <entry key="MSG_ACTIVITY_DAILYDISCOUNT_TYPE" value-ref="activityDailyDiscountTypeService" />
+			     <entry key="MSG_ACTIVITY_DailyDiscount_TYPE" value-ref="activityDailyDiscountTypeService" />
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />

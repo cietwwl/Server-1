@@ -4,7 +4,7 @@ public class ActivityDailyDiscountItemCfg {
 	private String id;
 	private String itemId;
 	private int countLimit;
-
+	private int priceAfterDiscount;
 	
 	
 	public String getId() {
@@ -16,6 +16,12 @@ public class ActivityDailyDiscountItemCfg {
 
 	
 	
+	public int getPriceAfterDiscount() {
+		return priceAfterDiscount;
+	}
+	public void setPriceAfterDiscount(int priceAfterDiscount) {
+		this.priceAfterDiscount = priceAfterDiscount;
+	}
 	public String getItemId() {
 		return itemId;
 	}

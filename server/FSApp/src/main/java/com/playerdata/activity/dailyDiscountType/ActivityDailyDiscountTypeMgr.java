@@ -1,7 +1,9 @@
 package com.playerdata.activity.dailyDiscountType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +19,7 @@ import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeI
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.eSpecialItemId;
 
 
 public class ActivityDailyDiscountTypeMgr {
@@ -212,44 +215,42 @@ public class ActivityDailyDiscountTypeMgr {
 				result.setSuccess(false);
 				return result;				
 			}
-			if(!isGoldEnough(player,itemCfg)){
+			if(!player.getUserGameDataMgr().isEnoughCurrency(eSpecialItemId.Gold, itemCfg.getPriceAfterDiscount())){
 				result.setReason("钻石不足");
 				result.setSuccess(false);
 				return result;
+			}else{
+				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+				map.put(eSpecialItemId.Gold.getValue(), -itemCfg.getPriceAfterDiscount());
+				player.getItemBagMgr().useLikeBoxItem(null, null, map);
 			}
-			
-			
-			
-			
-			
-			
-			
 			getItem(player, targetItem);
 			dataHolder.updateItem(player, dataItem);
+			result.setReason("购买成功");
+			result.setSuccess(true);
+			
 		}
 		return result;
 	}
 	
-	private boolean isGoldEnough(Player player,
-			ActivityDailyDiscountItemCfg itemCfg) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+
 
 	private boolean isCountEnough(int count, ActivityDailyDiscountItemCfg cfg) {
-		// TODO Auto-generated method stub
-		return true;
+		if(count < cfg.getCountLimit()){
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isLevelEnough(Player player,ActivityDailyDiscountTypeEnum countType) {
-//		ActivityDailyDiscountTypeCfg activityCountTypeCfg = getparentCfg();
-//		if(activityCountTypeCfg == null){
-////			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
-//			return false;
-//		}
-//		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
-//			return false;
-//		}		
+		ActivityDailyDiscountTypeCfg activityCountTypeCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getConfig(countType.getCfgId());
+		if(activityCountTypeCfg == null){
+			GameLog.error("activityDailyDisCountTypeMgr", "list", "配置文件总表错误" );
+			return false;
+		}
+		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+			return false;
+		}		
 		return true;
 	}
 	
