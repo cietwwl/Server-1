@@ -13,7 +13,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 
 class ArmySimpleInfoHelper {
 
-	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
 

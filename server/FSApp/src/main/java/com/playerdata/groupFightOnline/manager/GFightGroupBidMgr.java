@@ -16,7 +16,6 @@ import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
-import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;

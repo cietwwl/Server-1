@@ -2,18 +2,19 @@ package com.playerdata.groupFightOnline.manager;
 
 import java.util.List;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyHeroSimple;
-import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
+import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
-import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg.Builder;
 
 /**
  * 在线帮战，准备阶段管理类
@@ -55,8 +56,8 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
-	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewTeamID) {
-		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewTeamID);
+	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewArmyID) {
+		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewArmyID);
 		if(defendTeam == null) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);
 			return;
@@ -65,13 +66,13 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
-	public void modifySelfDefender(Player player, Builder gfRsp, List<String> heroIDList, String teamID) {
-		ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heroIDList);
-		if(simpleArmy == null) {
+	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items) {
+		try {
+			GFDefendArmyItemHolder.getInstance().resetItems(player, items);
+			gfRsp.setRstType(GFResultType.SUCCESS);
+		} catch (GFArmyDataException e) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);
-			return;
+			GameLog.error(LogModule.GroupFightOnline.getName(), player.getUserId(), String.format("modifySelfDefender，修改个人防守队伍信息时，数据异常"), e);
 		}
-		GFDefendArmyItemHolder.getInstance().
-		GFDefendArmyItemHolder.getInstance().resetItems(player, items);
 	}
 }

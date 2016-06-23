@@ -10,7 +10,6 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
-import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.common.attrdata.AttrData;
@@ -81,8 +80,8 @@ public class ArmyInfoHelper {
 	}
 
 
-	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
-		return ArmySimpleInfoHelper.getSimpleInfo(playerId, heroIdList);
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
 
 

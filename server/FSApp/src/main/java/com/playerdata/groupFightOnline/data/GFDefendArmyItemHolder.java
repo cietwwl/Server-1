@@ -11,6 +11,7 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -21,7 +22,9 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class GFDefendArmyItemHolder {
-	public static int MAX_DEFEND_ARMY_COUNT = 5;
+	public static int MAX_DEFEND_ARMY_COUNT = 5;	//每个人最多设置的防守队伍数量
+	public static int LOCK_ITEM_MAX_TIME = 2 * 60 * 1000;	//被选中或战斗锁定时间2分钟
+	
 	private static AtomicInteger defendArmyVersion = new AtomicInteger(0);
 	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();
 
@@ -158,7 +161,7 @@ public class GFDefendArmyItemHolder {
 					throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能置空");
 				}
 			} else {
-				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getHeroIDs());
+				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getMagicID(), heros.getHeroIDs());
 				if(simpleArmy == null) throw new GFArmyDataException("heros无法生成防守队伍信息");
 				long operateTime = System.currentTimeMillis();
 				armyItem.setSetDefenderTime(operateTime);
@@ -196,6 +199,87 @@ public class GFDefendArmyItemHolder {
 		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_LIST, defendArmyVersion.get());
 	}
 
+	/**
+	 * 选择一个待战对手
+	 * @param player
+	 * @param groupID
+	 * @param isIgnoreExistEnimy 是否忽略已经有的对手
+	 * @return
+	 */
+	public boolean selectEnimyItem(Player player, String groupID, boolean isIgnoreExistEnimy){
+		synchronized (GFDefendArmyItem.armyStateLock) {
+			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
+			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();
+			if(!isIgnoreExistEnimy && randomDefender != null && System.currentTimeMillis() - randomDefender.getLockArmyTime() <= LOCK_ITEM_MAX_TIME) {
+				return false;
+			}
+			GFDefendArmyItem canFightItem = getCanFightItem(groupID);
+			if(canFightItem == null) return false;
+			canFightItem.setState(GFArmyState.SELECTED.getValue());
+			canFightItem.setLastOperateTime(System.currentTimeMillis());
+			canFightItem.setVersion(defendArmyVersion.incrementAndGet());
+			DefendArmySimpleInfo defenderSimple = new DefendArmySimpleInfo();
+			defenderSimple.setGroupID(groupID);
+			defenderSimple.setDefendArmyID(canFightItem.getArmyID());
+			defenderSimple.setLockArmyTime(System.currentTimeMillis());
+			userGFData.setRandomDefender(defenderSimple);
+			UserGFightOnlineHolder.getInstance().update(player, userGFData);
+			return true;
+		}
+	}
+	
+	/**
+	 * 更换一个对手
+	 * @param player
+	 * @param groupID
+	 * @param selectedID
+	 * @return
+	 */
+	public boolean changeEnimyItem(Player player, String groupID){
+		synchronized (GFDefendArmyItem.armyStateLock) {
+			if(!selectEnimyItem(player, groupID, true)) return false;
+			//处理之前被选中的
+			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
+			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();
+			if(randomDefender != null) { //如果不存在，直接不管
+				GFDefendArmyItem selectedItem = getItem(groupID, randomDefender.getDefendArmyID());
+				if(selectedItem != null &&
+						System.currentTimeMillis() - randomDefender.getLockArmyTime() <= LOCK_ITEM_MAX_TIME){
+					// 如果已经过了有效锁定时间，也不用管
+					selectedItem.setState(GFArmyState.NORMAL.getValue());
+					selectedItem.setVersion(defendArmyVersion.incrementAndGet());
+				}
+			}
+			return true;
+		}
+	}
+	
+	/**
+	 * 随机选取一个可以被攻击的防守队伍
+	 * @param groupID 帮派id
+	 * @return
+	 */
+	private GFDefendArmyItem getCanFightItem(String groupID){
+		Enumeration<GFDefendArmyItem> armyEnum = getItemStore(groupID).getEnum();
+		List<GFDefendArmyItem> canFightList = new ArrayList<GFDefendArmyItem>();
+		while(armyEnum.hasMoreElements()){
+			GFDefendArmyItem item = armyEnum.nextElement();
+			if(GFArmyState.NORMAL.equals(item.getState())){
+				canFightList.add(item);
+			}
+			else if(GFArmyState.SELECTED.equals(item.getState()) || GFArmyState.FIGHTING.equals(item.getState())){
+				if(System.currentTimeMillis() - item.getLastOperateTime() > LOCK_ITEM_MAX_TIME){
+					item.setState(GFArmyState.NORMAL.getValue());
+					item.setVersion(defendArmyVersion.incrementAndGet());
+					canFightList.add(item);
+				}
+			}
+		}
+		if(canFightList.isEmpty()) return null;
+		int randomIndex = (int)(Math.random() * canFightList.size());
+		return canFightList.get(randomIndex);
+	}
+	
 	/**
 	 * 添加一组防守队伍
 	 * @param player
