@@ -3,14 +3,11 @@ package com.rw.service.role;
 
 
 import com.google.protobuf.ByteString;
-
-
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.OtherRoleAttrProtos.EMsgType;
 import com.rwproto.OtherRoleAttrProtos.OtherRoleAttrRequest;
-import com.rwproto.OtherRoleAttrProtos.OtherRoleAttrResponse;
 import com.rwproto.RequestProtos.Request;
 
 

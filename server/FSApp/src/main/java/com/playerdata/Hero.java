@@ -284,7 +284,7 @@ public class Hero implements HeroIF {
 				MainMsgHandler.getInstance().sendPmdHpsx(m_pPlayer, heroCfg.getName(), num);
 			} else if (type == marqueeQuality) {
 				Hero hero = m_pPlayer.getHeroMgr().getHeroByModerId(heroCfg.getModelId());
-				if(hero != null){
+				if (hero != null) {
 					String qualityId = hero.getQualityId();
 					RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 					MainMsgHandler.getInstance().sendPmdHpJj(m_pPlayer, heroCfg.getName(), num, roleQualityCfg);
