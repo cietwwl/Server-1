@@ -48,8 +48,8 @@ public class ActivityDailyDiscountTypeItemHolder{
 	}
 	
 	public ActivityDailyDiscountTypeItem getItem(String userId,ActivityDailyDiscountTypeEnum countTypeEnum){
-		ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
-		return getItemStore(userId).getItem(userId);
+		String itemId=ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
+		return getItemStore(userId).getItem(itemId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){
