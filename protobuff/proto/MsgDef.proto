@@ -91,6 +91,8 @@ enum Command {
 	MSG_GROUP_SECRET_MATCH = 204;//帮派秘境探索
 	MSG_GROUP_FIGHT_ONLINE=205;//在线帮战
 
+	MSG_MY_RANK_INFO = 210;//个人的各种榜的数据
+
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议
