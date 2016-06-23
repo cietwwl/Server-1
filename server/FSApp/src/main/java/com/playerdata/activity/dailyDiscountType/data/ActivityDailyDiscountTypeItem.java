@@ -10,8 +10,10 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -100,5 +102,10 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void reset(ActivityDailyDiscountTypeCfg targetCfg) {
+		// TODO Auto-generated method stub
+		
 	}	
 }
