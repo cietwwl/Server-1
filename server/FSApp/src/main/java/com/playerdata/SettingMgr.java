@@ -2,6 +2,7 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
@@ -97,10 +98,14 @@ public class SettingMgr implements PlayerEventListener {
 		List<String> headBoxNameList = new ArrayList<String>();
 		List<String> headBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_DEFAULT);
 		headBoxNameList.add(headBoxList.get(0));
-		headBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_BASE);
-		headBoxNameList.addAll(headBoxList);
-		headBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_MISSION);
-		headBoxNameList.addAll(headBoxList);
+		int minRange = HeadBoxType.getMin()+1;
+		int maxRange = HeadBoxType.getMax()+1;
+		for (int i=minRange;i<maxRange;i++){
+			headBoxList = getHeadBoxByTypeList(i);
+			if (headBoxList != null){
+				headBoxNameList.addAll(headBoxList);
+			}
+		}
 		return headBoxNameList;
 	}
 
@@ -265,6 +270,31 @@ public class SettingMgr implements PlayerEventListener {
 		m_Player.getUserGameDataMgr().setHeadBox(defaultHeadBoxList.get(0));
 	}
 
+	public void setFashionUnlockHeadBox(List<String> dataList){
+		List<HeadTypeList> boxList = settingDataHolder.get().getOwnHeadBox();
+		int oldSize = boxList.size();
+		if (HeadBoxType.HEADBOX_FASHION < oldSize){
+			HeadTypeList lst = boxList.get(HeadBoxType.HEADBOX_FASHION);
+			lst.setDataList(dataList);
+		}else{//兼容旧数据
+			int newSize = HeadBoxType.getValidCount();
+			List<HeadTypeList> newList = new ArrayList<HeadTypeList>(newSize);
+			for (int i = 0;i<newSize;i++){
+				if (i<oldSize){
+					newList.add(boxList.get(i));
+				}else{
+					HeadTypeList item=new HeadTypeList(i);
+					newList.add(item);
+				}
+			}
+			settingDataHolder.get().setOwnHeadBox(newList);
+			boxList = newList;
+			HeadTypeList lst = boxList.get(HeadBoxType.HEADBOX_FASHION);
+			lst.setDataList(dataList);
+		}
+		settingDataHolder.update(m_Player);
+	}
+	
 	public void flush() {
 	}
 
