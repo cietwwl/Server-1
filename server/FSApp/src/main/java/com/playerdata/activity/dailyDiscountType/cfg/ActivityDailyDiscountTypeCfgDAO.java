@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
@@ -104,5 +106,21 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		day++;		
 		return day;
 	}
+
+	public ActivityDailyDiscountTypeCfg getConfig(String cfgId) {
+		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();
+		for(ActivityDailyDiscountTypeCfg cfg : cfglist){
+			if(StringUtils.equals(cfg.getId(),cfgId)){
+				return cfg;
+			}			
+		}		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 	
 }

@@ -3,7 +3,10 @@ package com.playerdata.activity.dailyDiscountType;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
@@ -33,7 +36,7 @@ public class ActivityDailyDiscountTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-//		checkCfgVersion(player);	
+		checkCfgVersion(player);	
 //		checkOtherDay(player);
 //		checkClose(player);
 
@@ -69,7 +72,6 @@ public class ActivityDailyDiscountTypeMgr {
 				}
 				addItemList.add(targetItem);
 			}
-//			dataHolder.addItem(player, targetItem);
 		}
 		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
@@ -89,22 +91,22 @@ public class ActivityDailyDiscountTypeMgr {
 	
 	
 	
-//	private void checkCfgVersion(Player player) {
-//		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-//		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//		for (ActivityDailyTypeItem targetItem : itemList) {			
-//			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(ActivityDailyTypeEnum.Daily.getCfgId());
-//			if(targetCfg == null){
-//				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//				return;
-//			}			
-//			
-//			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
+	private void checkCfgVersion(Player player) {
+		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		List<ActivityDailyDiscountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
+			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getConfig(targetItem.getCfgId());
+			if(targetCfg == null){
+				GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
+				return;
+			}			
+			
+			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 //				targetItem.reset(targetCfg);
-//				dataHolder.updateItem(player, targetItem);
-//			}
-//		}		
-//	}
+				dataHolder.updateItem(player, targetItem);
+			}
+		}		
+	}
 	
 //	private void checkOtherDay(Player player) {
 //		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
