@@ -32,8 +32,8 @@ public class TableArenaData {
 	private int winCount;
 	private long lastFightTime;
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
-	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表
-	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表
+	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表(templateId)
+	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表(uuid)
 	// private volatile long lastResetMillis; // 上次重置的毫秒
 	private int resetTimes; // 重置的次数
 	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间

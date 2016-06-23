@@ -18,11 +18,6 @@ public class UserGameData implements TableUserOtherIF {
 	private String userId; // 用户ID
 	private long version; // 数据版本
 	private boolean iphone;
-	private long coin;// 铜钱
-
-	private int gold;// 赠送金钱,展示用
-	private int giftGold;// 赠送金钱
-	private int chargeGold;// 充值金钱
 
 	private int power;// 体力
 	private int maxPower;// 最大体力
@@ -97,14 +92,6 @@ public class UserGameData implements TableUserOtherIF {
 		this.iphone = iphone;
 	}
 
-	public long getCoin() {
-		return coin;
-	}
-
-	public void setCoin(long coin) {
-		this.coin = coin;
-	}
-
 	public int getPower() {
 		return power;
 	}
@@ -143,18 +130,6 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setBuyCoinTimes(int buyCoinTimes) {
 		this.buyCoinTimes = buyCoinTimes;
-	}
-
-	public int getGold() {
-		return gold;
-	}
-
-	public void setGold(int gold) {
-		this.gold = gold;
-	}
-
-	public void updateGold() {
-		this.gold = this.giftGold + this.chargeGold;
 	}
 
 	public int getRookieFlag() {
@@ -295,26 +270,6 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setExtendInfo(UserGameExtendInfo extendInfo) {
 		this.extendInfo = extendInfo;
-	}
-
-	public int getChargeGold() {
-		return chargeGold;
-	}
-
-	public void setChargeGold(int chargeGold) {
-		this.chargeGold = chargeGold;
-	}
-
-	public int getGiftGold() {
-		return giftGold;
-	}
-
-	public void setGiftGold(int giftGold) {
-		this.giftGold = giftGold;
-	}
-
-	public void addGiftGold(int giftGoldDelta) {
-		this.giftGold = this.giftGold + giftGoldDelta;
 	}
 
 	public long getLastWorshipTime() {
