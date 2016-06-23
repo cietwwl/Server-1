@@ -69,9 +69,10 @@ public class ActivityDailyDiscountTypeMgr {
 				}
 				addItemList.add(targetItem);
 			}
+			dataHolder.addItem(player, targetItem);
 		}
 		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+//			dataHolder.addItemList(player, addItemList);
 		}
 	}
 	

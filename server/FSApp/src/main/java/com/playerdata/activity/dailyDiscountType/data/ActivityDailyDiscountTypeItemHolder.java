@@ -23,7 +23,7 @@ public class ActivityDailyDiscountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityDailyType;
+	final private eSynType synType = eSynType.ActivityDailyDiscountType;
 	
 	
 	/*
@@ -99,7 +99,8 @@ public class ActivityDailyDiscountTypeItemHolder{
 	
 	private MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityDailyDiscountTypeItem> cache = MapItemStoreFactory.getActivityDailyDiscountTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityDailyDiscountTypeItem.class);
+		MapItemStore<ActivityDailyDiscountTypeItem> map = cache.getMapItemStore(userId, ActivityDailyDiscountTypeItem.class);
+		return map;
 	}
 	
 }

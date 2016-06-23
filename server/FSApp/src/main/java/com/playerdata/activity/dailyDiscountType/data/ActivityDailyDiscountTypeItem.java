@@ -45,7 +45,7 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
 
 	public String getUserId() {
