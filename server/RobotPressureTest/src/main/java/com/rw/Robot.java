@@ -785,16 +785,16 @@ public class Robot {
 		return FashionHandler.getInstance().processBuyPet(client);
 	}
 
-	public boolean WearFashion(){
-		return FashionHandler.getInstance().processWearFashion(client);
+	public boolean WearFashion(boolean wear){
+		return FashionHandler.getInstance().processWearFashion(client, wear);
 	}
 	
-	public boolean WearWing(){
-		return FashionHandler.getInstance().processWearWing(client);
+	public boolean WearWing(boolean wear){
+		return FashionHandler.getInstance().processWearWing(client, wear);
 	}
 	
-	public boolean WearPet(){
-		return FashionHandler.getInstance().processWearPet(client);
+	public boolean WearPet(boolean wear){
+		return FashionHandler.getInstance().processWearPet(client, wear);
 	}
 	
 	public boolean BuyCoin(){

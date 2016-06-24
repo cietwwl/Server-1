@@ -43,23 +43,23 @@ public class FashionHandler {
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买宠物"));
 	}
 	
-	public boolean processWearFashion(Client client){
+	public boolean processWearFashion(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10002);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿时装"));
 	}
 	
-	public boolean processWearWing(Client client){
+	public boolean processWearWing(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10007);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿翅膀"));
 	}
 	
-	public boolean processWearPet(Client client){
+	public boolean processWearPet(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10004);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
 	}
