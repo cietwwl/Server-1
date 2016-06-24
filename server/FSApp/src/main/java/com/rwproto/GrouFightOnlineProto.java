@@ -479,29 +479,61 @@ public final class GrouFightOnlineProto {
      */
     ONLY_PLAYER(13, 14),
     /**
-     * <code>OVER_TIME = 15;</code>
-     *
-     * <pre>
-     *超时，选择对手后，进入战斗时间超时；或者战斗时间超时
-     * </pre>
-     */
-    OVER_TIME(14, 15),
-    /**
-     * <code>REWARD_NOT_EXIST = 16;</code>
+     * <code>REWARD_NOT_EXIST = 15;</code>
      *
      * <pre>
      *要领取的奖励不存在
      * </pre>
      */
-    REWARD_NOT_EXIST(15, 16),
+    REWARD_NOT_EXIST(14, 15),
     /**
-     * <code>DATA_ERROR = 17;</code>
+     * <code>NO_SELECTED_ENIMY = 16;</code>
+     *
+     * <pre>
+     *还未选择战斗目标
+     * </pre>
+     */
+    NO_SELECTED_ENIMY(15, 16),
+    /**
+     * <code>SELECTED_EXPIRED = 17;</code>
+     *
+     * <pre>
+     *选择锁定的时间过期
+     * </pre>
+     */
+    SELECTED_EXPIRED(16, 17),
+    /**
+     * <code>FIGHT_EXPIRED = 18;</code>
+     *
+     * <pre>
+     *战斗时间过期
+     * </pre>
+     */
+    FIGHT_EXPIRED(17, 18),
+    /**
+     * <code>ON_FIGHTING = 19;</code>
+     *
+     * <pre>
+     *战斗中
+     * </pre>
+     */
+    ON_FIGHTING(18, 19),
+    /**
+     * <code>HAVE_A_ENIMY = 20;</code>
+     *
+     * <pre>
+     *已经选择过对手，只能更换，不能选
+     * </pre>
+     */
+    HAVE_A_ENIMY(19, 20),
+    /**
+     * <code>DATA_ERROR = 21;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    DATA_ERROR(16, 17),
+    DATA_ERROR(20, 21),
     ;
 
     /**
@@ -617,29 +649,61 @@ public final class GrouFightOnlineProto {
      */
     public static final int ONLY_PLAYER_VALUE = 14;
     /**
-     * <code>OVER_TIME = 15;</code>
-     *
-     * <pre>
-     *超时，选择对手后，进入战斗时间超时；或者战斗时间超时
-     * </pre>
-     */
-    public static final int OVER_TIME_VALUE = 15;
-    /**
-     * <code>REWARD_NOT_EXIST = 16;</code>
+     * <code>REWARD_NOT_EXIST = 15;</code>
      *
      * <pre>
      *要领取的奖励不存在
      * </pre>
      */
-    public static final int REWARD_NOT_EXIST_VALUE = 16;
+    public static final int REWARD_NOT_EXIST_VALUE = 15;
     /**
-     * <code>DATA_ERROR = 17;</code>
+     * <code>NO_SELECTED_ENIMY = 16;</code>
+     *
+     * <pre>
+     *还未选择战斗目标
+     * </pre>
+     */
+    public static final int NO_SELECTED_ENIMY_VALUE = 16;
+    /**
+     * <code>SELECTED_EXPIRED = 17;</code>
+     *
+     * <pre>
+     *选择锁定的时间过期
+     * </pre>
+     */
+    public static final int SELECTED_EXPIRED_VALUE = 17;
+    /**
+     * <code>FIGHT_EXPIRED = 18;</code>
+     *
+     * <pre>
+     *战斗时间过期
+     * </pre>
+     */
+    public static final int FIGHT_EXPIRED_VALUE = 18;
+    /**
+     * <code>ON_FIGHTING = 19;</code>
+     *
+     * <pre>
+     *战斗中
+     * </pre>
+     */
+    public static final int ON_FIGHTING_VALUE = 19;
+    /**
+     * <code>HAVE_A_ENIMY = 20;</code>
+     *
+     * <pre>
+     *已经选择过对手，只能更换，不能选
+     * </pre>
+     */
+    public static final int HAVE_A_ENIMY_VALUE = 20;
+    /**
+     * <code>DATA_ERROR = 21;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    public static final int DATA_ERROR_VALUE = 17;
+    public static final int DATA_ERROR_VALUE = 21;
 
 
     public final int getNumber() { return value; }
@@ -660,9 +724,13 @@ public final class GrouFightOnlineProto {
         case 12: return CANNOT_FIND_PROP_DEFENDER;
         case 13: return NO_DEFENDER;
         case 14: return ONLY_PLAYER;
-        case 15: return OVER_TIME;
-        case 16: return REWARD_NOT_EXIST;
-        case 17: return DATA_ERROR;
+        case 15: return REWARD_NOT_EXIST;
+        case 16: return NO_SELECTED_ENIMY;
+        case 17: return SELECTED_EXPIRED;
+        case 18: return FIGHT_EXPIRED;
+        case 19: return ON_FIGHTING;
+        case 20: return HAVE_A_ENIMY;
+        case 21: return DATA_ERROR;
         default: return null;
       }
     }
@@ -5516,7 +5584,7 @@ public final class GrouFightOnlineProto {
       "_RANK\020\013\022\031\n\025GET_ALL_RANK_IN_GROUP\020\014\022\026\n\022GE" +
       "T_DEFENDER_TEAMS\020\r\022\026\n\022VIEW_DEFENDER_TEAM" +
       "\020\016\022\024\n\020GET_FIGHT_RECORD\020\017\022\031\n\025GET_FIGHT_OV" +
-      "ER_REWARD\020\020\022\022\n\016SYN_GROUP_DATA\020\021*\203\003\n\014GFRe" +
+      "ER_REWARD\020\020\022\022\n\016SYN_GROUP_DATA\020\021*\327\003\n\014GFRe" +
       "sultType\022\013\n\007SUCCESS\020\001\022\024\n\020NOT_IN_OPEN_TIM" +
       "E\020\002\022\033\n\027BID_UNREACH_LEAST_COUNT\020\003\022\033\n\027BID_" +
       "UNREACH_LEAST_LEVEL\020\004\022\033\n\027BID_UNREACH_GRO",
@@ -5525,9 +5593,11 @@ public final class GrouFightOnlineProto {
       "\020\n\014BID_NEED_VIP\020\t\022\024\n\020BID_CANNOT_LOWER\020\n\022" +
       "\026\n\022DEFENDER_COUNT_MAX\020\013\022\035\n\031CANNOT_FIND_P" +
       "ROP_DEFENDER\020\014\022\017\n\013NO_DEFENDER\020\r\022\017\n\013ONLY_" +
-      "PLAYER\020\016\022\r\n\tOVER_TIME\020\017\022\024\n\020REWARD_NOT_EX" +
-      "IST\020\020\022\016\n\nDATA_ERROR\020\021B#\n\013com.rwprotoB\024Gr" +
-      "ouFightOnlineProto"
+      "PLAYER\020\016\022\024\n\020REWARD_NOT_EXIST\020\017\022\025\n\021NO_SEL" +
+      "ECTED_ENIMY\020\020\022\024\n\020SELECTED_EXPIRED\020\021\022\021\n\rF" +
+      "IGHT_EXPIRED\020\022\022\017\n\013ON_FIGHTING\020\023\022\020\n\014HAVE_" +
+      "A_ENIMY\020\024\022\016\n\nDATA_ERROR\020\025B#\n\013com.rwproto" +
+      "B\024GrouFightOnlineProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

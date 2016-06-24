@@ -39,9 +39,13 @@ enum GFResultType {
 	CANNOT_FIND_PROP_DEFENDER = 12;	//目前没有可以挑战的人（都被锁定或被挑战）
 	NO_DEFENDER = 13;	//无防守队伍，已经战败
 	ONLY_PLAYER = 14;	//只剩主角时不能挑战，防守队伍不能只设置主角
-	OVER_TIME = 15;		//超时，选择对手后，进入战斗时间超时；或者战斗时间超时
-	REWARD_NOT_EXIST = 16;	//要领取的奖励不存在
-	DATA_ERROR = 17; //数据异常
+	REWARD_NOT_EXIST = 15;	//要领取的奖励不存在
+	NO_SELECTED_ENIMY = 16;	//还未选择战斗目标
+	SELECTED_EXPIRED = 17;	//选择锁定的时间过期
+	FIGHT_EXPIRED = 18;		//战斗时间过期
+	ON_FIGHTING = 19;	//战斗中
+	HAVE_A_ENIMY = 20;	//已经选择过对手，只能更换，不能选
+	DATA_ERROR = 21; //数据异常
 }
 
 message GroupFightOnlineReqMsg{
