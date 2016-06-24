@@ -182,6 +182,9 @@
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO"  init-method="init" />
@@ -230,6 +233,12 @@
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
+	
+	<!-- 在线帮战 -->
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceDAO"  init-method="init" />
 	
 	<!-- 怪物 -->
 	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />

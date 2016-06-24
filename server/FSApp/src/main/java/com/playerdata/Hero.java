@@ -9,7 +9,6 @@ import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.readonly.HeroIF;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.eActivityType;
-import com.rwbase.common.enu.eQuaTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -182,9 +181,6 @@ public class Hero implements HeroIF {
 			result = -2;
 		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
-		} else if (getStarLevel() >= 5) {
-			// 满星
-			result = -4;
 		}
 
 		return result;
@@ -284,7 +280,7 @@ public class Hero implements HeroIF {
 				MainMsgHandler.getInstance().sendPmdHpsx(m_pPlayer, heroCfg.getName(), num);
 			} else if (type == marqueeQuality) {
 				Hero hero = m_pPlayer.getHeroMgr().getHeroByModerId(heroCfg.getModelId());
-				if(hero != null){
+				if (hero != null) {
 					String qualityId = hero.getQualityId();
 					RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 					MainMsgHandler.getInstance().sendPmdHpJj(m_pPlayer, heroCfg.getName(), num, roleQualityCfg);

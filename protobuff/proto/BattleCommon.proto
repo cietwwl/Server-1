@@ -1,6 +1,7 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "BattleCommon";
+package BattleCommon;
 
 enum ePlayerType {
 	MAINPLAYER = 0; //主角
