@@ -119,7 +119,7 @@ public class ActivityCollector implements RedPointCollector{
 				// 枚举没有配置
 				continue;
 			}
-			activityList.add(cfg.getId());
+//			activityList.add(cfg.getId());
 		}
 //		if (!activityRateTypeList.isEmpty()) {
 //			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityRateTypeList);
