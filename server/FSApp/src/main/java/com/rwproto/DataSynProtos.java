@@ -718,6 +718,14 @@ public final class DataSynProtos {
      * </pre>
      */
     GFightOnlineResourceData(68, 85),
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    MajorData(69, 86),
     ;
 
     /**
@@ -1272,6 +1280,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int GFightOnlineResourceData_VALUE = 85;
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    public static final int MajorData_VALUE = 86;
 
 
     public final int getNumber() { return value; }
@@ -1347,6 +1363,7 @@ public final class DataSynProtos {
         case 83: return GFightOnlineGroupData;
         case 84: return GFightOnlinePersonalData;
         case 85: return GFightOnlineResourceData;
+        case 86: return MajorData;
         default: return null;
       }
     }
@@ -5231,7 +5248,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\271\013\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\310\013\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
       "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
@@ -5268,8 +5285,8 @@ public final class DataSynProtos {
       "st\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDefendArmyD" +
       "ata\020R\022\031\n\025GFightOnlineGroupData\020S\022\034\n\030GFig" +
       "htOnlinePersonalData\020T\022\034\n\030GFightOnlineRe" +
-      "sourceData\020UB\034\n\013com.rwprotoB\rDataSynProt",
-      "os"
+      "sourceData\020U\022\r\n\tMajorData\020VB\034\n\013com.rwpro",
+      "toB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

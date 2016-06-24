@@ -67,30 +67,4 @@ public class UserBM {
 		}
 		return user.getPower();
 	}
-	
-	
-	
-	public int decreaseCoin(UserGameData user,int decreaseCount){//扣除铜钱
-		if(decreaseCount <= 0){
-			return -1;//参数有误
-		}
-		if(user == null){
-			return -2;//用户数据有误
-		}
-		if(user.getCoin() < decreaseCount){
-			return -3;//铜钱不足
-		}
-		user.setCoin(user.getCoin()  - decreaseCount);
-		int result = this.update(user) ? 0 : -4;
-		if(result == 0){
-			
-			GameLog.info("user", user.getUserId(), "扣除铜钱更新 成功,res="+result, null);
-		}else{
-			
-			GameLog.info("user", user.getUserId(), "扣除铜钱更新  失败,res="+result, null);
-		}
-		return result;
-	}
-	
-	
 }
