@@ -2,7 +2,6 @@ package com.playerdata.dataSyn.json.fieldToJson;
 
 import java.lang.reflect.Field;
 
-import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
 
 public class FieldString implements IFieldToJson{
