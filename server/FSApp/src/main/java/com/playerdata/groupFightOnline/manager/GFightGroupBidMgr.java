@@ -9,7 +9,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
-import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceDAO;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
@@ -39,7 +39,7 @@ public class GFightGroupBidMgr {
 	
 	public void getResourceInfo(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
 		gfRsp.setSystemTime(System.currentTimeMillis());
-		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceDAO.getInstance().getAllCfg();
+		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : resCfgs){
 			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(String.valueOf(cfg.getResID()));
 			if(resData == null) continue;

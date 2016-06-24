@@ -95,11 +95,9 @@ public class ArmyInfoHelper {
 		return armyHero;
 	}
 
-
-	public static ArmyInfoSimple getSimpleInfo(String playerId, int magicModelID, List<String> heroIdList) {
-		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicModelID, heroIdList);
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
-
 
 	public CurArmyAttrData fromJsonToCurArmy(String json){
 		

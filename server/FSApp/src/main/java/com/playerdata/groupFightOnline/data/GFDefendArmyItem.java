@@ -6,11 +6,9 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.simple.ArmyInfoSimple;
-import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
-
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,9 +39,6 @@ public class GFDefendArmyItem implements IMapItem{
 	
 	@CombineSave
 	private int version = 0;
-	
-	@IgnoreSynField
-	public static byte[] armyStateLock = new byte[0];
 
 	public String getId() {
 		return armyID;
@@ -102,7 +97,7 @@ public class GFDefendArmyItem implements IMapItem{
 	}
 
 	public boolean setState(int state) {
-		synchronized (armyStateLock) {
+		synchronized (GFDefendArmyItem.class) {
 			if(this.state == state) return false;
 			this.state = state;
 			return true;

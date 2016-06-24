@@ -15,7 +15,7 @@ public class DefendArmyHerosInfo {
 	
 	private String defendArmyID;
 	
-	private int magicModelID;
+	private String magicID;
 	
 	private List<String> heroIDs;
 
@@ -35,11 +35,11 @@ public class DefendArmyHerosInfo {
 		this.heroIDs = heroIDs;
 	}
 
-	public int getMagicModelID() {
-		return magicModelID;
+	public String getMagicID() {
+		return magicID;
 	}
 
-	public void setMagicModelID(int magicModelID) {
-		this.magicModelID = magicModelID;
+	public void setMagicID(String magicID) {
+		this.magicID = magicID;
 	}
 }

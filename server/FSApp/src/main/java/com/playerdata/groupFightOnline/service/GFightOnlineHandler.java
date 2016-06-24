@@ -53,7 +53,6 @@ public class GFightOnlineHandler {
 		List<DefendArmyHerosInfo> herosList = new ArrayList<DefendArmyHerosInfo>();
 		for(String herosJson : herosJsonArr){
 			try{
-				System.out.println();
 				DefendArmyHerosInfo heros = (DefendArmyHerosInfo)ClientDataSynMgr.fromClientJson2Data(DefendArmyHerosInfo.class, herosJson);
 				herosList.add(heros);
 			}catch(Exception ex){

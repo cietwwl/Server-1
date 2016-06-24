@@ -22,11 +22,10 @@ class ArmySimpleInfoHelper {
 		return armyInfoSimple;
 	}
 	
-	public static ArmyInfoSimple getSimpleInfo(String playerId, int magicModelID, List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
-		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(magicModelID);
-		
+		ItemData magic = player.getItemBagMgr().findBySlotId(magicID);
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;
 	}
@@ -44,6 +43,7 @@ class ArmySimpleInfoHelper {
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
 		}
+		
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);

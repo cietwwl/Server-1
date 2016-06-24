@@ -13,6 +13,7 @@ import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -44,8 +45,10 @@ public class GFightOnlineGroupData {
 	private int version = 0;	//初始版本号
 	
 	@IgnoreSynField
+	@NonSave
 	private byte[] recordLock = new byte[0];
 	@IgnoreSynField
+	@NonSave
 	private static final int LIST_SIZE = 50;
 
 	public String getGroupID() {

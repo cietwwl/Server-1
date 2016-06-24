@@ -43,8 +43,7 @@ public class GFDefendArmyItemHolder {
 	 * @param player
 	 * @return
 	 */
-	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID)
-	{
+	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID){
 		return getGroupItemList(player, groupID, 0);
 	}
 	
@@ -54,8 +53,7 @@ public class GFDefendArmyItemHolder {
 	 * @param version
 	 * @return
 	 */
-	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID, int version)
-	{
+	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID, int version){
 		List<GFDefendArmyItem> defendArmyList = new ArrayList<GFDefendArmyItem>();
 		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupID).getEnum();
 		while (mapEnum.hasMoreElements()) {
@@ -104,7 +102,7 @@ public class GFDefendArmyItemHolder {
 	public GFDefendArmyItem getItem(Player player, String armyId){
 		List<GFDefendArmyItem> selfItems = getItem(player);
 		for(GFDefendArmyItem item : selfItems){
-			if(item.getArmyID() == armyId)
+			if(item.getArmyID().equals(armyId))
 				return item;
 		}
 		return null;
@@ -173,7 +171,7 @@ public class GFDefendArmyItemHolder {
 					throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能置空");
 				}
 			} else {
-				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getMagicModelID(), heros.getHeroIDs());
+				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getMagicID(), heros.getHeroIDs());
 				if(simpleArmy == null) throw new GFArmyDataException("heros无法生成防守队伍信息");
 				long operateTime = System.currentTimeMillis();
 				armyItem.setSetDefenderTime(operateTime);
@@ -228,7 +226,7 @@ public class GFDefendArmyItemHolder {
 	 * @throws NoSuitableDefenderException 
 	 */
 	public boolean selectEnimyItem(Player player, String groupID, boolean isIgnoreExistEnimy) throws HaveSelectEnimyException, NoSuitableDefenderException{
-		synchronized (GFDefendArmyItem.armyStateLock) {
+		synchronized (GFDefendArmyItem.class) {
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();
 			if(!isIgnoreExistEnimy && randomDefender != null && System.currentTimeMillis() - randomDefender.getLockArmyTime() <= LOCK_ITEM_MAX_TIME) {
@@ -259,7 +257,7 @@ public class GFDefendArmyItemHolder {
 	 * @throws HaveSelectEnimyException 
 	 */
 	public boolean changeEnimyItem(Player player, String groupID) throws HaveSelectEnimyException, NoSuitableDefenderException{
-		synchronized (GFDefendArmyItem.armyStateLock) {
+		synchronized (GFDefendArmyItem.class) {
 			//找到之前被选中的
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();

@@ -1,6 +1,9 @@
 package com.playerdata.groupFightOnline.manager;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfo;
+import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
@@ -99,6 +102,9 @@ public class GFightOnFightMgr {
 		GFDefendArmyItemHolder.getInstance().startFight(player, armyItem);
 		defenderSimple.setLockArmyTime(System.currentTimeMillis());
 		UserGFightOnlineHolder.getInstance().synData(player);
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(armyItem.getSimpleArmy());
+		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(armyInfo));
+		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
 	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult){
