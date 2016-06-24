@@ -22,9 +22,11 @@ public class FashionCommonCfgDao extends CfgCsvDao<FashionCommonCfg> {
 		for (Entry<String,FashionCommonCfg> entry : values) {
 			FashionCommonCfg cfg = entry.getValue();
 			int unlockId = cfg.getFrameIconId();
-			HeadBoxCfg hcfg = helper.getCfgById(String.valueOf(unlockId));
-			if (hcfg == null){
-				throw new RuntimeException("HeadBoxCfg.csv缺少时装解锁头像框配置的ID:"+unlockId);
+			if (unlockId !=0){//允许不填解锁头像框
+				HeadBoxCfg hcfg = helper.getCfgById(String.valueOf(unlockId));
+				if (hcfg == null){
+					throw new RuntimeException("HeadBoxCfg.csv缺少时装解锁头像框配置的ID:"+unlockId);
+				}
 			}
 		}
 	}
