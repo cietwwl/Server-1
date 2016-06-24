@@ -33,6 +33,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	private final DataCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
 	private CommonMultiTable<T> commonJdbc;
+	private boolean writeDirect = false;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
@@ -41,6 +42,16 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
 		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
+	}
+	
+	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, boolean writeDirect){
+		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
+		this.searchFieldP = searchFieldP;
+		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
+		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
+		ClassInfo classInfo = new ClassInfo(entityClazz);
+		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
+		this.writeDirect = writeDirect;
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName) {
@@ -66,7 +77,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
-		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
+		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this, writeDirect);
 		cache.preInsertIfAbsent(userId, m);
 	}
 
@@ -75,7 +86,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		@Override
 		public MapItemStore<T> load(String key) throws DataNotExistException, Exception {
 			List<T> list = commonJdbc.findByKey(searchFieldP, key);
-			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this);
+			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect);
 		}
 
 		@Override

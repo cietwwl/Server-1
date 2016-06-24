@@ -2,7 +2,6 @@ package com.playerdata.dataSyn.json.fieldToJson;
 
 import java.lang.reflect.Field;
 
-import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
 
 public class FieldString implements IFieldToJson{
@@ -32,7 +31,6 @@ public class FieldString implements IFieldToJson{
 
 	@Override
 	public void fromJson(Object target, String json) throws Exception {			
-			Object value = FieldTypeHelper.ToPrimitiveValue(field.getType(), json);
-			field.set(target, value);					
+			field.set(target, json);					
 	}
 }
