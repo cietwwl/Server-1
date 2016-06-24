@@ -79,11 +79,8 @@ public class ActivityDateTypeMgr {
 							subItem.setTaken(true);
 						} else {
 							GameLog.error(LogModule.ComActivityDate, player.getUserId(),"通用活动关闭后发送未领取奖励邮件失败。",null);
-						}		
-						
-					}
-					
-									
+						}						
+					}									
 				}						
 				activityDateTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityDateTypeItem);
