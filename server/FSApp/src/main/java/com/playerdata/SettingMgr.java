@@ -20,6 +20,7 @@ import com.rwbase.dao.setting.pojo.TableSettingData;
 
 public class SettingMgr implements PlayerEventListener {
 
+	private static final String DefaultHeadFrame = "20002";
 	private SettingDataHolder settingDataHolder;
 	private Player m_Player;
 
@@ -77,7 +78,7 @@ public class SettingMgr implements PlayerEventListener {
 
 	public void checkOpen() {
 		if (m_Player.getVip() >= 2) {// vip开放 ,需配置另加
-			addHeadBox("20002");
+			addHeadBox(DefaultHeadFrame);
 		}
 
 	}
@@ -94,6 +95,10 @@ public class SettingMgr implements PlayerEventListener {
 
 	}
 
+	/**
+	 * 返回spriteID列表
+	 * @return
+	 */
 	public List<String> getHeadBoxNameList() {
 		List<String> headBoxNameList = new ArrayList<String>();
 		List<String> headBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_DEFAULT);
@@ -120,6 +125,23 @@ public class SettingMgr implements PlayerEventListener {
 			return headType.getDataList();
 		}
 		return null;
+	}
+	
+	/**
+	 * 在玩家可用头像列表中搜索是否存在
+	 * @param headBoxSpriteId
+	 * @return
+	 */
+	public boolean isValidHeadBoxFrameId(String headBoxSpriteId){
+		List<HeadTypeList> lst = settingDataHolder.get().getOwnHeadBox();
+		int size = lst.size();
+		for (int i = 0; i < size; i++) {
+			HeadTypeList item = lst.get(i);
+			if (item != null && item.getDataList().contains(headBoxSpriteId)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<String> getHeadPicByTypeList(int type) {
@@ -204,13 +226,12 @@ public class SettingMgr implements PlayerEventListener {
 	 */
 	public boolean checkIfHeadBoxDataHas(String headBoxName) {
 		boolean hasData = false;
-		int type = HeadBoxCfgDAO.getInstance().getTypeOfHeadBox(headBoxName);
-		if (type == HeadBoxType.NULL) {
-			GameLog.debug("没有这种类型的头像" + type);
+		HeadBoxCfg cfg = HeadBoxCfgDAO.getInstance().getCfg(headBoxName);
+		if (cfg == null) {
+			GameLog.debug("没有头像框对应的配置，ID:" + headBoxName);
 		} else {
-			List<String> list = getHeadBoxByTypeList(type);
-			if (list.contains(headBoxName)) {
-				GameLog.debug("已经拥有这个头像");
+			if (isValidHeadBoxFrameId(headBoxName)) {
+				//GameLog.debug("已经拥有这个头像");
 				hasData = true;
 			} else {
 				GameLog.debug("没有这个头像框，不能更换");
@@ -270,12 +291,34 @@ public class SettingMgr implements PlayerEventListener {
 		m_Player.getUserGameDataMgr().setHeadBox(defaultHeadBoxList.get(0));
 	}
 
+	/**
+	 * 配置的spriteID列表
+	 * @param dataList
+	 */
 	public void setFashionUnlockHeadBox(List<String> dataList){
 		List<HeadTypeList> boxList = settingDataHolder.get().getOwnHeadBox();
 		int oldSize = boxList.size();
+		
 		if (HeadBoxType.HEADBOX_FASHION < oldSize){
+			// 如果时装激活的头像框因为过期而实效，需要重置用户头像框为默认值!
 			HeadTypeList lst = boxList.get(HeadBoxType.HEADBOX_FASHION);
 			lst.setDataList(dataList);
+			
+			HeadTypeList empty = new HeadTypeList(HeadBoxType.HEADBOX_FASHION);
+			boxList.set(HeadBoxType.HEADBOX_FASHION, empty);
+			List<String> checkList = getHeadBoxNameList();
+			String currentHeadFrame = m_Player.getHeadFrame();
+			if (!checkList.contains(currentHeadFrame)){
+				List<String> defaultHeadBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_DEFAULT);
+				if (defaultHeadBoxList.size() > 0){
+					currentHeadFrame = defaultHeadBoxList.get(0);
+				}else{
+					currentHeadFrame = DefaultHeadFrame; 
+				}
+				m_Player.getUserGameDataMgr().setHeadBox(currentHeadFrame);
+			}
+			
+			boxList.set(HeadBoxType.HEADBOX_FASHION, lst);
 		}else{//兼容旧数据
 			int newSize = HeadBoxType.getValidCount();
 			List<HeadTypeList> newList = new ArrayList<HeadTypeList>(newSize);
