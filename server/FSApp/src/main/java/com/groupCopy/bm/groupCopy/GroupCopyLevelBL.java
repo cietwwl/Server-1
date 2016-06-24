@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
@@ -18,12 +19,16 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
 import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.monster.cfg.CopyMonsterCfg;
+import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dropitem.DropItemManager;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -35,8 +40,8 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
  */
 public class GroupCopyLevelBL {
 
-	final private static long MAX_FIGHT_SPAN = TimeUnit.MILLISECONDS.convert(2L, TimeUnit.MINUTES);  //战斗最多持续时间，超过了认为断线，重置关卡状态。
-	private final static long MAX_WAIT_SPAN = TimeUnit.MILLISECONDS.convert(1L, TimeUnit.MINUTES);  //准备最多持续时间，超过了重置关卡状态。
+	final private static long MAX_FIGHT_SPAN = 2 * 60 * 1000;  //战斗最多持续时间，超过了认为断线，重置关卡状态。
+	private final static long MAX_WAIT_SPAN = 1 * 60 * 1000;  //准备最多持续时间，超过了重置关卡状态。
 	
 	
 	private final static int MAX_FIGHT_COUNT = 2;//每天章节最大挑战次数
@@ -47,12 +52,13 @@ public class GroupCopyLevelBL {
 	public final static String COPY_WAIT_TIPS = "准备中...";
 	public final static String COPY_FIGHT_TIPS = "战斗中...";
 	
+	
 	public static GroupCopyResult beginFight(Player player, GroupCopyLevelRecordHolder groupCopyLevelRecordHolder,String level) {
 		GroupCopyResult result = GroupCopyResult.newResult();
-		GroupCopyLevelRecord groupRecord = groupCopyLevelRecordHolder.getByLevel(level);	
-		if(isFighting(groupRecord)){
+		GroupCopyLevelRecord lvRecord = groupCopyLevelRecordHolder.getByLevel(level);	
+		if(isFighting(lvRecord, player)){
 			result.setSuccess(false);
-			Player fighter = PlayerMgr.getInstance().find(groupRecord.getFighterId());
+			Player fighter = PlayerMgr.getInstance().find(lvRecord.getFighterId());
 			StringBuilder reason = new StringBuilder("关卡挑战中，挑战者：");
 			if(fighter!=null){
 				reason.append(fighter.getUserId());
@@ -74,23 +80,31 @@ public class GroupCopyLevelBL {
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
-					groupRecord.setFighterId(player.getUserId());
-					groupRecord.setStatus(STATE_COPY_FIGHT);
-					groupRecord.setLastBeginFightTime(System.currentTimeMillis());
+					lvRecord.setFighterId(player.getUserId());
+					lvRecord.setStatus(STATE_COPY_FIGHT);
+					lvRecord.setLastBeginFightTime(System.currentTimeMillis());
+					GroupCopyProgress progress = lvRecord.getProgress();
 					
 					userRecord.incrFightCount();
+					GroupCopyMonsterData.Builder b = GroupCopyMonsterData.newBuilder();
+
+					//将怪物数据转换成json
+					List<GroupCopyMonsterSynStruct> getmDatas = progress.getmDatas();
+					for (GroupCopyMonsterSynStruct m : getmDatas) {
+						String data = ClientDataSynMgr.toClientData(m);
+						b.addMonsterData(data);
+					}
 					
-					boolean success = groupCopyLevelRecordHolder.updateItem(player, groupRecord);
+					result.setItem(b);
+					
+					boolean success = groupCopyLevelRecordHolder.updateItem(player, lvRecord);
 					if(success){
 						success = userRecordMgr.updateItem(player, userRecord);
 					}
 					result.setSuccess(true);
-					
 				}
 				
-				
 			}
-			
 			
 		}
 		
@@ -100,9 +114,10 @@ public class GroupCopyLevelBL {
 	/**
 	 * 检查关卡是否在战斗状态
 	 * @param groupRecord
+	 * @param player TODO
 	 * @return
 	 */
-	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord){
+	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
 		
 		if(groupRecord.getStatus() == STATE_COPY_EMPTY){
 			return true;
@@ -119,7 +134,7 @@ public class GroupCopyLevelBL {
 		if(groupRecord.getStatus() == STATE_COPY_WAIT){
 			long curTime = System.currentTimeMillis();
 			long endTime = groupRecord.getLastBeginFightTime() + MAX_WAIT_SPAN;
-			if(endTime < curTime){
+			if(endTime < curTime && groupRecord.getFighterId() != player.getUserId()){
 				return true;
 			}
 		}
@@ -167,7 +182,7 @@ public class GroupCopyLevelBL {
 				reason.append(fighter.getUserId());
 			}
 			result.setTipMsg(reason.toString());
-		}else if(!isFighting(copyLvRecd)){
+		}else if(!isFighting(copyLvRecd, player)){
 			result.setSuccess(false);
 			reason.append("战斗已超时失效。");
 			Player fighter = PlayerMgr.getInstance().find(copyLvRecd.getFighterId());
@@ -269,6 +284,37 @@ public class GroupCopyLevelBL {
 		
 		return rewardInfo;
 		
+	}
+
+	public static GroupCopyLevelRecord createLevelRecord(Player player,
+			String level, GroupCopyLevelRecordHolder lvRecordHolder) {
+		GroupCopyLevelRecord lvData = null;
+		try {
+			lvData = new GroupCopyLevelRecord();
+			lvData.setId(level);
+			String groupId = GroupHelper.getGroupId(player);
+			lvData.setGroupId(groupId);
+			//这里还要初始化一下怪物信息
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+			List<String> idList = levelCfg.getmIDList();
+			
+			List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();;
+			GroupCopyMonsterSynStruct struct = null;
+			CopyMonsterCfg monsterCfg;
+			for (String id : idList) {
+				monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
+				struct = new GroupCopyMonsterSynStruct(monsterCfg);
+				mData.add(struct);
+			}
+			GroupCopyProgress p = new GroupCopyProgress(mData);
+			
+			lvData.setProgress(p);
+			lvRecordHolder.addItem(player, lvData);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lvData;
 	}
 	
 	

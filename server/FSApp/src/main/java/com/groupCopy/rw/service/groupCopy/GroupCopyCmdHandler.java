@@ -3,6 +3,7 @@ package com.groupCopy.rw.service.groupCopy;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
+import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
@@ -47,6 +48,29 @@ public class GroupCopyCmdHandler {
 			rspCmd.setResCode(ResultCode.CODE_FAIL);
 		}
 		
+		
+		return rspCmd.build().toByteString();
+	}
+
+
+	/**
+	 * 赞助buff
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
+	public ByteString donateBuff(Player player, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.BUFF_DONATE);
+		Group g = GroupHelper.getGroup(player);
+		if(g != null){
+			boolean suc = g.getGroupCopyMgr().donateBuff(player, g, reqMsg);
+			if(suc){
+				rspCmd.setResCode(ResultCode.CODE_SUC);
+			}
+		}else{
+			rspCmd.setResCode(ResultCode.CODE_FAIL);
+		}
 		
 		return rspCmd.build().toByteString();
 	}

@@ -1,6 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,7 +101,7 @@ public class GroupCopyLevelRecord implements IMapItem {
 	 * @param playerID
 	 * @param count
 	 */
-	public synchronized void addBuff(String playerID, int count) {
+	public void addBuff(String playerID, int count) {
 		Integer v = buffMap.get(playerID);
 		if(v != null){
 			buffMap.put(playerID, v + count);
@@ -109,6 +110,11 @@ public class GroupCopyLevelRecord implements IMapItem {
 		}
 	}
 	
+	
+	
+	public Map<String, Integer> getBuffMap() {
+		return Collections.unmodifiableMap(buffMap);
+	}
 	public synchronized void resetLevelData(){
 		progress = new GroupCopyProgress();
 		buffMap.clear();

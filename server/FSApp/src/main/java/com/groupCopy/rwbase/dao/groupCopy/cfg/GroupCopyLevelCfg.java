@@ -24,6 +24,8 @@ public class GroupCopyLevelCfg {
 	
 	private String monsters;
 	
+	private int readyTime;//准备时间，单位为s
+	
 	private Map<Integer, String> dropMap;//格式化后的掉落数据
 	
 	private List<Integer> roleRewardList;//格式化后的个人奖励
@@ -110,6 +112,11 @@ public class GroupCopyLevelCfg {
 
 	public List<Integer> getRoleRewardList() {
 		return Collections.unmodifiableList(roleRewardList);
+	}
+
+	
+	public int getReadyTime() {
+		return readyTime;
 	}
 
 	/**

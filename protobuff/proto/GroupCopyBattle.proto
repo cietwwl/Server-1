@@ -8,7 +8,7 @@ package GroupCopyBattle;
 enum RequestType{
 	FIGHT_BEGIN = 1;//战斗开始
 	FIGHT_END = 2;//战斗结束
-	ENTER_APPLY = 3;//请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
+	ENTER_APPLY = 3;//请求进入关卡，如果关卡内有人，服务器要返回关卡战斗中的CopyBattleRoleStruct，前端再判断是不是自己
 }
 
 
@@ -21,6 +21,7 @@ message GroupCopyBattleComReqMsg{
 	optional GroupCopyMonsterData mData = 4;//退出战斗时怪物信息(服务器要计算进度及保存)
 	optional HeroList heros = 5;//退出战斗时返回
 	optional CopyBattleRoleStruct battleRoleData = 6;
+	optional int32 readySecond = 7;//战斗准备时长
 }
 
 //【佣兵列表】
@@ -37,7 +38,7 @@ message GroupCopyBattleComRspMsg{
 	required RequestType reqType = 1;//请求协议类型
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
-	optional GroupCopyMonsterData mData = 4;//进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+	optional GroupCopyMonsterData mData = 4;//进入战斗时怪物信息 
 	optional CopyRewardInfo dropInfo = 5;//掉落列表
 	optional CopyBattleRoleStruct battleRole = 6;//占用关卡的角色数据
 }

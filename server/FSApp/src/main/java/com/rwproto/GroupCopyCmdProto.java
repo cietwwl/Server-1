@@ -25,6 +25,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     GET_DROP_APPLY_INFO(1, 2),
+    /**
+     * <code>BUFF_DONATE = 3;</code>
+     *
+     * <pre>
+     *buff赞助
+     * </pre>
+     */
+    BUFF_DONATE(2, 3),
     ;
 
     /**
@@ -39,6 +47,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     public static final int GET_DROP_APPLY_INFO_VALUE = 2;
+    /**
+     * <code>BUFF_DONATE = 3;</code>
+     *
+     * <pre>
+     *buff赞助
+     * </pre>
+     */
+    public static final int BUFF_DONATE_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -47,6 +63,7 @@ public final class GroupCopyCmdProto {
       switch (value) {
         case 1: return GET_INFO;
         case 2: return GET_DROP_APPLY_INFO;
+        case 3: return BUFF_DONATE;
         default: return null;
       }
     }
@@ -348,32 +365,31 @@ public final class GroupCopyCmdProto {
     com.google.protobuf.ByteString
         getVersionBytes();
 
-    // optional string mapID = 3;
+    // optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    boolean hasMapID();
+    boolean hasDonateData();
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    java.lang.String getMapID();
+    com.rwproto.GroupCopyCmdProto.GroupCopyDonateData getDonateData();
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getMapIDBytes();
+    com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder getDonateDataOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdReqMsg}
@@ -443,8 +459,16 @@ public final class GroupCopyCmdProto {
               break;
             }
             case 26: {
+              com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = donateData_.toBuilder();
+              }
+              donateData_ = input.readMessage(com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(donateData_);
+                donateData_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000004;
-              mapID_ = input.readBytes();
               break;
             }
           }
@@ -566,65 +590,44 @@ public final class GroupCopyCmdProto {
       }
     }
 
-    // optional string mapID = 3;
-    public static final int MAPID_FIELD_NUMBER = 3;
-    private java.lang.Object mapID_;
+    // optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;
+    public static final int DONATEDATA_FIELD_NUMBER = 3;
+    private com.rwproto.GroupCopyCmdProto.GroupCopyDonateData donateData_;
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    public boolean hasMapID() {
+    public boolean hasDonateData() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    public java.lang.String getMapID() {
-      java.lang.Object ref = mapID_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          mapID_ = s;
-        }
-        return s;
-      }
+    public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData getDonateData() {
+      return donateData_;
     }
     /**
-     * <code>optional string mapID = 3;</code>
+     * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
      *
      * <pre>
-     *章节关卡id
+     *赞助
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getMapIDBytes() {
-      java.lang.Object ref = mapID_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        mapID_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder getDonateDataOrBuilder() {
+      return donateData_;
     }
 
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
       version_ = "";
-      mapID_ = "";
+      donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -634,6 +637,12 @@ public final class GroupCopyCmdProto {
       if (!hasReqType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasDonateData()) {
+        if (!getDonateData().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -649,7 +658,7 @@ public final class GroupCopyCmdProto {
         output.writeBytes(2, getVersionBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getMapIDBytes());
+        output.writeMessage(3, donateData_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -670,7 +679,7 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getMapIDBytes());
+          .computeMessageSize(3, donateData_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -780,6 +789,7 @@ public final class GroupCopyCmdProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getDonateDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -792,7 +802,11 @@ public final class GroupCopyCmdProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        mapID_ = "";
+        if (donateDataBuilder_ == null) {
+          donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
+        } else {
+          donateDataBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -833,7 +847,11 @@ public final class GroupCopyCmdProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.mapID_ = mapID_;
+        if (donateDataBuilder_ == null) {
+          result.donateData_ = donateData_;
+        } else {
+          result.donateData_ = donateDataBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -858,10 +876,8 @@ public final class GroupCopyCmdProto {
           version_ = other.version_;
           onChanged();
         }
-        if (other.hasMapID()) {
-          bitField0_ |= 0x00000004;
-          mapID_ = other.mapID_;
-          onChanged();
+        if (other.hasDonateData()) {
+          mergeDonateData(other.getDonateData());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -871,6 +887,12 @@ public final class GroupCopyCmdProto {
         if (!hasReqType()) {
           
           return false;
+        }
+        if (hasDonateData()) {
+          if (!getDonateData().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1044,102 +1066,157 @@ public final class GroupCopyCmdProto {
         return this;
       }
 
-      // optional string mapID = 3;
-      private java.lang.Object mapID_ = "";
+      // optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;
+      private com.rwproto.GroupCopyCmdProto.GroupCopyDonateData donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.GroupCopyDonateData, com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder> donateDataBuilder_;
       /**
-       * <code>optional string mapID = 3;</code>
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
        *
        * <pre>
-       *章节关卡id
+       *赞助
        * </pre>
        */
-      public boolean hasMapID() {
+      public boolean hasDonateData() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string mapID = 3;</code>
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
        *
        * <pre>
-       *章节关卡id
+       *赞助
        * </pre>
        */
-      public java.lang.String getMapID() {
-        java.lang.Object ref = mapID_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          mapID_ = s;
-          return s;
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData getDonateData() {
+        if (donateDataBuilder_ == null) {
+          return donateData_;
         } else {
-          return (java.lang.String) ref;
+          return donateDataBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string mapID = 3;</code>
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
        *
        * <pre>
-       *章节关卡id
+       *赞助
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getMapIDBytes() {
-        java.lang.Object ref = mapID_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          mapID_ = b;
-          return b;
+      public Builder setDonateData(com.rwproto.GroupCopyCmdProto.GroupCopyDonateData value) {
+        if (donateDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          donateData_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          donateDataBuilder_.setMessage(value);
         }
-      }
-      /**
-       * <code>optional string mapID = 3;</code>
-       *
-       * <pre>
-       *章节关卡id
-       * </pre>
-       */
-      public Builder setMapID(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        mapID_ = value;
-        onChanged();
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional string mapID = 3;</code>
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
        *
        * <pre>
-       *章节关卡id
+       *赞助
        * </pre>
        */
-      public Builder clearMapID() {
+      public Builder setDonateData(
+          com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder builderForValue) {
+        if (donateDataBuilder_ == null) {
+          donateData_ = builderForValue.build();
+          onChanged();
+        } else {
+          donateDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
+       *
+       * <pre>
+       *赞助
+       * </pre>
+       */
+      public Builder mergeDonateData(com.rwproto.GroupCopyCmdProto.GroupCopyDonateData value) {
+        if (donateDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              donateData_ != com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance()) {
+            donateData_ =
+              com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.newBuilder(donateData_).mergeFrom(value).buildPartial();
+          } else {
+            donateData_ = value;
+          }
+          onChanged();
+        } else {
+          donateDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
+       *
+       * <pre>
+       *赞助
+       * </pre>
+       */
+      public Builder clearDonateData() {
+        if (donateDataBuilder_ == null) {
+          donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
+          onChanged();
+        } else {
+          donateDataBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
-        mapID_ = getDefaultInstance().getMapID();
-        onChanged();
         return this;
       }
       /**
-       * <code>optional string mapID = 3;</code>
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
        *
        * <pre>
-       *章节关卡id
+       *赞助
        * </pre>
        */
-      public Builder setMapIDBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        mapID_ = value;
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder getDonateDataBuilder() {
+        bitField0_ |= 0x00000004;
         onChanged();
-        return this;
+        return getDonateDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
+       *
+       * <pre>
+       *赞助
+       * </pre>
+       */
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder getDonateDataOrBuilder() {
+        if (donateDataBuilder_ != null) {
+          return donateDataBuilder_.getMessageOrBuilder();
+        } else {
+          return donateData_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyDonateData donateData = 3;</code>
+       *
+       * <pre>
+       *赞助
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.GroupCopyDonateData, com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder> 
+          getDonateDataFieldBuilder() {
+        if (donateDataBuilder_ == null) {
+          donateDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyCmdProto.GroupCopyDonateData, com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder>(
+                  donateData_,
+                  getParentForChildren(),
+                  isClean());
+          donateData_ = null;
+        }
+        return donateDataBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyCmd.GroupCopyCmdReqMsg)
@@ -1728,6 +1805,654 @@ public final class GroupCopyCmdProto {
     // @@protoc_insertion_point(class_scope:GroupCopyCmd.GroupCopyCmdRspMsg)
   }
 
+  public interface GroupCopyDonateDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string level = 1;
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    java.lang.String getLevel();
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLevelBytes();
+
+    // required int32 donateTime = 2;
+    /**
+     * <code>required int32 donateTime = 2;</code>
+     *
+     * <pre>
+     *赞助次数
+     * </pre>
+     */
+    boolean hasDonateTime();
+    /**
+     * <code>required int32 donateTime = 2;</code>
+     *
+     * <pre>
+     *赞助次数
+     * </pre>
+     */
+    int getDonateTime();
+  }
+  /**
+   * Protobuf type {@code GroupCopyCmd.GroupCopyDonateData}
+   */
+  public static final class GroupCopyDonateData extends
+      com.google.protobuf.GeneratedMessage
+      implements GroupCopyDonateDataOrBuilder {
+    // Use GroupCopyDonateData.newBuilder() to construct.
+    private GroupCopyDonateData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GroupCopyDonateData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GroupCopyDonateData defaultInstance;
+    public static GroupCopyDonateData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GroupCopyDonateData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GroupCopyDonateData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              level_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              donateTime_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.class, com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GroupCopyDonateData> PARSER =
+        new com.google.protobuf.AbstractParser<GroupCopyDonateData>() {
+      public GroupCopyDonateData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GroupCopyDonateData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GroupCopyDonateData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string level = 1;
+    public static final int LEVEL_FIELD_NUMBER = 1;
+    private java.lang.Object level_;
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    public java.lang.String getLevel() {
+      java.lang.Object ref = level_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          level_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string level = 1;</code>
+     *
+     * <pre>
+     *关卡id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLevelBytes() {
+      java.lang.Object ref = level_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        level_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 donateTime = 2;
+    public static final int DONATETIME_FIELD_NUMBER = 2;
+    private int donateTime_;
+    /**
+     * <code>required int32 donateTime = 2;</code>
+     *
+     * <pre>
+     *赞助次数
+     * </pre>
+     */
+    public boolean hasDonateTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 donateTime = 2;</code>
+     *
+     * <pre>
+     *赞助次数
+     * </pre>
+     */
+    public int getDonateTime() {
+      return donateTime_;
+    }
+
+    private void initFields() {
+      level_ = "";
+      donateTime_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDonateTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getLevelBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, donateTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getLevelBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, donateTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyCmdProto.GroupCopyDonateData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyCmd.GroupCopyDonateData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.class, com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        level_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        donateTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData build() {
+        com.rwproto.GroupCopyCmdProto.GroupCopyDonateData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyDonateData buildPartial() {
+        com.rwproto.GroupCopyCmdProto.GroupCopyDonateData result = new com.rwproto.GroupCopyCmdProto.GroupCopyDonateData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.donateTime_ = donateTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyCmdProto.GroupCopyDonateData) {
+          return mergeFrom((com.rwproto.GroupCopyCmdProto.GroupCopyDonateData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyCmdProto.GroupCopyDonateData other) {
+        if (other == com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance()) return this;
+        if (other.hasLevel()) {
+          bitField0_ |= 0x00000001;
+          level_ = other.level_;
+          onChanged();
+        }
+        if (other.hasDonateTime()) {
+          setDonateTime(other.getDonateTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasDonateTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyCmdProto.GroupCopyDonateData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyCmdProto.GroupCopyDonateData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string level = 1;
+      private java.lang.Object level_ = "";
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public java.lang.String getLevel() {
+        java.lang.Object ref = level_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          level_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLevelBytes() {
+        java.lang.Object ref = level_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          level_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public Builder setLevel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = getDefaultInstance().getLevel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string level = 1;</code>
+       *
+       * <pre>
+       *关卡id
+       * </pre>
+       */
+      public Builder setLevelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 donateTime = 2;
+      private int donateTime_ ;
+      /**
+       * <code>required int32 donateTime = 2;</code>
+       *
+       * <pre>
+       *赞助次数
+       * </pre>
+       */
+      public boolean hasDonateTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 donateTime = 2;</code>
+       *
+       * <pre>
+       *赞助次数
+       * </pre>
+       */
+      public int getDonateTime() {
+        return donateTime_;
+      }
+      /**
+       * <code>required int32 donateTime = 2;</code>
+       *
+       * <pre>
+       *赞助次数
+       * </pre>
+       */
+      public Builder setDonateTime(int value) {
+        bitField0_ |= 0x00000002;
+        donateTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 donateTime = 2;</code>
+       *
+       * <pre>
+       *赞助次数
+       * </pre>
+       */
+      public Builder clearDonateTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        donateTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyCmd.GroupCopyDonateData)
+    }
+
+    static {
+      defaultInstance = new GroupCopyDonateData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyCmd.GroupCopyDonateData)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor;
   private static
@@ -1738,6 +2463,11 @@ public final class GroupCopyCmdProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1747,18 +2477,21 @@ public final class GroupCopyCmdProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"e\n\022Gr" +
-      "oupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Grou" +
-      "pCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 \001" +
-      "(\t\022\r\n\005mapID\030\003 \001(\t\"p\n\022GroupCopyCmdRspMsg\022" +
-      "/\n\007reqType\030\001 \002(\0162\036.GroupCopyCmd.GroupCop" +
-      "yReqType\022)\n\007resCode\030\002 \002(\0162\030.GroupCopyCmd" +
-      ".ResultCode*9\n\020GroupCopyReqType\022\014\n\010GET_I" +
-      "NFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002*)\n\nResult" +
-      "Code\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022Gro" +
-      "upCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART",
-      "\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwpro" +
-      "toB\021GroupCopyCmdProto"
+      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"\215\001\n\022G" +
+      "roupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Gro" +
+      "upCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 " +
+      "\001(\t\0225\n\ndonateData\030\003 \001(\0132!.GroupCopyCmd.G" +
+      "roupCopyDonateData\"p\n\022GroupCopyCmdRspMsg" +
+      "\022/\n\007reqType\030\001 \002(\0162\036.GroupCopyCmd.GroupCo" +
+      "pyReqType\022)\n\007resCode\030\002 \002(\0162\030.GroupCopyCm" +
+      "d.ResultCode\"8\n\023GroupCopyDonateData\022\r\n\005l" +
+      "evel\030\001 \002(\t\022\022\n\ndonateTime\030\002 \002(\005*J\n\020GroupC" +
+      "opyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APP",
+      "LY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003*)\n\nResultCode" +
+      "\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022GroupCo" +
+      "pyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013" +
+      "\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021" +
+      "GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1770,13 +2503,19 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "MapID", });
+              new java.lang.String[] { "ReqType", "Version", "DonateData", });
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor,
               new java.lang.String[] { "ReqType", "ResCode", });
+          internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor,
+              new java.lang.String[] { "Level", "DonateTime", });
           return null;
         }
       };

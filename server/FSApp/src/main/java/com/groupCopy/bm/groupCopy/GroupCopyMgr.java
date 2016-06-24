@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.bm.group.GroupBM;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
@@ -21,10 +23,13 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
 import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
+import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
+import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.monster.cfg.CopyMonsterCfg;
@@ -59,6 +64,9 @@ public class GroupCopyMgr {
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
 
 	public static final int MAX_RANK_RECORDS = 10;
+	
+	/**最大赞助上限*/
+	private static final int MAX_DONATE_COUNT = 100; 
 	
 	public GroupCopyMgr(String groupIdP) {
 		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
@@ -306,14 +314,11 @@ public class GroupCopyMgr {
 		try {
 			GroupCopyLevelRecord lvData = lvRecordHolder.getByLevel(level);
 			if(lvData == null){
-				lvData = new GroupCopyLevelRecord();
-				lvData.setId(level);
-				String groupId = GroupHelper.getGroupId(player);
-				lvData.setGroupId(groupId);
-				lvRecordHolder.addItem(player, lvData);
+				lvData = GroupCopyLevelBL.createLevelRecord(player,level, lvRecordHolder);
+				
 				
 			}
-			if(lvData != null && GroupCopyLevelBL.isFighting(lvData)){
+			if(lvData != null && GroupCopyLevelBL.isFighting(lvData, player)){
 				int status = lvData.getStatus();
 				//返回一下正在战斗角色信息
 				String fighterId = lvData.getFighterId();
@@ -360,6 +365,50 @@ public class GroupCopyMgr {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+
+	
+	//处理赞助
+	public GroupCopyResult donateBuff(Player player, Group group, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		GroupCopyDonateData data = reqMsg.getDonateData();
+		boolean suc = false;
+		try {
+			//判断一下是否有足够的钻石
+			GroupCopyDonateCfg donateCfg = GroupCopyDonateCfgDao.getInstance().getCfgById(String.valueOf(data.getDonateTime()));
+			if(donateCfg == null){
+				result.setTipMsg("找不到次数为" + data.getDonateTime() + "的配置！");
+				result.setSuccess(suc);
+				return result;
+			}
+			
+			player.getUserGameDataMgr().
+
+			synchronized (this) {
+				GroupCopyLevelRecord record = lvRecordHolder.getByLevel(data.getLevel());
+				int total = 0;
+				for (Integer i : record.getBuffMap().values()) {
+					total += i;
+				}
+				if((total + data.getDonateTime()) <= MAX_DONATE_COUNT){
+					record.addBuff(player.getUserId(), data.getDonateTime());
+				}
+				
+				
+				//扣钱  加帮贡
+				
+				
+				
+				lvRecordHolder.updateItem(player, record);
+				
+			}
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[donateBuff]", "赞助buff出现异常", e);
+		}
+		
+		result.setSuccess(suc);
+		return result;
 	}
 
 

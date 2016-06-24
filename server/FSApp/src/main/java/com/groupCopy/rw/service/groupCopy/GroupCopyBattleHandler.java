@@ -51,6 +51,9 @@ public class GroupCopyBattleHandler {
 		if(group!=null){
 			GroupCopyResult result = group.getGroupCopyMgr().beginFight(player, req.getLevel());
 			success = result.isSuccess();
+			if(success){
+				commonRsp.setMData((GroupCopyMonsterData.Builder) result.getItem());
+			}
 			commonRsp.setTipMsg(result.getTipMsg());
 		}	
 
@@ -109,7 +112,7 @@ public class GroupCopyBattleHandler {
 			GroupCopyResult result = group.getGroupCopyMgr().applyEnterCopy(player, level);
 			success = result.isSuccess();
 			if(!success){
-				commonRsp.setBattleRole((CopyBattleRoleStruct) result.getItem());
+				commonRsp.setBattleRole((CopyBattleRoleStruct.Builder) result.getItem());
 			}
 		}
 		commonRsp.setIsSuccess(success);		

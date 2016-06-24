@@ -7,6 +7,7 @@ package GroupCopyCmd;
 enum GroupCopyReqType{
 	GET_INFO = 1;
 	GET_DROP_APPLY_INFO = 2;//请求同步掉落及申请列表
+	BUFF_DONATE = 3;//buff赞助
 }
 
 enum ResultCode{
@@ -26,6 +27,7 @@ enum GroupCopyMapStatus{
 message GroupCopyCmdReqMsg{
 	required GroupCopyReqType reqType = 1;//请求的协议类型
 	optional string version = 2; //版本号
+	optional GroupCopyDonateData donateData = 3;//赞助
 	
 }
 
@@ -34,4 +36,8 @@ message GroupCopyCmdRspMsg{
 	required ResultCode resCode = 2;//返回的结果代码
 }
 
+message GroupCopyDonateData{
+	required string level = 1;//关卡id
+	required int32 donateTime = 2;//赞助次数
+}
 
