@@ -43,6 +43,7 @@ public class GroupSecretHandler {
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
 		msg.setSecretCfgId(1);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
+		
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		GroupSecretTeamDataHolder groupSecretTeamDataHolder = client.getGroupSecretTeamDataHolder();
 		GroupSecretTeamData data = groupSecretTeamDataHolder.getData();
@@ -50,12 +51,16 @@ public class GroupSecretHandler {
 		for (int i = 0; i < 5; i++) {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 				String heroId = (String) iterator.next();
+				if(heroId == client.getUserId()){
+					continue;
+				}
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
 					msg.addTeamHeroId(heroId);
 					iterator.remove();
 				}
 			}
 		}
+		msg.addTeamHeroId(client.getUserId());
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
 	}
