@@ -36,7 +36,7 @@ public class ActivityVitalityTypeMgr {
 	public void synVitalityTypeData(Player player) {
 		ActivityVitalityItemHolder.getInstance().synAllData(player);
 	}
-
+	
 
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -89,7 +89,7 @@ public class ActivityVitalityTypeMgr {
 		for (ActivityVitalityTypeItem targetItem : item) {
 			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList());//补发过期奖励
-				sendEmailIfBoxGiftNotTaken(player, targetItem.getSubBoxItemList());//补发过期宝箱奖励，区分是否宝箱刷新
+				sendEmailIfBoxGiftNotTaken(player, targetItem);//补发过期宝箱奖励，区分是否宝箱刷新
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
@@ -106,7 +106,7 @@ public class ActivityVitalityTypeMgr {
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
 			if (isClose(activityVitalityTypeItem)) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
-				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem.getSubBoxItemList());
+				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityVitalityTypeItem);
 			}
@@ -153,11 +153,14 @@ public class ActivityVitalityTypeMgr {
 		}
 	}
 	
-	private void sendEmailIfBoxGiftNotTaken(Player player,List<ActivityVitalityTypeSubBoxItem> subBoxItemList) {
+	private void sendEmailIfBoxGiftNotTaken(Player player,ActivityVitalityTypeItem Item) {
 		if(ActivityVitalityCfgDAO.getInstance().getparentCfg().getIsCanGetReward() == 1){
 			//宝箱功能不开放 
 			return;
 		}
+		
+		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = Item.getSubBoxItemList();
+		
 		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
 			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getById(subItem.getCfgId());
 			if (subItemCfg == null) {
@@ -165,7 +168,7 @@ public class ActivityVitalityTypeMgr {
 						"通用活动找不到配置文件", null);
 				return;
 			}
-			if (subItem.getCount() >= subItemCfg.getActivecount()
+			if (Item.getActiveCount() >= subItemCfg.getActivecount()
 					&& !subItem.isTaken()) {
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
@@ -233,6 +236,9 @@ public class ActivityVitalityTypeMgr {
 		ActivityVitalitySubCfg cfg = null;
 		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
 		for(ActivityVitalitySubCfg subcfg :subcfglist){
+			if(ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()){
+				continue;
+			}			
 			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){
 			cfg = subcfg;
 			break;

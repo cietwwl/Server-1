@@ -61,8 +61,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			int day = getday();
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();			
 			item.setId(player.getUserId());
+			item.setCfgId(cfgById.getId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
+			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day));
 			item.setSubBoxItemList(newBoxItemList(day));
 			item.setLastTime(System.currentTimeMillis());

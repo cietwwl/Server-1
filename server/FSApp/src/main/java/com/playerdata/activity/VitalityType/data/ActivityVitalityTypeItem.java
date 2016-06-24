@@ -29,7 +29,8 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 
-
+	@CombineSave
+	private String cfgId;
 
 	@CombineSave
 	private boolean closed = false;
@@ -65,9 +66,17 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
+	
+	
 
+	public String getCfgId() {
+		return cfgId;
+	}
 
-
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
+	}
 
 	public long getLastTime() {
 		return lastTime;

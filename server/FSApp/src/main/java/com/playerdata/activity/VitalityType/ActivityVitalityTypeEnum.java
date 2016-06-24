@@ -21,7 +21,7 @@ public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	StrengthenMagicVitality("80115"),//强化法宝到x级
 	UseSilverKeyVitality("80116"),//使用银钥匙x个
 	GambleGoldVitality("80117"),//购买中级经验丹
-	arenaVitality("80118");//竞技场多少次
+	ArenaVitality("80118");//竞技场多少次
 	
 	
 	

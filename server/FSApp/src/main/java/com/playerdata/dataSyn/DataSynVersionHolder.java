@@ -260,7 +260,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);	
+//				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);	
 				ActivityVitalityTypeMgr.getInstance().synVitalityTypeData(player);
 			}
 		}));

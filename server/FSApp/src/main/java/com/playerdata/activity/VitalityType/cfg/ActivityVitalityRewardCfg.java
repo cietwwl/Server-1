@@ -9,7 +9,7 @@ public class ActivityVitalityRewardCfg {
 	
 	
 	//计数
-	private int activecount;
+	private int activeCount;
 	
 	//计数奖励
 	private String giftId;	
@@ -19,11 +19,11 @@ public class ActivityVitalityRewardCfg {
 	
 
 	public int getActivecount() {
-		return activecount;
+		return activeCount;
 	}
 
 	public void setActivecount(int activecount) {
-		this.activecount = activecount;
+		this.activeCount = activecount;
 	}
 
 	public String getGiftId() {
