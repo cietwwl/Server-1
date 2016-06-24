@@ -102,7 +102,9 @@ public class ComGiftMgr {
 		if(StringUtils.isEmpty(mark)||StringUtils.isEmpty(str)){
 			return str;
 		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.str="+ str + " mark=" + mark);
 		String newstr = str.replace("{0}", mark);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.newstr="+ str + " mark=" + mark);
 		return newstr;
 	}
 

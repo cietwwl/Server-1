@@ -102,7 +102,7 @@ public class ActivityRankTypeMgr {
 					activityRankTypeItem.setTaken(true);
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
-					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), MAKEUPEMAIL+"", activityRankTypeItem.getEmailTitle());
+					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
 					
 				}
 				long sendtime = sendMap.get(activityRankTypeItem.getCfgId()).getLasttime();
@@ -190,7 +190,7 @@ public class ActivityRankTypeMgr {
 				int noitem = 0;
 				RankType rankType = RankType.getRankType(ranktype,1);
 				List<RankInfo> rankList = new ArrayList<RankInfo>();
-				List<RankingLevelData> tableranklist = RankingMgr.getInstance().getRankList(rankType, 800);
+				List<RankingLevelData> tableranklist = RankingMgr.getInstance().getRankList(rankType, cfg.getRewardNum());
 				for (int i = 0; i < tableranklist.size(); i++) {
 					RankingLevelData levelData = tableranklist.get(i);
 					RankInfo rankInfo = RankingUtils.createOneRankInfo(levelData, i + 1);
@@ -227,17 +227,17 @@ public class ActivityRankTypeMgr {
 					
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
-					String emailTitle = null;
+					String emaiId = null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
-							emailTitle = subCfg.getEmailTitle();
+							emaiId = subCfg.getEmailId();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
 						targetItem.setReward(tmpReward);
-						targetItem.setEmailTitle(emailTitle);
+						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);
 						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
 					}else{//所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致

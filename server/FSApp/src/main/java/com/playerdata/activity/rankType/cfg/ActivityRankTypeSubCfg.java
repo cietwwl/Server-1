@@ -15,7 +15,7 @@ public class ActivityRankTypeSubCfg {
 	
 	private int[] rankRanges = new int[2];
 	
-	private String emailTitle;
+	private String emailId;
 	
 	public int[] getRankRanges() {
 		return rankRanges;
@@ -29,12 +29,14 @@ public class ActivityRankTypeSubCfg {
 		return parentCfgId;
 	}
 	
-	public String getEmailTitle() {
-		return emailTitle;
+
+
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setEmailTitle(String emailTitle) {
-		this.emailTitle = emailTitle;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 	public String getId() {

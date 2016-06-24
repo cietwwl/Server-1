@@ -37,7 +37,7 @@ public class ActivityRankTypeItem implements  IMapItem {
 	private String reward ;
 	
 	@CombineSave
-	private String emailTitle ;
+	private String emailId ;
 	
 	
 	public String getId() {
@@ -46,15 +46,27 @@ public class ActivityRankTypeItem implements  IMapItem {
 	
 	
 
-	public String getEmailTitle() {
-		return emailTitle;
+	
+
+
+
+	public String getEmailId() {
+		return emailId;
 	}
 
 
 
-	public void setEmailTitle(String emailTitle) {
-		this.emailTitle = emailTitle;
+
+
+
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
+
+
+
+
 
 
 
@@ -126,6 +138,6 @@ public class ActivityRankTypeItem implements  IMapItem {
 		this.closed = false;
 		this.version = targetCfg.getVersion();
 		this.reward = null;
-		this.emailTitle=null;
+		this.emailId=null;
 	}	
 }
