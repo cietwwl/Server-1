@@ -11,7 +11,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
-import com.playerdata.groupFightOnline.manager.GFightOngoingMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnFightMgr;
 import com.playerdata.groupFightOnline.manager.GFightPrepareMgr;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -64,14 +64,14 @@ public class GFightOnlineHandler {
 	public ByteString getEnimyDefender(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOngoingMgr.getInstance().getEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
+		GFightOnFightMgr.getInstance().getEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString changeEnimyDefender(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOngoingMgr.getInstance().changeEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
+		GFightOnFightMgr.getInstance().changeEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
 		return gfRsp.build().toByteString();
 	}
 	
