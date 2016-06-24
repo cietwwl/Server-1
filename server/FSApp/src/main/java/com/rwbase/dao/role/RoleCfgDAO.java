@@ -116,14 +116,6 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			return null;
 		}
 		List<Skill> arr = new ArrayList<Skill>();
-		if (StringUtils.isNotBlank(pPlayerCfg.getAttackId())) {
-			Skill pSkill = new Skill();
-			pSkill.setSkillId(pPlayerCfg.getAttackId());
-			pSkill.setOrder(-1);
-			pSkill.setLevel(1);
-			arr.add(pSkill);
-		}
-
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId01())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId01());
@@ -169,6 +161,14 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setSkillId(pPlayerCfg.getDieSkillId());
 			pSkill.setOrder(5);
 			pSkill.setLevel(-2);// 死亡技能等级设为-2
+			arr.add(pSkill);
+		}
+		
+		if (StringUtils.isNotBlank(pPlayerCfg.getAttackId())) {
+			Skill pSkill = new Skill();
+			pSkill.setSkillId(pPlayerCfg.getAttackId());
+			pSkill.setOrder(6);
+			pSkill.setLevel(1);
 			arr.add(pSkill);
 		}
 		return arr;
