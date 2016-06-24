@@ -876,5 +876,9 @@ public class Robot {
 		issuc=MagicSecretHandler.getHandler().doType(client , id);
 		return issuc;
 	}
+	public boolean sendGmCommand(String value){
+		return GmHandler.instance().send(client, value);
+	}
+
 	
 }
