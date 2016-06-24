@@ -80,6 +80,7 @@ public class GFightOnlineHandler {
 	public ByteString startFight(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightOnFightMgr.getInstance().startFight(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	

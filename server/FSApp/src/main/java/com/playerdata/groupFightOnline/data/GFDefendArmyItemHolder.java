@@ -25,7 +25,8 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GFDefendArmyItemHolder {
 	public static int MAX_DEFEND_ARMY_COUNT = 5;	//每个人最多设置的防守队伍数量
-	public static int LOCK_ITEM_MAX_TIME = 2 * 60 * 1000;	//被选中或战斗锁定时间2分钟
+	// public static int LOCK_ITEM_MAX_TIME = 10 * 60 * 1000;	//被选中或战斗锁定时间2分钟
+	public static int LOCK_ITEM_MAX_TIME = 5 * 1000;
 	
 	private static AtomicInteger defendArmyVersion = new AtomicInteger(0);
 	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();

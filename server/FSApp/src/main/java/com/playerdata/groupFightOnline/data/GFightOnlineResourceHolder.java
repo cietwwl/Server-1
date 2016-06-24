@@ -33,8 +33,9 @@ public class GFightOnlineResourceHolder {
 		List<GFightOnlineResourceData> gfResourceData = new ArrayList<GFightOnlineResourceData>();
 		List<GFightOnlineResourceCfg> allResource = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : allResource){
-			gfResourceData.add(get(String.valueOf(cfg.getResID())));
+			GFightOnlineResourceData data = get(String.valueOf(cfg.getResID()));
+			if(data != null) gfResourceData.add(data);
 		}
-		ClientDataSynMgr.synDataList(player, gfResourceData, synType, eSynOpType.UPDATE_LIST);
+		if(gfResourceData.size() > 0) ClientDataSynMgr.synDataList(player, gfResourceData, synType, eSynOpType.UPDATE_LIST);
 	}
 }

@@ -1,6 +1,10 @@
 package com.playerdata.groupFightOnline.manager;
 
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 
 
@@ -39,4 +43,19 @@ class GFightConditionJudge {
 	public boolean isLegalBidCount(int resourceID, int oriCount, int addCount) {
 		return true;
 	}
+	
+	public boolean haveSelectedEnimy(String userID){
+		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(userID);
+		if(userGFData == null) return false;
+		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
+		if(defenderSimple == null) return false;
+		return true;
+	}
+	
+	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
+		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyItemHolder.LOCK_ITEM_MAX_TIME)
+			return false;  // TODO
+		return false;
+	}
+	
 }

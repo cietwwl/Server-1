@@ -13,6 +13,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class GFightResult {
 	private String groupID;
 	private String defendArmyID;
+	private int hurtValue;		//总的伤害值
 	private List<CurAttrData> defenderState;	// 防守队伍状态信息
 	private List<CurAttrData> selfArmyState; 	//自己队伍状态
 	
@@ -56,5 +57,13 @@ public class GFightResult {
 
 	public void setSelfArmyState(List<CurAttrData> selfArmyState) {
 		this.selfArmyState = selfArmyState;
+	}
+
+	public int getHurtValue() {
+		return hurtValue;
+	}
+
+	public void setHurtValue(int hurtValue) {
+		this.hurtValue = hurtValue;
 	}
 }

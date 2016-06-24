@@ -1,7 +1,5 @@
 package com.playerdata.army.simple;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.BeanCopyer;
@@ -36,18 +34,15 @@ public class ArmyHeroSimple {
 		AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 		
-		
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
 		BeanCopyer.copy(baseInfo, armyHero);		
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
 		armyHero.fighting = hero.getFighting();
 		
-		return armyHero;
-		
+		return armyHero;		
 	}
-
-
+	
 	public String getId() {
 		return id;
 	}
@@ -60,11 +55,9 @@ public class ArmyHeroSimple {
 		return level;
 	}
 
-
 	public int getStarLevel() {
 		return starLevel;
 	}
-
 
 	public String getQualityId() {
 		return qualityId;
@@ -74,9 +67,11 @@ public class ArmyHeroSimple {
 		return curAttrData;
 	}
 
+	public void setCurAttrData(CurAttrData attr){
+		this.curAttrData = attr;
+	}
+	
 	public int getFighting() {
 		return fighting;
 	}
-	
-	
 }

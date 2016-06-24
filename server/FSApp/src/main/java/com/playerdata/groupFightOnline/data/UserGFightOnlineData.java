@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.army.simple.ArmyHeroSimple;
+import com.playerdata.army.CurAttrData;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -22,7 +22,7 @@ public class UserGFightOnlineData {
 	private int resourceID;
 	
 	@CombineSave
-	private List<ArmyHeroSimple> selfArmyInfo;
+	private List<CurAttrData> selfHerosInfo;
 	
 	@CombineSave
 	private List<String> activeHeros;
@@ -55,12 +55,18 @@ public class UserGFightOnlineData {
 		this.resourceID = resourceID;
 	}
 
-	public List<ArmyHeroSimple> getSelfArmyInfo() {
-		return selfArmyInfo;
+	public List<CurAttrData> getSelfArmyInfo() {
+		return selfHerosInfo;
 	}
 
-	public void setSelfArmyInfo(List<ArmyHeroSimple> selfArmyInfo) {
-		this.selfArmyInfo = selfArmyInfo;
+	public void setSelfArmyInfo(List<CurAttrData> selfHerosInfo) {
+		this.selfHerosInfo = selfHerosInfo;
+	}
+	
+	public CurAttrData getSelfHeroInfo(String heroID) {
+		for(CurAttrData hero : selfHerosInfo)
+			if(hero.getId().equals(heroID)) return hero;
+		return null;
 	}
 
 	public int getChangeEnimyTimes() {
@@ -69,6 +75,10 @@ public class UserGFightOnlineData {
 
 	public void setChangeEnimyTimes(int changeEnimyTimes) {
 		this.changeEnimyTimes = changeEnimyTimes;
+	}
+	
+	public void addChangeEnimyTimes() {
+		this.changeEnimyTimes++;
 	}
 
 	public DefendArmySimpleInfo getRandomDefender() {
@@ -86,6 +96,10 @@ public class UserGFightOnlineData {
 	public void setKillCount(int killCount) {
 		this.killCount = killCount;
 	}
+	
+	public void addKillCount() {
+		this.killCount++;
+	}
 
 	public int getHurtTotal() {
 		return hurtTotal;
@@ -93,5 +107,9 @@ public class UserGFightOnlineData {
 
 	public void setHurtTotal(int hurtTotal) {
 		this.hurtTotal = hurtTotal;
+	}
+	
+	public void addHurtTotal(int newHurt){
+		this.hurtTotal += newHurt;
 	}
 }
