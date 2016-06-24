@@ -32,7 +32,6 @@ public class FieldString implements IFieldToJson{
 
 	@Override
 	public void fromJson(Object target, String json) throws Exception {			
-			Object value = FieldTypeHelper.ToPrimitiveValue(field.getType(), json);
-			field.set(target, value);					
+			field.set(target, json);					
 	}
 }

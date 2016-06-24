@@ -1,5 +1,7 @@
 package com.playerdata.army.simple;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.BeanCopyer;

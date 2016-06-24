@@ -9,10 +9,13 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
+import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -51,8 +54,8 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
-	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, int dataVersion) {
-		GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion);
+	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, GFightDataVersion dataVersion) {
+		GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
@@ -66,9 +69,14 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
-	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items) {
+	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items, GFightDataVersion dataVersion) {
 		try {
 			GFDefendArmyItemHolder.getInstance().resetItems(player, items);
+			//同步公会数据
+			String groupID = GroupHelper.getUserGroupId(player.getUserId());
+			GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
+			int resourceID = groupData.getResourceID();
+			GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (GFArmyDataException e) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);

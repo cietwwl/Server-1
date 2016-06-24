@@ -84,7 +84,13 @@ public class GFDefendArmyItemHolder {
 		// 如果个人防守队伍为空，就为个人创建最大数量的空队伍
 		if(itemlist.size() == 0) {
 			initPersonalDefendArmy(player);
-			return getItem(player);
+			// 第二次获取队伍
+			itemEnum = getItemStore(groupID).getEnum();
+			while(itemEnum.hasMoreElements()) {
+				GFDefendArmyItem item = itemEnum.nextElement();
+				if(item.getUserID().equals(player.getUserId()))
+					itemlist.add(item);
+			}
 		}
 		return itemlist;
 	}
@@ -96,8 +102,12 @@ public class GFDefendArmyItemHolder {
 	 * @return
 	 */
 	public GFDefendArmyItem getItem(Player player, String armyId){
-		String groupID = GroupHelper.getUserGroupId(player.getUserId());
-		return getItemStore(groupID).getItem(armyId);
+		List<GFDefendArmyItem> selfItems = getItem(player);
+		for(GFDefendArmyItem item : selfItems){
+			if(item.getArmyID() == armyId)
+				return item;
+		}
+		return null;
 	}
 	
 	/**
@@ -163,7 +173,7 @@ public class GFDefendArmyItemHolder {
 					throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能置空");
 				}
 			} else {
-				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getMagicID(), heros.getHeroIDs());
+				ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), heros.getMagicModelID(), heros.getHeroIDs());
 				if(simpleArmy == null) throw new GFArmyDataException("heros无法生成防守队伍信息");
 				long operateTime = System.currentTimeMillis();
 				armyItem.setSetDefenderTime(operateTime);

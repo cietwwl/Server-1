@@ -11,6 +11,7 @@ import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
+import com.playerdata.groupFightOnline.dataForClient.GFightResult;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -98,5 +99,9 @@ public class GFightOnFightMgr {
 		GFDefendArmyItemHolder.getInstance().startFight(player, armyItem);
 		defenderSimple.setLockArmyTime(System.currentTimeMillis());
 		UserGFightOnlineHolder.getInstance().synData(player);
+	}
+	
+	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult){
+		
 	}
 }

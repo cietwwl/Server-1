@@ -1,5 +1,6 @@
 package com.playerdata.army.simple;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -76,6 +77,16 @@ public class ArmyInfoSimple {
 		String jsonData = serverClassInfo.toJson(this);
 		return jsonData;
 	}
+	
+	
+	public List<String> getHeroIdList(){
+		List<String> heroIdList = new ArrayList<String>();
+		for (ArmyHeroSimple hero : heroList) {
+			heroIdList.add(hero.getId());
+		}
+		return heroIdList;
+	}
+
 	
 	public static void main(String[] args) throws Exception {
 		ArmyInfoSimple amryInfo = new ArmyInfoSimple();

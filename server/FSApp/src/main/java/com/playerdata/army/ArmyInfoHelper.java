@@ -22,7 +22,24 @@ public class ArmyInfoHelper {
 	public static ArmyInfo getArmyInfo(String playerId, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = player.getMagic();
 
+		ArmyInfo armyInfo = build(heroIdList, player, magic);
+		return armyInfo;
+	}
+	
+	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple) {
+		String playerId = armyInfoSimple.getPlayer().getId();
+		List<String> heroIdList = armyInfoSimple.getHeroIdList();
+		Player player = PlayerMgr.getInstance().find(playerId );
+		
+		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
+		
+		ArmyInfo armyInfo = build(heroIdList , player, magic);
+		return armyInfo;
+	}
+
+	private static ArmyInfo build(List<String> heroIdList, Player player, ItemData magic) {
 		ArmyHero armyPlayer = getArmyHero(player.getMainRoleHero());
 		armyPlayer.setPlayer(true);
 
@@ -32,7 +49,6 @@ public class ArmyInfoHelper {
 		armyInfo.setPlayerHeadImage(player.getHeadImage());
 //		armyInfo.setGuildName(player.getGuildUserMgr().getGuildName());
 //		armyPlayer.setFighting(player.);
-		ItemData magic = player.getMagic();
 		if(magic!=null){
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
 		}
@@ -80,8 +96,8 @@ public class ArmyInfoHelper {
 	}
 
 
-	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
-		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
+	public static ArmyInfoSimple getSimpleInfo(String playerId, int magicModelID, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicModelID, heroIdList);
 	}
 
 

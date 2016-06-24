@@ -22,10 +22,10 @@ class ArmySimpleInfoHelper {
 		return armyInfoSimple;
 	}
 	
-	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId, int magicModelID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
-		ItemData magic = player.getItemBagMgr().findBySlotId(magicID);
+		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(magicModelID);
 		
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;

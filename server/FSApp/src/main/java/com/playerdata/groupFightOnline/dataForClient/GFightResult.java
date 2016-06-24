@@ -3,11 +3,13 @@ package com.playerdata.groupFightOnline.dataForClient;
 import java.util.List;
 
 import com.playerdata.army.CurAttrData;
+import com.playerdata.dataSyn.annotation.SynClass;
 
 /**
  * 客户端传给服务端的战斗结果（包括两个队伍的血量信息）
  * @author aken
  */
+@SynClass
 public class GFightResult {
 	private String groupID;
 	private String defendArmyID;

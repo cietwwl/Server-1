@@ -25,6 +25,9 @@ public class UserGFightOnlineData {
 	private List<ArmyHeroSimple> selfArmyInfo;
 	
 	@CombineSave
+	private List<String> activeHeros;
+	
+	@CombineSave
 	private int changeEnimyTimes;
 	
 	@CombineSave
