@@ -8,6 +8,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 //	<bean class="com.rw.service.GroupFightOnline.datamodel.GFightOnlineResourceHelper"  init-method="init" />
+
 public class GFightOnlineResourceCfgDAO extends CfgCsvDao<GFightOnlineResourceCfg> {
 	public static GFightOnlineResourceCfgDAO getInstance() {
 		return SpringContextUtil.getBean(GFightOnlineResourceCfgDAO.class);
