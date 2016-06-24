@@ -14,7 +14,16 @@ public class ActivityCountTypeSubCfg {
 	//计数奖励
 	private String awardGift;	
 
+	private String emailTitle;
 	
+	
+	
+	public String getEmailTitle() {
+		return emailTitle;
+	}
+	public void setEmailTitle(String emailTitle) {
+		this.emailTitle = emailTitle;
+	}
 	public String getId() {
 		return id;
 	}
