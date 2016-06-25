@@ -8,19 +8,19 @@ public enum GFResourceState {
 	/**
 	 * 休战期间（只能跳去竞标阶段）
 	 */
-	REST(0),
+	REST(1),
 	/**
 	 * 竞标阶段（只能跳去备战阶段）
 	 */
-	BIDDING(1),
+	BIDDING(2),
 	/**
 	 * 备战阶段（只能跳去开战阶段）
 	 */
-	PREPARE(2),
+	PREPARE(3),
 	/**
 	 * 开战阶段（只能跳去休战阶段）
 	 */
-	FIGHT(3);
+	FIGHT(4);
 	
 	private int value;
 	GFResourceState(int value){
@@ -28,7 +28,6 @@ public enum GFResourceState {
 	}
 	
 	public int getValue(){
-		if(value == 5) return 1;
 		return value;
 	}
 	
@@ -42,13 +41,13 @@ public enum GFResourceState {
 	
 	public GFResourceState getState(int value){
 		switch (value) {
-		case 0:
-			return REST;
 		case 1:
-			return BIDDING;
+			return REST;
 		case 2:
-			return PREPARE;
+			return BIDDING;
 		case 3:
+			return PREPARE;
+		case 4:
 			return FIGHT;
 		default:
 			return REST;

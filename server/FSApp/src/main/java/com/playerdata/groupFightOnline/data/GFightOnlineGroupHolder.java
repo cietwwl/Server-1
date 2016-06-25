@@ -26,6 +26,7 @@ public class GFightOnlineGroupHolder {
 	final private eSynType synType = eSynType.GFightOnlineGroupData;
 	
 	public GFightOnlineGroupData get(String groupId) {
+		if(groupId.isEmpty()) return null;
 		GFightOnlineGroupData groupData = getItem(groupId, -1);
 		if(groupData == null) {
 			initGroupData(groupId);
@@ -70,7 +71,7 @@ public class GFightOnlineGroupHolder {
 			if(groupData != null) groupList.add(groupData);
 		}
 		if(groupList.size() > 0)
-			ClientDataSynMgr.synDataList(player, groupList, synType, eSynOpType.UPDATE_LIST, gfGroupVersion.get());
+			ClientDataSynMgr.synDataList(player, groupList, synType, eSynOpType.UPDATE_PART_LIST, gfGroupVersion.get());
 	}
 	
 	/**

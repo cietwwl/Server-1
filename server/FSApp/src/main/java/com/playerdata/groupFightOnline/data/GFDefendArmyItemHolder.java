@@ -26,7 +26,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class GFDefendArmyItemHolder {
 	public static int MAX_DEFEND_ARMY_COUNT = 5;	//每个人最多设置的防守队伍数量
 	// public static int LOCK_ITEM_MAX_TIME = 10 * 60 * 1000;	//被选中或战斗锁定时间2分钟
-	public static int LOCK_ITEM_MAX_TIME = 5 * 1000;
+	public static int LOCK_ITEM_MAX_TIME = 30 * 1000;
 	
 	private static AtomicInteger defendArmyVersion = new AtomicInteger(0);
 	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();
@@ -73,8 +73,9 @@ public class GFDefendArmyItemHolder {
 	 */
 	public List<GFDefendArmyItem> getItem(Player player){
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
-		Enumeration<GFDefendArmyItem> itemEnum = getItemStore(groupID).getEnum();
 		List<GFDefendArmyItem> itemlist = new ArrayList<GFDefendArmyItem>();
+		if(groupID.isEmpty()) return itemlist;
+		Enumeration<GFDefendArmyItem> itemEnum = getItemStore(groupID).getEnum();
 		while(itemEnum.hasMoreElements()) {
 			GFDefendArmyItem item = itemEnum.nextElement();
 			if(item.getUserID().equals(player.getUserId()))
@@ -207,7 +208,7 @@ public class GFDefendArmyItemHolder {
 	 * @param player
 	 */
 	public void synAllData(Player player){
-		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_LIST, defendArmyVersion.get());
+		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_PART_LIST, defendArmyVersion.get());
 	}
 
 	public void startFight(Player player, GFDefendArmyItem armyItem) {
@@ -308,6 +309,7 @@ public class GFDefendArmyItemHolder {
 	 */
 	private boolean addItems(Player player, List<GFDefendArmyItem> items){
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(groupID.isEmpty()) return false;
 		try {
 			return getItemStore(groupID).addItem(items);
 		} catch (DuplicatedKeyException e) {

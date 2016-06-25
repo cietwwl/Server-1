@@ -99,7 +99,7 @@ public class GFightOnFightMgr {
 			gfRsp.setRstType(GFResultType.NO_SELECTED_ENIMY);
 			return;
 		}
-//		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyItemHolder.LOCK_ITEM_MAX_TIME){
+//		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
 //			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
 //			return;
 //		}
@@ -134,10 +134,10 @@ public class GFightOnFightMgr {
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
-		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
-			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
-			return;
-		}
+//		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
+//			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
+//			return;
+//		}
 		if(!defenderSimple.getGroupID().equals(fightResult.getGroupID()) || 
 				!defenderSimple.getDefendArmyID().equals(fightResult.getDefendArmyID())) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);
@@ -158,6 +158,9 @@ public class GFightOnFightMgr {
 			return;
 		}
 		updateSelfHeroAndHurtState(player, fightResult.getSelfArmyState(), fightResult.getHurtValue(), fightResult.getState() == 1);
+		
+		//TODO GFightOnlineGroupData 中的队伍总数和存活数有变化，要推送
+		// GFightOnlineGroupHolder.getInstance().synAllData();
 	}
 	
 	/**

@@ -16,6 +16,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -38,7 +39,7 @@ public class GFightGroupBidMgr {
 	private GFightGroupBidMgr() { }
 	
 	public void getResourceInfo(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
-		gfRsp.setSystemTime(System.currentTimeMillis());
+		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();	
 		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : resCfgs){
 			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
@@ -50,6 +51,7 @@ public class GFightGroupBidMgr {
 			}
 			gfRsp.addGfResourceInfo(ClientDataSynMgr.toClientData(resInfo));
 		}
+		gfRsp.setSystemTime(System.currentTimeMillis());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
@@ -92,19 +94,25 @@ public class GFightGroupBidMgr {
 	}
 	
 	private GFResourceInfo toClientResourceData(String userID, GFightOnlineResourceData resData){
-		GroupBaseDataIF groupData = GroupBM.get(resData.getOwnerGroupID()).getGroupBaseDataMgr().getGroupData();
+		GFResourceInfo resInfo = new GFResourceInfo();
+		resInfo.setResourceID(resData.getResourceID());
+		resInfo.setState(resData.getState());
+		if(resData.getOwnerGroupID() == null || resData.getOwnerGroupID().isEmpty()) return resInfo;
+		Group gp = GroupBM.get(resData.getOwnerGroupID());
+		if(gp == null) return resInfo;
+		GroupBaseDataIF groupData = gp.getGroupBaseDataMgr().getGroupData();
 		if(groupData == null) {
 			GameLog.error(LogModule.GroupFightOnline.getName(), userID, String.format("getResourceInfo, 占领资源点[%s]的帮派[%s]信息不存在", resData.getResourceID(), resData.getOwnerGroupID()));
 		}
 		String leaderName = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getGroupLeader().getName();
+		
 		GFGroupBiddingItem groupSimple = new GFGroupBiddingItem();
 		groupSimple.setGroupID(groupData.getGroupId());
 		groupSimple.setIconID(groupData.getIconId());
 		groupSimple.setGroupName(groupData.getGroupName());
 		groupSimple.setLeaderName(leaderName);
-		GFResourceInfo resInfo = new GFResourceInfo();
-		resInfo.setResourceID(resData.getResourceID());
 		resInfo.setGroupInfo(groupSimple);
+		
 		return resInfo;
 	}
 }

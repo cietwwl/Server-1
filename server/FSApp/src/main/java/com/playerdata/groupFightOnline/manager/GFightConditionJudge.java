@@ -65,7 +65,7 @@ class GFightConditionJudge {
 	
 	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
 		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyItemHolder.LOCK_ITEM_MAX_TIME)
-			return false;  // TODO
+			return false;
 		return false;
 	}
 	

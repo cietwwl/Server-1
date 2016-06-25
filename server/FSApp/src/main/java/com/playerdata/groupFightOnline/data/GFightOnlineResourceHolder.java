@@ -49,7 +49,10 @@ public class GFightOnlineResourceHolder {
 		for(GFightOnlineResourceCfg cfg : cfgs){
 			GFResourceState state = cfg.checkResourceState();
 			GFightOnlineResourceData resData = gfResourceDao.get(String.valueOf(cfg.getResID()));
-			if(resData == null) resData = new GFightOnlineResourceData();
+			if(resData == null) {
+				resData = new GFightOnlineResourceData();
+				resData.setResourceID(cfg.getResID());
+			}
 			switch (state) {
 			case REST:
 				if(GFResourceState.FIGHT.equals(resData.getState()))
