@@ -229,6 +229,13 @@ public class ActivityCollector implements RedPointCollector{
 			if(targetItem==null){
 				continue;
 			}
+			
+			if(!targetItem.isTouchRedPoint()){
+				activityList.add(targetItem.getCfgId());
+				continue;
+			}
+			
+			
 			List<ActivityExchangeTypeSubItem> exchangeSubitemlist= targetItem.getSubItemList();
 			for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
 				if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
