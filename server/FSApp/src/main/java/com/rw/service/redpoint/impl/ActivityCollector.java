@@ -226,8 +226,8 @@ public class ActivityCollector implements RedPointCollector{
 		}
 		
 		
-		if (!activityList.isEmpty()) {
+//		if (!activityList.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
-		}		
+//		}		
 	}	
 }
