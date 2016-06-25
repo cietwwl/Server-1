@@ -120,7 +120,11 @@ public class SettingMgr implements PlayerEventListener {
 	}
 
 	public List<String> getHeadBoxByTypeList(int type) {
-		HeadTypeList headType = settingDataHolder.get().getOwnHeadBox().get(type);
+		List<HeadTypeList> ownHeadBox = settingDataHolder.get().getOwnHeadBox();
+		if(ownHeadBox.size() <= type){
+			return null;
+		}
+		HeadTypeList headType = ownHeadBox.get(type);
 		if (headType != null) {
 			return headType.getDataList();
 		}
