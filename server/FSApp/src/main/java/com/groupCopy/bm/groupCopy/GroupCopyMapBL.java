@@ -37,11 +37,12 @@ public class GroupCopyMapBL {
 		try {
 			GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(mapId);
 			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
-			boolean add = false;
 			if(mapRecord == null){
-				add = true;
-				mapRecord = new GroupCopyMapRecord();
-				mapRecord.setId(mapCfg.getId());
+				GameLog.error(LogModule.GroupCopy, "GroupCopyMapBL[openMap]", "玩家开启帮派副本出现异常，玩家名:" 
+						+ player.getUserName() + ",地图章节id:" + mapId, null);
+				result.setSuccess(suc);
+				result.setTipMsg("服务器繁忙！");
+				return result;
 			}
 
 			//设置额外奖励时间
@@ -52,11 +53,8 @@ public class GroupCopyMapBL {
 			//重置所有关卡的进度
 			lvRecordHolder.resetLevelData(player, mapCfg.getLvList());
 			
-			if(add){
-				suc = mapRecordHolder.addItem(player, mapRecord);
-			}else{
-				suc = mapRecordHolder.updateItem(player, mapRecord);
-			}
+			
+			suc = mapRecordHolder.updateItem(player, mapRecord);
 			
 			
 		} catch (Exception e) {

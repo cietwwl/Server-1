@@ -1,5 +1,6 @@
 package com.groupCopy.rwbase.dao.groupCopy.cfg;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -14,7 +15,14 @@ public class GroupCopyLevelCfgDao extends CfgCsvDao<GroupCopyLevelCfg> {
 	@Override
 	public Map<String, GroupCopyLevelCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("GroupCopy/GroupCopyLevelCfg.csv", GroupCopyLevelCfg.class);
+		formatData(cfgCacheMap.values());
 		return cfgCacheMap;
+	}
+	
+	private void formatData(Collection<GroupCopyLevelCfg> values) {
+		for (GroupCopyLevelCfg cfg : values) {
+			cfg.formatData();
+		}
 	}
 	
 	public GroupCopyLevelCfg getConfig(String id){

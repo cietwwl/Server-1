@@ -52,9 +52,31 @@ public class GroupCopyLevelBL {
 	public final static String COPY_WAIT_TIPS = "准备中...";
 	public final static String COPY_FIGHT_TIPS = "战斗中...";
 	
+	/**
+	 * 创建关卡进度
+	 * @param level
+	 * @return
+	 */
+	public static GroupCopyProgress createProgress(String level){
+		
+		GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+		List<String> idList = levelCfg.getmIDList();
+		
+		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();;
+		GroupCopyMonsterSynStruct struct = null;
+		CopyMonsterCfg monsterCfg;
+		for (String id : idList) {
+			monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
+			struct = new GroupCopyMonsterSynStruct(monsterCfg);
+			mData.add(struct);
+		}
+		return new GroupCopyProgress(mData);
+		
+	}
 	
 	public static GroupCopyResult beginFight(Player player, GroupCopyLevelRecordHolder groupCopyLevelRecordHolder,String level) {
 		GroupCopyResult result = GroupCopyResult.newResult();
+		result.setTipMsg("操作成功");
 		GroupCopyLevelRecord lvRecord = groupCopyLevelRecordHolder.getByLevel(level);	
 		if(isFighting(lvRecord, player)){
 			result.setSuccess(false);
@@ -75,8 +97,12 @@ public class GroupCopyLevelBL {
 				
 				UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 				UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(levelCfg.getChaterID());
+				if(userRecord == null){
+					userRecord = userRecordMgr.addNewUserMapRecord(player, levelCfg.getChaterID());
+				}
 				
-				if(userRecord.getLeftFightCount() >= MAX_FIGHT_COUNT){
+				
+				if(userRecord.getLeftFightCount() < 0){//暂时测试改为<  后面要改为==
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
@@ -84,6 +110,10 @@ public class GroupCopyLevelBL {
 					lvRecord.setStatus(STATE_COPY_FIGHT);
 					lvRecord.setLastBeginFightTime(System.currentTimeMillis());
 					GroupCopyProgress progress = lvRecord.getProgress();
+					if(progress == null){
+						progress = GroupCopyLevelBL.createProgress(lvRecord.getId());
+						lvRecord.setProgress(progress);
+					}
 					
 					userRecord.incrFightCount();
 					GroupCopyMonsterData.Builder b = GroupCopyMonsterData.newBuilder();
@@ -127,15 +157,21 @@ public class GroupCopyLevelBL {
 			long curTime = System.currentTimeMillis();
 			long endTime = groupRecord.getLastBeginFightTime() + MAX_FIGHT_SPAN;
 			if(endTime < curTime){
-				return true;
+				return false;
 			}
 			
 		}
 		if(groupRecord.getStatus() == STATE_COPY_WAIT){
-			long curTime = System.currentTimeMillis();
-			long endTime = groupRecord.getLastBeginFightTime() + MAX_WAIT_SPAN;
-			if(endTime < curTime && groupRecord.getFighterId() != player.getUserId()){
-				return true;
+			if(groupRecord.getFighterId().equals(player.getUserId())){
+				//准备和战斗是同一个，允许进入
+				return false;
+			}else{
+				//不是同一个人，检查是否状态超时
+				long curTime = System.currentTimeMillis();
+				long endTime = groupRecord.getLastBeginFightTime() + MAX_WAIT_SPAN;
+				if(endTime > curTime){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -208,7 +244,7 @@ public class GroupCopyLevelBL {
 			
 			result.setItem(rewardInfo);
 			
-			copyLvRecd.setProgress(nowPro);
+			copyLvRecd.setProgress(nowPro);//新创建一个对象这样set进去，会不会有问题
 			
 			userRecord.incrFightCount();
 			
@@ -286,36 +322,7 @@ public class GroupCopyLevelBL {
 		
 	}
 
-	public static GroupCopyLevelRecord createLevelRecord(Player player,
-			String level, GroupCopyLevelRecordHolder lvRecordHolder) {
-		GroupCopyLevelRecord lvData = null;
-		try {
-			lvData = new GroupCopyLevelRecord();
-			lvData.setId(level);
-			String groupId = GroupHelper.getGroupId(player);
-			lvData.setGroupId(groupId);
-			//这里还要初始化一下怪物信息
-			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
-			List<String> idList = levelCfg.getmIDList();
-			
-			List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();;
-			GroupCopyMonsterSynStruct struct = null;
-			CopyMonsterCfg monsterCfg;
-			for (String id : idList) {
-				monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-				struct = new GroupCopyMonsterSynStruct(monsterCfg);
-				mData.add(struct);
-			}
-			GroupCopyProgress p = new GroupCopyProgress(mData);
-			
-			lvData.setProgress(p);
-			lvRecordHolder.addItem(player, lvData);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return lvData;
-	}
+	
 	
 	
 

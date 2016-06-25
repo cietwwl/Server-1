@@ -1,6 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -30,7 +31,7 @@ public class GroupCopyRewardRecord implements IMapItem {
 	
 	/**分配记录，上限为40条*/
 	@CombineSave
-	private LinkedList<DistRewRecordItem> recordList = new LinkedList<DistRewRecordItem>();
+	private List<DistRewRecordItem> recordList = new LinkedList<DistRewRecordItem>();
 	
 	
 	public String getId() {
@@ -41,10 +42,10 @@ public class GroupCopyRewardRecord implements IMapItem {
 	}
 	
 
-	public LinkedList<DistRewRecordItem> getRecordList() {
+	public List<DistRewRecordItem> getRecordList() {
 		return recordList;
 	}
-	public void setRecordList(LinkedList<DistRewRecordItem> recordList) {
+	public void setRecordList(List<DistRewRecordItem> recordList) {
 		this.recordList = recordList;
 	}
 	public String getGroupId() {

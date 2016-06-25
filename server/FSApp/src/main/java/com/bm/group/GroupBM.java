@@ -181,6 +181,7 @@ public final class GroupBM {
 		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
 				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame());
 
+	
 		return group;
 	}
 
@@ -289,4 +290,6 @@ public final class GroupBM {
 		sb.append(generator.generateId());
 		return sb.toString();
 	}
+	
+	
 }

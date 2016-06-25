@@ -3,8 +3,12 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
  * 
@@ -19,9 +23,23 @@ public class UserGroupCopyMapRecord implements IMapItem {
 	@Id
 	private String id; // 对应章节id
 	
+	@IgnoreSynField
 	private String userId;
 	
+	@CombineSave
 	private int leftFightCount;
+	
+	
+	
+	public UserGroupCopyMapRecord(String id, String userId, int leftFightCount) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.leftFightCount = leftFightCount;
+	}
+
+	public UserGroupCopyMapRecord() {
+	}
 	
 	public String getId() {
 		return id;

@@ -21,7 +21,6 @@ message GroupCopyBattleComReqMsg{
 	optional GroupCopyMonsterData mData = 4;//退出战斗时怪物信息(服务器要计算进度及保存)
 	optional HeroList heros = 5;//退出战斗时返回
 	optional CopyBattleRoleStruct battleRoleData = 6;
-	optional int32 readySecond = 7;//战斗准备时长
 }
 
 //【佣兵列表】

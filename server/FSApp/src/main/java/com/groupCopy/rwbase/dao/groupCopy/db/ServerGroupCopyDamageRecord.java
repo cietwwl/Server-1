@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
  * 帮派副本关卡全服伤害排行前10
@@ -21,8 +22,13 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 	private String id;
 	private String groupId;
 	
+	@CombineSave
 	private String levelID;
 	
+	//首次击杀
+	@CombineSave
+	private GroupCopyArmyDamageInfo firstKillInfo;
+	@CombineSave
 	private LinkedList<GroupCopyArmyDamageInfo> records = new LinkedList<GroupCopyArmyDamageInfo>();
 	
 	

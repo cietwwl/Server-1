@@ -4,12 +4,12 @@ import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.groupCopy.bm.groupCopy.GroupCopyMgr;
+import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdRspMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyReqType;
-import com.rwproto.GroupCopyCmdProto.ResultCode;
 
 public class GroupCopyCmdHandler {
 
@@ -27,10 +27,10 @@ public class GroupCopyCmdHandler {
 		
 		Group group = GroupHelper.getGroup(player);
 		if(group != null){
-			rspCmd.setResCode(ResultCode.CODE_SUC);
+			rspCmd.setIsSuccess(true);
 			GroupCopyDataVersionMgr.synAllDataByVersion(player, reqMsg.getVersion());
 		}else{
-			rspCmd.setResCode(ResultCode.CODE_FAIL);
+			rspCmd.setIsSuccess(false);
 		}
 		return rspCmd.build().toByteString();
 	}
@@ -43,9 +43,9 @@ public class GroupCopyCmdHandler {
 		if(group != null){
 			GroupCopyDataVersionMgr.syncSingleDataByVersion(player, reqMsg.getVersion(),
 					GroupCopyDataVersionMgr.TYPE_DROP_APPLY);
-			rspCmd.setResCode(ResultCode.CODE_SUC);
+			rspCmd.setIsSuccess(true);
 		}else{
-			rspCmd.setResCode(ResultCode.CODE_FAIL);
+			rspCmd.setIsSuccess(false);
 		}
 		
 		
@@ -64,12 +64,12 @@ public class GroupCopyCmdHandler {
 		rspCmd.setReqType(GroupCopyReqType.BUFF_DONATE);
 		Group g = GroupHelper.getGroup(player);
 		if(g != null){
-			boolean suc = g.getGroupCopyMgr().donateBuff(player, g, reqMsg);
-			if(suc){
-				rspCmd.setResCode(ResultCode.CODE_SUC);
-			}
+			GroupCopyResult suc = g.getGroupCopyMgr().donateBuff(player, g, reqMsg);
+			rspCmd.setIsSuccess(suc.isSuccess());
+			rspCmd.setTipMsg(suc.getTipMsg());
 		}else{
-			rspCmd.setResCode(ResultCode.CODE_FAIL);
+			rspCmd.setIsSuccess(false);
+			rspCmd.setTipMsg("角色不在帮派内");
 		}
 		
 		return rspCmd.build().toByteString();

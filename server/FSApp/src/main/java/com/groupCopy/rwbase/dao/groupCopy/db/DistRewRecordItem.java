@@ -13,17 +13,17 @@ public class DistRewRecordItem {
 	//获得奖励的角色名
 	private String roleName;
 	//获得奖励的时间点
-	private String timeStr;
+	private long captureTime;
 	//获得方式
 	private String getType;
 	
 	
-	public DistRewRecordItem(int itemID, String roleName, String timeStr,
+	public DistRewRecordItem(int itemID, String roleName, long timeStr,
 			String getType) {
 		super();
 		this.itemID = itemID;
 		this.roleName = roleName;
-		this.timeStr = timeStr;
+		this.captureTime = timeStr;
 		this.getType = getType;
 	}
 
@@ -48,13 +48,13 @@ public class DistRewRecordItem {
 	}
 
 
-	public String getTimeStr() {
-		return timeStr;
+	public long getCaptureTime() {
+		return captureTime;
 	}
 
 
-	public void setTimeStr(String timeStr) {
-		this.timeStr = timeStr;
+	public void setCaptureTime(long captureTime) {
+		this.captureTime = captureTime;
 	}
 
 

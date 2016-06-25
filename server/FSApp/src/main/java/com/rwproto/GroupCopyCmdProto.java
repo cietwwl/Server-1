@@ -116,104 +116,6 @@ public final class GroupCopyCmdProto {
   }
 
   /**
-   * Protobuf enum {@code GroupCopyCmd.ResultCode}
-   */
-  public enum ResultCode
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>CODE_SUC = 1;</code>
-     *
-     * <pre>
-     *成功
-     * </pre>
-     */
-    CODE_SUC(0, 1),
-    /**
-     * <code>CODE_FAIL = 2;</code>
-     *
-     * <pre>
-     *失败
-     * </pre>
-     */
-    CODE_FAIL(1, 2),
-    ;
-
-    /**
-     * <code>CODE_SUC = 1;</code>
-     *
-     * <pre>
-     *成功
-     * </pre>
-     */
-    public static final int CODE_SUC_VALUE = 1;
-    /**
-     * <code>CODE_FAIL = 2;</code>
-     *
-     * <pre>
-     *失败
-     * </pre>
-     */
-    public static final int CODE_FAIL_VALUE = 2;
-
-
-    public final int getNumber() { return value; }
-
-    public static ResultCode valueOf(int value) {
-      switch (value) {
-        case 1: return CODE_SUC;
-        case 2: return CODE_FAIL;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<ResultCode>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<ResultCode>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<ResultCode>() {
-            public ResultCode findValueByNumber(int number) {
-              return ResultCode.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.GroupCopyCmdProto.getDescriptor().getEnumTypes().get(1);
-    }
-
-    private static final ResultCode[] VALUES = values();
-
-    public static ResultCode valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private ResultCode(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:GroupCopyCmd.ResultCode)
-  }
-
-  /**
    * Protobuf enum {@code GroupCopyCmd.GroupCopyMapStatus}
    *
    * <pre>
@@ -292,7 +194,7 @@ public final class GroupCopyCmdProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GroupCopyCmdProto.getDescriptor().getEnumTypes().get(2);
+      return com.rwproto.GroupCopyCmdProto.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final GroupCopyMapStatus[] VALUES = values();
@@ -1251,23 +1153,50 @@ public final class GroupCopyCmdProto {
      */
     com.rwproto.GroupCopyCmdProto.GroupCopyReqType getReqType();
 
-    // required .GroupCopyCmd.ResultCode resCode = 2;
+    // required bool isSuccess = 2;
     /**
-     * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+     * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *返回的结果代码
+     *是否成功处理
      * </pre>
      */
-    boolean hasResCode();
+    boolean hasIsSuccess();
     /**
-     * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+     * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *返回的结果代码
+     *是否成功处理
      * </pre>
      */
-    com.rwproto.GroupCopyCmdProto.ResultCode getResCode();
+    boolean getIsSuccess();
+
+    // optional string tipMsg = 3;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdRspMsg}
@@ -1332,14 +1261,13 @@ public final class GroupCopyCmdProto {
               break;
             }
             case 16: {
-              int rawValue = input.readEnum();
-              com.rwproto.GroupCopyCmdProto.ResultCode value = com.rwproto.GroupCopyCmdProto.ResultCode.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(2, rawValue);
-              } else {
-                bitField0_ |= 0x00000002;
-                resCode_ = value;
-              }
+              bitField0_ |= 0x00000002;
+              isSuccess_ = input.readBool();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              tipMsg_ = input.readBytes();
               break;
             }
           }
@@ -1406,33 +1334,89 @@ public final class GroupCopyCmdProto {
       return reqType_;
     }
 
-    // required .GroupCopyCmd.ResultCode resCode = 2;
-    public static final int RESCODE_FIELD_NUMBER = 2;
-    private com.rwproto.GroupCopyCmdProto.ResultCode resCode_;
+    // required bool isSuccess = 2;
+    public static final int ISSUCCESS_FIELD_NUMBER = 2;
+    private boolean isSuccess_;
     /**
-     * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+     * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *返回的结果代码
+     *是否成功处理
      * </pre>
      */
-    public boolean hasResCode() {
+    public boolean hasIsSuccess() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+     * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *返回的结果代码
+     *是否成功处理
      * </pre>
      */
-    public com.rwproto.GroupCopyCmdProto.ResultCode getResCode() {
-      return resCode_;
+    public boolean getIsSuccess() {
+      return isSuccess_;
+    }
+
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
-      resCode_ = com.rwproto.GroupCopyCmdProto.ResultCode.CODE_SUC;
+      isSuccess_ = false;
+      tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1443,7 +1427,7 @@ public final class GroupCopyCmdProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasResCode()) {
+      if (!hasIsSuccess()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1458,7 +1442,10 @@ public final class GroupCopyCmdProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeEnum(2, resCode_.getNumber());
+        output.writeBool(2, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1475,7 +1462,11 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, resCode_.getNumber());
+          .computeBoolSize(2, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1595,8 +1586,10 @@ public final class GroupCopyCmdProto {
         super.clear();
         reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
         bitField0_ = (bitField0_ & ~0x00000001);
-        resCode_ = com.rwproto.GroupCopyCmdProto.ResultCode.CODE_SUC;
+        isSuccess_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1632,7 +1625,11 @@ public final class GroupCopyCmdProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.resCode_ = resCode_;
+        result.isSuccess_ = isSuccess_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1652,8 +1649,13 @@ public final class GroupCopyCmdProto {
         if (other.hasReqType()) {
           setReqType(other.getReqType());
         }
-        if (other.hasResCode()) {
-          setResCode(other.getResCode());
+        if (other.hasIsSuccess()) {
+          setIsSuccess(other.getIsSuccess());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000004;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1664,7 +1666,7 @@ public final class GroupCopyCmdProto {
           
           return false;
         }
-        if (!hasResCode()) {
+        if (!hasIsSuccess()) {
           
           return false;
         }
@@ -1742,54 +1744,149 @@ public final class GroupCopyCmdProto {
         return this;
       }
 
-      // required .GroupCopyCmd.ResultCode resCode = 2;
-      private com.rwproto.GroupCopyCmdProto.ResultCode resCode_ = com.rwproto.GroupCopyCmdProto.ResultCode.CODE_SUC;
+      // required bool isSuccess = 2;
+      private boolean isSuccess_ ;
       /**
-       * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+       * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *返回的结果代码
+       *是否成功处理
        * </pre>
        */
-      public boolean hasResCode() {
+      public boolean hasIsSuccess() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+       * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *返回的结果代码
+       *是否成功处理
        * </pre>
        */
-      public com.rwproto.GroupCopyCmdProto.ResultCode getResCode() {
-        return resCode_;
+      public boolean getIsSuccess() {
+        return isSuccess_;
       }
       /**
-       * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+       * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *返回的结果代码
+       *是否成功处理
        * </pre>
        */
-      public Builder setResCode(com.rwproto.GroupCopyCmdProto.ResultCode value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+      public Builder setIsSuccess(boolean value) {
         bitField0_ |= 0x00000002;
-        resCode_ = value;
+        isSuccess_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required .GroupCopyCmd.ResultCode resCode = 2;</code>
+       * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *返回的结果代码
+       *是否成功处理
        * </pre>
        */
-      public Builder clearResCode() {
+      public Builder clearIsSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        resCode_ = com.rwproto.GroupCopyCmdProto.ResultCode.CODE_SUC;
+        isSuccess_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional string tipMsg = 3;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
         onChanged();
         return this;
       }
@@ -2481,17 +2578,16 @@ public final class GroupCopyCmdProto {
       "roupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Gro" +
       "upCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 " +
       "\001(\t\0225\n\ndonateData\030\003 \001(\0132!.GroupCopyCmd.G" +
-      "roupCopyDonateData\"p\n\022GroupCopyCmdRspMsg" +
+      "roupCopyDonateData\"h\n\022GroupCopyCmdRspMsg" +
       "\022/\n\007reqType\030\001 \002(\0162\036.GroupCopyCmd.GroupCo" +
-      "pyReqType\022)\n\007resCode\030\002 \002(\0162\030.GroupCopyCm" +
-      "d.ResultCode\"8\n\023GroupCopyDonateData\022\r\n\005l" +
-      "evel\030\001 \002(\t\022\022\n\ndonateTime\030\002 \002(\005*J\n\020GroupC" +
-      "opyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APP",
-      "LY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003*)\n\nResultCode" +
-      "\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022GroupCo" +
-      "pyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013" +
-      "\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021" +
-      "GroupCopyCmdProto"
+      "pyReqType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003" +
+      " \001(\t\"8\n\023GroupCopyDonateData\022\r\n\005level\030\001 \002" +
+      "(\t\022\022\n\ndonateTime\030\002 \002(\005*J\n\020GroupCopyReqTy" +
+      "pe\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020",
+      "\002\022\017\n\013BUFF_DONATE\020\003*H\n\022GroupCopyMapStatus" +
+      "\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ONGOING\020\002" +
+      "\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021GroupCopyCm" +
+      "dProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2509,7 +2605,7 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "ResCode", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
           internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable = new

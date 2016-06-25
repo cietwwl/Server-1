@@ -10,6 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.monster.cfg.CopyMonsterCfg;
+import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -28,7 +33,45 @@ public class GroupCopyLevelRecordHolder{
 	
 	public GroupCopyLevelRecordHolder(String groupIdP) {
 		groupId = groupIdP;
+		checkAndInitData();
 	}
+	
+	/**
+	 * 检查副本配置并初始化
+	 */
+	public void checkAndInitData(){
+		List<GroupCopyLevelCfg> list = GroupCopyLevelCfgDao.getInstance().getAllCfg();
+		GroupCopyLevelRecord record;
+		for (GroupCopyLevelCfg cfg : list) {
+			record = getByLevel(cfg.getId());
+			if(record == null){
+				record = createLevelRecord(cfg.getId());
+				getItemStore().addItem(record);
+			}
+			
+		}
+	}
+	
+	private GroupCopyLevelRecord createLevelRecord(String level) {
+		GroupCopyLevelRecord lvData = null;
+		try {
+			lvData = new GroupCopyLevelRecord();
+			lvData.setId(level);
+			
+			lvData.setGroupId(groupId);
+			//这里还要初始化一下怪物信息
+			GroupCopyProgress p = GroupCopyLevelBL.createProgress(level);
+			
+			lvData.setProgress(p);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lvData;
+	}
+	
+	
 	
 	/*
 	 * 获取帮派副本关卡数据
@@ -62,15 +105,9 @@ public class GroupCopyLevelRecordHolder{
 		return getItemStore().getItem(itemId);
 	}	
 	
-	public boolean addItem(Player player, GroupCopyLevelRecord item){
 	
-		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess){
-			updateVersion();
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
+	
+	
 	
 	public GroupCopyLevelRecord getByLevel(String level){
 		GroupCopyLevelRecord target = null;

@@ -21,6 +21,18 @@ public class GroupCopyRewardRecordHolder{
 	
 	public GroupCopyRewardRecordHolder(String groupIdP) {
 		groupId = groupIdP;
+		initData();
+	}
+	
+	private void initData(){
+		GroupCopyRewardRecord item = getItem(groupId);
+		if(item == null){
+			item = new GroupCopyRewardRecord();
+			item.setGroupId(groupId);
+			item.setId(groupId);
+			getItemStore().addItem(item);
+		}
+		
 	}
 	
 	/*

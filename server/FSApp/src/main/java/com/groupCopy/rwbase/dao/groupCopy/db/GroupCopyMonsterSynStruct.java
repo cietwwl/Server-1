@@ -1,6 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import com.monster.cfg.CopyMonsterCfg;
+import com.playerdata.dataSyn.annotation.SynClass;
 
 
 /**
@@ -8,6 +9,7 @@ import com.monster.cfg.CopyMonsterCfg;
  * @author Alex
  * 2016年6月22日 下午5:18:08
  */
+@SynClass
 public class GroupCopyMonsterSynStruct {
 	
 	private String id;
@@ -23,7 +25,7 @@ public class GroupCopyMonsterSynStruct {
 	}
 	public GroupCopyMonsterSynStruct(CopyMonsterCfg monsterCfg) {
 		id = monsterCfg.getId();
-		totalHP = monsterCfg.getHpCount() * monsterCfg.getLift();
+		totalHP = monsterCfg.getHpCount() * monsterCfg.getLife();
 		curHP = totalHP;
 		totalMP = monsterCfg.getEnergy();
 		curMP = totalMP;

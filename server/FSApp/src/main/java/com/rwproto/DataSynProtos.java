@@ -701,7 +701,7 @@ public final class DataSynProtos {
      *在线帮战个人压标数据
      * </pre>
      */
-    GFBiddingData(64, 81),
+    GFBiddingData(66, 81),
     /**
      * <code>GFDefendArmyData = 82;</code>
      *
@@ -709,11 +709,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍信息
      * </pre>
      */
-<<<<<<< .mine
-    GroupChampBidData(67, 82),
-=======
-    GFDefendArmyData(65, 82),
->>>>>>> .theirs
+    GFDefendArmyData(67, 82),
     /**
      * <code>GFightOnlineGroupData = 83;</code>
      *
@@ -721,11 +717,7 @@ public final class DataSynProtos {
      *在线帮战帮派信息
      * </pre>
      */
-<<<<<<< .mine
-    GroupChampArmyData(68, 83),
-=======
-    GFightOnlineGroupData(66, 83),
->>>>>>> .theirs
+    GFightOnlineGroupData(68, 83),
     /**
      * <code>GFightOnlinePersonalData = 84;</code>
      *
@@ -733,26 +725,7 @@ public final class DataSynProtos {
      *在线帮战个人信息
      * </pre>
      */
-<<<<<<< .mine
-    UserGroupChampData(69, 84),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-    GFightOnlinePersonalData(67, 84),
+    GFightOnlinePersonalData(69, 84),
     /**
      * <code>GFightOnlineResourceData = 85;</code>
      *
@@ -760,7 +733,7 @@ public final class DataSynProtos {
      *在线帮战资源点信息
      * </pre>
      */
-    GFightOnlineResourceData(68, 85),
+    GFightOnlineResourceData(70, 85),
     /**
      * <code>MajorData = 86;</code>
      *
@@ -768,8 +741,7 @@ public final class DataSynProtos {
      *关键数据
      * </pre>
      */
-    MajorData(69, 86),
->>>>>>> .theirs
+    MajorData(71, 86),
     ;
 
     /**
@@ -5310,11 +5282,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-<<<<<<< .mine
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\316\013\n\010eSynType\022\025\n" +
-=======
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\310\013\n\010eSynType\022\025\n" +
->>>>>>> .theirs
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\202\014\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
       "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
@@ -5332,7 +5300,6 @@ public final class DataSynProtos {
       "Y_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020" +
       "\037\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020" +
       "!\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeDat",
-<<<<<<< .mine
       "a\020#\022\024\n\020GROUP_COPY_LEVEL\020$\022\022\n\016GROUP_COPY_" +
       "MAP\020%\022\025\n\021GROUP_COPY_REWARD\020&\022\030\n\024GroupApp" +
       "lyMemberData\020\'\022\026\n\022GroupResearchSkill\020(\022\023" +
@@ -5350,33 +5317,11 @@ public final class DataSynProtos {
       "\022\024\n\020ActivityRankType\020B\022\030\n\024ActivityExchan" +
       "geType\020C\022\031\n\025ActivityTimeCountType\020D\022\025\n\021A" +
       "ctivityDailyType\020E\022\030\n\024ActivityVitalityTy" +
-      "pe\020F\022\020\n\014QuestionList\020P\022\022\n\016GroupChampData" +
-      "\020Q\022\025\n\021GroupChampBidData\020R\022\026\n\022GroupChampA" +
-      "rmyData\020S\022\026\n\022UserGroupChampData\020TB\034\n\013com",
-      ".rwprotoB\rDataSynProtos"
-=======
-      "a\020#\022\022\n\016GroupCopyLevel\020$\022\020\n\014GroupCopyMap\020" +
-      "%\022\023\n\017GroupCopyReward\020&\022\030\n\024GroupApplyMemb" +
-      "erData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n\017Grou" +
-      "pStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020" +
-      "+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_FETTER" +
-      "S\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP" +
-      "\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017GroupSecr" +
-      "etData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020MagicCh" +
-      "apterData\0203\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n" +
-      "\021ActivityCountType\020<\022\030\n\024ActivityTimeCard",
-      "Type\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activity" +
-      "DateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024" +
-      "ActivityDateSaleType\020A\022\024\n\020ActivityRankTy" +
-      "pe\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activi" +
-      "tyTimeCountType\020D\022\025\n\021ActivityDailyType\020E" +
-      "\022\030\n\024ActivityVitalityType\020F\022\020\n\014QuestionLi" +
-      "st\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDefendArmyD" +
-      "ata\020R\022\031\n\025GFightOnlineGroupData\020S\022\034\n\030GFig" +
-      "htOnlinePersonalData\020T\022\034\n\030GFightOnlineRe" +
-      "sourceData\020U\022\r\n\tMajorData\020VB\034\n\013com.rwpro",
-      "toB\rDataSynProtos"
->>>>>>> .theirs
+      "pe\020F\022\020\n\014QuestionList\020P\022\021\n\rGFBiddingData\020" +
+      "Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GFightOnlineG" +
+      "roupData\020S\022\034\n\030GFightOnlinePersonalData\020T",
+      "\022\034\n\030GFightOnlineResourceData\020U\022\r\n\tMajorD" +
+      "ata\020VB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

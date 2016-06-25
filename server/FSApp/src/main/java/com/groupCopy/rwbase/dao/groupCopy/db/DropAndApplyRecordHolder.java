@@ -5,6 +5,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -21,8 +23,23 @@ public class DropAndApplyRecordHolder {
 
 	public DropAndApplyRecordHolder(String groupId) {
 		this.groupId = groupId;
+		checkAndInitData();
 	}
 
+	
+	public void checkAndInitData(){
+		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
+		CopyItemDropAndApplyRecord record = null;
+		for (GroupCopyMapCfg cfg : list) {
+			record = getItem(cfg.getId());
+			if(record == null){
+				record = new CopyItemDropAndApplyRecord(cfg.getId(), groupId);
+				getItemStore().addItem(record);
+			}
+		}
+	}
+	
+	
 	
 	public List<CopyItemDropAndApplyRecord> getItemList()	
 	{

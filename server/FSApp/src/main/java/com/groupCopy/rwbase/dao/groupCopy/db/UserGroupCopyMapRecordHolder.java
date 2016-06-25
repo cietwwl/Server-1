@@ -103,7 +103,7 @@ public class UserGroupCopyMapRecordHolder{
 	public void syncData(Player player){
 		List<UserGroupCopyMapRecord> list = getItemList();
 		if(!list.isEmpty()){
-			ClientDataSynMgr.synData(player, getItemList(), synType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, getItemList(), synType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	

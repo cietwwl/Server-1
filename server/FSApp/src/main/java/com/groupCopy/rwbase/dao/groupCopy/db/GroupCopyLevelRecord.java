@@ -1,15 +1,10 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.junit.Ignore;
-
+import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -46,9 +41,8 @@ public class GroupCopyLevelRecord implements IMapItem {
 	@IgnoreSynField
 	private String fighterId;//挑战者Id
 	
-	/**当前关卡的赞助*/
 	@CombineSave
-	private Map<String, Integer> buffMap = new HashMap<String, Integer>();
+	private CopyBuffInfo buffInfo = new CopyBuffInfo();
 	
 	public String getId() {
 		return id;
@@ -101,22 +95,33 @@ public class GroupCopyLevelRecord implements IMapItem {
 	 * @param playerID
 	 * @param count
 	 */
-	public void addBuff(String playerID, int count) {
-		Integer v = buffMap.get(playerID);
-		if(v != null){
-			buffMap.put(playerID, v + count);
-		}else{
-			buffMap.put(playerID, count);
+	public void addRoleDonate(String playerID, int count) {
+		buffInfo.addBuff(playerID, count);
+	}
+	
+	public void addBuff(int count){
+		buffInfo.increTotalBuff(count);
+	}
+	
+	public int getBuffCount(){
+		return buffInfo.getTotalBuff();
+	}
+	
+	
+	public void resetLevelData() {
+		if(progress == null){
+			progress = GroupCopyLevelBL.createProgress(id);
+			return;
 		}
+		progress.reset();
+
+	}
+	public CopyBuffInfo getBuffInfo() {
+		return buffInfo;
+	}
+	public void setBuffInfo(CopyBuffInfo buffInfo) {
+		this.buffInfo = buffInfo;
 	}
 	
 	
-	
-	public Map<String, Integer> getBuffMap() {
-		return Collections.unmodifiableMap(buffMap);
-	}
-	public synchronized void resetLevelData(){
-		progress = new GroupCopyProgress();
-		buffMap.clear();
-	}
 }

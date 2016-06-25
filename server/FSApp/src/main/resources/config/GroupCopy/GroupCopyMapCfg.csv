@@ -1,11 +1,4 @@
-key,mark,id,name,unlockLv,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
-10001,,10001,第一章  封神计划,1,100,168,200,"1~2400,2~1200,3~600",200,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map001,110101,110102,"602005,602008"
-10002,,10002,第二章  时空旅者,1,200,192,300,"1~2400,2~1200,3~601",400,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map002,110201,110203,"602015,602006"
-10003,,10003,第三章  法宝人类,2,300,216,400,"1~2400,2~1200,3~602",600,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map003,110301,110306,"602009,602014"
-10004,,10004,第四章  金鳌岛众,2,400,240,500,"1~2400,2~1200,3~603",800,Assets/Textures/PackIn/PlayerHead/head_hero_power_01.png,bg_map004,110401,110410,"602001,602011"
-10005,,10005,第五章  九龙遗址,3,500,264,600,"1~2400,2~1200,3~604",1000,Assets/Textures/PackIn/PlayerHead/head_heroine.png,bg_map005,110501,110512,"602013,602010"
-10006,,10006,第六章  闻仲现身,3,600,288,700,"1~2400,2~1200,3~605",1200,Assets/Textures/PackIn/PlayerHead/head_heroine_assist_01.png,bg_map006,110601,110612,"602012,602001"
-10007,,10007,第七章  北海之战,4,700,312,800,"1~2400,2~1200,3~606",1400,Assets/Textures/PackIn/PlayerHead/head_heroine_killer_01.png,bg_map007,110701,110712,"602015,602006"
-10008,,10008,第八章  倾世妖姬,4,800,336,900,"1~2400,2~1200,3~607",1600,Assets/Textures/PackIn/PlayerHead/head_heroine_power_01.png,bg_map008,110801,110812,"602009,602014"
-10009,,10009,第九章  重返昆仑,5,900,360,1000,"1~2400,2~1200,3~608",1800,Assets/Textures/PackIn/PlayerHead/head_heroine_tank_01.png,bg_map009,110901,110912,"602001,602011"
-10010,,10010,第十章  昆仑之殇,5,1000,384,1100,"1~2400,2~1200,3~609",2000,Assets/Textures/PackIn/PlayerHead/head_ShiZhuang_01.png,bg_map010,111001,111012,"602013,602010"
+key,mark,id,name,unlockLv,enterCount,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
+20001,,20001,第一章  封神计划,1,2,100,168,200,"1~2400,2~1200,3~600",200,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map001,195101,195102,"602005,602008"
+20002,,20002,第二章  时空旅者,1,2,200,192,300,"1~2400,2~1200,3~601",400,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map002,195201,195203,"602015,602006"
+20003,,20003,第三章  法宝人类,2,2,300,216,400,"1~2400,2~1200,3~602",600,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map003,195301,195306,"602009,602014"

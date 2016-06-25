@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class CopyMonsterCfg {
 
 	
-	private String id;
+	private String Id;
 	private String name;
 	/**怪物类别*/
 	private int type;
@@ -21,7 +21,7 @@ public class CopyMonsterCfg {
 	private int modelId;
 	
 	/**生命*/
-	private int lift;
+	private int Life;
 	
 	/**血条数量*/
 	private int HpCount;
@@ -40,7 +40,7 @@ public class CopyMonsterCfg {
 		return energy;
 	}
 	public String getId() {
-		return id;
+		return Id;
 	}
 	public String getName() {
 		return name;
@@ -54,8 +54,8 @@ public class CopyMonsterCfg {
 	public int getModelId() {
 		return modelId;
 	}
-	public int getLift() {
-		return lift;
+	public int getLife() {
+		return Life;
 	}
 	public int getHpCount() {
 		return HpCount;

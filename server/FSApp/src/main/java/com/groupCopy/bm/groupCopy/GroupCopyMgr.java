@@ -23,6 +23,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
@@ -75,6 +76,14 @@ public class GroupCopyMgr {
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
 	}
 	
+	/**
+	 * 系统加载完所有数据后才可以执行此方法
+	 */
+	public void checkDataFromCfg(){
+		lvRecordHolder.checkAndInitData();
+		mapRecordHolder.checkAndInitData();
+		dropHolder.checkAndInitData();
+	}
 	
 	/**
 	 * 开启副本地图
@@ -314,9 +323,11 @@ public class GroupCopyMgr {
 		try {
 			GroupCopyLevelRecord lvData = lvRecordHolder.getByLevel(level);
 			if(lvData == null){
-				lvData = GroupCopyLevelBL.createLevelRecord(player,level, lvRecordHolder);
-				
-				
+				GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[applyEnterCopy]", "角色请求进入关卡，找不到关卡id为"+ level
+						+ "的记录" , null);
+				result.setTipMsg("服务器繁忙！");
+				result.setSuccess(false);
+				return result;
 			}
 			if(lvData != null && GroupCopyLevelBL.isFighting(lvData, player)){
 				int status = lvData.getStatus();
@@ -374,6 +385,7 @@ public class GroupCopyMgr {
 		GroupCopyResult result = GroupCopyResult.newResult();
 		GroupCopyDonateData data = reqMsg.getDonateData();
 		boolean suc = false;
+		result.setTipMsg("操作失败！");
 		try {
 			//判断一下是否有足够的钻石
 			GroupCopyDonateCfg donateCfg = GroupCopyDonateCfgDao.getInstance().getCfgById(String.valueOf(data.getDonateTime()));
@@ -383,24 +395,39 @@ public class GroupCopyMgr {
 				return result;
 			}
 			
-			player.getUserGameDataMgr().
+			boolean engough = player.getUserGameDataMgr().isGoldEngough(-donateCfg.getGold());
+			if(!engough){
+				result.setTipMsg("钻石不足～");
+				result.setSuccess(suc);
+				return result;
+			}
 
 			synchronized (this) {
 				GroupCopyLevelRecord record = lvRecordHolder.getByLevel(data.getLevel());
-				int total = 0;
-				for (Integer i : record.getBuffMap().values()) {
-					total += i;
-				}
-				if((total + data.getDonateTime()) <= MAX_DONATE_COUNT){
-					record.addBuff(player.getUserId(), data.getDonateTime());
+				if(record == null){
+					GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[donateBuff]", "角色赞助Buff找不到关卡id为"+ data.getLevel() 
+							+ "的记录" , null);
+					result.setTipMsg("服务器繁忙！");
+					result.setSuccess(suc);
+					return result;
 				}
 				
-				
+				if((record.getBuffCount() + donateCfg.getIncreValue()) > MAX_DONATE_COUNT){
+					result.setTipMsg("超过赞助上限！");
+					result.setSuccess(suc);
+					return result;
+				}
+				record.addRoleDonate(player.getUserId(), data.getDonateTime());
+				record.addBuff(donateCfg.getIncreValue());
 				//扣钱  加帮贡
-				
-				
-				
-				lvRecordHolder.updateItem(player, record);
+				int code = player.getUserGameDataMgr().addGold(-donateCfg.getGold());
+						
+				if(code == 0){
+					player.getUserGroupAttributeDataMgr().useUserGroupContribution(donateCfg.getContribution());
+					lvRecordHolder.updateItem(player, record);
+					result.setTipMsg("赞助成功");
+					suc = true;
+				}
 				
 			}
 		} catch (Exception e) {
@@ -412,10 +439,5 @@ public class GroupCopyMgr {
 	}
 
 
-	
-
-	
-
-	
 
 }

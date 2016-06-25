@@ -3,7 +3,9 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.dataSyn.annotation.SynClass;
 
+@SynClass
 public class GroupCopyProgress {
 
 	private int totalHp;
@@ -14,10 +16,7 @@ public class GroupCopyProgress {
 	private List<GroupCopyMonsterSynStruct> mDatas = new ArrayList<GroupCopyMonsterSynStruct>();
 	
 	
-	public GroupCopyProgress() {
-		mDatas.clear();
-		initProgress();
-	}
+	
 
 	public GroupCopyProgress(List<GroupCopyMonsterSynStruct> mData) {
 		this.mDatas.clear();
@@ -30,7 +29,7 @@ public class GroupCopyProgress {
 		totalHp = 0;
 		currentHp = 0;
 		for (GroupCopyMonsterSynStruct struct : mDatas) {
-			totalHp += struct.getCurHP();
+			totalHp += struct.getTotalHP();
 			currentHp += struct.getCurHP();
 		}
 		
@@ -67,6 +66,17 @@ public class GroupCopyProgress {
 
 	public void setmDatas(List<GroupCopyMonsterSynStruct> mDatas) {
 		this.mDatas = mDatas;
+	}
+
+	public void reset() {
+		
+		synchronized (mDatas) {
+			for (GroupCopyMonsterSynStruct struct : mDatas) {
+				struct.setCurHP(struct.getTotalHP());
+				struct.setCurMP(struct.getTotalMP());
+			}
+			initProgress();
+		}
 	}
 
 	

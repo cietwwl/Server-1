@@ -62,7 +62,12 @@ public class GroupCopyBattleHandler {
 	}
 	
 	
-	
+	/**
+	 * 客户端通知战斗结束，要求返回战斗掉落
+	 * @param player
+	 * @param req
+	 * @return
+	 */
 	public ByteString endFight(Player player, GroupCopyBattleComReqMsg req) {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIGHT_END);

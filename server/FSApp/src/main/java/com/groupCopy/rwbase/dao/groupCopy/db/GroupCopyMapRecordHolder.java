@@ -5,6 +5,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -12,6 +14,7 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 public class GroupCopyMapRecordHolder{
 	
@@ -24,8 +27,36 @@ public class GroupCopyMapRecordHolder{
 	
 	public GroupCopyMapRecordHolder(String groupIdP) {
 		groupId = groupIdP;
+		checkAndInitData();
 	}
 	
+
+	public void checkAndInitData() {
+		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
+		GroupCopyMapRecord record;
+		for (GroupCopyMapCfg cfg : list) {
+			 record = getItem(cfg.getId());
+			 if(record == null){
+				 record = createRecord(cfg.getId());
+				 getItemStore().addItem(record);
+			 }
+		}
+	}
+	
+	private GroupCopyMapRecord createRecord(String mapID){
+		GroupCopyMapRecord record = null;
+		try {
+			record = new GroupCopyMapRecord();
+			record.setId(mapID);
+			record.setGroupId(groupId);
+			record.setStatus(GroupCopyMapStatus.LOCKING);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return record;
+	}
+
 
 	public List<GroupCopyMapRecord> getItemList()	
 	{
@@ -52,18 +83,7 @@ public class GroupCopyMapRecordHolder{
 	}
 	
 	
-	public boolean addItem(Player player, GroupCopyMapRecord item ){
 	
-		if(item.getGroupId() == null || item.getGroupId().equals("")){
-			item.setGroupId(groupId);
-		}
-		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess){
-			update();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
 	
 	public void synAllData(Player player, int version){
 		List<GroupCopyMapRecord> itemList = getItemList();			

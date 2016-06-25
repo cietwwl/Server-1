@@ -10,10 +10,7 @@ enum GroupCopyReqType{
 	BUFF_DONATE = 3;//buff赞助
 }
 
-enum ResultCode{
-	CODE_SUC = 1;//成功
-	CODE_FAIL = 2;//失败
-}
+
 
 
 //副本地图章节状态  [枚举类型要从0开始，否则后端序列化给前端的时候会出错]
@@ -33,7 +30,8 @@ message GroupCopyCmdReqMsg{
 
 message GroupCopyCmdRspMsg{
 	required GroupCopyReqType reqType = 1; //请求的协议类型
-	required ResultCode resCode = 2;//返回的结果代码
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
 }
 
 message GroupCopyDonateData{

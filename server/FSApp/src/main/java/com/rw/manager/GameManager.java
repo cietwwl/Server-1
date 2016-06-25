@@ -19,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.arena.RobotManager;
+import com.bm.group.GroupBM;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -143,7 +144,7 @@ public class GameManager {
 		// 羁绊的初始化
 		FettersBM.init();
 
-		
+
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 

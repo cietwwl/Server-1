@@ -2,6 +2,8 @@ package com.groupCopy.playerdata.group;
 
 import java.util.List;
 
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecordHolder;
 import com.playerdata.Player;
@@ -17,7 +19,25 @@ public class UserGroupCopyMapRecordMgr {
 		this.userId = userId;
 		holder = new UserGroupCopyMapRecordHolder(userId);
 	}
-
+	
+	/**
+	 * 添加新记录
+	 * @param player
+	 * @param chaterID
+	 * @return
+	 */
+	public UserGroupCopyMapRecord addNewUserMapRecord(Player player, String chaterID){
+		
+		UserGroupCopyMapRecord record = getByLevel(chaterID);
+		if(record == null){
+			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
+			
+			record = new UserGroupCopyMapRecord(chaterID, userId, cfg.getEnterCount());
+			holder.addItem(player, record);
+		}
+		
+		return record;
+	}
 
 	public List<UserGroupCopyMapRecord> getUserMapRecordList(){
 		return holder.getItemList();

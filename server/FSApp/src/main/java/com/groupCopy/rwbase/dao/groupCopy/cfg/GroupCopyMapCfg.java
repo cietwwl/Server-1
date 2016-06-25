@@ -23,6 +23,8 @@ public class GroupCopyMapCfg {
     private int passReward; //通关奖励...
     private Map<Integer, Integer> extRewMap = new HashMap<Integer, Integer>();//格式化后的伤害额外奖励集合
     private Set<String> lvList = new HashSet<String>();
+    private int enterCount;//每天进入次数
+    
     
     public void formatData(){
     	if(extRewMap == null){
@@ -100,6 +102,10 @@ public class GroupCopyMapCfg {
 
 	public int getPassReward() {
 		return passReward;
+	}
+
+	public int getEnterCount() {
+		return enterCount;
 	}
 
 
