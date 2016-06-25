@@ -19,6 +19,9 @@ public class GFightOnlineResourceData {
 
 	@CombineSave
 	private String ownerGroupID;
+	
+	@CombineSave
+	private int state = 0;
 
 	public int getResourceID() {
 		return Integer.valueOf(resourceID);
@@ -34,5 +37,13 @@ public class GFightOnlineResourceData {
 
 	public void setOwnerGroupID(String ownerGroupID) {
 		this.ownerGroupID = ownerGroupID;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 }

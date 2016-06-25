@@ -13,6 +13,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleLogic;
@@ -229,5 +230,6 @@ public class TimerManager {
 		// GambleMgr.minutesUpdate();
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
+		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();
 	}
 }

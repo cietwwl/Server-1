@@ -41,7 +41,7 @@ public class GFightGroupBidMgr {
 		gfRsp.setSystemTime(System.currentTimeMillis());
 		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : resCfgs){
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(String.valueOf(cfg.getResID()));
+			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
 			if(resData == null) continue;
 			GFResourceInfo resInfo = toClientResourceData(player.getUserId(), resData);
 			if(resInfo == null) {

@@ -2,9 +2,12 @@ package com.playerdata.groupFightOnline.manager;
 
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
+import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 
 
@@ -25,18 +28,26 @@ class GFightConditionJudge {
 	}
 	
 	public boolean isBidPeriod(int resourceID) {
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		GFResourceState.BIDDING.equals(resData.getState());
 		return true;
 	}
 	
 	public boolean isPreparePeriod(int resourceID) {
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		GFResourceState.PREPARE.equals(resData.getState());
 		return true;
 	}
 	
 	public boolean isFightPeriod(int resourceID) {
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		GFResourceState.FIGHT.equals(resData.getState());
 		return true;
 	}
 	
-	public boolean isFinalPeriod(int resourceID) {
+	public boolean isRestPeriod(int resourceID) {
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		GFResourceState.REST.equals(resData.getState());
 		return true;
 	}
 	
