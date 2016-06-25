@@ -141,6 +141,14 @@ public final class GrouFightOnlineProto {
      * </pre>
      */
     GET_FIGHT_OVER_REWARD(15, 16),
+    /**
+     * <code>SYN_GROUP_DATA = 17;</code>
+     *
+     * <pre>
+     *请求同步帮派数据
+     * </pre>
+     */
+    SYN_GROUP_DATA(16, 17),
     ;
 
     /**
@@ -271,6 +279,14 @@ public final class GrouFightOnlineProto {
      * </pre>
      */
     public static final int GET_FIGHT_OVER_REWARD_VALUE = 16;
+    /**
+     * <code>SYN_GROUP_DATA = 17;</code>
+     *
+     * <pre>
+     *请求同步帮派数据
+     * </pre>
+     */
+    public static final int SYN_GROUP_DATA_VALUE = 17;
 
 
     public final int getNumber() { return value; }
@@ -293,6 +309,7 @@ public final class GrouFightOnlineProto {
         case 14: return VIEW_DEFENDER_TEAM;
         case 15: return GET_FIGHT_RECORD;
         case 16: return GET_FIGHT_OVER_REWARD;
+        case 17: return SYN_GROUP_DATA;
         default: return null;
       }
     }
@@ -462,29 +479,61 @@ public final class GrouFightOnlineProto {
      */
     ONLY_PLAYER(13, 14),
     /**
-     * <code>OVER_TIME = 15;</code>
-     *
-     * <pre>
-     *超时，选择对手后，进入战斗时间超时；或者战斗时间超时
-     * </pre>
-     */
-    OVER_TIME(14, 15),
-    /**
-     * <code>REWARD_NOT_EXIST = 16;</code>
+     * <code>REWARD_NOT_EXIST = 15;</code>
      *
      * <pre>
      *要领取的奖励不存在
      * </pre>
      */
-    REWARD_NOT_EXIST(15, 16),
+    REWARD_NOT_EXIST(14, 15),
     /**
-     * <code>DATA_ERROR = 17;</code>
+     * <code>NO_SELECTED_ENIMY = 16;</code>
+     *
+     * <pre>
+     *还未选择战斗目标
+     * </pre>
+     */
+    NO_SELECTED_ENIMY(15, 16),
+    /**
+     * <code>SELECTED_EXPIRED = 17;</code>
+     *
+     * <pre>
+     *选择锁定的时间过期
+     * </pre>
+     */
+    SELECTED_EXPIRED(16, 17),
+    /**
+     * <code>FIGHT_EXPIRED = 18;</code>
+     *
+     * <pre>
+     *战斗时间过期
+     * </pre>
+     */
+    FIGHT_EXPIRED(17, 18),
+    /**
+     * <code>ON_FIGHTING = 19;</code>
+     *
+     * <pre>
+     *战斗中
+     * </pre>
+     */
+    ON_FIGHTING(18, 19),
+    /**
+     * <code>HAVE_A_ENIMY = 20;</code>
+     *
+     * <pre>
+     *已经选择过对手，只能更换，不能选
+     * </pre>
+     */
+    HAVE_A_ENIMY(19, 20),
+    /**
+     * <code>DATA_ERROR = 21;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    DATA_ERROR(16, 17),
+    DATA_ERROR(20, 21),
     ;
 
     /**
@@ -600,29 +649,61 @@ public final class GrouFightOnlineProto {
      */
     public static final int ONLY_PLAYER_VALUE = 14;
     /**
-     * <code>OVER_TIME = 15;</code>
-     *
-     * <pre>
-     *超时，选择对手后，进入战斗时间超时；或者战斗时间超时
-     * </pre>
-     */
-    public static final int OVER_TIME_VALUE = 15;
-    /**
-     * <code>REWARD_NOT_EXIST = 16;</code>
+     * <code>REWARD_NOT_EXIST = 15;</code>
      *
      * <pre>
      *要领取的奖励不存在
      * </pre>
      */
-    public static final int REWARD_NOT_EXIST_VALUE = 16;
+    public static final int REWARD_NOT_EXIST_VALUE = 15;
     /**
-     * <code>DATA_ERROR = 17;</code>
+     * <code>NO_SELECTED_ENIMY = 16;</code>
+     *
+     * <pre>
+     *还未选择战斗目标
+     * </pre>
+     */
+    public static final int NO_SELECTED_ENIMY_VALUE = 16;
+    /**
+     * <code>SELECTED_EXPIRED = 17;</code>
+     *
+     * <pre>
+     *选择锁定的时间过期
+     * </pre>
+     */
+    public static final int SELECTED_EXPIRED_VALUE = 17;
+    /**
+     * <code>FIGHT_EXPIRED = 18;</code>
+     *
+     * <pre>
+     *战斗时间过期
+     * </pre>
+     */
+    public static final int FIGHT_EXPIRED_VALUE = 18;
+    /**
+     * <code>ON_FIGHTING = 19;</code>
+     *
+     * <pre>
+     *战斗中
+     * </pre>
+     */
+    public static final int ON_FIGHTING_VALUE = 19;
+    /**
+     * <code>HAVE_A_ENIMY = 20;</code>
+     *
+     * <pre>
+     *已经选择过对手，只能更换，不能选
+     * </pre>
+     */
+    public static final int HAVE_A_ENIMY_VALUE = 20;
+    /**
+     * <code>DATA_ERROR = 21;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    public static final int DATA_ERROR_VALUE = 17;
+    public static final int DATA_ERROR_VALUE = 21;
 
 
     public final int getNumber() { return value; }
@@ -643,9 +724,13 @@ public final class GrouFightOnlineProto {
         case 12: return CANNOT_FIND_PROP_DEFENDER;
         case 13: return NO_DEFENDER;
         case 14: return ONLY_PLAYER;
-        case 15: return OVER_TIME;
-        case 16: return REWARD_NOT_EXIST;
-        case 17: return DATA_ERROR;
+        case 15: return REWARD_NOT_EXIST;
+        case 16: return NO_SELECTED_ENIMY;
+        case 17: return SELECTED_EXPIRED;
+        case 18: return FIGHT_EXPIRED;
+        case 19: return ON_FIGHTING;
+        case 20: return HAVE_A_ENIMY;
+        case 21: return DATA_ERROR;
         default: return null;
       }
     }
@@ -754,99 +839,45 @@ public final class GrouFightOnlineProto {
      */
     int getSelfBidRate();
 
-    // repeated string heroID = 4;
+    // repeated string armyHeros = 4;
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
     java.util.List<java.lang.String>
-    getHeroIDList();
+    getArmyHerosList();
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
-    int getHeroIDCount();
+    int getArmyHerosCount();
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
-    java.lang.String getHeroID(int index);
+    java.lang.String getArmyHeros(int index);
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getHeroIDBytes(int index);
-
-    // optional string selfArmyInfo = 5;
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-     * </pre>
-     */
-    boolean hasSelfArmyInfo();
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-     * </pre>
-     */
-    java.lang.String getSelfArmyInfo();
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
     com.google.protobuf.ByteString
-        getSelfArmyInfoBytes();
+        getArmyHerosBytes(int index);
 
-    // optional string enimyInfo = 6;
+    // optional int32 page = 5;
     /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    boolean hasEnimyInfo();
-    /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    java.lang.String getEnimyInfo();
-    /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getEnimyInfoBytes();
-
-    // optional int32 page = 7;
-    /**
-     * <code>optional int32 page = 7;</code>
+     * <code>optional int32 page = 5;</code>
      *
      * <pre>
      *请求查看的防守队伍的页面
@@ -854,7 +885,7 @@ public final class GrouFightOnlineProto {
      */
     boolean hasPage();
     /**
-     * <code>optional int32 page = 7;</code>
+     * <code>optional int32 page = 5;</code>
      *
      * <pre>
      *请求查看的防守队伍的页面
@@ -862,9 +893,9 @@ public final class GrouFightOnlineProto {
      */
     int getPage();
 
-    // optional int32 viewTeamGroupID = 8;
+    // optional string viewTeamGroupID = 6;
     /**
-     * <code>optional int32 viewTeamGroupID = 8;</code>
+     * <code>optional string viewTeamGroupID = 6;</code>
      *
      * <pre>
      *要查看的队伍（或页面）所属的公会ID
@@ -872,35 +903,53 @@ public final class GrouFightOnlineProto {
      */
     boolean hasViewTeamGroupID();
     /**
-     * <code>optional int32 viewTeamGroupID = 8;</code>
+     * <code>optional string viewTeamGroupID = 6;</code>
      *
      * <pre>
      *要查看的队伍（或页面）所属的公会ID
      * </pre>
      */
-    int getViewTeamGroupID();
-
-    // optional int32 viewTeamID = 9;
+    java.lang.String getViewTeamGroupID();
     /**
-     * <code>optional int32 viewTeamID = 9;</code>
+     * <code>optional string viewTeamGroupID = 6;</code>
+     *
+     * <pre>
+     *要查看的队伍（或页面）所属的公会ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getViewTeamGroupIDBytes();
+
+    // optional string teamID = 7;
+    /**
+     * <code>optional string teamID = 7;</code>
      *
      * <pre>
      *要查看详情的队伍ID
      * </pre>
      */
-    boolean hasViewTeamID();
+    boolean hasTeamID();
     /**
-     * <code>optional int32 viewTeamID = 9;</code>
+     * <code>optional string teamID = 7;</code>
      *
      * <pre>
      *要查看详情的队伍ID
      * </pre>
      */
-    int getViewTeamID();
-
-    // optional int32 rewardID = 10;
+    java.lang.String getTeamID();
     /**
-     * <code>optional int32 rewardID = 10;</code>
+     * <code>optional string teamID = 7;</code>
+     *
+     * <pre>
+     *要查看详情的队伍ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTeamIDBytes();
+
+    // optional string rewardID = 8;
+    /**
+     * <code>optional string rewardID = 8;</code>
      *
      * <pre>
      *要获取的奖励ID
@@ -908,13 +957,121 @@ public final class GrouFightOnlineProto {
      */
     boolean hasRewardID();
     /**
-     * <code>optional int32 rewardID = 10;</code>
+     * <code>optional string rewardID = 8;</code>
      *
      * <pre>
      *要获取的奖励ID
      * </pre>
      */
-    int getRewardID();
+    java.lang.String getRewardID();
+    /**
+     * <code>optional string rewardID = 8;</code>
+     *
+     * <pre>
+     *要获取的奖励ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getRewardIDBytes();
+
+    // optional int32 resourceID = 9;
+    /**
+     * <code>optional int32 resourceID = 9;</code>
+     *
+     * <pre>
+     *请求的资源点ID
+     * </pre>
+     */
+    boolean hasResourceID();
+    /**
+     * <code>optional int32 resourceID = 9;</code>
+     *
+     * <pre>
+     *请求的资源点ID
+     * </pre>
+     */
+    int getResourceID();
+
+    // optional string groupID = 10;
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    boolean hasGroupID();
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    java.lang.String getGroupID();
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getGroupIDBytes();
+
+    // optional string fightResult = 11;
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    boolean hasFightResult();
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    java.lang.String getFightResult();
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getFightResultBytes();
+
+    // optional string clientVersion = 12;
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    boolean hasClientVersion();
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    java.lang.String getClientVersion();
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getClientVersionBytes();
   }
   /**
    * Protobuf type {@code groupFightOnline.GroupFightOnlineReqMsg}
@@ -990,40 +1147,50 @@ public final class GrouFightOnlineProto {
             }
             case 34: {
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                heroID_ = new com.google.protobuf.LazyStringArrayList();
+                armyHeros_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000008;
               }
-              heroID_.add(input.readBytes());
+              armyHeros_.add(input.readBytes());
               break;
             }
-            case 42: {
+            case 40: {
               bitField0_ |= 0x00000008;
-              selfArmyInfo_ = input.readBytes();
+              page_ = input.readInt32();
               break;
             }
             case 50: {
               bitField0_ |= 0x00000010;
-              enimyInfo_ = input.readBytes();
+              viewTeamGroupID_ = input.readBytes();
               break;
             }
-            case 56: {
+            case 58: {
               bitField0_ |= 0x00000020;
-              page_ = input.readInt32();
+              teamID_ = input.readBytes();
               break;
             }
-            case 64: {
+            case 66: {
               bitField0_ |= 0x00000040;
-              viewTeamGroupID_ = input.readInt32();
+              rewardID_ = input.readBytes();
               break;
             }
             case 72: {
               bitField0_ |= 0x00000080;
-              viewTeamID_ = input.readInt32();
+              resourceID_ = input.readInt32();
               break;
             }
-            case 80: {
+            case 82: {
               bitField0_ |= 0x00000100;
-              rewardID_ = input.readInt32();
+              groupID_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000200;
+              fightResult_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000400;
+              clientVersion_ = input.readBytes();
               break;
             }
           }
@@ -1035,7 +1202,7 @@ public final class GrouFightOnlineProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          heroID_ = new com.google.protobuf.UnmodifiableLazyStringList(heroID_);
+          armyHeros_ = new com.google.protobuf.UnmodifiableLazyStringList(armyHeros_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1141,177 +1308,67 @@ public final class GrouFightOnlineProto {
       return selfBidRate_;
     }
 
-    // repeated string heroID = 4;
-    public static final int HEROID_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList heroID_;
+    // repeated string armyHeros = 4;
+    public static final int ARMYHEROS_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList armyHeros_;
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
     public java.util.List<java.lang.String>
-        getHeroIDList() {
-      return heroID_;
+        getArmyHerosList() {
+      return armyHeros_;
     }
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
-    public int getHeroIDCount() {
-      return heroID_.size();
+    public int getArmyHerosCount() {
+      return armyHeros_.size();
     }
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
-    public java.lang.String getHeroID(int index) {
-      return heroID_.get(index);
+    public java.lang.String getArmyHeros(int index) {
+      return armyHeros_.get(index);
     }
     /**
-     * <code>repeated string heroID = 4;</code>
+     * <code>repeated string armyHeros = 4;</code>
      *
      * <pre>
-     *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getHeroIDBytes(int index) {
-      return heroID_.getByteString(index);
-    }
-
-    // optional string selfArmyInfo = 5;
-    public static final int SELFARMYINFO_FIELD_NUMBER = 5;
-    private java.lang.Object selfArmyInfo_;
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-     * </pre>
-     */
-    public boolean hasSelfArmyInfo() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-     * </pre>
-     */
-    public java.lang.String getSelfArmyInfo() {
-      java.lang.Object ref = selfArmyInfo_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          selfArmyInfo_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string selfArmyInfo = 5;</code>
-     *
-     * <pre>
-     *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
+     *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getSelfArmyInfoBytes() {
-      java.lang.Object ref = selfArmyInfo_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        selfArmyInfo_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getArmyHerosBytes(int index) {
+      return armyHeros_.getByteString(index);
     }
 
-    // optional string enimyInfo = 6;
-    public static final int ENIMYINFO_FIELD_NUMBER = 6;
-    private java.lang.Object enimyInfo_;
-    /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    public boolean hasEnimyInfo() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    public java.lang.String getEnimyInfo() {
-      java.lang.Object ref = enimyInfo_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          enimyInfo_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string enimyInfo = 6;</code>
-     *
-     * <pre>
-     *敌方队伍id和List&lt;CurAttrData&gt;
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getEnimyInfoBytes() {
-      java.lang.Object ref = enimyInfo_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        enimyInfo_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional int32 page = 7;
-    public static final int PAGE_FIELD_NUMBER = 7;
+    // optional int32 page = 5;
+    public static final int PAGE_FIELD_NUMBER = 5;
     private int page_;
     /**
-     * <code>optional int32 page = 7;</code>
+     * <code>optional int32 page = 5;</code>
      *
      * <pre>
      *请求查看的防守队伍的页面
      * </pre>
      */
     public boolean hasPage() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 page = 7;</code>
+     * <code>optional int32 page = 5;</code>
      *
      * <pre>
      *请求查看的防守队伍的页面
@@ -1321,89 +1378,373 @@ public final class GrouFightOnlineProto {
       return page_;
     }
 
-    // optional int32 viewTeamGroupID = 8;
-    public static final int VIEWTEAMGROUPID_FIELD_NUMBER = 8;
-    private int viewTeamGroupID_;
+    // optional string viewTeamGroupID = 6;
+    public static final int VIEWTEAMGROUPID_FIELD_NUMBER = 6;
+    private java.lang.Object viewTeamGroupID_;
     /**
-     * <code>optional int32 viewTeamGroupID = 8;</code>
+     * <code>optional string viewTeamGroupID = 6;</code>
      *
      * <pre>
      *要查看的队伍（或页面）所属的公会ID
      * </pre>
      */
     public boolean hasViewTeamGroupID() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional int32 viewTeamGroupID = 8;</code>
+     * <code>optional string viewTeamGroupID = 6;</code>
      *
      * <pre>
      *要查看的队伍（或页面）所属的公会ID
      * </pre>
      */
-    public int getViewTeamGroupID() {
-      return viewTeamGroupID_;
+    public java.lang.String getViewTeamGroupID() {
+      java.lang.Object ref = viewTeamGroupID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          viewTeamGroupID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string viewTeamGroupID = 6;</code>
+     *
+     * <pre>
+     *要查看的队伍（或页面）所属的公会ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getViewTeamGroupIDBytes() {
+      java.lang.Object ref = viewTeamGroupID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        viewTeamGroupID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // optional int32 viewTeamID = 9;
-    public static final int VIEWTEAMID_FIELD_NUMBER = 9;
-    private int viewTeamID_;
+    // optional string teamID = 7;
+    public static final int TEAMID_FIELD_NUMBER = 7;
+    private java.lang.Object teamID_;
     /**
-     * <code>optional int32 viewTeamID = 9;</code>
+     * <code>optional string teamID = 7;</code>
      *
      * <pre>
      *要查看详情的队伍ID
      * </pre>
      */
-    public boolean hasViewTeamID() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+    public boolean hasTeamID() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional int32 viewTeamID = 9;</code>
+     * <code>optional string teamID = 7;</code>
      *
      * <pre>
      *要查看详情的队伍ID
      * </pre>
      */
-    public int getViewTeamID() {
-      return viewTeamID_;
+    public java.lang.String getTeamID() {
+      java.lang.Object ref = teamID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          teamID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string teamID = 7;</code>
+     *
+     * <pre>
+     *要查看详情的队伍ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTeamIDBytes() {
+      java.lang.Object ref = teamID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // optional int32 rewardID = 10;
-    public static final int REWARDID_FIELD_NUMBER = 10;
-    private int rewardID_;
+    // optional string rewardID = 8;
+    public static final int REWARDID_FIELD_NUMBER = 8;
+    private java.lang.Object rewardID_;
     /**
-     * <code>optional int32 rewardID = 10;</code>
+     * <code>optional string rewardID = 8;</code>
      *
      * <pre>
      *要获取的奖励ID
      * </pre>
      */
     public boolean hasRewardID() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional int32 rewardID = 10;</code>
+     * <code>optional string rewardID = 8;</code>
      *
      * <pre>
      *要获取的奖励ID
      * </pre>
      */
-    public int getRewardID() {
-      return rewardID_;
+    public java.lang.String getRewardID() {
+      java.lang.Object ref = rewardID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          rewardID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string rewardID = 8;</code>
+     *
+     * <pre>
+     *要获取的奖励ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRewardIDBytes() {
+      java.lang.Object ref = rewardID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rewardID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 resourceID = 9;
+    public static final int RESOURCEID_FIELD_NUMBER = 9;
+    private int resourceID_;
+    /**
+     * <code>optional int32 resourceID = 9;</code>
+     *
+     * <pre>
+     *请求的资源点ID
+     * </pre>
+     */
+    public boolean hasResourceID() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 resourceID = 9;</code>
+     *
+     * <pre>
+     *请求的资源点ID
+     * </pre>
+     */
+    public int getResourceID() {
+      return resourceID_;
+    }
+
+    // optional string groupID = 10;
+    public static final int GROUPID_FIELD_NUMBER = 10;
+    private java.lang.Object groupID_;
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    public boolean hasGroupID() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    public java.lang.String getGroupID() {
+      java.lang.Object ref = groupID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          groupID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string groupID = 10;</code>
+     *
+     * <pre>
+     *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getGroupIDBytes() {
+      java.lang.Object ref = groupID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        groupID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string fightResult = 11;
+    public static final int FIGHTRESULT_FIELD_NUMBER = 11;
+    private java.lang.Object fightResult_;
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    public boolean hasFightResult() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    public java.lang.String getFightResult() {
+      java.lang.Object ref = fightResult_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          fightResult_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string fightResult = 11;</code>
+     *
+     * <pre>
+     *战斗结果：GFightResult
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getFightResultBytes() {
+      java.lang.Object ref = fightResult_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fightResult_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string clientVersion = 12;
+    public static final int CLIENTVERSION_FIELD_NUMBER = 12;
+    private java.lang.Object clientVersion_;
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public boolean hasClientVersion() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public java.lang.String getClientVersion() {
+      java.lang.Object ref = clientVersion_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          clientVersion_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getClientVersionBytes() {
+      java.lang.Object ref = clientVersion_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        clientVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       reqType_ = com.rwproto.GrouFightOnlineProto.GFRequestType.GET_RESOURCE_INFO;
       bidCount_ = 0;
       selfBidRate_ = 0;
-      heroID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      selfArmyInfo_ = "";
-      enimyInfo_ = "";
+      armyHeros_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       page_ = 0;
-      viewTeamGroupID_ = 0;
-      viewTeamID_ = 0;
-      rewardID_ = 0;
+      viewTeamGroupID_ = "";
+      teamID_ = "";
+      rewardID_ = "";
+      resourceID_ = 0;
+      groupID_ = "";
+      fightResult_ = "";
+      clientVersion_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1430,26 +1771,32 @@ public final class GrouFightOnlineProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, selfBidRate_);
       }
-      for (int i = 0; i < heroID_.size(); i++) {
-        output.writeBytes(4, heroID_.getByteString(i));
+      for (int i = 0; i < armyHeros_.size(); i++) {
+        output.writeBytes(4, armyHeros_.getByteString(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(5, getSelfArmyInfoBytes());
+        output.writeInt32(5, page_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(6, getEnimyInfoBytes());
+        output.writeBytes(6, getViewTeamGroupIDBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(7, page_);
+        output.writeBytes(7, getTeamIDBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(8, viewTeamGroupID_);
+        output.writeBytes(8, getRewardIDBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(9, viewTeamID_);
+        output.writeInt32(9, resourceID_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(10, rewardID_);
+        output.writeBytes(10, getGroupIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(11, getFightResultBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(12, getClientVersionBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1474,36 +1821,44 @@ public final class GrouFightOnlineProto {
       }
       {
         int dataSize = 0;
-        for (int i = 0; i < heroID_.size(); i++) {
+        for (int i = 0; i < armyHeros_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(heroID_.getByteString(i));
+            .computeBytesSizeNoTag(armyHeros_.getByteString(i));
         }
         size += dataSize;
-        size += 1 * getHeroIDList().size();
+        size += 1 * getArmyHerosList().size();
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getSelfArmyInfoBytes());
+          .computeInt32Size(5, page_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getEnimyInfoBytes());
+          .computeBytesSize(6, getViewTeamGroupIDBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, page_);
+          .computeBytesSize(7, getTeamIDBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, viewTeamGroupID_);
+          .computeBytesSize(8, getRewardIDBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, viewTeamID_);
+          .computeInt32Size(9, resourceID_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, rewardID_);
+          .computeBytesSize(10, getGroupIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getFightResultBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getClientVersionBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1627,20 +1982,24 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         selfBidRate_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        heroID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        armyHeros_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
-        selfArmyInfo_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
-        enimyInfo_ = "";
-        bitField0_ = (bitField0_ & ~0x00000020);
         page_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        viewTeamGroupID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        teamID_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
-        viewTeamGroupID_ = 0;
+        rewardID_ = "";
         bitField0_ = (bitField0_ & ~0x00000080);
-        viewTeamID_ = 0;
+        resourceID_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        rewardID_ = 0;
+        groupID_ = "";
         bitField0_ = (bitField0_ & ~0x00000200);
+        fightResult_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        clientVersion_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -1682,35 +2041,43 @@ public final class GrouFightOnlineProto {
         }
         result.selfBidRate_ = selfBidRate_;
         if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          heroID_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              heroID_);
+          armyHeros_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              armyHeros_);
           bitField0_ = (bitField0_ & ~0x00000008);
         }
-        result.heroID_ = heroID_;
+        result.armyHeros_ = armyHeros_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.selfArmyInfo_ = selfArmyInfo_;
+        result.page_ = page_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.enimyInfo_ = enimyInfo_;
+        result.viewTeamGroupID_ = viewTeamGroupID_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.page_ = page_;
+        result.teamID_ = teamID_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.viewTeamGroupID_ = viewTeamGroupID_;
+        result.rewardID_ = rewardID_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.viewTeamID_ = viewTeamID_;
+        result.resourceID_ = resourceID_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.rewardID_ = rewardID_;
+        result.groupID_ = groupID_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.fightResult_ = fightResult_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.clientVersion_ = clientVersion_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1736,37 +2103,51 @@ public final class GrouFightOnlineProto {
         if (other.hasSelfBidRate()) {
           setSelfBidRate(other.getSelfBidRate());
         }
-        if (!other.heroID_.isEmpty()) {
-          if (heroID_.isEmpty()) {
-            heroID_ = other.heroID_;
+        if (!other.armyHeros_.isEmpty()) {
+          if (armyHeros_.isEmpty()) {
+            armyHeros_ = other.armyHeros_;
             bitField0_ = (bitField0_ & ~0x00000008);
           } else {
-            ensureHeroIDIsMutable();
-            heroID_.addAll(other.heroID_);
+            ensureArmyHerosIsMutable();
+            armyHeros_.addAll(other.armyHeros_);
           }
-          onChanged();
-        }
-        if (other.hasSelfArmyInfo()) {
-          bitField0_ |= 0x00000010;
-          selfArmyInfo_ = other.selfArmyInfo_;
-          onChanged();
-        }
-        if (other.hasEnimyInfo()) {
-          bitField0_ |= 0x00000020;
-          enimyInfo_ = other.enimyInfo_;
           onChanged();
         }
         if (other.hasPage()) {
           setPage(other.getPage());
         }
         if (other.hasViewTeamGroupID()) {
-          setViewTeamGroupID(other.getViewTeamGroupID());
+          bitField0_ |= 0x00000020;
+          viewTeamGroupID_ = other.viewTeamGroupID_;
+          onChanged();
         }
-        if (other.hasViewTeamID()) {
-          setViewTeamID(other.getViewTeamID());
+        if (other.hasTeamID()) {
+          bitField0_ |= 0x00000040;
+          teamID_ = other.teamID_;
+          onChanged();
         }
         if (other.hasRewardID()) {
-          setRewardID(other.getRewardID());
+          bitField0_ |= 0x00000080;
+          rewardID_ = other.rewardID_;
+          onChanged();
+        }
+        if (other.hasResourceID()) {
+          setResourceID(other.getResourceID());
+        }
+        if (other.hasGroupID()) {
+          bitField0_ |= 0x00000200;
+          groupID_ = other.groupID_;
+          onChanged();
+        }
+        if (other.hasFightResult()) {
+          bitField0_ |= 0x00000400;
+          fightResult_ = other.fightResult_;
+          onChanged();
+        }
+        if (other.hasClientVersion()) {
+          bitField0_ |= 0x00000800;
+          clientVersion_ = other.clientVersion_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1949,345 +2330,149 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string heroID = 4;
-      private com.google.protobuf.LazyStringList heroID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureHeroIDIsMutable() {
+      // repeated string armyHeros = 4;
+      private com.google.protobuf.LazyStringList armyHeros_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureArmyHerosIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          heroID_ = new com.google.protobuf.LazyStringArrayList(heroID_);
+          armyHeros_ = new com.google.protobuf.LazyStringArrayList(armyHeros_);
           bitField0_ |= 0x00000008;
          }
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
       public java.util.List<java.lang.String>
-          getHeroIDList() {
-        return java.util.Collections.unmodifiableList(heroID_);
+          getArmyHerosList() {
+        return java.util.Collections.unmodifiableList(armyHeros_);
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public int getHeroIDCount() {
-        return heroID_.size();
+      public int getArmyHerosCount() {
+        return armyHeros_.size();
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public java.lang.String getHeroID(int index) {
-        return heroID_.get(index);
+      public java.lang.String getArmyHeros(int index) {
+        return armyHeros_.get(index);
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getHeroIDBytes(int index) {
-        return heroID_.getByteString(index);
+          getArmyHerosBytes(int index) {
+        return armyHeros_.getByteString(index);
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public Builder setHeroID(
+      public Builder setArmyHeros(
           int index, java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureHeroIDIsMutable();
-        heroID_.set(index, value);
+  ensureArmyHerosIsMutable();
+        armyHeros_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public Builder addHeroID(
+      public Builder addArmyHeros(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureHeroIDIsMutable();
-        heroID_.add(value);
+  ensureArmyHerosIsMutable();
+        armyHeros_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public Builder addAllHeroID(
+      public Builder addAllArmyHeros(
           java.lang.Iterable<java.lang.String> values) {
-        ensureHeroIDIsMutable();
-        super.addAll(values, heroID_);
+        ensureArmyHerosIsMutable();
+        super.addAll(values, armyHeros_);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public Builder clearHeroID() {
-        heroID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      public Builder clearArmyHeros() {
+        armyHeros_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string heroID = 4;</code>
+       * <code>repeated string armyHeros = 4;</code>
        *
        * <pre>
-       *个人调整的防守队伍信息（List&lt;string&gt; heroID）不用包括主角
+       *个人调整的防守队伍信息（List&lt;DefendArmyHerosInfo&gt;）不用包括主角
        * </pre>
        */
-      public Builder addHeroIDBytes(
+      public Builder addArmyHerosBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureHeroIDIsMutable();
-        heroID_.add(value);
+  ensureArmyHerosIsMutable();
+        armyHeros_.add(value);
         onChanged();
         return this;
       }
 
-      // optional string selfArmyInfo = 5;
-      private java.lang.Object selfArmyInfo_ = "";
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public boolean hasSelfArmyInfo() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public java.lang.String getSelfArmyInfo() {
-        java.lang.Object ref = selfArmyInfo_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          selfArmyInfo_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getSelfArmyInfoBytes() {
-        java.lang.Object ref = selfArmyInfo_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          selfArmyInfo_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public Builder setSelfArmyInfo(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        selfArmyInfo_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public Builder clearSelfArmyInfo() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        selfArmyInfo_ = getDefaultInstance().getSelfArmyInfo();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string selfArmyInfo = 5;</code>
-       *
-       * <pre>
-       *只更新战斗中用到的人物，队伍id可以不用，只传List&lt;CurAttrData&gt; 
-       * </pre>
-       */
-      public Builder setSelfArmyInfoBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        selfArmyInfo_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional string enimyInfo = 6;
-      private java.lang.Object enimyInfo_ = "";
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public boolean hasEnimyInfo() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public java.lang.String getEnimyInfo() {
-        java.lang.Object ref = enimyInfo_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          enimyInfo_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getEnimyInfoBytes() {
-        java.lang.Object ref = enimyInfo_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          enimyInfo_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public Builder setEnimyInfo(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000020;
-        enimyInfo_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public Builder clearEnimyInfo() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        enimyInfo_ = getDefaultInstance().getEnimyInfo();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string enimyInfo = 6;</code>
-       *
-       * <pre>
-       *敌方队伍id和List&lt;CurAttrData&gt;
-       * </pre>
-       */
-      public Builder setEnimyInfoBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000020;
-        enimyInfo_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 page = 7;
+      // optional int32 page = 5;
       private int page_ ;
       /**
-       * <code>optional int32 page = 7;</code>
+       * <code>optional int32 page = 5;</code>
        *
        * <pre>
        *请求查看的防守队伍的页面
        * </pre>
        */
       public boolean hasPage() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional int32 page = 7;</code>
+       * <code>optional int32 page = 5;</code>
        *
        * <pre>
        *请求查看的防守队伍的页面
@@ -2297,175 +2482,665 @@ public final class GrouFightOnlineProto {
         return page_;
       }
       /**
-       * <code>optional int32 page = 7;</code>
+       * <code>optional int32 page = 5;</code>
        *
        * <pre>
        *请求查看的防守队伍的页面
        * </pre>
        */
       public Builder setPage(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000010;
         page_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 page = 7;</code>
+       * <code>optional int32 page = 5;</code>
        *
        * <pre>
        *请求查看的防守队伍的页面
        * </pre>
        */
       public Builder clearPage() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000010);
         page_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 viewTeamGroupID = 8;
-      private int viewTeamGroupID_ ;
+      // optional string viewTeamGroupID = 6;
+      private java.lang.Object viewTeamGroupID_ = "";
       /**
-       * <code>optional int32 viewTeamGroupID = 8;</code>
+       * <code>optional string viewTeamGroupID = 6;</code>
        *
        * <pre>
        *要查看的队伍（或页面）所属的公会ID
        * </pre>
        */
       public boolean hasViewTeamGroupID() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional int32 viewTeamGroupID = 8;</code>
+       * <code>optional string viewTeamGroupID = 6;</code>
        *
        * <pre>
        *要查看的队伍（或页面）所属的公会ID
        * </pre>
        */
-      public int getViewTeamGroupID() {
-        return viewTeamGroupID_;
+      public java.lang.String getViewTeamGroupID() {
+        java.lang.Object ref = viewTeamGroupID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          viewTeamGroupID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 viewTeamGroupID = 8;</code>
+       * <code>optional string viewTeamGroupID = 6;</code>
        *
        * <pre>
        *要查看的队伍（或页面）所属的公会ID
        * </pre>
        */
-      public Builder setViewTeamGroupID(int value) {
-        bitField0_ |= 0x00000080;
+      public com.google.protobuf.ByteString
+          getViewTeamGroupIDBytes() {
+        java.lang.Object ref = viewTeamGroupID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          viewTeamGroupID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string viewTeamGroupID = 6;</code>
+       *
+       * <pre>
+       *要查看的队伍（或页面）所属的公会ID
+       * </pre>
+       */
+      public Builder setViewTeamGroupID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
         viewTeamGroupID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 viewTeamGroupID = 8;</code>
+       * <code>optional string viewTeamGroupID = 6;</code>
        *
        * <pre>
        *要查看的队伍（或页面）所属的公会ID
        * </pre>
        */
       public Builder clearViewTeamGroupID() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        viewTeamGroupID_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        viewTeamGroupID_ = getDefaultInstance().getViewTeamGroupID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string viewTeamGroupID = 6;</code>
+       *
+       * <pre>
+       *要查看的队伍（或页面）所属的公会ID
+       * </pre>
+       */
+      public Builder setViewTeamGroupIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        viewTeamGroupID_ = value;
         onChanged();
         return this;
       }
 
-      // optional int32 viewTeamID = 9;
-      private int viewTeamID_ ;
+      // optional string teamID = 7;
+      private java.lang.Object teamID_ = "";
       /**
-       * <code>optional int32 viewTeamID = 9;</code>
+       * <code>optional string teamID = 7;</code>
        *
        * <pre>
        *要查看详情的队伍ID
        * </pre>
        */
-      public boolean hasViewTeamID() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+      public boolean hasTeamID() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional int32 viewTeamID = 9;</code>
+       * <code>optional string teamID = 7;</code>
        *
        * <pre>
        *要查看详情的队伍ID
        * </pre>
        */
-      public int getViewTeamID() {
-        return viewTeamID_;
+      public java.lang.String getTeamID() {
+        java.lang.Object ref = teamID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          teamID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 viewTeamID = 9;</code>
+       * <code>optional string teamID = 7;</code>
        *
        * <pre>
        *要查看详情的队伍ID
        * </pre>
        */
-      public Builder setViewTeamID(int value) {
-        bitField0_ |= 0x00000100;
-        viewTeamID_ = value;
+      public com.google.protobuf.ByteString
+          getTeamIDBytes() {
+        java.lang.Object ref = teamID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string teamID = 7;</code>
+       *
+       * <pre>
+       *要查看详情的队伍ID
+       * </pre>
+       */
+      public Builder setTeamID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        teamID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 viewTeamID = 9;</code>
+       * <code>optional string teamID = 7;</code>
        *
        * <pre>
        *要查看详情的队伍ID
        * </pre>
        */
-      public Builder clearViewTeamID() {
-        bitField0_ = (bitField0_ & ~0x00000100);
-        viewTeamID_ = 0;
+      public Builder clearTeamID() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        teamID_ = getDefaultInstance().getTeamID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string teamID = 7;</code>
+       *
+       * <pre>
+       *要查看详情的队伍ID
+       * </pre>
+       */
+      public Builder setTeamIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        teamID_ = value;
         onChanged();
         return this;
       }
 
-      // optional int32 rewardID = 10;
-      private int rewardID_ ;
+      // optional string rewardID = 8;
+      private java.lang.Object rewardID_ = "";
       /**
-       * <code>optional int32 rewardID = 10;</code>
+       * <code>optional string rewardID = 8;</code>
        *
        * <pre>
        *要获取的奖励ID
        * </pre>
        */
       public boolean hasRewardID() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional int32 rewardID = 10;</code>
+       * <code>optional string rewardID = 8;</code>
        *
        * <pre>
        *要获取的奖励ID
        * </pre>
        */
-      public int getRewardID() {
-        return rewardID_;
+      public java.lang.String getRewardID() {
+        java.lang.Object ref = rewardID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          rewardID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 rewardID = 10;</code>
+       * <code>optional string rewardID = 8;</code>
        *
        * <pre>
        *要获取的奖励ID
        * </pre>
        */
-      public Builder setRewardID(int value) {
-        bitField0_ |= 0x00000200;
+      public com.google.protobuf.ByteString
+          getRewardIDBytes() {
+        java.lang.Object ref = rewardID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rewardID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string rewardID = 8;</code>
+       *
+       * <pre>
+       *要获取的奖励ID
+       * </pre>
+       */
+      public Builder setRewardID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
         rewardID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 rewardID = 10;</code>
+       * <code>optional string rewardID = 8;</code>
        *
        * <pre>
        *要获取的奖励ID
        * </pre>
        */
       public Builder clearRewardID() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        rewardID_ = getDefaultInstance().getRewardID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string rewardID = 8;</code>
+       *
+       * <pre>
+       *要获取的奖励ID
+       * </pre>
+       */
+      public Builder setRewardIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        rewardID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 resourceID = 9;
+      private int resourceID_ ;
+      /**
+       * <code>optional int32 resourceID = 9;</code>
+       *
+       * <pre>
+       *请求的资源点ID
+       * </pre>
+       */
+      public boolean hasResourceID() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 resourceID = 9;</code>
+       *
+       * <pre>
+       *请求的资源点ID
+       * </pre>
+       */
+      public int getResourceID() {
+        return resourceID_;
+      }
+      /**
+       * <code>optional int32 resourceID = 9;</code>
+       *
+       * <pre>
+       *请求的资源点ID
+       * </pre>
+       */
+      public Builder setResourceID(int value) {
+        bitField0_ |= 0x00000100;
+        resourceID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 resourceID = 9;</code>
+       *
+       * <pre>
+       *请求的资源点ID
+       * </pre>
+       */
+      public Builder clearResourceID() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        resourceID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string groupID = 10;
+      private java.lang.Object groupID_ = "";
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public boolean hasGroupID() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public java.lang.String getGroupID() {
+        java.lang.Object ref = groupID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getGroupIDBytes() {
+        java.lang.Object ref = groupID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          groupID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public Builder setGroupID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        groupID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public Builder clearGroupID() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        rewardID_ = 0;
+        groupID_ = getDefaultInstance().getGroupID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupID = 10;</code>
+       *
+       * <pre>
+       *请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+       * </pre>
+       */
+      public Builder setGroupIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        groupID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string fightResult = 11;
+      private java.lang.Object fightResult_ = "";
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public boolean hasFightResult() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public java.lang.String getFightResult() {
+        java.lang.Object ref = fightResult_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          fightResult_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getFightResultBytes() {
+        java.lang.Object ref = fightResult_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fightResult_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public Builder setFightResult(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        fightResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public Builder clearFightResult() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        fightResult_ = getDefaultInstance().getFightResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string fightResult = 11;</code>
+       *
+       * <pre>
+       *战斗结果：GFightResult
+       * </pre>
+       */
+      public Builder setFightResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        fightResult_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string clientVersion = 12;
+      private java.lang.Object clientVersion_ = "";
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public boolean hasClientVersion() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public java.lang.String getClientVersion() {
+        java.lang.Object ref = clientVersion_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          clientVersion_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getClientVersionBytes() {
+        java.lang.Object ref = clientVersion_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          clientVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setClientVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        clientVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder clearClientVersion() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        clientVersion_ = getDefaultInstance().getClientVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setClientVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        clientVersion_ = value;
         onChanged();
         return this;
       }
@@ -2538,50 +3213,41 @@ public final class GrouFightOnlineProto {
      */
     long getSystemTime();
 
-    // repeated .groupFightOnline.GFResourceInfo gfResource = 4;
+    // repeated string gfResourceInfo = 4;
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo> 
-        getGfResourceList();
+    java.util.List<java.lang.String>
+    getGfResourceInfoList();
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    com.rwproto.GrouFightOnlineProto.GFResourceInfo getGfResource(int index);
+    int getGfResourceInfoCount();
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    int getGfResourceCount();
+    java.lang.String getGfResourceInfo(int index);
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder> 
-        getGfResourceOrBuilderList();
-    /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-     *
-     * <pre>
-     *各资源点对应的占有信息
-     * </pre>
-     */
-    com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder getGfResourceOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getGfResourceInfoBytes(int index);
 
     // optional string enimyDefenderDetails = 5;
     /**
@@ -2700,9 +3366,27 @@ public final class GrouFightOnlineProto {
      */
     int getTotalPage();
 
-    // repeated string fightRecord = 9;
+    // optional int32 currentPage = 9;
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    boolean hasCurrentPage();
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    int getCurrentPage();
+
+    // repeated string fightRecord = 10;
+    /**
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -2711,7 +3395,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getFightRecordList();
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -2719,7 +3403,7 @@ public final class GrouFightOnlineProto {
      */
     int getFightRecordCount();
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -2727,7 +3411,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getFightRecord(int index);
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -2736,50 +3420,41 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getFightRecordBytes(int index);
 
-    // repeated .groupFightOnline.GFRewardType rewardType = 10;
+    // repeated string gfRewardInfo = 11;
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType> 
-        getRewardTypeList();
+    java.util.List<java.lang.String>
+    getGfRewardInfoList();
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    com.rwproto.GrouFightOnlineProto.GFRewardType getRewardType(int index);
+    int getGfRewardInfoCount();
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    int getRewardTypeCount();
+    java.lang.String getGfRewardInfo(int index);
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder> 
-        getRewardTypeOrBuilderList();
-    /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-     *
-     * <pre>
-     *可以领取的奖励
-     * </pre>
-     */
-    com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder getRewardTypeOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getGfRewardInfoBytes(int index);
   }
   /**
    * Protobuf type {@code groupFightOnline.GroupFightOnlineRspMsg}
@@ -2861,10 +3536,10 @@ public final class GrouFightOnlineProto {
             }
             case 34: {
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                gfResource_ = new java.util.ArrayList<com.rwproto.GrouFightOnlineProto.GFResourceInfo>();
+                gfResourceInfo_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000008;
               }
-              gfResource_.add(input.readMessage(com.rwproto.GrouFightOnlineProto.GFResourceInfo.PARSER, extensionRegistry));
+              gfResourceInfo_.add(input.readBytes());
               break;
             }
             case 42: {
@@ -2893,20 +3568,25 @@ public final class GrouFightOnlineProto {
               totalPage_ = input.readInt32();
               break;
             }
-            case 74: {
-              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000100;
-              }
-              fightRecord_.add(input.readBytes());
+            case 72: {
+              bitField0_ |= 0x00000020;
+              currentPage_ = input.readInt32();
               break;
             }
             case 82: {
               if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-                rewardType_ = new java.util.ArrayList<com.rwproto.GrouFightOnlineProto.GFRewardType>();
+                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000200;
               }
-              rewardType_.add(input.readMessage(com.rwproto.GrouFightOnlineProto.GFRewardType.PARSER, extensionRegistry));
+              fightRecord_.add(input.readBytes());
+              break;
+            }
+            case 90: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000400;
+              }
+              gfRewardInfo_.add(input.readBytes());
               break;
             }
           }
@@ -2918,7 +3598,7 @@ public final class GrouFightOnlineProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          gfResource_ = java.util.Collections.unmodifiableList(gfResource_);
+          gfResourceInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(gfResourceInfo_);
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           rankData_ = new com.google.protobuf.UnmodifiableLazyStringList(rankData_);
@@ -2926,11 +3606,11 @@ public final class GrouFightOnlineProto {
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           defendArmySimpleLeader_ = new com.google.protobuf.UnmodifiableLazyStringList(defendArmySimpleLeader_);
         }
-        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(fightRecord_);
         }
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-          rewardType_ = java.util.Collections.unmodifiableList(rewardType_);
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+          gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(gfRewardInfo_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3036,60 +3716,50 @@ public final class GrouFightOnlineProto {
       return systemTime_;
     }
 
-    // repeated .groupFightOnline.GFResourceInfo gfResource = 4;
-    public static final int GFRESOURCE_FIELD_NUMBER = 4;
-    private java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo> gfResource_;
+    // repeated string gfResourceInfo = 4;
+    public static final int GFRESOURCEINFO_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList gfResourceInfo_;
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    public java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo> getGfResourceList() {
-      return gfResource_;
+    public java.util.List<java.lang.String>
+        getGfResourceInfoList() {
+      return gfResourceInfo_;
     }
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    public java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder> 
-        getGfResourceOrBuilderList() {
-      return gfResource_;
+    public int getGfResourceInfoCount() {
+      return gfResourceInfo_.size();
     }
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    public int getGfResourceCount() {
-      return gfResource_.size();
+    public java.lang.String getGfResourceInfo(int index) {
+      return gfResourceInfo_.get(index);
     }
     /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+     * <code>repeated string gfResourceInfo = 4;</code>
      *
      * <pre>
      *各资源点对应的占有信息
      * </pre>
      */
-    public com.rwproto.GrouFightOnlineProto.GFResourceInfo getGfResource(int index) {
-      return gfResource_.get(index);
-    }
-    /**
-     * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-     *
-     * <pre>
-     *各资源点对应的占有信息
-     * </pre>
-     */
-    public com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder getGfResourceOrBuilder(
-        int index) {
-      return gfResource_.get(index);
+    public com.google.protobuf.ByteString
+        getGfResourceInfoBytes(int index) {
+      return gfResourceInfo_.getByteString(index);
     }
 
     // optional string enimyDefenderDetails = 5;
@@ -3263,11 +3933,35 @@ public final class GrouFightOnlineProto {
       return totalPage_;
     }
 
-    // repeated string fightRecord = 9;
-    public static final int FIGHTRECORD_FIELD_NUMBER = 9;
+    // optional int32 currentPage = 9;
+    public static final int CURRENTPAGE_FIELD_NUMBER = 9;
+    private int currentPage_;
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    public boolean hasCurrentPage() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    public int getCurrentPage() {
+      return currentPage_;
+    }
+
+    // repeated string fightRecord = 10;
+    public static final int FIGHTRECORD_FIELD_NUMBER = 10;
     private com.google.protobuf.LazyStringList fightRecord_;
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3278,7 +3972,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_;
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3288,7 +3982,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.size();
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3298,7 +3992,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.get(index);
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3309,73 +4003,64 @@ public final class GrouFightOnlineProto {
       return fightRecord_.getByteString(index);
     }
 
-    // repeated .groupFightOnline.GFRewardType rewardType = 10;
-    public static final int REWARDTYPE_FIELD_NUMBER = 10;
-    private java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType> rewardType_;
+    // repeated string gfRewardInfo = 11;
+    public static final int GFREWARDINFO_FIELD_NUMBER = 11;
+    private com.google.protobuf.LazyStringList gfRewardInfo_;
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    public java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType> getRewardTypeList() {
-      return rewardType_;
+    public java.util.List<java.lang.String>
+        getGfRewardInfoList() {
+      return gfRewardInfo_;
     }
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    public java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder> 
-        getRewardTypeOrBuilderList() {
-      return rewardType_;
+    public int getGfRewardInfoCount() {
+      return gfRewardInfo_.size();
     }
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    public int getRewardTypeCount() {
-      return rewardType_.size();
+    public java.lang.String getGfRewardInfo(int index) {
+      return gfRewardInfo_.get(index);
     }
     /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
      * </pre>
      */
-    public com.rwproto.GrouFightOnlineProto.GFRewardType getRewardType(int index) {
-      return rewardType_.get(index);
-    }
-    /**
-     * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-     *
-     * <pre>
-     *可以领取的奖励
-     * </pre>
-     */
-    public com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder getRewardTypeOrBuilder(
-        int index) {
-      return rewardType_.get(index);
+    public com.google.protobuf.ByteString
+        getGfRewardInfoBytes(int index) {
+      return gfRewardInfo_.getByteString(index);
     }
 
     private void initFields() {
       reqType_ = com.rwproto.GrouFightOnlineProto.GFRequestType.GET_RESOURCE_INFO;
       rstType_ = com.rwproto.GrouFightOnlineProto.GFResultType.SUCCESS;
       systemTime_ = 0L;
-      gfResource_ = java.util.Collections.emptyList();
+      gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       enimyDefenderDetails_ = "";
       rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       totalPage_ = 0;
+      currentPage_ = 0;
       fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      rewardType_ = java.util.Collections.emptyList();
+      gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3389,18 +4074,6 @@ public final class GrouFightOnlineProto {
       if (!hasRstType()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      for (int i = 0; i < getGfResourceCount(); i++) {
-        if (!getGfResource(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      for (int i = 0; i < getRewardTypeCount(); i++) {
-        if (!getRewardType(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3418,8 +4091,8 @@ public final class GrouFightOnlineProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(3, systemTime_);
       }
-      for (int i = 0; i < gfResource_.size(); i++) {
-        output.writeMessage(4, gfResource_.get(i));
+      for (int i = 0; i < gfResourceInfo_.size(); i++) {
+        output.writeBytes(4, gfResourceInfo_.getByteString(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(5, getEnimyDefenderDetailsBytes());
@@ -3433,11 +4106,14 @@ public final class GrouFightOnlineProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(8, totalPage_);
       }
-      for (int i = 0; i < fightRecord_.size(); i++) {
-        output.writeBytes(9, fightRecord_.getByteString(i));
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(9, currentPage_);
       }
-      for (int i = 0; i < rewardType_.size(); i++) {
-        output.writeMessage(10, rewardType_.get(i));
+      for (int i = 0; i < fightRecord_.size(); i++) {
+        output.writeBytes(10, fightRecord_.getByteString(i));
+      }
+      for (int i = 0; i < gfRewardInfo_.size(); i++) {
+        output.writeBytes(11, gfRewardInfo_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3460,9 +4136,14 @@ public final class GrouFightOnlineProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, systemTime_);
       }
-      for (int i = 0; i < gfResource_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, gfResource_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < gfResourceInfo_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(gfResourceInfo_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getGfResourceInfoList().size();
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3490,6 +4171,10 @@ public final class GrouFightOnlineProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, totalPage_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, currentPage_);
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < fightRecord_.size(); i++) {
@@ -3499,9 +4184,14 @@ public final class GrouFightOnlineProto {
         size += dataSize;
         size += 1 * getFightRecordList().size();
       }
-      for (int i = 0; i < rewardType_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, rewardType_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < gfRewardInfo_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(gfRewardInfo_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getGfRewardInfoList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3611,8 +4301,6 @@ public final class GrouFightOnlineProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getGfResourceFieldBuilder();
-          getRewardTypeFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3627,12 +4315,8 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         systemTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (gfResourceBuilder_ == null) {
-          gfResource_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        } else {
-          gfResourceBuilder_.clear();
-        }
+        gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         enimyDefenderDetails_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
         rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -3641,14 +4325,12 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         totalPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        currentPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        if (rewardTypeBuilder_ == null) {
-          rewardType_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
-        } else {
-          rewardTypeBuilder_.clear();
-        }
+        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -3689,15 +4371,12 @@ public final class GrouFightOnlineProto {
           to_bitField0_ |= 0x00000004;
         }
         result.systemTime_ = systemTime_;
-        if (gfResourceBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            gfResource_ = java.util.Collections.unmodifiableList(gfResource_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.gfResource_ = gfResource_;
-        } else {
-          result.gfResource_ = gfResourceBuilder_.build();
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          gfResourceInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              gfResourceInfo_);
+          bitField0_ = (bitField0_ & ~0x00000008);
         }
+        result.gfResourceInfo_ = gfResourceInfo_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -3718,21 +4397,22 @@ public final class GrouFightOnlineProto {
           to_bitField0_ |= 0x00000010;
         }
         result.totalPage_ = totalPage_;
-        if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.currentPage_ = currentPage_;
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(
               fightRecord_);
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000200);
         }
         result.fightRecord_ = fightRecord_;
-        if (rewardTypeBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) == 0x00000200)) {
-            rewardType_ = java.util.Collections.unmodifiableList(rewardType_);
-            bitField0_ = (bitField0_ & ~0x00000200);
-          }
-          result.rewardType_ = rewardType_;
-        } else {
-          result.rewardType_ = rewardTypeBuilder_.build();
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              gfRewardInfo_);
+          bitField0_ = (bitField0_ & ~0x00000400);
         }
+        result.gfRewardInfo_ = gfRewardInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3758,31 +4438,15 @@ public final class GrouFightOnlineProto {
         if (other.hasSystemTime()) {
           setSystemTime(other.getSystemTime());
         }
-        if (gfResourceBuilder_ == null) {
-          if (!other.gfResource_.isEmpty()) {
-            if (gfResource_.isEmpty()) {
-              gfResource_ = other.gfResource_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureGfResourceIsMutable();
-              gfResource_.addAll(other.gfResource_);
-            }
-            onChanged();
+        if (!other.gfResourceInfo_.isEmpty()) {
+          if (gfResourceInfo_.isEmpty()) {
+            gfResourceInfo_ = other.gfResourceInfo_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureGfResourceInfoIsMutable();
+            gfResourceInfo_.addAll(other.gfResourceInfo_);
           }
-        } else {
-          if (!other.gfResource_.isEmpty()) {
-            if (gfResourceBuilder_.isEmpty()) {
-              gfResourceBuilder_.dispose();
-              gfResourceBuilder_ = null;
-              gfResource_ = other.gfResource_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              gfResourceBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getGfResourceFieldBuilder() : null;
-            } else {
-              gfResourceBuilder_.addAllMessages(other.gfResource_);
-            }
-          }
+          onChanged();
         }
         if (other.hasEnimyDefenderDetails()) {
           bitField0_ |= 0x00000010;
@@ -3812,41 +4476,28 @@ public final class GrouFightOnlineProto {
         if (other.hasTotalPage()) {
           setTotalPage(other.getTotalPage());
         }
+        if (other.hasCurrentPage()) {
+          setCurrentPage(other.getCurrentPage());
+        }
         if (!other.fightRecord_.isEmpty()) {
           if (fightRecord_.isEmpty()) {
             fightRecord_ = other.fightRecord_;
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000200);
           } else {
             ensureFightRecordIsMutable();
             fightRecord_.addAll(other.fightRecord_);
           }
           onChanged();
         }
-        if (rewardTypeBuilder_ == null) {
-          if (!other.rewardType_.isEmpty()) {
-            if (rewardType_.isEmpty()) {
-              rewardType_ = other.rewardType_;
-              bitField0_ = (bitField0_ & ~0x00000200);
-            } else {
-              ensureRewardTypeIsMutable();
-              rewardType_.addAll(other.rewardType_);
-            }
-            onChanged();
+        if (!other.gfRewardInfo_.isEmpty()) {
+          if (gfRewardInfo_.isEmpty()) {
+            gfRewardInfo_ = other.gfRewardInfo_;
+            bitField0_ = (bitField0_ & ~0x00000400);
+          } else {
+            ensureGfRewardInfoIsMutable();
+            gfRewardInfo_.addAll(other.gfRewardInfo_);
           }
-        } else {
-          if (!other.rewardType_.isEmpty()) {
-            if (rewardTypeBuilder_.isEmpty()) {
-              rewardTypeBuilder_.dispose();
-              rewardTypeBuilder_ = null;
-              rewardType_ = other.rewardType_;
-              bitField0_ = (bitField0_ & ~0x00000200);
-              rewardTypeBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getRewardTypeFieldBuilder() : null;
-            } else {
-              rewardTypeBuilder_.addAllMessages(other.rewardType_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3860,18 +4511,6 @@ public final class GrouFightOnlineProto {
         if (!hasRstType()) {
           
           return false;
-        }
-        for (int i = 0; i < getGfResourceCount(); i++) {
-          if (!getGfResource(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        for (int i = 0; i < getRewardTypeCount(); i++) {
-          if (!getRewardType(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -4048,316 +4687,133 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated .groupFightOnline.GFResourceInfo gfResource = 4;
-      private java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo> gfResource_ =
-        java.util.Collections.emptyList();
-      private void ensureGfResourceIsMutable() {
+      // repeated string gfResourceInfo = 4;
+      private com.google.protobuf.LazyStringList gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureGfResourceInfoIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          gfResource_ = new java.util.ArrayList<com.rwproto.GrouFightOnlineProto.GFResourceInfo>(gfResource_);
+          gfResourceInfo_ = new com.google.protobuf.LazyStringArrayList(gfResourceInfo_);
           bitField0_ |= 0x00000008;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GFResourceInfo, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder, com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder> gfResourceBuilder_;
-
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo> getGfResourceList() {
-        if (gfResourceBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(gfResource_);
-        } else {
-          return gfResourceBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.String>
+          getGfResourceInfoList() {
+        return java.util.Collections.unmodifiableList(gfResourceInfo_);
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public int getGfResourceCount() {
-        if (gfResourceBuilder_ == null) {
-          return gfResource_.size();
-        } else {
-          return gfResourceBuilder_.getCount();
-        }
+      public int getGfResourceInfoCount() {
+        return gfResourceInfo_.size();
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo getGfResource(int index) {
-        if (gfResourceBuilder_ == null) {
-          return gfResource_.get(index);
-        } else {
-          return gfResourceBuilder_.getMessage(index);
-        }
+      public java.lang.String getGfResourceInfo(int index) {
+        return gfResourceInfo_.get(index);
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public Builder setGfResource(
-          int index, com.rwproto.GrouFightOnlineProto.GFResourceInfo value) {
-        if (gfResourceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGfResourceIsMutable();
-          gfResource_.set(index, value);
-          onChanged();
-        } else {
-          gfResourceBuilder_.setMessage(index, value);
-        }
+      public com.google.protobuf.ByteString
+          getGfResourceInfoBytes(int index) {
+        return gfResourceInfo_.getByteString(index);
+      }
+      /**
+       * <code>repeated string gfResourceInfo = 4;</code>
+       *
+       * <pre>
+       *各资源点对应的占有信息
+       * </pre>
+       */
+      public Builder setGfResourceInfo(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfResourceInfoIsMutable();
+        gfResourceInfo_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public Builder setGfResource(
-          int index, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder builderForValue) {
-        if (gfResourceBuilder_ == null) {
-          ensureGfResourceIsMutable();
-          gfResource_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          gfResourceBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addGfResourceInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfResourceInfoIsMutable();
+        gfResourceInfo_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public Builder addGfResource(com.rwproto.GrouFightOnlineProto.GFResourceInfo value) {
-        if (gfResourceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGfResourceIsMutable();
-          gfResource_.add(value);
-          onChanged();
-        } else {
-          gfResourceBuilder_.addMessage(value);
-        }
+      public Builder addAllGfResourceInfo(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureGfResourceInfoIsMutable();
+        super.addAll(values, gfResourceInfo_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public Builder addGfResource(
-          int index, com.rwproto.GrouFightOnlineProto.GFResourceInfo value) {
-        if (gfResourceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGfResourceIsMutable();
-          gfResource_.add(index, value);
-          onChanged();
-        } else {
-          gfResourceBuilder_.addMessage(index, value);
-        }
+      public Builder clearGfResourceInfo() {
+        gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
+       * <code>repeated string gfResourceInfo = 4;</code>
        *
        * <pre>
        *各资源点对应的占有信息
        * </pre>
        */
-      public Builder addGfResource(
-          com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder builderForValue) {
-        if (gfResourceBuilder_ == null) {
-          ensureGfResourceIsMutable();
-          gfResource_.add(builderForValue.build());
-          onChanged();
-        } else {
-          gfResourceBuilder_.addMessage(builderForValue.build());
-        }
+      public Builder addGfResourceInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfResourceInfoIsMutable();
+        gfResourceInfo_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public Builder addGfResource(
-          int index, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder builderForValue) {
-        if (gfResourceBuilder_ == null) {
-          ensureGfResourceIsMutable();
-          gfResource_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          gfResourceBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public Builder addAllGfResource(
-          java.lang.Iterable<? extends com.rwproto.GrouFightOnlineProto.GFResourceInfo> values) {
-        if (gfResourceBuilder_ == null) {
-          ensureGfResourceIsMutable();
-          super.addAll(values, gfResource_);
-          onChanged();
-        } else {
-          gfResourceBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public Builder clearGfResource() {
-        if (gfResourceBuilder_ == null) {
-          gfResource_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          gfResourceBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public Builder removeGfResource(int index) {
-        if (gfResourceBuilder_ == null) {
-          ensureGfResourceIsMutable();
-          gfResource_.remove(index);
-          onChanged();
-        } else {
-          gfResourceBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder getGfResourceBuilder(
-          int index) {
-        return getGfResourceFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder getGfResourceOrBuilder(
-          int index) {
-        if (gfResourceBuilder_ == null) {
-          return gfResource_.get(index);  } else {
-          return gfResourceBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder> 
-           getGfResourceOrBuilderList() {
-        if (gfResourceBuilder_ != null) {
-          return gfResourceBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(gfResource_);
-        }
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder addGfResourceBuilder() {
-        return getGfResourceFieldBuilder().addBuilder(
-            com.rwproto.GrouFightOnlineProto.GFResourceInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder addGfResourceBuilder(
-          int index) {
-        return getGfResourceFieldBuilder().addBuilder(
-            index, com.rwproto.GrouFightOnlineProto.GFResourceInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFResourceInfo gfResource = 4;</code>
-       *
-       * <pre>
-       *各资源点对应的占有信息
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder> 
-           getGfResourceBuilderList() {
-        return getGfResourceFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GFResourceInfo, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder, com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder> 
-          getGfResourceFieldBuilder() {
-        if (gfResourceBuilder_ == null) {
-          gfResourceBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GrouFightOnlineProto.GFResourceInfo, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder, com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder>(
-                  gfResource_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
-                  getParentForChildren(),
-                  isClean());
-          gfResource_ = null;
-        }
-        return gfResourceBuilder_;
       }
 
       // optional string enimyDefenderDetails = 5;
@@ -4765,16 +5221,65 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string fightRecord = 9;
+      // optional int32 currentPage = 9;
+      private int currentPage_ ;
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public boolean hasCurrentPage() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public int getCurrentPage() {
+        return currentPage_;
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public Builder setCurrentPage(int value) {
+        bitField0_ |= 0x00000100;
+        currentPage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public Builder clearCurrentPage() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        currentPage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated string fightRecord = 10;
       private com.google.protobuf.LazyStringList fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureFightRecordIsMutable() {
-        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.LazyStringArrayList(fightRecord_);
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000200;
          }
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4785,7 +5290,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(fightRecord_);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4795,7 +5300,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.size();
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4805,7 +5310,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.get(index);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4816,7 +5321,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.getByteString(index);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4833,7 +5338,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4850,7 +5355,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4864,7 +5369,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4872,12 +5377,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearFightRecord() {
         fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4894,316 +5399,133 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated .groupFightOnline.GFRewardType rewardType = 10;
-      private java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType> rewardType_ =
-        java.util.Collections.emptyList();
-      private void ensureRewardTypeIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
-          rewardType_ = new java.util.ArrayList<com.rwproto.GrouFightOnlineProto.GFRewardType>(rewardType_);
-          bitField0_ |= 0x00000200;
+      // repeated string gfRewardInfo = 11;
+      private com.google.protobuf.LazyStringList gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureGfRewardInfoIsMutable() {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList(gfRewardInfo_);
+          bitField0_ |= 0x00000400;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GFRewardType, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder, com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder> rewardTypeBuilder_;
-
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType> getRewardTypeList() {
-        if (rewardTypeBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(rewardType_);
-        } else {
-          return rewardTypeBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.String>
+          getGfRewardInfoList() {
+        return java.util.Collections.unmodifiableList(gfRewardInfo_);
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public int getRewardTypeCount() {
-        if (rewardTypeBuilder_ == null) {
-          return rewardType_.size();
-        } else {
-          return rewardTypeBuilder_.getCount();
-        }
+      public int getGfRewardInfoCount() {
+        return gfRewardInfo_.size();
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public com.rwproto.GrouFightOnlineProto.GFRewardType getRewardType(int index) {
-        if (rewardTypeBuilder_ == null) {
-          return rewardType_.get(index);
-        } else {
-          return rewardTypeBuilder_.getMessage(index);
-        }
+      public java.lang.String getGfRewardInfo(int index) {
+        return gfRewardInfo_.get(index);
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public Builder setRewardType(
-          int index, com.rwproto.GrouFightOnlineProto.GFRewardType value) {
-        if (rewardTypeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRewardTypeIsMutable();
-          rewardType_.set(index, value);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.setMessage(index, value);
-        }
+      public com.google.protobuf.ByteString
+          getGfRewardInfoBytes(int index) {
+        return gfRewardInfo_.getByteString(index);
+      }
+      /**
+       * <code>repeated string gfRewardInfo = 11;</code>
+       *
+       * <pre>
+       *可以领取的奖励
+       * </pre>
+       */
+      public Builder setGfRewardInfo(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfRewardInfoIsMutable();
+        gfRewardInfo_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public Builder setRewardType(
-          int index, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder builderForValue) {
-        if (rewardTypeBuilder_ == null) {
-          ensureRewardTypeIsMutable();
-          rewardType_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          rewardTypeBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addGfRewardInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfRewardInfoIsMutable();
+        gfRewardInfo_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public Builder addRewardType(com.rwproto.GrouFightOnlineProto.GFRewardType value) {
-        if (rewardTypeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRewardTypeIsMutable();
-          rewardType_.add(value);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.addMessage(value);
-        }
+      public Builder addAllGfRewardInfo(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureGfRewardInfoIsMutable();
+        super.addAll(values, gfRewardInfo_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public Builder addRewardType(
-          int index, com.rwproto.GrouFightOnlineProto.GFRewardType value) {
-        if (rewardTypeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRewardTypeIsMutable();
-          rewardType_.add(index, value);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.addMessage(index, value);
-        }
+      public Builder clearGfRewardInfo() {
+        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
        * </pre>
        */
-      public Builder addRewardType(
-          com.rwproto.GrouFightOnlineProto.GFRewardType.Builder builderForValue) {
-        if (rewardTypeBuilder_ == null) {
-          ensureRewardTypeIsMutable();
-          rewardType_.add(builderForValue.build());
-          onChanged();
-        } else {
-          rewardTypeBuilder_.addMessage(builderForValue.build());
-        }
+      public Builder addGfRewardInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGfRewardInfoIsMutable();
+        gfRewardInfo_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public Builder addRewardType(
-          int index, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder builderForValue) {
-        if (rewardTypeBuilder_ == null) {
-          ensureRewardTypeIsMutable();
-          rewardType_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          rewardTypeBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public Builder addAllRewardType(
-          java.lang.Iterable<? extends com.rwproto.GrouFightOnlineProto.GFRewardType> values) {
-        if (rewardTypeBuilder_ == null) {
-          ensureRewardTypeIsMutable();
-          super.addAll(values, rewardType_);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public Builder clearRewardType() {
-        if (rewardTypeBuilder_ == null) {
-          rewardType_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public Builder removeRewardType(int index) {
-        if (rewardTypeBuilder_ == null) {
-          ensureRewardTypeIsMutable();
-          rewardType_.remove(index);
-          onChanged();
-        } else {
-          rewardTypeBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFRewardType.Builder getRewardTypeBuilder(
-          int index) {
-        return getRewardTypeFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder getRewardTypeOrBuilder(
-          int index) {
-        if (rewardTypeBuilder_ == null) {
-          return rewardType_.get(index);  } else {
-          return rewardTypeBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder> 
-           getRewardTypeOrBuilderList() {
-        if (rewardTypeBuilder_ != null) {
-          return rewardTypeBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(rewardType_);
-        }
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFRewardType.Builder addRewardTypeBuilder() {
-        return getRewardTypeFieldBuilder().addBuilder(
-            com.rwproto.GrouFightOnlineProto.GFRewardType.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GFRewardType.Builder addRewardTypeBuilder(
-          int index) {
-        return getRewardTypeFieldBuilder().addBuilder(
-            index, com.rwproto.GrouFightOnlineProto.GFRewardType.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupFightOnline.GFRewardType rewardType = 10;</code>
-       *
-       * <pre>
-       *可以领取的奖励
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GrouFightOnlineProto.GFRewardType.Builder> 
-           getRewardTypeBuilderList() {
-        return getRewardTypeFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GFRewardType, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder, com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder> 
-          getRewardTypeFieldBuilder() {
-        if (rewardTypeBuilder_ == null) {
-          rewardTypeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GrouFightOnlineProto.GFRewardType, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder, com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder>(
-                  rewardType_,
-                  ((bitField0_ & 0x00000200) == 0x00000200),
-                  getParentForChildren(),
-                  isClean());
-          rewardType_ = null;
-        }
-        return rewardTypeBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupFightOnline.GroupFightOnlineRspMsg)
@@ -5217,2456 +5539,6 @@ public final class GrouFightOnlineProto {
     // @@protoc_insertion_point(class_scope:groupFightOnline.GroupFightOnlineRspMsg)
   }
 
-  public interface GFResourceInfoOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 resourceID = 1;
-    /**
-     * <code>required int32 resourceID = 1;</code>
-     *
-     * <pre>
-     *资源点ID
-     * </pre>
-     */
-    boolean hasResourceID();
-    /**
-     * <code>required int32 resourceID = 1;</code>
-     *
-     * <pre>
-     *资源点ID
-     * </pre>
-     */
-    int getResourceID();
-
-    // optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    boolean hasGroupInfo();
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    com.rwproto.GrouFightOnlineProto.GroupSimpleInfo getGroupInfo();
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder getGroupInfoOrBuilder();
-  }
-  /**
-   * Protobuf type {@code groupFightOnline.GFResourceInfo}
-   */
-  public static final class GFResourceInfo extends
-      com.google.protobuf.GeneratedMessage
-      implements GFResourceInfoOrBuilder {
-    // Use GFResourceInfo.newBuilder() to construct.
-    private GFResourceInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GFResourceInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GFResourceInfo defaultInstance;
-    public static GFResourceInfo getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GFResourceInfo getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GFResourceInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              resourceID_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = groupInfo_.toBuilder();
-              }
-              groupInfo_ = input.readMessage(com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(groupInfo_);
-                groupInfo_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFResourceInfo_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFResourceInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GrouFightOnlineProto.GFResourceInfo.class, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GFResourceInfo> PARSER =
-        new com.google.protobuf.AbstractParser<GFResourceInfo>() {
-      public GFResourceInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GFResourceInfo(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GFResourceInfo> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 resourceID = 1;
-    public static final int RESOURCEID_FIELD_NUMBER = 1;
-    private int resourceID_;
-    /**
-     * <code>required int32 resourceID = 1;</code>
-     *
-     * <pre>
-     *资源点ID
-     * </pre>
-     */
-    public boolean hasResourceID() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 resourceID = 1;</code>
-     *
-     * <pre>
-     *资源点ID
-     * </pre>
-     */
-    public int getResourceID() {
-      return resourceID_;
-    }
-
-    // optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;
-    public static final int GROUPINFO_FIELD_NUMBER = 2;
-    private com.rwproto.GrouFightOnlineProto.GroupSimpleInfo groupInfo_;
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    public boolean hasGroupInfo() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo getGroupInfo() {
-      return groupInfo_;
-    }
-    /**
-     * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-     *
-     * <pre>
-     *占有公会ID
-     * </pre>
-     */
-    public com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder getGroupInfoOrBuilder() {
-      return groupInfo_;
-    }
-
-    private void initFields() {
-      resourceID_ = 0;
-      groupInfo_ = com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasResourceID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (hasGroupInfo()) {
-        if (!getGroupInfo().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, resourceID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, groupInfo_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, resourceID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, groupInfo_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFResourceInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GrouFightOnlineProto.GFResourceInfo prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupFightOnline.GFResourceInfo}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GrouFightOnlineProto.GFResourceInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFResourceInfo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFResourceInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GrouFightOnlineProto.GFResourceInfo.class, com.rwproto.GrouFightOnlineProto.GFResourceInfo.Builder.class);
-      }
-
-      // Construct using com.rwproto.GrouFightOnlineProto.GFResourceInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getGroupInfoFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        resourceID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (groupInfoBuilder_ == null) {
-          groupInfo_ = com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance();
-        } else {
-          groupInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFResourceInfo_descriptor;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo getDefaultInstanceForType() {
-        return com.rwproto.GrouFightOnlineProto.GFResourceInfo.getDefaultInstance();
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo build() {
-        com.rwproto.GrouFightOnlineProto.GFResourceInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFResourceInfo buildPartial() {
-        com.rwproto.GrouFightOnlineProto.GFResourceInfo result = new com.rwproto.GrouFightOnlineProto.GFResourceInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.resourceID_ = resourceID_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        if (groupInfoBuilder_ == null) {
-          result.groupInfo_ = groupInfo_;
-        } else {
-          result.groupInfo_ = groupInfoBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GrouFightOnlineProto.GFResourceInfo) {
-          return mergeFrom((com.rwproto.GrouFightOnlineProto.GFResourceInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GrouFightOnlineProto.GFResourceInfo other) {
-        if (other == com.rwproto.GrouFightOnlineProto.GFResourceInfo.getDefaultInstance()) return this;
-        if (other.hasResourceID()) {
-          setResourceID(other.getResourceID());
-        }
-        if (other.hasGroupInfo()) {
-          mergeGroupInfo(other.getGroupInfo());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasResourceID()) {
-          
-          return false;
-        }
-        if (hasGroupInfo()) {
-          if (!getGroupInfo().isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GrouFightOnlineProto.GFResourceInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GrouFightOnlineProto.GFResourceInfo) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 resourceID = 1;
-      private int resourceID_ ;
-      /**
-       * <code>required int32 resourceID = 1;</code>
-       *
-       * <pre>
-       *资源点ID
-       * </pre>
-       */
-      public boolean hasResourceID() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 resourceID = 1;</code>
-       *
-       * <pre>
-       *资源点ID
-       * </pre>
-       */
-      public int getResourceID() {
-        return resourceID_;
-      }
-      /**
-       * <code>required int32 resourceID = 1;</code>
-       *
-       * <pre>
-       *资源点ID
-       * </pre>
-       */
-      public Builder setResourceID(int value) {
-        bitField0_ |= 0x00000001;
-        resourceID_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 resourceID = 1;</code>
-       *
-       * <pre>
-       *资源点ID
-       * </pre>
-       */
-      public Builder clearResourceID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        resourceID_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;
-      private com.rwproto.GrouFightOnlineProto.GroupSimpleInfo groupInfo_ = com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GroupSimpleInfo, com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder, com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder> groupInfoBuilder_;
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public boolean hasGroupInfo() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo getGroupInfo() {
-        if (groupInfoBuilder_ == null) {
-          return groupInfo_;
-        } else {
-          return groupInfoBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public Builder setGroupInfo(com.rwproto.GrouFightOnlineProto.GroupSimpleInfo value) {
-        if (groupInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          groupInfo_ = value;
-          onChanged();
-        } else {
-          groupInfoBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public Builder setGroupInfo(
-          com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder builderForValue) {
-        if (groupInfoBuilder_ == null) {
-          groupInfo_ = builderForValue.build();
-          onChanged();
-        } else {
-          groupInfoBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public Builder mergeGroupInfo(com.rwproto.GrouFightOnlineProto.GroupSimpleInfo value) {
-        if (groupInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              groupInfo_ != com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance()) {
-            groupInfo_ =
-              com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.newBuilder(groupInfo_).mergeFrom(value).buildPartial();
-          } else {
-            groupInfo_ = value;
-          }
-          onChanged();
-        } else {
-          groupInfoBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public Builder clearGroupInfo() {
-        if (groupInfoBuilder_ == null) {
-          groupInfo_ = com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance();
-          onChanged();
-        } else {
-          groupInfoBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder getGroupInfoBuilder() {
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return getGroupInfoFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder getGroupInfoOrBuilder() {
-        if (groupInfoBuilder_ != null) {
-          return groupInfoBuilder_.getMessageOrBuilder();
-        } else {
-          return groupInfo_;
-        }
-      }
-      /**
-       * <code>optional .groupFightOnline.GroupSimpleInfo groupInfo = 2;</code>
-       *
-       * <pre>
-       *占有公会ID
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GrouFightOnlineProto.GroupSimpleInfo, com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder, com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder> 
-          getGroupInfoFieldBuilder() {
-        if (groupInfoBuilder_ == null) {
-          groupInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.GrouFightOnlineProto.GroupSimpleInfo, com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder, com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder>(
-                  groupInfo_,
-                  getParentForChildren(),
-                  isClean());
-          groupInfo_ = null;
-        }
-        return groupInfoBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupFightOnline.GFResourceInfo)
-    }
-
-    static {
-      defaultInstance = new GFResourceInfo(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupFightOnline.GFResourceInfo)
-  }
-
-  public interface GFRewardTypeOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 typeID = 1;
-    /**
-     * <code>required int32 typeID = 1;</code>
-     *
-     * <pre>
-     *奖励的类型ID
-     * </pre>
-     */
-    boolean hasTypeID();
-    /**
-     * <code>required int32 typeID = 1;</code>
-     *
-     * <pre>
-     *奖励的类型ID
-     * </pre>
-     */
-    int getTypeID();
-
-    // required int32 rewardID = 2;
-    /**
-     * <code>required int32 rewardID = 2;</code>
-     *
-     * <pre>
-     *奖励的ID
-     * </pre>
-     */
-    boolean hasRewardID();
-    /**
-     * <code>required int32 rewardID = 2;</code>
-     *
-     * <pre>
-     *奖励的ID
-     * </pre>
-     */
-    int getRewardID();
-  }
-  /**
-   * Protobuf type {@code groupFightOnline.GFRewardType}
-   */
-  public static final class GFRewardType extends
-      com.google.protobuf.GeneratedMessage
-      implements GFRewardTypeOrBuilder {
-    // Use GFRewardType.newBuilder() to construct.
-    private GFRewardType(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GFRewardType(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GFRewardType defaultInstance;
-    public static GFRewardType getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GFRewardType getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GFRewardType(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              typeID_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              rewardID_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFRewardType_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFRewardType_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GrouFightOnlineProto.GFRewardType.class, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GFRewardType> PARSER =
-        new com.google.protobuf.AbstractParser<GFRewardType>() {
-      public GFRewardType parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GFRewardType(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GFRewardType> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 typeID = 1;
-    public static final int TYPEID_FIELD_NUMBER = 1;
-    private int typeID_;
-    /**
-     * <code>required int32 typeID = 1;</code>
-     *
-     * <pre>
-     *奖励的类型ID
-     * </pre>
-     */
-    public boolean hasTypeID() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 typeID = 1;</code>
-     *
-     * <pre>
-     *奖励的类型ID
-     * </pre>
-     */
-    public int getTypeID() {
-      return typeID_;
-    }
-
-    // required int32 rewardID = 2;
-    public static final int REWARDID_FIELD_NUMBER = 2;
-    private int rewardID_;
-    /**
-     * <code>required int32 rewardID = 2;</code>
-     *
-     * <pre>
-     *奖励的ID
-     * </pre>
-     */
-    public boolean hasRewardID() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 rewardID = 2;</code>
-     *
-     * <pre>
-     *奖励的ID
-     * </pre>
-     */
-    public int getRewardID() {
-      return rewardID_;
-    }
-
-    private void initFields() {
-      typeID_ = 0;
-      rewardID_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasTypeID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRewardID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, typeID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, rewardID_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, typeID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, rewardID_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GFRewardType parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GrouFightOnlineProto.GFRewardType prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupFightOnline.GFRewardType}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GrouFightOnlineProto.GFRewardTypeOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFRewardType_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFRewardType_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GrouFightOnlineProto.GFRewardType.class, com.rwproto.GrouFightOnlineProto.GFRewardType.Builder.class);
-      }
-
-      // Construct using com.rwproto.GrouFightOnlineProto.GFRewardType.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        typeID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rewardID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GFRewardType_descriptor;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFRewardType getDefaultInstanceForType() {
-        return com.rwproto.GrouFightOnlineProto.GFRewardType.getDefaultInstance();
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFRewardType build() {
-        com.rwproto.GrouFightOnlineProto.GFRewardType result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GFRewardType buildPartial() {
-        com.rwproto.GrouFightOnlineProto.GFRewardType result = new com.rwproto.GrouFightOnlineProto.GFRewardType(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.typeID_ = typeID_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.rewardID_ = rewardID_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GrouFightOnlineProto.GFRewardType) {
-          return mergeFrom((com.rwproto.GrouFightOnlineProto.GFRewardType)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GrouFightOnlineProto.GFRewardType other) {
-        if (other == com.rwproto.GrouFightOnlineProto.GFRewardType.getDefaultInstance()) return this;
-        if (other.hasTypeID()) {
-          setTypeID(other.getTypeID());
-        }
-        if (other.hasRewardID()) {
-          setRewardID(other.getRewardID());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasTypeID()) {
-          
-          return false;
-        }
-        if (!hasRewardID()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GrouFightOnlineProto.GFRewardType parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GrouFightOnlineProto.GFRewardType) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 typeID = 1;
-      private int typeID_ ;
-      /**
-       * <code>required int32 typeID = 1;</code>
-       *
-       * <pre>
-       *奖励的类型ID
-       * </pre>
-       */
-      public boolean hasTypeID() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 typeID = 1;</code>
-       *
-       * <pre>
-       *奖励的类型ID
-       * </pre>
-       */
-      public int getTypeID() {
-        return typeID_;
-      }
-      /**
-       * <code>required int32 typeID = 1;</code>
-       *
-       * <pre>
-       *奖励的类型ID
-       * </pre>
-       */
-      public Builder setTypeID(int value) {
-        bitField0_ |= 0x00000001;
-        typeID_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 typeID = 1;</code>
-       *
-       * <pre>
-       *奖励的类型ID
-       * </pre>
-       */
-      public Builder clearTypeID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        typeID_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 rewardID = 2;
-      private int rewardID_ ;
-      /**
-       * <code>required int32 rewardID = 2;</code>
-       *
-       * <pre>
-       *奖励的ID
-       * </pre>
-       */
-      public boolean hasRewardID() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 rewardID = 2;</code>
-       *
-       * <pre>
-       *奖励的ID
-       * </pre>
-       */
-      public int getRewardID() {
-        return rewardID_;
-      }
-      /**
-       * <code>required int32 rewardID = 2;</code>
-       *
-       * <pre>
-       *奖励的ID
-       * </pre>
-       */
-      public Builder setRewardID(int value) {
-        bitField0_ |= 0x00000002;
-        rewardID_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 rewardID = 2;</code>
-       *
-       * <pre>
-       *奖励的ID
-       * </pre>
-       */
-      public Builder clearRewardID() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        rewardID_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupFightOnline.GFRewardType)
-    }
-
-    static {
-      defaultInstance = new GFRewardType(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupFightOnline.GFRewardType)
-  }
-
-  public interface GroupSimpleInfoOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 groupID = 1;
-    /**
-     * <code>required int32 groupID = 1;</code>
-     *
-     * <pre>
-     *帮派ID
-     * </pre>
-     */
-    boolean hasGroupID();
-    /**
-     * <code>required int32 groupID = 1;</code>
-     *
-     * <pre>
-     *帮派ID
-     * </pre>
-     */
-    int getGroupID();
-
-    // required string icon = 2;
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    boolean hasIcon();
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    java.lang.String getIcon();
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getIconBytes();
-
-    // required int32 level = 3;
-    /**
-     * <code>required int32 level = 3;</code>
-     *
-     * <pre>
-     *帮派等级
-     * </pre>
-     */
-    boolean hasLevel();
-    /**
-     * <code>required int32 level = 3;</code>
-     *
-     * <pre>
-     *帮派等级
-     * </pre>
-     */
-    int getLevel();
-
-    // required string name = 4;
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    boolean hasName();
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    java.lang.String getName();
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
-
-    // required string leaderName = 5;
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    boolean hasLeaderName();
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    java.lang.String getLeaderName();
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getLeaderNameBytes();
-  }
-  /**
-   * Protobuf type {@code groupFightOnline.GroupSimpleInfo}
-   */
-  public static final class GroupSimpleInfo extends
-      com.google.protobuf.GeneratedMessage
-      implements GroupSimpleInfoOrBuilder {
-    // Use GroupSimpleInfo.newBuilder() to construct.
-    private GroupSimpleInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GroupSimpleInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GroupSimpleInfo defaultInstance;
-    public static GroupSimpleInfo getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GroupSimpleInfo getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GroupSimpleInfo(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              groupID_ = input.readInt32();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              icon_ = input.readBytes();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              level_ = input.readInt32();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000008;
-              name_ = input.readBytes();
-              break;
-            }
-            case 42: {
-              bitField0_ |= 0x00000010;
-              leaderName_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GroupSimpleInfo_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GroupSimpleInfo_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.class, com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GroupSimpleInfo> PARSER =
-        new com.google.protobuf.AbstractParser<GroupSimpleInfo>() {
-      public GroupSimpleInfo parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GroupSimpleInfo(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GroupSimpleInfo> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 groupID = 1;
-    public static final int GROUPID_FIELD_NUMBER = 1;
-    private int groupID_;
-    /**
-     * <code>required int32 groupID = 1;</code>
-     *
-     * <pre>
-     *帮派ID
-     * </pre>
-     */
-    public boolean hasGroupID() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 groupID = 1;</code>
-     *
-     * <pre>
-     *帮派ID
-     * </pre>
-     */
-    public int getGroupID() {
-      return groupID_;
-    }
-
-    // required string icon = 2;
-    public static final int ICON_FIELD_NUMBER = 2;
-    private java.lang.Object icon_;
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    public boolean hasIcon() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    public java.lang.String getIcon() {
-      java.lang.Object ref = icon_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          icon_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string icon = 2;</code>
-     *
-     * <pre>
-     *帮派图标
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getIconBytes() {
-      java.lang.Object ref = icon_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        icon_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // required int32 level = 3;
-    public static final int LEVEL_FIELD_NUMBER = 3;
-    private int level_;
-    /**
-     * <code>required int32 level = 3;</code>
-     *
-     * <pre>
-     *帮派等级
-     * </pre>
-     */
-    public boolean hasLevel() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 level = 3;</code>
-     *
-     * <pre>
-     *帮派等级
-     * </pre>
-     */
-    public int getLevel() {
-      return level_;
-    }
-
-    // required string name = 4;
-    public static final int NAME_FIELD_NUMBER = 4;
-    private java.lang.Object name_;
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    public boolean hasName() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          name_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string name = 4;</code>
-     *
-     * <pre>
-     *帮派名字
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // required string leaderName = 5;
-    public static final int LEADERNAME_FIELD_NUMBER = 5;
-    private java.lang.Object leaderName_;
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    public boolean hasLeaderName() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    public java.lang.String getLeaderName() {
-      java.lang.Object ref = leaderName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          leaderName_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string leaderName = 5;</code>
-     *
-     * <pre>
-     *帮主名字
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getLeaderNameBytes() {
-      java.lang.Object ref = leaderName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        leaderName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private void initFields() {
-      groupID_ = 0;
-      icon_ = "";
-      level_ = 0;
-      name_ = "";
-      leaderName_ = "";
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasGroupID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIcon()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasLevel()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasLeaderName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, groupID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getIconBytes());
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, level_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getNameBytes());
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getLeaderNameBytes());
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, groupID_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getIconBytes());
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, level_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getNameBytes());
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getLeaderNameBytes());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GrouFightOnlineProto.GroupSimpleInfo prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupFightOnline.GroupSimpleInfo}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GrouFightOnlineProto.GroupSimpleInfoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GroupSimpleInfo_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GroupSimpleInfo_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.class, com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.Builder.class);
-      }
-
-      // Construct using com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        groupID_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        icon_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
-        level_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        name_ = "";
-        bitField0_ = (bitField0_ & ~0x00000008);
-        leaderName_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GrouFightOnlineProto.internal_static_groupFightOnline_GroupSimpleInfo_descriptor;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo getDefaultInstanceForType() {
-        return com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance();
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo build() {
-        com.rwproto.GrouFightOnlineProto.GroupSimpleInfo result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GrouFightOnlineProto.GroupSimpleInfo buildPartial() {
-        com.rwproto.GrouFightOnlineProto.GroupSimpleInfo result = new com.rwproto.GrouFightOnlineProto.GroupSimpleInfo(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.groupID_ = groupID_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.icon_ = icon_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.level_ = level_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.name_ = name_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.leaderName_ = leaderName_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GrouFightOnlineProto.GroupSimpleInfo) {
-          return mergeFrom((com.rwproto.GrouFightOnlineProto.GroupSimpleInfo)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GrouFightOnlineProto.GroupSimpleInfo other) {
-        if (other == com.rwproto.GrouFightOnlineProto.GroupSimpleInfo.getDefaultInstance()) return this;
-        if (other.hasGroupID()) {
-          setGroupID(other.getGroupID());
-        }
-        if (other.hasIcon()) {
-          bitField0_ |= 0x00000002;
-          icon_ = other.icon_;
-          onChanged();
-        }
-        if (other.hasLevel()) {
-          setLevel(other.getLevel());
-        }
-        if (other.hasName()) {
-          bitField0_ |= 0x00000008;
-          name_ = other.name_;
-          onChanged();
-        }
-        if (other.hasLeaderName()) {
-          bitField0_ |= 0x00000010;
-          leaderName_ = other.leaderName_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasGroupID()) {
-          
-          return false;
-        }
-        if (!hasIcon()) {
-          
-          return false;
-        }
-        if (!hasLevel()) {
-          
-          return false;
-        }
-        if (!hasName()) {
-          
-          return false;
-        }
-        if (!hasLeaderName()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GrouFightOnlineProto.GroupSimpleInfo parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GrouFightOnlineProto.GroupSimpleInfo) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 groupID = 1;
-      private int groupID_ ;
-      /**
-       * <code>required int32 groupID = 1;</code>
-       *
-       * <pre>
-       *帮派ID
-       * </pre>
-       */
-      public boolean hasGroupID() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 groupID = 1;</code>
-       *
-       * <pre>
-       *帮派ID
-       * </pre>
-       */
-      public int getGroupID() {
-        return groupID_;
-      }
-      /**
-       * <code>required int32 groupID = 1;</code>
-       *
-       * <pre>
-       *帮派ID
-       * </pre>
-       */
-      public Builder setGroupID(int value) {
-        bitField0_ |= 0x00000001;
-        groupID_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 groupID = 1;</code>
-       *
-       * <pre>
-       *帮派ID
-       * </pre>
-       */
-      public Builder clearGroupID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        groupID_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required string icon = 2;
-      private java.lang.Object icon_ = "";
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public boolean hasIcon() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public java.lang.String getIcon() {
-        java.lang.Object ref = icon_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          icon_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getIconBytes() {
-        java.lang.Object ref = icon_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          icon_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public Builder setIcon(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        icon_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public Builder clearIcon() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        icon_ = getDefaultInstance().getIcon();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string icon = 2;</code>
-       *
-       * <pre>
-       *帮派图标
-       * </pre>
-       */
-      public Builder setIconBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        icon_ = value;
-        onChanged();
-        return this;
-      }
-
-      // required int32 level = 3;
-      private int level_ ;
-      /**
-       * <code>required int32 level = 3;</code>
-       *
-       * <pre>
-       *帮派等级
-       * </pre>
-       */
-      public boolean hasLevel() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 level = 3;</code>
-       *
-       * <pre>
-       *帮派等级
-       * </pre>
-       */
-      public int getLevel() {
-        return level_;
-      }
-      /**
-       * <code>required int32 level = 3;</code>
-       *
-       * <pre>
-       *帮派等级
-       * </pre>
-       */
-      public Builder setLevel(int value) {
-        bitField0_ |= 0x00000004;
-        level_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 level = 3;</code>
-       *
-       * <pre>
-       *帮派等级
-       * </pre>
-       */
-      public Builder clearLevel() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        level_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required string name = 4;
-      private java.lang.Object name_ = "";
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public boolean hasName() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          name_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        name_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public Builder clearName() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string name = 4;</code>
-       *
-       * <pre>
-       *帮派名字
-       * </pre>
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        name_ = value;
-        onChanged();
-        return this;
-      }
-
-      // required string leaderName = 5;
-      private java.lang.Object leaderName_ = "";
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public boolean hasLeaderName() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public java.lang.String getLeaderName() {
-        java.lang.Object ref = leaderName_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          leaderName_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getLeaderNameBytes() {
-        java.lang.Object ref = leaderName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          leaderName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public Builder setLeaderName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        leaderName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public Builder clearLeaderName() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        leaderName_ = getDefaultInstance().getLeaderName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string leaderName = 5;</code>
-       *
-       * <pre>
-       *帮主名字
-       * </pre>
-       */
-      public Builder setLeaderNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        leaderName_ = value;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupFightOnline.GroupSimpleInfo)
-    }
-
-    static {
-      defaultInstance = new GroupSimpleInfo(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupFightOnline.GroupSimpleInfo)
-  }
-
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupFightOnline_GroupFightOnlineReqMsg_descriptor;
   private static
@@ -7677,21 +5549,6 @@ public final class GrouFightOnlineProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupFightOnline_GroupFightOnlineRspMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupFightOnline_GFResourceInfo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupFightOnline_GFResourceInfo_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupFightOnline_GFRewardType_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupFightOnline_GFRewardType_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupFightOnline_GroupSimpleInfo_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupFightOnline_GroupSimpleInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7702,48 +5559,45 @@ public final class GrouFightOnlineProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\026GroupFightOnline.proto\022\020groupFightOnli" +
-      "ne\"\367\001\n\026GroupFightOnlineReqMsg\0220\n\007reqType" +
+      "ne\"\236\002\n\026GroupFightOnlineReqMsg\0220\n\007reqType" +
       "\030\001 \002(\0162\037.groupFightOnline.GFRequestType\022" +
-      "\020\n\010bidCount\030\002 \001(\005\022\023\n\013selfBidRate\030\003 \001(\005\022\016" +
-      "\n\006heroID\030\004 \003(\t\022\024\n\014selfArmyInfo\030\005 \001(\t\022\021\n\t" +
-      "enimyInfo\030\006 \001(\t\022\014\n\004page\030\007 \001(\005\022\027\n\017viewTea" +
-      "mGroupID\030\010 \001(\005\022\022\n\nviewTeamID\030\t \001(\005\022\020\n\010re" +
-      "wardID\030\n \001(\005\"\361\002\n\026GroupFightOnlineRspMsg\022" +
-      "0\n\007reqType\030\001 \002(\0162\037.groupFightOnline.GFRe" +
-      "questType\022/\n\007rstType\030\002 \002(\0162\036.groupFightO",
-      "nline.GFResultType\022\022\n\nsystemTime\030\003 \001(\003\0224" +
-      "\n\ngfResource\030\004 \003(\0132 .groupFightOnline.GF" +
-      "ResourceInfo\022\034\n\024enimyDefenderDetails\030\005 \001" +
-      "(\t\022\020\n\010rankData\030\006 \003(\t\022\036\n\026defendArmySimple" +
-      "Leader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(\005\022\023\n\013fight" +
-      "Record\030\t \003(\t\0222\n\nrewardType\030\n \003(\0132\036.group" +
-      "FightOnline.GFRewardType\"Z\n\016GFResourceIn" +
-      "fo\022\022\n\nresourceID\030\001 \002(\005\0224\n\tgroupInfo\030\002 \001(" +
-      "\0132!.groupFightOnline.GroupSimpleInfo\"0\n\014" +
-      "GFRewardType\022\016\n\006typeID\030\001 \002(\005\022\020\n\010rewardID",
-      "\030\002 \002(\005\"a\n\017GroupSimpleInfo\022\017\n\007groupID\030\001 \002" +
-      "(\005\022\014\n\004icon\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\014\n\004name\030" +
-      "\004 \002(\t\022\022\n\nleaderName\030\005 \002(\t*\200\003\n\rGFRequestT" +
-      "ype\022\025\n\021GET_RESOURCE_INFO\020\001\022\021\n\rGROUP_BIDD" +
-      "ING\020\002\022\024\n\020PERSONAL_BIDDING\020\003\022\030\n\024MODIFY_SE" +
-      "LF_DEFENDER\020\004\022\026\n\022GET_ENIMY_DEFENDER\020\005\022\031\n" +
-      "\025CHANGE_ENIMY_DEFENDER\020\006\022\017\n\013START_FIGHT\020" +
-      "\007\022\027\n\023INFORM_FIGHT_RESULT\020\010\022\026\n\022GET_GROUP_" +
-      "BID_RANK\020\t\022\021\n\rGET_KILL_RANK\020\n\022\021\n\rGET_HUR" +
-      "T_RANK\020\013\022\031\n\025GET_ALL_RANK_IN_GROUP\020\014\022\026\n\022G",
-      "ET_DEFENDER_TEAMS\020\r\022\026\n\022VIEW_DEFENDER_TEA" +
-      "M\020\016\022\024\n\020GET_FIGHT_RECORD\020\017\022\031\n\025GET_FIGHT_O" +
-      "VER_REWARD\020\020*\203\003\n\014GFResultType\022\013\n\007SUCCESS" +
-      "\020\001\022\024\n\020NOT_IN_OPEN_TIME\020\002\022\033\n\027BID_UNREACH_" +
-      "LEAST_COUNT\020\003\022\033\n\027BID_UNREACH_LEAST_LEVEL" +
-      "\020\004\022\033\n\027BID_UNREACH_GROUP_LEVEL\020\005\022\021\n\rCOST_" +
-      "UNENOUGH\020\006\022\031\n\025BID_WITHOUT_AUTHORITY\020\007\022\025\n" +
-      "\021CANNOT_BID_IN_TWO\020\010\022\020\n\014BID_NEED_VIP\020\t\022\024" +
-      "\n\020BID_CANNOT_LOWER\020\n\022\026\n\022DEFENDER_COUNT_M" +
-      "AX\020\013\022\035\n\031CANNOT_FIND_PROP_DEFENDER\020\014\022\017\n\013N",
-      "O_DEFENDER\020\r\022\017\n\013ONLY_PLAYER\020\016\022\r\n\tOVER_TI" +
-      "ME\020\017\022\024\n\020REWARD_NOT_EXIST\020\020\022\016\n\nDATA_ERROR" +
-      "\020\021B#\n\013com.rwprotoB\024GrouFightOnlineProto"
+      "\020\n\010bidCount\030\002 \001(\005\022\023\n\013selfBidRate\030\003 \001(\005\022\021" +
+      "\n\tarmyHeros\030\004 \003(\t\022\014\n\004page\030\005 \001(\005\022\027\n\017viewT" +
+      "eamGroupID\030\006 \001(\t\022\016\n\006teamID\030\007 \001(\t\022\020\n\010rewa" +
+      "rdID\030\010 \001(\t\022\022\n\nresourceID\030\t \001(\005\022\017\n\007groupI" +
+      "D\030\n \001(\t\022\023\n\013fightResult\030\013 \001(\t\022\025\n\rclientVe" +
+      "rsion\030\014 \001(\t\"\312\002\n\026GroupFightOnlineRspMsg\0220" +
+      "\n\007reqType\030\001 \002(\0162\037.groupFightOnline.GFReq",
+      "uestType\022/\n\007rstType\030\002 \002(\0162\036.groupFightOn" +
+      "line.GFResultType\022\022\n\nsystemTime\030\003 \001(\003\022\026\n" +
+      "\016gfResourceInfo\030\004 \003(\t\022\034\n\024enimyDefenderDe" +
+      "tails\030\005 \001(\t\022\020\n\010rankData\030\006 \003(\t\022\036\n\026defendA" +
+      "rmySimpleLeader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(\005" +
+      "\022\023\n\013currentPage\030\t \001(\005\022\023\n\013fightRecord\030\n \003" +
+      "(\t\022\024\n\014gfRewardInfo\030\013 \003(\t*\224\003\n\rGFRequestTy" +
+      "pe\022\025\n\021GET_RESOURCE_INFO\020\001\022\021\n\rGROUP_BIDDI" +
+      "NG\020\002\022\024\n\020PERSONAL_BIDDING\020\003\022\030\n\024MODIFY_SEL" +
+      "F_DEFENDER\020\004\022\026\n\022GET_ENIMY_DEFENDER\020\005\022\031\n\025",
+      "CHANGE_ENIMY_DEFENDER\020\006\022\017\n\013START_FIGHT\020\007" +
+      "\022\027\n\023INFORM_FIGHT_RESULT\020\010\022\026\n\022GET_GROUP_B" +
+      "ID_RANK\020\t\022\021\n\rGET_KILL_RANK\020\n\022\021\n\rGET_HURT" +
+      "_RANK\020\013\022\031\n\025GET_ALL_RANK_IN_GROUP\020\014\022\026\n\022GE" +
+      "T_DEFENDER_TEAMS\020\r\022\026\n\022VIEW_DEFENDER_TEAM" +
+      "\020\016\022\024\n\020GET_FIGHT_RECORD\020\017\022\031\n\025GET_FIGHT_OV" +
+      "ER_REWARD\020\020\022\022\n\016SYN_GROUP_DATA\020\021*\327\003\n\014GFRe" +
+      "sultType\022\013\n\007SUCCESS\020\001\022\024\n\020NOT_IN_OPEN_TIM" +
+      "E\020\002\022\033\n\027BID_UNREACH_LEAST_COUNT\020\003\022\033\n\027BID_" +
+      "UNREACH_LEAST_LEVEL\020\004\022\033\n\027BID_UNREACH_GRO",
+      "UP_LEVEL\020\005\022\021\n\rCOST_UNENOUGH\020\006\022\031\n\025BID_WIT" +
+      "HOUT_AUTHORITY\020\007\022\025\n\021CANNOT_BID_IN_TWO\020\010\022" +
+      "\020\n\014BID_NEED_VIP\020\t\022\024\n\020BID_CANNOT_LOWER\020\n\022" +
+      "\026\n\022DEFENDER_COUNT_MAX\020\013\022\035\n\031CANNOT_FIND_P" +
+      "ROP_DEFENDER\020\014\022\017\n\013NO_DEFENDER\020\r\022\017\n\013ONLY_" +
+      "PLAYER\020\016\022\024\n\020REWARD_NOT_EXIST\020\017\022\025\n\021NO_SEL" +
+      "ECTED_ENIMY\020\020\022\024\n\020SELECTED_EXPIRED\020\021\022\021\n\rF" +
+      "IGHT_EXPIRED\020\022\022\017\n\013ON_FIGHTING\020\023\022\020\n\014HAVE_" +
+      "A_ENIMY\020\024\022\016\n\nDATA_ERROR\020\025B#\n\013com.rwproto" +
+      "B\024GrouFightOnlineProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7755,31 +5609,13 @@ public final class GrouFightOnlineProto {
           internal_static_groupFightOnline_GroupFightOnlineReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupFightOnline_GroupFightOnlineReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "BidCount", "SelfBidRate", "HeroID", "SelfArmyInfo", "EnimyInfo", "Page", "ViewTeamGroupID", "ViewTeamID", "RewardID", });
+              new java.lang.String[] { "ReqType", "BidCount", "SelfBidRate", "ArmyHeros", "Page", "ViewTeamGroupID", "TeamID", "RewardID", "ResourceID", "GroupID", "FightResult", "ClientVersion", });
           internal_static_groupFightOnline_GroupFightOnlineRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_groupFightOnline_GroupFightOnlineRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupFightOnline_GroupFightOnlineRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "SystemTime", "GfResource", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "FightRecord", "RewardType", });
-          internal_static_groupFightOnline_GFResourceInfo_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_groupFightOnline_GFResourceInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupFightOnline_GFResourceInfo_descriptor,
-              new java.lang.String[] { "ResourceID", "GroupInfo", });
-          internal_static_groupFightOnline_GFRewardType_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_groupFightOnline_GFRewardType_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupFightOnline_GFRewardType_descriptor,
-              new java.lang.String[] { "TypeID", "RewardID", });
-          internal_static_groupFightOnline_GroupSimpleInfo_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_groupFightOnline_GroupSimpleInfo_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupFightOnline_GroupSimpleInfo_descriptor,
-              new java.lang.String[] { "GroupID", "Icon", "Level", "Name", "LeaderName", });
+              new java.lang.String[] { "ReqType", "RstType", "SystemTime", "GfResourceInfo", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "CurrentPage", "FightRecord", "GfRewardInfo", });
           return null;
         }
       };

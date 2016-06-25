@@ -21,7 +21,7 @@ public final class DataSynProtos {
      * <code>UPDATE_LIST = 1;</code>
      *
      * <pre>
-     *更新一组数据
+     *更新一组数据，原数据删除
      * </pre>
      */
     UPDATE_LIST(0, 1),
@@ -57,13 +57,21 @@ public final class DataSynProtos {
      * </pre>
      */
     UPDATE_FIELD(4, 5),
+    /**
+     * <code>UPDATE_PART_LIST = 6;</code>
+     *
+     * <pre>
+     *更新部分数据列表，不在列表中的不更新
+     * </pre>
+     */
+    UPDATE_PART_LIST(5, 6),
     ;
 
     /**
      * <code>UPDATE_LIST = 1;</code>
      *
      * <pre>
-     *更新一组数据
+     *更新一组数据，原数据删除
      * </pre>
      */
     public static final int UPDATE_LIST_VALUE = 1;
@@ -99,6 +107,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int UPDATE_FIELD_VALUE = 5;
+    /**
+     * <code>UPDATE_PART_LIST = 6;</code>
+     *
+     * <pre>
+     *更新部分数据列表，不在列表中的不更新
+     * </pre>
+     */
+    public static final int UPDATE_PART_LIST_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -110,6 +126,7 @@ public final class DataSynProtos {
         case 3: return ADD_SINGLE;
         case 4: return REMOVE_SINGLE;
         case 5: return UPDATE_FIELD;
+        case 6: return UPDATE_PART_LIST;
         default: return null;
       }
     }
@@ -718,6 +735,14 @@ public final class DataSynProtos {
      * </pre>
      */
     GFightOnlineResourceData(68, 85),
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    MajorData(69, 86),
     ;
 
     /**
@@ -1272,6 +1297,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int GFightOnlineResourceData_VALUE = 85;
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    public static final int MajorData_VALUE = 86;
 
 
     public final int getNumber() { return value; }
@@ -1347,6 +1380,7 @@ public final class DataSynProtos {
         case 83: return GFightOnlineGroupData;
         case 84: return GFightOnlinePersonalData;
         case 85: return GFightOnlineResourceData;
+        case 86: return MajorData;
         default: return null;
       }
     }
@@ -5229,47 +5263,47 @@ public final class DataSynProtos {
       "Type\030\001 \002(\0162\021.DataSyn.eSynType\022&\n\tsynOpTy" +
       "pe\030\002 \001(\0162\023.DataSyn.eSynOpType\022!\n\007SynData" +
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
-      "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
+      "\005*{\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\271\013\n\010eSynType\022\025\n" +
-      "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
-      "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
-      "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
-      "\022\037\n\033SECRETAREA_DEFEND_TEAM_INFO\020\006\022\032\n\026SEC" +
-      "RETAREA_USER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022" +
-      "\016\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY" +
-      "_ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE",
-      "_ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022" +
-      "\n\016USER_GAME_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUS" +
-      "ER_ITEM_BAG\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guil" +
-      "d\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022" +
-      "\016\n\nStore_Data\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DA" +
-      "TA\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GUILD_USER_INF" +
-      "O\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVIT" +
-      "Y_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020" +
-      "\037\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020" +
-      "!\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeDat",
-      "a\020#\022\022\n\016GroupCopyLevel\020$\022\020\n\014GroupCopyMap\020" +
-      "%\022\023\n\017GroupCopyReward\020&\022\030\n\024GroupApplyMemb" +
-      "erData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n\017Grou" +
-      "pStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020" +
-      "+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_FETTER" +
-      "S\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP" +
-      "\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017GroupSecr" +
-      "etData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020MagicCh" +
-      "apterData\0203\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n" +
-      "\021ActivityCountType\020<\022\030\n\024ActivityTimeCard",
-      "Type\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activity" +
-      "DateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024" +
-      "ActivityDateSaleType\020A\022\024\n\020ActivityRankTy" +
-      "pe\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activi" +
-      "tyTimeCountType\020D\022\025\n\021ActivityDailyType\020E" +
-      "\022\030\n\024ActivityVitalityType\020F\022\020\n\014QuestionLi" +
-      "st\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDefendArmyD" +
-      "ata\020R\022\031\n\025GFightOnlineGroupData\020S\022\034\n\030GFig" +
-      "htOnlinePersonalData\020T\022\034\n\030GFightOnlineRe" +
-      "sourceData\020UB\034\n\013com.rwprotoB\rDataSynProt",
-      "os"
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005\022\024\n\020UPDATE_PART_" +
+      "LIST\020\006*\310\013\n\010eSynType\022\025\n\021COPY_LEVEL_RECORD" +
+      "\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\030\n\024SECRETAREA_BA" +
+      "SE_INFO\020\003\022\031\n\025SECRETAREA_DEF_RECORD\020\004\022\030\n\024" +
+      "SECRETAREA_USER_INFO\020\005\022\037\n\033SECRETAREA_DEF" +
+      "END_TEAM_INFO\020\006\022\032\n\026SECRETAREA_USER_RECOR" +
+      "D\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_ITEM\020\t\022\016\n" +
+      "\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n\016ROLE_AT",
+      "TR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n\nUSER_HE" +
+      "ROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAME_DATA\020\020" +
+      "\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BAG\020\022\022\021\n\rD" +
+      "ailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve_Unendin" +
+      "gWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_Data\020\027\022\r\n" +
+      "\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SETTING_DA" +
+      "TA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEVEN_DAY_G" +
+      "IF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r\n\tASSIST" +
+      "ANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroupBaseData" +
+      "\020 \022\023\n\017GroupMemberData\020!\022\014\n\010GroupLog\020\"\022\032\n",
+      "\026UserGroupAttributeData\020#\022\022\n\016GroupCopyLe" +
+      "vel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017GroupCopyRewa" +
+      "rd\020&\022\030\n\024GroupApplyMemberData\020\'\022\026\n\022GroupR" +
+      "esearchSkill\020(\022\023\n\017GroupStudySkill\020)\022\n\n\006C" +
+      "harge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022USER_TMP_GAME" +
+      "_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\022\n\016FIX_NORM_EQ" +
+      "UIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023UserGroupSec" +
+      "retData\0200\022\023\n\017GroupSecretData\0201\022\023\n\017MagicS" +
+      "ecretData\0202\022\024\n\020MagicChapterData\0203\022\030\n\024SEC" +
+      "RETAREA_TEAM_INFO\0204\022\025\n\021ActivityCountType",
+      "\020<\022\030\n\024ActivityTimeCardType\020=\022\024\n\020Activity" +
+      "RateType\020>\022\024\n\020ActivityDateType\020?\022\030\n\024Acti" +
+      "vityTimeSaleType\020@\022\030\n\024ActivityDateSaleTy" +
+      "pe\020A\022\024\n\020ActivityRankType\020B\022\030\n\024ActivityEx" +
+      "changeType\020C\022\031\n\025ActivityTimeCountType\020D\022" +
+      "\025\n\021ActivityDailyType\020E\022\030\n\024ActivityVitali" +
+      "tyType\020F\022\020\n\014QuestionList\020P\022\021\n\rGFBiddingD" +
+      "ata\020Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GFightOnl" +
+      "ineGroupData\020S\022\034\n\030GFightOnlinePersonalDa" +
+      "ta\020T\022\034\n\030GFightOnlineResourceData\020U\022\r\n\tMa",
+      "jorData\020VB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

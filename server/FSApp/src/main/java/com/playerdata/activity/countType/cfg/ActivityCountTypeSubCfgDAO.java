@@ -39,9 +39,9 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 				targetList.add(tmpItem);
 			}
 		}
-		return targetList;
-		
+		return targetList;				
 	}
+	
 	public ActivityCountTypeSubCfg getById(String subId){
 		ActivityCountTypeSubCfg target = new ActivityCountTypeSubCfg();
 		List<ActivityCountTypeSubCfg> allCfg = getAllCfg();

@@ -198,22 +198,13 @@ public class WorshipMgr {
 	
 	public List<WorshipInfo> getByWorshipedList(){
 		List<WorshipInfo> list = new ArrayList<WorshipInfo>();
-		WorshipInfo info;
-		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(ECareer.Warrior));
-		if(info != null){
-			list.add(info);
-		}
-		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(ECareer.SwordsMan));
-		if(info != null){
-			list.add(info);
-		}
-		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(ECareer.Magican));
-		if(info != null){
-			list.add(info);
-		}
-		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(ECareer.Priest));
-		if(info != null){
-			list.add(info);
+		ECareer[] careerList = ECareer.values();
+		RankingMgr helper = RankingMgr.getInstance();
+		for (ECareer eCareer : careerList) {
+			WorshipInfo info = WorshipUtils.rankInfoToWorshipInfo(helper.getFirstRankingData(eCareer));
+			if(info != null){
+				list.add(info);
+			}
 		}
 		return list;
 	}

@@ -5,11 +5,12 @@ package DataSyn;
 
 //数据同步操作类型
 enum eSynOpType {
-	UPDATE_LIST = 1;//更新一组数据
+	UPDATE_LIST = 1;//更新一组数据，原数据删除
 	UPDATE_SINGLE = 2; //更新一条数据
 	ADD_SINGLE = 3; // 增加一条数据
 	REMOVE_SINGLE = 4;// 删除一条数据
 	UPDATE_FIELD = 5;//只更新单条记录的某些字段
+	UPDATE_PART_LIST = 6;//更新部分数据列表，不在列表中的不更新
 }
 
 
@@ -95,6 +96,7 @@ enum eSynType	//数据同步类型
 	GFightOnlineGroupData = 83;	//在线帮战帮派信息
 	GFightOnlinePersonalData = 84;	//在线帮战个人信息
 	GFightOnlineResourceData = 85;	//在线帮战资源点信息
+	MajorData = 86;    //关键数据
 }
 
 message MsgDataSynList
