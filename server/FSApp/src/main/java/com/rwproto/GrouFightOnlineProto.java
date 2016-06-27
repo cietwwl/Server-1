@@ -375,165 +375,37 @@ public final class GrouFightOnlineProto {
      */
     SUCCESS(0, 1),
     /**
-     * <code>NOT_IN_OPEN_TIME = 2;</code>
+     * <code>DIAMOND_NOT_ENOUGH = 2;</code>
      *
      * <pre>
-     *不在合法时间内（包括各阶段内的各种请求）
+     *切换挑战对手，钻石不够
      * </pre>
      */
-    NOT_IN_OPEN_TIME(1, 2),
+    DIAMOND_NOT_ENOUGH(1, 2),
     /**
-     * <code>BID_UNREACH_LEAST_COUNT = 3;</code>
-     *
-     * <pre>
-     *竞标数量未达到最低要求
-     * </pre>
-     */
-    BID_UNREACH_LEAST_COUNT(2, 3),
-    /**
-     * <code>BID_UNREACH_LEAST_LEVEL = 4;</code>
-     *
-     * <pre>
-     *竞标数量需要超过某个排名（目前是第四名），但是没超过
-     * </pre>
-     */
-    BID_UNREACH_LEAST_LEVEL(3, 4),
-    /**
-     * <code>BID_UNREACH_GROUP_LEVEL = 5;</code>
-     *
-     * <pre>
-     *竞标要求的帮派等级未达到
-     * </pre>
-     */
-    BID_UNREACH_GROUP_LEVEL(4, 5),
-    /**
-     * <code>COST_UNENOUGH = 6;</code>
-     *
-     * <pre>
-     *竞标要花费的令牌数不够（或者个人竞标要求的资源不够，以及切换对手的花费不够：要消耗的资源不够）
-     * </pre>
-     */
-    COST_UNENOUGH(5, 6),
-    /**
-     * <code>BID_WITHOUT_AUTHORITY = 7;</code>
-     *
-     * <pre>
-     *没权限竞标（也包括最终入选的四个公会成员没资格压标）
-     * </pre>
-     */
-    BID_WITHOUT_AUTHORITY(6, 7),
-    /**
-     * <code>CANNOT_BID_IN_TWO = 8;</code>
-     *
-     * <pre>
-     *不能参与两个及以上的资源点竞标和占领
-     * </pre>
-     */
-    CANNOT_BID_IN_TWO(7, 8),
-    /**
-     * <code>BID_NEED_VIP = 9;</code>
+     * <code>BID_VIP_UNREACH = 3;</code>
      *
      * <pre>
      *个人压标要求的vip等级不够
      * </pre>
      */
-    BID_NEED_VIP(8, 9),
+    BID_VIP_UNREACH(2, 3),
     /**
-     * <code>BID_CANNOT_LOWER = 10;</code>
-     *
-     * <pre>
-     *个人压标不能降低倍率
-     * </pre>
-     */
-    BID_CANNOT_LOWER(9, 10),
-    /**
-     * <code>DEFENDER_COUNT_MAX = 11;</code>
-     *
-     * <pre>
-     *防守队伍设置数量达到上限
-     * </pre>
-     */
-    DEFENDER_COUNT_MAX(10, 11),
-    /**
-     * <code>CANNOT_FIND_PROP_DEFENDER = 12;</code>
-     *
-     * <pre>
-     *目前没有可以挑战的人（都被锁定或被挑战）
-     * </pre>
-     */
-    CANNOT_FIND_PROP_DEFENDER(11, 12),
-    /**
-     * <code>NO_DEFENDER = 13;</code>
-     *
-     * <pre>
-     *无防守队伍，已经战败
-     * </pre>
-     */
-    NO_DEFENDER(12, 13),
-    /**
-     * <code>ONLY_PLAYER = 14;</code>
-     *
-     * <pre>
-     *只剩主角时不能挑战，防守队伍不能只设置主角
-     * </pre>
-     */
-    ONLY_PLAYER(13, 14),
-    /**
-     * <code>REWARD_NOT_EXIST = 15;</code>
-     *
-     * <pre>
-     *要领取的奖励不存在
-     * </pre>
-     */
-    REWARD_NOT_EXIST(14, 15),
-    /**
-     * <code>NO_SELECTED_ENIMY = 16;</code>
-     *
-     * <pre>
-     *还未选择战斗目标
-     * </pre>
-     */
-    NO_SELECTED_ENIMY(15, 16),
-    /**
-     * <code>SELECTED_EXPIRED = 17;</code>
+     * <code>SELECT_EXPIRED = 4;</code>
      *
      * <pre>
      *选择锁定的时间过期
      * </pre>
      */
-    SELECTED_EXPIRED(16, 17),
+    SELECT_EXPIRED(3, 4),
     /**
-     * <code>FIGHT_EXPIRED = 18;</code>
-     *
-     * <pre>
-     *战斗时间过期
-     * </pre>
-     */
-    FIGHT_EXPIRED(17, 18),
-    /**
-     * <code>ON_FIGHTING = 19;</code>
-     *
-     * <pre>
-     *战斗中
-     * </pre>
-     */
-    ON_FIGHTING(18, 19),
-    /**
-     * <code>HAVE_A_ENIMY = 20;</code>
-     *
-     * <pre>
-     *已经选择过对手，只能更换，不能选
-     * </pre>
-     */
-    HAVE_A_ENIMY(19, 20),
-    /**
-     * <code>DATA_ERROR = 21;</code>
+     * <code>DATA_EXCEPTION = 5;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    DATA_ERROR(20, 21),
+    DATA_EXCEPTION(4, 5),
     ;
 
     /**
@@ -545,165 +417,37 @@ public final class GrouFightOnlineProto {
      */
     public static final int SUCCESS_VALUE = 1;
     /**
-     * <code>NOT_IN_OPEN_TIME = 2;</code>
+     * <code>DIAMOND_NOT_ENOUGH = 2;</code>
      *
      * <pre>
-     *不在合法时间内（包括各阶段内的各种请求）
+     *切换挑战对手，钻石不够
      * </pre>
      */
-    public static final int NOT_IN_OPEN_TIME_VALUE = 2;
+    public static final int DIAMOND_NOT_ENOUGH_VALUE = 2;
     /**
-     * <code>BID_UNREACH_LEAST_COUNT = 3;</code>
-     *
-     * <pre>
-     *竞标数量未达到最低要求
-     * </pre>
-     */
-    public static final int BID_UNREACH_LEAST_COUNT_VALUE = 3;
-    /**
-     * <code>BID_UNREACH_LEAST_LEVEL = 4;</code>
-     *
-     * <pre>
-     *竞标数量需要超过某个排名（目前是第四名），但是没超过
-     * </pre>
-     */
-    public static final int BID_UNREACH_LEAST_LEVEL_VALUE = 4;
-    /**
-     * <code>BID_UNREACH_GROUP_LEVEL = 5;</code>
-     *
-     * <pre>
-     *竞标要求的帮派等级未达到
-     * </pre>
-     */
-    public static final int BID_UNREACH_GROUP_LEVEL_VALUE = 5;
-    /**
-     * <code>COST_UNENOUGH = 6;</code>
-     *
-     * <pre>
-     *竞标要花费的令牌数不够（或者个人竞标要求的资源不够，以及切换对手的花费不够：要消耗的资源不够）
-     * </pre>
-     */
-    public static final int COST_UNENOUGH_VALUE = 6;
-    /**
-     * <code>BID_WITHOUT_AUTHORITY = 7;</code>
-     *
-     * <pre>
-     *没权限竞标（也包括最终入选的四个公会成员没资格压标）
-     * </pre>
-     */
-    public static final int BID_WITHOUT_AUTHORITY_VALUE = 7;
-    /**
-     * <code>CANNOT_BID_IN_TWO = 8;</code>
-     *
-     * <pre>
-     *不能参与两个及以上的资源点竞标和占领
-     * </pre>
-     */
-    public static final int CANNOT_BID_IN_TWO_VALUE = 8;
-    /**
-     * <code>BID_NEED_VIP = 9;</code>
+     * <code>BID_VIP_UNREACH = 3;</code>
      *
      * <pre>
      *个人压标要求的vip等级不够
      * </pre>
      */
-    public static final int BID_NEED_VIP_VALUE = 9;
+    public static final int BID_VIP_UNREACH_VALUE = 3;
     /**
-     * <code>BID_CANNOT_LOWER = 10;</code>
-     *
-     * <pre>
-     *个人压标不能降低倍率
-     * </pre>
-     */
-    public static final int BID_CANNOT_LOWER_VALUE = 10;
-    /**
-     * <code>DEFENDER_COUNT_MAX = 11;</code>
-     *
-     * <pre>
-     *防守队伍设置数量达到上限
-     * </pre>
-     */
-    public static final int DEFENDER_COUNT_MAX_VALUE = 11;
-    /**
-     * <code>CANNOT_FIND_PROP_DEFENDER = 12;</code>
-     *
-     * <pre>
-     *目前没有可以挑战的人（都被锁定或被挑战）
-     * </pre>
-     */
-    public static final int CANNOT_FIND_PROP_DEFENDER_VALUE = 12;
-    /**
-     * <code>NO_DEFENDER = 13;</code>
-     *
-     * <pre>
-     *无防守队伍，已经战败
-     * </pre>
-     */
-    public static final int NO_DEFENDER_VALUE = 13;
-    /**
-     * <code>ONLY_PLAYER = 14;</code>
-     *
-     * <pre>
-     *只剩主角时不能挑战，防守队伍不能只设置主角
-     * </pre>
-     */
-    public static final int ONLY_PLAYER_VALUE = 14;
-    /**
-     * <code>REWARD_NOT_EXIST = 15;</code>
-     *
-     * <pre>
-     *要领取的奖励不存在
-     * </pre>
-     */
-    public static final int REWARD_NOT_EXIST_VALUE = 15;
-    /**
-     * <code>NO_SELECTED_ENIMY = 16;</code>
-     *
-     * <pre>
-     *还未选择战斗目标
-     * </pre>
-     */
-    public static final int NO_SELECTED_ENIMY_VALUE = 16;
-    /**
-     * <code>SELECTED_EXPIRED = 17;</code>
+     * <code>SELECT_EXPIRED = 4;</code>
      *
      * <pre>
      *选择锁定的时间过期
      * </pre>
      */
-    public static final int SELECTED_EXPIRED_VALUE = 17;
+    public static final int SELECT_EXPIRED_VALUE = 4;
     /**
-     * <code>FIGHT_EXPIRED = 18;</code>
-     *
-     * <pre>
-     *战斗时间过期
-     * </pre>
-     */
-    public static final int FIGHT_EXPIRED_VALUE = 18;
-    /**
-     * <code>ON_FIGHTING = 19;</code>
-     *
-     * <pre>
-     *战斗中
-     * </pre>
-     */
-    public static final int ON_FIGHTING_VALUE = 19;
-    /**
-     * <code>HAVE_A_ENIMY = 20;</code>
-     *
-     * <pre>
-     *已经选择过对手，只能更换，不能选
-     * </pre>
-     */
-    public static final int HAVE_A_ENIMY_VALUE = 20;
-    /**
-     * <code>DATA_ERROR = 21;</code>
+     * <code>DATA_EXCEPTION = 5;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    public static final int DATA_ERROR_VALUE = 21;
+    public static final int DATA_EXCEPTION_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -711,26 +455,10 @@ public final class GrouFightOnlineProto {
     public static GFResultType valueOf(int value) {
       switch (value) {
         case 1: return SUCCESS;
-        case 2: return NOT_IN_OPEN_TIME;
-        case 3: return BID_UNREACH_LEAST_COUNT;
-        case 4: return BID_UNREACH_LEAST_LEVEL;
-        case 5: return BID_UNREACH_GROUP_LEVEL;
-        case 6: return COST_UNENOUGH;
-        case 7: return BID_WITHOUT_AUTHORITY;
-        case 8: return CANNOT_BID_IN_TWO;
-        case 9: return BID_NEED_VIP;
-        case 10: return BID_CANNOT_LOWER;
-        case 11: return DEFENDER_COUNT_MAX;
-        case 12: return CANNOT_FIND_PROP_DEFENDER;
-        case 13: return NO_DEFENDER;
-        case 14: return ONLY_PLAYER;
-        case 15: return REWARD_NOT_EXIST;
-        case 16: return NO_SELECTED_ENIMY;
-        case 17: return SELECTED_EXPIRED;
-        case 18: return FIGHT_EXPIRED;
-        case 19: return ON_FIGHTING;
-        case 20: return HAVE_A_ENIMY;
-        case 21: return DATA_ERROR;
+        case 2: return DIAMOND_NOT_ENOUGH;
+        case 3: return BID_VIP_UNREACH;
+        case 4: return SELECT_EXPIRED;
+        case 5: return DATA_EXCEPTION;
         default: return null;
       }
     }
@@ -3195,9 +2923,36 @@ public final class GrouFightOnlineProto {
      */
     com.rwproto.GrouFightOnlineProto.GFResultType getRstType();
 
-    // optional int64 systemTime = 3;
+    // optional string tipMsg = 3;
     /**
-     * <code>optional int64 systemTime = 3;</code>
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
+
+    // optional int64 systemTime = 4;
+    /**
+     * <code>optional int64 systemTime = 4;</code>
      *
      * <pre>
      *当前系统时间
@@ -3205,7 +2960,7 @@ public final class GrouFightOnlineProto {
      */
     boolean hasSystemTime();
     /**
-     * <code>optional int64 systemTime = 3;</code>
+     * <code>optional int64 systemTime = 4;</code>
      *
      * <pre>
      *当前系统时间
@@ -3213,9 +2968,9 @@ public final class GrouFightOnlineProto {
      */
     long getSystemTime();
 
-    // repeated string gfResourceInfo = 4;
+    // repeated string gfResourceInfo = 5;
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3224,7 +2979,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getGfResourceInfoList();
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3232,7 +2987,7 @@ public final class GrouFightOnlineProto {
      */
     int getGfResourceInfoCount();
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3240,7 +2995,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getGfResourceInfo(int index);
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3249,36 +3004,36 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getGfResourceInfoBytes(int index);
 
-    // optional string enimyDefenderDetails = 5;
+    // optional string enimyDefenderDetails = 6;
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     boolean hasEnimyDefenderDetails();
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     java.lang.String getEnimyDefenderDetails();
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     com.google.protobuf.ByteString
         getEnimyDefenderDetailsBytes();
 
-    // repeated string rankData = 6;
+    // repeated string rankData = 7;
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3287,7 +3042,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getRankDataList();
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3295,7 +3050,7 @@ public final class GrouFightOnlineProto {
      */
     int getRankDataCount();
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3303,7 +3058,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getRankData(int index);
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3312,9 +3067,9 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getRankDataBytes(int index);
 
-    // repeated string defendArmySimpleLeader = 7;
+    // repeated string defendArmySimpleLeader = 8;
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3323,7 +3078,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getDefendArmySimpleLeaderList();
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3331,7 +3086,7 @@ public final class GrouFightOnlineProto {
      */
     int getDefendArmySimpleLeaderCount();
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3339,7 +3094,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getDefendArmySimpleLeader(int index);
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3348,9 +3103,9 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getDefendArmySimpleLeaderBytes(int index);
 
-    // optional int32 totalPage = 8;
+    // optional int32 totalPage = 9;
     /**
-     * <code>optional int32 totalPage = 8;</code>
+     * <code>optional int32 totalPage = 9;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3358,7 +3113,7 @@ public final class GrouFightOnlineProto {
      */
     boolean hasTotalPage();
     /**
-     * <code>optional int32 totalPage = 8;</code>
+     * <code>optional int32 totalPage = 9;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3366,9 +3121,9 @@ public final class GrouFightOnlineProto {
      */
     int getTotalPage();
 
-    // optional int32 currentPage = 9;
+    // optional int32 currentPage = 10;
     /**
-     * <code>optional int32 currentPage = 9;</code>
+     * <code>optional int32 currentPage = 10;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3376,7 +3131,7 @@ public final class GrouFightOnlineProto {
      */
     boolean hasCurrentPage();
     /**
-     * <code>optional int32 currentPage = 9;</code>
+     * <code>optional int32 currentPage = 10;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3384,9 +3139,9 @@ public final class GrouFightOnlineProto {
      */
     int getCurrentPage();
 
-    // repeated string fightRecord = 10;
+    // repeated string fightRecord = 11;
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3395,7 +3150,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getFightRecordList();
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3403,7 +3158,7 @@ public final class GrouFightOnlineProto {
      */
     int getFightRecordCount();
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3411,7 +3166,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getFightRecord(int index);
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3420,9 +3175,9 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getFightRecordBytes(int index);
 
-    // repeated string gfRewardInfo = 11;
+    // repeated string gfRewardInfo = 12;
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3431,7 +3186,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getGfRewardInfoList();
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3439,7 +3194,7 @@ public final class GrouFightOnlineProto {
      */
     int getGfRewardInfoCount();
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3447,7 +3202,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getGfRewardInfo(int index);
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3529,62 +3284,67 @@ public final class GrouFightOnlineProto {
               }
               break;
             }
-            case 24: {
+            case 26: {
               bitField0_ |= 0x00000004;
+              tipMsg_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
               systemTime_ = input.readInt64();
               break;
             }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 gfResourceInfo_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               gfResourceInfo_.add(input.readBytes());
               break;
             }
-            case 42: {
-              bitField0_ |= 0x00000008;
-              enimyDefenderDetails_ = input.readBytes();
-              break;
-            }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
-                rankData_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000020;
-              }
-              rankData_.add(input.readBytes());
+              bitField0_ |= 0x00000010;
+              enimyDefenderDetails_ = input.readBytes();
               break;
             }
             case 58: {
               if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-                defendArmySimpleLeader_ = new com.google.protobuf.LazyStringArrayList();
+                rankData_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000040;
+              }
+              rankData_.add(input.readBytes());
+              break;
+            }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                defendArmySimpleLeader_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000080;
               }
               defendArmySimpleLeader_.add(input.readBytes());
               break;
             }
-            case 64: {
-              bitField0_ |= 0x00000010;
+            case 72: {
+              bitField0_ |= 0x00000020;
               totalPage_ = input.readInt32();
               break;
             }
-            case 72: {
-              bitField0_ |= 0x00000020;
+            case 80: {
+              bitField0_ |= 0x00000040;
               currentPage_ = input.readInt32();
-              break;
-            }
-            case 82: {
-              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000200;
-              }
-              fightRecord_.add(input.readBytes());
               break;
             }
             case 90: {
               if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
-                gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList();
+                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000400;
+              }
+              fightRecord_.add(input.readBytes());
+              break;
+            }
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+                gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000800;
               }
               gfRewardInfo_.add(input.readBytes());
               break;
@@ -3597,19 +3357,19 @@ public final class GrouFightOnlineProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           gfResourceInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(gfResourceInfo_);
         }
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           rankData_ = new com.google.protobuf.UnmodifiableLazyStringList(rankData_);
         }
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           defendArmySimpleLeader_ = new com.google.protobuf.UnmodifiableLazyStringList(defendArmySimpleLeader_);
         }
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(fightRecord_);
         }
-        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
           gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(gfRewardInfo_);
         }
         this.unknownFields = unknownFields.build();
@@ -3692,21 +3452,76 @@ public final class GrouFightOnlineProto {
       return rstType_;
     }
 
-    // optional int64 systemTime = 3;
-    public static final int SYSTEMTIME_FIELD_NUMBER = 3;
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int64 systemTime = 4;
+    public static final int SYSTEMTIME_FIELD_NUMBER = 4;
     private long systemTime_;
     /**
-     * <code>optional int64 systemTime = 3;</code>
+     * <code>optional int64 systemTime = 4;</code>
      *
      * <pre>
      *当前系统时间
      * </pre>
      */
     public boolean hasSystemTime() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int64 systemTime = 3;</code>
+     * <code>optional int64 systemTime = 4;</code>
      *
      * <pre>
      *当前系统时间
@@ -3716,11 +3531,11 @@ public final class GrouFightOnlineProto {
       return systemTime_;
     }
 
-    // repeated string gfResourceInfo = 4;
-    public static final int GFRESOURCEINFO_FIELD_NUMBER = 4;
+    // repeated string gfResourceInfo = 5;
+    public static final int GFRESOURCEINFO_FIELD_NUMBER = 5;
     private com.google.protobuf.LazyStringList gfResourceInfo_;
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3731,7 +3546,7 @@ public final class GrouFightOnlineProto {
       return gfResourceInfo_;
     }
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3741,7 +3556,7 @@ public final class GrouFightOnlineProto {
       return gfResourceInfo_.size();
     }
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3751,7 +3566,7 @@ public final class GrouFightOnlineProto {
       return gfResourceInfo_.get(index);
     }
     /**
-     * <code>repeated string gfResourceInfo = 4;</code>
+     * <code>repeated string gfResourceInfo = 5;</code>
      *
      * <pre>
      *各资源点对应的占有信息
@@ -3762,24 +3577,24 @@ public final class GrouFightOnlineProto {
       return gfResourceInfo_.getByteString(index);
     }
 
-    // optional string enimyDefenderDetails = 5;
-    public static final int ENIMYDEFENDERDETAILS_FIELD_NUMBER = 5;
+    // optional string enimyDefenderDetails = 6;
+    public static final int ENIMYDEFENDERDETAILS_FIELD_NUMBER = 6;
     private java.lang.Object enimyDefenderDetails_;
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     public boolean hasEnimyDefenderDetails() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     public java.lang.String getEnimyDefenderDetails() {
@@ -3797,10 +3612,10 @@ public final class GrouFightOnlineProto {
       }
     }
     /**
-     * <code>optional string enimyDefenderDetails = 5;</code>
+     * <code>optional string enimyDefenderDetails = 6;</code>
      *
      * <pre>
-     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+     *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3817,11 +3632,11 @@ public final class GrouFightOnlineProto {
       }
     }
 
-    // repeated string rankData = 6;
-    public static final int RANKDATA_FIELD_NUMBER = 6;
+    // repeated string rankData = 7;
+    public static final int RANKDATA_FIELD_NUMBER = 7;
     private com.google.protobuf.LazyStringList rankData_;
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3832,7 +3647,7 @@ public final class GrouFightOnlineProto {
       return rankData_;
     }
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3842,7 +3657,7 @@ public final class GrouFightOnlineProto {
       return rankData_.size();
     }
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3852,7 +3667,7 @@ public final class GrouFightOnlineProto {
       return rankData_.get(index);
     }
     /**
-     * <code>repeated string rankData = 6;</code>
+     * <code>repeated string rankData = 7;</code>
      *
      * <pre>
      *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -3863,11 +3678,11 @@ public final class GrouFightOnlineProto {
       return rankData_.getByteString(index);
     }
 
-    // repeated string defendArmySimpleLeader = 7;
-    public static final int DEFENDARMYSIMPLELEADER_FIELD_NUMBER = 7;
+    // repeated string defendArmySimpleLeader = 8;
+    public static final int DEFENDARMYSIMPLELEADER_FIELD_NUMBER = 8;
     private com.google.protobuf.LazyStringList defendArmySimpleLeader_;
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3878,7 +3693,7 @@ public final class GrouFightOnlineProto {
       return defendArmySimpleLeader_;
     }
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3888,7 +3703,7 @@ public final class GrouFightOnlineProto {
       return defendArmySimpleLeader_.size();
     }
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3898,7 +3713,7 @@ public final class GrouFightOnlineProto {
       return defendArmySimpleLeader_.get(index);
     }
     /**
-     * <code>repeated string defendArmySimpleLeader = 7;</code>
+     * <code>repeated string defendArmySimpleLeader = 8;</code>
      *
      * <pre>
      *防守队伍简要信息
@@ -3909,21 +3724,21 @@ public final class GrouFightOnlineProto {
       return defendArmySimpleLeader_.getByteString(index);
     }
 
-    // optional int32 totalPage = 8;
-    public static final int TOTALPAGE_FIELD_NUMBER = 8;
+    // optional int32 totalPage = 9;
+    public static final int TOTALPAGE_FIELD_NUMBER = 9;
     private int totalPage_;
     /**
-     * <code>optional int32 totalPage = 8;</code>
+     * <code>optional int32 totalPage = 9;</code>
      *
      * <pre>
      *防守队伍的总页数
      * </pre>
      */
     public boolean hasTotalPage() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional int32 totalPage = 8;</code>
+     * <code>optional int32 totalPage = 9;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3933,21 +3748,21 @@ public final class GrouFightOnlineProto {
       return totalPage_;
     }
 
-    // optional int32 currentPage = 9;
-    public static final int CURRENTPAGE_FIELD_NUMBER = 9;
+    // optional int32 currentPage = 10;
+    public static final int CURRENTPAGE_FIELD_NUMBER = 10;
     private int currentPage_;
     /**
-     * <code>optional int32 currentPage = 9;</code>
+     * <code>optional int32 currentPage = 10;</code>
      *
      * <pre>
      *防守队伍的总页数
      * </pre>
      */
     public boolean hasCurrentPage() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional int32 currentPage = 9;</code>
+     * <code>optional int32 currentPage = 10;</code>
      *
      * <pre>
      *防守队伍的总页数
@@ -3957,11 +3772,11 @@ public final class GrouFightOnlineProto {
       return currentPage_;
     }
 
-    // repeated string fightRecord = 10;
-    public static final int FIGHTRECORD_FIELD_NUMBER = 10;
+    // repeated string fightRecord = 11;
+    public static final int FIGHTRECORD_FIELD_NUMBER = 11;
     private com.google.protobuf.LazyStringList fightRecord_;
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3972,7 +3787,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_;
     }
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3982,7 +3797,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.size();
     }
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -3992,7 +3807,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.get(index);
     }
     /**
-     * <code>repeated string fightRecord = 10;</code>
+     * <code>repeated string fightRecord = 11;</code>
      *
      * <pre>
      *战斗记录
@@ -4003,11 +3818,11 @@ public final class GrouFightOnlineProto {
       return fightRecord_.getByteString(index);
     }
 
-    // repeated string gfRewardInfo = 11;
-    public static final int GFREWARDINFO_FIELD_NUMBER = 11;
+    // repeated string gfRewardInfo = 12;
+    public static final int GFREWARDINFO_FIELD_NUMBER = 12;
     private com.google.protobuf.LazyStringList gfRewardInfo_;
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -4018,7 +3833,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_;
     }
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -4028,7 +3843,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_.size();
     }
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -4038,7 +3853,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_.get(index);
     }
     /**
-     * <code>repeated string gfRewardInfo = 11;</code>
+     * <code>repeated string gfRewardInfo = 12;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -4052,6 +3867,7 @@ public final class GrouFightOnlineProto {
     private void initFields() {
       reqType_ = com.rwproto.GrouFightOnlineProto.GFRequestType.GET_RESOURCE_INFO;
       rstType_ = com.rwproto.GrouFightOnlineProto.GFResultType.SUCCESS;
+      tipMsg_ = "";
       systemTime_ = 0L;
       gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       enimyDefenderDetails_ = "";
@@ -4089,31 +3905,34 @@ public final class GrouFightOnlineProto {
         output.writeEnum(2, rstType_.getNumber());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, systemTime_);
-      }
-      for (int i = 0; i < gfResourceInfo_.size(); i++) {
-        output.writeBytes(4, gfResourceInfo_.getByteString(i));
+        output.writeBytes(3, getTipMsgBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(5, getEnimyDefenderDetailsBytes());
+        output.writeInt64(4, systemTime_);
       }
-      for (int i = 0; i < rankData_.size(); i++) {
-        output.writeBytes(6, rankData_.getByteString(i));
-      }
-      for (int i = 0; i < defendArmySimpleLeader_.size(); i++) {
-        output.writeBytes(7, defendArmySimpleLeader_.getByteString(i));
+      for (int i = 0; i < gfResourceInfo_.size(); i++) {
+        output.writeBytes(5, gfResourceInfo_.getByteString(i));
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(8, totalPage_);
+        output.writeBytes(6, getEnimyDefenderDetailsBytes());
+      }
+      for (int i = 0; i < rankData_.size(); i++) {
+        output.writeBytes(7, rankData_.getByteString(i));
+      }
+      for (int i = 0; i < defendArmySimpleLeader_.size(); i++) {
+        output.writeBytes(8, defendArmySimpleLeader_.getByteString(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(9, currentPage_);
+        output.writeInt32(9, totalPage_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(10, currentPage_);
       }
       for (int i = 0; i < fightRecord_.size(); i++) {
-        output.writeBytes(10, fightRecord_.getByteString(i));
+        output.writeBytes(11, fightRecord_.getByteString(i));
       }
       for (int i = 0; i < gfRewardInfo_.size(); i++) {
-        output.writeBytes(11, gfRewardInfo_.getByteString(i));
+        output.writeBytes(12, gfRewardInfo_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -4134,7 +3953,11 @@ public final class GrouFightOnlineProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, systemTime_);
+          .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, systemTime_);
       }
       {
         int dataSize = 0;
@@ -4145,9 +3968,9 @@ public final class GrouFightOnlineProto {
         size += dataSize;
         size += 1 * getGfResourceInfoList().size();
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getEnimyDefenderDetailsBytes());
+          .computeBytesSize(6, getEnimyDefenderDetailsBytes());
       }
       {
         int dataSize = 0;
@@ -4167,13 +3990,13 @@ public final class GrouFightOnlineProto {
         size += dataSize;
         size += 1 * getDefendArmySimpleLeaderList().size();
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(8, totalPage_);
-      }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, currentPage_);
+          .computeInt32Size(9, totalPage_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, currentPage_);
       }
       {
         int dataSize = 0;
@@ -4313,24 +4136,26 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         rstType_ = com.rwproto.GrouFightOnlineProto.GFResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000002);
-        systemTime_ = 0L;
+        tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        systemTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
-        enimyDefenderDetails_ = "";
+        gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
-        rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        enimyDefenderDetails_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
-        defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
-        totalPage_ = 0;
+        defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000080);
-        currentPage_ = 0;
+        totalPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        currentPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000400);
+        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -4370,47 +4195,51 @@ public final class GrouFightOnlineProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.systemTime_ = systemTime_;
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          gfResourceInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              gfResourceInfo_);
-          bitField0_ = (bitField0_ & ~0x00000008);
-        }
-        result.gfResourceInfo_ = gfResourceInfo_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.enimyDefenderDetails_ = enimyDefenderDetails_;
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
-          rankData_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              rankData_);
-          bitField0_ = (bitField0_ & ~0x00000020);
+        result.systemTime_ = systemTime_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          gfResourceInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              gfResourceInfo_);
+          bitField0_ = (bitField0_ & ~0x00000010);
         }
-        result.rankData_ = rankData_;
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
-          defendArmySimpleLeader_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              defendArmySimpleLeader_);
-          bitField0_ = (bitField0_ & ~0x00000040);
-        }
-        result.defendArmySimpleLeader_ = defendArmySimpleLeader_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        result.gfResourceInfo_ = gfResourceInfo_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.totalPage_ = totalPage_;
+        result.enimyDefenderDetails_ = enimyDefenderDetails_;
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          rankData_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              rankData_);
+          bitField0_ = (bitField0_ & ~0x00000040);
+        }
+        result.rankData_ = rankData_;
+        if (((bitField0_ & 0x00000080) == 0x00000080)) {
+          defendArmySimpleLeader_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              defendArmySimpleLeader_);
+          bitField0_ = (bitField0_ & ~0x00000080);
+        }
+        result.defendArmySimpleLeader_ = defendArmySimpleLeader_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000020;
         }
+        result.totalPage_ = totalPage_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000040;
+        }
         result.currentPage_ = currentPage_;
-        if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(
               fightRecord_);
-          bitField0_ = (bitField0_ & ~0x00000200);
+          bitField0_ = (bitField0_ & ~0x00000400);
         }
         result.fightRecord_ = fightRecord_;
-        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((bitField0_ & 0x00000800) == 0x00000800)) {
           gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
               gfRewardInfo_);
-          bitField0_ = (bitField0_ & ~0x00000400);
+          bitField0_ = (bitField0_ & ~0x00000800);
         }
         result.gfRewardInfo_ = gfRewardInfo_;
         result.bitField0_ = to_bitField0_;
@@ -4435,13 +4264,18 @@ public final class GrouFightOnlineProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000004;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
         if (other.hasSystemTime()) {
           setSystemTime(other.getSystemTime());
         }
         if (!other.gfResourceInfo_.isEmpty()) {
           if (gfResourceInfo_.isEmpty()) {
             gfResourceInfo_ = other.gfResourceInfo_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           } else {
             ensureGfResourceInfoIsMutable();
             gfResourceInfo_.addAll(other.gfResourceInfo_);
@@ -4449,14 +4283,14 @@ public final class GrouFightOnlineProto {
           onChanged();
         }
         if (other.hasEnimyDefenderDetails()) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
           enimyDefenderDetails_ = other.enimyDefenderDetails_;
           onChanged();
         }
         if (!other.rankData_.isEmpty()) {
           if (rankData_.isEmpty()) {
             rankData_ = other.rankData_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           } else {
             ensureRankDataIsMutable();
             rankData_.addAll(other.rankData_);
@@ -4466,7 +4300,7 @@ public final class GrouFightOnlineProto {
         if (!other.defendArmySimpleLeader_.isEmpty()) {
           if (defendArmySimpleLeader_.isEmpty()) {
             defendArmySimpleLeader_ = other.defendArmySimpleLeader_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           } else {
             ensureDefendArmySimpleLeaderIsMutable();
             defendArmySimpleLeader_.addAll(other.defendArmySimpleLeader_);
@@ -4482,7 +4316,7 @@ public final class GrouFightOnlineProto {
         if (!other.fightRecord_.isEmpty()) {
           if (fightRecord_.isEmpty()) {
             fightRecord_ = other.fightRecord_;
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
           } else {
             ensureFightRecordIsMutable();
             fightRecord_.addAll(other.fightRecord_);
@@ -4492,7 +4326,7 @@ public final class GrouFightOnlineProto {
         if (!other.gfRewardInfo_.isEmpty()) {
           if (gfRewardInfo_.isEmpty()) {
             gfRewardInfo_ = other.gfRewardInfo_;
-            bitField0_ = (bitField0_ & ~0x00000400);
+            bitField0_ = (bitField0_ & ~0x00000800);
           } else {
             ensureGfRewardInfoIsMutable();
             gfRewardInfo_.addAll(other.gfRewardInfo_);
@@ -4638,20 +4472,118 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // optional int64 systemTime = 3;
+      // optional string tipMsg = 3;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 systemTime = 4;
       private long systemTime_ ;
       /**
-       * <code>optional int64 systemTime = 3;</code>
+       * <code>optional int64 systemTime = 4;</code>
        *
        * <pre>
        *当前系统时间
        * </pre>
        */
       public boolean hasSystemTime() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int64 systemTime = 3;</code>
+       * <code>optional int64 systemTime = 4;</code>
        *
        * <pre>
        *当前系统时间
@@ -4661,42 +4593,42 @@ public final class GrouFightOnlineProto {
         return systemTime_;
       }
       /**
-       * <code>optional int64 systemTime = 3;</code>
+       * <code>optional int64 systemTime = 4;</code>
        *
        * <pre>
        *当前系统时间
        * </pre>
        */
       public Builder setSystemTime(long value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         systemTime_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 systemTime = 3;</code>
+       * <code>optional int64 systemTime = 4;</code>
        *
        * <pre>
        *当前系统时间
        * </pre>
        */
       public Builder clearSystemTime() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         systemTime_ = 0L;
         onChanged();
         return this;
       }
 
-      // repeated string gfResourceInfo = 4;
+      // repeated string gfResourceInfo = 5;
       private com.google.protobuf.LazyStringList gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureGfResourceInfoIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           gfResourceInfo_ = new com.google.protobuf.LazyStringArrayList(gfResourceInfo_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4707,7 +4639,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(gfResourceInfo_);
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4717,7 +4649,7 @@ public final class GrouFightOnlineProto {
         return gfResourceInfo_.size();
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4727,7 +4659,7 @@ public final class GrouFightOnlineProto {
         return gfResourceInfo_.get(index);
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4738,7 +4670,7 @@ public final class GrouFightOnlineProto {
         return gfResourceInfo_.getByteString(index);
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4755,7 +4687,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4772,7 +4704,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4786,7 +4718,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4794,12 +4726,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearGfResourceInfo() {
         gfResourceInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string gfResourceInfo = 4;</code>
+       * <code>repeated string gfResourceInfo = 5;</code>
        *
        * <pre>
        *各资源点对应的占有信息
@@ -4816,23 +4748,23 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // optional string enimyDefenderDetails = 5;
+      // optional string enimyDefenderDetails = 6;
       private java.lang.Object enimyDefenderDetails_ = "";
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public boolean hasEnimyDefenderDetails() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public java.lang.String getEnimyDefenderDetails() {
@@ -4847,10 +4779,10 @@ public final class GrouFightOnlineProto {
         }
       }
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4867,10 +4799,10 @@ public final class GrouFightOnlineProto {
         }
       }
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public Builder setEnimyDefenderDetails(
@@ -4878,29 +4810,29 @@ public final class GrouFightOnlineProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         enimyDefenderDetails_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public Builder clearEnimyDefenderDetails() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         enimyDefenderDetails_ = getDefaultInstance().getEnimyDefenderDetails();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string enimyDefenderDetails = 5;</code>
+       * <code>optional string enimyDefenderDetails = 6;</code>
        *
        * <pre>
-       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
+       *获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
        * </pre>
        */
       public Builder setEnimyDefenderDetailsBytes(
@@ -4908,22 +4840,22 @@ public final class GrouFightOnlineProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         enimyDefenderDetails_ = value;
         onChanged();
         return this;
       }
 
-      // repeated string rankData = 6;
+      // repeated string rankData = 7;
       private com.google.protobuf.LazyStringList rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureRankDataIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           rankData_ = new com.google.protobuf.LazyStringArrayList(rankData_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4934,7 +4866,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(rankData_);
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4944,7 +4876,7 @@ public final class GrouFightOnlineProto {
         return rankData_.size();
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4954,7 +4886,7 @@ public final class GrouFightOnlineProto {
         return rankData_.get(index);
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4965,7 +4897,7 @@ public final class GrouFightOnlineProto {
         return rankData_.getByteString(index);
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4982,7 +4914,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -4999,7 +4931,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -5013,7 +4945,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -5021,12 +4953,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearRankData() {
         rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string rankData = 6;</code>
+       * <code>repeated string rankData = 7;</code>
        *
        * <pre>
        *帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
@@ -5043,16 +4975,16 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string defendArmySimpleLeader = 7;
+      // repeated string defendArmySimpleLeader = 8;
       private com.google.protobuf.LazyStringList defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureDefendArmySimpleLeaderIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           defendArmySimpleLeader_ = new com.google.protobuf.LazyStringArrayList(defendArmySimpleLeader_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000080;
          }
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5063,7 +4995,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(defendArmySimpleLeader_);
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5073,7 +5005,7 @@ public final class GrouFightOnlineProto {
         return defendArmySimpleLeader_.size();
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5083,7 +5015,7 @@ public final class GrouFightOnlineProto {
         return defendArmySimpleLeader_.get(index);
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5094,7 +5026,7 @@ public final class GrouFightOnlineProto {
         return defendArmySimpleLeader_.getByteString(index);
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5111,7 +5043,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5128,7 +5060,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5142,7 +5074,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5150,12 +5082,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearDefendArmySimpleLeader() {
         defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string defendArmySimpleLeader = 7;</code>
+       * <code>repeated string defendArmySimpleLeader = 8;</code>
        *
        * <pre>
        *防守队伍简要信息
@@ -5172,20 +5104,20 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // optional int32 totalPage = 8;
+      // optional int32 totalPage = 9;
       private int totalPage_ ;
       /**
-       * <code>optional int32 totalPage = 8;</code>
+       * <code>optional int32 totalPage = 9;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public boolean hasTotalPage() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional int32 totalPage = 8;</code>
+       * <code>optional int32 totalPage = 9;</code>
        *
        * <pre>
        *防守队伍的总页数
@@ -5195,46 +5127,46 @@ public final class GrouFightOnlineProto {
         return totalPage_;
       }
       /**
-       * <code>optional int32 totalPage = 8;</code>
+       * <code>optional int32 totalPage = 9;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public Builder setTotalPage(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         totalPage_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 totalPage = 8;</code>
+       * <code>optional int32 totalPage = 9;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public Builder clearTotalPage() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         totalPage_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 currentPage = 9;
+      // optional int32 currentPage = 10;
       private int currentPage_ ;
       /**
-       * <code>optional int32 currentPage = 9;</code>
+       * <code>optional int32 currentPage = 10;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public boolean hasCurrentPage() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional int32 currentPage = 9;</code>
+       * <code>optional int32 currentPage = 10;</code>
        *
        * <pre>
        *防守队伍的总页数
@@ -5244,42 +5176,42 @@ public final class GrouFightOnlineProto {
         return currentPage_;
       }
       /**
-       * <code>optional int32 currentPage = 9;</code>
+       * <code>optional int32 currentPage = 10;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public Builder setCurrentPage(int value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         currentPage_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 currentPage = 9;</code>
+       * <code>optional int32 currentPage = 10;</code>
        *
        * <pre>
        *防守队伍的总页数
        * </pre>
        */
       public Builder clearCurrentPage() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         currentPage_ = 0;
         onChanged();
         return this;
       }
 
-      // repeated string fightRecord = 10;
+      // repeated string fightRecord = 11;
       private com.google.protobuf.LazyStringList fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureFightRecordIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
           fightRecord_ = new com.google.protobuf.LazyStringArrayList(fightRecord_);
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00000400;
          }
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5290,7 +5222,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(fightRecord_);
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5300,7 +5232,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.size();
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5310,7 +5242,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.get(index);
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5321,7 +5253,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.getByteString(index);
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5338,7 +5270,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5355,7 +5287,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5369,7 +5301,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5377,12 +5309,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearFightRecord() {
         fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 10;</code>
+       * <code>repeated string fightRecord = 11;</code>
        *
        * <pre>
        *战斗记录
@@ -5399,16 +5331,16 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string gfRewardInfo = 11;
+      // repeated string gfRewardInfo = 12;
       private com.google.protobuf.LazyStringList gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureGfRewardInfoIsMutable() {
-        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+        if (!((bitField0_ & 0x00000800) == 0x00000800)) {
           gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList(gfRewardInfo_);
-          bitField0_ |= 0x00000400;
+          bitField0_ |= 0x00000800;
          }
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5419,7 +5351,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(gfRewardInfo_);
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5429,7 +5361,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.size();
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5439,7 +5371,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.get(index);
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5450,7 +5382,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.getByteString(index);
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5467,7 +5399,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5484,7 +5416,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5498,7 +5430,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5506,12 +5438,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearGfRewardInfo() {
         gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 11;</code>
+       * <code>repeated string gfRewardInfo = 12;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5566,38 +5498,29 @@ public final class GrouFightOnlineProto {
       "eamGroupID\030\006 \001(\t\022\016\n\006teamID\030\007 \001(\t\022\020\n\010rewa" +
       "rdID\030\010 \001(\t\022\022\n\nresourceID\030\t \001(\005\022\017\n\007groupI" +
       "D\030\n \001(\t\022\023\n\013fightResult\030\013 \001(\t\022\025\n\rclientVe" +
-      "rsion\030\014 \001(\t\"\312\002\n\026GroupFightOnlineRspMsg\0220" +
+      "rsion\030\014 \001(\t\"\332\002\n\026GroupFightOnlineRspMsg\0220" +
       "\n\007reqType\030\001 \002(\0162\037.groupFightOnline.GFReq",
       "uestType\022/\n\007rstType\030\002 \002(\0162\036.groupFightOn" +
-      "line.GFResultType\022\022\n\nsystemTime\030\003 \001(\003\022\026\n" +
-      "\016gfResourceInfo\030\004 \003(\t\022\034\n\024enimyDefenderDe" +
-      "tails\030\005 \001(\t\022\020\n\010rankData\030\006 \003(\t\022\036\n\026defendA" +
-      "rmySimpleLeader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(\005" +
-      "\022\023\n\013currentPage\030\t \001(\005\022\023\n\013fightRecord\030\n \003" +
-      "(\t\022\024\n\014gfRewardInfo\030\013 \003(\t*\224\003\n\rGFRequestTy" +
-      "pe\022\025\n\021GET_RESOURCE_INFO\020\001\022\021\n\rGROUP_BIDDI" +
-      "NG\020\002\022\024\n\020PERSONAL_BIDDING\020\003\022\030\n\024MODIFY_SEL" +
-      "F_DEFENDER\020\004\022\026\n\022GET_ENIMY_DEFENDER\020\005\022\031\n\025",
-      "CHANGE_ENIMY_DEFENDER\020\006\022\017\n\013START_FIGHT\020\007" +
-      "\022\027\n\023INFORM_FIGHT_RESULT\020\010\022\026\n\022GET_GROUP_B" +
-      "ID_RANK\020\t\022\021\n\rGET_KILL_RANK\020\n\022\021\n\rGET_HURT" +
-      "_RANK\020\013\022\031\n\025GET_ALL_RANK_IN_GROUP\020\014\022\026\n\022GE" +
-      "T_DEFENDER_TEAMS\020\r\022\026\n\022VIEW_DEFENDER_TEAM" +
-      "\020\016\022\024\n\020GET_FIGHT_RECORD\020\017\022\031\n\025GET_FIGHT_OV" +
-      "ER_REWARD\020\020\022\022\n\016SYN_GROUP_DATA\020\021*\327\003\n\014GFRe" +
-      "sultType\022\013\n\007SUCCESS\020\001\022\024\n\020NOT_IN_OPEN_TIM" +
-      "E\020\002\022\033\n\027BID_UNREACH_LEAST_COUNT\020\003\022\033\n\027BID_" +
-      "UNREACH_LEAST_LEVEL\020\004\022\033\n\027BID_UNREACH_GRO",
-      "UP_LEVEL\020\005\022\021\n\rCOST_UNENOUGH\020\006\022\031\n\025BID_WIT" +
-      "HOUT_AUTHORITY\020\007\022\025\n\021CANNOT_BID_IN_TWO\020\010\022" +
-      "\020\n\014BID_NEED_VIP\020\t\022\024\n\020BID_CANNOT_LOWER\020\n\022" +
-      "\026\n\022DEFENDER_COUNT_MAX\020\013\022\035\n\031CANNOT_FIND_P" +
-      "ROP_DEFENDER\020\014\022\017\n\013NO_DEFENDER\020\r\022\017\n\013ONLY_" +
-      "PLAYER\020\016\022\024\n\020REWARD_NOT_EXIST\020\017\022\025\n\021NO_SEL" +
-      "ECTED_ENIMY\020\020\022\024\n\020SELECTED_EXPIRED\020\021\022\021\n\rF" +
-      "IGHT_EXPIRED\020\022\022\017\n\013ON_FIGHTING\020\023\022\020\n\014HAVE_" +
-      "A_ENIMY\020\024\022\016\n\nDATA_ERROR\020\025B#\n\013com.rwproto" +
-      "B\024GrouFightOnlineProto"
+      "line.GFResultType\022\016\n\006tipMsg\030\003 \001(\t\022\022\n\nsys" +
+      "temTime\030\004 \001(\003\022\026\n\016gfResourceInfo\030\005 \003(\t\022\034\n" +
+      "\024enimyDefenderDetails\030\006 \001(\t\022\020\n\010rankData\030" +
+      "\007 \003(\t\022\036\n\026defendArmySimpleLeader\030\010 \003(\t\022\021\n" +
+      "\ttotalPage\030\t \001(\005\022\023\n\013currentPage\030\n \001(\005\022\023\n" +
+      "\013fightRecord\030\013 \003(\t\022\024\n\014gfRewardInfo\030\014 \003(\t" +
+      "*\224\003\n\rGFRequestType\022\025\n\021GET_RESOURCE_INFO\020" +
+      "\001\022\021\n\rGROUP_BIDDING\020\002\022\024\n\020PERSONAL_BIDDING" +
+      "\020\003\022\030\n\024MODIFY_SELF_DEFENDER\020\004\022\026\n\022GET_ENIM",
+      "Y_DEFENDER\020\005\022\031\n\025CHANGE_ENIMY_DEFENDER\020\006\022" +
+      "\017\n\013START_FIGHT\020\007\022\027\n\023INFORM_FIGHT_RESULT\020" +
+      "\010\022\026\n\022GET_GROUP_BID_RANK\020\t\022\021\n\rGET_KILL_RA" +
+      "NK\020\n\022\021\n\rGET_HURT_RANK\020\013\022\031\n\025GET_ALL_RANK_" +
+      "IN_GROUP\020\014\022\026\n\022GET_DEFENDER_TEAMS\020\r\022\026\n\022VI" +
+      "EW_DEFENDER_TEAM\020\016\022\024\n\020GET_FIGHT_RECORD\020\017" +
+      "\022\031\n\025GET_FIGHT_OVER_REWARD\020\020\022\022\n\016SYN_GROUP" +
+      "_DATA\020\021*p\n\014GFResultType\022\013\n\007SUCCESS\020\001\022\026\n\022" +
+      "DIAMOND_NOT_ENOUGH\020\002\022\023\n\017BID_VIP_UNREACH\020" +
+      "\003\022\022\n\016SELECT_EXPIRED\020\004\022\022\n\016DATA_EXCEPTION\020",
+      "\005B#\n\013com.rwprotoB\024GrouFightOnlineProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5615,7 +5538,7 @@ public final class GrouFightOnlineProto {
           internal_static_groupFightOnline_GroupFightOnlineRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupFightOnline_GroupFightOnlineRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "SystemTime", "GfResourceInfo", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "CurrentPage", "FightRecord", "GfRewardInfo", });
+              new java.lang.String[] { "ReqType", "RstType", "TipMsg", "SystemTime", "GfResourceInfo", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "CurrentPage", "FightRecord", "GfRewardInfo", });
           return null;
         }
       };
