@@ -245,7 +245,7 @@ public class ActivityExchangeTypeMgr {
 	
 	
 	/**
-	 * 根据传入的玩家和副本，额外获得兑换道具;当前适用扫荡
+	 * 根据传入的玩家和副本，额外获得兑换道具;
 	 * @param player  玩家等级是否足够
 	 * @param copyCfg  战斗场景是否有掉落
 	 */
@@ -274,7 +274,7 @@ public class ActivityExchangeTypeMgr {
 						return idAndNumMap;
 					}
 					if(random.nextInt(10000)<=numAndProbability[1]){
-//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
 						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				
