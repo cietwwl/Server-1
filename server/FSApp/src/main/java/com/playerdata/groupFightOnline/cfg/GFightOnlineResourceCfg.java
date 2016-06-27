@@ -101,7 +101,8 @@ public class GFightOnlineResourceCfg extends BaseConfig {
 	
 	private GFTimeStruct fromStringToTimeStruct(String time){
 		String[] strArr = time.split("_");
-		int dayOfWeek = Integer.valueOf(strArr[0]);
+		int dayOfWeek = (Integer.valueOf(strArr[0]) + 1)%7;
+		if(dayOfWeek == 0) dayOfWeek = 7;
 		String[] timeArr = strArr[1].split(":");
 		int hour = Integer.valueOf(timeArr[0]);
 		int minute = Integer.valueOf(timeArr[1]);
