@@ -182,9 +182,6 @@ public class Hero implements HeroIF {
 			result = -2;
 		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
-		} else if (getStarLevel() >= 5) {
-			// 满星
-			result = -4;
 		}
 
 		return result;

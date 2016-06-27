@@ -15,8 +15,6 @@ public interface TableUserOtherIF {
 
 	public boolean isIphone();
 
-	public long getCoin();
-
 	public int getPower();
 
 	public int getMaxPower();
@@ -26,8 +24,6 @@ public interface TableUserOtherIF {
 	public int getBuyPowerTimes();
 
 	public int getBuyCoinTimes();
-
-	public int getGold();
 
 	public int getRookieFlag();
 

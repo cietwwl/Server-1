@@ -33,6 +33,7 @@ import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
+import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.task.pojo.TaskItem;
 
@@ -88,6 +89,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
+	
+	private static MapItemStoreCache<MajorData> majorDataCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 	
@@ -98,10 +101,6 @@ public class MapItemStoreFactory {
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
-
-	static {
-		//init();
-	}
 
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
@@ -174,6 +173,8 @@ public class MapItemStoreFactory {
 		register(groupDefendArmyItemCache = new MapItemStoreCache<GFDefendArmyItem>(GFDefendArmyItem.class, "groupID", heroCapacity));
 		
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
+		
+		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -384,5 +385,13 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GFBiddingItem> getGFBiddingItemCache() {
 		return groupFightBiddingItemCache;
+	}
+
+	/**
+	 * 获取重要数据缓存
+	 * @return
+	 */
+	public static MapItemStoreCache<MajorData> getMajorDataCache() {
+		return majorDataCache;
 	}
 }

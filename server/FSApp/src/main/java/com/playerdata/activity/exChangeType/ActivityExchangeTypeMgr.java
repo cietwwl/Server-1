@@ -138,6 +138,7 @@ public class ActivityExchangeTypeMgr {
 				continue;
 			}
 			if(DateUtils.getDayDistance(targetItem.getLasttime(), System.currentTimeMillis())>0){
+				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){
 					if(subitem.isIsrefresh()){
