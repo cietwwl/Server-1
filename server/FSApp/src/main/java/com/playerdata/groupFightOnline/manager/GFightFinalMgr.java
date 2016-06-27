@@ -1,5 +1,23 @@
 package com.playerdata.groupFightOnline.manager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.bm.group.GroupBM;
+import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
+import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
+import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.dataForRank.GFEndGroupInfo;
+import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+
 /**
  * 在线帮战，最终结算阶段管理类
  * @author aken
@@ -16,4 +34,86 @@ public class GFightFinalMgr {
 	}
 	
 	private GFightFinalMgr() { }
+	
+	/**
+	 * 处理帮战结果的逻辑
+	 * @param resourceID
+	 */
+	public void calculateFightResult(int resourceID){
+		List<String> groupRankList = getRankGroupID(resourceID);
+		if(groupRankList == null) return;
+		handleVictoryGroup(groupRankList.get(0));
+		int size = groupRankList.size();
+		for(int i = 1; i < size; i++)
+			handleFailGroup(groupRankList.get(i));
+		calculateFightResult(resourceID);
+	}
+	
+	/**
+	 * 获取获胜的帮派id
+	 * @param resourceID
+	 * @return
+	 */
+	private List<String> getRankGroupID(int resourceID){
+		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		if(bidList.size() == 0) return null;
+		List<GFEndGroupInfo> resultGroups = new ArrayList<GFEndGroupInfo>();
+		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFGroupKillRankList(resourceID);
+		int size = bidList.size();
+		for(int i = 0; i < 4 && i < size; i++){
+			GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(bidList.get(i).getGroupID());
+			int killCount = 0;
+			for(GFOnlineKillItem killItem : killRank){
+				if(killItem.getGroupID().equals(bidList.get(i).getGroupID())){
+					killCount += killItem.getTotalKill();
+				}
+			}
+			resultGroups.add(new GFEndGroupInfo(bidList.get(i).getGroupID(), groupData.getAliveCount(), killCount, groupData.getLastkillTime()));
+		}
+		Collections.sort(resultGroups);
+		List<String> result = new ArrayList<String>();
+		for(GFEndGroupInfo info : resultGroups)
+			result.add(info.getGroupID());
+		return result;
+	}
+	
+	/**
+	 * 处理获胜帮派的事务
+	 * @param groupID
+	 */
+	private void handleVictoryGroup(String groupID){
+		
+	}
+	
+	/**
+	 * 处理战斗失败的帮派事务
+	 * @param groupID
+	 */
+	private void handleFailGroup(String groupID){
+		
+	}
+	
+	/**
+	 * 清空此循环的数据
+	 * @param resourceID
+	 */
+	public void clearCurrentLoopData(int resourceID){
+		// 清除所有的竞标信息
+		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);	
+		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		for(GFGroupBiddingItem item : bidList){
+			//清除帮派的所有防守队伍
+			GFDefendArmyItemHolder.getInstance().clearTheRecords(item.getGroupID());
+			//清除帮战的帮派信息
+			GFightOnlineGroupHolder.getInstance().clearCurrentLoopData(item.getGroupID());
+			//清除所有参与帮战的成员的个人信息
+			List<? extends GroupMemberDataIF> groupMembers = GroupBM.get(item.getGroupID()).getGroupMemberMgr().getMemberSortList(null);
+			for(GroupMemberDataIF member : groupMembers)
+				UserGFightOnlineHolder.getInstance().resetData(member.getUserId());
+		}
+		//清除几个排行榜
+		GFGroupBiddingRankMgr.clearRank(resourceID);
+		GFOnlineKillRankMgr.clearRank(resourceID);
+		GFOnlineHurtRankMgr.clearRank(resourceID);
+	}
 }

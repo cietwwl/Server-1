@@ -45,6 +45,9 @@ public class GFightOnlineGroupData {
 	private int version = 0;	//初始版本号
 	
 	@IgnoreSynField
+	private long lastkillTime;	//最后击杀的时间
+	
+	@IgnoreSynField
 	@NonSave
 	private byte[] recordLock = new byte[0];
 	@IgnoreSynField
@@ -123,5 +126,25 @@ public class GFightOnlineGroupData {
 				recordList.set(LIST_SIZE - 1, record);
 			} else recordList.add(record);
 		}
+	}
+
+	public long getLastkillTime() {
+		return lastkillTime;
+	}
+
+	public void setLastkillTime(long lastkillTime) {
+		this.lastkillTime = lastkillTime;
+	}
+	
+	public void clearCurrentLoopData(){
+		biddingCount = 0;  // 帮派竞标用的令牌数
+		resourceID = 0;		// 帮派竞标的资源点
+		lastBidTime = 0;	// 上次竞标时间，主要用于排名
+		recordList.clear();
+		defenderCount = 0;	//总的防守队伍数
+		aliveCount = 0;		//存活队伍数
+		lastkillTime = 0;	//最后击杀的时间
+		
+		version = 0;	//初始版本号
 	}
 }

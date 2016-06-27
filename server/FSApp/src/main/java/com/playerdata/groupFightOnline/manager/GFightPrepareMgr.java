@@ -84,7 +84,8 @@ public class GFightPrepareMgr {
 	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewArmyID) {
 		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewArmyID);
 		if(defendTeam == null) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("防守队伍数据不存在");
 			return;
 		}
 		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defendTeam));
@@ -103,17 +104,20 @@ public class GFightPrepareMgr {
 	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items, GFightDataVersion dataVersion) {
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		if(groupID.isEmpty()) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("没有帮派，不能进行此项操作");
 			return;
 		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().get(groupID);
 		if(gfGroupData == null || gfGroupData.getResourceID() == 0) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("帮派数据异常");
 			return;
 		}
 		int resourceID = gfGroupData.getResourceID();
 		if(!GFightConditionJudge.getInstance().isPreparePeriod(resourceID)) {
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在备战阶段，不能进行此项操作");
 			return;
 		}
 		try {
@@ -122,7 +126,8 @@ public class GFightPrepareMgr {
 			GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (GFArmyDataException e) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 			GameLog.error(LogModule.GroupFightOnline.getName(), player.getUserId(), String.format("modifySelfDefender，修改个人防守队伍信息时，数据异常"), e);
 		}
 	}

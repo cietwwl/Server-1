@@ -91,7 +91,7 @@ public class GFightOnlineHandler {
 			GFightResult fightResult = (GFightResult)ClientDataSynMgr.fromClientJson2Data(GFightResult.class, msgGFRequest.getFightResult());
 			GFightOnFightMgr.getInstance().informFightResult(player, gfRsp, fightResult, GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
 		} catch (Exception e) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 		}
 		return gfRsp.build().toByteString();
 	}

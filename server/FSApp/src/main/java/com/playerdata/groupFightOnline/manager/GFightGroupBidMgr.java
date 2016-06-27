@@ -51,7 +51,7 @@ public class GFightGroupBidMgr {
 			if(resData == null) continue;
 			GFResourceInfo resInfo = toClientResourceData(player.getUserId(), resData);
 			if(resInfo == null) {
-				gfRsp.setRstType(GFResultType.DATA_ERROR);
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 				return;
 			}
 			gfRsp.addGfResourceInfo(ClientDataSynMgr.toClientData(resInfo));
@@ -68,7 +68,10 @@ public class GFightGroupBidMgr {
 	 */
 	public void getGroupBidRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
-		if(groupBidRank == null) gfRsp.setRstType(GFResultType.DATA_ERROR);
+		if(groupBidRank == null) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("取不到帮派竞标排行榜");
+		}
 		for(GFGroupBiddingItem item : groupBidRank) 
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
 		gfRsp.setRstType(GFResultType.SUCCESS);
@@ -88,16 +91,19 @@ public class GFightGroupBidMgr {
 			return;
 		}
 		if(!GFightConditionJudge.getInstance().isBidPeriod(resourceID)) {
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在竞标期间");
 			return;
 		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().getByUser(player);
 		if(!GFightConditionJudge.getInstance().isLegalBidCount(resourceID, gfGroupData.getBiddingCount(), bidCount)) {
-			gfRsp.setRstType(GFResultType.BID_UNREACH_LEAST_COUNT);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("竞标数量没有达到最小要求");
 			return;
 		}
 		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR); //TODO 
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+			gfRsp.setTipMsg("不能同时竞标两个资源点");
 			return;
 		}
 		gfGroupData.setResourceID(resourceID);
@@ -106,7 +112,11 @@ public class GFightGroupBidMgr {
 		GFightOnlineGroupHolder.getInstance().update(player, gfGroupData, true);
 		// 排行榜有改变
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
-		if(groupBidRank == null) gfRsp.setRstType(GFResultType.DATA_ERROR);
+		if(groupBidRank == null) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("没取到帮派竞标排行榜");
+			return;
+		}
 		for(GFGroupBiddingItem item : groupBidRank) 
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
 		gfRsp.setRstType(GFResultType.SUCCESS);

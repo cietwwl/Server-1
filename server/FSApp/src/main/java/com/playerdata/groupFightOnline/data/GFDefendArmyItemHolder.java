@@ -211,6 +211,16 @@ public class GFDefendArmyItemHolder {
 	}
 	
 	/**
+	 * 清除所有公会的所有防守队伍
+	 * @param groupIDArr
+	 * @return
+	 */
+	public boolean clearTheRecords(String groupID){
+		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
+		return cache.getMapItemStore(groupID, GFDefendArmyItem.class).clearAllRecords();
+	}
+	
+	/**
 	 * 只用来同步个人的防守队伍信息
 	 * 帮派的其它防守队伍，需要用请求
 	 * @param player

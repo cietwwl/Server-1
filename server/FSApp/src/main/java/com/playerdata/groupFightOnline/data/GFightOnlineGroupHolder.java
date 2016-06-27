@@ -35,6 +35,12 @@ public class GFightOnlineGroupHolder {
 		return groupData;
 	}
 	
+	public void clearCurrentLoopData(String groupId){
+		GFightOnlineGroupData data = get(groupId);
+		data.setVersion(gfGroupVersion.incrementAndGet());
+		data.clearCurrentLoopData();
+	}
+	
 	public GFightOnlineGroupData getItem(String groupId, int version) {
 		GFightOnlineGroupData data = gfGroupDao.get(groupId);
 		if(data != null && data.getVersion() > version) return data;

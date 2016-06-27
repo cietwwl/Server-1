@@ -53,7 +53,8 @@ public class GFightOnFightMgr {
 	public void getEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID) {
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
 		try {
@@ -63,11 +64,14 @@ public class GFightOnFightMgr {
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
-			gfRsp.setRstType(GFResultType.HAVE_A_ENIMY);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
-			gfRsp.setRstType(GFResultType.CANNOT_FIND_PROP_DEFENDER);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (Exception e){
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("未知的异常错误");
 		}
 	}
 	
@@ -80,7 +84,8 @@ public class GFightOnFightMgr {
 	public void changeEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
 		try {
@@ -93,11 +98,14 @@ public class GFightOnFightMgr {
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
-			gfRsp.setRstType(GFResultType.HAVE_A_ENIMY);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
-			gfRsp.setRstType(GFResultType.CANNOT_FIND_PROP_DEFENDER);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (Exception e){
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("未知的异常错误");
 		}
 	}
 	
@@ -109,28 +117,34 @@ public class GFightOnFightMgr {
 	public void startFight(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
 		if(defenderSimple == null) {
-			gfRsp.setRstType(GFResultType.NO_SELECTED_ENIMY);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("还没有选择对手");
 			return;
 		}
 		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
-			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
+			gfRsp.setRstType(GFResultType.SELECT_EXPIRED);
+			gfRsp.setTipMsg("锁定对手的时间已过期");
 			return;
 		}
 		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
 		if(armyItem == null) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("敌方队伍数据异常");
 			return;
 		}else if(GFArmyState.FIGHTING.equals(armyItem.getState())){
-			gfRsp.setRstType(GFResultType.ON_FIGHTING);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("敌方正在被挑战");
 			return;
 		}else if(!GFArmyState.SELECTED.equals(armyItem.getState())){
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("您并未锁定该队伍");
 			return;
 		}
 		GFDefendArmyItemHolder.getInstance().startFight(player, armyItem);
@@ -150,36 +164,39 @@ public class GFightOnFightMgr {
 	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult, GFightDataVersion dataVersion){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
-			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
 		if(!GFightConditionJudge.getInstance().haveSelectedEnimy(player.getUserId())){
-			gfRsp.setRstType(GFResultType.NO_SELECTED_ENIMY);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("并没有选择挑战对手");
 			return;
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
 		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
-			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("锁定对手时间过长，已经失效");
 			return;
 		}
 		if(!defenderSimple.getGroupID().equals(fightResult.getGroupID()) || 
 				!defenderSimple.getDefendArmyID().equals(fightResult.getDefendArmyID())) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
-			//TODO 提交的战斗数据异常
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("提交的战斗结果异常，不是之前选择的对手");
 			return;
 		}
 		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
 		if(armyItem == null || armyItem.getSimpleArmy() == null || armyItem.getSimpleArmy().getHeroList().size() + 1 != fightResult.getDefenderState().size()){
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
-			//TODO 提交的战斗数据异常
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("提交的战斗结果异常，对手队伍中的英雄人数不匹配");
 			return;
 		}
 		try {
 			updateEnimyHeroState(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID(), fightResult.getDefenderState(), fightResult.getState() == 1);
 		} catch (GFFightResultException e) {
-			gfRsp.setRstType(GFResultType.DATA_ERROR);
-			//TODO 提交的战斗数据异常
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 			return;
 		}
 		updateSelfHeroAndHurtState(player, fightResult.getSelfArmyState(), fightResult.getHurtValue(), fightResult.getState() == 1);

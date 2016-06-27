@@ -120,4 +120,14 @@ public class UserGFightOnlineData {
 	public void addHurtTotal(int newHurt){
 		this.hurtTotal += newHurt;
 	}
+	
+	public void resetLoopData(){
+		resourceID = 0;
+		selfHerosInfo.clear();
+		activeHeros.clear();
+		changeEnimyTimes = 0;
+		randomDefender = null;
+		killCount = 0;
+		hurtTotal = 0;
+	}
 }

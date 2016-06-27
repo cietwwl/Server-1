@@ -102,11 +102,20 @@ public class GFBiddingItemHolder {
 	
 	/**
 	 * 移除某个资源点所有的压标
-	 * @param resource_id
+	 * @param resourceID
 	 * @return
 	 */
-	public boolean removeItemsOnResource(String resource_id){
-		return getItemStore(resource_id).clearAllRecords();
+	public boolean removeItemsOnResource(String resourceID){
+		return getItemStore(resourceID).clearAllRecords();
+	}
+	
+	/**
+	 * 移除某个资源点所有的压标
+	 * @param resourceID
+	 * @return
+	 */
+	public boolean removeItemsOnResource(int resourceID){
+		return removeItemsOnResource(String.valueOf(resourceID));
 	}
 	
 	/**

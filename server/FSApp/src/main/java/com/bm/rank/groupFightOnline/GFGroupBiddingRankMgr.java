@@ -72,4 +72,12 @@ public class GFGroupBiddingRankMgr {
 		}
 		return itemList;
 	}
+	
+	public static void clearRank(int resourceID){
+		List<GFGroupBiddingItem> itemList = getGFGroupBidRankList(resourceID);
+		Ranking<GFOnlineKillComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
+		for(GFGroupBiddingItem removeItem : itemList){
+			ranking.removeRankingEntry(removeItem.getGroupID());
+		}
+	}
 }

@@ -3,7 +3,10 @@ package com.playerdata.groupFightOnline.data;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.controler.PlayerMsgCache;
+import com.rw.dataaccess.impl.PlayerCreatedOperationImpl;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -50,5 +53,17 @@ public class UserGFightOnlineHolder {
 			}
 			ClientDataSynMgr.synData(player, userGFData, synType, eSynOpType.UPDATE_SINGLE);
 		}
+	}
+	
+	/**
+	 * 重置帮战个人数据
+	 * @param userID
+	 */
+	public void resetData(String userID) {
+		UserGFightOnlineData data = gfPersonalDao.get(userID);
+		if(data == null) return;
+		data.resetLoopData();
+		Player player = PlayerMgr.getInstance().find(userID);
+		update(player, data);
 	}
 }

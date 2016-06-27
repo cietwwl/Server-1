@@ -8,6 +8,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.playerdata.groupFightOnline.manager.GFightFinalMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -104,6 +105,6 @@ public class GFightOnlineResourceHolder {
 	}
 	
 	private void fightEndEvent(int resourceID){
-		
+		GFightFinalMgr.getInstance().calculateFightResult(resourceID);
 	}
 }
