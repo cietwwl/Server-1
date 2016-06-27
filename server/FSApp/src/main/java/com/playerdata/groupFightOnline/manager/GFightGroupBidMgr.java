@@ -44,7 +44,7 @@ public class GFightGroupBidMgr {
 	 * @param gfRsp
 	 */
 	public void getResourceInfo(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
-		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();	
+		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();
 		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : resCfgs){
 			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());

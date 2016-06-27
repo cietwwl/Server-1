@@ -30,25 +30,21 @@ class GFightConditionJudge {
 	public boolean isBidPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
 		return GFResourceState.BIDDING.equals(resData.getState());
-		//return true;
 	}
 	
 	public boolean isPreparePeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
 		return GFResourceState.PREPARE.equals(resData.getState());
-		//return true;
 	}
 	
 	public boolean isFightPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
 		return GFResourceState.FIGHT.equals(resData.getState());
-		//return true;
 	}
 	
 	public boolean isRestPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
 		return GFResourceState.REST.equals(resData.getState());
-		//return true;
 	}
 	
 	public boolean isLegalBidCount(int resourceID, int oriCount, int addCount) {
@@ -78,5 +74,4 @@ class GFightConditionJudge {
 			return false;
 		return false;
 	}
-	
 }

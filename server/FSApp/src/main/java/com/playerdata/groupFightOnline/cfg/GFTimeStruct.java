@@ -7,8 +7,8 @@ public class GFTimeStruct {
 	public int minute;
 	public int second;
 	
-	public GFTimeStruct(boolean isNextWeek, int dayOfWeek, int hour, int minute, int second){
-		this.isNextWeek = isNextWeek;
+	public GFTimeStruct(int dayOfWeek, int hour, int minute, int second){
+		this.isNextWeek = false;
 		this.dayOfWeek = dayOfWeek;
 		this.hour = hour;
 		this.minute = minute;
