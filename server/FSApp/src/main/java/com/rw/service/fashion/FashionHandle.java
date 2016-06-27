@@ -75,6 +75,17 @@ public class FashionHandle {
 			return setErrorResponse(response,player,"严重错误：无法创建FashionItem,fashionId="+fashionId, "购买失败");
 		}
 		
+		if (req.getWearNow()){
+			FashionMgr fashionMgr = player.getFashionMgr();
+			RefParam<String> tip = new RefParam<String>();
+			if (fashionMgr.isExpired(fashionId,tip)){
+				return setErrorResponse(response, player, null, tip.value==null?"时装已过期":tip.value);
+			}
+			if (!fashionMgr.putOnFashion(fashionId, tip)){
+				return setErrorResponse(response, player, null, tip.value);
+			}
+		}
+		
 		response.setFashionId(fashionId);
 		return SetSuccessResponse(response,player);
 	}
