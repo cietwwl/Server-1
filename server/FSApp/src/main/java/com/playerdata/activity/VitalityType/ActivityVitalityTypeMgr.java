@@ -121,6 +121,8 @@ public class ActivityVitalityTypeMgr {
 				continue;
 			}
 			if (DateUtils.getDayDistance(activityVitalityTypeItem.getLastTime(), System.currentTimeMillis())>0) {
+				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
+				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.reset(cfg,cfgenum);
 				dataHolder.updateItem(player, activityVitalityTypeItem);
 			}		
