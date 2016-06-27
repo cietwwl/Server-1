@@ -161,7 +161,7 @@ public class ActivityDailyTypeMgr {
 
 
 
-	private boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();

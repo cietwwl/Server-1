@@ -140,7 +140,6 @@ public class ActivityCountTypeMgr {
 
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
 			if (isClose(activityCountTypeItem)) {
-
 				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
 				sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
 				activityCountTypeItem.setClosed(true);
