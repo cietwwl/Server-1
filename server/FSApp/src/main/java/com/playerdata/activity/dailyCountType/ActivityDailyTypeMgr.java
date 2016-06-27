@@ -175,7 +175,7 @@ public class ActivityDailyTypeMgr {
 	public boolean isLevelEnough(Player player) {
 		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
 		if(activityCountTypeCfg == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
 		}
 		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){

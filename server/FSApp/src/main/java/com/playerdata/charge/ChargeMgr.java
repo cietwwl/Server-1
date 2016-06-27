@@ -322,7 +322,7 @@ public class ChargeMgr {
 		return result;
 	}
 
-	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -337,7 +337,10 @@ public class ChargeMgr {
 		
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
-		ChargeTypeEnum cardtypenume = ChargeCfgDao.getInstance().getCfgById(chargeItemId).getChargeType();
+		ChargeTypeEnum cardtypenume = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getChargeType();
+		
+		
+		
 		String cardtype= cardtypenume.getCfgId();
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
 			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
@@ -359,11 +362,11 @@ public class ChargeMgr {
 			
 			
 			
-			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDaysLimit()){				
+			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()){				
 				result.setTips("购买月卡成功");				
 			}else{				
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡cfgid =" + timeCardSubCfgId);
 			}
 		}
 		if (result.isSuccess()){

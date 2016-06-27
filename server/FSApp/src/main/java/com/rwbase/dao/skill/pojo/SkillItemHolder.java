@@ -78,14 +78,15 @@ public class SkillItemHolder {
 		return success;
 	}
 
-	public boolean addItem(Player player, Skill item) {
-
+	public boolean addItem(Player player, Skill item, boolean syn) {
 		item.setOwnerId(ownerId);
 		item.setId(newSkillItemId(ownerId, item.getSkillId()));
 
 		boolean addSuccess = getMapItemStore().addItem(item);
 		if (addSuccess) {
-			ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.ADD_SINGLE);
+			if (syn) {
+				ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.ADD_SINGLE);
+			}
 			notifyChange();
 		}
 		return addSuccess;

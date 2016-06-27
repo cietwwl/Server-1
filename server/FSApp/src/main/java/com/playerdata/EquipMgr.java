@@ -476,8 +476,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				break;
 			}
 			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
+			equipItem.setLevel(pEquipAttachCfg.getId());
 		}
-		equipItem.setLevel(pEquipAttachCfg.getId());
 		equipItem.setExp(0);
 		equipItemHolder.updateItem(m_pPlayer, equipItem);
 	}
