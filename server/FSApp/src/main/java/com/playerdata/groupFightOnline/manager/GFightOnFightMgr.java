@@ -1,5 +1,6 @@
 package com.playerdata.groupFightOnline.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
@@ -195,9 +196,11 @@ public class GFightOnFightMgr {
 	 */
 	private void updateSelfHeroAndHurtState(Player player, List<CurAttrData> stateList, int hurtValue, boolean isVictory){
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
+		List<String> activeHeros = new ArrayList<String>();
 		for(CurAttrData attr : stateList){
+			activeHeros.add(attr.getId());
 			CurAttrData hero = userGFData.getSelfHeroInfo(attr.getId());
-			if(hero == null) userGFData.getSelfArmyInfo().add(attr);
+			if(hero == null) userGFData.getSelfHerosInfo().add(attr);
 			else{
 				hero.setCurEnergy(attr.getCurEnergy());
 				hero.setCurLife(attr.getCurLife());
@@ -207,6 +210,7 @@ public class GFightOnFightMgr {
 		}
 		if(isVictory) userGFData.addKillCount();
 		userGFData.addHurtTotal(hurtValue);
+		userGFData.setActiveHeros(activeHeros);
 		UserGFightOnlineHolder.getInstance().updateAndInformRank(player, userGFData);
 	}
 	

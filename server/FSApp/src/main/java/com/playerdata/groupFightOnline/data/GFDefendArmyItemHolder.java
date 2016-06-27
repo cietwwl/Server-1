@@ -2,6 +2,7 @@ package com.playerdata.groupFightOnline.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -163,6 +164,13 @@ public class GFDefendArmyItemHolder {
 	 * @throws GFArmyDataException 
 	 */
 	public void resetItems(Player player, List<DefendArmyHerosInfo> items) throws GFArmyDataException{
+		HashSet<String> heroIDRepeatCheckSet = new HashSet<String>();
+		for(DefendArmyHerosInfo item : items){
+			for(String id : item.getHeroIDs()){
+				if(heroIDRepeatCheckSet.contains(id)) throw new GFArmyDataException("一个英雄不能存在于两个队伍");
+				heroIDRepeatCheckSet.add(id);
+			}
+		}
 		for(DefendArmyHerosInfo heros : items) {
 			GFDefendArmyItem armyItem = getItem(player, heros.getDefendArmyID());
 			if(heros.getHeroIDs().size() == 0) {

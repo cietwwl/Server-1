@@ -55,11 +55,11 @@ public class UserGFightOnlineData {
 		this.resourceID = resourceID;
 	}
 
-	public List<CurAttrData> getSelfArmyInfo() {
+	public List<CurAttrData> getSelfHerosInfo() {
 		return selfHerosInfo;
 	}
 
-	public void setSelfArmyInfo(List<CurAttrData> selfHerosInfo) {
+	public void setSelfHerosInfo(List<CurAttrData> selfHerosInfo) {
 		this.selfHerosInfo = selfHerosInfo;
 	}
 	
@@ -67,6 +67,14 @@ public class UserGFightOnlineData {
 		for(CurAttrData hero : selfHerosInfo)
 			if(hero.getId().equals(heroID)) return hero;
 		return null;
+	}
+	
+	public List<String> getActiveHeros() {
+		return activeHeros;
+	}
+
+	public void setActiveHeros(List<String> activeHeros) {
+		this.activeHeros = activeHeros;
 	}
 
 	public int getChangeEnimyTimes() {
