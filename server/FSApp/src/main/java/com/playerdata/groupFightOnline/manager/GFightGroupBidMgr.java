@@ -38,6 +38,11 @@ public class GFightGroupBidMgr {
 	
 	private GFightGroupBidMgr() { }
 	
+	/**
+	 * 获取所有资源点的占有信息和状态信息
+	 * @param player
+	 * @param gfRsp
+	 */
 	public void getResourceInfo(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
 		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();	
 		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
@@ -55,6 +60,12 @@ public class GFightGroupBidMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
+	/**
+	 * 获取帮派竞标排行榜
+	 * @param player
+	 * @param gfRsp
+	 * @param resourceID
+	 */
 	public void getGroupBidRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		if(groupBidRank == null) gfRsp.setRstType(GFResultType.DATA_ERROR);
@@ -63,6 +74,13 @@ public class GFightGroupBidMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
+	/**
+	 * 帮派竞标
+	 * @param player
+	 * @param gfRsp
+	 * @param resourceID
+	 * @param bidCount
+	 */
 	public void groupBidding(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, int bidCount){
 		GFResultType canBid = GFightConditionJudge.getInstance().canBidForGroup(player, resourceID, bidCount);
 		if(canBid != GFResultType.SUCCESS) {
@@ -83,7 +101,8 @@ public class GFightGroupBidMgr {
 			return;
 		}
 		gfGroupData.setResourceID(resourceID);
-		gfGroupData.setBiddingCount(gfGroupData.getBiddingCount() + bidCount);
+		gfGroupData.setBiddingCount(bidCount);
+		gfGroupData.setLastBidTime(System.currentTimeMillis());
 		GFightOnlineGroupHolder.getInstance().update(player, gfGroupData, true);
 		// 排行榜有改变
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
@@ -93,6 +112,13 @@ public class GFightGroupBidMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
+	/**
+	 * 将服务端存储的资源点信息，转成前端可用的
+	 * 实际只是将帮派id转成了帮派基本信息
+	 * @param userID
+	 * @param resData
+	 * @return
+	 */
 	private GFResourceInfo toClientResourceData(String userID, GFightOnlineResourceData resData){
 		GFResourceInfo resInfo = new GFResourceInfo();
 		resInfo.setResourceID(resData.getResourceID());

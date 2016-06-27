@@ -59,7 +59,7 @@ public class GFightOnlineGroupHolder {
 	}
 	
 	/**
-	 * 只用来同步所有的公会信息
+	 * 只用来同步所有的帮派信息
 	 * 帮派的其它防守队伍，需要用请求
 	 * @param player
 	 */

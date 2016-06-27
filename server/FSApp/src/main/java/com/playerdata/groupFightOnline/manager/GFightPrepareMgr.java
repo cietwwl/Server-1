@@ -36,6 +36,13 @@ public class GFightPrepareMgr {
 	
 	private GFightPrepareMgr() { }
 	
+	/**
+	 * 查看某个帮派所有防守队伍的简要信息
+	 * @param player
+	 * @param gfRsp
+	 * @param groupID
+	 * @param version
+	 */
 	public void getDefenderTeams(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, int version) {
 		List<GFDefendArmyItem> defenders = GFDefendArmyItemHolder.getInstance().getGroupItemList(player, groupID, version);
 		for(GFDefendArmyItem defender : defenders) {
@@ -54,11 +61,26 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
+	/**
+	 * 请求同步有更新的帮派信息
+	 * @param player
+	 * @param gfRsp
+	 * @param resourceID
+	 * @param dataVersion
+	 */
 	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, GFightDataVersion dataVersion) {
 		GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
+	/**
+	 * 查看某个防守的队伍的详情（前端的公会防守页面）
+	 * 或是查看自己已经锁定的，准备挑战的队伍（前端的进战斗前的页面）
+	 * @param player
+	 * @param gfRsp
+	 * @param groupID
+	 * @param viewArmyID
+	 */
 	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewArmyID) {
 		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewArmyID);
 		if(defendTeam == null) {
@@ -69,13 +91,34 @@ public class GFightPrepareMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
+	/**
+	 * 修改自己的防守队伍
+	 * 修改之后的队伍结果会同步
+	 * 修改之后的个人所属公会的队伍数量信息，也同步
+	 * @param player
+	 * @param gfRsp
+	 * @param items
+	 * @param dataVersion
+	 */
 	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items, GFightDataVersion dataVersion) {
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(groupID.isEmpty()) {
+			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			return;
+		}
+		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().get(groupID);
+		if(gfGroupData == null || gfGroupData.getResourceID() == 0) {
+			gfRsp.setRstType(GFResultType.DATA_ERROR);
+			return;
+		}
+		int resourceID = gfGroupData.getResourceID();
+		if(!GFightConditionJudge.getInstance().isPreparePeriod(resourceID)) {
+			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			return;
+		}
 		try {
 			GFDefendArmyItemHolder.getInstance().resetItems(player, items);
 			//同步公会数据
-			String groupID = GroupHelper.getUserGroupId(player.getUserId());
-			GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
-			int resourceID = groupData.getResourceID();
 			GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (GFArmyDataException e) {

@@ -29,32 +29,37 @@ class GFightConditionJudge {
 	
 	public boolean isBidPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
-		GFResourceState.BIDDING.equals(resData.getState());
-		return true;
+		return GFResourceState.BIDDING.equals(resData.getState());
+		//return true;
 	}
 	
 	public boolean isPreparePeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
-		GFResourceState.PREPARE.equals(resData.getState());
-		return true;
+		return GFResourceState.PREPARE.equals(resData.getState());
+		//return true;
 	}
 	
 	public boolean isFightPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
-		GFResourceState.FIGHT.equals(resData.getState());
-		return true;
+		return GFResourceState.FIGHT.equals(resData.getState());
+		//return true;
 	}
 	
 	public boolean isRestPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
-		GFResourceState.REST.equals(resData.getState());
-		return true;
+		return GFResourceState.REST.equals(resData.getState());
+		//return true;
 	}
 	
 	public boolean isLegalBidCount(int resourceID, int oriCount, int addCount) {
 		return true;
 	}
 	
+	/**
+	 * 判断个人是否有选中的对手
+	 * @param userID
+	 * @return
+	 */
 	public boolean haveSelectedEnimy(String userID){
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(userID);
 		if(userGFData == null) return false;
@@ -63,6 +68,11 @@ class GFightConditionJudge {
 		return true;
 	}
 	
+	/**
+	 * 锁定的时间是否过期
+	 * @param defenderSimple
+	 * @return
+	 */
 	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
 		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyItemHolder.LOCK_ITEM_MAX_TIME)
 			return false;

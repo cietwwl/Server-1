@@ -15,6 +15,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFFightResultException;
 import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
@@ -42,6 +43,12 @@ public class GFightOnFightMgr {
 	
 	private GFightOnFightMgr() { }
 	
+	/**
+	 * 随机获取一个对手
+	 * @param player
+	 * @param gfRsp
+	 * @param groupID
+	 */
 	public void getEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID) {
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
@@ -63,6 +70,12 @@ public class GFightOnFightMgr {
 		}
 	}
 	
+	/**
+	 * 更换一个对手
+	 * @param player
+	 * @param gfRsp
+	 * @param groupID
+	 */
 	public void changeEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
@@ -87,6 +100,11 @@ public class GFightOnFightMgr {
 		}
 	}
 	
+	/**
+	 * 开始战斗
+	 * @param player
+	 * @param gfRsp
+	 */
 	public void startFight(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
@@ -99,10 +117,10 @@ public class GFightOnFightMgr {
 			gfRsp.setRstType(GFResultType.NO_SELECTED_ENIMY);
 			return;
 		}
-//		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
-//			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
-//			return;
-//		}
+		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
+			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
+			return;
+		}
 		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
 		if(armyItem == null) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);
@@ -122,7 +140,13 @@ public class GFightOnFightMgr {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
-	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult){
+	/**
+	 * 前端通知战斗结果
+	 * @param player
+	 * @param gfRsp
+	 * @param fightResult
+	 */
+	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult, GFightDataVersion dataVersion){
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
@@ -134,10 +158,10 @@ public class GFightOnFightMgr {
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
-//		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
-//			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
-//			return;
-//		}
+		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
+			gfRsp.setRstType(GFResultType.SELECTED_EXPIRED);
+			return;
+		}
 		if(!defenderSimple.getGroupID().equals(fightResult.getGroupID()) || 
 				!defenderSimple.getDefendArmyID().equals(fightResult.getDefendArmyID())) {
 			gfRsp.setRstType(GFResultType.DATA_ERROR);
@@ -158,9 +182,8 @@ public class GFightOnFightMgr {
 			return;
 		}
 		updateSelfHeroAndHurtState(player, fightResult.getSelfArmyState(), fightResult.getHurtValue(), fightResult.getState() == 1);
-		
-		//TODO GFightOnlineGroupData 中的队伍总数和存活数有变化，要推送
-		// GFightOnlineGroupHolder.getInstance().synAllData();
+		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
+		GFightOnlineGroupHolder.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
 	}
 	
 	/**
