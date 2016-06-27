@@ -161,7 +161,7 @@ public class ActivityVitalityTypeMgr {
 		return currentTime < endTime && currentTime > startTime;
 	}
 //	
-	private boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
+	public boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
 		if (activityVitalityTypeItem != null) {
 			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);			
 			if(cfg == null){
