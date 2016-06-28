@@ -1,9 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -39,7 +37,7 @@ public class GroupCopyMapRecord implements IMapItem {
 	private double progress;//进度  这个进度应该是由关卡决定
 	
 	
-	
+	//帮派副本地图前10伤害排行榜(单次伤害)
 	@CombineSave
 	@IgnoreSynField
 	private GroupCopyDamegeRankInfo damegeRankInfo = new GroupCopyDamegeRankInfo();
@@ -95,9 +93,7 @@ public class GroupCopyMapRecord implements IMapItem {
 	public GroupCopyDamegeRankInfo getDamegeRankInfo() {
 		return damegeRankInfo;
 	}
-	public void setDamegeRankInfo(GroupCopyDamegeRankInfo damegeRankInfo) {
-		this.damegeRankInfo = damegeRankInfo;
-	}
+	
 	
 	public long getRewardTime() {
 		return rewardTime;

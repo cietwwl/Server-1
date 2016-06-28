@@ -1,6 +1,8 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyArmyDamageInfo {
 
 	
@@ -11,10 +13,8 @@ public class GroupCopyArmyDamageInfo {
 	
 	private int damage;
 	
-	private String guildName;
-	
 	public void setDamage(int damage) {
-		
+		this.damage = damage;
 	}
 	public void setPlayerID(String id) {
 		this.playerID = id;
@@ -26,11 +26,9 @@ public class GroupCopyArmyDamageInfo {
 		army = teamInfo;
 	}
 	public String getGuildName() {
-		return guildName;
+		return army.getGuildName();
 	}
-	public void setGuildName(String guildName) {
-		this.guildName = guildName;
-	}
+	
 	public String getPlayerID() {
 		return playerID;
 	}

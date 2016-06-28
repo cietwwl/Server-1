@@ -37,7 +37,7 @@ public final class GroupCopyBattleProto {
      * <code>ENTER_APPLY = 3;</code>
      *
      * <pre>
-     *请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
+     *请求进入关卡，如果关卡内有人，服务器要返回关卡战斗中的CopyBattleRoleStruct，前端再判断是不是自己
      * </pre>
      */
     ENTER_APPLY(2, 3),
@@ -63,7 +63,7 @@ public final class GroupCopyBattleProto {
      * <code>ENTER_APPLY = 3;</code>
      *
      * <pre>
-     *请求进入关卡，如果不可以进入，服务器要返回关卡战斗中的CopyBattleRoleStruct
+     *请求进入关卡，如果关卡内有人，服务器要返回关卡战斗中的CopyBattleRoleStruct，前端再判断是不是自己
      * </pre>
      */
     public static final int ENTER_APPLY_VALUE = 3;
@@ -2845,7 +2845,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     boolean hasMData();
@@ -2853,7 +2853,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData getMData();
@@ -2861,7 +2861,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     com.rwproto.GroupCopyBattleProto.GroupCopyMonsterDataOrBuilder getMDataOrBuilder();
@@ -3183,7 +3183,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     public boolean hasMData() {
@@ -3193,7 +3193,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData getMData() {
@@ -3203,7 +3203,7 @@ public final class GroupCopyBattleProto {
      * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
      *
      * <pre>
-     *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+     *进入战斗时怪物信息 
      * </pre>
      */
     public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterDataOrBuilder getMDataOrBuilder() {
@@ -3870,7 +3870,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public boolean hasMData() {
@@ -3880,7 +3880,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData getMData() {
@@ -3894,7 +3894,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public Builder setMData(com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData value) {
@@ -3914,7 +3914,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public Builder setMData(
@@ -3932,7 +3932,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public Builder mergeMData(com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData value) {
@@ -3955,7 +3955,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public Builder clearMData() {
@@ -3972,7 +3972,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData.Builder getMDataBuilder() {
@@ -3984,7 +3984,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       public com.rwproto.GroupCopyBattleProto.GroupCopyMonsterDataOrBuilder getMDataOrBuilder() {
@@ -3998,7 +3998,7 @@ public final class GroupCopyBattleProto {
        * <code>optional .GroupCopyBattle.GroupCopyMonsterData mData = 4;</code>
        *
        * <pre>
-       *进入战斗时怪物信息  如果没有就表示怪物100%状态,直接读表
+       *进入战斗时怪物信息 
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -4359,6 +4359,114 @@ public final class GroupCopyBattleProto {
      */
     com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getDropOrBuilder(
         int index);
+
+    // required int32 gold = 2;
+    /**
+     * <code>required int32 gold = 2;</code>
+     *
+     * <pre>
+     *奖励的金币
+     * </pre>
+     */
+    boolean hasGold();
+    /**
+     * <code>required int32 gold = 2;</code>
+     *
+     * <pre>
+     *奖励的金币
+     * </pre>
+     */
+    int getGold();
+
+    // repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> 
+        getPersonalRewardList();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyRewardStruct getPersonalReward(int index);
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    int getPersonalRewardCount();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+        getPersonalRewardOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getPersonalRewardOrBuilder(
+        int index);
+
+    // repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> 
+        getFinalHitPriceList();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyRewardStruct getFinalHitPrice(int index);
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    int getFinalHitPriceCount();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+        getFinalHitPriceOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getFinalHitPriceOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GroupCopyBattle.CopyRewardInfo}
@@ -4423,6 +4531,27 @@ public final class GroupCopyBattleProto {
               drop_.add(input.readMessage(com.rwproto.GroupCopyBattleProto.CopyRewardStruct.PARSER, extensionRegistry));
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              gold_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                personalReward_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyRewardStruct>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              personalReward_.add(input.readMessage(com.rwproto.GroupCopyBattleProto.CopyRewardStruct.PARSER, extensionRegistry));
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                finalHitPrice_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyRewardStruct>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              finalHitPrice_.add(input.readMessage(com.rwproto.GroupCopyBattleProto.CopyRewardStruct.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4433,6 +4562,12 @@ public final class GroupCopyBattleProto {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           drop_ = java.util.Collections.unmodifiableList(drop_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          personalReward_ = java.util.Collections.unmodifiableList(personalReward_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          finalHitPrice_ = java.util.Collections.unmodifiableList(finalHitPrice_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4465,6 +4600,7 @@ public final class GroupCopyBattleProto {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .GroupCopyBattle.CopyRewardStruct drop = 1;
     public static final int DROP_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> drop_;
@@ -4501,16 +4637,171 @@ public final class GroupCopyBattleProto {
       return drop_.get(index);
     }
 
+    // required int32 gold = 2;
+    public static final int GOLD_FIELD_NUMBER = 2;
+    private int gold_;
+    /**
+     * <code>required int32 gold = 2;</code>
+     *
+     * <pre>
+     *奖励的金币
+     * </pre>
+     */
+    public boolean hasGold() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 gold = 2;</code>
+     *
+     * <pre>
+     *奖励的金币
+     * </pre>
+     */
+    public int getGold() {
+      return gold_;
+    }
+
+    // repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;
+    public static final int PERSONALREWARD_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> personalReward_;
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> getPersonalRewardList() {
+      return personalReward_;
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+        getPersonalRewardOrBuilderList() {
+      return personalReward_;
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    public int getPersonalRewardCount() {
+      return personalReward_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyRewardStruct getPersonalReward(int index) {
+      return personalReward_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+     *
+     * <pre>
+     *个人奖励
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getPersonalRewardOrBuilder(
+        int index) {
+      return personalReward_.get(index);
+    }
+
+    // repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;
+    public static final int FINALHITPRICE_FIELD_NUMBER = 4;
+    private java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> finalHitPrice_;
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> getFinalHitPriceList() {
+      return finalHitPrice_;
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+        getFinalHitPriceOrBuilderList() {
+      return finalHitPrice_;
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    public int getFinalHitPriceCount() {
+      return finalHitPrice_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyRewardStruct getFinalHitPrice(int index) {
+      return finalHitPrice_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+     *
+     * <pre>
+     *最后一击奖励
+     * </pre>
+     */
+    public com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getFinalHitPriceOrBuilder(
+        int index) {
+      return finalHitPrice_.get(index);
+    }
+
     private void initFields() {
       drop_ = java.util.Collections.emptyList();
+      gold_ = 0;
+      personalReward_ = java.util.Collections.emptyList();
+      finalHitPrice_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasGold()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getDropCount(); i++) {
         if (!getDrop(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getPersonalRewardCount(); i++) {
+        if (!getPersonalReward(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getFinalHitPriceCount(); i++) {
+        if (!getFinalHitPrice(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -4525,6 +4816,15 @@ public final class GroupCopyBattleProto {
       for (int i = 0; i < drop_.size(); i++) {
         output.writeMessage(1, drop_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(2, gold_);
+      }
+      for (int i = 0; i < personalReward_.size(); i++) {
+        output.writeMessage(3, personalReward_.get(i));
+      }
+      for (int i = 0; i < finalHitPrice_.size(); i++) {
+        output.writeMessage(4, finalHitPrice_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4537,6 +4837,18 @@ public final class GroupCopyBattleProto {
       for (int i = 0; i < drop_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, drop_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, gold_);
+      }
+      for (int i = 0; i < personalReward_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, personalReward_.get(i));
+      }
+      for (int i = 0; i < finalHitPrice_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, finalHitPrice_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4651,6 +4963,8 @@ public final class GroupCopyBattleProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getDropFieldBuilder();
+          getPersonalRewardFieldBuilder();
+          getFinalHitPriceFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4664,6 +4978,20 @@ public final class GroupCopyBattleProto {
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           dropBuilder_.clear();
+        }
+        gold_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (personalRewardBuilder_ == null) {
+          personalReward_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          personalRewardBuilder_.clear();
+        }
+        if (finalHitPriceBuilder_ == null) {
+          finalHitPrice_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          finalHitPriceBuilder_.clear();
         }
         return this;
       }
@@ -4692,6 +5020,7 @@ public final class GroupCopyBattleProto {
       public com.rwproto.GroupCopyBattleProto.CopyRewardInfo buildPartial() {
         com.rwproto.GroupCopyBattleProto.CopyRewardInfo result = new com.rwproto.GroupCopyBattleProto.CopyRewardInfo(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (dropBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             drop_ = java.util.Collections.unmodifiableList(drop_);
@@ -4701,6 +5030,29 @@ public final class GroupCopyBattleProto {
         } else {
           result.drop_ = dropBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gold_ = gold_;
+        if (personalRewardBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            personalReward_ = java.util.Collections.unmodifiableList(personalReward_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.personalReward_ = personalReward_;
+        } else {
+          result.personalReward_ = personalRewardBuilder_.build();
+        }
+        if (finalHitPriceBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            finalHitPrice_ = java.util.Collections.unmodifiableList(finalHitPrice_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.finalHitPrice_ = finalHitPrice_;
+        } else {
+          result.finalHitPrice_ = finalHitPriceBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -4742,13 +5094,84 @@ public final class GroupCopyBattleProto {
             }
           }
         }
+        if (other.hasGold()) {
+          setGold(other.getGold());
+        }
+        if (personalRewardBuilder_ == null) {
+          if (!other.personalReward_.isEmpty()) {
+            if (personalReward_.isEmpty()) {
+              personalReward_ = other.personalReward_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensurePersonalRewardIsMutable();
+              personalReward_.addAll(other.personalReward_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.personalReward_.isEmpty()) {
+            if (personalRewardBuilder_.isEmpty()) {
+              personalRewardBuilder_.dispose();
+              personalRewardBuilder_ = null;
+              personalReward_ = other.personalReward_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              personalRewardBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPersonalRewardFieldBuilder() : null;
+            } else {
+              personalRewardBuilder_.addAllMessages(other.personalReward_);
+            }
+          }
+        }
+        if (finalHitPriceBuilder_ == null) {
+          if (!other.finalHitPrice_.isEmpty()) {
+            if (finalHitPrice_.isEmpty()) {
+              finalHitPrice_ = other.finalHitPrice_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureFinalHitPriceIsMutable();
+              finalHitPrice_.addAll(other.finalHitPrice_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.finalHitPrice_.isEmpty()) {
+            if (finalHitPriceBuilder_.isEmpty()) {
+              finalHitPriceBuilder_.dispose();
+              finalHitPriceBuilder_ = null;
+              finalHitPrice_ = other.finalHitPrice_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              finalHitPriceBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getFinalHitPriceFieldBuilder() : null;
+            } else {
+              finalHitPriceBuilder_.addAllMessages(other.finalHitPrice_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasGold()) {
+          
+          return false;
+        }
         for (int i = 0; i < getDropCount(); i++) {
           if (!getDrop(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getPersonalRewardCount(); i++) {
+          if (!getPersonalReward(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getFinalHitPriceCount(); i++) {
+          if (!getFinalHitPrice(i).isInitialized()) {
             
             return false;
           }
@@ -5013,6 +5436,679 @@ public final class GroupCopyBattleProto {
           drop_ = null;
         }
         return dropBuilder_;
+      }
+
+      // required int32 gold = 2;
+      private int gold_ ;
+      /**
+       * <code>required int32 gold = 2;</code>
+       *
+       * <pre>
+       *奖励的金币
+       * </pre>
+       */
+      public boolean hasGold() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 gold = 2;</code>
+       *
+       * <pre>
+       *奖励的金币
+       * </pre>
+       */
+      public int getGold() {
+        return gold_;
+      }
+      /**
+       * <code>required int32 gold = 2;</code>
+       *
+       * <pre>
+       *奖励的金币
+       * </pre>
+       */
+      public Builder setGold(int value) {
+        bitField0_ |= 0x00000002;
+        gold_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 gold = 2;</code>
+       *
+       * <pre>
+       *奖励的金币
+       * </pre>
+       */
+      public Builder clearGold() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        gold_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;
+      private java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> personalReward_ =
+        java.util.Collections.emptyList();
+      private void ensurePersonalRewardIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          personalReward_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyRewardStruct>(personalReward_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> personalRewardBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> getPersonalRewardList() {
+        if (personalRewardBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(personalReward_);
+        } else {
+          return personalRewardBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public int getPersonalRewardCount() {
+        if (personalRewardBuilder_ == null) {
+          return personalReward_.size();
+        } else {
+          return personalRewardBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct getPersonalReward(int index) {
+        if (personalRewardBuilder_ == null) {
+          return personalReward_.get(index);
+        } else {
+          return personalRewardBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder setPersonalReward(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (personalRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePersonalRewardIsMutable();
+          personalReward_.set(index, value);
+          onChanged();
+        } else {
+          personalRewardBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder setPersonalReward(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (personalRewardBuilder_ == null) {
+          ensurePersonalRewardIsMutable();
+          personalReward_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          personalRewardBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder addPersonalReward(com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (personalRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePersonalRewardIsMutable();
+          personalReward_.add(value);
+          onChanged();
+        } else {
+          personalRewardBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder addPersonalReward(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (personalRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePersonalRewardIsMutable();
+          personalReward_.add(index, value);
+          onChanged();
+        } else {
+          personalRewardBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder addPersonalReward(
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (personalRewardBuilder_ == null) {
+          ensurePersonalRewardIsMutable();
+          personalReward_.add(builderForValue.build());
+          onChanged();
+        } else {
+          personalRewardBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder addPersonalReward(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (personalRewardBuilder_ == null) {
+          ensurePersonalRewardIsMutable();
+          personalReward_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          personalRewardBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder addAllPersonalReward(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStruct> values) {
+        if (personalRewardBuilder_ == null) {
+          ensurePersonalRewardIsMutable();
+          super.addAll(values, personalReward_);
+          onChanged();
+        } else {
+          personalRewardBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder clearPersonalReward() {
+        if (personalRewardBuilder_ == null) {
+          personalReward_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          personalRewardBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public Builder removePersonalReward(int index) {
+        if (personalRewardBuilder_ == null) {
+          ensurePersonalRewardIsMutable();
+          personalReward_.remove(index);
+          onChanged();
+        } else {
+          personalRewardBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder getPersonalRewardBuilder(
+          int index) {
+        return getPersonalRewardFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getPersonalRewardOrBuilder(
+          int index) {
+        if (personalRewardBuilder_ == null) {
+          return personalReward_.get(index);  } else {
+          return personalRewardBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+           getPersonalRewardOrBuilderList() {
+        if (personalRewardBuilder_ != null) {
+          return personalRewardBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(personalReward_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder addPersonalRewardBuilder() {
+        return getPersonalRewardFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyBattleProto.CopyRewardStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder addPersonalRewardBuilder(
+          int index) {
+        return getPersonalRewardFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct personalReward = 3;</code>
+       *
+       * <pre>
+       *个人奖励
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder> 
+           getPersonalRewardBuilderList() {
+        return getPersonalRewardFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+          getPersonalRewardFieldBuilder() {
+        if (personalRewardBuilder_ == null) {
+          personalRewardBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder>(
+                  personalReward_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          personalReward_ = null;
+        }
+        return personalRewardBuilder_;
+      }
+
+      // repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;
+      private java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> finalHitPrice_ =
+        java.util.Collections.emptyList();
+      private void ensureFinalHitPriceIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          finalHitPrice_ = new java.util.ArrayList<com.rwproto.GroupCopyBattleProto.CopyRewardStruct>(finalHitPrice_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> finalHitPriceBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct> getFinalHitPriceList() {
+        if (finalHitPriceBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(finalHitPrice_);
+        } else {
+          return finalHitPriceBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public int getFinalHitPriceCount() {
+        if (finalHitPriceBuilder_ == null) {
+          return finalHitPrice_.size();
+        } else {
+          return finalHitPriceBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct getFinalHitPrice(int index) {
+        if (finalHitPriceBuilder_ == null) {
+          return finalHitPrice_.get(index);
+        } else {
+          return finalHitPriceBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder setFinalHitPrice(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (finalHitPriceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.set(index, value);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder setFinalHitPrice(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (finalHitPriceBuilder_ == null) {
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder addFinalHitPrice(com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (finalHitPriceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.add(value);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder addFinalHitPrice(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct value) {
+        if (finalHitPriceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.add(index, value);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder addFinalHitPrice(
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (finalHitPriceBuilder_ == null) {
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.add(builderForValue.build());
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder addFinalHitPrice(
+          int index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder builderForValue) {
+        if (finalHitPriceBuilder_ == null) {
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder addAllFinalHitPrice(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStruct> values) {
+        if (finalHitPriceBuilder_ == null) {
+          ensureFinalHitPriceIsMutable();
+          super.addAll(values, finalHitPrice_);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder clearFinalHitPrice() {
+        if (finalHitPriceBuilder_ == null) {
+          finalHitPrice_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public Builder removeFinalHitPrice(int index) {
+        if (finalHitPriceBuilder_ == null) {
+          ensureFinalHitPriceIsMutable();
+          finalHitPrice_.remove(index);
+          onChanged();
+        } else {
+          finalHitPriceBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder getFinalHitPriceBuilder(
+          int index) {
+        return getFinalHitPriceFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder getFinalHitPriceOrBuilder(
+          int index) {
+        if (finalHitPriceBuilder_ == null) {
+          return finalHitPrice_.get(index);  } else {
+          return finalHitPriceBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+           getFinalHitPriceOrBuilderList() {
+        if (finalHitPriceBuilder_ != null) {
+          return finalHitPriceBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(finalHitPrice_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder addFinalHitPriceBuilder() {
+        return getFinalHitPriceFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyBattleProto.CopyRewardStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder addFinalHitPriceBuilder(
+          int index) {
+        return getFinalHitPriceFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyBattle.CopyRewardStruct finalHitPrice = 4;</code>
+       *
+       * <pre>
+       *最后一击奖励
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder> 
+           getFinalHitPriceBuilderList() {
+        return getFinalHitPriceFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder> 
+          getFinalHitPriceFieldBuilder() {
+        if (finalHitPriceBuilder_ == null) {
+          finalHitPriceBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyBattleProto.CopyRewardStruct, com.rwproto.GroupCopyBattleProto.CopyRewardStruct.Builder, com.rwproto.GroupCopyBattleProto.CopyRewardStructOrBuilder>(
+                  finalHitPrice_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          finalHitPrice_ = null;
+        }
+        return finalHitPriceBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyBattle.CopyRewardInfo)
@@ -6491,14 +7587,18 @@ public final class GroupCopyBattleProto {
       ".GroupCopyMonsterData\0221\n\010dropInfo\030\005 \001(\0132" +
       "\037.GroupCopyBattle.CopyRewardInfo\0229\n\nbatt" +
       "leRole\030\006 \001(\0132%.GroupCopyBattle.CopyBattl" +
-      "eRoleStruct\"A\n\016CopyRewardInfo\022/\n\004drop\030\001 " +
-      "\003(\0132!.GroupCopyBattle.CopyRewardStruct\"1" +
-      "\n\020CopyRewardStruct\022\016\n\006itemID\030\001 \002(\005\022\r\n\005co" +
-      "unt\030\002 \002(\005\"U\n\024CopyBattleRoleStruct\022\020\n\010rol",
-      "eName\030\001 \002(\t\022\020\n\010roleIcon\030\002 \002(\t\022\r\n\005state\030\003" +
-      " \002(\t\022\n\n\002lv\030\004 \002(\005*>\n\013RequestType\022\017\n\013FIGHT" +
-      "_BEGIN\020\001\022\r\n\tFIGHT_END\020\002\022\017\n\013ENTER_APPLY\020\003" +
-      "B#\n\013com.rwprotoB\024GroupCopyBattleProto"
+      "eRoleStruct\"\304\001\n\016CopyRewardInfo\022/\n\004drop\030\001" +
+      " \003(\0132!.GroupCopyBattle.CopyRewardStruct\022" +
+      "\014\n\004gold\030\002 \002(\005\0229\n\016personalReward\030\003 \003(\0132!." +
+      "GroupCopyBattle.CopyRewardStruct\0228\n\rfina",
+      "lHitPrice\030\004 \003(\0132!.GroupCopyBattle.CopyRe" +
+      "wardStruct\"1\n\020CopyRewardStruct\022\016\n\006itemID" +
+      "\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"U\n\024CopyBattleRoleS" +
+      "truct\022\020\n\010roleName\030\001 \002(\t\022\020\n\010roleIcon\030\002 \002(" +
+      "\t\022\r\n\005state\030\003 \002(\t\022\n\n\002lv\030\004 \002(\005*>\n\013RequestT" +
+      "ype\022\017\n\013FIGHT_BEGIN\020\001\022\r\n\tFIGHT_END\020\002\022\017\n\013E" +
+      "NTER_APPLY\020\003B#\n\013com.rwprotoB\024GroupCopyBa" +
+      "ttleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6534,7 +7634,7 @@ public final class GroupCopyBattleProto {
           internal_static_GroupCopyBattle_CopyRewardInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyBattle_CopyRewardInfo_descriptor,
-              new java.lang.String[] { "Drop", });
+              new java.lang.String[] { "Drop", "Gold", "PersonalReward", "FinalHitPrice", });
           internal_static_GroupCopyBattle_CopyRewardStruct_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_GroupCopyBattle_CopyRewardStruct_fieldAccessorTable = new

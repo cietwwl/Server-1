@@ -26,9 +26,13 @@ public class GroupCopyLevelCfg {
 	
 	private int readyTime;//准备时间，单位为s
 	
+	private String finalHitReward;//最近一击
+	
 	private Map<Integer, String> dropMap;//格式化后的掉落数据
 	
-	private List<Integer> roleRewardList;//格式化后的个人奖励
+	private Map<String,Integer> roleRewardMap;//格式化后的个人奖励
+	
+	private Map<String, Integer> finalHitRewardMap;
 	
 	private List<String> mIDList;//格式化后的怪物列表
 	
@@ -53,12 +57,24 @@ public class GroupCopyLevelCfg {
 		}
 		
 		
-		if(roleRewardList == null){
-			roleRewardList = new ArrayList<Integer>();
+		if(roleRewardMap == null){
+			roleRewardMap = new HashMap<String, Integer>();
 		}
-		dStr = roleReward.split(",");
+		dStr = finalHitReward.split(";");
 		for (String str : dStr) {
-			roleRewardList.add(Integer.parseInt(str));
+			String[] subStr = str.split(",");
+			roleRewardMap.put(subStr[0].trim(),Integer.parseInt(subStr[1]));
+		}
+		
+		if(finalHitRewardMap == null){
+			finalHitRewardMap = new HashMap<String, Integer>();
+		}
+		
+		
+		dStr = finalHitReward.split(";");
+		for (String str : dStr) {
+			String[] subStr = str.split(",");
+			finalHitRewardMap.put(subStr[1].trim(),Integer.parseInt(subStr[0]));
 		}
 		
 		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
@@ -110,11 +126,16 @@ public class GroupCopyLevelCfg {
 		return Collections.unmodifiableMap(dropMap);
 	}
 
-	public List<Integer> getRoleRewardList() {
-		return Collections.unmodifiableList(roleRewardList);
+	
+	
+	public Map<String, Integer> getRoleRewardMap() {
+		return Collections.unmodifiableMap(roleRewardMap);
 	}
 
-	
+	public Map<String, Integer> getFinalHitRewardMap() {
+		return Collections.unmodifiableMap(finalHitRewardMap);
+	}
+
 	public int getReadyTime() {
 		return readyTime;
 	}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.group.GroupBM;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
@@ -12,6 +11,7 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDamegeRankInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
@@ -23,14 +23,19 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.majorDatas.MajorDataDataHolder;
 import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
 import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
+import com.rwproto.GroupCopyCmdProto.ArmyHurtStruct;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
+import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.monster.cfg.CopyMonsterCfg;
@@ -117,7 +122,7 @@ public class GroupCopyMgr {
 	/**
 	 * 结束战斗
 	 * @param player
-	 * @param levelId
+	 * @param levelId 关卡id
 	 * @param mData 客户端返回的怪物数据
 	 * @param heroList TODO
 	 * @return
@@ -126,19 +131,33 @@ public class GroupCopyMgr {
 			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
 		//获取伤害
 		int damage = getDamage(mData, levelId);
-		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData);
+		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
 		//同步一下副本地图进度
 		GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
 		//检查是否进入章节前10伤害排行 
 		checkDamageRank(player,levelId, damage, heroList);
 		//将奖励入放帮派奖励缓存
-		addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
-		
-		
+		if(result.getItem() != null){
+			addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
+			addReward2Role(player, levelId, (CopyRewardInfo.Builder)result.getItem());
+		}
 		return result;
 	}
 	
 	
+	private void addReward2Role(Player player, String levelId, Builder item) {
+		int gold = item.getGold();
+		List<CopyRewardStruct> rewardList = item.getPersonalRewardList();
+		if(gold > 0){
+			player.getUserGameDataMgr().addCoin(gold);
+		}
+		if(!rewardList.isEmpty()){
+			for (CopyRewardStruct struct : rewardList) {
+				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
+			}
+		}
+	}
+
 	/**
 	 * 作弊通关 
 	 * @param player
@@ -182,6 +201,13 @@ public class GroupCopyMgr {
 		return record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 	}
 
+	
+	/**
+	 * 添加帮派奖励
+	 * @param player
+	 * @param levelId
+	 * @param item
+	 */
 	private void addReward2Group(Player player,
 			String levelId, Builder item) {
 
@@ -206,6 +232,7 @@ public class GroupCopyMgr {
 
 	private void checkDamageRank(Player player, String levelId, int damage, List<String> heroList) {
 		try {
+
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 			
 			ArmyInfo info = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroList);
@@ -234,7 +261,8 @@ public class GroupCopyMgr {
 		
 		GroupCopyTeamInfo teamInfo = new GroupCopyTeamInfo();
 		teamInfo.setArmyMagic(info.getArmyMagic());
-		teamInfo.setGuildName(info.getGuildName());
+		String groupName = GroupHelper.getGroupName(damageInfo.getPlayerID());
+		teamInfo.setGuildName(groupName);
 		
 		List<ArmyHero> heroList = info.getHeroList();
 		List<TeamHero> heros = new ArrayList<TeamHero>();
@@ -318,16 +346,15 @@ public class GroupCopyMgr {
 	 * @param level
 	 * @return
 	 */
-	public synchronized GroupCopyResult applyEnterCopy(Player player, String level) {
-		GroupCopyResult result = GroupCopyResult.newResult();
+	public synchronized GroupCopyBattleComRspMsg.Builder applyEnterCopy(Player player, String level,
+			GroupCopyBattleComRspMsg.Builder rspMsg) {
 		try {
 			GroupCopyLevelRecord lvData = lvRecordHolder.getByLevel(level);
 			if(lvData == null){
 				GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[applyEnterCopy]", "角色请求进入关卡，找不到关卡id为"+ level
 						+ "的记录" , null);
-				result.setTipMsg("服务器繁忙！");
-				result.setSuccess(false);
-				return result;
+				rspMsg.setTipMsg("服务器繁忙！");
+				return rspMsg;
 			}
 			if(lvData != null && GroupCopyLevelBL.isFighting(lvData, player)){
 				int status = lvData.getStatus();
@@ -340,21 +367,18 @@ public class GroupCopyMgr {
 				roleStruct.setRoleName(fighter.getUserName());
 				roleStruct.setState(GroupCopyLevelBL.getCopyStateTips(status));
 				roleStruct.setLv(fighter.getLevel());
-				result.setSuccess(false);
-				result.setItem(roleStruct);
+				rspMsg.setBattleRole(roleStruct);
 			}else{
 				//可以进入
 				boolean enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
-				result.setSuccess(enter);
+				rspMsg.setIsSuccess(enter);
 			}
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[applyEnterCopy]", "角色请求进入关卡异常", e);
 		}
 		
-		
-		
-		return result;
+		return rspMsg;
 	}
 
 
@@ -435,6 +459,37 @@ public class GroupCopyMgr {
 		}
 		
 		result.setSuccess(suc);
+		return result;
+	}
+
+	
+	//发送帮派前10排行榜信息
+	public GroupCopyResult getDamageRank(Player player, Group g,
+			GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		String chaterID = reqMsg.getChaterID();
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(chaterID);
+		if(mapRecord == null){
+			result.setSuccess(false);
+			result.setTipMsg("找不到对应id为"+chaterID+"的地图配置！");
+			return result;
+		}
+		GroupCopyDamegeRankInfo rankInfo = mapRecord.getDamegeRankInfo();
+		GroupCopyHurtRank.Builder hr = GroupCopyHurtRank.newBuilder();
+		ArmyHurtStruct.Builder struct;
+		for (GroupCopyArmyDamageInfo item : rankInfo.getDamageRank()) {
+			struct = ArmyHurtStruct.newBuilder();
+			struct.setHeadIcon(item.getArmy().getPlayerHeadImage());
+			struct.setRoleName(item.getArmy().getPlayerName());
+			struct.setLv(item.getArmy().getPlayer().getLevel());
+			struct.setKillTime(item.getTime());
+			struct.setDamage(item.getDamage());
+			hr.addRankData(struct);
+		}
+		
+		result.setItem(hr);
+		result.setSuccess(true);
+		result.setTipMsg("操作成功！");
 		return result;
 	}
 

@@ -9,6 +9,7 @@ import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdRspMsg;
+import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
 import com.rwproto.GroupCopyCmdProto.GroupCopyReqType;
 
 public class GroupCopyCmdHandler {
@@ -72,6 +73,31 @@ public class GroupCopyCmdHandler {
 			rspCmd.setTipMsg("角色不在帮派内");
 		}
 		
+		return rspCmd.build().toByteString();
+	}
+
+
+	/**
+	 * 获取帮派前10排行榜
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
+	public ByteString getGroupDamageRank(Player player, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.BUFF_DONATE);
+		Group g = GroupHelper.getGroup(player);
+		if(g != null){
+			GroupCopyResult rs = g.getGroupCopyMgr().getDamageRank(player, g, reqMsg);
+			rspCmd.setIsSuccess(rs.isSuccess());
+			rspCmd.setTipMsg(rs.getTipMsg());
+			if(rs.isSuccess()){
+				rspCmd.setHurtRank((GroupCopyHurtRank.Builder) rs.getItem());
+			}
+		}else{
+			rspCmd.setIsSuccess(false);
+			rspCmd.setTipMsg("角色不在帮派内");
+		}
 		return rspCmd.build().toByteString();
 	}
 

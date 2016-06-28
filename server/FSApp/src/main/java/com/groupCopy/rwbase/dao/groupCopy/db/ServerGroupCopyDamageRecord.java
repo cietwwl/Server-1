@@ -1,7 +1,9 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -19,7 +21,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class ServerGroupCopyDamageRecord implements IMapItem{
 
 	@Id
-	private String id;
+	private String id; //对应关卡id
 	private String groupId;
 	
 	@CombineSave
@@ -28,10 +30,36 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 	//首次击杀
 	@CombineSave
 	private GroupCopyArmyDamageInfo firstKillInfo;
+	
 	@CombineSave
-	private LinkedList<GroupCopyArmyDamageInfo> records = new LinkedList<GroupCopyArmyDamageInfo>();
+	private List<GroupCopyArmyDamageInfo> records = new ArrayList<GroupCopyArmyDamageInfo>();
 	
 	
+	public ServerGroupCopyDamageRecord() {
+	}
+
+
+
+	public ServerGroupCopyDamageRecord(String groupId, String levelID) {
+		this.id = levelID;
+		this.groupId = groupId;
+		this.levelID = levelID;
+	}
+
+
+
+	public GroupCopyArmyDamageInfo getFirstKillInfo() {
+		return firstKillInfo;
+	}
+
+
+
+	public void setFirstKillInfo(GroupCopyArmyDamageInfo firstKillInfo) {
+		this.firstKillInfo = firstKillInfo;
+	}
+
+
+
 	@Override
 	public String getId() {
 		return id;
@@ -69,7 +97,7 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 
 
 
-	public LinkedList<GroupCopyArmyDamageInfo> getRecords() {
+	public List<GroupCopyArmyDamageInfo> getRecords() {
 		return records;
 	}
 
@@ -82,9 +110,13 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 
 
 	public synchronized void checkOrAddRecord(GroupCopyArmyDamageInfo damageInfo) {
+		if(firstKillInfo == null){
+			firstKillInfo = damageInfo;
+		}
+		
 		GroupCopyArmyDamageInfo tem = null;
 		if(!records.isEmpty()){
-			tem = records.getLast();
+			tem = records.get(records.size() - 1);
 			if(tem.getDamage() >= damageInfo.getDamage()){
 				return;
 			}
@@ -107,7 +139,7 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 		records.add(damageInfo);
 		Collections.sort(records, GroupCopyMgr.RANK_COMPARATOR);
 		if(records.size() > GroupCopyMgr.MAX_RANK_RECORDS){
-			records.removeLast();
+			records.remove(records.size() - 1);
 		}
 	}
 

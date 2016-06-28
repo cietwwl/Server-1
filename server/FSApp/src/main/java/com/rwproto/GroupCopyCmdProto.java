@@ -33,6 +33,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     BUFF_DONATE(2, 3),
+    /**
+     * <code>GET_GROUP_HURT_RANK = 4;</code>
+     *
+     * <pre>
+     *获取帮派前10伤害排名
+     * </pre>
+     */
+    GET_GROUP_HURT_RANK(3, 4),
     ;
 
     /**
@@ -55,6 +63,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     public static final int BUFF_DONATE_VALUE = 3;
+    /**
+     * <code>GET_GROUP_HURT_RANK = 4;</code>
+     *
+     * <pre>
+     *获取帮派前10伤害排名
+     * </pre>
+     */
+    public static final int GET_GROUP_HURT_RANK_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -64,6 +80,7 @@ public final class GroupCopyCmdProto {
         case 1: return GET_INFO;
         case 2: return GET_DROP_APPLY_INFO;
         case 3: return BUFF_DONATE;
+        case 4: return GET_GROUP_HURT_RANK;
         default: return null;
       }
     }
@@ -292,6 +309,33 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder getDonateDataOrBuilder();
+
+    // optional string chaterID = 4;
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    boolean hasChaterID();
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    java.lang.String getChaterID();
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChaterIDBytes();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdReqMsg}
@@ -371,6 +415,11 @@ public final class GroupCopyCmdProto {
                 donateData_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              chaterID_ = input.readBytes();
               break;
             }
           }
@@ -526,10 +575,66 @@ public final class GroupCopyCmdProto {
       return donateData_;
     }
 
+    // optional string chaterID = 4;
+    public static final int CHATERID_FIELD_NUMBER = 4;
+    private java.lang.Object chaterID_;
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    public boolean hasChaterID() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    public java.lang.String getChaterID() {
+      java.lang.Object ref = chaterID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chaterID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string chaterID = 4;</code>
+     *
+     * <pre>
+     *地图id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getChaterIDBytes() {
+      java.lang.Object ref = chaterID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chaterID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
       version_ = "";
       donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
+      chaterID_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -562,6 +667,9 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, donateData_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getChaterIDBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -582,6 +690,10 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, donateData_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getChaterIDBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -710,6 +822,8 @@ public final class GroupCopyCmdProto {
           donateDataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        chaterID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -754,6 +868,10 @@ public final class GroupCopyCmdProto {
         } else {
           result.donateData_ = donateDataBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.chaterID_ = chaterID_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -780,6 +898,11 @@ public final class GroupCopyCmdProto {
         }
         if (other.hasDonateData()) {
           mergeDonateData(other.getDonateData());
+        }
+        if (other.hasChaterID()) {
+          bitField0_ |= 0x00000008;
+          chaterID_ = other.chaterID_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1121,6 +1244,104 @@ public final class GroupCopyCmdProto {
         return donateDataBuilder_;
       }
 
+      // optional string chaterID = 4;
+      private java.lang.Object chaterID_ = "";
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public boolean hasChaterID() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public java.lang.String getChaterID() {
+        java.lang.Object ref = chaterID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chaterID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getChaterIDBytes() {
+        java.lang.Object ref = chaterID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chaterID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public Builder setChaterID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        chaterID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public Builder clearChaterID() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        chaterID_ = getDefaultInstance().getChaterID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chaterID = 4;</code>
+       *
+       * <pre>
+       *地图id
+       * </pre>
+       */
+      public Builder setChaterIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        chaterID_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyCmd.GroupCopyCmdReqMsg)
     }
 
@@ -1197,6 +1418,32 @@ public final class GroupCopyCmdProto {
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
+
+    // optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    boolean hasHurtRank();
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank getHurtRank();
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder getHurtRankOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdRspMsg}
@@ -1268,6 +1515,19 @@ public final class GroupCopyCmdProto {
             case 26: {
               bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = hurtRank_.toBuilder();
+              }
+              hurtRank_ = input.readMessage(com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hurtRank_);
+                hurtRank_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -1413,10 +1673,45 @@ public final class GroupCopyCmdProto {
       }
     }
 
+    // optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;
+    public static final int HURTRANK_FIELD_NUMBER = 4;
+    private com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank hurtRank_;
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    public boolean hasHurtRank() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank getHurtRank() {
+      return hurtRank_;
+    }
+    /**
+     * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder getHurtRankOrBuilder() {
+      return hurtRank_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
       isSuccess_ = false;
       tipMsg_ = "";
+      hurtRank_ = com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1430,6 +1725,12 @@ public final class GroupCopyCmdProto {
       if (!hasIsSuccess()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasHurtRank()) {
+        if (!getHurtRank().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1446,6 +1747,9 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, hurtRank_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1467,6 +1771,10 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, hurtRank_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1576,6 +1884,7 @@ public final class GroupCopyCmdProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHurtRankFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1590,6 +1899,12 @@ public final class GroupCopyCmdProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (hurtRankBuilder_ == null) {
+          hurtRank_ = com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance();
+        } else {
+          hurtRankBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1630,6 +1945,14 @@ public final class GroupCopyCmdProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (hurtRankBuilder_ == null) {
+          result.hurtRank_ = hurtRank_;
+        } else {
+          result.hurtRank_ = hurtRankBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1657,6 +1980,9 @@ public final class GroupCopyCmdProto {
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
+        if (other.hasHurtRank()) {
+          mergeHurtRank(other.getHurtRank());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1669,6 +1995,12 @@ public final class GroupCopyCmdProto {
         if (!hasIsSuccess()) {
           
           return false;
+        }
+        if (hasHurtRank()) {
+          if (!getHurtRank().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1889,6 +2221,159 @@ public final class GroupCopyCmdProto {
         tipMsg_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;
+      private com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank hurtRank_ = com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder> hurtRankBuilder_;
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public boolean hasHurtRank() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank getHurtRank() {
+        if (hurtRankBuilder_ == null) {
+          return hurtRank_;
+        } else {
+          return hurtRankBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public Builder setHurtRank(com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank value) {
+        if (hurtRankBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hurtRank_ = value;
+          onChanged();
+        } else {
+          hurtRankBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public Builder setHurtRank(
+          com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder builderForValue) {
+        if (hurtRankBuilder_ == null) {
+          hurtRank_ = builderForValue.build();
+          onChanged();
+        } else {
+          hurtRankBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public Builder mergeHurtRank(com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank value) {
+        if (hurtRankBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              hurtRank_ != com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance()) {
+            hurtRank_ =
+              com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.newBuilder(hurtRank_).mergeFrom(value).buildPartial();
+          } else {
+            hurtRank_ = value;
+          }
+          onChanged();
+        } else {
+          hurtRankBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public Builder clearHurtRank() {
+        if (hurtRankBuilder_ == null) {
+          hurtRank_ = com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance();
+          onChanged();
+        } else {
+          hurtRankBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder getHurtRankBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getHurtRankFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder getHurtRankOrBuilder() {
+        if (hurtRankBuilder_ != null) {
+          return hurtRankBuilder_.getMessageOrBuilder();
+        } else {
+          return hurtRank_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyCmd.GroupCopyHurtRank hurtRank = 4;</code>
+       *
+       * <pre>
+       *帮派前10伤害排行数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder> 
+          getHurtRankFieldBuilder() {
+        if (hurtRankBuilder_ == null) {
+          hurtRankBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder>(
+                  hurtRank_,
+                  getParentForChildren(),
+                  isClean());
+          hurtRank_ = null;
+        }
+        return hurtRankBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyCmd.GroupCopyCmdRspMsg)
@@ -2550,6 +3035,1650 @@ public final class GroupCopyCmdProto {
     // @@protoc_insertion_point(class_scope:GroupCopyCmd.GroupCopyDonateData)
   }
 
+  public interface GroupCopyHurtRankOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> 
+        getRankDataList();
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    com.rwproto.GroupCopyCmdProto.ArmyHurtStruct getRankData(int index);
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    int getRankDataCount();
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder> 
+        getRankDataOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder getRankDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GroupCopyCmd.GroupCopyHurtRank}
+   *
+   * <pre>
+   *帮派前10伤害排行数据
+   * </pre>
+   */
+  public static final class GroupCopyHurtRank extends
+      com.google.protobuf.GeneratedMessage
+      implements GroupCopyHurtRankOrBuilder {
+    // Use GroupCopyHurtRank.newBuilder() to construct.
+    private GroupCopyHurtRank(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GroupCopyHurtRank(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GroupCopyHurtRank defaultInstance;
+    public static GroupCopyHurtRank getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GroupCopyHurtRank getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GroupCopyHurtRank(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                rankData_ = new java.util.ArrayList<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              rankData_.add(input.readMessage(com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          rankData_ = java.util.Collections.unmodifiableList(rankData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyHurtRank_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.class, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GroupCopyHurtRank> PARSER =
+        new com.google.protobuf.AbstractParser<GroupCopyHurtRank>() {
+      public GroupCopyHurtRank parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GroupCopyHurtRank(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GroupCopyHurtRank> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;
+    public static final int RANKDATA_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> rankData_;
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    public java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> getRankDataList() {
+      return rankData_;
+    }
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder> 
+        getRankDataOrBuilderList() {
+      return rankData_;
+    }
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    public int getRankDataCount() {
+      return rankData_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct getRankData(int index) {
+      return rankData_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+     */
+    public com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder getRankDataOrBuilder(
+        int index) {
+      return rankData_.get(index);
+    }
+
+    private void initFields() {
+      rankData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getRankDataCount(); i++) {
+        if (!getRankData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < rankData_.size(); i++) {
+        output.writeMessage(1, rankData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < rankData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, rankData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyCmd.GroupCopyHurtRank}
+     *
+     * <pre>
+     *帮派前10伤害排行数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyCmdProto.GroupCopyHurtRankOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyHurtRank_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.class, com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getRankDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (rankDataBuilder_ == null) {
+          rankData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          rankDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank build() {
+        com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank buildPartial() {
+        com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank result = new com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank(this);
+        int from_bitField0_ = bitField0_;
+        if (rankDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            rankData_ = java.util.Collections.unmodifiableList(rankData_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.rankData_ = rankData_;
+        } else {
+          result.rankData_ = rankDataBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank) {
+          return mergeFrom((com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank other) {
+        if (other == com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank.getDefaultInstance()) return this;
+        if (rankDataBuilder_ == null) {
+          if (!other.rankData_.isEmpty()) {
+            if (rankData_.isEmpty()) {
+              rankData_ = other.rankData_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRankDataIsMutable();
+              rankData_.addAll(other.rankData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rankData_.isEmpty()) {
+            if (rankDataBuilder_.isEmpty()) {
+              rankDataBuilder_.dispose();
+              rankDataBuilder_ = null;
+              rankData_ = other.rankData_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              rankDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRankDataFieldBuilder() : null;
+            } else {
+              rankDataBuilder_.addAllMessages(other.rankData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getRankDataCount(); i++) {
+          if (!getRankData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;
+      private java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> rankData_ =
+        java.util.Collections.emptyList();
+      private void ensureRankDataIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          rankData_ = new java.util.ArrayList<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct>(rankData_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.ArmyHurtStruct, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder, com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder> rankDataBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> getRankDataList() {
+        if (rankDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rankData_);
+        } else {
+          return rankDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public int getRankDataCount() {
+        if (rankDataBuilder_ == null) {
+          return rankData_.size();
+        } else {
+          return rankDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct getRankData(int index) {
+        if (rankDataBuilder_ == null) {
+          return rankData_.get(index);
+        } else {
+          return rankDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder setRankData(
+          int index, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct value) {
+        if (rankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankDataIsMutable();
+          rankData_.set(index, value);
+          onChanged();
+        } else {
+          rankDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder setRankData(
+          int index, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder builderForValue) {
+        if (rankDataBuilder_ == null) {
+          ensureRankDataIsMutable();
+          rankData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rankDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder addRankData(com.rwproto.GroupCopyCmdProto.ArmyHurtStruct value) {
+        if (rankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankDataIsMutable();
+          rankData_.add(value);
+          onChanged();
+        } else {
+          rankDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder addRankData(
+          int index, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct value) {
+        if (rankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankDataIsMutable();
+          rankData_.add(index, value);
+          onChanged();
+        } else {
+          rankDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder addRankData(
+          com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder builderForValue) {
+        if (rankDataBuilder_ == null) {
+          ensureRankDataIsMutable();
+          rankData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rankDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder addRankData(
+          int index, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder builderForValue) {
+        if (rankDataBuilder_ == null) {
+          ensureRankDataIsMutable();
+          rankData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rankDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder addAllRankData(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyCmdProto.ArmyHurtStruct> values) {
+        if (rankDataBuilder_ == null) {
+          ensureRankDataIsMutable();
+          super.addAll(values, rankData_);
+          onChanged();
+        } else {
+          rankDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder clearRankData() {
+        if (rankDataBuilder_ == null) {
+          rankData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          rankDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public Builder removeRankData(int index) {
+        if (rankDataBuilder_ == null) {
+          ensureRankDataIsMutable();
+          rankData_.remove(index);
+          onChanged();
+        } else {
+          rankDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder getRankDataBuilder(
+          int index) {
+        return getRankDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder getRankDataOrBuilder(
+          int index) {
+        if (rankDataBuilder_ == null) {
+          return rankData_.get(index);  } else {
+          return rankDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder> 
+           getRankDataOrBuilderList() {
+        if (rankDataBuilder_ != null) {
+          return rankDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rankData_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder addRankDataBuilder() {
+        return getRankDataFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder addRankDataBuilder(
+          int index) {
+        return getRankDataFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyCmd.ArmyHurtStruct rankData = 1;</code>
+       */
+      public java.util.List<com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder> 
+           getRankDataBuilderList() {
+        return getRankDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyCmdProto.ArmyHurtStruct, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder, com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder> 
+          getRankDataFieldBuilder() {
+        if (rankDataBuilder_ == null) {
+          rankDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyCmdProto.ArmyHurtStruct, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder, com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder>(
+                  rankData_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          rankData_ = null;
+        }
+        return rankDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyCmd.GroupCopyHurtRank)
+    }
+
+    static {
+      defaultInstance = new GroupCopyHurtRank(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyCmd.GroupCopyHurtRank)
+  }
+
+  public interface ArmyHurtStructOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string headIcon = 1;
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    boolean hasHeadIcon();
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    java.lang.String getHeadIcon();
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadIconBytes();
+
+    // required string roleName = 2;
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    boolean hasRoleName();
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    java.lang.String getRoleName();
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getRoleNameBytes();
+
+    // required int32 lv = 3;
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    boolean hasLv();
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    int getLv();
+
+    // required int64 killTime = 4;
+    /**
+     * <code>required int64 killTime = 4;</code>
+     *
+     * <pre>
+     *击杀时间
+     * </pre>
+     */
+    boolean hasKillTime();
+    /**
+     * <code>required int64 killTime = 4;</code>
+     *
+     * <pre>
+     *击杀时间
+     * </pre>
+     */
+    long getKillTime();
+
+    // required int32 damage = 5;
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    boolean hasDamage();
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    int getDamage();
+  }
+  /**
+   * Protobuf type {@code GroupCopyCmd.ArmyHurtStruct}
+   *
+   * <pre>
+   *角色伤害结构
+   * </pre>
+   */
+  public static final class ArmyHurtStruct extends
+      com.google.protobuf.GeneratedMessage
+      implements ArmyHurtStructOrBuilder {
+    // Use ArmyHurtStruct.newBuilder() to construct.
+    private ArmyHurtStruct(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ArmyHurtStruct(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ArmyHurtStruct defaultInstance;
+    public static ArmyHurtStruct getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ArmyHurtStruct getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArmyHurtStruct(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              headIcon_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              roleName_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              lv_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              killTime_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              damage_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_ArmyHurtStruct_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.class, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ArmyHurtStruct> PARSER =
+        new com.google.protobuf.AbstractParser<ArmyHurtStruct>() {
+      public ArmyHurtStruct parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArmyHurtStruct(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ArmyHurtStruct> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string headIcon = 1;
+    public static final int HEADICON_FIELD_NUMBER = 1;
+    private java.lang.Object headIcon_;
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    public boolean hasHeadIcon() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    public java.lang.String getHeadIcon() {
+      java.lang.Object ref = headIcon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headIcon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headIcon = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadIconBytes() {
+      java.lang.Object ref = headIcon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headIcon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string roleName = 2;
+    public static final int ROLENAME_FIELD_NUMBER = 2;
+    private java.lang.Object roleName_;
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    public boolean hasRoleName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    public java.lang.String getRoleName() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRoleNameBytes() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 lv = 3;
+    public static final int LV_FIELD_NUMBER = 3;
+    private int lv_;
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    public boolean hasLv() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    public int getLv() {
+      return lv_;
+    }
+
+    // required int64 killTime = 4;
+    public static final int KILLTIME_FIELD_NUMBER = 4;
+    private long killTime_;
+    /**
+     * <code>required int64 killTime = 4;</code>
+     *
+     * <pre>
+     *击杀时间
+     * </pre>
+     */
+    public boolean hasKillTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int64 killTime = 4;</code>
+     *
+     * <pre>
+     *击杀时间
+     * </pre>
+     */
+    public long getKillTime() {
+      return killTime_;
+    }
+
+    // required int32 damage = 5;
+    public static final int DAMAGE_FIELD_NUMBER = 5;
+    private int damage_;
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    public boolean hasDamage() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    public int getDamage() {
+      return damage_;
+    }
+
+    private void initFields() {
+      headIcon_ = "";
+      roleName_ = "";
+      lv_ = 0;
+      killTime_ = 0L;
+      damage_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasHeadIcon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRoleName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasKillTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDamage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getHeadIconBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getRoleNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, lv_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, killTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, damage_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getHeadIconBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getRoleNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, lv_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, killTime_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, damage_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyCmdProto.ArmyHurtStruct prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyCmd.ArmyHurtStruct}
+     *
+     * <pre>
+     *角色伤害结构
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyCmdProto.ArmyHurtStructOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_ArmyHurtStruct_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.class, com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        headIcon_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        roleName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        killTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        damage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyCmdProto.internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct build() {
+        com.rwproto.GroupCopyCmdProto.ArmyHurtStruct result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyCmdProto.ArmyHurtStruct buildPartial() {
+        com.rwproto.GroupCopyCmdProto.ArmyHurtStruct result = new com.rwproto.GroupCopyCmdProto.ArmyHurtStruct(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.headIcon_ = headIcon_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.roleName_ = roleName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.lv_ = lv_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.killTime_ = killTime_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.damage_ = damage_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyCmdProto.ArmyHurtStruct) {
+          return mergeFrom((com.rwproto.GroupCopyCmdProto.ArmyHurtStruct)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyCmdProto.ArmyHurtStruct other) {
+        if (other == com.rwproto.GroupCopyCmdProto.ArmyHurtStruct.getDefaultInstance()) return this;
+        if (other.hasHeadIcon()) {
+          bitField0_ |= 0x00000001;
+          headIcon_ = other.headIcon_;
+          onChanged();
+        }
+        if (other.hasRoleName()) {
+          bitField0_ |= 0x00000002;
+          roleName_ = other.roleName_;
+          onChanged();
+        }
+        if (other.hasLv()) {
+          setLv(other.getLv());
+        }
+        if (other.hasKillTime()) {
+          setKillTime(other.getKillTime());
+        }
+        if (other.hasDamage()) {
+          setDamage(other.getDamage());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHeadIcon()) {
+          
+          return false;
+        }
+        if (!hasRoleName()) {
+          
+          return false;
+        }
+        if (!hasLv()) {
+          
+          return false;
+        }
+        if (!hasKillTime()) {
+          
+          return false;
+        }
+        if (!hasDamage()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyCmdProto.ArmyHurtStruct parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyCmdProto.ArmyHurtStruct) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string headIcon = 1;
+      private java.lang.Object headIcon_ = "";
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public boolean hasHeadIcon() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public java.lang.String getHeadIcon() {
+        java.lang.Object ref = headIcon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headIcon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeadIconBytes() {
+        java.lang.Object ref = headIcon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headIcon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public Builder setHeadIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        headIcon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public Builder clearHeadIcon() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        headIcon_ = getDefaultInstance().getHeadIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headIcon = 1;</code>
+       */
+      public Builder setHeadIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        headIcon_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string roleName = 2;
+      private java.lang.Object roleName_ = "";
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public boolean hasRoleName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public java.lang.String getRoleName() {
+        java.lang.Object ref = roleName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRoleNameBytes() {
+        java.lang.Object ref = roleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public Builder setRoleName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public Builder clearRoleName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        roleName_ = getDefaultInstance().getRoleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleName = 2;</code>
+       */
+      public Builder setRoleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lv = 3;
+      private int lv_ ;
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public boolean hasLv() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public int getLv() {
+        return lv_;
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public Builder setLv(int value) {
+        bitField0_ |= 0x00000004;
+        lv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public Builder clearLv() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        lv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int64 killTime = 4;
+      private long killTime_ ;
+      /**
+       * <code>required int64 killTime = 4;</code>
+       *
+       * <pre>
+       *击杀时间
+       * </pre>
+       */
+      public boolean hasKillTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int64 killTime = 4;</code>
+       *
+       * <pre>
+       *击杀时间
+       * </pre>
+       */
+      public long getKillTime() {
+        return killTime_;
+      }
+      /**
+       * <code>required int64 killTime = 4;</code>
+       *
+       * <pre>
+       *击杀时间
+       * </pre>
+       */
+      public Builder setKillTime(long value) {
+        bitField0_ |= 0x00000008;
+        killTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 killTime = 4;</code>
+       *
+       * <pre>
+       *击杀时间
+       * </pre>
+       */
+      public Builder clearKillTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        killTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int32 damage = 5;
+      private int damage_ ;
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public boolean hasDamage() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public int getDamage() {
+        return damage_;
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public Builder setDamage(int value) {
+        bitField0_ |= 0x00000010;
+        damage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public Builder clearDamage() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        damage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyCmd.ArmyHurtStruct)
+    }
+
+    static {
+      defaultInstance = new ArmyHurtStruct(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyCmd.ArmyHurtStruct)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor;
   private static
@@ -2565,6 +4694,16 @@ public final class GroupCopyCmdProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyCmd_GroupCopyHurtRank_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyCmd_ArmyHurtStruct_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2574,20 +4713,26 @@ public final class GroupCopyCmdProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"\215\001\n\022G" +
+      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"\237\001\n\022G" +
       "roupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Gro" +
       "upCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 " +
       "\001(\t\0225\n\ndonateData\030\003 \001(\0132!.GroupCopyCmd.G" +
-      "roupCopyDonateData\"h\n\022GroupCopyCmdRspMsg" +
-      "\022/\n\007reqType\030\001 \002(\0162\036.GroupCopyCmd.GroupCo" +
-      "pyReqType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003" +
-      " \001(\t\"8\n\023GroupCopyDonateData\022\r\n\005level\030\001 \002" +
-      "(\t\022\022\n\ndonateTime\030\002 \002(\005*J\n\020GroupCopyReqTy" +
-      "pe\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020",
-      "\002\022\017\n\013BUFF_DONATE\020\003*H\n\022GroupCopyMapStatus" +
-      "\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ONGOING\020\002" +
-      "\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021GroupCopyCm" +
-      "dProto"
+      "roupCopyDonateData\022\020\n\010chaterID\030\004 \001(\t\"\233\001\n" +
+      "\022GroupCopyCmdRspMsg\022/\n\007reqType\030\001 \002(\0162\036.G" +
+      "roupCopyCmd.GroupCopyReqType\022\021\n\tisSucces" +
+      "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\0221\n\010hurtRank\030\004 \001(" +
+      "\0132\037.GroupCopyCmd.GroupCopyHurtRank\"8\n\023Gr" +
+      "oupCopyDonateData\022\r\n\005level\030\001 \002(\t\022\022\n\ndona",
+      "teTime\030\002 \002(\005\"C\n\021GroupCopyHurtRank\022.\n\010ran" +
+      "kData\030\001 \003(\0132\034.GroupCopyCmd.ArmyHurtStruc" +
+      "t\"b\n\016ArmyHurtStruct\022\020\n\010headIcon\030\001 \002(\t\022\020\n" +
+      "\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n\010killTime\030" +
+      "\004 \002(\003\022\016\n\006damage\030\005 \002(\005*c\n\020GroupCopyReqTyp" +
+      "e\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002" +
+      "\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROUP_HURT_RANK" +
+      "\020\004*H\n\022GroupCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n" +
+      "\010NOTSTART\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013" +
+      "com.rwprotoB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2599,19 +4744,31 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "DonateData", });
+              new java.lang.String[] { "ReqType", "Version", "DonateData", "ChaterID", });
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "HurtRank", });
           internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_GroupCopyCmd_GroupCopyDonateData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyDonateData_descriptor,
               new java.lang.String[] { "Level", "DonateTime", });
+          internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_GroupCopyCmd_GroupCopyHurtRank_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyCmd_GroupCopyHurtRank_descriptor,
+              new java.lang.String[] { "RankData", });
+          internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_GroupCopyCmd_ArmyHurtStruct_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor,
+              new java.lang.String[] { "HeadIcon", "RoleName", "Lv", "KillTime", "Damage", });
           return null;
         }
       };

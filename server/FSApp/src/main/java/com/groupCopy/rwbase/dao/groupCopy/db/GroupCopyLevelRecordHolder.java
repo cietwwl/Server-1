@@ -48,6 +48,10 @@ public class GroupCopyLevelRecordHolder{
 				record = createLevelRecord(cfg.getId());
 				getItemStore().addItem(record);
 			}
+			if(record.getProgress() == null){
+				record.setProgress(GroupCopyLevelBL.createProgress(cfg.getId()));
+				getItemStore().updateItem(record);
+			}
 			
 		}
 	}

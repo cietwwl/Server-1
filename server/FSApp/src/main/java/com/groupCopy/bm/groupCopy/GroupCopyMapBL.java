@@ -3,6 +3,7 @@ package com.groupCopy.bm.groupCopy;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.common.Utils;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
@@ -112,8 +113,8 @@ public class GroupCopyMapBL {
 			totalHp += progress.getTotalHp();
 			currentHp += progress.getCurrentHp();
 		}
-		double p = (double) (totalHp - currentHp)/ totalHp;
-		mapRecordHolder.updateMapProgress(levelId, p);
+		double p = Utils.div((totalHp - currentHp), totalHp, 5);
+		mapRecordHolder.updateMapProgress(mapCfg.getId(), p);
 		
 	}
 	

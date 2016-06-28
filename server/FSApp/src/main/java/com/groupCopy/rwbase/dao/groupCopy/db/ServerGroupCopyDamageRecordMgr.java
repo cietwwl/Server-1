@@ -23,9 +23,18 @@ public class ServerGroupCopyDamageRecordMgr {
 		return getItemStore().getItem(id);
 	}
 	
-	public void checkDamageRank(String levelId,
+	private boolean addItem(ServerGroupCopyDamageRecord item){
+		return getItemStore().addItem(item);
+	}
+	
+	public synchronized void checkDamageRank(String levelId,
 			GroupCopyArmyDamageInfo damageInfo) {
-		getItem(levelId).checkOrAddRecord(damageInfo);
+		ServerGroupCopyDamageRecord record = getItem(levelId);
+		if(record == null){
+			record = new ServerGroupCopyDamageRecord(groupId, levelId);
+			addItem(record);
+		}
+		record.checkOrAddRecord(damageInfo);
 		
 	}
 

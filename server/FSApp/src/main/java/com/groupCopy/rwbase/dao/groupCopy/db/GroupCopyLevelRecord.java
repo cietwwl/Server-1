@@ -44,6 +44,10 @@ public class GroupCopyLevelRecord implements IMapItem {
 	@CombineSave
 	private CopyBuffInfo buffInfo = new CopyBuffInfo();
 	
+	
+	public GroupCopyLevelRecord() {
+	}
+	
 	public String getId() {
 		return id;
 	}

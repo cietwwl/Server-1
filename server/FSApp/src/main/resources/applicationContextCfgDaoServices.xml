@@ -238,7 +238,7 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
-	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
 	
 	<!-- 怪物 -->
 	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />

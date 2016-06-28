@@ -87,12 +87,17 @@ public class GroupCopyBattleHandler {
 		
 		
 		Group group = GroupHelper.getGroup(player);
+		
 		boolean success = false;
 		if(group!=null){
-			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, monsterList, null);
+			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, monsterList, req.getHeros().getIdList());
 			success = result.isSuccess();
-			commonRsp.setTipMsg(result.getTipMsg());
-			commonRsp.setDropInfo((CopyRewardInfo) result.getItem());
+			if(result.getTipMsg() != null){
+				commonRsp.setTipMsg(result.getTipMsg());
+			}
+			if(result.getItem() != null){
+				commonRsp.setDropInfo((CopyRewardInfo.Builder) result.getItem());
+			}
 		}	
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
@@ -112,15 +117,10 @@ public class GroupCopyBattleHandler {
 		commonRsp.setReqType(RequestType.FIGHT_END);
 		String level = req.getLevel();
 		Group group = GroupHelper.getGroup(player);
-		boolean success = false;
+		commonRsp.setIsSuccess(false);
 		if(group!=null){
-			GroupCopyResult result = group.getGroupCopyMgr().applyEnterCopy(player, level);
-			success = result.isSuccess();
-			if(!success){
-				commonRsp.setBattleRole((CopyBattleRoleStruct.Builder) result.getItem());
-			}
+			group.getGroupCopyMgr().applyEnterCopy(player, level,commonRsp);
 		}
-		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
 	}
 	

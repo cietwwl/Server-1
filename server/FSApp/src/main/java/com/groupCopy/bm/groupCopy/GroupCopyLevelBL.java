@@ -13,6 +13,8 @@ import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
@@ -150,7 +152,7 @@ public class GroupCopyLevelBL {
 	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
 		
 		if(groupRecord.getStatus() == STATE_COPY_EMPTY){
-			return true;
+			return false;
 		}
 		if(groupRecord.getStatus() == STATE_COPY_FIGHT){
 			//检查战斗是否超时
@@ -199,18 +201,19 @@ public class GroupCopyLevelBL {
 	 * @param recordHolder
 	 * @param level
 	 * @param mData  客户端返回的怪物数据
+	 * @param damage TODO
 	 * @return
 	 */
 	public static GroupCopyResult endFight(Player player, 
 			GroupCopyLevelRecordHolder recordHolder,String level,
-			List<GroupCopyMonsterSynStruct> mData) {
+			List<GroupCopyMonsterSynStruct> mData, int damage) {
 		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		StringBuilder reason = new StringBuilder();
 		
 		GroupCopyLevelRecord copyLvRecd = recordHolder.getByLevel(level);	
 		
-		if(!StringUtils.equals(copyLvRecd.getFighterId(), player.getUserId())){
+		if(!StringUtils.equals(copyLvRecd.getFighterId(), player.getUserId()) && !StringUtils.equals(copyLvRecd.getFighterId(), "")){
 			result.setSuccess(false);
 			reason.append("关卡挑战中，挑战者：");
 			Player fighter = PlayerMgr.getInstance().find(copyLvRecd.getFighterId());
@@ -218,19 +221,19 @@ public class GroupCopyLevelBL {
 				reason.append(fighter.getUserId());
 			}
 			result.setTipMsg(reason.toString());
-		}else if(!isFighting(copyLvRecd, player)){
-			result.setSuccess(false);
-			reason.append("战斗已超时失效。");
-			Player fighter = PlayerMgr.getInstance().find(copyLvRecd.getFighterId());
-			if(fighter!=null){
-				reason.append(fighter.getUserId());
-			}
-			result.setTipMsg(reason.toString());
+		
 		}else{
 			
 			
 			UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
-			UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(level);
+			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+			UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(cfg.getChaterID());
+			if(userRecord == null){
+				result.setSuccess(false);
+				reason.append("地图id为").append(cfg.getChaterID()).append("找不到id为").append(level).append("的关卡");
+				result.setTipMsg(reason.toString());
+				return result;
+			}
 			
 			
 			GroupCopyProgress nowPro = new GroupCopyProgress(mData);
@@ -240,7 +243,7 @@ public class GroupCopyLevelBL {
 			
 			//获取发送奖励
 			Builder rewardInfo = calculateAndSendReward(copyLvRecd.getProgress().getProgress(), nowPro.getProgress(),
-					level, player);
+					level, player, damage);
 			
 			result.setItem(rewardInfo);
 			
@@ -266,10 +269,11 @@ public class GroupCopyLevelBL {
 	 * @param nowPro
 	 * @param level
 	 * @param player
+	 * @param damage TODO
 	 */
 	private static Builder calculateAndSendReward(double befPro, double nowPro,
-			String level, Player player) {
-		if(befPro >= nowPro ){
+			String level, Player player, int damage) {
+		if(damage == 0 ){
 			//没有任何伤害不发奖励
 			return null;
 		}
@@ -280,7 +284,7 @@ public class GroupCopyLevelBL {
 		Map<Integer, String> dropMap = lvCfg.getDropMap();
 		List<Integer> groupReward = new ArrayList<Integer>();
 		
-		
+		//计算掉落方案
 		for (Iterator<Entry<Integer, String>> itr = dropMap.entrySet().iterator(); itr.hasNext();) {
 			Entry<Integer,String> type = itr.next();
 			if(befPro <type.getKey() && type.getKey() < nowPro){
@@ -307,15 +311,29 @@ public class GroupCopyLevelBL {
 		}
 		
 		
-		//发送个人奖励
-		try {
-			DropItemManager.getInstance().pretreatDrop(player, lvCfg.getRoleRewardList(), Integer.parseInt(level), false);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (DataAccessTimeoutException e) {
-			e.printStackTrace();
+		//计算个人奖励
+		for (Iterator<Entry<String, Integer>> itr = lvCfg.getRoleRewardMap().entrySet().iterator(); itr.hasNext();) {
+			Entry<String, Integer> entry = itr.next();
+			CopyRewardStruct.Builder newBuilder = CopyRewardStruct.newBuilder();
+			newBuilder.setCount(entry.getValue());
+			newBuilder.setItemID(Integer.parseInt(entry.getKey()));
+			rewardInfo.addPersonalReward(newBuilder);
 		}
 		
+		//个人奖励的金币
+		rewardInfo.setGold(damage * 100);//暂时这样计算
+		
+		//检查是否最后一击
+		if(nowPro == 1){
+			for (Iterator<Entry<String, Integer>> itr = lvCfg.getFinalHitRewardMap().entrySet().iterator(); itr.hasNext();) {
+				Entry<String, Integer> entry =  itr.next();
+				CopyRewardStruct.Builder newBuilder = CopyRewardStruct.newBuilder();
+				newBuilder.setCount(entry.getValue());
+				newBuilder.setItemID(Integer.parseInt(entry.getKey()));
+				rewardInfo.addFinalHitPrice(newBuilder);
+			}
+		}
+			
 		
 		
 		return rewardInfo;

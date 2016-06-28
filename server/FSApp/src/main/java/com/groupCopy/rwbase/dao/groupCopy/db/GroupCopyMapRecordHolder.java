@@ -1,10 +1,12 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.common.GameUtil;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
@@ -124,8 +126,11 @@ public class GroupCopyMapRecordHolder{
 
 
 
+	
+	
 
-
+	
+	
 	
 
 

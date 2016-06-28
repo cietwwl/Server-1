@@ -45,6 +45,9 @@ message GroupCopyBattleComRspMsg{
 //【掉落列表】
 message CopyRewardInfo{
 	repeated CopyRewardStruct drop = 1;
+	required int32 gold = 2;//奖励的金币
+	repeated CopyRewardStruct personalReward = 3; //个人奖励
+	repeated CopyRewardStruct finalHitPrice = 4;//最后一击奖励
 }
 
 //【掉落道具结构】
