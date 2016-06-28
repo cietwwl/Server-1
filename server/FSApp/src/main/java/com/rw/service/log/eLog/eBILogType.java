@@ -25,7 +25,7 @@ public enum eBILogType {
 	RoleUpgrade(22,"角色升级", "RoleUpgrade"),
 	GiftGoldChanged(23,"赠送充值币变动", "GiftGoldChanged"),
 	ZoneCountGiftGold(24,"区充值币余额", "ZoneCountGiftGold"),
-	ZoneCountChargeGold(25,"区付费充值币余额", "ZoneCountGiftGold"),
+	ZoneCountChargeGold(25,"区付费充值币余额", "ZoneCountChargeGold"),
 	Chat(26,"聊天日志","Chat");
 	
 	
