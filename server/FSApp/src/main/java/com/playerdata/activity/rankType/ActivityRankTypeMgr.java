@@ -172,19 +172,18 @@ public class ActivityRankTypeMgr {
 			}
 			if(!isClose(cfg)){
 				//活动要等过期后才派发奖励 
-				System.out.println("activityrank.活动还未结束。。。。。。。。。。。。。。。。");
+//				System.out.println("activityrank.活动还未结束。。。。。。。。。。。。。。。。");
 				continue;
 			}
 			SendRewardRecord record = sendMap.get(cfg.getId());
 			if(record.isSend()){
 				//已经派发过，避免多次触发
-				System.out.println("activityrank.已经拍法过奖励。。。。。。。。。。。。。。。。"+ cfg.getId());
+//				System.out.println("activityrank.已经拍法过奖励。。。。。。。。。。。。。。。。"+ cfg.getId());
 				continue;
 			}
 			record.setLasttime(System.currentTimeMillis());
 			record.setSend(true);
-			
-			System.out.println("activityrank.开始派奖励。。。。。。。。。。。。。。。。"+ cfg.getId());
+			GameLog.info(LogModule.ComActivityRank.getName(), null, "开始派发排行榜奖励，cfg名字为 =" + cfg.getId(), null);
 			int isrealtime = cfg.getDailyOrRealtime();
 			for(Integer ranktype:activityRankTypeEnum.getRankTypes()){//该配表对应的所有排行榜，比如竞技场就分4个职业
 				int noitem = 0;
@@ -210,14 +209,14 @@ public class ActivityRankTypeMgr {
 					if(targetItem==null){
 						//有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 						noitem++;
-						System.out.println("activityrank.机器人没有数据。。。。。。。。。。。。。。。。名额="+ cfg.getRewardNum() + "  序列="+noitem);
+//						System.out.println("activityrank.机器人没有数据。。。。。。。。。。。。。。。。名额="+ cfg.getRewardNum() + "  序列="+noitem);
 						continue;
 					}
 					
 					Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
 					if(player == null){
 						//根据排行榜的英雄id找不到用户
-						System.out.println("activityrank.机器人。。。。。。。。。。。。。。。。名额=");
+//						System.out.println("activityrank.机器人。。。。。。。。。。。。。。。。名额=");
 						continue;
 					}
 //					if(targetItem.getVersion()!=null&&StringUtils.equals(cfg.getVersion(), targetItem.getVersion())){
@@ -239,7 +238,7 @@ public class ActivityRankTypeMgr {
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);
-						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
+//						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
 					}else{//所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致
 						GameLog.error(LogModule.ComActivityRank, player.getUserId(), "所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致,排名="+rankInfo.getRankingLevel()+" 活动类型=" + cfg.getId(),null);
 					}

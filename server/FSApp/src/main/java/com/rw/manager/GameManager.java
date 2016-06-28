@@ -87,8 +87,8 @@ public class GameManager {
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
-		
-		//初始化MapItemStoreFactory
+
+		// 初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
 
 		// initServerProperties();
@@ -122,8 +122,8 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		//RobotManager.getInstance().createRobots();
-		//RobotManager.getInstance().createPeakArenaRobot();
+		RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -246,8 +246,7 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
