@@ -104,7 +104,12 @@ public class GFightOnlineResourceHolder {
 		
 	}
 	
-	private void fightEndEvent(int resourceID){
-		GFightFinalMgr.getInstance().calculateFightResult(resourceID);
+	private void fightEndEvent(final int resourceID){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				GFightFinalMgr.getInstance().calculateFightResult(resourceID);
+			}
+		}).start();
 	}
 }

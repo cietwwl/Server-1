@@ -144,7 +144,5 @@ public class GFightOnlineGroupData {
 		defenderCount = 0;	//总的防守队伍数
 		aliveCount = 0;		//存活队伍数
 		lastkillTime = 0;	//最后击杀的时间
-		
-		version = 0;	//初始版本号
 	}
 }

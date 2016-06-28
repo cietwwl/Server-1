@@ -215,7 +215,7 @@ public class GFDefendArmyItemHolder {
 	 * @param groupIDArr
 	 * @return
 	 */
-	public boolean clearTheRecords(String groupID){
+	public boolean clearAllRecords(String groupID){
 		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
 		return cache.getMapItemStore(groupID, GFDefendArmyItem.class).clearAllRecords();
 	}

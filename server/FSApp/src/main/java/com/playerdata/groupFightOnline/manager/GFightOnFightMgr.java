@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
@@ -22,6 +23,8 @@ import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
+import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
+import com.playerdata.groupFightOnline.dataForClient.GFUserSimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -205,6 +208,14 @@ public class GFightOnFightMgr {
 			return;
 		}
 		updateSelfHeroAndHurtState(player, fightResult.getSelfArmyState(), fightResult.getHurtValue(), fightResult.getState() == 1);
+		// 更新帮派中最新的击败对手的时间（后期用于排序）
+		if(fightResult.getState() == 1) groupData.setLastkillTime(System.currentTimeMillis());
+		GFFightRecord record = new GFFightRecord();
+		record.setState(fightResult.getState());
+		record.setCreateTime(System.currentTimeMillis());
+		record.setOffend(getGFUserSimpleInfo(player));
+		record.setDefend(getGFUserSimpleInfo(armyItem.getUserID()));
+		groupData.addFightRecord(record);
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
 		GFightOnlineGroupHolder.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
 	}
@@ -255,5 +266,20 @@ public class GFightOnFightMgr {
 		GFArmyState state = GFArmyState.NORMAL;
 		if(isDefeated) state = GFArmyState.DEFEATED;
 		GFDefendArmyItemHolder.getInstance().updateItem(groupID, armyItem, state);
+	}
+	
+	private GFUserSimpleInfo getGFUserSimpleInfo(String userId){
+		Player player = PlayerMgr.getInstance().find(userId);
+		if(player == null) return null;
+		return getGFUserSimpleInfo(player);	
+	}
+	
+	private GFUserSimpleInfo getGFUserSimpleInfo(Player player){
+		GFUserSimpleInfo info = new GFUserSimpleInfo();
+		info.setUserName(player.getUserName());
+		info.setPlayerHeadImage(player.getHeadImage());
+		info.setPlayerHeadFrame(player.getHeadFrame());
+		info.setGroupName(GroupHelper.getGroupName(player.getUserId()));
+		return info;
 	}
 }

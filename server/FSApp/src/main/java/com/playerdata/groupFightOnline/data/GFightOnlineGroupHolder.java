@@ -38,6 +38,7 @@ public class GFightOnlineGroupHolder {
 	public void clearCurrentLoopData(String groupId){
 		GFightOnlineGroupData data = get(groupId);
 		data.setVersion(gfGroupVersion.incrementAndGet());
+		// TODO 注意要清除版本号的问题，不能让版本号一直涨
 		data.clearCurrentLoopData();
 	}
 	

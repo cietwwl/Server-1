@@ -43,14 +43,14 @@ public class GFightFinalMgr {
 		List<String> groupRankList = getRankGroupID(resourceID);
 		if(groupRankList == null) return;
 		handleVictoryGroup(groupRankList.get(0));
-		int size = groupRankList.size();
-		for(int i = 1; i < size; i++)
+		for(int i = 1; i < groupRankList.size(); i++)
 			handleFailGroup(groupRankList.get(i));
+		//清除本次循环中的数据，以便于开始下个循环
 		clearCurrentLoopData(resourceID);
 	}
 	
 	/**
-	 * 获取获胜的帮派id
+	 * 获取帮战最终排名
 	 * @param resourceID
 	 * @return
 	 */
@@ -58,9 +58,8 @@ public class GFightFinalMgr {
 		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		if(bidList.size() == 0) return null;
 		List<GFEndGroupInfo> resultGroups = new ArrayList<GFEndGroupInfo>();
-		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFGroupKillRankList(resourceID);
-		int size = bidList.size();
-		for(int i = 0; i < 4 && i < size; i++){
+		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFKillRankList(resourceID);
+		for(int i = 0; i < 4 && i < bidList.size(); i++){
 			GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(bidList.get(i).getGroupID());
 			int killCount = 0;
 			for(GFOnlineKillItem killItem : killRank){
@@ -98,12 +97,12 @@ public class GFightFinalMgr {
 	 * @param resourceID
 	 */
 	public void clearCurrentLoopData(int resourceID){
-		// 清除所有的竞标信息
-		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);	
+		// 清除所有的玩家压标信息
+		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);
 		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		for(GFGroupBiddingItem item : bidList){
 			//清除帮派的所有防守队伍
-			GFDefendArmyItemHolder.getInstance().clearTheRecords(item.getGroupID());
+			GFDefendArmyItemHolder.getInstance().clearAllRecords(item.getGroupID());
 			//清除帮战的帮派信息
 			GFightOnlineGroupHolder.getInstance().clearCurrentLoopData(item.getGroupID());
 			//清除所有参与帮战的成员的个人信息

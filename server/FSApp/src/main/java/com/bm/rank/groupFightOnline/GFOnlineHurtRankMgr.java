@@ -58,7 +58,7 @@ public class GFOnlineHurtRankMgr {
 		return indx >= 0 ? indx + 1 : -1;
 	}
 
-	public static List<GFOnlineHurtItem> getGFGroupHurtRankList(int resourceID) {
+	public static List<GFOnlineHurtItem> getGFHurtRankList(int resourceID) {
 		List<GFOnlineHurtItem> itemList = new ArrayList<GFOnlineHurtItem>();
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
 		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration();
@@ -74,7 +74,7 @@ public class GFOnlineHurtRankMgr {
 	}
 	
 	public static void clearRank(int resourceID){
-		List<GFOnlineHurtItem> itemList = getGFGroupHurtRankList(resourceID);
+		List<GFOnlineHurtItem> itemList = getGFHurtRankList(resourceID);
 		Ranking<GFOnlineKillComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
 		for(GFOnlineHurtItem removeItem : itemList){
 			ranking.removeRankingEntry(removeItem.getUserId());
