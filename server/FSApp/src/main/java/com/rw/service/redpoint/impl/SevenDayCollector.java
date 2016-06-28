@@ -17,7 +17,5 @@ public class SevenDayCollector implements RedPointCollector {
 		if (sevenDayGif.getCounts().size() < sevenDayGif.getCount()) {
 			map.put(RedPointType.HOME_WINDOW_SEVER_GIFT, Collections.EMPTY_LIST);
 		}
-
 	}
-
 }

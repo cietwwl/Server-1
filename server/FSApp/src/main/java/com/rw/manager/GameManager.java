@@ -123,8 +123,8 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		RobotManager.getInstance().createRobots();
-		RobotManager.getInstance().createPeakArenaRobot();
+		//RobotManager.getInstance().createRobots();
+		//RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
