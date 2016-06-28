@@ -13,7 +13,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_RankType_item")
+@Table(name = "activity_ranktype_item")
 public class ActivityRankTypeItem implements  IMapItem {
 
 	@Id
