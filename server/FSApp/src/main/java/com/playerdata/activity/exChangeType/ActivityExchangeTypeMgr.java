@@ -178,7 +178,7 @@ public class ActivityExchangeTypeMgr {
 				return result;
 			}
 			
-			if (isCanTaken(player,targetItem)) {
+			if (isCanTaken(player,targetItem,true)) {
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
@@ -192,7 +192,14 @@ public class ActivityExchangeTypeMgr {
 		return result;
 	}
 	
-	private boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem) {
+	/**
+	 * 
+	 * @param player
+	 * @param targetItem
+	 * @param isspend 判断并消耗用true；仅判断是否可以触发红点用false
+	 * @return
+	 */
+	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem,boolean isspend) {
 		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(activityExchangeTypeSubCfg== null){
 			GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到奖励配置文件", null);
@@ -215,7 +222,14 @@ public class ActivityExchangeTypeMgr {
 					return false;
 				}		
 			}
-		}		
+		}
+		if(isspend){
+			spendItem(exchangeNeedslist,player);
+		}	
+		return true;
+	}
+	
+	private void spendItem(Map<String, String> exchangeNeedslist,Player player){
 		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
 			int id = Integer.parseInt(entry.getKey());
 			if(id < eSpecialItemId.eSpecial_End.getValue()){
@@ -226,10 +240,8 @@ public class ActivityExchangeTypeMgr {
 				player.getItemBagMgr().useItemByCfgId(id, Integer.parseInt(entry.getValue()));
 			}
 		}
-		
-		return true;
 	}
-
+	
 	private void takeGift(Player player, ActivityExchangeTypeSubItem targetItem) {
 		ActivityExchangeTypeSubCfg subCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(subCfg == null){
@@ -245,7 +257,7 @@ public class ActivityExchangeTypeMgr {
 	
 	
 	/**
-	 * 根据传入的玩家和副本，额外获得兑换道具;当前适用扫荡
+	 * 根据传入的玩家和副本，额外获得兑换道具;
 	 * @param player  玩家等级是否足够
 	 * @param copyCfg  战斗场景是否有掉落
 	 */
@@ -274,7 +286,7 @@ public class ActivityExchangeTypeMgr {
 						return idAndNumMap;
 					}
 					if(random.nextInt(10000)<=numAndProbability[1]){
-//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
 						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				
