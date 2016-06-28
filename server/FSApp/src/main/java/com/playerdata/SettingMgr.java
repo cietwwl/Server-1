@@ -120,7 +120,11 @@ public class SettingMgr implements PlayerEventListener {
 	}
 
 	public List<String> getHeadBoxByTypeList(int type) {
-		HeadTypeList headType = settingDataHolder.get().getOwnHeadBox().get(type);
+		List<HeadTypeList> ownHeadBox = settingDataHolder.get().getOwnHeadBox();
+		if(ownHeadBox.size() <= type){
+			return null;
+		}
+		HeadTypeList headType = ownHeadBox.get(type);
 		if (headType != null) {
 			return headType.getDataList();
 		}
@@ -308,7 +312,7 @@ public class SettingMgr implements PlayerEventListener {
 			boxList.set(HeadBoxType.HEADBOX_FASHION, empty);
 			List<String> checkList = getHeadBoxNameList();
 			String currentHeadFrame = m_Player.getHeadFrame();
-			if (!checkList.contains(currentHeadFrame)){
+			if (!checkList.contains(currentHeadFrame) && !dataList.contains(currentHeadFrame)){
 				List<String> defaultHeadBoxList = getHeadBoxByTypeList(HeadBoxType.HEADBOX_DEFAULT);
 				if (defaultHeadBoxList.size() > 0){
 					currentHeadFrame = defaultHeadBoxList.get(0);

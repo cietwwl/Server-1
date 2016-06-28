@@ -205,7 +205,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 		List<String> allEnemyIdList = angelArrayFloorDataHolder.getEnemyUserIdList();
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
-		int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
+		// 计算出来当前要生成多少层的数据，这个做法主要是用来兼容如果某一关出现错误，可以随时补漏
+		int group = floor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 当前组Id
+		int size = group * AngelArrayConst.TOWER_UPDATE_NUM;
+		// int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
 
 		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
 		List<String> hasUserIdList = holder.getAllUserIdList();

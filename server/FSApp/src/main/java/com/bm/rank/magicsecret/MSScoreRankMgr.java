@@ -95,7 +95,7 @@ public class MSScoreRankMgr {
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;
-					while (it.hasMoreElements()) {
+					if (it.hasMoreElements()) {
 						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
 						dispatchingUser = entry.getExtendedAttribute().getUserId();
 						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());

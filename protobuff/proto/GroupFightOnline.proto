@@ -26,26 +26,10 @@ enum GFRequestType{
 
 enum GFResultType {
 	SUCCESS = 1; //成功
-	NOT_IN_OPEN_TIME = 2;	//不在合法时间内（包括各阶段内的各种请求）
-	BID_UNREACH_LEAST_COUNT = 3; //竞标数量未达到最低要求
-	BID_UNREACH_LEAST_LEVEL = 4; //竞标数量需要超过某个排名（目前是第四名），但是没超过
-	BID_UNREACH_GROUP_LEVEL = 5; //竞标要求的帮派等级未达到
-	COST_UNENOUGH = 6; //竞标要花费的令牌数不够（或者个人竞标要求的资源不够，以及切换对手的花费不够：要消耗的资源不够）
-	BID_WITHOUT_AUTHORITY = 7;	//没权限竞标（也包括最终入选的四个公会成员没资格压标）
-	CANNOT_BID_IN_TWO = 8;  //不能参与两个及以上的资源点竞标和占领
-	BID_NEED_VIP = 9;	//个人压标要求的vip等级不够
-	BID_CANNOT_LOWER = 10;  //个人压标不能降低倍率
-	DEFENDER_COUNT_MAX = 11; //防守队伍设置数量达到上限
-	CANNOT_FIND_PROP_DEFENDER = 12;	//目前没有可以挑战的人（都被锁定或被挑战）
-	NO_DEFENDER = 13;	//无防守队伍，已经战败
-	ONLY_PLAYER = 14;	//只剩主角时不能挑战，防守队伍不能只设置主角
-	REWARD_NOT_EXIST = 15;	//要领取的奖励不存在
-	NO_SELECTED_ENIMY = 16;	//还未选择战斗目标
-	SELECTED_EXPIRED = 17;	//选择锁定的时间过期
-	FIGHT_EXPIRED = 18;		//战斗时间过期
-	ON_FIGHTING = 19;	//战斗中
-	HAVE_A_ENIMY = 20;	//已经选择过对手，只能更换，不能选
-	DATA_ERROR = 21; //数据异常
+	DIAMOND_NOT_ENOUGH = 2; //切换挑战对手，钻石不够
+	BID_VIP_UNREACH = 3;	//个人压标要求的vip等级不够
+	SELECT_EXPIRED = 4;	//选择锁定的时间过期
+	DATA_EXCEPTION = 5; //数据异常
 }
 
 message GroupFightOnlineReqMsg{
@@ -66,13 +50,14 @@ message GroupFightOnlineReqMsg{
 message GroupFightOnlineRspMsg{
 	required GFRequestType reqType = 1; //回应的功能协议类型
 	required GFResultType rstType = 2; //是否成功处理
-	optional int64 systemTime = 3;	//当前系统时间
-	repeated string gfResourceInfo = 4;	//各资源点对应的占有信息
-	optional string enimyDefenderDetails = 5; //获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息）
-	repeated string rankData = 6;	//帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
-	repeated string defendArmySimpleLeader = 7;	//防守队伍简要信息
-	optional int32 totalPage = 8;	//防守队伍的总页数
-	optional int32 currentPage = 9;	//防守队伍的总页数
-	repeated string fightRecord = 10; //战斗记录
-	repeated string gfRewardInfo = 11;	//可以领取的奖励
+	optional string tipMsg = 3;	//提示消息，可以是成功，也可以是失败的提示消息
+	optional int64 systemTime = 4;	//当前系统时间
+	repeated string gfResourceInfo = 5;	//各资源点对应的占有信息
+	optional string enimyDefenderDetails = 6; //获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
+	repeated string rankData = 7;	//帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
+	repeated string defendArmySimpleLeader = 8;	//防守队伍简要信息
+	optional int32 totalPage = 9;	//防守队伍的总页数
+	optional int32 currentPage = 10;	//防守队伍的总页数
+	repeated string fightRecord = 11; //战斗记录
+	repeated string gfRewardInfo = 12;	//可以领取的奖励
 }
