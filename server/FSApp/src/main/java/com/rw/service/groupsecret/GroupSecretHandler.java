@@ -478,7 +478,7 @@ public class GroupSecretHandler {
 		GroupSecretMatchHelper.removeGroupSecretMatchEntry(player, getRewardSecretId);
 
 		// 通知客户端删除
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null, 0));
 
 		rsp.setIsSuccess(true);
@@ -1023,6 +1023,16 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
+		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
+		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
+		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
+		if (defendSecretIdList.size() >= intPrivilege) {
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("探索秘境已达上限", intPrivilege));
+			return rsp.build().toByteString();
+		}
+
 		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
 		if (uniqueCfg == null) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "找不到秘境的基础配置表");
@@ -1031,8 +1041,6 @@ public class GroupSecretHandler {
 
 		String reqId = req.getId();
 
-		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
-		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
 		if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
 			return rsp.build().toByteString();
@@ -1093,6 +1101,13 @@ public class GroupSecretHandler {
 		int index = req.getIndex().getNumber();
 		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
 		if (defendUserInfoData != null) {
+			// 同步数据到前台
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			if (synMsg != null) {
+				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
+				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
+			}
+
 			GroupSecretHelper.fillRspInfo(rsp, false, "据点已被其他成员派驻");
 			return rsp.build().toByteString();
 		}
@@ -1174,7 +1189,15 @@ public class GroupSecretHandler {
 
 		// 增加秘境防守阵容
 		if (!mgr.addDefendTeamInfo(createUserId, id, index, userInfoData)) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "驻守失败");
+			// 同步数据到前台
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			if (synMsg != null) {
+				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
+				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
+			}
+
+			GameLog.error("接受邀请驻守成员", userId, String.format("请求的秘境[%s],驻守点为[%s],已经有人驻守了", reqId, req.getIndex()));
+			GroupSecretHelper.fillRspInfo(rsp, false, "据点已被其他成员派驻");
 			return rsp.build().toByteString();
 		}
 

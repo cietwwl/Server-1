@@ -25,6 +25,7 @@ import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
 import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msResultType;
@@ -169,6 +170,7 @@ public class MagicSecretMgr {
 				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
 					msRsp.addRewardData(JsonUtil.writeValue(mcCfg.getPassBonus().get(i)));
 				}
+				MSInnerProcessor.handleDropItem(player, mcCfg.getPassBonus());
 				msRsp.setIsFirstFinish(true);
 			}else msRsp.setIsFirstFinish(false);
 			// 如果闯完一章节，初始化下一章节的内容（如果不是，就准备下一关卡）
@@ -470,6 +472,7 @@ public class MagicSecretMgr {
 		MSInnerProcessor.addCanOpenBoxes(player, chapterID);
 		
 		result.addAll(fightingDung.getDropItem());
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		return result;
 	}
 	
@@ -538,6 +541,23 @@ public class MagicSecretMgr {
 		MagicChapterInfoHolder.getInstance().resetAllItem(player);
 		UserMagicSecretHolder.getInstance().get(player).saveDailyScoreData();
 		MagicChapterInfoHolder.getInstance().synAllData(player);
+	}
+	
+	/**
+	 * 用于前端判断红点
+	 * @param player
+	 * @return
+	 */
+	public boolean hasScoreReward(Player player){
+		List<DungeonScoreCfg> dungScoreCfgList = DungeonScoreCfgDAO.getInstance().getAllCfg();
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return false;
+		int totalScore = getTotalScore(umsData.getHistoryScore(), umsData.getTodayScore());
+		for(DungeonScoreCfg cfg : dungScoreCfgList) {
+			if(umsData.getGotScoreReward().contains(cfg.getKey())) continue;
+			if(totalScore >= cfg.getScore()) return true;
+		}
+		return false;
 	}
 	
 	/**

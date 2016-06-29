@@ -212,7 +212,7 @@ public class GroupSecretMatchHandler {
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
 
 		// 获取可以掠夺的资源数量
-		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName);
+		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName, groupId);
 
 		// 设置角色匹配到的秘境数据
 		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
@@ -660,10 +660,12 @@ public class GroupSecretMatchHandler {
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
-			Group group = GroupBM.get(groupId);
-			if (group != null) {
-				hasGroupAdd = true;
-				group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+			if (groupId.equals(matchEnemyData.getGroupId())) {// 当前领取这一刻的帮派Id跟我匹配到这个秘境时的帮派Id是不是一个
+				Group group = GroupBM.get(groupId);
+				if (group != null) {
+					hasGroupAdd = true;
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+				}
 			}
 		}
 		// 增加资源

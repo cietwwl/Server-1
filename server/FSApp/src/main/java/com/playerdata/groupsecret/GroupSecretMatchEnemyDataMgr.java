@@ -10,7 +10,6 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.manager.GameManager;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -77,11 +76,9 @@ public class GroupSecretMatchEnemyDataMgr {
 	 * @param groupSecretData
 	 * @param cfg
 	 */
-	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceCfg cfg, GroupSecretLevelGetResTemplate levelTmp, int zoneId, String zoneName) {
+	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceCfg cfg, GroupSecretLevelGetResTemplate levelTmp, int zoneId, String zoneName, String groupId) {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
-
-		GameManager.getZoneId();
 
 		int secretId = groupSecretData.getSecretId();
 		long now = System.currentTimeMillis();
@@ -92,6 +89,7 @@ public class GroupSecretMatchEnemyDataMgr {
 		enemyData.setCfgId(secretId);
 		enemyData.setZoneId(zoneId);
 		enemyData.setZoneName(zoneName);
+		enemyData.setGroupId(groupId);
 
 		Enumeration<DefendUserInfoData> values = groupSecretData.getEnumerationValues();
 		while (values.hasMoreElements()) {
@@ -268,7 +266,7 @@ public class GroupSecretMatchEnemyDataMgr {
 	 */
 	private void removeData(Player player, String id) {
 		// 同步数据
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(id, null, 0));
 	}
 }

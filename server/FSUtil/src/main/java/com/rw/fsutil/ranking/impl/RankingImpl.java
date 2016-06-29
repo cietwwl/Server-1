@@ -73,8 +73,6 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 
 			@Override
 			public void run() {
-				// RankingImpl.this.orderList = new ArrayList<MomentEntry<C,
-				// E>>();
 				ArrayList<MomentEntry<C, E>> list = new ArrayList<MomentEntry<C, E>>();
 				Set<RankingEntryImpl<C, E>> set = RankingImpl.this.treeMap.keySet();
 				int count = 0;
@@ -97,6 +95,7 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 				}
 			}
 		};
+		writeLock.lock();
 		try {
 			List<RankingEntryData> dataList = RankingDataManager.getRankingEntitys(type);
 			int size = dataList.size();
@@ -108,6 +107,8 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 			}
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
+		} finally {
+			writeLock.unlock();
 		}
 	}
 
@@ -332,7 +333,7 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 			C old = this.treeMap.remove(oldEntryImpl);
 			// 当排行榜不存在此条目时，先检查能不能重新加入排行榜
 			if (old == null) {
-				//删除失败时，检查是否需要进入安全删除模式
+				// 删除失败时，检查是否需要进入安全删除模式
 				RankingEntryImpl<C, E> oldEntry = this.hashMap.get(key);
 				if (oldEntry != null) {
 					safeRemove(oldEntry, key);
@@ -358,8 +359,8 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		return newEntryImpl;
 	}
 
-	private void safeRemove(RankingEntryImpl<C, E> oldEntry,String key){
-		//可以用==先进行比较
+	private void safeRemove(RankingEntryImpl<C, E> oldEntry, String key) {
+		// 可以用==先进行比较
 		int removePhase = 0;
 		C old = this.treeMap.remove(oldEntry);
 		if (old == null) {
@@ -376,7 +377,7 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		}
 		logger.error("updateRankingEntry移除失败：" + oldEntry.getKey() + "," + oldEntry.getComparable() + ",removePhase:" + removePhase);
 	}
-	
+
 	@Override
 	public RankingEntry<C, E> removeRankingEntry(String entryKey) {
 		RankingEntryImpl<C, E> entry = null;
@@ -554,11 +555,12 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		}
 	};
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public SegmentList<? extends MomentRankingEntry<C, E>> getSegmentList(C fromCondition, C toCondition) {
 		int r = fromCondition.compareTo(toCondition);
 		if (r == 0) {
-			throw new IllegalArgumentException("minValue is equal to maxValue");
+			throw new IllegalArgumentException("minValue is equal to maxValue,fromCondition=" + fromCondition + ",toCondition=" + toCondition);
 		}
 		// 对于排行榜来说，from是大数，交换位置
 		if (r < 0) {
@@ -569,48 +571,60 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 
 		RankingEntryImpl<C, E> fromEntryDummpy = new RankingEntryImpl<C, E>(null, 0, fromCondition, null);
 		RankingEntryImpl<C, E> toEntryDummpy = new RankingEntryImpl<C, E>(null, Long.MAX_VALUE, toCondition, null);
-		RankingEntryImpl<C, E> first;
-		RankingEntryImpl<C, E> last;
-		ArrayList<MomentEntry<C, E>> list;
-		readLock.lock();
+		RankingEntryImpl<C, E> first = null;
+		RankingEntryImpl<C, E> last = null;
+		ArrayList<MomentEntry<C, E>> list = null;
 		try {
-			// 最小值比排行榜最大值大，返回空的迭代器
-			// if
-			// (toCondition.compareTo(this.treeMap.firstKey().getComparable()) >
-			// 0) {
-			// return DUMMY_ENUMBERATE_LIST;
-			// }
-			// // 最大值比排行榜最小值小，返回空的迭代器
-			// if
-			// (fromCondition.compareTo(this.treeMap.lastKey().getComparable())
-			// < 0) {
-			// return DUMMY_ENUMBERATE_LIST;
-			// }
-			list = getOrderList_();
-			int size = list.size();
-			if (size == 0) {
+			readLock.lock();
+			try {
+				list = getOrderList_();
+				int size = list.size();
+				if (size == 0) {
+					return DUMMY_SEGMENT_LIST;
+				}
+				if (size != treeMap.size()) {
+					logger.error("ranking error treeMap size is not consistent:" + size + "," + treeMap.size());
+				}
+				// 最小值比排行榜最大值大，返回空的迭代器
+				if (toCondition.compareTo(list.get(0).entryImpl.getComparable()) > 0) {
+					return DUMMY_SEGMENT_LIST;
+				}
+				// 最大值比排行榜最小值小，返回空的迭代器
+				if (fromCondition.compareTo(list.get(list.size() - 1).entryImpl.getComparable()) < 0) {
+					return DUMMY_SEGMENT_LIST;
+				}
+				first = this.treeMap.ceilingKey(fromEntryDummpy);
+				last = this.treeMap.floorKey(toEntryDummpy);
+			} finally {
+				readLock.unlock();
+			}
+			int fromIndex = getPosition(first, list) - 1;
+			searchAndPrint(fromIndex, first, list);
+			int toIndex = getPosition(last, list) - 1;
+			searchAndPrint(toIndex, last, list);
+			if (fromIndex > toIndex) {
 				return DUMMY_SEGMENT_LIST;
 			}
-			// 最小值比排行榜最大值大，返回空的迭代器
-			if (toCondition.compareTo(list.get(0).entryImpl.getComparable()) > 0) {
-				return DUMMY_SEGMENT_LIST;
-			}
-			// 最大值比排行榜最小值小，返回空的迭代器
-			if (fromCondition.compareTo(list.get(list.size() - 1).entryImpl.getComparable()) < 0) {
-				return DUMMY_SEGMENT_LIST;
-			}
+			return new SegmentListImpl<MomentEntry<C, E>>(list, fromIndex, toIndex);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("#getSegmentList exception:" + fromCondition + ",toCondition=" + toCondition + ",first=" + first + ",last=" + last);
+			return DUMMY_SEGMENT_LIST;
+		}
+	}
 
-			first = this.treeMap.ceilingKey(fromEntryDummpy);
-			last = this.treeMap.floorKey(toEntryDummpy);
-		} finally {
-			readLock.unlock();
+	private void searchAndPrint(int index, RankingEntryImpl<C, E> rankingEntry, ArrayList<MomentEntry<C, E>> list) {
+		if (index >= 0) {
+			return;
 		}
-		int fromIndex = getPosition(first, list) - 1;
-		int toIndex = getPosition(last, list) - 1;
-		if(fromIndex > toIndex) {
-			return DUMMY_SEGMENT_LIST; 
+		for (int i = list.size(); --i >= 0;) {
+			MomentEntry<C, E> entry = list.get(i);
+			if (entry.getKey().equals(rankingEntry.getKey()) || entry.getComparable().compareTo(rankingEntry.getComparable()) == 0) {
+				logger.error("search success:" + entry.getKey() + "," + entry.getComparable() + entry.getRanking() + " || " + rankingEntry.getKey() + "," + rankingEntry.getComparable());
+				return;
+			}
 		}
-		return new SegmentListImpl<MomentEntry<C, E>>(list, fromIndex, toIndex);
+		logger.error("search fail:" + rankingEntry.getKey() + "," + rankingEntry.getComparable());
 	}
 
 	static class MomentEntry<C extends Comparable<C>, E> implements MomentRankingEntry<C, E> {

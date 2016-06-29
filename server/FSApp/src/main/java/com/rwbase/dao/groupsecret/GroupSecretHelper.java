@@ -85,7 +85,7 @@ public class GroupSecretHelper {
 	 * @return
 	 */
 	public static DefendUserInfoData getMyDefendUseInfoData(GroupSecretData secretData, String userId, boolean isFinish, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
-		return parseSecretData2NeedTeamInfo(secretData, userId, isFinish, null, defendUserInfoMap);
+		return parseSecretData2NeedTeamInfo(secretData, userId, isFinish, defendUserInfoMap);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class GroupSecretHelper {
 	 * @param defendUserInfoList
 	 */
 	public static void getEnemyTeamInfo(GroupSecretData secretData, GroupSecretMatchEnemyData enemyData, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
-		parseSecretData2NeedTeamInfo(secretData, null, false, enemyData, defendUserInfoMap);
+		parseEnemySecretData2NeedTeamInfo(secretData, enemyData, defendUserInfoMap);
 	}
 
 	/**
@@ -109,8 +109,7 @@ public class GroupSecretHelper {
 	 * @param defendUserInfoList
 	 * @return
 	 */
-	private static DefendUserInfoData parseSecretData2NeedTeamInfo(GroupSecretData secretData, String userId, boolean isFinish, GroupSecretMatchEnemyData enemyData,
-			Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
+	private static DefendUserInfoData parseSecretData2NeedTeamInfo(GroupSecretData secretData, String userId, boolean isFinish, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
 		DefendUserInfoData myDefendInfo = null;
 		// 找出自己驻守的秘境
 		Map<Integer, DefendUserInfoData> defendMap = secretData.getDefendMap();
@@ -135,9 +134,6 @@ public class GroupSecretHelper {
 				ItemDataIF magic = readOnlyPlayer.getMagic();
 
 				Integer index = e.getKey();
-				Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData == null ? null : enemyData.getTeamAttrInfoMap(index);
-
-				boolean isHasLife = false;
 				int fighting = 0;
 				List<String> heroList = value.getHeroList();
 				int heroSize = heroList.size();
@@ -151,27 +147,8 @@ public class GroupSecretHelper {
 					}
 
 					fighting += hero.getFighting();
-
-					boolean isDie = false;
-					HeroLeftInfoSynData heroLeftInfo = null;
-					if (teamAttrInfoMap != null) {
-						heroLeftInfo = teamAttrInfoMap.get(heroId);
-						if (heroLeftInfo == null) {
-							isHasLife = true;
-						} else {
-							int leftLife = heroLeftInfo.getLife();
-							if (leftLife <= 0) {
-								isDie = true;
-							} else {
-								isHasLife = true;
-							}
-						}
-					} else {
-						isHasLife = true;
-					}
-
 					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
-							.equals(defendUserId), isDie, heroLeftInfo));
+							.equals(defendUserId), false, null));
 				}
 
 				String groupName = "";
@@ -184,17 +161,101 @@ public class GroupSecretHelper {
 					}
 				}
 
-				int zoneId = enemyData == null ? 0 : enemyData.getZoneId();
-				String zoneName = enemyData == null ? "" : enemyData.getZoneName();
-
-				DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(),
-						readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName))
-						: new DefendUserInfoSynData(index, true, null);
+				DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
+						readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName));
 				defendUserInfoMap.put(index, userInfo);
 			}
 		}
 
 		return myDefendInfo;
+	}
+
+	/**
+	 * 通过秘境的数据转换成需要阵容信息
+	 * 
+	 * @param secretData
+	 * @param userId
+	 * @param isFinish
+	 * @param enemyData
+	 * @param defendUserInfoList
+	 * @return
+	 */
+	private static void parseEnemySecretData2NeedTeamInfo(GroupSecretData secretData, GroupSecretMatchEnemyData enemyData, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
+		// 找出自己驻守的秘境
+		Map<Integer, DefendUserInfoData> defendMap = secretData.getDefendMap();
+		for (Entry<Integer, DefendUserInfoData> e : defendMap.entrySet()) {
+			DefendUserInfoData value = e.getValue();
+			if (value == null) {
+				continue;
+			}
+
+			Integer index = e.getKey();
+			Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);// 如果记录中是没有这个对应位置剩余血量就不用把这个放到敌人信息中
+			if (teamAttrInfoMap == null || teamAttrInfoMap.isEmpty()) {
+				continue;
+			}
+
+			String defendUserId = value.getUserId();
+			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserId);
+			if (readOnlyPlayer == null) {
+				continue;
+			}
+
+			// 法宝信息
+			ItemDataIF magic = readOnlyPlayer.getMagic();
+
+			boolean isHasLife = false;
+			int fighting = 0;
+			int heroSize = teamAttrInfoMap.size();
+
+			List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
+			for (Entry<String, HeroLeftInfoSynData> entry : teamAttrInfoMap.entrySet()) {
+				String heroId = entry.getKey();
+				HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+				if (hero == null) {
+					continue;
+				}
+
+				fighting += hero.getFighting();
+
+				boolean isDie = false;
+				HeroLeftInfoSynData heroLeftInfo = entry.getValue();
+				if (heroLeftInfo == null) {
+					isHasLife = true;
+				} else {
+					int leftLife = heroLeftInfo.getLife();
+					if (leftLife <= 0) {
+						isDie = true;
+					} else {
+						isHasLife = true;
+					}
+				}
+
+				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
+						.equals(defendUserId), isDie, heroLeftInfo));
+			}
+
+			String groupName = "";
+			UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			Group group = GroupBM.get(userGroupAttributeData.getGroupId());
+			if (group != null) {
+				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+				if (groupData != null) {
+					groupName = groupData.getGroupName();
+				}
+			}
+
+			int zoneId = enemyData.getZoneId();
+			String zoneName = enemyData.getZoneName();
+
+			// DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId,
+			// readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
+			// readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName)) : new
+			// DefendUserInfoSynData(index, true, null);
+			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
+					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName));
+			defendUserInfoMap.put(index, userInfo);
+		}
 	}
 
 	/**
@@ -253,11 +314,11 @@ public class GroupSecretHelper {
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-				enemyData.getAllRobGSValue());
+				enemyData.getAllRobGSValue(), enemyData.getGroupId());
 
-		if (beat) {// 如果已经打败了
-			return new GroupSecretDataSynData(baseInfo, null);
-		}
+		// if (beat) {// 如果已经打败了
+		// return new GroupSecretDataSynData(baseInfo, null);
+		// }
 
 		if (protectTimeMillis > 0) {
 			long now = System.currentTimeMillis();
@@ -331,7 +392,7 @@ public class GroupSecretHelper {
 			index = myDefendInfo.getIndex();
 		}
 
-		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS);
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 

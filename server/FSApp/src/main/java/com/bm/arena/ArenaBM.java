@@ -13,7 +13,9 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
+import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -175,6 +177,21 @@ public class ArenaBM {
 		// TableAttrDAO.getInstance().get(player.getUserId()));
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
+
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		ArrayList<String> defaultHeros = new ArrayList<String>(4);
+		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
+		for (Hero hero : maxFightingHeros) {
+			String heroId = hero.getUUId();
+			if (!heroId.equals(userId)) {
+				defaultHeros.add(heroId);
+				defaultAtkHeros.add(hero.getTemplateId());
+			}
+		}
+
+		data.setHeroIdList(defaultHeros);
+		data.setAtkHeroList(defaultAtkHeros);
+		
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);
@@ -275,6 +292,7 @@ public class ArenaBM {
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		tableArenaData.setRemainCount(infoCfg.getCount());
 		tableArenaData.setScore(0);
+		tableArenaData.setBuyTimes(0);
 		tableArenaData.getRewardList().clear();
 		TableArenaDataDAO.getInstance().update(tableArenaData);
 	}
@@ -308,6 +326,7 @@ public class ArenaBM {
 		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity,0);
 		Player player = PlayerMgr.getInstance().find(userId);
 		player.getTempAttribute().setRedPointChanged();
+		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
 	}
 
 	// 筛选玩家
@@ -474,17 +493,24 @@ public class ArenaBM {
 	 * @return
 	 */
 	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId) {
+		return getRecordHurtValue(userId, recordId, null);
+	}
+	
+	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId,RefParam<String> enemyUserId) {
 		List<RecordInfo> list = getArenaRecordList(userId);
 		if (list == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		for (int i = list.size(); --i >= 0;) {
 			RecordInfo info = list.get(i);
 			if (info.getRecordId() == recordId) {
+				if (enemyUserId!=null){
+					enemyUserId.value = info.getUserId();
+				}
 				return info.getHurtList();
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public List<RecordInfo> getArenaRecordList(String userId) {

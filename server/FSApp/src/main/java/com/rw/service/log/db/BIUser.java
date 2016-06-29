@@ -4,6 +4,7 @@ import javax.persistence.Id;
 
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.user.UserGameData;
 
 public class BIUser{
@@ -16,6 +17,8 @@ public class BIUser{
 	private  ZoneRegInfo zoneRegInfo;
 	@SaveAsJson
 	private UserGameData dbvalue;
+	@SaveAsJson
+	private MajorData majorData;
 	
 	private long coin;// 铜钱
 	
@@ -63,13 +66,4 @@ public class BIUser{
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	public UserGameData getDbvalue() {
-		return dbvalue;
-	}
-	public void setDbvalue(UserGameData dbvalue) {
-		this.dbvalue = dbvalue;
-	}
-
-	
-	
 }

@@ -105,7 +105,7 @@ public class GambleLogic {
 
 		Random ranGen = getRandom();
 		RefInt slotCount = new RefInt();
-		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>();
+		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
 		final int maxHistoryNumber = dropPlan.getCheckNum();
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
@@ -171,6 +171,8 @@ public class GambleLogic {
 				//有错误，减少最大抽卡数量
 				maxCount --;
 			}
+			
+			historyRecord.clearHistory(isFree, dropPlan);
 		}
 
 		//扣钱

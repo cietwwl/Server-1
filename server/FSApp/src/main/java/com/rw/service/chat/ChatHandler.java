@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -20,8 +19,6 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.dao.chat.TableUserPrivateChatDao;
-import com.rwbase.dao.chat.pojo.UserPrivateChat;
 import com.rwbase.dao.friend.FriendUtils;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -37,7 +34,6 @@ import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class ChatHandler {
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
@@ -192,8 +188,8 @@ public class ChatHandler {
 			data.setMessage(chatContent);
 			msgChatResponse.addListMessage(data);
 			ChatBM.getInstance().addFamilyChat(groupId, data);
-			
-			//聊天日志
+
+			// 聊天日志
 			BILogMgr.getInstance().logChat(player, "", BIChatType.GROUP.getType(), chatContent);
 		}
 
@@ -263,7 +259,7 @@ public class ChatHandler {
 		receiveUserInfo.setLevel(toPlayer.getLevel());// 等级
 		receiveUserInfo.setHeadImage(toPlayer.getTableUser().getHeadImageWithDefault());// 头像Id
 		receiveUserInfo.setUserName(toPlayer.getTableUser().getUserName());// 角色名字
-		receiveUserInfo.setHeadbox(toPlayer.getHeadFrame());//头像品质框
+		receiveUserInfo.setHeadbox(toPlayer.getHeadFrame());// 头像品质框
 
 		// 设置帮派信息
 		UserGroupAttributeDataIF toPlayerGroupData = toPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -316,7 +312,6 @@ public class ChatHandler {
 		}
 		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
 		return result;
-		// }
 	}
 
 	/**
@@ -326,20 +321,11 @@ public class ChatHandler {
 	 * @param data 聊天数据
 	 */
 	private void updatePlayerChatMsg(String userId, ChatMessageData.Builder data, eChatType chatType) {
-		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
-		UserPrivateChat userPrivateChat = dao.get(userId);
-		if (userPrivateChat == null) {
-			userPrivateChat = new UserPrivateChat();
-			userPrivateChat.setUserId(userId);
-		}
-
 		if (chatType == eChatType.CHAT_PERSON) {
-			userPrivateChat.addPrivateChatMessage(Base64.encode(data.build().toByteArray()));
+			ChatBM.getInstance().addPrivateChat(userId, data.build());
 		} else if (chatType == eChatType.CHAT_TREASURE) {
-			userPrivateChat.addTreasureChatMessage(data.build().toByteString());// 存储密境分享信息
+			ChatBM.getInstance().addGroupSecretChat(userId, data.build());
 		}
-
-		dao.update(userPrivateChat);
 	}
 
 	/**
@@ -366,7 +352,7 @@ public class ChatHandler {
 		String playerName = player.getUserName();// 角色名字
 		String msgTime = getMessageTime();// 发布消息的时间
 		String userId = player.getUserId();
-		String headFrame = player.getHeadFrame();//头像品质框
+		String headFrame = player.getHeadFrame();// 头像品质框
 
 		for (int i = 0, size = playerList.size(); i < size; i++) {
 			ChatMessageData.Builder msgData = ChatMessageData.newBuilder();
@@ -416,13 +402,9 @@ public class ChatHandler {
 		msgChatResponse.setChatType(msgChatRequest.getChatType());
 
 		// TODO @modify 2015-08-14 HC 消息缓存在数据库中取
-		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
-		UserPrivateChat userPrivateChat = dao.get(player.getUserId());
-		if (userPrivateChat != null) {
-			List<ChatMessageData> treasureChatMessageList = userPrivateChat.getTreasureChatMessageList();
-			for (int i = 0, size = treasureChatMessageList.size(); i < size; i++) {
-				msgChatResponse.addListMessage(treasureChatMessageList.get(i));
-			}
+		List<ChatMessageData> treasureChatMessageList = ChatBM.getInstance().getGroupSecretChatList(player.getUserId());
+		for (int i = 0, size = treasureChatMessageList.size(); i < size; i++) {
+			msgChatResponse.addListMessage(treasureChatMessageList.get(i));
 		}
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
@@ -509,33 +491,22 @@ public class ChatHandler {
 		msgChatResponse.setOnLogin(true);
 
 		Map<Integer, ChatMessageData> updateStateMsgMap = new HashMap<Integer, ChatMessageData>();
-		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
-		UserPrivateChat userPrivateChat = dao.get(player.getUserId());
-		if (userPrivateChat != null) {
-			List<ChatMessageData> privateChatMessageList = userPrivateChat.getPrivateChatMessageList();
-			for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
-				ChatMessageData chatMsgData = privateChatMessageList.get(i);
-				msgChatResponse.addListMessage(chatMsgData);
+		ChatBM instance = ChatBM.getInstance();
+		String userId = player.getUserId();
+		List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
+		for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
+			ChatMessageData chatMsgData = privateChatMessageList.get(i);
+			msgChatResponse.addListMessage(chatMsgData);
 
-				if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
-					updateStateMsgMap.put(i, chatMsgData);
-				}
+			if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
+				updateStateMsgMap.put(i, chatMsgData);
 			}
 		}
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 
-		if (userPrivateChat != null) {
-			// 更新
-			for (Entry<Integer, ChatMessageData> e : updateStateMsgMap.entrySet()) {
-				ChatMessageData.Builder chatMsgData = ChatMessageData.newBuilder(e.getValue());
-				chatMsgData.setIsRead(true);
-				userPrivateChat.updatePrivateChatMessageState(e.getKey(), chatMsgData.build());
-			}
-
-			dao.update(userPrivateChat);
-		}
+		instance.updatePrivateChatState(userId, updateStateMsgMap);
 	}
 
 	private void sendTreasureMsg(Player player) {
@@ -543,13 +514,9 @@ public class ChatHandler {
 		msgChatResponse.setOnLogin(true);
 		msgChatResponse.setChatType(eChatType.CHAT_TREASURE);
 
-		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
-		UserPrivateChat userPrivateChat = dao.get(player.getUserId());
-		if (userPrivateChat != null) {
-			List<ChatMessageData> treasureChatMessageList = userPrivateChat.getTreasureChatMessageList();
-			for (int i = 0, size = treasureChatMessageList.size(); i < size; i++) {
-				msgChatResponse.addListMessage(treasureChatMessageList.get(i));
-			}
+		List<ChatMessageData> treasureChatMessageList = ChatBM.getInstance().getGroupSecretChatList(player.getUserId());
+		for (int i = 0, size = treasureChatMessageList.size(); i < size; i++) {
+			msgChatResponse.addListMessage(treasureChatMessageList.get(i));
 		}
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
@@ -559,12 +526,4 @@ public class ChatHandler {
 	private String filterDirtyWord(String content) {
 		return CharFilterFactory.getCharFilter().replaceDiryWords(content, "**", true, true);
 	}
-
-	// private byte[] privateMessageDecode(String message) {
-	// return Base64.decode(message);
-	// }
-	//
-	// private String privateMessageEncode(byte[] message) {
-	// return Base64.encode(message);
-	// }
 }

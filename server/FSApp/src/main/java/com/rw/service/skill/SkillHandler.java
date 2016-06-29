@@ -130,6 +130,8 @@ public class SkillHandler {
 		int skillPointCost = currentPoints - totalPoints;
 		gameDataMgr.setSkillPointCount(skillPointCost);
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_SkillUpgrade, totalPoints);
+		
+		player.getUserTmpGameDataFlag().setSynFightingAll(true);
 		return getFailResponse(player, "", SkillEventType.Skill_Upgrade);
 	}
 

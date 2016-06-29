@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
@@ -151,6 +153,7 @@ public class RankingMgr {
 	 */
 	@SuppressWarnings("unchecked")
 	public void resetUpdateState() {
+		GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			GameWorld world = GameWorldFactory.getGameWorld();
 			String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
@@ -160,7 +163,7 @@ public class RankingMgr {
 					return;
 				}
 			}
-
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 			// 第一次初始化的时候调用
 			if (lastResetText == null || lastResetText.isEmpty()) {
 				ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
@@ -197,12 +200,14 @@ public class RankingMgr {
 			// // 初始化万仙阵数据
 			// changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
 			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		} catch (Exception e) {
 			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
 		}
 	}
 
 	public void arenaCalculate() {
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		GameWorld world = GameWorldFactory.getGameWorld();
 		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
 		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
@@ -212,6 +217,7 @@ public class RankingMgr {
 				return;
 			}
 		}
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
 			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
@@ -223,6 +229,7 @@ public class RankingMgr {
 			rewardOnlinePlayers();
 		} finally {
 			world.updateAttribute(GameWorldKey.ARENA_CALCULATE, String.valueOf(System.currentTimeMillis()));
+			GameLog.info("RankingMgr", "arenaCalculate", "执行结算结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		}
 	}
 
@@ -481,7 +488,7 @@ public class RankingMgr {
 			return false;
 		}
 		if (rankType == ERankingType.ATHLETICS_FIGHTING) {
-			return pPlayer.getLevel() >= 45;
+			return PeakArenaBM.getInstance().isOpen(pPlayer);
 		}
 		CfgRanking cfgRank = CfgRankingDAO.getInstance().getRankingCf(rankType.getValue());
 		if (cfgRank == null || pPlayer.getLevel() < cfgRank.getLimitLevel()) {// 未到达开放等级返回
@@ -577,6 +584,14 @@ public class RankingMgr {
 			ranking.addOrUpdateRankingEntry(userId, levelComparable, player);
 		} else {
 			ranking.updateRankingEntry(entry, levelComparable);
+		}
+	}
+
+	public void addPeakFightingRanking(Player player) {
+		try {
+			checkUpdateFighting(player, RankType.PEAK_ARENA_FIGHTING, getPeakArenaFighting(player), ERankingType.ATHLETICS_FIGHTING);
+		} catch (Exception ex) {
+			GameLog.error("PeakArenaBM", player.getUserId(), "添加到排行榜异常:", ex);
 		}
 	}
 
