@@ -176,14 +176,17 @@ public class ArenaBM {
 
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
+		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
 		for (Hero hero : maxFightingHeros) {
 			String heroId = hero.getUUId();
 			if (!heroId.equals(userId)) {
 				defaultHeros.add(heroId);
+				defaultAtkHeros.add(hero.getTemplateId());
 			}
 		}
 
 		data.setHeroIdList(defaultHeros);
+		data.setAtkHeroList(defaultAtkHeros);
 		
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
@@ -285,6 +288,7 @@ public class ArenaBM {
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		tableArenaData.setRemainCount(infoCfg.getCount());
 		tableArenaData.setScore(0);
+		tableArenaData.setBuyTimes(0);
 		tableArenaData.getRewardList().clear();
 		TableArenaDataDAO.getInstance().update(tableArenaData);
 	}
@@ -309,8 +313,7 @@ public class ArenaBM {
 			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
 		}
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
-		Player player = PlayerMgr.getInstance().find(userId);
-		player.getTempAttribute().setRedPointChanged();
+		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
 	}
 
 	// 筛选玩家

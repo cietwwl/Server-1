@@ -205,7 +205,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 		List<String> allEnemyIdList = angelArrayFloorDataHolder.getEnemyUserIdList();
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
-		int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
+		// 计算出来当前要生成多少层的数据，这个做法主要是用来兼容如果某一关出现错误，可以随时补漏
+		int group = floor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 当前组Id
+		int size = group * AngelArrayConst.TOWER_UPDATE_NUM;
+		// int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
 
 		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
 		List<String> hasUserIdList = holder.getAllUserIdList();
@@ -356,19 +359,19 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		if (floor > maxFloor) {
 			firstReward.append(TowerFirstAwardCfgDAO.getInstance().GetGooldListStr(String.valueOf(floor + 1)));
 		}
-		
-		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,CopyType.COPY_TYPE_TOWER, 3);		
+
+		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player, CopyType.COPY_TYPE_TOWER, 3);
 		TowerAwardCfg awardCfg = TowerAwardCfgDAO.getLevelTowerCfgByFloor(angleArrayData.getResetLevel(), floor);
 		if (awardCfg != null) {
 			// 过关奖励
 			int gold = awardCfg.gold;
 			int towerCoin = awardCfg.towerCoin;
 			if (gold > 0) {
-				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold*multiple).append(",");
+				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold * multiple).append(",");
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
-				
+
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
@@ -387,7 +390,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 					int maxNum = goodCfg.getMaxNum();// 最大数量
 					int num = leastNum + (int) Math.random() * (maxNum - leastNum + 1);
 					if (num > 0) {
-						dropReward.append(goodCfg.getItemId()).append("_").append(num*multiple).append(",");
+						dropReward.append(goodCfg.getItemId()).append("_").append(num * multiple).append(",");
 					}
 				}
 			}
@@ -424,7 +427,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);
 			}
-			if(templateId == eSpecialItemId.BraveCoin.getValue()){
+			if (templateId == eSpecialItemId.BraveCoin.getValue()) {
 				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
 		}
@@ -510,7 +513,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			curAttrData = new CurAttrData();
 			curAttrData.setId(heroId);
 			curAttrData.setCurLife(attrData.getLife());
-			curAttrData.setCurEnergy(attrData.getEnergy());
 		}
 
 		return curAttrData;

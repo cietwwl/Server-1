@@ -71,10 +71,10 @@ public class RankingHandler {
 			pushRankList(player, rankList.subList(20, rankList.size()), ERankRequestType.RANK_LIST_PART2);
 		}
 		
-		Ranking ranking = RankingFactory.getRanking(rankType);
+		RankingMgr rankingMgr = RankingMgr.getInstance();
 		RankingLevelData myInfoData = RankingMgr.getInstance().getRankLevelData(rankType, userId);
-		if(myInfoData != null){
-			response.setMyRankInfo(RankingUtils.createOneRankInfo(myInfoData,ranking.getRanking(userId)));
+		if (myInfoData != null) {
+			response.setMyRankInfo(RankingUtils.createOneRankInfo(myInfoData, rankingMgr.getRankLevel(rankType, userId), true));
 		}
 		return response.build().toByteString();
 	}
