@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -20,12 +22,16 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
  */
 @Table(name = "group_copy_map_item")
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyMapRecord implements IMapItem {
 
 	@Id
-	private String id; // 对应章节id
+	private String id; // chaterID_groupID
 	@IgnoreSynField
 	private String groupId; // 帮派ID
+	
+	@CombineSave
+	private String chaterID; //对应章节id
 	
 	@CombineSave
 	private GroupCopyMapStatus status;//状态 开启 关闭 完成
@@ -78,6 +84,12 @@ public class GroupCopyMapRecord implements IMapItem {
 		this.groupId = groupId;
 	}
 
+	public String getChaterID() {
+		return chaterID;
+	}
+	public void setChaterID(String chaterID) {
+		this.chaterID = chaterID;
+	}
 	public GroupCopyMapStatus getStatus() {
 		return status;
 	}

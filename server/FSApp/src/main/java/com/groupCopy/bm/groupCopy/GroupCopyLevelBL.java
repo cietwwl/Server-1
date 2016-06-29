@@ -113,7 +113,7 @@ public class GroupCopyLevelBL {
 					lvRecord.setLastBeginFightTime(System.currentTimeMillis());
 					GroupCopyProgress progress = lvRecord.getProgress();
 					if(progress == null){
-						progress = GroupCopyLevelBL.createProgress(lvRecord.getId());
+						progress = GroupCopyLevelBL.createProgress(lvRecord.getLevelID());
 						lvRecord.setProgress(progress);
 					}
 					

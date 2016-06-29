@@ -31,7 +31,7 @@ public class DropAndApplyRecordHolder {
 		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
 		CopyItemDropAndApplyRecord record = null;
 		for (GroupCopyMapCfg cfg : list) {
-			record = getItem(cfg.getId());
+			record = getItemByID(cfg.getId());
 			if(record == null){
 				record = new CopyItemDropAndApplyRecord(cfg.getId(), groupId);
 				getItemStore().addItem(record);
@@ -39,18 +39,22 @@ public class DropAndApplyRecordHolder {
 		}
 	}
 	
-	
+	private String getRecordID(String chaterID){
+		return groupId+"_"+chaterID ;
+	}
 	
 	public List<CopyItemDropAndApplyRecord> getItemList()	
 	{
 		
 		List<CopyItemDropAndApplyRecord> itemList = new ArrayList<CopyItemDropAndApplyRecord>();
-		Enumeration<CopyItemDropAndApplyRecord> mapEnum = getItemStore().getEnum();
-		while (mapEnum.hasMoreElements()) {
-			CopyItemDropAndApplyRecord item = (CopyItemDropAndApplyRecord) mapEnum.nextElement();
-			itemList.add(item);
+		CopyItemDropAndApplyRecord item;
+		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
+		for (GroupCopyMapCfg cfg : allCfg) {
+			item =getItemStore().getItem(getRecordID(cfg.getId()));
+			if(item != null){
+				itemList.add(item);
+			}
 		}
-		
 		return itemList;
 	}
 	
@@ -59,20 +63,11 @@ public class DropAndApplyRecordHolder {
 		updateVersion();
 	}
 	
-	public CopyItemDropAndApplyRecord getItem(String itemId){
-		return getItemStore().getItem(itemId);
+	public CopyItemDropAndApplyRecord getItemByID(String itemId){
+		return getItemStore().getItem(getRecordID(itemId));
 	}
 	
 	
-	public boolean addItem(Player player, CopyItemDropAndApplyRecord item){
-	
-		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess){
-			updateVersion();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
 	
 	public void synAllData(Player player, int version){
 		List<CopyItemDropAndApplyRecord> itemList = getItemList();			

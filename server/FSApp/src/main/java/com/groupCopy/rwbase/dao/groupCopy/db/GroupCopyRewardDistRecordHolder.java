@@ -16,22 +16,20 @@ import com.rwbase.common.PlayerDataMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GroupCopyRewardRecordHolder{
-	
-	
+public class GroupCopyRewardDistRecordHolder{
 	
 	final private String groupId;
 	final private eSynType synType = eSynType.GROUP_COPY_REWARD;
 	
-	public GroupCopyRewardRecordHolder(String groupIdP) {
+	public GroupCopyRewardDistRecordHolder(String groupIdP) {
 		groupId = groupIdP;
 		initData();
 	}
 	
 	private void initData(){
-		GroupCopyRewardRecord item = getItem(groupId);
+		GroupCopyRewardDistRecord item = getItem(groupId);
 		if(item == null){
-			item = new GroupCopyRewardRecord();
+			item = new GroupCopyRewardDistRecord();
 			item.setGroupId(groupId);
 			item.setId(groupId);
 			getItemStore().addItem(item);
@@ -42,29 +40,29 @@ public class GroupCopyRewardRecordHolder{
 	/*
 	 * 获取用户已经拥有的时装
 	 */
-	public List<GroupCopyRewardRecord> getItemList()	
+	public List<GroupCopyRewardDistRecord> getItemList()	
 	{
 		
-		List<GroupCopyRewardRecord> itemList = new ArrayList<GroupCopyRewardRecord>();
-		Enumeration<GroupCopyRewardRecord> mapEnum = getItemStore().getEnum();
+		List<GroupCopyRewardDistRecord> itemList = new ArrayList<GroupCopyRewardDistRecord>();
+		Enumeration<GroupCopyRewardDistRecord> mapEnum = getItemStore().getEnum();
 		while (mapEnum.hasMoreElements()) {
-			GroupCopyRewardRecord item = (GroupCopyRewardRecord) mapEnum.nextElement();
+			GroupCopyRewardDistRecord item = (GroupCopyRewardDistRecord) mapEnum.nextElement();
 			itemList.add(item);
 		}
 		
 		return itemList;
 	}
 	
-	public void updateItem(Player player, GroupCopyRewardRecord item){
+	public void updateItem(Player player, GroupCopyRewardDistRecord item){
 		getItemStore().updateItem(item);
 	}
 	
-	public GroupCopyRewardRecord getItem(String itemId){
+	public GroupCopyRewardDistRecord getItem(String itemId){
 		return getItemStore().getItem(itemId);
 	}
 	
 	
-	public boolean addItem(Player player, GroupCopyRewardRecord item){
+	public boolean addItem(Player player, GroupCopyRewardDistRecord item){
 	
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
@@ -74,14 +72,14 @@ public class GroupCopyRewardRecordHolder{
 	}
 	
 	public void synAllData(Player player, int version){
-		List<GroupCopyRewardRecord> itemList = getItemList();			
+		List<GroupCopyRewardDistRecord> itemList = getItemList();			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
 	
-	private MapItemStore<GroupCopyRewardRecord> getItemStore(){
-		MapItemStoreCache<GroupCopyRewardRecord> cache = MapItemStoreFactory.getGroupCopyRewardRecordCache();
-		return cache.getMapItemStore(groupId, GroupCopyRewardRecord.class);
+	private MapItemStore<GroupCopyRewardDistRecord> getItemStore(){
+		MapItemStoreCache<GroupCopyRewardDistRecord> cache = MapItemStoreFactory.getGroupCopyRewardRecordCache();
+		return cache.getMapItemStore(groupId, GroupCopyRewardDistRecord.class);
 	}
 }

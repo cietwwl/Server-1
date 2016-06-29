@@ -7,7 +7,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
@@ -79,7 +79,7 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<GroupCopyMapRecord> groupCopyMapRecordCache;
 	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
-	private static MapItemStoreCache<GroupCopyRewardRecord> groupCopyRewardRecordCache;
+	private static MapItemStoreCache<GroupCopyRewardDistRecord> groupCopyRewardRecordCache;
 	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
@@ -103,7 +103,8 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
 
-	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	
+	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 	
@@ -159,7 +160,7 @@ public class MapItemStoreFactory {
 		register(groupCopyMapRecordCache = new MapItemStoreCache<GroupCopyMapRecord>(GroupCopyMapRecord.class, "groupId", heroCapacity));
 		
 		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
-		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardRecord>(GroupCopyRewardRecord.class, "groupId", heroCapacity));
+		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardDistRecord>(GroupCopyRewardDistRecord.class, "groupId", heroCapacity));
 
 		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
 		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
@@ -328,7 +329,7 @@ public class MapItemStoreFactory {
 	 * 获取帮派奖励分配记录
 	 * @return
 	 */
-	public static MapItemStoreCache<GroupCopyRewardRecord> getGroupCopyRewardRecordCache() {
+	public static MapItemStoreCache<GroupCopyRewardDistRecord> getGroupCopyRewardRecordCache() {
 		return groupCopyRewardRecordCache;
 	}
 

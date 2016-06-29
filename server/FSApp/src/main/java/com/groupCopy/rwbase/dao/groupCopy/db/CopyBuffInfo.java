@@ -17,7 +17,7 @@ public class CopyBuffInfo {
 	private int totalBuff;
 	
 	
-	/**当前关卡的赞助<key=角色id, value=赞助次数>*/
+	/**当前关卡的赞助<key=角色名, value=赞助次数>*/
 	private Map<String, Integer> buffMap = new HashMap<String, Integer>();
 	
 	
@@ -41,12 +41,12 @@ public class CopyBuffInfo {
 	}
 
 
-	public void addBuff(String playerID, int count) {
-		Integer v = buffMap.get(playerID);
+	public void addBuff(String playerName, int count) {
+		Integer v = buffMap.get(playerName);
 		if(v != null){
-			buffMap.put(playerID, v + count);
+			buffMap.put(playerName, v + count);
 		}else{
-			buffMap.put(playerID, count);
+			buffMap.put(playerName, count);
 		}
 	}
 

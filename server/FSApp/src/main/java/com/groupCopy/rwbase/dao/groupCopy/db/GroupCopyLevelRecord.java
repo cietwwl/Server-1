@@ -21,10 +21,12 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class GroupCopyLevelRecord implements IMapItem {
 
 	@Id
-	private String id; // 唯一id 对应关卡id
+	private String id; // 唯一id groupID_levelID
 	@IgnoreSynField
 	private String groupId; // 帮派ID
 	
+	@CombineSave
+	private String levelID;//关卡id
 	/**
 	 * 副本进度
 	 */
@@ -77,6 +79,14 @@ public class GroupCopyLevelRecord implements IMapItem {
 
 
 	
+	public String getLevelID() {
+		return levelID;
+	}
+
+	public void setLevelID(String levelID) {
+		this.levelID = levelID;
+	}
+
 	public int getStatus() {
 		return status;
 	}
@@ -96,11 +106,11 @@ public class GroupCopyLevelRecord implements IMapItem {
 	 * 添加buff
 	 * <b>注意，此方法并不保证线程安全，要求外部进行并发控制</b>
 	 * <pre>
-	 * @param playerID
+	 * @param playerName
 	 * @param count
 	 */
-	public void addRoleDonate(String playerID, int count) {
-		buffInfo.addBuff(playerID, count);
+	public void addRoleDonate(String playerName, int count) {
+		buffInfo.addBuff(playerName, count);
 	}
 	
 	public void addBuff(int count){

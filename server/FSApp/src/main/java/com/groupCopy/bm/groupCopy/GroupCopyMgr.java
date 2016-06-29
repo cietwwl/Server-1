@@ -19,7 +19,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
@@ -62,7 +62,7 @@ public class GroupCopyMgr {
 	private GroupCopyMapRecordHolder mapRecordHolder;
 
 	/**帮派副本奖励分配记录*/
-	private GroupCopyRewardRecordHolder rewardRecordHolder;
+	private GroupCopyRewardDistRecordHolder rewardRecordHolder;
 	
 	/**帮派副本胜利品及申请列表*/
 	private DropAndApplyRecordHolder dropHolder;
@@ -77,7 +77,7 @@ public class GroupCopyMgr {
 	public GroupCopyMgr(String groupIdP) {
 		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
-		rewardRecordHolder = new GroupCopyRewardRecordHolder(groupIdP);
+		rewardRecordHolder = new GroupCopyRewardDistRecordHolder(groupIdP);
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
 	}
 	
@@ -212,8 +212,8 @@ public class GroupCopyMgr {
 			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-		GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(cfg.getChaterID());
-		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItem(cfg.getChaterID());
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
+		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
 		ItemDropAndApplyTemplate dropApplyRecord = null;
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
@@ -243,7 +243,7 @@ public class GroupCopyMgr {
 			ServerGroupCopyDamageRecordMgr.getInstance().checkDamageRank(levelId,damageInfo);
 			
 			//增加成员章节总伤害
-			GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(cfg.getChaterID());
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 			mapRecord.addPlayerDamage(player.getUserId(), damage);
 			
 		} catch (Exception e) {
@@ -441,7 +441,7 @@ public class GroupCopyMgr {
 					result.setSuccess(suc);
 					return result;
 				}
-				record.addRoleDonate(player.getUserId(), data.getDonateTime());
+				record.addRoleDonate(player.getUserName(), data.getDonateTime());
 				record.addBuff(donateCfg.getIncreValue());
 				//扣钱  加帮贡
 				int code = player.getUserGameDataMgr().addGold(-donateCfg.getGold());
@@ -468,7 +468,7 @@ public class GroupCopyMgr {
 			GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyResult result = GroupCopyResult.newResult();
 		String chaterID = reqMsg.getChaterID();
-		GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(chaterID);
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(chaterID);
 		if(mapRecord == null){
 			result.setSuccess(false);
 			result.setTipMsg("找不到对应id为"+chaterID+"的地图配置！");

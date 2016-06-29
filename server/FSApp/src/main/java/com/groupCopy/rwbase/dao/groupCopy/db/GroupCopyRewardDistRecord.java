@@ -19,7 +19,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
  */
 @Table(name = "group_copy_reward_record")
 @SynClass
-public class GroupCopyRewardRecord implements IMapItem {
+public class GroupCopyRewardDistRecord implements IMapItem {
 
 	@Id
 	@IgnoreSynField

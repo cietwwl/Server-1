@@ -15,18 +15,21 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class CopyItemDropAndApplyRecord implements IMapItem {
 
 	@Id
-	private String id; // 对应章节id
+	private String id; //groupID_chaterID 
 	@IgnoreSynField
 	private String groupId; // 帮派ID
 
+	@CombineSave
+	private String chaterID;//对应章节id
 	/** 当前地图的掉落物品及对应的申请列表<key=itemID,value=掉落记录> */
 	@CombineSave
 	@IgnoreSynField
 	private HashMap<String, ItemDropAndApplyTemplate> daMap = new HashMap<String, ItemDropAndApplyTemplate>();
 
 	public CopyItemDropAndApplyRecord(String id, String groupId) {
-		this.id = id;
+		this.id = groupId+"_"+id;
 		this.groupId = groupId;
+		this.chaterID = id;
 	}
 
 	public CopyItemDropAndApplyRecord() {
@@ -54,16 +57,15 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	
+	public String getChaterID() {
+		return chaterID;
 	}
 
+	
 	public String getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
-
+	
 }

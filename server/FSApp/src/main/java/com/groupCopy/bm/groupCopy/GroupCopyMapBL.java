@@ -36,7 +36,7 @@ public class GroupCopyMapBL {
 		boolean suc = false;
 		GroupCopyResult result = GroupCopyResult.newResult();
 		try {
-			GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(mapId);
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(mapId);
 			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
 			if(mapRecord == null){
 				GameLog.error(LogModule.GroupCopy, "GroupCopyMapBL[openMap]", "玩家开启帮派副本出现异常，玩家名:" 

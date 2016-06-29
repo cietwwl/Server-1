@@ -1,12 +1,10 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.common.GameUtil;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
@@ -37,10 +35,11 @@ public class GroupCopyMapRecordHolder{
 		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
 		GroupCopyMapRecord record;
 		for (GroupCopyMapCfg cfg : list) {
-			 record = getItem(cfg.getId());
+			 record = getItemByID(cfg.getId());
 			 if(record == null){
 				 record = createRecord(cfg.getId());
-				 getItemStore().addItem(record);
+				 MapItemStore<GroupCopyMapRecord> store = getItemStore();
+				 store.addItem(record);
 			 }
 		}
 	}
@@ -49,7 +48,8 @@ public class GroupCopyMapRecordHolder{
 		GroupCopyMapRecord record = null;
 		try {
 			record = new GroupCopyMapRecord();
-			record.setId(mapID);
+			record.setId(getRecordID(mapID));
+			record.setChaterID(mapID);
 			record.setGroupId(groupId);
 			record.setStatus(GroupCopyMapStatus.LOCKING);
 			
@@ -62,12 +62,14 @@ public class GroupCopyMapRecordHolder{
 
 	public List<GroupCopyMapRecord> getItemList()	
 	{
-		
 		List<GroupCopyMapRecord> itemList = new ArrayList<GroupCopyMapRecord>();
-		Enumeration<GroupCopyMapRecord> mapEnum = getItemStore().getEnum();
-		while (mapEnum.hasMoreElements()) {
-			GroupCopyMapRecord item = (GroupCopyMapRecord) mapEnum.nextElement();
-			itemList.add(item);
+		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
+		GroupCopyMapRecord item;
+		for (GroupCopyMapCfg cfg : allCfg) {
+			item = getItemByID(cfg.getId());
+			if(item != null){
+				itemList.add(item);
+			}
 		}
 		
 		return itemList;
@@ -80,12 +82,14 @@ public class GroupCopyMapRecordHolder{
 		return suc;
 	}
 	
-	public GroupCopyMapRecord getItem(String itemId){
-		return getItemStore().getItem(itemId);
+	public GroupCopyMapRecord getItemByID(String itemId){
+		return getItemStore().getItem(getRecordID(itemId));
 	}
 	
 	
-	
+	private String getRecordID(String itemID){
+		return itemID+"_"+groupId;
+	}
 	
 	public void synAllData(Player player, int version){
 		List<GroupCopyMapRecord> itemList = getItemList();			
@@ -105,18 +109,18 @@ public class GroupCopyMapRecordHolder{
 
 	/**
 	 * 更新一下副本地图进度
-	 * @param levelId
+	 * @param chaterID
 	 * @param p 进度值
 	 */
-	public void updateMapProgress(String levelId, double p) {
-		getItem(levelId).setProgress(p);
+	public void updateMapProgress(String chaterID, double p) {
+		getItemByID(chaterID).setProgress(p);
 		update();
 	}
 
 
 	public void checkDamageRank(String chaterID,
 			GroupCopyArmyDamageInfo damageInfo) {
-		boolean suc = getItem(chaterID).checkOrAddDamageRank(damageInfo);
+		boolean suc = getItemByID(chaterID).checkOrAddDamageRank(damageInfo);
 		if(suc){
 			//TODO 这个数据暂时没有向前端同步，后面再考虑是否开放
 			update();
