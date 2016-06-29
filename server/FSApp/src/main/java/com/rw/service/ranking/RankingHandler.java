@@ -1,7 +1,9 @@
 package com.rw.service.ranking;
 
 import java.util.List;
+
 import com.bm.rank.RankType;
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -99,7 +101,12 @@ public class RankingHandler {
 		baseRankInfo.setGlory(0);//荣耀山谷排行
 //		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.PEAK_ARENA_FIGHTING, userId));//巅峰竞技战斗力排行
-		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId));//获取队伍数据
+		RefInt refInt = new RefInt();
+		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId, refInt));//获取队伍数据
+		if(refInt.value > 0){
+			//TODO 暂时使用荣耀山谷的字段，不改协议文件，后续使用荣耀山谷时再整理
+			baseRankInfo.setGlory(refInt.value);
+		}
 		//TODO
 		//baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
 		String groupName = GroupHelper.getGroupName(userId);

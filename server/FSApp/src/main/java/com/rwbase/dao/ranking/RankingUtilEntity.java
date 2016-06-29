@@ -7,6 +7,7 @@ import java.util.List;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.RefInt;
 import com.playerdata.Player;
 import com.playerdata.RankingMgr;
 import com.playerdata.army.ArmyHero;
@@ -93,7 +94,7 @@ public class RankingUtilEntity {
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
 			rankInfo.setRankCount(levelData.getRankCount());
-			if(levelData.getHeadbox() == null){
+			if (levelData.getHeadbox() == null) {
 				List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 				levelData.setHeadbox(defaultHeadBoxList.get(0));
 			}
@@ -103,7 +104,7 @@ public class RankingUtilEntity {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RankingTeamData> createTeamData(ERankingType rankType, String userId) {
+	public List<RankingTeamData> createTeamData(ERankingType rankType, String userId, RefInt refInt) {
 		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
 		if (arenaData == null) {
 			return Collections.EMPTY_LIST;
@@ -111,7 +112,7 @@ public class RankingUtilEntity {
 		RankingTeamData.Builder rankingTeamData = RankingTeamData.newBuilder();
 		List<RankingHeroData> listHeros = new ArrayList<RankingHeroData>();
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
-
+		int fighting = 0;
 		for (ArmyHero tableHeroData : armyInfo.getHeroList()) {
 			RoleBaseInfo roleBaseInfo = tableHeroData.getRoleBaseInfo();
 			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(roleBaseInfo.getTemplateId());
@@ -122,6 +123,11 @@ public class RankingUtilEntity {
 			rankingHeroData.setLevel(roleBaseInfo.getLevel());
 			rankingHeroData.setQuality(roleBaseInfo.getQualityId());
 			listHeros.add(rankingHeroData.build());
+			fighting += tableHeroData.getFighting();
+		}
+		fighting += armyInfo.getPlayer().getFighting();
+		if (refInt != null) {
+			refInt.value = fighting;
 		}
 		RankingMagicData.Builder magicData = RankingMagicData.newBuilder();
 		MagicCfg cfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(arenaData.getMagicId() + "");
