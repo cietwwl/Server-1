@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import com.common.Action;
 import com.log.GameLog;
 import com.playerdata.readonly.SkillMgrIF;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -497,7 +498,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			if (!hasNormalSkill) {
 				Skill normalSkill = new Skill();
 				normalSkill.setSkillId(attackId);
-				normalSkill.setOrder(-1);
+				normalSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
 				normalSkill.setLevel(1);
 				skillItemHolder.addItem(m_pPlayer, normalSkill, false);
 			}

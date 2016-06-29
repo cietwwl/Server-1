@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.Skill;
@@ -167,7 +168,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		if (StringUtils.isNotBlank(pPlayerCfg.getAttackId())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getAttackId());
-			pSkill.setOrder(6);
+			pSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
 			pSkill.setLevel(1);
 			arr.add(pSkill);
 		}
