@@ -37,7 +37,7 @@ public class GroupHelper {
 		}
 
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if (userGroupAttributeData == null) {
+		if(userGroupAttributeData == null){
 			return EMPTY_STRING;
 		}
 		
