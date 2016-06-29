@@ -13,7 +13,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.common.RandomStringGroups;
 import com.common.RefInt;
+import com.log.GameLog;
+import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
+import com.rw.service.gamble.GambleHandler;
 
 public class GambleDropGroup extends RandomStringGroups {
 	private int[] slotCountArr;
@@ -70,6 +73,36 @@ public class GambleDropGroup extends RandomStringGroups {
 		RefInt planIndex = new RefInt();
 		String result = super.getRandomGroup(r, planIndex,weight);//use slotCount to get plan index
 		slotCount.value = slotCountArr[planIndex.value];
+		//handle DropMissing Special Item here!
+		if (StringUtils.isNotBlank(result)){
+			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);
+			if (cfg != null){
+				// search player for missing items, if not found, regenerate randomGroup again!
+				Player player = GambleHandler.getInstance().getContext();
+				if (player == null){
+					//BUG use default error item
+					GameLog.error("钓鱼台", "", "上下文存取有bug，跳过并使用容错方案");
+					ArrayList<String> tmp = new ArrayList<String>(1);
+					tmp.add(result);
+					GambleDropGroup again = this.removeHistory(tmp);
+					if (again == null || again.size() <= 0){
+						return null;
+					}
+					return again.getRandomGroup(r, slotCount,weight);
+				}
+				result = DropMissingLogic.getInstance().searchMissingItem(player, cfg);
+				// regenerate again!
+				if (result == null){
+					ArrayList<String> tmp = new ArrayList<String>(1);
+					tmp.add(cfg.getKey());
+					GambleDropGroup again = this.removeHistory(tmp);
+					if (again == null || again.size() <= 0){
+						return null;
+					}
+					return again.getRandomGroup(r, slotCount,weight);
+				}
+			}
+		}
 		return result;
 	}
 
@@ -171,7 +204,7 @@ public class GambleDropGroup extends RandomStringGroups {
 
 	/**
 	 * 连续生成N个热点
-	 * 避免重复，如果热电组人数不够才允许重复
+	 * 避免重复，如果热点组人数不够才允许重复
 	 * @param r
 	 * @param hotCount
 	 * @param guanrateeHero
@@ -192,7 +225,12 @@ public class GambleDropGroup extends RandomStringGroups {
 				historyRecord.set(0, heroId);
 			}
 			tmpGroup = tmpGroup.removeHistory(historyRecord);
-			heroId = tmpGroup.getRandomGroup(r, slotCount, weight);
+			if (tmpGroup != null && tmpGroup.size() > 0){
+				heroId = tmpGroup.getRandomGroup(r, slotCount, weight);
+			}else{
+				heroId = guanrateeHero;
+			}
+			if (heroId == null) heroId = guanrateeHero;
 			result.add(Pair.Create(heroId, weight.value));
 		}
 		

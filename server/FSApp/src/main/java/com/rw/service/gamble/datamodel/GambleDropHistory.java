@@ -182,7 +182,7 @@ public class GambleDropHistory {
 
 	public void reset() {
 		freeCount = 0;
-		lastFreeGambleTime = 0;
+		//lastFreeGambleTime = 0;
 	}
 
 	/**

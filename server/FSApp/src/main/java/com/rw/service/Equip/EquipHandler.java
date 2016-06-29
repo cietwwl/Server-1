@@ -471,13 +471,13 @@ public class EquipHandler {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero的EquipMgr", roleId));
 			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
 		}
-
+		//配置的装备列表
 		List<Integer> equipList = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
 		if (equipList.isEmpty()) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]，品质[%s]，没有装备列表", roleId, hero.getQualityId()));
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
-
+		//已装备列表
 		List<EquipItem> hasEquipList = equipMgr.getEquipList();
 		int size = hasEquipList.size();
 		if (size == 6) {// 装备穿满了
@@ -500,7 +500,7 @@ public class EquipHandler {
 			}
 
 			int templateId = equipItem.getModelId();
-			if (equipList.contains(templateId)) {// 没有穿在身上
+			if (equipList.contains(templateId)) {// 穿在身上
 				hasEquipTmpIdList.add(templateId);
 			}
 		}
@@ -512,11 +512,13 @@ public class EquipHandler {
 				continue;
 			}
 
+			//还没有穿在身上
 			HeroEquipCfg cfg = cfgDAO.getConfig(templateId);
 			if (cfg == null) {
 				continue;
 			}
 
+			//搜索背包
 			List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(templateId);
 			if (itemDataList == null || itemDataList.isEmpty()) {
 				continue;

@@ -59,7 +59,9 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		Collection<GambleDropCfg> vals = cfgCacheMap.values();
 		for (GambleDropCfg cfg : vals) {
 			if (!GambleLogicHelper.isValidHeroOrItemId(cfg.getItemID())){
-				throw new RuntimeException("无效物品/英雄ID:"+cfg.getItemID());
+				if (!DropMissingCfgHelper.getInstance().isDropMissingId(cfg.getItemID())){
+					throw new RuntimeException("无效物品/英雄ID:"+cfg.getItemID());
+				}
 			}
 		}
 	}

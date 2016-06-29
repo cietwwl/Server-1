@@ -10,7 +10,6 @@ import com.common.EquipHelper;
 import com.playerdata.readonly.EquipMgrIF;
 import com.rw.service.Equip.EquipHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.equipment.EquipItem;
@@ -72,12 +71,12 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 			int totalSubCoin = 0;
 
 			EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipItem.getLevel());
-			int tempStarLevel = pEquipAttachCfg.getStarLevel();
 			if (pEquipAttachCfg == null) {
 				// 配置错误
 				return -3;
 			}
-			int levelBeforeAttach = pEquipAttachCfg.getId();
+			int tempStarLevel = pEquipAttachCfg.getStarLevel();
+			//int levelBeforeAttach = pEquipAttachCfg.getId();
 			int nextNeedExp = pEquipAttachCfg.getNeedExp();// 下一级需要的经验值
 			while (totalExp >= nextNeedExp) {
 				if (CheckIsHasNext(pEquipAttachCfg)) {

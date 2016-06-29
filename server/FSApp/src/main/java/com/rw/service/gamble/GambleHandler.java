@@ -52,6 +52,19 @@ public class GambleHandler {
 		return instance;
 	}
 	
+	private ThreadLocal<Player> context=new ThreadLocal<Player>();
+	private void setContext(Player p){
+		context.set(p);
+	}
+	
+	public Player getContext(){
+		return context.get();
+	}
+	
+	protected void clearContext(){
+		context.remove();
+	}
+	
 	public ByteString gamble(GambleRequest request, Player player) {
 		GambleResponse.Builder response = GambleResponse.newBuilder();
 		response.setRequest(request);
@@ -97,6 +110,7 @@ public class GambleHandler {
 			dropPlan = planCfg.getChargePlan();
 		}
 
+		setContext(player);
 		Random ranGen = getRandom();
 		RefInt slotCount = new RefInt();
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
@@ -196,6 +210,7 @@ public class GambleHandler {
 			historyRecord.clearGuaranteeHistory(isFree, dropPlan);
 		}
 
+		clearContext();
 		//扣钱
 		if (!isFree){//使用收费方案
 			if (!userGameDataMgr.deductCurrency(planCfg.getMoneyType(), planCfg.getMoneyNum())){

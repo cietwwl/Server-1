@@ -28,14 +28,14 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 
 public class GambleTest {
 	/**
-	 * 仅用于概率测试，请不要调用 TODO 测试概率，统计一百万次的情况下，免费/收费的掉落情况，存放在一个文本里面，需要纪录测试时间和配置版本
+	 * 仅用于概率测试，请不要调用
+	 * 测试概率，统计一百万次的情况下，免费/收费的掉落情况，存放在一个文本里面，需要纪录测试时间和配置版本
 	 */
 	public static void Test() {
 		System.out.println("Gamble Test Start...");
 		
 		Random ranGen = HPCUtil.getRandom();
 		String userId = "测试概率脚本";
-		//10,10,10,20,30,50,100,100,100*10000,1000*10000
 		int[] gambleTimes = {10,10,10,20,30,50,100,100,100*10000,1000*10000};
 		Iterable<GamblePlanCfg> allCfgs = GamblePlanCfgHelper.getInstance().getIterateAllCfg();
 		for (GamblePlanCfg cfg : allCfgs) {
@@ -68,14 +68,6 @@ public class GambleTest {
 			}
 			HashMap<String,Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord);
 			merge(collector,result);
-			/*
-			if (gamblePlanId > 3 && i > 9400000){
-				System.out.println("track count:"+i);
-			}
-			if (gamblePlanId > 3 && i % 100000 == 0){
-				System.out.println("gamble count:"+i);
-			}
-			*/
 		}
 		long endTime = System.currentTimeMillis();
 		
