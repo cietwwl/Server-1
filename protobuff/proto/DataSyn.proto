@@ -120,4 +120,5 @@ message MsgDataSyn
     optional eSynOpType synOpType = 2;			//同步操作类型
     repeated SynData SynData = 3;				//同步数据
     optional int32 version=4;					//数据版本号
+    optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
 }

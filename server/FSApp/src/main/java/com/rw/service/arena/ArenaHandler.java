@@ -539,7 +539,7 @@ public class ArenaHandler {
 			ArenaRecord ar = getArenaRecord(record);
 
 			m_MyArenaData.setLastFightTime(System.currentTimeMillis());
-
+			m_MyArenaData.setLastChallengeVictory(isWin);
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
@@ -771,7 +771,13 @@ public class ArenaHandler {
 	private long getNextFightTime(TableArenaData arenaData, Player player) {
 		int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
 		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-		int cdTime = arenaInfoCfg.getCdTime() - decCount;
+		int configCdTime;
+		if(arenaData.isLastChallengeVictory()){
+			configCdTime = arenaInfoCfg.getWinCdTime();
+		}else{
+			configCdTime = arenaInfoCfg.getLoseCdTime();
+		}
+		int cdTime = configCdTime - decCount;
 		if (cdTime < 0) {
 			cdTime = 0;
 		}
