@@ -155,5 +155,4 @@ public class GFightGroupBidBM {
 	public void removeItemsOnResource(int resourceID){		
 		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);
 	}
-	
 }

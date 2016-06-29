@@ -21,24 +21,16 @@ public class GFightOnlineGroupHolder {
 
 	
 	public GFightOnlineGroupData get(String groupId) {
-		
-		GFightOnlineGroupData data = GFightOnlineGroupDAO.getInstance().get(groupId);
-
-		return data;
+		return GFightOnlineGroupDAO.getInstance().get(groupId);
 	}
 	
 	public void add(GFightOnlineGroupData data) {			
 		GFightOnlineGroupDAO.getInstance().update(data);
 	}
 	
-
-
-	
 	public void update(GFightOnlineGroupData data) {	
-		
 		GFightOnlineGroupDAO.getInstance().update(data);
 	}
-	
 
 	/**
 	 * 只用来同步所有的帮派信息
@@ -59,8 +51,4 @@ public class GFightOnlineGroupHolder {
 			ClientDataSynMgr.synDataList(player, groupList, synType, eSynOpType.UPDATE_LIST);
 		}
 	}
-	
-	
-	
-	
 }

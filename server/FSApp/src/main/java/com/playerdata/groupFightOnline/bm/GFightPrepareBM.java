@@ -32,9 +32,6 @@ public class GFightPrepareBM {
 		return InstanceHolder.instance;
 	}
 	
-	private GFightPrepareBM() { }
-
-	
 //	/**
 //	 * 查看某个帮派所有防守队伍的简要信息
 //	 * @param player
@@ -59,6 +56,7 @@ public class GFightPrepareBM {
 	 * @param resourceID
 	 * @param dataVersion
 	 */
+	@Deprecated
 	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, GFightDataVersion dataVersion) {
 		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);

@@ -45,8 +45,6 @@ public class GFightOnFightBM {
 		return InstanceHolder.instance;
 	}
 	
-	private GFightOnFightBM() { }
-	
 	/**
 	 * 随机获取一个对手
 	 * @param player

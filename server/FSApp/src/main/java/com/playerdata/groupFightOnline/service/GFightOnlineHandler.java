@@ -121,6 +121,7 @@ public class GFightOnlineHandler {
 		return gfRsp.build().toByteString();
 	}
 	//防守队伍用同步
+	@Deprecated
 	public ByteString getDefenderTeams(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
@@ -150,6 +151,7 @@ public class GFightOnlineHandler {
 		return gfRsp.build().toByteString();
 	}
 	
+	@Deprecated
 	public ByteString synGroupData(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());

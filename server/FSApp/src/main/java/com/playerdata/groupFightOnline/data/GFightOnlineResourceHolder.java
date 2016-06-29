@@ -19,7 +19,6 @@ public class GFightOnlineResourceHolder {
 		return instance;
 	}
 
-	private GFightOnlineResourceHolder() { }
 	final private eSynType synType = eSynType.GFightOnlineResourceData;
 	
 	
@@ -36,7 +35,6 @@ public class GFightOnlineResourceHolder {
 	}
 	
 	public void synData(Player player){
-		
 		List<GFightOnlineResourceData> gfResourceData = new ArrayList<GFightOnlineResourceData>();
 		List<GFightOnlineResourceCfg> allResource = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : allResource){
@@ -49,8 +47,4 @@ public class GFightOnlineResourceHolder {
 			ClientDataSynMgr.synDataList(player, gfResourceData, synType, eSynOpType.UPDATE_LIST);
 		}
 	}
-	
-	
-
-	
 }

@@ -12,21 +12,19 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class UserGFightOnlineHolder {
 	private static UserGFightOnlineHolder instance = new UserGFightOnlineHolder();
-	private static UserGFightOnlineDAO gfPersonalDao = UserGFightOnlineDAO.getInstance();
 	
 	public static UserGFightOnlineHolder getInstance() {
 		return instance;
 	}
 
-	private UserGFightOnlineHolder() { }
 	final private eSynType synType = eSynType.GFightOnlinePersonalData;
 	
 	public UserGFightOnlineData get(String userID) {
-		return gfPersonalDao.get(userID);
+		return UserGFightOnlineDAO.getInstance().get(userID);
 	}
 	
 	public void update(Player player, UserGFightOnlineData data) {
-		gfPersonalDao.update(data);
+		UserGFightOnlineDAO.getInstance().update(data);
 		ClientDataSynMgr.synData(player, data, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
@@ -59,7 +57,7 @@ public class UserGFightOnlineHolder {
 	 * @param userID
 	 */
 	public void resetData(String userID) {
-		UserGFightOnlineData data = gfPersonalDao.get(userID);
+		UserGFightOnlineData data = UserGFightOnlineDAO.getInstance().get(userID);
 		if(data == null) return;
 		data.resetLoopData();
 		Player player = PlayerMgr.getInstance().find(userID);

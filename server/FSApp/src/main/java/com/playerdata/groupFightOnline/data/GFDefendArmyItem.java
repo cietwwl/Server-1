@@ -41,9 +41,6 @@ public class GFDefendArmyItem implements IMapItem{
 	@CombineSave
 	private long setDefenderTime;	// 上阵时间（用于排序）
 	
-//	@CombineSave
-//	private int version = 0;
-	
 	@IgnoreSynField
 	@NonSave
 	private GFDefendArmySimpleLeader simpleLeader = new GFDefendArmySimpleLeader();
@@ -119,14 +116,6 @@ public class GFDefendArmyItem implements IMapItem{
 	public void setSetDefenderTime(long setDefenderTime) {
 		this.setDefenderTime = setDefenderTime;
 	}
-
-//	public int getVersion() {
-//		return version;
-//	}
-
-//	public void setVersion(int version) {
-//		this.version = version;
-//	}
 	
 	public GFDefendArmySimpleLeader getSimpleLeader(){
 		if(simpleArmy == null || simpleArmy.getHeroList() == null) return null;

@@ -29,7 +29,6 @@ public class GFightOnlineService implements FsService {
 			switch (gfType) {
 			case GET_RESOURCE_INFO:
 				result = gfHandler.getResourceInfo(player, msgGFRequest);
-				
 				break;
 			case GROUP_BIDDING:
 				result = gfHandler.groupBidding(player, msgGFRequest);

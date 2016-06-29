@@ -20,7 +20,6 @@ public class GFightOnlineGroupMgr {
 		return instance;
 	}
 
-	
 	public GFightOnlineGroupData get(String groupId) {
 		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupId);
 		
@@ -44,18 +43,15 @@ public class GFightOnlineGroupMgr {
 		
 	}
 
-	
 	public GFightOnlineGroupData getByUser(Player player) {
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
-		GFightOnlineGroupData target  = null;
 		if(StringUtils.isNotBlank(groupID)){
-			target = get(groupID);
+			return get(groupID);
 		}
-		return target;
+		return null;
 	}
 	
 	public void update(Player player, GFightOnlineGroupData data, boolean isUpdateBidRank) {
-	
 		GFightOnlineGroupHolder.getInstance().update(data);
 		
 		if(isUpdateBidRank) {
@@ -108,6 +104,4 @@ public class GFightOnlineGroupMgr {
 		groupData.deductAliveCount();
 		GFightOnlineGroupHolder.getInstance().update(groupData);
 	}
-	
-	
 }
