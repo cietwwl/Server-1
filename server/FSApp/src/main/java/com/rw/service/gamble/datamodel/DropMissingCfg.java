@@ -1,5 +1,7 @@
 package com.rw.service.gamble.datamodel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.BaseConfig;
 import com.common.ListParser;
 
@@ -12,7 +14,11 @@ public class DropMissingCfg extends BaseConfig {
 
 	@Override
 	public void ExtraInitAfterLoad() {
-		excludeEquipPosition = ListParser.ParseIntList(excludeList, ",", "钓鱼台", "", "排除位置");
+		if (StringUtils.isNotBlank(excludeList)){
+			excludeEquipPosition = ListParser.ParseIntList(excludeList, ",", "钓鱼台", "", "排除位置");
+		}else{
+			excludeEquipPosition = new int[0];
+		}
 	}
 
 	public int[] getExcludeEquipPosition() {

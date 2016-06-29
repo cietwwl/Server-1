@@ -17,6 +17,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.gamble.GambleHandler;
+import com.rw.service.gamble.GambleTest;
 
 public class GambleDropGroup extends RandomStringGroups {
 	private int[] slotCountArr;
@@ -74,7 +75,7 @@ public class GambleDropGroup extends RandomStringGroups {
 		String result = super.getRandomGroup(r, planIndex,weight);//use slotCount to get plan index
 		slotCount.value = slotCountArr[planIndex.value];
 		//handle DropMissing Special Item here!
-		if (StringUtils.isNotBlank(result)){
+		if (!GambleTest.isGambleTesting() && StringUtils.isNotBlank(result)){
 			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);
 			if (cfg != null){
 				// search player for missing items, if not found, regenerate randomGroup again!

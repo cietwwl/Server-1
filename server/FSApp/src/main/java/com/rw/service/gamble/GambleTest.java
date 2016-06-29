@@ -52,8 +52,14 @@ public class GambleTest {
 		System.out.println("Gamble Test End");
 	}
 
+	private static boolean isTesting = false;
+	public static boolean isGambleTesting(){
+		return isTesting;
+	}
+	
 	private static void testOneCfg(int gamblePlanId, int playerLevel, String userId, int gambleTime, boolean isFree,
 			Random ranGen, int cfgKey) {
+		isTesting = true;
 		GambleDropHistory historyRecord = new GambleDropHistory();// 临时数据不写入数据库
 		HashMap<String,Integer> collector = new HashMap<String,Integer>();
 		long startTime = System.currentTimeMillis();
@@ -94,6 +100,7 @@ public class GambleTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		isTesting = false;
 	}
 
 	private static void merge(HashMap<String, Integer> collector, HashMap<String, Integer> result) {
