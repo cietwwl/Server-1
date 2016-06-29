@@ -454,6 +454,10 @@ public class HeroHandler {
 
 		}
 
+		//按策划要求  去掉溢出的经验
+		if(curExp > levelExp){
+			curExp = levelExp;
+		}
 		MaxUseExpRes.Builder muer = MaxUseExpRes.newBuilder();
 		muer.setLevel(curLevel);
 		muer.setCostNum(totalCount);
