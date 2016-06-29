@@ -416,7 +416,7 @@ public class UserGameDataMgr {
 
 	public int addTowerCoin(int count) {
 		int value = count + getTowerCoin();
-		if (value > 0) {
+		if (value >= 0) {
 			userGameDataHolder.get().setTowerCoin(value);
 			userGameDataHolder.update(player);
 			return 0;
