@@ -44,9 +44,11 @@ public class ActivityRateTypeMgr {
 		}
 				
 		{
-			ActivityRateTypeItem targetItem = dataHolder.getItem(
-					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动			
-			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= cfgById.getLevelLimit();			
+			ActivityRateTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
+			if(targetItem == null){//没数据自然没双倍，第一次需要小退
+				return false;
+			}
+			return !ActivityRateTypeMgr.getInstance().isClose(targetItem)&&player.getLevel() >= cfgById.getLevelLimit();			
 		}
 	}
 
