@@ -167,6 +167,29 @@ public class GambleLogicHelper {
 		return false;
 	}
 
+	public static boolean isValidRealHeroId(String heroModelId){
+		if (StringUtils.isNotBlank(heroModelId)){
+			if (heroModelId.indexOf("_") != -1){
+				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(heroModelId);
+				return roleCfg != null;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isValidItemId(String itemModelId){
+		if (StringUtils.isNotBlank(itemModelId)){
+			try {
+				int modelId = Integer.parseInt(itemModelId);
+				ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(modelId);// 检查物品的基础模版
+				return itemBaseCfg != null;
+			} catch (Exception e) {
+				GameLog.error("钓鱼台", itemModelId, "无效物品／英雄ID="+itemModelId);
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isFree(Player player, int dropType) {
 		GambleOnePlanDropData oneData = getOneDropData(player,dropType);
 		return oneData.canGambleFree();
@@ -228,5 +251,26 @@ public class GambleLogicHelper {
 		result.mergeFrom(request);
 		result.setGamblePlanId(planKey);
 		return result.build();
+	}
+
+	public static void testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
+		if (gamblePlanId == 5){//钻石十连抽
+			boolean hasHero = false;
+			for (GambleRewardData item : dropList) {
+				String heroId=item.getItemId();
+				if (GambleLogicHelper.isValidRealHeroId(heroId)){
+					hasHero = true;
+					break;
+				}
+			}
+			if (!hasHero){
+				String log = "";
+				if (trace!=null){
+					log = trace.toString();
+				}
+				GameLog.error("钓鱼台", uid, "钻石十连抽没有抽到英雄\n"+log);
+				//System.out.println("bug:"+trace.toString());
+			}
+		}
 	}
 }
