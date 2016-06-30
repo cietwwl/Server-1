@@ -88,6 +88,8 @@ public class GambleHandler {
 			return GambleLogicHelper.SetError(response,player,String.format("无效掉落物品数量，配置:%s", planIdStr),"无法抽卡");
 		}
 		
+		StringBuilder trace = gamblePlanId ==5 ? new StringBuilder() : null;
+		
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
 		String userId = player.getUserId();
@@ -100,7 +102,8 @@ public class GambleHandler {
 
 		IDropGambleItemPlan dropPlan;//免费或者收费方案组
 		boolean isFree = historyRecord.canUseFree(planCfg);
-		
+		GambleLogicHelper.logTrace(trace,"isFree:"+isFree);
+
 		if (isFree){//使用免费方案
 			dropPlan = planCfg.getFreePlan();
 		}else{//使用收费方案
@@ -116,6 +119,7 @@ public class GambleHandler {
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
 		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
+		GambleLogicHelper.logTrace(trace,"maxHistoryNumber:"+maxHistoryNumber);
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -166,28 +170,39 @@ public class GambleHandler {
 		
 		int maxCount = planCfg.getDropItemCount();
 		while (dropList.size() < maxCount){
+			GambleLogicHelper.logTrace(trace,"dropListCount="+dropList.size());
 			int dropGroupId;
 			if (historyRecord.passExclusiveCheck(isFree)){//前面N次的抽卡必须不一样，之后的就不需要唯一性检查
+				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:true");
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
+					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,dropGroupId="+dropGroupId);
 				}else{
 					dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
+					GambleLogicHelper.logTrace(trace,"checkGuarantee:false,dropGroupId="+dropGroupId);
 				}
 				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
+				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
 					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
 				}else{
 					//有错误，减少最大抽卡数量
 					maxCount --;
+					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree
+							+ ",plan key:" + planCfg.getKey());
 				}
 				
 			}else{
+				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:false");
 				List<String> checkHistory = historyRecord.getHistory(isFree,dropPlan);
+				GambleLogicHelper.logTrace(trace,"checkHistory:",checkHistory);
 				GambleDropGroup tmpGroup=null;
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory);
+					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,tmpGroup=",tmpGroup);
 				}else{
 					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory);
+					GambleLogicHelper.logTrace(trace,"checkGuarantee:false,tmpGroup=",tmpGroup);
 				}
 				
 				if (tmpGroup == null){
@@ -198,12 +213,15 @@ public class GambleHandler {
 				
 				RefInt tmpWeight = null;
 				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount,tmpWeight);
+				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
 					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
 					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
 				}else{
 					//有错误，减少最大抽卡数量
 					maxCount --;
+					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree
+							+ ",plan key:" + planCfg.getKey());
 				}
 			}
 			
@@ -211,6 +229,9 @@ public class GambleHandler {
 		}
 
 		clearContext();
+		
+		GambleLogicHelper.testHasHero(dropList,trace,gamblePlanId,userId);
+		
 		//扣钱
 		if (!isFree){//使用收费方案
 			if (!userGameDataMgr.deductCurrency(planCfg.getMoneyType(), planCfg.getMoneyNum())){
@@ -258,7 +279,6 @@ public class GambleHandler {
 		return response.build().toByteString();
 	}
 
-	/** 请求赌博数据 */
 	public ByteString gambleData(GambleRequest request, Player player) {
 		GambleResponse.Builder response = GambleResponse.newBuilder();
 		Random ranGen = getRandom();

@@ -1,6 +1,7 @@
 package com.rw.service.gamble;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GambleOnePlanDropData;
@@ -160,19 +162,6 @@ public class GambleLogicHelper {
 		return false;
 	}
 	
-	public static boolean isValidItemId(String itemModelId){
-		if (StringUtils.isNotBlank(itemModelId)){
-			try {
-				int modelId = Integer.parseInt(itemModelId);
-				ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(modelId);// 检查物品的基础模版
-				return itemBaseCfg != null;
-			} catch (Exception e) {
-				GameLog.error("钓鱼台", itemModelId, "无效物品／英雄ID="+itemModelId);
-			}
-		}
-		return false;
-	}
-	
 	public static boolean isValidHeroOrItemId(String itemModelId) {
 		if (StringUtils.isNotBlank(itemModelId)){
 			if (itemModelId.indexOf("_") != -1){
@@ -185,16 +174,6 @@ public class GambleLogicHelper {
 				return itemBaseCfg != null;
 			} catch (Exception e) {
 				GameLog.error("钓鱼台", itemModelId, "无效物品／英雄ID="+itemModelId);
-			}
-		}
-		return false;
-	}
-
-	public static boolean isValidRealHeroId(String heroModelId){
-		if (StringUtils.isNotBlank(heroModelId)){
-			if (heroModelId.indexOf("_") != -1){
-				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(heroModelId);
-				return roleCfg != null;
 			}
 		}
 		return false;
@@ -276,12 +255,56 @@ public class GambleLogicHelper {
 		return result.build();
 	}
 
+	public static void logTrace(StringBuilder trace, String log, GambleDropGroup tmpGroup) {
+		if (trace != null){
+			trace.append(log).append("\n");
+			if (tmpGroup!=null){
+				//TODO
+				String[] plans = tmpGroup.getPlans();
+				int[] dis = tmpGroup.getDistributions();
+				if (plans!=null){
+					if (dis == null || dis.length != plans.length){
+						trace.append("error: distibution is not consistent with plans\n");
+					}
+					for (int i =0;i<plans.length;i++){
+						trace.append(plans[i]).append(":");
+						if (i < dis.length){
+							trace.append(dis[i]);
+						}
+						trace.append(",");
+					}
+					trace.append("\n");
+				}else{
+					trace.append("error:plans is empty\n");
+				}
+			}else{
+				trace.append("error:tempGroup is null\n");
+			}
+		}
+	}
+
+	public static void logTrace(StringBuilder trace, String log, List<String> checkHistory) {
+		if (trace != null){
+			trace.append(log);
+			for (String his : checkHistory) {
+				trace.append(his).append(",");
+			}
+			trace.append("\n");
+		}
+	}
+
+	public static void logTrace(StringBuilder trace,String log){
+		if (trace != null){
+			trace.append(log).append("\n");
+		}
+	}
+	
 	public static void testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
 		if (gamblePlanId == 5){//钻石十连抽
 			boolean hasHero = false;
 			for (GambleRewardData item : dropList) {
 				String heroId=item.getItemId();
-				if (GambleLogicHelper.isValidRealHeroId(heroId)){
+				if (GambleLogicHelper.isValidHeroId(heroId)){
 					hasHero = true;
 					break;
 				}

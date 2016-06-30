@@ -146,9 +146,11 @@ public class GambleTest {
 	}
 
 	private static void logTrace(StringBuilder trace,String log){
-		if (trace != null){
-			trace.append(log);trace.append("\n");
-		}
+		GambleLogicHelper.logTrace(trace, log);
+	}
+	
+	private static void logTrace(StringBuilder trace, String log, List<String> checkHistory){
+		GambleLogicHelper.logTrace(trace, log,checkHistory);
 	}
 	
 	private static HashMap<String,Integer> simulateGamble(String userId, int gamblePlanId, int playerLevel,
@@ -256,14 +258,14 @@ public class GambleTest {
 			} else {
 				logTrace(trace,"passExclusiveCheck:false");
 				List<String> checkHistory = historyRecord.getHistory(isFree, dropPlan);
-				logTrace(trace,"checkHistory:"+checkHistory);
+				logTrace(trace,"checkHistory:",checkHistory);
 				GambleDropGroup tmpGroup = null;
 				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory);
-					logTrace(trace,"checkGuarantee:true,tmpGroup="+tmpGroup);
+					logTrace(trace,"checkGuarantee:true,tmpGroup=",tmpGroup);
 				} else {
 					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory);
-					logTrace(trace,"checkGuarantee:false,tmpGroup="+tmpGroup);
+					logTrace(trace,"checkGuarantee:false,tmpGroup=",tmpGroup);
 				}
 
 				if (tmpGroup == null) {
@@ -292,6 +294,10 @@ public class GambleTest {
 		}
 
 		return dropList;
+	}
+
+	private static void logTrace(StringBuilder trace, String log, GambleDropGroup tmpGroup) {
+		GambleLogicHelper.logTrace(trace, log, tmpGroup);
 	}
 
 	private static boolean add2DropList(HashMap<String,Integer> dropList, int slotCount, String itemModelId,
