@@ -213,7 +213,6 @@ public class DropItemManager {
 				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
 				int tmp = dropItemInfoList.size();
 				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
-				System.out.println("@@@@@@@@@@@@@@@@@@@@@@" + tmp + " →" + dropItemInfoList.size());
 			}
 				
 			
