@@ -17,4 +17,6 @@ public interface IDropGambleItemPlan {
 	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory);
 
 	int getExclusiveCount();
+
+	int getLastCheckIndex();
 }

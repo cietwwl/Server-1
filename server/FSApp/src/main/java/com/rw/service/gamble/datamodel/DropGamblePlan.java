@@ -48,6 +48,11 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 		int ind = index < 0 ? 0 : index >= length ? length -1: index; 
 		return guaranteeCheckNumList[ind];
 	}
+	
+	@Override
+	public int getLastCheckIndex(){
+		return guaranteeCheckNumList.length-1;
+	}
 
 	@Override
 	public boolean checkInList(String itemModelId) {

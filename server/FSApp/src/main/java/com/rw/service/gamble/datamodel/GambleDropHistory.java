@@ -221,7 +221,7 @@ public class GambleDropHistory {
 		int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
 		int historySize = history.size();
 		if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
-			increaseGuaranteePlanIndex(isFree);
+			increaseGuaranteePlanIndex(isFree,dropPlan.getLastCheckIndex());
 			int removeCount = checkNum;
 			for (int i = 0; i < removeCount; i++) {
 				history.remove(0);
@@ -254,11 +254,15 @@ public class GambleDropHistory {
 	}
 	
 	@JsonIgnore
-	private void increaseGuaranteePlanIndex(boolean isFree){
+	private void increaseGuaranteePlanIndex(boolean isFree, int lastIndex){
 		if (isFree){
-			freeGuaranteePlanIndex++;
+			if (freeGuaranteePlanIndex<lastIndex){
+				freeGuaranteePlanIndex++;
+			}
 		}else{
-			chargeGuaranteePlanIndex++;
+			if (freeGuaranteePlanIndex<lastIndex){
+				chargeGuaranteePlanIndex++;
+			}
 		}
 	}
 
