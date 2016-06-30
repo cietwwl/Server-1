@@ -35,6 +35,7 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.arena.ArenaHandler;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
@@ -329,7 +330,14 @@ public class RobotManager {
 			}
 			String skillId = skill.getSkillId();
 			int lv = skill.getLevel();
-			int expectLv = skillLevel.get(skill.getOrder());
+			int order = skill.getOrder();
+			
+			// 如果是普攻技能就直接不去检查等级等信息
+			if (order == SkillConstant.NORMAL_SKILL_ORDER) {
+				continue;
+			}
+
+			int expectLv = skillLevel.get(order);
 			if (expectLv <= lv) {
 				continue;
 			}
