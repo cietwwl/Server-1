@@ -12,6 +12,10 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
+/**
+ * 帮战奖励类
+ * @author aken
+ */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GFFinalRewardItem implements IMapItem{
