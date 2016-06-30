@@ -177,7 +177,6 @@ public class MagicSecretMgr {
 			if(MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
 				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1));
 			else handleNextDungeonPrepare(player, dungeonID);
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		}
 		//清空刚战斗的关卡
 		msData.setCurrentDungeonID(null);

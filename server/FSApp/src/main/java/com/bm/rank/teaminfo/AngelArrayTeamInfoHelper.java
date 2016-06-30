@@ -142,10 +142,7 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		if (comparable == null) {
-			comparable = new AngleArrayComparable();
-		}
-
+		comparable = new AngleArrayComparable();
 		comparable.setFighting(fighting);
 		comparable.setLevel(p.getLevel());
 
@@ -156,7 +153,7 @@ public class AngelArrayTeamInfoHelper {
 			ranking.addOrUpdateRankingEntry(userId, comparable, angelArrayTeamInfoAttribute);
 		} else {
 			rankingEntry.getExtendedAttribute().setTeamInfo(angelArrayTeamInfoAttribute.getTeamInfo());
-			ranking.subimitUpdatedTask(rankingEntry);
+			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
 	}
 
