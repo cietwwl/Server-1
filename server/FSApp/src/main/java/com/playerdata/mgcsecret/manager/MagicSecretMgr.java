@@ -473,6 +473,7 @@ public class MagicSecretMgr {
 		MSInnerProcessor.addCanOpenBoxes(player, chapterID);
 		
 		result.addAll(fightingDung.getDropItem());
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		return result;
 	}
 	
