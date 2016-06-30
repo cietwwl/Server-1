@@ -288,6 +288,7 @@ public class ArenaBM {
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		tableArenaData.setRemainCount(infoCfg.getCount());
 		tableArenaData.setScore(0);
+		tableArenaData.setBuyTimes(0);
 		tableArenaData.getRewardList().clear();
 		TableArenaDataDAO.getInstance().update(tableArenaData);
 	}
