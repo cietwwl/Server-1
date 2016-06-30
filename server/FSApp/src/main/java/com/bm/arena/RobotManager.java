@@ -459,6 +459,7 @@ public class RobotManager {
 			String userId = UUID.randomUUID().toString();
 			int sex = getRandom().nextInt(2);
 			int level = getRandom(cfg.getLevel());
+			user.setUserName(userName);
 			user.setSex(sex);
 			user.setAccount(AccoutBM.getInstance().getGuestAccountId());
 			user.setUserId(userId);

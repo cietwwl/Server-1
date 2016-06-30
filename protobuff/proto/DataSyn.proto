@@ -90,6 +90,7 @@ enum eSynType	//数据同步类型
 	ActivityVitalityType = 70;//活动，活跃度
 
 	QuestionList = 80; //反馈问题列表
+	MajorData = 81;    //关键数据
 }
 
 message MsgDataSynList

@@ -678,6 +678,14 @@ public final class DataSynProtos {
      * </pre>
      */
     QuestionList(63, 80),
+    /**
+     * <code>MajorData = 81;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    MajorData(64, 81),
     ;
 
     /**
@@ -1192,6 +1200,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int QuestionList_VALUE = 80;
+    /**
+     * <code>MajorData = 81;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    public static final int MajorData_VALUE = 81;
 
 
     public final int getNumber() { return value; }
@@ -1262,6 +1278,7 @@ public final class DataSynProtos {
         case 69: return ActivityDailyType;
         case 70: return ActivityVitalityType;
         case 80: return QuestionList;
+        case 81: return MajorData;
         default: return null;
       }
     }
@@ -5146,7 +5163,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\271\n\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\310\n\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
       "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
@@ -5180,7 +5197,8 @@ public final class DataSynProtos {
       "pe\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activi" +
       "tyTimeCountType\020D\022\025\n\021ActivityDailyType\020E" +
       "\022\030\n\024ActivityVitalityType\020F\022\020\n\014QuestionLi" +
-      "st\020PB\034\n\013com.rwprotoB\rDataSynProtos"
+      "st\020P\022\r\n\tMajorData\020QB\034\n\013com.rwprotoB\rData" +
+      "SynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

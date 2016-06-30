@@ -8,7 +8,7 @@ package com.rwbase.dao.groupsecret.pojo.cfg;
 public class GroupSecretLevelGetResCfg {
 	private int level;// 可以掉落的Id
 	private int levelGroupId;// 等级组Id
-	private int diamondDropId;// 钻石掉落组的Id
+	private int dropDiamondId;// 钻石掉落组的Id
 	private int robDiamond;// 掠夺的钻石
 	private int robGSRatio;// 掠夺帮派物资的权重
 	private int robGERatio;// 掠夺帮派经验的权重
@@ -27,7 +27,7 @@ public class GroupSecretLevelGetResCfg {
 	}
 
 	public int getDiamondDropId() {
-		return diamondDropId;
+		return dropDiamondId;
 	}
 
 	public int getRobDiamond() {
