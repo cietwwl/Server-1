@@ -28,6 +28,7 @@ public class GambleDropHistory {
 	private List<String> freeExclusiveHistory;
 	private List<String> chargeExclusiveHistory;
 	
+	@JsonIgnore
 	public boolean passExclusiveCheck(boolean isFree){
 		return isFree?passFreeExclusiveCheck:passChargeExclusiveCheck;
 	}
@@ -157,6 +158,7 @@ public class GambleDropHistory {
 		return hotCheckRandomThreshold;
 	}
 
+	@JsonIgnore
 	public void GenerateHotCheckCount(Random r, int min, int max) {
 		if (min <= 0) {
 			hotCheckRandomThreshold = 1;// 容错处理
@@ -170,6 +172,7 @@ public class GambleDropHistory {
 		hotCheckRandomThreshold = r.nextInt(max - min) + min;
 	}
 
+	@JsonIgnore
 	public void resetHotHistory(Random r, int hotCheckMin, int hotCheckMax) {
 		hotCount = 0;
 		GenerateHotCheckCount(r, hotCheckMin, hotCheckMax);
@@ -180,6 +183,7 @@ public class GambleDropHistory {
 		return hotCount;
 	}
 
+	@JsonIgnore
 	public void reset() {
 		freeCount = 0;
 		//lastFreeGambleTime = 0;
@@ -210,6 +214,7 @@ public class GambleDropHistory {
 	 * 还需要调整保底次数数组的索引
 	 * @param isFree
 	 */
+	@JsonIgnore
 	public void clearGuaranteeHistory(boolean isFree,IDropGambleItemPlan dropPlan){
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
@@ -230,6 +235,7 @@ public class GambleDropHistory {
 	 * @param dropPlan
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
@@ -247,6 +253,7 @@ public class GambleDropHistory {
 		return true;
 	}
 	
+	@JsonIgnore
 	private void increaseGuaranteePlanIndex(boolean isFree){
 		if (isFree){
 			freeGuaranteePlanIndex++;
@@ -255,6 +262,7 @@ public class GambleDropHistory {
 		}
 	}
 
+	@JsonIgnore
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		history.add(itemModel);
@@ -284,6 +292,7 @@ public class GambleDropHistory {
 		return history;
 	}*/
 
+	@JsonIgnore
 	public void addHotHistoryCount() {
 		hotCount++;
 	}
@@ -297,6 +306,7 @@ public class GambleDropHistory {
 		return 0;
 	}
 
+	@JsonIgnore
 	public boolean canUseFree(GamblePlanCfg planCfg) {
 		if (planCfg == null) return false;
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
