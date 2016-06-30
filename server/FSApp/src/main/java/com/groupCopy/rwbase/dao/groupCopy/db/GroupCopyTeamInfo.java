@@ -3,7 +3,9 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import java.util.List;
 
 import com.playerdata.army.ArmyMagic;
+import com.playerdata.dataSyn.annotation.SynClass;
 
+@SynClass
 public class GroupCopyTeamInfo {
 
 	//佣兵列表不包括主角

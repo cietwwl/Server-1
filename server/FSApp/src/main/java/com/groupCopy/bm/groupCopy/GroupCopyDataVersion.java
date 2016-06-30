@@ -13,7 +13,7 @@ public class GroupCopyDataVersion {
 	
 	private int groupCopyDropApplyData;
 	
-	
+	private int serverCopyDamageRankData;
 
 	public int getGroupCopyLevelData() {
 		return groupCopyLevelData;
@@ -29,6 +29,10 @@ public class GroupCopyDataVersion {
 
 	public int getGroupCopyDropApplyData() {
 		return groupCopyDropApplyData;
+	}
+
+	public int getServerCopyDamageRankData() {
+		return serverCopyDamageRankData;
 	}
 
 

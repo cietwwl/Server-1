@@ -2,9 +2,11 @@ package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersion;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
+import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
@@ -21,6 +23,7 @@ public class GroupCopyCmdHandler {
 		return instance;
 	}
 
+	
 
 	public ByteString getGroupCopyInfo(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
@@ -30,6 +33,7 @@ public class GroupCopyCmdHandler {
 		if(group != null){
 			rspCmd.setIsSuccess(true);
 			GroupCopyDataVersionMgr.synAllDataByVersion(player, reqMsg.getVersion());
+			
 		}else{
 			rspCmd.setIsSuccess(false);
 		}
@@ -52,7 +56,22 @@ public class GroupCopyCmdHandler {
 		
 		return rspCmd.build().toByteString();
 	}
-
+	public ByteString getServerRankInfo(Player player, GroupCopyCmdReqMsg reqMsg){
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.APPLY_SERVER_RANK);
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			GroupCopyDataVersion version = GroupCopyDataVersionMgr.fromJson(reqMsg.getVersion());
+			String id = reqMsg.getChaterID();
+			ServerGroupCopyDamageRecordMgr.getInstance().synSingleData(player, version.getServerCopyDamageRankData(), id);
+			rspCmd.setIsSuccess(true);
+		}else{
+			rspCmd.setIsSuccess(false);
+		}
+		
+		
+		return rspCmd.build().toByteString();
+	}
 
 	/**
 	 * 赞助buff

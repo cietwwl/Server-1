@@ -29,7 +29,7 @@ public class GroupCopyLevelRecordHolder{
 	final private String groupId;
 	final private eSynType synType = eSynType.GROUP_COPY_LEVEL;
 	
-	final private AtomicInteger dataVersion = new AtomicInteger(1);
+	final private AtomicInteger dataVersion = new AtomicInteger(0);
 	
 	public GroupCopyLevelRecordHolder(String groupIdP) {
 		groupId = groupIdP;
@@ -109,7 +109,7 @@ public class GroupCopyLevelRecordHolder{
 		boolean success = getItemStore().updateItem(item);
 		if(success){
 			updateVersion();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+			ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE, dataVersion.get());
 		}
 		return success;
 	}
@@ -123,16 +123,16 @@ public class GroupCopyLevelRecordHolder{
 	
 	public void synSingleData(Player player, String level){
 		GroupCopyLevelRecord groupRecord = getByLevel(level);
-		ClientDataSynMgr.updateData(player, groupRecord, synType, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.synData(player, groupRecord, synType, eSynOpType.UPDATE_SINGLE, dataVersion.get());
 	}
 	
 	public void synAllData(Player player, int version){
-		int combineVersion = dataVersion.get()+player.getUserGroupCopyRecordMgr().getDataVersion();
-		if(combineVersion == version){
+		
+		if(dataVersion.get() == version && version != 0){
 			return;
 		}
 		List<GroupCopyLevelRecord> groupRecordList = getItemList();
-		ClientDataSynMgr.synDataList(player, groupRecordList, synType, eSynOpType.UPDATE_LIST,combineVersion);
+		ClientDataSynMgr.synDataList(player, groupRecordList, synType, eSynOpType.UPDATE_LIST,dataVersion.get());
 	}
 	
 	private void updateVersion(){
@@ -157,7 +157,7 @@ public class GroupCopyLevelRecordHolder{
 		}
 		updateVersion();
 		
-		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
+		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST, dataVersion.get());
 	}
 	
 }

@@ -38,6 +38,9 @@ public class GroupCopyCmdService implements FsService{
 			case GET_GROUP_HURT_RANK://帮派前10排行榜
 				bStr = cmdHandler.getGroupDamageRank(player,reqMsg);
 				break;
+			case APPLY_SERVER_RANK:
+				bStr = cmdHandler.getServerRankInfo(player, reqMsg);
+				break;
 			default:
 				GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;

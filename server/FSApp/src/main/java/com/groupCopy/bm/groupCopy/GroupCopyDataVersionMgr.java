@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.group.GroupBM;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
+import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.Group;
@@ -16,7 +17,7 @@ public class GroupCopyDataVersionMgr {
 	public final static int TYPE_REWARD = 3;
 	public final static int TYPE_USER = 4;
 	public final static int TYPE_DROP_APPLY = 5;
-
+	public final static int TYPE_SERVER_HURT_RANK = 6;
 	public static void synAllDataByVersion(Player player, String versionJson) {
 		
 		if(StringUtils.isNotBlank(versionJson)){
@@ -53,25 +54,28 @@ public class GroupCopyDataVersionMgr {
 			Group group = GroupBM.get(groupId);
 			if(group!=null){				
 				
-				GroupCopyDataVersion groupDataVersion = fromJson(versionJson);
-				if (groupDataVersion == null) {
+				GroupCopyDataVersion verson = fromJson(versionJson);
+				if (verson == null) {
 					return;
 				}
 				switch (type) {
 				case TYPE_LEVEL:
-					group.synGroupLevelData(player, groupDataVersion.getGroupCopyLevelData());
+					group.synGroupLevelData(player, verson.getGroupCopyLevelData());
 					break;
 				case TYPE_DROP_APPLY:
-					group.synGroupCopyDropApplyData(player, groupDataVersion.getGroupCopyDropApplyData());
+					group.synGroupCopyDropApplyData(player, verson.getGroupCopyDropApplyData());
 					break;
 				case TYPE_MAP:
-					group.synGroupMapData(player, groupDataVersion.getGroupCopyMapData());
+					group.synGroupMapData(player, verson.getGroupCopyMapData());
 					break;
 				case TYPE_REWARD:
-					group.synGroupRewardData(player, groupDataVersion.getGroupCopyRewardData());
+					group.synGroupRewardData(player, verson.getGroupCopyRewardData());
 					break;
 				case TYPE_USER:
 					player.getUserGroupCopyRecordMgr().syncData(player);
+					break;
+				case TYPE_SERVER_HURT_RANK:
+					ServerGroupCopyDamageRecordMgr.getInstance().synAllData(player, verson.getServerCopyDamageRankData());
 					break;
 				default:
 					break;

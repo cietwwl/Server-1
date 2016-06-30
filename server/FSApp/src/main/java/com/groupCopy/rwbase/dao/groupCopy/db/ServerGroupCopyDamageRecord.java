@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.groupCopy.bm.groupCopy.GroupCopyMgr;
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -18,6 +19,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
  * 2016年6月12日 下午3:10:11
  */
 @Table(name="server_group_copy_damage_record")
+@SynClass
 public class ServerGroupCopyDamageRecord implements IMapItem{
 
 	@Id

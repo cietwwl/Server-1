@@ -2,7 +2,10 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class GroupCopyArmyDamageInfo {
 
 	

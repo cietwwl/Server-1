@@ -20,7 +20,7 @@ public class UserGroupCopyMapRecordHolder{
 	private final int COPY_FIGHT_COUT = 2;//帮派副本每天进入次数
 	final private String userId;
 	
-	final private AtomicInteger dataVersion = new AtomicInteger(1);
+	final private AtomicInteger dataVersion = new AtomicInteger(0);
 	
 	private final eSynType synType = eSynType.USE_GROUP_COPY_DATA;
 	

@@ -19,7 +19,7 @@ public class DropAndApplyRecordHolder {
 	
 	private final String groupId;
 	private final eSynType synType = eSynType.GROUP_ITEM_DROP_APPLY;
-	private final AtomicInteger dataVersion = new AtomicInteger(1);
+	private final AtomicInteger dataVersion = new AtomicInteger(0);
 
 	public DropAndApplyRecordHolder(String groupId) {
 		this.groupId = groupId;

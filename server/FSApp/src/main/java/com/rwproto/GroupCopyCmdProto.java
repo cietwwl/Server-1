@@ -41,6 +41,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     GET_GROUP_HURT_RANK(3, 4),
+    /**
+     * <code>APPLY_SERVER_RANK = 5;</code>
+     *
+     * <pre>
+     *请求全服排行榜
+     * </pre>
+     */
+    APPLY_SERVER_RANK(4, 5),
     ;
 
     /**
@@ -71,6 +79,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     public static final int GET_GROUP_HURT_RANK_VALUE = 4;
+    /**
+     * <code>APPLY_SERVER_RANK = 5;</code>
+     *
+     * <pre>
+     *请求全服排行榜
+     * </pre>
+     */
+    public static final int APPLY_SERVER_RANK_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -81,6 +97,7 @@ public final class GroupCopyCmdProto {
         case 2: return GET_DROP_APPLY_INFO;
         case 3: return BUFF_DONATE;
         case 4: return GET_GROUP_HURT_RANK;
+        case 5: return APPLY_SERVER_RANK;
         default: return null;
       }
     }
@@ -4727,12 +4744,13 @@ public final class GroupCopyCmdProto {
       "kData\030\001 \003(\0132\034.GroupCopyCmd.ArmyHurtStruc" +
       "t\"b\n\016ArmyHurtStruct\022\020\n\010headIcon\030\001 \002(\t\022\020\n" +
       "\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n\010killTime\030" +
-      "\004 \002(\003\022\016\n\006damage\030\005 \002(\005*c\n\020GroupCopyReqTyp" +
+      "\004 \002(\003\022\016\n\006damage\030\005 \002(\005*z\n\020GroupCopyReqTyp" +
       "e\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002" +
       "\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROUP_HURT_RANK" +
-      "\020\004*H\n\022GroupCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n" +
-      "\010NOTSTART\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013" +
-      "com.rwprotoB\021GroupCopyCmdProto"
+      "\020\004\022\025\n\021APPLY_SERVER_RANK\020\005*H\n\022GroupCopyMa" +
+      "pStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ON" +
+      "GOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021Grou",
+      "pCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

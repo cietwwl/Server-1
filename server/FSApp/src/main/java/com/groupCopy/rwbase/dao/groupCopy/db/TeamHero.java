@@ -1,5 +1,8 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 public class TeamHero {
 
 	private String templateId;//英雄模板Id，佣兵属性配置id
