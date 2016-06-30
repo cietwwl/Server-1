@@ -60,7 +60,8 @@ public class GFDefendArmyItemHolder {
 		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupID).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();
-			if(item.getVersion() > version && !GFArmyState.EMPTY.equals(item.getState()))
+			//if(item.getVersion() > version && !GFArmyState.EMPTY.equals(item.getState()))
+			if(!GFArmyState.EMPTY.equals(item.getState()))
 				defendArmyList.add(item);
 		}
 		return defendArmyList;
@@ -193,7 +194,7 @@ public class GFDefendArmyItemHolder {
 				}else throw new GFArmyDataException("非NORMAL和EMPTY状态的队伍，不能更改");
 			}
 		}
-		synAllData(player);
+		synSelfData(player);
 	}
 	
 	/**
@@ -225,8 +226,12 @@ public class GFDefendArmyItemHolder {
 	 * 帮派的其它防守队伍，需要用请求
 	 * @param player
 	 */
-	public void synAllData(Player player){
+	public void synSelfData(Player player){
 		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_PART_LIST, defendArmyVersion.get());
+	}
+	
+	public void synGroupData(Player player, String groupID){
+		
 	}
 
 	public void startFight(Player player, GFDefendArmyItem armyItem) {

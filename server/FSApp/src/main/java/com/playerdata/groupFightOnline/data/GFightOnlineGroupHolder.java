@@ -44,8 +44,8 @@ public class GFightOnlineGroupHolder {
 	
 	public GFightOnlineGroupData getItem(String groupId, int version) {
 		GFightOnlineGroupData data = gfGroupDao.get(groupId);
-		if(data != null && data.getVersion() > version) return data;
-		return null;
+//		if(data != null && data.getVersion() > version) return data;
+		return data;
 	}
 	
 	public GFightOnlineGroupData getByUser(Player player) {

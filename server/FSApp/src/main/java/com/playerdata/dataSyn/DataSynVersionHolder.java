@@ -309,7 +309,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				GFDefendArmyItemHolder.getInstance().synAllData(player);
+				GFDefendArmyItemHolder.getInstance().synSelfData(player);
 			}
 		}));
 		orderList.add(eSynType.GFDefendArmyData);

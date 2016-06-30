@@ -87,7 +87,7 @@ public class GFBiddingItemHolder {
 	 */
 	public GFBiddingItem getItem(Player player, String resource_id){
 		String itemID = player.getUserId() + "_" + resource_id;
-		return getItemStore(player.getUserId()).getItem(itemID);
+		return getItemStore(resource_id).getItem(itemID);
 	}
 	
 	/**
