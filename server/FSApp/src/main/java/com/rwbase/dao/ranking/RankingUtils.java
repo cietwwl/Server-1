@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.RefInt;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -15,9 +16,9 @@ import com.rwproto.RankServiceProtos.RankingTeamData;
  * 旧有代码，需要整理，否则存在大量冗余
  */
 public class RankingUtils {
-	
+
 	private static RankingUtilEntity entity = new RankingUtilEntity();
- 
+
 	public static List<RankingLevelData> subListByLevelData(List<RankingLevelData> list, ERankingType rankType) {
 		return entity.subListByLevelData(list, rankType);
 	}
@@ -35,12 +36,12 @@ public class RankingUtils {
 	public static RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime) {
 		return entity.createOneRankInfo(levelData, ranking, realTime);
 	}
-	
-	public static List<RankingTeamData> createTeamData(ERankingType rankType, String userId) {
-		return entity.createTeamData(rankType, userId);
-		
+
+	public static List<RankingTeamData> createTeamData(ERankingType rankType, String userId, RefInt refInt) {
+		return entity.createTeamData(rankType, userId, refInt);
+
 	}
-	
+
 	public static int getModelId(RankingLevelData data) {
 		return entity.getModelId(data);
 	}
