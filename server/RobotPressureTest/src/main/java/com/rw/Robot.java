@@ -183,7 +183,6 @@ public class Robot {
 		if (client == null) {
 			return false;
 		}
-		addCoin(100000);
 		return StoreHandler.instance().buyRandom(client);
 	}
 
@@ -623,7 +622,6 @@ public class Robot {
 	 * 买体
 	 */
 	public  boolean testMainService() {
-		addGold(500);
 		return MainHandler.getHandler().buyTower(client);
 	}
 	
@@ -640,7 +638,6 @@ public class Robot {
 	/**消费300钻 */
 	public boolean testDailyActivity() {
 		// TODO Auto-generated method stub
-		addGold(500);
 		return DailyActivityHandler.getHandler().Const(this);		
 		
 	}
@@ -842,10 +839,8 @@ public class Robot {
 	 * */
 	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
 		upgrade(50);
-		addCoin(99999);
 		additem(806511);//进化材料
 		additem(806523);//升星材料
-		addGold(9999);//降星材料
 		additem(806501);//下两格经验材料
 		boolean issuc = false;
 		if(equipId != -1){
@@ -858,8 +853,7 @@ public class Robot {
 	
 	/**预制升级和加金币；参数不存在则选择首项提升*/
 	public boolean testTaoist(int id){
-		upgrade(50);
-		addCoin(9999999);		
+		upgrade(50);	
 		boolean issuc = false;
 //		TaoistHandler.getHandler().getTaoistData(client);
 		issuc=TaoistHandler.getHandler().upTaoist(client,id);
@@ -870,8 +864,6 @@ public class Robot {
 	 * 2战斗；接5换buff和6换道具*/
 	public boolean testMagicSecret(int id){
 		upgrade(50);
-		addCoin(9999999);		
-		addGold(8888);
 		boolean issuc = false;
 		issuc=MagicSecretHandler.getHandler().doType(client , id);
 		return issuc;
