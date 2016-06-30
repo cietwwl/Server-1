@@ -96,10 +96,6 @@ public class MapItemStoreFactory {
 
 	private static boolean init = false;
 
-	static {
-		init();
-	}
-
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
