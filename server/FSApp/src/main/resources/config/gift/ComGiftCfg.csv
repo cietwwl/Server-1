@@ -164,7 +164,7 @@ Key,Remarks,id,name,consumeType,quality,stackNum,icon,atlas,gift,description,ite
 金币*100000",VIP1特权礼包,100,
 807902,,807902,VIP2礼包,17,1,1,Item/icon_TiYan_V1,Icon,803002:50;1:100000,"中级经验丹*50
 金币*100000",VIP2特权礼包,100,
-807903,,807903,VIP3礼包,17,1,1,Item/icon_TiYan_V1,Icon,602201:1;803003:30;1:100000,"赤焰幡*1
+807903,,807903,VIP3礼包,17,1,1,Item/icon_TiYan_V1,Icon,603101:1;803003:30;1:100000,"赤焰幡*1
 高级经验丹*30
 金币*100000",VIP3特权礼包,100,
 807904,,807904,VIP4礼包,17,1,1,Item/icon_TiYan_V1,Icon,803003:30;1:100000,"高级经验丹*30
