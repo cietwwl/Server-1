@@ -1,14 +1,22 @@
 package com.playerdata.groupFightOnline.data;
 
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.NonSave;
+import com.rwproto.GrouFightOnlineProto.GFResultType;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -39,6 +47,10 @@ public class GFDefendArmyItem implements IMapItem{
 	
 	@CombineSave
 	private int version = 0;
+	
+	@IgnoreSynField
+	@NonSave
+	private GFDefendArmySimpleLeader simpleLeader = new GFDefendArmySimpleLeader();
 
 	public String getId() {
 		return armyID;
@@ -118,5 +130,18 @@ public class GFDefendArmyItem implements IMapItem{
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public GFDefendArmySimpleLeader getSimpleLeader(){
+		if(simpleArmy == null || simpleArmy.getHeroList() == null) return null;
+		ArmyHeroSimple heroSimple = simpleArmy.getHeroList().get(0);
+		simpleLeader.setArmyID(armyID);
+		simpleLeader.setGroupID(groupID);
+		simpleLeader.setState(state);
+		simpleLeader.setLevel(heroSimple.getLevel());
+		simpleLeader.setModeId(heroSimple.getModeId());
+		simpleLeader.setQualityId(heroSimple.getQualityId());
+		simpleLeader.setStarLevel(heroSimple.getStarLevel());
+		return simpleLeader;
 	}
 }

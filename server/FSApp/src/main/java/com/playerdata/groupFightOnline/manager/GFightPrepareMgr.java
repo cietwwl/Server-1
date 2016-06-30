@@ -46,16 +46,8 @@ public class GFightPrepareMgr {
 	public void getDefenderTeams(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, int version) {
 		List<GFDefendArmyItem> defenders = GFDefendArmyItemHolder.getInstance().getGroupItemList(player, groupID, version);
 		for(GFDefendArmyItem defender : defenders) {
-			ArmyHeroSimple heroSimple = defender.getSimpleArmy().getHeroList().get(0);
-			if(heroSimple == null) continue;
-			GFDefendArmySimpleLeader leader = new GFDefendArmySimpleLeader();
-			leader.setArmyID(defender.getArmyID());
-			leader.setGroupID(defender.getGroupID());
-			leader.setState(defender.getState());
-			leader.setLevel(heroSimple.getLevel());
-			leader.setModeId(heroSimple.getModeId());
-			leader.setQualityId(heroSimple.getQualityId());
-			leader.setStarLevel(heroSimple.getStarLevel());
+			GFDefendArmySimpleLeader leader = defender.getSimpleLeader();
+			if(leader == null) continue;
 			gfRsp.addDefendArmySimpleLeader(ClientDataSynMgr.toClientData(leader));
 		}
 		gfRsp.setRstType(GFResultType.SUCCESS);
