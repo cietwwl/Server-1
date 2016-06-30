@@ -72,6 +72,40 @@ public class ClientDataSynMgr {
 			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synDataList] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
+	/**
+	 * 同步某些数据列表到客户端
+	 * 
+	 * @param player
+	 * @param groupId  分组id
+	 * @param serverDataList 要同步到客户端的数据
+	 * @param synType <b><i>同步数据模块类型</i></b> {@link eSynType} 例如，同步背包数据----->类型就是{@link eSynType#USER_ITEM_BAG}
+	 * @param synOpType <b><i>数据类型</i></b> {@link eSynOpType} 例如，同步的是背包所有数据----->类型就是{@link eSynOpType#UPDATE_LIST}
+	 * @param newVersion 推送到客户端的版本号
+	 */
+	public static void synDataGroupList(Player player, String groupId, List<?> serverDataList, eSynType synType, eSynOpType synOpType, int newVersion) {
+		try {
+			player.getDataSynVersionHolder().addVersion(synType);
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			for (Object serverData : serverDataList) {
+				SynData.Builder synData = transferToClientData(serverData);
+				msgDataSyn.addSynData(synData);
+			}
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			msgDataSyn.setVersion(newVersion);
+			msgDataSyn.setGroupId(groupId);
+			if (serverDataList.isEmpty()) {
+				// 列表为空的时候list 的 hashcode是一样的，这个时候要传同步对象本身。
+				sendMsg(player, msgDataSyn, synType, msgDataSyn);
+			} else {
+				
+				sendMsg(player, serverDataList, synType, msgDataSyn);
+			}
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synDataGroupList] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
 
 	/**
 	 * 同步某些数据到客户端

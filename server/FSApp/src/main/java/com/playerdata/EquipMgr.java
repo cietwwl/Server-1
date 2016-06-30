@@ -75,8 +75,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				// 配置错误
 				return -3;
 			}
+
 			int tempStarLevel = pEquipAttachCfg.getStarLevel();
-			//int levelBeforeAttach = pEquipAttachCfg.getId();
 			int nextNeedExp = pEquipAttachCfg.getNeedExp();// 下一级需要的经验值
 			while (totalExp >= nextNeedExp) {
 				if (CheckIsHasNext(pEquipAttachCfg)) {
@@ -120,8 +120,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				equipItem.setLevel(pEquipAttachCfg.getId());
 				equipItem.setExp(totalExp);
 				equipItemHolder.updateItem(m_pPlayer, equipItem);
-				
-				UserEventMgr.getInstance().attachDaily(m_pPlayer,pEquipAttachCfg.getStarLevel(),tempStarLevel);//pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
+
+				UserEventMgr.getInstance().attachDaily(m_pPlayer, pEquipAttachCfg.getStarLevel(), tempStarLevel);// pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
 			}
 			//
 			//
@@ -475,8 +475,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				break;
 			}
 			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
+			equipItem.setLevel(pEquipAttachCfg.getId());
 		}
-		equipItem.setLevel(pEquipAttachCfg.getId());
 		equipItem.setExp(0);
 		equipItemHolder.updateItem(m_pPlayer, equipItem);
 	}
