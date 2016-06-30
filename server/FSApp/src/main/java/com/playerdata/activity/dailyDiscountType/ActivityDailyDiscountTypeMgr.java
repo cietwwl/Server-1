@@ -82,7 +82,7 @@ public class ActivityDailyDiscountTypeMgr {
 		}
 	}
 	
-	private boolean isOpen(ActivityDailyDiscountTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityDailyDiscountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();
@@ -215,7 +215,7 @@ public class ActivityDailyDiscountTypeMgr {
 				result.setSuccess(false);
 				return result;				
 			}
-			if(!player.getUserGameDataMgr().isEnoughCurrency(eSpecialItemId.Gold, itemCfg.getPriceAfterDiscount())){
+			if(!isGoldEnough(player,itemCfg)){
 				result.setReason("钻石不足");
 				result.setSuccess(false);
 				return result;
@@ -235,7 +235,7 @@ public class ActivityDailyDiscountTypeMgr {
 	
 
 
-	private boolean isCountEnough(int count, ActivityDailyDiscountItemCfg cfg) {
+	public boolean isCountEnough(int count, ActivityDailyDiscountItemCfg cfg) {
 		if(count < cfg.getCountLimit()){
 			return true;
 		}
@@ -254,6 +254,12 @@ public class ActivityDailyDiscountTypeMgr {
 		return true;
 	}
 	
+	public boolean isGoldEnough(Player player,ActivityDailyDiscountItemCfg itemCfg){
+		if(player.getUserGameDataMgr().isEnoughCurrency(eSpecialItemId.Gold, itemCfg.getPriceAfterDiscount())){
+			return true;
+		}
+		return false;
+	}
 	
 	
 	private void getItem(Player player, ActivityDailyDiscountTypeSubItem targetItem) {
