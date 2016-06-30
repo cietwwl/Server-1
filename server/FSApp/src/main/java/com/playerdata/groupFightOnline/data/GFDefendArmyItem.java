@@ -1,7 +1,5 @@
 package com.playerdata.groupFightOnline.data;
 
-import java.util.List;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,14 +7,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
-import com.rwproto.GrouFightOnlineProto.GFResultType;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
