@@ -4,8 +4,14 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.group.helper.GroupCmdHelper;
+import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
 
 public class RoleGameInfo {
@@ -29,6 +35,7 @@ public class RoleGameInfo {
 	
 	private Integer careerType;
 	
+	private String factionId;
 	private String roleCreatedTime;
 	
 	private String userCreatedTime;
@@ -39,12 +46,15 @@ public class RoleGameInfo {
 	private String statInfo;
 	/**副本统计信息*/
 	private String copyInfo;
-	
-
+	/**活动统计信息*/
+	private String activityInfo;
+	/**任务统计信息*/
+	private String taskInfo;
 
 	//在线时长
 	private String onlineTime;
 	
+	public static final int Copy_Normal = 1;//银汉识别普通本为1
 	
 	final private static Field[] fieldList;
 	
@@ -78,7 +88,15 @@ public class RoleGameInfo {
 		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
 		roleGameInfo.setCareerType(player.getCareer());
 		
+		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
+		String groupId = baseData.getGroupId();
+		if (!StringUtils.isEmpty(groupId)) {
+			roleGameInfo.setFactionId(groupId);
+		}
 		
+		
+
 		long roleCreatedTime = player.getUserDataMgr().getCreateTime();
 		
 		if(roleCreatedTime>0){
@@ -90,41 +108,135 @@ public class RoleGameInfo {
 			roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
 		}
 		if(player.getZoneLoginInfo()!=null){
-			long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
-			StringBuilder statInfo = new StringBuilder();
-			
-			
-			int giftGold = player.getUserGameDataMgr().getGiftGold();
-			int chargeGold = player.getUserGameDataMgr().getChargeGold();
-			long coin = player.getUserGameDataMgr().getCoin();			
-			
-			statInfo.append("online_time:").append(onlineTime).append("#")
-					.append("main_coin:").append(chargeGold).append("#")
-					.append("gift_coin:").append(giftGold).append("#")
-					.append("sub_coin:").append(coin);
-			roleGameInfo.setStatInfo(statInfo.toString());
-			
-			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
-			
-			int spcase = 3;
-			long nmcase = 3;	
-			String fighttime="";
-			if(moreinfo!= null){
-				if(moreinfo.containsKey("fightTime")){
-					fighttime = moreinfo.get("fightTime");
-				}
-			}
-			StringBuilder copyInfo = new StringBuilder();
-			copyInfo.append("fight_time:").append(fighttime).append("#")
-			.append("sp_case:").append(spcase).append("#")
-			.append("nm_case:").append(nmcase);
-			roleGameInfo.setCopyInfo(copyInfo.toString());
-		}
+			logout(player,roleGameInfo,moreinfo);
+			logcopy(player,roleGameInfo,moreinfo);
+			logactivity(player,roleGameInfo,moreinfo);
+			logtask(player,roleGameInfo,moreinfo);			
+		}		
+		
 		if(player.getCopyRecordMgr().getCalculateState() != null){
 			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
 		}
 		
 		return roleGameInfo;
+	}
+
+	
+	
+	
+	private static void logtask(Player player, RoleGameInfo roleGameInfo,
+			Map<String, String> moreinfo) {
+		String rewardsinfotask = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("rewardsinfotask")){
+				rewardsinfotask = moreinfo.get("rewardsinfotask");
+			}
+		}			
+		StringBuilder taskInfo = new StringBuilder();
+		taskInfo.append("task_time:").append("").append("#")
+		.append("task_reward:").append(rewardsinfotask);
+		roleGameInfo.setTaskInfo(taskInfo.toString());
+		
+	}
+
+	private static void logactivity(Player player, RoleGameInfo roleGameInfo,
+			Map<String, String> moreinfo) {
+		String activityTime="";
+		String rewardsinfoactivity = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("activityTime")){
+				activityTime = moreinfo.get("activityTime");
+			}
+			if(moreinfo.containsKey("rewardsinfoactivity")){
+				rewardsinfoactivity = moreinfo.get("rewardsinfoactivity");
+			}
+		}			
+		StringBuilder activityInfo = new StringBuilder();
+		activityInfo.append("activity_time:").append(activityTime).append("#")
+		.append("activity_reward:").append(rewardsinfoactivity);
+		roleGameInfo.setActivityInfo(activityInfo.toString());
+		
+	}
+
+	private static void logcopy(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
+		String spcase = "0";
+		String nmcase = "0";		
+		String fighttime="";
+		String rewardsinfocopy = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("fightTime")){
+				fighttime = moreinfo.get("fightTime");
+			}				
+			if(moreinfo.containsKey("sp_case")){
+					spcase = moreinfo.get("sp_case");
+			}
+			if(moreinfo.containsKey("nm_case")){
+				nmcase = moreinfo.get("nm_case");
+			}	
+			if(moreinfo.containsKey("rewardsinfocopy")){
+				rewardsinfocopy=moreinfo.get("rewardsinfocopy");
+			}
+		}
+		StringBuilder copyInfo = new StringBuilder();
+		copyInfo.append("fight_time:").append(fighttime).append("#")
+		.append("sp_case:").append(spcase).append("#")
+		.append("nm_case:").append(nmcase).append("#")
+		.append("copy_rewards:").append(rewardsinfocopy);
+		roleGameInfo.setCopyInfo(copyInfo.toString());
+		
+	}
+
+	private static void logout(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
+		long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
+		StringBuilder statInfo = new StringBuilder();			
+		int giftGold = player.getUserGameDataMgr().getGiftGold();
+		int chargeGold = player.getUserGameDataMgr().getChargeGold();
+		long coin = player.getUserGameDataMgr().getCoin();		
+		String spcase = "0";
+		String nmcase = "0";
+		boolean isroleout = false;
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("sp_case")){
+				spcase = moreinfo.get("sp_case");
+				isroleout = true;
+			}
+			if(moreinfo.containsKey("nm_case")){
+				nmcase = moreinfo.get("nm_case");
+			}			
+		}		
+		String gang = roleGameInfo.getFactionId();
+		if(org.apache.commons.lang3.StringUtils.isBlank(gang)){
+			gang = "0";
+		}		
+		statInfo.append("online_time:").append(onlineTime).append("#")
+				.append("main_coin:").append(chargeGold).append("#")
+				.append("gift_coin:").append(giftGold).append("#")
+				.append("sub_coin:").append(coin);
+		if(isroleout){
+			statInfo.append("#")
+			.append("sp_case:").append(spcase).append("#")
+			.append("nm_case:").append(nmcase).append("#")			
+			.append("gang:").append(gang);			
+		}
+
+		roleGameInfo.setStatInfo(statInfo.toString());			
+		roleGameInfo.setOnlineTime("online_time:" + onlineTime);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public String getFactionId() {
+		return factionId;
+	}
+
+	public void setFactionId(String factionId) {
+		this.factionId = factionId;
 	}
 
 	public String getUserId() {
@@ -233,6 +345,22 @@ public class RoleGameInfo {
 	public void setCopyInfo(String copyInfo) {
 		this.copyInfo = copyInfo;
 	}
-	
 
+	public String getActivityInfo() {
+		return activityInfo;
+	}
+
+	public void setActivityInfo(String activityInfo) {
+		this.activityInfo = activityInfo;
+	}
+
+	public String getTaskInfo() {
+		return taskInfo;
+	}
+
+	public void setTaskInfo(String taskInfo) {
+		this.taskInfo = taskInfo;
+	}
+	
+	
 }

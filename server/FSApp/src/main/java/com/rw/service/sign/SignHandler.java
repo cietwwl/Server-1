@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.HotPointMgr;
 import com.playerdata.Player;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwproto.SignServiceProtos.ERequestType;
 import com.rwproto.SignServiceProtos.EResultType;
@@ -80,9 +82,11 @@ public class SignHandler
 			}
 		}
 		String signId = request.getSignId();
+		
 		if(player.getSignMgr().Checklegal(signId))
 		{
 			player.getSignMgr().changeSignData(signId, player, response);
+			
 		}
 		else
 		{

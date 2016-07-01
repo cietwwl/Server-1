@@ -18,6 +18,7 @@ public class ArenaService implements FsService {
 		try {
 			MsgArenaRequest msgArenaRequest = MsgArenaRequest.parseFrom(request.getBody().getSerializedContent());
 			eArenaType arenaType = msgArenaRequest.getArenaType();
+			System.out.println("arena"+ arenaType);
 			switch (arenaType) {
 			case GET_INFO:
 				result = arenaHandler.getInfo(msgArenaRequest, player);

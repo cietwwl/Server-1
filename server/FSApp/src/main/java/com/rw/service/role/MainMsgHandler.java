@@ -242,7 +242,7 @@ public class MainMsgHandler {
 		if(roleQualityColorCfg.getActiveSkill() == 1){
 			msgId = 10;
 		}else{
-			msgId = 12;
+			msgId = 14;
 		}
 		String colors="[ffffff]";
 		if(qualityName.indexOf("蓝色") != -1)
@@ -307,7 +307,7 @@ public class MainMsgHandler {
 		}
 		RoleQualityColorCfg roleQualityColorCfg = RoleQualityColorCfgDAO.getInstante().getConfig(roleQualityCfg.getQuality());
 		if(roleQualityColorCfg.getActiveSkill() == 1){
-			msgId = 10;
+			msgId = 15;
 		}else{
 			msgId = 12;
 		}
