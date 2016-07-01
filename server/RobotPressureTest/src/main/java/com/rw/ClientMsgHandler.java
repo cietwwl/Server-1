@@ -32,23 +32,26 @@ public abstract class ClientMsgHandler {
 	private LinkedBlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(1);
 
 	private MsgReciver msgReciver;
-	
+
 	private volatile long lastExecuteTime;
 
 	private static AtomicInteger generator = new AtomicInteger();
 	private final int id;
 	private final String name;
-	public ClientMsgHandler(){
+
+	public ClientMsgHandler() {
 		this.id = generator.incrementAndGet();
-		this.name = "机器人["+id+"]";
+		this.name = "机器人[" + id + "]";
 	}
-	
+
 	private Response getResp() {
 		Response resp = null;
 		long maxTime = 20L;
 		// 超过十秒拿不到认为超时。
 		long start = System.currentTimeMillis();
-		RobotLog.testInfo(name+" 间隔时间："+(start - lastExecuteTime));
+		if (lastExecuteTime > 0) {
+			RobotLog.testInfo(name + " 间隔时间：" + (start - lastExecuteTime));
+		}
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
