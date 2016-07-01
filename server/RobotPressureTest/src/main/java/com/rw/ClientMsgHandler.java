@@ -44,9 +44,9 @@ public abstract class ClientMsgHandler {
 			RobotLog.testException("ServerResp[getResp] 接收线程interrupted", e);
 		}
 		long cost = System.currentTimeMillis() - start;
-		if (cost > 1000) {
+//		if (cost > 1000) {
 			RobotLog.testInfo(msgReciver.getCmd() + " 处理耗时：" + cost);
-		}
+//		}
 		return resp;
 
 	}
