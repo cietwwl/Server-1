@@ -47,8 +47,6 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  */
 public class GFightOnFightBM {
 	
-	private static int GROUP_INNER_RANK_SIZE = 3;
-	
 	private static GFightOnFightBM instance = new GFightOnFightBM();
 	
 	public static GFightOnFightBM getInstance(){
@@ -274,8 +272,8 @@ public class GFightOnFightBM {
 			GFOnlineGroupInnerInfo rankInfo = new GFOnlineGroupInnerInfo();
 			rankInfo.setGroupName(bidItem.getGroupName());
 			rankInfo.setTotalKill(killTotal);
-			rankInfo.setHurtRank(GFOnlineHurtRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GROUP_INNER_RANK_SIZE));
-			rankInfo.setKillRank(GFOnlineKillRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GROUP_INNER_RANK_SIZE));
+			rankInfo.setHurtRank(GFOnlineHurtRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GFightConst.GROUP_INNER_RANK_SIZE));
+			rankInfo.setKillRank(GFOnlineKillRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GFightConst.GROUP_INNER_RANK_SIZE));
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(rankInfo));
 		}
 		gfRsp.setRstType(GFResultType.SUCCESS);

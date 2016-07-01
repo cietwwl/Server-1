@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
@@ -24,8 +25,6 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;
 
 public class GFDefendArmyMgr {
-	
-	public final static int LOCK_ITEM_MAX_TIME = 60 * 1000;		//被选中或战斗锁定时间2分钟
 	
 	private static GFDefendArmyMgr instance = new GFDefendArmyMgr();
 	
@@ -164,7 +163,7 @@ public class GFDefendArmyMgr {
 		synchronized (GFDefendArmyItem.class) {
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();
-			if(!isIgnoreExistEnimy && randomDefender != null && System.currentTimeMillis() - randomDefender.getLockArmyTime() <= LOCK_ITEM_MAX_TIME) {
+			if(!isIgnoreExistEnimy && randomDefender != null && System.currentTimeMillis() - randomDefender.getLockArmyTime() <= GFightConst.LOCK_ITEM_MAX_TIME) {
 				throw new HaveSelectEnimyException("已经选择过对手");
 			}
 			GFDefendArmyItem canFightItem = getCanFightItem(groupID);
@@ -226,7 +225,7 @@ public class GFDefendArmyMgr {
 			if(GFArmyState.NORMAL.equals(item.getState())){
 				canFightList.add(item);
 			}else if(GFArmyState.SELECTED.equals(item.getState()) || GFArmyState.FIGHTING.equals(item.getState())){
-				if(System.currentTimeMillis() - item.getLastOperateTime() > LOCK_ITEM_MAX_TIME){
+				if(System.currentTimeMillis() - item.getLastOperateTime() > GFightConst.LOCK_ITEM_MAX_TIME){
 					item.setState(GFArmyState.NORMAL.getValue());					
 					canFightList.add(item);
 				}

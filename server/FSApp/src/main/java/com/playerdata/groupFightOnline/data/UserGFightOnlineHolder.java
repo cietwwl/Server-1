@@ -50,6 +50,7 @@ public class UserGFightOnlineHolder {
 			}
 			ClientDataSynMgr.synData(player, userGFData, synType, eSynOpType.UPDATE_SINGLE);
 		}
+		GFFinalRewardItemHolder.getInstance().synData(player);
 	}
 	
 	/**

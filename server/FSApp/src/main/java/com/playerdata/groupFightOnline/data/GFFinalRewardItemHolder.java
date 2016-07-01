@@ -20,12 +20,16 @@ public class GFFinalRewardItemHolder {
 	public static GFFinalRewardItemHolder getInstance() {
 		return instance;
 	}
-
-	private GFFinalRewardItemHolder() {
-		
-	}
 	
 	final private eSynType synType = eSynType.GFBiddingData;
+	
+	public GFFinalRewardItem getGFReward(Player player, int resourceID, String rewardID){
+		return getItemStore(player.getUserId(), resourceID).getItem(rewardID);
+	}
+	
+	public boolean addGFReward(Player player, int resourceID, GFFinalRewardItem rewardItem){
+		return getItemStore(player.getUserId(), resourceID).addItem(rewardItem);
+	}
 	
 	/**
 	 * 移除某个资源点所有的奖励
@@ -33,7 +37,7 @@ public class GFFinalRewardItemHolder {
 	 * @param resourceID
 	 * @return
 	 */
-	public boolean removeRewardItemOnResource(Player player, int resourceID){
+	public boolean removeAllRewardItem(Player player, int resourceID){
 		return getItemStore(player.getUserId(), resourceID).clearAllRecords();
 	}
 	
@@ -44,7 +48,7 @@ public class GFFinalRewardItemHolder {
 	 * @param rewardID
 	 * @return
 	 */
-	public boolean removeRewardItemOnResources(Player player, int resourceID, String rewardID){
+	public boolean removeSingleRewardItem(Player player, int resourceID, String rewardID){
 		return getItemStore(player.getUserId(), resourceID).removeItem(rewardID);
 	}
 	

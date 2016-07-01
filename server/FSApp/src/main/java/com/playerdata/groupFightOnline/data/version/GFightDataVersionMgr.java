@@ -35,10 +35,10 @@ public class GFightDataVersionMgr {
 		}
 		if(resourceID > 0){
 			synOnlineGroupData(player, resourceID, groupDataVersion.getOnlineGroupData());
+			synDefendArmyItem(player, resourceID, groupDataVersion.getDefendArmyItem());
 		}
 		synOnlineResourceData(player, groupDataVersion.getOnlineResourceData());
 		synBiddingItem(player, groupDataVersion.getBiddingItem());
-		synDefendArmyItem(player, resourceID, groupDataVersion.getDefendArmyItem());
 		synUserGFData(player);
 	}
 	

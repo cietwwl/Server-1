@@ -89,11 +89,11 @@ public class GFightOnlineResourceMgr {
 	}
 	
 	private void prepareStartEvent(int resourceID){
-		
+		//GFightPrepareBM.getInstance().prepareStart(resourceID);
 	}
 	
 	private void fightStartEvent(int resourceID){
-		
+		//GFightOnFightBM.getInstance().fightStart(resourceID);
 	}
 
 	public void addFightRecord(int resourceID, GFFightRecord record){
