@@ -121,6 +121,11 @@ public class GFightOnFightMgr {
 			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
+		if(groupData.getAliveCount() <= 0) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("帮派已经战败，不能再发起挑战");
+			return;
+		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
 		if(defenderSimple == null) {

@@ -1,5 +1,6 @@
 package com.playerdata.groupFightOnline.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class UserGFightOnlineData {
 	private int resourceID;
 	
 	@CombineSave
-	private List<CurAttrData> selfHerosInfo;
+	private List<CurAttrData> selfHerosInfo = new ArrayList<CurAttrData>();
 	
 	@CombineSave
 	private List<String> activeHeros;
@@ -64,6 +65,7 @@ public class UserGFightOnlineData {
 	}
 	
 	public CurAttrData getSelfHeroInfo(String heroID) {
+		if(selfHerosInfo == null) selfHerosInfo = new ArrayList<CurAttrData>();
 		for(CurAttrData hero : selfHerosInfo)
 			if(hero.getId().equals(heroID)) return hero;
 		return null;

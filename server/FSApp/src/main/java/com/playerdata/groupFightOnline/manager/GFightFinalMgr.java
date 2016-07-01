@@ -46,7 +46,7 @@ public class GFightFinalMgr {
 		int size = groupRankList.size();
 		for(int i = 1; i < size; i++)
 			handleFailGroup(groupRankList.get(i));
-		calculateFightResult(resourceID);
+		clearCurrentLoopData(resourceID);
 	}
 	
 	/**
