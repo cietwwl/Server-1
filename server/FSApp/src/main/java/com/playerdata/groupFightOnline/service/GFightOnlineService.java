@@ -23,6 +23,8 @@ public class GFightOnlineService implements FsService {
 			GroupFightOnlineReqMsg msgGFRequest = GroupFightOnlineReqMsg.parseFrom(request.getBody().getSerializedContent());
 			GFRequestType gfType = msgGFRequest.getReqType();
 			
+			int resourceID = msgGFRequest.getResourceID();
+			
 			String clientDataVersion = msgGFRequest.getClientVersion();
 			switch (gfType) {
 			case GET_RESOURCE_INFO:
@@ -82,7 +84,7 @@ public class GFightOnlineService implements FsService {
 				break;
 			}
 			
-			GFightDataVersionMgr.synByVersion(player, clientDataVersion);
+			GFightDataVersionMgr.synByVersion(player, resourceID, clientDataVersion);
 			
 		} catch (InvalidProtocolBufferException e) {
 			GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "出现了InvalidProtocolBufferException异常", e);

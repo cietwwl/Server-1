@@ -14,7 +14,7 @@ import com.rwbase.dao.group.pojo.Group;
 
 public class GFightDataVersionMgr {
 
-	public static void synByVersion(Player player, String versionJson) {
+	public static void synByVersion(Player player, int resourceID, String versionJson) {
 		// 基础数据版本号
 		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
 		Group group = GroupBM.get(groupId);
@@ -26,10 +26,12 @@ public class GFightDataVersionMgr {
 		if (groupDataVersion == null) {
 			return;
 		}
+		if(resourceID > 0){
+			synOnlineGroupData(player, resourceID, groupDataVersion.getOnlineGroupData());
+		}
+		synOnlineResourceData(player, groupDataVersion.getOnlineResourceData());
 		
 		synBiddingItem(player, groupDataVersion.getBiddingItem());
-		synOnlineGroupData(player, groupDataVersion.getResourceID(), groupDataVersion.getOnlineGroupData());
-		synOnlineResourceData(player, groupDataVersion.getOnlineResourceData());
 		synDefendArmyItem(player, groupDataVersion.getDefendArmyItem());
 	
 	}
