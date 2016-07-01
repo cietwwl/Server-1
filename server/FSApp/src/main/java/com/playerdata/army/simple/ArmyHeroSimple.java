@@ -38,6 +38,9 @@ public class ArmyHeroSimple {
 		BeanCopyer.copy(baseInfo, armyHero);		
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
+		armyHero.curAttrData.setCurLife(totalAttrData.getLife());
+		armyHero.curAttrData.setCurEnergy(totalAttrData.getEnergy());
+		armyHero.curAttrData.setId(hero.getHeroData().getId());
 		armyHero.fighting = hero.getFighting();
 		
 		return armyHero;		
