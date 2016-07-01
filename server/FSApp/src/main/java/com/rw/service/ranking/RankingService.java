@@ -23,6 +23,9 @@ public class RankingService  implements FsService{
 				case RANK_HERO_INFO:
 					result = rankingHandler.rankingInfo(rankRequest, pPlayer);
 					break;
+				case RANK_MY_INFO:
+					result = rankingHandler.rankingInfoSelf(rankRequest, pPlayer);
+					break;
 				default:
 					break;
 			}

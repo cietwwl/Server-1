@@ -75,7 +75,7 @@ public class FixNormEquipMgr {
 			FixNormEquipDataItem.setId( id );
 			FixNormEquipDataItem.setCfgId(cfgId);
 			FixNormEquipDataItem.setOwnerId(ownerId);
-			FixNormEquipDataItem.setQuality(1);
+			FixNormEquipDataItem.setQuality(0);
 			FixNormEquipDataItem.setLevel(1);
 			FixNormEquipDataItem.setStar(0);
 			FixNormEquipDataItem.setSlot(slot);
@@ -343,10 +343,16 @@ public class FixNormEquipMgr {
 					result.setSuccess(true);
 					
 				}
-			}
-			
+			}		
 			
 		}
+		
+		if(result.isSuccess()){
+			int curQuality = dataItem.getQuality();
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+			result = FixEquipHelper.checkCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
+		}
+		
 		return result;
 	}
 
@@ -407,6 +413,13 @@ public class FixNormEquipMgr {
 					result.setSuccess(true);
 				}
 			}
+		}
+		
+		if(result.isSuccess()){
+			int curStar = dataItem.getStar();
+			
+			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+			result = FixEquipHelper.checkCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
 		}
 		return result;
 	}

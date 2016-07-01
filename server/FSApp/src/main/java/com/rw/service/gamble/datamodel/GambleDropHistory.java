@@ -13,12 +13,57 @@ public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
 	private List<String> freeGambleHistory;
-	private int freeCount;// 免费抽卡次数，每日重置
+	private int freeCount;// 当天使用免费抽卡次数，每日重置
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
 	private int hotCheckRandomThreshold;
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
+	
+	private int freeGuaranteePlanIndex = 0;//免费保底检索的索引
+	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
+	
+	private boolean passFreeExclusiveCheck = false;
+	private boolean passChargeExclusiveCheck = false;
+	private List<String> freeExclusiveHistory;
+	private List<String> chargeExclusiveHistory;
+	
+	@JsonIgnore
+	public boolean passExclusiveCheck(boolean isFree){
+		return isFree?passFreeExclusiveCheck:passChargeExclusiveCheck;
+	}
+	
+	public boolean isPassFreeExclusiveCheck() {
+		return passFreeExclusiveCheck;
+	}
+
+	public void setPassFreeExclusiveCheck(boolean passFreeExclusiveCheck) {
+		this.passFreeExclusiveCheck = passFreeExclusiveCheck;
+	}
+
+	public boolean isPassChargeExclusiveCheck() {
+		return passChargeExclusiveCheck;
+	}
+
+	public void setPassChargeExclusiveCheck(boolean passChargeExclusiveCheck) {
+		this.passChargeExclusiveCheck = passChargeExclusiveCheck;
+	}
+
+	public int getFreeGuaranteePlanIndex() {
+		return freeGuaranteePlanIndex;
+	}
+
+	public void setFreeGuaranteePlanIndex(int freeGuaranteePlanIndex) {
+		this.freeGuaranteePlanIndex = freeGuaranteePlanIndex;
+	}
+
+	public int getChargeGuaranteePlanIndex() {
+		return chargeGuaranteePlanIndex;
+	}
+
+	public void setChargeGuaranteePlanIndex(int chargeGuaranteePlanIndex) {
+		this.chargeGuaranteePlanIndex = chargeGuaranteePlanIndex;
+	}
 
 	// set方法仅仅用于Json库反射使用，其他类不要调用！
 	public List<String> getChargeGambleHistory() {
@@ -35,6 +80,22 @@ public class GambleDropHistory {
 
 	public void setFreeGambleHistory(List<String> freeGambleHistory) {
 		this.freeGambleHistory = freeGambleHistory;
+	}
+
+	public List<String> getChargeExclusiveHistory() {
+		return chargeExclusiveHistory;
+	}
+
+	public void setChargeExclusiveHistory(List<String> chargeExclusiveHistory) {
+		this.chargeExclusiveHistory = chargeExclusiveHistory;
+	}
+
+	public List<String> getFreeExclusiveHistory() {
+		return freeExclusiveHistory;
+	}
+
+	public void setFreeExclusiveHistory(List<String> freeExclusiveHistory) {
+		this.freeExclusiveHistory = freeExclusiveHistory;
 	}
 
 	public long getLastFreeGambleTime() {
@@ -88,6 +149,8 @@ public class GambleDropHistory {
 	public GambleDropHistory() {
 		chargeGambleHistory = new ArrayList<String>();
 		freeGambleHistory = new ArrayList<String>();
+		freeExclusiveHistory = new ArrayList<String>();
+		chargeExclusiveHistory = new ArrayList<String>();
 	}
 
 	@JsonIgnore
@@ -95,6 +158,7 @@ public class GambleDropHistory {
 		return hotCheckRandomThreshold;
 	}
 
+	@JsonIgnore
 	public void GenerateHotCheckCount(Random r, int min, int max) {
 		if (min <= 0) {
 			hotCheckRandomThreshold = 1;// 容错处理
@@ -108,6 +172,7 @@ public class GambleDropHistory {
 		hotCheckRandomThreshold = r.nextInt(max - min) + min;
 	}
 
+	@JsonIgnore
 	public void resetHotHistory(Random r, int hotCheckMin, int hotCheckMax) {
 		hotCount = 0;
 		GenerateHotCheckCount(r, hotCheckMin, hotCheckMax);
@@ -118,9 +183,10 @@ public class GambleDropHistory {
 		return hotCount;
 	}
 
+	@JsonIgnore
 	public void reset() {
 		freeCount = 0;
-		lastFreeGambleTime = 0;
+		//lastFreeGambleTime = 0;
 	}
 
 	/**
@@ -145,29 +211,40 @@ public class GambleDropHistory {
 
 	/**
 	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
+	 * 还需要调整保底次数数组的索引
 	 * @param isFree
 	 */
-	public void clearHistory(boolean isFree,IDropGambleItemPlan dropPlan){
+	@JsonIgnore
+	public void clearGuaranteeHistory(boolean isFree,IDropGambleItemPlan dropPlan){
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
-		int checkNum = dropPlan.getCheckNum();
+		int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
 		int historySize = history.size();
-		if (historySize >= checkNum){
-			history.clear();
+		if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
+			increaseGuaranteePlanIndex(isFree,dropPlan.getLastCheckIndex());
+			int removeCount = checkNum;
+			for (int i = 0; i < removeCount; i++) {
+				history.remove(0);
+			}
 		}
 	}
 	
 	/**
 	 * 返回true表示需要使用保底方案
-	 * 
 	 * @param isFree
 	 * @param dropPlan
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
-		if (history.size() < dropPlan.getCheckNum() - 1) {
+		int checkNum = dropPlan.getCheckNum(index);
+		int historySize = history.size();
+		if (historySize < checkNum - 1) {
 			return false;
 		}
+		
 		for (String itemModelId : history) {
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
@@ -175,7 +252,21 @@ public class GambleDropHistory {
 		}
 		return true;
 	}
+	
+	@JsonIgnore
+	private void increaseGuaranteePlanIndex(boolean isFree, int lastIndex){
+		if (isFree){
+			if (freeGuaranteePlanIndex<lastIndex){
+				freeGuaranteePlanIndex++;
+			}
+		}else{
+			if (freeGuaranteePlanIndex<lastIndex){
+				chargeGuaranteePlanIndex++;
+			}
+		}
+	}
 
+	@JsonIgnore
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		history.add(itemModel);
@@ -186,8 +277,15 @@ public class GambleDropHistory {
 		} else {
 			firstChargeGamble = false;
 		}
+		addExclusiveHistory(isFree,itemModel);
 	}
 
+	/**
+	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
+	 * @param isFree
+	 * @param maxHistory
+	 * @return
+	 */
 	/*
 	private List<String> checkHistoryNum(boolean isFree, int maxHistory) {
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
@@ -198,6 +296,7 @@ public class GambleDropHistory {
 		return history;
 	}*/
 
+	@JsonIgnore
 	public void addHotHistoryCount() {
 		hotCount++;
 	}
@@ -211,8 +310,57 @@ public class GambleDropHistory {
 		return 0;
 	}
 
+	@JsonIgnore
 	public boolean canUseFree(GamblePlanCfg planCfg) {
 		if (planCfg == null) return false;
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
+	}
+
+	/**
+	 * 假设历史纪录增加成功，检查是否可以关闭去重检查！
+	 * @param isFree
+	 * @param exclusiveCount
+	 */
+	@JsonIgnore
+	public void checkDistinctTag(boolean isFree, int exclusiveCount) {
+		int historySize = (isFree?freeExclusiveHistory:chargeExclusiveHistory).size();
+		if (historySize >= exclusiveCount){//假设历史添加成功：historySize+1 > exclusiveCount
+			if (isFree) {
+				passFreeExclusiveCheck = true;
+				freeExclusiveHistory.clear();
+			} else {
+				passChargeExclusiveCheck = true;
+				chargeExclusiveHistory.clear();
+			}
+		}
+	}
+	
+	@JsonIgnore
+	private void addExclusiveHistory(boolean isFree, String itemId){
+		if (isFree) {
+			if (!passFreeExclusiveCheck){
+				freeExclusiveHistory.add(itemId);
+			}
+		} else {
+			if (!passChargeExclusiveCheck){
+				chargeExclusiveHistory.add(itemId);
+			}
+		}
+	}
+
+	@JsonIgnore
+	public List<String> getHistory(boolean isFree, IDropGambleItemPlan dropPlan) {
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+		int checkNum = dropPlan.getCheckNum(index);
+		List<String> result = isFree?freeGambleHistory:chargeGambleHistory;
+		int orgSize = result.size();
+		if (orgSize > checkNum){
+			List<String> tmp = new ArrayList<String>(checkNum);
+			for(int i = orgSize - checkNum; i < orgSize;i++){
+				tmp.add(result.get(i));
+			}
+			result = tmp;
+		}
+		return result;
 	}
 }

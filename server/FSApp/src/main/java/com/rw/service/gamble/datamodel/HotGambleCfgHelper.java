@@ -12,6 +12,7 @@ import java.util.Map;
 import com.common.RefInt;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.gamble.GambleLogicHelper;
 import com.rwbase.common.config.CfgCsvHelper;
 /*
 	<bean class="com.rw.service.gamble.datamodel.HotGambleCfgHelper"  init-method="init" />
@@ -22,6 +23,7 @@ public class HotGambleCfgHelper extends CfgCsvDao<HotGambleCfg> {
 		return SpringContextUtil.getBean(HotGambleCfgHelper.class);
 	}
 	private ArrayList<HotGambleCfg> sortCfg;
+	private String defaultHeroId = null;
 	
 	@Override
 	public Map<String, HotGambleCfg> initJsonCfg() {
@@ -35,7 +37,6 @@ public class HotGambleCfgHelper extends CfgCsvDao<HotGambleCfg> {
 		if (cfgCacheMap.size() <= 0) throw new RuntimeException("钓鱼台高级抽卡热点英雄配置(HotGambleCfg.csv)至少需要一行!");
 		
 		Collections.sort(sortCfg, SorterByKey);
-		//sortCfg.sort(SorterByKey);
 		
 		//按照日期重新索引
 		cfgCacheMap.clear();
@@ -43,6 +44,24 @@ public class HotGambleCfgHelper extends CfgCsvDao<HotGambleCfg> {
 			cfgCacheMap.put(getMonthDay(cfg.getMonth(),cfg.getDay()), cfg);
 		}
 		return cfgCacheMap;
+	}
+	
+	@Override
+	public void CheckConfig() {
+		// 跨表检查英雄是否存在，然后寻找合适的默认保底容错英雄
+		defaultHeroId = null;
+		for (HotGambleCfg cfg : sortCfg) {
+			if (!GambleLogicHelper.isValidHeroId(cfg.getHeroModelId())){
+				throw new RuntimeException("无效英雄ID:"+cfg.getHeroModelId());
+			}
+			if (defaultHeroId == null){
+				defaultHeroId = cfg.getHeroModelId();
+			}
+		}
+	}
+
+	public String getDefaultHeroId() {
+		return defaultHeroId;
 	}
 
 	private String getMonthDay(int month,int dayOfMonth) {

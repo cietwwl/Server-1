@@ -1,5 +1,6 @@
 package com.rw.handler.fixEquip;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.protobuf.ByteString;
@@ -52,7 +53,7 @@ public class FixEquipHandler {
 	private boolean doLevelUp(Client client,int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_level_up);
-		Map<Integer,String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -101,7 +102,7 @@ public class FixEquipHandler {
 	private boolean doLevelUpOneKey(Client client,int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_level_up_one_key);
-		Map<Integer,String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -149,7 +150,7 @@ public class FixEquipHandler {
 	private boolean doQualityUp(Client client,int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_quality_up);
-		Map<Integer,String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -198,7 +199,7 @@ public class FixEquipHandler {
 	private boolean doStarUp(Client client,int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_star_up);
-		Map<Integer,String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -247,7 +248,7 @@ public class FixEquipHandler {
 	private boolean doStarDown(Client client,int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_star_down);
-		Map<Integer,String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");

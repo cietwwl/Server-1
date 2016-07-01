@@ -52,7 +52,7 @@ public class FixExpEquipHandler {
 	private boolean doStarDown(Client client, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_star_down);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -101,7 +101,7 @@ public class FixExpEquipHandler {
 	private boolean doStarUp(Client client, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_star_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -150,7 +150,7 @@ public class FixExpEquipHandler {
 	private boolean doQualityUp(Client client, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_quality_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -199,7 +199,7 @@ public class FixExpEquipHandler {
 	private boolean doLevelUp(Client client, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_level_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
 		String tmp = giftList.get(equipid);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -212,6 +212,7 @@ public class FixExpEquipHandler {
 		Builder item = SelectItem.newBuilder();
 		item.setModelId(expId);
 		item.setCount(30);
+		
 		SelectItem tmpitem = item.buildPartial();	
 		com.rwproto.FixEquipProto.ExpLevelUpReqParams.Builder expIdAndNum = ExpLevelUpReqParams.newBuilder();
 		expIdAndNum.addSelectItem(tmpitem);

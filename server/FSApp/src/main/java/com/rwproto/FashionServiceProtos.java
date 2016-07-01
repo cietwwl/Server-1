@@ -329,6 +329,24 @@ public final class FashionServiceProtos {
      */
     com.google.protobuf.ByteString
         getBuyRenewPlanIdBytes();
+
+    // optional bool wearNow = 4;
+    /**
+     * <code>optional bool wearNow = 4;</code>
+     *
+     * <pre>
+     *购买的时候允许马上穿上
+     * </pre>
+     */
+    boolean hasWearNow();
+    /**
+     * <code>optional bool wearNow = 4;</code>
+     *
+     * <pre>
+     *购买的时候允许马上穿上
+     * </pre>
+     */
+    boolean getWearNow();
   }
   /**
    * Protobuf type {@code FashionService.FashionRequest}
@@ -400,6 +418,11 @@ public final class FashionServiceProtos {
             case 26: {
               bitField0_ |= 0x00000004;
               buyRenewPlanId_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              wearNow_ = input.readBool();
               break;
             }
           }
@@ -537,10 +560,35 @@ public final class FashionServiceProtos {
       }
     }
 
+    // optional bool wearNow = 4;
+    public static final int WEARNOW_FIELD_NUMBER = 4;
+    private boolean wearNow_;
+    /**
+     * <code>optional bool wearNow = 4;</code>
+     *
+     * <pre>
+     *购买的时候允许马上穿上
+     * </pre>
+     */
+    public boolean hasWearNow() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool wearNow = 4;</code>
+     *
+     * <pre>
+     *购买的时候允许马上穿上
+     * </pre>
+     */
+    public boolean getWearNow() {
+      return wearNow_;
+    }
+
     private void initFields() {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       fashionId_ = 0;
       buyRenewPlanId_ = "";
+      wearNow_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -567,6 +615,9 @@ public final class FashionServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getBuyRenewPlanIdBytes());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, wearNow_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -587,6 +638,10 @@ public final class FashionServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getBuyRenewPlanIdBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, wearNow_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -710,6 +765,8 @@ public final class FashionServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         buyRenewPlanId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        wearNow_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -750,6 +807,10 @@ public final class FashionServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.buyRenewPlanId_ = buyRenewPlanId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.wearNow_ = wearNow_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -776,6 +837,9 @@ public final class FashionServiceProtos {
           bitField0_ |= 0x00000004;
           buyRenewPlanId_ = other.buyRenewPlanId_;
           onChanged();
+        }
+        if (other.hasWearNow()) {
+          setWearNow(other.getWearNow());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -987,6 +1051,55 @@ public final class FashionServiceProtos {
   }
   bitField0_ |= 0x00000004;
         buyRenewPlanId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool wearNow = 4;
+      private boolean wearNow_ ;
+      /**
+       * <code>optional bool wearNow = 4;</code>
+       *
+       * <pre>
+       *购买的时候允许马上穿上
+       * </pre>
+       */
+      public boolean hasWearNow() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool wearNow = 4;</code>
+       *
+       * <pre>
+       *购买的时候允许马上穿上
+       * </pre>
+       */
+      public boolean getWearNow() {
+        return wearNow_;
+      }
+      /**
+       * <code>optional bool wearNow = 4;</code>
+       *
+       * <pre>
+       *购买的时候允许马上穿上
+       * </pre>
+       */
+      public Builder setWearNow(boolean value) {
+        bitField0_ |= 0x00000008;
+        wearNow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool wearNow = 4;</code>
+       *
+       * <pre>
+       *购买的时候允许马上穿上
+       * </pre>
+       */
+      public Builder clearWearNow() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        wearNow_ = false;
         onChanged();
         return this;
       }
@@ -6666,31 +6779,31 @@ public final class FashionServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\024FashionService.proto\022\016FashionService\032\022" +
-      "ErrorService.proto\"p\n\016FashionRequest\0223\n\t" +
-      "eventType\030\001 \002(\0162 .FashionService.Fashion" +
-      "EventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n\016buyRenew" +
-      "PlanId\030\003 \001(\t\"\305\001\n\017FashionResponse\0223\n\teven" +
-      "tType\030\001 \001(\0162 .FashionService.FashionEven" +
-      "tType\022\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162" +
-      "\027.ErrorService.ErrorType\022\014\n\004tips\030\004 \001(\t\0224" +
-      "\n\rfashionCommon\030\005 \001(\0132\035.FashionService.F" +
-      "ashionCommon\"z\n\rFashionCommon\0220\n\013usedFas",
-      "hion\030\001 \001(\0132\033.FashionService.FashionUsed\022" +
-      "7\n\013buyRenewCfg\030\002 \001(\0132\".FashionService.Fa" +
-      "shionBuyRenewCfg\"U\n\013FashionUsed\022\016\n\006SuitI" +
-      "d\030\001 \001(\005\022\016\n\006WingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027" +
-      "\n\017SpecialEffectId\030\004 \001(\005\"K\n\022FashionBuyRen" +
-      "ewCfg\0225\n\014buyRenewList\030\001 \003(\0132\037.FashionSer" +
-      "vice.FashionBuyRenew\"w\n\017FashionBuyRenew\022" +
-      "\021\n\tfashionId\030\001 \002(\005\022&\n\006buyCfg\030\002 \003(\0132\026.Fas" +
-      "hionService.PayCfg\022)\n\trenewPlan\030\003 \003(\0132\026." +
-      "FashionService.PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001",
-      " \002(\005\022\017\n\007payment\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022" +
-      "\016\n\006planId\030\004 \002(\t*K\n\020FashionEventType\022\022\n\016g" +
-      "etFashiondata\020\001\022\007\n\003buy\020\002\022\t\n\005renew\020\003\022\006\n\002o" +
-      "n\020\004\022\007\n\003off\020\005**\n\013FashionType\022\010\n\004Wing\020\000\022\007\n" +
-      "\003Pet\020\001\022\010\n\004Suit\020\002B#\n\013com.rwprotoB\024Fashion" +
-      "ServiceProtos"
+      "ErrorService.proto\"\201\001\n\016FashionRequest\0223\n" +
+      "\teventType\030\001 \002(\0162 .FashionService.Fashio" +
+      "nEventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n\016buyRene" +
+      "wPlanId\030\003 \001(\t\022\017\n\007wearNow\030\004 \001(\010\"\305\001\n\017Fashi" +
+      "onResponse\0223\n\teventType\030\001 \001(\0162 .FashionS" +
+      "ervice.FashionEventType\022\021\n\tfashionId\030\002 \001" +
+      "(\005\022&\n\005error\030\003 \002(\0162\027.ErrorService.ErrorTy" +
+      "pe\022\014\n\004tips\030\004 \001(\t\0224\n\rfashionCommon\030\005 \001(\0132" +
+      "\035.FashionService.FashionCommon\"z\n\rFashio",
+      "nCommon\0220\n\013usedFashion\030\001 \001(\0132\033.FashionSe" +
+      "rvice.FashionUsed\0227\n\013buyRenewCfg\030\002 \001(\0132\"" +
+      ".FashionService.FashionBuyRenewCfg\"U\n\013Fa" +
+      "shionUsed\022\016\n\006SuitId\030\001 \001(\005\022\016\n\006WingId\030\002 \001(" +
+      "\005\022\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialEffectId\030\004 \001(" +
+      "\005\"K\n\022FashionBuyRenewCfg\0225\n\014buyRenewList\030" +
+      "\001 \003(\0132\037.FashionService.FashionBuyRenew\"w" +
+      "\n\017FashionBuyRenew\022\021\n\tfashionId\030\001 \002(\005\022&\n\006" +
+      "buyCfg\030\002 \003(\0132\026.FashionService.PayCfg\022)\n\t" +
+      "renewPlan\030\003 \003(\0132\026.FashionService.PayCfg\"",
+      "H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030\002 \002(\005\022" +
+      "\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*K\n\020Fas" +
+      "hionEventType\022\022\n\016getFashiondata\020\001\022\007\n\003buy" +
+      "\020\002\022\t\n\005renew\020\003\022\006\n\002on\020\004\022\007\n\003off\020\005**\n\013Fashio" +
+      "nType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002B#\n\013co" +
+      "m.rwprotoB\024FashionServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6702,7 +6815,7 @@ public final class FashionServiceProtos {
           internal_static_FashionService_FashionRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionService_FashionRequest_descriptor,
-              new java.lang.String[] { "EventType", "FashionId", "BuyRenewPlanId", });
+              new java.lang.String[] { "EventType", "FashionId", "BuyRenewPlanId", "WearNow", });
           internal_static_FashionService_FashionResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_FashionService_FashionResponse_fieldAccessorTable = new

@@ -10,29 +10,28 @@ import com.rwproto.RequestProtos.Request;
 
 public class SettingService implements FsService
 {
-	private SettingHandler gambleHandler = SettingHandler.getInstance();
+	private SettingHandler handler = SettingHandler.getInstance();
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-		// TODO Auto-generated method stub
 		try {
 			MsgSettingRequest settingRequest = MsgSettingRequest.parseFrom(request.getBody().getSerializedContent());
 			eSettingRequestType settingServiceType = settingRequest.getRequestType();
 			switch (settingServiceType) 
 			{
 			case RENAME:
-				result = gambleHandler.rename(settingRequest, player);
+				result = handler.rename(settingRequest, player);
 				break;
 			case EXCHANGE_CODE:
-				result = gambleHandler.exchangeCode(settingRequest, player);
+				result = handler.exchangeCode(settingRequest, player);
 				break;
 			case CHANGE_HEAD:
-				result = gambleHandler.changeHead(settingRequest, player);
+				result = handler.changeHead(settingRequest, player);
 				break;
 			case CHANGE_HEADBOX:
-				result = gambleHandler.changeHeadBox(settingRequest, player);
+				result = handler.changeHeadBox(settingRequest, player);
 				break;
 			case GET_DATA:
-				result = gambleHandler.getSettingInfo(settingRequest, player);
+				result = handler.getSettingInfo(settingRequest, player);
 				break;
 			default:
 				break;

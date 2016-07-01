@@ -36,6 +36,7 @@ public class GroupSecretService implements FsService {
 				break;
 			case CHANGE_DEFEND_TEAM:
 				result = handler.changeDefendTeamHandler(player, req.getChangeTeamReqMsg());
+				break;
 			case BUY_SECRET_KEY:
 				result = handler.buySecretKeyHandler(player);
 				break;

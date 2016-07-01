@@ -34,13 +34,13 @@ public class VipPrivilegeHelper {
 			String chargeSource = sources[i];
 			if (chargeSource == null) continue;
 			int index = chargeSource.indexOf(ChargeTypePriority.vipPrefix);
-			if (index!=-1){
+			if (index == 0){//vip前缀
 				String vipLevelStr = chargeSource.substring(ChargeTypePriority.vipPrefix.length() + index);
 				int lvl = -1;
 				try{
 					lvl = Integer.parseInt(vipLevelStr);
 				}catch(Exception ex){
-					System.out.println("无法解释VIP等级:"+chargeSource);
+//					System.out.println("无法解释VIP等级:"+chargeSource);
 				}
 				//取比当前vip等级要低（或者相等），并且比已有最佳匹配值要大的等级
 				if (lvl > bestMatchVipLevel && lvl <= currentVip){

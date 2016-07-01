@@ -9,7 +9,7 @@ public final class BattleCommon {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enum {@code ePlayerType}
+   * Protobuf enum {@code BattleCommon.ePlayerType}
    */
   public enum ePlayerType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -171,11 +171,11 @@ public final class BattleCommon {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:ePlayerType)
+    // @@protoc_insertion_point(enum_scope:BattleCommon.ePlayerType)
   }
 
   /**
-   * Protobuf enum {@code ePlayerCamp}
+   * Protobuf enum {@code BattleCommon.ePlayerCamp}
    */
   public enum ePlayerCamp
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -286,7 +286,7 @@ public final class BattleCommon {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:ePlayerCamp)
+    // @@protoc_insertion_point(enum_scope:BattleCommon.ePlayerCamp)
   }
 
 
@@ -298,12 +298,12 @@ public final class BattleCommon {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022BattleCommon.proto*m\n\013ePlayerType\022\016\n\nM" +
-      "AINPLAYER\020\000\022\010\n\004HIRE\020\001\022\013\n\007MONSTER\020\002\022\021\n\rIN" +
-      "VISIBLE_NPC\020\003\022\021\n\rSUMMON_NORMAL\020\004\022\021\n\rSUMM" +
-      "ON_ANIMAL\020\005*+\n\013ePlayerCamp\022\006\n\002Me\020\000\022\t\n\005En" +
-      "emy\020\001\022\t\n\005Other\020\002B\033\n\013com.rwprotoB\014BattleC" +
-      "ommon"
+      "\n\022BattleCommon.proto\022\014BattleCommon*m\n\013eP" +
+      "layerType\022\016\n\nMAINPLAYER\020\000\022\010\n\004HIRE\020\001\022\013\n\007M" +
+      "ONSTER\020\002\022\021\n\rINVISIBLE_NPC\020\003\022\021\n\rSUMMON_NO" +
+      "RMAL\020\004\022\021\n\rSUMMON_ANIMAL\020\005*+\n\013ePlayerCamp" +
+      "\022\006\n\002Me\020\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002B\033\n\013com.rw" +
+      "protoB\014BattleCommon"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
