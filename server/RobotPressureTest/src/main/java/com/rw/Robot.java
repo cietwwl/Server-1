@@ -869,14 +869,24 @@ public class Robot {
 		return issuc;
 	}
 	
-	/**1查看;独立的
-	 * 2战斗；接5换buff和6换道具*/
-	public boolean testMagicSecret(int id){
-		upgrade(50);
-		boolean issuc = false;
-		issuc=MagicSecretHandler.getHandler().doType(client , id);
-		return issuc;
+	/**
+	 * 进行一次乾坤幻境并领取奖励（如果所有幻境都挑战通过，则会进行任意个幻境扫荡）
+	 * @param client
+	 * @return
+	 */
+	public boolean playerMagicSecret(){
+		return MagicSecretHandler.getHandler().playMagicSecret(client);
 	}
+	
+	/**
+	 * 获取乾坤幻境的排行榜
+	 * @param client
+	 * @return
+	 */
+	public boolean getMagicSecretRank() {
+		return MagicSecretHandler.getHandler().getMagicSecretRank(client);
+	}
+	
 	public boolean sendGmCommand(String value){
 		return GmHandler.instance().send(client, value);
 	}
