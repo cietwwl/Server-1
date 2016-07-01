@@ -133,30 +133,24 @@ public class ActivityVitalityTypeMgr {
 		return false;
 	}
 //	
-//	public boolean isLevelEnough(Player player) {
-//		ActivityDailyCountTypeCfg activityCountTypeCfg = getparentCfg();
-//		if(activityCountTypeCfg == null){
-//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
-//			return false;
-//		}
-//		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
-//			return false;
-//		}		
-//		return true;
-//	}
+	public boolean isLevelEnough(Player player) {
+		ActivityVitalityCfg vitalityCfg = getparentCfg();
+		if(vitalityCfg == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+			return false;
+		}
+		if(player.getLevel() < vitalityCfg.getLevelLimit()){
+			return false;
+		}		
+		return true;
+	}
 //	
-//	public boolean isOpen(ActivityDailyCountTypeSubCfg activityCountTypesubCfg) {
-//		
-//		
-//		if (activityCountTypesubCfg != null) {
-//			
-//			long startTime = activityCountTypesubCfg.getStartTime();
-//			long endTime = activityCountTypesubCfg.getEndTime();
-//			long currentTime = System.currentTimeMillis();
-//			return currentTime < endTime && currentTime > startTime;
-//		}
-//		return false;
-//	}
+	public boolean isOpen(ActivityVitalitySubCfg vitalitySubCfg) {		
+		if (vitalitySubCfg != null) {
+			return ActivityVitalityCfgDAO.getInstance().getday() == vitalitySubCfg.getDay();		
+		}
+		return false;
+	}
 	
 //	private boolean isClose(ActivityDailyCountTypeItem activityDailyCountTypeItem) {
 //	if (activityDailyCountTypeItem != null) {

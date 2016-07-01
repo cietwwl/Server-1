@@ -56,7 +56,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	public ActivityVitalityTypeItem newItem(Player player){
 		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
 		if(cfgById!=null){
-			int day = getday(cfgById);
+			int day = getday();
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
@@ -69,13 +69,16 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 	}
 	
-	/**根据当前时间返回处于活动第几天*/
-	private int getday(ActivityVitalityCfg cfgById) {
+	/**根据当前时间返回处于活动之王活动的第几天*/
+	public int getday() {
+		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
+		if(cfgById == null){
+			return 0;
+		}
 		long startTime = cfgById.getStartTime();
 		long currentTime = System.currentTimeMillis();
 		int day = DateUtils.getDayDistance(startTime, currentTime);
-		day++;
-		
+		day++;		
 		return day;
 	}
 
@@ -97,9 +100,5 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return subItemList;
 	}
 	
-	private int distanceDay(){
-		int day = 0;
-		
-		return day;
-	}
+
 }
