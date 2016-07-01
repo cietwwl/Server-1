@@ -78,8 +78,8 @@ public class GFightOnlineGroupMgr {
 				groupIdList.add(groupData.getGroupID());
 			}
 		}
-		if(groupList.size() > 0){
-			GFightOnlineGroupHolder.getInstance().synAllData( player, groupIdList );
+		if(groupIdList.size() > 0){
+			GFightOnlineGroupHolder.getInstance().synAllData(player, groupIdList);
 		}
 	}
 	

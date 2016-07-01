@@ -46,7 +46,7 @@ public class GFDefendArmyItemHolder{
 		String groupID = GroupHelper.getUserGroupId(userId);
 		List<GFDefendArmyItem> itemlist = new ArrayList<GFDefendArmyItem>();
 		if(StringUtils.isNotBlank(groupID)){
-			if(!haveDefenders(player)){
+			if(!haveDefenders(player)){  
 				initPersonalDefendArmy(player);
 			}
 			List<GFDefendArmyItem> itemTmpList = GFDefendArmyItemHolder.getInstance().getItemList(groupID);
@@ -128,7 +128,11 @@ public class GFDefendArmyItemHolder{
 	
 	public void synByVersion(Player player, String groupId, int version){
 		AtomicInteger curVersion = versionMap.get(groupId);
-		if(curVersion.get()!=version){
+		if(curVersion == null) {
+			curVersion = new AtomicInteger();
+			versionMap.put(groupId, curVersion);
+		}
+		if(curVersion.get()!=version || curVersion.get() == 0){
 			synSimpleLeaderData(player, groupId);
 			if(StringUtils.equals(GroupHelper.getUserGroupId(player.getUserId()), groupId)){
 				synSelfData(player);
@@ -137,14 +141,14 @@ public class GFDefendArmyItemHolder{
 	}
 	
 	private void synSimpleLeaderData(Player player, String groupId){
-		List<GFDefendArmyItem> serverDataList = getItemList(player.getUserId());
+		List<GFDefendArmyItem> serverDataList = getItemList(groupId);
 		List<GFDefendArmySimpleLeader> simpleLeaderList = new ArrayList<GFDefendArmySimpleLeader>();
 		for(GFDefendArmyItem item : serverDataList){
 			GFDefendArmySimpleLeader simpleLeader = item.getSimpleLeader();
 			if(simpleLeader != null) simpleLeaderList.add(item.getSimpleLeader());
 		}
 		int curVersion = versionMap.get(groupId).get();
-		ClientDataSynMgr.synDataGroupList(player, groupId, serverDataList, synSimpleLeaderType, eSynOpType.UPDATE_LIST, curVersion);
+		ClientDataSynMgr.synDataGroupList(player, groupId, simpleLeaderList, synSimpleLeaderType, eSynOpType.UPDATE_LIST, curVersion);
 	}
 	
 	private void synSelfData(Player player){
@@ -168,7 +172,7 @@ public class GFDefendArmyItemHolder{
 	private boolean haveDefenders(Player player){
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		if(!StringUtils.isNotBlank(groupID)) return false;
-		return getItemStore(groupID).getItem(player.getUserId() + "_1") == null;
+		return getItemStore(groupID).getItem(player.getUserId() + "_1") != null;
 	}
 	
 	/**
@@ -188,7 +192,7 @@ public class GFDefendArmyItemHolder{
 			item.setState(GFArmyState.EMPTY.getValue());
 			initItems.add(item);
 		}
-		addItemList(player.getUserId(), initItems);
+		addItemList(groupID, initItems);
 	}
 	
 	private MapItemStore<GFDefendArmyItem> getItemStore(String groupID) {

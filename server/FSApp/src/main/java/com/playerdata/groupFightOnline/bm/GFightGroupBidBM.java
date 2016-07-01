@@ -101,11 +101,11 @@ public class GFightGroupBidBM {
 			gfRsp.setTipMsg("竞标数量没有达到最小要求");
 			return;
 		}
-		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
-			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
-			gfRsp.setTipMsg("不能同时竞标两个资源点");
-			return;
-		}
+//		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
+//			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+//			gfRsp.setTipMsg("不能同时竞标两个资源点");
+//			return;
+//		}
 		gfGroupData.setResourceID(resourceID);
 		gfGroupData.setBiddingCount(bidCount);
 		gfGroupData.setLastBidTime(System.currentTimeMillis());

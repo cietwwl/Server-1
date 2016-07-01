@@ -129,6 +129,7 @@ public class GFightOnlineHandler {
 		//防守队伍用同步
 //		GFightPrepareMgr.getInstance().getDefenderTeams(player, gfRsp, msgGFRequest.getGroupID(), 
 //				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()).getDefendArmyItem());
+		gfRsp.setRstType(GFResultType.SUCCESS);
 		return gfRsp.build().toByteString();
 	}
 	

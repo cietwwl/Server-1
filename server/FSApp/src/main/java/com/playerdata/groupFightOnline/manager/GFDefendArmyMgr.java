@@ -96,6 +96,7 @@ public class GFDefendArmyMgr {
 		}
 		for(DefendArmyHerosInfo heros : items) {
 			GFDefendArmyItem armyItem = getItem(player, heros.getDefendArmyID());
+			if(armyItem == null) throw new GFArmyDataException("要修改的队伍无法创建成功");
 			if(heros.getHeroIDs().size() == 0) {
 				if(GFArmyState.NORMAL.equals(armyItem.getState())){
 					armyItem.setSimpleArmy(null);

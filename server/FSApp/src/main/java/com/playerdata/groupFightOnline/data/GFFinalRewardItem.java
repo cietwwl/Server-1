@@ -3,6 +3,7 @@ package com.playerdata.groupFightOnline.data;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -18,6 +19,7 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
  */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "gf_final_reward_item")
 public class GFFinalRewardItem implements IMapItem{
 	@Id
 	private String rewardID;  // rewardID = resourceID_userID_rewardType

@@ -19,7 +19,6 @@ public class GFightOnlineGroupHolder {
 		return instance;
 	}
 
-	
 	public GFightOnlineGroupData get(String groupId) {
 		return GFightOnlineGroupDAO.getInstance().get(groupId);
 	}

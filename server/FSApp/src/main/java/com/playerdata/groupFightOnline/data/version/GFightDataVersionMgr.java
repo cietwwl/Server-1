@@ -9,6 +9,7 @@ import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.SynDataGroupListVersion;
 import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
@@ -38,11 +39,15 @@ public class GFightDataVersionMgr {
 		synOnlineResourceData(player, groupDataVersion.getOnlineResourceData());
 		synBiddingItem(player, groupDataVersion.getBiddingItem());
 		synDefendArmyItem(player, resourceID, groupDataVersion.getDefendArmyItem());
+		synUserGFData(player);
+	}
+	
+	private static void synUserGFData(Player player){
+		UserGFightOnlineHolder.getInstance().synData(player);
 	}
 	
 	private static void synBiddingItem(Player player, int version){
 		GFightGroupBidBM.getInstance().synData(player, version);
-		
 	}
 	
 	private static void synOnlineGroupData(Player player, int resourceID, int version){		

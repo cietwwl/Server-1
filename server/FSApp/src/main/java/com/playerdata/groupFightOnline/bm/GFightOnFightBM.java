@@ -216,6 +216,7 @@ public class GFightOnFightBM {
 		groupData.addFightRecord(record);
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
 		GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
+		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
 	/**
