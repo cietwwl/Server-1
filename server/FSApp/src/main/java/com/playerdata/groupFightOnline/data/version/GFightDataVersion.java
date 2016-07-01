@@ -8,6 +8,8 @@ import com.playerdata.dataSyn.SynDataGroupListVersion;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GFightDataVersion {
+	
+	private int resourceID;
 
 	private int biddingItem;
 	
@@ -17,7 +19,12 @@ public class GFightDataVersion {
 	
 	private int userOnlineData;
 	
-	private List<SynDataGroupListVersion> defendArmyItem;
+	private List<SynDataGroupListVersion> defendArmyItem;	
+	
+
+	public int getResourceID() {
+		return resourceID;
+	}
 
 	public int getBiddingItem() {
 		return biddingItem;

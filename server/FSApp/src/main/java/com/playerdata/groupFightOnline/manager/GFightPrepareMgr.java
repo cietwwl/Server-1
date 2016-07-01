@@ -8,7 +8,6 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
-import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
@@ -59,7 +58,7 @@ public class GFightPrepareMgr {
 	 * @param dataVersion
 	 */
 	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, GFightDataVersion dataVersion) {
-		GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
+		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 
@@ -98,7 +97,7 @@ public class GFightPrepareMgr {
 			gfRsp.setTipMsg("没有帮派，不能进行此项操作");
 			return;
 		}
-		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().get(groupID);
+		GFightOnlineGroupData gfGroupData = GFightOnlineGroupMgr.getInstance().get(groupID);
 		if(gfGroupData == null || gfGroupData.getResourceID() == 0) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("帮派数据异常");
@@ -113,7 +112,7 @@ public class GFightPrepareMgr {
 		try {
 			GFDefendArmyMgr.getInstance().resetItems(player, items);
 			//同步公会数据
-			GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
+			GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (GFArmyDataException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);

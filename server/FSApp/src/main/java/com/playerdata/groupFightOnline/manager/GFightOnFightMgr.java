@@ -13,7 +13,6 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
-import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
@@ -53,7 +52,7 @@ public class GFightOnFightMgr {
 	 * @param groupID
 	 */
 	public void getEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID) {
-		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
@@ -84,7 +83,7 @@ public class GFightOnFightMgr {
 	 * @param groupID
 	 */
 	public void changeEnimyDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID){
-		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupID);
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupID);
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
@@ -117,7 +116,7 @@ public class GFightOnFightMgr {
 	 * @param gfRsp
 	 */
 	public void startFight(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
-		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
@@ -169,7 +168,7 @@ public class GFightOnFightMgr {
 	 * @param fightResult
 	 */
 	public void informFightResult(Player player, GroupFightOnlineRspMsg.Builder gfRsp, GFightResult fightResult, GFightDataVersion dataVersion){
-		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
@@ -216,7 +215,7 @@ public class GFightOnFightMgr {
 		record.setDefend(getGFUserSimpleInfo(armyItem.getUserID()));
 		groupData.addFightRecord(record);
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
-		GFightOnlineGroupHolder.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
+		GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
 	}
 	
 	/**

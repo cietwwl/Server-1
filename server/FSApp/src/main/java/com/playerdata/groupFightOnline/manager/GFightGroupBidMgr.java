@@ -12,9 +12,7 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
-import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
-import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rwbase.dao.group.pojo.Group;
@@ -50,10 +48,9 @@ public class GFightGroupBidMgr {
 	 * @param gfRsp
 	 */
 	public void getResourceInfo(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
-		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();
 		List<GFightOnlineResourceCfg> resCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : resCfgs){
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
+			GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(cfg.getResID());
 			if(resData == null) continue;
 			GFResourceInfo resInfo = toClientResourceData(player.getUserId(), resData);
 			if(resInfo == null) {
@@ -101,7 +98,7 @@ public class GFightGroupBidMgr {
 			gfRsp.setTipMsg("不在竞标期间");
 			return;
 		}
-		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().getByUser(player);
+		GFightOnlineGroupData gfGroupData = GFightOnlineGroupMgr.getInstance().getByUser(player);
 		if(!GFightConditionJudge.getInstance().isLegalBidCount(resourceID, gfGroupData.getBiddingCount(), bidCount)) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("竞标数量没有达到最小要求");
@@ -115,7 +112,7 @@ public class GFightGroupBidMgr {
 		gfGroupData.setResourceID(resourceID);
 		gfGroupData.setBiddingCount(bidCount);
 		gfGroupData.setLastBidTime(System.currentTimeMillis());
-		GFightOnlineGroupHolder.getInstance().update(player, gfGroupData, true);
+		GFightOnlineGroupMgr.getInstance().update(player, gfGroupData, true);
 		// 排行榜有改变
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		if(groupBidRank == null) {
@@ -157,4 +154,9 @@ public class GFightGroupBidMgr {
 		
 		return resInfo;
 	}
+	
+	public void removeItemsOnResource(int resourceID){		
+		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);
+	}
+	
 }

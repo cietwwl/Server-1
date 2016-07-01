@@ -11,7 +11,6 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
-import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
@@ -187,12 +186,12 @@ public class GFDefendArmyMgr {
 	public void updateItem(String groupId , GFDefendArmyItem armyItem, GFArmyState state){
 		
 		if(state.equals(GFArmyState.EMPTY)){
-			GFightOnlineGroupHolder.getInstance().addDefenderCount(groupId, -1);
+			GFightOnlineGroupMgr.getInstance().addDefenderCount(groupId, -1);
 		}else {			
 			if(state.equals(GFArmyState.NEWADD)) 
-				GFightOnlineGroupHolder.getInstance().addDefenderCount(groupId, 1);
+				GFightOnlineGroupMgr.getInstance().addDefenderCount(groupId, 1);
 			if(state.equals(GFArmyState.DEFEATED)) 
-				GFightOnlineGroupHolder.getInstance().deductAliveCount(groupId);
+				GFightOnlineGroupMgr.getInstance().deductAliveCount(groupId);
 		}
 		armyItem.setState(state.getValue());
 		GFDefendArmyItemHolder.getInstance().updateItem(armyItem);

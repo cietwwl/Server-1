@@ -14,7 +14,7 @@ import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleLogic;
@@ -234,6 +234,6 @@ public class TimerManager {
 		
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
-		GFightOnlineResourceHolder.getInstance().checkGFightResourceState();
+		GFightOnlineResourceMgr.getInstance().checkGFightResourceState();
 	}
 }

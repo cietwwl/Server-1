@@ -41,8 +41,8 @@ public class GFightOnlineGroupData {
 	
 	@CombineSave
 	private int aliveCount;		//存活队伍数
-	
-	private int version = 0;	//初始版本号
+//	
+//	private int version = 0;	//初始版本号
 	
 	@IgnoreSynField
 	private long lastkillTime;	//最后击杀的时间
@@ -111,13 +111,13 @@ public class GFightOnlineGroupData {
 		this.aliveCount--;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
+//	public int getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(int version) {
+//		this.version = version;
+//	}
 
 	public void addFightRecord(GFFightRecord record){
 		synchronized (recordLock) {

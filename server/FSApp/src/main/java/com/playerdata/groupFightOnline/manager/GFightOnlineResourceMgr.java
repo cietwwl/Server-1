@@ -1,19 +1,106 @@
 package com.playerdata.groupFightOnline.manager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
+import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 public class GFightOnlineResourceMgr {
 	
 	private static GFightOnlineResourceMgr instance = new GFightOnlineResourceMgr();
 	
-	public static GFightOnlineResourceMgr getInstance(){
+	public static GFightOnlineResourceMgr getInstance() {
 		return instance;
 	}
+
+	private GFightOnlineResourceMgr() { }
+	final private eSynType synType = eSynType.GFightOnlineResourceData;
 	
-	public void synData(Player player, int version){
-		GFightOnlineResourceHolder.getInstance().synData(player);
+	
+	
+	public GFightOnlineResourceData get(int resourceID) {
+		return GFightOnlineResourceHolder.getInstance().get(resourceID);
 	}
 	
-
+	public void update(Player player, GFightOnlineResourceData data) {
+		GFightOnlineResourceHolder.getInstance().update(data);
+	}
+	
+	public void synData(Player player){
+		List<GFightOnlineResourceData> gfResourceData = new ArrayList<GFightOnlineResourceData>();
+		List<GFightOnlineResourceCfg> allResource = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : allResource){
+			GFightOnlineResourceData data = get(cfg.getResID());
+			if(data != null) gfResourceData.add(data);
+		}
+		if(gfResourceData.size() > 0) ClientDataSynMgr.synDataList(player, gfResourceData, synType, eSynOpType.UPDATE_LIST);
+	}
+	
+	public void checkGFightResourceState(){
+		List<GFightOnlineResourceCfg> cfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : cfgs){
+			GFResourceState state = cfg.checkResourceState();
+			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
+			if(resData == null) {
+				resData = new GFightOnlineResourceData();
+				resData.setResourceID(cfg.getResID());
+			}
+			switch (state) {
+			case REST:
+				if(GFResourceState.FIGHT.equals(resData.getState()))
+				GFightFinalMgr.getInstance().calculateFightResult(cfg.getResID());
+				resData.setState(GFResourceState.REST.getValue());
+				break;
+			case BIDDING:
+				if(GFResourceState.REST.equals(resData.getState()) || GFResourceState.INIT.equals(resData.getState())){
+					biddingStartEvent(cfg.getResID());
+					resData.setState(GFResourceState.BIDDING.getValue());
+				}else if(!GFResourceState.BIDDING.equals(resData.getState())){
+					resData.setState(GFResourceState.REST.getValue());
+				}
+				break;
+			case PREPARE:
+				if(GFResourceState.BIDDING.equals(resData.getState())){
+					prepareStartEvent(cfg.getResID());
+					resData.setState(GFResourceState.PREPARE.getValue());
+				}else if(!GFResourceState.PREPARE.equals(resData.getState())){
+					resData.setState(GFResourceState.REST.getValue());
+				}
+				break;
+			case FIGHT:
+				if(GFResourceState.PREPARE.equals(resData.getState())){
+					fightStartEvent(cfg.getResID());
+					resData.setState(GFResourceState.FIGHT.getValue());
+				}else if(!GFResourceState.FIGHT.equals(resData.getState())){
+					resData.setState(GFResourceState.REST.getValue());
+				}
+				break;
+			default:
+				resData.setState(GFResourceState.REST.getValue());
+				break;
+			}
+			GFightOnlineResourceHolder.getInstance().update(resData);
+		}
+	}
+	
+	private void biddingStartEvent(int resourceID){
+		
+	}
+	
+	private void prepareStartEvent(int resourceID){
+		
+	}
+	
+	private void fightStartEvent(int resourceID){
+		
+	}
+	
 }

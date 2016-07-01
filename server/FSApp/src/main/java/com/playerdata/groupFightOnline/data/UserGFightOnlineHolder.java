@@ -5,6 +5,7 @@ import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -44,7 +45,7 @@ public class UserGFightOnlineHolder {
 		if (userGFData != null) {
 			String groupID = GroupHelper.getUserGroupId(player.getUserId());
 			if(!groupID.isEmpty()) {
-				GFightOnlineGroupData gfGroup = GFightOnlineGroupHolder.getInstance().get(groupID);
+				GFightOnlineGroupData gfGroup = GFightOnlineGroupMgr.getInstance().get(groupID);
 				if(gfGroup != null) {
 					userGFData.setResourceID(gfGroup.getResourceID());
 				}

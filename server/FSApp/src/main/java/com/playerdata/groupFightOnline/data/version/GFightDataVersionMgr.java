@@ -7,6 +7,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.SynDataGroupListVersion;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.Group;
@@ -27,34 +28,33 @@ public class GFightDataVersionMgr {
 		}
 		
 		synBiddingItem(player, groupDataVersion.getBiddingItem());
-		synOnlineGroupData(player, groupDataVersion.getOnlineGroupData());
+		synOnlineGroupData(player, groupDataVersion.getResourceID(), groupDataVersion.getOnlineGroupData());
 		synOnlineResourceData(player, groupDataVersion.getOnlineResourceData());
 		synDefendArmyItem(player, groupDataVersion.getDefendArmyItem());
 	
 	}
 	
-	public static void synAll(Player player, List<String> groupIdList){
-		int version = -1;
-		synBiddingItem(player, version);
-		synOnlineGroupData(player, version);
-		synOnlineResourceData(player, version);
-		for (String groupId : groupIdList) {
-			GFDefendArmyMgr.getInstance().synGroupData(player, groupId, -1);
-		}
-	}
+//	public static void synAll(Player player, int resourceID){
+//		int version = -1;
+//		synBiddingItem(player, version);
+//		synOnlineGroupData(player, resourceID, version);
+//		synOnlineResourceData(player, version);
+//		List<String> groupIdList = new ArrayList<String>();
+//		for (String groupId : groupIdList) {
+//			GFDefendArmyMgr.getInstance().synGroupData(player, groupId, -1);
+//		}
+//	}
 	
 	
 	private static void synBiddingItem(Player player, int version){
 		GFightGroupBidMgr.getInstance().synData(player, version);
 		
 	}
-	private static void synOnlineGroupData(Player player, int version){
-		
-		
+	private static void synOnlineGroupData(Player player, int resourceID, int version){		
+		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, version);
 	}
-	private static void synOnlineResourceData(Player player, int version){
-		
-		GFightOnlineResourceMgr.getInstance().synData(player, version);
+	private static void synOnlineResourceData(Player player, int version){		
+		GFightOnlineResourceMgr.getInstance().synData(player);
 	}
 	
 	private static void synDefendArmyItem(Player player, List<SynDataGroupListVersion> versionList){

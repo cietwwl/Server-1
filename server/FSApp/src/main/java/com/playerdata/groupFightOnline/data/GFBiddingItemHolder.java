@@ -13,17 +13,15 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class GFBiddingItemHolder {
+	
+	final private eSynType synType = eSynType.GFBiddingData;
+	
 	private static GFBiddingItemHolder instance = new GFBiddingItemHolder();
 
 	public static GFBiddingItemHolder getInstance() {
 		return instance;
 	}
-
-	private GFBiddingItemHolder() {
-		
-	}
 	
-	final private eSynType synType = eSynType.GFBiddingData;
 	
 	/**
 	 * 获取某个资源点所有的压标信息
