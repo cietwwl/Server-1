@@ -743,6 +743,22 @@ public final class DataSynProtos {
      * </pre>
      */
     MajorData(69, 86),
+    /**
+     * <code>GFightSimpleLeader = 87;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍简要信息
+     * </pre>
+     */
+    GFightSimpleLeader(70, 87),
+    /**
+     * <code>GFightFinalReward = 88;</code>
+     *
+     * <pre>
+     *在线帮战最终的奖励
+     * </pre>
+     */
+    GFightFinalReward(71, 88),
     ;
 
     /**
@@ -1305,6 +1321,22 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int MajorData_VALUE = 86;
+    /**
+     * <code>GFightSimpleLeader = 87;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍简要信息
+     * </pre>
+     */
+    public static final int GFightSimpleLeader_VALUE = 87;
+    /**
+     * <code>GFightFinalReward = 88;</code>
+     *
+     * <pre>
+     *在线帮战最终的奖励
+     * </pre>
+     */
+    public static final int GFightFinalReward_VALUE = 88;
 
 
     public final int getNumber() { return value; }
@@ -1381,6 +1413,8 @@ public final class DataSynProtos {
         case 84: return GFightOnlinePersonalData;
         case 85: return GFightOnlineResourceData;
         case 86: return MajorData;
+        case 87: return GFightSimpleLeader;
+        case 88: return GFightFinalReward;
         default: return null;
       }
     }
@@ -5470,7 +5504,7 @@ public final class DataSynProtos {
       "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
       "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
       "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\310\013\n\010eSynType\022\025\n\021" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\367\013\n\010eSynType\022\025\n\021" +
       "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
       "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
       "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
@@ -5507,8 +5541,9 @@ public final class DataSynProtos {
       "t\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDefendArmyDa" +
       "ta\020R\022\031\n\025GFightOnlineGroupData\020S\022\034\n\030GFigh" +
       "tOnlinePersonalData\020T\022\034\n\030GFightOnlineRes",
-      "ourceData\020U\022\r\n\tMajorData\020VB\034\n\013com.rwprot" +
-      "oB\rDataSynProtos"
+      "ourceData\020U\022\r\n\tMajorData\020V\022\026\n\022GFightSimp" +
+      "leLeader\020W\022\025\n\021GFightFinalReward\020XB\034\n\013com" +
+      ".rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
