@@ -5,11 +5,12 @@ package DataSyn;
 
 //数据同步操作类型
 enum eSynOpType {
-	UPDATE_LIST = 1;//更新一组数据
+	UPDATE_LIST = 1;//更新一组数据，原数据删除
 	UPDATE_SINGLE = 2; //更新一条数据
 	ADD_SINGLE = 3; // 增加一条数据
 	REMOVE_SINGLE = 4;// 删除一条数据
 	UPDATE_FIELD = 5;//只更新单条记录的某些字段
+	UPDATE_PART_LIST = 6;//更新部分数据列表，不在列表中的不更新
 }
 
 
@@ -88,15 +89,22 @@ enum eSynType	//数据同步类型
 	ActivityTimeCountType = 68;//活动，在线奖励
 	ActivityDailyType = 69;//活动，每日福利
 	ActivityVitalityType = 70;//活动，活跃度
+	ActivityDailyDiscountType = 71;//活动，活跃度
 
-	QuestionList = 80; //反馈问题列表
-	MajorData = 81;    //关键数据
+	QuestionList = 80; //反馈问题列表	
+	GFBiddingData = 81;	//在线帮战个人压标数据
+	GFDefendArmyData = 82;	//在线帮战防守队伍信息
+	GFightOnlineGroupData = 83;	//在线帮战帮派信息
+	GFightOnlinePersonalData = 84;	//在线帮战个人信息
+	GFightOnlineResourceData = 85;	//在线帮战资源点信息
+	MajorData = 86;    //关键数据
+	GFightSimpleLeader = 87;	//在线帮战防守队伍简要信息
+	GFightFinalReward = 88;		//在线帮战最终的奖励
 }
 
 message MsgDataSynList
 {
     repeated MsgDataSyn msgDataSyn = 3;				//同步数列表
-
 }
 
 message DataSynVersion{
@@ -114,4 +122,5 @@ message MsgDataSyn
     optional eSynOpType synOpType = 2;			//同步操作类型
     repeated SynData SynData = 3;				//同步数据
     optional int32 version=4;					//数据版本号
+    optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
 }

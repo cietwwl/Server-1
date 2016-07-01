@@ -89,8 +89,8 @@ public class GameManager {
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
-		
-		//初始化MapItemStoreFactory
+
+		// 初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
 
 		// initServerProperties();
@@ -251,8 +251,7 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();

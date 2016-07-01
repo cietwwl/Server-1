@@ -30,6 +30,8 @@ import com.rwbase.dao.fashion.FashionItemIF;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rwbase.dao.setting.HeadBoxCfgDAO;
+import com.rwbase.dao.setting.pojo.HeadBoxCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.ErrorService.ErrorType;
@@ -74,12 +76,37 @@ public class FashionMgr implements FashionMgrIF {
 			public void doAction() {
 				RecomputeBattleAdded();
 				callBack.doAction();
+				//时装过期计算完毕再计算当前激活的头像框
+				RecomputeUnlockHeadFrame();
 				// 因为回调可能发送请求，时装穿戴数据的发送需要放在最后
 				sendFashionBeingUsedChanged();
 				GameLog.info("时装", m_player.getUserId(), "发送同步数据", null);
 			}
 		};
 		notifyProxy.regChangeCallBack(hook);
+	}
+
+	// 重新计算时装激活的头像框
+	protected void RecomputeUnlockHeadFrame() {
+		List<FashionItem> lst = fashionItemHolder.getBroughtItemList();
+		List<String> dataList = new ArrayList<String>(lst.size());
+		FashionCommonCfgDao fashionHelper = FashionCommonCfgDao.getInstance();
+		HeadBoxCfgDAO headHelper = HeadBoxCfgDAO.getInstance();
+		String uid = m_player.getUserId();
+		for (FashionItem fashionItem : lst) {
+			FashionCommonCfg cfg = fashionHelper.getConfig(fashionItem.getFashionId());
+			if (cfg != null){
+				HeadBoxCfg hcfg = headHelper.getCfgById(String.valueOf(cfg.getFrameIconId()));
+				if (hcfg != null){
+					dataList.add(hcfg.getSpriteId());
+				}else{
+					GameLog.error("时装", uid, "HeadBoxCfg.csv找不到解锁时装,frameIconId:"+cfg.getFrameIconId());
+				}
+			}else{
+				GameLog.error("时装", uid, "FashionCommonCfg.csv找不到时装ID:"+fashionItem.getFashionId());
+			}
+		}
+		m_player.getSettingMgr().setFashionUnlockHeadBox(dataList);
 	}
 
 	/**

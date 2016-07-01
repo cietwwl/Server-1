@@ -1,0 +1,63 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GrouFightOnlineProto";
+
+package groupFightOnline;
+
+enum GFRequestType{
+	GET_RESOURCE_INFO = 1;	//获取资源点信息
+	GROUP_BIDDING = 2;	//帮派竞标
+	PERSONAL_BIDDING = 3; //个人压标
+	MODIFY_SELF_DEFENDER = 4; //备战阶段，修改个人的防守队伍
+	GET_ENIMY_DEFENDER = 5;	//获取挑战对手
+	CHANGE_ENIMY_DEFENDER = 6; //切换挑战对手
+	START_FIGHT = 7;	//开始战斗
+	INFORM_FIGHT_RESULT = 8;	//提交战斗结果
+	GET_GROUP_BID_RANK = 9;	//获取帮派竞标排行
+	GET_KILL_RANK = 10;	//获取杀敌数排行榜
+	GET_HURT_RANK = 11;	//获取伤害排行榜
+	GET_ALL_RANK_IN_GROUP = 12;	//请求四大帮派内部排行和总值数据
+	GET_DEFENDER_TEAMS = 13;	//获取某页的防守队伍的简要信息
+	VIEW_DEFENDER_TEAM = 14;	//获取指定一个队伍的详细信息
+	GET_FIGHT_RECORD = 15;		//获取战斗记录
+	GET_FIGHT_OVER_REWARD = 16;		//获取帮战结束后产生的各类奖励（包括获胜者的每日奖励，失败奖励，胜利奖励）
+	SYN_GROUP_DATA = 17;	//请求同步帮派数据
+}
+
+enum GFResultType {
+	SUCCESS = 1; //成功
+	DIAMOND_NOT_ENOUGH = 2; //切换挑战对手，钻石不够
+	BID_VIP_UNREACH = 3;	//个人压标要求的vip等级不够
+	SELECT_EXPIRED = 4;	//选择锁定的时间过期
+	DATA_EXCEPTION = 5; //数据异常
+}
+
+message GroupFightOnlineReqMsg{
+	required GFRequestType reqType = 1; //请求功能协议类型
+	optional int32 bidCount = 2; //帮派竞标令牌数量
+	optional int32 selfBidRate = 3; //个人选择的压标倍率
+	repeated string armyHeros = 4; //个人调整的防守队伍信息（List<DefendArmyHerosInfo>）不用包括主角
+	optional int32 page = 5;	//请求查看的防守队伍的页面
+	optional string viewTeamGroupID = 6;	//要查看的队伍（或页面）所属的公会ID
+	optional string teamID = 7;	//要查看详情的队伍ID
+	optional string rewardID = 8;	//要获取的奖励ID
+	optional int32 resourceID = 9; //请求的资源点ID
+	optional string groupID = 10;  //请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+	optional string fightResult = 11; //战斗结果：GFightResult
+	optional string clientVersion = 12; //客户端当前数据的版本（对应结构GFightDataVersion）
+}
+
+message GroupFightOnlineRspMsg{
+	required GFRequestType reqType = 1; //回应的功能协议类型
+	required GFResultType rstType = 2; //是否成功处理
+	optional string tipMsg = 3;	//提示消息，可以是成功，也可以是失败的提示消息
+	optional int64 systemTime = 4;	//当前系统时间
+	repeated string gfResourceInfo = 5;	//各资源点对应的占有信息
+	optional string enimyDefenderDetails = 6; //获取对手的详细信息（包括获取和切换对手，查看单个队伍的详细信息GFDefendArmyItem）== 或是进战斗时，获取的ArmyInfo
+	repeated string rankData = 7;	//帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
+	repeated string defendArmySimpleLeader = 8;	//防守队伍简要信息
+	optional int32 totalPage = 9;	//防守队伍的总页数
+	optional int32 currentPage = 10;	//防守队伍的总页数
+	repeated string fightRecord = 11; //战斗记录
+	repeated string gfRewardInfo = 12;	//可以领取的奖励
+}

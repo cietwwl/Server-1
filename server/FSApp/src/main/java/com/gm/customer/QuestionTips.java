@@ -2,7 +2,7 @@ package com.gm.customer;
 
 public class QuestionTips {
 	
-	public static String DEFAULT_TIPS = "亲爱的玩家，你对游戏的反馈已提交成功，客户将尽快给你答复，谢谢。";
+	public static String DEFAULT_TIPS = "亲爱的玩家，你对游戏的反馈已提交成功，客服将尽快给你答复，谢谢。";
 	
 	public static String UNANSWER_TIPS = "您当前尚有未回复的反馈,请等客服回复您之后,再操作，谢谢";
 	

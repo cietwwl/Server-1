@@ -198,7 +198,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			}
 		}
 		
-		if(isempty){
+		if(isempty){			
 			subItemList = null;
 			return subItemList;
 		}
@@ -234,7 +234,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			}
 		}
 		
-		if(isempty){	
+		if(isempty){			
 			subItemList = null;
 			return subItemList;
 		}
@@ -249,7 +249,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
 			subItemList.add(subitem);
-		}	
+		}
 		return subItemList;
 	}
 	

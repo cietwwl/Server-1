@@ -520,6 +520,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
+		if (player.isRobot()) {
+			return;
+		}
 		// 创建万仙阵数据
 		String userId = player.getUserId();
 		TableAngleArrayData angleData = new TableAngleArrayData(userId);

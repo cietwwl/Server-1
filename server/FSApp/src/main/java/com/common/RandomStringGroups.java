@@ -68,7 +68,7 @@ public class RandomStringGroups {
 	}
 	
 	@JsonIgnore
-	public String getRandomGroup(Random r){
-		return getRandomGroup(r,null,null);
+	public int size() {
+		return distributions.length;
 	}
 }

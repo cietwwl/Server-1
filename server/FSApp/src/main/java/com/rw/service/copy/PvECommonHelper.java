@@ -2,12 +2,14 @@ package com.rw.service.copy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
@@ -15,9 +17,6 @@ import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.dropitem.DropItemManager;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.BILogTemplateHelper;
-import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -43,7 +42,6 @@ public class PvECommonHelper {
 	}
 
 	final public static int SweepTicketID = 806001; // 扫荡券ID...;
-	private static List<ItemInfo> dropItemsSweep;
 
 	public static List<String> addHerosExp(Player player, MsgCopyRequest copyRequest, CopyCfg copyCfg) {
 		List<String> listUpHero = new ArrayList<String>();
@@ -57,25 +55,19 @@ public class PvECommonHelper {
 		}
 		return listUpHero;
 	}
-//	public static String getCopyRewardsInfo(Player player, CopyCfg copyCfg){
-//		String rewardInfoActivity="";
-//		int levelId = copyCfg.getLevelID();
-//		List<? extends ItemInfo> dropItems = null;
-//		try {
-//			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-//		} catch (DataAccessTimeoutException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		rewardInfoActivity = JsonUtil.writeValue(dropItems);
-//		return rewardInfoActivity;
-//	}
-	
-	
-	public static void addCopyRewards(Player player, CopyCfg copyCfg, List<? extends ItemInfo> dropItems) {
+
+	public static void addCopyRewards(Player player, CopyCfg copyCfg) {
 		// CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
 		// CopyRewardsIF copyRewards = copyRecordMgr.getCopyRewards();
+
 		int levelId = copyCfg.getLevelID();
+		List<? extends ItemInfo> dropItems = null;
+		try {
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+		} catch (DataAccessTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		if (dropItems != null) {	
@@ -83,12 +75,13 @@ public class PvECommonHelper {
 				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 			}
 			
+//			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+			
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
 		}
 	}
-	
 	/**手动副本经验金币增加*/
 	public static void addPlayerAttr4Battle(Player player, CopyCfg copyCfg) {
 		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
@@ -110,7 +103,7 @@ public class PvECommonHelper {
 
 	public static List<TagSweepInfo> gainSweepRewards(Player player, int times, CopyCfg copyCfg) {
 		List<TagSweepInfo> listSweepInfo = new ArrayList<TagSweepInfo>();
-		dropItemsSweep = new ArrayList<ItemInfo>();
+
 		// 物品掉落
 		for (int i = 0; i < times; i++) {
 			String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
@@ -136,23 +129,23 @@ public class PvECommonHelper {
 					int itemNum = item.getItemNum();
 					listItem.add(itemId + "," + itemNum);
 					// 将奖励放入背包
-					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());					
+					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
-				dropItemsSweep.addAll(dropItems);
+//				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+//				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
+//					listItem.add(entry.getKey()+","+entry.getValue());
+//				}
+			
+				
 				
 				tagsweepInfo.addAllTagItemList(listItem);
 				listSweepInfo.add(tagsweepInfo.build());
-			}
 				
+			}
 		}
-		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL
-				|| copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE) {
-			List<BilogItemInfo> list = BilogItemInfo
-					.fromItemSweepList(dropItemsSweep);
-			String rewardInfoActivity = BILogTemplateHelper.getString(list);
-			BILogMgr.getInstance().logSweep(player, copyCfg.getLevelID(),
-					copyCfg.getLevelType(), rewardInfoActivity);
-		}
+		
+		
+		
 		
 		
 		String extraRewards = copyCfg.getExtraRewards();

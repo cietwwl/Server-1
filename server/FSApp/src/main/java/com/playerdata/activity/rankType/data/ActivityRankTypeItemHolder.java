@@ -40,7 +40,6 @@ public class ActivityRankTypeItemHolder{
 	
 	public void updateItem(Player player, ActivityRankTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityRankTypeItem getItem(String userId, ActivityRankTypeEnum typeEnum){		
@@ -52,9 +51,6 @@ public class ActivityRankTypeItemHolder{
 	public boolean addItem(Player player, ActivityRankTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
 		return addSuccess;
 	}
 	
@@ -63,11 +59,6 @@ public class ActivityRankTypeItemHolder{
 		String uidAndId = ActivityRankTypeHelper.getItemId(player.getUserId(), type);
 		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
 		return addSuccess;
-	}
-	
-	public void synAllData(Player player){
-		List<ActivityRankTypeItem> itemList = getItemList(player.getUserId());			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	

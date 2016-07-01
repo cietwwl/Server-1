@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.rwbase.common.dirtyword.CharFilterFactory;
-import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
