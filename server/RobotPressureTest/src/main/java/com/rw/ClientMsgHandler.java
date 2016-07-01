@@ -2,9 +2,9 @@ package com.rw;
 
 import io.netty.channel.Channel;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -29,24 +29,37 @@ import com.rwproto.ResponseProtos.ResponseHeader;
  */
 public abstract class ClientMsgHandler {
 
-	private BlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(1);
+	private LinkedBlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(1);
 
 	private MsgReciver msgReciver;
+	
+	private volatile long lastExecuteTime;
 
+	private static AtomicInteger generator = new AtomicInteger();
+	private final int id;
+	private final String name;
+	public ClientMsgHandler(){
+		this.id = generator.incrementAndGet();
+		this.name = "机器人["+id+"]";
+	}
+	
 	private Response getResp() {
 		Response resp = null;
 		long maxTime = 20L;
 		// 超过十秒拿不到认为超时。
 		long start = System.currentTimeMillis();
+		RobotLog.testInfo(name+" 间隔时间："+(start - lastExecuteTime));
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			RobotLog.testException("ServerResp[getResp] 接收线程interrupted", e);
 		}
-		long cost = System.currentTimeMillis() - start;
-//		if (cost > 1000) {
+		long current = System.currentTimeMillis();
+		lastExecuteTime = current;
+		long cost = current - start;
+		if (cost > 1000) {
 			RobotLog.testInfo(msgReciver.getCmd() + " 处理耗时：" + cost);
-//		}
+		}
 		return resp;
 
 	}
