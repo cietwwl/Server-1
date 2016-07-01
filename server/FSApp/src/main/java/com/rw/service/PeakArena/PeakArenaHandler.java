@@ -376,8 +376,7 @@ public class PeakArenaHandler {
 		final long currentTimeMillis = System.currentTimeMillis();
 		arenaData.setFightStartTime(currentTimeMillis);
 
-		int challengeCount = arenaData.getChallengeCount() + 1;
-		arenaData.setChallengeCount(challengeCount);
+		int challengeCount = arenaData.getChallengeCount();
 		TablePeakArenaDataDAO.getInstance().update(arenaData);
 		response.setChallengeCount(challengeCount);
 		
@@ -438,7 +437,9 @@ public class PeakArenaHandler {
 
 		// 重置对手
 		playerArenaData.setLastFightEnemy("");
-		
+		//结束时再减少挑战次数
+		playerArenaData.setChallengeCount(playerArenaData.getChallengeCount() + 1);
+
 		// 巅峰排行榜超出上限的容错处理
 		 ListRankingEntry<String, PeakArenaExtAttribute> playerEntry = peakBM.getPlayerRankEntry(player, playerArenaData);
 		if (playerEntry == null) {

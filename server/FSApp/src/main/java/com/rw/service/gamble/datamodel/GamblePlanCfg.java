@@ -43,20 +43,24 @@ public class GamblePlanCfg extends BaseConfig {
 	private int hotCheckMax;
 	
 	//免费组
-	private int guaranteeFreeCheckNum; // 免费保底检索次数
+	private String guaranteeFreeCheckNum; // 免费保底检索次数
 	private DropGamblePlan freePlan;
+	private int freeExclusiveCount;//唯一性检查次数（免费组）
 	
 	//收费组
-	private int guaranteeCheckNum; // 收费保底检索次数
+	private String guaranteeCheckNum; // 收费保底检索次数
 	private DropGamblePlan chargePlan;
+	private int chargeExclusiveCount;//唯一性检查次数（收费组）
 
+	private int maxCheckCount;//免费组和收费组的最高需要保存的历史记录值
+	
 	@Override
 	public void ExtraInitAfterLoad() {
 		String[] cond = openCondition.split(",");
 		openLevel = Integer.parseInt(cond[0]);
 		openVipLevel=Integer.parseInt(cond[1]);
-		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum);
-		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum);
+		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum,freeExclusiveCount);
+		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount);
 
 		if (hotCount > 0){
 			RefInt i1=new RefInt();
@@ -88,6 +92,22 @@ public class GamblePlanCfg extends BaseConfig {
 				GameLog.error("钓鱼台", "key="+key, "等级分段配置有误");
 			}
 		}
+		
+		maxCheckCount = Math.max(freePlan.getMaxCheckNum(),chargePlan.getMaxCheckNum());
+		int distinctCount = Math.max(freeExclusiveCount,chargeExclusiveCount);
+		maxCheckCount = Math.max(distinctCount, maxCheckCount);
+	}
+
+	public int getMaxCheckCount() {
+		return maxCheckCount;
+	}
+
+	public int getFreeExclusiveCount() {
+		return freeExclusiveCount;
+	}
+
+	public int getChargeExclusiveCount() {
+		return chargeExclusiveCount;
 	}
 
 	public int getDropType() {

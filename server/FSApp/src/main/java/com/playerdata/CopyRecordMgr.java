@@ -21,6 +21,7 @@ import com.rwbase.dao.copy.cfg.GiftCfgDAO;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copy.common.CopySubType;
+import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.CopyServiceProtos.ERequestType;
@@ -95,9 +96,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	}
 
 	/*
-	 * 获取当前用户的副本关卡记录,以"id_100010,3,0,0"的形式记录下"关卡id,通关星级,今天打的次数,购买次数"的信息
+	 * 获取当前用户的副本关卡记录
 	 */
-	public List<String> getLevelRecordList() {
+	public List<CopyLevelRecord> getLevelRecordList() {
 		return copyLevelRecordHolder.getLevelRecordList();
 	}
 

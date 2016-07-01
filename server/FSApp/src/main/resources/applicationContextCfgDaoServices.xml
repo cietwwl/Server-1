@@ -49,12 +49,11 @@
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.friend.CfgFriendGiftDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleRewardCfgDAO"  init-method="init" />
 	
 	<bean class="com.rw.service.gamble.datamodel.GamblePlanCfgHelper"  init-method="init" />
 	<bean class="com.rw.service.gamble.datamodel.GambleDropCfgHelper"  init-method="init" />
 	<bean class="com.rw.service.gamble.datamodel.HotGambleCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.gamble.datamodel.DropMissingCfgHelper"  init-method="init" />
 	
 	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
