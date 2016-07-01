@@ -35,12 +35,17 @@ public abstract class ClientMsgHandler {
 
 	private Response getResp() {
 		Response resp = null;
-		long maxTime = 600L;
+		long maxTime = 20L;
 		// 超过十秒拿不到认为超时。
+		long start = System.currentTimeMillis();
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			RobotLog.fail("ServerResp[getResp] 服务器响应超时", e);
+			RobotLog.testException("ServerResp[getResp] 接收线程interrupted", e);
+		}
+		long cost = System.currentTimeMillis() - start;
+		if (cost > 1000) {
+			RobotLog.testInfo(msgReciver.getCmd() + " 处理耗时：" + cost);
 		}
 		return resp;
 
