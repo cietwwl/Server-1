@@ -8,12 +8,12 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
+import com.playerdata.groupFightOnline.bm.GFightOnFightBM;
+import com.playerdata.groupFightOnline.bm.GFightPrepareBM;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
-import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
-import com.playerdata.groupFightOnline.manager.GFightOnFightMgr;
-import com.playerdata.groupFightOnline.manager.GFightPrepareMgr;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -29,14 +29,14 @@ public class GFightOnlineHandler {
 	public ByteString getResourceInfo(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightGroupBidMgr.getInstance().getResourceInfo(player, gfRsp);
+		GFightGroupBidBM.getInstance().getResourceInfo(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString groupBidding(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightGroupBidMgr.getInstance().groupBidding(player, gfRsp, msgGFRequest.getResourceID(), msgGFRequest.getBidCount());
+		GFightGroupBidBM.getInstance().groupBidding(player, gfRsp, msgGFRequest.getResourceID(), msgGFRequest.getBidCount());
 		return gfRsp.build().toByteString();
 	}
 	
@@ -59,28 +59,28 @@ public class GFightOnlineHandler {
 				GameLog.error(LogModule.GroupFightOnline.getName(), player.getUserId(), String.format("modifySelfDefender，无法将客户端json转成object"), ex);
 			}
 		}
-		GFightPrepareMgr.getInstance().modifySelfDefender(player, gfRsp, herosList, GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
+		GFightPrepareBM.getInstance().modifySelfDefender(player, gfRsp, herosList, GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString getEnimyDefender(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOnFightMgr.getInstance().getEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
+		GFightOnFightBM.getInstance().getEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString changeEnimyDefender(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOnFightMgr.getInstance().changeEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
+		GFightOnFightBM.getInstance().changeEnimyDefender(player, gfRsp, msgGFRequest.getGroupID());
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString startFight(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOnFightMgr.getInstance().startFight(player, gfRsp);
+		GFightOnFightBM.getInstance().startFight(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	
@@ -89,7 +89,7 @@ public class GFightOnlineHandler {
 		gfRsp.setReqType(msgGFRequest.getReqType());
 		try {
 			GFightResult fightResult = (GFightResult)ClientDataSynMgr.fromClientJson2Data(GFightResult.class, msgGFRequest.getFightResult());
-			GFightOnFightMgr.getInstance().informFightResult(player, gfRsp, fightResult, GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
+			GFightOnFightBM.getInstance().informFightResult(player, gfRsp, fightResult, GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
 		} catch (Exception e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 		}
@@ -99,7 +99,7 @@ public class GFightOnlineHandler {
 	public ByteString getGroupBidRank(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightGroupBidMgr.getInstance().getGroupBidRank(player, gfRsp, msgGFRequest.getResourceID());
+		GFightGroupBidBM.getInstance().getGroupBidRank(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
 	
@@ -134,7 +134,7 @@ public class GFightOnlineHandler {
 	public ByteString viewDefenderTeam(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightPrepareMgr.getInstance().viewDefenderTeam(player, gfRsp, msgGFRequest.getGroupID(), msgGFRequest.getTeamID());
+		GFightPrepareBM.getInstance().viewDefenderTeam(player, gfRsp, msgGFRequest.getGroupID(), msgGFRequest.getTeamID());
 		return gfRsp.build().toByteString();
 	}
 	
@@ -153,7 +153,7 @@ public class GFightOnlineHandler {
 	public ByteString synGroupData(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightPrepareMgr.getInstance().synGroupData(player, gfRsp, msgGFRequest.getResourceID(), 
+		GFightPrepareBM.getInstance().synGroupData(player, gfRsp, msgGFRequest.getResourceID(), 
 				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()));
 		return gfRsp.build().toByteString();
 	}

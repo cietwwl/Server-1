@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.manager;
+package com.playerdata.groupFightOnline.bm;
 
 import java.util.List;
 
@@ -15,6 +15,8 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -25,18 +27,13 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  * @author aken
  *
  */
-public class GFightGroupBidMgr {
+public class GFightGroupBidBM {
+
+	private static GFightGroupBidBM instance = new GFightGroupBidBM();
 	
-	private static class InstanceHolder{
-		private static GFightGroupBidMgr instance = new GFightGroupBidMgr();
+	public static GFightGroupBidBM getInstance(){
+		return instance;
 	}
-	
-	public static GFightGroupBidMgr getInstance(){
-		return InstanceHolder.instance;
-	}
-	
-	private GFightGroupBidMgr() { }
-	
 	
 	public void synData(Player player, int version){
 		GFBiddingItemHolder.getInstance().synAllData(player);

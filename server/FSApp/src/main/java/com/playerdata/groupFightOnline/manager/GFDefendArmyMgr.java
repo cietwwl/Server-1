@@ -29,64 +29,17 @@ public class GFDefendArmyMgr {
 	
 	// public static int LOCK_ITEM_MAX_TIME = 10 * 60 * 1000;	//被选中或战斗锁定时间2分钟
 	
-	final public static int LOCK_ITEM_MAX_TIME = 60 * 1000;
+	public final static int LOCK_ITEM_MAX_TIME = 60 * 1000;
 	
-	private static GFDefendArmyMgr instance;
+	private static GFDefendArmyMgr instance = new GFDefendArmyMgr();
 	
 	public static GFDefendArmyMgr getInstance() {
 		return instance;
 	}
 	
-	
 	public void synGroupData(Player player, String groupId, int version){
-		
 		GFDefendArmyItemHolder.getInstance().synByVersion(player, groupId, version);
-		
-		
 	}
-	
-	
-//	/*
-//	 * 获取用户已经拥有的时装
-//	 */
-//	public List<GFDefendArmyItem> getItemList(String groupId)	
-//	{		
-//		List<GFDefendArmyItem> itemList = new ArrayList<GFDefendArmyItem>();
-//		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupId).getEnum();
-//		while (mapEnum.hasMoreElements()) {
-//			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();			
-//			itemList.add(item);
-//		}
-//		
-//		return itemList;
-//	}
-//	
-//	/**
-//	 * 获取已经设置的防守队伍信息(公会级别)
-//	 * @param player
-//	 * @return
-//	 */
-//	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID){
-//		return getGroupItemList(player, groupID, 0);
-//	}
-//	
-//	/**
-//	 * 获取已经设置的防守队伍信息(公会级别)
-//	 * @param player
-//	 * @param version
-//	 * @return
-//	 */
-//	public List<GFDefendArmyItem> getGroupItemList(Player player, String groupID, int version){
-//		List<GFDefendArmyItem> defendArmyList = new ArrayList<GFDefendArmyItem>();
-//		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupID).getEnum();
-//		while (mapEnum.hasMoreElements()) {
-//			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();
-//			//if(item.getVersion() > version && !GFArmyState.EMPTY.equals(item.getState()))
-//			if(!GFArmyState.EMPTY.equals(item.getState()))
-//				defendArmyList.add(item);
-//		}
-//		return defendArmyList;
-//	}
 	
 	/**
 	 *  获取个人的所有队伍
@@ -113,7 +66,6 @@ public class GFDefendArmyMgr {
 			}
 			
 		}
-		
 		return itemlist;
 	}
 
@@ -176,6 +128,7 @@ public class GFDefendArmyMgr {
 		String groupId = GroupHelper.getUserGroupId(player.getUserId());	
 		updateItem(groupId, armyItem, state);
 	}
+	
 	/**
 	 * 更新一条自己防守队伍信息（一定是自己的帮派）
 	 * 主要用在备战阶段
@@ -400,8 +353,5 @@ public class GFDefendArmyMgr {
 			return GFDefendArmyItemHolder.getInstance().addItemList(groupId, itemList);
 		}
 		return false;
-		
-		
 	}
-	
 }

@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.manager;
+package com.playerdata.groupFightOnline.bm;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,12 +8,13 @@ import com.bm.group.GroupBM;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
-import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFEndGroupInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 /**
@@ -21,17 +22,13 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
  * @author aken
  *
  */
-public class GFightFinalMgr {
+public class GFightFinalBM {
 	
-	private static class InstanceHolder{
-		private static GFightFinalMgr instance = new GFightFinalMgr();
+	private static GFightFinalBM instance = new GFightFinalBM();
+	
+	public static GFightFinalBM getInstance(){
+		return instance;
 	}
-	
-	public static GFightFinalMgr getInstance(){
-		return InstanceHolder.instance;
-	}
-	
-	private GFightFinalMgr() { }
 	
 	/**
 	 * 处理帮战结果的逻辑
@@ -94,9 +91,9 @@ public class GFightFinalMgr {
 	 * 清空此循环的数据
 	 * @param resourceID
 	 */
-	public void clearCurrentLoopData(int resourceID){
+	private void clearCurrentLoopData(int resourceID){
 		// 清除所有的玩家压标信息
-		GFightGroupBidMgr.getInstance().removeItemsOnResource(resourceID);
+		GFightGroupBidBM.getInstance().removeItemsOnResource(resourceID);
 		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		for(GFGroupBiddingItem item : bidList){
 			//清除帮派的所有防守队伍

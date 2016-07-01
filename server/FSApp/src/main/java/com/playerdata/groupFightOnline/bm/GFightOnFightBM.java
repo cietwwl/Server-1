@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.manager;
+package com.playerdata.groupFightOnline.bm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,8 @@ import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.playerdata.groupFightOnline.dataForClient.GFUserSimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -33,17 +35,17 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  * @author aken
  *
  */
-public class GFightOnFightMgr {
+public class GFightOnFightBM {
 	
 	private static class InstanceHolder{
-		private static GFightOnFightMgr instance = new GFightOnFightMgr();
+		private static GFightOnFightBM instance = new GFightOnFightBM();
 	}
 	
-	public static GFightOnFightMgr getInstance(){
+	public static GFightOnFightBM getInstance(){
 		return InstanceHolder.instance;
 	}
 	
-	private GFightOnFightMgr() { }
+	private GFightOnFightBM() { }
 	
 	/**
 	 * 随机获取一个对手

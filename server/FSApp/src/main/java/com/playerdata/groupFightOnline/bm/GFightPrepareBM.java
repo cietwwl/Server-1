@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.manager;
+package com.playerdata.groupFightOnline.bm;
 
 import java.util.List;
 
@@ -11,6 +11,8 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -20,17 +22,17 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  * @author aken
  *
  */
-public class GFightPrepareMgr {
+public class GFightPrepareBM {
 	
 	private static class InstanceHolder{
-		private static GFightPrepareMgr instance = new GFightPrepareMgr();
+		private static GFightPrepareBM instance = new GFightPrepareBM();
 	}
 	
-	public static GFightPrepareMgr getInstance(){
+	public static GFightPrepareBM getInstance(){
 		return InstanceHolder.instance;
 	}
 	
-	private GFightPrepareMgr() { }
+	private GFightPrepareBM() { }
 
 	
 //	/**

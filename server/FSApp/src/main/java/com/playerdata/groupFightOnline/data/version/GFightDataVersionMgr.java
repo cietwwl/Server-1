@@ -5,8 +5,8 @@ import java.util.List;
 import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.SynDataGroupListVersion;
+import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
-import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -49,7 +49,7 @@ public class GFightDataVersionMgr {
 	
 	
 	private static void synBiddingItem(Player player, int version){
-		GFightGroupBidMgr.getInstance().synData(player, version);
+		GFightGroupBidBM.getInstance().synData(player, version);
 		
 	}
 	private static void synOnlineGroupData(Player player, int resourceID, int version){		

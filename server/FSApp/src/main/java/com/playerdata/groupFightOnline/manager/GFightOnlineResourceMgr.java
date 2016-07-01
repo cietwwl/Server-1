@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.bm.GFightFinalBM;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
@@ -56,7 +57,7 @@ public class GFightOnlineResourceMgr {
 			switch (state) {
 			case REST:
 				if(GFResourceState.FIGHT.equals(resData.getState()))
-				GFightFinalMgr.getInstance().calculateFightResult(cfg.getResID());
+				GFightFinalBM.getInstance().calculateFightResult(cfg.getResID());
 				resData.setState(GFResourceState.REST.getValue());
 				break;
 			case BIDDING:
