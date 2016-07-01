@@ -12,7 +12,6 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
-import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
@@ -61,9 +60,9 @@ public class GFightOnFightMgr {
 			return;
 		}
 		try {
-			GFDefendArmyItemHolder.getInstance().selectEnimyItem(player, groupID, false);
+			GFDefendArmyMgr.getInstance().selectEnimyItem(player, groupID, false);
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
-			GFDefendArmyItem defender = GFDefendArmyItemHolder.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
+			GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
@@ -93,11 +92,11 @@ public class GFightOnFightMgr {
 		}
 		try {
 			//TODO 判断次数，计算费用
-			GFDefendArmyItemHolder.getInstance().changeEnimyItem(player, groupID);
+			GFDefendArmyMgr.getInstance().changeEnimyItem(player, groupID);
 			//TODO 扣除费用，添加次数
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 			userGFData.addChangeEnimyTimes();
-			GFDefendArmyItem defender = GFDefendArmyItemHolder.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
+			GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
@@ -141,7 +140,7 @@ public class GFightOnFightMgr {
 			gfRsp.setTipMsg("锁定对手的时间已过期");
 			return;
 		}
-		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
+		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
 		if(armyItem == null) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("敌方队伍数据异常");
@@ -155,7 +154,7 @@ public class GFightOnFightMgr {
 			gfRsp.setTipMsg("您并未锁定该队伍");
 			return;
 		}
-		GFDefendArmyItemHolder.getInstance().startFight(player, armyItem);
+		GFDefendArmyMgr.getInstance().startFight(player, armyItem);
 		defenderSimple.setLockArmyTime(System.currentTimeMillis());
 		UserGFightOnlineHolder.getInstance().update(player, userGFData);
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(armyItem.getSimpleArmy(),true);
@@ -194,7 +193,7 @@ public class GFightOnFightMgr {
 			gfRsp.setTipMsg("提交的战斗结果异常，不是之前选择的对手");
 			return;
 		}
-		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
+		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
 		if(armyItem == null || armyItem.getSimpleArmy() == null || armyItem.getSimpleArmy().getHeroList().size() + 1 != fightResult.getDefenderState().size()){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("提交的战斗结果异常，对手队伍中的英雄人数不匹配");
@@ -256,7 +255,7 @@ public class GFightOnFightMgr {
 	 * @throws GFFightResultException 结果数据和战斗前数据有冲突的异常
 	 */
 	private void updateEnimyHeroState(String groupID, String enimyArmyID, List<CurAttrData> stateList, boolean isDefeated) throws GFFightResultException{
-		GFDefendArmyItem armyItem = GFDefendArmyItemHolder.getInstance().getItem(groupID, enimyArmyID);
+		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(groupID, enimyArmyID);
 		ArmyInfoSimple simpleArmy = armyItem.getSimpleArmy();
 		for(CurAttrData attr : stateList){
 			ArmyHeroSimple hero = simpleArmy.getArmyHeroByID(attr.getId());
@@ -265,7 +264,7 @@ public class GFightOnFightMgr {
 		}
 		GFArmyState state = GFArmyState.NORMAL;
 		if(isDefeated) state = GFArmyState.DEFEATED;
-		GFDefendArmyItemHolder.getInstance().updateItem(groupID, armyItem, state);
+		GFDefendArmyMgr.getInstance().updateItem(groupID, armyItem, state);
 	}
 	
 	private GFUserSimpleInfo getGFUserSimpleInfo(String userId){

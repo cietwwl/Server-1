@@ -120,12 +120,14 @@ public class GFightOnlineHandler {
 		gfRsp.setReqType(msgGFRequest.getReqType());
 		return gfRsp.build().toByteString();
 	}
-	
+	//防守队伍用同步
 	public ByteString getDefenderTeams(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightPrepareMgr.getInstance().getDefenderTeams(player, gfRsp, msgGFRequest.getGroupID(), 
-				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()).getDefendArmyItem());
+		
+		//防守队伍用同步
+//		GFightPrepareMgr.getInstance().getDefenderTeams(player, gfRsp, msgGFRequest.getGroupID(), 
+//				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()).getDefendArmyItem());
 		return gfRsp.build().toByteString();
 	}
 	

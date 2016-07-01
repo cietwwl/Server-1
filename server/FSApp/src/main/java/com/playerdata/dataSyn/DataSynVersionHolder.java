@@ -17,9 +17,9 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
-import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
@@ -305,30 +305,30 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.GFightOnlinePersonalData);
-		
-		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {				
-				GFDefendArmyItemHolder.getInstance().synSelfData(player);
-			}
-		}));
-		orderList.add(eSynType.GFDefendArmyData);
-		
-		versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {				
-				GFBiddingItemHolder.getInstance().synAllData(player);
-			}
-		}));
-		orderList.add(eSynType.GFBiddingData);
-		
-		versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {				
-				GFightOnlineResourceHolder.getInstance().synData(player);
-			}
-		}));
-		orderList.add(eSynType.GFightOnlineResourceData);
+//		
+//		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFDefendArmyItemHolder.getInstance().synSelfData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFDefendArmyData);
+//		
+//		versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFBiddingItemHolder.getInstance().synAllData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFBiddingData);
+//		
+//		versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFightOnlineResourceHolder.getInstance().synData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFightOnlineResourceData);
 		
 		
 

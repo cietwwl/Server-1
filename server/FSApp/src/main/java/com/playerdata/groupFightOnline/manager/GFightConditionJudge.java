@@ -1,7 +1,6 @@
 package com.playerdata.groupFightOnline.manager;
 
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
@@ -70,7 +69,7 @@ class GFightConditionJudge {
 	 * @return
 	 */
 	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
-		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyItemHolder.LOCK_ITEM_MAX_TIME)
+		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFDefendArmyMgr.LOCK_ITEM_MAX_TIME)
 			return false;
 		return false;
 	}

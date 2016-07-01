@@ -9,7 +9,6 @@ import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
-import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
@@ -102,7 +101,7 @@ public class GFightFinalMgr {
 		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		for(GFGroupBiddingItem item : bidList){
 			//清除帮派的所有防守队伍
-			GFDefendArmyItemHolder.getInstance().clearAllRecords(item.getGroupID());
+			GFDefendArmyMgr.getInstance().clearAllRecords(item.getGroupID());
 			//清除帮战的帮派信息
 			GFightOnlineGroupHolder.getInstance().clearCurrentLoopData(item.getGroupID());
 			//清除所有参与帮战的成员的个人信息

@@ -5,16 +5,13 @@ import java.util.List;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
-import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
-import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -35,23 +32,24 @@ public class GFightPrepareMgr {
 	}
 	
 	private GFightPrepareMgr() { }
+
 	
-	/**
-	 * 查看某个帮派所有防守队伍的简要信息
-	 * @param player
-	 * @param gfRsp
-	 * @param groupID
-	 * @param version
-	 */
-	public void getDefenderTeams(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, int version) {
-		List<GFDefendArmyItem> defenders = GFDefendArmyItemHolder.getInstance().getGroupItemList(player, groupID, version);
-		for(GFDefendArmyItem defender : defenders) {
-			GFDefendArmySimpleLeader leader = defender.getSimpleLeader();
-			if(leader == null) continue;
-			gfRsp.addDefendArmySimpleLeader(ClientDataSynMgr.toClientData(leader));
-		}
-		gfRsp.setRstType(GFResultType.SUCCESS);
-	}
+//	/**
+//	 * 查看某个帮派所有防守队伍的简要信息
+//	 * @param player
+//	 * @param gfRsp
+//	 * @param groupID
+//	 * @param version
+//	 */
+//	public void getDefenderTeams(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, int version) {
+//		List<GFDefendArmyItem> defenders = GFDefendArmyMgr.getInstance().getGroupItemList(player, groupID, version);
+//		for(GFDefendArmyItem defender : defenders) {
+//			GFDefendArmySimpleLeader leader = defender.getSimpleLeader();
+//			if(leader == null) continue;
+//			gfRsp.addDefendArmySimpleLeader(ClientDataSynMgr.toClientData(leader));
+//		}
+//		gfRsp.setRstType(GFResultType.SUCCESS);
+//	}
 
 	/**
 	 * 请求同步有更新的帮派信息
@@ -74,7 +72,7 @@ public class GFightPrepareMgr {
 	 * @param viewArmyID
 	 */
 	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewArmyID) {
-		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewArmyID);
+		GFDefendArmyItem defendTeam = GFDefendArmyMgr.getInstance().getItem(groupID, viewArmyID);
 		if(defendTeam == null) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("防守队伍数据不存在");
@@ -113,7 +111,7 @@ public class GFightPrepareMgr {
 			return;
 		}
 		try {
-			GFDefendArmyItemHolder.getInstance().resetItems(player, items);
+			GFDefendArmyMgr.getInstance().resetItems(player, items);
 			//同步公会数据
 			GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);

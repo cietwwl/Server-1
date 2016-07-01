@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
+import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
@@ -37,6 +38,11 @@ public class GFightGroupBidMgr {
 	}
 	
 	private GFightGroupBidMgr() { }
+	
+	
+	public void synData(Player player, int version){
+		GFBiddingItemHolder.getInstance().synAllData(player);
+	}
 	
 	/**
 	 * 获取所有资源点的占有信息和状态信息

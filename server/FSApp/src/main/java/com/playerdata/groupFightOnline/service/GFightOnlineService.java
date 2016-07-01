@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.rw.service.FsService;
 import com.rwproto.GrouFightOnlineProto.GFRequestType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
@@ -21,6 +22,8 @@ public class GFightOnlineService implements FsService {
 		try {
 			GroupFightOnlineReqMsg msgGFRequest = GroupFightOnlineReqMsg.parseFrom(request.getBody().getSerializedContent());
 			GFRequestType gfType = msgGFRequest.getReqType();
+			
+			String clientDataVersion = msgGFRequest.getClientVersion();
 			switch (gfType) {
 			case GET_RESOURCE_INFO:
 				result = gfHandler.getResourceInfo(player, msgGFRequest);
@@ -77,6 +80,9 @@ public class GFightOnlineService implements FsService {
 				GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
+			
+			GFightDataVersionMgr.synByVersion(player, clientDataVersion);
+			
 		} catch (InvalidProtocolBufferException e) {
 			GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "出现了InvalidProtocolBufferException异常", e);
 		} catch (Exception e) {
