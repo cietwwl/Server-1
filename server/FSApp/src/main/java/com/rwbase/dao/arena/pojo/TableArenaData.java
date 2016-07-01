@@ -40,6 +40,7 @@ public class TableArenaData {
 	private int buyTimes; // 购买挑战次数的次数..
 	private int score; //
 	private int challengeTime;// 挑战次数
+	private boolean lastChallengeVictory;
 	private List<Integer> rewardList = new ArrayList<Integer>(); // 记录每天领取的积分领取的奖励列表
 
 	private List<Integer> historyRewards = new ArrayList<Integer>();// 记录曾经领取过的历史奖励
@@ -236,6 +237,14 @@ public class TableArenaData {
 
 	public void setHeadbox(String headbox) {
 		this.headbox = headbox;
+	}
+
+	public boolean isLastChallengeVictory() {
+		return lastChallengeVictory;
+	}
+
+	public void setLastChallengeVictory(boolean lastChallengeVictory) {
+		this.lastChallengeVictory = lastChallengeVictory;
 	}
 
 }
