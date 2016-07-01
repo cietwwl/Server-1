@@ -97,6 +97,8 @@ enum eSynType	//数据同步类型
 	GFightOnlinePersonalData = 84;	//在线帮战个人信息
 	GFightOnlineResourceData = 85;	//在线帮战资源点信息
 	MajorData = 86;    //关键数据
+	GFightSimpleLeader = 87;	//在线帮战防守队伍简要信息
+	GFightFinalReward = 88;		//在线帮战最终的奖励
 }
 
 message MsgDataSynList
