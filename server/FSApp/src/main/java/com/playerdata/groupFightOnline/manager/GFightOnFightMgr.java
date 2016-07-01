@@ -155,7 +155,7 @@ public class GFightOnFightMgr {
 		GFDefendArmyItemHolder.getInstance().startFight(player, armyItem);
 		defenderSimple.setLockArmyTime(System.currentTimeMillis());
 		UserGFightOnlineHolder.getInstance().update(player, userGFData);
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(armyItem.getSimpleArmy());
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(armyItem.getSimpleArmy(),true);
 		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(armyInfo));
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}

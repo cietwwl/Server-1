@@ -3,6 +3,7 @@ package com.playerdata.army.simple;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.ArmyMagic;
@@ -93,6 +94,17 @@ public class ArmyInfoSimple {
 			heroIdList.add(hero.getId());
 		}
 		return heroIdList;
+	}
+	
+	public ArmyHeroSimple getByHeroId(String heroId){
+		ArmyHeroSimple target = null;
+		for (ArmyHeroSimple armyHero : heroList) {
+			if(StringUtils.equals(heroId, armyHero.getId()) ){
+				target = armyHero;
+				break;
+			}	
+		}
+		return target;
 	}
 	
 	public static void main(String[] args) throws Exception {

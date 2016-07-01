@@ -10,6 +10,7 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
+import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.common.attrdata.AttrData;
@@ -28,7 +29,7 @@ public class ArmyInfoHelper {
 		return armyInfo;
 	}
 	
-	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple) {
+	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple,boolean setCurData) {
 		String playerId = armyInfoSimple.getPlayer().getId();
 		List<String> heroIdList = armyInfoSimple.getHeroIdList();
 		Player player = PlayerMgr.getInstance().find(playerId );
@@ -36,7 +37,25 @@ public class ArmyInfoHelper {
 		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
 		
 		ArmyInfo armyInfo = build(heroIdList , player, magic);
+		if(setCurData){
+			setCurData(armyInfo,armyInfoSimple);
+		}
 		return armyInfo;
+	}
+
+	private static void setCurData(ArmyInfo armyInfo, ArmyInfoSimple armyInfoSimple) {
+		ArmyHero player = armyInfo.getPlayer();
+		if(player!=null){
+			player.setCurAttrData(armyInfoSimple.getPlayer().getCurAttrData());
+		}
+		
+		List<ArmyHero> heroList = armyInfo.getHeroList();
+		for (ArmyHero armyHero : heroList) {
+			String heroId = armyHero.getRoleBaseInfo().getId();
+			ArmyHeroSimple simpleHero = armyInfoSimple.getByHeroId(heroId);
+			armyHero.setCurAttrData(simpleHero.getCurAttrData());
+		}
+		
 	}
 
 	private static ArmyInfo build(List<String> heroIdList, Player player, ItemData magic) {
