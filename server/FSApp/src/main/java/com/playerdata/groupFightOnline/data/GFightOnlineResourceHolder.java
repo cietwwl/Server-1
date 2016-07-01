@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
+import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rwbase.dao.group.pojo.Group;
@@ -83,5 +84,16 @@ public class GFightOnlineResourceHolder {
 		resInfo.setGroupInfo(groupSimple);
 		
 		return resInfo;
+	}
+
+	public void addFightRecord(int resourceID, GFFightRecord record) {
+		GFightOnlineResourceData resData = get(resourceID);
+		if(resData != null) resData.addFightRecord(record);
+	}
+	
+	public List<GFFightRecord> getFightRecord(int resourceID) {
+		GFightOnlineResourceData resData = get(resourceID);
+		if(resData != null) return resData.getFightRecord();
+		return null;
 	}
 }

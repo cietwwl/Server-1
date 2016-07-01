@@ -147,7 +147,7 @@ public class GFightOnlineHandler {
 	public ByteString getFightRecord(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightOnFightBM.getInstance().getFightRecord(player, gfRsp);
+		GFightOnFightBM.getInstance().getFightRecord(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
 	

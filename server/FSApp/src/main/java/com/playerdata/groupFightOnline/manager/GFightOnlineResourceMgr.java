@@ -9,6 +9,7 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
+import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.playerdata.groupFightOnline.enums.GFResourceState;
 
 public class GFightOnlineResourceMgr {
@@ -93,5 +94,13 @@ public class GFightOnlineResourceMgr {
 	
 	private void fightStartEvent(int resourceID){
 		
+	}
+
+	public void addFightRecord(int resourceID, GFFightRecord record){
+		GFightOnlineResourceHolder.getInstance().addFightRecord(resourceID, record);
+	}
+	
+	public List<GFFightRecord> getFightRecord(int resourceID){
+		return GFightOnlineResourceHolder.getInstance().getFightRecord(resourceID);
 	}
 }

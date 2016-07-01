@@ -1,9 +1,5 @@
 package com.playerdata.groupFightOnline.data;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,9 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.rw.fsutil.dao.annotation.CombineSave;
-import com.rw.fsutil.dao.annotation.NonSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -33,10 +27,6 @@ public class GFightOnlineGroupData {
 	private long lastBidTime;	// 上次竞标时间，主要用于排名
 	
 	@CombineSave
-	@IgnoreSynField
-	private List<GFFightRecord> recordList = new ArrayList<GFFightRecord>();
-	
-	@CombineSave
 	private int defenderCount;	//总的防守队伍数
 	
 	@CombineSave
@@ -46,13 +36,6 @@ public class GFightOnlineGroupData {
 	
 	@IgnoreSynField
 	private long lastkillTime;	//最后击杀的时间
-	
-	@IgnoreSynField
-	@NonSave
-	private byte[] recordLock = new byte[0];
-	@IgnoreSynField
-	@NonSave
-	private static final int LIST_SIZE = 50;
 
 	public String getGroupID() {
 		return groupID;
@@ -119,15 +102,6 @@ public class GFightOnlineGroupData {
 //		this.version = version;
 //	}
 
-	public void addFightRecord(GFFightRecord record){
-		synchronized (recordLock) {
-			if(recordList.size() >= LIST_SIZE){
-				Collections.sort(recordList);
-				recordList.set(LIST_SIZE - 1, record);
-			} else recordList.add(record);
-		}
-	}
-
 	public long getLastkillTime() {
 		return lastkillTime;
 	}
@@ -140,7 +114,6 @@ public class GFightOnlineGroupData {
 		biddingCount = 0;  // 帮派竞标用的令牌数
 		resourceID = 0;		// 帮派竞标的资源点
 		lastBidTime = 0;	// 上次竞标时间，主要用于排名
-		recordList.clear();
 		defenderCount = 0;	//总的防守队伍数
 		aliveCount = 0;		//存活队伍数
 		lastkillTime = 0;	//最后击杀的时间

@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.rank.RankType;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
-import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;

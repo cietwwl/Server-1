@@ -2,6 +2,7 @@ package com.playerdata.groupFightOnline.dataForClient;
 
 import java.util.List;
 
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 
@@ -9,6 +10,7 @@ import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
  * 用于前端请求帮派内部排名的结构
  * @author aken
  */
+@SynClass
 public class GFOnlineGroupInnerInfo {
 	private List<GFOnlineHurtItem> hurtRank; //帮派内部伤害排行，只三个
 	private List<GFOnlineKillItem> killRank; //帮派内部杀敌数排行，只三个

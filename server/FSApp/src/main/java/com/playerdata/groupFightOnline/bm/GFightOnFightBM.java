@@ -35,6 +35,7 @@ import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -234,7 +235,7 @@ public class GFightOnFightBM {
 		record.setCreateTime(System.currentTimeMillis());
 		record.setOffend(getGFUserSimpleInfo(player));
 		record.setDefend(getGFUserSimpleInfo(armyItem.getUserID()));
-		groupData.addFightRecord(record);
+		GFightOnlineResourceMgr.getInstance().addFightRecord(groupData.getResourceID(), record);
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
 		//每次请求都有同步所有数据,这里就不用同步了
 		//GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
@@ -280,7 +281,11 @@ public class GFightOnFightBM {
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
-	public void getFightRecord(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
+	public void getFightRecord(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
+		List<GFFightRecord> fightRecords = GFightOnlineResourceMgr.getInstance().getFightRecord(resourceID);
+		for(GFFightRecord record : fightRecords){
+			gfRsp.addFightRecord(ClientDataSynMgr.toClientData(record));
+		}
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	

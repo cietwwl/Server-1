@@ -36,7 +36,7 @@ public class GFFinalRewardItem implements IMapItem{
 	private int rewardType;  //奖励的类型
 	
 	@CombineSave
-	private List<ItemInfo> rewardContent;	//奖励的具体类容
+	private List<ItemInfo> rewardContent;	//奖励的具体内容
 	
 	@CombineSave
 	@IgnoreSynField

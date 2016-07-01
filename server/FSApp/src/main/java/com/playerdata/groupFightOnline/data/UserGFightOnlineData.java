@@ -26,7 +26,7 @@ public class UserGFightOnlineData {
 	private List<CurAttrData> selfHerosInfo = new ArrayList<CurAttrData>();
 	
 	@CombineSave
-	private List<String> activeHeros;
+	private List<String> activeHeros = new ArrayList<String>();
 	
 	@CombineSave
 	private int changeEnimyTimes;
@@ -126,7 +126,6 @@ public class UserGFightOnlineData {
 	public void resetLoopData(){
 		resourceID = 0;
 		selfHerosInfo.clear();
-		activeHeros.clear();
 		changeEnimyTimes = 0;
 		randomDefender = null;
 		killCount = 0;
