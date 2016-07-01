@@ -42,15 +42,20 @@ public abstract class ClientMsgHandler {
 	public ClientMsgHandler() {
 		this.id = generator.incrementAndGet();
 		this.name = "机器人[" + id + "]";
+		RobotLog.testInfo("创建机器人："+name+getClient().getAccountId());
 	}
 
-	private Response getResp() {
+	public String getName(){
+		return name +" userId="+getClient().getUserId();
+	}
+	
+	private Response getResp(int seqId) {
 		Response resp = null;
 		long maxTime = 20L;
 		// 超过十秒拿不到认为超时。
 		long start = System.currentTimeMillis();
 		if (lastExecuteTime > 0) {
-			RobotLog.testInfo(name + " 间隔时间：" + (start - lastExecuteTime));
+			RobotLog.testInfo(getName() + " 间隔时间：" + (start - lastExecuteTime));
 		}
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
@@ -61,7 +66,7 @@ public abstract class ClientMsgHandler {
 		lastExecuteTime = current;
 		long cost = current - start;
 		if (cost > 1000) {
-			RobotLog.testInfo(msgReciver.getCmd() + " 处理耗时：" + cost);
+			RobotLog.testInfo(getName() + " 处理耗时=" + cost+"cmd=,"+msgReciver.getCmd()+",seqId="+seqId);
 		}
 		return resp;
 
@@ -154,6 +159,8 @@ public abstract class ClientMsgHandler {
 		}
 	}
 
+	private AtomicInteger seqGenerator = new AtomicInteger();
+	
 	/**
 	 * 发送消息
 	 * 
@@ -177,24 +184,22 @@ public abstract class ClientMsgHandler {
 		if (client.getToken() != null) {
 			header.setToken(client.getToken());
 		}
-
+		int seqId = seqGenerator.incrementAndGet();
+		header.setSeqID(seqId);
 		RequestBody.Builder body = RequestBody.newBuilder();
 		if (bytes != null) {
 			body.setSerializedContent(bytes);
 		}
-
 		Request.Builder request = Request.newBuilder();
 		request.setHeader(header);
 		request.setBody(body);
 
 		try {
-
 			Channel channel = ChannelServer.getInstance().getChannel(client);
-
 			channel.writeAndFlush(request);
 			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + " cmd:" + command);
 			if (msgReciver != null) {
-				success = handleResp(msgReciverP, client);
+				success = handleResp(msgReciverP, client,seqId);
 				msgReciver = null;
 			} else {
 				success = true;
@@ -207,9 +212,9 @@ public abstract class ClientMsgHandler {
 
 	}
 
-	private boolean handleResp(MsgReciver msgReciverP, Client client) {
+	private boolean handleResp(MsgReciver msgReciverP, Client client,int seqId) {
 		boolean success = true;
-		Response rsp = getResp();
+		Response rsp = getResp(seqId);
 		if (rsp == null) {
 			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
 			success = false;
