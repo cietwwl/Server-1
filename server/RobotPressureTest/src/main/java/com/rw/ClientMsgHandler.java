@@ -1,6 +1,8 @@
 package com.rw;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -174,7 +176,7 @@ public abstract class ClientMsgHandler {
 		msgReciver = msgReciverP;
 
 		boolean success = false;
-		Client client = getClient();
+		final Client client = getClient();
 		RequestHeader.Builder header = RequestHeader.newBuilder();
 		header.setCommand(command);
 		if (client.getUserId() != null) {
@@ -184,8 +186,9 @@ public abstract class ClientMsgHandler {
 		if (client.getToken() != null) {
 			header.setToken(client.getToken());
 		}
-		int seqId = seqGenerator.incrementAndGet();
+		final int seqId = seqGenerator.incrementAndGet();
 		header.setSeqID(seqId);
+		header.setToken(getName());
 		RequestBody.Builder body = RequestBody.newBuilder();
 		if (bytes != null) {
 			body.setSerializedContent(bytes);
@@ -193,10 +196,22 @@ public abstract class ClientMsgHandler {
 		Request.Builder request = Request.newBuilder();
 		request.setHeader(header);
 		request.setBody(body);
-
+		final long sendTime = System.currentTimeMillis();
 		try {
 			Channel channel = ChannelServer.getInstance().getChannel(client);
-			channel.writeAndFlush(request);
+			channel.writeAndFlush(request).addListener(new GenericFutureListener<ChannelFuture>() {
+				public void operationComplete(ChannelFuture future)
+						throws Exception {
+					if(!future.isSuccess()){
+						RobotLog.testError("send msg fail:"+client.getAccountId()+",seqId="+seqId);
+					}else{
+						long cost = System.currentTimeMillis() - sendTime;
+						if(cost > 1000){
+							RobotLog.testError("send cost:"+client.getAccountId()+",seqId="+seqId+",cost="+cost);
+						}
+					}
+				}
+			});
 			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + " cmd:" + command);
 			if (msgReciver != null) {
 				success = handleResp(msgReciverP, client,seqId);
