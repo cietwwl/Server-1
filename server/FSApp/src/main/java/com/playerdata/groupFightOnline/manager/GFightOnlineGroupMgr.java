@@ -40,7 +40,6 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData data = get(groupId);
 		data.clearCurrentLoopData();
 		GFightOnlineGroupHolder.getInstance().update(data);
-		
 	}
 
 	public GFightOnlineGroupData getByUser(Player player) {
