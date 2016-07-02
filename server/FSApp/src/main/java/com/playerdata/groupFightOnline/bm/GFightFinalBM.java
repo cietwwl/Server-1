@@ -30,7 +30,7 @@ public class GFightFinalBM {
 		return instance;
 	}
 	
-	/**s
+	/**
 	 * 处理帮战结果的逻辑
 	 * @param resourceID
 	 */

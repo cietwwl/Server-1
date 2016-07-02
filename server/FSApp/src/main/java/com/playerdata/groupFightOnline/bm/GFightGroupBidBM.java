@@ -3,6 +3,8 @@ package com.playerdata.groupFightOnline.bm;
 import java.util.List;
 
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
@@ -103,5 +105,16 @@ public class GFightGroupBidBM {
 	
 	public void removeItemsOnResource(int resourceID){		
 		GFBiddingItemHolder.getInstance().removeItemsOnResource(resourceID);
+	}
+	
+	/**
+	 * 竞标开始时处理的事件
+	 * @param resourceID
+	 */
+	public void bidStart(int resourceID){
+		//清除几个排行榜
+		GFGroupBiddingRankMgr.clearRank(resourceID);
+		GFOnlineKillRankMgr.clearRank(resourceID);
+		GFOnlineHurtRankMgr.clearRank(resourceID);
 	}
 }

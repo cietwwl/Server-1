@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
+import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;

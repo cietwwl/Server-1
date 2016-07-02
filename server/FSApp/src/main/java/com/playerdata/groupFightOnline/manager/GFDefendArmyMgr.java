@@ -18,7 +18,7 @@ import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
-import com.playerdata.groupFightOnline.dataForClient.GFArmyState;
+import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;

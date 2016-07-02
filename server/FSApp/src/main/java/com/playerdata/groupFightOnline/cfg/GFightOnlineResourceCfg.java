@@ -2,7 +2,7 @@ package com.playerdata.groupFightOnline.cfg;
 import java.util.Calendar;
 
 import com.common.BaseConfig;
-import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 
 public class GFightOnlineResourceCfg extends BaseConfig {
 	private int key; //关键字段
