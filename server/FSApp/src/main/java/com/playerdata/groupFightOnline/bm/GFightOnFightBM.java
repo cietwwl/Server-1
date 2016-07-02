@@ -243,6 +243,7 @@ public class GFightOnFightBM {
 		if(isVictory) userGFData.addKillCount();
 		userGFData.addHurtTotal(hurtValue);
 		userGFData.setActiveHeros(activeHeros);
+		userGFData.setRandomDefender(null);
 		UserGFightOnlineHolder.getInstance().updateAndInformRank(player, userGFData);
 	}
 	

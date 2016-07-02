@@ -220,10 +220,11 @@ public class GFDefendArmyMgr {
 		List<GFDefendArmyItem> itemTmpList = GFDefendArmyItemHolder.getInstance().getItemList(groupID);
 
 		for (GFDefendArmyItem item : itemTmpList) {
+			if(GFArmyState.DEFEATED.equals(item.getState())) continue;
+			
 			if(GFArmyState.NORMAL.equals(item.getState())){
 				canFightList.add(item);
-			}
-			else if(GFArmyState.SELECTED.equals(item.getState()) || GFArmyState.FIGHTING.equals(item.getState())){
+			}else if(GFArmyState.SELECTED.equals(item.getState()) || GFArmyState.FIGHTING.equals(item.getState())){
 				if(System.currentTimeMillis() - item.getLastOperateTime() > LOCK_ITEM_MAX_TIME){
 					item.setState(GFArmyState.NORMAL.getValue());					
 					canFightList.add(item);
