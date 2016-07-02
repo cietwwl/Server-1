@@ -27,6 +27,7 @@ import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
 import com.rw.handler.magicSecret.MagicSecretHolder;
+import com.rw.handler.majordata.MajorDataholder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;
@@ -91,6 +92,9 @@ public class Client {
 	//乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
+	
+	//主要数据
+	private MajorDataholder majorDataholder = new MajorDataholder();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -313,8 +317,7 @@ public class Client {
 		return magicChapterInfoHolder;
 	}
 
-	public void setMagicChapterInfoHolder(
-			MagicChapterInfoHolder magicChapterInfoHolder) {
+	public void setMagicChapterInfoHolder(MagicChapterInfoHolder magicChapterInfoHolder) {
 		this.magicChapterInfoHolder = magicChapterInfoHolder;
 	}
 
@@ -332,5 +335,13 @@ public class Client {
 
 	public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
 		return groupSecretInviteDataHolder;
+	}
+
+	public MajorDataholder getMajorDataholder() {
+		return majorDataholder;
+	}
+
+	public void setMajorDataholder(MajorDataholder majorDataholder) {
+		this.majorDataholder = majorDataholder;
 	}
 }

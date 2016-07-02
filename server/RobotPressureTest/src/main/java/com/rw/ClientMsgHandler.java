@@ -120,6 +120,9 @@ public abstract class ClientMsgHandler {
 					case MagicChapterData:
 						getClient().getMagicChapterInfoHolder().syn(msgDataSyn);
 						break;
+					case MajorData:
+						getClient().getMajorDataholder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}

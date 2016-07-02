@@ -32,6 +32,7 @@ import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
+import com.rw.handler.itembag.ItemData;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.magicSecret.MagicSecretHandler;
 import com.rw.handler.mainService.MainHandler;
@@ -243,6 +244,14 @@ public class Robot {
 		// equipCompose(700098);
 		boolean sendSuccess = EquipHandler.instance().compose(client, modelId);
 		return sendSuccess;
+	}
+	
+	
+	public void checkItemEnough(int modelId) {
+		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
+		if (itemData.getCount() < 10) {
+			gainItem(modelId, 888);
+		}
 	}
 
 	/**
@@ -872,5 +881,12 @@ public class Robot {
 		return GmHandler.instance().send(client, value);
 	}
 
-	
+	public void checkEnoughMoney(){
+		if(!client.getMajorDataholder().CheckEnoughCoin()){
+			addCoin(1000000000);
+		}
+		if(!client.getMajorDataholder().CheckEnoughGold()){
+			addGold(10000000);
+		}
+	}
 }
