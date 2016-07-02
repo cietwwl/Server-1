@@ -42,11 +42,11 @@ public abstract class ClientMsgHandler {
 	public ClientMsgHandler() {
 		this.id = generator.incrementAndGet();
 		this.name = "机器人[" + id + "]";
-		RobotLog.testInfo("创建机器人："+name+getClient().getAccountId());
+		RobotLog.testInfo("创建机器人："+name+getClient().getAccountId()+","+getClient());
 	}
 
 	public String getName(){
-		return name +" userId="+getClient().getUserId();
+		return name +" accountId="+getClient().getAccountId();
 	}
 	
 	private Response getResp(int seqId) {
@@ -65,9 +65,9 @@ public abstract class ClientMsgHandler {
 		long current = System.currentTimeMillis();
 		lastExecuteTime = current;
 		long cost = current - start;
-		if (cost > 1000) {
-			RobotLog.testInfo(getName() + " 处理耗时=" + cost+"cmd=,"+msgReciver.getCmd()+",seqId="+seqId);
-		}
+//		if (cost > 1000) {
+			RobotLog.testInfo(getName() + " 处理耗时=" + cost+"cmd=,"+msgReciver.getCmd()+",seqId="+seqId+","+getClient());
+//		}
 		return resp;
 
 	}
@@ -159,7 +159,7 @@ public abstract class ClientMsgHandler {
 		}
 	}
 
-	private AtomicInteger seqGenerator = new AtomicInteger();
+	private static AtomicInteger seqGenerator = new AtomicInteger();
 	
 	/**
 	 * 发送消息

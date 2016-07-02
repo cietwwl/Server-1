@@ -81,7 +81,7 @@ public class GameLoginHandler {
 					}
 					
 					client.setUserId(rsp.getUserId());
-					RobotLog.info("GameLoginHandler[createRole] 角色创建通过！  accountId:"+client.getAccountId()+" password:"+client.getPassword());
+					RobotLog.info("GameLoginHandler[createRole] 角色创建通过！  accountId:"+client.getAccountId()+" password:"+client.getPassword()+","+rsp.getUserId());
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GameLoginHandler[createRole] accountId:"+client.getAccountId()+" password:"+client.getPassword(), e);
 					return false;
@@ -143,7 +143,7 @@ public class GameLoginHandler {
 					}
 
 					client.setUserId(rsp.getUserId());
-					RobotLog.info("GameLoginHandler[loginGame] 角色登录通过！  accountId:"+client.getAccountId()+" password:"+client.getPassword());
+					RobotLog.info("GameLoginHandler[loginGame] 角色登录通过！  accountId:"+client.getAccountId()+" password:"+client.getPassword()+","+rsp.getUserId()+","+client);
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GameLoginHandler[loginGame] accountId:"+client.getAccountId()+" password:"+client.getPassword(), e);
 					return false;
