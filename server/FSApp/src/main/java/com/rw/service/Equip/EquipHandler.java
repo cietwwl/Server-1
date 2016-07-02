@@ -2,7 +2,6 @@ package com.rw.service.Equip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,9 +19,9 @@ import com.playerdata.Player;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
-import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
@@ -234,51 +233,18 @@ public class EquipHandler {
 
 		response.setError(ErrorType.SUCCESS);
 		return response.build().toByteString();
-
-		// List<Integer> ids = GetComposeIds(player, equipId);
-		//
-		// if (checkCompose(player, equipId) != 1) {
-		// response.setError(ErrorType.NOT_ENOUGH_MATE);
-		// return response.build().toByteString();
-		// }
-		//
-		// int cost = 0;
-		// for (Integer id : ids) {
-		// ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(id);
-		// cost += cfg.getCost();
-		// }
-		// if (cost > player.getUserGameDataMgr().getCoin()) {
-		// response.setError(ErrorType.NOT_ENOUGH_COIN);
-		// return response.build().toByteString();
-		// }
-		// if (compose(player, equipId)) {
-		// player.getUserGameDataMgr().addCoin(-cost);
-		// response.setError(ErrorType.SUCCESS);
-		// }
-		// return response.build().toByteString();
 	}
 
-	private static List<Integer> GetComposeIds(Player player, int id) {
-		ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(id);
-		if (cfg == null)
-			return null;
-		List<Integer> ids = new ArrayList<Integer>();
-		HashMap<Integer, Integer> mate = ComposeCfgDAO.getInstance().getMate(id);// 获取它需要的材料
-		Iterator<Entry<Integer, Integer>> iter = mate.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry<Integer, Integer> entry = iter.next();
-			if (entry.getValue() > player.getItemBagMgr().getItemCountByModelId(entry.getKey())) {
-				List<Integer> nextIds = GetComposeIds(player, entry.getKey());
-				if (nextIds != null) {
-					ids.addAll(nextIds);
-				}
-			}
-		}
-		ids.add(id);
-		return ids;
-	}
-
-	private Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, RefInt out) {
+	/**
+	 * 获取装备合成需要的材料数量
+	 * 
+	 * @param itemBagMgr
+	 * @param id
+	 * @param needCount
+	 * @param out
+	 * @return
+	 */
+	private static Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, RefInt out) {
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		ComposeCfgDAO cfgDAO = ComposeCfgDAO.getInstance();
 		Map<Integer, Integer> mateMap = cfgDAO.getMate(id);// 获取需要的所有材料
@@ -322,7 +288,7 @@ public class EquipHandler {
 				ComposeCfg mateCfg = cfgDAO.getCfg(templateId);
 				if (mateCfg != null) {
 					out.value += mateCfg.getCost() * canUseCount;
-					System.err.println("Id: " + templateId + "," + canUseCount + "," + mateCfg.getCost() + "," + out.value);
+					// System.err.println("Id: " + templateId + "," + canUseCount + "," + mateCfg.getCost() + "," + out.value);
 				}
 
 				continue;
@@ -350,42 +316,22 @@ public class EquipHandler {
 	 * @return -1:底层物品不能合成；0：材料不足不能合成；1：可合成
 	 */
 	public static int checkCompose(Player player, int id) {
-		List<Integer> ids = GetComposeIds(player, id);
-		if (ids == null) {
+		RefInt out = new RefInt();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, id, 1, out);
+		if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {
 			return -1;
 		}
-		for (Integer nid : ids) {
-			HashMap<Integer, Integer> mate = ComposeCfgDAO.getInstance().getMate(nid);
-			Iterator<Entry<Integer, Integer>> iter = mate.entrySet().iterator();
-			while (iter.hasNext()) {
-				Map.Entry<Integer, Integer> entry = iter.next();
-				if (entry.getValue() > player.getItemBagMgr().getItemCountByModelId(entry.getKey())) {
-					int canMateCompose = checkCompose(player, entry.getKey());
-					if (canMateCompose != 1) {
-						return 0;
-					}
-				}
-			}
-		}
-		return 1;
-	}
 
-	public boolean compose(Player player, int id) {
-		HashMap<Integer, Integer> mate = ComposeCfgDAO.getInstance().getMate(id);
-		if (mate == null) {
-			return false;
-		}
-		Iterator<Entry<Integer, Integer>> iter = mate.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry<Integer, Integer> entry = iter.next();
-			if (entry.getValue() > player.getItemBagMgr().getItemCountByModelId(entry.getKey())) {
-				compose(player, entry.getKey());
-			} else {
-				player.getItemBagMgr().useItemByCfgId(entry.getKey(), entry.getValue());
+		for (Entry<Integer, Integer> e : composeNeedMateMap.entrySet()) {
+			int mateId = e.getKey().intValue();
+			int needCount = e.getValue().intValue();
+			if (itemBagMgr.getItemCountByModelId(mateId) < needCount) {
+				return 0;
 			}
 		}
-		player.getItemBagMgr().addItem(id, 1);
-		return true;
+
+		return 1;
 	}
 
 	/**
