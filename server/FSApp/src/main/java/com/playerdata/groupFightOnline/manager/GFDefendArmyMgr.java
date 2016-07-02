@@ -89,6 +89,7 @@ public class GFDefendArmyMgr {
 	public void resetItems(Player player, List<DefendArmyHerosInfo> items) throws GFArmyDataException{
 		HashSet<String> heroIDRepeatCheckSet = new HashSet<String>();
 		for(DefendArmyHerosInfo item : items){
+			if(item.getHeroIDs() == null) continue;
 			for(String id : item.getHeroIDs()){
 				if(heroIDRepeatCheckSet.contains(id)) throw new GFArmyDataException("一个英雄不能存在于两个队伍");
 				heroIDRepeatCheckSet.add(id);
@@ -97,7 +98,7 @@ public class GFDefendArmyMgr {
 		for(DefendArmyHerosInfo heros : items) {
 			GFDefendArmyItem armyItem = getItem(player, heros.getDefendArmyID());
 			if(armyItem == null) throw new GFArmyDataException("要修改的队伍无法创建成功");
-			if(heros.getHeroIDs().size() == 0) {
+			if(heros.getHeroIDs() == null || heros.getHeroIDs().size() == 0) {
 				if(GFArmyState.NORMAL.equals(armyItem.getState())){
 					armyItem.setSimpleArmy(null);
 					updateItem(player, armyItem, GFArmyState.EMPTY);

@@ -51,7 +51,7 @@ public class GFightDataVersionMgr {
 	}
 	
 	private static void synOnlineGroupData(Player player, int resourceID, int version){		
-		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, version);
+		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, version); 
 	}
 	
 	private static void synOnlineResourceData(Player player, int version){		
