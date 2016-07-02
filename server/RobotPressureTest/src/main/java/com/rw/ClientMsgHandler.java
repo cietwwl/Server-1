@@ -198,12 +198,12 @@ public abstract class ClientMsgHandler {
 		request.setBody(body);
 		final long sendTime = System.currentTimeMillis();
 		try {
-			Channel channel = ChannelServer.getInstance().getChannel(client);
+			final Channel channel = ChannelServer.getInstance().getChannel(client);
 			channel.writeAndFlush(request).addListener(new GenericFutureListener<ChannelFuture>() {
 				public void operationComplete(ChannelFuture future)
 						throws Exception {
 					if(!future.isSuccess()){
-						RobotLog.testError("send msg fail:"+client.getAccountId()+",seqId="+seqId);
+						RobotLog.testError("send msg fail:"+client.getAccountId()+",seqId="+seqId+",active="+channel.isActive()+",write="+channel.isWritable()+",open="+channel.isOpen());
 					}else{
 						long cost = System.currentTimeMillis() - sendTime;
 						if(cost > 1000){
