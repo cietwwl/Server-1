@@ -162,7 +162,7 @@ public class ActivityRateTypeMgr {
 		return isclose;
 	}
 
-	private boolean isOpen(ActivityRateTypeCfg ActivityRateTypeCfg) {
+	public boolean isOpen(ActivityRateTypeCfg ActivityRateTypeCfg) {
 		boolean isopen = false;
 		long startTime = ActivityRateTypeCfg.getStartTime();
 		long endTime = ActivityRateTypeCfg.getEndTime();

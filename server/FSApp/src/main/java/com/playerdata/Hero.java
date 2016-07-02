@@ -66,6 +66,7 @@ public class Hero implements HeroIF {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
 		init(roleUUId, null);
+		m_SkillMgr.checkSkill(getTemplateId());
 	}
 
 	private void init(String roleUUId, RoleBaseInfo roleBaseInfoP) {

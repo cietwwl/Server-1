@@ -192,8 +192,7 @@ public class ChargeMgr {
 			}
 		}else{
 			GameLog.error("chargemgr", "sdk-充值", "充值失败,未找到商品  ； 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
-		}
-		
+		}		
 		return true;
 	}
 
