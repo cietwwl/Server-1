@@ -61,7 +61,7 @@ public class GFightDataVersionMgr {
 	private static void synDefendArmyItem(Player player, int resourceID, List<SynDataGroupListVersion> versionList){
 		List<GFGroupBiddingItem> bidRankList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		for(GFGroupBiddingItem item : bidRankList){
-			GFDefendArmyMgr.getInstance().synGroupData(player, item.getGroupID(), getVersion(item.getGroupID(), versionList));
+			GFDefendArmyMgr.getInstance().synGroupDefenderData(player, item.getGroupID(), getVersion(item.getGroupID(), versionList));
 		}
 	}
 	

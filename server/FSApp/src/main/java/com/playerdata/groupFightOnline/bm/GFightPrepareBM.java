@@ -11,6 +11,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
+import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
@@ -72,9 +73,9 @@ public class GFightPrepareBM {
 	 */
 	public void viewDefenderTeam(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, String viewArmyID) {
 		GFDefendArmyItem defendTeam = GFDefendArmyMgr.getInstance().getItem(groupID, viewArmyID);
-		if(defendTeam == null) {
+		if(defendTeam == null || GFArmyState.EMPTY.equals(defendTeam.getState())) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-			gfRsp.setTipMsg("防守队伍数据不存在");
+			gfRsp.setTipMsg("防守队伍数据不存在或者防守方已撤离");
 			return;
 		}
 		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defendTeam));

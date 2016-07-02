@@ -33,7 +33,7 @@ public class GFDefendArmyMgr {
 		return instance;
 	}
 	
-	public void synGroupData(Player player, String groupId, int version){
+	public void synGroupDefenderData(Player player, String groupId, int version){
 		GFDefendArmyItemHolder.getInstance().synByVersion(player, groupId, version);
 	}
 	
