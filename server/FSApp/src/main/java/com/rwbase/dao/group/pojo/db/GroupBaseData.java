@@ -47,6 +47,9 @@ public class GroupBaseData implements GroupBaseDataIF, IMapItem {
 	@IgnoreSynField
 	@SaveAsJson
 	private ConcurrentHashMap<Integer, GroupSkillItem> researchSkillMap;// 研发的技能的数据
+	private int token;// 令牌
+	private int daySupplies;// 当天捐献的物资数量
+	private int dayExp;// 当天捐献的经验
 
 	// ////////////////////////////////////////////////无需解析的属性区
 	@IgnoreSynField
@@ -237,7 +240,61 @@ public class GroupBaseData implements GroupBaseDataIF, IMapItem {
 		return new ArrayList<GroupSkillItem>(researchSkillMap.values());
 	}
 
+	/**
+	 * 获取帮派令牌的数量
+	 * 
+	 * @return
+	 */
+	public int getToken() {
+		return token;
+	}
+
+	/**
+	 * 获取当天获取的帮派物资数量
+	 * 
+	 * @return
+	 */
+	public int getDaySupplies() {
+		return daySupplies;
+	}
+
+	/**
+	 * 获取当天获取的帮派经验数量
+	 * 
+	 * @return
+	 */
+	public int getDayExp() {
+		return dayExp;
+	}
+
 	// ================================================无需检测字段的GET区域
+
+	/**
+	 * 设置帮派令牌的数量
+	 * 
+	 * @param token
+	 */
+	public void setToken(int token) {
+		this.token = token;
+	}
+
+	/**
+	 * 设置当天获取帮派物资的数量
+	 * 
+	 * @param daySupplies
+	 */
+	public void setDaySupplies(int daySupplies) {
+		this.daySupplies = daySupplies;
+	}
+
+	/**
+	 * 设置当天获取帮派经验的数量
+	 * 
+	 * @param dayExp
+	 */
+	public void setDayExp(int dayExp) {
+		this.dayExp = dayExp;
+	}
 
 	/**
 	 * 获取上次检查帮主在线的时间
