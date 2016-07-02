@@ -10,6 +10,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.timeout.TimeoutException;
+import io.netty.util.AttributeKey;
+import io.netty.util.Attribute;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,32 +28,30 @@ import com.rwproto.ResponseProtos.Response;
 
 public class ChannelServer {
 
+	private static ChannelServer instance = new ChannelServer();
 
-	private static ChannelServer instance =  new ChannelServer();
-	
-	public static ChannelServer getInstance(){
+	public static ChannelServer getInstance() {
 		return instance;
 	}
-	
+
 	private Bootstrap bootstrap;
-	
-	private Map<Channel, Client> ccMap = new ConcurrentHashMap<Channel, Client>() ;
-	
-	private Map<Client,Channel> ccReverMap = new ConcurrentHashMap<Client,Channel>() ;
-	
-	
-	public ChannelServer(){
-		EventLoopGroup eventGroup = new NioEventLoopGroup(128);// 创建处理事件的线程池
+
+	public static final AttributeKey<Client> ATTR_CLIENT = AttributeKey.valueOf("client");
+	// private Map<Channel, Client> ccMap = new ConcurrentHashMap<Channel,
+	// Client>() ;
+
+	private Map<Client, Channel> ccReverMap = new ConcurrentHashMap<Client, Channel>();
+
+	public ChannelServer() {
+		EventLoopGroup eventGroup = new NioEventLoopGroup(16);// 创建处理事件的线程池
 		bootstrap = new Bootstrap();
-		bootstrap.group(eventGroup)
-		.channel(NioSocketChannel.class)
-//		.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 512*1024)
-//		.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 256*1024)
-//		.channel(OioSocketChannel.class)
-		.handler(new ChannelInit());
+		bootstrap.group(eventGroup).channel(NioSocketChannel.class)
+		// .option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 512*1024)
+		// .option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 256*1024)
+		// .channel(OioSocketChannel.class)
+				.handler(new ChannelInit());
 	}
-	
-	
+
 	private class ChannelInit extends ChannelInitializer<SocketChannel> {
 
 		@Override
@@ -60,43 +63,60 @@ public class ChannelServer {
 			ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());// protobuf的编码
 		}
 	}
-	
-	public Channel getChannel(Client client){
+
+	public Channel getChannel(Client client) {
 		return ccReverMap.get(client);
 	}
-	
-	public Client getClient(Channel channel){
-		return ccMap.get(channel);
+
+	public Client getClient(Channel channel) {
+		Attribute<Client> userIdAttr = channel.attr(ATTR_CLIENT);
+		return userIdAttr.get();
 	}
-	
-	public void remove(Client client){
+
+	public void remove(final Client client) {
 		Channel oldChannel = ccReverMap.get(client);
 		try {
-			oldChannel.close();
-		} catch (Exception e) {
+			// RobotLog.testError("close start1:"+client.getAccountId()+","+client.getLastSeqId());
+			ChannelFuture f = oldChannel.close();
+			f.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+				@Override
+				public void operationComplete(Future<? super Void> future) throws Exception {
+					RobotLog.testError("close start2:" + client.getAccountId() + "," + client.getCommandInfo());
+				}
+			});
+			f.get(10, TimeUnit.SECONDS);
+		}catch(TimeoutException e){
+			RobotLog.testError("close timeout:"+client.getAccountId()+",seqId="+client.getCommandInfo());
+		}
+		catch (Exception e) {
 			// donothing
 		}
-		if(oldChannel!=null){
-			ccMap.remove(oldChannel);
-		}
+		// if(oldChannel!=null){
+		// ccMap.remove(oldChannel);
+		// }
 		ccReverMap.remove(client);
 	}
-	
+
 	public boolean doConnect(Client client, final String host, final int port) {
 		remove(client);
-
 		try {
 			ChannelFuture connect = bootstrap.connect(host, port);
 			if (connect.await(30, TimeUnit.SECONDS)) {
 				Channel newChannel = connect.channel();
-				
-				ccMap.put(newChannel, client);				
+
+				Attribute<Client> userIdAttr = newChannel.attr(ATTR_CLIENT);
+				Client oldClient = userIdAttr.get();
+				if (oldClient != null) {
+					RobotLog.testError("fatal error:exist old client=" + oldClient.getAccountId());
+				}
+				userIdAttr.set(client);
 				ccReverMap.put(client, newChannel);
-				
-				RobotLog.info("生成新的channel  accountId是：" + client.getAccountId());
+
+				RobotLog.testError("connect success:" + client.getAccountId());
 				return true;
 			} else {
-				RobotLog.info("连接超时！网络链路不通！！");
+				RobotLog.testError("connect fail:"+client.getAccountId());
 				connect.cancel(true);
 				return false;
 			}
@@ -106,5 +126,4 @@ public class ChannelServer {
 		return false;
 	}
 
-	
 }

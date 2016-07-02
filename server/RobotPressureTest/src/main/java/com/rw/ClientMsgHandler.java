@@ -44,13 +44,13 @@ public abstract class ClientMsgHandler {
 	public ClientMsgHandler() {
 		this.id = generator.incrementAndGet();
 		this.name = "机器人[" + id + "]";
-		RobotLog.testInfo("创建机器人："+name+getClient().getAccountId()+","+getClient());
+		RobotLog.testInfo("创建机器人：" + name + getClient().getAccountId() + "," + getClient());
 	}
 
-	public String getName(){
-		return name +" accountId="+getClient().getAccountId();
+	public String getName() {
+		return name + " accountId=" + getClient().getAccountId();
 	}
-	
+
 	private Response getResp(int seqId) {
 		Response resp = null;
 		long maxTime = 20L;
@@ -67,9 +67,9 @@ public abstract class ClientMsgHandler {
 		long current = System.currentTimeMillis();
 		lastExecuteTime = current;
 		long cost = current - start;
-//		if (cost > 1000) {
-			RobotLog.testInfo(getName() + " 处理耗时=" + cost+"cmd=,"+msgReciver.getCmd()+",seqId="+seqId+","+getClient());
-//		}
+		// if (cost > 1000) {
+		RobotLog.testInfo(getName() + " 处理耗时=" + cost + "cmd=," + msgReciver.getCmd() + ",seqId=" + seqId + "," + getClient());
+		// }
 		return resp;
 
 	}
@@ -162,7 +162,7 @@ public abstract class ClientMsgHandler {
 	}
 
 	private static AtomicInteger seqGenerator = new AtomicInteger();
-	
+
 	/**
 	 * 发送消息
 	 * 
@@ -172,7 +172,7 @@ public abstract class ClientMsgHandler {
 	 * @param token
 	 * @param bytes
 	 */
-	public boolean sendMsg(Command command, ByteString bytes, MsgReciver msgReciverP) {
+	public boolean sendMsg(final Command command, ByteString bytes, MsgReciver msgReciverP) {
 		msgReciver = msgReciverP;
 
 		boolean success = false;
@@ -199,35 +199,41 @@ public abstract class ClientMsgHandler {
 		final long sendTime = System.currentTimeMillis();
 		try {
 			final Channel channel = ChannelServer.getInstance().getChannel(client);
-			channel.writeAndFlush(request).addListener(new GenericFutureListener<ChannelFuture>() {
-				public void operationComplete(ChannelFuture future)
-						throws Exception {
-					if(!future.isSuccess()){
-						RobotLog.testError("send msg fail:"+client.getAccountId()+",seqId="+seqId+",active="+channel.isActive()+",write="+channel.isWritable()+",open="+channel.isOpen());
-					}else{
+			client.setCommandInfo(new CommandInfo(command, seqId));
+			ChannelFuture f = channel.writeAndFlush(request);
+			f.addListener(new GenericFutureListener<ChannelFuture>() {
+				public void operationComplete(ChannelFuture future) throws Exception {
+					if (!future.isSuccess()) {
+						RobotLog.testError("send msg fail:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",active=" + channel.isActive() + ",write=" + channel.isWritable()
+								+ ",open=" + channel.isOpen());
+					} else {
 						long cost = System.currentTimeMillis() - sendTime;
-						if(cost > 1000){
-							RobotLog.testError("send cost:"+client.getAccountId()+",seqId="+seqId+",cost="+cost);
+						if (cost > 1000) {
+							RobotLog.testError("send cost:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",cost=" + cost);
 						}
 					}
 				}
 			});
-			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + " cmd:" + command);
+			f.get(10, TimeUnit.SECONDS);
+			if (!f.isSuccess()) {
+				return true;
+			}
+			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
 			if (msgReciver != null) {
-				success = handleResp(msgReciverP, client,seqId);
+				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;
 			} else {
 				success = true;
 			}
 		} catch (Exception e) {
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId(), e);
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
 			success = false;
 		}
 		return success;
 
 	}
 
-	private boolean handleResp(MsgReciver msgReciverP, Client client,int seqId) {
+	private boolean handleResp(MsgReciver msgReciverP, Client client, int seqId) {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {

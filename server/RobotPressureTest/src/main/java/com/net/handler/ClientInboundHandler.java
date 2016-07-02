@@ -2,10 +2,12 @@ package com.net.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.Attribute;
 
 import com.rw.ChannelServer;
 import com.rw.Client;
 import com.rw.common.MsgLog;
+import com.rw.common.RobotLog;
 import com.rwproto.ResponseProtos.Response;
 
 /*
@@ -18,19 +20,49 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-		
-		Client clinet = ChannelServer.getInstance().getClient(ctx.channel());
-
+		Client client = ChannelServer.getInstance().getClient(ctx.channel());
 		Response rsp = (Response) msg;
-		
-		MsgLog.info("收到的消息, accountId：" + clinet.getAccountId()+" cmd:"+rsp.getHeader().getCommand());
-		clinet.getMsgHandler().dataSyn(rsp);
-		clinet.getMsgHandler().setResp(rsp);
+		if (client == null) {
+			RobotLog.testError("receive overdue msg:" + " cmd=" + rsp.getHeader().getCommand() + ",seqId=" + rsp.getHeader().getSeqID());
+		} else {
+			MsgLog.info("收到的消息, accountId：" + client.getAccountId() + " cmd:" + rsp.getHeader().getCommand());
+			client.getMsgHandler().dataSyn(rsp);
+			client.getMsgHandler().setResp(rsp);
+		}
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		super.exceptionCaught(ctx, cause);
 		ctx.channel().closeFuture();
+	}
+
+	@Override
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		Attribute<Client> attr = ctx.channel().attr(ChannelServer.ATTR_CLIENT);
+		Client client = attr.get();
+		String accountId;
+		if (client == null) {
+			accountId = "null";
+		} else {
+			accountId = client.getAccountId();
+		}
+		System.out.println("open connection:" + accountId + "," + Thread.currentThread());
+		super.channelRegistered(ctx);
+	}
+
+	@Override
+	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelUnregistered(ctx);
+		Attribute<Client> attr = ctx.channel().attr(ChannelServer.ATTR_CLIENT);
+		Client client = attr.get();
+		if (client == null) {
+			RobotLog.testError("close a not init channel");
+			return;
+		}
+		if (!client.getCloseFlat().get()) {
+			RobotLog.testError("server close connection:" + client.getAccountId() + "," + client.getCommandInfo() + "," + Thread.currentThread());
+		}
+		//attr.set(null);
 	}
 }

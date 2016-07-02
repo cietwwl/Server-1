@@ -1,6 +1,7 @@
 package com.rw;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
@@ -67,34 +68,40 @@ public class Client {
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
 	private HeroEquipHolder heroEquipHolder = new HeroEquipHolder();
-	
-	//签到数据
+
+	// 签到数据
 	private SignDataHolder signDataHolder = new SignDataHolder();
-	//日常数据
+	// 日常数据
 	private DailyActivityDataHolder dailyActivityDataHolder = new DailyActivityDataHolder();
-		
-	//玩家通用活动一数据
+
+	// 玩家通用活动一数据
 	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
-	//玩家通用活动二数据
+	// 玩家通用活动二数据
 	private ActivityDailyCountHolder activityDailyCountHolder = new ActivityDailyCountHolder();
-	
-	//玩家封神之路数据
+
+	// 玩家封神之路数据
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
-	
-	//神器
+
+	// 神器
 	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
-	
+
 	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
 	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
 	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
 	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
-	//乾坤幻境
+	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
-	
-	//主要数据
+
+	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
+
+	// last seqId
+	// private volatile int lastSeqId;
+	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
+
+	private AtomicBoolean closeFlat = new AtomicBoolean();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -164,11 +171,6 @@ public class Client {
 		this.userId = userId;
 	}
 
-
-
-
-	
-	
 	public String getToken() {
 		return token;
 	}
@@ -236,9 +238,6 @@ public class Client {
 		return battleTowerData;
 	}
 
-	
-	
-	
 	public FresherActivityHolder getFresherActivityHolder() {
 		return fresherActivityHolder;
 	}
@@ -246,13 +245,12 @@ public class Client {
 	public void setFresherActivityHolder(FresherActivityHolder fresherActivityHolder) {
 		this.fresherActivityHolder = fresherActivityHolder;
 	}
-	
+
 	public FixNormEquipDataItemHolder getFixNormEquipDataItemHolder() {
 		return fixNormEquipDataItemHolder;
 	}
 
-	public void setFixNormEquipDataItemHolder(
-			FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
+	public void setFixNormEquipDataItemHolder(FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
 		this.fixNormEquipDataItemHolder = fixNormEquipDataItemHolder;
 	}
 
@@ -260,15 +258,10 @@ public class Client {
 		return fixExpEquipDataItemHolder;
 	}
 
-	public void setFixExpEquipDataItemHolder(
-			FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
+	public void setFixExpEquipDataItemHolder(FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
 		this.fixExpEquipDataItemHolder = fixExpEquipDataItemHolder;
 	}
-	
-	
-	
-	
-	
+
 	public MagicSecretHolder getMagicSecretHolder() {
 		return magicSecretHolder;
 	}
@@ -280,15 +273,15 @@ public class Client {
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
 	}
-	
+
 	public ActivityCountHolder getActivityCountHolder() {
 		return activityCountHolder;
 	}
-	
+
 	public ActivityDailyCountHolder getActivityDailyCountHolder() {
 		return activityDailyCountHolder;
 	}
-	
+
 	public SignDataHolder getSignDataHolder() {
 		return signDataHolder;
 	}
@@ -344,4 +337,17 @@ public class Client {
 	public void setMajorDataholder(MajorDataholder majorDataholder) {
 		this.majorDataholder = majorDataholder;
 	}
+
+	public AtomicBoolean getCloseFlat() {
+		return this.closeFlat;
+	}
+
+	public CommandInfo getCommandInfo() {
+		return commandInfo;
+	}
+
+	public void setCommandInfo(CommandInfo commandInfo) {
+		this.commandInfo = commandInfo;
+	}
+
 }
