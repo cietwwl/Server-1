@@ -112,7 +112,7 @@ public class GFightPrepareBM {
 		try {
 			GFDefendArmyMgr.getInstance().resetItems(player, items);
 			//同步公会数据
-			GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
+			//GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (GFArmyDataException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);

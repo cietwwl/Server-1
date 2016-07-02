@@ -38,10 +38,10 @@ public class GFOnlineKillComparable implements Comparable<GFOnlineKillComparable
 			return 1;
 		}
 		if(lastKillTime > o.lastKillTime){
-			return -1;
+			return 1;
 		}
 		if(lastKillTime < o.lastKillTime){
-			return 1;
+			return -1;
 		}
 		return 0;
 	}

@@ -223,7 +223,8 @@ public class GFightOnFightBM {
 		record.setDefend(getGFUserSimpleInfo(armyItem.getUserID()));
 		groupData.addFightRecord(record);
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
-		GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
+		//每次请求都有同步所有数据,这里就不用同步了
+		//GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
