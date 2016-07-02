@@ -37,12 +37,10 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  */
 public class GFightOnFightBM {
 	
-	private static class InstanceHolder{
-		private static GFightOnFightBM instance = new GFightOnFightBM();
-	}
+	private static GFightOnFightBM instance = new GFightOnFightBM();
 	
 	public static GFightOnFightBM getInstance(){
-		return InstanceHolder.instance;
+		return instance;
 	}
 	
 	/**
@@ -56,6 +54,11 @@ public class GFightOnFightBM {
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
+			return;
+		}
+		if(groupData.getAliveCount() <= 0) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("帮派已经战败，不能再发起挑战");
 			return;
 		}
 		try {
@@ -87,6 +90,11 @@ public class GFightOnFightBM {
 		if(!GFightConditionJudge.getInstance().isFightPeriod(groupData.getResourceID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("不在开战期间");
+			return;
+		}
+		if(groupData.getAliveCount() <= 0) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("帮派已经战败，不能再发起挑战");
 			return;
 		}
 		try {
