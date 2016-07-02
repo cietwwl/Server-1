@@ -177,6 +177,13 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 	}
+	
+	public void removeStore(int type){
+		StoreData store = getStore(type);
+		ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
+		m_StoreData.remove(store.getType().getOrder());
+		storeDataHolder.remove(m_pPlayer, store);
+	}
 
 	/**
 	 * 概率刷出商店
