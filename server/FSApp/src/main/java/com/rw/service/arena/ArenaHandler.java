@@ -33,6 +33,7 @@ import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
