@@ -89,6 +89,7 @@ enum eSynType	//数据同步类型
 	ActivityTimeCountType = 68;//活动，在线奖励
 	ActivityDailyType = 69;//活动，每日福利
 	ActivityVitalityType = 70;//活动，活跃度
+	ActivityDailyDiscountType = 71;//活动，活跃度
 
 	QuestionList = 80; //反馈问题列表	
 	GFBiddingData = 81;	//在线帮战个人压标数据

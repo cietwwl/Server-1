@@ -11,7 +11,9 @@ import com.playerdata.PlayerMgr;
 import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.mainmsg.PmdCfg;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
+import com.rwbase.dao.role.RoleQualityColorCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
+import com.rwbase.dao.role.pojo.RoleQualityColorCfg;
 import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MainMsgProtos.MainMsgResponse;
 import com.rwproto.MsgDef.Command;
@@ -232,10 +234,16 @@ public class MainMsgHandler {
 	
 	    String st="";
 		String qualityName = roleQualityCfg.getQualityName();
+		int msgId;
 		if(qualityName.indexOf("白色") != -1 || qualityName.indexOf("绿色") != -1){
 			return;
 		}
-		
+		RoleQualityColorCfg roleQualityColorCfg = RoleQualityColorCfgDAO.getInstante().getConfig(roleQualityCfg.getQuality());
+		if(roleQualityColorCfg.getActiveSkill() == 1){
+			msgId = 10;
+		}else{
+			msgId = 12;
+		}
 		String colors="[ffffff]";
 		if(qualityName.indexOf("蓝色") != -1)
 		{
@@ -256,7 +264,7 @@ public class MainMsgHandler {
 		arr.add(player.getUserName());
 		arr.add(pName+"");
 		arr.add(colors+st+"[-]");
-		sendPmd(10,arr);
+		sendPmd(msgId,arr);
 	}
 	
 	
@@ -292,11 +300,17 @@ public class MainMsgHandler {
 		String qualityId = player.getMainRoleHero().getQualityId();
 		RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 		String st="";
+		int msgId;
 		String qualityName = roleQualityCfg.getQualityName();
 		if(qualityName.indexOf("白色") != -1 || qualityName.indexOf("绿色") != -1){
 			return;
 		}
-		
+		RoleQualityColorCfg roleQualityColorCfg = RoleQualityColorCfgDAO.getInstante().getConfig(roleQualityCfg.getQuality());
+		if(roleQualityColorCfg.getActiveSkill() == 1){
+			msgId = 10;
+		}else{
+			msgId = 12;
+		}
 		String colors="[ffffff]";
 		if(qualityName.indexOf("蓝色") != -1)
 		{
@@ -315,7 +329,7 @@ public class MainMsgHandler {
 		List<String> arr=new ArrayList<String>();
 		arr.add(player.getUserName());
 		arr.add(colors+st+"[-]");
-		sendPmd(12,arr);
+		sendPmd(msgId,arr);
 	}
 	
 	

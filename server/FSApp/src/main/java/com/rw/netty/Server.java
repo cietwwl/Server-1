@@ -1,5 +1,19 @@
 package com.rw.netty;
 
+import java.net.InetSocketAddress;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.log.GameLog;
+import com.playerdata.GambleMgr;
+import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.GambleTest;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.RequestProtos.Request;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -12,18 +26,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
-
-import java.net.InetSocketAddress;
-
-import org.apache.log4j.PropertyConfigurator;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.log.GameLog;
-import com.rw.manager.GameManager;
-import com.rw.manager.ServerSwitch;
-import com.rwbase.common.attribute.AttributeBM;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.RequestProtos.Request;
 
 public class Server {
 	public static final boolean isDebug = true;
@@ -55,9 +57,9 @@ public class Server {
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
-//			// lida 2015-08-21 启动http通信端口
-//			int httpPort = GameManager.getHttpPort();
-//			HttpServer.httpServerStart(httpPort);
+			//初始化每日热点数据
+			GambleMgr.resetWhenStart();
+			//GambleTest.Test();
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);

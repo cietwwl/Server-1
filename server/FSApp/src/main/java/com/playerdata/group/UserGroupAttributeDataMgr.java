@@ -16,6 +16,7 @@ import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
+import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -159,6 +160,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		notifyGroupSkillAttrData(player);
 		// 通知好友更改更新帮派名字
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+		player.getStoreMgr().AddStore();
 	}
 
 	/**
@@ -203,6 +205,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 		// 通知阵容更新下名字
 		AngelArrayTeamInfoHelper.updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
+		player.getStoreMgr().removeStore(eStoreType.Union.getOrder());
 	}
 
 	/**

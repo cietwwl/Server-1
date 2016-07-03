@@ -17,7 +17,7 @@ import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
-import com.rw.service.gamble.GambleLogic;
+import com.rw.service.gamble.GambleHandler;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
@@ -105,7 +105,7 @@ public class TimerManager {
 				heavyWeightsExecturos.execute(new Runnable() {
 					@Override
 					public void run() {
-						GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
+						GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
 					}
 				});
 				
