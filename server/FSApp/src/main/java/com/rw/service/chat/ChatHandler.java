@@ -111,7 +111,7 @@ public class ChatHandler {
 		data.setTime(getMessageTime());
 
 		msgChatResponse.addListMessage(data);
-		// 聊天日志
+		//聊天日志
 		BILogMgr.getInstance().logChat(player, "", BIChatType.WORD.getType(), chatContent);
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ByteString result = msgChatResponse.build().toByteString();
@@ -287,6 +287,9 @@ public class ChatHandler {
 		String chatContent = filterDirtyWord(message.getMessage());
 		data.setMessage(chatContent);
 		msgChatResponse.addListMessage(data);
+		
+		//聊天日志
+		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);
 
 		// 聊天日志
 		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);

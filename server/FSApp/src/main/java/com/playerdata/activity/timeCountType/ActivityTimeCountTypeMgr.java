@@ -17,6 +17,10 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 
 public class ActivityTimeCountTypeMgr {
 
@@ -65,6 +69,7 @@ public class ActivityTimeCountTypeMgr {
 					addItemList = new ArrayList<ActivityTimeCountTypeItem>();
 				}
 				addItemList.add(targetItem);
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
 			} else {
 				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
 					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
@@ -218,6 +223,10 @@ public class ActivityTimeCountTypeMgr {
 				result.setSuccess(true);
 				result.setReason("领取成功");
 				checkGiftIsAllTake(player,dataItem);
+				
+				
+				
+				
 				dataHolder.updateItem(player, dataItem);
 			}
 		}
@@ -232,6 +241,9 @@ public class ActivityTimeCountTypeMgr {
 				isTakeAll = false;
 			}
 		}
+		if(!isTakeAll){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
+		}
 		dataItem.setClosed(isTakeAll);
 		
 	}
@@ -245,7 +257,11 @@ public class ActivityTimeCountTypeMgr {
 		}	
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromComGiftID(subCfg.getGiftId());
+		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);		
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, true, 0,rewardInfoActivity,0);
 
+		
+		
 	}
-
 }

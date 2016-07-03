@@ -44,4 +44,18 @@ public class BattleTowerRewardCfgDao extends CfgCsvDao<BattleTowerRewardCfg> {
 		// return cfgDao.getListItemInfo(dropIdArr, player);
 		return DropItemManager.getInstance().dropAndRecord(dropIdArr, player);
 	}
+	
+	/**根据战斗层数返回副本id*/
+	public int getCopyIdByFloor(int floor){
+		int copyId = 0;
+		List<BattleTowerRewardCfg> list = getAllCfg();
+		for(BattleTowerRewardCfg cfg : list){
+			if(cfg.getGroupId() == floor){
+				copyId = cfg.getCopyId();
+				break;
+			}
+		}
+			
+		return copyId;
+	}
 }
