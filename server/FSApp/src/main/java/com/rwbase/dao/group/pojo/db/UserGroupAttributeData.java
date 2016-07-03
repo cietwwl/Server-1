@@ -44,6 +44,8 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private int contribution;// 个人贡献
 	@NonSave
 	private long joinTime;// 加入帮派的时间
+	@NonSave
+	private int dayContribution;// 当天从令牌捐献获取的帮派贡献
 
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
@@ -148,6 +150,10 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	@JsonIgnore
 	public long getJoinTime() {
 		return joinTime;
+	}
+
+	public int getDayContribution() {
+		return dayContribution;
 	}
 
 	// ///////////////////////////////////////////////SET区域
@@ -356,5 +362,9 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 */
 	public boolean hasStudySkill() {
 		return !studySkill.isEmpty();
+	}
+
+	public void setDayContribution(int dayContribution) {
+		this.dayContribution = dayContribution;
 	}
 }

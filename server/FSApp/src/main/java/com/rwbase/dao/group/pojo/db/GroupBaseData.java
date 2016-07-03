@@ -47,8 +47,11 @@ public class GroupBaseData implements GroupBaseDataIF, IMapItem {
 	@IgnoreSynField
 	@SaveAsJson
 	private ConcurrentHashMap<Integer, GroupSkillItem> researchSkillMap;// 研发的技能的数据
+	@NonSave
 	private int token;// 令牌
+	@NonSave
 	private int daySupplies;// 当天捐献的物资数量
+	@NonSave
 	private int dayExp;// 当天捐献的经验
 
 	// ////////////////////////////////////////////////无需解析的属性区
