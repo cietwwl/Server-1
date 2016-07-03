@@ -106,20 +106,24 @@ public class GFightOnlineHandler {
 	public ByteString getKillRank(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightOnFightBM.getInstance().getKillRank(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString getHurtRank(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightOnFightBM.getInstance().getHurtRank(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString getAllRankInGroup(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightOnFightBM.getInstance().getAllRankInGroup(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
+	
 	//防守队伍用同步
 	@Deprecated
 	public ByteString getDefenderTeams(Player player, GroupFightOnlineReqMsg msgGFRequest) {
@@ -143,6 +147,7 @@ public class GFightOnlineHandler {
 	public ByteString getFightRecord(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightOnFightBM.getInstance().getFightRecord(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	

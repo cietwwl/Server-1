@@ -21,8 +21,9 @@ public class GFightOnlineGroupMgr {
 	}
 
 	public GFightOnlineGroupData get(String groupId) {
-		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupId);
+		if(StringUtils.isBlank(groupId)) return null;
 		
+		GFightOnlineGroupData groupData = GFightOnlineGroupHolder.getInstance().get(groupId);
 		if(groupData == null) {
 			initGroupData(groupId);
 			groupData =  GFightOnlineGroupHolder.getInstance().get(groupId);

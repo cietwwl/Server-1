@@ -3,6 +3,8 @@ package com.bm.rank.groupFightOnline;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.RankType;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
@@ -38,7 +40,7 @@ public class GFOnlineHurtRankMgr {
 	/**
 	 * 资源点中的伤害排名
 	 * @param resourceID
-	 * @param groupID
+	 * @param userID
 	 * @return
 	 */
 	public static int getRankIndex(int resourceID, String userID) {
@@ -71,6 +73,23 @@ public class GFOnlineHurtRankMgr {
 			itemList.add(hurtItem);
 		}
 		return itemList;
+	}
+	
+	public static List<GFOnlineHurtItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
+		List<GFOnlineHurtItem> result = new ArrayList<GFOnlineHurtItem>();
+		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration();
+		for (; it.hasMoreElements();) {
+			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
+			GFOnlineHurtComparable hurtComparable = entry.getComparable();
+			if(hurtComparable.getResourceID() != resourceID) continue;
+			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
+			if(StringUtils.equals(hurtItem.getGroupID(), groupID) && result.size() < size){
+				hurtItem.setTotalHurt(hurtComparable.getTotalHurt());
+				result.add(hurtItem);
+			}
+		}
+		return result;
 	}
 	
 	public static void clearRank(int resourceID){

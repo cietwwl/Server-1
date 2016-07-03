@@ -3,6 +3,11 @@ package com.playerdata.groupFightOnline.bm;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
+import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfo;
@@ -21,8 +26,12 @@ import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
+import com.playerdata.groupFightOnline.dataForClient.GFOnlineGroupInnerInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFUserSimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
+import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
+import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
@@ -36,6 +45,8 @@ import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
  *
  */
 public class GFightOnFightBM {
+	
+	private static int GROUP_INNER_RANK_SIZE = 3;
 	
 	private static GFightOnFightBM instance = new GFightOnFightBM();
 	
@@ -56,7 +67,8 @@ public class GFightOnFightBM {
 			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
-		if(groupData.getAliveCount() <= 0) {
+		GFightOnlineGroupData selfGroupData = GFightOnlineGroupMgr.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
+		if(selfGroupData == null || selfGroupData.getAliveCount() <= 0) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("帮派已经战败，不能再发起挑战");
 			return;
@@ -92,7 +104,8 @@ public class GFightOnFightBM {
 			gfRsp.setTipMsg("不在开战期间");
 			return;
 		}
-		if(groupData.getAliveCount() <= 0) {
+		GFightOnlineGroupData selfGroupData = GFightOnlineGroupMgr.getInstance().get(GroupHelper.getUserGroupId(player.getUserId()));
+		if(selfGroupData == null || selfGroupData.getAliveCount() <= 0) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("帮派已经战败，不能再发起挑战");
 			return;
@@ -225,6 +238,49 @@ public class GFightOnFightBM {
 		//GFightOnlineGroupData中的队伍总数和存活数有变化，要同步
 		//每次请求都有同步所有数据,这里就不用同步了
 		//GFightOnlineGroupMgr.getInstance().synAllData(player, groupData.getResourceID(), dataVersion.getOnlineGroupData());
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+	
+	public void getKillRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
+		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFKillRankList(resourceID);
+		for(GFOnlineKillItem item : killRank){
+			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
+		}
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+	
+	public void getHurtRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
+		List<GFOnlineHurtItem> hurtRank = GFOnlineHurtRankMgr.getGFHurtRankList(resourceID);
+		for(GFOnlineHurtItem item : hurtRank){
+			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
+		}
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+	
+	public void getAllRankInGroup(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
+		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFKillRankList(resourceID);
+		
+		for(int i = 0; i < 4 && i < groupBidRank.size(); i++){
+			GFGroupBiddingItem bidItem = groupBidRank.get(i);
+			
+			int killTotal = 0;
+			for(GFOnlineKillItem killItem : killRank){
+				if(StringUtils.equals(killItem.getGroupID(), bidItem.getGroupID()))
+					killTotal += killItem.getTotalKill();
+			}
+			
+			GFOnlineGroupInnerInfo rankInfo = new GFOnlineGroupInnerInfo();
+			rankInfo.setGroupName(bidItem.getGroupName());
+			rankInfo.setTotalKill(killTotal);
+			rankInfo.setHurtRank(GFOnlineHurtRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GROUP_INNER_RANK_SIZE));
+			rankInfo.setKillRank(GFOnlineKillRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GROUP_INNER_RANK_SIZE));
+			gfRsp.addRankData(ClientDataSynMgr.toClientData(rankInfo));
+		}
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+	
+	public void getFightRecord(Player player, GroupFightOnlineRspMsg.Builder gfRsp){
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	

@@ -3,9 +3,12 @@ package com.bm.rank.groupFightOnline;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.RankType;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
+import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -71,6 +74,24 @@ public class GFOnlineKillRankMgr {
 			itemList.add(hurtItem);
 		}
 		return itemList;
+	}
+	
+	public static List<GFOnlineKillItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
+		List<GFOnlineKillItem> result = new ArrayList<GFOnlineKillItem>();
+		
+		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration();
+		for (; it.hasMoreElements();) {
+			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
+			GFOnlineKillComparable killComparable = entry.getComparable();
+			if(killComparable.getResourceID() != resourceID) continue;
+			GFOnlineKillItem killItem = entry.getExtendedAttribute();
+			if(StringUtils.equals(killItem.getGroupID(), groupID) && result.size() < size){
+				killItem.setTotalKill(killComparable.getTotalKill());
+				result.add(killItem);
+			}
+		}
+		return result;
 	}
 	
 	public static void clearRank(int resourceID){
