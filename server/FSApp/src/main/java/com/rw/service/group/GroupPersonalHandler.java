@@ -703,11 +703,20 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "扣费失败");
 		}
 
+		int rewardContribution = donateCfg.getRewardContribution();
+		if (donateType == GroupDonateType.TOKEN_DONATE_VALUE) {
+			int perDayLimit = gbct.getMaxContributionLimitPerDay();
+			int dayContribution = memberData.getDayContribution();
+			int leftContribution = perDayLimit - dayContribution;
+			int offContribution = rewardContribution - leftContribution;// 可以增加的贡献-当前剩余可以获取的贡献
+			rewardContribution = offContribution >= 0 ? rewardContribution : leftContribution;
+		}
+
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, donateCfg.getRewardContribution(), donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE);// 只有令牌捐献才会增加到今日
+		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, rewardContribution, donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE);// 只有令牌捐献才会增加到今日
 
 		// 更新捐献后的帮派数据
-		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp());
+		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), true);
 		// 更新帮派排行榜属性
 		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 		UserEventMgr.getInstance().factionDonateVitality(player, 1);

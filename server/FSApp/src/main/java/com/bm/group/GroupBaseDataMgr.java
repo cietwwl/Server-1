@@ -8,9 +8,12 @@ import org.springframework.util.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupRankHelper;
+import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
@@ -191,16 +194,43 @@ public class GroupBaseDataMgr {
 	 * @param rewardGroupSupply 奖励的帮派物资
 	 * @param rewardGroupExp 奖励的帮派经验
 	 */
-	public synchronized void updateGroupDonate(Player player, GroupLogMgr logMgr, int rewardGroupSupply, int rewardGroupExp) {
+	public synchronized void updateGroupDonate(Player player, GroupLogMgr logMgr, int rewardGroupSupply, int rewardGroupExp, boolean needSyn) {
 		GroupBaseData groupData = groupBaseDataHolder.getGroupData();
 		if (groupData == null) {
 			return;
 		}
 
-		int supplies = groupData.getSupplies() + rewardGroupSupply;
-		groupData.setSupplies(supplies < 0 ? 0 : supplies);
-		addGroupExp(player, groupData, logMgr, rewardGroupExp);
-		updateAndSynGroupData(player);
+		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
+		if (gbct != null) {
+			if (rewardGroupSupply > 0) {
+				int daySupply = groupData.getDaySupplies();
+				int dayMaxGroupSupply = gbct.getMaxSupplyLimitPerDay();// 帮派物资
+				int leftGroupSupply = dayMaxGroupSupply - daySupply;
+				rewardGroupSupply = leftGroupSupply >= rewardGroupSupply ? rewardGroupSupply : leftGroupSupply;
+			}
+
+			int dayExp = groupData.getDayExp();
+			int dayMaxGroupExp = gbct.getMaxExpLimitPerDay();// 帮派经验
+			int leftGroupExp = dayMaxGroupExp - dayExp;
+			rewardGroupExp = leftGroupExp >= rewardGroupExp ? rewardGroupExp : leftGroupExp;
+		}
+
+		if (rewardGroupSupply != 0) {
+			int supplies = groupData.getSupplies() + rewardGroupSupply;
+			groupData.setSupplies(supplies < 0 ? 0 : supplies);
+			if (rewardGroupSupply > 0) {
+				groupData.setDaySupplies(groupData.getDaySupplies() + rewardGroupExp);
+			}
+		}
+
+		if (rewardGroupExp > 0) {
+			addGroupExp(player, groupData, logMgr, rewardGroupExp);
+			groupData.setDayExp(groupData.getDayExp() + rewardGroupExp);
+		}
+
+		if (needSyn) {
+			updateAndSynGroupData(player);
+		}
 	}
 
 	/**
@@ -250,7 +280,7 @@ public class GroupBaseDataMgr {
 		}
 
 		// 扣物资
-		groupData.setSupplies(supplies - needGroupSupply);
+		updateGroupDonate(player, null, -needGroupSupply, 0, false);
 		// 更新帮派研发技能数据
 		groupData.addOrUpdateResearchSkill(skillId, skillLevel, -1, -1);
 
@@ -370,6 +400,28 @@ public class GroupBaseDataMgr {
 	}
 
 	/**
+	 * 检查或者重置数据
+	 * 
+	 * @return
+	 */
+	public synchronized boolean checkOrResetGroupDayExpAndSupplyLimit() {
+		GroupBaseData groupData = groupBaseDataHolder.getGroupData();
+		if (groupData == null) {
+			return false;
+		}
+
+		if (!DateUtils.isResetTime(5, 0, 0, groupData.getUpdateLimitTime())) {
+			return false;
+		}
+
+		groupData.setDayExp(0);
+		groupData.setDaySupplies(0);
+		groupData.setUpdateLimitTime(System.currentTimeMillis());
+		updateAndSynGroupData(null);
+		return true;
+	}
+
+	/**
 	 * 更新帮派基础的数据
 	 * 
 	 * @param player
@@ -377,7 +429,9 @@ public class GroupBaseDataMgr {
 	public void updateAndSynGroupData(Player player) {
 		flush();
 		groupBaseDataHolder.incrementGroupDataVersion();
-		groupBaseDataHolder.synGroupData(player, -1);
+		if (player != null) {
+			groupBaseDataHolder.synGroupData(player, -1);
+		}
 	}
 
 	/**
@@ -388,7 +442,9 @@ public class GroupBaseDataMgr {
 	public void updateAndSynGroupSkillData(Player player) {
 		flush();
 		groupBaseDataHolder.incrementGroupSkillVersion();
-		groupBaseDataHolder.synGroupSkillData(player, -1);
+		if (player != null) {
+			groupBaseDataHolder.synGroupSkillData(player, -1);
+		}
 	}
 
 	/**

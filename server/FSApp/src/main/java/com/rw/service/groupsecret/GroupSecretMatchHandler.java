@@ -664,7 +664,7 @@ public class GroupSecretMatchHandler {
 				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
-					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue(), true);
 				}
 			}
 		}

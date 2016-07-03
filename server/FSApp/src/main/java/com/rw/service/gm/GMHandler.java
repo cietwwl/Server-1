@@ -1012,7 +1012,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0, true);
 		} else if (functionName.equalsIgnoreCase("pc")) {// 改变个人贡献
 			if (value == 0) {
 				return false;
@@ -1029,7 +1029,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, true);
 		}
 
 		return true;

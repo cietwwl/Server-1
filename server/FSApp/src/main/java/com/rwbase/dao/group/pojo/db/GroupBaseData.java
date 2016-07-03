@@ -53,6 +53,9 @@ public class GroupBaseData implements GroupBaseDataIF, IMapItem {
 	private int daySupplies;// 当天捐献的物资数量
 	@NonSave
 	private int dayExp;// 当天捐献的经验
+	@NonSave
+	@IgnoreSynField
+	private long updateLimitTime;// 更新上次更新的时间
 
 	// ////////////////////////////////////////////////无需解析的属性区
 	@IgnoreSynField
@@ -270,7 +273,15 @@ public class GroupBaseData implements GroupBaseDataIF, IMapItem {
 		return dayExp;
 	}
 
+	public long getUpdateLimitTime() {
+		return updateLimitTime;
+	}
+
 	// ================================================无需检测字段的GET区域
+
+	public void setUpdateLimitTime(long updateLimitTime) {
+		this.updateLimitTime = updateLimitTime;
+	}
 
 	/**
 	 * 设置帮派令牌的数量
