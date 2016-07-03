@@ -238,6 +238,7 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 
 	/**
 	 * 获取个人帮贡
+	 * 
 	 * @return
 	 */
 	public int getContribution() {

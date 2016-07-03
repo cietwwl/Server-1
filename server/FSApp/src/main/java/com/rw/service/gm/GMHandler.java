@@ -19,7 +19,6 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -121,10 +120,10 @@ public class GMHandler {
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
-		
-		//重新加载某些配置文件
+
+		// 重新加载某些配置文件
 		funcCallBackMap.put("reloadconfig", "reloadConfig");
-		
+
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
@@ -144,14 +143,14 @@ public class GMHandler {
 
 		// 钓鱼台配置更新并重新生成热点数据
 		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
-		
-		//特权系统重新加载所有特权相关配置
+
+		// 特权系统重新加载所有特权相关配置
 		funcCallBackMap.put("reloadprivilegeconfig", "reloadPrivilegeConfig");
-		
-		//设置充值开关,0开启1关闭
+
+		// 设置充值开关,0开启1关闭
 		funcCallBackMap.put("setchargeon", "setChargeOn");
-		
-		//巅峰竞技场，重新加载配置
+
+		// 巅峰竞技场，重新加载配置
 		funcCallBackMap.put("reloadpeakarenaconfig", "reloadPeakArenaConfig");
 		funcCallBackMap.put("resetpeakarenachallenge", "resetPeakArenaChallenge");
 	}
@@ -176,42 +175,43 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
-	public boolean reloadConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadConfig", "start",null);
+	public boolean reloadConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadConfig", "start", null);
 		boolean result = true;
-		for(int i = 0; i<arrCommandContents.length;i++){
+		for (int i = 0; i < arrCommandContents.length; i++) {
 			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
 		}
-		GameLog.info("GM", "reloadConfig", "finished",null);
+		GameLog.info("GM", "reloadConfig", "finished", null);
 		return result;
 	}
-	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "resetPeakArenaChallenge", "start",null);
+
+	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "resetPeakArenaChallenge", "start", null);
 		PeakArenaBM.getInstance().resetDataInNewDay(player);
-		GameLog.info("GM", "resetPeakArenaChallenge", "finished",null);
+		GameLog.info("GM", "resetPeakArenaChallenge", "finished", null);
 		return true;
 	}
-	
-	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadPeakArenaConfig", "start",null);
+
+	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadPeakArenaConfig", "start", null);
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(peakArenaInfoHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaBuyCostHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaResetCostHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaMatchRuleHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaPrizeHelper.class.getName());
-		GameLog.info("GM", "reloadPeakArenaConfig", "finished",null);
+		GameLog.info("GM", "reloadPeakArenaConfig", "finished", null);
 		return result;
 	}
-	
-	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadPrivilegeConfig", "start",null);
+
+	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadPrivilegeConfig", "start", null);
 		PrivilegeConfigHelper.getInstance().reloadAllPrivilegeConfigs();
-		GameLog.info("GM", "reloadPrivilegeConfig", "finished",null);
+		GameLog.info("GM", "reloadPrivilegeConfig", "finished", null);
 		return true;
 	}
-	
-	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player) {
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(FashionBuyRenewCfgDao.class.getName());
 		result = result && reloadConfigByHelperClass(FashionEffectCfgDao.class.getName());
@@ -220,7 +220,7 @@ public class GMHandler {
 		return result;
 	}
 
-	public boolean reloadUnlockFashionIconCfg(String[] arrCommandContents, Player player){
+	public boolean reloadUnlockFashionIconCfg(String[] arrCommandContents, Player player) {
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(HeadBoxCfgDAO.class.getName());
 		result = result && reloadConfigByHelperClass(FashionCommonCfgDao.class.getName());
@@ -381,10 +381,10 @@ public class GMHandler {
 			player.getUserGameDataMgr().addCoin(addNum);
 			return true;
 		}
-//		String [] strs = {"901","90001"};
-//		ActivityExchangeTypeHandler.getInstance();
-//		ActivityExchangeTypeHandler.GmTakeGift(player, strs);
-//		
+		// String [] strs = {"901","90001"};
+		// ActivityExchangeTypeHandler.getInstance();
+		// ActivityExchangeTypeHandler.GmTakeGift(player, strs);
+		//
 		return false;
 	}
 
@@ -399,7 +399,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean setChargeOn(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -407,8 +407,8 @@ public class GMHandler {
 		}
 		if (player != null) {
 			int isChargeOn = Integer.parseInt(arrCommandContents[0]);
-			boolean ChargeOn= false;
-			if(isChargeOn == 0){
+			boolean ChargeOn = false;
+			if (isChargeOn == 0) {
 				ChargeOn = true;
 			}
 			ServerStatusMgr.setChargeOn(ChargeOn);
@@ -416,9 +416,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	
-	
+
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -542,7 +540,8 @@ public class GMHandler {
 
 	public boolean addTowerNum(String[] arrCommandContents, Player player) {
 		int num = Integer.parseInt(arrCommandContents[0]);
-		player.getTowerMgr().addTowerNum(num);;
+		player.getTowerMgr().addTowerNum(num);
+		;
 		return true;
 	}
 
@@ -626,7 +625,8 @@ public class GMHandler {
 		}
 		if (player != null) {
 			if ("1".equals(arrCommandContents[0])) {
-				Calendar c = Calendar.getInstance();;
+				Calendar c = Calendar.getInstance();
+				;
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, c.getTime().toString());
 				return true;
 			}
@@ -707,14 +707,12 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
-							String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
-							param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -752,14 +750,12 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
-							String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
-							param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -774,7 +770,6 @@ public class GMHandler {
 			return false;
 		}
 	}
-
 
 	public boolean teamBringit(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
@@ -955,7 +950,7 @@ public class GMHandler {
 			}
 
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.updateMemberDataDonateTimes(player.getUserId(), 0, System.currentTimeMillis());
+			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1028,7 +1023,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupMemberMgr.updateMemberContribution(userId, value);
+			groupMemberMgr.updateMemberContribution(userId, value, false);
 		} else if (functionName.equalsIgnoreCase("exp")) {// 增加帮派经验
 			if (value <= 0) {
 				return false;

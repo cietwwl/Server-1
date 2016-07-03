@@ -83,6 +83,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		userGroupData.setGroupName(groupData.getGroupName());
 		userGroupData.setContribution(memberData.getContribution());
+		userGroupData.setDayContribution(memberData.getContribution());
 		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
@@ -139,7 +140,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		group.getGroupMemberMgr().updateMemberContribution(userId, offContribution);
+		group.getGroupMemberMgr().updateMemberContribution(userId, offContribution, false);
 	}
 
 	/**
@@ -321,10 +322,12 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * 
 	 * @param player
 	 * @param contribution
+	 * @param dayContribution 今天的总捐献数量
 	 */
-	public void updateContribution(Player player, int contribution) {
+	public void updateContribution(Player player, int contribution, int dayContribution) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		userGroupData.setContribution(userGroupData.getContribution() + contribution);
+		userGroupData.setDayContribution(dayContribution);
 		holder.synData(player);
 	}
 

@@ -124,4 +124,11 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public int getTotalContribution();
+
+	/**
+	 * 获取今天获取的贡献
+	 * 
+	 * @return
+	 */
+	public int getDayContribution();
 }
