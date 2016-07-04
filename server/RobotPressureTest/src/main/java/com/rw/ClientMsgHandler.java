@@ -199,7 +199,20 @@ public abstract class ClientMsgHandler {
 		final long sendTime = System.currentTimeMillis();
 		try {
 			final Channel channel = ChannelServer.getInstance().getChannel(client);
+			if(channel == null){
+				RobotLog.testException("channel is null:"+client.getAccountId(), new NullPointerException());
+				return false;
+			}
 			client.setCommandInfo(new CommandInfo(command, seqId));
+//			StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
+//			for (int i = 0; i < trace.length; i++) {
+//				sb.append("      ").append(trace[i].toString()).append("\r\n");
+//			}
+//			RobotLog.testInfo(sb.toString());
+			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
+
 			ChannelFuture f = channel.writeAndFlush(request);
 			f.addListener(new GenericFutureListener<ChannelFuture>() {
 				public void operationComplete(ChannelFuture future) throws Exception {
@@ -218,7 +231,6 @@ public abstract class ClientMsgHandler {
 			if (!f.isSuccess()) {
 				return true;
 			}
-			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
 			if (msgReciver != null) {
 				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;
@@ -227,6 +239,7 @@ public abstract class ClientMsgHandler {
 			}
 		} catch (Exception e) {
 			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
 			success = false;
 		}
 		return success;

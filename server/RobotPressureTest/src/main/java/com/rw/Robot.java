@@ -108,6 +108,7 @@ public class Robot {
 		try {
 			if (client == null) {
 				client = PlatformHandler.instance().login(accountId);
+				Thread.sleep(1000);
 				if (client != null) {
 					loadZoneListSuccess = PlatformHandler.instance().loadZoneAndRoleList(client);
 				}
@@ -139,6 +140,13 @@ public class Robot {
 	public boolean loginGame() {
 		if (client == null) {
 			return false;
+		}
+		client.closeConnect();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		int zoneId = getTargetZoneId();
 		boolean createSuccess = false;
