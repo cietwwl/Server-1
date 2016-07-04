@@ -76,6 +76,7 @@ enum eSynType	//数据同步类型
 	SECRETAREA_TEAM_INFO = 52;//帮派秘境的阵容信息
 	USE_GROUP_COPY_DATA = 53;//帮派副本个人数据
 	GROUP_COPY_SERVER_RANK = 54;//帮派副本前10排行数据
+	GROUP_ITEM_DROP_APPLY = 55;//帮派副本掉落
 
 	//活动从60-79
 	ActivityCountType = 60;//活动，计数类型

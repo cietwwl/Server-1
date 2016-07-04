@@ -3,7 +3,7 @@ cd proto
 @echo -----begin to explain java file-----
 
 
-..\java\protoc --java_out=%javaPath%  GroupCopyCmd.proto
+..\java\protoc --java_out=%javaPath%  DataSyn.proto
 
 
 @echo -------------end----------------
