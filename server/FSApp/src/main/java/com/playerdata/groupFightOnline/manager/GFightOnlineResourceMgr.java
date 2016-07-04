@@ -24,8 +24,20 @@ public class GFightOnlineResourceMgr {
 		return GFightOnlineResourceHolder.getInstance().get(resourceID);
 	}
 	
-	public void update(Player player, GFightOnlineResourceData data) {
+	public void update(GFightOnlineResourceData data) {
 		GFightOnlineResourceHolder.getInstance().update(data);
+	}
+	
+	/**
+	 * 设置占领资源点的帮派
+	 * 或者是更换占有者
+	 * @param resourceID
+	 * @param victoryGroupID
+	 */
+	public void setVictoryGroup(int resourceID, String victoryGroupID){
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		resData.setOwnerGroupID(victoryGroupID);
+		GFightOnlineResourceHolder.getInstance().update(resData);
 	}
 	
 	public void synData(Player player){
@@ -81,7 +93,7 @@ public class GFightOnlineResourceMgr {
 	}
 	
 	private void fightEndEvent(int resourceID){
-		GFightFinalBM.getInstance().calculateFightResult(resourceID);
+		GFightFinalBM.getInstance().handleGFightResult(resourceID);
 	}
 	
 	private void biddingStartEvent(int resourceID){

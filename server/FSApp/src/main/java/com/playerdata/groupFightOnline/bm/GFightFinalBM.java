@@ -15,6 +15,7 @@ import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 /**
@@ -34,12 +35,23 @@ public class GFightFinalBM {
 	 * 处理帮战结果的逻辑
 	 * @param resourceID
 	 */
-	public void calculateFightResult(int resourceID){
+	public void handleGFightResult(int resourceID){
+		//杀敌排行奖励
+		handleKillRankReward(resourceID);
+		//伤害排行奖励
+		handleHurtRankReward(resourceID);
+		//压标成功奖励
+		handleBidSuccess(resourceID);
+		//压标失败处理
+		handleBidFail(resourceID);
+		
+		//确定帮战胜利方
 		List<String> groupRankList = getRankGroupID(resourceID);
-		if(groupRankList == null) return;
-		handleVictoryGroup(groupRankList.get(0));
+		if(groupRankList == null || groupRankList.size() == 0) return;
+		handleVictoryGroup(resourceID, groupRankList.get(0));
 		for(int i = 1; i < groupRankList.size(); i++)
 			handleFailGroup(groupRankList.get(i));
+		
 		//清除本次循环中的数据，以便于开始下个循环
 		clearCurrentLoopData(resourceID);
 	}
@@ -72,11 +84,32 @@ public class GFightFinalBM {
 	}
 	
 	/**
+	 * 击杀排名奖励
+	 * @param resourceID
+	 */
+	private void handleKillRankReward(int resourceID){
+		GFOnlineKillRankMgr.dispatchKillReward(resourceID);
+	}
+	
+	/**
+	 * 伤害排行奖励
+	 * @param resourceID
+	 */
+	private void handleHurtRankReward(int resourceID){
+		GFOnlineHurtRankMgr.dispatchHurtReward(resourceID);
+	}
+	
+	/**
 	 * 处理获胜帮派的事务
 	 * @param groupID
 	 */
-	private void handleVictoryGroup(String groupID){
-		
+	private void handleVictoryGroup(int resourceID, String groupID){
+		//占领资源点
+		GFightOnlineResourceMgr.getInstance().setVictoryGroup(resourceID, groupID);
+		//发放帮战胜利成员奖励
+		GFightOnlineGroupMgr.getInstance().dispatchVictoryReward(groupID);
+		//发放帮派被压标奖励
+		GFightOnlineGroupMgr.getInstance().dispathchBidOnReward(groupID);
 	}
 	
 	/**
@@ -84,6 +117,22 @@ public class GFightFinalBM {
 	 * @param groupID
 	 */
 	private void handleFailGroup(String groupID){
+		GFightOnlineGroupMgr.getInstance().dispathchFailReward(groupID);
+	}
+	
+	/**
+	 * 个人压标成功的奖励
+	 * @param resourceID
+	 */
+	private void handleBidSuccess(int resourceID){
+		
+	}
+
+	/**
+	 * 个人压标失败的处理
+	 * @param resourceID
+	 */
+	private void handleBidFail(int resourceID){
 		
 	}
 	

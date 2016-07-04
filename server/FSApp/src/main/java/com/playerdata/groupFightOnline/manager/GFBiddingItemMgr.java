@@ -1,10 +1,19 @@
 package com.playerdata.groupFightOnline.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFightHelper;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
+import com.rw.service.Email.EmailUtils;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class GFBiddingItemMgr {
 	
@@ -48,7 +57,36 @@ public class GFBiddingItemMgr {
 	 * @param player
 	 * @param resourceID
 	 */
-	public void updateItem(Player player, String resourceID){
+	public void updateItem(Player player, int resourceID){
 		
+	}
+	
+	/**
+	 * 个人压标结果的处理
+	 * 发邮件通知成功或失败，并发放成功奖励
+	 * @param player
+	 * @param resourceID
+	 */
+	public void handlePersonalBidResult(GFBiddingItem bidItem, boolean isSuccess){
+		List<String> args = new ArrayList<String>();
+		GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(bidItem.getRateID()));
+		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(bidItem.getResourceID());
+		args.add(GroupHelper.getGroupName(bidItem.getBidGroup()));
+		args.add(resCfg.getResName());
+		args.add(bidCfg.getCostCount());
+		if(isSuccess){
+			//计算压标最后的奖励
+			List<ItemInfo> bidRewardTotal = new ArrayList<ItemInfo>();
+			for(ItemInfo baseItem : bidCfg.getBidCost()){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(baseItem.getItemID());
+				item.setItemNum(baseItem.getItemNum() * bidCfg.getRate());
+				bidRewardTotal.add(item);
+			}
+			args.add(String.valueOf(bidCfg.getRate()));
+			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getEmailId()), GFightHelper.itemListToString(bidRewardTotal), args);
+		}else{
+			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getFailEmailID()), args);
+		}
 	}
 }

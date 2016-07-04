@@ -6,9 +6,17 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.rank.RankType;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFightConst;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO;
+import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
+import com.playerdata.groupFightOnline.enums.GFRewardType;
+import com.playerdata.groupFightOnline.manager.GFFinalRewardMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -92,9 +100,49 @@ public class GFOnlineHurtRankMgr {
 		return result;
 	}
 	
+	public static void dispatchHurtReward(int resourceID) {
+		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
+		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
+		long currentTime = System.currentTimeMillis();	//记录奖励发放的时间
+		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
+		try {
+			EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration(1, GFightConst.HURT_REWARD_MAX_RANK);
+			int rewardCfgCount = GFightOnlineDamageRankDAO.getInstance().getEntryCount();
+			for (int i = 1; i <= rewardCfgCount; i++) {
+				int startRank = 1;
+				if (i != 1)
+					startRank = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				GFightOnlineDamageRankCfg rewardCfg = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i));
+				int endRank = rewardCfg.getRankEnd();
+				for (int j = startRank; j <= endRank; j++) {
+					dispatchingRank = j;
+					if (it.hasMoreElements()) {
+						MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
+						dispatchingUser = entry.getExtendedAttribute().getUserId();
+						//构造奖励内容
+						GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
+						finalRewardItem.setEmailId(rewardCfg.getEmailId());
+						finalRewardItem.setResourceID(resourceID);
+						finalRewardItem.setRewardContent(rewardCfg.getRewardList());
+						finalRewardItem.setRewardGetTime(currentTime);
+						finalRewardItem.setRewardID(GFFinalRewardMgr.getInstance().getRewardID(dispatchingUser, resourceID, GFRewardType.HurtRankReward));
+						finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(dispatchingUser, resourceID));
+						finalRewardItem.setRewardType(GFRewardType.HurtRankReward.getValue());
+						finalRewardItem.setUserID(dispatchingUser);
+						GFFinalRewardMgr.getInstance().addGFReward(dispatchingUser, resourceID, finalRewardItem);
+					}
+				}
+			}
+		} catch (Exception ex) {
+			GameLog.error(LogModule.GroupFightOnline, "GFOnlineHurtRankMgr", String.format("dispatchHurtReward, 给角色[%s]发放帮战伤害排行[%s]奖励的时候出现异常", dispatchingUser, dispatchingRank), ex);
+		} finally {
+			clearRank(resourceID);
+		}
+	}
+	
 	public static void clearRank(int resourceID){
 		List<GFOnlineHurtItem> itemList = getGFHurtRankList(resourceID);
-		Ranking<GFOnlineKillComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
+		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
 		for(GFOnlineHurtItem removeItem : itemList){
 			ranking.removeRankingEntry(removeItem.getUserId());
 		}

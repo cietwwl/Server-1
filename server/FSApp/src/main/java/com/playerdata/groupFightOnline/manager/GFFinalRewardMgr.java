@@ -20,18 +20,8 @@ public class GFFinalRewardMgr {
 	 * @param rewardType
 	 * @return
 	 */
-	public boolean addGFReward(Player player, int resourceID, GFRewardType rewardType){
-		//TODO 邮件的内容需要读配置
-		GFFinalRewardItem rewardItem = new GFFinalRewardItem();
-		rewardItem.setEmailId(0);
-		rewardItem.setResourceID(resourceID);
-		rewardItem.setRewardContent(null);
-		rewardItem.setRewardGetTime(System.currentTimeMillis());
-		rewardItem.setRewardID(getRewardID(player.getUserId(), resourceID, rewardType));
-		rewardItem.setRewardOwner(getOwnerID(player.getUserId(), resourceID));
-		rewardItem.setRewardType(rewardType.getValue());
-		rewardItem.setUserID(player.getUserId());
-		return GFFinalRewardItemHolder.getInstance().addGFReward(player, resourceID, rewardItem);
+	public boolean addGFReward(String userID, int resourceID, GFFinalRewardItem rewardItem){
+		return GFFinalRewardItemHolder.getInstance().addGFReward(userID, resourceID, rewardItem);
 	}
 	
 	/**
@@ -63,11 +53,11 @@ public class GFFinalRewardMgr {
 		GFFinalRewardItemHolder.getInstance().synData(player);
 	}
 	
-	private String getOwnerID(String userID, int resourceID){
+	public String getOwnerID(String userID, int resourceID){
 		return resourceID + "_" + userID;
 	}
 	
-	private String getRewardID(String userID, int resourceID, GFRewardType rewardType){
+	public String getRewardID(String userID, int resourceID, GFRewardType rewardType){
 		return resourceID + "_" + userID + "_" + rewardType.getValue();
 	}
 }

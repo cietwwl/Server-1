@@ -39,6 +39,9 @@ public class GFFinalRewardItem implements IMapItem{
 	private List<ItemInfo> rewardContent;	//奖励的具体内容
 	
 	@CombineSave
+	private String rewardDesc;	//奖励的描述
+	
+	@CombineSave
 	@IgnoreSynField
 	private int emailId;	//到期对应的邮件id
 	

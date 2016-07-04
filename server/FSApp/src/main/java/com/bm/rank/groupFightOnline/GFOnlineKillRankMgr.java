@@ -6,9 +6,17 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.rank.RankType;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFightConst;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO;
+import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
+import com.playerdata.groupFightOnline.enums.GFRewardType;
+import com.playerdata.groupFightOnline.manager.GFFinalRewardMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -16,6 +24,8 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 
 public class GFOnlineKillRankMgr {
+	
+	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static int addOrUpdateUserGFKillRank(Player player, UserGFightOnlineData userGFInfo) {
@@ -52,9 +62,9 @@ public class GFOnlineKillRankMgr {
 			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
 			GFOnlineKillComparable killComparable = entry.getComparable();
 			if(killComparable.getResourceID() != resourceID) continue;
-			GFOnlineKillItem hurtItem = entry.getExtendedAttribute();
-			if(hurtItem.getUserId().equals(userID)) target = hurtItem;
-			itemList.add(hurtItem);
+			GFOnlineKillItem killItem = entry.getExtendedAttribute();
+			if(killItem.getUserId().equals(userID)) target = killItem;
+			itemList.add(killItem);
 		}
 		int indx = itemList.indexOf(target);
 		return indx >= 0 ? indx + 1 : -1;
@@ -68,14 +78,14 @@ public class GFOnlineKillRankMgr {
 			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
 			GFOnlineKillComparable killComparable = entry.getComparable();
 			if(killComparable.getResourceID() != resourceID) continue;
-			GFOnlineKillItem hurtItem = entry.getExtendedAttribute();
-			hurtItem.setTotalKill(killComparable.getTotalKill());
-			itemList.add(hurtItem);
+			GFOnlineKillItem killItem = entry.getExtendedAttribute();
+			killItem.setTotalKill(killComparable.getTotalKill());
+			itemList.add(killItem);
 		}
 		return itemList;
 	}
 	
-	public static List<GFOnlineKillItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
+	public static List<GFOnlineKillItem> getGFKillRankListInGroup(int resourceID, String groupID, int size) {
 		List<GFOnlineKillItem> result = new ArrayList<GFOnlineKillItem>();
 		
 		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
@@ -91,6 +101,46 @@ public class GFOnlineKillRankMgr {
 			}
 		}
 		return result;
+	}
+	
+	public static void dispatchKillReward(int resourceID) {
+		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
+		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
+		long currentTime = System.currentTimeMillis();	//记录奖励发放的时间
+		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
+		try {
+			EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration(1, GFightConst.KILL_REWARD_MAX_RANK);
+			int rewardCfgCount = GFightOnlineDefeatRankDAO.getInstance().getEntryCount();
+			for (int i = 1; i <= rewardCfgCount; i++) {
+				int startRank = 1;
+				if (i != 1)
+					startRank = GFightOnlineDefeatRankDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				GFightOnlineDefeatRankCfg rewardCfg = GFightOnlineDefeatRankDAO.getInstance().getCfgById(String.valueOf(i));
+				int endRank = rewardCfg.getRankEnd();
+				for (int j = startRank; j <= endRank; j++) {
+					dispatchingRank = j;
+					if (it.hasMoreElements()) {
+						MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
+						dispatchingUser = entry.getExtendedAttribute().getUserId();
+						//构造奖励内容
+						GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
+						finalRewardItem.setEmailId(rewardCfg.getEmailId());
+						finalRewardItem.setResourceID(resourceID);
+						finalRewardItem.setRewardContent(rewardCfg.getRewardList());
+						finalRewardItem.setRewardGetTime(currentTime);
+						finalRewardItem.setRewardID(GFFinalRewardMgr.getInstance().getRewardID(dispatchingUser, resourceID, GFRewardType.KillRankReward));
+						finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(dispatchingUser, resourceID));
+						finalRewardItem.setRewardType(GFRewardType.KillRankReward.getValue());
+						finalRewardItem.setUserID(dispatchingUser);
+						GFFinalRewardMgr.getInstance().addGFReward(dispatchingUser, resourceID, finalRewardItem);
+					}
+				}
+			}
+		} catch (Exception ex) {
+			GameLog.error(LogModule.GroupFightOnline, "GFOnlineKillRankMgr", String.format("dispatchKillReward, 给角色[%s]发放帮战杀敌数排行[%s]奖励的时候出现异常", dispatchingUser, dispatchingRank), ex);
+		} finally {
+			clearRank(resourceID);
+		}
 	}
 	
 	public static void clearRank(int resourceID){

@@ -5,12 +5,24 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.group.GroupBM;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
+import com.playerdata.groupFightOnline.data.GFBiddingItem;
+import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+import com.playerdata.groupFightOnline.enums.GFRewardType;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GroupCommonProto;
 
 public class GFightOnlineGroupMgr {
 	
@@ -102,5 +114,118 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData groupData = get(groupId);
 		groupData.deductAliveCount();
 		GFightOnlineGroupHolder.getInstance().update(groupData);
+	}
+	
+	/**
+	 * 发放帮战胜利成员奖励
+	 * @param groupId
+	 */
+	public void dispatchVictoryReward(String groupId){
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
+		if(groupData == null || groupData.getResourceID() <= 0) return;
+		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+		long currentTime = System.currentTimeMillis();
+		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
+		for(GroupMemberDataIF member : groupMem){
+			//构造奖励内容
+			GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
+			finalRewardItem.setEmailId(resCfg.getVictoryEmailID());
+			finalRewardItem.setResourceID(groupData.getResourceID());
+			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){
+				finalRewardItem.setRewardContent(resCfg.getVictoryLeaderRewardItems());
+			}else{
+				finalRewardItem.setRewardContent(resCfg.getVictoryMemRewardItems());
+			}
+			finalRewardItem.setRewardGetTime(currentTime);
+			finalRewardItem.setRewardID(GFFinalRewardMgr.getInstance().getRewardID(member.getUserId(), groupData.getResourceID(), GFRewardType.GFightSuccessReward));
+			finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(member.getUserId(), groupData.getResourceID()));
+			finalRewardItem.setRewardType(GFRewardType.GFightSuccessReward.getValue());
+			finalRewardItem.setUserID(member.getUserId());
+			GFFinalRewardMgr.getInstance().addGFReward(member.getUserId(), groupData.getResourceID(), finalRewardItem);
+		}
+	}
+	
+	/**
+	 * 发放帮战失败成员奖励
+	 * @param groupId
+	 */
+	public void dispathchFailReward(String groupId){
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
+		if(groupData == null || groupData.getResourceID() <= 0) return;
+		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+		long currentTime = System.currentTimeMillis();
+		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
+		for(GroupMemberDataIF member : groupMem){
+			//构造奖励内容
+			GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
+			finalRewardItem.setEmailId(resCfg.getFailEmailID());
+			finalRewardItem.setResourceID(groupData.getResourceID());
+			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){
+				finalRewardItem.setRewardContent(resCfg.getFailLeaderRewardItems());
+			}else{
+				finalRewardItem.setRewardContent(resCfg.getFailMemRewardItems());
+			}
+			finalRewardItem.setRewardGetTime(currentTime);
+			finalRewardItem.setRewardID(GFFinalRewardMgr.getInstance().getRewardID(member.getUserId(), groupData.getResourceID(), GFRewardType.GFihgtFailReward));
+			finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(member.getUserId(), groupData.getResourceID()));
+			finalRewardItem.setRewardType(GFRewardType.GFihgtFailReward.getValue());
+			finalRewardItem.setUserID(member.getUserId());
+			GFFinalRewardMgr.getInstance().addGFReward(member.getUserId(), groupData.getResourceID(), finalRewardItem);
+		}
+	}
+	
+	/**
+	 * 发放帮派被压标奖励
+	 * @param groupId
+	 */
+	public void dispathchBidOnReward(String groupId){
+		
+		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
+		if(groupData == null || groupData.getResourceID() <= 0) return;
+		List<GFBiddingItem> bidItems = GFBiddingItemMgr.getInstance().getResourceItemList(groupData.getResourceID());
+		int totalRateOnGroup = 0;
+		
+		//处理个人压标结果
+		for(GFBiddingItem item : bidItems){
+			if(StringUtils.equals(item.getBidGroup(), groupId)){
+				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(item.getBiddingID());
+				totalRateOnGroup += bidCfg.getRate();
+				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, true);
+			}else{
+				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, false);
+			}
+		}
+		
+		if(totalRateOnGroup > 0){
+			//计算压标数量对应的奖励
+			GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById("1");
+			if(totalRateOnGroup > bidCfg.getVictoryMaxRate()) totalRateOnGroup = bidCfg.getVictoryMaxRate();
+			List<ItemInfo> victoryBase = bidCfg.getVictoryRewardItem();
+			List<ItemInfo> victoryReward = new ArrayList<ItemInfo>();
+			for(ItemInfo baseItem : victoryBase){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(baseItem.getItemID());
+				item.setItemNum(baseItem.getItemNum() * totalRateOnGroup);
+				victoryReward.add(item);
+			}
+			//发放被压标的帮派成员奖励
+			List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+			for(GroupMemberDataIF member : groupMem){
+				// TODO 附件描述的内容需要修改
+				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()), itemListToString(victoryReward), null);
+			}
+		}
+	}
+	
+	public String itemListToString(List<ItemInfo> items){
+		StringBuffer sbuff = new StringBuffer();
+		for(ItemInfo item : items){
+			sbuff.append(item.getItemID());
+			sbuff.append("~");
+			sbuff.append(item.getItemNum());
+			sbuff.append(",");
+		}
+		sbuff.deleteCharAt(sbuff.lastIndexOf(","));
+		return sbuff.toString();
 	}
 }

@@ -273,7 +273,7 @@ public class GFightOnFightBM {
 			rankInfo.setGroupName(bidItem.getGroupName());
 			rankInfo.setTotalKill(killTotal);
 			rankInfo.setHurtRank(GFOnlineHurtRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GFightConst.GROUP_INNER_RANK_SIZE));
-			rankInfo.setKillRank(GFOnlineKillRankMgr.getGFHurtRankListInGroup(resourceID, bidItem.getGroupID(), GFightConst.GROUP_INNER_RANK_SIZE));
+			rankInfo.setKillRank(GFOnlineKillRankMgr.getGFKillRankListInGroup(resourceID, bidItem.getGroupID(), GFightConst.GROUP_INNER_RANK_SIZE));
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(rankInfo));
 		}
 		gfRsp.setRstType(GFResultType.SUCCESS);

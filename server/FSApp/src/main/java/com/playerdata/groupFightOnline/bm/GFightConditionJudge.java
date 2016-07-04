@@ -8,7 +8,6 @@ import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.enums.GFResourceState;
-import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 

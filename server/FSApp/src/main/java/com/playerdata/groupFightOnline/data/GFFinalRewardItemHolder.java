@@ -27,8 +27,8 @@ public class GFFinalRewardItemHolder {
 		return getItemStore(player.getUserId(), resourceID).getItem(rewardID);
 	}
 	
-	public boolean addGFReward(Player player, int resourceID, GFFinalRewardItem rewardItem){
-		return getItemStore(player.getUserId(), resourceID).addItem(rewardItem);
+	public boolean addGFReward(String userID, int resourceID, GFFinalRewardItem rewardItem){
+		return getItemStore(userID, resourceID).addItem(rewardItem);
 	}
 	
 	/**
