@@ -203,7 +203,29 @@ public class Client {
 	}
 
 	public void setServerList(List<ServerInfo> serverList) {
+		for (ServerInfo serverInfo : serverList) {
+			boolean blnAdd = true;
+			for (ServerInfo si : serverList) {
+				if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+					si.setHasRole(serverInfo.isHasRole());
+					blnAdd = false;
+					break;
+				}
+			}
+			if(blnAdd){
+				this.serverList.add(serverInfo);
+			}
+		}
 		this.serverList = serverList;
+	}
+	
+	public void addServerInfo(ServerInfo serverInfo){
+		for (ServerInfo si : serverList) {
+			if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+				return;
+			}
+		}
+		this.serverList.add(serverInfo);
 	}
 
 	public GroupNormalMemberHolder getNormalMemberHolder() {
