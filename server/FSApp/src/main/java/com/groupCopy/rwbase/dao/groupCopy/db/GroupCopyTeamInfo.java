@@ -17,6 +17,9 @@ public class GroupCopyTeamInfo {
 	private String playerHeadImage;
 	private String guildName;
 	
+	public GroupCopyTeamInfo() {
+	}
+
 	public void setArmyMagic(ArmyMagic armyMagic) {
 		this.armyMagic = armyMagic;
 	}

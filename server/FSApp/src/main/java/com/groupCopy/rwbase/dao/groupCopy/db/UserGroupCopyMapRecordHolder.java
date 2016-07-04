@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -26,8 +28,29 @@ public class UserGroupCopyMapRecordHolder{
 	
 	public UserGroupCopyMapRecordHolder(String userID) {
 		userId = userID;
+		checkAndInitData();
 	}
 	
+	private void checkAndInitData(){
+		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
+		UserGroupCopyMapRecord record;
+		for (GroupCopyMapCfg cfg : allCfg) {
+			record = getItemByID(cfg.getId());
+			if(record == null){
+				record = createRecord(cfg);
+				getItemStore().addItem(record);
+			}
+		}
+	}
+	
+	private UserGroupCopyMapRecord createRecord(GroupCopyMapCfg cfg){
+		UserGroupCopyMapRecord record = new UserGroupCopyMapRecord();
+		record.setId(getRecordID(cfg.getId()));
+		record.setLeftFightCount(cfg.getEnterCount());
+		record.setUserId(userId);
+		record.setChaterID(cfg.getId());
+		return record;
+	}
 
 	public List<UserGroupCopyMapRecord> getItemList()	
 	{
@@ -42,16 +65,6 @@ public class UserGroupCopyMapRecordHolder{
 		return itemList;
 	}
 	
-
-	public UserGroupCopyMapRecord getByLevel(String level){
-		UserGroupCopyMapRecord target = null;
-		for (UserGroupCopyMapRecord item : getItemList()) {
-			if(StringUtils.equals(item.getId() , level)){
-				target = item;
-			}
-		}
-		return target;
-	}
 	
 	public boolean updateItem(Player player, UserGroupCopyMapRecord item ){
 		boolean success = getItemStore().updateItem(item);
@@ -62,20 +75,20 @@ public class UserGroupCopyMapRecordHolder{
 		return success;
 	}
 	
-	public UserGroupCopyMapRecord getItem(String itemId){
-		return getItemStore().getItem(itemId);
+	public UserGroupCopyMapRecord getItemByID(String itemId){
+		return getItemStore().getItem(getRecordID(itemId));
+	}
+	
+	/**
+	 * 主键id
+	 * @param id
+	 * @return
+	 */
+	private String getRecordID(String id){
+		return userId+"_"+id;
 	}
 	
 	
-	public boolean addItem(Player player, UserGroupCopyMapRecord item ){
-	
-		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess){
-			update();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
 
 	private void update(){
 		dataVersion.incrementAndGet();

@@ -1,6 +1,7 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,10 +22,12 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 
 	@CombineSave
 	private String chaterID;//对应章节id
+	
+	
 	/** 当前地图的掉落物品及对应的申请列表<key=itemID,value=掉落记录> */
 	@CombineSave
 	@IgnoreSynField
-	private HashMap<String, ItemDropAndApplyTemplate> daMap = new HashMap<String, ItemDropAndApplyTemplate>();
+	private Map<String, ItemDropAndApplyTemplate> daMap = new HashMap<String, ItemDropAndApplyTemplate>();
 
 	public CopyItemDropAndApplyRecord(String id, String groupId) {
 		this.id = groupId+"_"+id;
@@ -35,23 +38,7 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 	public CopyItemDropAndApplyRecord() {
 	}
 
-	/**
-	 * 此方法只是提供序列化使用，一般功能禁止调用， 如需迭代，请使用
-	 * {@link GroupCopyMapRecord#getDropApplyEnumeration()}
-	 * */
-	public HashMap<String, ItemDropAndApplyTemplate> getDaMap() {
-		return daMap;
-	}
-
-	/** 此方法只是提供序列化使用，一般功能禁止调用 */
-	public void setDaMap(HashMap<String, ItemDropAndApplyTemplate> daMap) {
-		this.daMap = daMap;
-	}
-
-	public ItemDropAndApplyTemplate getDropApplyRecord(String key) {
-		return daMap.get(key);
-	}
-
+	
 	@Override
 	public String getId() {
 		return id;
@@ -67,5 +54,36 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 		return groupId;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	public void setChaterID(String chaterID) {
+		this.chaterID = chaterID;
+	}
+
+	public void setDaMap(Map<String, ItemDropAndApplyTemplate> daMap) {
+		this.daMap = daMap;
+	}
+
+	public Map<String, ItemDropAndApplyTemplate> getDaMap() {
+		return daMap;
+	}
+
+	
+	public void setDaMap(HashMap<String, ItemDropAndApplyTemplate> daMap) {
+		this.daMap = daMap;
+	}
+
+	public synchronized ItemDropAndApplyTemplate getDropApplyRecord(String key) {
+		if(!daMap.containsKey(key)){
+			daMap.put(key, new ItemDropAndApplyTemplate(Integer.parseInt(key)));
+		}
+		return daMap.get(key);
+	}
 	
 }

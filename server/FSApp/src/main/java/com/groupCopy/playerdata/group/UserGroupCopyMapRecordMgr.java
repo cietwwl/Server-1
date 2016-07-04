@@ -20,31 +20,13 @@ public class UserGroupCopyMapRecordMgr {
 		holder = new UserGroupCopyMapRecordHolder(userId);
 	}
 	
-	/**
-	 * 添加新记录
-	 * @param player
-	 * @param chaterID
-	 * @return
-	 */
-	public UserGroupCopyMapRecord addNewUserMapRecord(Player player, String chaterID){
-		
-		UserGroupCopyMapRecord record = getByLevel(chaterID);
-		if(record == null){
-			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
-			
-			record = new UserGroupCopyMapRecord(chaterID, userId, cfg.getEnterCount());
-			holder.addItem(player, record);
-		}
-		
-		return record;
-	}
-
+	
 	public List<UserGroupCopyMapRecord> getUserMapRecordList(){
 		return holder.getItemList();
 	}
 	
-	public UserGroupCopyMapRecord getByLevel(String level){
-		return holder.getByLevel(level);
+	public UserGroupCopyMapRecord getByChaterID(String id){
+		return holder.getItemByID(id);
 	}
 	
 	public int getDataVersion(){

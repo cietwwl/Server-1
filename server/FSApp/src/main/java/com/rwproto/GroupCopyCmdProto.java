@@ -21,7 +21,7 @@ public final class GroupCopyCmdProto {
      * <code>GET_DROP_APPLY_INFO = 2;</code>
      *
      * <pre>
-     *请求同步掉落及申请列表
+     *请求发送掉落及申请列表
      * </pre>
      */
     GET_DROP_APPLY_INFO(1, 2),
@@ -49,6 +49,22 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     APPLY_SERVER_RANK(4, 5),
+    /**
+     * <code>APPLY_WAR_PRICE = 6;</code>
+     *
+     * <pre>
+     *申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+     * </pre>
+     */
+    APPLY_WAR_PRICE(5, 6),
+    /**
+     * <code>CANCEL_APPLY_ITEM = 7;</code>
+     *
+     * <pre>
+     *取消申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+     * </pre>
+     */
+    CANCEL_APPLY_ITEM(6, 7),
     ;
 
     /**
@@ -59,7 +75,7 @@ public final class GroupCopyCmdProto {
      * <code>GET_DROP_APPLY_INFO = 2;</code>
      *
      * <pre>
-     *请求同步掉落及申请列表
+     *请求发送掉落及申请列表
      * </pre>
      */
     public static final int GET_DROP_APPLY_INFO_VALUE = 2;
@@ -87,6 +103,22 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     public static final int APPLY_SERVER_RANK_VALUE = 5;
+    /**
+     * <code>APPLY_WAR_PRICE = 6;</code>
+     *
+     * <pre>
+     *申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+     * </pre>
+     */
+    public static final int APPLY_WAR_PRICE_VALUE = 6;
+    /**
+     * <code>CANCEL_APPLY_ITEM = 7;</code>
+     *
+     * <pre>
+     *取消申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+     * </pre>
+     */
+    public static final int CANCEL_APPLY_ITEM_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -98,6 +130,8 @@ public final class GroupCopyCmdProto {
         case 3: return BUFF_DONATE;
         case 4: return GET_GROUP_HURT_RANK;
         case 5: return APPLY_SERVER_RANK;
+        case 6: return APPLY_WAR_PRICE;
+        case 7: return CANCEL_APPLY_ITEM;
         default: return null;
       }
     }
@@ -327,32 +361,59 @@ public final class GroupCopyCmdProto {
      */
     com.rwproto.GroupCopyCmdProto.GroupCopyDonateDataOrBuilder getDonateDataOrBuilder();
 
-    // optional string chaterID = 4;
+    // optional string id = 4;
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
-    boolean hasChaterID();
+    boolean hasId();
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
-    java.lang.String getChaterID();
+    java.lang.String getId();
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
     com.google.protobuf.ByteString
-        getChaterIDBytes();
+        getIdBytes();
+
+    // optional string itemID = 5;
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    boolean hasItemID();
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    java.lang.String getItemID();
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getItemIDBytes();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdReqMsg}
@@ -436,7 +497,12 @@ public final class GroupCopyCmdProto {
             }
             case 34: {
               bitField0_ |= 0x00000008;
-              chaterID_ = input.readBytes();
+              id_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              itemID_ = input.readBytes();
               break;
             }
           }
@@ -592,28 +658,28 @@ public final class GroupCopyCmdProto {
       return donateData_;
     }
 
-    // optional string chaterID = 4;
-    public static final int CHATERID_FIELD_NUMBER = 4;
-    private java.lang.Object chaterID_;
+    // optional string id = 4;
+    public static final int ID_FIELD_NUMBER = 4;
+    private java.lang.Object id_;
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
-    public boolean hasChaterID() {
+    public boolean hasId() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
-    public java.lang.String getChaterID() {
-      java.lang.Object ref = chaterID_;
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -621,26 +687,81 @@ public final class GroupCopyCmdProto {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          chaterID_ = s;
+          id_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string chaterID = 4;</code>
+     * <code>optional string id = 4;</code>
      *
      * <pre>
-     *地图id
+     *地图id或关卡id
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getChaterIDBytes() {
-      java.lang.Object ref = chaterID_;
+        getIdBytes() {
+      java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        chaterID_ = b;
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string itemID = 5;
+    public static final int ITEMID_FIELD_NUMBER = 5;
+    private java.lang.Object itemID_;
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    public boolean hasItemID() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    public java.lang.String getItemID() {
+      java.lang.Object ref = itemID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          itemID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string itemID = 5;</code>
+     *
+     * <pre>
+     *物品id 
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getItemIDBytes() {
+      java.lang.Object ref = itemID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        itemID_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -651,7 +772,8 @@ public final class GroupCopyCmdProto {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
       version_ = "";
       donateData_ = com.rwproto.GroupCopyCmdProto.GroupCopyDonateData.getDefaultInstance();
-      chaterID_ = "";
+      id_ = "";
+      itemID_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -685,7 +807,10 @@ public final class GroupCopyCmdProto {
         output.writeMessage(3, donateData_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getChaterIDBytes());
+        output.writeBytes(4, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getItemIDBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -710,7 +835,11 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getChaterIDBytes());
+          .computeBytesSize(4, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getItemIDBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -839,8 +968,10 @@ public final class GroupCopyCmdProto {
           donateDataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
-        chaterID_ = "";
+        id_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        itemID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -888,7 +1019,11 @@ public final class GroupCopyCmdProto {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.chaterID_ = chaterID_;
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.itemID_ = itemID_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -916,9 +1051,14 @@ public final class GroupCopyCmdProto {
         if (other.hasDonateData()) {
           mergeDonateData(other.getDonateData());
         }
-        if (other.hasChaterID()) {
+        if (other.hasId()) {
           bitField0_ |= 0x00000008;
-          chaterID_ = other.chaterID_;
+          id_ = other.id_;
+          onChanged();
+        }
+        if (other.hasItemID()) {
+          bitField0_ |= 0x00000010;
+          itemID_ = other.itemID_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1261,100 +1401,198 @@ public final class GroupCopyCmdProto {
         return donateDataBuilder_;
       }
 
-      // optional string chaterID = 4;
-      private java.lang.Object chaterID_ = "";
+      // optional string id = 4;
+      private java.lang.Object id_ = "";
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
-      public boolean hasChaterID() {
+      public boolean hasId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
-      public java.lang.String getChaterID() {
-        java.lang.Object ref = chaterID_;
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          chaterID_ = s;
+          id_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getChaterIDBytes() {
-        java.lang.Object ref = chaterID_;
+          getIdBytes() {
+        java.lang.Object ref = id_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          chaterID_ = b;
+          id_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
-      public Builder setChaterID(
+      public Builder setId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000008;
-        chaterID_ = value;
+        id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
-      public Builder clearChaterID() {
+      public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        chaterID_ = getDefaultInstance().getChaterID();
+        id_ = getDefaultInstance().getId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string chaterID = 4;</code>
+       * <code>optional string id = 4;</code>
        *
        * <pre>
-       *地图id
+       *地图id或关卡id
        * </pre>
        */
-      public Builder setChaterIDBytes(
+      public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000008;
-        chaterID_ = value;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string itemID = 5;
+      private java.lang.Object itemID_ = "";
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public boolean hasItemID() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public java.lang.String getItemID() {
+        java.lang.Object ref = itemID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          itemID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getItemIDBytes() {
+        java.lang.Object ref = itemID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          itemID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public Builder setItemID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        itemID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public Builder clearItemID() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        itemID_ = getDefaultInstance().getItemID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string itemID = 5;</code>
+       *
+       * <pre>
+       *物品id 
+       * </pre>
+       */
+      public Builder setItemIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        itemID_ = value;
         onChanged();
         return this;
       }
@@ -4730,27 +4968,28 @@ public final class GroupCopyCmdProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"\237\001\n\022G" +
+      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"\251\001\n\022G" +
       "roupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Gro" +
       "upCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 " +
       "\001(\t\0225\n\ndonateData\030\003 \001(\0132!.GroupCopyCmd.G" +
-      "roupCopyDonateData\022\020\n\010chaterID\030\004 \001(\t\"\233\001\n" +
-      "\022GroupCopyCmdRspMsg\022/\n\007reqType\030\001 \002(\0162\036.G" +
-      "roupCopyCmd.GroupCopyReqType\022\021\n\tisSucces" +
-      "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\0221\n\010hurtRank\030\004 \001(" +
-      "\0132\037.GroupCopyCmd.GroupCopyHurtRank\"8\n\023Gr" +
-      "oupCopyDonateData\022\r\n\005level\030\001 \002(\t\022\022\n\ndona",
-      "teTime\030\002 \002(\005\"C\n\021GroupCopyHurtRank\022.\n\010ran" +
-      "kData\030\001 \003(\0132\034.GroupCopyCmd.ArmyHurtStruc" +
-      "t\"b\n\016ArmyHurtStruct\022\020\n\010headIcon\030\001 \002(\t\022\020\n" +
-      "\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n\010killTime\030" +
-      "\004 \002(\003\022\016\n\006damage\030\005 \002(\005*z\n\020GroupCopyReqTyp" +
-      "e\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002" +
-      "\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROUP_HURT_RANK" +
-      "\020\004\022\025\n\021APPLY_SERVER_RANK\020\005*H\n\022GroupCopyMa" +
-      "pStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ON" +
-      "GOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021Grou",
-      "pCopyCmdProto"
+      "roupCopyDonateData\022\n\n\002id\030\004 \001(\t\022\016\n\006itemID" +
+      "\030\005 \001(\t\"\233\001\n\022GroupCopyCmdRspMsg\022/\n\007reqType" +
+      "\030\001 \002(\0162\036.GroupCopyCmd.GroupCopyReqType\022\021" +
+      "\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\0221\n\010hur" +
+      "tRank\030\004 \001(\0132\037.GroupCopyCmd.GroupCopyHurt" +
+      "Rank\"8\n\023GroupCopyDonateData\022\r\n\005level\030\001 \002",
+      "(\t\022\022\n\ndonateTime\030\002 \002(\005\"C\n\021GroupCopyHurtR" +
+      "ank\022.\n\010rankData\030\001 \003(\0132\034.GroupCopyCmd.Arm" +
+      "yHurtStruct\"b\n\016ArmyHurtStruct\022\020\n\010headIco" +
+      "n\030\001 \002(\t\022\020\n\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n" +
+      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005*\246\001\n\020Grou" +
+      "pCopyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_A" +
+      "PPLY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROU" +
+      "P_HURT_RANK\020\004\022\025\n\021APPLY_SERVER_RANK\020\005\022\023\n\017" +
+      "APPLY_WAR_PRICE\020\006\022\025\n\021CANCEL_APPLY_ITEM\020\007" +
+      "*H\n\022GroupCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010N",
+      "OTSTART\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013co" +
+      "m.rwprotoB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4762,7 +5001,7 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "DonateData", "ChaterID", });
+              new java.lang.String[] { "ReqType", "Version", "DonateData", "Id", "ItemID", });
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable = new

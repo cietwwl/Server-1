@@ -1,10 +1,18 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 public class DropInfo {
 
 	private int count;
 	
 	private long time;
+
+	
+	
+	public DropInfo() {
+	}
 
 	public DropInfo(int count, long time) {
 		super();

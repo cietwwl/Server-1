@@ -39,25 +39,36 @@ public class ServerGroupCopyDamageRecordMgr {
 		return getItemStore().addItem(item);
 	}
 	
+	private boolean updateItem(ServerGroupCopyDamageRecord item){
+		dataVersion.incrementAndGet();
+		return getItemStore().updateItem(item);
+	}
 	
 	public synchronized void checkDamageRank(String levelId,
-			GroupCopyArmyDamageInfo damageInfo) {
+			GroupCopyArmyDamageInfo damageInfo, Player player, boolean kill) {
 		ServerGroupCopyDamageRecord record = getItem(levelId);
 		if(record == null){
 			record = new ServerGroupCopyDamageRecord(groupId, levelId);
 			addItem(record);
 		}
-		record.checkOrAddRecord(damageInfo);
+		boolean suc = record.checkOrAddRecord(damageInfo, kill);
+		if(suc){
+			if(updateItem(record)){
+				synSingleData(player, dataVersion.get(), levelId, false);
+			}
+		}
 		
 	}
 	
-	public void synSingleData(Player player, int version, String levelID){
+	public void synSingleData(Player player, int version, String levelID, boolean compareVersion){
 		//如果版本号不同才进行同步
-		if(version == dataVersion.get() && version != 0){
+		if(compareVersion && version == dataVersion.get() && version != 0){
 			return;
 		}
 		ServerGroupCopyDamageRecord item = getItem(levelID);
-		ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE, version);
+		if(item != null){
+			ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE, version);
+		}
 	}
 	
 	public void synAllData(Player player, int version){

@@ -11,6 +11,11 @@ public class TeamHero {
 	private int starLevel;//星级
 	private String qualityId;//品阶Id
 	private long exp ;
+	
+	
+	
+	public TeamHero() {
+	}
 	public int getModeId() {
 		return modeId;
 	}

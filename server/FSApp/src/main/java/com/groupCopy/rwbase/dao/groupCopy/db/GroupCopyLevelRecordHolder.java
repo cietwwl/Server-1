@@ -71,8 +71,6 @@ public class GroupCopyLevelRecordHolder{
 			GroupCopyProgress p = GroupCopyLevelBL.createProgress(level);
 			
 			lvData.setProgress(p);
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

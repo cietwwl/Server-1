@@ -16,6 +16,10 @@ public class GroupCopyArmyDamageInfo {
 	
 	private int damage;
 	
+	
+	public GroupCopyArmyDamageInfo() {
+	}
+	
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}

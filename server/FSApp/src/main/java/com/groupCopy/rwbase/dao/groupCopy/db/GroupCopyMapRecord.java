@@ -62,12 +62,12 @@ public class GroupCopyMapRecord implements IMapItem {
 		this.groupRoleDamageMap = groupRoleDamageMap;
 	}
 	
-	public void addPlayerDamage(String playerID, int damage){
-		Integer v = groupRoleDamageMap.get(playerID);
+	public void addPlayerDamage(String playerName, int damage){
+		Integer v = groupRoleDamageMap.get(playerName);
 		if(v != null){
-			groupRoleDamageMap.put(playerID, v + damage);
+			groupRoleDamageMap.put(playerName, v + damage);
 		}else{
-			groupRoleDamageMap.put(playerID, damage);
+			groupRoleDamageMap.put(playerName, damage);
 		}
 	}
 	

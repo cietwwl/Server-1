@@ -21,22 +21,19 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class UserGroupCopyMapRecord implements IMapItem {
 
 	@Id
-	private String id; // 对应章节id
+	private String id; // userId_chaterID
 	
 	@IgnoreSynField
 	private String userId;
+	
+	@CombineSave
+	private String chaterID;
 	
 	@CombineSave
 	private int leftFightCount;
 	
 	
 	
-	public UserGroupCopyMapRecord(String id, String userId, int leftFightCount) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.leftFightCount = leftFightCount;
-	}
 
 	public UserGroupCopyMapRecord() {
 	}
@@ -64,6 +61,14 @@ public class UserGroupCopyMapRecord implements IMapItem {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getChaterID() {
+		return chaterID;
+	}
+
+	public void setChaterID(String chaterID) {
+		this.chaterID = chaterID;
 	}
 	
 

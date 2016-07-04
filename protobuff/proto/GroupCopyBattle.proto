@@ -47,7 +47,7 @@ message CopyRewardInfo{
 	repeated CopyRewardStruct drop = 1;
 	required int32 gold = 2;//奖励的金币
 	repeated CopyRewardStruct personalReward = 3; //个人奖励
-	repeated CopyRewardStruct finalHitPrice = 4;//最后一击奖励
+	optional int32 finalHitPrice = 4;//最后一击奖励的帮贡值
 }
 
 //【掉落道具结构】

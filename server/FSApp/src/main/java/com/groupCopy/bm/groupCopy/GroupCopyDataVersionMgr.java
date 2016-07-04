@@ -16,7 +16,7 @@ public class GroupCopyDataVersionMgr {
 	public final static int TYPE_MAP = 2;
 	public final static int TYPE_REWARD = 3;
 	public final static int TYPE_USER = 4;
-	public final static int TYPE_DROP_APPLY = 5;
+//	public final static int TYPE_DROP_APPLY = 5;
 	public final static int TYPE_SERVER_HURT_RANK = 6;
 	public static void synAllDataByVersion(Player player, String versionJson) {
 		
@@ -62,9 +62,9 @@ public class GroupCopyDataVersionMgr {
 				case TYPE_LEVEL:
 					group.synGroupLevelData(player, verson.getGroupCopyLevelData());
 					break;
-				case TYPE_DROP_APPLY:
-					group.synGroupCopyDropApplyData(player, verson.getGroupCopyDropApplyData());
-					break;
+//				case TYPE_DROP_APPLY:
+//					group.synGroupCopyDropApplyData(player, verson.getGroupCopyDropApplyData());
+//					break;
 				case TYPE_MAP:
 					group.synGroupMapData(player, verson.getGroupCopyMapData());
 					break;

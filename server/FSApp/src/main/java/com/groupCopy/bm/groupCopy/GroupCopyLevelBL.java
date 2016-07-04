@@ -98,9 +98,11 @@ public class GroupCopyLevelBL {
 			}else{
 				
 				UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
-				UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(levelCfg.getChaterID());
+				UserGroupCopyMapRecord userRecord = userRecordMgr.getByChaterID(levelCfg.getChaterID());
 				if(userRecord == null){
-					userRecord = userRecordMgr.addNewUserMapRecord(player, levelCfg.getChaterID());
+					result.setSuccess(false);
+					result.setTipMsg("无法找到关卡对应的章节个人数据");
+					return result;
 				}
 				
 				
@@ -227,7 +229,7 @@ public class GroupCopyLevelBL {
 			
 			UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
-			UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(cfg.getChaterID());
+			UserGroupCopyMapRecord userRecord = userRecordMgr.getByChaterID(cfg.getChaterID());
 			if(userRecord == null){
 				result.setSuccess(false);
 				reason.append("地图id为").append(cfg.getChaterID()).append("找不到id为").append(level).append("的关卡");
@@ -264,7 +266,7 @@ public class GroupCopyLevelBL {
 	}
 
 	/**
-	 * 计算并发送奖励
+	 * 计算奖励
 	 * @param befPro
 	 * @param nowPro
 	 * @param level
@@ -321,17 +323,12 @@ public class GroupCopyLevelBL {
 		}
 		
 		//个人奖励的金币
+		damage = damage > 0 ? damage : 0;
 		rewardInfo.setGold(damage * 100);//暂时这样计算
 		
 		//检查是否最后一击
 		if(nowPro == 1){
-			for (Iterator<Entry<String, Integer>> itr = lvCfg.getFinalHitRewardMap().entrySet().iterator(); itr.hasNext();) {
-				Entry<String, Integer> entry =  itr.next();
-				CopyRewardStruct.Builder newBuilder = CopyRewardStruct.newBuilder();
-				newBuilder.setCount(entry.getValue());
-				newBuilder.setItemID(Integer.parseInt(entry.getKey()));
-				rewardInfo.addFinalHitPrice(newBuilder);
-			}
+			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());
 		}
 			
 		

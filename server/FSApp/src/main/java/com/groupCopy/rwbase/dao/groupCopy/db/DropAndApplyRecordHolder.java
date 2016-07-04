@@ -63,15 +63,19 @@ public class DropAndApplyRecordHolder {
 		updateVersion();
 	}
 	
-	public CopyItemDropAndApplyRecord getItemByID(String itemId){
-		return getItemStore().getItem(getRecordID(itemId));
+	public CopyItemDropAndApplyRecord getItemByID(String chaterID){
+		return getItemStore().getItem(getRecordID(chaterID));
 	}
 	
 	
-	
-	public void synAllData(Player player, int version){
-		List<CopyItemDropAndApplyRecord> itemList = getItemList();			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+	/**
+	 * 同步单章节数据到客户端
+	 * @param player
+	 * @param chaterID
+	 */
+	public void synSingleData(Player player, String chaterID) {
+		CopyItemDropAndApplyRecord item = getItemByID(chaterID);			
+		ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
 	
@@ -84,5 +88,7 @@ public class DropAndApplyRecordHolder {
 	private void updateVersion(){
 		dataVersion.incrementAndGet();
 	}
+
+
 	
 }

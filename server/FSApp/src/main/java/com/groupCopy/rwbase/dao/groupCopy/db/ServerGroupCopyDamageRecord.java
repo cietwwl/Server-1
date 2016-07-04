@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.groupCopy.bm.groupCopy.GroupCopyMgr;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -38,6 +40,12 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 	
 	
 	public ServerGroupCopyDamageRecord() {
+	}
+
+
+
+	public void setRecords(List<GroupCopyArmyDamageInfo> records) {
+		this.records = records;
 	}
 
 
@@ -111,16 +119,17 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 
 
 
-	public synchronized void checkOrAddRecord(GroupCopyArmyDamageInfo damageInfo) {
-		if(firstKillInfo == null){
+	public synchronized boolean checkOrAddRecord(GroupCopyArmyDamageInfo damageInfo, boolean kill) {
+		if(kill && firstKillInfo == null){
 			firstKillInfo = damageInfo;
+		}else{
+			GameLog.error(LogModule.GroupCopy, "ServerGroupCopyDamageRecord[checkOrAddRecord]", "检查帮派副本首次击杀数据时发现存在旧记录", null);
 		}
-		
 		GroupCopyArmyDamageInfo tem = null;
 		if(!records.isEmpty()){
 			tem = records.get(records.size() - 1);
 			if(tem.getDamage() >= damageInfo.getDamage()){
-				return;
+				return false;
 			}
 		}
 		
@@ -132,7 +141,7 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 		}
 		if(tem != null){
 			if(tem.getDamage() >= damageInfo.getDamage()){
-				return;
+				return false;
 			}else{
 				records.remove(tem);
 			}
@@ -143,6 +152,7 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 		if(records.size() > GroupCopyMgr.MAX_RANK_RECORDS){
 			records.remove(records.size() - 1);
 		}
+		return true;
 	}
 
 	

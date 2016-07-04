@@ -40,30 +40,33 @@ public class GroupCopyCmdHandler {
 		return rspCmd.build().toByteString();
 	}
 
-
+	/**
+	 * 同步单章节掉落数据到客户端
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
 	public ByteString getDropApplyInfo(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
-		rspCmd.setReqType(GroupCopyReqType.GET_INFO);
+		rspCmd.setReqType(GroupCopyReqType.GET_DROP_APPLY_INFO);
 		Group group = GroupHelper.getGroup(player);
 		if(group != null){
-			GroupCopyDataVersionMgr.syncSingleDataByVersion(player, reqMsg.getVersion(),
-					GroupCopyDataVersionMgr.TYPE_DROP_APPLY);
+			group.synGroupCopyDropApplyData(player, reqMsg.getId());
 			rspCmd.setIsSuccess(true);
 		}else{
 			rspCmd.setIsSuccess(false);
 		}
-		
-		
 		return rspCmd.build().toByteString();
 	}
+	
 	public ByteString getServerRankInfo(Player player, GroupCopyCmdReqMsg reqMsg){
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.APPLY_SERVER_RANK);
 		Group group = GroupHelper.getGroup(player);
 		if(group != null){
 			GroupCopyDataVersion version = GroupCopyDataVersionMgr.fromJson(reqMsg.getVersion());
-			String id = reqMsg.getChaterID();
-			ServerGroupCopyDamageRecordMgr.getInstance().synSingleData(player, version.getServerCopyDamageRankData(), id);
+			String id = reqMsg.getId();
+			ServerGroupCopyDamageRecordMgr.getInstance().synSingleData(player, version.getServerCopyDamageRankData(), id, true);
 			rspCmd.setIsSuccess(true);
 		}else{
 			rspCmd.setIsSuccess(false);
@@ -118,6 +121,40 @@ public class GroupCopyCmdHandler {
 			rspCmd.setTipMsg("角色不在帮派内");
 		}
 		return rspCmd.build().toByteString();
+	}
+
+
+
+	/**
+	 * 取消申请战利品
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
+	public ByteString cancelApplyItem(Player player, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.CANCEL_APPLY_ITEM);
+		Group g = GroupHelper.getGroup(player);
+		if(g != null){
+			g.getGroupCopyMgr().cancelApplyItem(player, reqMsg);
+		}else{
+			rspCmd.setIsSuccess(false);
+			rspCmd.setTipMsg("角色不在帮派内");
+		}
+		return rspCmd.build().toByteString();
+	}
+
+
+
+	/**
+	 * 申请战利品
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
+	public ByteString applyWarPrice(Player player, GroupCopyCmdReqMsg reqMsg) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

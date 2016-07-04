@@ -1,13 +1,16 @@
 package com.groupCopy.bm.groupCopy;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.bm.group.GroupBM;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
@@ -132,14 +135,17 @@ public class GroupCopyMgr {
 		//获取伤害
 		int damage = getDamage(mData, levelId);
 		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
-		//同步一下副本地图进度
-		GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
-		//检查是否进入章节前10伤害排行 
-		checkDamageRank(player,levelId, damage, heroList);
-		//将奖励入放帮派奖励缓存
-		if(result.getItem() != null){
-			addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
-			addReward2Role(player, levelId, (CopyRewardInfo.Builder)result.getItem());
+		if(result.isSuccess()){
+			
+			//同步一下副本地图进度
+			GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
+			//检查是否进入章节前10伤害排行 
+			checkDamageRank(player,levelId, damage, heroList);
+			//将奖励入放帮派奖励缓存
+			if(result.getItem() != null){
+				addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
+				addReward2Role(player, levelId, (CopyRewardInfo.Builder)result.getItem());
+			}
 		}
 		return result;
 	}
@@ -155,6 +161,11 @@ public class GroupCopyMgr {
 			for (CopyRewardStruct struct : rewardList) {
 				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
 			}
+		}
+		//检查有没有最后一击奖励
+		if(item.getFinalHitPrice() != 0){
+			Group group = GroupBM.get(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId());
+			group.getGroupMemberMgr().updateMemberContribution(player.getUserId(), item.getFinalHitPrice());
 		}
 	}
 
@@ -218,9 +229,6 @@ public class GroupCopyMgr {
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
 			dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
-			if(dropApplyRecord == null){
-				dropApplyRecord = new ItemDropAndApplyTemplate(d.getItemID());
-			}
 			dropApplyRecord.addDropItem(d.getCount());
 			dropHolder.updateItem(player, dropAndApplyRecord);
 			dropApplyRecord = null;
@@ -236,15 +244,16 @@ public class GroupCopyMgr {
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 			
 			ArmyInfo info = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroList);
-			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info);
+			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info, player.getUserId());
 			damageInfo.setDamage(damage);
 			mapRecordHolder.checkDamageRank(cfg.getChaterID(),damageInfo);
 			//关卡全服单次伤害排行
-			ServerGroupCopyDamageRecordMgr.getInstance().checkDamageRank(levelId,damageInfo);
+			boolean kill = lvRecordHolder.getByLevel(levelId).getProgress().getCurrentHp() == 0;
+			ServerGroupCopyDamageRecordMgr.getInstance().checkDamageRank(levelId,damageInfo, player, kill);
 			
 			//增加成员章节总伤害
 			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
-			mapRecord.addPlayerDamage(player.getUserId(), damage);
+			mapRecord.addPlayerDamage(player.getUserName(), damage);
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[checkDamageRank]", "帮派副本战斗结束检查排行榜时出现异常", e);
@@ -254,9 +263,9 @@ public class GroupCopyMgr {
 	}
 
 
-	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info) {
+	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info, String playerID) {
 		GroupCopyArmyDamageInfo damageInfo = new GroupCopyArmyDamageInfo();
-		damageInfo.setPlayerID(info.getPlayer().getRoleBaseInfo().getId());
+		damageInfo.setPlayerID(playerID);
 		damageInfo.setTime(System.currentTimeMillis());
 		
 		GroupCopyTeamInfo teamInfo = new GroupCopyTeamInfo();
@@ -323,8 +332,8 @@ public class GroupCopyMgr {
 		rewardRecordHolder.synAllData(player, version);
 	}
 	
-	public synchronized void synDropAppyData(Player player, int version){
-		dropHolder.synAllData(player, version);
+	public synchronized void synDropAppyData(Player player, String chaterID){
+		dropHolder.synSingleData(player, chaterID);
 	}
 	
 	
@@ -467,7 +476,7 @@ public class GroupCopyMgr {
 	public GroupCopyResult getDamageRank(Player player, Group g,
 			GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyResult result = GroupCopyResult.newResult();
-		String chaterID = reqMsg.getChaterID();
+		String chaterID = reqMsg.getId();
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(chaterID);
 		if(mapRecord == null){
 			result.setSuccess(false);
@@ -493,6 +502,61 @@ public class GroupCopyMgr {
 		return result;
 	}
 
+	public GroupCopyResult cancelApplyItem(Player player, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		
+		String chaterID = reqMsg.getId();
+		String itemID = reqMsg.getItemID();
+		CopyItemDropAndApplyRecord record = dropHolder.getItemByID(chaterID);
+		if(record == null){
+			result.setSuccess(false);
+			result.setTipMsg("找不到对应章节id为"+chaterID+"的掉落记录！");
+			return result;
+		}
+		synchronized (record) {
+			//检查是否有旧的申请记录,如果有，要去掉
+			clearBeforeApplyRecord(player, record);
+			
+			//添加入新的记录
+			ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
+			ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
+			applyTemplate.addApplyRole(info);
+			dropHolder.updateItem(player, record);
+		}
+		
+		
+		return result;
+	}
+
+	/**
+	 * 清除角色之前的申请记录
+	 * @param player
+	 * @param record
+	 * @return
+	 */
+	private void clearBeforeApplyRecord(Player player, CopyItemDropAndApplyRecord record){
+		
+		//这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错
+		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
+		ApplyInfo beforeApply = null;
+		ItemDropAndApplyTemplate target = null;
+		
+		for (Iterator<ItemDropAndApplyTemplate> itr = map.values().iterator(); itr.hasNext();) {
+			ItemDropAndApplyTemplate entry = itr.next();
+			for (ApplyInfo i : entry.getApplyData()) {
+				if(i.getRoleID() == player.getUserId()){
+					beforeApply = i;
+					break;
+				}
+			}
+			if(beforeApply != null){
+				target = entry;
+				break;
+			}
+		}
+		
+		target.deleteApplyData(beforeApply);
+	}
 
 
 }

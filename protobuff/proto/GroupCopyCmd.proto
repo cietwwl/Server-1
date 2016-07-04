@@ -6,10 +6,12 @@ package GroupCopyCmd;
 
 enum GroupCopyReqType{
 	GET_INFO = 1;
-	GET_DROP_APPLY_INFO = 2;//请求同步掉落及申请列表
+	GET_DROP_APPLY_INFO = 2;//请求发送掉落及申请列表
 	BUFF_DONATE = 3;//buff赞助
 	GET_GROUP_HURT_RANK = 4;//获取帮派前10伤害排名
 	APPLY_SERVER_RANK = 5;//请求全服排行榜
+	APPLY_WAR_PRICE = 6;//申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+	CANCEL_APPLY_ITEM = 7;//取消申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
 }
 
 
@@ -28,6 +30,7 @@ message GroupCopyCmdReqMsg{
 	optional string version = 2; //版本号
 	optional GroupCopyDonateData donateData = 3;//赞助
 	optional string id = 4;//地图id或关卡id
+	optional string itemID = 5;//物品id 
 }
 
 message GroupCopyCmdRspMsg{
