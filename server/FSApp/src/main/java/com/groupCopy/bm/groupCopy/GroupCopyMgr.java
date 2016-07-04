@@ -502,7 +502,18 @@ public class GroupCopyMgr {
 		return result;
 	}
 
-	public GroupCopyResult cancelApplyItem(Player player, GroupCopyCmdReqMsg reqMsg) {
+	
+	
+	
+	
+	/**
+	 * 取消/申请物品
+	 * @param player
+	 * @param reqMsg
+	 * @param apply TODO true=申请物品， false=取消申请
+	 * @return
+	 */
+	public GroupCopyResult ApplyOrCancelItem(Player player, GroupCopyCmdReqMsg reqMsg, boolean apply) {
 		GroupCopyResult result = GroupCopyResult.newResult();
 		
 		String chaterID = reqMsg.getId();
@@ -516,12 +527,14 @@ public class GroupCopyMgr {
 		synchronized (record) {
 			//检查是否有旧的申请记录,如果有，要去掉
 			clearBeforeApplyRecord(player, record);
-			
+			if(apply){
+				ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
+				ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
+				applyTemplate.addApplyRole(info);
+			}
 			//添加入新的记录
-			ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
-			ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
-			applyTemplate.addApplyRole(info);
 			dropHolder.updateItem(player, record);
+			result.setSuccess(true);
 		}
 		
 		

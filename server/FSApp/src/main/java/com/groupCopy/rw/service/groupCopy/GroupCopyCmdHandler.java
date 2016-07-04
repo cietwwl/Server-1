@@ -136,7 +136,11 @@ public class GroupCopyCmdHandler {
 		rspCmd.setReqType(GroupCopyReqType.CANCEL_APPLY_ITEM);
 		Group g = GroupHelper.getGroup(player);
 		if(g != null){
-			g.getGroupCopyMgr().cancelApplyItem(player, reqMsg);
+			GroupCopyResult result = g.getGroupCopyMgr().ApplyOrCancelItem(player, reqMsg, false);
+			rspCmd.setIsSuccess(result.isSuccess());
+			if(!result.isSuccess()){
+				rspCmd.setTipMsg(result.getTipMsg());
+			}
 		}else{
 			rspCmd.setIsSuccess(false);
 			rspCmd.setTipMsg("角色不在帮派内");
@@ -153,8 +157,20 @@ public class GroupCopyCmdHandler {
 	 * @return
 	 */
 	public ByteString applyWarPrice(Player player, GroupCopyCmdReqMsg reqMsg) {
-		// TODO Auto-generated method stub
-		return null;
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.APPLY_WAR_PRICE);
+		Group g = GroupHelper.getGroup(player);
+		if(g != null){
+			GroupCopyResult result = g.getGroupCopyMgr().ApplyOrCancelItem(player, reqMsg, true);
+			rspCmd.setIsSuccess(result.isSuccess());
+			if(!result.isSuccess()){
+				rspCmd.setTipMsg(result.getTipMsg());
+			}
+		}else{
+			rspCmd.setIsSuccess(false);
+			rspCmd.setTipMsg("角色不在帮派内");
+		}
+		return rspCmd.build().toByteString();
 	}
 
 }
