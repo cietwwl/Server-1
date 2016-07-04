@@ -95,6 +95,11 @@ public class DateUtils {
 	public static SimpleDateFormat getDateFormat() {
 		return new SimpleDateFormat("yyyy-MM-dd");
 	}
+	
+	/**玩家的5点刷新方法*/
+	public static boolean isNewDayHour(int hour,long lastResetTime){
+		return getCurrentHour() >= hour && dayChanged(lastResetTime);
+	}
 
 	public static boolean dayChanged(long timeStmp) {
 		Calendar currentDay = getCalendar(timeStmp);
@@ -102,11 +107,6 @@ public class DateUtils {
 		int change= (int)(now - timeStmp);
 		return dayChanged(currentDay);
 	}
-	/**玩家的5点刷新方法*/
-	public static boolean isNewDayHour(int hour,long lastResetTime){
-		return getCurrentHour() >= hour && dayChanged(lastResetTime);
-	}
-	
 	
 	public static boolean dayChanged(Calendar dayFlag) {
 		Calendar currentDay = Calendar.getInstance();
@@ -125,7 +125,17 @@ public class DateUtils {
 		}
 		return false;
 	}
-
+	
+	/**以5点为界限，距离开始时间的间隔天数；需靠考虑策划填表习惯*/
+	public static int getDayLimitHour(int hour,long earlyTime){
+		if(getCurrentHour() >= hour){
+			return getDayDistance(earlyTime,System.currentTimeMillis());
+		}else{
+			int tmp = getDayDistance(earlyTime,System.currentTimeMillis()) -1;
+			return tmp < 0? 0:tmp;
+		}
+	}
+	
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
 		return isTheSameDayOfWeekAndHour(dayOfWeek, 0);
 	}
@@ -257,10 +267,10 @@ public class DateUtils {
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
-		int distance =(int) (getHourDistance(earyDay, lateDay)/24);
-		
+		int distance =(int) (getHourDistance(earyDay, lateDay)/24);		
 		return distance;
 	}
+	
 	/**
 	 * 相隔的小时数
 	 * 

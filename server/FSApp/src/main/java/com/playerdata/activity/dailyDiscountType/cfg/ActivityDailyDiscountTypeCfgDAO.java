@@ -102,7 +102,8 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		}
 		long startTime = cfgByEnumId.getStartTime();
 		long currentTime = System.currentTimeMillis();
-		int day = DateUtils.getDayDistance(startTime, currentTime);
+//		int day = DateUtils.getDayDistance(startTime, currentTime);
+		int day = DateUtils.getDayLimitHour(5, startTime); 
 		day++;		
 		return day;
 	}
