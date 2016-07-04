@@ -17,12 +17,14 @@ public class BIUser{
 	private  ZoneRegInfo zoneRegInfo;
 	@SaveAsJson
 	private UserGameData dbvalue;
-	@SaveAsJson
-	private MajorData majorData;
 	
 	private long coin;// 铜钱
 	
 	private int gold;// 金钱
+	
+	private int giftGold;
+	
+	private int chargeGold;
 	
 	public String getUserId() {
 		return userId;
@@ -65,5 +67,17 @@ public class BIUser{
 	}
 	public void setLevel(int level) {
 		this.level = level;
+	}
+	public int getGiftGold() {
+		return giftGold;
+	}
+	public void setGiftGold(int giftGold) {
+		this.giftGold = giftGold;
+	}
+	public int getChargeGold() {
+		return chargeGold;
+	}
+	public void setChargeGold(int chargeGold) {
+		this.chargeGold = chargeGold;
 	}
 }

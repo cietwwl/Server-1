@@ -17,7 +17,15 @@ public class FresherActivityCfg {
 	private String gotoEnum;
 	private String maxValue;
 	private int startTimeType;
+	private int activityCode;
 	
+	
+	public int getActivityCode() {
+		return activityCode;
+	}
+	public void setActivityCode(int activityCode) {
+		this.activityCode = activityCode;
+	}
 	public void setActivityType(int activityType) {
 		this.activityType = activityType;
 //		this.eType = eActivityType.getTypeByOrder(this.activityType);

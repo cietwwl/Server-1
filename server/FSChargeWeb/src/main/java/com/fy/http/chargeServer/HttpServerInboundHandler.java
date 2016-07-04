@@ -87,17 +87,13 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 		try {
 			
 			ZoneInfo targetZone = ZoneInfoMgr.getInstance().getZone(contentPojo.getServerId());
+			System.out.println("hettpservel" + targetZone.getChargePort());
+			Map<String,Object> params = new HashMap<String, Object>();
+			params.put("content", jsonContent);
 			
-			if(targetZone!=null){
-				Map<String,Object> params = new HashMap<String, Object>();
-				params.put("content", jsonContent);
-				
-				String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
-				success = StringUtils.contains(resp, "ok");
-				ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
-			}else{
-				ChargeLog.info("charge", "zone", "zone为空 ");
-			}
+			String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
+			success = StringUtils.contains(resp, "ok");
+			ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
 			
 		} catch (Exception e) {			
 			ChargeLog.error("charge", contentPojo.getCpTradeNo(), "请求游戏服处理异常",e);

@@ -56,12 +56,11 @@ public class PvECommonHelper {
 		return listUpHero;
 	}
 
-	public static void addCopyRewards(Player player, CopyCfg copyCfg) {
+	public static void addCopyRewards(Player player, CopyCfg copyCfg, List<? extends ItemInfo> dropItems) {
 		// CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
 		// CopyRewardsIF copyRewards = copyRecordMgr.getCopyRewards();
 
 		int levelId = copyCfg.getLevelID();
-		List<? extends ItemInfo> dropItems = null;
 		try {
 			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
 		} catch (DataAccessTimeoutException e) {

@@ -80,7 +80,7 @@ public class BILogMgr {
 		
 		log(eBILogType.AccountRegLog, clientInfo, moreInfo,reglog);
 		log(eBILogType.AccountLoginLog, clientInfo, moreInfo,reglog);
-		log(eBILogType.ModelRegLog, clientInfo, moreInfo,reglog);
+//		log(eBILogType.ModelRegLog, clientInfo, moreInfo,reglog);
 		
 		
 	}

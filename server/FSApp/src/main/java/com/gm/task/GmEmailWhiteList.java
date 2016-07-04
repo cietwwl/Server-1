@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.login.AccoutBM;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.GmExecutor;
@@ -17,12 +18,14 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.log.GmLog;
 import com.rw.manager.GameManager;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwbase.dao.user.accountInfo.TableAccount;
 
 public class GmEmailWhiteList implements IGmTask {
 
@@ -56,10 +59,19 @@ public class GmEmailWhiteList implements IGmTask {
 			List<String> whiteList = ServerStatusMgr.getWhiteList();
 			final List<Player> playerList = new ArrayList<Player>();
 			for (String userIdTmp : whiteList) {
-				User user = UserDataDao.getInstance().getByAccoutAndZoneId(userIdTmp, GameManager.getZoneId());
-				Player targetTmp = PlayerMgr.getInstance().find(user.getUserId());
-				if (targetTmp != null) {
-					playerList.add(targetTmp);
+				try {
+					TableAccount account = AccoutBM.getInstance()
+							.getByOpenAccount(userIdTmp);
+					User user = UserDataDao.getInstance().getByAccoutAndZoneId(
+							account.getAccountId(), GameManager.getZoneId());
+					Player targetTmp = PlayerMgr.getInstance().find(
+							user.getUserId());
+					if (targetTmp != null) {
+						playerList.add(targetTmp);
+					}
+				} catch (Exception ex) {
+					GmLog.info("send gm mail fail:" + userIdTmp);
+					continue;
 				}
 			}
 
