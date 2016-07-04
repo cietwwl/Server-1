@@ -54,7 +54,7 @@ public class GameLoginHandler {
 		req.setAccountId(accountId);
 		req.setPassword(client.getPassword());
 		req.setZoneId(sInfo.getZoneId());
-		req.setNick(accountId+sInfo.getZoneId());// 随机角色名字
+		req.setNick("独孤求败"+random.nextInt(2000));// 随机角色名字
 		req.setSex(random.nextInt(2));// 随机性别
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_LOGIN_GAME, req.build().toByteString(), new MsgReciver() {

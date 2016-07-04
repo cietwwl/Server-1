@@ -1,6 +1,9 @@
 key,Remarks,type,info
-1,,1,{time}，{name}加入了帮派。
-2,,2,{time}，{name}离开了帮派。
-3,,3,{time}，{name}的职位提升到{post}。
-4,,4,{time}，帮派的等级提升到{groupLevel}。
-5,,5,{time}，帮派将技能{skillName}研发到{skillLevel}。
+1,,1,{time}， [80ff00]{name}[-] 加入了帮派。
+2,,2,{time}， [80ff00]{name}[-] 离开了帮派。
+3,,3,{time}， [80ff00]{name}[-] 的职位提升到 [e41dff]{post}[-]。
+4,,4,{time}，帮派的等级提升到 [e41dff]{groupLevel}[-] 级。
+5,,5,{time}，帮派将技能 [ff8e01]{skillName}[-] 研发到 [e41dff]{skillLevel}[-] 级。
+6,,6,{time}， [80ff00]{opName}[-] 取消了 [80ff00]{name}[-] 的 [e41dff]{post}[-] 职位。
+7,,7,{time}， [80ff00]{opName}[-] 将 [80ff00]{name}[-] 移出了帮派。
+8,,8,{time}， [80ff00]{opName}[-] 离开了帮派， [80ff00]{name}[-] 职位提升到了 [e41dff]{post}[-] 职位。

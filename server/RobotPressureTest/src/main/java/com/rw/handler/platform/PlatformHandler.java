@@ -94,7 +94,7 @@ public class PlatformHandler {
 			RobotLog.fail("连接登陆服连接失败！退出注册用户步骤 host:"+PlatformConfig.getPlatformHost()+" port:"+PlatformConfig.getPlatformPort());
 			return null;
 		}
-		
+		RobotLog.fail("连接登陆服连接成功host:"+PlatformConfig.getPlatformHost()+" port:"+PlatformConfig.getPlatformPort());
 		return client;
 	}
 
@@ -233,7 +233,7 @@ public class PlatformHandler {
 					si.setServerPort(zi.getPort());
 
 					serverMap.put(zi.getZoneId(), si);
-					// System.err.printf("可用的服务器连接[%s][%s][%s][%s]\n", zi.getZoneName(), zi.getZoneId(), zi.getServerIp(), zi.getPort());
+					 System.err.printf("可用的服务器连接[%s][%s][%s][%s]\n", zi.getZoneName(), zi.getZoneId(), zi.getServerIp(), zi.getPort());
 				}
 
 				// 用户数据

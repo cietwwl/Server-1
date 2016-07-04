@@ -34,7 +34,6 @@ import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.store.StoreHandler;
 import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
