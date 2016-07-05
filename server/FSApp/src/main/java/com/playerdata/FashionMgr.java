@@ -668,20 +668,22 @@ public class FashionMgr implements FashionMgrIF {
 				notifyProxy.delayNotify();
 
 				FashionCommonCfg fashcfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
-				String fashionName = fashcfg.getName();
-				if (fasItem.isBrought() && fashcfg != null && !StringUtils.isBlank(fashionName)) {
-					final List<String> args = new ArrayList<String>();
-					args.add(fashionName);
-					GameLog.info("时装", m_player.getUserId(), "发送时装过期的邮件", null);
-					PlayerTask task = new PlayerTask() {
-						@Override
-						public void run(Player player) {
-							EmailUtils.sendEmail(player.getUserId(), ExpiredEMailID, args);
-						}
-					};
-					GameWorldFactory.getGameWorld().asyncExecute(m_player.getUserId(), task);
-					m_player.NotifyCommonMsg(String.format(ExpiredNotifycation, fashionName));
-					fasItem.setBrought(false);
+				if (fashcfg != null){//兼容旧的数据
+					String fashionName = fashcfg.getName();
+					if (fasItem.isBrought() && fashcfg != null && !StringUtils.isBlank(fashionName)) {
+						final List<String> args = new ArrayList<String>();
+						args.add(fashionName);
+						GameLog.info("时装", m_player.getUserId(), "发送时装过期的邮件", null);
+						PlayerTask task = new PlayerTask() {
+							@Override
+							public void run(Player player) {
+								EmailUtils.sendEmail(player.getUserId(), ExpiredEMailID, args);
+							}
+						};
+						GameWorldFactory.getGameWorld().asyncExecute(m_player.getUserId(), task);
+						m_player.NotifyCommonMsg(String.format(ExpiredNotifycation, fashionName));
+						fasItem.setBrought(false);
+					}
 				}
 				fashionItemHolder.removeItem(m_player, fasItem);
 			}
