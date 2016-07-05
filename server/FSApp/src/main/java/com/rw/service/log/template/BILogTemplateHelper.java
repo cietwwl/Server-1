@@ -250,7 +250,13 @@ public class BILogTemplateHelper {
 			break;
 		case DailyActivityType.BREAKFAST:
 			code = BIActivityCode.DAILY_TASK_BREAKFAST;
-			break;					
+			break;
+		case DailyActivityType.MONTHCARD:
+			code = BIActivityCode.DAILY_TASK_TimeCard;
+			break;
+		case DailyActivityType.VIPMONTHCARD:
+			code = BIActivityCode.DAILY_TASK_VipTimeCard;
+			break;
 		default:
 			break;
 		}		

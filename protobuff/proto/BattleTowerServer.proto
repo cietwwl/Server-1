@@ -146,14 +146,15 @@ message UseLuckyKeyRspMsg{
 //[CHALLENGE_START]挑战某一层的请求协议
 message ChallengeStartReqMsg{
 	required int32 floor = 1;//挑战哪一层
+	optional int32 copyId = 2;//用于验证客户端是否作弊或者出错
 }
 
-/*
-* //[CHALLENGE_START]挑战某一层的响应协议
-* message ChallengeStartRspMsg{
-* 	optional BossInfoMsg bossInfoMsg = 1;//产生的Boss的信息
-* }
-*/
+
+ //[CHALLENGE_START]挑战某一层的响应协议
+ message ChallengeStartRspMsg{
+	optional int32 copyId = 1;//如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+ }
+
 
 //这个消息只在战斗成功之后才发送
 //[CHALLENGE_END]挑战某一层结束请求消息
@@ -167,6 +168,7 @@ message ChallengeEndReqMsg{
 message ChallengeEndRspMsg{
 	repeated RewardInfoMsg rewardInfoMsg = 1;//战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
 	repeated BossInfoMsg bossInfoMsg = 2;//产生的Boss的信息
+	optional int32 copyId = 3;//如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
 }
 
 //[CHALLENGE_BOSS_START]挑战BOSS开始请求协议
