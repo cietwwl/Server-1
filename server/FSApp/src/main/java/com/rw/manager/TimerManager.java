@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.bm.group.GroupBM;
 import com.bm.guild.GuildGTSMgr;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
@@ -78,7 +79,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				GuildGTSMgr.getInstance().checkAssignMent();				
+				GuildGTSMgr.getInstance().checkAssignMent();
 			}
 		}, HOUR);
 
@@ -107,7 +108,7 @@ public class TimerManager {
 						GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
 					}
 				});
-				
+
 				heavyWeightsExecturos.execute(new Runnable() {
 
 					@Override
@@ -129,6 +130,13 @@ public class TimerManager {
 					@Override
 					public void run() {
 						MSScoreRankMgr.dispatchMSDailyReward();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						GroupBM.checkOrAllGroupDayLimit();
 					}
 				});
 			}
@@ -176,8 +184,6 @@ public class TimerManager {
 				}
 			}
 		}, 0, 10, TimeUnit.SECONDS);
-		
-		
 
 		biTimeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -226,11 +232,11 @@ public class TimerManager {
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 榜奖励***/
+		/**** 排行 榜奖励 ***/
 		ActivityRankTypeMgr.getInstance().sendGift();
 
 		// GambleMgr.minutesUpdate();
-		
+
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}

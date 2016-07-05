@@ -86,6 +86,12 @@ enum GroupFunction{
 	CANCEL_DISMISS_THE_GROUP = 20;//取消解散帮派
 }
 
+//捐献类型
+enum GroupDonateType{
+	MONEY_DONATE = 1;//货币捐献
+	TOKEN_DONATE = 2;//令牌捐献
+}
+
 //-----------------------【功能协议类型枚举】-----------------------
 enum RequestType{
 	CREATE_GROUP_TYPE = 1;//创建帮派

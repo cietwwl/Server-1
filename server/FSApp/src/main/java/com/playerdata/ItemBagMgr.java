@@ -340,6 +340,11 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			}
 		}
 
+		// 证明只用扣钱
+		if ((useItemList == null || useItemList.isEmpty()) && (addItemList == null || addItemList.isEmpty())) {
+			return true;
+		}
+
 		return useLikeBoxItem(useItemList, addItemList);
 	}
 
