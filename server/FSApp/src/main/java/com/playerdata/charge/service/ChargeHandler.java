@@ -66,7 +66,7 @@ public class ChargeHandler {
 		
 	
 		
-		ChargeResult chargeResult = ChargeMgr.getInstance().buyMonthCard(player, chargeItemId);
+		ChargeResult chargeResult = ChargeMgr.getInstance().buyMonthCardByGm(player, chargeItemId);
 		response.setIsSuccess(chargeResult.isSuccess());
 		response.setTipMsg(chargeResult.getTips());		
 		
