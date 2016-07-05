@@ -49,7 +49,8 @@ public enum BIActivityCode {
 	DAILY_TASK_HSQJ(318),
 	DAILY_TASK_LOGIN_DAY(319),
 	DAILY_TASK_BREAKFAST(320),
-
+	DAILY_TASK_TimeCard(321),
+	DAILY_TASK_VipTimeCard(322),
 	
 	DAYDAYUP(1001),//成长,和任务模块重复
 	
