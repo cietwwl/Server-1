@@ -3,6 +3,7 @@ package com.playerdata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.common.RefInt;
 import com.rwbase.dao.item.ConsumeCfgDAO;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
@@ -20,6 +21,7 @@ import com.rwbase.dao.item.pojo.RoleEquipCfg;
 import com.rwbase.dao.item.pojo.SoulStoneCfg;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
+// ID分段判断需要与客户端(ItemCfgHelper.cs)保持一致
 public class ItemCfgHelper {
 	// private static ItemCfgHelper m_instance = null;
 	//
@@ -36,6 +38,27 @@ public class ItemCfgHelper {
 		return false;
 	}
 
+	//最后两位数是时装的有效期
+	public static final int FashionSpecialItemStart = 90000000;
+	public static final int FashionSpecialItemEnd   = 99999999;
+
+	public static boolean isFashionSpecialItem(int cfgId) {
+		return FashionSpecialItemStart <= cfgId && cfgId <=FashionSpecialItemEnd;
+	}
+	
+	public static boolean parseFashionSpecialItem(int cfgId, RefInt fashionId,RefInt expireTimeCount){
+		if (FashionSpecialItemStart <= cfgId && cfgId <=FashionSpecialItemEnd){
+			if (fashionId != null){
+				fashionId.value = cfgId /100;
+			}
+			if (expireTimeCount != null){
+				expireTimeCount.value = cfgId % 100;
+			}
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * 获取物品的类型
 	 * 
@@ -44,6 +67,7 @@ public class ItemCfgHelper {
 	 */
 	public static EItemTypeDef getItemType(int id) {
 		EItemTypeDef type = null;
+		//TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (id > 602000 && id < 604000)
 			type = EItemTypeDef.Magic;
 		else if (id > 604000 && id < 606000)

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.common.RefInt;
 import com.playerdata.readonly.ItemBagMgrIF;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ItemBagHolder;
@@ -257,6 +258,14 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
 	public boolean addItem(int cfgId, int count) {
+		//增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
+		//TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
+		if (ItemCfgHelper.isFashionSpecialItem(cfgId)){
+			RefInt fashionId = new RefInt();
+			RefInt expireTimeCount=new RefInt();
+			ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
+			return FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+		}
 		return addItem0(cfgId, count, null, null, true);
 	}
 
