@@ -236,6 +236,11 @@ public class GambleDropHistory {
 			return false;
 		}
 		
+		//单抽特殊规则，忽略抽卡历史：不管前面抽了多少张，到了设定的数量就必须转到保底组来抽，否则就不用保底组
+		if (dropPlan.isSingleGamble()){
+			return historySize >= checkNum - 1;
+		}
+		
 		for (String itemModelId : history) {
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
