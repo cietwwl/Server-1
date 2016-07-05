@@ -281,7 +281,13 @@ public class BattleTowerHandler {
 			if (nextFloorCfg != null) {
 				groupId = nextFloorCfg.getGroupId();// 设置组Id
 			} else {
-				SetFail(commonRsp, "打开试练塔挑战界面", userId, "已经挑战到了最高层,只能重置", "已经挑战到最高层，请重置");
+				//bug fix : 封神台的交互处理有问题，告诉客户端处理最高层的问题
+				rsp.setGroupId(-1);
+				rsp.setIsFirst(false);
+				rsp.setCopyId(0);
+				commonRsp.setRspBody(rsp.build().toByteString());
+				commonRsp.setRspState(EResponseState.RSP_SUCESS);
+				//SetFail(commonRsp, "打开试练塔挑战界面", userId, "已经挑战到了最高层,只能重置", "已经挑战到最高层，请重置");
 				return;
 			}
 		}
