@@ -58,6 +58,7 @@ import com.rwproto.BattleTowerServiceProtos.ChallengeBossStartReqMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeEndReqMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeEndRspMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeStartReqMsg;
+import com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg;
 import com.rwproto.BattleTowerServiceProtos.EKeyType;
 import com.rwproto.BattleTowerServiceProtos.ERequestType;
 import com.rwproto.BattleTowerServiceProtos.EResponseState;
@@ -264,7 +265,7 @@ public class BattleTowerHandler {
 		}
 
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
-		BattleTowerFloorCfg floorCfg = (BattleTowerFloorCfg) cfgDao.getCfgById(String.valueOf(curFloor));
+		BattleTowerFloorCfg floorCfg =cfgDao.getCfgById(String.valueOf(curFloor));
 		if (floorCfg == null) {
 			SetFail(commonRsp, "打开试练塔挑战界面", userId, String.format("没有找到对应%s层的配置表信息", curFloor), "数据异常");
 			return;
@@ -926,7 +927,7 @@ public class BattleTowerHandler {
 			return;
 		}
 
-		int floor = req.getFloor();// 要挑战的层数
+		final int floor = req.getFloor();// 要挑战的层数
 		int curFloor = tableBattleTower.getCurFloor();// 当前层
 		if (!tableBattleTower.getResult() && curFloor > 0) {// 还没有任何结果
 			curFloor -= 1;
@@ -939,7 +940,7 @@ public class BattleTowerHandler {
 		curFloor = curFloor == 0 ? 1 : curFloor;
 
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
-		BattleTowerFloorCfg floorCfg = (BattleTowerFloorCfg) cfgDao.getCfgById(String.valueOf(curFloor));
+		BattleTowerFloorCfg floorCfg = cfgDao.getCfgById(String.valueOf(curFloor));
 		if (floorCfg == null) {
 			SetFail(commonRsp, "试练塔模块-战斗开始", userId, "没有找到对应的" + curFloor + "层的配置表", "数据异常");
 			return;
@@ -956,7 +957,7 @@ public class BattleTowerHandler {
 		int lastFloor = floorList.get(floorList.size() - 1);
 		if (curFloor == lastFloor) {
 			curFloor++;// 下一层加一
-			floorCfg = (BattleTowerFloorCfg) cfgDao.getCfgById(String.valueOf(curFloor));
+			floorCfg = cfgDao.getCfgById(String.valueOf(curFloor));
 			if (floorCfg == null) {
 				SetFail(commonRsp, "试练塔模块-战斗开始", userId, "挑战的新层，没有找到对应的" + curFloor + "层的配置表", "数据异常");
 				return;
@@ -980,11 +981,27 @@ public class BattleTowerHandler {
 			return;
 		}
 
+		//TODO 验证客户端的copyID
+		if (req.hasCopyId()){//为兼容旧的客户端，没有设置为required字段
+			int clientCopyId = req.getCopyId();
+			BattleTowerRewardCfg rewardCfg = BattleTowerRewardCfgDao.getCfgDao().getCfgById(String.valueOf(groupId));
+			if (rewardCfg!= null && rewardCfg.getCopyId() != clientCopyId){
+				ChallengeStartRspMsg.Builder rsp = ChallengeStartRspMsg.newBuilder();
+				rsp.setCopyId(rewardCfg.getCopyId());
+				commonRsp.setRspBody(rsp.build().toByteString());
+				SetFail(commonRsp, "试练塔模块-战斗开始", userId, 
+						String.format("第%s层，对应的是第%s组，请求打的不是该组的copyID，客户端的是:%s,服务器计算的是:%s", 
+								curFloor, floorCfg.getGroupId(),clientCopyId,rewardCfg.getCopyId()), 
+						"请求数据异常，请重试");
+				return;
+			}
+		}
+
 		tableBattleTower.setCurFloor(floor);// 设置当前要打的层
 		tableBattleTower.setResult(false);// 当前还没有结果
 		// 更新数据
 		dao.update(tableBattleTower);
-
+		
 		commonRsp.setReqType(ERequestType.CHALLENGE_START);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
@@ -1020,14 +1037,14 @@ public class BattleTowerHandler {
 
 		// 层信息
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
-		BattleTowerFloorCfg floorCfg = (BattleTowerFloorCfg) cfgDao.getCfgById(String.valueOf(curFloor));
+		BattleTowerFloorCfg floorCfg = cfgDao.getCfgById(String.valueOf(curFloor));
 		if (floorCfg == null) {
 			SetFail(commonRsp, "试练塔模块-战斗结束", userId, "没有找到对应" + curFloor + "层的数据", "数据异常");
 			return;
 		}
 
 		// 组信息
-		int groupId = floorCfg.getGroupId();// 当前层属于的组
+		final int groupId = floorCfg.getGroupId();// 当前层属于的组
 		List<Integer> floorList = cfgDao.getContainFloorList(String.valueOf(groupId));
 		if (floorList.isEmpty()) {
 			SetFail(commonRsp, "试练塔模块-战斗结束", userId, String.format("对应的层%s，所属的组%s，包含层的信息列表是空", curFloor, groupId), "数据异常");
@@ -1118,7 +1135,7 @@ public class BattleTowerHandler {
 
 			// 奖励模版
 			BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
-			BattleTowerRewardCfg rewardCfg = (BattleTowerRewardCfg) rewardCfgDao.getCfgById(String.valueOf(groupId));
+			BattleTowerRewardCfg rewardCfg = rewardCfgDao.getCfgById(String.valueOf(groupId));
 
 			boolean isLastFloor = false;
 			if (floor == floorList.get(floorList.size() - 1)) {// 是最后一层
@@ -1127,6 +1144,17 @@ public class BattleTowerHandler {
 
 			// 设置当前新的层
 			tableBattleTower.setCurFloor(floor);// 设置当前新的层
+			
+			if (result){//TODO 获取新的当前层，即是下一层的copyID，并返回给客户端
+				BattleTowerFloorCfg nextFloorCfg = cfgDao.getCfgById(String.valueOf(floor+1));
+				if (nextFloorCfg!=null){
+					int nextGroupId = nextFloorCfg.getGroupId();
+					BattleTowerRewardCfg nextRewoardCfg= rewardCfgDao.getCfgById(String.valueOf(nextGroupId));
+					if (nextRewoardCfg != null){
+						rsp.setCopyId(nextRewoardCfg.getCopyId());
+					}
+				}
+			}
 
 			// 奖励信息
 			List<ItemInfo> itemInfoList = null;
