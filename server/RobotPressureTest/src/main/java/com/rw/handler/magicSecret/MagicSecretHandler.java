@@ -183,6 +183,11 @@ public class MagicSecretHandler {
 				maxChapterId = temp;
 			}
 		}
+		
+		MagicChapterInfo magicChapterInfo = map.get(String.valueOf(maxChapterId));
+		List<MSDungeonInfo> selectableDungeons = magicChapterInfo.getSelectableDungeons();
+		
+		
 		// 优先获取没有通过的幻境，如果所有幻境都通过则进行扫荡操作
 		if (maxChapterId != -1) {
 			String chapterId = magicSecretHolder.getChapterId();
@@ -196,7 +201,14 @@ public class MagicSecretHandler {
 					if (maxChapterId > intChapterId) {
 						return maxChapterId + "01_3";
 					} else {
-						return ++maxStageID + "_" + 3;
+						
+						int selectedDungeonIndex = magicChapterInfo.getSelectedDungeonIndex();
+						if(selectedDungeonIndex == -1){
+							return getSelectableDungeons(selectableDungeons);
+						}else{
+							MSDungeonInfo msDungeonInfo = selectableDungeons.get(selectedDungeonIndex);
+							return msDungeonInfo.getDungeonKey();
+						}
 					}
 				}
 			}else{
@@ -206,6 +218,27 @@ public class MagicSecretHandler {
 			return DEFAULT_START_CHATPER + "01_3";
 		}
 		
+	}
+	
+	public String getSelectableDungeons(List<MSDungeonInfo> selectableDungeons){
+		if(selectableDungeons == null || selectableDungeons.size() <= 0){
+			return null;
+		}
+		MSDungeonInfo maxMsDungeonInfo = null;
+		int index = -1;
+		for (MSDungeonInfo msDungeonInfo : selectableDungeons) {
+			String dungeonKey = msDungeonInfo.getDungeonKey();
+			String[] split = dungeonKey.split("_");
+			int temp = Integer.parseInt(split[1]);
+			if(temp > index){
+				maxMsDungeonInfo = msDungeonInfo;
+				index = temp;
+			}
+		}
+		if(maxMsDungeonInfo == null){
+			maxMsDungeonInfo = selectableDungeons.get(0);
+		}
+		return maxMsDungeonInfo.getDungeonKey();
 	}
 
 	private boolean fight(Client client, String dungeonId) {
