@@ -57,7 +57,6 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.GroupCommonProto;
-import com.rwproto.GroupCommonProto.GroupDonateType;
 import com.rwproto.GroupCommonProto.GroupFunction;
 import com.rwproto.GroupCommonProto.GroupLogType;
 import com.rwproto.GroupCommonProto.GroupPost;
@@ -640,8 +639,9 @@ public class GroupPersonalHandler {
 		// 角色当天捐献的次数
 		int donateTimes = memberData.getDonateTimes();
 		int donateType = donateCfg.getDonateType();
+		boolean isTokenDonate = donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE;
 
-		if (donateType == GroupDonateType.MONEY_DONATE_VALUE) {
+		if (!isTokenDonate) {
 			// 捐献次数已经用完了
 			if (donateTimes >= perDayDonateTimes) {
 				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "捐献次数已用完");
@@ -657,6 +657,7 @@ public class GroupPersonalHandler {
 		List<IUseItem> useItemList = null;
 		Map<Integer, Integer> useMoney = null;
 
+		int rewardToken = 0;
 		if (donateItemType < eSpecialItemId.eSpecial_End.getValue()) {
 			eSpecialItemId def = eSpecialItemId.getDef(donateItemType);
 			if (def == null) {
@@ -692,7 +693,9 @@ public class GroupPersonalHandler {
 			name = cfg.getName();
 
 			useItemList = new ArrayList<IUseItem>(1);
-			useItemList.add(new UseItem(itemList.get(0).getId(), donateId));
+			useItemList.add(new UseItem(itemList.get(0).getId(), donateVal));
+
+			rewardToken = donateVal;
 		}
 
 		if (donateVal > hasCount) {
@@ -704,19 +707,22 @@ public class GroupPersonalHandler {
 		}
 
 		int rewardContribution = donateCfg.getRewardContribution();
-		if (donateType == GroupDonateType.TOKEN_DONATE_VALUE) {
+		if (isTokenDonate) {
 			int perDayLimit = gbct.getMaxContributionLimitPerDay();
 			int dayContribution = memberData.getDayContribution();
-			int leftContribution = perDayLimit - dayContribution;
-			int offContribution = rewardContribution - leftContribution;// 可以增加的贡献-当前剩余可以获取的贡献
-			rewardContribution = offContribution >= 0 ? rewardContribution : leftContribution;
+			if (dayContribution < perDayLimit) {
+				int leftContribution = perDayLimit - dayContribution;
+				rewardContribution = leftContribution >= rewardContribution ? rewardContribution : leftContribution;
+			} else {
+				rewardContribution = 0;
+			}
 		}
 
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, rewardContribution, donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE);// 只有令牌捐献才会增加到今日
+		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + (isTokenDonate ? 0 : 1), now, rewardContribution, isTokenDonate);// 只有令牌捐献才会增加到今日
 
 		// 更新捐献后的帮派数据
-		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), true);
+		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), rewardToken, true);
 		// 更新帮派排行榜属性
 		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 		UserEventMgr.getInstance().factionDonateVitality(player, 1);

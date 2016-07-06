@@ -478,6 +478,28 @@ public class GroupMemberMgr {
 	}
 
 	/**
+	 * 更新帮派成员的捐献时间
+	 * 
+	 * @param userId
+	 * @param donateTimes
+	 * @param lastDonateTime
+	 */
+	public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		item.setDonateTimes(0);
+		item.setLastDonateTime(lastDonateTime);
+		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
+	}
+
+	/**
 	 * 捐献之后更新成员的数据
 	 * 
 	 * @param userId

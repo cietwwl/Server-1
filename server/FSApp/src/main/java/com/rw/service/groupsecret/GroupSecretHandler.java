@@ -450,7 +450,7 @@ public class GroupSecretHandler {
 				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
-					group.getGroupBaseDataMgr().updateGroupDonate(player, null, proGS, proGE, true);
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, proGS, proGE, 0, true);
 				}
 			}
 		}

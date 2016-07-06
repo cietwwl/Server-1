@@ -950,7 +950,7 @@ public class GMHandler {
 			}
 
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			groupMemberMgr.gmResetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1012,7 +1012,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0, true);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0, 0, true);
 		} else if (functionName.equalsIgnoreCase("pc")) {// 改变个人贡献
 			if (value == 0) {
 				return false;
@@ -1029,7 +1029,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, true);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
 		}
 
 		return true;

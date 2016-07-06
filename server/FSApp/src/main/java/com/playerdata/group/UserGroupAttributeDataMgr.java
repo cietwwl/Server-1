@@ -83,7 +83,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		userGroupData.setGroupName(groupData.getGroupName());
 		userGroupData.setContribution(memberData.getContribution());
-		userGroupData.setDayContribution(memberData.getContribution());
+		userGroupData.setDayContribution(memberData.getDayContribution());
 		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 

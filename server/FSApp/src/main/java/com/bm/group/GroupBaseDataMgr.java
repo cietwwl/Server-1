@@ -193,11 +193,12 @@ public class GroupBaseDataMgr {
 	 * @param logMgr 日志Mgr
 	 * @param rewardGroupSupply 奖励的帮派物资
 	 * @param rewardGroupExp 奖励的帮派经验
+	 * @param rewardToken 发给帮派的令牌数量
 	 */
-	public synchronized void updateGroupDonate(Player player, GroupLogMgr logMgr, int rewardGroupSupply, int rewardGroupExp, boolean needSyn) {
+	public synchronized boolean updateGroupDonate(Player player, GroupLogMgr logMgr, int rewardGroupSupply, int rewardGroupExp, int rewardToken, boolean needSyn) {
 		GroupBaseData groupData = groupBaseDataHolder.getGroupData();
 		if (groupData == null) {
-			return;
+			return false;
 		}
 
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
@@ -205,21 +206,33 @@ public class GroupBaseDataMgr {
 			if (rewardGroupSupply > 0) {
 				int daySupply = groupData.getDaySupplies();
 				int dayMaxGroupSupply = gbct.getMaxSupplyLimitPerDay();// 帮派物资
-				int leftGroupSupply = dayMaxGroupSupply - daySupply;
-				rewardGroupSupply = leftGroupSupply >= rewardGroupSupply ? rewardGroupSupply : leftGroupSupply;
+				if (daySupply < dayMaxGroupSupply) {
+					int leftGroupSupply = dayMaxGroupSupply - daySupply;
+					rewardGroupSupply = leftGroupSupply >= rewardGroupSupply ? rewardGroupSupply : leftGroupSupply;
+				} else {
+					rewardGroupSupply = 0;
+				}
 			}
 
 			int dayExp = groupData.getDayExp();
 			int dayMaxGroupExp = gbct.getMaxExpLimitPerDay();// 帮派经验
-			int leftGroupExp = dayMaxGroupExp - dayExp;
-			rewardGroupExp = leftGroupExp >= rewardGroupExp ? rewardGroupExp : leftGroupExp;
+			if (dayExp < dayMaxGroupExp) {
+				int leftGroupExp = dayMaxGroupExp - dayExp;
+				rewardGroupExp = leftGroupExp >= rewardGroupExp ? rewardGroupExp : leftGroupExp;
+			} else {
+				rewardGroupExp = 0;
+			}
 		}
 
 		if (rewardGroupSupply != 0) {
 			int supplies = groupData.getSupplies() + rewardGroupSupply;
-			groupData.setSupplies(supplies < 0 ? 0 : supplies);
+			if (supplies < 0) {
+				return false;
+			}
+
+			groupData.setSupplies(supplies);
 			if (rewardGroupSupply > 0) {
-				groupData.setDaySupplies(groupData.getDaySupplies() + rewardGroupExp);
+				groupData.setDaySupplies(groupData.getDaySupplies() + rewardGroupSupply);
 			}
 		}
 
@@ -228,9 +241,21 @@ public class GroupBaseDataMgr {
 			groupData.setDayExp(groupData.getDayExp() + rewardGroupExp);
 		}
 
+		if (rewardToken != 0) {
+			int curToken = groupData.getToken();
+			int tokens = curToken + rewardToken;
+			if (tokens < 0) {
+				return false;
+			}
+
+			groupData.setToken(tokens);
+		}
+
 		if (needSyn) {
 			updateAndSynGroupData(player);
 		}
+
+		return true;
 	}
 
 	/**
@@ -280,7 +305,7 @@ public class GroupBaseDataMgr {
 		}
 
 		// 扣物资
-		updateGroupDonate(player, null, -needGroupSupply, 0, false);
+		updateGroupDonate(player, null, -needGroupSupply, 0, 0, false);
 		// 更新帮派研发技能数据
 		groupData.addOrUpdateResearchSkill(skillId, skillLevel, -1, -1);
 
