@@ -121,8 +121,9 @@ public class BattleTowerHandler {
 		rsp.setLeftResetTimes(battleTowerResetTimes - tableBattleTower.getResetTimes());
 		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
 
-		int curFloor = tableBattleTower.getCurFloor();// 当前层数
+		final int curFloor = tableBattleTower.getCurFloor();// 当前层数
 		boolean result = tableBattleTower.getResult();// 是否有了战斗结果
+		final int highestFloor = tableBattleTower.getHighestFloor();
 
 		//by franky 每层扫荡的用时
 		int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
@@ -133,7 +134,6 @@ public class BattleTowerHandler {
 		boolean sweepState = tableBattleTower.getSweepState();// 扫荡状态
 		if (sweepState && sweepStartTime > 0) {
 			int sweepStartFloor = tableBattleTower.getSweepStartFloor();
-			int highestFloor = tableBattleTower.getHighestFloor();
 			int needTime = (int) TimeUnit.SECONDS.toMillis((highestFloor - sweepStartFloor + 1) * theSweepTime4PerFloor);// 扫荡完成需要的时间
 			if (sweepStartTime + needTime < now) {// 已经完成了，发送奖励
 				List<Integer> groupIdList = new ArrayList<Integer>();
@@ -182,7 +182,7 @@ public class BattleTowerHandler {
 			}
 
 			int f = roleInfo.getFloor();
-			if (f <= curFloor) {
+			if (f <= highestFloor) {
 				continue;
 			}
 
@@ -213,6 +213,7 @@ public class BattleTowerHandler {
 				bossInfoMsg.setBossCfgId(bossInfo.getBossId());
 				long hasShowSecond = TimeUnit.MILLISECONDS.toSeconds((now - bossInfo.getBossStartTime()));
 				bossInfoMsg.setBossRemainTime((TimeUnit.MILLISECONDS.toSeconds(showTime) - hasShowSecond));
+				bossInfoMsg.setBossInFloor(bossInfo.getBossInFloor());
 				rsp.addBossInfoMsg(bossInfoMsg);
 			}
 		}
@@ -600,7 +601,7 @@ public class BattleTowerHandler {
 		int theSweepTime4PerFloor = uniqueCfg.getTheSweepTime4PerFloor();// 每层扫荡需要的时间（秒）
 		//by franky
 		theSweepTime4PerFloor -= player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.sweepTimeDec);
-
+		
 		if (tableBattleTower.getCurBossTimes() < perDayBossSize) {
 			int leftBossSize = perDayBossSize - tableBattleTower.getCurBossTimes();// 剩下产生几个Boss
 
