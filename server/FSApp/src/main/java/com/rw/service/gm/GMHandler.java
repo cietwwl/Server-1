@@ -153,6 +153,9 @@ public class GMHandler {
 		// 巅峰竞技场，重新加载配置
 		funcCallBackMap.put("reloadpeakarenaconfig", "reloadPeakArenaConfig");
 		funcCallBackMap.put("resetpeakarenachallenge", "resetPeakArenaChallenge");
+
+		// 封神台，设置当前层数
+		funcCallBackMap.put("setbattletowerfloor", "setBattleTowerFloor");
 	}
 
 	public boolean isActive() {
@@ -182,6 +185,19 @@ public class GMHandler {
 			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
 		}
 		GameLog.info("GM", "reloadConfig", "finished", null);
+		return result;
+	}
+
+	public boolean setBattleTowerFloor(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerFloor", "start", null);
+		boolean result = true;
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();// 试练塔数据管理
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();// 试练塔的存储数据
+		int curFloor = Integer.parseInt(arrCommandContents[0]);
+		tableBattleTower.setCurFloor(curFloor);
+		tableBattleTower.setHighestFloor(curFloor);
+		TableBattleTowerDao.getDao().update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerFloor " + curFloor, "finished", null);
 		return result;
 	}
 
