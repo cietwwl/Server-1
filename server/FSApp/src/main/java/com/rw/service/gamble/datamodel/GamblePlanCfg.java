@@ -59,8 +59,8 @@ public class GamblePlanCfg extends BaseConfig {
 		String[] cond = openCondition.split(",");
 		openLevel = Integer.parseInt(cond[0]);
 		openVipLevel=Integer.parseInt(cond[1]);
-		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum,freeExclusiveCount);
-		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount);
+		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum,freeExclusiveCount,dropItemCount == 1);
+		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount,dropItemCount == 1);
 
 		if (hotCount > 0){
 			RefInt i1=new RefInt();
