@@ -106,6 +106,8 @@ public final class GroupBM {
 		group = new Group(groupId);// 直接加载帮派的成员列表到内存
 		cacheGroupDataMap.putIfAbsent(groupId, group);
 
+		// 检查是否要重置每日获取经验和物资上限
+		group.getGroupBaseDataMgr().checkOrResetGroupDayExpAndSupplyLimit();
 		return group;
 	}
 
@@ -288,5 +290,19 @@ public final class GroupBM {
 		sb.append(GameManager.getServerId());
 		sb.append(generator.generateId());
 		return sb.toString();
+	}
+
+	/**
+	 * 检查所有在线帮派的每日经验等限制
+	 */
+	public static void checkOrAllGroupDayLimit() {
+		for (Entry<String, Group> e : cacheGroupDataMap.entrySet()) {
+			Group group = e.getValue();
+			if (group == null) {
+				continue;
+			}
+
+			group.getGroupBaseDataMgr().checkOrResetGroupDayExpAndSupplyLimit();
+		}
 	}
 }

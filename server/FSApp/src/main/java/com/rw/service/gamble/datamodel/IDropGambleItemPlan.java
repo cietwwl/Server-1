@@ -19,4 +19,10 @@ public interface IDropGambleItemPlan {
 	int getExclusiveCount();
 
 	int getLastCheckIndex();
+	
+	/**
+	 * 特殊组别：单抽
+	 * @return
+	 */
+	boolean isSingleGamble();
 }

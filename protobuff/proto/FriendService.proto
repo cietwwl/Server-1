@@ -21,6 +21,7 @@ enum EFriendRequestType{
 	CONSENT_ADD_FRIEND_ALL = 15;//同意添加好友(全部)
 	REFUSED_ADD_FRIEND_ALL = 16;//拒绝添加好友(全部)	
 	ALL_LIST = 17;//请求所有列表
+	REQUEST_ADD_MUTI_FRIEND = 18;//请求添加多个好友
 }
 
 enum EFriendResultType{
@@ -34,6 +35,7 @@ message FriendRequest{
 	required EFriendRequestType requestType = 1;//前端请求信息类型
 	optional string otherUserId = 2;//玩家id
 	optional string searchKey = 3;//搜索玩家字符
+	repeated string userIdList = 4;//玩家id列表
 }
 
 message FriendResponse{
@@ -51,6 +53,7 @@ message AllList{
 	repeated FriendInfo friendList = 1;//好友列表
 	repeated FriendInfo requestList = 2;//请求列表
 	repeated FriendInfo blackList = 3;//黑名单列表
+	repeated FriendInfo recommandList = 4;//推荐列表
 }
 
 message FriendInfo{

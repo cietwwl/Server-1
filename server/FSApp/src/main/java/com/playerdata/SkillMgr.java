@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.Action;
-import com.log.GameLog;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.enu.EPrivilegeDef;
@@ -263,7 +262,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		}
 
 		// 检查所有的技能
-		SkillHelper.checkAllSkill(skillItemHolder.getItemList());
+		updateMoreInfo(null, skillItemHolder.getItemList());
 
 		// for (int i = 0; i < skillList.size(); i++) {
 		// Skill pSkill = skillList.get(i);
@@ -292,26 +291,28 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 * @param pSkill
 	 */
 	private void updateMoreInfo(Skill pSkill, List<Skill> skillList) {
-		if (pSkill.getLevel() <= 0) {
-			return;
-		}
-
-		String skillId = pSkill.getSkillId();
-		SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
-		if (pSkillCfg == null) {
-			if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
-				if (m_pPlayer != null) {
-					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
-				}
+		if (pSkill != null) {
+			if (pSkill.getLevel() <= 0) {
+				return;
 			}
-			return;
+
+			String skillId = pSkill.getSkillId();
+			SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
+			if (pSkillCfg == null) {
+				if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
+					if (m_pPlayer != null) {
+						m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
+					}
+				}
+				return;
+			}
 		}
 
 		List<Skill> itemList = skillItemHolder.getItemList();
 
 		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
 
-		StringBuilder sb = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			Skill skill = itemList.get(i);
 			if (skill == null) {
@@ -320,11 +321,12 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 
 			skillItemHolder.updateItem(m_pPlayer, skill);
 
-			sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(), skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-					skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
+			// sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
+			// skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
+			// skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
 		}
 
-		GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
+		// GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
 	}
 
 	/**
@@ -505,6 +507,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		}
 
 		// 初始化各个技能之间的影响的buffer等
-		SkillHelper.checkAllSkill(skillItemHolder.getItemList());
+		updateMoreInfo(null, skillItemHolder.getItemList());
 	}
 }
