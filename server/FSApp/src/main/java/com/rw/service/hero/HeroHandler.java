@@ -454,6 +454,9 @@ public class HeroHandler {
 
 		}
 
+		if(curExp > levelExp){
+			curExp = levelExp;
+		}
 		MaxUseExpRes.Builder muer = MaxUseExpRes.newBuilder();
 		muer.setLevel(curLevel);
 		muer.setCostNum(totalCount);
