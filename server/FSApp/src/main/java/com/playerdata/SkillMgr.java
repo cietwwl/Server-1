@@ -263,7 +263,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		}
 
 		// 检查所有的技能
-		SkillHelper.checkAllSkill(skillItemHolder.getItemList());
+		updateMoreInfo(null, skillItemHolder.getItemList());
 
 		// for (int i = 0; i < skillList.size(); i++) {
 		// Skill pSkill = skillList.get(i);
@@ -292,19 +292,21 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 * @param pSkill
 	 */
 	private void updateMoreInfo(Skill pSkill, List<Skill> skillList) {
-		if (pSkill.getLevel() <= 0) {
-			return;
-		}
-
-		String skillId = pSkill.getSkillId();
-		SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
-		if (pSkillCfg == null) {
-			if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
-				if (m_pPlayer != null) {
-					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
-				}
+		if (pSkill != null) {
+			if (pSkill.getLevel() <= 0) {
+				return;
 			}
-			return;
+
+			String skillId = pSkill.getSkillId();
+			SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
+			if (pSkillCfg == null) {
+				if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
+					if (m_pPlayer != null) {
+						m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
+					}
+				}
+				return;
+			}
 		}
 
 		List<Skill> itemList = skillItemHolder.getItemList();
@@ -505,6 +507,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		}
 
 		// 初始化各个技能之间的影响的buffer等
-		SkillHelper.checkAllSkill(skillItemHolder.getItemList());
+		updateMoreInfo(null, skillItemHolder.getItemList());
 	}
 }
