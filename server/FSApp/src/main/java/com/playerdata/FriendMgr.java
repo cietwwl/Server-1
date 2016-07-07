@@ -204,9 +204,11 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
 		FriendResultVo resultVo = new FriendResultVo();		
 		TableFriend tableFriend = getTableFriend();
-		resultVo.resultType = EFriendResultType.SUCCESS;
-		resultVo.resultMsg = "已向对方发送添加好友请求";
+		resultVo.resultType = EFriendResultType.FAIL;
+		resultVo.resultMsg = "没有向人申请好友";
 		for(int i = 0; i< friendList.size();i++){
+			resultVo.resultType = EFriendResultType.SUCCESS;
+			resultVo.resultMsg = "申请成功";
 			String otherUserId = friendList.get(i);
 			if (isSelfUser(otherUserId)) {
 //				resultVo.resultType = EFriendResultType.FAIL;

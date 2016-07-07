@@ -381,7 +381,8 @@ public class FriendHandler {
 	public ByteString requestAddFriendList(FriendRequest request, Player player) {
 		FriendResponse.Builder response = FriendResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
-		List<String> userIdList = null;//request.getOtherUserId();
+//		String tmpList = request.getUserIdListList();
+		List<String> userIdList = request.getUserIdListList();
 //		response.setOtherUserId(request.getOtherUserId());
 
 		FriendResultVo resultVo = player.getFriendMgr().requestAddFriendList(userIdList);
