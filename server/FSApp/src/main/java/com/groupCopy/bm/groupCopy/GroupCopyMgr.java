@@ -1,7 +1,10 @@
 package com.groupCopy.bm.groupCopy;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,11 +13,17 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.DropInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDamegeRankInfo;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
@@ -26,10 +35,18 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
+import com.rw.controler.GameLogicTask;
+import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
+import com.rwbase.gameworld.GameWorldExecutor;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
@@ -39,6 +56,7 @@ import com.rwproto.GroupCopyCmdProto.ArmyHurtStruct;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
 import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
+import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.monster.cfg.CopyMonsterCfg;
@@ -71,6 +89,7 @@ public class GroupCopyMgr {
 	private DropAndApplyRecordHolder dropHolder;
 
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
+	public final static DropApplyComparator adComparator = new DropApplyComparator();
 
 	public static final int MAX_RANK_RECORDS = 10;
 	
@@ -98,8 +117,8 @@ public class GroupCopyMgr {
 	 * @param mapId
 	 * @return
 	 */
-	public synchronized GroupCopyResult  openMap(Player player, String mapId){
-		return GroupCopyMapBL.openMap(player, mapRecordHolder, lvRecordHolder, mapId);
+	public  GroupCopyResult  openMap(Player player, String mapId){
+		return GroupCopyMapBL.openOrResetMap(player, mapRecordHolder, lvRecordHolder, mapId);
 	}
 	
 	/**
@@ -108,8 +127,20 @@ public class GroupCopyMgr {
 	 * @param mapId
 	 * @return
 	 */
-	public synchronized GroupCopyResult resetMap(Player player, String mapId){
-		return GroupCopyMapBL.openMap(player, mapRecordHolder, lvRecordHolder, mapId);
+	public  GroupCopyResult resetMap(Player player, String mapId){
+		GroupCopyResult result =  GroupCopyMapBL.openOrResetMap(player, mapRecordHolder, lvRecordHolder, mapId);
+		if(result.isSuccess()){
+			//发送重置邮件
+			String groupId = GroupHelper.getUserGroupId(player.getUserId());
+			Group group = GroupBM.get(groupId);
+			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
+			List<? extends GroupMemberDataIF> list = group.getGroupMemberMgr().getMemberSortList(null);
+			for (GroupMemberDataIF dataIF : list) {
+				GameWorldFactory.getGameWorld().asyncExecute(dataIF.getUserId(), 
+						new GroupCopyResetMailTask(dataIF.getUserId(), player.getUserName(), cfg.getName()));
+			}
+		}
+		return result;
 	}
 	
 	/**
@@ -118,7 +149,7 @@ public class GroupCopyMgr {
 	 * @param levelId
 	 * @return
 	 */
-	public synchronized GroupCopyResult  beginFight(Player player, String levelId){
+	public  GroupCopyResult  beginFight(Player player, String levelId){
 		return GroupCopyLevelBL.beginFight(player, lvRecordHolder, levelId);
 	}
 	
@@ -130,13 +161,12 @@ public class GroupCopyMgr {
 	 * @param heroList TODO
 	 * @return
 	 */
-	public synchronized GroupCopyResult  endFight(Player player, String levelId, 
+	public  GroupCopyResult  endFight(Player player, String levelId, 
 			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
 		//获取伤害
 		int damage = getDamage(mData, levelId);
 		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
 		if(result.isSuccess()){
-			
 			//同步一下副本地图进度
 			GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
 			//检查是否进入章节前10伤害排行 
@@ -145,6 +175,30 @@ public class GroupCopyMgr {
 			if(result.getItem() != null){
 				addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
 				addReward2Role(player, levelId, (CopyRewardInfo.Builder)result.getItem());
+			}
+			
+			//检查一下章节进度，是否通关
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(levelCfg.getChaterID());
+			
+			if(mapRecord.getStatus() == GroupCopyMapStatus.FINISH){
+				
+				final String groupID = GroupHelper.getUserGroupId(player.getUserId());
+				if(groupID.equals("")){
+					return result;
+				}
+				GroupCopyDistIDManager.getInstance().addGroupID(groupID);
+				final String roleName = player.getUserName();
+				final boolean inExtralTime = mapRecord.getRewardTime() >= System.currentTimeMillis();
+				final String chaterID = levelCfg.getChaterID();
+				//通知帮派发通关邮件
+				GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+					
+					@Override
+					public void run() {
+						GroupCopyMailHelper.getInstance().sendGroupCopyFinishMail(groupID, roleName, inExtralTime, chaterID);
+					}
+				});
 			}
 		}
 		return result;
@@ -254,7 +308,7 @@ public class GroupCopyMgr {
 			//增加成员章节总伤害
 			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 			mapRecord.addPlayerDamage(player.getUserName(), damage);
-			
+			mapRecordHolder.updateItem(null, mapRecord);
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[checkDamageRank]", "帮派副本战斗结束检查排行榜时出现异常", e);
 		}
@@ -306,7 +360,7 @@ public class GroupCopyMgr {
 	 * @param player
 	 * @param version
 	 */
-	public synchronized void synMapData(Player player, int version){
+	public void synMapData(Player player, int version){
 		
 		mapRecordHolder.synAllData(player, version);
 		
@@ -317,7 +371,7 @@ public class GroupCopyMgr {
 	 * @param player
 	 * @param version
 	 */
-	public synchronized void synLevelData(Player player, int version){
+	public void synLevelData(Player player, int version){
 		
 		lvRecordHolder.synAllData(player, version);
 		
@@ -328,26 +382,15 @@ public class GroupCopyMgr {
 	 * @param player
 	 * @param version
 	 */
-	public synchronized void synRewardData(Player player, int version){
+	public void synRewardData(Player player, int version){
 		rewardRecordHolder.synAllData(player, version);
 	}
 	
-	public synchronized void synDropAppyData(Player player, String chaterID){
+	public void synDropAppyData(Player player, String chaterID){
 		dropHolder.synSingleData(player, chaterID);
 	}
 	
 	
-	
-	/**
-	 * 赞助buff
-	 * @param player
-	 * @param buffValue
-	 */
-	public synchronized void submitBuff(Player player, int buffValue){
-		
-	}
-
-
 	
 	/**
 	 * 请求是否可以进入关卡
@@ -355,7 +398,7 @@ public class GroupCopyMgr {
 	 * @param level
 	 * @return
 	 */
-	public synchronized GroupCopyBattleComRspMsg.Builder applyEnterCopy(Player player, String level,
+	public GroupCopyBattleComRspMsg.Builder applyEnterCopy(Player player, String level,
 			GroupCopyBattleComRspMsg.Builder rspMsg) {
 		try {
 			GroupCopyLevelRecord lvData = lvRecordHolder.getByLevel(level);
@@ -365,24 +408,49 @@ public class GroupCopyMgr {
 				rspMsg.setTipMsg("服务器繁忙！");
 				return rspMsg;
 			}
-			if(lvData != null && GroupCopyLevelBL.isFighting(lvData, player)){
-				int status = lvData.getStatus();
-				//返回一下正在战斗角色信息
-				String fighterId = lvData.getFighterId();
-				PlayerIF fighter = PlayerMgr.getInstance().getReadOnlyPlayer(fighterId);
-				
-				CopyBattleRoleStruct.Builder roleStruct = CopyBattleRoleStruct.newBuilder();
-				roleStruct.setRoleIcon(fighter.getHeadImage());
-				roleStruct.setRoleName(fighter.getUserName());
-				roleStruct.setState(GroupCopyLevelBL.getCopyStateTips(status));
-				roleStruct.setLv(fighter.getLevel());
-				rspMsg.setBattleRole(roleStruct);
-			}else{
-				//可以进入
-				boolean enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
-				rspMsg.setIsSuccess(enter);
+			int status = lvData.getStatus();
+			boolean enter = false;
+			long curTime = System.currentTimeMillis();
+
+			CopyBattleRoleStruct.Builder roleStruct = null; 
+			int leftTime = 0;
+			switch (status) {
+			case GroupCopyLevelBL.STATE_COPY_EMPTY:
+				enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
+				break;
+			case GroupCopyLevelBL.STATE_COPY_WAIT:
+				//检查有没有超时
+				leftTime = (int) ((lvData.getLastBeginFightTime() + GroupCopyLevelBL.MAX_WAIT_SPAN - curTime)/1000);
+				if(leftTime <= 0 ){
+					//已经超时，重置
+					enter = updateCopyState(player, lvData, status);
+				}else{
+					//没有超时，返回关卡内的角色数据
+					roleStruct = getRoleStruct(lvData.getFighterId(), leftTime, status);
+				}
+				break;
+			case GroupCopyLevelBL.STATE_COPY_FIGHT:
+				//检查有没有超时
+				leftTime = (int) ((lvData.getLastBeginFightTime() + GroupCopyLevelBL.MAX_WAIT_SPAN - curTime)/1000);
+				if(leftTime <= 0){
+					//已经超时，重置
+					enter = updateCopyState(player, lvData, status);
+				}else{
+					//没有超时，返回关卡内的角色数据
+					roleStruct = getRoleStruct(lvData.getFighterId(), leftTime, status);
+				}
+				break;
+			
+			default:
+				break;
 			}
 			
+			
+			if(roleStruct != null){
+				rspMsg.setBattleRole(roleStruct);
+			}
+			
+			rspMsg.setIsSuccess(enter);
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[applyEnterCopy]", "角色请求进入关卡异常", e);
 		}
@@ -390,6 +458,25 @@ public class GroupCopyMgr {
 		return rspMsg;
 	}
 
+	/**
+	 * @param roleID
+	 * @param leftTimeSec
+	 * @param status
+	 * @return
+	 */
+	private CopyBattleRoleStruct.Builder getRoleStruct(String roleID, int leftTimeSec, int status){
+		PlayerIF fighter = PlayerMgr.getInstance().getReadOnlyPlayer(roleID);
+		
+		CopyBattleRoleStruct.Builder roleStruct = CopyBattleRoleStruct.newBuilder();
+		roleStruct.setRoleIcon(fighter.getHeadImage());
+		roleStruct.setRoleName(fighter.getUserName());
+		roleStruct.setState(GroupCopyLevelBL.getCopyStateTips(status));
+		roleStruct.setLv(fighter.getLevel());
+		roleStruct.setLeftTime(leftTimeSec);
+		roleStruct.setRoleID(roleID);
+		return roleStruct;
+	}
+	
 
 	/**
 	 * 更新关卡状态
@@ -450,7 +537,7 @@ public class GroupCopyMgr {
 					result.setSuccess(suc);
 					return result;
 				}
-				record.addRoleDonate(player.getUserName(), data.getDonateTime());
+				record.addRoleDonate(player.getUserName(), donateCfg.getGold());
 				record.addBuff(donateCfg.getIncreValue());
 				//扣钱  加帮贡
 				int code = player.getUserGameDataMgr().addGold(-donateCfg.getGold());
@@ -514,6 +601,9 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	public GroupCopyResult ApplyOrCancelItem(Player player, GroupCopyCmdReqMsg reqMsg, boolean apply) {
+		//保存下帮派id
+		GroupCopyDistIDManager.getInstance().addGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		
 		String chaterID = reqMsg.getId();
@@ -549,7 +639,7 @@ public class GroupCopyMgr {
 	 */
 	private void clearBeforeApplyRecord(Player player, CopyItemDropAndApplyRecord record){
 		
-		//这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错
+		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
 		ItemDropAndApplyTemplate target = null;
@@ -557,7 +647,7 @@ public class GroupCopyMgr {
 		for (Iterator<ItemDropAndApplyTemplate> itr = map.values().iterator(); itr.hasNext();) {
 			ItemDropAndApplyTemplate entry = itr.next();
 			for (ApplyInfo i : entry.getApplyData()) {
-				if(i.getRoleID() == player.getUserId()){
+				if(i.getRoleID().equals(player.getUserId())){
 					beforeApply = i;
 					break;
 				}
@@ -567,9 +657,91 @@ public class GroupCopyMgr {
 				break;
 			}
 		}
-		
-		target.deleteApplyData(beforeApply);
+		if(beforeApply != null){
+			boolean delete = target.deleteApplyData(beforeApply);
+			if(!delete){
+				GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[clearBeforeApplyRecord]", "清除记录出错", null);
+			}
+		}
 	}
 
+	
+	/**
+	 * 检查并发送帮派定时奖励
+	 * @param groupName
+	 */
+	public void checkAndSendGroupPriceMail(String groupName){
+		try {
+			List<CopyItemDropAndApplyRecord> itemList = dropHolder.getItemList();
+			//检查每个章节
+			List<ApplyInfo> applyInfo = new ArrayList<ApplyInfo>();
+			List<DropInfo> dropInfo = new ArrayList<DropInfo>();
+			for (CopyItemDropAndApplyRecord record : itemList) {
+				Collection<ItemDropAndApplyTemplate> map = record.getDaMap().values();
+				//TODO 这里要进行优化，因为在这里直接遍历再进行操作，可能会有问题 ---Alex
+				
+				for (ItemDropAndApplyTemplate template : map) {
+					
+					applyInfo.addAll(template.getApplyData());
+					if(applyInfo.isEmpty())
+						continue;
+					dropInfo = template.getDropInfoList();
+					if(dropInfo.isEmpty())
+						continue;
+					
+					//如果申请人和物品都有数据，则进行分发
+					Collections.sort(applyInfo, adComparator);
+					Collections.sort(dropInfo, adComparator);
+					
+					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, dropInfo.get(0), applyInfo.get(0), groupName);
+					if(sendMail){
+						template.deleteApply(dropInfo.get(0), applyInfo.get(0));
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[chekcAdSendGroupPriceMail]", "发送帮派奖励出现异常", e);
+		}
+	}
 
+	/**
+	 * 获取当前章节帮派内伤害最高角色名,如果没有返回空字串
+	 * @param chaterID
+	 * @return
+	 */
+	public String getFirstDamageRoleName(String chaterID){
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(chaterID);
+		if(mapRecord == null){
+			return "";
+		}
+		GroupCopyArmyDamageInfo damageInfo = mapRecord.getDamegeRankInfo().getDamageRank().get(0);
+		return damageInfo.getArmy().getPlayerName();
+	}
+
+	/**
+	 * 检查角色在最高伤害名次，如果没有则返回0
+	 * @param chaterID
+	 * @param userId
+	 * @return
+	 */
+	public int getRoleInDamageRankIndex(String chaterID, String userId) {
+		int index  = 0;
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(chaterID);
+		if(mapRecord == null){
+			return index;
+		}
+		LinkedList<GroupCopyArmyDamageInfo> list = mapRecord.getDamegeRankInfo().getDamageRank();
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getPlayerID().equals(userId)){
+				index = i + 1;
+				break;
+			}
+		}
+		return index;
+	}
+
+	
+	
+	
 }

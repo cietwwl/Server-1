@@ -44,6 +44,12 @@ public class ServerGroupCopyDamageRecordMgr {
 		return getItemStore().updateItem(item);
 	}
 	
+	/**
+	 * @param levelId
+	 * @param damageInfo
+	 * @param player
+	 * @param kill
+	 */
 	public synchronized void checkDamageRank(String levelId,
 			GroupCopyArmyDamageInfo damageInfo, Player player, boolean kill) {
 		ServerGroupCopyDamageRecord record = getItem(levelId);
@@ -54,7 +60,7 @@ public class ServerGroupCopyDamageRecordMgr {
 		boolean suc = record.checkOrAddRecord(damageInfo, kill);
 		if(suc){
 			if(updateItem(record)){
-				synSingleData(player, dataVersion.get(), levelId, false);
+//				synSingleData(player, dataVersion.get(), levelId, false);暂时不主动推送
 			}
 		}
 		

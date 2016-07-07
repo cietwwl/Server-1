@@ -151,10 +151,10 @@ public class GroupCopyLevelRecordHolder{
 		for (String id : set) {
 			record = getByLevel(id);
 			record.resetLevelData();
+			getItemStore().updateItem(record);
 			list.add(record);
 		}
 		updateVersion();
-		
 		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST, dataVersion.get());
 	}
 	

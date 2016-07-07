@@ -17,7 +17,7 @@ public class CopyBuffInfo {
 	private int totalBuff;
 	
 	
-	/**当前关卡的赞助<key=角色名, value=赞助次数>*/
+	/**当前关卡的赞助<key=角色名, value=赞助金额>*/
 	private Map<String, Integer> buffMap = new HashMap<String, Integer>();
 	
 	

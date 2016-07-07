@@ -10,6 +10,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyLevelCfg {
@@ -30,10 +32,11 @@ public class GroupCopyLevelCfg {
 	
 	private Map<Integer, String> dropMap;//格式化后的掉落数据
 	
-	private Map<String,Integer> roleRewardMap;//格式化后的个人奖励
+	private List<Integer> roleRewarList;//格式化后的个人奖励掉落方案
 	
 	private List<String> mIDList;//格式化后的怪物列表
 	
+	private String nextLevelID;//下一关卡id
 	/**
 	 * 格式化数据
 	 */
@@ -55,10 +58,17 @@ public class GroupCopyLevelCfg {
 		}
 		
 		
-		if(roleRewardMap == null){
-			roleRewardMap = new HashMap<String, Integer>();
+		if(roleRewarList == null){
+			roleRewarList = new ArrayList<Integer>();
 		}
 		
+		
+		
+		
+		dStr = roleReward.split(",");
+		for (String str : dStr) {
+			roleRewarList.add(Integer.parseInt(str));
+		}
 		
 		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
 		cfg.addLvID(id);
@@ -111,8 +121,8 @@ public class GroupCopyLevelCfg {
 
 	
 	
-	public Map<String, Integer> getRoleRewardMap() {
-		return Collections.unmodifiableMap(roleRewardMap);
+	public List<Integer> getRoleRewardList() {
+		return Collections.unmodifiableList(roleRewarList);
 	}
 
 
@@ -122,6 +132,14 @@ public class GroupCopyLevelCfg {
 
 	public int getReadyTime() {
 		return readyTime;
+	}
+
+	public String getNextLevelID() {
+		return nextLevelID;
+	}
+
+	public void setNextLevelID(String nextLevelID) {
+		this.nextLevelID = nextLevelID;
 	}
 
 	/**

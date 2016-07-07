@@ -31,7 +31,7 @@ public class GroupCopyMapBL {
 	 * @param mapId
 	 * @return
 	 */
-	public static GroupCopyResult  openMap(Player player, GroupCopyMapRecordHolder mapRecordHolder,
+	public static GroupCopyResult  openOrResetMap(Player player, GroupCopyMapRecordHolder mapRecordHolder,
 			GroupCopyLevelRecordHolder lvRecordHolder, String mapId){
 		boolean suc = false;
 		GroupCopyResult result = GroupCopyResult.newResult();
@@ -49,14 +49,15 @@ public class GroupCopyMapBL {
 			//设置额外奖励时间
 			mapRecord.setRewardTime(System.currentTimeMillis() + mapCfg.getExtraRewardTime() * TimeUnit.HOURS.toMillis(1));
 			mapRecord.setStatus(GroupCopyMapStatus.ONGOING);
+			mapRecord.setCurLevelID(mapCfg.getStartLvID());
 			mapRecord.cleanData();
 
-			//重置所有关卡的进度
+			
+			//重置所有关卡的进度  
 			lvRecordHolder.resetLevelData(player, mapCfg.getLvList());
 			
 			
 			suc = mapRecordHolder.updateItem(player, mapRecord);
-			
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMapBL[openMap]", "开启帮派副本时异常", e);
@@ -68,26 +69,6 @@ public class GroupCopyMapBL {
 	
 	
 	
-//	/**
-//	 * 重置帮派副本
-//	 * @param groupCopyMapRecordHolder
-//	 * @param mapId
-//	 * @param player TODO
-//	 * @return
-//	 */
-//	public static GroupCopyResult resetMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId, Player player){
-//		
-//		GroupCopyResult result = GroupCopyResult.newResult();
-//		boolean success = false;
-//		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
-//		if(mapRecord != null){			
-//			mapRecord.cleanData();
-//			groupCopyMapRecordHolder.updateItem(player, mapRecord);
-//			success = true;
-//		}
-//		result.setSuccess(success);
-//		return result;
-//	}
 
 	/**
 	 * 内部同步副本进度
@@ -114,7 +95,23 @@ public class GroupCopyMapBL {
 			currentHp += progress.getCurrentHp();
 		}
 		double p = Utils.div((totalHp - currentHp), totalHp, 5);
-		mapRecordHolder.updateMapProgress(mapCfg.getId(), p);
+		//检查一下当前章节副本关卡id
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
+		lvRecord = levelRecordHolder.getByLevel(levelId);
+		if(lvRecord.getProgress().getProgress() == 1){
+			//已经通关，设置下一个关卡id
+			if(lvList.contains(cfg.getNextLevelID())){
+				mapRecord.setCurLevelID(cfg.getNextLevelID());
+			}
+			
+		}
+		
+		mapRecord.setProgress(p);
+		//如果全部通关
+		if(p == 1){
+			mapRecord.setStatus(GroupCopyMapStatus.FINISH);
+		}
+		mapRecordHolder.updateItem(player, mapRecord);
 		
 	}
 	

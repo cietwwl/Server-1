@@ -42,11 +42,10 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
  */
 public class GroupCopyLevelBL {
 
-	final private static long MAX_FIGHT_SPAN = 2 * 60 * 1000;  //战斗最多持续时间，超过了认为断线，重置关卡状态。
-	private final static long MAX_WAIT_SPAN = 1 * 60 * 1000;  //准备最多持续时间，超过了重置关卡状态。
+	public final static long MAX_FIGHT_SPAN = 2 * 60 * 1000;  //战斗最多持续时间，超过了认为断线，重置关卡状态。
+	public final static long MAX_WAIT_SPAN = 1 * 60 * 1000;  //准备最多持续时间，超过了重置关卡状态。
 	
 	
-	private final static int MAX_FIGHT_COUNT = 2;//每天章节最大挑战次数
 	public final static int MAX_ALLOT_COUNT = 2;//每天分配的最大次数
 	public final static int STATE_COPY_EMPTY = 1;  //副本空闲
 	public final static int STATE_COPY_WAIT = 2;  //副本准备进入
@@ -289,7 +288,7 @@ public class GroupCopyLevelBL {
 		//计算掉落方案
 		for (Iterator<Entry<Integer, String>> itr = dropMap.entrySet().iterator(); itr.hasNext();) {
 			Entry<Integer,String> type = itr.next();
-			if(befPro <type.getKey() && type.getKey() < nowPro){
+			if(befPro * 100 <type.getKey() && type.getKey() <= nowPro * 100){
 				groupReward.add(Integer.parseInt(type.getValue()));
 			}
 			
@@ -314,12 +313,17 @@ public class GroupCopyLevelBL {
 		
 		
 		//计算个人奖励
-		for (Iterator<Entry<String, Integer>> itr = lvCfg.getRoleRewardMap().entrySet().iterator(); itr.hasNext();) {
-			Entry<String, Integer> entry = itr.next();
-			CopyRewardStruct.Builder newBuilder = CopyRewardStruct.newBuilder();
-			newBuilder.setCount(entry.getValue());
-			newBuilder.setItemID(Integer.parseInt(entry.getKey()));
-			rewardInfo.addPersonalReward(newBuilder);
+		List<ItemInfo> list;
+		try {
+			list = DropItemManager.getInstance().pretreatDrop(player, lvCfg.getRoleRewardList(), 0, false);
+			for (ItemInfo i : list) {
+				CopyRewardStruct.Builder newBuilder = CopyRewardStruct.newBuilder();
+				newBuilder.setCount(i.getItemNum());
+				newBuilder.setItemID(i.getItemID());
+				rewardInfo.addPersonalReward(newBuilder);
+			}
+		} catch (DataAccessTimeoutException e) {
+			e.printStackTrace();
 		}
 		
 		//个人奖励的金币

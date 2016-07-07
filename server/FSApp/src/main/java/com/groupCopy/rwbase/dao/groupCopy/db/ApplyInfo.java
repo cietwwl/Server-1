@@ -1,10 +1,14 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.groupCopy.bm.groupCopy.DropApplyInteface;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
 @SynClass
-public class ApplyInfo {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ApplyInfo implements DropApplyInteface{
 	
 	private String roleID;
 	private String roleName;
@@ -42,6 +46,11 @@ public class ApplyInfo {
 
 	public void setApplyTime(long applyTime) {
 		this.applyTime = applyTime;
+	}
+
+	@Override
+	public long getTime() {
+		return applyTime;
 	}
 
 }

@@ -154,7 +154,7 @@
 	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao" init-method="init" />
 	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao" init-method="init" />
 	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao" init-method="init" />
-	
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />

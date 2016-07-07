@@ -63,5 +63,7 @@ message CopyBattleRoleStruct{
 	required string roleIcon = 2;
 	required string state = 3;
 	required int32 lv = 4;
+	required int32 leftTime = 5;//剩余时间
+	required string roleID = 6;
 }
 

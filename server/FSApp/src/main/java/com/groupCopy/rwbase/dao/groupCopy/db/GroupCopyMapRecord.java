@@ -34,6 +34,9 @@ public class GroupCopyMapRecord implements IMapItem {
 	private String chaterID; //对应章节id
 	
 	@CombineSave
+	private String curLevelID;//当前章节id
+	
+	@CombineSave
 	private GroupCopyMapStatus status;//状态 开启 关闭 完成
 	
 	@CombineSave
@@ -55,6 +58,10 @@ public class GroupCopyMapRecord implements IMapItem {
 	
 	
 	
+	public GroupCopyMapRecord() {
+		
+		
+	}
 	public Map<String, Integer> getGroupRoleDamageMap() {
 		return groupRoleDamageMap;
 	}
@@ -115,6 +122,12 @@ public class GroupCopyMapRecord implements IMapItem {
 	}
 	
 	
+	public String getCurLevelID() {
+		return curLevelID;
+	}
+	public void setCurLevelID(String curLevelID) {
+		this.curLevelID = curLevelID;
+	}
 	public boolean checkOrAddDamageRank(GroupCopyArmyDamageInfo info){
 		return damegeRankInfo.addInfo(info);
 	}

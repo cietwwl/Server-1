@@ -32,7 +32,6 @@ public class GroupCopyBattleService implements FsService {
 			case FIGHT_END:
 				byteString = handler.endFight(player, commonReq);
 				break;
-				
 			case ENTER_APPLY:
 				byteString = handler.applyEnterCopy(player,commonReq);
 				break;

@@ -45,12 +45,14 @@ public class GroupCopyMapRecordHolder{
 	}
 	
 	private GroupCopyMapRecord createRecord(String mapID){
+		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapID);
 		GroupCopyMapRecord record = null;
 		try {
 			record = new GroupCopyMapRecord();
 			record.setId(getRecordID(mapID));
 			record.setChaterID(mapID);
 			record.setGroupId(groupId);
+			record.setCurLevelID(cfg.getStartLvID());
 			record.setStatus(GroupCopyMapStatus.LOCKING);
 			
 		} catch (Exception e) {
@@ -75,10 +77,18 @@ public class GroupCopyMapRecordHolder{
 		return itemList;
 	}
 	
+	/**
+	 * 如果player为null,则不更新到前端
+	 * @param player
+	 * @param item
+	 * @return
+	 */
 	public boolean updateItem(Player player, GroupCopyMapRecord item ){
 		boolean suc = getItemStore().updateItem(item);
 		update();
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		if(player != null){
+			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		}
 		return suc;
 	}
 	
@@ -107,16 +117,6 @@ public class GroupCopyMapRecordHolder{
 	}
 
 
-	/**
-	 * 更新一下副本地图进度
-	 * @param chaterID
-	 * @param p 进度值
-	 */
-	public void updateMapProgress(String chaterID, double p) {
-		getItemByID(chaterID).setProgress(p);
-		update();
-	}
-
 
 	public void checkDamageRank(String chaterID,
 			GroupCopyArmyDamageInfo damageInfo) {
@@ -128,16 +128,5 @@ public class GroupCopyMapRecordHolder{
 	}
 
 
-
-
-	
-	
-
-	
-	
-	
-
-
-	
 	
 }

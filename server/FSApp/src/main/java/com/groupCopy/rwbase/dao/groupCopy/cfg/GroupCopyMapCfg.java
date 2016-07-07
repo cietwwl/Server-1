@@ -24,7 +24,7 @@ public class GroupCopyMapCfg {
     private Map<Integer, Integer> extRewMap = new HashMap<Integer, Integer>();//格式化后的伤害额外奖励集合
     private Set<String> lvList = new HashSet<String>();
     private int enterCount;//每天进入次数
-    
+    private String startLvID;//开始关卡
     
     public void formatData(){
     	if(extRewMap == null){
@@ -65,10 +65,6 @@ public class GroupCopyMapCfg {
 	}
 
 
-	public int getLevel() {
-		return unLockLv;
-	}
-
 
 	public int getOpenCost() {
 		return openCost;
@@ -108,6 +104,15 @@ public class GroupCopyMapCfg {
 		return enterCount;
 	}
 
+	public String getStartLvID() {
+		return startLvID;
+	}
 
+
+	public int getExtralValue(int key){
+		if(extRewMap.containsKey(key))
+			return extRewMap.get(key);
+		return 0;
+	}
     
 }

@@ -23,10 +23,8 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 	@CombineSave
 	private String chaterID;//对应章节id
 	
-	
 	/** 当前地图的掉落物品及对应的申请列表<key=itemID,value=掉落记录> */
 	@CombineSave
-	@IgnoreSynField
 	private Map<String, ItemDropAndApplyTemplate> daMap = new HashMap<String, ItemDropAndApplyTemplate>();
 
 	public CopyItemDropAndApplyRecord(String id, String groupId) {

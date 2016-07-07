@@ -15,12 +15,8 @@ import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyDamegeRankInfo {
 	
-	
-	
 	private LinkedList<GroupCopyArmyDamageInfo> damageRank = new LinkedList<GroupCopyArmyDamageInfo>();
 
-	
-	
 	public LinkedList<GroupCopyArmyDamageInfo> getDamageRank() {
 		return damageRank;
 	}
@@ -36,7 +32,7 @@ public class GroupCopyDamegeRankInfo {
 	public synchronized boolean addInfo(GroupCopyArmyDamageInfo info) {
 		//先与最后的比较
 		GroupCopyArmyDamageInfo tem = null;
-		if(!damageRank.isEmpty() && damageRank.size() > GroupCopyMgr.MAX_RANK_RECORDS){
+		if(!damageRank.isEmpty() && damageRank.size() >= GroupCopyMgr.MAX_RANK_RECORDS){
 			tem = damageRank.getLast();
 			if(tem.getDamage() >= info.getDamage()){
 				return false;
@@ -44,7 +40,7 @@ public class GroupCopyDamegeRankInfo {
 		}
 		//检查一下是否有记录
 		for (GroupCopyArmyDamageInfo dInfo : damageRank) {
-			if(dInfo.getPlayerID() == info.getPlayerID()){
+			if(dInfo.getPlayerID().equals(info.getPlayerID())){
 				tem = dInfo;
 			}
 		}

@@ -1,9 +1,10 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import com.groupCopy.bm.groupCopy.DropApplyInteface;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
-public class DropInfo {
+public class DropInfo implements DropApplyInteface{
 
 	private int count;
 	

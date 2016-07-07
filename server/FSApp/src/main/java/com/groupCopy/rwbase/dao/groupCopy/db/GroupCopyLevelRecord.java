@@ -128,6 +128,7 @@ public class GroupCopyLevelRecord implements IMapItem {
 			return;
 		}
 		progress.reset();
+		buffInfo.clear();
 
 	}
 	public CopyBuffInfo getBuffInfo() {

@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import com.bm.guild.GuildGTSMgr;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
+import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
@@ -78,7 +80,10 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				GuildGTSMgr.getInstance().checkAssignMent();				
+				GuildGTSMgr.getInstance().checkAssignMent();
+				
+				//帮派副本定时发奖
+				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
 

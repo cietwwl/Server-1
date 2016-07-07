@@ -119,14 +119,12 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 
 
 
-	public synchronized boolean checkOrAddRecord(GroupCopyArmyDamageInfo damageInfo, boolean kill) {
+	public boolean checkOrAddRecord(GroupCopyArmyDamageInfo damageInfo, boolean kill) {
 		if(kill && firstKillInfo == null){
 			firstKillInfo = damageInfo;
-		}else{
-			GameLog.error(LogModule.GroupCopy, "ServerGroupCopyDamageRecord[checkOrAddRecord]", "检查帮派副本首次击杀数据时发现存在旧记录", null);
 		}
 		GroupCopyArmyDamageInfo tem = null;
-		if(!records.isEmpty()){
+		if(!records.isEmpty() && records.size() >= GroupCopyMgr.MAX_RANK_RECORDS){
 			tem = records.get(records.size() - 1);
 			if(tem.getDamage() >= damageInfo.getDamage()){
 				return false;
@@ -135,7 +133,7 @@ public class ServerGroupCopyDamageRecord implements IMapItem{
 		
 		//检查一下是否有记录
 		for (GroupCopyArmyDamageInfo info : records) {
-			if(info.getPlayerID() == damageInfo.getPlayerID()){
+			if(info.getPlayerID().equals(damageInfo.getPlayerID())){
 				tem = info;
 			}
 		}

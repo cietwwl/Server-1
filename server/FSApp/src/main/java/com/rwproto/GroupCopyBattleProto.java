@@ -6307,6 +6307,39 @@ public final class GroupCopyBattleProto {
      * <code>required int32 lv = 4;</code>
      */
     int getLv();
+
+    // required int32 leftTime = 5;
+    /**
+     * <code>required int32 leftTime = 5;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    boolean hasLeftTime();
+    /**
+     * <code>required int32 leftTime = 5;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    int getLeftTime();
+
+    // required string roleID = 6;
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    boolean hasRoleID();
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    java.lang.String getRoleID();
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getRoleIDBytes();
   }
   /**
    * Protobuf type {@code GroupCopyBattle.CopyBattleRoleStruct}
@@ -6381,6 +6414,16 @@ public final class GroupCopyBattleProto {
             case 32: {
               bitField0_ |= 0x00000008;
               lv_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              leftTime_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              roleID_ = input.readBytes();
               break;
             }
           }
@@ -6568,11 +6611,80 @@ public final class GroupCopyBattleProto {
       return lv_;
     }
 
+    // required int32 leftTime = 5;
+    public static final int LEFTTIME_FIELD_NUMBER = 5;
+    private int leftTime_;
+    /**
+     * <code>required int32 leftTime = 5;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    public boolean hasLeftTime() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 leftTime = 5;</code>
+     *
+     * <pre>
+     *剩余时间
+     * </pre>
+     */
+    public int getLeftTime() {
+      return leftTime_;
+    }
+
+    // required string roleID = 6;
+    public static final int ROLEID_FIELD_NUMBER = 6;
+    private java.lang.Object roleID_;
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    public boolean hasRoleID() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    public java.lang.String getRoleID() {
+      java.lang.Object ref = roleID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleID = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRoleIDBytes() {
+      java.lang.Object ref = roleID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       roleName_ = "";
       roleIcon_ = "";
       state_ = "";
       lv_ = 0;
+      leftTime_ = 0;
+      roleID_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6595,6 +6707,14 @@ public final class GroupCopyBattleProto {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasLeftTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRoleID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -6613,6 +6733,12 @@ public final class GroupCopyBattleProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, lv_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, leftTime_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getRoleIDBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -6638,6 +6764,14 @@ public final class GroupCopyBattleProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, lv_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, leftTime_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getRoleIDBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6767,6 +6901,10 @@ public final class GroupCopyBattleProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         lv_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        leftTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        roleID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -6811,6 +6949,14 @@ public final class GroupCopyBattleProto {
           to_bitField0_ |= 0x00000008;
         }
         result.lv_ = lv_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.leftTime_ = leftTime_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.roleID_ = roleID_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6845,6 +6991,14 @@ public final class GroupCopyBattleProto {
         if (other.hasLv()) {
           setLv(other.getLv());
         }
+        if (other.hasLeftTime()) {
+          setLeftTime(other.getLeftTime());
+        }
+        if (other.hasRoleID()) {
+          bitField0_ |= 0x00000020;
+          roleID_ = other.roleID_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -6863,6 +7017,14 @@ public final class GroupCopyBattleProto {
           return false;
         }
         if (!hasLv()) {
+          
+          return false;
+        }
+        if (!hasLeftTime()) {
+          
+          return false;
+        }
+        if (!hasRoleID()) {
           
           return false;
         }
@@ -7143,6 +7305,129 @@ public final class GroupCopyBattleProto {
         return this;
       }
 
+      // required int32 leftTime = 5;
+      private int leftTime_ ;
+      /**
+       * <code>required int32 leftTime = 5;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public boolean hasLeftTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 leftTime = 5;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public int getLeftTime() {
+        return leftTime_;
+      }
+      /**
+       * <code>required int32 leftTime = 5;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public Builder setLeftTime(int value) {
+        bitField0_ |= 0x00000010;
+        leftTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 leftTime = 5;</code>
+       *
+       * <pre>
+       *剩余时间
+       * </pre>
+       */
+      public Builder clearLeftTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        leftTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string roleID = 6;
+      private java.lang.Object roleID_ = "";
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public boolean hasRoleID() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public java.lang.String getRoleID() {
+        java.lang.Object ref = roleID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRoleIDBytes() {
+        java.lang.Object ref = roleID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public Builder setRoleID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        roleID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public Builder clearRoleID() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        roleID_ = getDefaultInstance().getRoleID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleID = 6;</code>
+       */
+      public Builder setRoleIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        roleID_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyBattle.CopyBattleRoleStruct)
     }
 
@@ -7219,12 +7504,13 @@ public final class GroupCopyBattleProto {
       "\014\n\004gold\030\002 \002(\005\0229\n\016personalReward\030\003 \003(\0132!." +
       "GroupCopyBattle.CopyRewardStruct\022\025\n\rfina",
       "lHitPrice\030\004 \001(\005\"1\n\020CopyRewardStruct\022\016\n\006i" +
-      "temID\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"U\n\024CopyBattle" +
+      "temID\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"w\n\024CopyBattle" +
       "RoleStruct\022\020\n\010roleName\030\001 \002(\t\022\020\n\010roleIcon" +
-      "\030\002 \002(\t\022\r\n\005state\030\003 \002(\t\022\n\n\002lv\030\004 \002(\005*>\n\013Req" +
-      "uestType\022\017\n\013FIGHT_BEGIN\020\001\022\r\n\tFIGHT_END\020\002" +
-      "\022\017\n\013ENTER_APPLY\020\003B#\n\013com.rwprotoB\024GroupC" +
-      "opyBattleProto"
+      "\030\002 \002(\t\022\r\n\005state\030\003 \002(\t\022\n\n\002lv\030\004 \002(\005\022\020\n\010lef" +
+      "tTime\030\005 \002(\005\022\016\n\006roleID\030\006 \002(\t*>\n\013RequestTy" +
+      "pe\022\017\n\013FIGHT_BEGIN\020\001\022\r\n\tFIGHT_END\020\002\022\017\n\013EN" +
+      "TER_APPLY\020\003B#\n\013com.rwprotoB\024GroupCopyBat" +
+      "tleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7272,7 +7558,7 @@ public final class GroupCopyBattleProto {
           internal_static_GroupCopyBattle_CopyBattleRoleStruct_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyBattle_CopyBattleRoleStruct_descriptor,
-              new java.lang.String[] { "RoleName", "RoleIcon", "State", "Lv", });
+              new java.lang.String[] { "RoleName", "RoleIcon", "State", "Lv", "LeftTime", "RoleID", });
           return null;
         }
       };

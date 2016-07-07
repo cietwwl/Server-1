@@ -98,6 +98,7 @@ public class GroupCopyBattleHandler {
 			if(result.getItem() != null){
 				commonRsp.setDropInfo((CopyRewardInfo.Builder) result.getItem());
 			}
+			
 		}	
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
