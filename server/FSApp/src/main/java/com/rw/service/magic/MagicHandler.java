@@ -102,7 +102,7 @@ public class MagicHandler {
 		}
 
 		// 法宝模版
-		MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemData.getModelId()));
+		MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemData.getModelId()));
 		if (magicCfg == null) {
 			return SetReturnResponse(msgMagicResponse,"找不到法宝配置");
 		}
@@ -155,7 +155,7 @@ public class MagicHandler {
 				matInfos.modelIDs[i]=matModelId;
 				matInfos.materialCounts[i]=magicMaterial.getCount();
 
-				ConsumeCfg cfg = (ConsumeCfg) ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(matModelId));
+				ConsumeCfg cfg = ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(matModelId));
 				if (cfg == null) {
 					return SetReturnResponse(msgMagicResponse,"材料没有配置强化经验");
 				}
@@ -219,16 +219,6 @@ public class MagicHandler {
 			int unitExp = matInfos.unitExps[k];
 			String matId = matInfos.StoreIDs[k];
 			int increasedExp = (useCount+addedTime) * unitExp;
-			if (addedExp + increasedExp >= fullExp){
-				//调整使用数量,avExp是考虑暴击数量的平均经验
-				int avExp = (useCount+addedTime) * unitExp / useCount;
-				int newCount = (fullExp - addedExp) / avExp ;
-				if ((fullExp - addedExp) % avExp > 0){
-					newCount++;
-				}
-				useCount = newCount;
-				increasedExp = newCount * avExp;
-			}
 			addedExp += increasedExp;
 			if (useCount >0){
 				IUseItem useItem = new UseItem(matId, useCount);
