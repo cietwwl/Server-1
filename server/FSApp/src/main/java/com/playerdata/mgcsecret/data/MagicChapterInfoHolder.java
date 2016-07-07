@@ -52,6 +52,10 @@ public class MagicChapterInfoHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
+	public void updateItemWithoutSyn(Player player, MagicChapterInfo item){
+		getItemStore(player.getUserId()).updateItem(item);
+	}
+	
 	public void updateItem(Player player, String chapterID){
 		MagicChapterInfo item = getItem(player.getUserId(), chapterID);
 		getItemStore(player.getUserId()).updateItem(item);
@@ -80,14 +84,16 @@ public class MagicChapterInfoHolder{
 		MagicChapterInfo mcInfo = getItem(player.getUserId(), chapterID);
 		if(mcInfo == null) {
 			mcInfo = new MagicChapterInfo();
-			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) 
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));			
+			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) {
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));
+				return;
+			}
 			mcInfo.setId(player.getUserId() + "_" + chapterID);
 			mcInfo.setChapterId(chapterID);
 			mcInfo.setUserId(player.getUserId());
 			addItem(player, mcInfo);
 			startNewChapter(player, chapterID);
-			updateItem(player, mcInfo);
+			updateItemWithoutSyn(player, mcInfo);
 		}
 	}
 	
@@ -99,7 +105,7 @@ public class MagicChapterInfoHolder{
 		for(MagicChapterInfo mcInfo : getItemList(player)){
 			mcInfo.resetData();
 			startNewChapter(player, mcInfo.getChapterId());
-			updateItem(player, mcInfo);
+			updateItemWithoutSyn(player, mcInfo);
 		}
 		return true;
 	}
@@ -120,7 +126,16 @@ public class MagicChapterInfoHolder{
 	}
 	
 	public void synAllData(Player player){
-		List<MagicChapterInfo> itemList = getItemList(player);			
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return;
+		int maxChapter = umsData.getMaxStageID()/100;
+		List<MagicChapterInfo> itemList = getItemList(player);
+		for(MagicChapterInfo mcInfo : itemList){
+			if(Integer.valueOf(mcInfo.getChapterId()) != maxChapter) {
+				mcInfo.getSelectableDungeons().clear();
+				mcInfo.getUnselectedBuff().clear();
+			}
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
