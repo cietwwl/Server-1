@@ -23,6 +23,7 @@ import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 
@@ -54,6 +55,7 @@ public class ActivityCountTypeMgr {
 		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 	}
 	
 	

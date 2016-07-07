@@ -169,6 +169,7 @@ public class MapItemStoreFactory {
 		
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
 		
+		register(activityRedEnvelopeTypeItemCache = new MapItemStoreCache<ActivityRedEnvelopeTypeItem>(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity));
 		
 		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		

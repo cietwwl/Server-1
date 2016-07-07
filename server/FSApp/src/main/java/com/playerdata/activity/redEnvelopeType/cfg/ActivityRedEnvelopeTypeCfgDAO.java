@@ -1,8 +1,20 @@
 package com.playerdata.activity.redEnvelopeType.cfg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
+
+
+
+
+
+
+import com.playerdata.Player;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -50,27 +62,44 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	
 	
 	
-//	public ActivityRankTypeCfg getConfig(String id){
-//		ActivityRankTypeCfg cfg = getCfgById(id);
-//		return cfg;
-//	}
+	public ActivityRedEnvelopeTypeCfg getConfig(String id){
+		ActivityRedEnvelopeTypeCfg cfg = getCfgById(id);
+		return cfg;
+	}
 	
-//	public ActivityRankTypeItem newItem(Player player, ActivityRankTypeEnum typeEnum){
-//		
-//		String cfgId = typeEnum.getCfgId();
-//		ActivityRedEnvelopeTypeCfg cfgById = getCfgById(cfgId );
-//		if(cfgById!=null){			
-//			ActivityRankTypeItem item = new ActivityRankTypeItem();
-//			String itemId = ActivityRankTypeHelper.getItemId(player.getUserId(), typeEnum);
-//			item.setId(itemId);
-//			item.setUserId(player.getUserId());
-//			item.setCfgId(cfgId);
-//			item.setVersion(cfgById.getVersion());
-//			return item;
-//		}else{
-//			return null;
-//		}		
-//	}
+	public ActivityRedEnvelopeTypeItem newItem(Player player, ActivityRedEnvelopeTypeEnum typeEnum){
+		
+		String cfgId = typeEnum.getCfgId();
+		ActivityRedEnvelopeTypeCfg cfgById = getCfgById(cfgId );
+		if(cfgById!=null){			
+			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
+			item.setId(player.getUserId());
+			item.setUserId(player.getUserId());
+			item.setCfgId(cfgId);
+			item.setVersion(cfgById.getVersion());
+			item.setLastTime(System.currentTimeMillis());
+			int day = DateUtils.getDayLimitHour(5, cfgById.getStartTime());
+			day++;
+			item.setDay(day);
+			item.setSubItemList(ActivityRedEnvelopeTypeCfgDAO.getInstance().getSubList());
+			return item;
+		}else{
+			return null;
+		}		
+	}
 
+	private List<ActivityRedEnvelopeTypeSubItem> getSubList() {
+		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
+		for(ActivityRedEnvelopeTypeSubCfg subCfg : ActivityRedEnvelopeTypeSubCfgDAO.getInstance().getAllCfg()){
+			ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
+			subItem.setCfgId(subCfg.getId());
+			subItem.setDay(subCfg.getDay());	
+			subItemList.add(subItem);
+		}
+		
+		return subItemList;
+	}
+
+	
 
 }

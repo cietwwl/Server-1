@@ -9,6 +9,7 @@ import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
@@ -96,6 +97,7 @@ public class PlayerTimeActionHelper {
 				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
