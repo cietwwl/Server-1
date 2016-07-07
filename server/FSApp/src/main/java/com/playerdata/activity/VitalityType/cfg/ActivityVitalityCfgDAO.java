@@ -92,8 +92,6 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			return 0;
 		}
 		long startTime = cfgById.getStartTime();
-		long currentTime = System.currentTimeMillis();
-//		int day = DateUtils.getDayDistance(startTime, currentTime);
 		int day = DateUtils.getDayLimitHour(5, startTime); 
 		day++;		
 		return day;

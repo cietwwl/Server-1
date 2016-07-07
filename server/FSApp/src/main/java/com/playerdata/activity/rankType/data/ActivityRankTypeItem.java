@@ -44,31 +44,13 @@ public class ActivityRankTypeItem implements  IMapItem {
 		return id;
 	}
 	
-	
-
-	
-
-
-
 	public String getEmailId() {
 		return emailId;
 	}
 
-
-
-
-
-
-
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-
-
-
-
-
-
 
 	public String getReward() {
 		return reward;

@@ -10,6 +10,7 @@ import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeI
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
@@ -90,6 +91,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	
 	
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
+	
+	
 	
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;	
 	
@@ -339,6 +344,14 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
 		return activityVitalityItemCache;
 	}
+	
+	
+	
+
+	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
+		return activityRedEnvelopeTypeItemCache;
+	}
+
 
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;
