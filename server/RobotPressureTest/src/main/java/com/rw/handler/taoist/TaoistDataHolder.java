@@ -11,7 +11,7 @@ import com.rwproto.TaoistMagicProtos.TaoistInfo;
 public class TaoistDataHolder {
 	List<TaoistInfo> taoistInfoListList = new ArrayList<TaoistMagicProtos.TaoistInfo>();
 	
-	private final static int MAX_LEVEL = 90;
+	private final static int MAX_LEVEL = 50;
 
 	public List<TaoistInfo> getTaoistInfoListList() {
 		return taoistInfoListList;
