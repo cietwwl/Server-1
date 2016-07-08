@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.gift.ComGiftCfg;
 import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwbase.dao.sign.pojo.SignCfg;
@@ -114,27 +118,32 @@ public class BilogItemInfo {
 	}
 	
 	
-	
-	public static List<BilogItemInfo> fromEmailId(String emailId){
+	/**
+	 * 
+	 * @param emailId
+	 * @param reWards  传入的邮件奖励道具，其实经过一次处理，不是从emailcfg而是从arneprizecfg取出来的。如果策划改了其中两个钟的一个表，都会造成传入参数不统一
+	 * @return
+	 */
+	public static List<BilogItemInfo> fromEmailId(String emailId,String reWards){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
 		if(emailId == null){
 			return newlist;
 		}
-		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(emailId);
-		if(giftcfg == null){
+		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(emailId);
+		if(cfg == null){
 			return newlist;
 		}
-		Set<String> keyset = giftcfg.getGiftMap().keySet();
-		Iterator<String> iterable = keyset.iterator();
-		while(iterable.hasNext()){
-			String subgiftid = iterable.next();
-			int count = giftcfg.getGiftMap().get(subgiftid);
+		String[] rewards = reWards.split(",");
+		for(String reward : rewards){
+			if(StringUtils.isBlank(reward)){
+				continue;
+			}
+			String[] idAndNum = reward.split("~");
 			BilogItemInfo subbilogitem = new BilogItemInfo();
-			subbilogitem.setItemId(Integer.parseInt(subgiftid));
-			subbilogitem.setNum(count);
-			newlist.add(subbilogitem);
-		}
-		
+			subbilogitem.setItemId(Integer.parseInt(idAndNum[0]));
+			subbilogitem.setNum(Integer.parseInt(idAndNum[1]));
+			newlist.add(subbilogitem);			
+		}	
 		return newlist;
 	}
 	
