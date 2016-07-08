@@ -9,6 +9,7 @@ import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
+import com.rw.handler.copy.copyHolder;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
@@ -98,6 +99,8 @@ public class Client {
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
+	
+	private copyHolder copyHolder = new copyHolder();
 	
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
@@ -335,6 +338,15 @@ public class Client {
 	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
 		return magicChapterInfoHolder;
 	}
+	
+	
+	
+	
+	public copyHolder getCopyHolder() {
+		return copyHolder;
+	}
+
+
 
 	public void setMagicChapterInfoHolder(MagicChapterInfoHolder magicChapterInfoHolder) {
 		this.magicChapterInfoHolder = magicChapterInfoHolder;

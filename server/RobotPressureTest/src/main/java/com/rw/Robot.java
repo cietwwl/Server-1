@@ -678,6 +678,15 @@ public class Robot {
 	
 	/** 聚宝胜利,根据参数决定战斗次数 */
 	public boolean testCopyJbzd(int num) {
+		if(!getPveInfo()){
+			return false;
+		}
+		CopyHandler.getHandler();
+		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0){			
+			return true;
+		}
+		
+		
 		if (num == 2) {
 			boolean getitemback = CopyHandler.getHandler().battleItemsBack(
 					client, CopyType.COPY_TYPE_TRIAL_JBZD);
@@ -697,10 +706,23 @@ public class Robot {
 		return false;
 	}
 	
+	private boolean getPveInfo(){
+		boolean getPveInfo = CopyHandler.getHandler().pveInfo(client);
+		return getPveInfo;		
+	}
+	
 
 
 	/**炼息胜利两 次 */
 	public boolean testCopyLxsg() {
+		if(!getPveInfo()){
+			return false;
+		}
+		CopyHandler.getHandler();
+		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0){			
+			return true;
+		}
+		
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
 		if(getitemback){
 			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
@@ -732,6 +754,15 @@ public class Robot {
 	
 	/**生存幻境两 次 */
 	public boolean testCopyschj() {
+		if(!getPveInfo()){
+			return false;
+		}
+		CopyHandler.getHandler();
+		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0){			
+			return true;
+		}
+		
+		
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
 		if(getitemback){
 			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		

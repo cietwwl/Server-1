@@ -151,6 +151,9 @@ public abstract class ClientMsgHandler {
 					case MajorData:
 						getClient().getMajorDataholder().syn(msgDataSyn);
 						break;
+					case COPY_LEVEL_RECORD:
+						getClient().getCopyHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
