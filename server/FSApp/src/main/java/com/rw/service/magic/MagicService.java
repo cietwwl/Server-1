@@ -1,7 +1,6 @@
 package com.rw.service.magic;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
@@ -37,7 +36,7 @@ public class MagicService implements FsService {
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			return result;

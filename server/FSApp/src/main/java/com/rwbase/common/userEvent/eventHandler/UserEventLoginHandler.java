@@ -36,11 +36,11 @@ public class UserEventLoginHandler implements IUserEventHandler{
 					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
 						isnewday = true;
 					}else{
-						if(!isnewday){					
-							isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
+						if(!isnewday){
+							isnewday = DateUtils.isNewDayHour(5,player.getUserGameDataMgr().getLastResetTime5Clock());
 						}
 					}
-					if(isnewday&&isBetweendays){					
+					if(isnewday&&isBetweendays){
 						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login,1);	
 					}
 				}

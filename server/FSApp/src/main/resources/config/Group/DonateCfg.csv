@@ -1,5 +1,9 @@
-key,Remarks,donateId,unlockIcon,bgIcon,titleIcon,donateItemType,donateVal,vipLevelLimit,rewardContribution,rewardGroupSupply,rewardGroupExp,unlockTip,unlockLabel
-1,,1,,SmallTex/Group/bg_BangPai_01,,1,10000,,5,5,5,vip等级达到0解锁,V0解锁
-2,,2,,SmallTex/Group/bg_BangPai_02,,2,50,,20,100,200,vip等级达到0解锁,V0解锁
-3,,3,,SmallTex/Group/bg_BangPai_03,,2,200,3,40,250,400,vip等级达到3解锁,V3解锁
-4,,4,,SmallTex/Group/bg_BangPai_04,,2,500,5,80,500,800,vip等级达到5解锁,V5解锁
+key,Remarks,donateId,donateType,unlockIcon,bgIcon,titleIcon,donateItemType,donateVal,vipLevelLimit,rewardContribution,rewardGroupSupply,rewardGroupExp,unlockTip,unlockLabel
+1,,1,1,,SmallTex/Group/bg_BangPai_01,,1,10000,,5,5,5,vip等级达到0解锁,V0解锁
+2,,2,1,,SmallTex/Group/bg_BangPai_02,,2,50,,20,100,200,vip等级达到0解锁,V0解锁
+3,,3,1,,SmallTex/Group/bg_BangPai_03,,2,200,3,40,250,400,vip等级达到3解锁,V3解锁
+4,,4,1,,SmallTex/Group/bg_BangPai_04,,2,500,5,80,500,800,vip等级达到5解锁,V5解锁
+5,,5,2,,SmallTex/Group/bg_BangPai_01,,806301,1,,1,,,,
+6,,6,2,,SmallTex/Group/bg_BangPai_02,,806301,10,,10,,,,
+7,,7,2,,SmallTex/Group/bg_BangPai_03,,806301,50,,50,,,,
+8,,8,2,,SmallTex/Group/bg_BangPai_04,,806301,200,,200,,,,

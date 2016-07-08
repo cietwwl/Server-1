@@ -2,6 +2,8 @@ package com.rwbase.dao.fresherActivity.pojo;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.alibaba.fastjson.JSON;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rwbase.common.enu.eActivityType;
@@ -10,10 +12,12 @@ import com.rwbase.common.enu.eActivityType;
 @SynClass
 public class FresherActivityItem implements FresherActivityItemIF{
 	
+	@IgnoreSynField
 	private String id;
+	@IgnoreSynField
 	private String ownerId;
 	private String currentValue;   //当前值
-	
+
 	private eActivityType type;
 	
 	private int cfgId;

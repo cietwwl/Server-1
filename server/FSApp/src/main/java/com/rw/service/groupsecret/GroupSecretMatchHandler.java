@@ -664,10 +664,11 @@ public class GroupSecretMatchHandler {
 				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
-					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue(), 0, true);
 				}
 			}
 		}
+
 		// 增加资源
 		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
 		if (cfg != null && robRes > 0) {

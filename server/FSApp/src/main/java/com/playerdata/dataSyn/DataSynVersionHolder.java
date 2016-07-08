@@ -9,18 +9,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.groupFightOnline.data.GFBiddingItem;
+import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ReConnectionProtos.SyncVersion;
 
@@ -268,16 +272,14 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityExchangeType);
 		
-		
-		
-		
-		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+		versionMap.put(eSynType.ActivityDailyDiscountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {	
-				MagicSecretMgr.getInstance().synMagicChapterData(player);
+			public void synAllData(Player player, int version) {				
+				ActivityDailyDiscountTypeMgr.getInstance().synCountTypeData(player);	
+//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.MagicChapterData);
+		orderList.add(eSynType.ActivityDailyDiscountType);
 		
 		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -286,6 +288,14 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicSecretData);
+		
+		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {	
+				MagicSecretMgr.getInstance().synMagicChapterData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicChapterData);
 		
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -296,9 +306,39 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityVitalityType);
 		
+		versionMap.put(eSynType.GFightOnlinePersonalData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				UserGFightOnlineHolder.getInstance().synData(player);
+			}
+		}));
+		orderList.add(eSynType.GFightOnlinePersonalData);
+//		
+//		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFDefendArmyItemHolder.getInstance().synSelfData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFDefendArmyData);
+//		
+//		versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFBiddingItemHolder.getInstance().synAllData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFBiddingData);
+//		
+//		versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFightOnlineResourceHolder.getInstance().synData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFightOnlineResourceData);
 		
 		notInVersionControlList.add(notInVersionControlP);
-		
 		
 
 		notInVersionControlList.add(notInVersionControlP);
@@ -308,7 +348,7 @@ public class DataSynVersionHolder {
 			@Override
 			public void synAllData(Player player, int version) {
 				// TODO Auto-generated method stub
-				player.getPlayerQuestionMgr().sync(version);
+//				player.getPlayerQuestionMgr().sync(version);
 			}
 		}));
 		orderList.add(eSynType.QuestionList);

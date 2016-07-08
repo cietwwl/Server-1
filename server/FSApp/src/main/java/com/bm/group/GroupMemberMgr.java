@@ -332,8 +332,9 @@ public class GroupMemberMgr {
 	 * 
 	 * @param userId
 	 * @param offsetContribution 扣除是负数，增加是正值
+	 * @param addDay 是否要增加到今日捐献中
 	 */
-	public synchronized void updateMemberContribution(String userId, int offsetContribution) {
+	public synchronized void updateMemberContribution(String userId, int offsetContribution, boolean addDay) {
 		GroupMemberData memberData = holder.getMemberData(userId, false);
 		if (memberData == null) {
 			return;
@@ -345,13 +346,16 @@ public class GroupMemberMgr {
 		memberData.setContribution(contribution);
 		if (offsetContribution > 0) {
 			memberData.setTotalContribution(memberData.getTotalContribution() + offsetContribution);
+			if (addDay) {
+				memberData.setDayContribution(memberData.getDayContribution() + offsetContribution);
+			}
 		}
 		holder.updateMemberData(memberData.getId());
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		holder.synMemberData(memberPlayer, false, -1);
 
 		// 通知修改了个人贡献值
-		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution, memberData.getDayContribution());
 	}
 
 	/**
@@ -401,13 +405,14 @@ public class GroupMemberMgr {
 		item.setHeadId(headIcon);
 		holder.updateMemberData(item.getId());
 	}
-	
+
 	/**
 	 * 更新成员的头像框
+	 * 
 	 * @param userId
 	 * @param headbox
 	 */
-	public synchronized void updateMemberHeadbox(String userId, String headbox){
+	public synchronized void updateMemberHeadbox(String userId, String headbox) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
@@ -456,15 +461,42 @@ public class GroupMemberMgr {
 	 * @param donateTimes
 	 * @param lastDonateTime
 	 */
-	public void updateMemberDataDonateTimes(String userId, int donateTimes, long lastDonateTime) {
+	public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
 		}
 
-		item.setDonateTimes(donateTimes);
+		item.setDonateTimes(0);
+		item.setLastDonateTime(lastDonateTime);
+		item.setDayContribution(0);
+		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
+	}
+
+	/**
+	 * 更新帮派成员的捐献时间
+	 * 
+	 * @param userId
+	 * @param donateTimes
+	 * @param lastDonateTime
+	 */
+	public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		item.setDonateTimes(0);
 		item.setLastDonateTime(lastDonateTime);
 		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
 	}
 
 	/**
@@ -474,8 +506,9 @@ public class GroupMemberMgr {
 	 * @param donateTimes
 	 * @param lastDonateTime
 	 * @param contribution 增加了多少贡献
+	 * @param add 是否添加到当日捐献
 	 */
-	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution) {
+	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution, boolean add) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
@@ -486,12 +519,15 @@ public class GroupMemberMgr {
 		item.setContribution(item.getContribution() + contribution);
 		if (contribution > 0) {
 			item.setTotalContribution(item.getTotalContribution() + contribution);
+			if (add) {
+				item.setDayContribution(item.getDayContribution() + contribution);
+			}
 		}
 		holder.updateMemberData(item.getId());
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		// 通知修改了个人贡献值
-		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution, item.getDayContribution());
 	}
 
 	/**

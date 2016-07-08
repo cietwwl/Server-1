@@ -192,6 +192,10 @@
 	<bean class="com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao"  init-method="init" />
+	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	

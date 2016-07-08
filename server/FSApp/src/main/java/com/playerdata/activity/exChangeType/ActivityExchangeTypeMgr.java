@@ -137,7 +137,7 @@ public class ActivityExchangeTypeMgr {
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}
-			if(DateUtils.getDayDistance(targetItem.getLasttime(), System.currentTimeMillis())>0){
+			if(DateUtils.isNewDayHour(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){

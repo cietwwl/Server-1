@@ -34,6 +34,7 @@ import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
@@ -139,7 +140,7 @@ public class GameManager {
 		GameLog.debug("排行排序用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
-
+		ActivityRankTypeMgr.getInstance().creatMap();//排行榜的活动奖励的配置表初始化
 		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();

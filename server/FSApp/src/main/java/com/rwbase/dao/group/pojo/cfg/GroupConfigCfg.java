@@ -34,6 +34,10 @@ public class GroupConfigCfg {
 	private int leaderLogoutTimeNoneRecommend;// 帮主离线多长时间不推荐(天为单位)
 	private int groupLogCacheSize;// 帮派日志缓存的最大条数
 	private int canDonateCoolingTime;// 进入帮派之后多久可以捐献
+	private int maxExpLimitPerDay;// 每天可以获得最大的经验数量...
+	private int maxSupplyLimitPerDay;// 每天可以获得最大的物资数量...
+	private int maxContributionLimitPerDay;// 每天可以捐献的最大数量...
+	private int tokenId;// 令牌的Id
 
 	public String getCfgId() {
 		return cfgId;
@@ -215,5 +219,21 @@ public class GroupConfigCfg {
 
 	public int getCanDonateCoolingTime() {
 		return canDonateCoolingTime;
+	}
+
+	public int getMaxExpLimitPerDay() {
+		return maxExpLimitPerDay;
+	}
+
+	public int getMaxSupplyLimitPerDay() {
+		return maxSupplyLimitPerDay;
+	}
+
+	public int getMaxContributionLimitPerDay() {
+		return maxContributionLimitPerDay;
+	}
+
+	public int getTokenId() {
+		return tokenId;
 	}
 }

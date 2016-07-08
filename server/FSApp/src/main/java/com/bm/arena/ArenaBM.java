@@ -321,7 +321,7 @@ public class ArenaBM {
 		
 		
 		
-		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID);
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID,strPrize);
 		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
 		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity,0);
 		Player player = PlayerMgr.getInstance().find(userId);

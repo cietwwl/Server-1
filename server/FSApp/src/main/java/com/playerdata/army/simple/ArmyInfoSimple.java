@@ -1,7 +1,9 @@
 package com.playerdata.army.simple;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.ArmyMagic;
@@ -31,6 +33,15 @@ public class ArmyInfoSimple {
 	public void setHeroList(List<ArmyHeroSimple> heroList) {
 		this.heroList = heroList;
 	}
+	
+	public ArmyHeroSimple getArmyHeroByID(String id){
+		if(player.getId().equals(id)) return player;
+		for(ArmyHeroSimple hero : heroList) {
+			if(hero.getId().equals(id)) return hero;
+		}
+		return null;
+	}
+	
 	public ArmyHeroSimple getPlayer() {
 		return player;
 	}
@@ -60,10 +71,10 @@ public class ArmyInfoSimple {
 	public String getGroupName() {
 		return groupName;
 	}
+	
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
 	
 	public int getTeamFighting() {
 		return teamFighting;
@@ -77,13 +88,31 @@ public class ArmyInfoSimple {
 		return jsonData;
 	}
 	
+	public List<String> getHeroIdList(){
+		List<String> heroIdList = new ArrayList<String>();
+		for (ArmyHeroSimple hero : heroList) {
+			heroIdList.add(hero.getId());
+		}
+		return heroIdList;
+	}
+	
+	public ArmyHeroSimple getByHeroId(String heroId){
+		ArmyHeroSimple target = null;
+		for (ArmyHeroSimple armyHero : heroList) {
+			if(StringUtils.equals(heroId, armyHero.getId()) ){
+				target = armyHero;
+				break;
+			}	
+		}
+		return target;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		ArmyInfoSimple amryInfo = new ArmyInfoSimple();
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
 		amryInfo.setPlayer(armyHero);
 		System.out.println(amryInfo.toJson());
-		
-		
 	}
+	
 	
 }
