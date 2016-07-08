@@ -16,12 +16,17 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+
+
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.util.DateUtils;
 
 
 @SynClass
@@ -38,6 +43,9 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 
 	@CombineSave
 	private boolean closed = false;
+	
+	@CombineSave
+	private boolean istaken = false;
 
 	@CombineSave
 	private long lastTime;
@@ -52,12 +60,23 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 	private String version;
 	
 	@CombineSave
-	private boolean isCanGetRewards ;	
+	private int goldCount;
 	
-	public void reset(){
-		
+	public void resetByVersion(ActivityRedEnvelopeTypeCfg cfg,List<ActivityRedEnvelopeTypeSubItem> subItemList,int day){
+		closed = false;
+		lastTime = System.currentTimeMillis();
+		version = cfg.getVersion();
+		this.subItemList = subItemList;
+		this.day = day;
+		istaken = false;
+		goldCount = 0;
 	}
-
+	
+	public void resetByOtherday(ActivityRedEnvelopeTypeCfg cfg,int day){
+		lastTime = System.currentTimeMillis();
+		this.day = day;
+	}
+	
 	public String getVersion() {
 		return version;
 	}
@@ -74,13 +93,6 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 		this.day = day;
 	}
 
-	public boolean isCanGetRewards() {
-		return isCanGetRewards;
-	}
-
-	public void setCanGetRewards(boolean isCanGetRewards) {
-		this.isCanGetRewards = isCanGetRewards;
-	}
 
 	public String getCfgId() {
 		return cfgId;
@@ -128,5 +140,23 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public boolean isIstaken() {
+		return istaken;
+	}
+
+	public void setIstaken(boolean istaken) {
+		this.istaken = istaken;
+	}
+
+	public int getGoldCount() {
+		return goldCount;
+	}
+
+	public void setGoldCount(int goldCount) {
+		this.goldCount = goldCount;
 	}	
+	
+	
 }

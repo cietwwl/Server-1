@@ -3,6 +3,10 @@ package com.playerdata.activity.redEnvelopeType;
 
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
@@ -11,7 +15,9 @@ import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
-import com.sun.tools.javac.util.List;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.eSpecialItemId;
 
 
 public class ActivityRedEnvelopeTypeMgr {
@@ -34,8 +40,8 @@ public class ActivityRedEnvelopeTypeMgr {
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
 		checkCfgVersion(player);
-//		checkOtherDay(player);
-//		checkClose(player);
+		checkOtherDay(player);
+		checkClose(player);
 	}
 	
 	private void checkNewOpen(Player player) {
@@ -60,72 +66,87 @@ public class ActivityRedEnvelopeTypeMgr {
 	}
 	
 	private void checkCfgVersion(Player player) {
-	ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
-	List<ActivityRedEnvelopeTypeItem> itemList ;
-	for(ActivityRedEnvelopeTypeItem activityVitalityTypeItem: itemList){
-		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());		
-		if(cfg == null ){
-			dataHolder.removeItem(player, activityVitalityTypeItem);
-			continue;
+		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder
+				.getInstance();
+		ActivityRedEnvelopeTypeItem activityVitalityTypeItem = dataHolder
+				.getItem(player.getUserId());
+		if (activityVitalityTypeItem == null) {
+			return;
 		}
-		ActivityRedEnvelopeTypeEnum cfgenum = ActivityRedEnvelopeTypeEnum.getById(cfg.getId());
-		if(cfgenum == null){
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO
+				.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+		if (cfg == null) {
 			dataHolder.removeItem(player, activityVitalityTypeItem);
-			continue;
+			return;
 		}
-		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
-			activityVitalityTypeItem.reset(cfg);
+		ActivityRedEnvelopeTypeEnum cfgenum = ActivityRedEnvelopeTypeEnum
+				.getById(cfg.getId());
+		if (cfgenum == null) {
+			dataHolder.removeItem(player, activityVitalityTypeItem);
+			return;
+		}
+		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(),
+				cfg.getVersion())) {
+			int day = DateUtils.getDayLimitHour(5, cfg.getStartTime());
+			day++;		
+			day = day < 1 ? 0 : day;
+			List<ActivityRedEnvelopeTypeSubItem> subItemList = ActivityRedEnvelopeTypeCfgDAO
+					.getInstance().getSubList();
+			activityVitalityTypeItem.resetByVersion(cfg, subItemList, day);
 			dataHolder.updateItem(player, activityVitalityTypeItem);
-		}		
-	}	
+		}
 }
 //
-//	private void checkOtherDay(Player player) {
-//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();		
-//		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
-//		
-//		for(ActivityVitalityTypeItem activityVitalityTypeItem: item){
-//			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getCfgId() )){
-//				continue;
-//			}
-//			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);
-//			if(cfg == null ){
-//				continue;
-//			}
-//			ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
-//			if(cfgenum == null){				
-//				continue;
-//			}
-//			if (DateUtils.isNewDayHour(5,activityVitalityTypeItem.getLastTime())) {
-//				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
-//				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-//				activityVitalityTypeItem.reset(cfg,cfgenum);
-//				dataHolder.updateItem(player, activityVitalityTypeItem);
-//			}		
-//		}			
-//	}
-//	
-//
-//	
-//	
-//	private void checkClose(Player player) {
-//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-//		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//
-//		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
-//			if (isClose(activityVitalityTypeItem)) {
-//				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
-//				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-//				activityVitalityTypeItem.setClosed(true);
-//				dataHolder.updateItem(player, activityVitalityTypeItem);
-//			}
-//		}
-//	}
-//	
+	private void checkOtherDay(Player player) {
+		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();		
+		ActivityRedEnvelopeTypeItem item = dataHolder.getItem(player.getUserId());
+		
+		if(item == null){
+			return;
+		}
+		if(!StringUtils.equals(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId(), item.getCfgId() )){
+			return;
+		}
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if(cfg == null ){
+			return;
+		}
+		
+		if (DateUtils.isNewDayHour(5,item.getLastTime())) {
+			int day = DateUtils.getDayLimitHour(5, cfg.getStartTime());
+			day++;
+			day = day < 1 ? 0 : day;			
+			item.resetByOtherday(cfg, day);
+			dataHolder.updateItem(player, item);
+		}			
+	}
 	
 	
-
-	
+	private void checkClose(Player player) {
+		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		ActivityRedEnvelopeTypeItem item = dataHolder.getItem(player.getUserId());
+		if (!isClose(item)) {			
+			return;	
+		}
+		item.setClosed(true);
+		if(isCanTakeGift(item)){
+			dataHolder.updateItem(player, item);
+			return;
+		}
+		if(item.isIstaken()){
+			dataHolder.updateItem(player, item);
+			return;
+		}
+		List<ActivityRedEnvelopeTypeSubItem> subItemList = item.getSubItemList();
+		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
+			item.setGoldCount(item.getGoldCount() + subItem.getCount());
+		}
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		map.put(eSpecialItemId.Gold.getValue(), item.getGoldCount());
+		player.getItemBagMgr().useLikeBoxItem(null, null, map);
+		item.setIstaken(true);
+		dataHolder.updateItem(player, item);
+	}
 
 	public boolean isOpen(ActivityRedEnvelopeTypeCfg vitalityCfg) {
 		long startTime = vitalityCfg.getStartTime();
@@ -133,21 +154,29 @@ public class ActivityRedEnvelopeTypeMgr {
 		long currentTime = System.currentTimeMillis();
 		return currentTime < endTime && currentTime > startTime;
 	}
-//	
-//	public boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
-//		if (activityVitalityTypeItem != null) {
-//			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);			
-//			if(cfg == null){
-//				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
-//				return false;
-//			}						
-//			long endTime = cfg.getEndTime();
-//			long currentTime = System.currentTimeMillis();
-//			return currentTime > endTime;			
-//		}
-//		return false;
-//	}
-//	
+
+	public boolean isClose(ActivityRedEnvelopeTypeItem activityVitalityTypeItem) {
+		if (activityVitalityTypeItem != null) {
+			ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());			
+			if(cfg == null){
+				GameLog.error("activityRedEnvelopetypemgr","" , "配置文件找不到数据奎对应的活动");
+				return false;
+			}						
+			long endTime = cfg.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime > endTime;			
+		}
+		return false;
+	}
+	
+	private boolean isCanTakeGift(ActivityRedEnvelopeTypeItem item) {
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());	
+		long takenTime = cfg.getGetRewardsTime();
+		long currentTime = System.currentTimeMillis();
+		long endTime = cfg.getEndTime();
+		return currentTime > endTime&& currentTime< takenTime;
+	}
+	
 //	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
 //		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
 //			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());

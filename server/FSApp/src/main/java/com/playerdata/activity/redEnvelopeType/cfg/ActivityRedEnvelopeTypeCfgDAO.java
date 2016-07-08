@@ -88,7 +88,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		}		
 	}
 
-	private List<ActivityRedEnvelopeTypeSubItem> getSubList() {
+	public List<ActivityRedEnvelopeTypeSubItem> getSubList() {
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
 		for(ActivityRedEnvelopeTypeSubCfg subCfg : ActivityRedEnvelopeTypeSubCfgDAO.getInstance().getAllCfg()){
 			ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
