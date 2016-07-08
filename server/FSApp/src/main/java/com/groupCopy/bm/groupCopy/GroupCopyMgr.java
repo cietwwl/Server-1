@@ -434,7 +434,7 @@ public class GroupCopyMgr {
 				leftTime = (int) ((lvData.getLastBeginFightTime() + GroupCopyLevelBL.MAX_WAIT_SPAN - curTime)/1000);
 				if(leftTime <= 0){
 					//已经超时，重置
-					enter = updateCopyState(player, lvData, status);
+					enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
 				}else{
 					//没有超时，返回关卡内的角色数据
 					roleStruct = getRoleStruct(lvData.getFighterId(), leftTime, status);
@@ -683,10 +683,10 @@ public class GroupCopyMgr {
 				for (ItemDropAndApplyTemplate template : map) {
 					
 					applyInfo.addAll(template.getApplyData());
-					if(applyInfo.isEmpty())
+					if(applyInfo == null || applyInfo.isEmpty())
 						continue;
 					dropInfo = template.getDropInfoList();
-					if(dropInfo.isEmpty())
+					if(dropInfo == null || dropInfo.isEmpty())
 						continue;
 					
 					//如果申请人和物品都有数据，则进行分发
