@@ -47,9 +47,9 @@ public class GroupCopyLevelBL {
 	
 	
 	public final static int MAX_ALLOT_COUNT = 2;//每天分配的最大次数
-	public final static int STATE_COPY_EMPTY = 1;  //副本空闲
-	public final static int STATE_COPY_WAIT = 2;  //副本准备进入
-	public final static int STATE_COPY_FIGHT = 3; //副本战斗中
+	public final static int STATE_COPY_EMPTY = 0;  //副本空闲
+	public final static int STATE_COPY_WAIT = 1;  //副本准备进入
+	public final static int STATE_COPY_FIGHT = 2; //副本战斗中
 	public final static String COPY_WAIT_TIPS = "准备中...";
 	public final static String COPY_FIGHT_TIPS = "战斗中...";
 	

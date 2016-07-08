@@ -115,7 +115,7 @@ public class GroupCopyBattleHandler {
 	 */
 	public ByteString applyEnterCopy(Player player, GroupCopyBattleComReqMsg req) {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
-		commonRsp.setReqType(RequestType.FIGHT_END);
+		commonRsp.setReqType(RequestType.ENTER_APPLY);
 		String level = req.getLevel();
 		Group group = GroupHelper.getGroup(player);
 		commonRsp.setIsSuccess(false);
