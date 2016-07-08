@@ -148,6 +148,7 @@ public class BattleTowerHandler {
 				tableBattleTower.setCurFloor(highestFloor);
 				tableBattleTower.setResult(true);
 				tableBattleTower.setRewardGroupId(groupIdList.get(groupIdList.size() - 1));
+				rsp.setSweepFloor(highestFloor);//扫荡结束了，必须设置当前扫荡层数为最高层
 
 				rsp.addAllRewardInfoMsg(reward);
 			} else {

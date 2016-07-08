@@ -34,18 +34,18 @@ public class ArmyHeroSimple {
 		AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 		
-		
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
 		BeanCopyer.copy(baseInfo, armyHero);		
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
+		armyHero.curAttrData.setCurLife(totalAttrData.getLife());
+		armyHero.curAttrData.setCurEnergy(0);
+		armyHero.curAttrData.setId(hero.getHeroData().getId());
 		armyHero.fighting = hero.getFighting();
 		
-		return armyHero;
-		
+		return armyHero;		
 	}
-
-
+	
 	public String getId() {
 		return id;
 	}
@@ -58,11 +58,9 @@ public class ArmyHeroSimple {
 		return level;
 	}
 
-
 	public int getStarLevel() {
 		return starLevel;
 	}
-
 
 	public String getQualityId() {
 		return qualityId;
@@ -72,9 +70,11 @@ public class ArmyHeroSimple {
 		return curAttrData;
 	}
 
+	public void setCurAttrData(CurAttrData attr){
+		this.curAttrData = attr;
+	}
+	
 	public int getFighting() {
 		return fighting;
 	}
-	
-	
 }
