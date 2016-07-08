@@ -24,6 +24,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
 
@@ -160,5 +161,13 @@ public class GFOnlineHurtRankMgr {
 		for(GFOnlineHurtItem removeItem : itemList){
 			ranking.removeRankingEntry(removeItem.getUserId());
 		}
+	}
+	
+	public static void updateGFHurtRankInfo(Player player){
+		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
+		RankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = ranking.getRankingEntry(player.getUserId());
+		entry.getExtendedAttribute().setUserName(player.getUserName());
+		entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+		ranking.subimitUpdatedTask(entry);
 	}
 }

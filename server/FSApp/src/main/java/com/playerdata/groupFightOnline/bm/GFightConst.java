@@ -13,4 +13,6 @@ public class GFightConst {
 	final public static int HURT_REWARD_MAX_RANK = 100;	//伤害排名奖励的最大排名
 	
 	final public static int REWARD_CONTAIN_TIME = 24 * 60 * 60 * 1000;	//奖励的最长保留时间
+	
+	final public static String GF_BID_AUTHORITY_ID = "21";
 }

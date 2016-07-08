@@ -76,15 +76,30 @@ public class GFightGroupBidBM {
 			gfRsp.setTipMsg("不在竞标期间");
 			return;
 		}
+		if(!GFightConditionJudge.getInstance().isLevelEnoughForBid(player)){
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("帮派等级没达到竞标要求");
+			return;
+		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupMgr.getInstance().getByUser(player);
 		if(!GFightConditionJudge.getInstance().isLegalBidCount(resourceID, gfGroupData.getBiddingCount(), bidCount)) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-			gfRsp.setTipMsg("竞标数量没有达到最小要求");
+			gfRsp.setTipMsg("竞标数量没有达到最小要求(起始或最小增长值)");
 			return;
 		}
 		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
 			gfRsp.setTipMsg("不能同时竞标两个资源点");
+			return;
+		}
+		if(!GFightConditionJudge.getInstance().haveAuthorityToBid(player)){
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+			gfRsp.setTipMsg("您的帮派职位没有竞标权限");
+			return;
+		}
+		if(!GFightConditionJudge.getInstance().isEnoughGroupToken(player, gfGroupData.getBiddingCount(), bidCount)){
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+			gfRsp.setTipMsg("帮派令牌不足");
 			return;
 		}
 		gfGroupData.setResourceID(resourceID);

@@ -3,6 +3,7 @@ package com.bm.rank.groupFightOnline;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.group.GroupBM;
 import com.bm.rank.RankType;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
@@ -12,6 +13,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwbase.dao.group.pojo.Group;
 
 public class GFGroupBiddingRankMgr {
 
@@ -68,6 +70,10 @@ public class GFGroupBiddingRankMgr {
 			if(bidComparable.getResourceID() != resourceID) continue;
 			GFGroupBiddingItem bidItem = entry.getExtendedAttribute();
 			bidItem.setTotalBidding(bidComparable.getTotalBid());
+			Group group = GroupBM.get(bidItem.getGroupID());
+			if(group != null){
+				bidItem.setGroupName(group.getGroupBaseDataMgr().getGroupData().getGroupName());
+			}
 			itemList.add(bidItem);
 		}
 		return itemList;
@@ -79,5 +85,16 @@ public class GFGroupBiddingRankMgr {
 		for(GFGroupBiddingItem removeItem : itemList){
 			ranking.removeRankingEntry(removeItem.getGroupID());
 		}
+	}
+	
+	public static void updateGFBidRankInfo(String groupID){
+		Group gp = GroupBM.get(groupID);
+		if(gp == null) return;
+		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
+		RankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = ranking.getRankingEntry(groupID);
+		entry.getExtendedAttribute().setGroupName(gp.getGroupBaseDataMgr().getGroupData().getGroupName());
+		entry.getExtendedAttribute().setIconID(gp.getGroupBaseDataMgr().getGroupData().getIconId());
+		entry.getExtendedAttribute().setLeaderName(gp.getGroupMemberMgr().getGroupLeader().getName());
+		ranking.subimitUpdatedTask(entry);
 	}
 }

@@ -1,5 +1,8 @@
 package com.playerdata.groupFightOnline.bm;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
@@ -9,6 +12,11 @@ import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.enums.GFResourceState;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.cfg.GroupFunctionCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 
 
@@ -26,6 +34,56 @@ class GFightConditionJudge {
 	public GFResultType canBidForGroup(Player player, int resourceID, int bidCount) {
 		
 		return GFResultType.SUCCESS;
+	}
+	
+	/**
+	 * 判断是否有竞标权限
+	 * @param player
+	 * @return
+	 */
+	public boolean haveAuthorityToBid(Player player){
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(StringUtils.isBlank(groupID)) return false;
+		Group group = GroupBM.get(groupID);
+		if(group == null) return false;
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(player.getUserId(), false);
+		GroupFunctionCfg funCfg = GroupFunctionCfgDAO.getDAO().getCfgById(GFightConst.GF_BID_AUTHORITY_ID);
+		return funCfg.getPostList().indexOf(String.valueOf(memberData.getPost())) >= 0;
+	}
+	
+	/**
+	 * 竞标等级判断
+	 * @param player
+	 * @return
+	 */
+	public boolean isLevelEnoughForBid(Player player){
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(StringUtils.isBlank(groupID)) return false;
+		Group group = GroupBM.get(groupID);
+		if(group == null) return false;
+		GroupFunctionCfg funCfg = GroupFunctionCfgDAO.getDAO().getCfgById(GFightConst.GF_BID_AUTHORITY_ID);
+		return group.getGroupBaseDataMgr().getGroupData().getGroupLevel() >= funCfg.getNeedGroupLevel();
+	}
+	
+	/**
+	 * 竞标资源判断并扣除
+	 * @param player
+	 * @param resourceID
+	 * @param oriCount
+	 * @param newCount
+	 * @return
+	 */
+	public boolean isEnoughGroupToken(Player player, int oriCount, int newCount){
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(StringUtils.isBlank(groupID)) return false;
+		Group group = GroupBM.get(groupID);
+		if(group == null) return false;
+		// 当前令牌数
+		int currentToken = group.getGroupBaseDataMgr().getGroupData().getToken();
+		if(newCount - oriCount > currentToken) return false;
+		// 扣除令牌数
+		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, 0, oriCount - newCount, true);
+		return true;
 	}
 	
 	public boolean isBidPeriod(int resourceID) {
