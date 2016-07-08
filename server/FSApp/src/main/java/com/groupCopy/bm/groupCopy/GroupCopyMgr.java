@@ -219,7 +219,7 @@ public class GroupCopyMgr {
 		//检查有没有最后一击奖励
 		if(item.getFinalHitPrice() != 0){
 			Group group = GroupBM.get(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId());
-			group.getGroupMemberMgr().updateMemberContribution(player.getUserId(), item.getFinalHitPrice());
+			group.getGroupMemberMgr().updateMemberContribution(player.getUserId(), item.getFinalHitPrice(), false);
 		}
 	}
 
