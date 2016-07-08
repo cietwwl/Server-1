@@ -189,4 +189,8 @@ public class GamblePlanCfg extends BaseConfig {
 	public boolean inLevelSegment(int level) {
 		return (levelStart <= level && level <= levelEnd);
 	}
+	
+	public int obtainSpecialGuaranteeGroupId() {
+		return chargePlan.getGuaranteeGroup().getPlanList()[0];
+	}
 }

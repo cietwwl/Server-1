@@ -3,6 +3,8 @@ package com.rw.service.gamble.datamodel;
 import java.util.List;
 import java.util.Random;
 
+import com.common.RefInt;
+
 public interface IDropGambleItemPlan {
 	public int getCheckNum(int index);
 
@@ -12,13 +14,19 @@ public interface IDropGambleItemPlan {
 
 	public int getGuaranteeGroup(Random r);
 	
-	public GambleDropGroup getGuaranteeGroup(Random ranGen, List<String> checkHistory);
+	public int getOrdinaryGroup(Random r,RefInt planIndex);
 
-	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory);
+	public int getGuaranteeGroup(Random r,RefInt planIndex);
+	
+	public GambleDropGroup getGuaranteeGroup(Random ranGen, List<String> checkHistory,RefInt selectedIndex);
+
+	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory,RefInt selectedIndex);
 
 	int getExclusiveCount();
 
 	int getLastCheckIndex();
+	
+	public IDropGambleItemPlan removeHistoryFromOrdinaryGroup(int planId);
 	
 	/**
 	 * 特殊组别：单抽
