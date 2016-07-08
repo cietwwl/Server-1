@@ -1,21 +1,17 @@
 package com.playerdata.activity.redEnvelopeType;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.codec.binary.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
-import com.rw.fsutil.util.DateUtils;
+import com.sun.tools.javac.util.List;
 
 
 public class ActivityRedEnvelopeTypeMgr {
@@ -37,7 +33,7 @@ public class ActivityRedEnvelopeTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-//		checkCfgVersion(player);
+		checkCfgVersion(player);
 //		checkOtherDay(player);
 //		checkClose(player);
 	}
@@ -63,26 +59,26 @@ public class ActivityRedEnvelopeTypeMgr {
 		dataHolder.addItem(player, targetItem);
 	}
 	
-//	private void checkCfgVersion(Player player) {
-//	ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-//	List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
-//		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);		
-//		if(cfg == null ){
-//			dataHolder.removeItem(player, activityVitalityTypeItem);
-//			continue;
-//		}
-//		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
-//		if(cfgenum == null){
-//			dataHolder.removeItem(player, activityVitalityTypeItem);
-//			continue;
-//		}
-//		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
-//			activityVitalityTypeItem.reset(cfg,cfgenum);
-//			dataHolder.updateItem(player, activityVitalityTypeItem);
-//		}		
-//	}	
-//}
+	private void checkCfgVersion(Player player) {
+	ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+	List<ActivityRedEnvelopeTypeItem> itemList ;
+	for(ActivityRedEnvelopeTypeItem activityVitalityTypeItem: itemList){
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());		
+		if(cfg == null ){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
+			continue;
+		}
+		ActivityRedEnvelopeTypeEnum cfgenum = ActivityRedEnvelopeTypeEnum.getById(cfg.getId());
+		if(cfgenum == null){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
+			continue;
+		}
+		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
+			activityVitalityTypeItem.reset(cfg);
+			dataHolder.updateItem(player, activityVitalityTypeItem);
+		}		
+	}	
+}
 //
 //	private void checkOtherDay(Player player) {
 //		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();		

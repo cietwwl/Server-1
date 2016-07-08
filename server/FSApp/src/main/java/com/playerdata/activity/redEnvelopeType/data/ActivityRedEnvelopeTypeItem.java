@@ -49,7 +49,7 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 	private List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
 
 	@CombineSave
-	private String version ;
+	private String version;
 	
 	@CombineSave
 	private boolean isCanGetRewards ;	

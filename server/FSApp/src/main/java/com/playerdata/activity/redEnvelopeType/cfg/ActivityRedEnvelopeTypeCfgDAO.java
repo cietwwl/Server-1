@@ -71,7 +71,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		
 		String cfgId = typeEnum.getCfgId();
 		ActivityRedEnvelopeTypeCfg cfgById = getCfgById(cfgId );
-		if(cfgById!=null){			
+		if(cfgById!=null){
 			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
