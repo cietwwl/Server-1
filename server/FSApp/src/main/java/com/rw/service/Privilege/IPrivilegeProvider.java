@@ -32,4 +32,6 @@ public interface IPrivilegeProvider {
 	 * @return
 	 */
 	public boolean reachChargeLevel(String chargeType);
+
+	public boolean hasChargeType(String chargeType);
 }

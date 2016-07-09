@@ -17,4 +17,12 @@ public interface IDropGambleItemPlan {
 	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory);
 
 	int getExclusiveCount();
+
+	int getLastCheckIndex();
+	
+	/**
+	 * 特殊组别：单抽
+	 * @return
+	 */
+	boolean isSingleGamble();
 }

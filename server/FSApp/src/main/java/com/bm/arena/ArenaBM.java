@@ -28,6 +28,10 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.ArenaPrizeCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
@@ -312,7 +316,16 @@ public class ArenaBM {
 		if (StringUtils.isEmpty(strPrize)) {
 			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
 		}
+		BILogMgr.getInstance().logActivityBegin(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS,0,0);
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
+		
+		
+		
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID,strPrize);
+		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity,0);
+		Player player = PlayerMgr.getInstance().find(userId);
+		player.getTempAttribute().setRedPointChanged();
 		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
 	}
 
@@ -389,10 +402,7 @@ public class ArenaBM {
 		int last = random + distance;
 		// 在范围中选一个
 		for (int i = random; i <= last; i++) {
-			if (i > end) {
-				i -= distance;
-			}
-			if (addEntry(userId, list, ranking, i)) {
+			if (addEntry(userId, list, ranking, i > end ? (i - distance) : i)) {
 				return true;
 			}
 		}

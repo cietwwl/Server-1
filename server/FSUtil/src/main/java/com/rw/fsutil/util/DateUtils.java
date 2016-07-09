@@ -95,12 +95,19 @@ public class DateUtils {
 	public static SimpleDateFormat getDateFormat() {
 		return new SimpleDateFormat("yyyy-MM-dd");
 	}
+	
+	/**玩家的5点刷新方法*/
+	public static boolean isNewDayHour(int hour,long lastResetTime){
+		return getCurrentHour() >= hour && dayChanged(lastResetTime);
+	}
 
 	public static boolean dayChanged(long timeStmp) {
 		Calendar currentDay = getCalendar(timeStmp);
+		long now = System.currentTimeMillis();
+		int change= (int)(now - timeStmp);
 		return dayChanged(currentDay);
 	}
-
+	
 	public static boolean dayChanged(Calendar dayFlag) {
 		Calendar currentDay = Calendar.getInstance();
 		int year = currentDay.get(Calendar.YEAR);
@@ -118,7 +125,17 @@ public class DateUtils {
 		}
 		return false;
 	}
-
+	
+	/**以5点为界限，距离开始时间的间隔天数；需靠考虑策划填表习惯*/
+	public static int getDayLimitHour(int hour,long earlyTime){
+		if(getCurrentHour() >= hour){
+			return getDayDistance(earlyTime,System.currentTimeMillis());
+		}else{
+			int tmp = getDayDistance(earlyTime,System.currentTimeMillis()) -1;
+			return tmp < 0? 0:tmp;
+		}
+	}
+	
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
 		return isTheSameDayOfWeekAndHour(dayOfWeek, 0);
 	}
@@ -243,18 +260,24 @@ public class DateUtils {
 	}
 
 	/**
-	 * 相隔的天数
+	 * 相隔的天数，此处是绝对时间上隔天数
 	 * 
 	 * @param earyDay
 	 * @param lateDay
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
-		int distance =(int) (getHourDistance(earyDay, lateDay)/24);
-		
+		int distance =(int) (getHourDistance(earyDay, lateDay)/24);		
 		return distance;
 	}
 	
+	/**
+	 * 相隔的小时数
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
 	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
@@ -286,9 +309,9 @@ public class DateUtils {
 		try {
 			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
 			return millionseconds;
-		} catch (Exception e) {
-
-		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
 		return 0;
 	}
 

@@ -635,7 +635,7 @@ public final class DataSynProtos {
      * <code>ActivityTimeSaleType = 64;</code>
      *
      * <pre>
-     *活动，限时折扣
+     *活动
      * </pre>
      */
     ActivityTimeSaleType(56, 64),
@@ -643,7 +643,7 @@ public final class DataSynProtos {
      * <code>ActivityDateSaleType = 65;</code>
      *
      * <pre>
-     *活动，每日折扣
+     *活动
      * </pre>
      */
     ActivityDateSaleType(57, 65),
@@ -691,10 +691,26 @@ public final class DataSynProtos {
      * <code>ActivityDailyDiscountType = 71;</code>
      *
      * <pre>
-     *活动，活跃度
+     *活动，每日折扣
      * </pre>
      */
     ActivityDailyDiscountType(63, 71),
+    /**
+     * <code>ActivityVipDiscountType = 72;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    ActivityVipDiscountType(64, 72),
+    /**
+     * <code>ActivityRedEnvelopeType = 73;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    ActivityRedEnvelopeType(65, 73),
     /**
      * <code>QuestionList = 80;</code>
      *
@@ -702,7 +718,7 @@ public final class DataSynProtos {
      *反馈问题列表	
      * </pre>
      */
-    QuestionList(64, 80),
+    QuestionList(66, 80),
     /**
      * <code>GFBiddingData = 81;</code>
      *
@@ -710,7 +726,7 @@ public final class DataSynProtos {
      *在线帮战个人压标数据
      * </pre>
      */
-    GFBiddingData(65, 81),
+    GFBiddingData(67, 81),
     /**
      * <code>GFDefendArmyData = 82;</code>
      *
@@ -718,7 +734,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍信息
      * </pre>
      */
-    GFDefendArmyData(66, 82),
+    GFDefendArmyData(68, 82),
     /**
      * <code>GFightOnlineGroupData = 83;</code>
      *
@@ -726,7 +742,7 @@ public final class DataSynProtos {
      *在线帮战帮派信息
      * </pre>
      */
-    GFightOnlineGroupData(67, 83),
+    GFightOnlineGroupData(69, 83),
     /**
      * <code>GFightOnlinePersonalData = 84;</code>
      *
@@ -734,7 +750,7 @@ public final class DataSynProtos {
      *在线帮战个人信息
      * </pre>
      */
-    GFightOnlinePersonalData(68, 84),
+    GFightOnlinePersonalData(70, 84),
     /**
      * <code>GFightOnlineResourceData = 85;</code>
      *
@@ -742,7 +758,7 @@ public final class DataSynProtos {
      *在线帮战资源点信息
      * </pre>
      */
-    GFightOnlineResourceData(69, 85),
+    GFightOnlineResourceData(71, 85),
     /**
      * <code>MajorData = 86;</code>
      *
@@ -750,7 +766,7 @@ public final class DataSynProtos {
      *关键数据
      * </pre>
      */
-    MajorData(70, 86),
+    MajorData(72, 86),
     /**
      * <code>GFightSimpleLeader = 87;</code>
      *
@@ -758,7 +774,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍简要信息
      * </pre>
      */
-    GFightSimpleLeader(71, 87),
+    GFightSimpleLeader(73, 87),
     /**
      * <code>GFightFinalReward = 88;</code>
      *
@@ -766,7 +782,7 @@ public final class DataSynProtos {
      *在线帮战最终的奖励
      * </pre>
      */
-    GFightFinalReward(72, 88),
+    GFightFinalReward(74, 88),
     ;
 
     /**
@@ -1221,7 +1237,7 @@ public final class DataSynProtos {
      * <code>ActivityTimeSaleType = 64;</code>
      *
      * <pre>
-     *活动，限时折扣
+     *活动
      * </pre>
      */
     public static final int ActivityTimeSaleType_VALUE = 64;
@@ -1229,7 +1245,7 @@ public final class DataSynProtos {
      * <code>ActivityDateSaleType = 65;</code>
      *
      * <pre>
-     *活动，每日折扣
+     *活动
      * </pre>
      */
     public static final int ActivityDateSaleType_VALUE = 65;
@@ -1277,10 +1293,26 @@ public final class DataSynProtos {
      * <code>ActivityDailyDiscountType = 71;</code>
      *
      * <pre>
-     *活动，活跃度
+     *活动，每日折扣
      * </pre>
      */
     public static final int ActivityDailyDiscountType_VALUE = 71;
+    /**
+     * <code>ActivityVipDiscountType = 72;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    public static final int ActivityVipDiscountType_VALUE = 72;
+    /**
+     * <code>ActivityRedEnvelopeType = 73;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    public static final int ActivityRedEnvelopeType_VALUE = 73;
     /**
      * <code>QuestionList = 80;</code>
      *
@@ -1423,6 +1455,8 @@ public final class DataSynProtos {
         case 69: return ActivityDailyType;
         case 70: return ActivityVitalityType;
         case 71: return ActivityDailyDiscountType;
+        case 72: return ActivityVipDiscountType;
+        case 73: return ActivityRedEnvelopeType;
         case 80: return QuestionList;
         case 81: return GFBiddingData;
         case 82: return GFDefendArmyData;
@@ -5521,7 +5555,7 @@ public final class DataSynProtos {
       "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
       "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
       "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\226\014\n\010eSynType\022\025\n\021" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\320\014\n\010eSynType\022\025\n\021" +
       "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
       "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
       "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
@@ -5555,13 +5589,14 @@ public final class DataSynProtos {
       "e\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activit" +
       "yTimeCountType\020D\022\025\n\021ActivityDailyType\020E\022" +
       "\030\n\024ActivityVitalityType\020F\022\035\n\031ActivityDai" +
-      "lyDiscountType\020G\022\020\n\014QuestionList\020P\022\021\n\rGF" +
-      "BiddingData\020Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025G" +
-      "FightOnlineGroupData\020S\022\034\n\030GFightOnlinePe",
-      "rsonalData\020T\022\034\n\030GFightOnlineResourceData" +
-      "\020U\022\r\n\tMajorData\020V\022\026\n\022GFightSimpleLeader\020" +
-      "W\022\025\n\021GFightFinalReward\020XB\034\n\013com.rwprotoB" +
-      "\rDataSynProtos"
+      "lyDiscountType\020G\022\033\n\027ActivityVipDiscountT" +
+      "ype\020H\022\033\n\027ActivityRedEnvelopeType\020I\022\020\n\014Qu" +
+      "estionList\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDef",
+      "endArmyData\020R\022\031\n\025GFightOnlineGroupData\020S" +
+      "\022\034\n\030GFightOnlinePersonalData\020T\022\034\n\030GFight" +
+      "OnlineResourceData\020U\022\r\n\tMajorData\020V\022\026\n\022G" +
+      "FightSimpleLeader\020W\022\025\n\021GFightFinalReward" +
+      "\020XB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

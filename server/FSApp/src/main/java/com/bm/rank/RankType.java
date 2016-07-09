@@ -8,6 +8,9 @@ import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
+import com.bm.rank.groupFightOnline.GFGroupBiddingExtension;
+import com.bm.rank.groupFightOnline.GFOnlineHurtExtension;
+import com.bm.rank.groupFightOnline.GFOnlineKillExtension;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.magicsecret.MagicSecretExtension;
@@ -46,6 +49,9 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// TODO 巅峰竞技场排行榜
 	PEAK_ARENA(25, 100000, "巅峰竞技场", 10, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	PEAK_ARENA_FIGHTING(26, 100000, "巅峰竞技场", 10, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
+	GF_ONLINE_GROUP_BID_RANK(27, 2000, "在线帮战竞标排行榜", 1, GFGroupBiddingExtension.class),
+	GF_ONLINE_KILL_RANK(28, 8000, "在线帮战杀敌排行榜", 1, GFOnlineKillExtension.class),
+	GF_ONLINE_HURT_RANK(29, 8000, "在线帮战伤害排行榜", 1, GFOnlineHurtExtension.class),
 	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {

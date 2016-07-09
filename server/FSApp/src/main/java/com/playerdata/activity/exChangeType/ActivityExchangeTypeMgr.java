@@ -137,7 +137,7 @@ public class ActivityExchangeTypeMgr {
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}
-			if(DateUtils.getDayDistance(targetItem.getLasttime(), System.currentTimeMillis())>0){
+			if(DateUtils.isNewDayHour(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){
@@ -205,7 +205,7 @@ public class ActivityExchangeTypeMgr {
 			GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到奖励配置文件", null);
 			return false;
 		}
-		if(targetItem.getTime() > activityExchangeTypeSubCfg.getTime()){
+		if(targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()){
 			GameLog.error(LogModule.ComActivityExchange, null, "申请次数超过上限，非法", null);
 			return false;
 		}	
@@ -222,7 +222,8 @@ public class ActivityExchangeTypeMgr {
 					return false;
 				}		
 			}
-		}
+		}		
+		
 		if(isspend){
 			spendItem(exchangeNeedslist,player);
 		}	

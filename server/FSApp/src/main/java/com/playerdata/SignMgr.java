@@ -9,6 +9,10 @@ import java.util.TreeMap;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
@@ -115,6 +119,7 @@ public class SignMgr implements PlayerEventListener {
 		SignCfg signCfg = (SignCfg) SignCfgDAO.getInstance().getCfgById(signId);
 		SignData signData = getSignData(signId); // 获取签到记录...
 		if (signData.isOpen()) {
+			boolean isResign = false;
 			if (signData.getLastSignDate() == null) // 开放并且没有签到过,有可能是补签有可能是正常签到...
 			{
 				if (signData.isResign()) // 如果是补签则需要扣除钻石...
@@ -126,6 +131,7 @@ public class SignMgr implements PlayerEventListener {
 						return;
 					} else {
 						player.getUserGameDataMgr().addGold(-reSignCfg.getDiamondNum());
+						isResign = true;
 						signData.setResign(false);
 
 						signDataHolder.setCurrentResignCount(signDataHolder.getCurrentResignCount() + 1);
@@ -151,6 +157,19 @@ public class SignMgr implements PlayerEventListener {
 					response.setResultype(EResultType.FAIL);
 				}
 			}
+			
+			
+			List<BilogItemInfo> list = BilogItemInfo.fromSignCfg(signCfg);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			
+			if(isResign){
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.RETROACTIVE,0,0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.RETROACTIVE, 0, true, 0, rewardInfoActivity,0);
+			}else{
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SIGN_IN,0,0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SIGN_IN, 0, true, 0, rewardInfoActivity,0);
+			}
+			
 		} else {
 			GameLog.debug("未开放");
 			response.setResultMsg("未开放");
@@ -164,15 +183,20 @@ public class SignMgr implements PlayerEventListener {
 		SignData signData = getSignData(signId);
 
 		int days = signDataHolder.getLastUpdate().get(Calendar.DAY_OF_MONTH);
+		Calendar calendar = Calendar.getInstance();
 		if (days == 1) // 首天的话需要考虑时间...
 		{
-			Calendar calendar = Calendar.getInstance();
+			
 			if (calendar.get(Calendar.HOUR_OF_DAY) < 5) {
 				calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
 				days = calendar.getActualMaximum(Calendar.DATE);
 			} else {
 				days = 1;
 			}
+		}else{
+			if (calendar.get(Calendar.HOUR_OF_DAY) < 5) {
+				days--;
+			} 
 		}
 		TreeMap<String, SignData> signDataMap = signDataHolder.getSignDataMap();
 		if (signDataMap.size() < days) // 如果签到次数少于当前天数并且当前签到的数据不为双倍可用则为其添加补签的下一个数据...
@@ -207,6 +231,7 @@ public class SignMgr implements PlayerEventListener {
 			// signCfg.getItemNum());
 			sendReward(signCfg.getItemID(), signCfg.getItemNum());
 		}
+		
 		// } else
 		// // 英雄整卡...
 		// {
@@ -401,7 +426,7 @@ public class SignMgr implements PlayerEventListener {
 		int curDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		int curHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		if (curDay > day) {
-			if ((curDay - day > 1) || ((curDay - day == 1) && hour >= 5)) {
+			if ((curDay - day > 1) || ((curDay - day == 1) && curHour >= 5)) {
 				isUpdateTime = true;
 			} else {
 				GameLog.debug("不需要将之前的记录都打勾");

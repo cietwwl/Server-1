@@ -23,7 +23,42 @@ public class ArmyInfoHelper {
 	public static ArmyInfo getArmyInfo(String playerId, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = player.getMagic();
 
+		ArmyInfo armyInfo = build(heroIdList, player, magic);
+		return armyInfo;
+	}
+	
+	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple,boolean setCurData) {
+		String playerId = armyInfoSimple.getPlayer().getId();
+		List<String> heroIdList = armyInfoSimple.getHeroIdList();
+		Player player = PlayerMgr.getInstance().find(playerId );
+		
+		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
+		
+		ArmyInfo armyInfo = build(heroIdList , player, magic);
+		if(setCurData){
+			setCurData(armyInfo,armyInfoSimple);
+		}
+		return armyInfo;
+	}
+
+	private static void setCurData(ArmyInfo armyInfo, ArmyInfoSimple armyInfoSimple) {
+		ArmyHero player = armyInfo.getPlayer();
+		if(player!=null){
+			player.setCurAttrData(armyInfoSimple.getPlayer().getCurAttrData());
+		}
+		
+		List<ArmyHero> heroList = armyInfo.getHeroList();
+		for (ArmyHero armyHero : heroList) {
+			String heroId = armyHero.getRoleBaseInfo().getId();
+			ArmyHeroSimple simpleHero = armyInfoSimple.getByHeroId(heroId);
+			armyHero.setCurAttrData(simpleHero.getCurAttrData());
+		}
+		
+	}
+
+	private static ArmyInfo build(List<String> heroIdList, Player player, ItemData magic) {
 		ArmyHero armyPlayer = getArmyHero(player.getMainRoleHero());
 		armyPlayer.setPlayer(true);
 
@@ -33,7 +68,6 @@ public class ArmyInfoHelper {
 		armyInfo.setPlayerHeadImage(player.getHeadImage());
 //		armyInfo.setGuildName(player.getGuildUserMgr().getGuildName());
 //		armyPlayer.setFighting(player.);
-		ItemData magic = player.getMagic();
 		if(magic!=null){
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
 		}
@@ -80,11 +114,9 @@ public class ArmyInfoHelper {
 		return armyHero;
 	}
 
-
-	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
-		return ArmySimpleInfoHelper.getSimpleInfo(playerId, heroIdList);
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
-
 
 	public CurArmyAttrData fromJsonToCurArmy(String json){
 		

@@ -52,13 +52,16 @@ public class ActivityDailyTypeMgr {
 			return;
 		}
 		for (ActivityDailyTypeItem targetItem : item) {
-			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
 	}
+	
+	
+	
 	private void checkClose(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
@@ -124,7 +127,7 @@ public class ActivityDailyTypeMgr {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
 		if(activityCountTypeCfg == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return;
 		}
 		
@@ -143,7 +146,7 @@ public class ActivityDailyTypeMgr {
 	public ActivityDailyTypeCfg getparentCfg(){
 		List<ActivityDailyTypeCfg> allCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();		
 		if(allCfgList == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
 			return null;			
 		}		
 		if(allCfgList.size() != 1){

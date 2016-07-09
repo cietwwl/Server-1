@@ -507,7 +507,6 @@ public class AngelArrayTeamInfoHelper {
 		// 当前血量
 		CurAttrData curAttrData = new CurAttrData();
 		curAttrData.setCurLife(heroAttrData.getLife());
-		curAttrData.setCurEnergy(heroAttrData.getEnergy());
 		armyHero.setCurAttrData(curAttrData);
 		// 设置是否是主角
 		boolean isPlayer = roleCfg.getRoleType() == 1;

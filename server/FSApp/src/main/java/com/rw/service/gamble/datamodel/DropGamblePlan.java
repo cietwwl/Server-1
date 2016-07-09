@@ -16,8 +16,10 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	private int[] guaranteeCheckNumList; // 收费保底检索次数
 	private int maxCheckCount=0;
 	private int exclusiveCount=0;
+	private boolean isSignleGamble;
 	
-	public DropGamblePlan(String guaranteeCheckList,String ordinaryPlan,String guaranteePlan,String guaranteeCheckNum,int exclusiveCount){
+	public DropGamblePlan(String guaranteeCheckList,String ordinaryPlan,String guaranteePlan,String guaranteeCheckNum,int exclusiveCount,boolean isSignleGamble){
+		this.isSignleGamble = isSignleGamble;
 		checkList = ListParser.ParseIntList(guaranteeCheckList, ",", "钓鱼台", "", "解释保底检索物品组");
 		ordinaryGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", ordinaryPlan);
 		guaranteeGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", guaranteePlan);
@@ -47,6 +49,11 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 		int length = guaranteeCheckNumList.length;
 		int ind = index < 0 ? 0 : index >= length ? length -1: index; 
 		return guaranteeCheckNumList[ind];
+	}
+	
+	@Override
+	public int getLastCheckIndex(){
+		return guaranteeCheckNumList.length-1;
 	}
 
 	@Override
@@ -110,5 +117,10 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 			result = result.removeHistory(historyRecord);
 		}
 		return result;
+	}
+
+	@Override
+	public boolean isSingleGamble() {
+		return isSignleGamble;
 	}
 }

@@ -6,6 +6,7 @@ import com.common.TimeActionTask;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
@@ -94,6 +95,7 @@ public class PlayerTimeActionHelper {
 				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -232,6 +234,15 @@ public class PlayerTimeActionHelper {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				ActivityCountTypeMgr.getInstance().checkActivity(player);
+			}
+		});
+		
 
 		return onNewDay5ClockTimeAction;
 	}

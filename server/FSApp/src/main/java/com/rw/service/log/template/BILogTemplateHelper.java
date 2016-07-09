@@ -9,6 +9,16 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.Player;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.pojo.CopyLevelRecord;
+import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.task.DailyActivityCfgDAO;
+import com.rwbase.dao.task.pojo.DailyActivityCfg;
+import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
+
 public class BILogTemplateHelper {
 
 	
@@ -60,6 +70,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("副本统计信息", "$copyInfo$");
+		addTemplateToken("活动统计信息", "$activityInfo$");
+		addTemplateToken("任务统计信息", "$taskInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
 		addTemplateToken("参考操作码对照表", "$optype$");
@@ -86,8 +98,12 @@ public class BILogTemplateHelper {
 		addTemplateToken("总账号统计", "$totalAccount$");
 		addTemplateToken("IMEI信息", "$loginImei$");
 		addTemplateToken("关卡code", "$copyId$");		
-		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
+		addTemplateToken("赠送充值币余额", "$zoneGiftGoldRemain$");
+		addTemplateToken("付费充值币余额", "$zoneChargeGoldRemain$");
 		
+		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
+		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
+		addTemplateToken("活动入口", "$activityEntry$");
 		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		
@@ -109,6 +125,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("手机型号", "$loginPhoneType$");
 		addTemplateToken("mac地址", "$loginImac$");
 		addTemplateToken("任务ID", "$taskId$");
+		
+		addTemplateToken("帮派id", "$factionId$");
 		addTemplateToken("sdk版本", "$loginsdkVersion$");
 		addTemplateToken("sdk_id", "");
 		addTemplateToken("map_id", "$mapid$");
@@ -143,6 +161,133 @@ public class BILogTemplateHelper {
 		return template;
 		
 	}
+	
+	/**将传来的奖励数据统一转为银汉可识别的格式
+	 * @param class1 */
+	public static String getString(List<BilogItemInfo> list){
+		StringBuilder str = new StringBuilder();
+		str.append("");
+		if(list == null){
+			return str.toString();
+		}
+		int num = list.size();
+		for(BilogItemInfo subitem : list){
+			str.append(subitem.getItemId()).append("@").append(subitem.getNum());
+			if(--num >0){
+				str.append("&");
+			}			
+		}		
+		return str.toString();		
+	}
+	
+	/**
+	 * 根据传进来的日常任务id返回银汉序列的活动code
+	 * */
+	public static BIActivityCode getByDailyTaskId(int taskid){
+		BIActivityCode code = null;
+		DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(taskid);
+		DailyActivityCfg cfg = entity.getCfg();
+		int type = cfg.getTaskType();
+		
+		switch (type) {
+		case DailyActivityType.FS_Lanch:
+			code = BIActivityCode.DAILY_TASK_FS_Lanch;
+			break;
+		case DailyActivityType.FS_Dinner:
+			code = BIActivityCode.DAILY_TASK_FS_Dinner;
+			break;
+		case DailyActivityType.FS_Supper:
+			code = BIActivityCode.DAILY_TASK_FS_Supper;
+			break;
+		case DailyActivityType.Dup_Normal:
+			code = BIActivityCode.DAILY_TASK_Dup_Normal;
+			break;	
+		case DailyActivityType.Dup_Elite:
+			code = BIActivityCode.DAILY_TASK_Dup_Elite;
+			break;
+		case DailyActivityType.Gold_Point:
+			code = BIActivityCode.DAILY_TASK_Gold_Point;
+			break;
+		case DailyActivityType.Hero_SkillUpgrade:
+			code = BIActivityCode.DAILY_TASK_Hero_SkillUpgrade;
+			break;
+		case DailyActivityType.Altar:
+			code = BIActivityCode.DAILY_TASK_Altar;
+			break;	
+			
+		case DailyActivityType.Hero_Strength:
+			code = BIActivityCode.DAILY_TASK_Hero_Strength;
+			break;
+		case DailyActivityType.Arena:
+			code = BIActivityCode.DAILY_TASK_Arena;
+			break;
+		case DailyActivityType.Trial_JBZD:
+			code = BIActivityCode.DAILY_TASK_Trial_JBZD;
+			break;
+		case DailyActivityType.Trial2:
+			code = BIActivityCode.DAILY_TASK_Trial2;
+			break;	
+		case DailyActivityType.Tower:
+			code = BIActivityCode.DAILY_TASK_Tower;
+			break;
+		case DailyActivityType.Power:
+			code = BIActivityCode.DAILY_TASK_Power;
+			break;
+		case DailyActivityType.UNENDINGWAR:
+			code = BIActivityCode.DAILY_TASK_UNENDINGWAR;
+			break;
+		case DailyActivityType.CONST:
+			code = BIActivityCode.DAILY_TASK_CONST;
+			break;		
+		case DailyActivityType.Trial_LQSG:
+			code = BIActivityCode.DAILY_TASK_Trial_LQSG;
+			break;
+		case DailyActivityType.HSQJ:
+			code = BIActivityCode.DAILY_TASK_HSQJ;
+			break;
+		case DailyActivityType.LOGIN_DAY:
+			code = BIActivityCode.DAILY_TASK_LOGIN_DAY;
+			break;
+		case DailyActivityType.BREAKFAST:
+			code = BIActivityCode.DAILY_TASK_BREAKFAST;
+			break;
+		case DailyActivityType.MONTHCARD:
+			code = BIActivityCode.DAILY_TASK_TimeCard;
+			break;
+		case DailyActivityType.VIPMONTHCARD:
+			code = BIActivityCode.DAILY_TASK_VipTimeCard;
+			break;
+		default:
+			break;
+		}		
+		return code;
+	}
+	
+	/**根据id和类型返回地图波数*/
+	public static int getTimes(int levelId,int type){
+		CopyCfg cfg = CopyCfgDAO.getInstance().getCfgById(levelId+"");
+		return cfg.getSubtype();
+		
+	}
+	
+	/**角色登出时获取主线任务的滞留数据*/
+	public static int[] getLevelId(Player player){
+		int[] levelId = {0,0};
+		List<CopyLevelRecord> list = player.getCopyRecordMgr().getLevelRecordList();
+		for(CopyLevelRecord record : list){
+			if(record.isFirst()){
+				//未通关
+				continue;
+			}
+			if(record.getLevelId()>120000&&record.getLevelId()< 129999){//精英
+				levelId[1] =record.getLevelId()>levelId[1]?record.getLevelId():levelId[1];
+			}else if(record.getLevelId()>110000&&record.getLevelId()< 120000){//普通
+				levelId[0] =record.getLevelId()>levelId[0]?record.getLevelId():levelId[0];
+			}
+		}
+		return levelId;
+	}
+	
 	
 	public static void main(String[] args) {
 		String zoneReg = "打印时间|core_gamesvr|用户登录区ID|日志的触发时间|gamesvr_reg|用户登录区ID|注册渠道ID_UID|UID|用户注册子渠道|用户登录渠道|4（4=安卓/5=ios/7=wm）|区UID创建时间|用户VIP等级|手机运营商|wifi（2g/3g/4g/wifi等）|手机型号|客户端版本|ip地址，不包含端口|IMEI信息|mac地址|此处为空|此处为空|gamesvr_reg|此处为空|1|此处为空";

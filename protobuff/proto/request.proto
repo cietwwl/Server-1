@@ -19,6 +19,7 @@ message RequestHeader {
 	optional int32 seqID = 4;
 	optional ClientView.ClientViewData clientGenerated = 6;//客户端产生的数据，需要保存到服务端
 	optional int32 redpointVersion = 7;	//红点版本号
+	optional int32 entranceId = 8; //入口id
 }
 
 
