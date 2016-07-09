@@ -11,7 +11,9 @@ import java.util.Map;
 
 
 
+
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
@@ -78,8 +80,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 			item.setCfgId(cfgId);
 			item.setVersion(cfgById.getVersion());
 			item.setLastTime(System.currentTimeMillis());
-			int day = DateUtils.getDayLimitHour(5, cfgById.getStartTime());
-			day++;
+			int day = ActivityTypeHelper.getDayBy5Am(cfgById.getStartTime());
 			item.setDay(day);
 			item.setSubItemList(ActivityRedEnvelopeTypeCfgDAO.getInstance().getSubList());
 			return item;

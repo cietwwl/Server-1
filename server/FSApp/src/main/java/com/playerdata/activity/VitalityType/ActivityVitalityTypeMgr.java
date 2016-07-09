@@ -11,6 +11,7 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
@@ -317,7 +318,7 @@ public class ActivityVitalityTypeMgr {
 		ActivityVitalitySubCfg cfg = null;
 		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
 		for(ActivityVitalitySubCfg subcfg :subcfglist){
-			if(ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()){
+			if (ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()) {
 				continue;
 			}			
 			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){

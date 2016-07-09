@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
@@ -87,9 +88,7 @@ public class ActivityRedEnvelopeTypeMgr {
 		}
 		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(),
 				cfg.getVersion())) {
-			int day = DateUtils.getDayLimitHour(5, cfg.getStartTime());
-			day++;		
-			day = day < 1 ? 0 : day;
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
 			List<ActivityRedEnvelopeTypeSubItem> subItemList = ActivityRedEnvelopeTypeCfgDAO
 					.getInstance().getSubList();
 			activityVitalityTypeItem.resetByVersion(cfg, subItemList, day);
@@ -112,10 +111,8 @@ public class ActivityRedEnvelopeTypeMgr {
 			return;
 		}
 		
-		if (DateUtils.isNewDayHour(5,item.getLastTime())) {
-			int day = DateUtils.getDayLimitHour(5, cfg.getStartTime());
-			day++;
-			day = day < 1 ? 0 : day;			
+		if (DateUtils.isNewDayHour(5,item.getLastTime())) {					
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());					
 			item.resetByOtherday(cfg, day);
 			dataHolder.updateItem(player, item);
 		}			
