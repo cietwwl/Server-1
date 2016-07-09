@@ -23,7 +23,7 @@ public class ActivityRedEnvelopeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityVitalityType;
+	final private eSynType synType = eSynType.ActivityRedEnvelopeType;
 	
 	
 	/*
@@ -87,13 +87,8 @@ public class ActivityRedEnvelopeItemHolder{
 		}
 	}
 	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
+
+	
 	public void synAllData(Player player){
 		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);

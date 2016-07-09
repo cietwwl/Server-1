@@ -26,6 +26,7 @@ public enum LogModule {
 	ComActivityRank("通用活动_RankType"),
 	ComActivityVitality("通用活动_VitalityType"),
 	ComActivityDailyDisCount("通用活动_DailyDisCountType"),
+	ComActivityRedEnvelope("通用活动_RedEnvelope"),
 	
 	
 	FixEquip("专属装备"),

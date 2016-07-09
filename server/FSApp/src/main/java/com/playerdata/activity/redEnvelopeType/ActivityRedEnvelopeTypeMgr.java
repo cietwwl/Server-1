@@ -10,7 +10,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
@@ -173,129 +175,61 @@ public class ActivityRedEnvelopeTypeMgr {
 		long endTime = cfg.getEndTime();
 		return currentTime > endTime&& currentTime< takenTime;
 	}
-	
-//	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
-//		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-//			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-//			if (subItemCfg == null) {
-//				GameLog.error(LogModule.ComActivityVitality, null,
-//						"通用活动找不到配置文件", null);
-//				return;
-//			}
-//			if (subItem.getCount() >= subItemCfg.getCount()
-//					&& !subItem.isTaken()) {
-//				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
-//						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
-//						subItemCfg.getEmailTitle());
-//				subItem.setTaken(true);
-//				if (!isAdd)
-//					GameLog.error(LogModule.ComActivityVitality,
-//							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-//			}
-//		}
-//	}
-//	
-//	private void sendEmailIfBoxGiftNotTaken(Player player,ActivityVitalityTypeItem Item) {		
-//		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(Item);
-//		if(cfg == null){
-//			GameLog.error(LogModule.ComActivityVitality, null,"通用活动找不到配置文件", null);
-//			return;
-//		}
-//		if(!cfg.isCanGetReward()){
-//			//不派发宝箱
-//			return;
-//		}
-//		
-//		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = Item.getSubBoxItemList();		
-//		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
-//			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getById(subItem.getCfgId());
-//			if (subItemCfg == null) {
-//				GameLog.error(LogModule.ComActivityVitality, null,
-//						"通用活动找不到配置文件", null);
-//				return;
-//			}
-//			if (Item.getActiveCount() >= subItemCfg.getActivecount()
-//					&& !subItem.isTaken()) {
-//				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
-//						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
-//						subItemCfg.getEmailTitle());
-//				subItem.setTaken(true);
-//				if (!isAdd)
-//					GameLog.error(LogModule.ComActivityVitality,
-//							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-//			}
-//		}
-//	}
-//	
-//	
-//	
-//	
-//	
-////	
-//	
-//	public boolean isLevelEnough(ActivityVitalityTypeEnum eNum ,Player player) {
-//		ActivityVitalityCfg vitalityCfg = null;
-//		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
-//		for(ActivityVitalityCfg cfg: cfgList){
-//			if(StringUtils.equals(eNum.getCfgId(), cfg.getId())){
-//				vitalityCfg = cfg;
-//				break;
-//			}			
-//		}		
-//		if(vitalityCfg == null){
-//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
-//			return false;
-//		}
-//		if(player.getLevel() < vitalityCfg.getLevelLimit()){
-//			return false;
-//		}		
-//		return true;
-//	}
-	
-//	public void addCount(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
-//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-//		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityVitalityTypeEnum.Vitality);		
-//		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
-//		
-//		addVitalitycount(dataItem,subItem,subCfg,countadd);
-//		subItem.setCount(subItem.getCount() + countadd);
-//		dataHolder.updateItem(player, dataItem);
-//	}
+
+
+	public void addCount(Player player,  int countadd) {
+		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		ActivityRedEnvelopeTypeItem dataItem = dataHolder.getItem(player.getUserId());		
+		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();	
+		if(ActivityTypeHelper.getDayBy5Am(System.currentTimeMillis())>subItemList.size()){
+			//活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里
+			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里", null);
+			return;
+		}
+		ActivityRedEnvelopeTypeSubItem target = null;
+		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
+			if(subItem.getDay() == ActivityTypeHelper.getDayBy5Am(System.currentTimeMillis())){
+				target = subItem;
+				break;
+			}			
+		}
+		target.setCount(target.getCount() + countadd);		
+		dataHolder.updateItem(player, dataItem);
+	}
 	
 	
 	
-//	public ActivityComResult takeGift(Player player, String subItemId) {
-//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-//		ActivityVitalityTypeItem dataItem = null;
-//		ActivityVitalityTypeSubItem item = null;
-//		List<ActivityVitalityTypeItem> dataitemList = dataHolder.getItemList(player.getUserId());
-//		for(ActivityVitalityTypeItem dataitemtmp : dataitemList){
-//			List<ActivityVitalityTypeSubItem> subitemlist = dataitemtmp.getSubItemList();
-//			for(ActivityVitalityTypeSubItem subitem: subitemlist){
-//				if(StringUtils.equals(subItemId, subitem.getCfgId())){
-//					item = subitem;
-//					dataItem = dataitemtmp;
-//					break;
-//				}
-//			}			
-//		}		
-//		ActivityComResult result = ActivityComResult.newInstance(false);
-//
-//		if (dataItem == null) {
-//			result.setReason("活动尚未开启");
-//
-//		} else {			
-//			if(item.isTaken()){
-//				result.setReason("已经领取");	
-//				return result;
-//			}		
-//			takeGift(player, item);
-//			result.setSuccess(true);
-//			dataHolder.updateItem(player, dataItem);
-//
-//		}
-//
-//		return result;
-//	}	
+	public ActivityComResult takeGift(Player player) {
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		ActivityRedEnvelopeTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		
+		
+		if(!isCanTakeGift(dataItem)){
+			result.setReason("不在领奖时间");
+			return result;
+		}
+		if(dataItem.isIstaken()){
+			result.setReason("已经领取");	
+			return result;
+		}
+
+
+		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
+		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
+			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount());
+		}
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		map.put(eSpecialItemId.Gold.getValue(), dataItem.getGoldCount());
+		player.getItemBagMgr().useLikeBoxItem(null, null, map);
+				
+		dataItem.setIstaken(true);
+		result.setSuccess(true);
+		result.setReason("领取成功");
+		dataHolder.updateItem(player, dataItem);
+
+
+		return result;
+	}	
 
 }
