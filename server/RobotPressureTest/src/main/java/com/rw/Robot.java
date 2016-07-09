@@ -847,8 +847,6 @@ public class Robot {
 	}
 
 	public boolean testPeakArena() {
-		boolean issuc = upgrade(50);
-		RobotLog.fail("巅峰竞技场-设置50级结果" + issuc);
 		PeakArenaHandler.getHandler().changeEnemy(client, "");
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
@@ -888,7 +886,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
-		upgrade(50);
 		additem(806511);//进化材料
 		additem(806523);//升星材料
 		additem(806501);//下两格经验材料
