@@ -903,7 +903,6 @@ public class Robot {
 	
 	/**预制升级和加金币；参数不存在则选择首项提升*/
 	public boolean testTaoist(){
-		upgrade(50);	
 		boolean issuc = false;
 //		TaoistHandler.getHandler().getTaoistData(client);
 		issuc=TaoistHandler.getHandler().updateTaoist(client);

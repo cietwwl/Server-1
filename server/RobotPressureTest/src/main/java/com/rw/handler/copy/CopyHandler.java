@@ -103,7 +103,7 @@ public class CopyHandler {
 					}
 
 					EResultType result = rsp.getEResultType();
-					if (result != EResultType.ITEM_BACK) {
+					if (result != EResultType.ITEM_BACK && result != EResultType.NOT_ENOUGH_TIMES) {
 						RobotLog.fail("CopyHandler[send] 服务器处理战前申请消息失败 " + result);
 						return false;
 					}							
