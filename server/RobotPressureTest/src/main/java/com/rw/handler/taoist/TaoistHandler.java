@@ -34,9 +34,14 @@ public class TaoistHandler {
 		boolean result = getTaoistInfo(client);
 		if(result){
 			result = upTaoist(client);
+		}else{
+			RobotLog.fail("获取道术信息失败");
+			return true;
 		}
 		if(result){
-			RobotLog.info("升级道术成功");
+			RobotLog.fail("升级道术成功");
+		}else{
+			RobotLog.fail("升级道术失败----------------------");
 		}
 		return result;
 	}
@@ -65,7 +70,7 @@ public class TaoistHandler {
 					
 					ErrorCode_Taoist result =rsp.getErrorCode();
 					if (!result.equals(ErrorCode_Taoist.Success)) {
-						RobotLog.fail("TaoistHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("userId:" + client.getUserId()+"|TaoistHandler[send] 服务器处理消息失败 " + result+",msg:"+rsp.getResultTip());
 						return false;
 					}
 					
@@ -91,12 +96,12 @@ public class TaoistHandler {
 	}
 	
 	public boolean upTaoist(Client client) {
-		int tmp = client.getTaoistDataHolder().getTaoistId();
+		int tmp = client.getTaoistDataHolder().getTaoistId(client);
 		if(tmp == 0){
 			RobotLog.fail("TaoistHandler[send] 找不到可以升级的道术");
 			return true;
 		}
-		if(!client.getTaoistDataHolder().checkTaoistUpdate(tmp)){
+		if(!client.getTaoistDataHolder().checkTaoistUpdate(tmp, client)){
 			return true;
 		}
 		
@@ -126,7 +131,7 @@ public class TaoistHandler {
 					
 					ErrorCode_Taoist result =rsp.getErrorCode();
 					if (!result.equals(ErrorCode_Taoist.Success)) {
-						RobotLog.fail("TaoistHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("userId:" + client.getUserId()+"|TaoistHandler[send] 服务器处理消息失败 " + result+",msg:"+rsp.getResultTip());
 						return false;
 					}
 				
@@ -194,7 +199,7 @@ public class TaoistHandler {
 
 					ErrorCode_Taoist result =rsp.getErrorCode();
 					if (!result.equals(ErrorCode_Taoist.Success)) {
-						RobotLog.fail("TaoistHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("userId:" + client.getUserId()+"|TaoistHandler[send] 服务器处理消息失败 " + result+",msg:"+rsp.getResultTip());
 						return false;
 					}
 				

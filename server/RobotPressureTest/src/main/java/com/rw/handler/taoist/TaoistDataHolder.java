@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.rw.Client;
+import com.rw.Robot;
 import com.rw.common.RobotLog;
 import com.rwproto.TaoistMagicProtos;
 import com.rwproto.TaoistMagicProtos.TaoistInfo;
@@ -18,18 +20,22 @@ public class TaoistDataHolder {
 	}
 
 	public void setTaoistInfoListList(List<TaoistInfo> taoistInfoListList) {
+		this.taoistInfoListList.clear();
 		for (TaoistInfo taoistInfo : taoistInfoListList) {
 			this.taoistInfoListList.add(taoistInfo);
 		}
 	}
 	
-	public boolean checkTaoistUpdate(int id){
+	public boolean checkTaoistUpdate(int id, Client client){
 		for (TaoistInfo taoistInfo : taoistInfoListList) {
 			if(taoistInfo.getTaoistID() == id){
 				if(taoistInfo.getLevel() == MAX_LEVEL){
 					RobotLog.fail("TaoistHandler 已达到最高等级");
 					return false;
 				}else{
+					RobotLog.info("TaoistHandler---------------|" + client.getUserId()
+							+ "|taoisInfo id:" + taoistInfo.getTaoistID()
+							+ "|level:" + taoistInfo.getLevel());
 					return true;
 				}
 			}
@@ -39,12 +45,15 @@ public class TaoistDataHolder {
 	}
 	
 	
-	public int getTaoistId() {
+	public int getTaoistId(Client client) {
 		Collections.shuffle(taoistInfoListList);
 		for (TaoistInfo taoistInfo : taoistInfoListList) {
-			if (taoistInfo.getLevel() == MAX_LEVEL) {
+			if (taoistInfo.getLevel() >= MAX_LEVEL) {
 				continue;
 			} else {
+				RobotLog.info("TaoistHandler***************|" + client.getUserId()
+						+ "|taoisInfo id:" + taoistInfo.getTaoistID()
+						+ "|level:" + taoistInfo.getLevel());
 				return taoistInfo.getTaoistID();
 			}
 		}
