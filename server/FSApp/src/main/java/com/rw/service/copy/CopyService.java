@@ -8,16 +8,16 @@ import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class CopyService implements FsService{
+public class CopyService implements FsService {
 
 	private CopyHandler copyHandler = CopyHandler.getInstance();
+
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
 		try {
 			MsgCopyRequest copyRequest = MsgCopyRequest.parseFrom(request.getBody().getSerializedContent());
 			ERequestType copyServiceType = copyRequest.getRequestType();
-			switch (copyServiceType)
-			{
+			switch (copyServiceType) {
 			case BUY_LEVEL:
 				result = copyHandler.buyLevel(copyRequest, player);
 				break;

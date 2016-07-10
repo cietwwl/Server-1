@@ -1,7 +1,9 @@
 package com.rwbase.dao.copy.cfg;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.common.HPCUtil;
 import com.playerdata.readonly.CopyCfgIF;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,6 +31,9 @@ public class CopyCfg implements CopyCfgIF {
 	private String extraRewards;
 	private String extraRewardsNum;
 	private int resetNum;
+	private String plotInfo;
+	private int plotType;
+	private int rewardLevelId;
 
 	public int getMapID() {
 		return mapID;
@@ -95,6 +100,10 @@ public class CopyCfg implements CopyCfgIF {
 	}
 
 	public int getLevelID() {
+		if (plotType == 2) {
+			return rewardLevelId;
+		}
+
 		return levelID;
 	}
 
@@ -214,4 +223,13 @@ public class CopyCfg implements CopyCfgIF {
 		this.firstDropItems = firstDropItems;
 	}
 
+	public void initCfg() {
+		if (!StringUtils.isEmpty(plotInfo)) {
+			int[] arr = HPCUtil.parseIntegerArray(plotInfo, ":");
+			if (arr.length == 2) {
+				plotType = arr[0];
+				rewardLevelId = arr[1];
+			}
+		}
+	}
 }
