@@ -13,6 +13,7 @@ import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.copy.CopyHandler;
+import com.rw.handler.copy.CopyHolder;
 import com.rw.handler.copy.CopyType;
 import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
@@ -679,10 +680,12 @@ public class Robot {
 	/** 聚宝胜利,根据参数决定战斗次数 */
 	public boolean testCopyJbzd(int num) {
 		if(!getPveInfo()){
-			return false;
+			RobotLog.fail("获取副本信息失败");
+			return true;
 		}
-		CopyHandler.getHandler();
-		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0){			
+		CopyHolder copyHolder = client.getCopyHolder();
+		
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0){			
 			return true;
 		}
 		
@@ -716,10 +719,11 @@ public class Robot {
 	/**炼息胜利两 次 */
 	public boolean testCopyLxsg() {
 		if(!getPveInfo()){
-			return false;
+			RobotLog.fail("获取副本信息失败");
+			return true;
 		}
-		CopyHandler.getHandler();
-		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0){			
+		CopyHolder copyHolder = client.getCopyHolder();
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0){			
 			return true;
 		}
 		
@@ -755,10 +759,11 @@ public class Robot {
 	/**生存幻境两 次 */
 	public boolean testCopyschj() {
 		if(!getPveInfo()){
-			return false;
+			RobotLog.fail("获取副本信息失败");
+			return true;
 		}
-		CopyHandler.getHandler();
-		if(CopyHandler.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0){			
+		CopyHolder copyHolder = client.getCopyHolder();
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0){			
 			return true;
 		}
 		

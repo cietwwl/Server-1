@@ -31,7 +31,6 @@ public class CopyHandler {
 	public static final int[] lxsgCopyId = {140011,140012,140013,140014,140015};
 	public static final int[] CelestialCopyId ={140021,140022,140023,140024,140025,140031,140032,140033,140034,140035};
 	
-	private static Map<Integer, Integer> copyTime = new HashMap<Integer, Integer>();
 	public static CopyHandler getHandler() {
 		return handler;
 	}
@@ -57,9 +56,11 @@ public class CopyHandler {
 						return false;
 					}
 					List<PveActivity> list = rsp.getPveActivityListList();
+					Map<Integer, Integer> copyTime = new HashMap<Integer, Integer>();
 					for(PveActivity pveInfo : list){
 						copyTime.put(pveInfo.getCopyType(), pveInfo.getRemainTimes());						
 					}
+					client.getCopyHolder().setCopyTime(copyTime);
 					
 				}catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("CopyHandler[send]获取副本数据 失败", e);
@@ -224,17 +225,4 @@ public class CopyHandler {
 	public static int[] getCelestialcopyid() {
 		return CelestialCopyId;
 	}
-
-
-	public static Map<Integer, Integer> getCopyTime() {
-		return copyTime;
-	}
-
-
-	public static void setCopyTime(Map<Integer, Integer> copyTime) {
-		CopyHandler.copyTime = copyTime;
-	}
-	
-	
-	
 }
