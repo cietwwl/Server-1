@@ -749,7 +749,7 @@ public class Player implements PlayerIF {
 			addPower(addpower);
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
-			MagicChapterInfoHolder.getInstance().getItemList(this);
+			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());

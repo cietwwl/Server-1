@@ -36,7 +36,7 @@ public class MagicChapterInfoHolder{
 	public List<MagicChapterInfo> getItemList(Player player)
 	{
 		List<MagicChapterInfo> chapterList = new ArrayList<MagicChapterInfo>();
-		// 这里需要判断一下角色的等级，如果玩家等级未达到开放
+		// 这里判断了角色的等级，没达到不给数据
 		if(!MagicSecretMgr.getInstance().judgeUserLevel(player, Integer.valueOf(MagicSecretMgr.CHAPTER_INIT_ID))) return chapterList;
 		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID, false);
 		Enumeration<MagicChapterInfo> mapEnum = getItemStore(player.getUserId()).getEnum();
@@ -141,7 +141,7 @@ public class MagicChapterInfoHolder{
 				mcInfo.getUnselectedBuff().clear();
 			}
 		}
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		if(!itemList.isEmpty()) ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	private MapItemStore<MagicChapterInfo> getItemStore(String userId) {
