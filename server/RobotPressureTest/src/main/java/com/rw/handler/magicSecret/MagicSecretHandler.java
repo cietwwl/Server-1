@@ -40,6 +40,7 @@ public class MagicSecretHandler {
 
 	public final static int STAGE_COUNT_EACH_CHATPER = 8;
 	private final static int MAX_CHATPER_ID = 6;
+	private final static int DEFAULT_START_CHATPER = 1;
 
 	private static MagicSecretHandler handler = new MagicSecretHandler();
 
@@ -165,39 +166,31 @@ public class MagicSecretHandler {
 		return success;
 	}
 
+	/**
+	 * @param client
+	 * @return null 表示没有幻境可以挑战 则进行扫荡
+	 */
 	private String getDungeonId(Client client) {
-		MagicChapterInfoHolder magicChapterInfoHolder = client.getMagicChapterInfoHolder();
+		MagicChapterInfoHolder magicChapterInfoHolder = client
+				.getMagicChapterInfoHolder();
 		Map<String, MagicChapterInfo> map = magicChapterInfoHolder.getList();
 		MagicSecretHolder magicSecretHolder = client.getMagicSecretHolder();
 		// 优先获取没有通过的幻境，如果所有幻境都通过则进行扫荡操作
-		for (Iterator<Entry<String, MagicChapterInfo>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
-			Entry<String, MagicChapterInfo> next = iterator.next();
-			MagicChapterInfo chapterInfo = next.getValue();
-			
-			List<Integer> finishedStages = chapterInfo.getFinishedStages();
-			int maxValue = -1;
-			for (Integer value : finishedStages) {
-				if (value > maxValue) {
-					maxValue = value;
-				}
-			}
-			if (maxValue % 100 == STAGE_COUNT_EACH_CHATPER) {
-				continue;
-			}
-			if(Integer.parseInt(chapterInfo.getChapterId()) > MAX_CHATPER_ID){
-				break;
-			}
-
-			if (maxValue == -1) {
-				return chapterInfo.getChapterId()+"01_3";
+		String chapterId = magicSecretHolder.getChapterId();
+		if (chapterId != null) {
+			UserMagicSecretData userMagicSecretData = magicSecretHolder
+					.getList().get(client.getUserId());
+			int maxStageID = userMagicSecretData.getMaxStageID();
+			if (maxStageID % 100 == STAGE_COUNT_EACH_CHATPER
+					&& Integer.parseInt(chapterId) >= MAX_CHATPER_ID) {
+				return null;
 			} else {
-
-				maxValue++;
-				return maxValue + "_" + 3;
+				return maxStageID + "_" + 3;
 			}
+		} else {
+			return DEFAULT_START_CHATPER + "01_3";
 		}
-		// 执行到这里就表示没有幻境可以挑战 则进行扫荡
-		return null;
+		
 	}
 
 	private boolean fight(Client client, String dungeonId) {
