@@ -61,6 +61,7 @@ public class GFBiddingItemMgr {
 				item.setItemNum(baseItem.getItemNum() * bidCfg.getRate());
 				bidRewardTotal.add(item);
 			}
+			System.currentTimeMillis();
 			String successContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getEmailId())).getContent();
 			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getEmailId()), GFightHelper.itemListToString(bidRewardTotal), 
 					String.format(successContent, GroupHelper.getGroupName(bidItem.getBidGroup()), resCfg.getResName(), bidCfg.getCostCount(), bidCfg.getRate()));

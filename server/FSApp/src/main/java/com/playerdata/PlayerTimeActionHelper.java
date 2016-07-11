@@ -243,6 +243,15 @@ public class PlayerTimeActionHelper {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				ActivityCountTypeMgr.getInstance().checkActivity(player);
+			}
+		});
+		
 
 		return onNewDay5ClockTimeAction;
 	}
