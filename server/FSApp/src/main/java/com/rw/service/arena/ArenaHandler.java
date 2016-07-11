@@ -33,6 +33,11 @@ import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.fashion.FashionHandle;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.playerext.PlayerTempAttribute;
@@ -64,6 +69,7 @@ import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.BattleCommon.ePlayerCamp;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
@@ -360,6 +366,8 @@ public class ArenaHandler {
 		entry.getExtension().forceSetFighting();
 		// 设置后挑战者掉线，可怜的被挑战者只能等待超时时间(可以监听挑战者断线事件)
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA,0,0);
+		
 		List<String> idList = request.getAtkIdListList();
 		arenaBM.updateAtkHeroList(idList, player);
 		return response.build().toByteString();
@@ -537,7 +545,7 @@ public class ArenaHandler {
 			ArenaRecord ar = getArenaRecord(record);
 
 			m_MyArenaData.setLastFightTime(System.currentTimeMillis());
-
+			m_MyArenaData.setLastChallengeVictory(isWin);
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
@@ -757,14 +765,25 @@ public class ArenaHandler {
 		result.setPlace(info.getRanking());
 		result.addAllHeroImages(heroImages);
 		result.setModelId(player.getModelId());
-		// player.getAttrMgr()
+		// 设置时装数据
+		result.setSex(player.getSex());
+		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(key);
+		if (fashionUsing != null){
+			result.setFashionUsage(fashionUsing);
+		}
 		return result.build();
 	}
 
 	private long getNextFightTime(TableArenaData arenaData, Player player) {
 		int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
 		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-		int cdTime = arenaInfoCfg.getCdTime() - decCount;
+		int configCdTime;
+		if(arenaData.isLastChallengeVictory()){
+			configCdTime = arenaInfoCfg.getWinCdTime();
+		}else{
+			configCdTime = arenaInfoCfg.getLoseCdTime();
+		}
+		int cdTime = configCdTime - decCount;
 		if (cdTime < 0) {
 			cdTime = 0;
 		}
@@ -924,6 +943,13 @@ public class ArenaHandler {
 		for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
 			itemBagMgr.addItem(entry.getKey(), entry.getValue());
 		}
+		
+		
+		List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS,0,0);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity,0);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return fillArenaScore(arenaData, response);
 	}
@@ -1038,6 +1064,14 @@ public class ArenaHandler {
 		}
 		TableArenaDataDAO.getInstance().update(userId);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		
+		
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_REWARDS_HISTORY,0,0);
+		
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(rewards);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_REWARDS_HISTORY, 0, true, 0, rewardInfoActivity,0);
 		return getHistoryView(request, player);
 	}
 

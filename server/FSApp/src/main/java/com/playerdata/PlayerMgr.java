@@ -198,12 +198,12 @@ public class PlayerMgr {
 	public int gmKickOffAllPlayer(String reason, boolean _blnNeedCoolTime) {
 		offReason = reason;
 		blnNeedCoolTime = _blnNeedCoolTime;
-		
+
 		List<Player> playerList = new ArrayList<Player>();
 		List<String> onlineList = UserChannelMgr.getOnlineList();
 		for (String userId : onlineList) {
 			Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId);
-			if(target != null){
+			if (target != null) {
 				playerList.add(target);
 			}
 		}
@@ -222,7 +222,6 @@ public class PlayerMgr {
 	};
 
 	public int minutesFunc4AllPlayer() {
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, minuteFuncTask);
 	}
@@ -240,7 +239,8 @@ public class PlayerMgr {
 	};
 
 	public int hourFunc4AllPlayer() {
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, hourFuncTask);
 	}
@@ -258,7 +258,8 @@ public class PlayerMgr {
 	};
 
 	public int day5amFunc4AllPlayer() {
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, day5pmFuncTask);
 	}
@@ -276,7 +277,8 @@ public class PlayerMgr {
 	};
 
 	public int dayZero4Func4AllPlayer() {
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, dayZero4FuncTask);
 	}
@@ -434,7 +436,7 @@ public class PlayerMgr {
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, timeSecondTask);
 	}
-	
+
 	public List<Player> getOnlinePlayers() {
 		ArrayList<Player> list = new ArrayList<Player>();
 		for (String s : UserChannelMgr.getOnlinePlayerIdSet()) {
@@ -445,5 +447,15 @@ public class PlayerMgr {
 		}
 		return list;
 	}
-	
+
+	public void setRedPointForHeartBeat(String userId) {
+		// add by Jamaz 
+		// no io operation
+		if (isOnline(userId)) {
+			Player otherPlayer = findPlayerFromMemory(userId);
+			if (otherPlayer != null) {
+				otherPlayer.getTempAttribute().setRedPointChanged();
+			}
+		}
+	}
 }

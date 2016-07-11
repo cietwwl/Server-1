@@ -1,5 +1,9 @@
 package com.rw.handler.copy;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -11,11 +15,9 @@ import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
-import com.rwproto.MainServiceProtos.EMainResultType;
-import com.rwproto.MainServiceProtos.EMainServiceType;
-import com.rwproto.MainServiceProtos.MsgMainRequest;
-import com.rwproto.MainServiceProtos.MsgMainResponse;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PveServiceProtos.PveActivity;
+import com.rwproto.PveServiceProtos.PveServiceResponse;
 import com.rwproto.ResponseProtos.Response;
 
 
@@ -32,6 +34,49 @@ public class CopyHandler {
 	public static CopyHandler getHandler() {
 		return handler;
 	}
+	
+	
+	public boolean pveInfo(Client client){
+		PveServiceResponse.Builder req = PveServiceResponse.newBuilder();
+		boolean success = client.getMsgHandler().sendMsg(Command.MSG_PVE_INFO, req.build().toByteString(), new MsgReciver() {
+			
+			@Override
+			public Command getCmd() {
+				// TODO Auto-generated method stub
+				return Command.MSG_PVE_INFO;
+			}
+			
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString serializedContent = response.getSerializedContent();
+				try{
+					PveServiceResponse rsp = PveServiceResponse.parseFrom(serializedContent);
+					if (rsp == null) {
+						RobotLog.fail("CopyHandler[send] 获取副本数据响应消息为null");
+						return false;
+					}
+					List<PveActivity> list = rsp.getPveActivityListList();
+					Map<Integer, Integer> copyTime = new HashMap<Integer, Integer>();
+					for(PveActivity pveInfo : list){
+						copyTime.put(pveInfo.getCopyType(), pveInfo.getRemainTimes());						
+					}
+					client.getCopyHolder().setCopyTime(copyTime);
+					
+				}catch (InvalidProtocolBufferException e) {
+					RobotLog.fail("CopyHandler[send]获取副本数据 失败", e);
+					return false;
+				}
+				RobotLog.info("copyhandler[send]获取副本数据成功");
+				return true;
+			}
+		});
+		
+		return success;
+	}
+	
+	
+	
+	
 	
 	public boolean battleItemsBack(Client client,int copytype) {
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
@@ -52,7 +97,6 @@ public class CopyHandler {
 			public boolean execute(Client client, Response response) {
 				ByteString serializedContent = response.getSerializedContent();
 				try {
-
 					MsgCopyResponse rsp = MsgCopyResponse.parseFrom(serializedContent);
 					if (rsp == null) {
 						RobotLog.fail("CopyHandler[send] 转换响应消息为null");
@@ -60,10 +104,10 @@ public class CopyHandler {
 					}
 
 					EResultType result = rsp.getEResultType();
-					if (result != EResultType.ITEM_BACK) {
+					if (result != EResultType.ITEM_BACK && result != EResultType.NOT_ENOUGH_TIMES) {
 						RobotLog.fail("CopyHandler[send] 服务器处理战前申请消息失败 " + result);
 						return false;
-					}
+					}							
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("CopyHandler[send]战前申请 失败", e);
 					return false;
@@ -181,7 +225,4 @@ public class CopyHandler {
 	public static int[] getCelestialcopyid() {
 		return CelestialCopyId;
 	}
-	
-	
-	
 }

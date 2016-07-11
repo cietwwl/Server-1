@@ -203,6 +203,7 @@ public class DateUtils {
 		Calendar calendar = getCalendar();
 		// long curTime = calendar.getTimeInMillis();// 当前时间
 		long curTime = System.currentTimeMillis();
+		calendar.setTimeInMillis(curTime);
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
@@ -228,6 +229,7 @@ public class DateUtils {
 		Calendar calendar = getCalendar();
 		// long curTime = calendar.getTimeInMillis();// 当前时间
 		long curTime = System.currentTimeMillis();
+		calendar.setTimeInMillis(curTime);
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
@@ -248,6 +250,12 @@ public class DateUtils {
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
+		int distance =(int) (getHourDistance(earyDay, lateDay)/24);
+		
+		return distance;
+	}
+	
+	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
 		Calendar c2 = Calendar.getInstance();
@@ -260,10 +268,12 @@ public class DateUtils {
 		long timeInMillis2 = c2.getTimeInMillis();
 
 		long distanceTime = Math.abs(timeInMillis2 - timeInMillis);
-
-		int distance = (int) (distanceTime / (24 * 60 * 60 * 1000));
+		int distance = (int) (distanceTime / ( 60 * 60 * 1000));		
 		return distance;
 	}
+	
+	
+	
 
 	/**
 	 * 传入yyyyMMddhhmm格式的日期字符串转换为毫秒
@@ -276,9 +286,9 @@ public class DateUtils {
 		try {
 			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
 			return millionseconds;
-		} catch (Exception e) {
-
-		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
 		return 0;
 	}
 

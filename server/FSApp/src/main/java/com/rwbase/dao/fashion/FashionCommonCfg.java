@@ -8,11 +8,16 @@ public class FashionCommonCfg {
 	private FashionType fashionType;// 时装类型
 	private String name;
 	private String specialEffect; //特殊效果
+	private int frameIconId;//头像框ID从settings.xslx的headBoxCfg表读取
 
 	public void ExtraInit() {
 		if (fashionType == null){
 			GameLog.error("时装", String.valueOf(id), "无效时装类型");
 		}
+	}
+
+	public int getFrameIconId() {
+		return frameIconId;
 	}
 
 	public int getId() {

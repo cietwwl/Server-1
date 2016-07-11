@@ -30,6 +30,7 @@ import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.param.MagicParam;
 import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -141,10 +142,7 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		if (comparable == null) {
-			comparable = new AngleArrayComparable();
-		}
-
+		comparable = new AngleArrayComparable();
 		comparable.setFighting(fighting);
 		comparable.setLevel(p.getLevel());
 
@@ -155,7 +153,7 @@ public class AngelArrayTeamInfoHelper {
 			ranking.addOrUpdateRankingEntry(userId, comparable, angelArrayTeamInfoAttribute);
 		} else {
 			rankingEntry.getExtendedAttribute().setTeamInfo(angelArrayTeamInfoAttribute.getTeamInfo());
-			ranking.subimitUpdatedTask(rankingEntry);
+			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
 	}
 
@@ -277,7 +275,10 @@ public class AngelArrayTeamInfoHelper {
 		teamInfo.setVip(p.getVip());
 		teamInfo.setName(p.getUserName());
 		teamInfo.setHeadId(p.getHeadImage());
-		teamInfo.setGroupName(p.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
+		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if (userGroupAttributeData != null) {
+			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
+		}
 		teamInfo.setLevel(p.getLevel());
 		teamInfo.setUuid(p.getUserId());
 

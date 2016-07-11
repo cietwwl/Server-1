@@ -1,12 +1,15 @@
 package com.rw;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
+import com.rw.handler.copy.CopyHolder;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
@@ -30,6 +33,7 @@ import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.majordata.MajorDataholder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
+import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
 
 /*
@@ -48,7 +52,7 @@ public class Client {
 	private int serverId;// 上一次登录的服务器Id
 	// private String lastHost;// 上一次登录的服务器IP
 	// private String lastPort;// 上一次登录的服务器端口
-	private List<ServerInfo> serverList;// 服务器列表信息
+	private List<ServerInfo> serverList = new ArrayList<ServerInfo>();// 服务器列表信息
 
 	private ClientMsgHandler msgHandler;
 	private StoreItemHolder storeItemHolder = new StoreItemHolder();
@@ -67,34 +71,44 @@ public class Client {
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
 	private HeroEquipHolder heroEquipHolder = new HeroEquipHolder();
-	
-	//签到数据
+
+	// 签到数据
 	private SignDataHolder signDataHolder = new SignDataHolder();
-	//日常数据
+	// 日常数据
 	private DailyActivityDataHolder dailyActivityDataHolder = new DailyActivityDataHolder();
-		
-	//玩家通用活动一数据
+
+	// 玩家通用活动一数据
 	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
-	//玩家通用活动二数据
+	// 玩家通用活动二数据
 	private ActivityDailyCountHolder activityDailyCountHolder = new ActivityDailyCountHolder();
-	
-	//玩家封神之路数据
+
+	// 玩家封神之路数据
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
-	
-	//神器
+
+	// 神器
 	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
-	
+
 	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
 	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
 	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
 	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
-	//乾坤幻境
+	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
-	
-	//主要数据
+
+	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
+	
+	private CopyHolder copyHolder = new CopyHolder();
+	
+	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
+
+	// last seqId
+	// private volatile int lastSeqId;
+	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
+
+	private AtomicBoolean closeFlat = new AtomicBoolean();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -164,11 +178,6 @@ public class Client {
 		this.userId = userId;
 	}
 
-
-
-
-	
-	
 	public String getToken() {
 		return token;
 	}
@@ -201,7 +210,29 @@ public class Client {
 	}
 
 	public void setServerList(List<ServerInfo> serverList) {
+		for (ServerInfo serverInfo : serverList) {
+			boolean blnAdd = true;
+			for (ServerInfo si : serverList) {
+				if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+					si.setHasRole(serverInfo.isHasRole());
+					blnAdd = false;
+					break;
+				}
+			}
+			if(blnAdd){
+				this.serverList.add(serverInfo);
+			}
+		}
 		this.serverList = serverList;
+	}
+	
+	public void addServerInfo(ServerInfo serverInfo){
+		for (ServerInfo si : serverList) {
+			if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+				return;
+			}
+		}
+		this.serverList.add(serverInfo);
 	}
 
 	public GroupNormalMemberHolder getNormalMemberHolder() {
@@ -236,9 +267,6 @@ public class Client {
 		return battleTowerData;
 	}
 
-	
-	
-	
 	public FresherActivityHolder getFresherActivityHolder() {
 		return fresherActivityHolder;
 	}
@@ -246,13 +274,12 @@ public class Client {
 	public void setFresherActivityHolder(FresherActivityHolder fresherActivityHolder) {
 		this.fresherActivityHolder = fresherActivityHolder;
 	}
-	
+
 	public FixNormEquipDataItemHolder getFixNormEquipDataItemHolder() {
 		return fixNormEquipDataItemHolder;
 	}
 
-	public void setFixNormEquipDataItemHolder(
-			FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
+	public void setFixNormEquipDataItemHolder(FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
 		this.fixNormEquipDataItemHolder = fixNormEquipDataItemHolder;
 	}
 
@@ -260,15 +287,10 @@ public class Client {
 		return fixExpEquipDataItemHolder;
 	}
 
-	public void setFixExpEquipDataItemHolder(
-			FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
+	public void setFixExpEquipDataItemHolder(FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
 		this.fixExpEquipDataItemHolder = fixExpEquipDataItemHolder;
 	}
-	
-	
-	
-	
-	
+
 	public MagicSecretHolder getMagicSecretHolder() {
 		return magicSecretHolder;
 	}
@@ -280,15 +302,15 @@ public class Client {
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
 	}
-	
+
 	public ActivityCountHolder getActivityCountHolder() {
 		return activityCountHolder;
 	}
-	
+
 	public ActivityDailyCountHolder getActivityDailyCountHolder() {
 		return activityDailyCountHolder;
 	}
-	
+
 	public SignDataHolder getSignDataHolder() {
 		return signDataHolder;
 	}
@@ -316,6 +338,15 @@ public class Client {
 	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
 		return magicChapterInfoHolder;
 	}
+	
+	
+	
+	
+	public CopyHolder getCopyHolder() {
+		return copyHolder;
+	}
+
+
 
 	public void setMagicChapterInfoHolder(MagicChapterInfoHolder magicChapterInfoHolder) {
 		this.magicChapterInfoHolder = magicChapterInfoHolder;
@@ -344,4 +375,25 @@ public class Client {
 	public void setMajorDataholder(MajorDataholder majorDataholder) {
 		this.majorDataholder = majorDataholder;
 	}
+
+	public AtomicBoolean getCloseFlat() {
+		return this.closeFlat;
+	}
+
+	public CommandInfo getCommandInfo() {
+		return commandInfo;
+	}
+
+	public void setCommandInfo(CommandInfo commandInfo) {
+		this.commandInfo = commandInfo;
+	}
+
+	public TaoistDataHolder getTaoistDataHolder() {
+		return taoistDataHolder;
+	}
+
+	public void setTaoistDataHolder(TaoistDataHolder taoistDataHolder) {
+		this.taoistDataHolder = taoistDataHolder;
+	}
+
 }

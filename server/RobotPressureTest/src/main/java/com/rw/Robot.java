@@ -13,6 +13,7 @@ import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.copy.CopyHandler;
+import com.rw.handler.copy.CopyHolder;
 import com.rw.handler.copy.CopyType;
 import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
@@ -108,6 +109,7 @@ public class Robot {
 		try {
 			if (client == null) {
 				client = PlatformHandler.instance().login(accountId);
+				Thread.sleep(1000);
 				if (client != null) {
 					loadZoneListSuccess = PlatformHandler.instance().loadZoneAndRoleList(client);
 				}
@@ -139,6 +141,13 @@ public class Robot {
 	public boolean loginGame() {
 		if (client == null) {
 			return false;
+		}
+		client.closeConnect();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		int zoneId = getTargetZoneId();
 		boolean createSuccess = false;
@@ -669,30 +678,48 @@ public class Robot {
 	}
 	
 	/** 聚宝胜利,根据参数决定战斗次数 */
-	public boolean testCopyJbzd(int num) {
-		if (num == 2) {
-			boolean getitemback = CopyHandler.getHandler().battleItemsBack(
-					client, CopyType.COPY_TYPE_TRIAL_JBZD);
-			if (getitemback) {
-				CopyHandler.getHandler().battleClear(client,
-						CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
-			}
+	public boolean testCopyJbzd() {
+		if(!getPveInfo()){
+			RobotLog.fail("获取副本信息失败");
+			return true;
 		}
+		CopyHolder copyHolder = client.getCopyHolder();
+		
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0){			
+			return true;
+		}
+		
 		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(
-				client, CopyType.COPY_TYPE_TRIAL_JBZD);
-		if (getitembacksecond) {
-			return CopyHandler.getHandler().battleClear(client,
+		boolean result;
+		result = CopyHandler.getHandler().battleItemsBack(client,
+				CopyType.COPY_TYPE_TRIAL_JBZD);
+		if (result) {
+			result = CopyHandler.getHandler().battleClear(client,
 					CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
 		}
+		
 
-		return false;
+		return result;
+	}
+	
+	private boolean getPveInfo(){
+		boolean getPveInfo = CopyHandler.getHandler().pveInfo(client);
+		return getPveInfo;		
 	}
 	
 
 
 	/**炼息胜利两 次 */
 	public boolean testCopyLxsg() {
+		if(!getPveInfo()){
+			RobotLog.fail("获取副本信息失败");
+			return true;
+		}
+		CopyHolder copyHolder = client.getCopyHolder();
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0){			
+			return true;
+		}
+		
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
 		if(getitemback){
 			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
@@ -724,6 +751,16 @@ public class Robot {
 	
 	/**生存幻境两 次 */
 	public boolean testCopyschj() {
+		if(!getPveInfo()){
+			RobotLog.fail("获取副本信息失败");
+			return true;
+		}
+		CopyHolder copyHolder = client.getCopyHolder();
+		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0){			
+			return true;
+		}
+		
+		
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
 		if(getitemback){
 			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		
@@ -808,8 +845,6 @@ public class Robot {
 	}
 
 	public boolean testPeakArena() {
-		boolean issuc = upgrade(50);
-		RobotLog.fail("巅峰竞技场-设置50级结果" + issuc);
 		PeakArenaHandler.getHandler().changeEnemy(client, "");
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
@@ -840,43 +875,54 @@ public class Robot {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
 	
-	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然
-	 * 开始前需要升级，加金币，加钻石，加进化和升星材料；
-	 * 因为部分判断在客户端，所以如果要测试进化，建议直接一键升满，否则单个升满会无法确保10级，非10级申请进化会生成错误数据影响后续操作
-	 * 15234,强化,一键强化,进化,升星,降星;4个装备，0123
-	 * 6789,强化,进化,升星,降星，2个装备01
-	 * */
-	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
-		upgrade(50);
+	/**
+	 * 
+	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
+	 * @param heronumber 英雄位置，0为玩家，1234依次为英雄
+	 * @param expequipId 装备位置普通装备0123；特殊装备01；
+	 * @param servicetype 操作类型；普通装备支持15234；特殊装备支持6789
+	 * @return
+	 */
+	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
 		additem(806511);//进化材料
 		additem(806523);//升星材料
 		additem(806501);//下两格经验材料
 		boolean issuc = false;
-		if(equipId != -1){
-			issuc=FixEquipHandler.instance().doEquip(client,equipId, type);
+		if(type == 0){
+			issuc=FixEquipHandler.instance().doEquip(client,heronumber,expequipId, servicetype);
 		}else{
-			issuc=FixExpEquipHandler.instance().doExpEquip(client,expequipId, exptype);			
+			issuc=FixExpEquipHandler.instance().doExpEquip(client,heronumber,expequipId, servicetype);			
 		}		
 		return issuc;
 	}
 	
 	/**预制升级和加金币；参数不存在则选择首项提升*/
-	public boolean testTaoist(int id){
-		upgrade(50);	
+	public boolean testTaoist(){
 		boolean issuc = false;
+		upgrade(50);
 //		TaoistHandler.getHandler().getTaoistData(client);
-		issuc=TaoistHandler.getHandler().upTaoist(client,id);
+		issuc=TaoistHandler.getHandler().updateTaoist(client);
 		return issuc;
 	}
 	
-	/**1查看;独立的
-	 * 2战斗；接5换buff和6换道具*/
-	public boolean testMagicSecret(int id){
-		upgrade(50);
-		boolean issuc = false;
-		issuc=MagicSecretHandler.getHandler().doType(client , id);
-		return issuc;
+	/**
+	 * 进行一次乾坤幻境并领取奖励（如果所有幻境都挑战通过，则会进行任意个幻境扫荡）
+	 * @param client
+	 * @return
+	 */
+	public boolean playerMagicSecret(){
+		return MagicSecretHandler.getHandler().playMagicSecret(client);
 	}
+	
+	/**
+	 * 获取乾坤幻境的排行榜
+	 * @param client
+	 * @return
+	 */
+	public boolean getMagicSecretRank() {
+		return MagicSecretHandler.getHandler().getMagicSecretRank(client);
+	}
+	
 	public boolean sendGmCommand(String value){
 		return GmHandler.instance().send(client, value);
 	}

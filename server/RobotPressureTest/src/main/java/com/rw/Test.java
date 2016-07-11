@@ -10,17 +10,20 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("0616393792");
-//		 robot.dailyActivity();
-
-		 Robot robot = createRobot("testallen"+random.nextInt(2000));
-		 if(robot == null){
-		 }else{
-			 boolean issucc =false;
-			 
-			 issucc=robot.testMagicSecret(4);
-			 System.out.println("@@@@@@@@@@@test" + issucc);			 
-		 }
+		 Robot robot = loginRobot("sgn0845");
+//		 robot.addCoin(10000000);
+//		 robot.addGold(1000000);
+//		 robot.playerMagicSecret();
+		 robot.testTaoist();
+//		 System.out.println(robot.testCopyJbzd(1));
+//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+//		 if(robot == null){
+//		 }else{
+//			 boolean issucc =false;
+//			 
+//			 issucc=robot.testFixEquip(0,0,0,1);
+//			 System.out.println("@@@@@@@@@@@test" + issucc);			 
+//		 }
 		 
 		 
 		//5-27新增部分
@@ -175,7 +178,7 @@ public class Test {
 
 	public static void testUpgarate() {
 		Robot robot = loginRobot("testallen22");
-		robot.upgrade(10);
+		robot.upgrade(50);
 	}
 
 	// 获取所有邮件的附件

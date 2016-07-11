@@ -19,6 +19,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -66,6 +67,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
+import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
@@ -147,6 +149,7 @@ public class GMHandler {
 		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
 		funcCallBackMap.put("setfashion", "setFashion");
 		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
+		funcCallBackMap.put("reloadunlockfashionicon", "reloadUnlockFashionIconCfg");
 
 		// 钓鱼台配置更新并重新生成热点数据
 		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
@@ -225,6 +228,13 @@ public class GMHandler {
 		result = result && reloadConfigByHelperClass(FashionBuyRenewCfgDao.class.getName());
 		result = result && reloadConfigByHelperClass(FashionEffectCfgDao.class.getName());
 		result = result && reloadConfigByHelperClass(FashionQuantityEffectCfgDao.class.getName());
+		result = result && reloadConfigByHelperClass(FashionCommonCfgDao.class.getName());
+		return result;
+	}
+
+	public boolean reloadUnlockFashionIconCfg(String[] arrCommandContents, Player player){
+		boolean result = true;
+		result = result && reloadConfigByHelperClass(HeadBoxCfgDAO.class.getName());
 		result = result && reloadConfigByHelperClass(FashionCommonCfgDao.class.getName());
 		return result;
 	}
@@ -383,6 +393,10 @@ public class GMHandler {
 			player.getUserGameDataMgr().addCoin(addNum);
 			return true;
 		}
+//		String [] strs = {"901","90001"};
+//		ActivityExchangeTypeHandler.getInstance();
+//		ActivityExchangeTypeHandler.GmTakeGift(player, strs);
+//		
 		return false;
 	}
 

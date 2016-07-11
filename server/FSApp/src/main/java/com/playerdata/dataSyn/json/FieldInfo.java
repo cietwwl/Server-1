@@ -59,4 +59,13 @@ public class FieldInfo {
 
 		return json;
 	}
+	
+	public void fromJson(Object target, String json) throws Exception {
+		try {
+			fieldToJson.fromJson(target, json);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), json, fieldToJson.getLogInfo(), e);
+			throw (e);
+		}
+	}
 }

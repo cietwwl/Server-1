@@ -34,26 +34,30 @@ public class FixExpEquipHandler {
 	
 	private static int expId= 806501;//经验道具统一用这个！！！ 
 	
-	public boolean doExpEquip(Client client,int equipid,int type){
+	public boolean doExpEquip(Client client,int heronum,int equipid,int type){
 		boolean issucc = false;
 		if(type == Exp_level_up){
-			issucc = doLevelUp(client,equipid);
+			issucc = doLevelUp(client,heronum,equipid);
 		}else if(type == Exp_quality_up){
-			issucc = doQualityUp(client,equipid);
+			issucc = doQualityUp(client,heronum,equipid);
 		}else if(type == Exp_star_up){			
-			issucc = doStarUp(client,equipid);
+			issucc = doStarUp(client,heronum,equipid);
 		}else if(type == Exp_star_down){			
-			issucc = doStarDown(client,equipid);
+			issucc = doStarDown(client,heronum,equipid);
 		}
 		return issucc;
 	}
 
 
-	private boolean doStarDown(Client client, int equipid) {
+	private boolean doStarDown(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_star_down);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
-		String tmp = giftList.get(equipid);
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
+		String tmp = giftList.get(equipid+ heronum*2);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
 			return false;
@@ -98,11 +102,15 @@ public class FixExpEquipHandler {
 	}
 
 
-	private boolean doStarUp(Client client, int equipid) {
+	private boolean doStarUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_star_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
-		String tmp = giftList.get(equipid);
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
+		String tmp = giftList.get(equipid+ heronum*2);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
 			return false;
@@ -147,11 +155,15 @@ public class FixExpEquipHandler {
 	}
 
 
-	private boolean doQualityUp(Client client, int equipid) {
+	private boolean doQualityUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_quality_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
-		String tmp = giftList.get(equipid);
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
+		String tmp = giftList.get(equipid+ heronum*2);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
 			return false;
@@ -196,11 +208,15 @@ public class FixExpEquipHandler {
 	}
 
 
-	private boolean doLevelUp(Client client, int equipid) {
+	private boolean doLevelUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_level_up);
-		Map<Integer,String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
-		String tmp = giftList.get(equipid);
+		List<String> giftList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
+		String tmp = giftList.get(equipid+ heronum*2);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
 			return false;
@@ -212,6 +228,7 @@ public class FixExpEquipHandler {
 		Builder item = SelectItem.newBuilder();
 		item.setModelId(expId);
 		item.setCount(30);
+		
 		SelectItem tmpitem = item.buildPartial();	
 		com.rwproto.FixEquipProto.ExpLevelUpReqParams.Builder expIdAndNum = ExpLevelUpReqParams.newBuilder();
 		expIdAndNum.addSelectItem(tmpitem);

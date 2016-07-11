@@ -17,30 +17,29 @@ import com.rwbase.dao.hotPoint.EHotPointType;
 public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	private Player m_pPlayer;
 	public boolean getHasFree() {
-		return GambleLogic.canGambleFreely(m_pPlayer);
+		return GambleHandler.canGambleFreely(m_pPlayer);
 	}
 	
 	/**
-	 * 每天五点重置数据
+	 * 每天五点重置玩家的钓鱼台数据
 	 * @param player 
 	 */
 	public void resetForNewDay(){
-		GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
 		GambleRecordDAO.getInstance().reset(m_pPlayer.getUserId());
-		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置数据", null);
+		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置玩家数据", null);
 	}
 
 	//用于GM命令！
 	public void resetHotHeroList(){
-		GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
+		GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
 	}
 	
 	public boolean isPrimaryOneFree(){
-		return GambleLogic.isFree(m_pPlayer,GambleLogicHelper.Primary_One);
+		return GambleHandler.isFree(m_pPlayer,GambleLogicHelper.Primary_One);
 	}
 	
 	public boolean isMiddleOneFree(){
-		return GambleLogic.isFree(m_pPlayer,GambleLogicHelper.Middle_One);
+		return GambleHandler.isFree(m_pPlayer,GambleLogicHelper.Middle_One);
 	}
 	
 	public void syncMainCityGambleHotPoint(){

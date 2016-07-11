@@ -56,6 +56,7 @@ public class FriendHandler {
 		allListObj.addAllFriendList(player.getFriendMgr().getFriendList());
 		allListObj.addAllRequestList(player.getFriendMgr().getRequestList());
 		allListObj.addAllBlackList(player.getFriendMgr().getBlackList());
+		allListObj.addAllRecommandList(recommandFriends(player));
 		response.setAllList(allListObj);
 		response.setResultType(EFriendResultType.SUCCESS);
 

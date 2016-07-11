@@ -43,7 +43,7 @@ message WorshipInfo{
 	optional WorshipRewardData randomRward = 10;//随机奖励
 	optional string time = 11;//膜拜时间
 	optional int32 modelId = 12;//模型ID
-	optional string swingID = 13;//被膜拜玩家是否有翅膀，有则发送对应的ID
+	optional string headFrame = 13;//被膜拜玩家的头像框ID
 	optional FashionService.FashionUsed fashionUsage = 14;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 

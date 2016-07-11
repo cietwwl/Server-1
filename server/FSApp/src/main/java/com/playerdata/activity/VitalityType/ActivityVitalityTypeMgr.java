@@ -39,6 +39,7 @@ public class ActivityVitalityTypeMgr {
 	}
 
 	public void synVitalityTypeData(Player player) {
+		checkCfgVersion(player);
 		ActivityVitalityItemHolder.getInstance().synAllData(player);
 	}
 	
@@ -91,10 +92,12 @@ public class ActivityVitalityTypeMgr {
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
 		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);		
 		if(cfg == null ){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
 		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
-		if(cfgenum == null){			
+		if(cfgenum == null){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
 		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
@@ -158,7 +161,7 @@ public class ActivityVitalityTypeMgr {
 		return currentTime < endTime && currentTime > startTime;
 	}
 //	
-	private boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
+	public boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
 		if (activityVitalityTypeItem != null) {
 			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);			
 			if(cfg == null){

@@ -3,7 +3,6 @@ package com.rw.handler.majordata;
 import java.util.List;
 
 import com.rw.dataSyn.SynDataListHolder;
-import com.rw.handler.magicSecret.MagicChapterInfo;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 

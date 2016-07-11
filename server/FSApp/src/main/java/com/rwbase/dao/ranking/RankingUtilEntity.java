@@ -7,12 +7,14 @@ import java.util.List;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.RefInt;
 import com.playerdata.Player;
 import com.playerdata.RankingMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -26,6 +28,7 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwproto.RankServiceProtos;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.RankServiceProtos.RankInfo;
 import com.rwproto.RankServiceProtos.RankingHeroData;
 import com.rwproto.RankServiceProtos.RankingMagicData;
@@ -93,17 +96,24 @@ public class RankingUtilEntity {
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
 			rankInfo.setRankCount(levelData.getRankCount());
-			if(levelData.getHeadbox() == null){
+			if (levelData.getHeadbox() == null) {
 				List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 				levelData.setHeadbox(defaultHeadBoxList.get(0));
 			}
 			rankInfo.setHeadbox(levelData.getHeadbox());
+			// 设置时装数据
+			rankInfo.setSex(levelData.getSex());
+			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
+			if (fashionUsing != null){
+				rankInfo.setFashionUsage(fashionUsing);
+			}
+
 		}
 		return rankInfo.build();
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<RankingTeamData> createTeamData(ERankingType rankType, String userId) {
+	public List<RankingTeamData> createTeamData(ERankingType rankType, String userId, RefInt refInt) {
 		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
 		if (arenaData == null) {
 			return Collections.EMPTY_LIST;
@@ -111,7 +121,7 @@ public class RankingUtilEntity {
 		RankingTeamData.Builder rankingTeamData = RankingTeamData.newBuilder();
 		List<RankingHeroData> listHeros = new ArrayList<RankingHeroData>();
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
-
+		int fighting = 0;
 		for (ArmyHero tableHeroData : armyInfo.getHeroList()) {
 			RoleBaseInfo roleBaseInfo = tableHeroData.getRoleBaseInfo();
 			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(roleBaseInfo.getTemplateId());
@@ -122,6 +132,11 @@ public class RankingUtilEntity {
 			rankingHeroData.setLevel(roleBaseInfo.getLevel());
 			rankingHeroData.setQuality(roleBaseInfo.getQualityId());
 			listHeros.add(rankingHeroData.build());
+			fighting += tableHeroData.getFighting();
+		}
+		fighting += armyInfo.getPlayer().getFighting();
+		if (refInt != null) {
+			refInt.value = fighting;
 		}
 		RankingMagicData.Builder magicData = RankingMagicData.newBuilder();
 		MagicCfg cfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(arenaData.getMagicId() + "");

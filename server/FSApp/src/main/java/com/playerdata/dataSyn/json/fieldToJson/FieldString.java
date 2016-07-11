@@ -28,4 +28,9 @@ public class FieldString implements IFieldToJson{
 		info.append("field Name:").append(field.getName());
 		return info.toString();
 	}
+
+	@Override
+	public void fromJson(Object target, String json) throws Exception {			
+			field.set(target, json);					
+	}
 }

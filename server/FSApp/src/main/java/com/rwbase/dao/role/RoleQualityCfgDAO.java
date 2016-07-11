@@ -60,7 +60,7 @@ public class RoleQualityCfgDAO extends CfgCsvDao<RoleQualityCfg> {
 	}
 
 	public List<Integer> getEquipList(String id) {
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<Integer>(6);
 		RoleQualityCfg cfg = getConfig(id);
 		if (cfg == null) {
 			return list;
@@ -72,6 +72,39 @@ public class RoleQualityCfgDAO extends CfgCsvDao<RoleQualityCfg> {
 		list.add(cfg.getEquip5());
 		list.add(cfg.getEquip6());
 		return list;
+	}
+	
+	/**
+	 * 在排除列表中的不返回
+	 * @param id
+	 * @param excludePositions 排除位置列表
+	 * @return
+	 */
+	public List<Integer> getEquipList(String id,int[] excludePositions) {
+		if (excludePositions == null || excludePositions.length <=0)
+			return getEquipList(id);
+		
+		ArrayList<Integer> list = new ArrayList<Integer>(6);
+		RoleQualityCfg cfg = getConfig(id);
+		if (cfg == null) {
+			return list;
+		}
+		filterAdd(list,cfg.getEquip1(),1,excludePositions);
+		filterAdd(list,cfg.getEquip2(),2,excludePositions);
+		filterAdd(list,cfg.getEquip3(),3,excludePositions);
+		filterAdd(list,cfg.getEquip4(),4,excludePositions);
+		filterAdd(list,cfg.getEquip5(),5,excludePositions);
+		filterAdd(list,cfg.getEquip6(),6,excludePositions);
+		return list;
+	}
+	
+	private void filterAdd(ArrayList<Integer> list,int equipId,int index,int[] excludePositions){
+		for (int i =0;i<excludePositions.length;i++){
+			if (excludePositions[i] == index){
+				return;
+			}
+		}
+		list.add(equipId);
 	}
 
 	public int getQuality(String qualityId) {

@@ -11,7 +11,9 @@ import com.rwbase.common.enu.eActivityType;
 public class FresherActivityItem implements FresherActivityItemIF{
 	
 	private String id;
+	
 	private String ownerId;
+	
 	private String currentValue;   //当前值
 	
 	private eActivityType type;

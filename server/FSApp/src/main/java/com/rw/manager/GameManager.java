@@ -47,6 +47,8 @@ import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
+import com.rwbase.dao.arena.ArenaRobotCfgDAO;
+import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
@@ -87,8 +89,8 @@ public class GameManager {
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
-		
-		//初始化MapItemStoreFactory
+
+		// 初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
 
 		// initServerProperties();
@@ -122,6 +124,9 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
+		
+		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
+		
 		RobotManager.getInstance().createRobots();
 		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
@@ -246,8 +251,7 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();

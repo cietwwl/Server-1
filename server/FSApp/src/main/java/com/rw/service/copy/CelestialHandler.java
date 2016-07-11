@@ -8,16 +8,24 @@ import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
+import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
+import com.rwproto.CopyServiceProtos.TagBattleData;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class CelestialHandler {
@@ -33,6 +41,11 @@ public class CelestialHandler {
 	 */
 	public ByteString battleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		TagBattleData tagBattleData = copyRequest.getTagBattleData();
+		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		int fightTime = tagBattleData.getFightTime();
+		
+		
 		int levelId = copyRequest.getTagBattleData().getLevelId();
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
@@ -44,7 +57,25 @@ public class CelestialHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
+		String rewardInfoActivity="";
+		List<? extends ItemInfo> listItemBattle = null;
+		try {
+			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+		} catch (DataAccessTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(listItemBattle);
+		rewardInfoActivity = BILogTemplateHelper.getString(list);
+		
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
+		}
+		if(!isWin){			
+			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+		}	
+		
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 
@@ -63,12 +94,37 @@ public class CelestialHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-
+		
 		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
 	}
-
+	
+//	private String getCelestialRewardsInfo(Player player, MsgCopyRequest copyRequest, int levelId){
+//		StringBuilder rewardInfoActivity=new StringBuilder();
+//		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
+//		List<? extends ItemInfo> listItemBattle = null;
+//		try {
+//			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
+//			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
+//		if (listItemBattle != null) {
+//			for (ItemInfo item : listItemBattle) {
+//				int itemId = item.getItemID();
+//				int itemNum = item.getItemNum();
+//				if (player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())) {
+//					String strItemInfo = itemId + "," + itemNum+";";
+//					rewardInfoActivity.append(strItemInfo);
+//				}
+//			}
+//		} 
+//		return rewardInfoActivity.toString();
+//	}
+	
+	
+	
 	private List<String> addCelestialRewards(Player player, MsgCopyRequest copyRequest, int levelId) {
 		player.getCopyDataMgr().subCopyCount(String.valueOf(levelId));
 		// List<ItemInfoIF> listItems =
