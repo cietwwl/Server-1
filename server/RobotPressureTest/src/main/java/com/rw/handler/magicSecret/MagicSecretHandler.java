@@ -185,7 +185,7 @@ public class MagicSecretHandler {
 					&& Integer.parseInt(chapterId) >= MAX_CHATPER_ID) {
 				return null;
 			} else {
-				return maxStageID + "_" + 3;
+				return ++maxStageID + "_" + 3;
 			}
 		} else {
 			return DEFAULT_START_CHATPER + "01_3";
