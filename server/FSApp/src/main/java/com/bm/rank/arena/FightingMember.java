@@ -68,6 +68,7 @@ public class FightingMember {
 	public synchronized void setNotFighting() {
 		this.inFightState = false;
 		this.lastFightTime = 0;
+		timeout = original;
 	}
 
 	public long getLastFightTime() {

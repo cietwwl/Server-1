@@ -20,7 +20,7 @@ public class PeakArenaExtAttribute extends ArenaExtAttribute{
 	 * 延长一倍的超时，用于一场战斗结束后，连续打第二场
 	 */
 	public void extendTimeOut(){
-		timeout += timeout;
+		timeout += original;
 	}
 
 	//json 调用
