@@ -127,12 +127,17 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if(groupData == null || groupData.getResourceID() <= 0) return;
 		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+		String groupName = GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData().getGroupName();
 		long currentTime = System.currentTimeMillis();
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
 		for(GroupMemberDataIF member : groupMem){
 			//构造奖励内容
 			GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
 			finalRewardItem.setEmailId(resCfg.getVictoryEmailID());
+			
+			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getVictoryEmailID()));
+			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+			
 			finalRewardItem.setResourceID(groupData.getResourceID());
 			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){
 				finalRewardItem.setRewardContent(resCfg.getVictoryLeaderRewardItems());
@@ -144,8 +149,7 @@ public class GFightOnlineGroupMgr {
 			finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(member.getUserId(), groupData.getResourceID()));
 			finalRewardItem.setRewardType(GFRewardType.GFightSuccessReward.getValue());
 			finalRewardItem.setUserID(member.getUserId());
-			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getVictoryEmailID()));
-			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), "", ""));
+			
 			GFFinalRewardMgr.getInstance().addGFReward(member.getUserId(), groupData.getResourceID(), finalRewardItem);
 		}
 	}
@@ -158,12 +162,17 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if(groupData == null || groupData.getResourceID() <= 0) return;
 		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+		String groupName = GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData().getGroupName();
 		long currentTime = System.currentTimeMillis();
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
 		for(GroupMemberDataIF member : groupMem){
 			//构造奖励内容
 			GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
 			finalRewardItem.setEmailId(resCfg.getFailEmailID());
+			
+			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getFailEmailID()));
+			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+			
 			finalRewardItem.setResourceID(groupData.getResourceID());
 			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){
 				finalRewardItem.setRewardContent(resCfg.getFailLeaderRewardItems());
@@ -175,6 +184,7 @@ public class GFightOnlineGroupMgr {
 			finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(member.getUserId(), groupData.getResourceID()));
 			finalRewardItem.setRewardType(GFRewardType.GFihgtFailReward.getValue());
 			finalRewardItem.setUserID(member.getUserId());
+			
 			GFFinalRewardMgr.getInstance().addGFReward(member.getUserId(), groupData.getResourceID(), finalRewardItem);
 		}
 	}
@@ -217,20 +227,8 @@ public class GFightOnlineGroupMgr {
 			List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
 			for(GroupMemberDataIF member : groupMem){
 				// TODO 附件描述的内容需要修改
-				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()), itemListToString(victoryReward), null);
+				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()), GFightHelper.itemListToString(victoryReward), null);
 			}
 		}
-	}
-	
-	public String itemListToString(List<ItemInfo> items){
-		StringBuffer sbuff = new StringBuffer();
-		for(ItemInfo item : items){
-			sbuff.append(item.getItemID());
-			sbuff.append("~");
-			sbuff.append(item.getItemNum());
-			sbuff.append(",");
-		}
-		sbuff.deleteCharAt(sbuff.lastIndexOf(","));
-		return sbuff.toString();
 	}
 }

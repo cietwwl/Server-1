@@ -12,6 +12,8 @@ import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
@@ -22,6 +24,8 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 
 public class GFOnlineKillRankMgr {
 	
@@ -107,6 +111,9 @@ public class GFOnlineKillRankMgr {
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
 		long currentTime = System.currentTimeMillis();	//记录奖励发放的时间
+		
+		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(resourceID));
+		if(resCfg == null) return;
 		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
 		try {
 			EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration(1, GFightConst.KILL_REWARD_MAX_RANK);
@@ -125,6 +132,10 @@ public class GFOnlineKillRankMgr {
 						//构造奖励内容
 						GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
 						finalRewardItem.setEmailId(rewardCfg.getEmailId());
+						EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(rewardCfg.getEmailId()));
+						if(emailCfg != null) {
+							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getExtendedAttribute().getTotalKill(), j));
+						}
 						finalRewardItem.setResourceID(resourceID);
 						finalRewardItem.setRewardContent(rewardCfg.getRewardList());
 						finalRewardItem.setRewardGetTime(currentTime);
