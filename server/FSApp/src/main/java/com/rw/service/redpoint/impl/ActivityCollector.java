@@ -51,6 +51,7 @@ import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
@@ -269,6 +270,9 @@ public class ActivityCollector implements RedPointCollector{
 				break;
 			}			
 		}
+//      ----------------------------------	
+		ActivityRankTypeItemHolder rankHolder = ActivityRankTypeItemHolder.getInstance();
+		
 		
 		
 		
