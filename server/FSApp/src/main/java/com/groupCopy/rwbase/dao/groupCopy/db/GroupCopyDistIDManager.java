@@ -9,6 +9,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.ArrayType;
+import org.codehaus.jackson.map.type.CollectionLikeType;
+import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.springframework.util.StringUtils;
 
@@ -42,12 +44,14 @@ public class GroupCopyDistIDManager {
 	 */
 	public void groupDismissNotify(String id){
 		GroupIDList.remove(id);
+		UpdateGroupDistData();
 	}
 	
 	public void addGroupID(String id){
 		if(GroupIDList.contains(id))
 			return;
 		GroupIDList.add(id);
+		UpdateGroupDistData();
 	}
 	
 	
@@ -64,7 +68,7 @@ public class GroupCopyDistIDManager {
 			return;
 		}
 		
-		ArrayType type = TypeFactory.defaultInstance().constructArrayType(String.class);
+		CollectionType type = TypeFactory.defaultInstance().constructCollectionType(List.class, String.class);
 		try {
 			GroupIDList = MAPPER.readValue(json, type);
 		} catch (JsonGenerationException e) {

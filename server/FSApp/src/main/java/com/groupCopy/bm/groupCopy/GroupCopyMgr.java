@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.bm.group.GroupBM;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
@@ -621,7 +622,9 @@ public class GroupCopyMgr {
 				ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
 				ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
 				applyTemplate.addApplyRole(info);
+				
 			}
+			
 			//添加入新的记录
 			dropHolder.updateItem(player, record);
 			result.setSuccess(true);
@@ -677,15 +680,16 @@ public class GroupCopyMgr {
 			List<ApplyInfo> applyInfo = new ArrayList<ApplyInfo>();
 			List<DropInfo> dropInfo = new ArrayList<DropInfo>();
 			for (CopyItemDropAndApplyRecord record : itemList) {
+				boolean send = false;
 				Collection<ItemDropAndApplyTemplate> map = record.getDaMap().values();
 				//TODO 这里要进行优化，因为在这里直接遍历再进行操作，可能会有问题 ---Alex
 				
 				for (ItemDropAndApplyTemplate template : map) {
-					
+					System.err.println("发放道具：" + template.getItemID());
 					applyInfo.addAll(template.getApplyData());
 					if(applyInfo == null || applyInfo.isEmpty())
 						continue;
-					dropInfo = template.getDropInfoList();
+					dropInfo.addAll(template.getDropInfoList());
 					if(dropInfo == null || dropInfo.isEmpty())
 						continue;
 					
@@ -695,11 +699,18 @@ public class GroupCopyMgr {
 					
 					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, dropInfo.get(0), applyInfo.get(0), groupName);
 					if(sendMail){
+						send = true;
+						System.err.println("发放道具成功：" + template.getItemID());
 						template.deleteApply(dropInfo.get(0), applyInfo.get(0));
 					}
+					
+					applyInfo.clear();
+					dropInfo.clear();
+				}
+				if(send){
+					dropHolder.updateItem(null, record);
 				}
 			}
-			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[chekcAdSendGroupPriceMail]", "发送帮派奖励出现异常", e);
 		}

@@ -69,7 +69,7 @@ public class ItemDropAndApplyTemplate {
 		applyData.add(info);
 	}
 
-	public synchronized void deleteApply(DropInfo dropInfo, ApplyInfo applyInfo) {
+	public void deleteApply(DropInfo dropInfo, ApplyInfo applyInfo) {
 		applyData.remove(applyInfo);
 		if(dropInfo.getCount() == 0){
 			dropInfoList.remove(dropInfo);

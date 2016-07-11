@@ -61,7 +61,9 @@ public class DropAndApplyRecordHolder {
 	public void updateItem(Player player, CopyItemDropAndApplyRecord item){
 		getItemStore().updateItem(item);
 		updateVersion();
-		synSingleData(player, item.getChaterID());
+		if(player != null){
+			synSingleData(player, item.getChaterID());
+		}
 	}
 	
 	public CopyItemDropAndApplyRecord getItemByID(String chaterID){

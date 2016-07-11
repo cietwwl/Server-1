@@ -49,8 +49,10 @@ public class ApplyInfo implements DropApplyInteface{
 	}
 
 	@Override
-	public long getTime() {
+	public long getOccurTime() {
 		return applyTime;
 	}
+
+	
 
 }

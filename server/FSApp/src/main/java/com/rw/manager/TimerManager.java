@@ -1,5 +1,6 @@
 package com.rw.manager;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -68,6 +69,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				minutesFun();
+//				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, MINUTE);
 
@@ -76,6 +78,7 @@ public class TimerManager {
 			public void doTask() {
 				GuildDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
+				
 			}
 		}, MINUTE_5);
 
@@ -86,7 +89,7 @@ public class TimerManager {
 				
 				
 				//帮派副本定时发奖
-				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+//				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
 

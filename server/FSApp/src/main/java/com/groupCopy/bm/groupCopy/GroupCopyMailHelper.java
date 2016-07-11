@@ -52,7 +52,7 @@ public class GroupCopyMailHelper {
 			if(group == null){
 				continue;
 			}
-//			System.out.println("准备发放帮派副本奖励，帮派名：" + group.getGroupBaseDataMgr().getGroupData().getGroupName());
+			System.out.println("准备发放帮派副本奖励，帮派名：" + group.getGroupBaseDataMgr().getGroupData().getGroupName());
 			group.getGroupCopyMgr().checkAndSendGroupPriceMail(group.getGroupBaseDataMgr().getGroupData().getGroupName());
 		}
 		
@@ -85,12 +85,13 @@ public class GroupCopyMailHelper {
 	public boolean checkAndSendMail(ItemDropAndApplyTemplate template,
 			DropInfo dropInfo, ApplyInfo applyInfo, String groupName) {
 		String mailReward = template.getItemID() + "~" + 1;
-		List<String> args = new ArrayList<String>();
-		args.add(groupName);
+		
 		GroupCopyMailCfg mailCfg = GroupCopyMailCfgDao.getInstance().getConfig();
-		EmailData emailData = EmailUtils.createEmailData(mailCfg.getPersonMailID(), mailReward, args);
+		EmailData emailData = EmailUtils.createEmailData(mailCfg.getPersonMailID(), mailReward, new ArrayList<String>());
+		String content = String.format(emailData.getContent(), groupName);
+		emailData.setContent(content);
 		boolean sendEmail = EmailUtils.sendEmail(applyInfo.getRoleID(), emailData);
-//		System.out.println("发送帮派定时奖励，角色名：" + applyInfo.getRoleName() + ", 帮派名:" + groupName);
+		System.out.println("发送帮派定时奖励，角色名：" + applyInfo.getRoleName() + ", 帮派名:" + groupName);
 		return sendEmail;
 	}
 
