@@ -187,12 +187,12 @@ public class MagicSecretHandler {
 		if (maxChapterId != -1) {
 			String chapterId = magicSecretHolder.getChapterId();
 			if (chapterId != null) {
+				int intChapterId = Integer.parseInt(chapterId);
 				UserMagicSecretData userMagicSecretData = magicSecretHolder.getList().get(client.getUserId());
 				int maxStageID = userMagicSecretData.getMaxStageID();
-				if (maxStageID % 100 == STAGE_COUNT_EACH_CHATPER && maxChapterId >= MAX_CHATPER_ID) {
+				if (maxStageID % 100 == STAGE_COUNT_EACH_CHATPER && intChapterId >= MAX_CHATPER_ID) {
 					return null;
 				} else {
-					int intChapterId = Integer.parseInt(chapterId);
 					if (maxChapterId > intChapterId) {
 						return maxChapterId + "01_3";
 					} else {
