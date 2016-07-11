@@ -175,17 +175,32 @@ public class MagicSecretHandler {
 				.getMagicChapterInfoHolder();
 		Map<String, MagicChapterInfo> map = magicChapterInfoHolder.getList();
 		MagicSecretHolder magicSecretHolder = client.getMagicSecretHolder();
+		int maxChapterId = -1;
+		for (Iterator<Entry<String, MagicChapterInfo>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
+			Entry<String, MagicChapterInfo> next = iterator.next();
+			int temp = Integer.parseInt(next.getKey());
+			if(temp > maxChapterId){
+				maxChapterId = temp;
+			}
+		}
 		// 优先获取没有通过的幻境，如果所有幻境都通过则进行扫荡操作
-		String chapterId = magicSecretHolder.getChapterId();
-		if (chapterId != null) {
-			UserMagicSecretData userMagicSecretData = magicSecretHolder
-					.getList().get(client.getUserId());
-			int maxStageID = userMagicSecretData.getMaxStageID();
-			if (maxStageID % 100 == STAGE_COUNT_EACH_CHATPER
-					&& Integer.parseInt(chapterId) >= MAX_CHATPER_ID) {
-				return null;
-			} else {
-				return ++maxStageID + "_" + 3;
+		if (maxChapterId != -1) {
+			String chapterId = magicSecretHolder.getChapterId();
+			if (chapterId != null) {
+				UserMagicSecretData userMagicSecretData = magicSecretHolder.getList().get(client.getUserId());
+				int maxStageID = userMagicSecretData.getMaxStageID();
+				if (maxStageID % 100 == STAGE_COUNT_EACH_CHATPER && maxChapterId >= MAX_CHATPER_ID) {
+					return null;
+				} else {
+					int intChapterId = Integer.parseInt(chapterId);
+					if (maxChapterId > intChapterId) {
+						return maxChapterId + "01_3";
+					} else {
+						return ++maxStageID + "_" + 3;
+					}
+				}
+			}else{
+				return maxChapterId + "01_3";
 			}
 		} else {
 			return DEFAULT_START_CHATPER + "01_3";
