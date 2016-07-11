@@ -678,7 +678,7 @@ public class Robot {
 	}
 	
 	/** 聚宝胜利,根据参数决定战斗次数 */
-	public boolean testCopyJbzd(int num) {
+	public boolean testCopyJbzd() {
 		if(!getPveInfo()){
 			RobotLog.fail("获取副本信息失败");
 			return true;
@@ -689,24 +689,17 @@ public class Robot {
 			return true;
 		}
 		
-		
-		if (num == 2) {
-			boolean getitemback = CopyHandler.getHandler().battleItemsBack(
-					client, CopyType.COPY_TYPE_TRIAL_JBZD);
-			if (getitemback) {
-				CopyHandler.getHandler().battleClear(client,
-						CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
-			}
-		}
 		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(
-				client, CopyType.COPY_TYPE_TRIAL_JBZD);
-		if (getitembacksecond) {
-			return CopyHandler.getHandler().battleClear(client,
+		boolean result;
+		result = CopyHandler.getHandler().battleItemsBack(client,
+				CopyType.COPY_TYPE_TRIAL_JBZD);
+		if (result) {
+			result = CopyHandler.getHandler().battleClear(client,
 					CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
 		}
+		
 
-		return false;
+		return result;
 	}
 	
 	private boolean getPveInfo(){
