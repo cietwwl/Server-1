@@ -14,7 +14,6 @@ import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copypve.CopyType;
 
 public class ActivityRateTypeMgr {
 

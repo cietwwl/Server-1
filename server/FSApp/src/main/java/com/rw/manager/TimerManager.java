@@ -15,6 +15,8 @@ import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
+import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleHandler;
@@ -79,7 +81,6 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				GuildGTSMgr.getInstance().checkAssignMent();
 			}
 		}, HOUR);
 
@@ -137,6 +138,13 @@ public class TimerManager {
 					@Override
 					public void run() {
 						GroupBM.checkOrAllGroupDayLimit();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						GFightOnlineResourceMgr.getInstance().dispatchDailyReward();
 					}
 				});
 			}
@@ -232,12 +240,13 @@ public class TimerManager {
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 榜奖励 ***/
+		/**** 排行 榜奖励***/
 		ActivityRankTypeMgr.getInstance().sendGift();
 
 		// GambleMgr.minutesUpdate();
 
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
+		GFightStateTransfer.getInstance().checkTransfer();
 	}
 }

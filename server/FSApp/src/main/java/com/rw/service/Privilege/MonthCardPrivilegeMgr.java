@@ -171,5 +171,11 @@ public class MonthCardPrivilegeMgr{
 			return getLevel() >= level;
 		}
 		
+		@Override
+		public boolean hasChargeType(String chargeType) {
+			int level = MonthCardPrivilegeMgr.getShareInstance().extractMonthLevel(chargeType);
+			return level>=0;
+		}
+
 	}
 }
