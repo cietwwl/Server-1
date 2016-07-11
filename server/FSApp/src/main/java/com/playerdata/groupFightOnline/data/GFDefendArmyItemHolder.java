@@ -13,6 +13,9 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.playerdata.groupFightOnline.enums.GFArmyState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -193,6 +196,20 @@ public class GFDefendArmyItemHolder{
 			initItems.add(item);
 		}
 		addItemList(groupID, initItems);
+	}
+	
+	public void removePersonalDefendArmy(String userID, String groupID) {
+		GFightOnlineGroupData gfgData = GFightOnlineGroupMgr.getInstance().get(groupID);
+		if(gfgData == null) return;
+		GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(gfgData.getResourceID());
+		if(resData == null || GFResourceState.FIGHT.equals(resData.getState())) return;
+		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
+			String armyID = userID + "_" + i;
+			if(getItemStore(groupID).removeItem(armyID)){
+				GFightOnlineGroupMgr.getInstance().addDefenderCount(groupID, -1);
+			}
+		}
+		versionMap.get(groupID).getAndIncrement();
 	}
 	
 	private MapItemStore<GFDefendArmyItem> getItemStore(String groupID) {
