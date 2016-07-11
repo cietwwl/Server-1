@@ -14,6 +14,10 @@ public class FightingMember {
 		original = timeout;
 	}
 	
+	public int originalTimeOut(){
+		return original;
+	}
+	
 	protected void resetTimeout(){
 		timeout = original;
 	}
