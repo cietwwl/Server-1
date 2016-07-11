@@ -179,16 +179,17 @@ public class ActivityRedEnvelopeTypeMgr {
 
 	public void addCount(Player player,  int countadd) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
-		ActivityRedEnvelopeTypeItem dataItem = dataHolder.getItem(player.getUserId());		
-		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();	
-		if(ActivityTypeHelper.getDayBy5Am(System.currentTimeMillis())>subItemList.size()){
+		ActivityRedEnvelopeTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityRedEnvelopeTypeCfg Cfg=ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId());
+		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
+		if(ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())>subItemList.size()){
 			//活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里
 			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里", null);
 			return;
 		}
 		ActivityRedEnvelopeTypeSubItem target = null;
 		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
-			if(subItem.getDay() == ActivityTypeHelper.getDayBy5Am(System.currentTimeMillis())){
+			if(subItem.getDay() == ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())){
 				target = subItem;
 				break;
 			}			

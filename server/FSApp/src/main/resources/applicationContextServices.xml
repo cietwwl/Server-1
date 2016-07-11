@@ -154,7 +154,7 @@
 	<bean id="activityDailyTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyTypeService"  />
 	<bean id="activityExchangeTypeService" class="com.playerdata.activity.exChangeType.service.ActivityExchangeTypeService"  />
 	<bean id="activityDailyDiscountTypeService" class="com.playerdata.activity.dailyDiscountType.service.ActivityDailyDiscountTypeService"  />
-	<bean id="activityRedEnvelopeTypeService"" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
+	<bean id="activityRedEnvelopeTypeService" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
 	
 	
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
