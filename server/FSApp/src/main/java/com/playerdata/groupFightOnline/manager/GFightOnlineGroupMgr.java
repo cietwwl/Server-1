@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFightHelper;
 import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
 import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
@@ -21,6 +22,8 @@ import com.playerdata.groupFightOnline.enums.GFRewardType;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GroupCommonProto;
 
@@ -141,6 +144,8 @@ public class GFightOnlineGroupMgr {
 			finalRewardItem.setRewardOwner(GFFinalRewardMgr.getInstance().getOwnerID(member.getUserId(), groupData.getResourceID()));
 			finalRewardItem.setRewardType(GFRewardType.GFightSuccessReward.getValue());
 			finalRewardItem.setUserID(member.getUserId());
+			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getVictoryEmailID()));
+			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), "", ""));
 			GFFinalRewardMgr.getInstance().addGFReward(member.getUserId(), groupData.getResourceID(), finalRewardItem);
 		}
 	}

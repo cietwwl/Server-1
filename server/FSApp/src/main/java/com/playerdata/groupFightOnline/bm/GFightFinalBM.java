@@ -8,15 +8,20 @@ import com.bm.group.GroupBM;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
+import com.playerdata.Player;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupFightOnline.dataException.GFRewardItemException;
 import com.playerdata.groupFightOnline.dataForRank.GFEndGroupInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
+import com.playerdata.groupFightOnline.manager.GFFinalRewardMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GrouFightOnlineProto.GFResultType;
+import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
 /**
  * 在线帮战，最终结算阶段管理类
@@ -29,6 +34,23 @@ public class GFightFinalBM {
 	
 	public static GFightFinalBM getInstance(){
 		return instance;
+	}
+	
+	/**
+	 * 获取帮战最后的各类奖励
+	 * @param player
+	 * @param gfRsp
+	 * @param resourceID
+	 * @param rewardID 奖励的id
+	 */
+	public void getFinalReward(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, String rewardID){
+		try {
+			GFFinalRewardMgr.getInstance().getFinalReward(player, resourceID, rewardID);
+			gfRsp.setRstType(GFResultType.SUCCESS);
+		} catch (GFRewardItemException e) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
+		}
 	}
 	
 	/**

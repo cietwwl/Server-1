@@ -40,6 +40,7 @@ class GFightConditionJudge {
 	
 	public boolean isFightPeriod(int resourceID) {
 		GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(resourceID);
+		if(resData == null) return false;
 		return GFResourceState.FIGHT.equals(resData.getState());
 	}
 	

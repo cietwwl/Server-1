@@ -8,12 +8,14 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.bm.GFightFinalBM;
 import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
 import com.playerdata.groupFightOnline.bm.GFightOnFightBM;
 import com.playerdata.groupFightOnline.bm.GFightPrepareBM;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
+import com.playerdata.groupFightOnline.enums.GFRewardType;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -43,6 +45,7 @@ public class GFightOnlineHandler {
 	public ByteString personalBidding(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		gfRsp.setRstType(GFResultType.SUCCESS);
 		return gfRsp.build().toByteString();
 	}
 	
@@ -154,6 +157,7 @@ public class GFightOnlineHandler {
 	public ByteString getFightOverReward(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightFinalBM.getInstance().getFinalReward(player, gfRsp, msgGFRequest.getResourceID(), msgGFRequest.getRewardID());
 		return gfRsp.build().toByteString();
 	}
 	

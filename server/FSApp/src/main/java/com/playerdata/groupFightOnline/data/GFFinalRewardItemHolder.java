@@ -11,6 +11,7 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -21,7 +22,7 @@ public class GFFinalRewardItemHolder {
 		return instance;
 	}
 	
-	final private eSynType synType = eSynType.GFBiddingData;
+	final private eSynType synType = eSynType.GFightFinalReward;
 	
 	public GFFinalRewardItem getGFReward(Player player, int resourceID, String rewardID){
 		return getItemStore(player.getUserId(), resourceID).getItem(rewardID);
@@ -62,7 +63,15 @@ public class GFFinalRewardItemHolder {
 		for(GFightOnlineResourceCfg cfg : resCfg){
 			Enumeration<GFFinalRewardItem> rewardEnum = getItemStore(player.getUserId(), cfg.getResID()).getEnum();
 			while(rewardEnum.hasMoreElements()){
-				itemList.add(rewardEnum.nextElement());
+				List<ItemInfo> itmList = new ArrayList<ItemInfo>();
+				ItemInfo itm = new ItemInfo();
+				itm.setItemID(1);
+				itm.setItemNum(1000);
+				itmList.add(itm);
+				GFFinalRewardItem rewardItm = rewardEnum.nextElement();
+				rewardItm.setRewardContent(itmList);
+				rewardItm.setRewardDesc("一千个金币");
+				itemList.add(rewardItm);
 			}
 		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);

@@ -116,4 +116,12 @@ public class GFFinalRewardItem implements IMapItem{
 	public void setRewardGetTime(long rewardGetTime) {
 		this.rewardGetTime = rewardGetTime;
 	}
+
+	public String getRewardDesc() {
+		return rewardDesc;
+	}
+
+	public void setRewardDesc(String rewardDesc) {
+		this.rewardDesc = rewardDesc;
+	}
 }
