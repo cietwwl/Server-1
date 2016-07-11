@@ -139,10 +139,10 @@ public class GFightOnlineResourceCfg extends BaseConfig {
 			fightEndObj.isNextWeek = true;
 		}
 
-		this.list_victoryMemReward = GFightHelper.stringToItemList(victoryMemReward);
-		this.list_victoryLeaderReward = GFightHelper.stringToItemList(victoryLeaderReward);
-		this.list_failMemReward = GFightHelper.stringToItemList(failMemReward);
-		this.list_failLeaderReward = GFightHelper.stringToItemList(failLeaderReward);
+		this.list_victoryMemReward = GFightHelper.stringToItemList(victoryMemReward, "~");
+		this.list_victoryLeaderReward = GFightHelper.stringToItemList(victoryLeaderReward, "~");
+		this.list_failMemReward = GFightHelper.stringToItemList(failMemReward, "~");
+		this.list_failLeaderReward = GFightHelper.stringToItemList(failLeaderReward, "~");
 	}
 	
 	public GFResourceState checkResourceState(){

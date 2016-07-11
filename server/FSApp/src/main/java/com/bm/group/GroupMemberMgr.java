@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -324,7 +326,9 @@ public class GroupMemberMgr {
 	 * @param kickUserId
 	 */
 	public synchronized void kickMember(String kickUserId) {
+		String groupID = GroupHelper.getUserGroupId(kickUserId);
 		holder.removeMemberData(kickUserId, false);
+		GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
 	}
 
 	/**

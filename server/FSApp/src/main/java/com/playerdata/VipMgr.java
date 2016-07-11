@@ -41,6 +41,11 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	public boolean reachChargeLevel(String chargeType) {
 		return VipPrivilegeHelper.getShareInstance().reachChargeLevel(chargeType, m_pPlayer.getVip());
 	}
+	
+	@Override
+	public boolean hasChargeType(String chargeType) {
+		return VipPrivilegeHelper.getShareInstance().extractVipLevel(chargeType)>=0;
+	}
 	//by franky end
 
 	@Override

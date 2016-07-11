@@ -39,6 +39,6 @@ public class GFightOnlineDamageRankCfg extends BaseConfig {
 
   	@Override
 	public void ExtraInitAfterLoad() {
-		this.list_reward = GFightHelper.stringToItemList(reward);
+		this.list_reward = GFightHelper.stringToItemList(reward, "~");
 	}
 }

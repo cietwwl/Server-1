@@ -27,12 +27,12 @@ public class GFightHelper {
 		return sbuff.toString();
 	}
 	
-	public static List<ItemInfo> stringToItemList(String rewardStr){
+	public static List<ItemInfo> stringToItemList(String rewardStr, String splitStr){
 		if(StringUtils.isBlank(rewardStr)) return null;
 		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardItemStr = rewardStr.split(",");
 		for(String rewardItem : rewardItemStr){
-			String[] itemStrArr = rewardItem.split("~");
+			String[] itemStrArr = rewardItem.split(splitStr);
 			if(itemStrArr.length == 2){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(Integer.parseInt(itemStrArr[0]));

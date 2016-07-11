@@ -5,6 +5,7 @@ import com.bm.player.PlayerChangePopertySubscribe;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
 
 public class GFOnlineListenerPlayerChange extends PlayerChangePopertySubscribe {
 
@@ -46,5 +47,9 @@ public class GFOnlineListenerPlayerChange extends PlayerChangePopertySubscribe {
 	public void playerChangeHeadBox(Player p) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void userLeaveGroupHandler(String userID, String groupID){
+		GFDefendArmyItemHolder.getInstance().removePersonalDefendArmy(userID, groupID);
 	}
 }

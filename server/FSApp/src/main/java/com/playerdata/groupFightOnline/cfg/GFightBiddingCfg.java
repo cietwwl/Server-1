@@ -83,8 +83,8 @@ public class GFightBiddingCfg extends BaseConfig {
 	
 	@Override
 	public void ExtraInitAfterLoad() {
-		this.list_biddingReward = GFightHelper.stringToItemList(biddingReward);
-		this.list_victoryReward = GFightHelper.stringToItemList(victoryReward);
-		this.list_cost = GFightHelper.stringToItemList(cost);
+		this.list_biddingReward = GFightHelper.stringToItemList(biddingReward, "~");
+		this.list_victoryReward = GFightHelper.stringToItemList(victoryReward, "~");
+		this.list_cost = GFightHelper.stringToItemList(cost, "_");
 	}
 }
