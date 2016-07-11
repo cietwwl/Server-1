@@ -92,6 +92,7 @@ public class GFGroupBiddingRankMgr {
 		if(gp == null) return;
 		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
 		RankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = ranking.getRankingEntry(groupID);
+		if(entry == null) return;
 		entry.getExtendedAttribute().setGroupName(gp.getGroupBaseDataMgr().getGroupData().getGroupName());
 		entry.getExtendedAttribute().setIconID(gp.getGroupBaseDataMgr().getGroupData().getIconId());
 		entry.getExtendedAttribute().setLeaderName(gp.getGroupMemberMgr().getGroupLeader().getName());
