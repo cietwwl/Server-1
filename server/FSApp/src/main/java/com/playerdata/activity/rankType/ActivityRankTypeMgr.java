@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.rank.RankType;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.mysql.jdbc.TimeUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -25,10 +24,8 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwproto.RankServiceProtos;
 import com.rwproto.RankServiceProtos.RankInfo;
 
 
@@ -98,14 +95,19 @@ public class ActivityRankTypeMgr {
 			if(isClose(activityRankTypeItem)){
 				if(!activityRankTypeItem.isClosed()&&activityRankTypeItem.getReward()!=null){
 					//派发；结算时没入榜，结算后不登陆更不会入榜，所以会在此处排除
-					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@老子派奖啦"+ activityRankTypeItem.getReward());
 					activityRankTypeItem.setTaken(true);
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
 					
 				}
-				long sendtime = sendMap.get(activityRankTypeItem.getCfgId()).getLasttime();
+				SendRewardRecord record = sendMap.get(activityRankTypeItem.getCfgId());
+				if(record == null){
+					GameLog.error(LogModule.ComActivityRank, player.getUserId(), "数据库数据的id找不到对应的cfg生成的record", null);
+					return;					
+				}
+				long sendtime = record.getLasttime();
+				
 				if(sendtime ==0){					
 					continue;
 				}
@@ -160,7 +162,7 @@ public class ActivityRankTypeMgr {
 	/**定时核查一遍，将排行奖励派发到用户数据库*/
 	public void sendGift(){
 		if(sendMap.size() == 0){
-			creatMap();//开服务器后第一次初始化	
+			creatMap();//
 		}
 		
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
@@ -249,7 +251,7 @@ public class ActivityRankTypeMgr {
 
 
 	/**开服第一次触发时，初始化排行榜派奖的id-版本号；后续核实活动过期后，初始化是否派发和派发时间*/
-	private void creatMap() {
+	public void creatMap() {
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRankTypeCfg cfg:cfgList){
 			SendRewardRecord record = new SendRewardRecord();

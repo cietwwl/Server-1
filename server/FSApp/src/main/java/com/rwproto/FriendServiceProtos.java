@@ -157,6 +157,14 @@ public final class FriendServiceProtos {
      * </pre>
      */
     ALL_LIST(17, 17),
+    /**
+     * <code>REQUEST_ADD_MUTI_FRIEND = 18;</code>
+     *
+     * <pre>
+     *请求添加多个好友
+     * </pre>
+     */
+    REQUEST_ADD_MUTI_FRIEND(18, 18),
     ;
 
     /**
@@ -303,6 +311,14 @@ public final class FriendServiceProtos {
      * </pre>
      */
     public static final int ALL_LIST_VALUE = 17;
+    /**
+     * <code>REQUEST_ADD_MUTI_FRIEND = 18;</code>
+     *
+     * <pre>
+     *请求添加多个好友
+     * </pre>
+     */
+    public static final int REQUEST_ADD_MUTI_FRIEND_VALUE = 18;
 
 
     public final int getNumber() { return value; }
@@ -327,6 +343,7 @@ public final class FriendServiceProtos {
         case 15: return CONSENT_ADD_FRIEND_ALL;
         case 16: return REFUSED_ADD_FRIEND_ALL;
         case 17: return ALL_LIST;
+        case 18: return REQUEST_ADD_MUTI_FRIEND;
         default: return null;
       }
     }
@@ -584,6 +601,42 @@ public final class FriendServiceProtos {
      */
     com.google.protobuf.ByteString
         getSearchKeyBytes();
+
+    // repeated string userIdList = 4;
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getUserIdListList();
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    int getUserIdListCount();
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    java.lang.String getUserIdList(int index);
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserIdListBytes(int index);
   }
   /**
    * Protobuf type {@code FriendRequest}
@@ -657,6 +710,14 @@ public final class FriendServiceProtos {
               searchKey_ = input.readBytes();
               break;
             }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                userIdList_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              userIdList_.add(input.readBytes());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -665,6 +726,9 @@ public final class FriendServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          userIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(userIdList_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -831,10 +895,57 @@ public final class FriendServiceProtos {
       }
     }
 
+    // repeated string userIdList = 4;
+    public static final int USERIDLIST_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList userIdList_;
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getUserIdListList() {
+      return userIdList_;
+    }
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    public int getUserIdListCount() {
+      return userIdList_.size();
+    }
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    public java.lang.String getUserIdList(int index) {
+      return userIdList_.get(index);
+    }
+    /**
+     * <code>repeated string userIdList = 4;</code>
+     *
+     * <pre>
+     *玩家id列表
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdListBytes(int index) {
+      return userIdList_.getByteString(index);
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.FriendServiceProtos.EFriendRequestType.NONE;
       otherUserId_ = "";
       searchKey_ = "";
+      userIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -861,6 +972,9 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getSearchKeyBytes());
       }
+      for (int i = 0; i < userIdList_.size(); i++) {
+        output.writeBytes(4, userIdList_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -881,6 +995,15 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getSearchKeyBytes());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < userIdList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(userIdList_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getUserIdListList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1004,6 +1127,8 @@ public final class FriendServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         searchKey_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        userIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1044,6 +1169,12 @@ public final class FriendServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.searchKey_ = searchKey_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          userIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              userIdList_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.userIdList_ = userIdList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1071,6 +1202,16 @@ public final class FriendServiceProtos {
         if (other.hasSearchKey()) {
           bitField0_ |= 0x00000004;
           searchKey_ = other.searchKey_;
+          onChanged();
+        }
+        if (!other.userIdList_.isEmpty()) {
+          if (userIdList_.isEmpty()) {
+            userIdList_ = other.userIdList_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureUserIdListIsMutable();
+            userIdList_.addAll(other.userIdList_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1348,6 +1489,135 @@ public final class FriendServiceProtos {
   }
   bitField0_ |= 0x00000004;
         searchKey_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string userIdList = 4;
+      private com.google.protobuf.LazyStringList userIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureUserIdListIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          userIdList_ = new com.google.protobuf.LazyStringArrayList(userIdList_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getUserIdListList() {
+        return java.util.Collections.unmodifiableList(userIdList_);
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public int getUserIdListCount() {
+        return userIdList_.size();
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public java.lang.String getUserIdList(int index) {
+        return userIdList_.get(index);
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdListBytes(int index) {
+        return userIdList_.getByteString(index);
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public Builder setUserIdList(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUserIdListIsMutable();
+        userIdList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public Builder addUserIdList(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUserIdListIsMutable();
+        userIdList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public Builder addAllUserIdList(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureUserIdListIsMutable();
+        super.addAll(values, userIdList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public Builder clearUserIdList() {
+        userIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string userIdList = 4;</code>
+       *
+       * <pre>
+       *玩家id列表
+       * </pre>
+       */
+      public Builder addUserIdListBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureUserIdListIsMutable();
+        userIdList_.add(value);
         onChanged();
         return this;
       }
@@ -3838,7 +4108,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> 
@@ -3847,7 +4117,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index);
@@ -3855,7 +4125,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     int getRecommandListCount();
@@ -3863,7 +4133,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
@@ -3872,7 +4142,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
@@ -4187,7 +4457,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> getRecommandListList() {
@@ -4197,7 +4467,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     public java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
@@ -4208,7 +4478,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     public int getRecommandListCount() {
@@ -4218,7 +4488,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     public com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index) {
@@ -4228,7 +4498,7 @@ public final class FriendServiceProtos {
      * <code>repeated .FriendInfo recommandList = 4;</code>
      *
      * <pre>
-     *推荐好友列表
+     *推荐列表
      * </pre>
      */
     public com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
@@ -5645,7 +5915,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo> getRecommandListList() {
@@ -5659,7 +5929,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public int getRecommandListCount() {
@@ -5673,7 +5943,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public com.rwproto.FriendServiceProtos.FriendInfo getRecommandList(int index) {
@@ -5687,7 +5957,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder setRecommandList(
@@ -5708,7 +5978,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder setRecommandList(
@@ -5726,7 +5996,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder addRecommandList(com.rwproto.FriendServiceProtos.FriendInfo value) {
@@ -5746,7 +6016,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder addRecommandList(
@@ -5767,7 +6037,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder addRecommandList(
@@ -5785,7 +6055,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder addRecommandList(
@@ -5803,7 +6073,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder addAllRecommandList(
@@ -5821,7 +6091,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder clearRecommandList() {
@@ -5838,7 +6108,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public Builder removeRecommandList(int index) {
@@ -5855,7 +6125,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public com.rwproto.FriendServiceProtos.FriendInfo.Builder getRecommandListBuilder(
@@ -5866,7 +6136,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public com.rwproto.FriendServiceProtos.FriendInfoOrBuilder getRecommandListOrBuilder(
@@ -5880,7 +6150,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public java.util.List<? extends com.rwproto.FriendServiceProtos.FriendInfoOrBuilder> 
@@ -5895,7 +6165,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public com.rwproto.FriendServiceProtos.FriendInfo.Builder addRecommandListBuilder() {
@@ -5906,7 +6176,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public com.rwproto.FriendServiceProtos.FriendInfo.Builder addRecommandListBuilder(
@@ -5918,7 +6188,7 @@ public final class FriendServiceProtos {
        * <code>repeated .FriendInfo recommandList = 4;</code>
        *
        * <pre>
-       *推荐好友列表
+       *推荐列表
        * </pre>
        */
       public java.util.List<com.rwproto.FriendServiceProtos.FriendInfo.Builder> 
@@ -8148,37 +8418,38 @@ public final class FriendServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023FriendService.proto\"a\n\rFriendRequest\022(" +
+      "\n\023FriendService.proto\"u\n\rFriendRequest\022(" +
       "\n\013requestType\030\001 \002(\0162\023.EFriendRequestType" +
       "\022\023\n\013otherUserId\030\002 \001(\t\022\021\n\tsearchKey\030\003 \001(\t" +
-      "\"\370\001\n\016FriendResponse\022(\n\013requestType\030\001 \002(\016" +
-      "2\023.EFriendRequestType\022&\n\nresultType\030\002 \002(" +
-      "\0162\022.EFriendResultType\022\023\n\013otherUserId\030\003 \001" +
-      "(\t\022\031\n\004list\030\004 \003(\0132\013.FriendInfo\022\031\n\007allList" +
-      "\030\005 \001(\0132\010.AllList\022\037\n\nupdateList\030\006 \003(\0132\013.F" +
-      "riendInfo\022\021\n\tresultMsg\030\007 \001(\t\022\025\n\risSearch" +
-      "Value\030\010 \001(\010\"\220\001\n\007AllList\022\037\n\nfriendList\030\001 ",
-      "\003(\0132\013.FriendInfo\022 \n\013requestList\030\002 \003(\0132\013." +
-      "FriendInfo\022\036\n\tblackList\030\003 \003(\0132\013.FriendIn" +
-      "fo\022\"\n\rrecommandList\030\004 \003(\0132\013.FriendInfo\"\332" +
-      "\001\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userNam" +
-      "e\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\016\n\006career\030\004 \002" +
-      "(\005\022\024\n\014lastLoginTip\030\005 \002(\t\022\025\n\rlastLoginTim" +
-      "e\030\006 \002(\002\022\r\n\005level\030\007 \002(\005\022\021\n\tunionName\030\010 \002(" +
-      "\t\022\021\n\tgiveState\030\t \001(\010\022\024\n\014receiveState\030\n \001" +
-      "(\010\022\017\n\007headbox\030\013 \001(\t*\364\002\n\022EFriendRequestTy" +
-      "pe\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLACK_L",
-      "IST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRIEND" +
-      "\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006\022\022\n" +
-      "\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_ALL\020\010" +
-      "\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FRIEN" +
-      "D\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022\026\n\022" +
-      "CONSENT_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_FRIE" +
-      "ND\020\016\022\032\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026REFU" +
-      "SED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021*G\n\021EF" +
-      "riendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n" +
-      "\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rwpro",
-      "toB\023FriendServiceProtos"
+      "\022\022\n\nuserIdList\030\004 \003(\t\"\370\001\n\016FriendResponse\022" +
+      "(\n\013requestType\030\001 \002(\0162\023.EFriendRequestTyp" +
+      "e\022&\n\nresultType\030\002 \002(\0162\022.EFriendResultTyp" +
+      "e\022\023\n\013otherUserId\030\003 \001(\t\022\031\n\004list\030\004 \003(\0132\013.F" +
+      "riendInfo\022\031\n\007allList\030\005 \001(\0132\010.AllList\022\037\n\n" +
+      "updateList\030\006 \003(\0132\013.FriendInfo\022\021\n\tresultM" +
+      "sg\030\007 \001(\t\022\025\n\risSearchValue\030\010 \001(\010\"\220\001\n\007AllL",
+      "ist\022\037\n\nfriendList\030\001 \003(\0132\013.FriendInfo\022 \n\013" +
+      "requestList\030\002 \003(\0132\013.FriendInfo\022\036\n\tblackL" +
+      "ist\030\003 \003(\0132\013.FriendInfo\022\"\n\rrecommandList\030" +
+      "\004 \003(\0132\013.FriendInfo\"\332\001\n\nFriendInfo\022\016\n\006use" +
+      "rId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\021\n\theadImage" +
+      "\030\003 \002(\t\022\016\n\006career\030\004 \002(\005\022\024\n\014lastLoginTip\030\005" +
+      " \002(\t\022\025\n\rlastLoginTime\030\006 \002(\002\022\r\n\005level\030\007 \002" +
+      "(\005\022\021\n\tunionName\030\010 \002(\t\022\021\n\tgiveState\030\t \001(\010" +
+      "\022\024\n\014receiveState\030\n \001(\010\022\017\n\007headbox\030\013 \001(\t*" +
+      "\221\003\n\022EFriendRequestType\022\010\n\004NONE\020\000\022\017\n\013FRIE",
+      "ND_LIST\020\001\022\016\n\nBLACK_LIST\020\002\022\020\n\014REQUEST_LIS" +
+      "T\020\003\022\021\n\rSEARCH_FRIEND\020\004\022\016\n\nGIVE_POWER\020\005\022\021" +
+      "\n\rRECEIVE_POWER\020\006\022\022\n\016GIVE_POWER_ALL\020\007\022\025\n" +
+      "\021RECEIVE_POWER_ALL\020\010\022\026\n\022REQUEST_ADD_FRIE" +
+      "ND\020\t\022\021\n\rREMOVE_FRIEND\020\n\022\r\n\tADD_BLACK\020\013\022\020" +
+      "\n\014REMOVE_BLACK\020\014\022\026\n\022CONSENT_ADD_FRIEND\020\r" +
+      "\022\026\n\022REFUSED_ADD_FRIEND\020\016\022\032\n\026CONSENT_ADD_" +
+      "FRIEND_ALL\020\017\022\032\n\026REFUSED_ADD_FRIEND_ALL\020\020" +
+      "\022\014\n\010ALL_LIST\020\021\022\033\n\027REQUEST_ADD_MUTI_FRIEN" +
+      "D\020\022*G\n\021EFriendResultType\022\013\n\007SUCCESS\020\000\022\010\n",
+      "\004FAIL\020\001\022\n\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013" +
+      "com.rwprotoB\023FriendServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8190,7 +8461,7 @@ public final class FriendServiceProtos {
           internal_static_FriendRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FriendRequest_descriptor,
-              new java.lang.String[] { "RequestType", "OtherUserId", "SearchKey", });
+              new java.lang.String[] { "RequestType", "OtherUserId", "SearchKey", "UserIdList", });
           internal_static_FriendResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_FriendResponse_fieldAccessorTable = new

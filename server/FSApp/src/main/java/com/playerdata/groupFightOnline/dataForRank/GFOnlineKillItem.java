@@ -2,6 +2,9 @@ package com.playerdata.groupFightOnline.dataForRank;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GFOnlineKillItem {
 	private String userId;

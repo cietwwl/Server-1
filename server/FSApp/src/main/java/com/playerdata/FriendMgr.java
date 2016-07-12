@@ -14,6 +14,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -199,6 +200,44 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 		return resultVo;
 	}
+	
+	/** 请求添加一群人好友 */
+	public FriendResultVo requestAddFriendList(List<String> friendList) {
+		FriendResultVo resultVo = new FriendResultVo();		
+		TableFriend tableFriend = getTableFriend();
+		resultVo.resultType = EFriendResultType.FAIL;
+		resultVo.resultMsg = "没有向人申请好友";
+		for(int i = 0; i< friendList.size();i++){
+			resultVo.resultType = EFriendResultType.SUCCESS;
+			resultVo.resultMsg = "申请成功";
+			String otherUserId = friendList.get(i);
+			if (isSelfUser(otherUserId)) {
+//				resultVo.resultType = EFriendResultType.FAIL;
+//				resultVo.resultMsg = "该玩家是自己";
+			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
+//				resultVo.resultType = EFriendResultType.FAIL;
+//				resultVo.resultMsg = "对方已经是你的好友";
+			} else {
+				TableFriend otherTable = getOtherTableFriend(otherUserId);
+				if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
+					// 如果在对方的黑名单列表中，不做操作
+				} else {
+					FriendItem friendItem = FriendItem.newInstance(m_pPlayer.getUserId());
+					if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
+						otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
+						FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
+						tableFriend.removeFromBlackList(otherUserId);
+					}
+					friendDAO.update(otherTable);
+				}				
+				//增加红点检查
+				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+			}
+		}
+		
+		return resultVo;
+	}
+	
 
 	/** 同意添加好友 */
 	public FriendResultVo consentAddFriend(String otherUserId) {
@@ -380,6 +419,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				resultVo.updateList = friendItemToInfoList(list);
 				resultVo.resultMsg = "赠送成功";
 				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+				
 			} else {
 				resultVo.resultType = EFriendResultType.FAIL;
 				resultVo.resultMsg = "已赠送过该玩家体力";
@@ -460,6 +500,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.updateList = friendItemToInfoList(list);// 更新列表
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "已为所有好友赠送体力";
+			
+			
 		}
 		return resultVo;
 	}

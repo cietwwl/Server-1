@@ -34,6 +34,7 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.manager.GameManager;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -586,6 +587,9 @@ public class GroupSecretMatchHandler {
 					matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
 		}
 
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
+		
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
@@ -664,10 +668,11 @@ public class GroupSecretMatchHandler {
 				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
-					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue(), 0, true);
 				}
 			}
 		}
+
 		// 增加资源
 		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
 		if (cfg != null && robRes > 0) {

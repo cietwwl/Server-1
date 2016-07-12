@@ -12,7 +12,7 @@ import com.rw.service.gamble.GambleLogicHelper;
 public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
-	private List<String> freeGambleHistory;
+	//private List<String> freeGambleHistory;//合并免费和收费的历史记录
 	private int freeCount;// 当天使用免费抽卡次数，每日重置
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
@@ -72,14 +72,6 @@ public class GambleDropHistory {
 
 	public void setChargeGambleHistory(List<String> chargeGambleHistory) {
 		this.chargeGambleHistory = chargeGambleHistory;
-	}
-
-	public List<String> getFreeGambleHistory() {
-		return freeGambleHistory;
-	}
-
-	public void setFreeGambleHistory(List<String> freeGambleHistory) {
-		this.freeGambleHistory = freeGambleHistory;
 	}
 
 	public List<String> getChargeExclusiveHistory() {
@@ -148,7 +140,6 @@ public class GambleDropHistory {
 
 	public GambleDropHistory() {
 		chargeGambleHistory = new ArrayList<String>();
-		freeGambleHistory = new ArrayList<String>();
 		freeExclusiveHistory = new ArrayList<String>();
 		chargeExclusiveHistory = new ArrayList<String>();
 	}
@@ -217,7 +208,7 @@ public class GambleDropHistory {
 	@JsonIgnore
 	public void clearGuaranteeHistory(boolean isFree,IDropGambleItemPlan dropPlan){
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
-		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		List<String> history = chargeGambleHistory;
 		int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
 		int historySize = history.size();
 		if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
@@ -238,11 +229,16 @@ public class GambleDropHistory {
 	@JsonIgnore
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
-		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		List<String> history = chargeGambleHistory;
 		int checkNum = dropPlan.getCheckNum(index);
 		int historySize = history.size();
 		if (historySize < checkNum - 1) {
 			return false;
+		}
+		
+		//单抽特殊规则，忽略抽卡历史：不管前面抽了多少张，到了设定的数量就必须转到保底组来抽，否则就不用保底组
+		if (dropPlan.isSingleGamble()){
+			return historySize >= checkNum - 1;
 		}
 		
 		for (String itemModelId : history) {
@@ -268,7 +264,7 @@ public class GambleDropHistory {
 
 	@JsonIgnore
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
-		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		List<String> history = chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {
 			firstFreeGamble = false;
@@ -352,7 +348,7 @@ public class GambleDropHistory {
 	public List<String> getHistory(boolean isFree, IDropGambleItemPlan dropPlan) {
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		int checkNum = dropPlan.getCheckNum(index);
-		List<String> result = isFree?freeGambleHistory:chargeGambleHistory;
+		List<String> result = chargeGambleHistory;
 		int orgSize = result.size();
 		if (orgSize > checkNum){
 			List<String> tmp = new ArrayList<String>(checkNum);

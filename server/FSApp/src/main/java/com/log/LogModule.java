@@ -25,10 +25,14 @@ public enum LogModule {
 	ComActivityDate("通用活动_DateType"),
 	ComActivityRank("通用活动_RankType"),
 	ComActivityVitality("通用活动_VitalityType"),
+	ComActivityDailyDisCount("通用活动_DailyDisCountType"),
+	
 	
 	FixEquip("专属装备"),
+	GroupChamp("帮派竞技"),
 	GroupSecret("帮派秘境"),
 	MagicSecret("法宝秘境"),
+	GroupFightOnline("在线帮派战斗"),
 	;
 	
 	private String name;

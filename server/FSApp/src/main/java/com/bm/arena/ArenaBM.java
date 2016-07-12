@@ -191,7 +191,7 @@ public class ArenaBM {
 
 		data.setHeroIdList(defaultHeros);
 		data.setAtkHeroList(defaultAtkHeros);
-		
+
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);
@@ -316,14 +316,12 @@ public class ArenaBM {
 		if (StringUtils.isEmpty(strPrize)) {
 			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
 		}
-		BILogMgr.getInstance().logActivityBegin(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS,0,0);
+		BILogMgr.getInstance().logActivityBegin(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, 0);
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
-		
-		
-		
-		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID);
-		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
-		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity,0);
+
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize);
+		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
+		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity, 0);
 		Player player = PlayerMgr.getInstance().find(userId);
 		player.getTempAttribute().setRedPointChanged();
 		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
@@ -495,8 +493,8 @@ public class ArenaBM {
 	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId) {
 		return getRecordHurtValue(userId, recordId, null);
 	}
-	
-	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId,RefParam<String> enemyUserId) {
+
+	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId, RefParam<String> enemyUserId) {
 		List<RecordInfo> list = getArenaRecordList(userId);
 		if (list == null) {
 			return Collections.emptyList();
@@ -504,7 +502,7 @@ public class ArenaBM {
 		for (int i = list.size(); --i >= 0;) {
 			RecordInfo info = list.get(i);
 			if (info.getRecordId() == recordId) {
-				if (enemyUserId!=null){
+				if (enemyUserId != null) {
 					enemyUserId.value = info.getUserId();
 				}
 				return info.getHurtList();
@@ -593,6 +591,20 @@ public class ArenaBM {
 		}
 		fighting += armyInfo.getPlayer().getFighting();
 		return fighting;
+	}
+
+	public int getMaxPlace(TableArenaData data) {
+		int maxPlace = data.getMaxPlace();
+		ListRankingEntry<String, ArenaExtAttribute> entry = getEntry(data.getUserId(), data.getCareer());
+		if (entry == null) {
+			return maxPlace;
+		} else {
+			int ranking = entry.getRanking();
+			if (ranking < 0) {
+				return maxPlace;
+			}
+			return Math.min(ranking, maxPlace);
+		}
 	}
 
 	public void notifyPlayerLevelUp(String userId, int career, int newLevel) {

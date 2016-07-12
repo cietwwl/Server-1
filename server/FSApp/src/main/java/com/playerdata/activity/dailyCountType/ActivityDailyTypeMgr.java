@@ -52,13 +52,16 @@ public class ActivityDailyTypeMgr {
 			return;
 		}
 		for (ActivityDailyTypeItem targetItem : item) {
-			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
 	}
+	
+	
+	
 	private void checkClose(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());

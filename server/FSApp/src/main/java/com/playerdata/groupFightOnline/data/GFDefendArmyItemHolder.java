@@ -3,67 +3,40 @@ package com.playerdata.groupFightOnline.data;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
+import com.playerdata.groupFightOnline.enums.GFArmyState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
+import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GFDefendArmyItemHolder {
-	public static int MAX_DEFEND_ARMY_COUNT = 5;
+public class GFDefendArmyItemHolder{
+	
 	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();
-
-	public static GFDefendArmyItemHolder getInstance() {
+	
+	public static GFDefendArmyItemHolder getInstance(){
 		return instance;
 	}
 
-	private GFDefendArmyItemHolder() {
-		
-	}
+	final private eSynType synSelfType = eSynType.GFDefendArmyData;
+	final private eSynType synSimpleLeaderType = eSynType.GFightSimpleLeader;
+	private static int MAX_DEFEND_ARMY_COUNT = 5;	//每个人最多设置的防守队伍数量
 	
-	final private eSynType synType = eSynType.GFDefendArmyData;
-	
-	/**
-	 * 获取已经设置的防守队伍信息(公会级别)
-	 * @param player
-	 * @return
-	 */
-	public List<GFDefendArmyItem> getGroupItemList(Player player)
-	{
-		String groupID = player.getGuildUserMgr().getGuildId();
-		List<GFDefendArmyItem> defendArmyList = new ArrayList<GFDefendArmyItem>();
-		// TODO 需要添加判断，公会是否进入争夺战
-		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupID).getEnum();
-		while (mapEnum.hasMoreElements()) {
-			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();
-			defendArmyList.add(item);
-		}
-		return defendArmyList;
-	}
-	
-	/**
-	 * 更新个人的一个防守队伍
-	 * @param player
-	 * @param item
-	 */
-	public void updateItem(Player player, GFDefendArmyItem item){
-		getItemStore(item.getGroupID()).updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
-	}
-	
-	/**
-	 * 更新个人的一个防守队伍
-	 * @param player
-	 * @param armyId
-	 */
-	public void updateItem(Player player, String armyId){
-		GFDefendArmyItem item = getItem(player, armyId);
-		updateItem(player, item);
-	}
+	private Map<String,AtomicInteger> versionMap = new ConcurrentHashMap<String,AtomicInteger>();
 	
 	/**
 	 *  获取个人的所有队伍
@@ -71,91 +44,174 @@ public class GFDefendArmyItemHolder {
 	 * @param armyId
 	 * @return
 	 */
-	public List<GFDefendArmyItem> getItem(Player player){
-		String groupID = player.getGuildUserMgr().getGuildId();
-		Enumeration<GFDefendArmyItem> itemEnum = getItemStore(groupID).getEnum();
+	public List<GFDefendArmyItem> getUserDefArmyList(Player player){
+		String userId = player.getUserId();
+		String groupID = GroupHelper.getUserGroupId(userId);
 		List<GFDefendArmyItem> itemlist = new ArrayList<GFDefendArmyItem>();
-		while(itemEnum.hasMoreElements()) {
-			GFDefendArmyItem item = itemEnum.nextElement();
-			if(item.getUserID().equals(player.getUserId()))
-				itemlist.add(item);
+		if(StringUtils.isNotBlank(groupID)){
+			if(!haveDefenders(player)){  
+				initPersonalDefendArmy(player);
+			}
+			List<GFDefendArmyItem> itemTmpList = GFDefendArmyItemHolder.getInstance().getItemList(groupID);
+			for (GFDefendArmyItem itemTmp : itemTmpList) {
+				if(StringUtils.equals(itemTmp.getUserID(), userId)){
+					itemlist.add(itemTmp);
+				}
+			}
 		}
 		return itemlist;
 	}
 	
 	/**
-	 *  获取个人的某一个队伍
-	 * @param userId
-	 * @param armyId
+	 * 获取帮派所有的防守队伍
+	 * @param groupId
 	 * @return
 	 */
-	public GFDefendArmyItem getItem(Player player, String armyId){
-		String groupID = player.getGuildUserMgr().getGuildId();
-		String itemID = player.getUserId() + "_" + armyId;
-		return getItemStore(groupID).getItem(itemID);
+	public List<GFDefendArmyItem> getItemList(String groupId){
+		List<GFDefendArmyItem> itemList = new ArrayList<GFDefendArmyItem>();
+		Enumeration<GFDefendArmyItem> mapEnum = getItemStore(groupId).getEnum();
+		while (mapEnum.hasMoreElements()) {
+			GFDefendArmyItem item = (GFDefendArmyItem) mapEnum.nextElement();			
+			itemList.add(item);
+		}
+		return itemList;
 	}
 	
 	/**
-	 * 
-	 * @param player
-	 * @param items
+	 * 查看某公会的某防守队伍
+	 * @param groupId
+	 * @param armyId
 	 * @return
 	 */
-	public boolean addItems(Player player, List<GFDefendArmyItem> items){
-		String groupID = player.getGuildUserMgr().getGuildId();
+	public GFDefendArmyItem getItem(String groupId, String armyId){	
+		return getItemStore(groupId).getItem(armyId);
+	}
+	
+	/**
+	 * 更新一个防守队伍
+	 * @param item
+	 * @return
+	 */
+	public boolean updateItem(GFDefendArmyItem item){		
+		String groupId = item.getGroupID();
+		boolean updateSuccess = getItemStore(groupId).updateItem(item);
+		updateVersion(groupId);
+		return updateSuccess;
+	}
+	
+	/**
+	 * 添加一个防守队伍
+	 * @param item
+	 * @return
+	 */
+	public boolean addItem(GFDefendArmyItem item){
+		String groupId = item.getGroupID();
+		boolean addSuccess = getItemStore(groupId).addItem(item);
+		updateVersion(groupId);
+		return addSuccess;
+	}
+	
+	/**
+	 * 添加一组防守队伍
+	 * @param groupId
+	 * @param itemList
+	 * @return
+	 */
+	public boolean addItemList(String groupId, List<GFDefendArmyItem> itemList){
 		try {
-			return getItemStore(groupID).addItem(items);
+			boolean addSuccess = getItemStore(groupId).addItem(itemList);	
+			updateVersion(groupId);
+			return addSuccess;
 		} catch (DuplicatedKeyException e) {
+			//handle..
 			e.printStackTrace();
 			return false;
 		}
 	}
 	
-	/**
-	 * 重置个人的防守队伍信息
-	 * @param player
-	 * @param items
-	 * @return
-	 */
-	public boolean resetItems(Player player, List<GFDefendArmyItem> items){
-		removePersonalArmy(player);
-		return addItems(player, items);
+	public void synByVersion(Player player, String groupId, int version){
+		AtomicInteger curVersion = versionMap.get(groupId);
+		if(curVersion == null) {
+			curVersion = new AtomicInteger();
+			versionMap.put(groupId, curVersion);
+		}
+		if(curVersion.get()!=version || curVersion.get() == 0){
+			synSimpleLeaderData(player, groupId);
+			if(StringUtils.equals(GroupHelper.getUserGroupId(player.getUserId()), groupId)){
+				synSelfData(player);
+			}
+		}
 	}
 	
-	/**
-	 * 移除个人的防守队伍
-	 * @param player
-	 */
-	public void removePersonalArmy(Player player){
-		String groupID = player.getGuildUserMgr().getGuildId();
-		List<String> selfArmyIDArr = new ArrayList<String>();
-		for(int i = 0; i < MAX_DEFEND_ARMY_COUNT; i++)
-			selfArmyIDArr.add(player.getUserId() + "_" + i);
-		getItemStore(groupID).removeItem(selfArmyIDArr);
+	private void synSimpleLeaderData(Player player, String groupId){
+		List<GFDefendArmyItem> serverDataList = getItemList(groupId);
+		List<GFDefendArmySimpleLeader> simpleLeaderList = new ArrayList<GFDefendArmySimpleLeader>();
+		for(GFDefendArmyItem item : serverDataList){
+			GFDefendArmySimpleLeader simpleLeader = item.getSimpleLeader();
+			if(simpleLeader != null) simpleLeaderList.add(item.getSimpleLeader());
+		}
+		int curVersion = versionMap.get(groupId).get();
+		ClientDataSynMgr.synDataGroupList(player, groupId, simpleLeaderList, synSimpleLeaderType, eSynOpType.UPDATE_LIST, curVersion);
 	}
 	
-	/**
-	 * 清除所有公会的所有防守队伍
-	 * @param groupIDArr
-	 * @return
-	 */
-	public boolean clearTheRecords(List<String> groupIDArr){
-		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
-		boolean result = true;
-		for (String groupID : groupIDArr)
-			if(!cache.getMapItemStore(groupID, GFDefendArmyItem.class).clearAllRecords()) 
-				result = false;
-		return result;
-	}
-	
-	public void synAllData(Player player){
-		ClientDataSynMgr.synDataList(player, getGroupItemList(player), synType, eSynOpType.UPDATE_LIST);
-	}
-	
-	public void synPersonalData(Player player){
-		ClientDataSynMgr.synDataList(player, getItem(player), synType, eSynOpType.UPDATE_LIST);
+	private void synSelfData(Player player){
+		List<GFDefendArmyItem> items = getUserDefArmyList(player);
+		if(items.size() == 0) return;
+		ClientDataSynMgr.synDataList(player, items, synSelfType, eSynOpType.UPDATE_LIST);
 	}
 
+	private void updateVersion(String groupId){
+		if(versionMap.get(groupId) == null){
+			versionMap.put(groupId, new AtomicInteger());
+		}
+		versionMap.get(groupId).incrementAndGet();
+	}
+	
+	/**
+	 * 判断玩家是否初始化过防守队伍
+	 * @param player
+	 * @return
+	 */
+	private boolean haveDefenders(Player player){
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(!StringUtils.isNotBlank(groupID)) return false;
+		return getItemStore(groupID).getItem(player.getUserId() + "_1") != null;
+	}
+	
+	/**
+	 * 初始化玩家个人的防守队伍
+	 * @param player
+	 */
+	private void initPersonalDefendArmy(Player player) {
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		List<GFDefendArmyItem> initItems = new ArrayList<GFDefendArmyItem>();
+		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
+			String armyID = player.getUserId() + "_" + i;
+			GFDefendArmyItem item = new GFDefendArmyItem();
+			item.setArmyID(armyID);
+			item.setUserID(player.getUserId());
+			item.setGroupID(groupID);
+			item.setTeamID(i);
+			item.setState(GFArmyState.EMPTY.getValue());
+			initItems.add(item);
+		}
+		addItemList(groupID, initItems);
+	}
+	
+	public void removePersonalDefendArmy(String userID, String groupID) {
+		GFightOnlineGroupData gfgData = GFightOnlineGroupMgr.getInstance().get(groupID);
+		if(gfgData == null) return;
+		GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(gfgData.getResourceID());
+		if(resData == null || GFResourceState.FIGHT.equals(resData.getState())) return;
+		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
+			String armyID = userID + "_" + i;
+			if(getItemStore(groupID).removeItem(armyID)){
+				GFightOnlineGroupMgr.getInstance().addDefenderCount(groupID, -1);
+			}
+		}
+		versionMap.get(groupID).getAndIncrement();
+	}
+	
 	private MapItemStore<GFDefendArmyItem> getItemStore(String groupID) {
 		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
 		return cache.getMapItemStore(groupID, GFDefendArmyItem.class);

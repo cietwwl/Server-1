@@ -36,9 +36,9 @@ public class MagicChapterInfoHolder{
 	public List<MagicChapterInfo> getItemList(Player player)
 	{
 		List<MagicChapterInfo> chapterList = new ArrayList<MagicChapterInfo>();
-		// 这里需要判断一下角色的等级，如果玩家等级未达到开放
+		// 这里判断了角色的等级，没达到不给数据
 		if(!MagicSecretMgr.getInstance().judgeUserLevel(player, Integer.valueOf(MagicSecretMgr.CHAPTER_INIT_ID))) return chapterList;
-		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID);
+		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID, false);
 		Enumeration<MagicChapterInfo> mapEnum = getItemStore(player.getUserId()).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			MagicChapterInfo item = (MagicChapterInfo) mapEnum.nextElement();
@@ -50,6 +50,10 @@ public class MagicChapterInfoHolder{
 	public void updateItem(Player player, MagicChapterInfo item){
 		getItemStore(player.getUserId()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	public void updateItemWithoutSyn(Player player, MagicChapterInfo item){
+		getItemStore(player.getUserId()).updateItem(item);
 	}
 	
 	public void updateItem(Player player, String chapterID){
@@ -76,18 +80,21 @@ public class MagicChapterInfoHolder{
 	 * @param player
 	 * @param chapterID
 	 */
-	public void initMagicChapterInfo(Player player, String chapterID){
+	public void initMagicChapterInfo(Player player, String chapterID, boolean isSyn){
 		MagicChapterInfo mcInfo = getItem(player.getUserId(), chapterID);
 		if(mcInfo == null) {
 			mcInfo = new MagicChapterInfo();
-			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) 
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));			
+			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) {
+				GameLog.error(LogModule.MagicSecret.getName(), player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID));
+				return;
+			}
 			mcInfo.setId(player.getUserId() + "_" + chapterID);
 			mcInfo.setChapterId(chapterID);
 			mcInfo.setUserId(player.getUserId());
 			addItem(player, mcInfo);
 			startNewChapter(player, chapterID);
-			updateItem(player, mcInfo);
+			if(isSyn) updateItem(player, mcInfo);
+			else updateItemWithoutSyn(player, mcInfo);
 		}
 	}
 	
@@ -99,7 +106,7 @@ public class MagicChapterInfoHolder{
 		for(MagicChapterInfo mcInfo : getItemList(player)){
 			mcInfo.resetData();
 			startNewChapter(player, mcInfo.getChapterId());
-			updateItem(player, mcInfo);
+			updateItemWithoutSyn(player, mcInfo);
 		}
 		return true;
 	}
@@ -120,8 +127,21 @@ public class MagicChapterInfoHolder{
 	}
 	
 	public void synAllData(Player player){
-		List<MagicChapterInfo> itemList = getItemList(player);			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return;
+		int maxChapter = umsData.getMaxStageID()/100;
+		int maxStage = umsData.getMaxStageID()%100;
+		List<MagicChapterInfo> itemList = getItemList(player);
+		for(MagicChapterInfo mcInfo : itemList){
+			if(Integer.valueOf(mcInfo.getChapterId()) < maxChapter) {
+				mcInfo.getSelectableDungeons().clear();
+				mcInfo.getUnselectedBuff().clear();
+			}else if(Integer.valueOf(mcInfo.getChapterId()) == maxChapter && maxStage == MagicSecretMgr.STAGE_COUNT_EACH_CHATPER){
+				mcInfo.getSelectableDungeons().clear();
+				mcInfo.getUnselectedBuff().clear();
+			}
+		}
+		if(!itemList.isEmpty()) ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	private MapItemStore<MagicChapterInfo> getItemStore(String userId) {

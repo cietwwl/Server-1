@@ -36,6 +36,8 @@ public final class ActivityRankTypeSubCfgDAO extends CfgCsvDao<ActivityRankTypeS
 		cfg.getRankRanges()[0] = Integer.parseInt(strs[0]);
 		if(strs.length == 2){
 			cfg.getRankRanges()[1] = Integer.parseInt(strs[1]);
+		}else if(strs.length == 1){
+			cfg.getRankRanges()[1] = Integer.parseInt(strs[0]);
 		}else{
 			GameLog.error(LogModule.ComActivityRank, null, "范围rankrange格式错误", null);
 		}

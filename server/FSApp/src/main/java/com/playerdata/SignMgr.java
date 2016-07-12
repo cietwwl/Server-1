@@ -191,15 +191,20 @@ public class SignMgr implements PlayerEventListener {
 		SignData signData = getSignData(signId);
 
 		int days = signDataHolder.getLastUpdate().get(Calendar.DAY_OF_MONTH);
+		Calendar calendar = Calendar.getInstance();
 		if (days == 1) // 首天的话需要考虑时间...
 		{
-			Calendar calendar = Calendar.getInstance();
+			
 			if (calendar.get(Calendar.HOUR_OF_DAY) < 5) {
 				calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
 				days = calendar.getActualMaximum(Calendar.DATE);
 			} else {
 				days = 1;
 			}
+		}else{
+			if (calendar.get(Calendar.HOUR_OF_DAY) < 5) {
+				days--;
+			} 
 		}
 		TreeMap<String, SignData> signDataMap = signDataHolder.getSignDataMap();
 		if (signDataMap.size() < days) // 如果签到次数少于当前天数并且当前签到的数据不为双倍可用则为其添加补签的下一个数据...
@@ -421,7 +426,7 @@ public class SignMgr implements PlayerEventListener {
 		int curDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		int curHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		if (curDay > day) {
-			if ((curDay - day > 1) || ((curDay - day == 1) && hour >= 5)) {
+			if ((curDay - day > 1) || ((curDay - day == 1) && curHour >= 5)) {
 				isUpdateTime = true;
 			} else {
 				GameLog.debug("不需要将之前的记录都打勾");

@@ -19,6 +19,7 @@ import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.service.chat.ChatHandler;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -324,6 +325,9 @@ public class GroupSecretHandler {
 		// 把秘境数据加入到排行榜
 		GroupSecretMatchHelper.addGroupSecret2Rank(player, secretData);
 
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSECRET_EXPLORE, 1);
+		
 		// 回应消息
 		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
 		createRsp.setId(generateCacheSecretId);
@@ -450,7 +454,7 @@ public class GroupSecretHandler {
 				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
-					group.getGroupBaseDataMgr().updateGroupDonate(player, null, proGS, proGE);
+					group.getGroupBaseDataMgr().updateGroupDonate(player, null, proGS, proGE, 0, true);
 				}
 			}
 		}
