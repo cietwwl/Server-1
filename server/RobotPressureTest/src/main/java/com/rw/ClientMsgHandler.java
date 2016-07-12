@@ -154,6 +154,9 @@ public abstract class ClientMsgHandler {
 					case COPY_LEVEL_RECORD:
 						getClient().getCopyHolder().syn(msgDataSyn);
 						break;
+					case USER_GAME_DATA:
+						getClient().getUserGameDataHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
