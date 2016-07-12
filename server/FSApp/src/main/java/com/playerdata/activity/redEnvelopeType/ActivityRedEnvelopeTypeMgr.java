@@ -27,7 +27,7 @@ public class ActivityRedEnvelopeTypeMgr {
 
 	private static ActivityRedEnvelopeTypeMgr instance = new ActivityRedEnvelopeTypeMgr();
 
-	private final static int MAKEUPEMAIL = 10055;
+
 
 	public static ActivityRedEnvelopeTypeMgr getInstance() {
 		return instance;

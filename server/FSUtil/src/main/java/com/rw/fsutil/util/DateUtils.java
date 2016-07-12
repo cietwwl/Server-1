@@ -96,7 +96,7 @@ public class DateUtils {
 		return new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
-	/**玩家的5点刷新方法*/
+	/**玩家的5点刷新方法;此方法需要保证传入来的时间会在判断生效后才覆盖最新时间，否则0-5点之间的操作会错误*/
 	public static boolean isNewDayHour(int hour,long lastResetTime){
 		return getCurrentHour() >= hour && dayChanged(lastResetTime);
 	}
