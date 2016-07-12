@@ -399,6 +399,7 @@ public class Robot {
 	public boolean selectCarrer() {
 
 		boolean selectSuccess = SelectCareerHandler.instance().select(client);
+		RobotLog.info("start carrer client userId:" + client.getUserId());
 		return selectSuccess;
 	}
 
