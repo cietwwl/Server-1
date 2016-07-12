@@ -6,12 +6,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
@@ -20,6 +26,7 @@ import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.playerdata.groupFightOnline.enums.GFArmyState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;
@@ -82,7 +89,6 @@ public class GFDefendArmyMgr {
 	 * 重置个人的防守队伍信息
 	 * @param player
 	 * @param items
-	 * @return 最新的版本号
 	 * @throws GFArmyDataException 
 	 */
 	public void resetItems(Player player, List<DefendArmyHerosInfo> items) throws GFArmyDataException{
@@ -250,5 +256,44 @@ public class GFDefendArmyMgr {
 			if(StringUtils.equals(item.getArmyID(), armyId)) return item;
 		}
 		return null;
+	}
+
+	/**
+	 * 有英雄升级或者升星
+	 * 更新角色的防守队伍信息
+	 * （只有备战阶段才更新）
+	 * @param player
+	 */
+	public void heroChanged(Player player) {
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(StringUtils.isBlank(groupID)) return;
+		GFightOnlineGroupData gfgData = GFightOnlineGroupHolder.getInstance().get(groupID);
+		if(gfgData == null || gfgData.getResourceID() <= 0) return;
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfgData.getResourceID());
+		if(resData == null || !GFResourceState.PREPARE.equals(resData.getState())) return;
+		List<GFDefendArmyItem> defenders = GFDefendArmyItemHolder.getInstance().getUserDefArmyList(player);
+		try {
+			resetItems(player, defenderToHeroListInfo(defenders));
+		} catch (GFArmyDataException e) {
+			GameLog.error(LogModule.GroupFightOnline.getName(), player.getUserId(), String.format("heroChanged，更新个人防守队伍信息时，数据异常"), e);
+		}
+	}
+	
+	/**
+	 * 提取英雄的id数据
+	 * @param defenders
+	 * @return
+	 */
+	private List<DefendArmyHerosInfo> defenderToHeroListInfo(List<GFDefendArmyItem> defenders){
+		List<DefendArmyHerosInfo> newItems = new ArrayList<DefendArmyHerosInfo>();
+		for(GFDefendArmyItem defender : defenders){
+			DefendArmyHerosInfo heros = new DefendArmyHerosInfo();
+			if(defender.getSimpleArmy() == null) continue;
+			heros.setDefendArmyID(defender.getArmyID());
+			heros.setHeroIDs(defender.getSimpleArmy().getHeroIdList());
+			heros.setMagicID(defender.getSimpleArmy().getArmyMagic().getId());
+			newItems.add(heros);
+		}
+		return newItems;
 	}
 }

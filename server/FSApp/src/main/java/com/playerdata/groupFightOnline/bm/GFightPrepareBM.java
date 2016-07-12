@@ -25,6 +25,7 @@ import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -91,11 +92,6 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg("压标类型数据有误");
 			return;
 		}
-		if(player.getVip() < bidCgf.getVip()){
-			gfRsp.setRstType(GFResultType.BID_VIP_UNREACH);
-			gfRsp.setTipMsg("玩家VIP等级不足");
-			return;
-		}
 		String selfGroupID = GroupHelper.getUserGroupId(player.getUserId());
 		if(StringUtils.isNotBlank(selfGroupID)){
 			int selfGroupRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, selfGroupID);
@@ -109,6 +105,11 @@ public class GFightPrepareBM {
 		if(targetRank < 1 || targetRank > GFightConst.IN_FIGHT_MAX_GROUP){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("选择压标的帮派并没有参与该资源点的备战");
+			return;
+		}
+		if(player.getVip() < bidCgf.getVip()){
+			gfRsp.setRstType(GFResultType.BID_VIP_UNREACH);
+			gfRsp.setTipMsg("玩家VIP等级不足");
 			return;
 		}
 		GFBiddingItem bidItem = GFBiddingItemHolder.getInstance().getItem(player, resourceID);
@@ -133,22 +134,26 @@ public class GFightPrepareBM {
 			}
 			//扣除压标资源
 			for(ItemInfo item : cost){
-				if(!player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum())){
+				//TODO 只处理了压标资源是金币的情况，如果添加其它资源，需要额外处理
+				if(item.getItemID() == eSpecialItemId.Coin.getValue() && !player.getUserGameDataMgr().isCoinEnough(-item.getItemNum())){
 					gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-					gfRsp.setTipMsg("压标所需资源不够");
+					gfRsp.setTipMsg("压标所需金币不够");
 					return;
 				}
+				player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum());
 			}
 			bidItem.setRateID(rateID);
 			GFBiddingItemHolder.getInstance().updateItem(player, bidItem);
 		}else{
 			//还没有压标
 			for(ItemInfo item : bidCgf.getBidCost()){
-				if(!player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum())){
+				//TODO 只处理了压标资源是金币的情况，如果添加其它资源，需要额外处理
+				if(item.getItemID() == eSpecialItemId.Coin.getValue() && !player.getUserGameDataMgr().isCoinEnough(-item.getItemNum())){
 					gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-					gfRsp.setTipMsg("压标所需资源不够");
+					gfRsp.setTipMsg("压标所需金币不够");
 					return;
 				}
+				player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum());
 			}
 			bidItem = new GFBiddingItem();
 			bidItem.setBiddingID(player.getUserId() + "_" + resourceID);
