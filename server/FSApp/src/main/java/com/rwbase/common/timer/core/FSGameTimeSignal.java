@@ -9,9 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
-import com.rwbase.common.timer.FSGameTimerDelegate;
-import com.rwbase.common.timer.FSGameTimerTask;
-import com.rwbase.common.timer.FSGameTimerTaskSubmitInfo;
+import com.rwbase.common.timer.IGameTimerDelegate;
+import com.rwbase.common.timer.IGameTimerTask;
 
 /**
  * 
@@ -20,7 +19,7 @@ import com.rwbase.common.timer.FSGameTimerTaskSubmitInfo;
  */
 public class FSGameTimeSignal implements RunnableFuture<Object> {
 
-	private FSGameTimerTask _task;
+	private IGameTimerTask _task;
 	
 	public final long deadline; // 执行的时间
 	private volatile int _stopIndex;
@@ -30,11 +29,11 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 	
 	private Sync _sync;
 	
-	private FSGameTimerDelegate _timerDelegate;
+	private IGameTimerDelegate _timerDelegate;
 	
 	private long _interval;
 	
-	public FSGameTimeSignal(FSGameTimerDelegate pDelegate, FSGameTimerTask pTask, long pInterval) {
+	public FSGameTimeSignal(IGameTimerDelegate pDelegate, IGameTimerTask pTask, long pInterval) {
 		if(pTask == null) {
 			throw new NullPointerException("task不能为null！");
 		}
@@ -49,10 +48,10 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 	}
 	
 	private void checkChildTasks() {
-		List<FSGameTimerTaskSubmitInfo> childTasks = this._task.getChildTasks();
+		List<FSGameTimerTaskSubmitInfoImpl> childTasks = this._task.getChildTasks();
 		if (childTasks != null && childTasks.size() > 0) {
-			for (FSGameTimerTaskSubmitInfo submitInfo : childTasks) {
-				_timerDelegate.submitNewTask(submitInfo.getTask(), submitInfo.getDelay(), submitInfo.getUnit());
+			for (FSGameTimerTaskSubmitInfoImpl submitInfo : childTasks) {
+				_timerDelegate.submitNewTask(submitInfo.getTask(), submitInfo.getInterval(), submitInfo.getTimeUnitOfInterval());
 			}
 		}
 	}
@@ -92,7 +91,7 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		_task.afterOneRoundExecuted(this);
 	}
 	
-	public FSGameTimerTask getTask() {
+	public IGameTimerTask getTask() {
 		return _task;
 	}
 	
@@ -183,7 +182,7 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		private static final int _STATE_CANCELLED = 4;
 		
 		/** the underlying callable */
-		private FSGameTimerTask _callable;
+		private IGameTimerTask _callable;
 		/** the result to return from get() */
 		private Object _result;
 		/** the exception to throw from get() */
@@ -191,7 +190,7 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		
 		private volatile Thread _runner;
 		
-		Sync(FSGameTimerTask pCallable) {
+		Sync(IGameTimerTask pCallable) {
 			this._callable = pCallable;
 		}
 		

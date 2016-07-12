@@ -8,10 +8,10 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rwbase.common.timer.FSGamePlayerGatherer;
-import com.rwbase.common.timer.FSGamePlayerOperable;
+import com.rwbase.common.timer.IPlayerGatherer;
+import com.rwbase.common.timer.IPlayerOperable;
 
-public class FSGamePlayerOperableDemo implements FSGamePlayerOperable, FSGamePlayerGatherer {
+public class FSGamePlayerOperableDemo implements IPlayerOperable, IPlayerGatherer {
 
 	private static final DateFormat _DATE_FORMATTER = new SimpleDateFormat("[MMdd HH:mm:ss.SSS]");
 	

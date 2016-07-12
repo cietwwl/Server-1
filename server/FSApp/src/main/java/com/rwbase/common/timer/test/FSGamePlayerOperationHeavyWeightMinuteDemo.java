@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
-import com.rwbase.common.timer.FSGamePlayerOperable;
+import com.rwbase.common.timer.IPlayerOperable;
 
-public class FSGamePlayerOperationHeavyWeightMinuteDemo implements FSGamePlayerOperable {
+public class FSGamePlayerOperationHeavyWeightMinuteDemo implements IPlayerOperable {
 
 	private static final DateFormat _DATE_FORMATTER = new SimpleDateFormat("[MMdd HH:mm:ss.SSS]");
 	

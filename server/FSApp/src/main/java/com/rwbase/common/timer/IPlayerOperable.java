@@ -7,13 +7,13 @@ import com.playerdata.Player;
  * <pre>
  * 玩家操作接口
  * 默认会对所有在缓存中的玩家进行操作
- * 如果需要对特定的玩家群体操作，则可以实现{@link FSGamePlayerGatherer}
+ * 如果需要对特定的玩家群体操作，则可以实现{@link IPlayerGatherer}
  * </pre>
  * 
  * @author CHEN.P
  *
  */
-public interface FSGamePlayerOperable {
+public interface IPlayerOperable {
 	
 	/**
 	 * 

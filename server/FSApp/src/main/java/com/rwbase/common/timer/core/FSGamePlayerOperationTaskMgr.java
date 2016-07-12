@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rwbase.common.timer.FSGamePlayerGatherer;
-import com.rwbase.common.timer.FSGamePlayerOperable;
+import com.rwbase.common.timer.IPlayerGatherer;
+import com.rwbase.common.timer.IPlayerOperable;
 
 public class FSGamePlayerOperationTaskMgr {
 	
@@ -20,8 +20,8 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private static FSGamePlayerOperationTaskMgr _instance = new FSGamePlayerOperationTaskMgr();
 	
-	private static FSGamePlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather();
-	private static FSGamePlayerGatherer _onlinePlayerGatherer = new FSGameOnlinePlayerGather();
+	private static IPlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather();
+	private static IPlayerGatherer _onlinePlayerGatherer = new FSGameOnlinePlayerGather();
 	
 	public static FSGamePlayerOperationTaskMgr getInstance() {
 		return _instance;
@@ -56,7 +56,7 @@ public class FSGamePlayerOperationTaskMgr {
 		}
 	}
 	
-	void addOperatorToDailyTask(int hourOfDay, int minute, FSGamePlayerOperable operator) {
+	void addOperatorToDailyTask(int hourOfDay, int minute, IPlayerOperable operator) {
 		int key = calculateKey(hourOfDay, minute);
 		FSGamePlayerOperationTask task = _dailyTaskInstanceMap.get(key);
 		if(task == null) {
@@ -65,7 +65,7 @@ public class FSGamePlayerOperationTaskMgr {
 		task.addOperator(operator);
 	}
 	
-	void addOperatorToMinuteTask(FSGamePlayerOperable operator) {
+	void addOperatorToMinuteTask(IPlayerOperable operator) {
 		_minuteTaskInstance.addOperator(operator);
 	}
 	
@@ -76,7 +76,7 @@ public class FSGamePlayerOperationTaskMgr {
 		_minuteTaskInstance.notifyPlayerLogin(player);
 	}
 	
-	private static class FSGameAllPlayerGather implements FSGamePlayerGatherer {
+	private static class FSGameAllPlayerGather implements IPlayerGatherer {
 
 		private List<Player> _list;
 		
@@ -94,7 +94,7 @@ public class FSGamePlayerOperationTaskMgr {
 		
 	}
 	
-	private static class FSGameOnlinePlayerGather implements FSGamePlayerGatherer {
+	private static class FSGameOnlinePlayerGather implements IPlayerGatherer {
 
 		@Override
 		public List<Player> gatherPlayers() {

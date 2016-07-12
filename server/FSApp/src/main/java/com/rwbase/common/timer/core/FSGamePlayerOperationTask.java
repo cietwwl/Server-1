@@ -12,10 +12,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.playerdata.Player;
-import com.rwbase.common.timer.FSGamePlayerGatherer;
-import com.rwbase.common.timer.FSGamePlayerOperable;
-import com.rwbase.common.timer.FSGameTimerTask;
-import com.rwbase.common.timer.FSGameTimerTaskSubmitInfo;
+import com.rwbase.common.timer.IPlayerGatherer;
+import com.rwbase.common.timer.IPlayerOperable;
+import com.rwbase.common.timer.IGameTimerTask;
 
 /**
  * 
@@ -24,14 +23,14 @@ import com.rwbase.common.timer.FSGameTimerTaskSubmitInfo;
  * @author CHEN.P
  *
  */
-public class FSGamePlayerOperationTask implements FSGameTimerTask {
+public class FSGamePlayerOperationTask implements IGameTimerTask {
 
 	private String _uuid; // 时效任务的uuid，用于作为标识
 	private String _name; // 时效任务的名字
 	private final List<FSGameDailySubTask> _operationList; // 本时效任务的玩家操作行为
-	private final FSGamePlayerGatherer _defaultPlayerGatherer;
+	private final IPlayerGatherer _defaultPlayerGatherer; // 默认的角色收集器
 	
-	FSGamePlayerOperationTask(FSGamePlayerGatherer playerGatherer) {
+	FSGamePlayerOperationTask(IPlayerGatherer playerGatherer) {
 		this._uuid = java.util.UUID.randomUUID().toString();
 		this._name = this.getClass().getSimpleName() + "@" + _uuid;
 		this._operationList = new ArrayList<FSGameDailySubTask>();
@@ -39,12 +38,14 @@ public class FSGamePlayerOperationTask implements FSGameTimerTask {
 	}
 	
 	void notifyPlayerLogin(Player player) {
+		// 处理角色登录事件
 		for (FSGameDailySubTask task : _operationList) {
 			task.playerLogin(player);
 		}
 	}
 	
-	void addOperator(FSGamePlayerOperable operator) {
+	void addOperator(IPlayerOperable operator) {
+		// 添加一个PlayerOperable到列表当中
 		synchronized(_operationList) {
 			this._operationList.add(new FSGameDailySubTask(operator));
 		}
@@ -62,11 +63,13 @@ public class FSGamePlayerOperationTask implements FSGameTimerTask {
 			FSGameDailySubTask subTask;
 			for (int i = _operationList.size(); i-- > 0;) {
 				subTask = _operationList.get(i);
-				if (subTask._operator instanceof FSGamePlayerGatherer) {
-					subTask._players = ((FSGamePlayerGatherer) subTask._operator).gatherPlayers();
+				if (subTask._operator instanceof IPlayerGatherer) {
+					// 如果operator同时是IPlayerGatherer的实例，则按照他的规则来获取player
+					subTask._players = ((IPlayerGatherer) subTask._operator).gatherPlayers();
 				} else {
 					subTask._players = allPlayers;
 				}
+				// 提交一个毫秒时效任务，多线程执行，尽量不影响其他operator的执行
 				FSGameTimerMgr.getInstance().getTimer().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS);
 			}
 		}
@@ -85,17 +88,18 @@ public class FSGamePlayerOperationTask implements FSGameTimerTask {
 
 	@Override
 	public boolean isContinue() {
+		// always continue
 		return true;
 	}
 
 	@Override
-	public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+	public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 		return null;
 	}
 	
-	private static class FSGameDailySubTask implements FSGameTimerTask {
+	private static class FSGameDailySubTask implements IGameTimerTask {
 		
-		private FSGamePlayerOperable _operator;
+		private IPlayerOperable _operator;
 		private List<Player> _players;
 		private final Queue<Player> _tempPlayers;
 		private String _name;
@@ -103,7 +107,7 @@ public class FSGamePlayerOperationTask implements FSGameTimerTask {
 		private final AtomicBoolean _executing = new AtomicBoolean(); // 是否正在执行中
 		private final List<String> _lastExecutePlayers; // 上一次被操作的player信息
 		
-		public FSGameDailySubTask(FSGamePlayerOperable pOperator) {
+		public FSGameDailySubTask(IPlayerOperable pOperator) {
 			this._operator = pOperator;
 			this._name = this.getClass().getSimpleName() + " for " + _operator;
 			this._lastExecutePlayers = new ArrayList<String>();
@@ -174,7 +178,7 @@ public class FSGamePlayerOperationTask implements FSGameTimerTask {
 		}
 
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 		

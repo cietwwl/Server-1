@@ -14,16 +14,17 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.rwbase.common.timer.FSGameTimerTask;
-import com.rwbase.common.timer.FSGameTimerTaskSubmitInfo;
+import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimer;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
+import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
 public class FSGameTimerTest {
 	
 	private static final DateFormat _DATE_FORMATTER = new SimpleDateFormat("MMdd:HH:mm:ss.SSS");
 	private static final Field _FIELD_CURRENT_CURSOR_OF_WHEEL;
+	private static FSGameTimer _timer;
 	
 	static {
 		Field f = null;
@@ -75,6 +76,10 @@ public class FSGameTimerTest {
 		Thread printerThread = Executors.defaultThreadFactory().newThread(new Printer());
 		printerThread.start();
 		FSGameTimerMgr.getInstance().init();
+		Field fTimer =FSGameTimerMgr.class.getDeclaredField("_timerInstance");
+		fTimer.setAccessible(true);
+		_timer = (FSGameTimer)fTimer.get(FSGameTimerMgr.getInstance());
+		fTimer.setAccessible(false);
 		new FSGameFixedMinuteTask();
 		FSGameTimerMgr.getInstance().submitDayTask(new TaskDemoImpl(), 14, 50);
 //		new FSGameHourTask(true, 1);
@@ -84,7 +89,7 @@ public class FSGameTimerTest {
 //		submitMinuteTask();
 	}
 	
-	static class FSGameMillisecondTask implements FSGameTimerTask {
+	static class FSGameMillisecondTask implements IGameTimerTask {
 
 		@Override
 		public String getName() {
@@ -113,13 +118,13 @@ public class FSGameTimerTest {
 		}
 		
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 		
 	}
 	
-	static abstract class FSGameTaskBase implements FSGameTimerTask {
+	static abstract class FSGameTaskBase implements IGameTimerTask {
 		
 		protected long lastExecuteTime;
 		protected long delayMillis;
@@ -134,7 +139,19 @@ public class FSGameTimerTest {
 			this.id = _ID_GENERATOR.incrementAndGet();
 			this.printNormalContent = printNormalContent;
 			this.warningDelayMillis = warningDelayMillis;
-			FSGameTimerMgr.getInstance().getTimer().newTimeSignal(this, delay, unit);
+			switch (unit) {
+			case HOURS:
+				FSGameTimerMgr.getInstance().submitHourTask(this, (int)delay);
+				break;
+			case MINUTES:
+				FSGameTimerMgr.getInstance().submitSecondTask(this, (int)delay);
+				break;
+			case SECONDS:
+				FSGameTimerMgr.getInstance().submitSecondTask(this, (int)delay);
+				break;
+			default:
+				break;
+			}
 			this.delayMillis = TimeUnit.MILLISECONDS.convert(delay, unit);
 			log("submit " + unit.name() + " task :" + this.toString() + "!");
 		}
@@ -156,7 +173,7 @@ public class FSGameTimerTest {
 					sub = Math.abs(sub);
 					if (sub > warningDelayMillis) {
 						log(this.getName() + "@" + id + ", " + sub + " millis ealier! counter=" + counter + ", lastExecuteTime:" + lastExecuteTime + ", currentTime=" + current
-								+ ", current cursor of wheel: " + _FIELD_CURRENT_CURSOR_OF_WHEEL.getInt(FSGameTimerMgr.getInstance().getTimer()));
+								+ ", current cursor of wheel: " + _FIELD_CURRENT_CURSOR_OF_WHEEL.getInt(_timer));
 					}
 				}
 				lastExecuteTime = current;
@@ -187,7 +204,7 @@ public class FSGameTimerTest {
 		}
 	}
 	
-	static class FSGameSecondTask extends FSGameTaskBase implements FSGameTimerTask {
+	static class FSGameSecondTask extends FSGameTaskBase implements IGameTimerTask {
 		
 		FSGameSecondTask(int delay) {
 			super(delay, TimeUnit.SECONDS, false, 2);
@@ -199,13 +216,13 @@ public class FSGameTimerTest {
 		}
 
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 
 	}
 	
-	static class FSGameAnotherSecondTask implements FSGameTimerTask {
+	static class FSGameAnotherSecondTask implements IGameTimerTask {
 
 		private int _counter;
 		@Override
@@ -236,13 +253,13 @@ public class FSGameTimerTest {
 		}
 
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return Collections.emptyList();
 		}
 		
 	}
 	
-	static class FSGameMinuteTask extends FSGameTaskBase implements FSGameTimerTask {
+	static class FSGameMinuteTask extends FSGameTaskBase implements IGameTimerTask {
 
 		FSGameMinuteTask(int delay) {
 			super(delay, TimeUnit.MINUTES, false, 6);
@@ -254,12 +271,12 @@ public class FSGameTimerTest {
 		}
 		
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 	}
 	
-	static class FSGameFixedMinuteTask implements FSGameTimerTask {
+	static class FSGameFixedMinuteTask implements IGameTimerTask {
 		
 		private int _counter;
 		public FSGameFixedMinuteTask() {
@@ -304,13 +321,13 @@ public class FSGameTimerTest {
 		}
 		
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
-			return Arrays.asList(FSGameTimerTaskSubmitInfo.createSecondTaskSubmitInfo(new FSGameAnotherSecondTask(), 1));
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
+			return Arrays.asList(FSGameTimerMgr.getInstance().createSecondTaskSubmitInfo(new FSGameAnotherSecondTask(), 1));
 		}
 		
 	}
 	
-	static class FSGameHourTask implements FSGameTimerTask {
+	static class FSGameHourTask implements IGameTimerTask {
 		
 		private int _counter;
 		private String _uuid;
@@ -319,9 +336,9 @@ public class FSGameTimerTest {
 			this._uuid = java.util.UUID.randomUUID().toString();
 			log("submit " + this.getName());
 			if(fixedHour) {
-				FSGameTimerMgr.getInstance().getTimer().newFixedHourTimeSignal(this, interval);
+				FSGameTimerMgr.getInstance().submitFixedHourTask(this, interval);
 			} else {
-				FSGameTimerMgr.getInstance().getTimer().newHourTimeSignal(this, interval);
+				FSGameTimerMgr.getInstance().submitHourTask(this, interval);
 			}
 		}
 
@@ -357,7 +374,7 @@ public class FSGameTimerTest {
 		}
 		
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 		
@@ -378,7 +395,7 @@ public class FSGameTimerTest {
 		}
 	}
 	
-	static class TaskDemoImpl implements FSGameTimerTask {
+	static class TaskDemoImpl implements IGameTimerTask {
 		
 		private String _uuid;
 		private int _counter;
@@ -415,7 +432,7 @@ public class FSGameTimerTest {
 		}
 
 		@Override
-		public List<FSGameTimerTaskSubmitInfo> getChildTasks() {
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
 		

@@ -13,7 +13,7 @@ import com.playerdata.Player;
  * @author CHEN.P
  *
  */
-public interface FSGamePlayerGatherer {
+public interface IPlayerGatherer {
 
 	/**
 	 * 

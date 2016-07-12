@@ -4,9 +4,18 @@ import java.util.concurrent.TimeUnit;
 
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 
-public interface FSGameTimerDelegate {
+/**
+ * 
+ * Timer的委托代理的接口规范
+ * 
+ * @author CHEN.P
+ *
+ */
+public interface IGameTimerDelegate {
 
 	/**
+	 * 
+	 * 取消一个任务
 	 * 
 	 * @param target
 	 */
@@ -14,9 +23,11 @@ public interface FSGameTimerDelegate {
 	
 	/**
 	 * 
+	 * 提交一个新任务
+	 * 
 	 * @param task
 	 * @param delay
 	 * @param unit
 	 */
-	public FSGameTimeSignal submitNewTask(FSGameTimerTask task, long delay, TimeUnit unit);
+	public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit);
 }

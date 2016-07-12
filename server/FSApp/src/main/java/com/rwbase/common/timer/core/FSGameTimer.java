@@ -17,8 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.common.DetectionTool;
 import com.log.GameLog;
-import com.rwbase.common.timer.FSGameTimerDelegate;
-import com.rwbase.common.timer.FSGameTimerTask;
+import com.rw.fsutil.shutdown.IShutdownHandler;
+import com.rwbase.common.timer.IGameTimerDelegate;
+import com.rwbase.common.timer.IGameTimerTask;
 
 /**
  * 
@@ -27,7 +28,7 @@ import com.rwbase.common.timer.FSGameTimerTask;
  * @author CHEN.P
  *
  */
-public class FSGameTimer {
+public class FSGameTimer implements IShutdownHandler {
 
 	public static final String CONFIG_KEY_NAME_CORE_POOL_SIZE = "fs.game.timer.core-pool-size";
 	public static final String CONFIG_KEY_NAME_TIME_INTERVAL_BETWEEN_TICK = "fs.game.timer.time-interval-of-tick";
@@ -44,10 +45,10 @@ public class FSGameTimer {
 	private static final int _MAX_TICKS_PER_WHEEL = (int) Math.pow(2, 30); // 最大的轮数量
 	private static final String _MODULE_NAME_FOR_LOG = FSGameTimer.class.getSimpleName(); // Log需要用到的模块名字
 	
-	private static final int _MAX_HOUR_OF_DAY;
-	private static final int _MIN_HOUR_OF_DAY;
-	private static final int _MAX_MINUTE;
-	private static final int _MIN_MINUTE;
+	private static final int _MAX_HOUR_OF_DAY; // hourOfDay的最大值
+	private static final int _MIN_HOUR_OF_DAY; // hourOfDay的最小值
+	private static final int _MAX_MINUTE; // Minute的最大值
+	private static final int _MIN_MINUTE; // Minute的最小值
 	
 	private final int _corePoolSize; // 时效任务线程池的size
 	private final ExecutorService _scheduledThreadPool; // 时效任务线程池
@@ -61,7 +62,7 @@ public class FSGameTimer {
 	private final long _totalTimeOfOneRound; // 每一轮的总时间间隔（扫描完整个时间轮的总耗时）
 	private final Set<FSGameTimeSignal>[] _wheel; // 将时间看作一个轮状，轮被分割成N个区间，就好像一个钟
 	private final ReusableIterator<FSGameTimeSignal>[] _iteratorsOfElementInWheel; // 时间轮上的set的iterator
-	private final FSGameTimerDelegate _delegate = new FSGameTimerDelegateImpl();
+	private final IGameTimerDelegate _delegate = new FSGameTimerDelegateImpl();
 	
 	private int _mask;
 	private volatile int _currentCursorOfWheel; // 当前的指针位置
@@ -114,20 +115,6 @@ public class FSGameTimer {
 			normalizedTicksPerWheel <<= 1;
 		}
 		return normalizedTicksPerWheel;
-	}
-	
-	private static boolean shutdownAndAwaitTermination(ExecutorService pool, int awaitSeconds) {
-		pool.shutdown();
-		try {
-			if(!pool.awaitTermination(awaitSeconds, TimeUnit.SECONDS)) {
-				GameLog.error(_MODULE_NAME_FOR_LOG, "shutdownAndAwaitTermination", "service did not terminate, await " + awaitSeconds + " s");
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			pool.shutdownNow();
-			Thread.currentThread().interrupt();
-		}
-		return pool.isTerminated();
 	}
 	
 	public FSGameTimer(Properties config) {
@@ -194,13 +181,18 @@ public class FSGameTimer {
 		}
 	}
 	
-	public void start() {
-		if (_shutdown.get()) {
-			throw new IllegalStateException("cannot be started once shutdown");
+	private boolean shutdownAndAwaitTermination(ExecutorService pool, int awaitSeconds) {
+		pool.shutdown();
+		try {
+			if(!pool.awaitTermination(awaitSeconds, TimeUnit.SECONDS)) {
+				GameLog.error(_MODULE_NAME_FOR_LOG, "shutdownAndAwaitTermination", "service did not terminate, await " + awaitSeconds + " s");
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			pool.shutdownNow();
+			Thread.currentThread().interrupt();
 		}
-		if (!_workerThread.isAlive() && this._alreadyStart.compareAndSet(false, true)) {
-			_workerThread.start();
-		}
+		return pool.isTerminated();
 	}
 	
 	/**
@@ -209,7 +201,7 @@ public class FSGameTimer {
 	 * 
 	 * @return 提交了但还没开始执行的任务的集合，如果是很重要的任务，使用者可以对此做保存或其他处理
 	 */
-	public Set<FSGameTimeSignal> stop() {
+	private Set<FSGameTimeSignal> stop() {
 		if (Thread.currentThread() == _workerThread) {
 			// 不允许计时线程调用本方法
 			throw new IllegalStateException(FSGameTimer.class.getName() + ".stop() cannot be called from his own workerThread!");
@@ -251,6 +243,20 @@ public class FSGameTimer {
 		}
 	}
 	
+	@Override
+	public void notifyShutdown() {
+		this.stop();
+	}
+	
+	public void start() {
+		if (_shutdown.get()) {
+			throw new IllegalStateException("cannot be started once shutdown");
+		}
+		if (!_workerThread.isAlive() && this._alreadyStart.compareAndSet(false, true)) {
+			_workerThread.start();
+		}
+	}
+	
 	/**
 	 * 
 	 * 提交一个时效任务
@@ -260,7 +266,7 @@ public class FSGameTimer {
 	 * @param unit 延迟时间的单位
 	 * @return
 	 */
-	public FSGameTimeSignal newTimeSignal(FSGameTimerTask task, long delay, TimeUnit unit) {
+	public FSGameTimeSignal newTimeSignal(IGameTimerTask task, long delay, TimeUnit unit) {
 		if (task == null) {
 			throw new NullPointerException("task不能为null");
 		}
@@ -275,15 +281,15 @@ public class FSGameTimer {
 		return timeSignal;
 	}
 	
-	public FSGameTimeSignal newSecondTimeSignal(FSGameTimerTask task, long delay) {
+	public FSGameTimeSignal newSecondTimeSignal(IGameTimerTask task, long delay) {
 		return this.newTimeSignal(task, delay, TimeUnit.SECONDS);
 	}
 
-	public FSGameTimeSignal newMinuteTimeSignal(FSGameTimerTask task, long delay) {
+	public FSGameTimeSignal newMinuteTimeSignal(IGameTimerTask task, long delay) {
 		return this.newTimeSignal(task, delay, TimeUnit.MINUTES);
 	}
 
-	public FSGameTimeSignal newHourTimeSignal(FSGameTimerTask task, long delay) {
+	public FSGameTimeSignal newHourTimeSignal(IGameTimerTask task, long delay) {
 		return this.newTimeSignal(task, delay, TimeUnit.HOURS);
 	}
 	
@@ -293,14 +299,14 @@ public class FSGameTimer {
 	 * 提交一个整点任务(e.g: 10->12->14 )。
 	 * 对于第一次的执行时间，会fixed到最近的整点。
 	 * 第一次执行以后，则按照intervalHours的间隔去执行。
-	 * 如果不需要fixed，则使用{@link #newHourTimeSignal(FSGameTimerTask, long)}
+	 * 如果不需要fixed，则使用{@link #newHourTimeSignal(IGameTimerTask, long)}
 	 * </pre>
 	 * 
 	 * @param task 整点执行的task
 	 * @param intervalHours 间隔
 	 * @return
 	 */
-	public FSGameTimeSignal newFixedHourTimeSignal(FSGameTimerTask task, int intervalHours) {
+	public FSGameTimeSignal newFixedHourTimeSignal(IGameTimerTask task, int intervalHours) {
 		if(intervalHours <= 0) {
 			throw new IllegalArgumentException("整点任务时间间隔必须大于0！");
 		}
@@ -314,7 +320,8 @@ public class FSGameTimer {
 		long firstDelay = comingTime.getTimeInMillis() - current; // 计算第一次偏移数值
 		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
 		timeSignal.updateInterval(intervalOfStandardUnit);
-		System.out.println("提交整点任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
+		logInfo(_MODULE_NAME_FOR_LOG, "newFixedHourTimeSignal",
+				"提交整点任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
 		return timeSignal;
 	}
 	
@@ -324,7 +331,7 @@ public class FSGameTimer {
 	 * @param intervalMinutes
 	 * @return
 	 */
-	FSGameTimeSignal newFixedMinuteTimeSignal(FSGameTimerTask task, int intervalMinutes) {
+	FSGameTimeSignal newFixedMinuteTimeSignal(IGameTimerTask task, int intervalMinutes) {
 		if(intervalMinutes <= 0) {
 			throw new IllegalArgumentException("整分任务时间间隔必须大于0！");
 		}
@@ -336,11 +343,11 @@ public class FSGameTimer {
 		long firstDelay = comingTime.getTimeInMillis() - System.currentTimeMillis(); // 计算第一次偏移数值
 		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
 		timeSignal.updateInterval(intervalOfStandardUnit);
-		System.out.println("提交整分任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
+		logInfo(_MODULE_NAME_FOR_LOG, "newFixedMinuteTimeSignal", "提交整分任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
 		return timeSignal;
 	}
 	
-	FSGameTimeSignal newDayTimeSignal(FSGameTimerTask task, int hourOfDay, int minutes) {
+	FSGameTimeSignal newDayTimeSignal(IGameTimerTask task, int hourOfDay, int minutes) {
 		if (hourOfDay < _MIN_HOUR_OF_DAY || hourOfDay > _MAX_HOUR_OF_DAY) {
 			throw new IllegalArgumentException(String.format("hour的值需要在%d~%d之间", _MIN_HOUR_OF_DAY, _MAX_HOUR_OF_DAY));
 		}
@@ -361,7 +368,7 @@ public class FSGameTimer {
 		long firstDelay = comingTimeMillis - System.currentTimeMillis(); // 计算第一次偏移数值
 		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
 		timeSignal.updateInterval(_A_DAY_OF_STANDARD_UNIT);
-		System.out.println("提天任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
+		logInfo(_MODULE_NAME_FOR_LOG, "newDayTimeSignal", "提交天任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
 		return timeSignal;
 	}
 	
@@ -441,9 +448,9 @@ public class FSGameTimer {
 			if (slipped != null) {
 				// 时间未到的，重新放到下一轮的计划里面
 				for (FSGameTimeSignal tempTimeSignal : slipped) {
-					System.out.println("earlier task : " + tempTimeSignal + ", preStopIndex=" + tempTimeSignal.getStopIndex() + ", preRemainingRounds=" + tempTimeSignal.getRemainingRounds());
+//					System.out.println("earlier task : " + tempTimeSignal + ", preStopIndex=" + tempTimeSignal.getStopIndex() + ", preRemainingRounds=" + tempTimeSignal.getRemainingRounds());
 					FSGameTimer.this.scheduleTimeSignal(tempTimeSignal, tempTimeSignal.deadline - deadline);
-					System.out.println("now stop index : " + tempTimeSignal.getStopIndex() + ", nowRemainingRounds=" + tempTimeSignal.getRemainingRounds());
+//					System.out.println("now stop index : " + tempTimeSignal.getStopIndex() + ", nowRemainingRounds=" + tempTimeSignal.getRemainingRounds());
 				}
 			}
 		}
@@ -513,7 +520,7 @@ public class FSGameTimer {
 	 * @author CHEN.P
 	 *
 	 */
-	private final class FSGameTimerDelegateImpl implements FSGameTimerDelegate {
+	private final class FSGameTimerDelegateImpl implements IGameTimerDelegate {
 
 		@Override
 		public void cancel(FSGameTimeSignal target) {
@@ -521,10 +528,10 @@ public class FSGameTimer {
 		}
 
 		@Override
-		public FSGameTimeSignal submitNewTask(FSGameTimerTask task, long delay, TimeUnit unit) {
-			if (task.getName().contains("Hour")) {
-				System.out.println(Thread.currentThread().getName() + ", submit again : " + task + ", delay=" + delay + ", unit=" + unit);
-			}
+		public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit) {
+//			if (task.getName().contains("Hour")) {
+//				System.out.println(Thread.currentThread().getName() + ", submit again : " + task + ", delay=" + delay + ", unit=" + unit);
+//			}
 			return FSGameTimer.this.newTimeSignal(task, delay, unit);
 		}
 

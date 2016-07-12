@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.rwbase.common.timer.core.FSGameTimeSignal;
+import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
 /**
  * 
@@ -12,7 +13,7 @@ import com.rwbase.common.timer.core.FSGameTimeSignal;
  * @author P.C.
  *
  */
-public interface FSGameTimerTask {
+public interface IGameTimerTask {
 
 	/**
 	 * 
@@ -50,7 +51,14 @@ public interface FSGameTimerTask {
 	
 	/**
 	 * 
-	 * 是否继续
+	 * <pre>
+	 * 是否继续执行
+	 * 可以简单地返回true。
+	 * 也可以根据自身的业务需要做一些判断，然后返回相应的结果。
+	 * 如果得到一个<font color="ff0000"><b>TRUE</b></font>结果，则任务会继续执行。
+	 * 如果得到一个<font color="ff0000"><b>FALSE</b></font>结果，任务会被移除。
+	 * 逻辑如果在返回<font color="ff0000"><b>FALSE</b></font>后，下次仍需执行，<font color="0000ff"><b>需要创新创建task实例</b></font>。
+	 * </pre>
 	 * 
 	 * @return
 	 */
@@ -67,6 +75,6 @@ public interface FSGameTimerTask {
 	 * 
 	 * @return
 	 */
-	public List<FSGameTimerTaskSubmitInfo> getChildTasks();
+	public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks();
 	
 }
