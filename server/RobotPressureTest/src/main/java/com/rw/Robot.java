@@ -1,5 +1,10 @@
 package com.rw;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import org.apache.log4j.PropertyConfigurator;
 
 import com.config.PlatformConfig;
@@ -18,6 +23,7 @@ import com.rw.handler.copy.CopyType;
 import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
+import com.rw.handler.equip.EquipItem;
 import com.rw.handler.fashion.FashionHandler;
 import com.rw.handler.fixEquip.FixEquipHandler;
 import com.rw.handler.fixExpEquip.FixExpEquipHandler;
@@ -34,13 +40,14 @@ import com.rw.handler.groupsecret.GroupSecretMatchHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.itembag.ItemData;
+import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.magicSecret.MagicSecretHandler;
 import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.peakArena.PeakArenaHandler;
 import com.rw.handler.platform.PlatformHandler;
-import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
+import com.rw.handler.sign.SignHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
@@ -64,6 +71,8 @@ public class Robot {
 	// private int zoneId;
 
 	private int chatCount;
+
+	private Random random = new Random();
 
 	private static void init() {
 		PropertyConfigurator.configureAndWatch("log4j.properties");
@@ -181,14 +190,13 @@ public class Robot {
 		return GambleHandler.instance().buy(client);
 
 	}
-	/**钻石抽*/
+
+	/** 钻石抽 */
 	public boolean gambleByGold() {
 		return GambleHandler.instance().buyByGold(client);
 
 	}
-	
-	
-	
+
 	public boolean buyRandom() {
 		if (client == null) {
 			return false;
@@ -212,7 +220,13 @@ public class Robot {
 
 	public boolean gainItem(int modelId) {
 		// 803004
-		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + modelId + " 1");
+		int count;
+		if (client.getItembagHolder().getItemCountByModelId(modelId) <= 0) {
+			count = 1 + random.nextInt(10);
+		} else {
+			count = 1;
+		}
+		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + modelId + " " + String.valueOf(count));
 		return sendSuccess;
 	}
 
@@ -225,8 +239,7 @@ public class Robot {
 	/**
 	 * 作弊添加装备
 	 * 
-	 * @param heroModelId
-	 *            如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
 	 * @return
 	 */
 	public boolean gmGainHeroEquip(int heroModelId) {
@@ -237,8 +250,7 @@ public class Robot {
 	/**
 	 * 作弊穿装备
 	 * 
-	 * @param heroModelId
-	 *            如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
 	 * @return
 	 */
 	public boolean gmWearEquip(int heroModelId) {
@@ -254,8 +266,37 @@ public class Robot {
 		boolean sendSuccess = EquipHandler.instance().compose(client, modelId);
 		return sendSuccess;
 	}
-	
-	
+
+	/**
+	 * new test by equipCompose
+	 * 
+	 * @return
+	 */
+	public boolean equipCompose() {
+		return compose(700098, new int[] {703098, 700097});
+	}
+
+	private boolean compose(int composeId, int[] consumeList) {
+		ItembagHolder itemBagHolder = client.getItembagHolder();
+		ArrayList<Integer> needList = null;
+		for (int i = consumeList.length; --i >= 0;) {
+			int id = consumeList[i];
+			if (itemBagHolder.getItemCountByModelId(id) > 0) {
+				continue;
+			}
+			if (needList == null) {
+				needList = new ArrayList<Integer>(consumeList.length);
+			}
+			needList.add(id);
+		}
+		if (needList != null) {
+			for (int id : needList) {
+				gainItem(id, 99);
+			}
+		}
+		return EquipHandler.instance().compose(client, composeId);
+	}
+
 	public void checkItemEnough(int modelId) {
 		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
 		if (itemData.getCount() < 10) {
@@ -344,7 +385,7 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addGold " + gold);
 		return sendSuccess;
 	}
-	
+
 	public boolean additem(int id) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
 		return sendSuccess;
@@ -578,8 +619,7 @@ public class Robot {
 	 * 如果传入的userId是null，就会从申请列表中随机通过一个
 	 * </pre>
 	 * 
-	 * @param userId
-	 *            申请成员的Id
+	 * @param userId 申请成员的Id
 	 */
 	public boolean receiveApplyMemberOne(String userId) {
 		return groupMemberHandler.memberReceive(client, userId);
@@ -591,8 +631,7 @@ public class Robot {
 	 * 如果传入的userId是null，就会从申请列表中随机拒绝一个
 	 * </pre>
 	 * 
-	 * @param userId
-	 *            要拒绝的申请成员的Id
+	 * @param userId 要拒绝的申请成员的Id
 	 */
 	public boolean refuseApplyMemberOne(String userId) {
 		return groupMemberHandler.memberRefuse(client, userId);
@@ -624,27 +663,24 @@ public class Robot {
 	 */
 	public boolean memberCancelNominate() {
 		return groupMemberHandler.memberCancelNominate(client);
-		
+
 	}
-	
+
 	/**
 	 * 膜拜
 	 */
-	public  boolean testWorShip(int num) {
-			
-		
+	public boolean testWorShip(int num) {
+
 		return worShipHandler.getHandler().ArenaWorship(client, num);
 	}
-	
+
 	/**
 	 * 买体
 	 */
-	public  boolean testMainService() {
+	public boolean testMainService() {
 		return MainHandler.getHandler().buyTower(client);
 	}
-	
-	
-	
+
 	public int getChatCount() {
 		return chatCount;
 	}
@@ -652,195 +688,191 @@ public class Robot {
 	public void setChatCount(int chatCount) {
 		this.chatCount = chatCount;
 	}
-	
-	/**消费300钻 */
+
+	/** 消费300钻 */
 	public boolean testDailyActivity() {
 		// TODO Auto-generated method stub
-		return DailyActivityHandler.getHandler().Const(this);		
-		
-	}
-	
-	/**无尽战火挑战一次*/
-	public boolean testCopyWarfare(){		
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_WARFARE);
-		if(getitemback){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_WARFARE,EBattleStatus.NULL);		
-		}else return false;
-		 
+		return DailyActivityHandler.getHandler().Const(this);
+
 	}
 
-	/**万仙阵胜利一次 */
-	public boolean testCopyTower() {
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TOWER);
-		if(getitemback){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TOWER,EBattleStatus.WIN);		
-		}else return false;
+	/** 无尽战火挑战一次 */
+	public boolean testCopyWarfare() {
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_WARFARE);
+		if (getitemback) {
+			return CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_WARFARE, EBattleStatus.NULL);
+		} else
+			return false;
+
 	}
-	
+
+	/** 万仙阵胜利一次 */
+	public boolean testCopyTower() {
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_TOWER);
+		if (getitemback) {
+			return CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_TOWER, EBattleStatus.WIN);
+		} else
+			return false;
+	}
+
 	/** 聚宝胜利,根据参数决定战斗次数 */
 	public boolean testCopyJbzd() {
-		if(!getPveInfo()){
+		if (!getPveInfo()) {
 			RobotLog.fail("获取副本信息失败");
 			return true;
 		}
 		CopyHolder copyHolder = client.getCopyHolder();
-		
-		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0){			
+
+		if (copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_JBZD) <= 0) {
 			return true;
 		}
-		
-		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
-		boolean result;
-		result = CopyHandler.getHandler().battleItemsBack(client,
-				CopyType.COPY_TYPE_TRIAL_JBZD);
-		if (result) {
-			result = CopyHandler.getHandler().battleClear(client,
-					CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
+
+		boolean clearCd = clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
+		if(!clearCd){
+			return true;
 		}
-		
+		boolean result;
+		result = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_TRIAL_JBZD);
+		if (result) {
+			result = CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
+		}
 
 		return result;
 	}
-	
-	private boolean getPveInfo(){
+
+	private boolean getPveInfo() {
 		boolean getPveInfo = CopyHandler.getHandler().pveInfo(client);
-		return getPveInfo;		
+		return getPveInfo;
 	}
-	
 
-
-	/**炼息胜利两 次 */
+	/** 炼息胜利两 次 */
 	public boolean testCopyLxsg() {
-		if(!getPveInfo()){
+		if (!getPveInfo()) {
 			RobotLog.fail("获取副本信息失败");
 			return true;
 		}
 		CopyHolder copyHolder = client.getCopyHolder();
-		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0){			
+		if (copyHolder.getCopyTime().get(CopyType.COPY_TYPE_TRIAL_LQSG) <= 0) {
 			return true;
 		}
-		
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
-		if(getitemback){
-			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
+
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_TRIAL_LQSG);
+		if (getitemback) {
+			CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_TRIAL_LQSG, EBattleStatus.WIN);
 		}
 		clearCd(CopyType.COPY_TYPE_TRIAL_LQSG);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
-		if(getitembacksecond){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_TRIAL_LQSG);
+		if (getitembacksecond) {
+			return CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_TRIAL_LQSG, EBattleStatus.WIN);
 		}
 		return false;
 	}
-	
-	/**传入关卡类型和关卡地图id*/
+
+	/** 传入关卡类型和关卡地图id */
 	public boolean clearCd(int copyTypeTrialJbzd) {
 		int levelId = 0;
 		CopyHandler.getHandler();
-		if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_JBZD){
-			
+		if (copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_JBZD) {
+
 			levelId = CopyHandler.getJbzdcopyid()[0];
-		}else if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_LQSG){
+		} else if (copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_LQSG) {
 			levelId = CopyHandler.getLxsgcopyid()[0];
-		}else if(copyTypeTrialJbzd == CopyType.COPY_TYPE_CELESTIAL){
+		} else if (copyTypeTrialJbzd == CopyType.COPY_TYPE_CELESTIAL) {
 			levelId = CopyHandler.getCelestialcopyid()[0];
 		}
-		
-		boolean sendSuccess = GmHandler.instance().send(client, "* clearcd " + copyTypeTrialJbzd + " "+ levelId);
-		return sendSuccess;		
+
+		boolean sendSuccess = GmHandler.instance().send(client, "* clearcd " + copyTypeTrialJbzd + " " + levelId);
+		return sendSuccess;
 	}
-	
-	/**生存幻境两 次 */
+
+	/** 生存幻境两 次 */
 	public boolean testCopyschj() {
-		if(!getPveInfo()){
+		if (!getPveInfo()) {
 			RobotLog.fail("获取副本信息失败");
 			return true;
 		}
 		CopyHolder copyHolder = client.getCopyHolder();
-		if(copyHolder.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0){			
+		if (copyHolder.getCopyTime().get(CopyType.COPY_TYPE_CELESTIAL) <= 0) {
 			return true;
 		}
-		
-		
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
-		if(getitemback){
-			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		
+
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_CELESTIAL);
+		if (getitemback) {
+			CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_CELESTIAL, EBattleStatus.WIN);
 		}
 		clearCd(CopyType.COPY_TYPE_CELESTIAL);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
-		if(getitembacksecond){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_CELESTIAL);
+		if (getitembacksecond) {
+			return CopyHandler.getHandler().battleClear(client, CopyType.COPY_TYPE_CELESTIAL, EBattleStatus.WIN);
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 通用活动一领奖all
 	 */
-	public  boolean testActivityCountTakeGift() {					
-				
-		return	ActivityCountHandler.getHandler().ActivityCountTakeGift(client);				
+	public boolean testActivityCountTakeGift() {
+
+		return ActivityCountHandler.getHandler().ActivityCountTakeGift(client);
 	}
-	
+
 	/**
 	 * 通用活动二领奖all
 	 */
-	public  boolean testActivityDailyCountTakeGift() {		
-		return ActivityDailyCountHandler.getHandler().ActivityDailyCountTakeGift(client);	
+	public boolean testActivityDailyCountTakeGift() {
+		return ActivityDailyCountHandler.getHandler().ActivityDailyCountTakeGift(client);
 	}
-	
+
 	/**
 	 * 七日礼包领取
 	 */
-	public  boolean testDailyGiftTake(){		
+	public boolean testDailyGiftTake() {
 		DailyGiftHandler.getHandler().getSevenDayGiftItem(client);
 		return DailyGiftHandler.getHandler().getSevenDayGift(client);
-		
+
 	}
-	
+
 	/**
 	 * 封神之路普通领取
 	 */
-	public  boolean testFrshActAchieveRewardGiftTake(){		
+	public boolean testFrshActAchieveRewardGiftTake() {
 		FresherActivityHandler.getInstance().testTakeFresherActivityRewards(client);
-		return  false;		
+		return false;
 	}
-	
 
-	
-	
-	public boolean sign(){
+	public boolean sign() {
 		return SignHandler.getInstance().processsSign(client);
 	}
-	
-	public boolean dailyActivity(){
+
+	public boolean dailyActivity() {
 		return DailyHandler.getInstance().processDaily(client);
 	}
-	
-	public boolean buyFashion(){
+
+	public boolean buyFashion() {
 		return FashionHandler.getInstance().processBuyFashion(client);
 	}
-	
-	public boolean buyWing(){
+
+	public boolean buyWing() {
 		return FashionHandler.getInstance().processBuyWing(client);
 	}
-	
-	public boolean buyPet(){
+
+	public boolean buyPet() {
 		return FashionHandler.getInstance().processBuyPet(client);
 	}
 
-	public boolean WearFashion(boolean wear){
+	public boolean WearFashion(boolean wear) {
 		return FashionHandler.getInstance().processWearFashion(client, wear);
 	}
-	
-	public boolean WearWing(boolean wear){
+
+	public boolean WearWing(boolean wear) {
 		return FashionHandler.getInstance().processWearWing(client, wear);
 	}
-	
-	public boolean WearPet(boolean wear){
+
+	public boolean WearPet(boolean wear) {
 		return FashionHandler.getInstance().processWearPet(client, wear);
 	}
-	
-	public boolean BuyCoin(){
+
+	public boolean BuyCoin() {
 		return MainHandler.getHandler().buyCoin(client);
 	}
 
@@ -849,32 +881,32 @@ public class Robot {
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
-	
-	public boolean createGroupSecret(){
+
+	public boolean createGroupSecret() {
 		return GroupSecretHandler.getInstance().createGroupSecret(client);
 	}
-	
-	public boolean searchGroupSecret(){
+
+	public boolean searchGroupSecret() {
 		return GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 	}
-	
-	public boolean attackEnemyGroupSecret(){
+
+	public boolean attackEnemyGroupSecret() {
 		return GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
 	}
-	
-	public boolean getGroupSecretReward(){
+
+	public boolean getGroupSecretReward() {
 		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
-	
-	public boolean inviteMemberDefend(){
+
+	public boolean inviteMemberDefend() {
 		return GroupSecretHandler.getInstance().inviteMemberDefend(client);
 	}
-	
-	public boolean acceptMemberDefend(){
+
+	public boolean acceptMemberDefend() {
 		ChatHandler.instance().sendRequestTreasure(client);
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
-	
+
 	/**
 	 * 
 	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
@@ -892,50 +924,52 @@ public class Robot {
 		addGold(88888);
 		additem(806552);//特殊装升星材料
 		boolean issuc = false;
-		if(type == 0){
-			issuc=FixEquipHandler.instance().doEquip(client,heronumber,expequipId, servicetype);
-		}else{
-			issuc=FixExpEquipHandler.instance().doExpEquip(client,heronumber,expequipId, servicetype);			
-		}		
+		if (type == 0) {
+			issuc = FixEquipHandler.instance().doEquip(client, heronumber, expequipId, servicetype);
+		} else {
+			issuc = FixExpEquipHandler.instance().doExpEquip(client, heronumber, expequipId, servicetype);
+		}
 		return issuc;
 	}
-	
-	/**预制升级和加金币；参数不存在则选择首项提升*/
-	public boolean testTaoist(){
+
+	/** 预制升级和加金币；参数不存在则选择首项提升 */
+	public boolean testTaoist() {
 		boolean issuc = false;
 		upgrade(50);
-//		TaoistHandler.getHandler().getTaoistData(client);
-		issuc=TaoistHandler.getHandler().updateTaoist(client);
+		// TaoistHandler.getHandler().getTaoistData(client);
+		issuc = TaoistHandler.getHandler().updateTaoist(client);
 		return issuc;
 	}
-	
+
 	/**
 	 * 进行一次乾坤幻境并领取奖励（如果所有幻境都挑战通过，则会进行任意个幻境扫荡）
+	 * 
 	 * @param client
 	 * @return
 	 */
-	public boolean playerMagicSecret(){
+	public boolean playerMagicSecret() {
 		return MagicSecretHandler.getHandler().playMagicSecret(client);
 	}
-	
+
 	/**
 	 * 获取乾坤幻境的排行榜
+	 * 
 	 * @param client
 	 * @return
 	 */
 	public boolean getMagicSecretRank() {
 		return MagicSecretHandler.getHandler().getMagicSecretRank(client);
 	}
-	
-	public boolean sendGmCommand(String value){
+
+	public boolean sendGmCommand(String value) {
 		return GmHandler.instance().send(client, value);
 	}
 
-	public void checkEnoughMoney(){
-		if(!client.getMajorDataholder().CheckEnoughCoin()){
+	public void checkEnoughMoney() {
+		if (!client.getMajorDataholder().CheckEnoughCoin()) {
 			addCoin(1000000000);
 		}
-		if(!client.getMajorDataholder().CheckEnoughGold()){
+		if (!client.getMajorDataholder().CheckEnoughGold()) {
 			addGold(10000000);
 		}
 	}
