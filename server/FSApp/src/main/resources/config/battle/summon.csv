@@ -1,4 +1,4 @@
-Key,Remarks,Id,Type,modeId,level,HeroAttackRate,HeroPhysicalDefenseRate,HeroMagicDefenseRate,HeroLifeRate,MonsterAttack,MonsterPhysicalDefense,MonsterMagicDefense,MonsterLife,Hide,Enter,Die,Normal,Skill01,Skill02,Skill03,Skill04,Skill05,Scale,attackType,viewRange,moveSpeed,AttackRange,reactionTime,doHurt,hardStraight,AIGroupId,drop,extraParam
+Key,Remarks,Id,Type,ModelId,level,HeroAttackRate,HeroPhysicalDefenseRate,HeroMagicDefenseRate,HeroLifeRate,MonsterAttack,MonsterPhysicalDefense,MonsterMagicDefense,MonsterLife,Hide,Enter,Die,Normal,Skill01,Skill02,Skill03,Skill04,Skill05,Scale,AttackType,ViewRange,moveSpeed,AttackRange,ReactionTime,DoHurt,HardStraight,AIGroupId,drop,extraParam
 500003_1,,500003_1,,500003,1,1,,,,,10,8,"3,310",1,50000308,50000309,50000300_1,,,,,,1,1,32,5.5,4,0.1,0.03,0.25,,,
 500003_2,,500003_2,,500003,2,1,,,,,19,15,"3,655",1,50000308,50000309,50000300_1,,,,,,1,1,32,5.5,4,0.1,0.03,0.25,,,
 500003_3,,500003_3,,500003,3,1,,,,,19,15,"4,575",1,50000308,50000309,50000300_1,,,,,,1,1,32,5.5,4,0.1,0.03,0.25,,,
