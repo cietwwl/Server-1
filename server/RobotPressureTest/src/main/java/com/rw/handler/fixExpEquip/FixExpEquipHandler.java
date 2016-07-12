@@ -39,6 +39,7 @@ public class FixExpEquipHandler {
 		if(type == Exp_level_up){
 			issucc = doLevelUp(client,heronum,equipid);
 		}else if(type == Exp_quality_up){
+			doLevelUp(client,heronum,equipid);
 			issucc = doQualityUp(client,heronum,equipid);
 		}else if(type == Exp_star_up){			
 			issucc = doStarUp(client,heronum,equipid);
@@ -227,7 +228,7 @@ public class FixExpEquipHandler {
 		
 		Builder item = SelectItem.newBuilder();
 		item.setModelId(expId);
-		item.setCount(30);
+		item.setCount(590);
 		
 		SelectItem tmpitem = item.buildPartial();	
 		com.rwproto.FixEquipProto.ExpLevelUpReqParams.Builder expIdAndNum = ExpLevelUpReqParams.newBuilder();

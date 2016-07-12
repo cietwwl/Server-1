@@ -10,20 +10,20 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("sgn0845");
+//		 Robot robot = loginRobot("sgn0845");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
-		 robot.testTaoist();
+//		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
-//		 if(robot == null){
-//		 }else{
-//			 boolean issucc =false;
-//			 
-//			 issucc=robot.testFixEquip(0,0,0,1);
-//			 System.out.println("@@@@@@@@@@@test" + issucc);			 
-//		 }
+		 Robot robot = createRobot("tmpallen"+random.nextInt(2000));
+		 if(robot == null){
+		 }else{
+			 boolean issucc =false;
+			 
+			 issucc=robot.testFixEquip(1,0,0,7);
+			 System.out.println("@@@@@@@@@@@test" + issucc);			 
+		 }
 		 
 		 
 		//5-27新增部分

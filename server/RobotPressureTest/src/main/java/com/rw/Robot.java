@@ -885,8 +885,12 @@ public class Robot {
 	 */
 	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
 		additem(806511);//进化材料
-		additem(806523);//升星材料
+		additem(806553);//升星材料
 		additem(806501);//下两格经验材料
+		upgrade(50);
+		addCoin(9999999);
+		addGold(88888);
+		additem(806552);//特殊装升星材料
 		boolean issuc = false;
 		if(type == 0){
 			issuc=FixEquipHandler.instance().doEquip(client,heronumber,expequipId, servicetype);
