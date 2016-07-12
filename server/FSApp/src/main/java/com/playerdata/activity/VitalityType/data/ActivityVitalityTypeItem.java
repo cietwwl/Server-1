@@ -90,6 +90,7 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		}
 		lastTime = System.currentTimeMillis();
 		activeCount = 0;
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

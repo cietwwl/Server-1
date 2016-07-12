@@ -36,7 +36,7 @@ public enum ActivityRedPointEnum {
 	FIGHTING("1001",ActivityTypeEnum.ActivityRankType),//战力大比拼
 	ARENA("1002",ActivityTypeEnum.ActivityRankType),//竞技之王
 	
-	DailyDiscount("1101",ActivityTypeEnum.ActivityDiscountType);//超值欢乐购	
+	DailyDiscount("1101",ActivityTypeEnum.ActivityDailyDiscountType);//超值欢乐购	
 	
 	private String cfgId;
 	

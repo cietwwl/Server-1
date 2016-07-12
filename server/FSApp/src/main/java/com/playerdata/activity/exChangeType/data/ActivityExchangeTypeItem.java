@@ -71,6 +71,7 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 		this.closed = false;
 		this.version = targetCfg.getVersion();
 		subItemList = list;
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

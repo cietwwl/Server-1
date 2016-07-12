@@ -136,5 +136,6 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		this.subItemList = ActivityDailyDiscountTypeCfgDAO.getInstance().newSubItemList(
 						ActivityDailyDiscountTypeEnum.getById(targetCfg.getId()));
+		isTouchRedPoint = false;
 	}
 }

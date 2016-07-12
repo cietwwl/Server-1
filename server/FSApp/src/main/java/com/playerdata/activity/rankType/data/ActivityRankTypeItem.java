@@ -133,5 +133,6 @@ public class ActivityRankTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		this.reward = null;
 		this.emailId=null;
+		this.isTouchRedPoint = false;
 	}	
 }

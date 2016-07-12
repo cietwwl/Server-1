@@ -76,6 +76,7 @@ public class ActivityDailyTypeItem implements  IMapItem {
 		version = cfg.getVersion();
 		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList());
 		lastTime = System.currentTimeMillis();
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

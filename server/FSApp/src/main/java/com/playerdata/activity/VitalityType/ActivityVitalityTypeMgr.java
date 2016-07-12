@@ -11,6 +11,8 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
@@ -25,10 +27,11 @@ import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 
 
-public class ActivityVitalityTypeMgr {
+public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityVitalityTypeMgr instance = new ActivityVitalityTypeMgr();
 
@@ -430,6 +433,26 @@ public class ActivityVitalityTypeMgr {
 		
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());
+		
+	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityVitalityItemHolder activityCountTypeItemHolder = new ActivityVitalityItemHolder();
+		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(eNum.getCfgId());
+		if(vitalityEnum == null){
+			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityVitalityTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),vitalityEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}
 		
 	}
 

@@ -32,7 +32,8 @@ public enum LogModule {
 	GroupChamp("帮派竞技"),
 	GroupSecret("帮派秘境"),
 	MagicSecret("法宝秘境"),
-	GroupFightOnline("在线帮派战斗"),
+	GroupFightOnline("在线帮派战斗"), 
+	RedPoint("红点"),
 	;
 	
 	private String name;

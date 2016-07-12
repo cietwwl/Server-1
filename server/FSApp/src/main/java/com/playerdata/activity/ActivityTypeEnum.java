@@ -8,5 +8,5 @@ public enum ActivityTypeEnum {
 	ActivityVitalyType,
 	ActivityExchangeType,
 	ActivityRankType,
-	ActivityDiscountType,
+	ActivityDailyDiscountType,
 }

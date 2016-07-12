@@ -11,6 +11,7 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
@@ -27,7 +28,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 
-public class ActivityCountTypeMgr {
+public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityCountTypeMgr instance = new ActivityCountTypeMgr();
 
@@ -254,6 +255,9 @@ public class ActivityCountTypeMgr {
 
 	}
 
+
+
+	
 	public void updateRedPoint(Player player, ActivityRedPointEnum target) {
 		ActivityCountTypeItemHolder activityCountTypeItemHolder = new ActivityCountTypeItemHolder();
 		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(target.getCfgId());
@@ -271,4 +275,5 @@ public class ActivityCountTypeMgr {
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}		
 	}
+	
 }
