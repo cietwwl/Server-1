@@ -102,8 +102,10 @@ public class CopyHandler {
 						RobotLog.fail("CopyHandler[send] 转换响应消息为null");
 						return false;
 					}
-
+					
 					EResultType result = rsp.getEResultType();
+					RobotLog.fail("CopyHandler[send] battleItemsBack 服务器处理消息结果 "
+							+ result + "|userId:" + client.getUserId());
 					if (result != EResultType.ITEM_BACK && result != EResultType.NOT_ENOUGH_TIMES) {
 						RobotLog.fail("CopyHandler[send] 服务器处理战前申请消息失败 " + result);
 						return false;
@@ -140,30 +142,35 @@ public class CopyHandler {
 			}
 
 			@Override
-			public boolean execute(Client client, Response response) {
-				ByteString serializedContent = response.getSerializedContent();
-				try {
+					public boolean execute(Client client, Response response) {
+						ByteString serializedContent = response
+								.getSerializedContent();
+						try {
 
-					MsgCopyResponse rsp = MsgCopyResponse.parseFrom(serializedContent);
-					if (rsp == null) {
-						RobotLog.fail("CopyHandler[send] 转换响应消息为null");
-						return false;
+							MsgCopyResponse rsp = MsgCopyResponse
+									.parseFrom(serializedContent);
+							if (rsp == null) {
+								RobotLog.fail("CopyHandler[send] 转换响应消息为null");
+								return false;
+							}
+
+							EResultType result = rsp.getEResultType();
+							RobotLog.fail("CopyHandler[send] battleClear 服务器处理消息结果 "
+									+ result + "|userId:" + client.getUserId());
+							if (result != EResultType.BATTLE_CLEAR
+									&& result != EResultType.NOT_ENOUGH_TIMES) {
+								RobotLog.fail("CopyHandler[send] 服务器处理申请战斗结束消息失败 "
+										+ result);
+								return false;
+							}
+
+						} catch (InvalidProtocolBufferException e) {
+							RobotLog.fail("CopyHandler[send] 申请战斗结束失败", e);
+							return false;
+						}
+						RobotLog.info("copyhandler[send]申请战斗结束成功");
+						return true;
 					}
-
-					EResultType result = rsp.getEResultType();
-					RobotLog.fail("CopyHandler[send] 服务器处理消息结果 " + result);
-					if (result != EResultType.BATTLE_CLEAR) {
-						RobotLog.fail("CopyHandler[send] 服务器处理申请战斗结束消息失败 " + result);
-						return false;
-					}
-
-				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("CopyHandler[send] 申请战斗结束失败", e);
-					return false;
-				}
-				RobotLog.info("copyhandler[send]申请战斗结束成功");
-				return true;
-			}
 
 		});
 		return success;		

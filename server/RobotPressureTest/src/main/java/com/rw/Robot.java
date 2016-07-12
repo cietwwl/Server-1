@@ -46,8 +46,8 @@ import com.rw.handler.magicSecret.MagicSecretHandler;
 import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.peakArena.PeakArenaHandler;
 import com.rw.handler.platform.PlatformHandler;
-import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
+import com.rw.handler.sign.SignHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
@@ -727,7 +727,10 @@ public class Robot {
 			return true;
 		}
 
-		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
+		boolean clearCd = clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
+		if(!clearCd){
+			return true;
+		}
 		boolean result;
 		result = CopyHandler.getHandler().battleItemsBack(client, CopyType.COPY_TYPE_TRIAL_JBZD);
 		if (result) {
