@@ -239,7 +239,7 @@ public class ZoneInfoCache {
 	}
 
 	public void setCloseTips(String closeTips) {
-		if(!this.closeTips.equals(closeTips)){
+		if(this.closeTips == null || !this.closeTips.equals(closeTips)){
 			this.closeTips = closeTips;
 			blnUpdate = true;
 		}
