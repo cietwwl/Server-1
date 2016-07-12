@@ -14,6 +14,10 @@ public class FightingMember {
 		original = timeout;
 	}
 	
+	public int originalTimeOut(){
+		return original;
+	}
+	
 	protected void resetTimeout(){
 		timeout = original;
 	}
@@ -68,6 +72,7 @@ public class FightingMember {
 	public synchronized void setNotFighting() {
 		this.inFightState = false;
 		this.lastFightTime = 0;
+		timeout = original;
 	}
 
 	public long getLastFightTime() {

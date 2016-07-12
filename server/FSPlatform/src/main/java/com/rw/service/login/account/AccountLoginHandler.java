@@ -1,11 +1,6 @@
 package com.rw.service.login.account;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,11 +11,9 @@ import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
-import com.rw.common.GameUtil;
 import com.rw.fsutil.util.TextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
-import com.rw.platform.PlatformService;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.ILog;
 import com.rw.service.log.LogService;
@@ -252,11 +245,25 @@ public class AccountLoginHandler {
 		}
 		EServerStatus eServerStatus = EServerStatus.getStatus(status);
 		zoneInfo.setStatus(status);
+		zoneInfo.setTips(getServerStatusTips(zone, status));
 		zoneInfo.setRecommand(zone.getRecommand());
 		zoneInfo.setIsOpen(zone.getIsOpen(eServerStatus.getStatusId()) ? 1 : 0);
 		zoneInfo.setColor(zone.getStatusColor(eServerStatus.getStatusId()));
 
 		return zoneInfo.build();
+	}
+	
+	private String getServerStatusTips(ZoneInfoCache zone, String status) {
+		if (status.equals("关闭")) {
+			String closeTips = zone.getCloseTips();
+			if (StringUtils.isEmpty(closeTips)) {
+				return "服务器" + status + "中...";
+			} else {
+				return closeTips;
+			}
+		} else {
+			return "服务器" + status + "中...";
+		}
 	}
 
 	private boolean isIllegalAccount(String accountId) {

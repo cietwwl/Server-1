@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,8 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.mysql.jdbc.TimeUtil;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.StoreMgrIF;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.RandomUtil;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -358,7 +361,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			break;
 		case Always:
 			List<CommodityData> commodity = pStoreCell.getCommodity();
-			if (pStoreCell.getVersion() != cfg.getVersion() || checkCommodityDataExpire(commodity)) {
+			if (pStoreCell.getVersion() != cfg.getVersion() || checkCommodityDataExpire(commodity, cfg)) {
 				List<CommodityData> randomList = RandomList(type);
 				int rightSize = getStoreCommodityListLength(type);
 				if(randomList.size() != rightSize){
@@ -377,11 +380,14 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		return pStoreCell;
 	}
 	
-	private boolean checkCommodityDataExpire(List<CommodityData> commodity){
+	private boolean checkCommodityDataExpire(List<CommodityData> commodity, StoreCfg storeCfg){
 		
 		for (CommodityData commodityData : commodity) {
 			CommodityCfg cfgById = CommodityCfgDAO.getInstance().getCfgById(String.valueOf(commodityData.getId()));
 			if(cfgById == null){
+				return true;
+			}
+			if(cfgById.getStoreId() != storeCfg.getId()){
 				return true;
 			}
 		}
@@ -395,20 +401,28 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		Date today = new Date();
 		Date lastDay = new Date(vo.getLastRefreshTime());
-		int todaySec = today.getHours() * 3600 + today.getMinutes() * 60 + today.getSeconds();
-		int lastSec = lastDay.getHours() * 3600 + lastDay.getMinutes() * 60 + lastDay.getSeconds();
+		long lastDayTime = lastDay.getTime();
+		long todayTime = today.getTime();
 		if (cfg.getAutoRetime().length() < 5) {
 			m_pPlayer.NotifyCommonMsg("StoreCfg表id为" + cfg.getId() + "的项AutoRetime配置错误 “00:00”");
 			return vo;
 		}
 
+		Calendar ctoday = DateUtils.getDayZeroCalendar(todayTime);
+		Calendar clastDay = DateUtils.getDayZeroCalendar(lastDayTime);
+		
 		String[] timeArr = cfg.getAutoRetime().split("_");
 		for (String time : timeArr) {
 			int hour = Integer.parseInt(time.substring(0, 2));
 			int min = Integer.parseInt(time.substring(3, 5));
-			int sec = hour * 3600 + min * 60;
-			if ((today.getDate() != lastDay.getDate() && todaySec >= sec) || (today.getDate() == lastDay.getDate() && todaySec >= sec && lastSec < sec)) {
-				// 刷新
+			ctoday.set(Calendar.HOUR_OF_DAY, hour);
+			ctoday.set(Calendar.MINUTE, min);
+			long todayUpdateTime = ctoday.getTimeInMillis();
+			clastDay.set(Calendar.HOUR_OF_DAY, hour);
+			clastDay.set(Calendar.MINUTE, min);
+			long lastUpdateTime = clastDay.getTimeInMillis();
+			
+			if((lastDayTime < lastUpdateTime && todayTime >= lastUpdateTime) || (lastDayTime < todayUpdateTime && todayTime >= todayUpdateTime)){
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
 				storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());

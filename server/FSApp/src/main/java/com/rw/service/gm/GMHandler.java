@@ -162,6 +162,7 @@ public class GMHandler {
 		funcCallBackMap.put("setbattletowerfloor", "setBattleTowerFloor");
 		funcCallBackMap.put("endbtsweep", "endBTsweep");
 		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
+		funcCallBackMap.put("setbtkey", "setBattleTowerKey");
 
 		// 道术
 		funcCallBackMap.put("setalltaoist", "setAllTaoist");
@@ -219,6 +220,22 @@ public class GMHandler {
 		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
 		GameLog.info("GM", "endBTsweep ", "finished", null);
+		return result;
+	}
+	
+	public boolean setBattleTowerKey(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerKey", "start", null);
+		boolean result = true;
+		TableBattleTowerDao dao = TableBattleTowerDao.getDao();
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
+		int count = Integer.parseInt(arrCommandContents[0]);
+		// 更新数据
+		tableBattleTower.setCopper_key(count);
+		tableBattleTower.setGold_key(count);
+		tableBattleTower.setSilver_key(count);
+		dao.update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerKey ", "finished", null);
 		return result;
 	}
 
