@@ -43,12 +43,37 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
+	@CombineSave
+	private long redPointLastTime;
+	
+	
+	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+
 	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
 		closed = false;
 		count=0;
 		version = cfg.getVersion();
 		subItemList = sublist;
-		
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

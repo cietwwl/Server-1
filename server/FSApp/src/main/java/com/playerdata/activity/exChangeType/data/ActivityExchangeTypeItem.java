@@ -33,15 +33,38 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private boolean closed = false;
-
 	
 	@CombineSave
 	private List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
+	
 	@CombineSave
 	private long lasttime;
 	
 	@CombineSave
 	private String version ;
+	
+	@CombineSave
+	private long redPointLastTime;	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
 	
 	/**版本刷新*/
 	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){

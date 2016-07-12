@@ -32,10 +32,28 @@ public class ActivityRateTypeItem implements IMapItem {
 	@CombineSave
 	private int multiple;
 	
+	@CombineSave
+	private long redPointLastTime;	
 	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
 	
-
-
 	public int getMultiple() {
 		return multiple;
 	}

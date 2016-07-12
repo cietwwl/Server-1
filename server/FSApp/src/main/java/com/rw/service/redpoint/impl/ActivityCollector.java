@@ -86,6 +86,10 @@ public class ActivityCollector implements RedPointCollector{
 			if(targetItem==null){
 				continue;
 			}
+			if(!targetItem.isTouchRedPoint()){
+				activityList.add(cfg.getId());
+				continue;
+			}
 			List<ActivityCountTypeSubItem> subitemlist = targetItem.getSubItemList();
 			for(ActivityCountTypeSubItem subitem:subitemlist){
 				if(subitem.getCount()<=targetItem.getCount()&&!subitem.isTaken()){
