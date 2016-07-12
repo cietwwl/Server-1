@@ -20,36 +20,22 @@ public class FixExpEquipDataItemHolder{
 	
 private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolder<FixExpEquipDataItem>(FixExpEquipDataItem.class);
 	
-	private  List<String> equiplist = new ArrayList<String>();
+
+	private  Map<Integer, String> equipMap = new HashMap<Integer, String>();
 	
 	private static FixExpEquipDataItemHolder instance = new FixExpEquipDataItemHolder();
 	private static int num ;
 	public static FixExpEquipDataItemHolder getInstance(){
 		return instance;
-	}
-	
+	}	
 
-
-
-
-
-	public List<String> getEquiplist() {
-		return equiplist;
+	public Map<Integer, String> getEquipMap() {
+		return equipMap;
 	}
 
-
-
-
-
-
-	public void setEquiplist(List<String> equiplist) {
-		this.equiplist = equiplist;
+	public void setEquipMap(Map<Integer, String> equipMap) {
+		this.equipMap = equipMap;
 	}
-
-
-
-
-
 
 	public void syn(MsgDataSyn msgDataSyn){
 		listHolder.Syn(msgDataSyn);
@@ -57,10 +43,27 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 		
 		for(FixExpEquipDataItem item : itemList){
 			String tmp = item.getOwnerId()+"_"+item.getCfgId();
-			equiplist.add(tmp);
+			equipMap.put(num, tmp);
+			
+			if(num%2==1){
+				check();
+			}			
 			num++;
 		}
-		num++;
+	}
+
+	private void check() {
+		String tmp0 = equipMap.get(num-1);
+		String tmp1 = equipMap.get(num);
+		int itemId0 = Integer.parseInt(tmp0.split("_")[1]);
+		int itemId1 = Integer.parseInt(tmp1.split("_")[1]);
+		if(itemId0 > itemId1){
+			//倒着发过来
+			equipMap.remove(num);
+			equipMap.remove(num-1);
+			equipMap.put(num-1, tmp1);
+			equipMap.put(num, tmp0);
+		}		
 	}
 	
 }

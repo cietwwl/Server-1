@@ -26,7 +26,6 @@ public class FixNormEquipDataItemHolder{
 	
 	private static FixNormEquipDataItemHolder instance = new FixNormEquipDataItemHolder();
 	
-	private static int num ;
 	public static FixNormEquipDataItemHolder getInstance(){
 		return instance;
 	}
@@ -50,7 +49,6 @@ public class FixNormEquipDataItemHolder{
 		for(FixNormEquipDataItem item : itemList){
 			String tmp = item.getId();
 			equiplist.add(tmp);
-			num++;
 		}
 	}
 		

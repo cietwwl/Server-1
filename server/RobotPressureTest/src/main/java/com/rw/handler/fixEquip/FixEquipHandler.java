@@ -40,11 +40,15 @@ public class FixEquipHandler {
 			for(int i=0;i< 4;i++){
 				issucc = doLevelUpOneKey(client,heronum,i);
 			}
-		}else if(type == Norm_quality_up){			
+		}else if(type == Norm_quality_up){	
+			for(int i=0;i< 4;i++){
+				doLevelUpOneKey(client,heronum,i);
+			}
 			issucc = doQualityUp(client,heronum,equipid);
 		}else if(type == Norm_star_up){			
 			issucc = doStarUp(client,heronum,equipid);
 		}else if(type == Norm_star_down){
+			issucc=doStarUp(client,heronum,equipid);
 			issucc = doStarDown(client,heronum,equipid);
 		}
 		return issucc;

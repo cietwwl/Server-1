@@ -915,10 +915,17 @@ public class Robot {
 	 * @param servicetype 操作类型；普通装备支持15234；特殊装备支持6789
 	 * @return
 	 */
-	public boolean testFixEquip(int type, int heronumber, int expequipId, int servicetype) {
-		additem(806511);// 进化材料
-		additem(806523);// 升星材料
-		additem(806501);// 下两格经验材料
+	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
+		upgrade(50);
+		addCoin(9999999);
+		addGold(88888);
+		additem(806511);//进化材料
+		additem(806553);//升星材料
+		
+		additem(806505);//下←格经验材料
+		additem(806510);//下右格经验材料
+		additem(806551);//←升级别材料
+		additem(806552);//右升级
 		boolean issuc = false;
 		if (type == 0) {
 			issuc = FixEquipHandler.instance().doEquip(client, heronumber, expequipId, servicetype);
