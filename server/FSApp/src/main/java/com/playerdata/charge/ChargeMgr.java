@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -48,7 +47,7 @@ public class ChargeMgr {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
 		if(dataItem == null){
-			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
+//			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
 			return false;
 		}
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
@@ -321,7 +320,34 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+	
+	
+	public ChargeResult buyMonthCardByGm(Player player, String chargeItemId) {
+		ChargeResult result = ChargeResult.newResult(false);
+		result.setTips("配置表异常");
+		
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeItemId);
 
+		if (target != null) {
+			List<ActivityTimeCardTypeSubCfg> timeCardList = ActivityTimeCardTypeSubCfgDAO
+					.getInstance().getAllCfg();
+			for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
+				if (timecardcfg.getChargeType() == target.getChargeType()) {
+					result = buyMonthCard(player, timecardcfg.getId());
+					break;
+				}
+			}
+		}else{
+			result.setSuccess(false);
+			result.setTips("没这个商品");
+		}
+		
+		return result;
+	}
+
+	
+	
+	
 	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
@@ -386,6 +412,7 @@ public class ChargeMgr {
 		}
 		return result;
 	}
+
 
 	
 	

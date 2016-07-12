@@ -34,6 +34,15 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
@@ -224,6 +233,44 @@ public class ActivityCollector implements RedPointCollector{
 				}				
 			}
 		}
+//      ----------------------------------
+		ActivityDailyDiscountTypeItemHolder dailyDiscountDataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		List<ActivityDailyDiscountTypeCfg> dailyDiscountAllCfgList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
+		boolean isRed = false;
+		for(ActivityDailyDiscountTypeCfg cfg : dailyDiscountAllCfgList){
+			if(!ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
+				continue;
+			}
+			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getId());
+			if (dailyDiscountEnum == null) {
+				continue;
+			}
+			ActivityDailyDiscountTypeItem targetItem = dailyDiscountDataHolder.getItem(player.getUserId(), dailyDiscountEnum);
+			if(targetItem==null){
+				continue;
+			}
+			List<ActivityDailyDiscountTypeSubItem> dailyDiscountSubitemlist= targetItem.getSubItemList();
+			for(ActivityDailyDiscountTypeSubItem subitem:dailyDiscountSubitemlist){
+				if(isRed){
+					break;
+				}
+				if(!ActivityDailyDiscountTypeMgr.getInstance().isLevelEnough(player, dailyDiscountEnum)){
+					continue;
+				}
+				ActivityDailyDiscountItemCfg itemCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(subitem.getCfgId());
+				if(!ActivityDailyDiscountTypeMgr.getInstance().isCountEnough(subitem.getCount(), itemCfg)){
+					continue;
+				}
+				if(!ActivityDailyDiscountTypeMgr.getInstance().isGoldEnough(player, itemCfg)){
+					continue;
+				}
+				activityList.add(cfg.getId());
+				isRed = true;
+				break;
+			}			
+		}
+		
+		
 		
 		
 //		if (!activityList.isEmpty()) {

@@ -512,16 +512,14 @@ public class Player implements PlayerIF {
 			onNewDayZeroTimeAction = PlayerTimeActionHelper.onNewDayZero(this);
 		}
 
-		if (isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
+		if (DateUtils.isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime(now);
 			onNewDayZeroTimeAction.doAction();
 		}
 	}
 
-	private boolean isNewDayHour(int hour, long lastResetTime) {
-		return DateUtils.getCurrentHour() >= hour && DateUtils.dayChanged(lastResetTime);
-	}
+	
 
 	private TimeAction onNewDay5ClockTimeAction;
 
@@ -536,7 +534,7 @@ public class Player implements PlayerIF {
 			onNewDay5ClockTimeAction = PlayerTimeActionHelper.onNewDay5ClockTimeAction(this);
 		}
 
-		if (isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
+		if (DateUtils.isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
@@ -751,7 +749,7 @@ public class Player implements PlayerIF {
 			addPower(addpower);
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
-			MagicChapterInfoHolder.getInstance().getItemList(this);
+			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());

@@ -13,10 +13,24 @@ import com.rwbase.dao.item.pojo.ItemData;
 
 class ArmySimpleInfoHelper {
 
-	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId,List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = player.getMagic();
 
+		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
+		return armyInfoSimple;
+	}
+	
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+
+		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = player.getItemBagMgr().findBySlotId(magicID);
+		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
+		return armyInfoSimple;
+	}
+
+	private static ArmyInfoSimple build(List<String> heroIdList, Player player, ItemData magic) {
 		Hero mainRoleHero = player.getMainRoleHero();
 		ArmyHeroSimple armyPlayer = ArmyHeroSimple.newInstance(mainRoleHero);
 
@@ -26,10 +40,10 @@ class ArmySimpleInfoHelper {
 		armyInfoSimple.setPlayerHeadImage(player.getHeadImage());
 		
 
-		ItemData magic = player.getMagic();
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
 		}
+		
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);

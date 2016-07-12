@@ -2,12 +2,21 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "RedPointServiceProtos";
 
+enum RequestType
+{
+	RT_ALL, //主动请求刷新所有红点
+	RT_ONE, //主动请求刷新一个红点
+}
+
 message RedPointServiceRequest
 {
-	
+	required RequestType reqType = 1;
+	optional int32 id = 2;
+	optional string extraInfo = 3;
 }	
 
 message RedPointServiceResponse
 {
-	
+	required RequestType respType = 1;
+	required bool isSuccess = 2;
 }

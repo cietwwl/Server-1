@@ -1,6 +1,5 @@
 package com.rw.manager;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.springframework.core.io.ClassPathResource;
