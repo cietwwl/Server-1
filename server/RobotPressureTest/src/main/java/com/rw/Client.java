@@ -31,6 +31,7 @@ import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
 import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.majordata.MajorDataholder;
+import com.rw.handler.player.UserGameDataHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.taoist.TaoistDataHolder;
@@ -103,6 +104,8 @@ public class Client {
 	private CopyHolder copyHolder = new CopyHolder();
 	
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
+	
+	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 
 	// last seqId
 	// private volatile int lastSeqId;
@@ -342,6 +345,14 @@ public class Client {
 	
 	
 	
+	public void setUserGameDataHolder(UserGameDataHolder userGameDataHolder) {
+		this.userGameDataHolder = userGameDataHolder;
+	}
+
+	public UserGameDataHolder getUserGameDataHolder() {
+		return userGameDataHolder;
+	}
+
 	public CopyHolder getCopyHolder() {
 		return copyHolder;
 	}
