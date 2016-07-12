@@ -32,6 +32,7 @@ public class TableZoneInfo {
 	private String intranetIp;   //内网ip
 	private String openTime;       //开服时间
 	private String gmPort;         //gm开放端口
+	private String closeTips;      //关闭提示语
 
 	public int getZoneId() {
 		return zoneId;
@@ -144,5 +145,11 @@ public class TableZoneInfo {
 	}
 	public void setGmPort(String gmPort) {
 		this.gmPort = gmPort;
+	}
+	public String getCloseTips() {
+		return closeTips;
+	}
+	public void setCloseTips(String closeTips) {
+		this.closeTips = closeTips;
 	}
 }
