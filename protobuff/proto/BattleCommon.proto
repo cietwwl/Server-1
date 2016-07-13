@@ -7,9 +7,11 @@ enum ePlayerType {
 	MAINPLAYER = 0; //主角
 	HIRE       = 1; //佣兵
 	MONSTER    = 2; //怪物
-    INVISIBLE_NPC = 3; //不可见Ncp用来放技能
-	SUMMON_NORMAL = 4; //普通召唤物
-	SUMMON_ANIMAL = 5; //小型召唤物
+	MONSTER_TINY_BOSS = 3; //小boss
+	MONSTER_LARGE_BOSS = 4; //大boss
+	INVISIBLE_NPC = 5; //不可见Ncp用来放技能
+	SUMMON_NORMAL = 6; //普通召唤物
+	SUMMON_ANIMAL = 7; //小型召唤物
 }
 
 enum ePlayerCamp {
