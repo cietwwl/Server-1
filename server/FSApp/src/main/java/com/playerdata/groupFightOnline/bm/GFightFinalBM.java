@@ -62,10 +62,6 @@ public class GFightFinalBM {
 		handleKillRankReward(resourceID);
 		//伤害排行奖励
 		handleHurtRankReward(resourceID);
-		//压标成功奖励
-		handleBidSuccess(resourceID);
-		//压标失败处理
-		handleBidFail(resourceID);
 		
 		//确定帮战胜利方
 		List<String> groupRankList = getRankGroupID(resourceID);
@@ -140,22 +136,6 @@ public class GFightFinalBM {
 	 */
 	private void handleFailGroup(String groupID){
 		GFightOnlineGroupMgr.getInstance().dispathchFailReward(groupID);
-	}
-	
-	/**
-	 * 个人压标成功的奖励
-	 * @param resourceID
-	 */
-	private void handleBidSuccess(int resourceID){
-		
-	}
-
-	/**
-	 * 个人压标失败的处理
-	 * @param resourceID
-	 */
-	private void handleBidFail(int resourceID){
-		
 	}
 	
 	/**

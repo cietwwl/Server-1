@@ -11,7 +11,6 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 

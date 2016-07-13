@@ -1,11 +1,19 @@
 package com.playerdata.groupFightOnline.bm;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
+import com.playerdata.groupFightOnline.data.GFBiddingItem;
+import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
@@ -15,6 +23,7 @@ import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -50,6 +59,87 @@ public class GFightPrepareBM {
 //		gfRsp.setRstType(GFResultType.SUCCESS);
 //	}
 
+	public void personalBidForGroup(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, String groupID, int rateID){
+		GFightBiddingCfg bidCgf = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(rateID));
+		if(bidCgf == null){
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("压标类型数据有误");
+			return;
+		}
+		
+		if(player.getVip() < bidCgf.getVip()){
+			gfRsp.setRstType(GFResultType.BID_VIP_UNREACH);
+			gfRsp.setTipMsg("玩家VIP等级不足");
+			return;
+		}
+		
+		String selfGroupID = GroupHelper.getUserGroupId(player.getUserId());
+		if(StringUtils.isNotBlank(selfGroupID)){
+			int selfGroupRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, selfGroupID);
+			if(selfGroupRank >=1 && selfGroupRank <= GFightConst.IN_FIGHT_MAX_GROUP){
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+				gfRsp.setTipMsg("参与决战的帮派成员不能参与压标");
+				return;
+			}
+		}
+		
+		int targetRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, groupID);
+		if(targetRank >=1 && targetRank <= GFightConst.IN_FIGHT_MAX_GROUP){
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("选择压标的帮派并没有参与该资源点的决战");
+			return;
+		}
+		
+		GFBiddingItem bidItem = GFBiddingItemHolder.getInstance().getItem(player, resourceID);
+		if(bidItem != null){
+			//已经压过标
+			if(!StringUtils.equals(bidItem.getBidGroup(), groupID)){
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+				gfRsp.setTipMsg("最多压标一个帮派");
+				return;
+			}else if(bidItem.getRateID() >= rateID){
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+				gfRsp.setTipMsg("不能降低压标倍率");
+				return;
+			}
+			//计算两次压标所需要的资源差
+			List<ItemInfo> hadCost = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(bidItem.getRateID())).getBidCost();
+			List<ItemInfo> cost = getDistanceBetweenTwo(bidCgf.getBidCost(), hadCost);
+			if(cost == null) {
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+				gfRsp.setTipMsg("压标资源消耗数据有误");
+				return;
+			}
+			//扣除压标资源
+			for(ItemInfo item : cost){
+				if(!player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum())){
+					gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+					gfRsp.setTipMsg("压标所需资源不够");
+					return;
+				}
+			}
+			bidItem.setRateID(rateID);
+			GFBiddingItemHolder.getInstance().updateItem(player, bidItem);
+		}else{
+			//还没有压标
+			for(ItemInfo item : bidCgf.getBidCost()){
+				if(!player.getItemBagMgr().addItem(item.getItemID(), -item.getItemNum())){
+					gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+					gfRsp.setTipMsg("压标所需资源不够");
+					return;
+				}
+			}
+			bidItem = new GFBiddingItem();
+			bidItem.setBiddingID(player.getUserId() + "_" + resourceID);
+			bidItem.setBidGroup(groupID);
+			bidItem.setResourceID(String.valueOf(resourceID));
+			bidItem.setUserID(player.getUserId());
+			bidItem.setRateID(rateID);
+			GFBiddingItemHolder.getInstance().addItem(player, bidItem);
+		}
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+	
 	/**
 	 * 请求同步有更新的帮派信息
 	 * @param player
@@ -120,5 +210,18 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg(e.getMessage());
 			GameLog.error(LogModule.GroupFightOnline.getName(), player.getUserId(), String.format("modifySelfDefender，修改个人防守队伍信息时，数据异常"), e);
 		}
+	}
+	
+	private List<ItemInfo> getDistanceBetweenTwo(List<ItemInfo> left, List<ItemInfo> right){
+		if(left == null || right == null || left.size() != right.size()) return null;
+		List<ItemInfo> result = new ArrayList<ItemInfo>();
+		for(int i = 0; i < left.size(); i++){
+			if(left.get(i).getItemID() != right.get(i).getItemID()) return null;
+			ItemInfo item = new ItemInfo();
+			item.setItemID(left.get(i).getItemID());
+			item.setItemNum(left.get(i).getItemNum() - right.get(i).getItemNum());
+			result.add(item);
+		}
+		return result;
 	}
 }

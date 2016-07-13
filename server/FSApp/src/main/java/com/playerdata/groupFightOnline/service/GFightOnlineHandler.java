@@ -15,7 +15,6 @@ import com.playerdata.groupFightOnline.bm.GFightPrepareBM;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFightResult;
-import com.playerdata.groupFightOnline.enums.GFRewardType;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -45,7 +44,7 @@ public class GFightOnlineHandler {
 	public ByteString personalBidding(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		gfRsp.setRstType(GFResultType.SUCCESS);
+		GFightPrepareBM.getInstance().personalBidForGroup(player, gfRsp, msgGFRequest.getResourceID(), msgGFRequest.getGroupID(), msgGFRequest.getSelfBidRate());
 		return gfRsp.build().toByteString();
 	}
 	
