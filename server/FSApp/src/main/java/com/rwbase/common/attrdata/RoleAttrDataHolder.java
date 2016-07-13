@@ -1,6 +1,6 @@
 package com.rwbase.common.attrdata;
 
-import com.common.BeanOperationHelper;
+import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -64,10 +64,9 @@ public class RoleAttrDataHolder {
 		AttrData baseData = calc.getBaseResult();
 		builder.setRoleBaseTotalData(baseData);
 
-		StringBuilder sb = new StringBuilder();
-		// String attrDesc = calc.getAttrDesc();
-		// System.err.println("获取的属性描述:" + attrDesc);
-		sb.append(calc.getAttrDesc()).append("\n");
+		// StringBuilder sb = new StringBuilder();
+		GameLog.info("模块的属性", player.getUserId(), calc.getAttrDesc());
+		// sb.append(calc.getAttrDesc()).append("\n");
 
 		// String baseAttrDesc = BeanOperationHelper.getPositiveValueDiscription(baseData);
 		// sb.append("角色固定值总属性>>>>>-").append(baseAttrDesc).append("\n");
@@ -76,11 +75,11 @@ public class RoleAttrDataHolder {
 		AttrData totalData = calc.getResult();
 		builder.setTotalData(totalData);
 
-		String totalAttrDesc = BeanOperationHelper.getPositiveValueDiscription(totalData);
-		sb.append("角色总属性>>>>>-").append(totalAttrDesc);
+		// String totalAttrDesc = BeanOperationHelper.getPositiveValueDiscription(totalData);
+		// sb.append("角色总属性>>>>>-").append(totalAttrDesc);
 		// GameLog.info("角色的总属性", "总属性", totalAttrDesc, null);
 
-		builder.setLog(sb.toString());
+		// builder.setLog(sb.toString());
 
 		// int oldFighting = heroAttrData == null ? 0 : heroAttrData.getFighting();
 		int calFighting = FightingCalculator.calFighting(hero, totalData);

@@ -566,9 +566,9 @@ public class RobotManager {
 			// 时装
 			List<String> fashions = cfg.getFashions();
 			if (fashions.size() >= 3) {
-				String[] fashionIdArr = new String[3];
+				int[] fashionIdArr = new int[3];
 				for (int i = 0; i < 3; i++) {
-					fashionIdArr[i] = fashions.get(i);
+					fashionIdArr[i] = Integer.parseInt(fashions.get(i));
 				}
 
 				robotData.setFashionId(fashionIdArr);
@@ -612,6 +612,8 @@ public class RobotManager {
 			}
 			// 额外属性
 			robotData.setExtraAttrId(cfg.getExtraAttrId());
+			// 把机器人这个配置数据放到数据库
+			ArenaRobotDataMgr.getMgr().addArenaRobotData(robotData);
 
 			player.getAttrMgr().reCal();
 			for (Hero hero : heroList) {

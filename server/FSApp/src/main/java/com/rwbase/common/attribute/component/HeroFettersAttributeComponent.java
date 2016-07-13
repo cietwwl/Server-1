@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.bm.arena.ArenaRobotDataMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.common.attribute.AttributeComponentEnum;
@@ -29,14 +30,20 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		// String userId = player.getUserId();
-		SynFettersData heroFetters = player.getHeroFettersByModelId(hero.getModelId());
-		if (heroFetters == null) {
-			// GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄没有激活的羁绊数据", hero.getUUId(), hero.getModelId()));
-			return null;
+		Map<Integer, SynConditionData> openMap = null;
+		if (!player.isRobot()) {
+			SynFettersData heroFetters = player.getHeroFettersByModelId(hero.getModelId());
+			if (heroFetters == null) {
+				// GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄没有激活的羁绊数据", hero.getUUId(), hero.getModelId()));
+				return null;
+			}
+
+			openMap = heroFetters.getOpenList();
+		} else {
+			openMap = ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModelId());
 		}
 
-		Map<Integer, SynConditionData> openList = heroFetters.getOpenList();
-		if (openList == null || openList.isEmpty()) {
+		if (openMap == null || openMap.isEmpty()) {
 			// GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄所有的羁绊都没有被激活过", hero.getUUId(), hero.getModelId()));
 			return null;
 		}
@@ -45,7 +52,7 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 		// 属性Map集合
 		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 
-		for (Entry<Integer, SynConditionData> e : openList.entrySet()) {
+		for (Entry<Integer, SynConditionData> e : openMap.entrySet()) {
 			SynConditionData conditionData = e.getValue();
 			if (conditionData == null) {
 				continue;

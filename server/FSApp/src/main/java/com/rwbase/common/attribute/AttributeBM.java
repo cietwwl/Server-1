@@ -19,6 +19,7 @@ import com.rwbase.common.attribute.calc.HeroMagicAttrCalc;
 import com.rwbase.common.attribute.calc.HeroSkillAttrCalc;
 import com.rwbase.common.attribute.component.HeroBaseAttributeComponent;
 import com.rwbase.common.attribute.component.HeroEquipAttributeComponent;
+import com.rwbase.common.attribute.component.HeroExtraAttributeComponent;
 import com.rwbase.common.attribute.component.HeroFashionAttributeComponent;
 import com.rwbase.common.attribute.component.HeroFettersAttributeComponent;
 import com.rwbase.common.attribute.component.HeroGemAttributeComponent;
@@ -62,6 +63,7 @@ public class AttributeBM {
 		componentList.add(new HeroTaoistAttributeComponent());
 		componentList.add(new FixExpEquipAttributeComponent());
 		componentList.add(new FixNormEquipAttributeComponent());
+		componentList.add(new HeroExtraAttributeComponent());
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();

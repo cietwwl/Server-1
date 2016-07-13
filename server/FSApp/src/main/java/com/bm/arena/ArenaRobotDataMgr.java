@@ -14,7 +14,12 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rwbase.dao.arena.TableArenaRobotDataDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotData;
+import com.rwbase.dao.arena.pojo.HeroFettersRobotInfo;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
+import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
+import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
+import com.rwbase.dao.fetters.pojo.cfg.template.FettersBaseTemplate;
+import com.rwbase.dao.fetters.pojo.cfg.template.FettersConditionTemplate;
 
 /*
  * @author HC
@@ -29,6 +34,14 @@ public class ArenaRobotDataMgr {
 	}
 
 	ArenaRobotDataMgr() {
+	}
+
+	public void addArenaRobotData(ArenaRobotData data) {
+		if (data == null) {
+			return;
+		}
+
+		TableArenaRobotDataDAO.getDAO().update(data);
 	}
 
 	/**
@@ -147,7 +160,97 @@ public class ArenaRobotDataMgr {
 		return fixNormEquipList;
 	}
 
-	public Map<Integer, SynConditionData> getHeroFettersInfo() {
-		return null;
+	/**
+	 * 获取机器人对应的羁绊数据
+	 * 
+	 * @param userId
+	 * @param heroModelId
+	 * @return
+	 */
+	public Map<Integer, SynConditionData> getHeroFettersInfo(String userId, int heroModelId) {
+		ArenaRobotData arenaRobotData = TableArenaRobotDataDAO.getDAO().get(userId);
+		if (arenaRobotData == null) {
+			return Collections.emptyMap();
+		}
+
+		HeroFettersRobotInfo[] fetters = arenaRobotData.getFetters();
+		if (fetters == null || fetters.length <= 0) {
+			return Collections.emptyMap();
+		}
+
+		FettersBaseCfgDAO cfgDAO = FettersBaseCfgDAO.getCfgDAO();
+		FettersConditionCfgDAO conditionCfgDAO = FettersConditionCfgDAO.getCfgDAO();
+
+		Map<Integer, SynConditionData> map = new HashMap<Integer, SynConditionData>();
+
+		for (int i = 0, len = fetters.length; i < len; i++) {
+			HeroFettersRobotInfo heroFettersRobotInfo = fetters[i];
+			if (heroFettersRobotInfo == null) {
+				continue;
+			}
+
+			String id = heroFettersRobotInfo.getId();
+			int level = heroFettersRobotInfo.getLevel();
+
+			int fettersId = Integer.parseInt(heroModelId + id);
+			FettersBaseTemplate baseTmp = cfgDAO.getFettersBaseTemplateById(fettersId);
+			if (baseTmp == null) {
+				continue;
+			}
+
+			// 检查羁绊条件
+			List<Integer> fettersConditionList = baseTmp.getFettersConditionList();
+			if (fettersConditionList == null || fettersConditionList.isEmpty()) {
+				continue;
+			}
+
+			SynConditionData synConditionData = new SynConditionData();
+			List<Integer> l = new ArrayList<Integer>();
+
+			for (int j = 0, size = fettersConditionList.size(); j < size; j++) {
+				FettersConditionTemplate conditionTmp = conditionCfgDAO.getFettersConditionListByIdAndLevel(fettersConditionList.get(j), level);
+				if (conditionTmp == null) {
+					continue;
+				}
+
+				l.add(conditionTmp.getUniqueId());
+			}
+
+			synConditionData.setConditionList(l);
+
+			map.put(fettersId, synConditionData);
+		}
+
+		return map;
+	}
+
+	/**
+	 * 时装信息：按照顺序是--->套装，翅膀，宠物
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int[] getFashionIdArr(String userId) {
+		ArenaRobotData arenaRobotData = TableArenaRobotDataDAO.getDAO().get(userId);
+		if (arenaRobotData == null) {
+			return null;
+		}
+
+		return arenaRobotData.getFashionId();
+	}
+
+	/**
+	 * 获取额外的属性Id
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int getExtraAttrId(String userId) {
+		ArenaRobotData arenaRobotData = TableArenaRobotDataDAO.getDAO().get(userId);
+		if (arenaRobotData == null) {
+			return -1;
+		}
+
+		return arenaRobotData.getExtraAttrId();
 	}
 }
