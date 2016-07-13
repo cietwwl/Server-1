@@ -94,7 +94,7 @@
      			<entry key="MSG_GROUP_SECRET_MATCH" value-ref="groupSecretServiceMatch" />
      			<entry key="MSG_GROUP_FIGHT_ONLINE" value-ref="gfightOnlineService" />
      			
-     			<entry key="MSG_REDPOINT" value-ref="redpointService" />
+     			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
      			
 			</map>
 		</property>
