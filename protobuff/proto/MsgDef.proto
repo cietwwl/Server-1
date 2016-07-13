@@ -86,9 +86,9 @@ enum Command {
 	MSG_ACTIVITY_VipDiscount_TYPE = 184;//通用活动七日VIp折扣
 	MSG_ACTIVITY_RedEnvelope_TYPE = 185;//通用活动开服红包
 	
-	MSG_GROUP_COPY_ADMIN = 184;//帮派副本管理
-	MSG_GROUP_COPY_BATTLE = 185;//帮派副本战斗
-	MSG_GROUP_COPY_CMD = 186;//帮派副本协议
+	MSG_GROUP_COPY_ADMIN = 186;//帮派副本管理
+	MSG_GROUP_COPY_BATTLE = 187;//帮派副本战斗
+	MSG_GROUP_COPY_CMD = 188;//帮派副本协议
 	
 	
 	MSG_TAOIST = 200;//道术系统
