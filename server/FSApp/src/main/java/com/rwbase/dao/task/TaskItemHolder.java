@@ -119,7 +119,7 @@ public class TaskItemHolder {
 		List<TaskItem> itemList = getItemList();
 		for (TaskItem taskItem : itemList) {
 			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(taskItem.getTaskId());
-			System.out.println("+++++++++，id:" + taskItem.getTaskId() + ",desc:" + cfg.getDesc() );
+//			System.out.println("+++++++++，id:" + taskItem.getTaskId() + ",desc:" + cfg.getDesc() );
 		}
 		ClientDataSynMgr.synDataList(player, itemList, dataSynType, eSynOpType.UPDATE_LIST);
 	}
