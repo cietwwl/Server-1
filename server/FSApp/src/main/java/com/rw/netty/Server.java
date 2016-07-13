@@ -63,6 +63,7 @@ public class Server {
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+			serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
 			serverBootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup);
 			serverBootstrap.channel(NioServerSocketChannel.class);
