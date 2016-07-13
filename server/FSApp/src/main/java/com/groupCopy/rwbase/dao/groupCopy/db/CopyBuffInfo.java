@@ -54,7 +54,6 @@ public class CopyBuffInfo {
 
 
 	public void clear() {
-		
 		totalBuff = 0;
 		buffMap.clear();
 	}

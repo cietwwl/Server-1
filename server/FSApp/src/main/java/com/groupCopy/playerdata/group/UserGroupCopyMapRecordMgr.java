@@ -39,7 +39,6 @@ public class UserGroupCopyMapRecordMgr {
 
 
 	public void resetDataInNewDay() {
-		
 		holder.resetFightCount();
 	}
 	

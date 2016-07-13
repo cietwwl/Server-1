@@ -19,7 +19,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class UserGroupCopyMapRecordHolder{
 	
-	private final int COPY_FIGHT_COUT = 2;//帮派副本每天进入次数
 	final private String userId;
 	
 	final private AtomicInteger dataVersion = new AtomicInteger(0);
@@ -106,7 +105,8 @@ public class UserGroupCopyMapRecordHolder{
 	public void resetFightCount() {
 		List<UserGroupCopyMapRecord> list = getItemList();
 		for (UserGroupCopyMapRecord record : list) {
-			record.setLeftFightCount(COPY_FIGHT_COUT);
+			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(record.getChaterID());
+			record.setLeftFightCount(cfg.getEnterCount());
 		}
 		update();
 	}
