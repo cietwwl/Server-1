@@ -154,6 +154,7 @@ public class GambleLogicHelper {
 		if (cfg != null){
 			return cfg.getRoleId();
 		}
+		GameLog.error("钓鱼台", "", "魂石没有对应的RoleCfg可抽英雄配置,ID="+soulCfg.getComposeTargetId());
 		return soulCfg.getComposeTargetId()+"_"+star;
 	}
 	
