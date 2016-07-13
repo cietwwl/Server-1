@@ -15,6 +15,7 @@ import com.playerdata.activity.ActivityComResult;
 
 
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -24,7 +25,6 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
-
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -124,7 +124,7 @@ public class ActivityExchangeTypeMgr {
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}
-			if(DateUtils.isNewDayHour(5,targetItem.getLasttime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){

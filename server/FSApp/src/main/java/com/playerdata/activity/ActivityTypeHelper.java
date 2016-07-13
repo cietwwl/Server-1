@@ -33,6 +33,24 @@ public class ActivityTypeHelper {
 		return day;
 	}
 	
-	
+	/**玩家的5点刷新方法;*/
+	public static boolean isNewDayHourOfActivity(int hour,long lastResetTime){
+		if(DateUtils.getCurrentHour() >= hour){
+			if(DateUtils.getinHour(lastResetTime)< hour){
+				return true;
+			}
+			if(DateUtils.dayChanged(lastResetTime)){//都大于5点要隔天
+				return true;
+			}
+		}else{
+			if(DateUtils.getinHour(lastResetTime)< hour&&DateUtils.dayChanged(lastResetTime)){
+				return true;
+			}
+			if(DateUtils.getAbsoluteHourDistance(lastResetTime, System.currentTimeMillis())>=24){//后小于前大于，要隔两天以上
+				return true;
+			}			
+		}		
+		return false;
+	}
 	
 }

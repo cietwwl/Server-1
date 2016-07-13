@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
@@ -27,7 +28,7 @@ public class ActivityRedEnvelopeTypeMgr {
 
 	private static ActivityRedEnvelopeTypeMgr instance = new ActivityRedEnvelopeTypeMgr();
 
-
+	private final static int MAKEUPEMAIL = 10055;
 
 	public static ActivityRedEnvelopeTypeMgr getInstance() {
 		return instance;
@@ -113,7 +114,7 @@ public class ActivityRedEnvelopeTypeMgr {
 			return;
 		}
 		
-		if (DateUtils.isNewDayHour(5,item.getLastTime())) {					
+		if (ActivityTypeHelper.isNewDayHourOfActivity(5,item.getLastTime())) {					
 			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());					
 			item.resetByOtherday(cfg, day);
 			dataHolder.updateItem(player, item);
@@ -138,11 +139,21 @@ public class ActivityRedEnvelopeTypeMgr {
 		}
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = item.getSubItemList();
 		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			item.setGoldCount(item.getGoldCount() + subItem.getCount());
+			item.setGoldCount(item.getGoldCount() + subItem.getCount()/10);
 		}
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		map.put(eSpecialItemId.Gold.getValue(), item.getGoldCount());
-		player.getItemBagMgr().useLikeBoxItem(null, null, map);
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if(cfg == null){
+			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "派发奖励替换文字的时候取不到cfg", null);
+		return;
+		}
+		
+		String reward = eSpecialItemId.Gold.getValue() +"_"+item.getGoldCount();
+		ComGiftMgr.getInstance().addtagInfoTOEmail(player, reward, MAKEUPEMAIL+"", cfg.getEmailTitle());
+		
+		
+//		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+//		map.put(eSpecialItemId.Gold.getValue(), item.getGoldCount());
+//		player.getItemBagMgr().useLikeBoxItem(null, null, map);
 		item.setIstaken(true);
 		dataHolder.updateItem(player, item);
 	}
@@ -218,7 +229,7 @@ public class ActivityRedEnvelopeTypeMgr {
 
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
 		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount());
+			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount()/10);
 		}
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(eSpecialItemId.Gold.getValue(), dataItem.getGoldCount());

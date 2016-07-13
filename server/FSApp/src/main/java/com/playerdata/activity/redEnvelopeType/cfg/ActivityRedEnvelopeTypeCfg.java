@@ -21,7 +21,7 @@ public class ActivityRedEnvelopeTypeCfg {
 	
 	private long getRewardsTime;
 	
-
+	private String emailTitle;
 
 
 	public String getId() {
@@ -38,6 +38,14 @@ public class ActivityRedEnvelopeTypeCfg {
 
 	
 
+
+	public String getEmailTitle() {
+		return emailTitle;
+	}
+
+	public void setEmailTitle(String emailTitle) {
+		this.emailTitle = emailTitle;
+	}
 
 	public String getVersion() {
 		return version;

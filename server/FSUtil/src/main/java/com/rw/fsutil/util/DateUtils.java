@@ -32,6 +32,8 @@ public class DateUtils {
 		return getCurrent().get(Calendar.HOUR_OF_DAY);
 	}
 
+	
+	
 	private static final long DAY_MILLIS = TimeUnit.DAYS.toMillis(1);// 1天的毫秒数
 
 	public static String getDateStr(Date date) {
@@ -96,11 +98,23 @@ public class DateUtils {
 		return new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
-	/**玩家的5点刷新方法;此方法需要保证传入来的时间会在判断生效后才覆盖最新时间，否则0-5点之间的操作会错误*/
+	/**玩家的5点刷新方法;从player类移过来0.0发现左了无用功*/
 	public static boolean isNewDayHour(int hour,long lastResetTime){
 		return getCurrentHour() >= hour && dayChanged(lastResetTime);
 	}
-
+	
+	/**传入时间，返回小时，问下同事是否有重复的*/
+	public static int getinHour(long lastTime){
+		Calendar calendar = getCalendar();
+		calendar.setTimeInMillis(lastTime);
+		int tmp = calendar.get(Calendar.HOUR_OF_DAY);
+		return tmp;		
+	}
+	
+	
+	
+	
+	
 	public static boolean dayChanged(long timeStmp) {
 		Calendar currentDay = getCalendar(timeStmp);
 		long now = System.currentTimeMillis();
@@ -125,15 +139,26 @@ public class DateUtils {
 		}
 		return false;
 	}
+
+	
 	
 	/**以5点为界限，距离开始时间的间隔天数；需靠考虑策划填表习惯*/
 	public static int getDayLimitHour(int hour,long earlyTime){
-		if(getCurrentHour() >= hour){
-			return getDayDistance(earlyTime,System.currentTimeMillis());
+		if(getinHour(earlyTime)<hour){
+			if(getCurrentHour() >= hour){
+				return getDayDistance(earlyTime, System.currentTimeMillis())+1;
+			}else{
+				int tmp = getDayDistance(earlyTime, System.currentTimeMillis());
+				return tmp < 0? 0:tmp;
+			}
 		}else{
-			int tmp = getDayDistance(earlyTime,System.currentTimeMillis()) -1;
-			return tmp < 0? 0:tmp;
-		}
+			if(getCurrentHour() >= hour){
+				return getDayDistance(earlyTime, System.currentTimeMillis());
+			}else{
+				int tmp = getDayDistance(earlyTime, System.currentTimeMillis()) -1;
+				return tmp < 0? 0:tmp;
+			}
+		}		
 	}
 	
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
@@ -260,25 +285,13 @@ public class DateUtils {
 	}
 
 	/**
-	 * 相隔的天数，此处是绝对时间上隔天数
+	 * 相隔的天数,因为都设置为了0的时分秒，所以是相对意义上的
 	 * 
 	 * @param earyDay
 	 * @param lateDay
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
-		int distance =(int) (getHourDistance(earyDay, lateDay)/24);		
-		return distance;
-	}
-	
-	/**
-	 * 相隔的小时数
-	 * 
-	 * @param earyDay
-	 * @param lateDay
-	 * @return
-	 */
-	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
 		Calendar c2 = Calendar.getInstance();
@@ -286,6 +299,42 @@ public class DateUtils {
 
 		setDayZeroTime(c1);
 		setDayZeroTime(c2);
+
+		long timeInMillis = c1.getTimeInMillis();
+		long timeInMillis2 = c2.getTimeInMillis();
+
+		long distanceTime = Math.abs(timeInMillis2 - timeInMillis);
+		int distance = (int) (distanceTime / (24* 60 * 60 * 1000));		
+		return distance;
+	}
+	
+	
+//	/**相对意义上的间隔日期*/
+//	public static int getRelativelyDayDistance(long earlyTime , long lateTime){
+//		Calendar earlyDay = getCalendar(earlyTime);
+//		Calendar lateDay = getCalendar(lateTime);
+//		
+//		int dayOfearly = earlyDay.get(Calendar.DAY_OF_YEAR);
+//		int dayOflate = lateDay.get(Calendar.DAY_OF_YEAR);
+//		
+//		return dayOflate - dayOfearly;
+//	}
+	
+	
+	/**
+	 * 相隔的绝对小时数
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
+	public static int getAbsoluteHourDistance(long earyDay, long lateDay) {
+		Calendar c1 = Calendar.getInstance();
+		c1.setTimeInMillis(earyDay);
+		Calendar c2 = Calendar.getInstance();
+		c2.setTimeInMillis(lateDay);
+
+		
 
 		long timeInMillis = c1.getTimeInMillis();
 		long timeInMillis2 = c2.getTimeInMillis();

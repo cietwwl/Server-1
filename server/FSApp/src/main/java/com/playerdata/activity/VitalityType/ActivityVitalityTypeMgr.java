@@ -124,7 +124,7 @@ public class ActivityVitalityTypeMgr {
 			if(cfgenum == null){				
 				continue;
 			}
-			if (DateUtils.isNewDayHour(5,activityVitalityTypeItem.getLastTime())) {
+			if (ActivityTypeHelper.isNewDayHourOfActivity(5,activityVitalityTypeItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.reset(cfg,cfgenum);

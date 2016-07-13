@@ -9,6 +9,7 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
@@ -52,7 +53,7 @@ public class ActivityDailyTypeMgr {
 			return;
 		}
 		for (ActivityDailyTypeItem targetItem : item) {
-			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);

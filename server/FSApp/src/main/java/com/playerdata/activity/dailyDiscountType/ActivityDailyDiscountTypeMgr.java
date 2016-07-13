@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
@@ -128,7 +129,7 @@ public class ActivityDailyDiscountTypeMgr {
 				//以前开过的活动现在没找到配置文件
 				continue;
 			}			
-			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				targetItem.reset(cfgtmp);
 				dataHolder.updateItem(player, targetItem);
 			}

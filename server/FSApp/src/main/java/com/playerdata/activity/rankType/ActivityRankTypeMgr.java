@@ -117,7 +117,7 @@ public class ActivityRankTypeMgr {
 					sendtime = nowtime;
 					nowtime = tmp;					
 				}
-				if(DateUtils.getHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
+				if(DateUtils.getAbsoluteHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 				}				
