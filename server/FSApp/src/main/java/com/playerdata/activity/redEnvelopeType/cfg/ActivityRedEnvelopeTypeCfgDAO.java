@@ -86,7 +86,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 			return item;
 		}else{
 			return null;
-		}		
+		}
 	}
 
 	public List<ActivityRedEnvelopeTypeSubItem> getSubList() {

@@ -70,7 +70,6 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	}
 	
 	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeEnum countTypeEnum) {
-//		int day = ActivityTypeHelper.getDayBy5Am(cfgById.getStartTime());
 		int day ;
 		ActivityDailyDiscountTypeCfg cfgByEnumId = getCfgById(countTypeEnum.getCfgId());
 		if(cfgByEnumId == null){
