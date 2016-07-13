@@ -135,7 +135,9 @@ public class GFOnlineKillRankMgr {
 						EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(rewardCfg.getEmailId()));
 						if(emailCfg != null) {
 							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getExtendedAttribute().getTotalKill(), j));
+							finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
 						}
+						
 						finalRewardItem.setResourceID(resourceID);
 						finalRewardItem.setRewardContent(rewardCfg.getRewardList());
 						finalRewardItem.setRewardGetTime(currentTime);

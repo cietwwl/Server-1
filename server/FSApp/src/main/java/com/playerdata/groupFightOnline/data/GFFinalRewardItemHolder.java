@@ -63,15 +63,7 @@ public class GFFinalRewardItemHolder {
 		for(GFightOnlineResourceCfg cfg : resCfg){
 			Enumeration<GFFinalRewardItem> rewardEnum = getItemStore(player.getUserId(), cfg.getResID()).getEnum();
 			while(rewardEnum.hasMoreElements()){
-				List<ItemInfo> itmList = new ArrayList<ItemInfo>();
-				ItemInfo itm = new ItemInfo();
-				itm.setItemID(1);
-				itm.setItemNum(1000);
-				itmList.add(itm);
-				GFFinalRewardItem rewardItm = rewardEnum.nextElement();
-				rewardItm.setRewardContent(itmList);
-				rewardItm.setRewardDesc("一千个金币");
-				itemList.add(rewardItm);
+				itemList.add(rewardEnum.nextElement());
 			}
 		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);

@@ -42,6 +42,9 @@ public class GFFinalRewardItem implements IMapItem{
 	private String rewardDesc;	//奖励的描述
 	
 	@CombineSave
+	private String emailIconPath;	//邮件图标路径
+	
+	@CombineSave
 	@IgnoreSynField
 	private int emailId;	//到期对应的邮件id
 	
@@ -107,6 +110,14 @@ public class GFFinalRewardItem implements IMapItem{
 
 	public void setEmailId(int emailId) {
 		this.emailId = emailId;
+	}
+	
+	public String getEmailIconPath() {
+		return emailIconPath;
+	}
+
+	public void setEmailIconPath(String emailIconPath) {
+		this.emailIconPath = emailIconPath;
 	}
 
 	public long getRewardGetTime() {

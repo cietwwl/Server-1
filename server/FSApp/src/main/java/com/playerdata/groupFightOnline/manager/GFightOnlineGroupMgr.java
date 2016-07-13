@@ -136,7 +136,10 @@ public class GFightOnlineGroupMgr {
 			finalRewardItem.setEmailId(resCfg.getVictoryEmailID());
 			
 			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getVictoryEmailID()));
-			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+			if(emailCfg != null){
+				finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+				finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
+			}
 			
 			finalRewardItem.setResourceID(groupData.getResourceID());
 			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){
@@ -171,7 +174,10 @@ public class GFightOnlineGroupMgr {
 			finalRewardItem.setEmailId(resCfg.getFailEmailID());
 			
 			EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getFailEmailID()));
-			finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+			if(emailCfg != null){
+				finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), groupName, resCfg.getResName()));
+				finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
+			}
 			
 			finalRewardItem.setResourceID(groupData.getResourceID());
 			if(member.getPost() == GroupCommonProto.GroupPost.LEADER.getNumber()){

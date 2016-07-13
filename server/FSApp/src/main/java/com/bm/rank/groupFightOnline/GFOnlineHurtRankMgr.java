@@ -133,6 +133,7 @@ public class GFOnlineHurtRankMgr {
 						EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(rewardCfg.getEmailId()));
 						if(emailCfg != null) {
 							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getExtendedAttribute().getTotalHurt(), j));
+							finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
 						}
 						
 						finalRewardItem.setResourceID(resourceID);
