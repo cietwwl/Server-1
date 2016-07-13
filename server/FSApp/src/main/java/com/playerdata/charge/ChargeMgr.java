@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -48,7 +47,7 @@ public class ChargeMgr {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
 		if(dataItem == null){
-			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
+//			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
 			return false;
 		}
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
