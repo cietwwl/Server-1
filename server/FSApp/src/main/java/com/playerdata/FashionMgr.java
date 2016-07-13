@@ -85,10 +85,8 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 */
 	public void convertData(){
 		List<FashionItem> lst = fashionItemHolder.getItemList();
-		//List<FashionItem> uplst = new ArrayList<FashionItem>();
 		for (FashionItem fashionItem : lst) {
 			if (fashionItem.UpgradeOldData()){
-				//uplst.add(fashionItem);
 				fashionItemHolder.updateItem(m_player, fashionItem);
 			}
 		}
@@ -96,6 +94,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
 		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
 			fashionUsedHolder.update(fashionUsed);
+			syncAll();
 		}
 	}
 
