@@ -11,6 +11,7 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.dao.task.pojo.TaskCfg;
 import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -45,7 +46,7 @@ public class TaskItemHolder {
 			TaskItem item = (TaskItem) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		System.out.println("TASK = "+itemList.size());
+		// System.out.println("TASK = "+itemList.size());
 		return itemList;
 	}
 
@@ -116,6 +117,10 @@ public class TaskItemHolder {
 
 	public void synAllData(Player player, int version) {
 		List<TaskItem> itemList = getItemList();
+		for (TaskItem taskItem : itemList) {
+			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(taskItem.getTaskId());
+//			System.out.println("+++++++++，id:" + taskItem.getTaskId() + ",desc:" + cfg.getDesc() );
+		}
 		ClientDataSynMgr.synDataList(player, itemList, dataSynType, eSynOpType.UPDATE_LIST);
 	}
 

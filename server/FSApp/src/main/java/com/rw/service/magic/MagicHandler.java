@@ -18,7 +18,9 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.fsutil.common.Pair;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -330,6 +332,10 @@ public class MagicHandler {
 		itemBagMgr.syncItemData(updateItems);
 
 		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
+		
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
+		
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();
 	}
@@ -865,6 +871,7 @@ public class MagicHandler {
 
 			response.setNewMagicModelId(upToCfg.getId());
 			fillResponseInfo(response, true, "进阶成功！");
+			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 			break;
 		} while (true);
 

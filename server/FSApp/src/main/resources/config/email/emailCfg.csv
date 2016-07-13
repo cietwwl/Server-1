@@ -151,4 +151,3 @@ Key,Remarks,id,title,deleteType,delayTime,deadlineTime,sender,subjectIcon,checkI
 希望你能继续努力为帮派贡献更多力量",
 12002,,12002,帮派副本重置,1,604800,,帮派管理员,btn_YouJian_n,btn_YouJian_h,"%s刚刚重置了
 帮派副本%s",
-12003,,12003,副本通关,1,604800,,帮派管理员,btn_YouJian_n,btn_YouJian_h,,

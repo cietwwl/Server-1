@@ -8,7 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
-import com.bm.guild.GuildGTSMgr;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
 import com.groupCopy.bm.GroupHelper;
@@ -45,6 +44,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
+	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimeService"));
@@ -64,6 +64,15 @@ public class TimerManager {
 				PlayerMgr.getInstance().secondFunc4AllPlayer();
 			}
 		}, SECOND);
+		
+		time10SecondOp = new TimeSpanOpHelper(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				GFightStateTransfer.getInstance().checkTransfer();
+			}
+			
+		}, SECOND * 10);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -178,6 +187,7 @@ public class TimerManager {
 			public void run() {
 				try {
 					timeSecondOp.tryRun();
+					time10SecondOp.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}
@@ -255,6 +265,5 @@ public class TimerManager {
 
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
-		GFightStateTransfer.getInstance().checkTransfer();
 	}
 }

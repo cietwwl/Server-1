@@ -416,6 +416,8 @@ public class Player implements PlayerIF {
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 		// 角色登录检查秘境数据是否可以重置
 		UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
+		// 测试：时效任务的角色登录
+		com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
 	}
 
 	public void notifyMainRoleCreation() {

@@ -97,7 +97,9 @@ enum Command {
 	MSG_MAGIC_SECRET = 203;//法宝秘境
 	MSG_GROUP_SECRET_MATCH = 204;//帮派秘境探索
 	MSG_GROUP_FIGHT_ONLINE=205;//在线帮战
-
+	MSG_RED_POINT_SERVICE = 206;//红点扩展点击传送
+	
+	
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议

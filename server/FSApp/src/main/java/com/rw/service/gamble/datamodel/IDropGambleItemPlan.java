@@ -16,13 +16,17 @@ public interface IDropGambleItemPlan {
 
 	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory);
 
-	int getExclusiveCount();
+	public int getExclusiveCount();
 
-	int getLastCheckIndex();
+	public int getLastCheckIndex();
 	
 	/**
 	 * 特殊组别：单抽
 	 * @return
 	 */
-	boolean isSingleGamble();
+	public boolean isSingleGamble();
+	
+	public Iterable<ItemOrHeroGambleInfo> getGamblePosibles();
+
+	public Iterable<ItemOrHeroGambleInfo> ReInitPreviewData();
 }

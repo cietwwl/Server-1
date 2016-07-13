@@ -250,6 +250,11 @@ public class GambleDropHistory {
 	}
 	
 	@JsonIgnore
+	public int getHistorySize(){
+		return chargeGambleHistory.size();
+	}
+	
+	@JsonIgnore
 	private void increaseGuaranteePlanIndex(boolean isFree, int lastIndex){
 		if (isFree){
 			if (freeGuaranteePlanIndex<lastIndex){

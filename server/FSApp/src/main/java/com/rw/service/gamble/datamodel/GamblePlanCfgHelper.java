@@ -61,7 +61,11 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 			if (!GambleLogicHelper.isValidHeroOrItemId(String.valueOf(cfg.getGoods()))){
 				throw new RuntimeException("无效道具ID:"+cfg.getGoods()+",key="+cfg.getKey());
 			}
+			//收集可能掉落的英雄或者物品ID
+			IDropGambleItemPlan plan = cfg.getChargePlan();
+			plan.ReInitPreviewData();
 		}
+		
 	}
 
 	public GamblePlanCfg getConfig(int dropType,int level){
@@ -78,6 +82,11 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 		}
 		GameLog.error("钓鱼台", "dropType="+dropType, "找不到等级段,level="+level);
 		return null;
+	}
+	
+	public Iterable<GamblePlanCfg> getConfigList(int dropType){
+		Iterable<GamblePlanCfg> lst = typeLevelMapping.get(dropType);
+		return lst;
 	}
 
 	public int getMaxHistoryCount(int dropType) {
