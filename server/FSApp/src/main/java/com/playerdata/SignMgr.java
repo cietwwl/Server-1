@@ -2,10 +2,15 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
@@ -15,11 +20,13 @@ import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
+import com.rwbase.dao.sign.SignStatisticsCfgDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.sign.pojo.ReSignCfg;
 import com.rwbase.dao.sign.pojo.SignCfg;
 import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.SignDataHolder;
+import com.rwbase.dao.sign.pojo.SignStatisticsCfg;
 import com.rwbase.dao.sign.pojo.TableSignData;
 import com.rwproto.BattleTowerServiceProtos.ERequestType;
 import com.rwproto.MsgDef.Command;
@@ -27,6 +34,8 @@ import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
 
 public class SignMgr implements PlayerEventListener {
+	
+	private final static String DEFAULT_SIGN_REWARD_ID = "1";
 	private SignDataHolder signDataHolder;
 	private Player player;
 
@@ -158,7 +167,6 @@ public class SignMgr implements PlayerEventListener {
 				}
 			}
 			
-			
 			List<BilogItemInfo> list = BilogItemInfo.fromSignCfg(signCfg);
 			String rewardInfoActivity = BILogTemplateHelper.getString(list);
 			
@@ -205,43 +213,27 @@ public class SignMgr implements PlayerEventListener {
 				list.add(addRecord(true));
 		}
 
-		// if (isNumberic(signCfg.getItemID())) // 检查奖励的类型...
-		// {
 		if (signCfg.getVipLimit() > 0) // 有双倍...
 		{
 			if (player.getVip() >= signCfg.getVipLimit()) {
 				if (signData.getLastSignDate() == null) {// 如果没有领过就双倍
-					// player.getItemBagMgr().addItem(Integer.valueOf(signCfg.getItemID()),
-					// signCfg.getItemNum() * 2);
 					sendReward(signCfg.getItemID(), signCfg.getItemNum() * 2);
 				} else {
-					// player.getItemBagMgr().addItem(Integer.valueOf(signCfg.getItemID()),
-					// signCfg.getItemNum());
 					sendReward(signCfg.getItemID(), signCfg.getItemNum());
 				}
 				signData.setDouble(false);
 			} else {
-				// player.getItemBagMgr().addItem(Integer.valueOf(signCfg.getItemID()),
-				// signCfg.getItemNum());
 				sendReward(signCfg.getItemID(), signCfg.getItemNum());
 				signData.setDouble(true);
 			}
 		} else {
-			// player.getItemBagMgr().addItem(Integer.valueOf(signCfg.getItemID()),
-			// signCfg.getItemNum());
 			sendReward(signCfg.getItemID(), signCfg.getItemNum());
 		}
-		
-		// } else
-		// // 英雄整卡...
-		// {
-		// player.getHeroMgr().addHero(signCfg.getItemID());
-		// }
-
 		signData.setResign(false);
 		signData.setLastSignDate(Calendar.getInstance());
 		this.signDataHolder.update(player);
 		list.add(getStringRecordFromData(signId, signData));
+		addSignNum();
 		return list;
 	}
 
@@ -370,6 +362,14 @@ public class SignMgr implements PlayerEventListener {
 			return lastSignTime > refreshTime;
 		} else {
 			return lastSignTime < refreshTime;
+		}
+	}
+	
+	public boolean checkAchieveSignReward(){
+		if(player.getSignMgr().getSignNum() == getSignRewardRequireSignNum()){
+			return true;
+		}else{
+			return false;
 		}
 	}
 
@@ -521,6 +521,13 @@ public class SignMgr implements PlayerEventListener {
 		signData = map.get(signId);
 		return signData;
 	}
+	
+	/**
+	 * 增加签到的次数
+	 */
+	private void addSignNum(){
+		signDataHolder.setSignNum(signDataHolder.getSignNum() + 1); 
+	}
 
 	public int getCurrentMonth() {
 		int month = signDataHolder.getLastUpdate().get(Calendar.MONTH) + 1;
@@ -531,6 +538,50 @@ public class SignMgr implements PlayerEventListener {
 		int year = signDataHolder.getLastUpdate().get(Calendar.YEAR);
 		return year;
 	}
+	
+	public int getSignNum(){
+		return signDataHolder.getSignNum();
+	}
+	
+	public String getSignRewardId(){
+		String achieveSignId = signDataHolder.getAchieveSignNum();
+		achieveSignId = achieveSignId == null ? DEFAULT_SIGN_REWARD_ID : achieveSignId;
+		SignStatisticsCfg cfgById = SignStatisticsCfgDAO.getInstance().getCfgById(achieveSignId);
+		String nextID = cfgById.getNextID();
+		if(nextID.equals("0")){
+			return cfgById.getID();
+		}else{
+			if(signDataHolder.getAchieveSignNum() == null){
+				return cfgById.getID();
+			}else{
+				return cfgById.getNextID();
+			}
+			
+		}
+	}
+	
+	public int getSignRewardRequireSignNum(){
+		
+		String achieveSignId = signDataHolder.getAchieveSignNum();
+		int signNum = signDataHolder.getSignNum();
+		int overSignNum = signDataHolder.getOverSignNum();
+		achieveSignId = achieveSignId == null ? DEFAULT_SIGN_REWARD_ID : achieveSignId;
+		SignStatisticsCfg cfgById = SignStatisticsCfgDAO.getInstance().getCfgById(achieveSignId);
+		String nextID = cfgById.getNextID();
+		if(nextID.equals("0")){
+			return signNum > cfgById.getSignNum() ? overSignNum : cfgById.getSignNum();   
+		}else{
+			if(signDataHolder.getAchieveSignNum() == null){
+				return cfgById.getSignNum();
+			}else{
+				cfgById = SignStatisticsCfgDAO.getInstance().getCfgById(cfgById.getNextID());
+				return cfgById.getSignNum();
+			}
+			
+		}
+	}
+	
+	
 
 	/*
 	 * 构造记录返回给客户端
@@ -582,4 +633,70 @@ public class SignMgr implements PlayerEventListener {
 		return true;
 	}
 
+	/**
+	 * 处理签到奖励
+	 * @param player
+	 * @return
+	 */
+	public String processSignReward(Player player){
+		int signNum = signDataHolder.getSignNum();
+		int signNumRequire;
+		String achieveSignNum = signDataHolder.getAchieveSignNum();
+		SignStatisticsCfg cfg;
+		if (StringUtils.isEmpty(achieveSignNum)) {
+			cfg = SignStatisticsCfgDAO.getInstance().getCfgById(DEFAULT_SIGN_REWARD_ID);
+			signNumRequire = cfg.getSignNum();
+		} else {
+			cfg = SignStatisticsCfgDAO.getInstance().getCfgById(achieveSignNum);
+			String nextID = cfg.getNextID();
+			if (!nextID.equals("0")) {
+				cfg = SignStatisticsCfgDAO.getInstance().getCfgById(nextID);
+				signNumRequire = cfg.getSignNum();
+			}
+			signNumRequire = signDataHolder.getOverSignNum();
+		}
+		if (signNum >= signNumRequire) {
+			signDataHolder.setAchieveSignNum(cfg.getID());
+			int nextSignNum = getNextSignNum(cfg);
+			if(signNum >= nextSignNum){
+				String beforeId = String.valueOf(Integer.parseInt(cfg.getID())-1);
+				SignStatisticsCfg beforeCfg = SignStatisticsCfgDAO.getInstance().getCfgById(beforeId);
+				int overSignNum = signDataHolder.getOverSignNum();
+				if(overSignNum == 0){
+					overSignNum = cfg.getSignNum();
+				}
+				nextSignNum = overSignNum + cfg.getSignNum() - beforeCfg.getSignNum();
+			}
+			signDataHolder.setOverSignNum(nextSignNum);
+			
+			//发送奖励
+			String reward = cfg.getReward();
+			// 发送奖励
+			String[] split = reward.split(";");
+			for (String value : split) {
+				String[] split2 = value.split(",");
+				if (split2.length < 2) {
+					continue;
+				}
+				sendReward(split2[0], Integer.parseInt(split2[1]));
+			}
+			return null;
+		}else{
+			//达不到领取奖励的条件 领取失败
+			return "达不到领取奖励的条件 领取失败";
+		}
+	}
+	
+	private int getNextSignNum(SignStatisticsCfg cfg){
+		int result;
+		if(cfg.getNextID().equals("0")){
+			String beforeId = String.valueOf(Integer.parseInt(cfg.getID()) - 1);
+			SignStatisticsCfg beforeCfg = SignStatisticsCfgDAO.getInstance().getCfgById(beforeId);
+			result = cfg.getSignNum() + cfg.getSignNum() - beforeCfg.getSignNum();
+		}else{
+			SignStatisticsCfg nextCfg = SignStatisticsCfgDAO.getInstance().getCfgById(cfg.getNextID());
+			result = nextCfg.getSignNum();
+		}
+		return result;
+	}
 }

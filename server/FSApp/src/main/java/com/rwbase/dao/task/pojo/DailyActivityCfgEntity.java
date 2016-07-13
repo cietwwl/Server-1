@@ -3,6 +3,8 @@ package com.rwbase.dao.task.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.rw.service.dailyActivity.Enum.DailyActivityClassifyType;
 import com.rw.service.dailyActivity.Enum.DailyActivityFinishType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -27,16 +29,40 @@ public class DailyActivityCfgEntity {
 		// 解析完成类型
 		String startConditionText = taskCfg.getStartCondition();
 		String finishConditionText = taskCfg.getFinishCondition();
-		// 简单解析下
+//		DailyStartCondition dailyTimeCondition = null;
+//		DailyFinishCondition dailyTimeCondition2 = null;
+//		try {
+//			
+//			// 简单解析下
+//			if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
+//				dailyTimeCondition = new DailyTimeCondition(startConditionText);
+//				dailyTimeCondition2 = new DailyTimeCondition(finishConditionText);
+//			} else if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Card_Type) {
+//				dailyTimeCondition = new DailyTimeCardCondition(startConditionText);
+//				dailyTimeCondition2 = new DailyTimeCardProgressCondition();
+//			} else {
+//				dailyTimeCondition = new DailyLevelCondition(startConditionText);
+//				dailyTimeCondition2 = new DailyProgressCondition(finishConditionText);
+//			}
+//			
+//		} catch (Exception e) {
+//			System.err.println("解析日常任务配置表有错，"
+//					+ "配置表id：" + cfg.getId() + ",配置类型：" + taskCfg.getTaskClassify() + ", 开启条件：" + startConditionText);
+//			System.exit(1);
+//		} 
+//		this.startCondition = dailyTimeCondition;
+//		this.finishCondition = dailyTimeCondition2;
+
+		
 		if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
-			this.startCondition = new DailyTimeCondition(startConditionText);
-			this.finishCondition = new DailyTimeCondition(finishConditionText);
+			startCondition = new DailyTimeCondition(startConditionText);
+			finishCondition = new DailyTimeCondition(finishConditionText);
 		} else if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Card_Type) {
-			this.startCondition = new DailyTimeCardCondition(startConditionText);
-			this.finishCondition = new DailyTimeCardProgressCondition();
+			startCondition = new DailyTimeCardCondition(startConditionText);
+			finishCondition = new DailyTimeCardProgressCondition();
 		} else {
-			this.startCondition = new DailyLevelCondition(startConditionText);
-			this.finishCondition = new DailyProgressCondition(finishConditionText);
+			startCondition = new DailyLevelCondition(startConditionText);
+			finishCondition = new DailyProgressCondition(finishConditionText);
 		}
 		
 		String[] reward = taskCfg.getReward().split(";");

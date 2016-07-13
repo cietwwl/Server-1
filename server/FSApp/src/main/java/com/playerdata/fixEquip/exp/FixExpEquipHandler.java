@@ -6,6 +6,7 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwproto.FixEquipProto.CommonReqMsg;
 import com.rwproto.FixEquipProto.CommonRspMsg;
 import com.rwproto.FixEquipProto.ExpLevelUpReqParams;
@@ -32,7 +33,10 @@ public class FixExpEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
+		}
 		return response.build().toByteString();
 	}
 	
@@ -49,7 +53,10 @@ public class FixExpEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_UPGRADE, 1);
+		}
 		return response.build().toByteString();
 	}
 	

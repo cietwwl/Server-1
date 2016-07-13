@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 
@@ -22,7 +23,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 public class GroupSecretDefendRecordData {
 	private String userId;// 角色的
 	private List<DefendRecord> recordList;// 记录的List
-	@NonSave
+	@Transient
 	private int oldestIndex = -1;// 最老的记录对应的Id
 
 	public GroupSecretDefendRecordData() {
@@ -49,6 +50,8 @@ public class GroupSecretDefendRecordData {
 			if (oldestIndex == -1) {
 				updateOldestIndex();
 			}
+
+			record.setId(oldestIndex);
 			recordList.set(oldestIndex, record);
 		} else if (recordList.isEmpty() || recordList.size() <= newId) {
 			record.setId(newId);

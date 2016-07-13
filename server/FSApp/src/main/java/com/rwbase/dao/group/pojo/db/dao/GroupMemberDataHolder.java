@@ -389,7 +389,7 @@ public final class GroupMemberDataHolder {
 	 * @return
 	 */
 	public int getApplyMemberSize() {
-		return memberIdMap.size();
+		return applyMemberIdMap.size();
 	}
 
 	/**

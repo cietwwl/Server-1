@@ -61,8 +61,12 @@ public class Server {
 			GambleMgr.resetWhenStart();
 			//GambleTest.Test();
 
+			// 时效任务初始化
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+			serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
 			serverBootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup);
 			serverBootstrap.channel(NioServerSocketChannel.class);

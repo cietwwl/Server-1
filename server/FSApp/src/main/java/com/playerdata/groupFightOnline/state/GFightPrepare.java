@@ -18,7 +18,4 @@ public class GFightPrepare extends IGFightState{
 	public IGFightState getNext() {
 		return new GFightFight(resourceID, GFResourceState.FIGHT);
 	}
-
-	
-	
 }
