@@ -113,7 +113,7 @@ public class HeroHandler {
 			role.setStarLevel(nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
-			GFOnlineListenerPlayerChange.heroChangeHandler(player);
+			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 			break;
 		case -1:
 			rsp.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
@@ -463,6 +463,7 @@ public class HeroHandler {
 			curExp = levelExp;
 		}
 
+		//按策划要求  去掉溢出的经验
 		if(curExp > levelExp){
 			curExp = levelExp;
 		}
@@ -515,6 +516,6 @@ public class HeroHandler {
 	 * @param player
 	 */
 	private void heroLevelUpEnent(Player player){
-		GFOnlineListenerPlayerChange.heroChangeHandler(player);
+		GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 	}
 }

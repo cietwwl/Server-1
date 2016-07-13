@@ -207,12 +207,13 @@ public class GFightOnlineGroupMgr {
 		if(resCfg == null) return;
 		List<GFBiddingItem> bidItems = GFBiddingItemMgr.getInstance().getResourceItemList(groupData.getResourceID());
 		int totalRateOnGroup = 0;
-		
+		int ratePersonCount = 0;
 		//处理个人压标结果
 		for(GFBiddingItem item : bidItems){
 			if(StringUtils.equals(item.getBidGroup(), groupId)){
 				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(item.getRateID()));
 				totalRateOnGroup += bidCfg.getRate();
+				ratePersonCount++;
 				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, true);
 			}else{
 				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, false);
@@ -237,7 +238,7 @@ public class GFightOnlineGroupMgr {
 			for(GroupMemberDataIF member : groupMem){
 				String bidonContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getVictoryRewardEmailId())).getContent();
 				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()),
-						GFightHelper.itemListToString(victoryReward), String.format(bidonContent, resCfg.getResName(), totalRateOnGroup));
+						GFightHelper.itemListToString(victoryReward), String.format(bidonContent, resCfg.getResName(), ratePersonCount));
 			}
 		}
 	}

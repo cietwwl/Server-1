@@ -16,6 +16,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
@@ -74,6 +75,7 @@ public class EquipHandler {
 					pEquipMgr.EquipAdvance(pNextCfg.getId(), true);
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
+					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 				}
 			} else {
 				response.setError(ErrorType.FAIL);
