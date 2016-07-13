@@ -54,7 +54,7 @@ public class GFOnlineListenerPlayerChange extends PlayerChangePopertySubscribe {
 		GFDefendArmyItemHolder.getInstance().removePersonalDefendArmy(userID, groupID);
 	}
 	
-	public static void heroChangeHandler(Player player){
-		GFDefendArmyMgr.getInstance().heroChanged(player);
+	public static void defenderChangeHandler(Player player){
+		GFDefendArmyMgr.getInstance().defenderChanged(player);
 	}
 }
