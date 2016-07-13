@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.rank.RankType;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.mysql.jdbc.TimeUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -25,10 +24,8 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwproto.RankServiceProtos;
 import com.rwproto.RankServiceProtos.RankInfo;
 
 
