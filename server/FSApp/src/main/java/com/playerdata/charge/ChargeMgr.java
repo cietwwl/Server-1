@@ -321,7 +321,34 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+	
+	
+	public ChargeResult buyMonthCardByGm(Player player, String chargeItemId) {
+		ChargeResult result = ChargeResult.newResult(false);
+		result.setTips("配置表异常");
+		
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeItemId);
 
+		if (target != null) {
+			List<ActivityTimeCardTypeSubCfg> timeCardList = ActivityTimeCardTypeSubCfgDAO
+					.getInstance().getAllCfg();
+			for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
+				if (timecardcfg.getChargeType() == target.getChargeType()) {
+					result = buyMonthCard(player, timecardcfg.getId());
+					break;
+				}
+			}
+		}else{
+			result.setSuccess(false);
+			result.setTips("没这个商品");
+		}
+		
+		return result;
+	}
+
+	
+	
+	
 	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
@@ -386,6 +413,7 @@ public class ChargeMgr {
 		}
 		return result;
 	}
+
 
 	
 	

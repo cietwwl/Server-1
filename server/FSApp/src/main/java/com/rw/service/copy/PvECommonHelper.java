@@ -61,12 +61,6 @@ public class PvECommonHelper {
 		// CopyRewardsIF copyRewards = copyRecordMgr.getCopyRewards();
 
 		int levelId = copyCfg.getLevelID();
-		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-		} catch (DataAccessTimeoutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		
 		if (dropItems != null) {	
