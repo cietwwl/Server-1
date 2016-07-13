@@ -9,9 +9,11 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.Action;
+import com.common.RefInt;
 import com.common.RefLong;
 import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.NotifyChangeCallBack;
@@ -42,7 +44,7 @@ import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 
-public class FashionMgr implements FashionMgrIF {
+public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
 	private static String GiveEMailID = "10036";
@@ -68,6 +70,43 @@ public class FashionMgr implements FashionMgrIF {
 
 	public boolean isInited() {
 		return isInited;
+	}
+	
+	public static boolean UpgradeIdLogic(int fid,RefInt newFid){
+		if ((fid / 100) == 100){
+			newFid.value = 900000 + fid % 100;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
+	 */
+	public void convertData(){
+		List<FashionItem> lst = fashionItemHolder.getItemList();
+		//List<FashionItem> uplst = new ArrayList<FashionItem>();
+		for (FashionItem fashionItem : lst) {
+			if (fashionItem.UpgradeOldData()){
+				//uplst.add(fashionItem);
+				fashionItemHolder.updateItem(m_player, fashionItem);
+			}
+		}
+		
+		FashionBeingUsed fashionUsed = getFashionBeingUsed();
+		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
+			fashionUsedHolder.update(fashionUsed);
+		}
+	}
+
+	@Override
+	public void notifyPlayerCreated(Player player) {
+		//nothing to do
+	}
+
+	@Override
+	public void notifyPlayerLogin(Player player) {
+		convertData();
 	}
 
 	public void regChangeCallBack(final Action callBack) {
@@ -259,7 +298,6 @@ public class FashionMgr implements FashionMgrIF {
 	}
 
 	public void onMinutes() {
-		// GameLog.info("时装", "定时检查", "OnMinutes", null);
 		checkExpired();
 		notifyProxy.checkDelayNotify();
 	}

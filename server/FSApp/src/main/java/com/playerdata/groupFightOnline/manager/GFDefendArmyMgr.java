@@ -87,6 +87,21 @@ public class GFDefendArmyMgr {
 	}
 	
 	/**
+	 * 开战前，把所有的防守队伍信息更到最新
+	 * 开战后，防守队伍属性，不会有更改
+	 * @param groupId
+	 */
+	public void updateAllItem(String groupId){
+		List<GFDefendArmyItem> allDefenders = GFDefendArmyItemHolder.getInstance().getItemList(groupId);
+		for(GFDefendArmyItem defender : allDefenders){
+			if(defender.getSimpleArmy() == null) continue;
+			ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(defender.getUserID(), defender.getSimpleArmy().getArmyMagic().getId(), defender.getSimpleArmy().getHeroIdList());
+			defender.setSimpleArmy(simpleArmy);
+			GFDefendArmyItemHolder.getInstance().updateItem(defender);
+		}
+	}
+	
+	/**
 	 * 重置个人的防守队伍信息
 	 * @param player
 	 * @param items
@@ -187,7 +202,7 @@ public class GFDefendArmyMgr {
 				}
 			}
 			GFDefendArmyItem canFightItem = getCanFightItem(groupID);
-			if(canFightItem == null) throw new NoSuitableDefenderException("找不到可以挑战的队伍");
+			if(canFightItem == null) throw new NoSuitableDefenderException("当前没有可以挑战的队伍");
 			canFightItem.setState(GFArmyState.SELECTED.getValue());
 			canFightItem.setLastOperateTime(System.currentTimeMillis());
 			
@@ -285,7 +300,7 @@ public class GFDefendArmyMgr {
 	 * （只有备战阶段才更新）
 	 * @param player
 	 */
-	public void heroChanged(Player player) {
+	public void defenderChanged(Player player) {
 		String groupID = GroupHelper.getUserGroupId(player.getUserId());
 		if(StringUtils.isBlank(groupID)) return;
 		GFightOnlineGroupData gfgData = GFightOnlineGroupHolder.getInstance().get(groupID);

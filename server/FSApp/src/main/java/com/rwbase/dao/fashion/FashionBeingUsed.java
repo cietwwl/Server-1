@@ -5,6 +5,8 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.common.RefInt;
+import com.playerdata.FashionMgr;
 import com.rw.fsutil.dao.annotation.NonSave;
 
 /**
@@ -33,15 +35,24 @@ public class FashionBeingUsed implements FashionUsedIF {
 		result[2] = petId;
 		return result;
 	}
-
-	// public IEffectCfg[] getEffectList(int validCount,int career){
-	// IEffectCfg[] result = new IEffectCfg[4];
-	// result[0]=FashionEffectCfgDao.getInstance().getConfig(wingId,career);
-	// result[1]=FashionEffectCfgDao.getInstance().getConfig(suitId,career);
-	// result[2]=FashionEffectCfgDao.getInstance().getConfig(petId,career);
-	// result[3] = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
-	// return result;
-	// }
+	
+	public boolean UpgradeOldData(){
+		boolean result = false;
+		RefInt newFid = new RefInt();
+		if (FashionMgr.UpgradeIdLogic(wingId, newFid)){
+			wingId = newFid.value;
+			result = true;
+		}
+		if (FashionMgr.UpgradeIdLogic(suitId, newFid)){
+			suitId = newFid.value;
+			result = true;
+		}
+		if (FashionMgr.UpgradeIdLogic(petId, newFid)){
+			petId = newFid.value;
+			result = true;
+		}
+		return result;
+	}
 
 	public String getUserId() {
 		return userId;
