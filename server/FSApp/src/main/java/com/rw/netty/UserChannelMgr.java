@@ -76,7 +76,7 @@ public class UserChannelMgr {
 		ChannelHandlerContext old = userChannelMap.put(userId, ctx);
 		if (old != null) {
 			// TODO 通过消息通知
-			old.close();
+//			old.close();
 		}
 		if (ctx.channel().attr(USER_ID) == CLOSE_SESSION) {
 			userChannelMap.remove(userId, ctx);

@@ -25,6 +25,7 @@ public class ZoneInfoCache {
 	private String serverIp;
 	private String port;
 	private int onlineNum;   //在线人数
+	private String closeTips; //关闭提示语
 	
 	private long notifyTime; 	//服务器响应时间
 	private boolean blnUpdate = false;  //是否更新
@@ -230,6 +231,19 @@ public class ZoneInfoCache {
 		if(System.currentTimeMillis() - this.notifyTime > SHUTDOWNTIME){
 			setStatus(EServerStatus.CLOSE.getStatusId());
 		}
+	}
+	
+
+	public String getCloseTips() {
+		return closeTips;
+	}
+
+	public void setCloseTips(String closeTips) {
+		if(this.closeTips == null || !this.closeTips.equals(closeTips)){
+			this.closeTips = closeTips;
+			blnUpdate = true;
+		}
+		
 	}
 
 

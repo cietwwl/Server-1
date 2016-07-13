@@ -22,6 +22,7 @@ import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFFightResultException;
+import com.playerdata.groupFightOnline.dataException.HaveFightEnimyException;
 import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
@@ -87,7 +88,10 @@ public class GFightOnFightBM {
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
-			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			setEnimyDefenderDetailsForClient(player.getUserId(), gfRsp);
+			gfRsp.setTipMsg(e.getMessage());
+		} catch (HaveFightEnimyException e) {
+			setEnimyDefenderDetailsForClient(player.getUserId(), gfRsp);
 			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
@@ -96,6 +100,23 @@ public class GFightOnFightBM {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("未知的异常错误");
 		}
+	}
+	
+	private void setEnimyDefenderDetailsForClient(String userID, GroupFightOnlineRspMsg.Builder gfRsp){
+		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(userID);
+		if(userGFData == null) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("个人帮战数据异常");
+			return;
+		}
+		GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
+		if(defender == null) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("锁定的防守队伍数据异常");
+			return;
+		}
+		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
+		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
 	/**
@@ -127,6 +148,9 @@ public class GFightOnFightBM {
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
 			gfRsp.setRstType(GFResultType.SUCCESS);
 		} catch (HaveSelectEnimyException e) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
+		} catch (HaveFightEnimyException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
@@ -163,8 +187,12 @@ public class GFightOnFightBM {
 			return;
 		}
 		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
-			gfRsp.setRstType(GFResultType.SELECT_EXPIRED);
-			gfRsp.setTipMsg("锁定对手的时间已过期");
+			if(!GFightConditionJudge.getInstance().isFightExpired(defenderSimple)){
+				gfRsp.setTipMsg("您已经挑战过该对手，请耐心等待战斗结果");
+			}else{
+				gfRsp.setTipMsg("锁定对手的时间已过期");
+			}
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			return;
 		}
 		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
@@ -209,7 +237,7 @@ public class GFightOnFightBM {
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
-		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
+		if(GFightConditionJudge.getInstance().isFightExpired(defenderSimple)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("锁定对手时间过长，已经失效");
 			return;

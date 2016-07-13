@@ -1,6 +1,12 @@
 package com.rw.controler;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +34,9 @@ import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GameLoginProtos.GameLoginRequest;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eLoginResultType;
+import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.RequestHeader;
+import com.rwproto.ResponseProtos.ResponseHeader;
 
 public class PlayerLoginTask implements PlayerTask {
 
@@ -97,10 +105,29 @@ public class PlayerLoginTask implements PlayerTask {
 
 		if (player != null) {
 			// 断开非当前链接
-			ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
+			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
 				GameLog.debug("Kick Player...,userId:" + userId);
-				player.KickOff("你的账号在另一处登录，请重新登录");
+//				player.KickOff("你的账号在另一处登录，请重新登录");
+				GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
+				loginResponse.setResultType(eLoginResultType.SUCCESS);
+				loginResponse.setError("你的账号在另一处登录，请重新登录");
+				
+				ChannelFuture f = nettyControler.sendAyncResponse(userId, oldContext, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
+				f.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+					@Override
+					public void operationComplete(Future<? super Void> future) throws Exception {
+						oldContext.executor().schedule(new Callable<Void>() {
+
+							@Override
+							public Void call() throws Exception {
+								oldContext.close();
+								return null;
+							}
+						}, 300, TimeUnit.MILLISECONDS);
+					}
+				});
 			}
 		}
 		// 检查发送版本更新

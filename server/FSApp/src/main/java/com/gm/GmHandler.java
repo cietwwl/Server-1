@@ -17,6 +17,7 @@ import com.gm.task.GmCheckBag;
 import com.gm.task.GmCheckDataOpProgress;
 import com.gm.task.GmDeleteBag;
 import com.gm.task.GmDeleteGameNotice;
+import com.gm.task.GmEditCloseTips;
 import com.gm.task.GmEditGameNotice;
 import com.gm.task.GmEditPlatformNotice;
 import com.gm.task.GmEmailAll;
@@ -122,8 +123,11 @@ public class GmHandler {
 		taskMap.put(20040, new GmViewEmailList());
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
+		
 		//获取各种排名的用户id列表
 		taskMap.put(77777, new GmGetRankList());
+		//修改服务器关闭提示语
+		taskMap.put(99998, new GmEditCloseTips());
 	}
 
 	

@@ -4,8 +4,8 @@ option java_outer_classname = "RedPointServiceProtos";
 
 enum RequestType
 {
-	RT_ALL, //主动请求刷新所有红点
-	RT_ONE, //主动请求刷新一个红点
+	RT_ALL = 1; //主动请求刷新所有红点
+	RT_ONE = 2; //主动请求刷新一个红点
 }
 
 message RedPointServiceRequest
