@@ -8,10 +8,12 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
@@ -88,25 +90,27 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
 
-	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	
-	
+	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
+
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
-	
-	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;	
-	
+
+	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
-	
+
 	private static MapItemStoreCache<MajorData> majorDataCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
-	
+
 	private static MapItemStoreCache<GFDefendArmyItem> groupDefendArmyItemCache;
-	
+
 	private static MapItemStoreCache<GFBiddingItem> groupFightBiddingItemCache;
-	
+
 	private static MapItemStoreCache<GFFinalRewardItem> groupFightRewardItemCache;
-	
+
 	private static List<MapItemStoreCache> list;
+
+	private static MapItemStoreCache<EmbattleInfo> embattleInfoItemCache;
 
 	private static boolean init = false;
 
@@ -158,18 +162,17 @@ public class MapItemStoreFactory {
 		//
 		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
-		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
+		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));
+		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
 
-		
 		register(activityVitalityItemCache = new MapItemStoreCache<ActivityVitalityTypeItem>(ActivityVitalityTypeItem.class, "userId", heroCapacity));
-		
+
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
-		
-		
+
 		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
-		
+
 		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
 
 		// register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
@@ -181,14 +184,16 @@ public class MapItemStoreFactory {
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
 
 		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
-		
+
 		register(groupDefendArmyItemCache = new MapItemStoreCache<GFDefendArmyItem>(GFDefendArmyItem.class, "groupID", heroCapacity));
-		
+
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
-		
+
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
-		
+
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+
+		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -312,11 +317,11 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
 		return activityDailyCountTypeItemCache;
 	}
-	
+
 	public static MapItemStoreCache<ActivityDailyDiscountTypeItem> getActivityDailyDiscountTypeItemCache() {
 		return activityDailyDiscountTypeItemCache;
 	}
-	
+
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
 		return activityTimeCardTypeItemCache;
 	}
@@ -336,11 +341,11 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
 		return activityTimeCountTypeItemCache;
 	}
-	
+
 	public static MapItemStoreCache<ActivityExchangeTypeItem> getActivityExchangeTypeItemCache() {
 		return activityExchangeTypeItemCache;
 	}
-	
+
 	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
 		return activityVitalityItemCache;
 	}
@@ -388,36 +393,49 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<MagicChapterInfo> getMagicChapterInfoCache() {
 		return magicChapterInfoCache;
 	}
-	
+
 	/**
 	 * 获取在线帮派战斗的防守队伍缓存
+	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<GFDefendArmyItem> getGFDefendArmyCache() {
 		return groupDefendArmyItemCache;
 	}
-	
+
 	/**
 	 * 获取在线帮战帮派竞标缓存
+	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<GFBiddingItem> getGFBiddingItemCache() {
 		return groupFightBiddingItemCache;
 	}
-	
+
 	/**
 	 * 获取在线帮战个人奖励的缓存
+	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<GFFinalRewardItem> getGFFinalRewardItemCache() {
 		return groupFightRewardItemCache;
 	}
-	
+
 	/**
 	 * 获取重要数据缓存
+	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<MajorData> getMajorDataCache() {
 		return majorDataCache;
+	}
+
+	/**
+	 * 获取阵容阵容
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<EmbattleInfo> getEmbattleInfoCache() {
+		return embattleInfoItemCache;
 	}
 }
