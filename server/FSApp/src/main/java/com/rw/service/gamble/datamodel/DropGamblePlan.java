@@ -78,34 +78,45 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	public int getGuaranteeGroup(Random r) {
 		return guaranteeGroup.getRandomGroup(r);
 	}
-
+	
+	public int getOrdinaryGroup(Random r, RefInt planIndex) {
+		return ordinaryGroup.getRandomGroup(r,planIndex);
+	}
+	
+	public int getGuaranteeGroup(Random r, RefInt planIndex) {
+		return guaranteeGroup.getRandomGroup(r,planIndex);
+	}
+	
 	@Override
-	public GambleDropGroup getGuaranteeGroup(Random r, List<String> historyRecord) {
-		return getGroup(r,historyRecord,guaranteeGroup);
+	public GambleDropGroup getGuaranteeGroup(Random r, List<String> historyRecord,RefInt selectedIndex) {
+		return getGroup(r, historyRecord, guaranteeGroup,selectedIndex);
 	}
 
 	@Override
-	public GambleDropGroup getOrdinaryGroup(Random r, List<String> historyRecord) {
-		return getGroup(r,historyRecord,ordinaryGroup);
+	public GambleDropGroup getOrdinaryGroup(Random r, List<String> historyRecord,RefInt selectedIndex) {
+		return getGroup(r, historyRecord, ordinaryGroup,selectedIndex);
 	}
 
-	private GambleDropGroup getGroup(Random r, List<String> historyRecord,RandomIntGroups startGroup){
-		if (historyRecord == null || historyRecord.size() <= 0){
-			int selected = startGroup.getRandomGroup(r);
+	protected GambleDropGroup getGroup(Random r, List<String> historyRecord, RandomIntGroups startGroup,RefInt selectedIndex) {
+		if (historyRecord == null || historyRecord.size() <= 0) {
+			int selected = startGroup.getRandomGroup(r,selectedIndex);
 			return GambleDropCfgHelper.getInstance().getGroup(selected);
 		}
-		
-		RefInt selectedGroupIndex=new RefInt();
+
+		RefInt selectedGroupIndex = new RefInt();
 		RandomIntGroups tmpGroup = startGroup;
 		GambleDropGroup result = null;
 		boolean isFirst = true;
-		while (result == null && tmpGroup != null && tmpGroup.size() > 0){
-			if (isFirst){
+		while (result == null && tmpGroup != null && tmpGroup.size() > 0) {
+			if (isFirst) {
 				isFirst = false;
-			}else{
+			} else {
 				tmpGroup = startGroup.removeIndex(selectedGroupIndex.value);
 			}
-			result = findRandomGroup(r, historyRecord,tmpGroup, selectedGroupIndex);
+			result = findRandomGroup(r, historyRecord, tmpGroup, selectedGroupIndex);
+		}
+		if (selectedIndex!=null){
+			selectedIndex.value = selectedGroupIndex.value;
 		}
 		return result;
 	}
@@ -122,5 +133,19 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	@Override
 	public boolean isSingleGamble() {
 		return isSignleGamble;
+	}
+	
+	@Override
+	public IDropGambleItemPlan removeHistoryFromOrdinaryGroup(int planId) {
+		TmpDropGamblePlan tmp = new TmpDropGamblePlan(this);
+		return tmp.removeHistoryFromOrdinaryGroup(planId);
+	}
+	
+	protected RandomIntGroups getOrdinaryGroup(){
+		return ordinaryGroup;
+	}
+
+	protected RandomIntGroups getGuaranteeGroup(){
+		return guaranteeGroup;
 	}
 }

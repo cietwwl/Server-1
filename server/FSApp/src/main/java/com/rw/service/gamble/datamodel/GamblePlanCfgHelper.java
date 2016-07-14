@@ -61,7 +61,19 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 			if (!GambleLogicHelper.isValidHeroOrItemId(String.valueOf(cfg.getGoods()))){
 				throw new RuntimeException("无效道具ID:"+cfg.getGoods()+",key="+cfg.getKey());
 			}
+			if (cfg.getDropType() == 5){
+				//如果下面三行抛异常，说明钻石十连抽配置的保底英雄有问题！
+				int groupKey = cfg.obtainSpecialGuaranteeGroupId();
+				GambleDropGroup group = GambleDropCfgHelper.getInstance().getGroup(groupKey);
+				specialGuaranteeHero = group.getPlans()[0];
+			}
 		}
+	}
+	
+	private String specialGuaranteeHero;
+	
+	public String getSpecialGuaranteeHero(){
+		return specialGuaranteeHero;
 	}
 
 	public GamblePlanCfg getConfig(int dropType,int level){

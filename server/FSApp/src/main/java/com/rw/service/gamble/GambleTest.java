@@ -224,6 +224,7 @@ public class GambleTest {
 		}
 
 		int maxCount = planCfg.getDropItemCount();
+		RefInt selectedDropGroupIndex = new RefInt();
 		while (dropListCount.value < maxCount) {
 			logTrace(trace, "dropListCount=" + dropListCount.value);
 			int dropGroupId;
@@ -252,10 +253,10 @@ public class GambleTest {
 				logTrace(trace, "checkHistory:", checkHistory);
 				GambleDropGroup tmpGroup = null;
 				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
-					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory);
+					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory,selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:true,tmpGroup=", tmpGroup);
 				} else {
-					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory);
+					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory,selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:false,tmpGroup=", tmpGroup);
 				}
 

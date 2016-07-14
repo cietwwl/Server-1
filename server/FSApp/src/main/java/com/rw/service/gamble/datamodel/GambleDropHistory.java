@@ -28,6 +28,32 @@ public class GambleDropHistory {
 	private List<String> freeExclusiveHistory;
 	private List<String> chargeExclusiveHistory;
 	
+	public StringBuilder toDebugString(){
+		StringBuilder b=new StringBuilder();
+		b.append("freeCount:").append(freeCount).append("\n");
+		b.append("lastFreeGambleTime:").append(lastFreeGambleTime).append("\n");
+		b.append("hotCount:").append(hotCount).append("\n");
+		b.append("hotCheckRandomThreshold:").append(hotCheckRandomThreshold).append("\n");
+		b.append("firstFreeGamble:").append(firstFreeGamble).append("\n");
+		b.append("firstChargeGamble:").append(firstChargeGamble).append("\n");
+		b.append("freeGuaranteePlanIndex:").append(freeGuaranteePlanIndex).append("\n");
+		b.append("chargeGuaranteePlanIndex:").append(chargeGuaranteePlanIndex).append("\n");
+		b.append("passFreeExclusiveCheck:").append(passFreeExclusiveCheck).append("\n");
+		b.append("passChargeExclusiveCheck:").append(passChargeExclusiveCheck).append("\n");
+		b.append("chargeGambleHistory:").append(toDebugString(chargeGambleHistory)).append("\n");
+		b.append("freeExclusiveHistory:").append(toDebugString(freeExclusiveHistory)).append("\n");
+		b.append("chargeExclusiveHistory:").append(toDebugString(chargeExclusiveHistory)).append("\n");
+		return b;
+	}
+	
+	private static StringBuilder toDebugString(List<String> lst){
+		StringBuilder b=new StringBuilder();
+		for (String ele : lst) {
+			b.append(ele).append(",");
+		}
+		return b;
+	}
+	
 	@JsonIgnore
 	public boolean passExclusiveCheck(boolean isFree){
 		return isFree?passFreeExclusiveCheck:passChargeExclusiveCheck;
@@ -241,7 +267,9 @@ public class GambleDropHistory {
 			return historySize >= checkNum - 1;
 		}
 		
-		for (String itemModelId : history) {
+		//检查最后(checkNum - 1)个历史!
+		for (int i = historySize-1; i > historySize - checkNum; i--){
+			String itemModelId  = history.get(i);
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
 			}

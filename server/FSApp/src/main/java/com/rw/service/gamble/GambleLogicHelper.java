@@ -111,9 +111,9 @@ public class GambleLogicHelper {
 	public static boolean add2DropList(ArrayList<GambleRewardData> dropList, int slotCount, String itemModelId,String uid, String planIdStr,String defaultModelId) {
 		//检查是否具有有效的佣兵配置
 		if (StringUtils.isBlank(itemModelId)){
-			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效，配置:%s", planIdStr));
-			itemModelId = defaultModelId;
-			//return false;
+			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效=%s，配置id:%s,",itemModelId, planIdStr));
+			//itemModelId = defaultModelId;
+			return false;
 		}
 		if (slotCount <= 0){
 			GameLog.error("钓鱼台", uid, String.format("配置叠加数量无效，配置:%s", planIdStr));
@@ -124,14 +124,14 @@ public class GambleLogicHelper {
 		if (itemModelId.indexOf("_") != -1) {
 			String[] arr = itemModelId.split("_");
 			if (arr == null) {
-				itemModelId = defaultModelId;
-				//return false;
+				//itemModelId = defaultModelId;
+				return false;
 			}else{
 				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(itemModelId);
 				if (roleCfg == null) {
-					itemModelId = defaultModelId;
+					//itemModelId = defaultModelId;
 					GameLog.error("钓鱼模块", uid, "钓鱼随机到了模版Id为：" + itemModelId + "的英雄，配置不存在,ID="+planIdStr);
-					//return false;
+					return false;
 				}
 			}
 		}
@@ -300,7 +300,7 @@ public class GambleLogicHelper {
 		}
 	}
 	
-	public static void testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
+	public static boolean testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
 		if (gamblePlanId == 5){//钻石十连抽
 			boolean hasHero = false;
 			for (GambleRewardData item : dropList) {
@@ -316,8 +316,24 @@ public class GambleLogicHelper {
 					log = trace.toString();
 				}
 				GameLog.error("钓鱼台", uid, "钻石十连抽没有抽到英雄\n"+log);
-				//System.out.println("bug:"+trace.toString());
+				String hero = GamblePlanCfgHelper.getInstance().getSpecialGuaranteeHero();
+				if (isValidHeroId(hero)){
+					//特殊容错：从配置选一个有效的保底英雄替换了最后一个英雄
+					dropList.remove(dropList.size()-1);
+					GambleRewardData.Builder b = GambleRewardData.newBuilder();
+					b.setItemId(hero);
+					b.setItemNum(1);
+					dropList.add(b.build());
+				}
 			}
+			return !hasHero;
+		}
+		return true;
+	}
+	
+	public static void logTrace(StringBuilder trace, GambleDropHistory historyRecord) {
+		if (trace != null){
+			trace.append("historyRecord:").append(historyRecord.toDebugString());
 		}
 	}
 }

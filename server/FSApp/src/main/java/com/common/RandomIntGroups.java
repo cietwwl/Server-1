@@ -37,6 +37,10 @@ public class RandomIntGroups {
 		}
 	}
 	
+	public int[] getPlanList(){
+		return plans;
+	}
+	
 	public int getRandomGroup(Random r){
 		return getRandomGroup(r,null);
 	}
