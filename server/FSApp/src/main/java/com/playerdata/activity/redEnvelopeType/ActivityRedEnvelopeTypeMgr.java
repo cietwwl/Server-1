@@ -137,10 +137,10 @@ public class ActivityRedEnvelopeTypeMgr {
 			dataHolder.updateItem(player, item);
 			return;
 		}
-		List<ActivityRedEnvelopeTypeSubItem> subItemList = item.getSubItemList();
-		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			item.setGoldCount(item.getGoldCount() + subItem.getCount()/10);
-		}
+//		List<ActivityRedEnvelopeTypeSubItem> subItemList = item.getSubItemList();
+//		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
+//			item.setGoldCount(item.getGoldCount() + subItem.getCount()/10);
+//		}
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if(cfg == null){
 			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "派发奖励替换文字的时候取不到cfg", null);
@@ -205,7 +205,11 @@ public class ActivityRedEnvelopeTypeMgr {
 				break;
 			}			
 		}
-		target.setCount(target.getCount() + countadd);		
+		target.setCount(target.getCount() + countadd);
+		dataItem.setGoldCount(0);
+		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
+			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount()/10);
+		}		
 		dataHolder.updateItem(player, dataItem);
 	}
 	
@@ -227,10 +231,10 @@ public class ActivityRedEnvelopeTypeMgr {
 		}
 
 
-		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
-		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount()/10);
-		}
+//		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
+//		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
+//			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount()/10);
+//		}
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		map.put(eSpecialItemId.Gold.getValue(), dataItem.getGoldCount());
 		player.getItemBagMgr().useLikeBoxItem(null, null, map);
