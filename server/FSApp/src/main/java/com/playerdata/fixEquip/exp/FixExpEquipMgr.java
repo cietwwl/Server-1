@@ -27,6 +27,7 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
+import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
@@ -496,4 +497,7 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
+	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
+		return FixEquipHelper.parseFixExpEquip2SimpleList(fixExpEquipDataItemHolder.getItemList(heroId));
+	}
 }

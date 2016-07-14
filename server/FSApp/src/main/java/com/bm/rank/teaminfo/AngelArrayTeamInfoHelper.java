@@ -1,11 +1,16 @@
 package com.bm.rank.teaminfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import com.bm.arena.ArenaRobotDataMgr;
 import com.bm.rank.RankType;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
+import com.common.RefInt;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -14,11 +19,14 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyMagic;
 import com.playerdata.army.CurAttrData;
+import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.HeroMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.EquipInfo;
+import com.playerdata.team.FashionInfo;
 import com.playerdata.team.HeroBaseInfo;
+import com.playerdata.team.HeroFixEquipInfo;
 import com.playerdata.team.HeroInfo;
 import com.playerdata.team.SkillInfo;
 import com.playerdata.team.TeamInfo;
@@ -27,9 +35,11 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeBM;
-import com.rwbase.common.attribute.param.MagicParam;
-import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rwbase.dao.fetters.pojo.SynConditionData;
+import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -275,14 +285,131 @@ public class AngelArrayTeamInfoHelper {
 		teamInfo.setVip(p.getVip());
 		teamInfo.setName(p.getUserName());
 		teamInfo.setHeadId(p.getHeadImage());
-		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if (userGroupAttributeData != null) {
-			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
-		}
 		teamInfo.setLevel(p.getLevel());
 		teamInfo.setUuid(p.getUserId());
 
+		// 帮派的基础信息
+		changeGroupInfo(p, teamInfo);
+		// 设置道术信息
+		teamInfo.setTaoist(changeTaoistInfo(p));
+		// 设置时装信息
+		teamInfo.setFashion(changeFashionInfo(p));
+		// 设置额外属性Id
+		teamInfo.setExtraId(changeExtraAttrId(p));
+
 		// 法宝信息
+		teamInfo.setMagic(changeMagicInfo(p));
+
+		// 英雄信息
+		RefInt fighting = new RefInt();
+		teamInfo.setHero(changeHeroInfo(p, teamHeroList, fighting));
+		teamInfo.setTeamFighting(fighting.value);
+		return teamInfo;
+	}
+
+	/**
+	 * 道术信息
+	 * 
+	 * @param p
+	 * @return
+	 */
+	private static Map<Integer, Integer> changeTaoistInfo(Player p) {
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		if (!p.isRobot()) {
+			Iterable<Entry<Integer, Integer>> allTaoist = p.getTaoistMgr().getAllTaoist();
+			for (Entry<Integer, Integer> info : allTaoist) {
+				int level = info.getValue();
+				if (level <= 0) {
+					continue;
+				}
+
+				map.put(info.getKey(), info.getValue());
+			}
+
+			return map;
+		}
+
+		return ArenaRobotDataMgr.getMgr().getRobotTaoistMap(p.getUserId());
+	}
+
+	/**
+	 * 设置时装信息
+	 * 
+	 * @param p
+	 * @return
+	 */
+	private static FashionInfo changeFashionInfo(Player p) {
+		FashionInfo fashionInfo = new FashionInfo();
+		if (!p.isRobot()) {
+			FashionUsedIF fashionUsed = p.getFashionMgr().getFashionUsed();
+			fashionInfo.setSuit(fashionUsed.getSuitId());
+			fashionInfo.setWing(fashionUsed.getWingId());
+			fashionInfo.setPet(fashionUsed.getPetId());
+			fashionInfo.setCount(p.getFashionMgr().getValidCount());
+			return fashionInfo;
+		}
+
+		int[] fashionIdArr = ArenaRobotDataMgr.getMgr().getFashionIdArr(p.getUserId());
+		if (fashionIdArr == null || fashionIdArr.length != 3) {
+			return fashionInfo;
+		}
+
+		fashionInfo.setSuit(fashionIdArr[0]);
+		fashionInfo.setWing(fashionIdArr[1]);
+		fashionInfo.setPet(fashionIdArr[2]);
+		return null;
+	}
+
+	/**
+	 * 获取额外的属性Id
+	 * 
+	 * @param p
+	 * @return
+	 */
+	private static int changeExtraAttrId(Player p) {
+		if (!p.isRobot()) {
+			return -1;
+		}
+
+		return ArenaRobotDataMgr.getMgr().getExtraAttrId(p.getUserId());
+	}
+
+	/**
+	 * 改变帮派信息
+	 * 
+	 * @param p
+	 * @param teamInfo
+	 */
+	private static void changeGroupInfo(Player p, TeamInfo teamInfo) {
+		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if (userGroupAttributeData != null) {
+			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
+			// 帮派技能
+			List<GroupSkillItem> skillItemList = userGroupAttributeData.getSkillItemList();
+			if (skillItemList != null && !skillItemList.isEmpty()) {
+				int size = skillItemList.size();
+				Map<Integer, Integer> skillMap = new HashMap<Integer, Integer>(size);
+				for (int i = 0; i < size; i++) {
+					GroupSkillItem groupSkillItem = skillItemList.get(i);
+					if (groupSkillItem == null || groupSkillItem.getLevel() <= 0) {
+						continue;
+					}
+
+					skillMap.put(Integer.valueOf(groupSkillItem.getId()), groupSkillItem.getLevel());
+				}
+
+				teamInfo.setGs(skillMap);
+			}
+		}
+	}
+
+	/**
+	 * 设置英雄的法宝信息
+	 * 
+	 * @param p
+	 * @return
+	 */
+	private static ArmyMagic changeMagicInfo(Player p) {
 		ItemData magic = p.getMagic();
 		ArmyMagic magicInfo = new ArmyMagic();
 		if (magic != null) {
@@ -290,14 +417,22 @@ public class AngelArrayTeamInfoHelper {
 			magicInfo.setLevel(magic.getMagicLevel());
 		}
 
-		teamInfo.setMagic(magicInfo);
+		return magicInfo;
+	}
 
+	/**
+	 * 设置英雄信息
+	 * 
+	 * @param p
+	 * @param teamHeroList
+	 * @param fighting
+	 * @return
+	 */
+	private static List<HeroInfo> changeHeroInfo(Player p, List<Integer> teamHeroList, RefInt fighting) {
 		// 英雄的阵容
 		int heroSize = teamHeroList.size();
 
 		HeroMgr heroMgr = p.getHeroMgr();
-		// 阵容战力
-		int fighting = 0;
 		// 获取阵容信息
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>(heroSize);
 		for (int i = 0; i < heroSize; i++) {
@@ -309,74 +444,175 @@ public class AngelArrayTeamInfoHelper {
 
 			HeroInfo heroInfo = new HeroInfo();
 			// 基础属性
-			HeroBaseInfo heroBaseInfo = new HeroBaseInfo();
-			heroBaseInfo.setLevel(hero.getLevel());
-			heroBaseInfo.setStar(hero.getStarLevel());
-			heroBaseInfo.setQuality(hero.getQualityId());
-			heroBaseInfo.setTmpId(hero.getTemplateId());
-
-			heroInfo.setBaseInfo(heroBaseInfo);
+			heroInfo.setBaseInfo(changeHeroBaseInfo(hero));
 			// 装备
-			List<EquipInfo> equipInfoList = null;
-
-			List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
-			if (equipList != null && !equipList.isEmpty()) {
-				int size = equipList.size();
-
-				equipInfoList = new ArrayList<EquipInfo>(size);
-				for (int j = 0; j < size; j++) {
-					EquipItem equipItem = equipList.get(j);
-					if (equipItem == null) {
-						continue;
-					}
-
-					EquipInfo equipInfo = new EquipInfo();
-					equipInfo.settId(String.valueOf(equipItem.getModelId()));
-					equipInfo.seteLevel(equipItem.getLevel());
-
-					equipInfoList.add(equipInfo);
-				}
-
-				heroInfo.setEquip(equipInfoList);
+			List<EquipInfo> equipList = changeHeroEquipList(hero);
+			if (equipList != null) {
+				heroInfo.setEquip(equipList);
 			}
-
 			// 宝石
 			heroInfo.setGem(hero.getInlayMgr().getInlayGemList());
 			// 技能
-			List<SkillInfo> skillInfoList = null;
+			List<SkillInfo> skillList = changeHeroSkillList(hero);
+			if (skillList != null) {
+				heroInfo.setSkill(skillList);
+			}
 
-			// int skillLevel = 0;
-			List<Skill> skillList = hero.getSkillMgr().getSkillList();
-			if (skillList != null && !skillList.isEmpty()) {
-				int size = skillList.size();
+			// 羁绊
+			Map<Integer, SynConditionData> fetters = changeHeroFetters(p, hero);
+			if (fetters != null) {
+				heroInfo.setFetters(fetters);
+			}
 
-				skillInfoList = new ArrayList<SkillInfo>(size);
-				for (int j = 0; j < size; j++) {
-					Skill skill = skillList.get(j);
-					if (skill == null) {
-						continue;
-					}
-
-					SkillInfo skillInfo = new SkillInfo();
-					skillInfo.setSkillId(skill.getSkillId());
-					skillInfo.setSkillLevel(skill.getLevel());
-
-					skillInfoList.add(skillInfo);
-
-					// skillLevel += skill.getLevel();
-				}
-
-				heroInfo.setSkill(skillInfoList);
+			// 神器
+			List<HeroFixEquipInfo> fixEquipList = changeHeroFixEquip(p, hero);
+			if (fixEquipList != null) {
+				heroInfo.setFixEquip(fixEquipList);
 			}
 
 			heroList.add(heroInfo);
-			fighting += hero.getFighting();
+			fighting.value += hero.getFighting();
 		}
 
-		teamInfo.setHero(heroList);
-		teamInfo.setTeamFighting(fighting);
+		return heroList;
+	}
 
-		return teamInfo;
+	/**
+	 * 设置英雄的基础信息
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	private static HeroBaseInfo changeHeroBaseInfo(Hero hero) {
+		HeroBaseInfo heroBaseInfo = new HeroBaseInfo();
+		heroBaseInfo.setLevel(hero.getLevel());
+		heroBaseInfo.setStar(hero.getStarLevel());
+		heroBaseInfo.setQuality(hero.getQualityId());
+		heroBaseInfo.setTmpId(hero.getTemplateId());
+		return heroBaseInfo;
+	}
+
+	/**
+	 * 设置英雄的装备信息
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	private static List<EquipInfo> changeHeroEquipList(Hero hero) {
+		List<EquipInfo> equipInfoList = null;
+
+		List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
+		if (equipList != null && !equipList.isEmpty()) {
+			int size = equipList.size();
+
+			equipInfoList = new ArrayList<EquipInfo>(size);
+			for (int j = 0; j < size; j++) {
+				EquipItem equipItem = equipList.get(j);
+				if (equipItem == null) {
+					continue;
+				}
+
+				EquipInfo equipInfo = new EquipInfo();
+				equipInfo.settId(String.valueOf(equipItem.getModelId()));
+				equipInfo.seteLevel(equipItem.getLevel());
+
+				equipInfoList.add(equipInfo);
+			}
+		}
+
+		return equipInfoList;
+	}
+
+	/**
+	 * 设置英雄技能
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	private static List<SkillInfo> changeHeroSkillList(Hero hero) {
+		List<SkillInfo> skillInfoList = null;
+
+		List<Skill> skillList = hero.getSkillMgr().getSkillList();
+		if (skillList != null && !skillList.isEmpty()) {
+			int size = skillList.size();
+
+			skillInfoList = new ArrayList<SkillInfo>(size);
+			for (int j = 0; j < size; j++) {
+				Skill skill = skillList.get(j);
+				if (skill == null) {
+					continue;
+				}
+
+				SkillInfo skillInfo = new SkillInfo();
+				skillInfo.setSkillId(skill.getSkillId());
+				skillInfo.setSkillLevel(skill.getLevel());
+
+				skillInfoList.add(skillInfo);
+			}
+		}
+
+		return skillInfoList;
+	}
+
+	/**
+	 * 获取羁绊信息
+	 * 
+	 * @param player
+	 * @param hero
+	 * @return
+	 */
+	private static Map<Integer, SynConditionData> changeHeroFetters(Player player, Hero hero) {
+		if (!player.isRobot()) {
+			SynFettersData fettersData = player.getHeroFettersByModelId(hero.getModelId());
+			if (fettersData == null) {
+				return null;
+			}
+
+			return fettersData.getOpenList();
+		}
+
+		return ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModelId());
+	}
+
+	/**
+	 * 设置神器信息
+	 * 
+	 * @param player
+	 * @param hero
+	 * @return
+	 */
+	private static List<HeroFixEquipInfo> changeHeroFixEquip(Player player, Hero hero) {
+		List<HeroFixEquipInfo> fixInfoList = new ArrayList<HeroFixEquipInfo>();
+
+		if (!player.isRobot()) {
+			List<HeroFixEquipInfo> fixExpList = hero.getFixExpEquipMgr().getHeroFixSimpleInfo(hero.getUUId());
+			if (!fixExpList.isEmpty()) {
+				fixInfoList.addAll(fixExpList);
+			}
+
+			List<HeroFixEquipInfo> fixNormList = hero.getFixNormEquipMgr().getHeroFixSimpleInfo(hero.getUUId());
+			if (!fixNormList.isEmpty()) {
+				fixInfoList.addAll(fixNormList);
+			}
+
+			return fixInfoList;
+		}
+
+		String userId = player.getUserId();
+		int heroModelId = hero.getModelId();
+
+		ArenaRobotDataMgr mgr = ArenaRobotDataMgr.getMgr();
+		List<HeroFixEquipInfo> fixExpList = FixEquipHelper.parseFixExpEquip2SimpleList(mgr.getFixExpEquipList(userId, heroModelId));
+		if (!fixExpList.isEmpty()) {
+			fixInfoList.addAll(fixExpList);
+		}
+
+		List<HeroFixEquipInfo> fixNormList = FixEquipHelper.parseFixNormEquip2SimpleList(mgr.getFixNormEquipList(userId, heroModelId));
+		if (!fixNormList.isEmpty()) {
+			fixInfoList.addAll(fixNormList);
+		}
+
+		return fixInfoList;
 	}
 
 	/**
@@ -403,7 +639,7 @@ public class AngelArrayTeamInfoHelper {
 		// 英雄属性
 		List<ArmyHero> armyHeroList = new ArrayList<ArmyHero>(size);
 		for (int i = 0; i < size; i++) {
-			ArmyHero armyHero = parseHeroInfo2ArmyHero(heroList.get(i), magic);
+			ArmyHero armyHero = parseHeroInfo2ArmyHero(heroList.get(i), teamInfo);
 
 			if (armyHero.isPlayer()) {
 				armyInfo.setPlayer(armyHero);
@@ -426,7 +662,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param magicLevel
 	 * @return
 	 */
-	private static ArmyHero parseHeroInfo2ArmyHero(HeroInfo heroInfo, ArmyMagic magic) {
+	private static ArmyHero parseHeroInfo2ArmyHero(HeroInfo heroInfo, TeamInfo teamInfo) {
 		ArmyHero armyHero = new ArmyHero();
 
 		RoleCfgDAO cfgDAO = RoleCfgDAO.getInstance();
@@ -489,19 +725,7 @@ public class AngelArrayTeamInfoHelper {
 
 		armyHero.setSkillList(skillList);
 		// 其他属性
-		// AttrData heroAttrData = AttrDataCalcFactory.getHeroAttrData(heroInfo);
-		MagicParam magicParam = null;
-		if (magic != null) {
-
-			MagicParam.MagicBuilder builder = new MagicBuilder();
-			builder.setMagicId(String.valueOf(magic.getModelId()));
-			builder.setMagicLevel(magic.getLevel());
-			builder.setUserId(tmpId);
-
-			magicParam = builder.build();
-		}
-
-		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, magicParam);
+		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo);
 		armyHero.setAttrData(heroAttrData);
 
 		// 当前血量
@@ -512,7 +736,8 @@ public class AngelArrayTeamInfoHelper {
 		boolean isPlayer = roleCfg.getRoleType() == 1;
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
-		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? magic.getLevel() : 0, isPlayer ? String.valueOf(magic.getModelId()) : "", heroAttrData));
+		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
+				heroAttrData));
 
 		return armyHero;
 	}

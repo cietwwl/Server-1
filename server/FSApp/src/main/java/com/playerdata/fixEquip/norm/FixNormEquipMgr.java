@@ -25,6 +25,7 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
+import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 
 public class FixNormEquipMgr {
@@ -448,4 +449,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
+	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
+		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
+	}
 }

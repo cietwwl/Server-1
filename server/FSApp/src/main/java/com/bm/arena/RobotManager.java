@@ -444,6 +444,83 @@ public class RobotManager {
 		}
 	}
 
+	/**
+	 * 获取神器信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotFixInfo(RobotEntryCfg cfg) {
+		int[] fixInfo = new int[3];
+		// 神器
+		int[] fixEquipLevel = cfg.getFixEquipLevel();
+		fixInfo[0] = getRandom(fixEquipLevel);
+		int[] fixEquipQuality = cfg.getFixEquipQuality();
+		fixInfo[1] = getRandom(fixEquipQuality);
+		int[] fixEquipStar = cfg.getFixEquipStar();
+		fixInfo[2] = getRandom(fixEquipStar);
+
+		return fixInfo;
+	}
+
+	/**
+	 * 获取时装数据
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotFashionInfo(RobotEntryCfg cfg) {
+		List<String> fashions = cfg.getFashions();
+		int[] fashionIdArr = new int[3];
+		if (fashions.size() >= 3) {
+			for (int i = 0; i < 3; i++) {
+				fashionIdArr[i] = Integer.parseInt(fashions.get(i));
+			}
+		}
+		return fashionIdArr;
+	}
+
+	/**
+	 * 获取道术的信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotTaoistInfo(RobotEntryCfg cfg) {
+		List<int[]> taoistLevel = cfg.getTaoistLevel();
+		int[] taoistLevelArr = new int[3];
+		if (taoistLevel.size() >= 3) {
+			for (int i = 0; i < 3; i++) {
+				taoistLevelArr[i] = getRandom(taoistLevel.get(i));
+			}
+		}
+		return taoistLevelArr;
+	}
+
+	/**
+	 * 获取英雄羁绊信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static HeroFettersRobotInfo[] getRobotFettersInfo(RobotEntryCfg cfg) {
+		Map<String, int[]> heroFetters = cfg.getHeroFetters();
+		HeroFettersRobotInfo[] fetters = new HeroFettersRobotInfo[0];
+		if (!heroFetters.isEmpty()) {
+			fetters = new HeroFettersRobotInfo[heroFetters.size()];
+			int i = 0;
+			for (Entry<String, int[]> e : heroFetters.entrySet()) {
+				HeroFettersRobotInfo info = new HeroFettersRobotInfo();
+				info.setId(e.getKey());
+				info.setLevel(getRandom(e.getValue()));
+
+				fetters[i++] = info;
+			}
+		}
+
+		return fetters;
+	}
+
 	static class ProductPlayerTask implements Callable<RankingPlayer> {
 		private final int career;
 		private final int expectRanking;
@@ -563,53 +640,14 @@ public class RobotManager {
 			// 增加其他的扩展内容
 			ArenaRobotData robotData = new ArenaRobotData();
 			robotData.setUserId(userId);
-			// 时装
-			List<String> fashions = cfg.getFashions();
-			if (fashions.size() >= 3) {
-				int[] fashionIdArr = new int[3];
-				for (int i = 0; i < 3; i++) {
-					fashionIdArr[i] = Integer.parseInt(fashions.get(i));
-				}
-
-				robotData.setFashionId(fashionIdArr);
-			}
-
-			int[] fixInfo = new int[3];
 			// 神器
-			int[] fixEquipLevel = cfg.getFixEquipLevel();
-			fixInfo[0] = getRandom(fixEquipLevel);
-			int[] fixEquipQuality = cfg.getFixEquipQuality();
-			fixInfo[1] = getRandom(fixEquipQuality);
-			int[] fixEquipStar = cfg.getFixEquipStar();
-			fixInfo[2] = getRandom(fixEquipStar);
-			robotData.setFixEquip(fixInfo);
-
+			robotData.setFixEquip(getRobotFixInfo(cfg));
+			// 时装
+			robotData.setFashionId(getRobotFashionInfo(cfg));
 			// 道术
-			List<int[]> taoistLevel = cfg.getTaoistLevel();
-			if (taoistLevel.size() >= 3) {
-				int[] taoistLevelArr = new int[3];
-				for (int i = 0; i < 3; i++) {
-					taoistLevelArr[i] = getRandom(taoistLevel.get(i));
-				}
-
-				robotData.setTaoist(taoistLevelArr);
-			}
-
+			robotData.setTaoist(getRobotTaoistInfo(cfg));
 			// 羁绊
-			Map<String, int[]> heroFetters = cfg.getHeroFetters();
-			if (!heroFetters.isEmpty()) {
-				HeroFettersRobotInfo[] fetters = new HeroFettersRobotInfo[heroFetters.size()];
-				int i = 0;
-				for (Entry<String, int[]> e : heroFetters.entrySet()) {
-					HeroFettersRobotInfo info = new HeroFettersRobotInfo();
-					info.setId(e.getKey());
-					info.setLevel(getRandom(e.getValue()));
-
-					fetters[i++] = info;
-				}
-
-				robotData.setFetters(fetters);
-			}
+			robotData.setFetters(getRobotFettersInfo(cfg));
 			// 额外属性
 			robotData.setExtraAttrId(cfg.getExtraAttrId());
 			// 把机器人这个配置数据放到数据库

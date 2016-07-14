@@ -1,6 +1,7 @@
 package com.rw.service.TaoistMagic;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.common.IRandomMgr;
 import com.rw.fsutil.common.stream.IStream;
@@ -17,4 +18,5 @@ public interface ITaoistMgr extends IRandomMgr {
 
 	Iterable<TaoistInfo> getMagicList();
 
+	public Iterable<Entry<Integer, Integer>> getAllTaoist();
 }

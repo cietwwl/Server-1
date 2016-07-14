@@ -44,7 +44,7 @@ import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 
-public class FashionMgr implements FashionMgrIF,PlayerEventListener {
+public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
 	private static String GiveEMailID = "10036";
@@ -71,28 +71,28 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	public boolean isInited() {
 		return isInited;
 	}
-	
-	public static boolean UpgradeIdLogic(int fid,RefInt newFid){
-		if ((fid / 100) == 100){
+
+	public static boolean UpgradeIdLogic(int fid, RefInt newFid) {
+		if ((fid / 100) == 100) {
 			newFid.value = 900000 + fid % 100;
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
 	 */
-	public void convertData(){
+	public void convertData() {
 		List<FashionItem> lst = fashionItemHolder.getItemList();
-		//List<FashionItem> uplst = new ArrayList<FashionItem>();
+		// List<FashionItem> uplst = new ArrayList<FashionItem>();
 		for (FashionItem fashionItem : lst) {
-			if (fashionItem.UpgradeOldData()){
-				//uplst.add(fashionItem);
+			if (fashionItem.UpgradeOldData()) {
+				// uplst.add(fashionItem);
 				fashionItemHolder.updateItem(m_player, fashionItem);
 			}
 		}
-		
+
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
 		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
 			fashionUsedHolder.update(fashionUsed);
@@ -101,7 +101,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override
@@ -731,7 +731,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 * 
 	 * @return
 	 */
-	private int getValidCount() {
+	public int getValidCount() {
 		int result = 0;
 		long now = System.currentTimeMillis();
 		RefParam<String> tip = new RefParam<String>();

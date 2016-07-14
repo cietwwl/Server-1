@@ -1,5 +1,7 @@
 package com.playerdata.fixEquip;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.team.HeroFixEquipInfo;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
@@ -282,5 +285,67 @@ public class FixEquipHelper {
 		}
 
 		return attrMap;
+	}
+
+	/**
+	 * 转换经验类神器到简单的存储结构列表
+	 * 
+	 * @param fixExpEquipList
+	 * @return
+	 */
+	public static List<HeroFixEquipInfo> parseFixExpEquip2SimpleList(List<FixExpEquipDataItem> fixExpEquipList) {
+		if (fixExpEquipList == null || fixExpEquipList.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		int size = fixExpEquipList.size();
+		List<HeroFixEquipInfo> fixInfoList = new ArrayList<HeroFixEquipInfo>();
+		for (int i = 0; i < size; i++) {
+			FixExpEquipDataItem fixExp = fixExpEquipList.get(i);
+			if (fixExp == null || (fixExp.getLevel() | fixExp.getQuality() | fixExp.getStar()) == 0) {
+				continue;
+			}
+
+			HeroFixEquipInfo fixInfo = new HeroFixEquipInfo();
+			fixInfo.setId(fixExp.getId());
+			fixInfo.setLevel(fixExp.getLevel());
+			fixInfo.setQuality(fixExp.getQuality());
+			fixInfo.setStar(fixExp.getStar());
+
+			fixInfoList.add(fixInfo);
+		}
+
+		return fixInfoList;
+	}
+
+	/**
+	 * 转换普通类神器到简单的存储结构列表
+	 * 
+	 * @param fixNormEquipList
+	 * @return
+	 */
+	public static List<HeroFixEquipInfo> parseFixNormEquip2SimpleList(List<FixNormEquipDataItem> fixNormEquipList) {
+		if (fixNormEquipList == null || fixNormEquipList.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		int size = fixNormEquipList.size();
+		List<HeroFixEquipInfo> fixInfoList = new ArrayList<HeroFixEquipInfo>();
+		for (int i = 0; i < size; i++) {
+			FixNormEquipDataItem fixNorm = fixNormEquipList.get(i);
+			if (fixNorm == null || (fixNorm.getLevel() | fixNorm.getQuality() | fixNorm.getStar()) == 0) {
+				continue;
+			}
+
+			HeroFixEquipInfo fixInfo = new HeroFixEquipInfo();
+			fixInfo.setId(fixNorm.getId());
+			fixInfo.setLevel(fixNorm.getLevel());
+			fixInfo.setQuality(fixNorm.getQuality());
+			fixInfo.setStar(fixNorm.getStar());
+
+			fixInfoList.add(fixInfo);
+		}
+
+		return fixInfoList;
 	}
 }
