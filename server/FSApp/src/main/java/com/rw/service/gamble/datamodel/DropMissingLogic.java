@@ -75,7 +75,7 @@ public class DropMissingLogic {
 		int quality = qualityHelper.getQuality(qualityId);
 		if (cfg.isQualityInRange(quality)){
 			//配置的装备列表
-			List<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
+			ArrayList<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
 			//已装备列表
 			ArrayList<Integer> wearEquipIdList = new ArrayList<Integer>();
 			
@@ -97,6 +97,11 @@ public class DropMissingLogic {
 				if (!isBagContain(itemBagMgr,equipCfgId)){
 					result.add(equipCfgId);
 				}
+			}
+			
+			//装备空缺组容错规则：如果没有空缺，则用非空缺的位置补上
+			if(result.size() <= 0){
+				result = equipCfgList;
 			}
 		}
 		return result;
