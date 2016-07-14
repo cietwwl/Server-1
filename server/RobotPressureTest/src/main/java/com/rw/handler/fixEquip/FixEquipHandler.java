@@ -90,7 +90,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("fixequipHandler[send]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}
 					
@@ -143,7 +143,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}
 					
@@ -195,7 +195,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("fixequipHandler[send]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}
 					
@@ -248,7 +248,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("fixequipHandler[send]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}
 					
@@ -301,7 +301,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}
 					
