@@ -230,7 +230,7 @@ public class GambleTest {
 			int dropGroupId;
 			if (historyRecord.passExclusiveCheck(isFree)) {// 前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				logTrace(trace, "passExclusiveCheck:true");
-				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
+				if (historyRecord.checkGuarantee(isFree, dropPlan)) {
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
 					logTrace(trace, "checkGuarantee:true,dropGroupId=" + dropGroupId);
 				} else {
@@ -249,10 +249,10 @@ public class GambleTest {
 
 			} else {
 				logTrace(trace, "passExclusiveCheck:false");
-				List<String> checkHistory = historyRecord.getHistory(isFree, dropPlan);
+				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree, dropPlan);
 				logTrace(trace, "checkHistory:", checkHistory);
 				GambleDropGroup tmpGroup = null;
-				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
+				if (historyRecord.checkGuarantee(isFree, dropPlan)) {
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory,selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:true,tmpGroup=", tmpGroup);
 				} else {
@@ -279,7 +279,6 @@ public class GambleTest {
 				}
 			}
 
-			historyRecord.clearGuaranteeHistory(isFree, dropPlan);
 		}
 
 		return dropList;
