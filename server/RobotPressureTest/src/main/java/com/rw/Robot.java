@@ -917,10 +917,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
-		type = 0;
-		heronumber = 0;
-		expequipId =0;
-		servicetype =1;
+	
 		upgrade(50);
 		addCoin(9999999);
 		addGold(88888);
