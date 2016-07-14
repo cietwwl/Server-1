@@ -11,8 +11,6 @@ import com.common.RandomIntGroups;
 import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
-import com.rwbase.dao.item.SoulStoneCfgDAO;
-import com.rwbase.dao.item.pojo.SoulStoneCfg;
 
 public class DropGamblePlan implements IDropGambleItemPlan {
 	private int[] checkList;
@@ -141,9 +139,9 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 			for (String configId : itemOrHeroIdLst) {
 				//魂石作为英雄看待！
 				if (GambleLogicHelper.isHeroSoul(configId)){
-					SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(configId);
-					if (soulCfg != null){
-						configId = GambleLogicHelper.ConvertSoulToHeroModelId(soulCfg);
+					configId = GambleLogicHelper.ConvertSoulIdToHeroModelId(configId);
+					if (configId == null){
+						continue;
 					}
 				}
 				

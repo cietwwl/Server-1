@@ -112,24 +112,22 @@ public class GambleLogicHelper {
 						GambleDropGroup hot = hotPlan.getHotPlan();
 						String[] hotHeroList = hot.getPlans();
 						for (String hotItemId : hotHeroList) {
-							value = ItemPreviewData.newBuilder();
-							value.setItemId(hotItemId);
-							value.setIsGuaranteen(false);
 							boolean isHero = false;
 							if (GambleLogicHelper.isValidHeroOrSoulId(hotItemId)){
 								isHero = true;
 								if (GambleLogicHelper.isHeroSoul(hotItemId)){
-									SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(hotItemId);
-									if (soulCfg != null){
-										value.setItemId(ConvertSoulToHeroModelId(soulCfg));
-									}else{
-										isHero = false;
+									hotItemId = GambleLogicHelper.ConvertSoulIdToHeroModelId(hotItemId);
+									if (hotItemId == null){
+										continue;
 									}
 								}
 							}else{
 								isHero = false;
 							}
 							
+							value = ItemPreviewData.newBuilder();
+							value.setItemId(hotItemId);
+							value.setIsGuaranteen(false);
 							if (isHero){
 								pb.addHeroList(value);
 							}else{
@@ -146,8 +144,17 @@ public class GambleLogicHelper {
 		response.setResultType(EGambleResultType.SUCCESS);
 		return response;
 	}
+	
+	public static String ConvertSoulIdToHeroModelId(String soulId){
+		String result = null;
+		SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(soulId);
+		if (soulCfg != null){
+			result = GambleLogicHelper.ConvertSoulToHeroModelId(soulCfg);
+		}
+		return result;
+	}
 
-	public static String ConvertSoulToHeroModelId(SoulStoneCfg soulCfg) {
+	private static String ConvertSoulToHeroModelId(SoulStoneCfg soulCfg) {
 		int star = soulCfg.getStar();
 		star = star > 0 ? star : 1;
 		RoleCfg cfg = RoleCfgDAO.getInstance().getCfgByModeID(String.valueOf(soulCfg.getComposeTargetId()));
@@ -155,7 +162,8 @@ public class GambleLogicHelper {
 			return cfg.getRoleId();
 		}
 		GameLog.error("钓鱼台", "", "魂石没有对应的RoleCfg可抽英雄配置,ID="+soulCfg.getComposeTargetId());
-		return soulCfg.getComposeTargetId()+"_"+star;
+		return null;
+		//return soulCfg.getComposeTargetId()+"_"+star;
 	}
 	
 	public static Iterable<DropData> getFinshingData(Player player){
