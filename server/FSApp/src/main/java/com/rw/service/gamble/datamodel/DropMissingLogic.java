@@ -73,7 +73,7 @@ public class DropMissingLogic {
 		}
 		String qualityId = hero.getQualityId();
 		int quality = qualityHelper.getQuality(qualityId);
-		if (cfg.isQualityInRange(quality)){
+		quality = cfg.checkQualityRange(quality);
 			//配置的装备列表
 			ArrayList<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
 			//已装备列表
@@ -103,7 +103,7 @@ public class DropMissingLogic {
 			if(result.size() <= 0){
 				result = equipCfgList;
 			}
-		}
+		
 		return result;
 	}
 	

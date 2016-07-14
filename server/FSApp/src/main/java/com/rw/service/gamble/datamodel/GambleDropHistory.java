@@ -291,6 +291,13 @@ public class GambleDropHistory {
 	}
 
 	@JsonIgnore
+	public int getCurrentCheckNum(boolean isFree, IDropGambleItemPlan dropPlan){
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+		int checkNum = dropPlan.getCheckNum(index);
+		return checkNum;
+	}
+	
+	@JsonIgnore
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
 		List<String> history = chargeGambleHistory;
 		history.add(itemModel);
@@ -386,5 +393,9 @@ public class GambleDropHistory {
 			result = tmp;
 		}
 		return result;
+	}
+
+	public void clearHistory() {
+		chargeGambleHistory.clear();
 	}
 }
