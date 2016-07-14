@@ -298,8 +298,8 @@ public class Robot {
 	}
 
 	public void checkItemEnough(int modelId) {
-		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
-		if (itemData.getCount() < 10) {
+		ItemData itemData = client.getItembagHolder().getByModelId(modelId);		
+		if (itemData==null||itemData.getCount() < 10) {
 			gainItem(modelId, 888);
 		}
 	}
@@ -921,13 +921,30 @@ public class Robot {
 		upgrade(50);
 		addCoin(9999999);
 		addGold(88888);
-		additem(806511);//进化材料
-		additem(806553);//升星材料
+		checkItemEnough(806511);//进化材料
+		checkItemEnough(806512);
+		checkItemEnough(806513);
+		checkItemEnough(806514);
+		checkItemEnough(806515);
+		checkItemEnough(806516);
+		checkItemEnough(806517);
+		checkItemEnough(806518);
+		checkItemEnough(806519);
+		checkItemEnough(806520);
+		checkItemEnough(806521);
+		checkItemEnough(806522);
+		checkItemEnough(806523);
+		checkItemEnough(806524);
+		checkItemEnough(806525);
+		checkItemEnough(806526);
+		checkItemEnough(806527);
+		checkItemEnough(806528);		
+		checkItemEnough(806553);//升星材料
+		checkItemEnough(806505);//下←格经验材料
+		checkItemEnough(806510);//下右格经验材料
+		checkItemEnough(806551);//←升级别材料
+		checkItemEnough(806552);//右升级
 		
-		additem(806505);//下←格经验材料
-		additem(806510);//下右格经验材料
-		additem(806551);//←升级别材料
-		additem(806552);//右升级
 		boolean issuc = false;
 		if (type == 0) {
 			issuc = FixEquipHandler.instance().doEquip(client, heronumber, expequipId, servicetype);
