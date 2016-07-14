@@ -296,7 +296,6 @@ public class Player implements PlayerIF {
 		unendingWarMgr.init(this);
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
-		m_TaskMgr.init(this);
 		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
@@ -310,6 +309,7 @@ public class Player implements PlayerIF {
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
+		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
