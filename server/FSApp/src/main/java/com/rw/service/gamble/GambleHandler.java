@@ -88,7 +88,7 @@ public class GambleHandler {
 			return GambleLogicHelper.SetError(response,player,String.format("无效掉落物品数量，配置:%s", planIdStr),"无法抽卡");
 		}
 		
-		StringBuilder trace = new StringBuilder();//gamblePlanId ==5 ? new StringBuilder() : null;
+		StringBuilder trace = gamblePlanId ==5 ? new StringBuilder() : null;
 		
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();

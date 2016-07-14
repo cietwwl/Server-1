@@ -458,7 +458,15 @@ public class GambleLogicHelper {
 					log = trace.toString();
 				}
 				GameLog.error("钓鱼台", uid, "钻石十连抽没有抽到英雄\n"+log);
-				//System.out.println("bug:"+trace.toString());
+				String hero = GamblePlanCfgHelper.getInstance().getSpecialGuaranteeHero();
+				if (isValidHeroId(hero)){
+					//特殊容错：从配置选一个有效的保底英雄替换了最后一个英雄
+					dropList.remove(dropList.size()-1);
+					GambleRewardData.Builder b = GambleRewardData.newBuilder();
+					b.setItemId(hero);
+					b.setItemNum(1);
+					dropList.add(b.build());
+				}
 			}
 			return !hasHero;
 		}
