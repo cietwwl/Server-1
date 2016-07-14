@@ -20,7 +20,6 @@ public class GambleDropHistory {
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
 	
-	private int freeGuaranteePlanIndex = 0;//免费保底检索的索引
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
 	
 	private boolean passFreeExclusiveCheck = false;
@@ -36,7 +35,6 @@ public class GambleDropHistory {
 		b.append("hotCheckRandomThreshold:").append(hotCheckRandomThreshold).append("\n");
 		b.append("firstFreeGamble:").append(firstFreeGamble).append("\n");
 		b.append("firstChargeGamble:").append(firstChargeGamble).append("\n");
-		b.append("freeGuaranteePlanIndex:").append(freeGuaranteePlanIndex).append("\n");
 		b.append("chargeGuaranteePlanIndex:").append(chargeGuaranteePlanIndex).append("\n");
 		b.append("passFreeExclusiveCheck:").append(passFreeExclusiveCheck).append("\n");
 		b.append("passChargeExclusiveCheck:").append(passChargeExclusiveCheck).append("\n");
@@ -73,14 +71,6 @@ public class GambleDropHistory {
 
 	public void setPassChargeExclusiveCheck(boolean passChargeExclusiveCheck) {
 		this.passChargeExclusiveCheck = passChargeExclusiveCheck;
-	}
-
-	public int getFreeGuaranteePlanIndex() {
-		return freeGuaranteePlanIndex;
-	}
-
-	public void setFreeGuaranteePlanIndex(int freeGuaranteePlanIndex) {
-		this.freeGuaranteePlanIndex = freeGuaranteePlanIndex;
 	}
 
 	public int getChargeGuaranteePlanIndex() {
@@ -229,14 +219,32 @@ public class GambleDropHistory {
 	/**
 	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
 	 * 还需要调整保底次数数组的索引
+	 * @param isGuarantee 
+	 * @param trace 
 	 * @param isFree
 	 */
 	@JsonIgnore
-	public void clearGuaranteeHistory(boolean isFree,IDropGambleItemPlan dropPlan){
-		chargeGambleHistory.clear();
-		increaseGuaranteePlanIndex(isFree,dropPlan.getLastCheckIndex());
+	public void clearGuaranteeHistory(boolean isGuarantee, IDropGambleItemPlan dropPlan, StringBuilder trace){
+		if (isGuarantee){
+			GambleLogicHelper.logTrace(trace,"isGuarantee trigger clearHistory");
+			clearGuaranteeRecord(dropPlan, trace);
+		}else{
+			int index = chargeGuaranteePlanIndex;
+			List<String> history = chargeGambleHistory;
+			int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
+			int historySize = history.size();
+			if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
+				GambleLogicHelper.logTrace(trace,"exceed check number trigger clearHistory");
+				clearGuaranteeRecord(dropPlan, trace);
+			}
+		}
 	}
-	
+
+	private void clearGuaranteeRecord(IDropGambleItemPlan dropPlan, StringBuilder trace) {
+		GambleLogicHelper.logTrace(trace,this);
+		chargeGambleHistory.clear();
+		increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
+	}
 	
 	/**
 	 * 返回true表示需要使用保底方案
@@ -246,7 +254,7 @@ public class GambleDropHistory {
 	 */
 	@JsonIgnore
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan) {
-		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+		int index = chargeGuaranteePlanIndex;
 		List<String> history = chargeGambleHistory;
 		int checkNum = dropPlan.getCheckNum(index);
 		int historySize = history.size();
@@ -270,27 +278,21 @@ public class GambleDropHistory {
 	}
 	
 	@JsonIgnore
-	private void increaseGuaranteePlanIndex(boolean isFree, int lastIndex){
-		if (isFree){
-			if (freeGuaranteePlanIndex<lastIndex){
-				freeGuaranteePlanIndex++;
-			}
-		}else{
-			if (freeGuaranteePlanIndex<lastIndex){
-				chargeGuaranteePlanIndex++;
-			}
+	private void increaseGuaranteePlanIndex(int lastIndex){
+		if (chargeGuaranteePlanIndex<lastIndex){
+			chargeGuaranteePlanIndex++;
 		}
 	}
 
 	@JsonIgnore
-	public int getCurrentCheckNum(boolean isFree, IDropGambleItemPlan dropPlan){
-		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+	public int getCurrentCheckNum(IDropGambleItemPlan dropPlan){
+		int index = chargeGuaranteePlanIndex;
 		int checkNum = dropPlan.getCheckNum(index);
 		return checkNum;
 	}
 	
 	@JsonIgnore
-	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
+	public void add(boolean isFree, String itemModel, int itemCount) {
 		List<String> history = chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {

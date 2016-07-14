@@ -119,8 +119,6 @@ public class GambleHandler {
 		RefInt slotCount = new RefInt();
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
-		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
-		GambleLogicHelper.logTrace(trace,"maxHistoryNumber:"+maxHistoryNumber);
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -134,7 +132,7 @@ public class GambleHandler {
 				//return SetError(response,player,String.format("首抽配置无效，配置:%s", planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-				historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+				historyRecord.add(isFree,itemModel,slotCount.value);
 			}
 		}
 
@@ -176,7 +174,7 @@ public class GambleHandler {
 			if (dropPlan == null){
 				//最后容错：20个经验单
 				GambleLogicHelper.add2DropList(dropList, 20, defaultItem,userId,planIdStr,defaultItem);
-				historyRecord.add(isFree,defaultItem,20,maxHistoryNumber);
+				historyRecord.add(isFree,defaultItem,20);
 				GambleLogicHelper.logTrace(trace,"最后容错：20个经验单,ID="+defaultItem);
 				continue;
 			}
@@ -195,7 +193,7 @@ public class GambleHandler {
 				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+					historyRecord.add(isFree,itemModel,slotCount.value);
 				}else{
 					//有错误，减少最大抽卡数量
 					//maxCount --;
@@ -230,7 +228,7 @@ public class GambleHandler {
 				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount,tmpWeight);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+					historyRecord.add(isFree,itemModel,slotCount.value);
 					GambleLogicHelper.logTrace(trace,"checkDistinctTag,isFree:"+isFree+",ExclusiveCount:"+dropPlan.getExclusiveCount());
 					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
 				}else{
@@ -244,11 +242,7 @@ public class GambleHandler {
 				}
 			}
 			
-			if (isGuarantee){
-				GambleLogicHelper.logTrace(trace,"clearHistory");
-				GambleLogicHelper.logTrace(trace,historyRecord);
-				historyRecord.clearGuaranteeHistory(isFree,dropPlan);
-			}
+			historyRecord.clearGuaranteeHistory(isGuarantee,dropPlan,trace);
 		}
 		
 		clearContext();
