@@ -24,6 +24,11 @@ public class ArenaRobotData {
 		return userId;
 	}
 
+	/**
+	 * 神器信息：按照顺序是--->等级,品质,星数
+	 * 
+	 * @return
+	 */
 	public int[] getFixEquip() {
 		return fixEquip;
 	}
