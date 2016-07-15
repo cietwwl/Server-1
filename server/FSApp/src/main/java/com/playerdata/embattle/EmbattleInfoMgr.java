@@ -36,20 +36,20 @@ public class EmbattleInfoMgr {
 	 * @param recoreKey
 	 * @param heroPos
 	 */
-	public void updateOrAddEmbattleInfo(Player player, int key, String recoreKey, List<EmbattleHeroPosition> heroPos) {
+	public void updateOrAddEmbattleInfo(Player player, int type, String recoreKey, List<EmbattleHeroPosition> heroPos) {
 		String userId = player.getUserId();
 		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		String pKey = String.valueOf(key);
+		String pKey = String.valueOf(type);
 		EmbattleInfo item = mapItemStore.getItem(pKey);
 		if (item == null) {
-			item = new EmbattleInfo(userId, key);
+			item = new EmbattleInfo(userId, type);
 			item.updateOrAddEmbattleInfo(recoreKey, heroPos);
 			mapItemStore.addItem(item);
-			syn(player, key, true);
+			syn(player, type, true);
 		} else {
 			item.updateOrAddEmbattleInfo(recoreKey, heroPos);
 			mapItemStore.update(pKey);
-			syn(player, key, false);
+			syn(player, type, false);
 		}
 	}
 
@@ -57,13 +57,13 @@ public class EmbattleInfoMgr {
 	 * 删除某个类型中的阵容记录
 	 * 
 	 * @param player
-	 * @param key
+	 * @param type
 	 * @param recoreKey
 	 */
-	public void removeEmbattleInfo(Player player, int key, String recoreKey) {
+	public void removeEmbattleInfo(Player player, int type, String recoreKey) {
 		String userId = player.getUserId();
 		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		String pKey = String.valueOf(key);
+		String pKey = String.valueOf(type);
 		EmbattleInfo item = mapItemStore.getItem(pKey);
 		if (item == null) {
 			return;
@@ -72,7 +72,7 @@ public class EmbattleInfoMgr {
 		item.removeEmbattleInfo(recoreKey);
 		mapItemStore.update(pKey);
 
-		syn(player, key, false);
+		syn(player, type, false);
 	}
 
 	/**
