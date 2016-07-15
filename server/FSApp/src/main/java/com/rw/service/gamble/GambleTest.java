@@ -172,8 +172,6 @@ public class GambleTest {
 		HashMap<String, Integer> dropList = new HashMap<String, Integer>();
 		RefInt dropListCount = new RefInt();
 
-		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
-		logTrace(trace, "maxHistoryNumber:" + maxHistoryNumber);
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -188,7 +186,7 @@ public class GambleTest {
 				// planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			} else if (add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem, dropListCount)) {
-				historyRecord.add(isFree, itemModel, slotCount.value, maxHistoryNumber);
+				historyRecord.add(isFree, itemModel, slotCount.value);
 			}
 		}
 
@@ -224,12 +222,13 @@ public class GambleTest {
 		}
 
 		int maxCount = planCfg.getDropItemCount();
+		RefInt selectedDropGroupIndex = new RefInt();
 		while (dropListCount.value < maxCount) {
 			logTrace(trace, "dropListCount=" + dropListCount.value);
 			int dropGroupId;
 			if (historyRecord.passExclusiveCheck(isFree)) {// 前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				logTrace(trace, "passExclusiveCheck:true");
-				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
+				if (historyRecord.checkGuarantee(isFree, dropPlan)) {
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
 					logTrace(trace, "checkGuarantee:true,dropGroupId=" + dropGroupId);
 				} else {
@@ -239,7 +238,7 @@ public class GambleTest {
 				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
 				logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem, dropListCount)) {
-					historyRecord.add(isFree, itemModel, slotCount.value, maxHistoryNumber);
+					historyRecord.add(isFree, itemModel, slotCount.value);
 				} else {
 					// 有错误，减少最大抽卡数量
 					maxCount--;
@@ -248,14 +247,14 @@ public class GambleTest {
 
 			} else {
 				logTrace(trace, "passExclusiveCheck:false");
-				List<String> checkHistory = historyRecord.getHistory(isFree, dropPlan);
+				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree, dropPlan);
 				logTrace(trace, "checkHistory:", checkHistory);
 				GambleDropGroup tmpGroup = null;
-				if (historyRecord.checkGuarantee(isFree, dropPlan, maxHistoryNumber)) {
-					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory);
+				if (historyRecord.checkGuarantee(isFree, dropPlan)) {
+					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory,selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:true,tmpGroup=", tmpGroup);
 				} else {
-					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory);
+					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory,selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:false,tmpGroup=", tmpGroup);
 				}
 
@@ -269,7 +268,7 @@ public class GambleTest {
 				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount, tmpWeight);
 				logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem, dropListCount)) {
-					historyRecord.add(isFree, itemModel, slotCount.value, maxHistoryNumber);
+					historyRecord.add(isFree, itemModel, slotCount.value);
 					historyRecord.checkDistinctTag(isFree, dropPlan.getExclusiveCount());
 				} else {
 					// 有错误，减少最大抽卡数量
@@ -278,7 +277,6 @@ public class GambleTest {
 				}
 			}
 
-			historyRecord.clearGuaranteeHistory(isFree, dropPlan);
 		}
 
 		return dropList;

@@ -47,7 +47,8 @@ public class DropMissingLogic {
 		
 		List<Hero> heroList = player.getHeroMgr().getAllHeros(comparator);
 		for (int i = 0; i < heroList.size(); i++) {
-			List<Integer> equipCandidates = searchOneHero(heroList.get(i),itemBagMgr,qualityHelper,cfg);
+			Hero hero = heroList.get(i);
+			List<Integer> equipCandidates = searchOneHero(hero,itemBagMgr,qualityHelper,cfg);
 			int max = equipCandidates.size();
 			if (max <= 0){
 				continue;
@@ -73,9 +74,10 @@ public class DropMissingLogic {
 		}
 		String qualityId = hero.getQualityId();
 		int quality = qualityHelper.getQuality(qualityId);
-		if (cfg.isQualityInRange(quality)){
+		quality = cfg.checkQualityRange(quality);
+		qualityId = hero.getModelId()+"_"+(quality+1);
 			//配置的装备列表
-			List<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
+			ArrayList<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
 			//已装备列表
 			ArrayList<Integer> wearEquipIdList = new ArrayList<Integer>();
 			
@@ -98,7 +100,12 @@ public class DropMissingLogic {
 					result.add(equipCfgId);
 				}
 			}
-		}
+			
+			//装备空缺组容错规则：如果没有空缺，则用非空缺的位置补上
+			if(result.size() <= 0){
+				result = equipCfgList;
+			}
+		
 		return result;
 	}
 	

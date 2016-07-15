@@ -168,8 +168,10 @@ public class GFOnlineKillRankMgr {
 	public static void updateGFKillRankInfo(Player player){
 		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
 		RankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = ranking.getRankingEntry(player.getUserId());
-		entry.getExtendedAttribute().setUserName(player.getUserName());
-		entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
-		ranking.subimitUpdatedTask(entry);
+		if (entry != null) {
+			entry.getExtendedAttribute().setUserName(player.getUserName());
+			entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+			ranking.subimitUpdatedTask(entry);
+		}
 	}
 }

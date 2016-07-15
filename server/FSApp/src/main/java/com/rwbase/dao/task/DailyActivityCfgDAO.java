@@ -9,10 +9,8 @@ import java.util.Map;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
 public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 	public static DailyActivityCfgDAO getInstance() {

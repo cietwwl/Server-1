@@ -1,0 +1,10 @@
+key,mark,id,personMailID,resetMailID,passMailID,comMailContent,LTMailContent,HDMailContent
+1,,1,12001,12002,12003,"你所在的帮派%s
+攻克了副本%s
+%s贡献了团队最高的伤害
+%s完成了荣耀的最后一击
+所有团队成员获得
+%s点个人贡献奖励","由于在限定时间内完成了副本
+所有团队成员额外获得
+%s点个人贡献奖励","你的单次最高伤害排在帮派的第%s位
+你额外获得%s点个人贡献奖励"

@@ -57,9 +57,9 @@ enum eSynType	//数据同步类型
 	GroupMemberData = 33;//帮派正式成员信息
 	GroupLog=34;//帮派log
 	UserGroupAttributeData=35;//用户个人的帮派信息
-	GroupCopyLevel=36;//帮派关卡记录
-	GroupCopyMap=37; //帮派地图记录
-	GroupCopyReward=38;//帮派奖励分配记录
+	GROUP_COPY_LEVEL=36;//帮派关卡记录
+	GROUP_COPY_MAP=37; //帮派地图记录
+	GROUP_COPY_REWARD=38;//帮派奖励分配记录
 	GroupApplyMemberData = 39;//申请成员信息
 	GroupResearchSkill = 40;//帮派技能研发
 	GroupStudySkill = 41;//帮派技能学习
@@ -74,7 +74,9 @@ enum eSynType	//数据同步类型
 	MagicSecretData = 50;   //法宝秘境数据
 	MagicChapterData = 51;   //法宝秘境章节数据
 	SECRETAREA_TEAM_INFO = 52;//帮派秘境的阵容信息
-
+	USE_GROUP_COPY_DATA = 53;//帮派副本个人数据
+	GROUP_COPY_SERVER_RANK = 54;//帮派副本前10排行数据
+	GROUP_ITEM_DROP_APPLY = 55;//帮派副本掉落
 
 	//活动从60-79
 	ActivityCountType = 60;//活动，计数类型
@@ -104,7 +106,7 @@ enum eSynType	//数据同步类型
 	GFightSimpleLeader = 87;	//在线帮战防守队伍简要信息
 	GFightFinalReward = 88;		//在线帮战最终的奖励
 	
-	EmbattleInfo = 89;//站位的同步数据
+	EmbattleInfo = 89;//阵容站位
 }
 
 message MsgDataSynList

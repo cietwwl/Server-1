@@ -36,6 +36,20 @@ public class FashionBeingUsed implements FashionUsedIF {
 		return result;
 	}
 	
+	public void setUsing(int index,int fid){
+		switch(index){
+		case 0:
+			wingId = fid;
+			break;
+		case 1:
+			suitId = fid;
+			break;
+		case 2:
+			petId = fid;
+			break;
+		}
+	}
+	
 	public boolean UpgradeOldData(){
 		boolean result = false;
 		RefInt newFid = new RefInt();

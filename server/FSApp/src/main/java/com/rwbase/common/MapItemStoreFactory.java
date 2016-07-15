@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
@@ -73,7 +79,18 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<AngelArrayFloorData> angelArrayFloorData;
 	// AngelArrayEnemyInfoData
 	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
-
+	
+	
+	private static MapItemStoreCache<GroupCopyMapRecord> groupCopyMapRecordCache;
+	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
+	private static MapItemStoreCache<GroupCopyRewardDistRecord> groupCopyRewardRecordCache;
+	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
+	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
+	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
+	
+	
+	
+	
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
@@ -117,9 +134,8 @@ public class MapItemStoreFactory {
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
-				return;
-			} else {
 				init = true;
+				return;
 			}
 		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
@@ -150,8 +166,18 @@ public class MapItemStoreFactory {
 
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
-		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+		
+		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));		
+		
+		register(groupCopyMapRecordCache = new MapItemStoreCache<GroupCopyMapRecord>(GroupCopyMapRecord.class, "groupId", heroCapacity));
+		
+		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
+		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardDistRecord>(GroupCopyRewardDistRecord.class, "groupId", heroCapacity));
 
+		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
+		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
+		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
+		
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
@@ -160,6 +186,7 @@ public class MapItemStoreFactory {
 		//
 		// register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 		//
+		
 		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
 		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));
@@ -304,6 +331,38 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GroupMemberData> getGroupMemberCache() {
 		return groupMemberCache;
+	}
+
+	public static MapItemStoreCache<GroupCopyMapRecord> getGroupCopyMapRecordCache() {
+		return groupCopyMapRecordCache;
+	}
+
+	public static MapItemStoreCache<GroupCopyLevelRecord> getGroupCopyLevelRecordCache() {
+		return groupCopyLevelRecordCache;
+	}
+
+	public static MapItemStoreCache<UserGroupCopyMapRecord> getUserGroupCopyLevelRecordCache() {
+		return userGroupCopyLevelRecordCache;
+	}
+	
+	/**
+	 * 获取帮派奖励分配记录
+	 * @return
+	 */
+	public static MapItemStoreCache<GroupCopyRewardDistRecord> getGroupCopyRewardRecordCache() {
+		return groupCopyRewardRecordCache;
+	}
+
+	/**
+	 * 获取帮派副本关卡全服单次伤害缓存
+	 * @return
+	 */
+	public static MapItemStoreCache<ServerGroupCopyDamageRecord> getServerGroupCopyDamageRecordCache() {
+		return serverGroupCopyDamageRecordCache;
+	}
+
+	public static MapItemStoreCache<CopyItemDropAndApplyRecord> getItemDropAndApplyRecordCache() {
+		return itemDropAndApplyRecordCache;
 	}
 
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
