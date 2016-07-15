@@ -22,6 +22,7 @@ import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFFightResultException;
+import com.playerdata.groupFightOnline.dataException.HaveFightEnimyException;
 import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
@@ -89,6 +90,9 @@ public class GFightOnFightBM {
 		} catch (HaveSelectEnimyException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg(e.getMessage());
+		} catch (HaveFightEnimyException e) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg(e.getMessage());
@@ -129,6 +133,9 @@ public class GFightOnFightBM {
 		} catch (HaveSelectEnimyException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg(e.getMessage());
+		} catch (HaveFightEnimyException e) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg(e.getMessage());
 		} catch (NoSuitableDefenderException e) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg(e.getMessage());
@@ -162,7 +169,7 @@ public class GFightOnFightBM {
 			gfRsp.setTipMsg("还没有选择对手");
 			return;
 		}
-		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)){
+		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID())){
 			gfRsp.setRstType(GFResultType.SELECT_EXPIRED);
 			gfRsp.setTipMsg("锁定对手的时间已过期");
 			return;
@@ -209,7 +216,7 @@ public class GFightOnFightBM {
 		}
 		UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 		DefendArmySimpleInfo defenderSimple = userGFData.getRandomDefender();
-		if(GFightConditionJudge.getInstance().isLockExpired(defenderSimple)) {
+		if(GFightConditionJudge.getInstance().isFightExpired(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID())){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("锁定对手时间过长，已经失效");
 			return;

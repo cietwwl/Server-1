@@ -37,6 +37,7 @@ import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -45,6 +46,7 @@ import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
+import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
@@ -543,10 +545,16 @@ public class PeakArenaHandler {
 					enemyUser.getTempAttribute().setRecordChanged(true);
 				}
 			}
+			
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
 
 			response.setCdTime(computeCdTime(playerArenaData));
 			response.setChallengeCount(playerArenaData.getChallengeCount());
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+			
+			pushMainViewData(player);
+			
 			return response.build().toByteString();
 		} finally {
 			// TODO 同宇超商量不对挑战者加锁
@@ -556,6 +564,13 @@ public class PeakArenaHandler {
 				enemyEntry.getExtension().setNotFighting();
 			}
 		}
+	}
+
+	private void pushMainViewData(Player player) {
+		MsgArenaRequest.Builder req = MsgArenaRequest.newBuilder();
+		req.setArenaType(eArenaType.GET_DATA);
+		ByteString data = getPeakArenaData(req.build(),player);
+		player.SendMsg(MsgDef.Command.MSG_PEAK_ARENA, data);
 	}
 
 	/**

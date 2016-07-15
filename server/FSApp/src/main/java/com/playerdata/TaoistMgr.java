@@ -36,16 +36,17 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		this.player = player;
-//		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
-//		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
-//		onEffectChange(record);
+		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		onEffectChange(record, false);
 	}
 
 	private boolean hasSubscribeLevel = false;
+
 	@Override
 	public void init(Player player) {
 		this.player = player;
-		if (!hasSubscribeLevel){
+		if (!hasSubscribeLevel) {
 			player.getLevelNotification().subscribe(this);
 			hasSubscribeLevel = true;
 		}
@@ -57,17 +58,25 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		boolean result = holder.setLevel(record, tid, level);
 		if (result) {
-			onEffectChange(record);
+			onEffectChange(record, true);
 		}
 		return result;
 	}
 
-	private void onEffectChange(TaoistMagicRecord record) {
+	/**
+	 * 更新道术属性
+	 * 
+	 * @param record
+	 * @param fire 是否通知更新属性，当登录初始化道术属性的时候，fire必然是false
+	 */
+	private void onEffectChange(TaoistMagicRecord record, boolean fire) {
 		Map<Integer, AttributeItem> effects = getEffects(record);
 		taoistMagicEff.hold(effects);
-		taoistMagicEff.fire(effects);
+		if (fire) {
+			taoistMagicEff.fire(effects);
+		}
 	}
-	
+
 	private Map<Integer, AttributeItem> getEffects(TaoistMagicRecord record) {
 		return TaoistMagicCfgHelper.getInstance().getEffectAttr(record.getAll());
 	}
@@ -97,12 +106,14 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 
 	@Override
 	public void onChange(Integer newValue) {
-		if (newValue == null) return;
+		if (newValue == null)
+			return;
 		int openLevel = newValue;
 		TaoistMagicCfgHelper cfgHelper = TaoistMagicCfgHelper.getInstance();
 		Iterable<TaoistMagicCfg> openList = cfgHelper.getOpenList(openLevel);
-		if (openList == null) return;
-		
+		if (openList == null)
+			return;
+
 		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		for (TaoistMagicCfg taoistMagicCfg : openList) {
@@ -116,8 +127,8 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 				GameLog.error("道术", player.getUserId(), "更新数据失败");
 			}
 		}
-		
-		onEffectChange(record);
+
+		onEffectChange(record, true);
 	}
 
 	@Override

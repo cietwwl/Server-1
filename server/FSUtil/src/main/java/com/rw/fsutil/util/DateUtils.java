@@ -352,6 +352,18 @@ public class DateUtils {
 		setDayZeroTime(c);
 		return c.getTimeInMillis();
 	}
+	
+	/**
+	 * 获取时间的0点
+	 * @param time
+	 * @return
+	 */
+	public static Calendar getDayZeroCalendar(long time){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(time);
+		setDayZeroTime(c);
+		return c;
+	}
 
 	/***
 	 * 获取时间指定格式字符串

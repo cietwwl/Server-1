@@ -12,6 +12,7 @@ import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
 public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 	public static DailyActivityCfgDAO getInstance() {
@@ -23,12 +24,19 @@ public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 
 	@Override
 	public Map<String, DailyActivityCfg> initJsonCfg() {
+		
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("dailyActivity/dailyActivity.csv", DailyActivityCfg.class);
 		HashMap<Integer, DailyActivityCfgEntity> entityMap = new HashMap<Integer, DailyActivityCfgEntity>(this.cfgCacheMap.size());
 		for (Map.Entry<String, DailyActivityCfg> entry : this.cfgCacheMap.entrySet()) {
 			DailyActivityCfg cfg = entry.getValue();
 			DailyActivityCfgEntity entity = new DailyActivityCfgEntity(cfg);
+			if(entityMap.containsKey(cfg.getId())){
+				//检查配置表数据，id是否重复
+				throw new ExceptionInInitializerError("校验dailyActivity.csv表，发现重复的id数据:" + cfg.getId());
+			}
+			
 			entityMap.put(cfg.getId(), entity);
+			
 		}
 		this.entityMap = entityMap;
 		ArrayList<DailyActivityCfgEntity> list = new ArrayList<DailyActivityCfgEntity>(entityMap.values());

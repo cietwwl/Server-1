@@ -19,6 +19,7 @@ import com.rw.fsutil.common.SegmentList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.datamodel.RecommandCfgDAO;
 import com.rw.service.friend.datamodel.RecommandConditionCfg;
 import com.rw.service.friend.datamodel.RecommandConditionCfgDAO;
@@ -35,6 +36,7 @@ import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
 import com.rwproto.FriendServiceProtos.FriendRequest;
 import com.rwproto.FriendServiceProtos.FriendResponse;
+import com.rwproto.GiftCodeProto.ResultType;
 import com.rwproto.MsgDef.Command;
 
 /** 好友通迅类 */
@@ -316,6 +318,11 @@ public class FriendHandler {
 		response.setResultType(resultVo.resultType);
 		response.setResultMsg(resultVo.resultMsg);
 		response.addAllUpdateList(resultVo.updateList);
+		if(resultVo.resultType == EFriendResultType.SUCCESS){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, 1);
+		}
+		
 		return response.build().toByteString();
 	}
 
@@ -345,6 +352,10 @@ public class FriendHandler {
 		response.setResultType(resultVo.resultType);
 		response.setResultMsg(resultVo.resultMsg);
 		response.addAllUpdateList(resultVo.updateList);
+		if(resultVo.resultType == EFriendResultType.SUCCESS){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, 1);
+		}
 		return response.build().toByteString();
 	}
 

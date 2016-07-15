@@ -1675,6 +1675,21 @@ public final class AccountLoginProtos {
      * <code>optional int32 color = 8;</code>
      */
     int getColor();
+
+    // optional string tips = 9;
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    boolean hasTips();
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
   }
   /**
    * Protobuf type {@code ZoneInfo}
@@ -1765,6 +1780,11 @@ public final class AccountLoginProtos {
             case 64: {
               bitField0_ |= 0x00000080;
               color_ = input.readInt32();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              tips_ = input.readBytes();
               break;
             }
           }
@@ -2043,6 +2063,49 @@ public final class AccountLoginProtos {
       return color_;
     }
 
+    // optional string tips = 9;
+    public static final int TIPS_FIELD_NUMBER = 9;
+    private java.lang.Object tips_;
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    public boolean hasTips() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tips = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       zoneId_ = 0;
       zoneName_ = "";
@@ -2052,6 +2115,7 @@ public final class AccountLoginProtos {
       recommand_ = 0;
       isOpen_ = 0;
       color_ = 0;
+      tips_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2097,6 +2161,9 @@ public final class AccountLoginProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, color_);
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, getTipsBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2137,6 +2204,10 @@ public final class AccountLoginProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, color_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getTipsBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2270,6 +2341,8 @@ public final class AccountLoginProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         color_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -2330,6 +2403,10 @@ public final class AccountLoginProtos {
           to_bitField0_ |= 0x00000080;
         }
         result.color_ = color_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.tips_ = tips_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2377,6 +2454,11 @@ public final class AccountLoginProtos {
         }
         if (other.hasColor()) {
           setColor(other.getColor());
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000100;
+          tips_ = other.tips_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2837,6 +2919,80 @@ public final class AccountLoginProtos {
       public Builder clearColor() {
         bitField0_ = (bitField0_ & ~0x00000080);
         color_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string tips = 9;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 9;</code>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        tips_ = value;
         onChanged();
         return this;
       }
@@ -6595,27 +6751,27 @@ public final class AccountLoginProtos {
       "\n\022AccountLogin.proto\"\205\001\n\013AccountInfo\022\021\n\t" +
       "accountId\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\025\n\rope" +
       "nAccountId\030\003 \001(\t\022\017\n\007logType\030\004 \001(\005\022\021\n\tpho" +
-      "neInfo\030\005 \001(\t\022\026\n\016clientInfoJson\030\006 \001(\t\"\216\001\n" +
+      "neInfo\030\005 \001(\t\022\026\n\016clientInfoJson\030\006 \001(\t\"\234\001\n" +
       "\010ZoneInfo\022\016\n\006zoneId\030\001 \002(\005\022\020\n\010zoneName\030\002 " +
       "\002(\t\022\020\n\010serverIp\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\016\n\006s" +
       "tatus\030\005 \001(\t\022\021\n\trecommand\030\006 \001(\005\022\016\n\006isOpen" +
-      "\030\007 \001(\005\022\r\n\005color\030\010 \001(\005\"s\n\010UserInfo\022\033\n\010zon" +
-      "eInfo\030\001 \002(\0132\t.ZoneInfo\022\021\n\theadImage\030\002 \001(" +
-      "\t\022\r\n\005vipLv\030\003 \001(\005\022\016\n\006career\030\004 \001(\005\022\n\n\002lv\030\005",
-      " \001(\005\022\014\n\004name\030\006 \001(\t\"t\n\023AccountLoginReques" +
-      "t\022%\n\tloginType\030\001 \002(\0162\022.eAccountLoginType" +
-      "\022\035\n\007account\030\002 \002(\0132\014.AccountInfo\022\027\n\004zone\030" +
-      "\003 \001(\0132\t.ZoneInfo\"\351\001\n\024AccountLoginRespons" +
-      "e\022%\n\tloginType\030\001 \002(\0162\022.eAccountLoginType" +
-      "\022%\n\nresultType\030\002 \002(\0162\021.eLoginResultType\022" +
-      "\035\n\007account\030\003 \001(\0132\014.AccountInfo\022\r\n\005error\030" +
-      "\004 \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t.ZoneInfo\022\033\n\010zo" +
-      "neList\030\006 \003(\0132\t.ZoneInfo\022\033\n\010userList\030\007 \003(" +
-      "\0132\t.UserInfo*N\n\021eAccountLoginType\022\021\n\rACC",
-      "OUNT_LOGIN\020\001\022\r\n\tZONE_LIST\020\002\022\027\n\023REFRESH_Z" +
-      "ONE_STATUS\020\003*)\n\020eLoginResultType\022\013\n\007SUCC" +
-      "ESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022AccountL" +
-      "oginProtos"
+      "\030\007 \001(\005\022\r\n\005color\030\010 \001(\005\022\014\n\004tips\030\t \001(\t\"s\n\010U" +
+      "serInfo\022\033\n\010zoneInfo\030\001 \002(\0132\t.ZoneInfo\022\021\n\t" +
+      "headImage\030\002 \001(\t\022\r\n\005vipLv\030\003 \001(\005\022\016\n\006career",
+      "\030\004 \001(\005\022\n\n\002lv\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\"t\n\023Acco" +
+      "untLoginRequest\022%\n\tloginType\030\001 \002(\0162\022.eAc" +
+      "countLoginType\022\035\n\007account\030\002 \002(\0132\014.Accoun" +
+      "tInfo\022\027\n\004zone\030\003 \001(\0132\t.ZoneInfo\"\351\001\n\024Accou" +
+      "ntLoginResponse\022%\n\tloginType\030\001 \002(\0162\022.eAc" +
+      "countLoginType\022%\n\nresultType\030\002 \002(\0162\021.eLo" +
+      "ginResultType\022\035\n\007account\030\003 \001(\0132\014.Account" +
+      "Info\022\r\n\005error\030\004 \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t." +
+      "ZoneInfo\022\033\n\010zoneList\030\006 \003(\0132\t.ZoneInfo\022\033\n" +
+      "\010userList\030\007 \003(\0132\t.UserInfo*N\n\021eAccountLo",
+      "ginType\022\021\n\rACCOUNT_LOGIN\020\001\022\r\n\tZONE_LIST\020" +
+      "\002\022\027\n\023REFRESH_ZONE_STATUS\020\003*)\n\020eLoginResu" +
+      "ltType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwp" +
+      "rotoB\022AccountLoginProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6633,7 +6789,7 @@ public final class AccountLoginProtos {
           internal_static_ZoneInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ZoneInfo_descriptor,
-              new java.lang.String[] { "ZoneId", "ZoneName", "ServerIp", "Port", "Status", "Recommand", "IsOpen", "Color", });
+              new java.lang.String[] { "ZoneId", "ZoneName", "ServerIp", "Port", "Status", "Recommand", "IsOpen", "Color", "Tips", });
           internal_static_UserInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_UserInfo_fieldAccessorTable = new
