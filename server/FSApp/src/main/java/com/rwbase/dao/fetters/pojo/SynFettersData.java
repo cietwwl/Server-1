@@ -11,6 +11,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class SynFettersData {
+	
 	private int heroModelId;// 英雄的模版Id
 	private Map<Integer, SynConditionData> openList;// 开放列表
 
