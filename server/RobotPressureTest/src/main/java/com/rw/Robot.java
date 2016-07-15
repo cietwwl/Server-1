@@ -940,6 +940,7 @@ public class Robot {
 		checkItemEnough(806527);
 		checkItemEnough(806528);		
 		checkItemEnough(806553);//升星材料
+		checkItemEnough(806586);//升星材料
 		checkItemEnough(806505);//下←格经验材料
 		checkItemEnough(806510);//下右格经验材料
 		checkItemEnough(806551);//←升级别材料
