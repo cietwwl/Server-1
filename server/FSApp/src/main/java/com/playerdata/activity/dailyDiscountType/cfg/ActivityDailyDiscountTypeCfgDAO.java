@@ -85,6 +85,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 				ActivityDailyDiscountTypeSubItem subitem = new ActivityDailyDiscountTypeSubItem();
 				subitem.setCfgId(itemCfg.getId());
 				subitem.setItemId(itemCfg.getItemId());
+				subitem.setItemNum(itemCfg.getItemNum());
 				subitem.setCount(0);
 				subItemList.add(subitem);
 			}

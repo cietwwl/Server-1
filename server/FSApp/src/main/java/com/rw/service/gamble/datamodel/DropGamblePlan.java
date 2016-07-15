@@ -11,8 +11,6 @@ import com.common.RandomIntGroups;
 import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
-import com.rwbase.dao.item.SoulStoneCfgDAO;
-import com.rwbase.dao.item.pojo.SoulStoneCfg;
 
 public class DropGamblePlan implements IDropGambleItemPlan {
 	private int[] checkList;
@@ -86,18 +84,28 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	}
 
 	@Override
-	public GambleDropGroup getGuaranteeGroup(Random r, List<String> historyRecord) {
-		return getGroup(r, historyRecord, guaranteeGroup);
+	public int getOrdinaryGroup(Random r, RefInt planIndex) {
+		return ordinaryGroup.getRandomGroup(r,planIndex);
 	}
 
 	@Override
-	public GambleDropGroup getOrdinaryGroup(Random r, List<String> historyRecord) {
-		return getGroup(r, historyRecord, ordinaryGroup);
+	public int getGuaranteeGroup(Random r, RefInt planIndex) {
+		return guaranteeGroup.getRandomGroup(r,planIndex);
+	}
+	
+	@Override
+	public GambleDropGroup getGuaranteeGroup(Random r, List<String> historyRecord,RefInt selectedIndex) {
+		return getGroup(r, historyRecord, guaranteeGroup,selectedIndex);
 	}
 
-	private GambleDropGroup getGroup(Random r, List<String> historyRecord, RandomIntGroups startGroup) {
+	@Override
+	public GambleDropGroup getOrdinaryGroup(Random r, List<String> historyRecord,RefInt selectedIndex) {
+		return getGroup(r, historyRecord, ordinaryGroup,selectedIndex);
+	}
+
+	protected GambleDropGroup getGroup(Random r, List<String> historyRecord, RandomIntGroups startGroup,RefInt selectedIndex) {
 		if (historyRecord == null || historyRecord.size() <= 0) {
-			int selected = startGroup.getRandomGroup(r);
+			int selected = startGroup.getRandomGroup(r,selectedIndex);
 			return GambleDropCfgHelper.getInstance().getGroup(selected);
 		}
 
@@ -112,6 +120,9 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 				tmpGroup = startGroup.removeIndex(selectedGroupIndex.value);
 			}
 			result = findRandomGroup(r, historyRecord, tmpGroup, selectedGroupIndex);
+		}
+		if (selectedIndex!=null){
+			selectedIndex.value = selectedGroupIndex.value;
 		}
 		return result;
 	}
@@ -141,9 +152,9 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 			for (String configId : itemOrHeroIdLst) {
 				//魂石作为英雄看待！
 				if (GambleLogicHelper.isHeroSoul(configId)){
-					SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(configId);
-					if (soulCfg != null){
-						configId = GambleLogicHelper.ConvertSoulToHeroModelId(soulCfg);
+					configId = GambleLogicHelper.ConvertSoulIdToHeroModelId(configId);
+					if (configId == null){
+						continue;
 					}
 				}
 				
@@ -180,5 +191,19 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 			return ReInitPreviewData();
 		}
 		return cachePreviewData.values();
+	}
+
+	@Override
+	public IDropGambleItemPlan removeHistoryFromOrdinaryGroup(int planId) {
+		TmpDropGamblePlan tmp = new TmpDropGamblePlan(this);
+		return tmp.removeHistoryFromOrdinaryGroup(planId);
+	}
+	
+	protected RandomIntGroups getOrdinaryGroup(){
+		return ordinaryGroup;
+	}
+
+	protected RandomIntGroups getGuaranteeGroup(){
+		return guaranteeGroup;
 	}
 }

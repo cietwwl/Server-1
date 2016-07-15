@@ -112,24 +112,22 @@ public class GambleLogicHelper {
 						GambleDropGroup hot = hotPlan.getHotPlan();
 						String[] hotHeroList = hot.getPlans();
 						for (String hotItemId : hotHeroList) {
-							value = ItemPreviewData.newBuilder();
-							value.setItemId(hotItemId);
-							value.setIsGuaranteen(false);
 							boolean isHero = false;
 							if (GambleLogicHelper.isValidHeroOrSoulId(hotItemId)){
 								isHero = true;
 								if (GambleLogicHelper.isHeroSoul(hotItemId)){
-									SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(hotItemId);
-									if (soulCfg != null){
-										value.setItemId(ConvertSoulToHeroModelId(soulCfg));
-									}else{
-										isHero = false;
+									hotItemId = GambleLogicHelper.ConvertSoulIdToHeroModelId(hotItemId);
+									if (hotItemId == null){
+										continue;
 									}
 								}
 							}else{
 								isHero = false;
 							}
 							
+							value = ItemPreviewData.newBuilder();
+							value.setItemId(hotItemId);
+							value.setIsGuaranteen(false);
 							if (isHero){
 								pb.addHeroList(value);
 							}else{
@@ -146,8 +144,17 @@ public class GambleLogicHelper {
 		response.setResultType(EGambleResultType.SUCCESS);
 		return response;
 	}
+	
+	public static String ConvertSoulIdToHeroModelId(String soulId){
+		String result = null;
+		SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(soulId);
+		if (soulCfg != null){
+			result = GambleLogicHelper.ConvertSoulToHeroModelId(soulCfg);
+		}
+		return result;
+	}
 
-	public static String ConvertSoulToHeroModelId(SoulStoneCfg soulCfg) {
+	private static String ConvertSoulToHeroModelId(SoulStoneCfg soulCfg) {
 		int star = soulCfg.getStar();
 		star = star > 0 ? star : 1;
 		RoleCfg cfg = RoleCfgDAO.getInstance().getCfgByModeID(String.valueOf(soulCfg.getComposeTargetId()));
@@ -155,7 +162,8 @@ public class GambleLogicHelper {
 			return cfg.getRoleId();
 		}
 		GameLog.error("钓鱼台", "", "魂石没有对应的RoleCfg可抽英雄配置,ID="+soulCfg.getComposeTargetId());
-		return soulCfg.getComposeTargetId()+"_"+star;
+		return null;
+		//return soulCfg.getComposeTargetId()+"_"+star;
 	}
 	
 	public static Iterable<DropData> getFinshingData(Player player){
@@ -219,9 +227,9 @@ public class GambleLogicHelper {
 	public static boolean add2DropList(ArrayList<GambleRewardData> dropList, int slotCount, String itemModelId,String uid, String planIdStr,String defaultModelId) {
 		//检查是否具有有效的佣兵配置
 		if (StringUtils.isBlank(itemModelId)){
-			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效，配置:%s", planIdStr));
-			itemModelId = defaultModelId;
-			//return false;
+			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效=%s，配置id:%s,",itemModelId, planIdStr));
+			//itemModelId = defaultModelId;
+			return false;
 		}
 		if (slotCount <= 0){
 			GameLog.error("钓鱼台", uid, String.format("配置叠加数量无效，配置:%s", planIdStr));
@@ -232,18 +240,18 @@ public class GambleLogicHelper {
 		if (itemModelId.indexOf("_") != -1) {
 			String[] arr = itemModelId.split("_");
 			if (arr == null) {
-				itemModelId = defaultModelId;
-				//return false;
+				//itemModelId = defaultModelId;
+				return false;
 			}else{
 				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(itemModelId);
 				if (roleCfg == null) {
-					itemModelId = defaultModelId;
+					//itemModelId = defaultModelId;
 					GameLog.error("钓鱼模块", uid, "钓鱼随机到了模版Id为：" + itemModelId + "的英雄，配置不存在,ID="+planIdStr);
-					//return false;
+					return false;
 				}
 			}
 		}
-
+		
 		GambleRewardData.Builder rewardData = GambleRewardData.newBuilder();
 		rewardData.setItemId(itemModelId);
 		rewardData.setItemNum(slotCount);
@@ -434,7 +442,7 @@ public class GambleLogicHelper {
 		}
 	}
 	
-	public static void testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
+	public static boolean testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
 		if (gamblePlanId == 5){//钻石十连抽
 			boolean hasHero = false;
 			for (GambleRewardData item : dropList) {
@@ -450,8 +458,24 @@ public class GambleLogicHelper {
 					log = trace.toString();
 				}
 				GameLog.error("钓鱼台", uid, "钻石十连抽没有抽到英雄\n"+log);
-				//System.out.println("bug:"+trace.toString());
+				String hero = GamblePlanCfgHelper.getInstance().getSpecialGuaranteeHero();
+				if (isValidHeroId(hero)){
+					//特殊容错：从配置选一个有效的保底英雄替换了最后一个英雄
+					dropList.remove(dropList.size()-1);
+					GambleRewardData.Builder b = GambleRewardData.newBuilder();
+					b.setItemId(hero);
+					b.setItemNum(1);
+					dropList.add(b.build());
+				}
 			}
+			return !hasHero;
+		}
+		return true;
+	}
+
+	public static void logTrace(StringBuilder trace, GambleDropHistory historyRecord) {
+		if (trace != null){
+			trace.append("historyRecord:").append(historyRecord.toDebugString());
 		}
 	}
 }

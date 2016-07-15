@@ -22,6 +22,7 @@ import com.common.Action;
 import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
+import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.log.GameLog;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
@@ -134,6 +135,7 @@ public class Player implements PlayerIF {
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
+	private UserGroupCopyMapRecordMgr userGroupCopyRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
 	private FashionMgr m_FashionMgr = new FashionMgr();
@@ -242,6 +244,7 @@ public class Player implements PlayerIF {
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
+		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
@@ -252,6 +255,7 @@ public class Player implements PlayerIF {
 			m_HeroMgr.init(this, true);
 		}
 
+		
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
 		// 法宝数据
@@ -292,7 +296,6 @@ public class Player implements PlayerIF {
 		unendingWarMgr.init(this);
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
-		m_TaskMgr.init(this);
 		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
@@ -306,6 +309,7 @@ public class Player implements PlayerIF {
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
+		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -1139,6 +1143,14 @@ public class Player implements PlayerIF {
 	 */
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
 		return userGroupAttributeDataMgr;
+	}
+	/**
+	 * 获取个人的帮派副本数据
+	 * 
+	 * @return
+	 */
+	public UserGroupCopyMapRecordMgr getUserGroupCopyRecordMgr() {
+		return userGroupCopyRecordMgr;
 	}
 
 	/**
