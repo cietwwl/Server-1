@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
