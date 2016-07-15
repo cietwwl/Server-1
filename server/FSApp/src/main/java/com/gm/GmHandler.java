@@ -42,6 +42,7 @@ import com.gm.task.GmServerStatus;
 import com.gm.task.GmServerSwitch;
 import com.gm.task.GmStartRobotCreation;
 import com.gm.task.GmSwitchBIGm;
+import com.gm.task.GmUpdateCacheSwitch;
 import com.gm.task.GmUserDetailInfo;
 import com.gm.task.GmUserInfo;
 import com.gm.task.GmViewEmailList;
@@ -124,6 +125,8 @@ public class GmHandler {
 		
 		//获取各种排名的用户id列表
 		taskMap.put(77777, new GmGetRankList());
+		//更新缓存记录开关
+		taskMap.put(99997, new GmUpdateCacheSwitch());
 	}
 
 	
