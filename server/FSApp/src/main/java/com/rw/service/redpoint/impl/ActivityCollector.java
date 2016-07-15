@@ -235,14 +235,17 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			
-			
 			List<ActivityExchangeTypeSubItem> exchangeSubitemlist= targetItem.getSubItemList();
 			for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
 				if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
+					if(targetItem.getHistoryRedPoint().contains(subitem.getCfgId())){
+						continue;
+					}
 					activityList.add(cfg.getId());
 					break;
-				}				
+				}
 			}
+			
 		}
 //      ----------------------------------
 		ActivityDailyDiscountTypeItemHolder dailyDiscountDataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();

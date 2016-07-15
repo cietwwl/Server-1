@@ -334,9 +334,19 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
-			dataItem.setTouchRedPoint(true);
-			activityCountTypeItemHolder.updateItem(player, dataItem);
-		}	
+			dataItem.setTouchRedPoint(true);			
+		}
 		
+		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
+		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
+			if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
+				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
+					continue;
+				}
+				dataItem.getHistoryRedPoint().add(subitem.getCfgId());
+			}
+		}		
+		activityCountTypeItemHolder.updateItem(player, dataItem);
 	}
+
 }

@@ -2,6 +2,7 @@ package com.playerdata.activity.exChangeType.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -44,8 +45,25 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	private String version ;
 	
 	@CombineSave
-	private long redPointLastTime;	
+	private long redPointLastTime;
 	
+	/**
+	 * 记录subcfgid,在此内的id均为之前兑换道具可兑换的对象，以对应显示新红点
+	 */
+	@CombineSave
+	private List<String> historyRedPoint = new ArrayList<String>();
+	
+	
+	
+	
+	public List<String> getHistoryRedPoint() {
+		return historyRedPoint;
+	}
+
+	public void setHistoryRedPoint(List<String> historyRedPoint) {
+		this.historyRedPoint = historyRedPoint;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -72,6 +90,7 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		subItemList = list;
 		isTouchRedPoint = false;
+		historyRedPoint = new ArrayList<String>();
 	}
 
 	public String getVersion() {

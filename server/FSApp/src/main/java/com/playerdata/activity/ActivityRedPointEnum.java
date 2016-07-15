@@ -2,6 +2,13 @@ package com.playerdata.activity;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 
+ * @author 阳小飞；活动页签枚举；前个变量为该页签对应的枚举，后个变量表明此页签属于哪个活动功能；此枚举主要对应红点
+ * 每当某个活动的数据枚举或事件枚举新增了一项枚举会触发新的页签时，需要在红点枚举同步增加
+ * 通用活动一的每一个触发事件都会新增页签，通用活动三每个双倍类型也会触发；不同的排行榜奖励或者兑换活动都会新增页签
+ *
+ */
 public enum ActivityRedPointEnum {
 	Login("11",ActivityTypeEnum.ActivityCountType),//通用活动一
 	GoldSpending("12",ActivityTypeEnum.ActivityCountType),
