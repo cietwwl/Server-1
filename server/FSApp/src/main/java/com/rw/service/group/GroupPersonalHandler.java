@@ -18,6 +18,7 @@ import com.bm.rank.group.GroupSimpleExtAttribute;
 import com.bm.rank.group.base.GroupBaseRankExtAttribute;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.DailyActivityMgr;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
@@ -28,6 +29,7 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -726,6 +728,10 @@ public class GroupPersonalHandler {
 		// 更新帮派排行榜属性
 		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 		UserEventMgr.getInstance().factionDonateVitality(player, 1);
+		
+		//通知日常任务
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUP_DONATE, 1);
+		
 		// 设置回应消息
 		GroupDonateRspMsg.Builder rsp = GroupDonateRspMsg.newBuilder();
 		rsp.setLeftDonateTimes(perDayDonateTimes - memberData.getDonateTimes());

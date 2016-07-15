@@ -37,6 +37,7 @@ import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -543,6 +544,9 @@ public class PeakArenaHandler {
 					enemyUser.getTempAttribute().setRecordChanged(true);
 				}
 			}
+			
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
 
 			response.setCdTime(computeCdTime(playerArenaData));
 			response.setChallengeCount(playerArenaData.getChallengeCount());

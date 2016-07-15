@@ -17,6 +17,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -755,6 +756,9 @@ public class BattleTowerHandler {
 		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
 
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, 1);
+		
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
@@ -1286,7 +1290,8 @@ public class BattleTowerHandler {
 		commonRsp.setRspBody(rsp.build().toByteString());
 		
 		
-		
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, 1);
 		
 	}
 

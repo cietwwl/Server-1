@@ -14,6 +14,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -380,6 +381,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				resultVo.updateList = friendItemToInfoList(list);
 				resultVo.resultMsg = "赠送成功";
 				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+				
 			} else {
 				resultVo.resultType = EFriendResultType.FAIL;
 				resultVo.resultMsg = "已赠送过该玩家体力";
@@ -460,6 +462,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.updateList = friendItemToInfoList(list);// 更新列表
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "已为所有好友赠送体力";
+			
+			
 		}
 		return resultVo;
 	}

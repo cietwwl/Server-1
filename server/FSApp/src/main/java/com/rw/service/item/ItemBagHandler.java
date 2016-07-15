@@ -13,6 +13,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
@@ -270,6 +271,12 @@ public class ItemBagHandler {
 		player.getUserGameDataMgr().addCoin(-cfg.getCost());
 		player.getItemBagMgr().addItem(cfg.getId(), composeCount);
 
+		//检查一下是不是宝石
+		if(ItemCfgHelper.getItemType(mateId)  == EItemTypeDef.Gem){
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
+		}
+		
+		
 		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		// response.setEventType(EItemBagEventType.ItemBag_Compose);
 		player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
