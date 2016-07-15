@@ -64,7 +64,7 @@ public class FixEquipHandler {
 		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send.levelUp]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixequipHandler[send.levelUp]  传入的参数没获得对应的数据" + "equip = " + equipid + " hero =" + hero);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -121,7 +121,7 @@ public class FixEquipHandler {
 		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send.levelUpOneKey]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixequipHandler[send.levelUpOneKey]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + hero);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -173,7 +173,7 @@ public class FixEquipHandler {
 		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send.doQualityup]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixequipHandler[send.doQualityup]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + hero);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -231,7 +231,7 @@ public class FixEquipHandler {
 		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send.doStarUp]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixequipHandler[send.doStarUp]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + hero);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -288,7 +288,7 @@ public class FixEquipHandler {
 		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send.doStarDown]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixequipHandler[send.doStarDown]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + hero);
 			return false;
 		}
 		String[] tmps = tmp.split("_");

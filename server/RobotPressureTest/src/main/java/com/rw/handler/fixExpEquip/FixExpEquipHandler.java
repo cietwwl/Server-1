@@ -55,14 +55,14 @@ public class FixExpEquipHandler {
 	private boolean doStarDown(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_star_down);
-		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
-		if(equipid+heronum*2 +1> equipMap.size()){
+		List<String> equipList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> equipList.size()){
 			RobotLog.fail("fixExpequipHandler[send.doStarDown]  输入的英雄编号或装备编号超出");
 			return false;
 		}
-		String tmp = equipMap.get(equipid+ heronum*2);
+		String tmp = equipList.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixExpequipHandler[send.doStarDown]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doStarDown]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + heronum);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -111,16 +111,17 @@ public class FixExpEquipHandler {
 
 	private boolean doStarUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
-		req.setReqType(RequestType.Exp_star_up);
-		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
-	
-		if(equipid+heronum*2 +1> equipMap.size()){
+		req.setReqType(RequestType.Exp_star_up);	
+		
+		List<String> equipList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> equipList.size()){
 			RobotLog.fail("fixExpequipHandler[send.doStarUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
-		String tmp = equipMap.get(equipid+ heronum*2);
+		String tmp = equipList.get(equipid+ heronum*2);
+		
 		if(tmp==null){
-			RobotLog.fail("fixExpequipHandler[send.doStarUp]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doStarUp]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + heronum);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -170,14 +171,14 @@ public class FixExpEquipHandler {
 	private boolean doQualityUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_quality_up);
-		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
-		if(equipid+heronum*2 +1> equipMap.size()){
+		List<String> equipList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> equipList.size()){
 			RobotLog.fail("fixExpequipHandler[send.doQualityUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
-		String tmp = equipMap.get(equipid+ heronum*2);
+		String tmp = equipList.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixExpequipHandler[send.doQualityUp]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doQualityUp]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + heronum);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -227,14 +228,14 @@ public class FixExpEquipHandler {
 	private boolean doLevelUp(Client client,int heronum, int equipid) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Exp_level_up);
-		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
-		if(equipid+heronum*2 +1> equipMap.size()){
+		List<String> equipList = client.getFixExpEquipDataItemHolder().getEquiplist();
+		if(equipid+heronum*2 +1> equipList.size()){
 			RobotLog.fail("fixExpequipHandler[send.doLevelUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
-		String tmp = equipMap.get(equipid+ heronum*2);
+		String tmp = equipList.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixExpequipHandler[send.doLevelUp]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doLevelUp]  传入的参数没获得对应的数据"+ "equip = " + equipid + " hero =" + heronum);
 			return false;
 		}
 		String[] tmps = tmp.split("_");
