@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
+import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -405,6 +406,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		commonRsp.setIsSuccess(true);
+		GFGroupBiddingRankMgr.updateGFBidRankInfo(groupId);
 		return commonRsp.build().toByteString();
 	}
 

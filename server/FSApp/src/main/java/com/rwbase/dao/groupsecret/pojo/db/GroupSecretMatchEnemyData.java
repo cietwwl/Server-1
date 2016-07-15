@@ -439,6 +439,7 @@ public class GroupSecretMatchEnemyData {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public int getVersion() {
 		return version.get();
 	}

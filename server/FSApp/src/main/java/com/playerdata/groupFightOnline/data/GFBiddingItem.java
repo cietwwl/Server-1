@@ -9,7 +9,10 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
-
+/**
+ * 个人压标信息
+ * @author aken
+ */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "gf_bidding_item")
@@ -23,7 +26,7 @@ public class GFBiddingItem implements IMapItem{
 	private String userID;	//压标人
 	
 	@CombineSave
-	private int bidGroup;  //所压公会
+	private String bidGroup;  //所压公会
 	
 	@CombineSave
 	private int rateID;	//压标倍率
@@ -56,11 +59,11 @@ public class GFBiddingItem implements IMapItem{
 		this.resourceID = resourceID;
 	}
 
-	public int getBidGroup() {
+	public String getBidGroup() {
 		return bidGroup;
 	}
 
-	public void setBidGroup(int bidGroup) {
+	public void setBidGroup(String bidGroup) {
 		this.bidGroup = bidGroup;
 	}
 

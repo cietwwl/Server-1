@@ -1,12 +1,8 @@
 package com.playerdata.mgcsecret.data;
 
-import java.util.ArrayList;
-
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
-import com.rw.fsutil.util.DateUtils;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -29,9 +25,6 @@ public class UserMagicSecretHolder {
 	public void syn(Player player) {
 		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
-			if (isDailyFirstLogin(userMagicSecret.getLastResetTime())) {
-				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
-			}
 			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
 			GameLog.error("UserMagicSecretHolder", "#syn()", "find UserMagicSecretData fail:" + player.getUserId());
@@ -58,28 +51,16 @@ public class UserMagicSecretHolder {
 		}
 	}
 
-	public void update(Player player, String fieldName) {
-		InstanceHolder.userMagicSecretDao.update(player.getUserId());
-		UserMagicSecretData userMagicSecret = get(player);
-		if (userMagicSecret != null) {
-			ArrayList<String> list = new ArrayList<String>(1);
-			list.add(fieldName);
-			ClientDataSynMgr.synDataFiled(player, userMagicSecret, synType, list);
-		} else {
-			GameLog.error("UserMagicSecretHolder", "#updateF()", "find UserMagicSecretData fail:" + player.getUserId());
-		}
-	}
-
 	public void flush() {
 	}
 
-	/**
-	 * 每日重置的比对时间 05:00:00
-	 * 
-	 * @param lastResetTime
-	 * @return
-	 */
-	public boolean isDailyFirstLogin(long lastResetTime) {
-		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
-	}
+//	/**
+//	 * 每日重置的比对时间 05:00:00
+//	 * 
+//	 * @param lastResetTime
+//	 * @return
+//	 */
+//	public boolean isDailyFirstLogin(long lastResetTime) {
+//		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
+//	}
 }

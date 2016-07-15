@@ -387,6 +387,24 @@ public class FriendHandler {
 		response.addAllUpdateList(resultVo.updateList);
 		return response.build().toByteString();
 	}
+	
+	/** 请求添加好友 */
+	public ByteString requestAddFriendList(FriendRequest request, Player player) {
+		FriendResponse.Builder response = FriendResponse.newBuilder();
+		response.setRequestType(request.getRequestType());
+//		String tmpList = request.getUserIdListList();
+		List<String> userIdList = request.getUserIdListList();
+//		response.setOtherUserId(request.getOtherUserId());
+
+		FriendResultVo resultVo = player.getFriendMgr().requestAddFriendList(userIdList);
+		response.setResultType(resultVo.resultType);
+		response.setResultMsg(resultVo.resultMsg);
+		response.addAllUpdateList(resultVo.updateList);
+		return response.build().toByteString();
+	}
+	
+	
+	
 
 	/** 删除好友 */
 	public ByteString removeFriend(FriendRequest request, Player player) {

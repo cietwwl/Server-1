@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaRankCfgDAO;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
@@ -18,7 +19,7 @@ public class ArenaHisRewardCollector implements RedPointCollector {
 		if (arenaData == null) {
 			return;
 		}
-		int maxRanking = arenaData.getMaxPlace();
+		int maxRanking = ArenaBM.getInstance().getMaxPlace(arenaData);
 		if (maxRanking <= 0) {
 			return;
 		}
