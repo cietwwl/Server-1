@@ -57,12 +57,12 @@ public class FixExpEquipHandler {
 		req.setReqType(RequestType.Exp_star_down);
 		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
 		if(equipid+heronum*2 +1> equipMap.size()){
-			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			RobotLog.fail("fixExpequipHandler[send.doStarDown]  输入的英雄编号或装备编号超出");
 			return false;
 		}
 		String tmp = equipMap.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doStarDown]  传入的参数没获得对应的数据");
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -82,21 +82,25 @@ public class FixExpEquipHandler {
 
 					CommonRspMsg rsp = CommonRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("fixequipHandler[send] 转换响应消息为null");
+						RobotLog.fail("fixExpequipHandler[send.doStarDown] 转换响应消息为null");
 						return false;
 					}
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
+						if(rsp.getTipMsg().indexOf("已是最低") > 0){
+							
+							return true;
+						}
+						RobotLog.fail("fixExpequipHandler[send.doStarDown] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
 						return false;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("fixequipHandler[send]获取列表 失败", e);
+					RobotLog.fail("fixExpequipHandler[send.doStarDown]获取列表 失败", e);
 					return false;
 				}
-				RobotLog.info("fixequipHandler[send] 获取列表成功");
+				RobotLog.info("fixExpequipHandler[send.doStarDown] 获取列表成功");
 				return true;
 			}
 
@@ -111,12 +115,12 @@ public class FixExpEquipHandler {
 		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
 	
 		if(equipid+heronum*2 +1> equipMap.size()){
-			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			RobotLog.fail("fixExpequipHandler[send.doStarUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
 		String tmp = equipMap.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doStarUp]  传入的参数没获得对应的数据");
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -136,21 +140,25 @@ public class FixExpEquipHandler {
 
 					CommonRspMsg rsp = CommonRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("fixequipHandler[send] 转换响应消息为null");
+						RobotLog.fail("fixExpequipHandler[send.doStarUp] 转换响应消息为null");
 						return false;
 					}
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
+						if(rsp.getTipMsg().indexOf("已达最高") > 0){
+							
+							return true;
+						}
+						RobotLog.fail("fixExpequipHandler[send.doStarUp] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
 						return false;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("fixequipHandler[send]获取列表 失败", e);
+					RobotLog.fail("fixExpequipHandler[send.doStarUp]获取列表 失败", e);
 					return false;
 				}
-				RobotLog.info("fixequipHandler[send] 获取列表成功");
+				RobotLog.info("fixExpequipHandler[send.doStarUp] 获取列表成功");
 				return true;
 			}
 
@@ -164,12 +172,12 @@ public class FixExpEquipHandler {
 		req.setReqType(RequestType.Exp_quality_up);
 		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
 		if(equipid+heronum*2 +1> equipMap.size()){
-			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			RobotLog.fail("fixExpequipHandler[send.doQualityUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
 		String tmp = equipMap.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doQualityUp]  传入的参数没获得对应的数据");
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -189,21 +197,25 @@ public class FixExpEquipHandler {
 
 					CommonRspMsg rsp = CommonRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("fixequipHandler[send] 转换响应消息为null");
+						RobotLog.fail("fixExpequipHandler[send.doQualityUp] 转换响应消息为null");
 						return false;
 					}
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
+						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
+							
+							return true;
+						}
+						RobotLog.fail("fixExpequipHandler[send.doQualityUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
 						return false;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("fixequipHandler[send]获取列表 失败", e);
+					RobotLog.fail("fixExpequipHandler[send.doQualityUp]获取列表 失败", e);
 					return false;
 				}
-				RobotLog.info("fixequipHandler[send] 获取列表成功");
+				RobotLog.info("fixExpequipHandler[send.doQualityUp] 获取列表成功");
 				return true;
 			}
 
@@ -217,12 +229,12 @@ public class FixExpEquipHandler {
 		req.setReqType(RequestType.Exp_level_up);
 		Map<Integer, String> equipMap = client.getFixExpEquipDataItemHolder().getEquipMap();
 		if(equipid+heronum*2 +1> equipMap.size()){
-			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			RobotLog.fail("fixExpequipHandler[send.doLevelUp]  输入的英雄编号或装备编号超出");
 			return false;
 		}
 		String tmp = equipMap.get(equipid+ heronum*2);
 		if(tmp==null){
-			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
+			RobotLog.fail("fixExpequipHandler[send.doLevelUp]  传入的参数没获得对应的数据");
 			return false;
 		}
 		String[] tmps = tmp.split("_");
@@ -255,21 +267,26 @@ public class FixExpEquipHandler {
 
 					CommonRspMsg rsp = CommonRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("fixequipHandler[send] 转换响应消息为null");
+						RobotLog.fail("fixExpequipHandler[send.doLevelUp] 转换响应消息为null");
 						return false;
 					}
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						RobotLog.fail("fixequipHandler[send] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
+						if(rsp.getTipMsg().indexOf("不能超过英雄等级") > 0){
+							
+							return true;
+						}
+						
+						RobotLog.fail("fixExpequipHandler[send.doLevelUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
 						return false;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("fixequipHandler[send]获取列表 失败", e);
+					RobotLog.fail("fixExpequipHandler[send.doLevelUp]获取列表 失败", e);
 					return false;
 				}
-				RobotLog.info("fixequipHandler[send] 获取列表成功");
+				RobotLog.info("fixExpequipHandler[send.doLevelUp] 获取列表成功");
 				return true;
 			}
 
