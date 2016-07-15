@@ -60,6 +60,11 @@ public class GFightPrepareBM {
 //	}
 
 	public void personalBidForGroup(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, String groupID, int rateID){
+		if(!GFightConditionJudge.getInstance().isPreparePeriod(resourceID)) {
+			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
+			gfRsp.setTipMsg("不在备战阶段，不能进行此项操作");
+			return;
+		}
 		GFightBiddingCfg bidCgf = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(rateID));
 		if(bidCgf == null){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
@@ -78,15 +83,15 @@ public class GFightPrepareBM {
 			int selfGroupRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, selfGroupID);
 			if(selfGroupRank >=1 && selfGroupRank <= GFightConst.IN_FIGHT_MAX_GROUP){
 				gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-				gfRsp.setTipMsg("参与决战的帮派成员不能参与压标");
+				gfRsp.setTipMsg("参与备战的帮派成员不能参与压标");
 				return;
 			}
 		}
 		
 		int targetRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, groupID);
-		if(targetRank >=1 && targetRank <= GFightConst.IN_FIGHT_MAX_GROUP){
+		if(targetRank < 1 || targetRank > GFightConst.IN_FIGHT_MAX_GROUP){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-			gfRsp.setTipMsg("选择压标的帮派并没有参与该资源点的决战");
+			gfRsp.setTipMsg("选择压标的帮派并没有参与该资源点的备战");
 			return;
 		}
 		

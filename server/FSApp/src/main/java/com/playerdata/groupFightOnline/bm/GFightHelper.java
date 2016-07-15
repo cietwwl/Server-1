@@ -11,6 +11,7 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 public class GFightHelper {
 	public static String itemListToString(List<ItemInfo> items){
 		if(items == null) return null;
+		if(items.isEmpty()) return "";
 		StringBuffer sbuff = new StringBuffer();
 		for(ItemInfo item : items){
 			sbuff.append(item.getItemID());
@@ -18,7 +19,11 @@ public class GFightHelper {
 			sbuff.append(item.getItemNum());
 			sbuff.append(",");
 		}
-		sbuff.deleteCharAt(sbuff.lastIndexOf(","));
+		try{
+			sbuff.deleteCharAt(sbuff.lastIndexOf(","));
+		}catch(Exception ex){
+			
+		}
 		return sbuff.toString();
 	}
 	

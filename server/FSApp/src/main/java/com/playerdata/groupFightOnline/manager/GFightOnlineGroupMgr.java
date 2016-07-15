@@ -211,7 +211,7 @@ public class GFightOnlineGroupMgr {
 		//处理个人压标结果
 		for(GFBiddingItem item : bidItems){
 			if(StringUtils.equals(item.getBidGroup(), groupId)){
-				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(item.getBiddingID());
+				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(item.getRateID()));
 				totalRateOnGroup += bidCfg.getRate();
 				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, true);
 			}else{

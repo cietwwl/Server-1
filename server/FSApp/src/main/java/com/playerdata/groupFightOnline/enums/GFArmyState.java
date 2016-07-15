@@ -44,7 +44,7 @@ public enum GFArmyState {
 		return this.value == state.value;
 	}
 	
-	public GFArmyState getState(int value){
+	public static GFArmyState getState(int value){
 		switch (value) {
 		case -1:
 			return EMPTY;

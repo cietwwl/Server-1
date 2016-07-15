@@ -43,7 +43,7 @@ public enum GFRewardType {
 		return this.value == state.value;
 	}
 	
-	public GFRewardType getState(int value){
+	public static GFRewardType getState(int value){
 		switch (value) {
 		case 1:
 			return KillRankReward;

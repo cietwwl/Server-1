@@ -61,7 +61,9 @@ public class GFightOnlineResourceMgr {
 				resData.setState(GFResourceState.REST.getValue());
 				break;
 			case BIDDING:
-				if(GFResourceState.REST.equals(resData.getState()) || GFResourceState.INIT.equals(resData.getState())){
+				if(GFResourceState.REST.equals(resData.getState()) 
+						|| GFResourceState.INIT.equals(resData.getState())
+						|| GFResourceState.FIGHT.equals(resData.getState())){
 					biddingStartEvent(cfg.getResID());
 					resData.setState(GFResourceState.BIDDING.getValue());
 				}else if(!GFResourceState.BIDDING.equals(resData.getState())){

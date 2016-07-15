@@ -39,7 +39,7 @@ public enum GFResourceState {
 		return this.value == state.value;
 	}
 	
-	public GFResourceState getState(int value){
+	public static GFResourceState getState(int value){
 		switch (value) {
 		case 1:
 			return REST;

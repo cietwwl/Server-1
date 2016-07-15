@@ -1,6 +1,10 @@
 package com.playerdata.groupFightOnline.state;
 
-public class GFightPrepare implements IGFightState{
+public class GFightPrepare extends IGFightState{
+
+	public GFightPrepare(int resourceID) {
+		super(resourceID);
+	}
 
 	@Override
 	public void Enter() {
@@ -16,8 +20,7 @@ public class GFightPrepare implements IGFightState{
 
 	@Override
 	public IGFightState getNext() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GFightFight(resourceID);
 	}
 
 	
