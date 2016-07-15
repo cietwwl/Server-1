@@ -12,8 +12,9 @@ public class ActivityDailyDiscountTypeSubItem {
 	
 	private int count;	
 
-	private String itemId ;
+	private int itemId ;
 
+	private int itemNum;
 	public String getCfgId() {
 		return cfgId;
 	}
@@ -30,13 +31,23 @@ public class ActivityDailyDiscountTypeSubItem {
 		this.count = count;
 	}
 
-	public String getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
+
+	public int getItemNum() {
+		return itemNum;
+	}
+
+	public void setItemNum(int itemNum) {
+		this.itemNum = itemNum;
+	}
+
+
 	
 	
 }
