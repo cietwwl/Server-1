@@ -6,6 +6,8 @@ import java.util.Map.Entry;
 
 import org.springframework.util.StringUtils;
 
+import com.rwproto.GroupCommonProto.GroupLogType;
+import com.rwproto.GroupCommonProto.GroupState;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
@@ -20,8 +22,6 @@ import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.GroupLog;
 import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
-import com.rwproto.GroupCommonProto.GroupLogType;
-import com.rwproto.GroupCommonProto.GroupState;
 
 /**
  * 帮派基础数据管理类
@@ -497,5 +497,10 @@ public class GroupBaseDataMgr {
 	 */
 	public void synGroupData(Player player, int version) {
 		groupBaseDataHolder.synGroupData(player, version);
+	}
+
+	public void setGroupSupplier(int s) {
+		groupBaseDataHolder.setGroupSupplier(s);
+		
 	}
 }

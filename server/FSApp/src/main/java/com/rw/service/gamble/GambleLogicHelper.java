@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemCfgHelper;
@@ -18,7 +19,12 @@ import com.rw.service.gamble.datamodel.GamblePlanCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.GambleRecord;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
+import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
+import com.rw.service.gamble.datamodel.ItemOrHeroGambleInfo;
+import com.rwbase.dao.item.SoulStoneCfgDAO;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
+import com.rwbase.dao.item.pojo.SoulStoneCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwproto.GambleServiceProtos.DropData;
@@ -31,6 +37,8 @@ import com.rwproto.GambleServiceProtos.GambleRequest;
 import com.rwproto.GambleServiceProtos.GambleResponse;
 import com.rwproto.GambleServiceProtos.GambleResponse.Builder;
 import com.rwproto.GambleServiceProtos.GambleRewardData;
+import com.rwproto.GambleServiceProtos.ItemPreviewData;
+import com.rwproto.GambleServiceProtos.PreviewData;
 import com.rwproto.MsgDef.Command;
 
 public class GambleLogicHelper {
@@ -44,10 +52,118 @@ public class GambleLogicHelper {
 		//TODO 暂时未按新协议发送数据，最大限度减少客户端的修改
 		//response.addAllDropHistory(getFinshingData(uid));
 		
+		RefInt coinLeftGCount = new RefInt();
+		RefInt goldLeftGCount = new RefInt();
 		//填写兼容旧协议的数据
-		response.setGambleData(getFishingItemToData(player));
+		response.setGambleData(getFishingItemToData(player, coinLeftGCount, goldLeftGCount));
+		
+		// test 设置到达保底组的剩余次数
+		ArrayList<Integer> gLeftCountLst =new ArrayList<Integer>(2);
+		gLeftCountLst.add(coinLeftGCount.value);
+		gLeftCountLst.add(goldLeftGCount.value);
+		response.addAllGuaranteenLeftCountList(gLeftCountLst);
+		
+		//不是所有情况都需要发送！ 设置预览数据
+		if (request.hasCachePreviewListTag() && request.getCachePreviewListTag() == -1){
+			ArrayList<PreviewData> previewLst=new ArrayList<PreviewData>(4);
+			int[] dropTypeList = {1,2,3};
+			for (int i = 0; i < dropTypeList.length; i++) {
+				int dropType = dropTypeList[i];
+				Iterable<GamblePlanCfg> lst = GamblePlanCfgHelper.getInstance().getConfigList(dropType);
+				for (GamblePlanCfg gamblePlanCfg : lst) {
+					PreviewData.Builder pb = PreviewData.newBuilder();
+					pb.setMinLevel(gamblePlanCfg.getLevelStart());
+					pb.setMaxLevel(gamblePlanCfg.getLevelEnd());
+					//pb.setGamblePlaId(gamblePlanCfg.getKey());
+					pb.setDropType(dropType);
+
+					IDropGambleItemPlan plan = gamblePlanCfg.getChargePlan();
+					Iterable<ItemOrHeroGambleInfo> pos = plan.getGamblePosibles();
+					for (ItemOrHeroGambleInfo info : pos) {
+						ItemPreviewData.Builder value = ItemPreviewData.newBuilder();
+						value.setIsGuaranteen(info.isGuarantee());
+						value.setItemId(info.getId());
+						if (info.isHero()) {
+							pb.addHeroList(value);
+						} else {
+							pb.addItemList(value);
+						}
+					}
+					
+					//TODO 去重复
+					if (gamblePlanCfg.getHotCount() > 0) {
+						HotGambleCfgHelper hotGambleConfig = HotGambleCfgHelper.getInstance();
+						RefInt slotCount = new RefInt();
+						String heroId = hotGambleConfig.getTodayGuanrateeHotHero(slotCount);
+						ItemPreviewData.Builder value = ItemPreviewData.newBuilder();
+						value.setItemId(heroId);
+						value.setIsGuaranteen(true);
+						if (GambleLogicHelper.isValidHeroOrSoulId(heroId)){
+							pb.addHeroList(value);
+						}else{
+							pb.addItemList(value);
+						}
+						value = null;
+
+						String errDefaultModelId = GambleLogicHelper.isValidHeroOrItemId(heroId) ? heroId : defaultItem;
+						int hotPlanId = hotGambleConfig.getTodayHotPlanId();
+						GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId,
+								GambleHandler.HotHeroPoolSize, errDefaultModelId);
+						GambleDropGroup hot = hotPlan.getHotPlan();
+						String[] hotHeroList = hot.getPlans();
+						for (String hotItemId : hotHeroList) {
+							boolean isHero = false;
+							if (GambleLogicHelper.isValidHeroOrSoulId(hotItemId)){
+								isHero = true;
+								if (GambleLogicHelper.isHeroSoul(hotItemId)){
+									hotItemId = GambleLogicHelper.ConvertSoulIdToHeroModelId(hotItemId);
+									if (hotItemId == null){
+										continue;
+									}
+								}
+							}else{
+								isHero = false;
+							}
+							
+							value = ItemPreviewData.newBuilder();
+							value.setItemId(hotItemId);
+							value.setIsGuaranteen(false);
+							if (isHero){
+								pb.addHeroList(value);
+							}else{
+								pb.addItemList(value);
+							}
+						}
+					}
+					previewLst.add(pb.build());
+				}
+			}
+			response.addAllPreviewDataList(previewLst);
+		}
+		
 		response.setResultType(EGambleResultType.SUCCESS);
 		return response;
+	}
+	
+	public static String ConvertSoulIdToHeroModelId(String soulId){
+		String result = null;
+		SoulStoneCfg soulCfg = SoulStoneCfgDAO.getInstance().getCfgById(soulId);
+		if (soulCfg != null){
+			result = GambleLogicHelper.ConvertSoulToHeroModelId(soulCfg);
+		}
+		return result;
+	}
+
+	private static String ConvertSoulToHeroModelId(SoulStoneCfg soulCfg) {
+		int star = soulCfg.getStar();
+		star = star > 0 ? star : 1;
+		RoleCfg cfg = RoleCfgDAO.getInstance().getCfgByModeID(String.valueOf(soulCfg.getComposeTargetId()));
+		if (cfg != null){
+			return cfg.getRoleId();
+		}
+		GameLog.error("钓鱼台", "", "魂石没有对应的RoleCfg可抽英雄配置,ID="+soulCfg.getComposeTargetId());
+		return null;
+		//return soulCfg.getComposeTargetId()+"_"+star;
 	}
 	
 	public static Iterable<DropData> getFinshingData(Player player){
@@ -193,6 +309,24 @@ public class GambleLogicHelper {
 		return false;
 	}
 	
+	//魂石作为英雄看待！
+	public static boolean isValidHeroOrSoulId(String heroModelId){
+		if (StringUtils.isNotBlank(heroModelId)){
+			if (heroModelId.indexOf("_") != -1){
+				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(heroModelId);
+				return roleCfg != null;
+			}
+			if (isHeroSoul(heroModelId)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isHeroSoul(String configId){
+		return StringUtils.isNotBlank(configId) && configId.startsWith("704");
+	}
+	
 	public static boolean isFree(Player player, int dropType) {
 		GambleOnePlanDropData oneData = getOneDropData(player,dropType);
 		return oneData.canGambleFree();
@@ -211,16 +345,24 @@ public class GambleLogicHelper {
 	public static final int Middle_Ten = 5;
 
 	// 返回旧协议的钓鱼数据
-	public static GambleData getFishingItemToData(Player player) {
+	public static GambleData getFishingItemToData(Player player, RefInt coinLeftGCount, RefInt goldLeftGCount) {
 		GambleData.Builder data = GambleData.newBuilder();
 		GambleOnePlanDropData p1 = GambleLogicHelper.getOneDropData(player, Primary_One);
 		// 当天已用普通免费次数
 		data.setPrimaryCount(p1.getFreeCount());
 		// 初级祈祷免费剩余时间(秒)
 		data.setPrimaryTime(p1.getLeftTime());
+		if (coinLeftGCount != null) {
+			coinLeftGCount.value = p1.getGuaranteeLeftCount();
+		}
+
 		GambleOnePlanDropData m1 = GambleLogicHelper.getOneDropData(player, Middle_One);
 		// 中级祈祷免费剩余时间(秒)
 		data.setMiddleTime(m1.getLeftTime());
+		if (goldLeftGCount != null) {
+			goldLeftGCount.value = m1.getGuaranteeLeftCount();
+		}
+		
 		return data.build();
 	}
 

@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.item.pojo.itembase.UpdateItem;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -83,7 +84,7 @@ public class GroupBaseDataHolder {
 	}
 
 	/**
-	 * 更新帮派技能的版本号
+	 * 更新帮派数据的版本号
 	 */
 	public void incrementGroupDataVersion() {
 		groupDataVersion.incrementAndGet();
@@ -94,5 +95,10 @@ public class GroupBaseDataHolder {
 	 */
 	public void incrementGroupSkillVersion() {
 		groupSkillVersion.incrementAndGet();
+	}
+
+	public void setGroupSupplier(int s) {
+		getGroupData().setSupplies(s);
+		incrementGroupDataVersion();
 	}
 }

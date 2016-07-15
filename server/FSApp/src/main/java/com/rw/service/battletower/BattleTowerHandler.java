@@ -20,6 +20,7 @@ import com.playerdata.Player;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
@@ -1286,6 +1287,9 @@ public class BattleTowerHandler {
 		
 		//通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, 1);
+		
+		//通知角色任务by Alex
+		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Challage_BattleTower);
 
 		// 到这里就算成功了
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
