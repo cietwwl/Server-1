@@ -89,7 +89,7 @@ public class FixExpEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已是最低") > 0){
-							
+							RobotLog.info("装备已最低，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doStarDown] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
@@ -148,7 +148,7 @@ public class FixExpEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已达最高") > 0){
-							
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doStarUp] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
@@ -205,7 +205,7 @@ public class FixExpEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
-							
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doQualityUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
@@ -275,7 +275,7 @@ public class FixExpEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("不能超过英雄等级") > 0){
-							
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 						

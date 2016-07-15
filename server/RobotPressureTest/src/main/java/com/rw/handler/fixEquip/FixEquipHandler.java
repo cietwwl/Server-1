@@ -91,6 +91,7 @@ public class FixEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已经达到最高级") > 0){
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 							
@@ -200,7 +201,7 @@ public class FixEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
-							
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 						
@@ -258,7 +259,7 @@ public class FixEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已达最高星级") > 0){
-							
+							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixequipHandler[send.doStarUp]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
@@ -315,7 +316,7 @@ public class FixEquipHandler {
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
 						if(rsp.getTipMsg().indexOf("已是最低等级") > 0){
-							
+							RobotLog.info("装备已最低，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixequipHandler[send.doStarDown] 服务器处理获取列表消息失败 !" + rsp.getTipMsg());
