@@ -62,9 +62,6 @@ public class AttributeBM {
 		componentList.add(new HeroTaoistAttributeComponent());
 		componentList.add(new FixExpEquipAttributeComponent());
 		componentList.add(new FixNormEquipAttributeComponent());
-		
-		
-		
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
@@ -169,7 +166,7 @@ public class AttributeBM {
 		componentList.add(new RobotBaseAttributeComponent(heroInfo));
 		componentList.add(new RobotEquipAttributeComponent(heroInfo));
 		componentList.add(new RobotGemAttributeComponent(heroInfo));
-		if(magicInfo!=null){
+		if (magicInfo != null) {
 			componentList.add(new RobotMagicAttributeComponent(magicInfo));
 		}
 		componentList.add(new RobotSkillAttributeComponent(heroInfo));
