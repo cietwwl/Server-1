@@ -200,14 +200,14 @@ public class ActivityRedEnvelopeTypeMgr {
 		}
 		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
 			if(subItem.getDay() == ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())){
-				subItem.setCount(subItem.getCount()+countadd);
+				subItem.setCount(subItem.getCount()+(countadd*subItem.getDiscount())/100);
 				break;
 			}			
 		}
 //		target.setCount(target.getCount() + countadd);
 		dataItem.setGoldCount(0);
 		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			dataItem.setGoldCount(dataItem.getGoldCount() + (subItem.getCount()*subItem.getDiscount())/100);
+			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount());
 		}		
 		dataHolder.updateItem(player, dataItem);
 	}
