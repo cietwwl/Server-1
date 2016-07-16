@@ -377,7 +377,14 @@ public class FashionMgr implements FashionMgrIF {
 		
 		FashionItem old = fashionItemHolder.getItem(fashionId);
 		if (old != null && old.isBrought()){//已经有这件时装，不能再赠送
-			return false;
+			if (timingUnit == null){
+				timingUnit = DefaultTimeUnit;
+			}
+			old.setExpiredTime(old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
+			fashionItemHolder.updateItem(player, old);
+			return true;
 		}
 		
 		if (old == null){
@@ -390,6 +397,7 @@ public class FashionMgr implements FashionMgrIF {
 			long now = System.currentTimeMillis();
 			old.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
 		}
 		
@@ -401,7 +409,7 @@ public class FashionMgr implements FashionMgrIF {
 		if (sendEmail) {
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
-			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
+//			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
 			GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();

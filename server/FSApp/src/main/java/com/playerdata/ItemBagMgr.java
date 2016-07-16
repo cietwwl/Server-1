@@ -129,7 +129,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue()) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
 				addItem(itemId, itemCount);
 			} else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);

@@ -39,65 +39,49 @@ public class ActivityRankTypeItem implements  IMapItem {
 	@CombineSave
 	private String emailId ;
 	
+	@CombineSave
+	private String fashionReward ;
 	
 	public String getId() {
 		return id;
 	}
 	
-	
 
-	
+	public String getFashionReward() {
+		return fashionReward;
+	}
 
-
+	public void setFashionReward(String fashionReward) {
+		this.fashionReward = fashionReward;
+	}
 
 	public String getEmailId() {
 		return emailId;
 	}
 
-
-
-
-
-
-
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-
-
-
-
-
-
 
 	public String getReward() {
 		return reward;
 	}
 
-
-
 	public void setReward(String reward) {
 		this.reward = reward;
 	}
-
-
 
 	public String getVersion() {
 		return version;
 	}
 
-
-
 	public void setVersion(String version) {
 		this.version = version;
 	}
-
-
-
+	
 	public void setId(String id) {
 		this.id = id;
 	}
-
 
 	public String getUserId() {
 		return userId;
