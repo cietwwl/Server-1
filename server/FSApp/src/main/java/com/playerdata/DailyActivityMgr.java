@@ -132,18 +132,18 @@ public class DailyActivityMgr implements PlayerEventListener {
 			int taskId = data.getTaskId();
 			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
 			if (cfg == null) {
-				System.out.println("------ID："+taskId+", 的任务不存在");
+//				System.out.println("------ID："+taskId+", 的任务不存在");
 				continue;
 			}
 
 			if(temMap.containsKey(taskId)){
-				System.out.println("======ID："+taskId+", 重复");
+//				System.out.println("======ID："+taskId+", 重复");
 				//过滤掉重复的数据
 				continue;
 			}
 			
 			temMap.put(taskId, data);
-			System.out.println("------处理后的任务ID："+taskId+", 任务描述："+ cfg.getCfg().getDescription());
+//			System.out.println("------处理后的任务ID："+taskId+", 任务描述："+ cfg.getCfg().getDescription());
 		}
 		
 		list.addAll(temMap.values());
