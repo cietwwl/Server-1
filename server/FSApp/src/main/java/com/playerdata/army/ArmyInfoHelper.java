@@ -106,7 +106,7 @@ public class ArmyInfoHelper {
 	private static ArmyHero getArmyHero(Hero role) {
 		if (role == null) return null;
 		SkillMgr skillMgr = role.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<Skill> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);

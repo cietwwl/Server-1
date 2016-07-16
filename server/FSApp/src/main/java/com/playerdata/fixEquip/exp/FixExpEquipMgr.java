@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Action;
+import com.common.IHeroAction;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -29,6 +29,7 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
+import com.playerdata.hero.IHero;
 import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
@@ -40,8 +41,17 @@ import com.rwproto.FixEquipProto.SelectItem;
 
 public class FixExpEquipMgr {
 	
-	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
-
+//	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
+	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = FixExpEquipDataItemHolder.getInstance();
+	
+	private static final FixExpEquipMgr _INSTANCE = new FixExpEquipMgr();
+	
+	public static FixExpEquipMgr getInstance() {
+		return _INSTANCE;
+	}
+	
+	protected FixExpEquipMgr() {}
+	
 	final private Comparator<FixExpEquipDataItem> comparator = new Comparator<FixExpEquipDataItem>() {
 		
 		@Override
@@ -62,7 +72,23 @@ public class FixExpEquipMgr {
 		return true;
 	}
 	
+	public boolean initIfNeedV2(Player player, IHero hero){
+		if(!isInitedV2(player, hero)){
+			try {				
+				newHeroInit(player, hero.getUUId(), hero.getModelId());
+			} catch (Exception e) {
+				GameLog.error(LogModule.FixEquip, "playerId:"+player.getUserId(), "英雄神器初始化失败,heroId:"+hero.getUUId(), e);
+			}
+		}
+		return true;
+	}
+	
 	private boolean isInited(Player player, Hero hero){
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
+		return !itemList.isEmpty();
+	}
+	
+	private boolean isInitedV2(Player player, IHero hero){
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
@@ -131,14 +157,16 @@ public class FixExpEquipMgr {
 		return target;
 	}
 	
-	
-
-	public void regChangeCallBack(Action callBack) {
-		fixExpEquipDataItemHolder.regChangeCallBack(callBack);
+	public void regDataChangeCallback(IHeroAction callback) {
+		fixExpEquipDataItemHolder.regDataChangeCallback(callback);
 	}
 	
 	public void synAllData(Player player, Hero hero){
 		fixExpEquipDataItemHolder.synAllData(player, hero);
+	}
+	
+	public void synAllDataV2(Player player, IHero hero){
+		fixExpEquipDataItemHolder.synAllDataV2(player, hero);
 	}
 	
 

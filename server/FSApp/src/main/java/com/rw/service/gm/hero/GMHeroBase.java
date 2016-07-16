@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.Hero;
-import com.playerdata.HeroMgr;
 import com.playerdata.InlayMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
@@ -117,13 +116,13 @@ public class GMHeroBase {
 			return;
 		}
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
 		for (Skill skill : skillList) {
 			if(skill.getSkillId().equals(skillId)){
 				SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(maxSkillId);
 				skill.setLevel(cfg.getLevel());
 				skill.setSkillId(maxSkillId);
-				skillMgr.gmUpgradeSkillLv(skill);
+				skillMgr.gmUpgradeSkillLv(player, hero.getUUId(), skill);
 				return;
 			}
 		}
@@ -137,7 +136,7 @@ public class GMHeroBase {
 	 */
 	public static void gmHeroEequip(Hero hero, int equipIndex, Player player){
 		try {
-			hero.getEquipMgr().gmEquip(equipIndex);
+			hero.getEquipMgr().gmEquip(player, hero.getUUId(), equipIndex);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -149,7 +148,7 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmRemoveHeroEquip(Hero hero, Player player){
-		hero.getEquipMgr().subAllEquip();
+		hero.getEquipMgr().subAllEquip(player, hero.getUUId());
 	}
 	
 	
@@ -165,7 +164,7 @@ public class GMHeroBase {
 		if(level == -1){
 			return;
 		}
-		hero.getEquipMgr().gmEquipAttach(equipIndex, level);
+		hero.getEquipMgr().gmEquipAttach(player, hero.getUUId(), equipIndex, level);
 	}
 	
 	/***
@@ -206,7 +205,7 @@ public class GMHeroBase {
 		itemData.setUserId(player.getUserId());
 		itemData.setModelId(itemId);
 		
-		inlayMgr.InlayGem(itemData);
+		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
 	}
 	
 	/**
@@ -215,7 +214,7 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmUnloadGem(Hero hero, Player player){
-		hero.getInlayMgr().XieXiaAll();
+		hero.getInlayMgr().XieXiaAll(player, hero.getUUId());
 		
 	}
 	
@@ -232,7 +231,7 @@ public class GMHeroBase {
 		itemData.setUserId(player.getUserId());
 		itemData.setModelId(itemId);
 		
-		inlayMgr.InlayGem(itemData);
+		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
 		
 	}
 	

@@ -45,6 +45,8 @@ public interface AttrDataIF {
 	public int getLifeGrowUp();
 
 	public int getpAttackGrowUp();
+	
+	public int getSAttackGrowUp();
 
 	public int getPhysicqueDefGrowUp();
 

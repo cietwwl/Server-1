@@ -14,7 +14,8 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
@@ -23,6 +24,7 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
+import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -123,7 +125,10 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<GFFinalRewardItem> groupFightRewardItemCache;
 	
-	private static List<MapItemStoreCache> list;
+	// 英雄的MapItemStore缓存
+	private static MapItemStoreCache<FSHero> heroItemCache;
+	
+	private static List<MapItemStoreCache<? extends IMapItem>> list;
 
 	private static boolean init = false;
 
@@ -139,7 +144,7 @@ public class MapItemStoreFactory {
 		// int playerCapacity = config.getPlayerCapacity();
 		int heroCapacity = config.getPlayerCapacity();
 
-		list = new ArrayList<MapItemStoreCache>();
+		list = new ArrayList<MapItemStoreCache<? extends IMapItem>>();
 		register(itemCache = new MapItemStoreCache<ItemData>(ItemData.class, "userId", heroCapacity));
 
 		register(copyLevelRecord = new MapItemStoreCache<CopyLevelRecord>(CopyLevelRecord.class, "userId", heroCapacity));
@@ -216,6 +221,8 @@ public class MapItemStoreFactory {
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
 		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+		
+		register(heroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "user_id", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -224,7 +231,7 @@ public class MapItemStoreFactory {
 
 	public static void notifyPlayerCreated(String userId) {
 		for (int i = list.size(); --i >= 0;) {
-			MapItemStoreCache cache = list.get(i);
+			MapItemStoreCache<? extends IMapItem> cache = list.get(i);
 			cache.notifyPlayerCreate(userId);
 		}
 	}
@@ -478,5 +485,15 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<MajorData> getMajorDataCache() {
 		return majorDataCache;
+	}
+	
+	/**
+	 * 
+	 * 获取英雄的数据缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<FSHero> getHeroDataCache() {
+		return heroItemCache;
 	}
 }

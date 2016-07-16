@@ -7,12 +7,17 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.IHeroAction;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.playerdata.hero.core.FSHeroDAO;
 import com.playerdata.readonly.HeroMgrIF;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -27,11 +32,21 @@ import com.rwproto.HeroServiceProtos.eHeroResultType;
 import com.rwproto.MsgDef.Command;
 
 public class HeroMgr implements HeroMgrIF {
+	
+	private static final Map<String, Hero> _initingHeros = new ConcurrentHashMap<String, Hero>(); // 重构中临时处理
 
 	private ConcurrentHashMap<String, Hero> m_HeroMap = new ConcurrentHashMap<String, Hero>();
 	private UserHerosDataHolder userHerosDataHolder;
 
 	private Player player;
+	
+	static void addInitingHero(String heroId, Hero hero) {
+		_initingHeros.put(heroId, hero);
+	}
+	
+	static void removeInitingHero(Hero hero) {
+		_initingHeros.remove(hero.getUUId());
+	}
 
 	// 初始化
 	public void init(Player playerP, boolean initHeros) {
@@ -381,5 +396,25 @@ public class HeroMgr implements HeroMgrIF {
 			Collections.sort(list, comparator);
 		}
 		return list;
+	}
+	
+	public static final IHeroAction ATTR_CHANGE_ACTION = new IHeroAction() {
+		
+		@Override
+		public void doAction(String userId, String heroId) {
+			Hero h = _initingHeros.get(heroId);
+			if(h != null) {
+				return;
+			}
+			FSHeroDAO.getInstance().getHero(userId, heroId).getAttrMgr().reCal();
+		}
+	};
+	
+	static {
+		FixNormEquipMgr.getInstance().regDataChangeCallback(ATTR_CHANGE_ACTION);
+		FixExpEquipMgr.getInstance().regDataChangeCallback(ATTR_CHANGE_ACTION);
+		InlayMgr.getInstance().regDataChangeCallback(ATTR_CHANGE_ACTION);
+		EquipMgr.getInstance().regDataChangeCallback(ATTR_CHANGE_ACTION);
+		SkillMgr.getInstance().regDataChangeCallback(ATTR_CHANGE_ACTION);
 	}
 }

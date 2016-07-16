@@ -34,11 +34,16 @@ public class Hero implements HeroIF {
 
 	private RoleBaseInfoMgr m_roleBaseInfoMgr = new RoleBaseInfoMgr();// 角色基本信息属性
 	private AttrMgr m_AttrMgr = new AttrMgr();// 角色属性
-	private SkillMgr m_SkillMgr = new SkillMgr();
-	private EquipMgr m_EquipMgr = new EquipMgr();
-	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
-	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr(); // 专属装备
-	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr(); // 专属装备
+//	private SkillMgr m_SkillMgr = new SkillMgr();
+//	private EquipMgr m_EquipMgr = new EquipMgr();
+//	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
+//	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr(); // 专属装备
+//	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr(); // 专属装备
+	private SkillMgr m_SkillMgr = SkillMgr.getInstance();
+	private EquipMgr m_EquipMgr = EquipMgr.getInstance(); // 进阶装备
+	private InlayMgr m_inlayMgr = InlayMgr.getInstance();// 镶嵌宝石
+	private FixNormEquipMgr m_FixNormEquipMgr = FixNormEquipMgr.getInstance(); // 专属装备
+	private FixExpEquipMgr m_FixExpEquipMgr = FixExpEquipMgr.getInstance(); // 专属装备
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
@@ -54,22 +59,26 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setStarLevel(heroCfg.getStarLevel());
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
-		m_SkillMgr.initSkill(heroCfg);
+		m_SkillMgr.initSkill(pPlayer, this.getUUId(), heroCfg);
 
 		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
 
 		// m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 		// m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+		HeroMgr.removeInitingHero(this);
 	}
 
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
 		init(roleUUId, null);
-		m_SkillMgr.checkSkill(getTemplateId());
+		m_SkillMgr.checkSkill(pPlayer, this.getUUId(), getTemplateId());
+		
+		HeroMgr.removeInitingHero(this);
 	}
 
 	private void init(String roleUUId, RoleBaseInfo roleBaseInfoP) {
+		HeroMgr.addInitingHero(roleUUId, this);
 		roleId = roleUUId;
 		m_roleBaseInfoMgr.init(this, roleBaseInfoP);
 		m_SkillMgr.init(this);
@@ -94,48 +103,48 @@ public class Hero implements HeroIF {
 
 			}
 		});
-		m_SkillMgr.regChangeCallBack(new Action() {
-			@Override
-			public void doAction() {
-				m_AttrMgr.reCal();
-
-			}
-		});
-		m_inlayMgr.regChangeCallBack(new Action() {
-			@Override
-			public void doAction() {
-				m_AttrMgr.reCal();
-
-			}
-		});
-		m_EquipMgr.regChangeCallBack(new Action() {
-			@Override
-			public void doAction() {
-				m_AttrMgr.reCal();
-
-			}
-		});
-		m_FixNormEquipMgr.regChangeCallBack(new Action() {
-			@Override
-			public void doAction() {
-				m_AttrMgr.reCal();
-			}
-		});
-		m_FixExpEquipMgr.regChangeCallBack(new Action() {
-			@Override
-			public void doAction() {
-				m_AttrMgr.reCal();
-			}
-		});
-
+//		m_SkillMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();
+//
+//			}
+//		});
+//		m_inlayMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();
+//
+//			}
+//		});
+//		m_EquipMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();
+//
+//			}
+//		});
+		// 改到HeroMgr那里注册
+//		m_FixNormEquipMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();
+//			}
+//		});
+//		m_FixExpEquipMgr.regChangeCallBack(this.getUUId(), new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();
+//			}
+//		});
 	}
 
 	public void syn(int version) {
 
 		m_roleBaseInfoMgr.syn(version);
-		m_SkillMgr.syncAllSkill(version);
-		m_inlayMgr.syncAllInlay(version);
-		m_EquipMgr.syncAllEquip(version);
+		m_SkillMgr.syncAllSkill(this.m_pPlayer, this.roleId, version);
+		m_inlayMgr.syncAllInlay(this.m_pPlayer, this.roleId, version);
+		m_EquipMgr.syncAllEquip(this.m_pPlayer, this.roleId, version);
 		m_FixNormEquipMgr.synAllData(m_pPlayer, this);
 		m_FixExpEquipMgr.synAllData(m_pPlayer, this);
 		m_AttrMgr.syncAllAttr(version);
@@ -144,12 +153,12 @@ public class Hero implements HeroIF {
 
 	public void save(boolean immediately) {
 		m_roleBaseInfoMgr.save();
-		m_inlayMgr.save();
-		m_EquipMgr.save();
+		m_inlayMgr.save(this.roleId);
+		m_EquipMgr.save(this.roleId);
 		if (immediately) {
-			m_SkillMgr.flush();
+			m_SkillMgr.flush(this.roleId);
 		} else {
-			m_SkillMgr.save();
+			m_SkillMgr.save(this.roleId);
 		}
 		// m_AttrMgr.save(); 不需要持久化
 	}
@@ -238,7 +247,7 @@ public class Hero implements HeroIF {
 		if (preLevel < level) {
 			// 开启技能
 			RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(getRoleBaseInfo().getQualityId());
-			m_SkillMgr.activeSkill(getRoleBaseInfo().getLevel(), cfg.getQuality());
+			m_SkillMgr.activeSkill(m_pPlayer, roleId, getRoleBaseInfo().getLevel(), cfg.getQuality());
 		}
 
 	}
@@ -302,7 +311,7 @@ public class Hero implements HeroIF {
 			return;
 		// 跑马灯
 		marqueeMsg(marqueeQuality, cfg.getQuality());
-		m_SkillMgr.activeSkill(getLevel(), cfg.getQuality());
+		m_SkillMgr.activeSkill(m_pPlayer, roleId, getLevel(), cfg.getQuality());
 		m_pPlayer.getFresherActivityMgr().doCheck(eActivityType.A_HeroGrade);
 	}
 
@@ -330,7 +339,7 @@ public class Hero implements HeroIF {
 	public void gmCheckActiveSkill() {
 		// 开启技能
 		RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(getRoleBaseInfo().getQualityId());
-		m_SkillMgr.activeSkill(getRoleBaseInfo().getLevel(), cfg.getQuality());
+		m_SkillMgr.activeSkill(m_pPlayer, roleId, getRoleBaseInfo().getLevel(), cfg.getQuality());
 	}
 
 	/*

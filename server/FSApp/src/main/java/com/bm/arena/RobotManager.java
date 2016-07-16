@@ -271,11 +271,11 @@ public class RobotManager {
 			// 设置附灵等级
 			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, attachLevelInit + enhanceLevel);
 		}
-		hero.getEquipMgr().addRobotEquip(equipItemDataList);
+		hero.getEquipMgr().addRobotEquip(hero.getUUId(), equipItemDataList);
 	}
 
 	/** 更改英雄宝石 **/
-	private static void changeGem(Hero hero, int[] gemTypeArray, int[] gemCountArray, int[] gemLevelArray) {
+	private static void changeGem(Player player, Hero hero, int[] gemTypeArray, int[] gemCountArray, int[] gemLevelArray) {
 		// 先低效随机筛选
 		int gemCount = getRandom(gemCountArray);
 		ArrayList<Integer> gemList = new ArrayList<Integer>();
@@ -304,11 +304,11 @@ public class RobotManager {
 		}
 
 		// 新增宝石
-		hero.getInlayMgr().addRobotGem(gemList_);
+		hero.getInlayMgr().addRobotGem(player, hero.getUUId(), gemList_);
 	}
 
 	/** 更改技能 **/
-	private static void changeSkill(Hero hero, int[] skill1, int[] skill2, int[] skill3, int[] skill4, int[] skill5) {
+	private static void changeSkill(Player player, Hero hero, int[] skill1, int[] skill2, int[] skill3, int[] skill4, int[] skill5) {
 		ArrayList<Integer> skillLevel = new ArrayList<Integer>(5);
 		skillLevel.add(getRandom(skill1));
 		skillLevel.add(getRandom(skill2));
@@ -316,7 +316,7 @@ public class RobotManager {
 		skillLevel.add(getRandom(skill4));
 		skillLevel.add(getRandom(skill5));
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
 		int skillSize = skillList.size();
 		for (int i = 0; i < skillSize; i++) {
 			Skill skill = skillList.get(i);
@@ -342,7 +342,7 @@ public class RobotManager {
 				continue;
 			}
 			// 升级技能
-			skillMgr.updateSkill(skillId, expectLv - lv);
+			skillMgr.updateSkill(player, hero.getUUId(), skillId, expectLv - lv);
 		}
 	}
 
@@ -502,9 +502,9 @@ public class RobotManager {
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
-			changeGem(mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
+			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
-			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
+			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
 				int fashionID = Integer.parseInt(fashonId);
@@ -550,8 +550,8 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				changeHero(hero, cfg);
 				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
-				changeGem(hero, heroGemType, heroGemCount, heroGemLevel);
-				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
+				changeGem(player, hero, heroGemType, heroGemCount, heroGemLevel);
+				changeSkill(player, hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				arenaList.add(hero.getUUId());
 			}
 			player.getAttrMgr().reCal();

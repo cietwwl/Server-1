@@ -83,7 +83,7 @@ public class DropMissingLogic {
 			
 			EquipMgr equipMgr = hero.getEquipMgr();
 			if (equipMgr != null){
-				List<EquipItem> hasEquipList = equipMgr.getEquipList();
+				List<EquipItem> hasEquipList = equipMgr.getEquipList(hero.getUUId());
 				for (EquipItem item : hasEquipList) {
 					if (item != null){
 						wearEquipIdList.add(item.getModelId());

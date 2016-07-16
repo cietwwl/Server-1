@@ -26,7 +26,7 @@ public class FightingCalculator {
 	public static int calFighting(Hero roleP, AttrData totalAttrData) {
 		// 技能的总等级
 		int skillLevel = 0;
-		for (Skill skill : roleP.getSkillMgr().getSkillList()) {
+		for (Skill skill : roleP.getSkillMgr().getSkillList(roleP.getUUId())) {
 			skillLevel += skill.getLevel();
 		}
 

@@ -135,5 +135,22 @@ public class ClassInfo4Client {
 		return target;
 	}
 
+	public static void main(String[] args) throws Exception {
+//		ClassInfo4Client cc = new ClassInfo4Client(AAAA.class);
+		AAAA aa = new AAAA();
+//		System.out.println(cc.toJson(aa));
+		System.out.print(ClientDataSynMgr.transferToClientData(aa).build());
+	}
 
+	@SynClass
+	public static class AAAA {
+		
+		public String uuid;
+		public String name;
+		
+		public AAAA() {
+			this.uuid = java.util.UUID.randomUUID().toString();
+			this.name = "Perry";
+		}
+	}
 }

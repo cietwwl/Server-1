@@ -63,7 +63,7 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
-		boolean canUpgrade = pEquipMgr.getEquipCount() >= 6;
+		boolean canUpgrade = pEquipMgr.getEquipCount(roleId) >= 6;
 		if (canUpgrade) {
 			Hero role = player.getHeroMgr().getHeroById(roleId);
 
@@ -72,7 +72,7 @@ public class EquipHandler {
 				if (roleId.equals(player.getUserId()) && player.getCareer() == ECareer.None.ordinal() && pNextCfg.getQuality() > EHeroQuality.Green.ordinal()) {
 					player.NotifyCommonMsg("没有职业不能进下一阶！");
 				} else {
-					pEquipMgr.EquipAdvance(pNextCfg.getId(), true);
+					pEquipMgr.EquipAdvance(player, roleId, pNextCfg.getId(), true);
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
 					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
@@ -111,7 +111,7 @@ public class EquipHandler {
 			}
 		}
 
-		int result = pEquipMgr.EquipAttach(equipIndex, mateList);// 增加装备的附灵经验
+		int result = pEquipMgr.EquipAttach(player, roleId, equipIndex, mateList);// 增加装备的附灵经验
 		switch (result) {
 		case -1:
 			response.setError(ErrorType.NOT_EQUIP);
@@ -154,7 +154,7 @@ public class EquipHandler {
 			return response.build().toByteString();
 		}
 
-		int result = pEquipMgr.EquipOneKeyAttach(equipIndex);// 一键附灵
+		int result = pEquipMgr.EquipOneKeyAttach(player, roleId, equipIndex);// 一键附灵
 		switch (result) {
 		case -1:
 			response.setError(ErrorType.NOT_EQUIP);
@@ -381,7 +381,7 @@ public class EquipHandler {
 		}
 
 		// try {
-		if (pEquipMgr.WearEquip(equipIndex)) {
+		if (pEquipMgr.WearEquip(player, roleId, equipIndex)) {
 			response.setError(ErrorType.SUCCESS);
 		} else {
 			response.setError(ErrorType.FAIL);
@@ -426,7 +426,7 @@ public class EquipHandler {
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 		//已装备列表
-		List<EquipItem> hasEquipList = equipMgr.getEquipList();
+		List<EquipItem> hasEquipList = equipMgr.getEquipList(roleId);
 		int size = hasEquipList.size();
 		if (size == 6) {// 装备穿满了
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]装备已经穿戴满了，不需要一键穿装", roleId));
@@ -487,7 +487,7 @@ public class EquipHandler {
 		// 准备穿戴装备
 		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
 			Integer index = e.getKey();
-			if (equipMgr.wearEquip(e.getValue(), index)) {
+			if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
 				rsp.addOneKeySuccessIndex(index);
 			}
 		}

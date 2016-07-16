@@ -56,8 +56,8 @@ public class SkillHandler {
 
 		SkillFeeCfgDAO skillCfgDAO = SkillFeeCfgDAO.getInstance();
 		// 先重置技能点
-		skillMgr.reshSkillPoint();
-		List<Skill> skillList = skillMgr.getSkillList();
+		skillMgr.reshSkillPoint(player);
+		List<Skill> skillList = skillMgr.getSkillList(heroId);
 		int totalMoney = 0;
 		int totalPoints = 0;
 		for (int i = skillRequestList.size(); --i >= 0;) {
@@ -111,14 +111,14 @@ public class SkillHandler {
 				GameLog.error("hero", "updateSkill", player + "请求增加技能金币不够：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel + ",needCoin=" + totalMoney + ",coin=" + player.getUserGameDataMgr().getCoin());
 				continue;
 			}
-			if (!skillMgr.updateSkill(skill.getSkillId(), addLevel)) {
+			if (!skillMgr.updateSkill(player, heroId, skill.getSkillId(), addLevel)) {
 				GameLog.error("hero", "updateSkill", player + "升级技能失败：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel + ",skillId=" + skillId);
 				continue;
 			}
 			// 扣除金币
 			gameDataMgr.addCoin(-costCoin);
 		}
-		int max = player.getSkillMgr().getMaxSkillCount();
+		int max = player.getSkillMgr().getMaxSkillCount(player);
 		if (gameDataMgr.getLastRecoverSkillPointTime() == 0 || currentPoints == max) {
 			gameDataMgr.setLastRecoverSkillPointTime(System.currentTimeMillis());
 		}
@@ -209,7 +209,7 @@ public class SkillHandler {
 		}
 
 		// 技能点上限
-		player.getSkillMgr().buySkillPoint();
+		player.getSkillMgr().buySkillPoint(player);
 		return getFailResponse(player, "", SkillEventType.Buy_Skill_Point);
 	}
 

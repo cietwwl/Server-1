@@ -45,7 +45,7 @@ public class UserSimpleHelper {
 
 	private static HeroSimple getHeroSimple(Hero role) {
 		SkillMgr skillMgr = role.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<Skill> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		HeroSimple armyHero = new HeroSimple(baseInfo, totalAttrData, skillList);

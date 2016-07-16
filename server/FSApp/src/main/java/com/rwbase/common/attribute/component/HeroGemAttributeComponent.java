@@ -22,7 +22,7 @@ public class HeroGemAttributeComponent extends AbstractAttributeCalc {
 		GemParam.GemBuilder builder = new GemBuilder();
 		builder.setUserId(player.getUserId());
 		builder.setHeroId(hero.getUUId());
-		builder.setGemList(hero.getInlayMgr().getInlayGemList());
+		builder.setGemList(hero.getInlayMgr().getInlayGemList(player, hero.getUUId()));
 		builder.setHeroModelId(String.valueOf(hero.getModelId()));
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());

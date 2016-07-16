@@ -1003,7 +1003,7 @@ public class GMHandler {
 			return false;
 		}
 
-		hero.getEquipMgr().orderHeroWearEquip(hero);
+		hero.getEquipMgr().orderHeroWearEquip(player, hero);
 		return true;
 	}
 

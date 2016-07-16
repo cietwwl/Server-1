@@ -336,13 +336,13 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			}
 			heroIndex += distributions[i];
 			
-			List<TableSkill> heroSkillList = getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			List<TableSkill> heroSkillList = getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
 		}
 	}
 	
-	public List<TableSkill> getHeroInfoList(List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
+	public List<TableSkill> getHeroInfoList(Player player, List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
 		List<String> newHeroList = new ArrayList<String>();
 		List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 		for (String id : heroIdsList) {
@@ -352,7 +352,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 				continue;
 			}
 			newHeroList.add(id);
-			TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
+			TableSkill skill = heroData.getSkillMgr().getTableSkill(player, heroData.getUUId()); 
 			heroSkillList.add(skill);
 		}
 		if (checkedHeroIDList != null){

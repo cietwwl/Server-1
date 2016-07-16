@@ -49,7 +49,7 @@ public class HeroChecker implements RedPointCollector {
 			// roleCfgCopys.remove(roleCfgCopys.get(String.valueOf(hero.getModelId())));
 			removeByModelId(roleCfgCopys, hero.getModelId());
 			EquipMgr equipMgr = hero.getEquipMgr();
-			List<EquipItem> equipList = equipMgr.getEquipList();
+			List<EquipItem> equipList = equipMgr.getEquipList(hero.getUUId());
 			if (equipList.size() >= 6) {
 				heroRedPointList.add(templateId);
 			} else {

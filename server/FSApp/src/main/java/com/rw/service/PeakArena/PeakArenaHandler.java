@@ -301,7 +301,7 @@ public class PeakArenaHandler {
 		for (TeamInfo teamInfo : teamInfoList) {
 			TeamData team = peakData.search(teamInfo.getTeamId());
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
-			List<TableSkill> heroSkillList = peakBM.getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			List<TableSkill> heroSkillList = peakBM.getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setMagicId(teamInfo.getMagicId());
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
@@ -661,7 +661,7 @@ public class PeakArenaHandler {
 		result.setFighting(baseInfo.getFighting());
 		result.setQualityId(baseInfo.getQualityId());
 
-		List<Skill> lst = baseInfo.getSkillMgr().getSkillList();
+		List<Skill> lst = baseInfo.getSkillMgr().getSkillList(baseInfo.getUUId());
 		for (Skill skill : lst) {
 			result.addSkills(transfrom(skill));
 		}
@@ -708,7 +708,7 @@ public class PeakArenaHandler {
 
 		PlayerIF role = PlayerMgr.getInstance().getReadOnlyPlayer(arenaData.getUserId());
 
-		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList();
+		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getHeroData().getId());
 		for (TagSkillData skill : skills) {
 			data.addRoleSkill(skill);
 		}

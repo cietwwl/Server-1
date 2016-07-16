@@ -22,7 +22,7 @@ public class AssistantEquipCheck implements IAssistantCheck{
 		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
-			if(hero.getEquipMgr().canWearEquip()){
+			if(hero.getEquipMgr().canWearEquip(player, hero.getUUId())){
 				return true;
 			}
 		}

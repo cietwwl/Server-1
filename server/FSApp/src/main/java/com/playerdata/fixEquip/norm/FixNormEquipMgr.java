@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Action;
+import com.common.IHeroAction;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipHelper;
@@ -28,6 +28,7 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
+import com.playerdata.hero.IHero;
 import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
@@ -35,7 +36,16 @@ import com.rwbase.common.attribute.AttributeUtils;
 
 public class FixNormEquipMgr {
 	
-	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+//	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = FixNormEquipDataItemHolder.getInstance();
+	
+	private static final FixNormEquipMgr _INSTANCE = new FixNormEquipMgr();
+	
+	public static final FixNormEquipMgr getInstance() {
+		return _INSTANCE;
+	}
+	
+	protected FixNormEquipMgr() {}
 
 	final private Comparator<FixNormEquipDataItem> comparator = new Comparator<FixNormEquipDataItem>() {
 		
@@ -54,10 +64,23 @@ public class FixNormEquipMgr {
 		return true;
 	}
 	
+	public boolean initIfNeedV2(Player player, IHero hero) {
+		if(!isInitedV2(player, hero)){
+			newHeroInit(player, hero.getUUId(), hero.getModelId());
+		}
+		return true;
+	}
+	
 	private boolean isInited(Player player, Hero hero){
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
+	
+	private boolean isInitedV2(Player player, IHero hero){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
+		return !itemList.isEmpty();
+	}
+	
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
 	
@@ -125,12 +148,17 @@ public class FixNormEquipMgr {
 		}
 		return target;
 	}
-	public void regChangeCallBack(Action callBack) {
-		fixNormEquipDataItemHolder.regChangeCallBack(callBack);
+	
+	public void regDataChangeCallback(IHeroAction callback) {
+		fixNormEquipDataItemHolder.regDataChangeCallback(callback);
 	}
 	
 	public void synAllData(Player player, Hero hero){
 		fixNormEquipDataItemHolder.synAllData(player, hero);
+	}
+	
+	public void synAllDataV2(Player player, IHero hero){
+		fixNormEquipDataItemHolder.synAllDataV2(player, hero);
 	}
 	
 	public List<AttributeItem> levelToAttrItems(String ownerId){

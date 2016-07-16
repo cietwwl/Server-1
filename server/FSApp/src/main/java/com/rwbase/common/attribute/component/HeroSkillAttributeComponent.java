@@ -24,7 +24,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
-		List<Skill> skillList = hero.getSkillMgr().getSkillList();
+		List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 		if (skillList == null || skillList.isEmpty()) {
 			// GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄身上的技能是空的", hero.getUUId()));
 			return null;

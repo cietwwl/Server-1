@@ -757,7 +757,7 @@ public class Player implements PlayerIF {
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
-			getMainRoleHero().getSkillMgr().activeSkill(newLevel, quality);
+			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
 				// 职业进阶
 				// RoleHandler.getInstance().careerAdvance(this, preLevel);
@@ -795,10 +795,10 @@ public class Player implements PlayerIF {
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
 			// 改技能Id
-			getMainRoleHero().getSkillMgr().changeSkill(cfg);
+			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
 			String newQuality = cfg.getQualityId().split("_")[0] + "_" + getMainRoleHero().getQualityId().split("_")[1];
-			getMainRoleHero().getEquipMgr().EquipAdvance(newQuality, false);
+			getMainRoleHero().getEquipMgr().EquipAdvance(this, this.getMainRoleHero().getUUId(), newQuality, false);
 			setStarLevel(cfg.getStarLevel());
 
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);

@@ -22,7 +22,7 @@ public class AssistantUpdateSkillCheck implements IAssistantCheck{
 		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
-			if(hero.getSkillMgr().canUpgradeSkill()){
+			if(hero.getSkillMgr().canUpgradeSkill(player, hero.getUUId())){
 				return true;
 			}
 		}

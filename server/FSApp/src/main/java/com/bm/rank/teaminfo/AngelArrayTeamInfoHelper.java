@@ -319,7 +319,7 @@ public class AngelArrayTeamInfoHelper {
 			// 装备
 			List<EquipInfo> equipInfoList = null;
 
-			List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
+			List<EquipItem> equipList = hero.getEquipMgr().getEquipList(hero.getUUId());
 			if (equipList != null && !equipList.isEmpty()) {
 				int size = equipList.size();
 
@@ -341,12 +341,12 @@ public class AngelArrayTeamInfoHelper {
 			}
 
 			// 宝石
-			heroInfo.setGem(hero.getInlayMgr().getInlayGemList());
+			heroInfo.setGem(hero.getInlayMgr().getInlayGemList(p, hero.getUUId()));
 			// 技能
 			List<SkillInfo> skillInfoList = null;
 
 			// int skillLevel = 0;
-			List<Skill> skillList = hero.getSkillMgr().getSkillList();
+			List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 			if (skillList != null && !skillList.isEmpty()) {
 				int size = skillList.size();
 

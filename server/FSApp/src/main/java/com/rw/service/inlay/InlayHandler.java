@@ -71,7 +71,8 @@ public class InlayHandler {
 			
 		}
 		
-		if(!inlayMgr.CheckAddSize())
+//		if(!inlayMgr.CheckAddSize())
+		if(!inlayMgr.CheckAddSize(playe, msgReques.getRoleId()))
 		{
 			 playe.NotifyCommonMsg("佩戴位置已满");
 				return null;
@@ -82,13 +83,13 @@ public class InlayHandler {
 
 		
 		
-		if(!inlayMgr.CheckAddType(itemData.getModelId()))
+		if(!inlayMgr.CheckAddType(msgReques.getRoleId(), itemData.getModelId()))
 		{
 			 playe.NotifyCommonMsg("不可佩戴相同颜色宝石");
 			return null;
 		}
 		
-		if(!inlayMgr.InlayGem(itemData))
+		if(!inlayMgr.InlayGem(playe, msgReques.getRoleId(), itemData))
 		{
 		 playe.NotifyCommonMsg("没有更多位置可佩戴");
 			return null;
@@ -127,7 +128,7 @@ public class InlayHandler {
 		}
 		if(msgReques.getGemId()<=0)
 		{
-			if(!inlayMgr.XieXiaAll())
+			if(!inlayMgr.XieXiaAll(playe, msgReques.getRoleId()))
 			{
 				 playe.NotifyCommonMsg("没有宝石可卸下");
 			}else
@@ -136,7 +137,7 @@ public class InlayHandler {
 			}
 		}else
 		{
-			if(!inlayMgr.XieXia(msgReques.getGemId()))
+			if(!inlayMgr.XieXia(playe, msgReques.getRoleId(), msgReques.getGemId()))
 			{
 				
 			}else
@@ -170,7 +171,7 @@ public class InlayHandler {
 			inlayMgr=hero.getInlayMgr();
 		}
 		
-		if(!inlayMgr.InlayAll())
+		if(!inlayMgr.InlayAll(playe, msgReques.getRoleId()))
 		{
 			 //playe.NotifyCommonMsg("没有更多位置可镶嵌");
 		}else
