@@ -1,20 +1,19 @@
 package com.playerdata.embattle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.SaveAsJson;
 
 /*
  * @author HC
@@ -22,20 +21,27 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
  * @Description 
  */
 @SynClass
+@Table(name = "embattle_pos")
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class EmbattleInfo implements IMapItem {
 	@IgnoreSynField
 	@Id
+	private String id;// 阵容的Id
+	@IgnoreSynField
 	private String userId;// 角色的Id
-	private Map<Integer, List<EmbattlePositionInfo>> map;
+	private int type;// 阵容类型
+	@SaveAsJson
+	private List<EmbattlePositionInfo> posInfo;
 
 	public EmbattleInfo() {
-		map = new HashMap<Integer, List<EmbattlePositionInfo>>();
+		posInfo = new ArrayList<EmbattlePositionInfo>();
 	}
 
-	public EmbattleInfo(String userId) {
+	public EmbattleInfo(String userId, int type) {
 		this();
 		this.userId = userId;
+		this.type = type;
+		this.id = userId + "_" + type;
 	}
 
 	/**
@@ -44,15 +50,9 @@ public class EmbattleInfo implements IMapItem {
 	 * @param key
 	 * @param updateInfo
 	 */
-	public void updateOrAddEmbattleInfo(int type, String key, List<EmbattleHeroPosition> updateInfo) {
-		if (map == null) {
-			return;
-		}
-
-		List<EmbattlePositionInfo> posInfo = map.get(type);
+	public void updateOrAddEmbattleInfo(String key, List<EmbattleHeroPosition> updateInfo) {
 		if (posInfo == null) {
-			posInfo = new ArrayList<EmbattlePositionInfo>();
-			map.put(type, posInfo);
+			return;
 		}
 
 		boolean hasValue = false;
@@ -76,12 +76,7 @@ public class EmbattleInfo implements IMapItem {
 	 * 
 	 * @param key
 	 */
-	public void removeEmbattleInfo(int type, String key) {
-		if (map == null || map.isEmpty()) {
-			return;
-		}
-
-		List<EmbattlePositionInfo> posInfo = map.get(type);
+	public void removeEmbattleInfo(String key) {
 		if (posInfo == null || posInfo.isEmpty()) {
 			return;
 		}
@@ -101,12 +96,7 @@ public class EmbattleInfo implements IMapItem {
 	 * @param key
 	 * @return
 	 */
-	public EmbattlePositionInfo getEmbattlePositionInfo(int type, String key) {
-		if (map == null || map.isEmpty()) {
-			return null;
-		}
-
-		List<EmbattlePositionInfo> posInfo = map.get(type);
+	public EmbattlePositionInfo getEmbattlePositionInfo(String key) {
 		if (posInfo == null || posInfo.isEmpty()) {
 			return null;
 		}
@@ -122,13 +112,16 @@ public class EmbattleInfo implements IMapItem {
 		return null;
 	}
 
-	@JsonIgnore
 	@Override
 	public String getId() {
+		return id;
+	}
+
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public int getType() {
+		return type;
 	}
 }

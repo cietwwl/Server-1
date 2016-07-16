@@ -63,7 +63,6 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwproto.BattleCommon;
 import com.rwproto.BattleCommon.BattleHeroPosition;
-import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg;
@@ -215,9 +214,6 @@ public class GroupSecretMatchHandler {
 
 		// 扣除费用
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
-
-		// 移除阵容
-		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, matchId);
 
 		// 获取可以掠夺的资源数量
 		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName, groupId);
@@ -677,9 +673,6 @@ public class GroupSecretMatchHandler {
 				player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), levelGetResTemplate.getRobDiamond());
 			}
 		}
-
-		// 更新阵容
-		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, GroupSecretHelper.generateCacheSecretId(matchEnemyData.getMatchUserId(), matchEnemyData.getId()));
 
 		// 移除匹配的敌人信息
 		GroupSecretBM.clearMatchEnemyInfo(player);

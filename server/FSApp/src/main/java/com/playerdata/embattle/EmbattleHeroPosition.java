@@ -1,10 +1,13 @@
 package com.playerdata.embattle;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年7月14日 下午6:29:11
  * @Description 
  */
+@SynClass
 public class EmbattleHeroPosition {
 	private String id;// 角色Id
 	private int pos;// 站位

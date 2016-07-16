@@ -1,7 +1,6 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
-import com.playerdata.embattle.EmbattleCreator;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.rw.dataaccess.processor.BattleTowerCreator;
@@ -33,7 +32,6 @@ import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.email.TableEmailDAO;
-import com.rwbase.dao.embattle.EmbattleInfoDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.groupsecret.creator.GroupSecretDefendRecordDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretMatchEnemyDataCreator;
@@ -84,8 +82,7 @@ public enum DataKVType {
 	GROUP_SECRE_DEFEND_RECORD(25, GroupSecretDefendRecordDataDAO.class, GroupSecretDefendRecordDataCreator.class),
 	// 私聊记录数据
 	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class),
-	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
-	EMBATTLE_INFO(28, EmbattleInfoDAO.class, EmbattleCreator.class);
+	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

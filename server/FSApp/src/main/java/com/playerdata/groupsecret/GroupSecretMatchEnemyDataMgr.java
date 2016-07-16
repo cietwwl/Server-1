@@ -71,6 +71,9 @@ public class GroupSecretMatchEnemyDataMgr {
 		update(userId);
 
 		removeData(player, id);
+
+		// 更新阵容
+		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, id);
 	}
 
 	/**
