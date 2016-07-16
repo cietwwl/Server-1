@@ -36,4 +36,21 @@ public class EmbattlePositionInfo {
 	public void setPos(List<EmbattleHeroPosition> pos) {
 		this.pos = pos;
 	}
+
+	/**
+	 * 获取英雄站位
+	 * 
+	 * @param heroId
+	 * @return
+	 */
+	public int getHeroPos(String heroId) {
+		for (int i = 0, size = pos.size(); i < size; i++) {
+			EmbattleHeroPosition heroPos = pos.get(i);
+			if (heroPos.getId().equals(heroId)) {
+				return heroPos.getPos();
+			}
+		}
+
+		return 0;
+	}
 }

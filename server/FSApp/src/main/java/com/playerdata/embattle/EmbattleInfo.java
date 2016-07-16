@@ -1,10 +1,16 @@
 package com.playerdata.embattle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -16,37 +22,20 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
  * @Description 
  */
 @SynClass
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class EmbattleInfo implements IMapItem {
 	@IgnoreSynField
-	private String userId;// 角色的Id
 	@Id
-	private int type;// 阵容类型，阵容信息从BattleCommon中的eBattlePositonType
-	private List<EmbattlePositionInfo> posInfo;// 阵容信息
+	private String userId;// 角色的Id
+	private Map<Integer, List<EmbattlePositionInfo>> map;
 
 	public EmbattleInfo() {
-		posInfo = new ArrayList<EmbattlePositionInfo>();
+		map = new HashMap<Integer, List<EmbattlePositionInfo>>();
 	}
 
-	public EmbattleInfo(String userId, int type) {
+	public EmbattleInfo(String userId) {
 		this();
 		this.userId = userId;
-		this.type = type;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public List<EmbattlePositionInfo> getPosInfo() {
-		return posInfo;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	public void setPosInfo(List<EmbattlePositionInfo> posInfo) {
-		this.posInfo = posInfo;
 	}
 
 	/**
@@ -55,9 +44,15 @@ public class EmbattleInfo implements IMapItem {
 	 * @param key
 	 * @param updateInfo
 	 */
-	public void updateOrAddEmbattleInfo(String key, List<EmbattleHeroPosition> updateInfo) {
-		if (posInfo == null || posInfo.isEmpty()) {
+	public void updateOrAddEmbattleInfo(int type, String key, List<EmbattleHeroPosition> updateInfo) {
+		if (map == null) {
 			return;
+		}
+
+		List<EmbattlePositionInfo> posInfo = map.get(type);
+		if (posInfo == null) {
+			posInfo = new ArrayList<EmbattlePositionInfo>();
+			map.put(type, posInfo);
 		}
 
 		boolean hasValue = false;
@@ -81,7 +76,12 @@ public class EmbattleInfo implements IMapItem {
 	 * 
 	 * @param key
 	 */
-	public void removeEmbattleInfo(String key) {
+	public void removeEmbattleInfo(int type, String key) {
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+
+		List<EmbattlePositionInfo> posInfo = map.get(type);
 		if (posInfo == null || posInfo.isEmpty()) {
 			return;
 		}
@@ -95,12 +95,36 @@ public class EmbattleInfo implements IMapItem {
 		}
 	}
 
-	@Override
-	public String getId() {
-		return String.valueOf(type);
+	/**
+	 * 获取阵容信息
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public EmbattlePositionInfo getEmbattlePositionInfo(int type, String key) {
+		if (map == null || map.isEmpty()) {
+			return null;
+		}
+
+		List<EmbattlePositionInfo> posInfo = map.get(type);
+		if (posInfo == null || posInfo.isEmpty()) {
+			return null;
+		}
+
+		Iterator<EmbattlePositionInfo> itr = posInfo.iterator();
+		while (itr.hasNext()) {
+			EmbattlePositionInfo next = itr.next();
+			if (key.equals(next.getKey())) {
+				return next;
+			}
+		}
+
+		return null;
 	}
 
-	public String getUserId() {
+	@JsonIgnore
+	@Override
+	public String getId() {
 		return userId;
 	}
 

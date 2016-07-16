@@ -1,6 +1,5 @@
 package com.rwbase.common.attrdata;
 
-import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -65,7 +64,7 @@ public class RoleAttrDataHolder {
 		builder.setRoleBaseTotalData(baseData);
 
 		// StringBuilder sb = new StringBuilder();
-		GameLog.info("模块的属性", player.getUserId(), calc.getAttrDesc());
+		// GameLog.info("模块的属性", player.getUserId(), calc.getAttrDesc());
 		// sb.append(calc.getAttrDesc()).append("\n");
 
 		// String baseAttrDesc = BeanOperationHelper.getPositiveValueDiscription(baseData);

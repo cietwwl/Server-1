@@ -1,6 +1,7 @@
 package com.rwbase.dao.groupsecret;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,15 @@ import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.teamsyn.DefendHeroBaseInfoSynData;
 import com.rwbase.common.teamsyn.DefendTeamInfoSynData;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -34,10 +39,13 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
+import com.rwbase.dao.groupsecret.pojo.db.data.HeroInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwproto.BattleCommon;
+import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 
@@ -138,7 +146,13 @@ public class GroupSecretHelper {
 				List<String> heroList = value.getHeroList();
 				int heroSize = heroList.size();
 
+				// 获取阵容
+				EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(defendUserId, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE,
+					GroupSecretHelper.generateCacheSecretId(defendUserId, secretData.getId()));
+
 				List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
+
+				int mainRoleIndex = -1;
 				for (int j = 0; j < heroSize; j++) {
 					String heroId = heroList.get(j);
 					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
@@ -146,9 +160,21 @@ public class GroupSecretHelper {
 						continue;
 					}
 
+					boolean isMainRole = heroId.equals(defendUserId);
 					fighting += hero.getFighting();
-					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
-							.equals(defendUserId), false, null));
+					int heroPos = 0;
+					if (posInfo == null) {
+						if (!isMainRole) {
+							heroPos = mainRoleIndex == -1 ? j + 1 : j;// 在没有遇到主角之前，就要用j+1做为站位信息，遇到之后就用j
+						} else {
+							mainRoleIndex = j;
+						}
+					} else {
+						heroPos = posInfo.getHeroPos(heroId);
+					}
+
+					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
+						hero.getLevel(), isMainRole, false, heroPos, null));
 				}
 
 				String groupName = "";
@@ -162,7 +188,7 @@ public class GroupSecretHelper {
 				}
 
 				DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-						readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName));
+					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName));
 				defendUserInfoMap.put(index, userInfo);
 			}
 		}
@@ -190,7 +216,7 @@ public class GroupSecretHelper {
 			}
 
 			Integer index = e.getKey();
-			Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);// 如果记录中是没有这个对应位置剩余血量就不用把这个放到敌人信息中
+			Map<String, HeroInfoData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);// 如果记录中是没有这个对应位置剩余血量就不用把这个放到敌人信息中
 			if (teamAttrInfoMap == null || teamAttrInfoMap.isEmpty()) {
 				continue;
 			}
@@ -209,7 +235,7 @@ public class GroupSecretHelper {
 			int heroSize = teamAttrInfoMap.size();
 
 			List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
-			for (Entry<String, HeroLeftInfoSynData> entry : teamAttrInfoMap.entrySet()) {
+			for (Entry<String, HeroInfoData> entry : teamAttrInfoMap.entrySet()) {
 				String heroId = entry.getKey();
 				HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
 				if (hero == null) {
@@ -219,8 +245,11 @@ public class GroupSecretHelper {
 				fighting += hero.getFighting();
 
 				boolean isDie = false;
-				HeroLeftInfoSynData heroLeftInfo = entry.getValue();
+				HeroInfoData heroInfoData = entry.getValue();
+				HeroLeftInfoSynData heroLeftInfo = heroInfoData.getLeft();
 				if (heroLeftInfo == null) {
+					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+					heroLeftInfo = new HeroLeftInfoSynData(totalData.getLife(), 0, totalData.getLife(), totalData.getEnergy());
 					isHasLife = true;
 				} else {
 					int leftLife = heroLeftInfo.getLife();
@@ -232,7 +261,7 @@ public class GroupSecretHelper {
 				}
 
 				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
-						.equals(defendUserId), isDie, heroLeftInfo));
+					.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
 			}
 
 			String groupName = "";
@@ -248,12 +277,8 @@ public class GroupSecretHelper {
 			int zoneId = enemyData.getZoneId();
 			String zoneName = enemyData.getZoneName();
 
-			// DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId,
-			// readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-			// readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName)) : new
-			// DefendUserInfoSynData(index, true, null);
 			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName));
+				readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName));
 			defendUserInfoMap.put(index, userInfo);
 		}
 	}
@@ -314,7 +339,7 @@ public class GroupSecretHelper {
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-				enemyData.getAllRobGSValue(), enemyData.getGroupId());
+			enemyData.getAllRobGSValue(), enemyData.getGroupId());
 
 		// if (beat) {// 如果已经打败了
 		// return new GroupSecretDataSynData(baseInfo, null);
@@ -416,5 +441,31 @@ public class GroupSecretHelper {
 	 */
 	public static String[] parseString2UserIdAndSecretId(String id) {
 		return HPCUtil.parseStringArray(id, "_");
+	}
+
+	/**
+	 * 转换协议传递来的英雄站位到存储结构
+	 * 
+	 * @param heroPosList
+	 * @return
+	 */
+	public static List<EmbattleHeroPosition> parseMsgHeroPos2Memery(List<BattleHeroPosition> heroPosList) {
+		if (heroPosList == null || heroPosList.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		int size = heroPosList.size();
+
+		List<EmbattleHeroPosition> emHeroList = new ArrayList<EmbattleHeroPosition>(size);
+		for (int i = 0; i < size; i++) {
+			BattleHeroPosition heroPos = heroPosList.get(i);
+
+			EmbattleHeroPosition pos = new EmbattleHeroPosition();
+			pos.setId(heroPos.getHeroId());
+			pos.setPos(heroPos.getPos());
+			emHeroList.add(pos);
+		}
+
+		return emHeroList;
 	}
 }

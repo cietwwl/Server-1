@@ -1,7 +1,6 @@
 package com.rw.service.groupsecret;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,6 +24,7 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
+import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
@@ -57,9 +57,13 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
+import com.rwbase.dao.groupsecret.pojo.db.data.HeroInfoData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.zone.TableZoneInfo;
+import com.rwproto.BattleCommon;
+import com.rwproto.BattleCommon.BattleHeroPosition;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg;
@@ -212,6 +216,9 @@ public class GroupSecretMatchHandler {
 		// 扣除费用
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
 
+		// 移除阵容
+		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, matchId);
+
 		// 获取可以掠夺的资源数量
 		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName, groupId);
 
@@ -358,7 +365,7 @@ public class GroupSecretMatchHandler {
 		ranking.subimitUpdatedTask(rankingEntry);
 
 		// 检查个人传递来的阵容信息
-		List<String> teamHeroList = req.getHeroListList();
+		List<BattleHeroPosition> teamHeroList = req.getHeroListList();
 		if (teamHeroList.isEmpty()) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "攻击阵容不能为空");
 			return rsp.build().toByteString();
@@ -367,7 +374,8 @@ public class GroupSecretMatchHandler {
 		boolean hasMainRole = false;
 		GroupSecretTeamData groupSecretTeamData = GroupSecretTeamDataMgr.getMgr().get(userId);
 		for (int i = 0, size = teamHeroList.size(); i < size; i++) {
-			String heroId = teamHeroList.get(i);
+			BattleHeroPosition heroPos = teamHeroList.get(i);
+			String heroId = heroPos.getHeroId();
 			Hero hero = player.getHeroMgr().getHeroById(heroId);
 			if (hero == null) {
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "英雄状态错误");
@@ -392,7 +400,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 检查传递来请求攻打的矿点是否有人，或者是否被击败
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = matchEnemyData.getTeamAttrInfoMap(index);
+		Map<String, HeroInfoData> teamAttrInfoMap = matchEnemyData.getTeamAttrInfoMap(index);
 		if (teamAttrInfoMap.isEmpty()) {
 			GameLog.error("挑战秘境敌人", userId, String.format("角色挑战的驻守点[%s]没有任何人驻守", index));
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "当前您挑战的驻守点无人驻守");
@@ -404,13 +412,14 @@ public class GroupSecretMatchHandler {
 		boolean hasAlive = false;
 		int teamSize = teamAttrInfoMap.size();
 		List<String> canHeroList = new ArrayList<String>(teamSize);
-		Map<String, CurAttrData> curAttrData = new HashMap<String, CurAttrData>(teamSize);
-		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
+		// Map<String, CurAttrData> curAttrData = new HashMap<String, CurAttrData>(teamSize);
+		for (Entry<String, HeroInfoData> e : teamAttrInfoMap.entrySet()) {
 			String heroId = e.getKey();
 
 			boolean isMainRole = defendUserId.equals(heroId);
 
-			HeroLeftInfoSynData value = e.getValue();
+			HeroInfoData heroInfoData = e.getValue();
+			HeroLeftInfoSynData value = heroInfoData.getLeft();
 			if (value == null) {
 				if (!isMainRole) {
 					canHeroList.add(heroId);
@@ -423,12 +432,6 @@ public class GroupSecretMatchHandler {
 					}
 					hasAlive = true;
 				}
-
-				CurAttrData attrData = new CurAttrData();
-				attrData.setId(heroId);
-				attrData.setCurLife(value.getLife());
-				attrData.setCurEnergy(value.getEnergy());
-				curAttrData.put(heroId, attrData);
 			}
 		}
 
@@ -440,27 +443,42 @@ public class GroupSecretMatchHandler {
 		// 填充ArmyInfo信息
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(defendUserId, canHeroList);
 		String mainRoleId = armyInfo.getPlayer().getRoleBaseInfo().getId();
-		CurAttrData leftInfo = curAttrData.get(mainRoleId);
-		if (leftInfo == null) {
-			leftInfo = new CurAttrData();
-			leftInfo.setId(mainRoleId);
+
+		HeroInfoData heroData = teamAttrInfoMap.get(mainRoleId);
+		HeroLeftInfoSynData left = heroData.getLeft();
+
+		CurAttrData leftInfo = new CurAttrData();
+		leftInfo.setId(mainRoleId);
+		if (left == null) {
 			AttrData attrData = armyInfo.getPlayer().getAttrData();
 			leftInfo.setCurLife(attrData.getLife());
+		} else {
+			leftInfo.setCurLife(left.getLife());
+			leftInfo.setCurEnergy(left.getEnergy());
 		}
+
 		armyInfo.getPlayer().setCurAttrData(leftInfo);
 
 		List<ArmyHero> heroList = armyInfo.getHeroList();
 		for (int i = 0, size = heroList.size(); i < size; i++) {
 			ArmyHero armyHero = heroList.get(i);
 			String heroId = armyHero.getRoleBaseInfo().getId();
-			CurAttrData left = curAttrData.get(heroId);
+
+			heroData = teamAttrInfoMap.get(heroId);
+			left = heroData.getLeft();
+
+			CurAttrData leftAttrData = new CurAttrData();
+			leftAttrData.setId(heroId);
 			if (left == null) {
-				left = new CurAttrData();
-				left.setId(heroId);
 				AttrData attrData = armyHero.getAttrData();
-				left.setCurLife(attrData.getLife());
+				leftAttrData.setCurLife(attrData.getLife());
+			} else {
+				leftAttrData.setCurLife(left.getLife());
+				leftAttrData.setCurEnergy(left.getEnergy());
 			}
-			armyHero.setCurAttrData(left);
+
+			armyHero.setPosition(heroData.getPos());
+			armyHero.setCurAttrData(leftAttrData);
 		}
 
 		AttackEnemyStartRspMsg.Builder endRsp = AttackEnemyStartRspMsg.newBuilder();
@@ -479,6 +497,9 @@ public class GroupSecretMatchHandler {
 			// 更新秘境的攻打时间
 			enemyDataMgr.updateMatchState2Atk(player, now);
 		}
+
+		// 更新阵容
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, id, GroupSecretHelper.parseMsgHeroPos2Memery(teamHeroList));
 
 		rsp.setIsSuccess(true);
 		// rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
@@ -584,12 +605,12 @@ public class GroupSecretMatchHandler {
 
 			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(matchUserId);
 			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, readOnlyPlayer.getLevel(), secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(),
-					matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
+				matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
 		}
 
-		//通知角色日常任务 by Alex
+		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
-		
+
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
@@ -613,36 +634,6 @@ public class GroupSecretMatchHandler {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
 			return rsp.build().toByteString();
 		}
-
-		// // 检查个人的帮派数据
-		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		// String groupId = userGroupAttributeData.getGroupId();
-		// if (StringUtils.isEmpty(groupId)) {
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// Group group = GroupBM.get(groupId);
-		// if (group == null) {
-		// GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		// if (groupData == null) {
-		// GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		// GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
-		// if (selfMemberData == null) {
-		// GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
 
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
@@ -687,6 +678,10 @@ public class GroupSecretMatchHandler {
 			}
 		}
 
+		// 更新阵容
+		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, GroupSecretHelper.generateCacheSecretId(matchEnemyData.getMatchUserId(), matchEnemyData.getId()));
+
+		// 移除匹配的敌人信息
 		GroupSecretBM.clearMatchEnemyInfo(player);
 
 		rsp.setIsSuccess(true);

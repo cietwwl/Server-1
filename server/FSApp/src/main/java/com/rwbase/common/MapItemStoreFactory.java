@@ -3,13 +3,13 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
@@ -19,7 +19,6 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
-import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
@@ -127,8 +126,6 @@ public class MapItemStoreFactory {
 
 	private static List<MapItemStoreCache> list;
 
-	private static MapItemStoreCache<EmbattleInfo> embattleInfoItemCache;
-
 	private static boolean init = false;
 
 	public static void init() {
@@ -219,8 +216,6 @@ public class MapItemStoreFactory {
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
 
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
-
-		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -487,14 +482,5 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<MajorData> getMajorDataCache() {
 		return majorDataCache;
-	}
-
-	/**
-	 * 获取阵容阵容
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<EmbattleInfo> getEmbattleInfoCache() {
-		return embattleInfoItemCache;
 	}
 }

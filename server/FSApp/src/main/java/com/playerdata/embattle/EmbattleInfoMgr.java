@@ -1,15 +1,11 @@
 package com.playerdata.embattle;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import com.playerdata.Player;
-import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rwbase.common.MapItemStoreFactory;
-import com.rwproto.DataSynProtos.eSynOpType;
-import com.rwproto.DataSynProtos.eSynType;
+import com.rwbase.dao.embattle.EmbattleInfoDAO;
 
 /*
  * @author HC
@@ -23,9 +19,28 @@ public class EmbattleInfoMgr {
 		return mgr;
 	}
 
-	private eSynType synType = eSynType.EmbattleInfo;// 同步数据
+	// private eSynType synType = eSynType.EmbattleInfo;// 同步数据
 
 	EmbattleInfoMgr() {
+	}
+
+	/**
+	 * 获取阵容信息
+	 * 
+	 * @param player
+	 * @param type
+	 * @param recordKey
+	 * @return
+	 */
+	public synchronized EmbattlePositionInfo getEmbattlePositionInfo(String userId, int type, String recordKey) {
+		EmbattleInfo item = get(userId);
+		if (item == null) {
+			return null;
+		}
+
+		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
+
+		return item.getEmbattlePositionInfo(type, recordKey);
 	}
 
 	/**
@@ -33,24 +48,25 @@ public class EmbattleInfoMgr {
 	 * 
 	 * @param player
 	 * @param type
-	 * @param recoreKey
+	 * @param recordKey 当没有特殊的记录Key是填null
 	 * @param heroPos
 	 */
-	public void updateOrAddEmbattleInfo(Player player, int type, String recoreKey, List<EmbattleHeroPosition> heroPos) {
+	public synchronized void updateOrAddEmbattleInfo(Player player, int type, String recordKey, List<EmbattleHeroPosition> heroPos) {
+		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
+
 		String userId = player.getUserId();
-		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		String pKey = String.valueOf(type);
-		EmbattleInfo item = mapItemStore.getItem(pKey);
+		EmbattleInfo item = get(userId);
+
 		if (item == null) {
-			item = new EmbattleInfo(userId, type);
-			item.updateOrAddEmbattleInfo(recoreKey, heroPos);
-			mapItemStore.addItem(item);
+			item = new EmbattleInfo(userId);
+			item.updateOrAddEmbattleInfo(type, recordKey, heroPos);
 			syn(player, type, true);
 		} else {
-			item.updateOrAddEmbattleInfo(recoreKey, heroPos);
-			mapItemStore.update(pKey);
+			item.updateOrAddEmbattleInfo(type, recordKey, heroPos);
 			syn(player, type, false);
 		}
+
+		EmbattleInfoDAO.getDAO().update(item);
 	}
 
 	/**
@@ -58,19 +74,20 @@ public class EmbattleInfoMgr {
 	 * 
 	 * @param player
 	 * @param type
-	 * @param recoreKey
+	 * @param recordKey
 	 */
-	public void removeEmbattleInfo(Player player, int type, String recoreKey) {
+	public synchronized void removeEmbattleInfo(Player player, int type, String recordKey) {
+
+		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
+
 		String userId = player.getUserId();
-		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		String pKey = String.valueOf(type);
-		EmbattleInfo item = mapItemStore.getItem(pKey);
+		EmbattleInfo item = get(userId);
 		if (item == null) {
 			return;
 		}
 
-		item.removeEmbattleInfo(recoreKey);
-		mapItemStore.update(pKey);
+		item.removeEmbattleInfo(type, recordKey);
+		EmbattleInfoDAO.getDAO().update(item);
 
 		syn(player, type, false);
 	}
@@ -81,16 +98,16 @@ public class EmbattleInfoMgr {
 	 * @param player
 	 */
 	public void synAll(Player player) {
-		String userId = player.getUserId();
-		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		Enumeration<EmbattleInfo> enumeration = mapItemStore.getEnum();
-
-		List<EmbattleInfo> list = new ArrayList<EmbattleInfo>();
-		while (enumeration.hasMoreElements()) {
-			list.add(enumeration.nextElement());
-		}
-
-		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
+		// String userId = player.getUserId();
+		// MapItemStore<EmbattleInfo> mapItemStore = get(userId);
+		// Enumeration<EmbattleInfo> enumeration = mapItemStore.getEnum();
+		//
+		// List<EmbattleInfo> list = new ArrayList<EmbattleInfo>();
+		// while (enumeration.hasMoreElements()) {
+		// list.add(enumeration.nextElement());
+		// }
+		//
+		// ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	/**
@@ -100,15 +117,15 @@ public class EmbattleInfoMgr {
 	 * @param key
 	 */
 	public void syn(Player player, int key, boolean isAdd) {
-		String userId = player.getUserId();
-		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
-		String pKey = String.valueOf(key);
-		EmbattleInfo item = mapItemStore.getItem(pKey);
-		if (item == null) {
-			return;
-		}
-
-		ClientDataSynMgr.synData(player, item, synType, isAdd ? eSynOpType.ADD_SINGLE : eSynOpType.UPDATE_SINGLE);
+		// String userId = player.getUserId();
+		// MapItemStore<EmbattleInfo> mapItemStore = get(userId);
+		// String pKey = String.valueOf(key);
+		// EmbattleInfo item = mapItemStore.getItem(pKey);
+		// if (item == null) {
+		// return;
+		// }
+		//
+		// ClientDataSynMgr.synData(player, item, synType, isAdd ? eSynOpType.ADD_SINGLE : eSynOpType.UPDATE_SINGLE);
 	}
 
 	/**
@@ -117,8 +134,7 @@ public class EmbattleInfoMgr {
 	 * @param userId
 	 * @return
 	 */
-	private MapItemStore<EmbattleInfo> get(String userId) {
-		MapItemStore<EmbattleInfo> mapItemStore = MapItemStoreFactory.getEmbattleInfoCache().getMapItemStore(userId, EmbattleInfo.class);
-		return mapItemStore;
+	private EmbattleInfo get(String userId) {
+		return EmbattleInfoDAO.getDAO().get(userId);
 	}
 }
