@@ -52,7 +52,7 @@ public class GroupSecretDefendRecordDataMgr {
 	 * 
 	 * @param userId
 	 */
-	private void update(String userId) {
+	public void update(String userId) {
 		GroupSecretDefendRecordDataHolder.getHolder().updateData(userId);
 	}
 
@@ -64,7 +64,7 @@ public class GroupSecretDefendRecordDataMgr {
 	 * @return
 	 */
 	public List<DefendRecord> getSortDefendRecordList(String userId) {
-		return get(userId).getSortDefendRecordList(comparator);
+		return get(userId).getSortDefendRecordList(comparator, userId);
 	}
 
 	/**
