@@ -43,7 +43,6 @@ public class GamblePlanCfg extends BaseConfig {
 	private int hotCheckMax;
 	
 	//免费组
-	private String guaranteeFreeCheckNum; // 免费保底检索次数
 	private DropGamblePlan freePlan;
 	private int freeExclusiveCount;//唯一性检查次数（免费组）
 	
@@ -59,7 +58,7 @@ public class GamblePlanCfg extends BaseConfig {
 		String[] cond = openCondition.split(",");
 		openLevel = Integer.parseInt(cond[0]);
 		openVipLevel=Integer.parseInt(cond[1]);
-		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum,freeExclusiveCount,dropItemCount == 1);
+		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeCheckNum,freeExclusiveCount,dropItemCount == 1);
 		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount,dropItemCount == 1);
 
 		if (hotCount > 0){
@@ -188,5 +187,9 @@ public class GamblePlanCfg extends BaseConfig {
 
 	public boolean inLevelSegment(int level) {
 		return (levelStart <= level && level <= levelEnd);
+	}
+	
+	public int obtainSpecialGuaranteeGroupId() {
+		return chargePlan.getGuaranteeGroup().getPlanList()[0];
 	}
 }

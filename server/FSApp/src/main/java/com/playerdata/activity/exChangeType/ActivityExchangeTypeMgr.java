@@ -274,7 +274,7 @@ public class ActivityExchangeTypeMgr {
 						return idAndNumMap;
 					}
 					if(random.nextInt(10000)<=numAndProbability[1]){
-						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
 						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				

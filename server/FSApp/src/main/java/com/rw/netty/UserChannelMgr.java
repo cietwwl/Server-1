@@ -32,7 +32,7 @@ public class UserChannelMgr {
 
 	private static final AttributeKey<SessionInfo> USER_ID;
 	private static final AttributeKey<SynDataInReqMgr> SYN_DATA;
-	private static final long RECONNECT_TIME;
+	public static final long RECONNECT_TIME;
 	private static final SessionInfo CLOSE_SESSION;
 	private static ConcurrentHashMap<String, ChannelHandlerContext> userChannelMap;
 	private static ConcurrentHashMap<String, Long> disconnectMap;
@@ -76,12 +76,14 @@ public class UserChannelMgr {
 		ChannelHandlerContext old = userChannelMap.put(userId, ctx);
 		if (old != null) {
 			// TODO 通过消息通知
-//			old.close();
+			old.close();
 		}
 		if (ctx.channel().attr(USER_ID) == CLOSE_SESSION) {
 			userChannelMap.remove(userId, ctx);
 			return false;
 		}
+		//这里缺少多线程保护，会导致已经断线的人时间被清空，后果是无法直接在游戏内重连
+		disconnectMap.remove(userId);
 		return true;
 	}
 
@@ -318,13 +320,8 @@ public class UserChannelMgr {
 		return time != null && (System.currentTimeMillis() - time) < RECONNECT_TIME;
 	}
 
-	/**
-	 * 清除断连时间
-	 * 
-	 * @param userId
-	 */
-	public static void clearDisConnectTime(String userId) {
-		disconnectMap.remove(userId);
+	public static Long getDisconnectTime(String userId){
+		return disconnectMap.get(userId);
 	}
 
 	/**

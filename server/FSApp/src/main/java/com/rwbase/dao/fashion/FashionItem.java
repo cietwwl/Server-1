@@ -3,6 +3,8 @@ package com.rwbase.dao.fashion;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.common.RefInt;
+import com.playerdata.FashionMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -46,6 +48,19 @@ public class FashionItem implements IMapItem, FashionItemIF {
 		if (id == null && userId != null && fashionId != 0){
 			id = userId + "_" + fashionId;
 		}
+	}
+	
+	public boolean UpgradeOldData(RefInt oldId){
+		RefInt newFid = new RefInt();
+		if (FashionMgr.UpgradeIdLogic(fashionId, newFid)){
+			if (oldId != null){
+				oldId.value = fashionId;
+			}
+			fashionId = newFid.value;
+			id = userId + "_" + fashionId;
+			return true;
+		}
+		return false;
 	}
 	
 	@Override

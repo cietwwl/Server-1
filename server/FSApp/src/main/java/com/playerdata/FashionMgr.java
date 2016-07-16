@@ -9,9 +9,11 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.Action;
+import com.common.RefInt;
 import com.common.RefLong;
 import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.NotifyChangeCallBack;
@@ -42,7 +44,7 @@ import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 
-public class FashionMgr implements FashionMgrIF {
+public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
 	private static String GiveEMailID = "10036";
@@ -68,6 +70,63 @@ public class FashionMgr implements FashionMgrIF {
 
 	public boolean isInited() {
 		return isInited;
+	}
+	
+	public static boolean UpgradeIdLogic(int fid,RefInt newFid){
+		if ((fid / 100) == 100){
+			newFid.value = 900000 + fid % 100;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
+	 */
+	public void convertData(){
+		List<FashionItem> lst = fashionItemHolder.getItemList();
+		RefInt oldId = new RefInt();
+		for (FashionItem fashionItem : lst) {
+			if (fashionItem.UpgradeOldData(oldId)){
+				fashionItemHolder.directRemove(m_player, oldId.value);
+				fashionItemHolder.addItem(m_player, fashionItem);
+			}
+		}
+		
+		FashionBeingUsed fashionUsed = getFashionBeingUsed();
+		boolean isChanged = false;
+		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
+			isChanged = true;
+		}
+		
+		if (fashionUsed != null){
+			int[] usingList = fashionUsed.getUsingList();
+			for (int i = 0; i < usingList.length;i++){
+				int fashionModelId = usingList[i];
+				if(fashionModelId != -1){
+					FashionItem item = fashionItemHolder.getItem(fashionModelId);
+					if (item == null){
+						//因为旧数据在检查时装过期的时候，无法找到ID而没有脱下时装!
+						fashionUsed.setUsing(i, -1);
+						isChanged = true;
+					}
+				}
+			}
+		}
+		
+		if (isChanged){
+			fashionUsedHolder.update(fashionUsed);
+		}
+	}
+
+	@Override
+	public void notifyPlayerCreated(Player player) {
+		//nothing to do
+	}
+
+	@Override
+	public void notifyPlayerLogin(Player player) {
+		convertData();
 	}
 
 	public void regChangeCallBack(final Action callBack) {
@@ -208,33 +267,6 @@ public class FashionMgr implements FashionMgrIF {
 		return false;
 	}
 
-	//
-	// /**
-	// * 计算增益数据并缓存
-	// *
-	// * @return
-	// */
-	// public IEffectCfg getEffectData() {
-	// if (totalEffects == null) {
-	// AttrData addedValues = new AttrData();
-	// AttrData addedPercentages = new AttrData();
-	// FashionBeingUsed used = createOrUpdate();
-	// if (used != null) {
-	// int career = m_player.getCareer();
-	// IEffectCfg[] list = used.getEffectList(getValidCount(), career);
-	// for (int i = 0; i < list.length; i++) {
-	// IEffectCfg eff = list[i];
-	// if (eff != null) {
-	// addedValues.plus(eff.getAddedValues());
-	// addedPercentages.plus(eff.getAddedPercentages());
-	// }
-	// }
-	// }
-	// totalEffects = new BattleAddedEffects(addedValues, addedPercentages);
-	// }
-	// return totalEffects;
-	// }
-
 	/**
 	 * 获取时装增加的总属性
 	 * 
@@ -274,7 +306,6 @@ public class FashionMgr implements FashionMgrIF {
 	}
 
 	public void onMinutes() {
-		//GameLog.info("时装", "定时检查", "OnMinutes", null);
 		checkExpired();
 		notifyProxy.checkDelayNotify();
 	}

@@ -45,7 +45,6 @@ public class TaskItemHolder {
 			TaskItem item = (TaskItem) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		System.out.println("TASK = "+itemList.size());
 		return itemList;
 	}
 

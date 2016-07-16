@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
@@ -20,13 +22,37 @@ public class GambleDropHistory {
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
 	
-	private int freeGuaranteePlanIndex = 0;//免费保底检索的索引
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
 	
 	private boolean passFreeExclusiveCheck = false;
 	private boolean passChargeExclusiveCheck = false;
 	private List<String> freeExclusiveHistory;
 	private List<String> chargeExclusiveHistory;
+	
+	public StringBuilder toDebugString(){
+		StringBuilder b=new StringBuilder();
+		b.append("freeCount:").append(freeCount).append("\n");
+		b.append("lastFreeGambleTime:").append(lastFreeGambleTime).append("\n");
+		b.append("hotCount:").append(hotCount).append("\n");
+		b.append("hotCheckRandomThreshold:").append(hotCheckRandomThreshold).append("\n");
+		b.append("firstFreeGamble:").append(firstFreeGamble).append("\n");
+		b.append("firstChargeGamble:").append(firstChargeGamble).append("\n");
+		b.append("chargeGuaranteePlanIndex:").append(chargeGuaranteePlanIndex).append("\n");
+		b.append("passFreeExclusiveCheck:").append(passFreeExclusiveCheck).append("\n");
+		b.append("passChargeExclusiveCheck:").append(passChargeExclusiveCheck).append("\n");
+		b.append("chargeGambleHistory:").append(toDebugString(chargeGambleHistory)).append("\n");
+		b.append("freeExclusiveHistory:").append(toDebugString(freeExclusiveHistory)).append("\n");
+		b.append("chargeExclusiveHistory:").append(toDebugString(chargeExclusiveHistory)).append("\n");
+		return b;
+	}
+	
+	private static StringBuilder toDebugString(List<String> lst){
+		StringBuilder b=new StringBuilder();
+		for (String ele : lst) {
+			b.append(ele).append(",");
+		}
+		return b;
+	}
 	
 	@JsonIgnore
 	public boolean passExclusiveCheck(boolean isFree){
@@ -47,14 +73,6 @@ public class GambleDropHistory {
 
 	public void setPassChargeExclusiveCheck(boolean passChargeExclusiveCheck) {
 		this.passChargeExclusiveCheck = passChargeExclusiveCheck;
-	}
-
-	public int getFreeGuaranteePlanIndex() {
-		return freeGuaranteePlanIndex;
-	}
-
-	public void setFreeGuaranteePlanIndex(int freeGuaranteePlanIndex) {
-		this.freeGuaranteePlanIndex = freeGuaranteePlanIndex;
 	}
 
 	public int getChargeGuaranteePlanIndex() {
@@ -203,21 +221,31 @@ public class GambleDropHistory {
 	/**
 	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
 	 * 还需要调整保底次数数组的索引
+	 * @param isGuarantee 
+	 * @param trace 
 	 * @param isFree
 	 */
 	@JsonIgnore
-	public void clearGuaranteeHistory(boolean isFree,IDropGambleItemPlan dropPlan){
-		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
-		List<String> history = chargeGambleHistory;
-		int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
-		int historySize = history.size();
-		if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
-			increaseGuaranteePlanIndex(isFree,dropPlan.getLastCheckIndex());
-			int removeCount = checkNum;
-			for (int i = 0; i < removeCount; i++) {
-				history.remove(0);
+	public void clearGuaranteeHistory(boolean isGuarantee, IDropGambleItemPlan dropPlan, StringBuilder trace){
+		if (isGuarantee){
+			GambleLogicHelper.logTrace(trace,"isGuarantee trigger clearHistory");
+			clearGuaranteeRecord(dropPlan, trace);
+		}else{
+			int index = chargeGuaranteePlanIndex;
+			List<String> history = chargeGambleHistory;
+			int checkNum = dropPlan.getCheckNum(index);//寻找当前保底次数
+			int historySize = history.size();
+			if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
+				GambleLogicHelper.logTrace(trace,"exceed check number trigger clearHistory");
+				clearGuaranteeRecord(dropPlan, trace);
 			}
 		}
+	}
+
+	private void clearGuaranteeRecord(IDropGambleItemPlan dropPlan, StringBuilder trace) {
+		GambleLogicHelper.logTrace(trace,this);
+		chargeGambleHistory.clear();
+		increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
 	}
 	
 	/**
@@ -227,8 +255,8 @@ public class GambleDropHistory {
 	 * @return
 	 */
 	@JsonIgnore
-	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
-		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan) {
+		int index = chargeGuaranteePlanIndex;
 		List<String> history = chargeGambleHistory;
 		int checkNum = dropPlan.getCheckNum(index);
 		int historySize = history.size();
@@ -241,7 +269,9 @@ public class GambleDropHistory {
 			return historySize >= checkNum - 1;
 		}
 		
-		for (String itemModelId : history) {
+		//检查最后(checkNum - 1)个历史!
+		for (int i = historySize-1; i > historySize - checkNum; i--){
+			String itemModelId  = history.get(i);
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
 			}
@@ -250,20 +280,21 @@ public class GambleDropHistory {
 	}
 	
 	@JsonIgnore
-	private void increaseGuaranteePlanIndex(boolean isFree, int lastIndex){
-		if (isFree){
-			if (freeGuaranteePlanIndex<lastIndex){
-				freeGuaranteePlanIndex++;
-			}
-		}else{
-			if (freeGuaranteePlanIndex<lastIndex){
-				chargeGuaranteePlanIndex++;
-			}
+	private void increaseGuaranteePlanIndex(int lastIndex){
+		if (chargeGuaranteePlanIndex<lastIndex){
+			chargeGuaranteePlanIndex++;
 		}
 	}
 
 	@JsonIgnore
-	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
+	public int getCurrentCheckNum(IDropGambleItemPlan dropPlan){
+		int index = chargeGuaranteePlanIndex;
+		int checkNum = dropPlan.getCheckNum(index);
+		return checkNum;
+	}
+	
+	@JsonIgnore
+	public void add(boolean isFree, String itemModel, int itemCount) {
 		List<String> history = chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {
@@ -345,10 +376,9 @@ public class GambleDropHistory {
 	}
 
 	@JsonIgnore
-	public List<String> getHistory(boolean isFree, IDropGambleItemPlan dropPlan) {
-		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
-		int checkNum = dropPlan.getCheckNum(index);
-		List<String> result = chargeGambleHistory;
+	public List<String> getExculsiveHistory(boolean isFree, IDropGambleItemPlan dropPlan) {
+		int checkNum = dropPlan.getExclusiveCount();
+		List<String> result = isFree?freeExclusiveHistory:chargeExclusiveHistory;
 		int orgSize = result.size();
 		if (orgSize > checkNum){
 			List<String> tmp = new ArrayList<String>(checkNum);

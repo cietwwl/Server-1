@@ -18,6 +18,8 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
@@ -59,7 +61,16 @@ public class GFightOnFightBM {
 	 * @param resourceID
 	 */
 	public void fightStart(int resourceID){
-		
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		if(resData == null) return;
+		List<GFGroupBiddingItem> groupBidRank= GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		for(int i = 0; i < groupBidRank.size() && i < GFightConst.IN_FIGHT_MAX_GROUP; i++){
+			String groupID = groupBidRank.get(i).getGroupID();
+			if(StringUtils.isBlank(groupID)) continue;
+			GFightOnlineGroupData gfgData = GFightOnlineGroupMgr.getInstance().get(groupID);
+			if(gfgData == null || gfgData.getResourceID() <= 0) continue;
+			GFDefendArmyMgr.getInstance().updateAllItem(groupID);
+		}
 	}
 	
 	/**
