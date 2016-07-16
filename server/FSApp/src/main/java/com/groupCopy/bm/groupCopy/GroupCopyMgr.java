@@ -685,7 +685,7 @@ public class GroupCopyMgr {
 				//TODO 这里要进行优化，因为在这里直接遍历再进行操作，可能会有问题 ---Alex
 				
 				for (ItemDropAndApplyTemplate template : map) {
-					System.err.println("发放道具：" + template.getItemID());
+//					System.err.println("发放道具：" + template.getItemID());
 					applyInfo.addAll(template.getApplyData());
 					if(applyInfo == null || applyInfo.isEmpty())
 						continue;
@@ -700,7 +700,7 @@ public class GroupCopyMgr {
 					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, dropInfo.get(0), applyInfo.get(0), groupName);
 					if(sendMail){
 						send = true;
-						System.err.println("发放道具成功：" + template.getItemID());
+//						System.err.println("发放道具成功：" + template.getItemID());
 						template.deleteApply(dropInfo.get(0), applyInfo.get(0));
 					}
 					

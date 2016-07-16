@@ -14,6 +14,7 @@ import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
+import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -169,6 +170,10 @@ public class GMHandler {
 		// 设置帮战阶段
 		funcCallBackMap.put("setgfstate", "setGFightState");
 		funcCallBackMap.put("setgfauto", "setGFightAutoState");
+		
+		//添加帮派物资
+		funcCallBackMap.put("setgp", "SetGroupSupplier");
+		
 	}
 
 	public boolean isActive() {
@@ -188,6 +193,17 @@ public class GMHandler {
 			GameLog.error("GM", "reload config", "reloadByClassName:" + clname + " failed", e);
 			return false;
 		}
+	}
+	
+	public boolean SetGroupSupplier(String[] comd, Player player){
+		boolean result = true;
+		Group group = GroupHelper.getGroup(player);
+		if(group == null){
+			return false;
+		}
+		group.getGroupBaseDataMgr().setGroupSupplier(100000);
+		group.getGroupBaseDataMgr().updateAndSynGroupData(player);
+		return result;
 	}
 
 	/** GM命令 */
