@@ -240,6 +240,7 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
 	
+	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

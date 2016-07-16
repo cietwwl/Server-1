@@ -6,11 +6,14 @@ import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
+import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
+import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.enums.GFResourceState;
+import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
@@ -127,14 +130,45 @@ class GFightConditionJudge {
 		return true;
 	}
 	
+//	/**
+//	 * 锁定的时间是否过期
+//	 * @param defenderSimple
+//	 * @return
+//	 */
+//	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
+//		GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(defenderSimple.getGroupID(), defenderSimple.getDefendArmyID());
+//		if(defender == null) return true;
+//		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFightConst.LOCK_ITEM_MAX_TIME)
+//			return false;
+//		return false;
+//	}
+	
 	/**
-	 * 锁定的时间是否过期
+	 * 锁定的时间是否过期（选择锁定）
 	 * @param defenderSimple
 	 * @return
 	 */
-	public boolean isLockExpired(DefendArmySimpleInfo defenderSimple){
-		if(System.currentTimeMillis() - defenderSimple.getLockArmyTime() > GFightConst.LOCK_ITEM_MAX_TIME)
-			return false;
+	public boolean isLockExpired(String groupID, String armyID){
+		GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(groupID, armyID);
+		if(defender == null) return true;
+		if(!GFArmyState.SELECTED.equals(defender.getState())) return true;
+		if(System.currentTimeMillis() - defender.getLastOperateTime() > GFightConst.LOCK_ITEM_MAX_TIME)
+			return true;
+		return false;
+	}
+	
+	
+	/**
+	 * 锁定的时间是否过期（战斗锁定）
+	 * @param defenderSimple
+	 * @return
+	 */
+	public boolean isFightExpired(String groupID, String armyID){
+		GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(groupID, armyID);
+		if(defender == null) return true;
+		if(!GFArmyState.FIGHTING.equals(defender.getState())) return true;
+		if(System.currentTimeMillis() - defender.getLastOperateTime() > GFightConst.FIGHT_LOCK_ITEM_MAX_TIME)
+			return true;
 		return false;
 	}
 }

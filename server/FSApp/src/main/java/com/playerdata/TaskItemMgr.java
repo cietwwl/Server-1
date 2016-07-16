@@ -148,6 +148,9 @@ public class TaskItemMgr implements TaskMgrIF {
 		case Add_Friend:
 			curplan = m_pPlayer.getFriendMgr().getFriendList().size();
 			break;
+		case Challage_BattleTower:
+			curplan = m_pPlayer.getBattleTowerMgr().getTableBattleTower().getHighestFloor();
+			break;
 		default:
 			break;
 		}

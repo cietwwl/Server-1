@@ -29,29 +29,8 @@ public enum BIActivityCode {
 	SEVER_BEGIN_ACTIVITY_ONE(101),//开服活动，以此到开服配置表匹配对应code
 	
 
-	DAILY_TASK_FS_Lanch(301),//日常任务
-	DAILY_TASK_FS_Dinner(302),
-	DAILY_TASK_FS_Supper(303),
-	DAILY_TASK_Dup_Normal(304),
-	DAILY_TASK_Dup_Elite(305),
-	DAILY_TASK_Gold_Point(306),
-	DAILY_TASK_Hero_SkillUpgrade(307),
-	DAILY_TASK_Altar(308),
-	DAILY_TASK_Hero_Strength(309),
-	DAILY_TASK_Arena(310),
-	DAILY_TASK_Trial_JBZD(311),
-	DAILY_TASK_Trial2(312),
-	DAILY_TASK_Tower(313),
-	DAILY_TASK_Power(314),
-	DAILY_TASK_UNENDINGWAR(315),
-	DAILY_TASK_CONST(316),
-	DAILY_TASK_Trial_LQSG(317),
-	DAILY_TASK_HSQJ(318),
-	DAILY_TASK_LOGIN_DAY(319),
-	DAILY_TASK_BREAKFAST(320),
-	DAILY_TASK_TimeCard(321),
-	DAILY_TASK_VipTimeCard(322),
-	
+	DAILY_TASK(301),//日常任务，以此到修改为活动id转换表匹配对应code  by Alex  7.8.2016
+
 	DAYDAYUP(1001),//成长,和任务模块重复
 	
 	CREATROLE_REWARDS_EMAIL(5001),//封测活动
