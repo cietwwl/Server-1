@@ -1,2 +1,3 @@
-Key,Remarks,id,title,titleBG,refreshInfo,refreshTime,levelLimit,startTimeStr,endTimeStr,version
-80001,,80001,超值欢乐购,喜迎首次封测，稀有道具大甩卖！在活动期间，每天都会有部分稀有道具以超低折扣放出。机会难得，赶紧来买吧！,xx点刷新,5,8,201507150001,201507222359,6
+Key,Remarks,id,enumId,title,titleBG,refreshInfo,refreshTime,levelLimit,startTimeStr,endTimeStr,version
+80001,,80001,80001,超值欢乐购,喜迎首次封测，稀有道具大甩卖！在活动期间，每天都会有部分稀有道具以超低折扣放出。机会难得，赶紧来买吧！,xx点刷新,5,8,201607150001,201607222359,1
+80002,,80002,80001,超值欢乐购,喜迎首次封测，稀有道具大甩卖！在活动期间，每天都会有部分稀有道具以超低折扣放出。机会难得，赶紧来买吧！,xx点刷新,5,8,201608150001,201608222359,2
