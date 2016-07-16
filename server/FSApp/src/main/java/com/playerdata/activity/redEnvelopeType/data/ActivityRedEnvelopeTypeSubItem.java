@@ -14,6 +14,17 @@ public class ActivityRedEnvelopeTypeSubItem {
 
 	private int day;
 	
+	private int discount;
+
+	
+	
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
 
 	public String getCfgId() {
 		return cfgId;

@@ -198,17 +198,16 @@ public class ActivityRedEnvelopeTypeMgr {
 			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里", null);
 			return;
 		}
-		ActivityRedEnvelopeTypeSubItem target = null;
 		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
 			if(subItem.getDay() == ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())){
-				target = subItem;
+				subItem.setCount(subItem.getCount()+countadd);
 				break;
 			}			
 		}
-		target.setCount(target.getCount() + countadd);
+//		target.setCount(target.getCount() + countadd);
 		dataItem.setGoldCount(0);
 		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-			dataItem.setGoldCount(dataItem.getGoldCount() + subItem.getCount()/10);
+			dataItem.setGoldCount(dataItem.getGoldCount() + (subItem.getCount()*subItem.getDiscount())/100);
 		}		
 		dataHolder.updateItem(player, dataItem);
 	}

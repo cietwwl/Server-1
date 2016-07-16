@@ -96,6 +96,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 			subItem.setCfgId(subCfg.getId());
 			subItem.setDay(subCfg.getDay());	
 			subItemList.add(subItem);
+			subItem.setDiscount(subCfg.getDiscount());
 		}
 		
 		return subItemList;
