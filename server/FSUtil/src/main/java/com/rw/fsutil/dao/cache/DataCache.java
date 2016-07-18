@@ -919,6 +919,14 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				version = 0;
 			}
 			try {
+				if(name.equals("DropRecord")){
+					ReentrantFutureTask task = taskMap.get(key);
+					String taskName = null;
+					if (task != null) {
+						 taskName = task.getTask().getClass().getName();
+					}
+					logger.warn("trace update record:" + key + "," + name + "," + CacheFactory.getStackTrace(trace) + ",version = " + version + "," + taskName);
+				}
 				if (!loader.updateToDB(key, v)) {
 					times++;
 					if (times < 3 || (times % 10 == 0)) {
