@@ -307,7 +307,7 @@ public class FixEquipHelper {
 			}
 
 			HeroFixEquipInfo fixInfo = new HeroFixEquipInfo();
-			fixInfo.setId(fixExp.getId());
+			fixInfo.setId(fixExp.getCfgId());
 			fixInfo.setLevel(fixExp.getLevel());
 			fixInfo.setQuality(fixExp.getQuality());
 			fixInfo.setStar(fixExp.getStar());
@@ -338,7 +338,7 @@ public class FixEquipHelper {
 			}
 
 			HeroFixEquipInfo fixInfo = new HeroFixEquipInfo();
-			fixInfo.setId(fixNorm.getId());
+			fixInfo.setId(fixNorm.getCfgId());
 			fixInfo.setLevel(fixNorm.getLevel());
 			fixInfo.setQuality(fixNorm.getQuality());
 			fixInfo.setStar(fixNorm.getStar());

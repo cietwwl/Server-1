@@ -19,6 +19,8 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyMagic;
 import com.playerdata.army.CurAttrData;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.HeroMgrIF;
@@ -49,6 +51,8 @@ import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
+import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
+import com.rwproto.BattleCommon.eBattlePositionType;
 
 /*
  * @author HC
@@ -296,7 +300,6 @@ public class AngelArrayTeamInfoHelper {
 		teamInfo.setFashion(changeFashionInfo(p));
 		// 设置额外属性Id
 		teamInfo.setExtraId(changeExtraAttrId(p));
-
 		// 法宝信息
 		teamInfo.setMagic(changeMagicInfo(p));
 
@@ -429,11 +432,15 @@ public class AngelArrayTeamInfoHelper {
 	 * @return
 	 */
 	private static List<HeroInfo> changeHeroInfo(Player p, List<Integer> teamHeroList, RefInt fighting) {
+		// 获取竞技场的阵容
+		EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(p.getUserId(), eBattlePositionType.ArenaPos_VALUE,
+			String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE));// 竞技场的攻击阵容
+
 		// 英雄的阵容
 		int heroSize = teamHeroList.size();
-
 		HeroMgr heroMgr = p.getHeroMgr();
 		// 获取阵容信息
+		int mainRoleIndex = -1;
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>(heroSize);
 		for (int i = 0; i < heroSize; i++) {
 			int heroModelId = teamHeroList.get(i);
@@ -469,6 +476,16 @@ public class AngelArrayTeamInfoHelper {
 			if (fixEquipList != null) {
 				heroInfo.setFixEquip(fixEquipList);
 			}
+
+			// 站位
+			int heroPos = 0;
+			if (hero.isMainRole()) {
+				mainRoleIndex = i;
+			} else {
+				heroPos = posInfo == null ? (mainRoleIndex == -1 ? i + 1 : i) : posInfo.getHeroPos(hero.getTemplateId());
+			}
+
+			heroInfo.getBaseInfo().setPos(heroPos);
 
 			heroList.add(heroInfo);
 			fighting.value += hero.getFighting();
@@ -727,7 +744,6 @@ public class AngelArrayTeamInfoHelper {
 		// 其他属性
 		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo);
 		armyHero.setAttrData(heroAttrData);
-
 		// 当前血量
 		CurAttrData curAttrData = new CurAttrData();
 		curAttrData.setCurLife(heroAttrData.getLife());
@@ -737,7 +753,9 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
 		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-				heroAttrData));
+			heroAttrData));
+		// 设置站位
+		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 
 		return armyHero;
 	}

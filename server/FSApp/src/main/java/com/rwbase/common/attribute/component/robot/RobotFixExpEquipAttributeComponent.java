@@ -57,9 +57,9 @@ public class RobotFixExpEquipAttributeComponent implements IAttributeComponent {
 
 			FixExpEquipDataItem item = new FixExpEquipDataItem();
 			item.setCfgId(id);
-			item.setLevel(item.getLevel());
-			item.setQuality(item.getQuality());
-			item.setStar(item.getStar());
+			item.setLevel(heroFixEquipInfo.getLevel());
+			item.setQuality(heroFixEquipInfo.getQuality());
+			item.setStar(heroFixEquipInfo.getStar());
 
 			fixExpEquipList.add(item);
 		}

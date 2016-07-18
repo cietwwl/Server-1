@@ -42,8 +42,6 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.attribute.AttributeBM;
-import com.rwbase.common.attribute.param.MagicParam;
-import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.anglearray.AngelArrayConst;
@@ -96,7 +94,7 @@ public final class AngleArrayMatchHelper {
 	 * @return
 	 */
 	public static AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList,
-			int robotId) {
+		int robotId) {
 		// 第一步等级匹配 && 第二步战力匹配
 		List<String> matchUsetIdList = getMatchUsetIdList(userId, level, maxLevel, minFighting, maxFighting, enemyIdList, hasUserIdList, RankType.ANGEL_TEAM_INFO_RANK);
 
@@ -116,6 +114,7 @@ public final class AngleArrayMatchHelper {
 		TeamInfo finalTeamInfo = null;
 		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
 		String ranResult = null;
+		boolean isUpdateRanking = true;
 
 		// 排行榜
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
@@ -246,7 +245,9 @@ public final class AngleArrayMatchHelper {
 				if (!hasTeam) {
 					finalTeamInfo = getRobotTeamInfo(robotId);
 				} else {
-					finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
+					// finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
+					finalTeamInfo = teamInfo;
+					isUpdateRanking = false;
 				}
 			} else {
 				if (!hasTeam) {
@@ -262,8 +263,10 @@ public final class AngleArrayMatchHelper {
 
 		int matchFighting = finalTeamInfo.getTeamFighting();
 		if (matchRankingEntry != null) {
-			matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
-			ranking.subimitUpdatedTask(matchRankingEntry);
+			if (isUpdateRanking) {
+				matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
+				ranking.subimitUpdatedTask(matchRankingEntry);
+			}
 		} else {// 如果没有就添加到排行榜
 			AngleArrayComparable comparable = new AngleArrayComparable();
 			comparable.setFighting(matchFighting);
@@ -278,7 +281,7 @@ public final class AngleArrayMatchHelper {
 		}
 
 		GameLog.info("万仙阵匹配的数据", userId, String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting,
-				(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+			(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
 
 		AngelArrayTeamInfoData angelArrayTeamInfoData = new AngelArrayTeamInfoData();
 		int saveMinFighting = (int) (matchFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
@@ -471,12 +474,6 @@ public final class AngleArrayMatchHelper {
 		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
 		magicInfo.setLevel(magicLevel);
 		teamInfo.setMagic(magicInfo);
-		// 转换成计算属性要传递的数据
-		MagicParam.MagicBuilder builder = new MagicBuilder();
-		builder.setMagicId(String.valueOf(finalMagicId));
-		builder.setMagicLevel(magicLevel);
-		builder.setUserId(userId);
-		MagicParam magicParam = builder.build();
 
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
 		checkHeroSize(heroTmpIdList, r, angelRobotCfg);
@@ -486,6 +483,9 @@ public final class AngleArrayMatchHelper {
 
 		int fighting = 0;
 		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
+
+		int mainRoleIndex = -1;
+
 		for (int i = 0; i < heroSize; i++) {
 			int heroModelId = heroTmpIdList.get(i);
 			RoleCfg roleCfg = roleCfgDAO.getRoleCfgByModelId(heroModelId);
@@ -496,6 +496,14 @@ public final class AngleArrayMatchHelper {
 			boolean isMainRole = roleCfg.getRoleType() == 1;
 			HeroInfo heroInfo = getHeroInfo(angelRobotCfg, isMainRole, heroModelId, mainRoleLevel);
 			if (heroInfo != null) {
+				int heroPos = 0;
+				if (isMainRole) {
+					mainRoleIndex = i;
+				} else {
+					heroPos = mainRoleIndex == -1 ? i + 1 : i;
+				}
+
+				heroInfo.getBaseInfo().setPos(heroPos);
 				heroInfoList.add(heroInfo);
 
 				int skillLevel = 0;
@@ -514,7 +522,7 @@ public final class AngleArrayMatchHelper {
 
 				// 战力
 				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
-						AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
+					AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
 				fighting += calFighting;
 			}
 		}

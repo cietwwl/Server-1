@@ -57,9 +57,9 @@ public class RobotFixNormEquipAttributeComponent implements IAttributeComponent 
 
 			FixNormEquipDataItem item = new FixNormEquipDataItem();
 			item.setCfgId(id);
-			item.setLevel(item.getLevel());
-			item.setQuality(item.getQuality());
-			item.setStar(item.getStar());
+			item.setLevel(heroNormEquipInfo.getLevel());
+			item.setQuality(heroNormEquipInfo.getQuality());
+			item.setStar(heroNormEquipInfo.getStar());
 
 			fixNormEquipList.add(item);
 		}
