@@ -1,7 +1,6 @@
 package com.rwbase.dao.groupsecret;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
@@ -45,7 +43,6 @@ import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
 import com.rwproto.BattleCommon;
-import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 
@@ -441,31 +438,5 @@ public class GroupSecretHelper {
 	 */
 	public static String[] parseString2UserIdAndSecretId(String id) {
 		return HPCUtil.parseStringArray(id, "_");
-	}
-
-	/**
-	 * 转换协议传递来的英雄站位到存储结构
-	 * 
-	 * @param heroPosList
-	 * @return
-	 */
-	public static List<EmbattleHeroPosition> parseMsgHeroPos2Memery(List<BattleHeroPosition> heroPosList) {
-		if (heroPosList == null || heroPosList.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		int size = heroPosList.size();
-
-		List<EmbattleHeroPosition> emHeroList = new ArrayList<EmbattleHeroPosition>(size);
-		for (int i = 0; i < size; i++) {
-			BattleHeroPosition heroPos = heroPosList.get(i);
-
-			EmbattleHeroPosition pos = new EmbattleHeroPosition();
-			pos.setId(heroPos.getHeroId());
-			pos.setPos(heroPos.getPos());
-			emHeroList.add(pos);
-		}
-
-		return emHeroList;
 	}
 }

@@ -30,6 +30,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
+import com.playerdata.embattle.EmbattlePositonHelper;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
@@ -57,6 +58,8 @@ import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 public class RobotManager {
@@ -437,9 +440,10 @@ public class RobotManager {
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
-				handler.setArenaHero(player, arenaData, task.getHeroList());
+				handler.setArenaHero(player, arenaData, EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE,
+					String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
 				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
-						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+					+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
 	}

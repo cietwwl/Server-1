@@ -15,6 +15,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
@@ -317,7 +318,7 @@ public class GroupSecretHandler {
 
 		// 增加阵容
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, generateCacheSecretId,
-		GroupSecretHelper.parseMsgHeroPos2Memery(teamHeroIdList));
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId, level);
 		SecretBaseInfoSynData base = synData.getBase();
@@ -722,7 +723,7 @@ public class GroupSecretHandler {
 
 		// 增加阵容
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, changeTeamSecretId,
-		GroupSecretHelper.parseMsgHeroPos2Memery(teamHeroIdList));
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -1228,7 +1229,7 @@ public class GroupSecretHandler {
 
 		// 更新一下防守阵容
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, reqId,
-		GroupSecretHelper.parseMsgHeroPos2Memery(teamHeroIdList));
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		// 更新目前防守的秘境列表
 		baseDataMgr.addDefendSecretId(userId, reqId);

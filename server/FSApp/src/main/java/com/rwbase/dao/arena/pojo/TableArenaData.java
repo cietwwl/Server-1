@@ -106,7 +106,7 @@ public class TableArenaData {
 
 	@SuppressWarnings("unchecked")
 	public List<String> getHeroIdList() {
-		return heroIdList == null ? Collections.EMPTY_LIST : heroIdList;
+		return heroIdList == null ? Collections.EMPTY_LIST : new ArrayList<String>(heroIdList);
 	}
 
 	public void setHeroIdList(List<String> heroIdList) {
