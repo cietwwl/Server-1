@@ -113,16 +113,20 @@ public class EquipHandler {
 
 		int result = pEquipMgr.EquipAttach(player, roleId, equipIndex, mateList);// 增加装备的附灵经验
 		switch (result) {
-		case -1:
+//		case -1:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-		case -2:
+//		case -2:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_COIN);
 			break;
-		case 0:
+//		case 0:
+		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			response.setError(ErrorType.SUCCESS);
 			break;
-		case -3:
+//		case -3:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_CFG:
 			response.setError(ErrorType.CONFIG_ERROR);
 			break;
 		}
@@ -156,13 +160,16 @@ public class EquipHandler {
 
 		int result = pEquipMgr.EquipOneKeyAttach(player, roleId, equipIndex);// 一键附灵
 		switch (result) {
-		case -1:
+//		case -1:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-		case -2:
+//		case -2:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_GOLD);
 			break;
-		case 0:
+//		case 0:
+		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_Strength, 1);
 			response.setError(ErrorType.SUCCESS);
 			break;

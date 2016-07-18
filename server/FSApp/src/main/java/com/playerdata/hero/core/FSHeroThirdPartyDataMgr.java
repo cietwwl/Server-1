@@ -102,6 +102,27 @@ public class FSHeroThirdPartyDataMgr {
 			_fixExpEquipMgr.initIfNeedV2(player, hero);
 			_fixNromEquipMgr.initIfNeedV2(player, hero);
 		}
+		_skillMgr.checkSkill(player, hero.getId(), hero.getTemplateId());
+	}
+	
+	public SkillMgr getSkillMgr() {
+		return _skillMgr;
+	}
+	
+	public InlayMgr getInlayMgr() {
+		return _inlayMgr;
+	}
+	
+	public EquipMgr getEquipMgr() {
+		return _equipMgr;
+	}
+	
+	public FixNormEquipMgr getFixNormEquipMgr() {
+		return _fixNromEquipMgr;
+	}
+	
+	public FixExpEquipMgr getFixExpEquipMgr() {
+		return _fixExpEquipMgr;
 	}
 	
 	public void notifySync(Player player, FSHero hero, int version) {

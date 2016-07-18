@@ -64,13 +64,13 @@ public class InlayMgr /*extends IDataMgr*/ {
 	// return inlayItemHolder.toPercentAttrData();
 	// }
 
-	/**
-	 * 镶嵌宝石
-	 * 
-	 * @param equipSolt 装备
-	 * @param gem 宝石数据
-	 */
-	public boolean InlayGem(Player player, String heroId, ItemData itemData) {
+//	/**
+//	 * 镶嵌宝石
+//	 * 
+//	 * @param equipSolt 装备
+//	 * @param gem 宝石数据
+//	 */
+//	public boolean InlayGem(ItemData itemData) {
 //		int inlaySlot = getSolt();
 //		if (inlaySlot < 0) {
 //			return false;
@@ -86,6 +86,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		// syncAllBs();
 //
 //		return success;
+//	}
+	
+	/**
+	 * 
+	 * 镶嵌宝石
+	 * 
+	 * @param player 目标角色
+	 * @param heroId 目标英雄id
+	 * @param itemData 装备
+	 * @return
+	 */
+	public boolean InlayGem(Player player, String heroId, ItemData itemData) {
 		int inlaySlot = getSolt(player, heroId);
 		if (inlaySlot < 0) {
 			return false;
@@ -102,12 +114,12 @@ public class InlayMgr /*extends IDataMgr*/ {
 		return success;
 	}
 
-	/**
-	 * 拿下镶嵌宝石
-	 * 
-	 * 
-	 */
-	public boolean XieXia(Player player, String heroId, int modelId) {
+//	/**
+//	 * 拿下镶嵌宝石
+//	 * 
+//	 * 
+//	 */
+//	public boolean XieXia(int modelId) {
 //		boolean stripSuccess = false;
 //
 //		String ownerId = m_pOwner.getUUId();
@@ -127,7 +139,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		// }
 //		//
 //		return stripSuccess;
-		
+//	}
+	
+	/**
+	 * 
+	 * 卸下宝石
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @param modelId
+	 * @return
+	 */
+	public boolean XieXia(Player player, String heroId, int modelId) {
 		boolean stripSuccess = false;
 
 		InlayItem targetItem = inlayItemHolder.getItem(heroId, modelId);
@@ -146,15 +169,14 @@ public class InlayMgr /*extends IDataMgr*/ {
 		// }
 		//
 		return stripSuccess;
-
 	}
 
-	/**
-	 * 拿下所有镶嵌宝石
-	 * 
-	 * 
-	 */
-	public boolean XieXiaAll(Player player, String heroId) {
+//	/**
+//	 * 拿下所有镶嵌宝石
+//	 * 
+//	 * 
+//	 */
+//	public boolean XieXiaAll() {
 //		List<InlayItem> itemList = inlayItemHolder.getItemList();
 //		if (itemList.size() <= 0)
 //			return false;
@@ -169,7 +191,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //			}
 //		}
 //		return success;
-		
+//
+//	}
+	
+	/**
+	 * 
+	 * 拿下所有宝石
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @return
+	 */
+	public boolean XieXiaAll(Player player, String heroId) {
 		List<InlayItem> itemList = inlayItemHolder.getItemList(heroId);
 		if (itemList.size() <= 0) {
 			return false;
@@ -185,13 +218,12 @@ public class InlayMgr /*extends IDataMgr*/ {
 			}
 		}
 		return success;
-
 	}
 
-	/**
-	 * 一键镶嵌宝石
-	 */
-	public boolean InlayAll(Player player, String heroId) {
+//	/**
+//	 * 一键镶嵌宝石
+//	 */
+//	public boolean InlayAll() {
 //		boolean isT = false;
 //
 //		Map<Integer, GemCfg> tempMap = new HashMap<Integer, GemCfg>();
@@ -259,7 +291,17 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		// this.syncAllBs();
 //
 //		return isT;
-		
+//	}
+	
+	/**
+	 * 
+	 * 一键镶嵌宝石
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @return
+	 */
+	public boolean InlayAll(Player player, String heroId) {
 		Hero ownerHero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
 		
 		boolean isT = false;
@@ -331,9 +373,8 @@ public class InlayMgr /*extends IDataMgr*/ {
 		return isT;
 	}
 
-	/*** 是否可加入 ***/
+//	/*** 是否可加入 ***/
 //	public boolean checkAddSize() {
-	public boolean CheckAddSize(Player player, String heroId) {
 //		int size = inlayItemHolder.getItemList().size();
 //
 //		if (size >= 6) {
@@ -341,6 +382,17 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		}
 //
 //		return true;
+//	}
+	
+	/**
+	 * 
+	 * 是否可以加入
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @return
+	 */
+	public boolean CheckAddSize(Player player, String heroId) {
 		int size = inlayItemHolder.getItemList(heroId).size();
 
 		if (size >= 6) {
@@ -348,13 +400,11 @@ public class InlayMgr /*extends IDataMgr*/ {
 		}
 
 		return true;
-
 	}
 
-	/*** 是否可加入 ***/
+//	/*** 是否可加入 ***/
 //	public boolean CheckAddType(int itemId) {
-	public boolean CheckAddType(String heroId, int itemId) {
-
+//
 //		GemCfg gemCfg = ItemCfgHelper.getGemCfg(itemId);
 //		if (gemCfg == null) {
 //			return false;
@@ -370,6 +420,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //			}
 //		}
 //		return canAdd;
+//
+//	}
+	
+	/**
+	 * 
+	 * 是否可以加入
+	 * 
+	 * @param heroId
+	 * @param itemId
+	 * @return
+	 */
+	public boolean CheckAddType(String heroId, int itemId) {
 		
 		GemCfg gemCfg = ItemCfgHelper.getGemCfg(itemId);
 		if (gemCfg == null) {
@@ -386,13 +448,12 @@ public class InlayMgr /*extends IDataMgr*/ {
 			}
 		}
 		return canAdd;
-
+		
 	}
 
-	/*** 得到位置 ***/
+//	/*** 得到位置 ***/
 //	private int getSolt() {
-	private int getSolt(Player player, String heroId) {
-
+//
 //		List<Integer> slotList = new ArrayList<Integer>();
 //		List<InlayItem> itemList = inlayItemHolder.getItemList();
 //		for (InlayItem inlayItem : itemList) {
@@ -411,6 +472,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		}
 //
 //		return targetSlot;
+//
+//	}
+	
+	/**
+	 * 
+	 * 得到位置
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @return
+	 */
+	private int getSolt(Player player, String heroId) {
 		
 		Hero hero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
 		List<Integer> slotList = new ArrayList<Integer>();
@@ -431,7 +504,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 		}
 
 		return targetSlot;
-
+		
 	}
 
 	//
@@ -460,13 +533,12 @@ public class InlayMgr /*extends IDataMgr*/ {
 	//
 	// }
 
-	/**
-	 * 添加机器人的宝石
-	 * 
-	 * @param gemList
-	 */
+//	/**
+//	 * 添加机器人的宝石
+//	 * 
+//	 * @param gemList
+//	 */
 //	public void addRobotGem(List<Integer> gemList) {
-	public void addRobotGem(Player player, String heroId, List<Integer> gemList) {
 //		if (gemList == null || gemList.isEmpty()) {
 //			return;
 //		}
@@ -481,7 +553,17 @@ public class InlayMgr /*extends IDataMgr*/ {
 //			item.setSlotId(i);
 //			inlayItemHolder.addItem(this.m_pPlayer, item);
 //		}
-		
+//	}
+	
+	/**
+	 * 
+	 * 添加机器人的宝石
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @param gemList
+	 */
+	public void addRobotGem(Player player, String heroId, List<Integer> gemList) {
 		if (gemList == null || gemList.isEmpty()) {
 			return;
 		}
@@ -497,13 +579,12 @@ public class InlayMgr /*extends IDataMgr*/ {
 		}
 	}
 
-	/**
-	 * gm命令镶嵌宝石 改方法只能被gm调用
-	 * 
-	 * @param itemData
-	 */
+//	/**
+//	 * gm命令镶嵌宝石 改方法只能被gm调用
+//	 * 
+//	 * @param itemData
+//	 */
 //	public void gmInlayGem(ItemData itemData) {
-	public void gmInlayGem(Player player, String heroId, ItemData itemData) {
 //		int inlaySlot = getSolt();
 //		if (inlaySlot < 0) {
 //			return;
@@ -511,22 +592,33 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		String ownerId = m_pOwner.getUUId();
 //		InlayItem inlayItem = InlayItemHelper.toInlayItem(ownerId, itemData, inlaySlot);
 //		inlayItemHolder.addItem(m_pPlayer, inlayItem);
-		
+//		
+//	}
+	
+	/**
+	 * 
+	 * gm命令镶嵌宝石 改方法只能被gm调用
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @param itemData
+	 */
+	public void gmInlayGem(Player player, String heroId, ItemData itemData) {
 		int inlaySlot = getSolt(player, heroId);
 		if (inlaySlot < 0) {
 			return;
 		}
 		InlayItem inlayItem = InlayItemHelper.toInlayItem(heroId, itemData, inlaySlot);
 		inlayItemHolder.addItem(player, heroId, inlayItem);
+		
 	}
 
-	/**
-	 * 获取身上已经镶嵌的宝石模版Id列表
-	 * 
-	 * @return
-	 */
+//	/**
+//	 * 获取身上已经镶嵌的宝石模版Id列表
+//	 * 
+//	 * @return
+//	 */
 //	public List<String> getInlayGemList() {
-	public List<String> getInlayGemList(Player player, String heroId) {
 //		List<InlayItem> itemList = inlayItemHolder.getItemList();
 //
 //		int gemSize = itemList.size();
@@ -542,7 +634,18 @@ public class InlayMgr /*extends IDataMgr*/ {
 //		}
 //
 //		return gemList;
-		
+//		
+//	}
+	
+	/**
+	 * 
+	 * 获取身上已经镶嵌的宝石模版Id列表
+	 * 
+	 * @param player
+	 * @param heroId
+	 * @return
+	 */
+	public List<String> getInlayGemList(Player player, String heroId) {
 		List<InlayItem> itemList = inlayItemHolder.getItemList(heroId);
 
 		int gemSize = itemList.size();

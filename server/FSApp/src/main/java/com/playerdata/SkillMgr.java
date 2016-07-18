@@ -265,7 +265,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	 * @param type
 	 * @param temp
 	 */
-	public void updateSkillPointTime(EPrivilegeDef type, int temp) {
+	public void updateSkillPointTime(Player player, EPrivilegeDef type, int temp) {
 		// for (int i = 1; i <= temp; i++) {
 		// m_pPlayer.addSkillPointTime(getCoolTime());
 		// }

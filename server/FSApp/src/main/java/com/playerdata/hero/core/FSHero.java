@@ -7,10 +7,15 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.playerdata.EquipMgr;
+import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.SkillMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.HeroBaseInfo;
 import com.playerdata.hero.IHero;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -105,7 +110,9 @@ public class FSHero implements IHero {
 		this.id = uuid;
 		this._offlineAttr = new FSHeroAttrDelegator();
 		this.initFromCfg(heroCfg);
+		FSHeroThirdPartyDataMgr.getInstance().getSkillMgr().initSkill(owner, uuid, heroCfg);
 		this.firstInit(owner, true);
+		owner.getUserTmpGameDataFlag().setSynFightingAll(true);
 	}
 	
 	private Player getOwner() {
@@ -398,6 +405,31 @@ public class FSHero implements IHero {
 	@Override
 	public boolean isMainRole() {
 		return this._heroType == HERO_TYPE_MAIN;
+	}
+	
+	@Override
+	public InlayMgr getInlayMgr() {
+		return FSHeroThirdPartyDataMgr.getInstance().getInlayMgr();
+	}
+	
+	@Override
+	public SkillMgr getSkillMgr() {
+		return FSHeroThirdPartyDataMgr.getInstance().getSkillMgr();
+	}
+	
+	@Override
+	public EquipMgr getEquipMgr() {
+		return FSHeroThirdPartyDataMgr.getInstance().getEquipMgr();
+	}
+	
+	@Override
+	public FixNormEquipMgr getFixNormEquipMgr() {
+		return FSHeroThirdPartyDataMgr.getInstance().getFixNormEquipMgr();
+	}
+	
+	@Override
+	public FixExpEquipMgr getFixExpEquipMgr() {
+		return FSHeroThirdPartyDataMgr.getInstance().getFixExpEquipMgr();
 	}
 	
 	public static void main(String[] args) throws Exception {

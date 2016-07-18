@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.common.Action;
 import com.common.IHeroAction;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -56,7 +55,7 @@ public class EquipItemHolder {
 	public void updateItem(Player player, String heroId, EquipItem item) {
 		getItemStore(heroId).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.UPDATE_SINGLE);
-		notifyChange();
+//		notifyChange();
 		notifyChange(player.getUserId(), heroId);
 	}
 
@@ -75,7 +74,7 @@ public class EquipItemHolder {
 		boolean success = getItemStore(heroId).removeItem(item.getId());
 		if (success) {
 			ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.REMOVE_SINGLE);
-			notifyChange();
+//			notifyChange();
 			notifyChange(player.getUserId(), heroId);
 		}
 		return success;
@@ -109,7 +108,7 @@ public class EquipItemHolder {
 		boolean addSuccess = getItemStore(heroId).addItem(item);
 		if (addSuccess) {
 			ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.ADD_SINGLE);
-			notifyChange();
+//			notifyChange();
 			notifyChange(player.getUserId(), heroId);
 		}
 		return addSuccess;
@@ -137,20 +136,20 @@ public class EquipItemHolder {
 		getItemStore(heroId).flush();
 	}
 
-	@Deprecated
-	private List<Action> callbackList = new ArrayList<Action>();
-
-	@Deprecated
-	public void regChangeCallBack(Action callBack) {
-		callbackList.add(callBack);
-	}
-
-	@Deprecated
-	private void notifyChange() {
-		for (Action action : callbackList) {
-			action.doAction();
-		}
-	}
+//	@Deprecated
+//	private List<Action> callbackList = new ArrayList<Action>();
+//
+//	@Deprecated
+//	public void regChangeCallBack(Action callBack) {
+//		callbackList.add(callBack);
+//	}
+//
+//	@Deprecated
+//	private void notifyChange() {
+//		for (Action action : callbackList) {
+//			action.doAction();
+//		}
+//	}
 	
 	private List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
 	public void regDataChangeCallback(IHeroAction callback) {

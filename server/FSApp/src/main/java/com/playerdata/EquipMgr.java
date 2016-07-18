@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Action;
 import com.common.EquipHelper;
 import com.common.IHeroAction;
 import com.playerdata.hero.IHero;
@@ -42,6 +41,23 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		return _INSTANCE;
 	}
 	
+	/**
+	 * 装备附灵结果：成功
+	 */
+	public static final int EQUIP_ATTACH_SUCCESS = 0;
+	/**
+	 * 装备附灵结果：失败，没有该装备
+	 */
+	public static final int EQUIP_ATTACH_FAIL_NO_EQUIP = -1;
+	/**
+	 * 装备附灵结果：失败，没有足够的金钱
+	 */
+	public static final int EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY = -2;
+	/**
+	 * 装备附灵结果：失败，没有该配置
+	 */
+	public static final int EQUIP_ATTACH_FAIL_NO_CFG = -3;
+	
 	protected EquipMgr() {}
 	
 	private final EquipItemHolder equipItemHolder = EquipItemHolder.getInstance();
@@ -62,10 +78,10 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		return true;
 	}
 
-	@Deprecated
-	public void regChangeCallBack(Action callBack) {
-		equipItemHolder.regChangeCallBack(callBack);
-	}
+//	@Deprecated
+//	public void regChangeCallBack(Action callBack) {
+//		equipItemHolder.regChangeCallBack(callBack);
+//	}
 	
 	public void regDataChangeCallback(IHeroAction callback) {
 		equipItemHolder.regDataChangeCallback(callback);
@@ -75,17 +91,16 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	// return equipItemHolder.toAttrData();
 	// }
 
-	/**
-	 * 装备附灵
-	 * 
-	 * @param heroId
-	 * @param slot
-	 * @param exp
-	 * @param mateList
-	 * @return -1没有装备；-2不够钱；-3:当前等级读取不到配置;0成功
-	 */
+//	/**
+//	 * 装备附灵
+//	 * 
+//	 * @param heroId
+//	 * @param slot
+//	 * @param exp
+//	 * @param mateList
+//	 * @return -1没有装备；-2不够钱；-3:当前等级读取不到配置;0成功
+//	 */
 //	public int EquipAttach(int slot, List<TagMate> mateList) {
-	public int EquipAttach(Player player, String heroId, int slot, List<TagMate> mateList) {
 //		String ownerId = m_pOwner.getUUId();
 //		EquipItem equipItem = equipItemHolder.getItem(ownerId, slot);
 //		int result = 0;
@@ -191,12 +206,22 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 //			// }
 //		}
 //		return result;
-		
-//		String ownerId = m_pOwner.getUUId();
+//	}
+	
+	/**
+	 * 装备附灵
+	 * 
+	 * @param heroId
+	 * @param slot
+	 * @param exp
+	 * @param mateList
+	 * @return -1没有装备；-2不够钱；-3:当前等级读取不到配置;0成功
+	 */
+	public int EquipAttach(Player player, String heroId, int slot, List<TagMate> mateList) { 
 		EquipItem equipItem = equipItemHolder.getItem(heroId, slot);
-		int result = 0;
+		int result = EQUIP_ATTACH_SUCCESS;
 		if (equipItem == null) {
-			result = -1;
+			result = EQUIP_ATTACH_FAIL_NO_EQUIP;
 		} else {
 			// 1.获得当前等级
 			// 2.获得下一等级所需经验
@@ -209,7 +234,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipItem.getLevel());
 			if (pEquipAttachCfg == null) {
 				// 配置错误
-				return -3;
+				return EQUIP_ATTACH_FAIL_NO_CFG;
 			}
 
 			int tempStarLevel = pEquipAttachCfg.getStarLevel();
@@ -228,7 +253,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 				} else {
 					if (pEquipAttachCfg == null) {
 						// 配置错误
-						return -3;
+						return EQUIP_ATTACH_FAIL_NO_CFG;
 					}
 
 					// 最高等级
@@ -247,7 +272,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			// 删除材料
 			// 更新装备附灵等级的经验
 			if (player.getUserGameDataMgr().addCoin(-totalSubCoin) == -1) {
-				result = -2;
+				result = EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY;
 			} else {
 				for (TagMate mate : mateList) {
 					player.getItemBagMgr().useItemBySlotId(mate.getId(), mate.getCount());
@@ -340,7 +365,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	public int EquipOneKeyAttach(Player player, String heroId, int slot) {
 		EquipItem equipItem = equipItemHolder.getItem(heroId, slot);
 		if (equipItem == null) {
-			return -1;
+			return EQUIP_ATTACH_FAIL_NO_EQUIP;
 		}
 
 		int attachExp = equipItem.getExp();
@@ -355,12 +380,12 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
 		}
 		if (player.getUserGameDataMgr().addGold(-(int) Math.ceil(0.6 * tempExp)) == -1) {
-			return -2;
+			return EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY;
 		}
 		equipItem.setLevel(pEquipAttachCfg.getId());
 		equipItem.setExp(0);
 		equipItemHolder.updateItem(player, heroId, equipItem);
-		return 0;
+		return EQUIP_ATTACH_SUCCESS;
 	}
 
 //	/**

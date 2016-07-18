@@ -1,6 +1,12 @@
 package com.playerdata.hero;
 
+import com.playerdata.EquipMgr;
+import com.playerdata.InlayMgr;
+import com.playerdata.SkillMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -174,5 +180,75 @@ public interface IHero extends IMapItem, IHeroDelegator {
 	 * @return
 	 */
 	public boolean isMainRole();
+	
+	/**
+	 * 
+	 * <pre>
+	 * 获取InlayMgr
+	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
+	 * 现在只是简单代理{@link FSHeroThirdPartyDataMgr#getInstance()#getInlayMgr()}
+	 * 新的API调用，建议直接调用{@link FSHeroThirdPartyDataMgr#getInstance()#getInlayMgr()}
+	 * </pre>
+	 * 
+	 * @see FSHeroThirdPartyDataMgr
+	 * @return
+	 */
+	public InlayMgr getInlayMgr();
+
+	/**
+	 * 
+	 * <pre>
+	 * 获取InlayMgr
+	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
+	 * 现在只是简单代理{@link FSHeroThirdPartyDataMgr#getInstance()#getSkillMgr()}
+	 * 新的API调用，建议直接调用{@link FSHeroThirdPartyDataMgr#getInstance()#getSkillMgr()}
+	 * </pre>
+	 * 
+	 * @see FSHeroThirdPartyDataMgr
+	 * @return
+	 */
+	public SkillMgr getSkillMgr();
+
+	/**
+	 * 
+	 * <pre>
+	 * 获取InlayMgr
+	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
+	 * 现在只是简单代理{@link FSHeroThirdPartyDataMgr#getInstance()#getEquipMgr()}
+	 * 新的API调用，建议直接调用{@link FSHeroThirdPartyDataMgr#getInstance()#getEquipMgr()}
+	 * </pre>
+	 * 
+	 * @see FSHeroThirdPartyDataMgr
+	 * @return
+	 */
+	public EquipMgr getEquipMgr();
+
+	/**
+	 * 
+	 * <pre>
+	 * 获取InlayMgr
+	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
+	 * 现在只是简单代理{@link FSHeroThirdPartyDataMgr#getInstance()#getFixNormEquipMgr()}
+	 * 新的API调用，建议直接调用{@link FSHeroThirdPartyDataMgr#getInstance()#getFixNormEquipMgr()}
+	 * </pre>
+	 * 
+	 * @see FSHeroThirdPartyDataMgr
+	 * @return
+	 */
+	public FixNormEquipMgr getFixNormEquipMgr();
+
+	/**
+	 * 
+	 * <pre>
+	 * 获取InlayMgr
+	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
+	 * 现在只是简单代理{@link FSHeroThirdPartyDataMgr#getInstance()#getFixExpEquipMgr()}
+	 * 新的API调用，建议直接调用{@link FSHeroThirdPartyDataMgr#getInstance()#getFixExpEquipMgr()}
+	 * </pre>
+	 * 
+	 * @see FSHeroThirdPartyDataMgr
+	 * @return
+	 */
+	public FixExpEquipMgr getFixExpEquipMgr();
 	
 }
