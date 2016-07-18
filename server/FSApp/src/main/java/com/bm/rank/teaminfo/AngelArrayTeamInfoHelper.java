@@ -654,6 +654,7 @@ public class AngelArrayTeamInfoHelper {
 		int size = heroList.size();
 
 		// 英雄属性
+		boolean nonHeroPos = false;
 		List<ArmyHero> armyHeroList = new ArrayList<ArmyHero>(size);
 		for (int i = 0; i < size; i++) {
 			ArmyHero armyHero = parseHeroInfo2ArmyHero(heroList.get(i), teamInfo);
@@ -662,7 +663,15 @@ public class AngelArrayTeamInfoHelper {
 				armyInfo.setPlayer(armyHero);
 			} else {
 				armyHeroList.add(armyHero);
+				if (!nonHeroPos) {
+					nonHeroPos = armyHero.getPosition() == 0;
+				}
 			}
+		}
+
+		// 有英雄没有站位，全部按照1~4排位
+		for (int i = 0, aSize = armyHeroList.size(); i < aSize; i++) {
+			armyHeroList.get(i).setPosition(i + 1);
 		}
 
 		armyInfo.setHeroList(armyHeroList);
