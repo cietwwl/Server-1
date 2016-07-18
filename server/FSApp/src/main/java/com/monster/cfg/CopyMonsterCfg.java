@@ -21,7 +21,7 @@ public class CopyMonsterCfg {
 	private int modelId;
 	
 	/**生命*/
-	private int Life;
+	private int life;
 	
 	/**血条数量*/
 	private int HpCount;
@@ -55,7 +55,7 @@ public class CopyMonsterCfg {
 		return modelId;
 	}
 	public int getLife() {
-		return Life;
+		return life;
 	}
 	public int getHpCount() {
 		return HpCount;
