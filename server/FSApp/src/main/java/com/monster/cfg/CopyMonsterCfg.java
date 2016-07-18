@@ -18,7 +18,7 @@ public class CopyMonsterCfg {
 	/**怪物描述*/
 	private String description;
 	/**模型id*/
-	private int modelId;
+	private int modeId;
 	
 	/**生命*/
 	private int life;
@@ -51,8 +51,10 @@ public class CopyMonsterCfg {
 	public String getDescription() {
 		return description;
 	}
-	public int getModelId() {
-		return modelId;
+	
+	
+	public int getModeId() {
+		return modeId;
 	}
 	public int getLife() {
 		return life;
