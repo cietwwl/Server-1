@@ -60,6 +60,11 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
@@ -302,6 +307,24 @@ public class ActivityCollector implements RedPointCollector{
 			}
 			if(!rankItem.isTouchRedPoint()){
 				activityList.add(rankItem.getCfgId());
+				continue;
+			}			
+		}		
+//      ----------------------------------	
+		ActivityRedEnvelopeItemHolder redEnvelopeHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		List<ActivityRedEnvelopeTypeItem> redenvolopeItemList = redEnvelopeHolder.getItemList(player.getUserId());
+		for(ActivityRedEnvelopeTypeItem  redEnvelopeItem : redenvolopeItemList){
+			ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(redEnvelopeItem.getCfgId());
+			if(cfg == null){				
+				continue;
+			}
+			if (!ActivityRedEnvelopeTypeMgr.getInstance().isOpen(cfg)
+					&& !ActivityRedEnvelopeTypeMgr.getInstance().isCanTakeGift(
+							redEnvelopeItem)) {
+				continue;
+			}
+			if(!redEnvelopeItem.isTouchRedPoint()){
+				activityList.add(redEnvelopeItem.getCfgId());
 				continue;
 			}			
 		}		

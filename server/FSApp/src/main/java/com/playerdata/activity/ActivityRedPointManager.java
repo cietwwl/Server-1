@@ -11,6 +11,7 @@ import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 
 public class ActivityRedPointManager {
@@ -62,6 +63,8 @@ public class ActivityRedPointManager {
 			ActivityRankTypeMgr.getInstance().updateRedPoint(player, target);
 		}else if(target.getType()==ActivityTypeEnum.ActivityDailyDiscountType){
 			ActivityDailyDiscountTypeMgr.getInstance().updateRedPoint(player, target);
+		}else if(target.getType()==ActivityTypeEnum.ActivityRedEnvelope){
+			ActivityRedEnvelopeTypeMgr.getInstance().updateRedPoint(player, target);
 		}else{
 			GameLog.error("通用活动红点报错", player.getUserId(), "匹配到的枚举没有进行数据处理", null);
 			return issucce;

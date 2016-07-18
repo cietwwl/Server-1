@@ -33,6 +33,8 @@ public enum ActivityRedPointEnum {
 	
 	role_online("401",ActivityTypeEnum.ActivityTimeCountType),
 	
+	redEnvelope("501",ActivityTypeEnum.ActivityRedEnvelope),
+	
 	Vitality("801",ActivityTypeEnum.ActivityVitalyType),
 	VitalityTwo("810",ActivityTypeEnum.ActivityVitalyType),
 	
@@ -44,6 +46,9 @@ public enum ActivityRedPointEnum {
 	ARENA("1002",ActivityTypeEnum.ActivityRankType),//竞技之王
 	
 	DailyDiscount("1101",ActivityTypeEnum.ActivityDailyDiscountType);//超值欢乐购	
+	
+	
+	
 	
 	private String cfgId;
 	

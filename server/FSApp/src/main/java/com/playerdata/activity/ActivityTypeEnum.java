@@ -14,4 +14,5 @@ public enum ActivityTypeEnum {
 	ActivityExchangeType,
 	ActivityRankType,
 	ActivityDailyDiscountType,
+	ActivityRedEnvelope;
 }
