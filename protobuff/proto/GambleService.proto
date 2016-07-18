@@ -30,6 +30,7 @@ message GambleRequest{
 	optional EGambleType gambleType = 2;			//垂钓类型
 	optional ELotteryType lotteryType = 3;			//抽奖类型
 	optional int32 gamblePlanId = 4; // 重构后使用的参数 抽卡方案Id, gamble.csv key
+	optional int32 cachePreviewListTag = 5;//客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
 }
 
 message GambleResponse{
@@ -39,13 +40,16 @@ message GambleResponse{
 	repeated string heroList = 4;				//热点英雄
 	optional GambleData gambleData = 5;//垂钓数据
 	optional string tips = 6;//操作结果提示
-	repeated DropData dropHistory = 7;//新的钓鱼数据模型
+	repeated DropData dropHistory = 7;//新的钓鱼数据模型（未实现）
+ 	repeated PreviewData previewDataList = 8;//两种单抽以及魂匣的预览数据
+ 	repeated int32 guaranteenLeftCountList = 9;//出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
 }
 
 message DropData{
 	optional int32 freeCount = 1;//已经免费抽卡的次数
 	optional int32 maxFreeCount = 2;//最大免费次数，如果为0，表示这个方案没有免费次数
 	optional int32 leftTime = 3;// 剩余免费抽卡倒计时（单位为秒）
+	optional int32 guaranteenLeftCount = 4;//出现保底的剩余次数，紧紧对单抽有效
 }
 
 message GambleRewardData{
@@ -59,3 +63,15 @@ message GambleData{
  	optional int32 middleTime = 3;			//中级祈祷免费剩余时间(秒)
 }
 
+message PreviewData{
+	repeated ItemPreviewData heroList = 1;//英雄列表
+	repeated ItemPreviewData itemList = 2;//英雄列表
+	required int32 dropType = 3;//GamblePlanCfg的dropType
+	required int32 minLevel = 4;
+	required int32 maxLevel = 5;
+}
+
+message ItemPreviewData{
+	required string itemId = 1;//英雄或者物品的ID
+	optional bool isGuaranteen = 2;//是否属于保底组（未实现）
+}

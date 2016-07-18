@@ -166,8 +166,10 @@ public class GFOnlineHurtRankMgr {
 	public static void updateGFHurtRankInfo(Player player){
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
 		RankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = ranking.getRankingEntry(player.getUserId());
-		entry.getExtendedAttribute().setUserName(player.getUserName());
-		entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
-		ranking.subimitUpdatedTask(entry);
+		if (entry != null) {
+			entry.getExtendedAttribute().setUserName(player.getUserName());
+			entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+			ranking.subimitUpdatedTask(entry);
+		}
 	}
 }

@@ -11,6 +11,7 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
@@ -126,7 +127,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			if(cfgenum == null){				
 				continue;
 			}
-			if (DateUtils.isNewDayHour(5,activityVitalityTypeItem.getLastTime())) {
+			if (ActivityTypeHelper.isNewDayHourOfActivity(5,activityVitalityTypeItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.reset(cfg,cfgenum);
@@ -320,7 +321,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		ActivityVitalitySubCfg cfg = null;
 		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
 		for(ActivityVitalitySubCfg subcfg :subcfglist){
-			if(ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()){
+			if (ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()) {
 				continue;
 			}			
 			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){

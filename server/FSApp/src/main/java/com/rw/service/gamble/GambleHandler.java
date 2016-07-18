@@ -102,6 +102,7 @@ public class GambleHandler {
 
 		IDropGambleItemPlan dropPlan;//免费或者收费方案组
 		boolean isFree = historyRecord.canUseFree(planCfg);
+		GambleLogicHelper.logTrace(trace,historyRecord);
 		GambleLogicHelper.logTrace(trace,"isFree:"+isFree);
 
 		if (isFree){//使用免费方案
@@ -118,8 +119,6 @@ public class GambleHandler {
 		RefInt slotCount = new RefInt();
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
-		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
-		GambleLogicHelper.logTrace(trace,"maxHistoryNumber:"+maxHistoryNumber);
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -133,7 +132,7 @@ public class GambleHandler {
 				//return SetError(response,player,String.format("首抽配置无效，配置:%s", planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-				historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+				historyRecord.add(isFree,itemModel,slotCount.value);
 			}
 		}
 
@@ -168,46 +167,60 @@ public class GambleHandler {
 			historyRecord.addHotHistoryCount();
 		}
 		
-		int maxCount = planCfg.getDropItemCount();
+		final int maxCount = planCfg.getDropItemCount();
+		RefInt selectedDropGroupIndex = new RefInt();
 		while (dropList.size() < maxCount){
 			GambleLogicHelper.logTrace(trace,"dropListCount="+dropList.size());
+			if (dropPlan == null){
+				//最后容错：20个经验单
+				GambleLogicHelper.add2DropList(dropList, 20, defaultItem,userId,planIdStr,defaultItem);
+				historyRecord.add(isFree,defaultItem,20);
+				GambleLogicHelper.logTrace(trace,"最后容错：20个经验单,ID="+defaultItem);
+				continue;
+			}
 			int dropGroupId;
+			boolean isGuarantee = false;
 			if (historyRecord.passExclusiveCheck(isFree)){//前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:true");
-				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
-					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
+				if(historyRecord.checkGuarantee(isFree,dropPlan)){
+					dropGroupId = dropPlan.getGuaranteeGroup(ranGen,selectedDropGroupIndex);
+					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,dropGroupId="+dropGroupId);
 				}else{
-					dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
+					dropGroupId = dropPlan.getOrdinaryGroup(ranGen,selectedDropGroupIndex);
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:false,dropGroupId="+dropGroupId);
 				}
 				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+					historyRecord.add(isFree,itemModel,slotCount.value);
 				}else{
 					//有错误，减少最大抽卡数量
-					maxCount --;
+					//maxCount --;
+					GambleLogicHelper.logTrace(trace,"removeHistoryFromOrdinaryGroup:"+selectedDropGroupIndex.value);
+					dropPlan = dropPlan.removeHistoryFromOrdinaryGroup(selectedDropGroupIndex.value);
 					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree
 							+ ",plan key:" + planCfg.getKey());
 				}
 				
 			}else{
 				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:false");
-				List<String> checkHistory = historyRecord.getHistory(isFree,dropPlan);
+				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree,dropPlan);
 				GambleLogicHelper.logTrace(trace,"checkHistory:",checkHistory);
 				GambleDropGroup tmpGroup=null;
-				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
-					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory);
+				if(historyRecord.checkGuarantee(isFree,dropPlan)){
+					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory,selectedDropGroupIndex);
+					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,tmpGroup=",tmpGroup);
 				}else{
-					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory);
+					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory,selectedDropGroupIndex);
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:false,tmpGroup=",tmpGroup);
 				}
 				
 				if (tmpGroup == null){
 					GameLog.error("钓鱼台", player.getUserId(), "严重错误,无法去重,history:"+checkHistory+",isFree:"+isFree+",plan key:"+planCfg.getKey());
-					maxCount --;
+					GambleLogicHelper.logTrace(trace,"removeHistoryFromOrdinaryGroup:"+selectedDropGroupIndex.value);
+					dropPlan = dropPlan.removeHistoryFromOrdinaryGroup(selectedDropGroupIndex.value);
 					continue;
 				}
 				
@@ -215,21 +228,25 @@ public class GambleHandler {
 				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount,tmpWeight);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+					historyRecord.add(isFree,itemModel,slotCount.value);
+					GambleLogicHelper.logTrace(trace,"checkDistinctTag,isFree:"+isFree+",ExclusiveCount:"+dropPlan.getExclusiveCount());
 					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
 				}else{
 					//有错误，减少最大抽卡数量
-					maxCount --;
+					//maxCount --;
+					//删去当前使用的组，该用其他组
+					GambleLogicHelper.logTrace(trace,"removeHistoryFromOrdinaryGroup:"+selectedDropGroupIndex.value);
+					dropPlan = dropPlan.removeHistoryFromOrdinaryGroup(selectedDropGroupIndex.value);
 					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree
 							+ ",plan key:" + planCfg.getKey());
 				}
 			}
 			
-			historyRecord.clearGuaranteeHistory(isFree, dropPlan);
+			historyRecord.clearGuaranteeHistory(isGuarantee,dropPlan,trace);
 		}
-
-		clearContext();
 		
+		clearContext();
+		//System.out.println(trace.toString());
 		GambleLogicHelper.testHasHero(dropList,trace,gamblePlanId,userId);
 		
 		//扣钱

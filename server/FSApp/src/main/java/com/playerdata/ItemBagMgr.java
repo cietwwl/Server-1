@@ -129,7 +129,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue()) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
 				addItem(itemId, itemCount);
 			} else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
@@ -258,6 +258,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
 	public boolean addItem(int cfgId, int count) {
+		
 		//增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
 		//TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (ItemCfgHelper.isFashionSpecialItem(cfgId)){

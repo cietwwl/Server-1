@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
@@ -133,7 +134,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 				//以前开过的活动现在没找到配置文件
 				continue;
 			}			
-			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				targetItem.reset(cfgtmp);
 				dataHolder.updateItem(player, targetItem);
 			}
@@ -274,7 +275,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			return;
 		}
 		targetItem.setCount(targetItem.getCount()+1);
-		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getItemId()),1);
+		player.getItemBagMgr().addItem(targetItem.getItemId(),targetItem.getItemNum());
 	}
 
 	@Override

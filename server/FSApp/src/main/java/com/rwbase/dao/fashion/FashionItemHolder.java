@@ -99,6 +99,15 @@ public class FashionItemHolder{
 		return success;
 	}
 	
+	public boolean directRemove(Player player, int oldFashionId){
+		boolean success = getItemStore().removeItem(player.getUserId()+"_"+oldFashionId);//player.getUserId()+"_"+
+		if(success){
+		}else{
+			GameLog.error("时装", player.getUserId(), "删除时装失败:"+oldFashionId);
+		}
+		return success;
+	}
+	
 	public boolean addItem(Player player, FashionItem item){
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){

@@ -4,12 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
@@ -71,7 +78,18 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<AngelArrayFloorData> angelArrayFloorData;
 	// AngelArrayEnemyInfoData
 	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
-
+	
+	
+	private static MapItemStoreCache<GroupCopyMapRecord> groupCopyMapRecordCache;
+	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
+	private static MapItemStoreCache<GroupCopyRewardDistRecord> groupCopyRewardRecordCache;
+	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
+	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
+	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
+	
+	
+	
+	
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
@@ -91,6 +109,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	
 	
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
+	
+	
 	
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;	
 	
@@ -113,16 +135,15 @@ public class MapItemStoreFactory {
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
-				return;
-			} else {
 				init = true;
+				return;
 			}
 		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
 		// int playerCapacity = config.getPlayerCapacity();
 		int heroCapacity = config.getPlayerCapacity();
-
+		int actualHeroCapacity = config.getHeroCapacity();
 		list = new ArrayList<MapItemStoreCache>();
 		register(itemCache = new MapItemStoreCache<ItemData>(ItemData.class, "userId", heroCapacity));
 
@@ -130,7 +151,7 @@ public class MapItemStoreFactory {
 
 		register(copyMapRecord = new MapItemStoreCache<CopyMapRecord>(CopyMapRecord.class, "userId", heroCapacity));
 
-		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
+		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", actualHeroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
 
@@ -142,12 +163,22 @@ public class MapItemStoreFactory {
 
 		register(magicCache = new MapItemStoreCache<Magic>(Magic.class, "id", heroCapacity));
 
-		register(skillCache = new MapItemStoreCache<Skill>(Skill.class, "ownerId", heroCapacity * 4));
+		register(skillCache = new MapItemStoreCache<Skill>(Skill.class, "ownerId", actualHeroCapacity));
 
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
-		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+		
+		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));		
+		
+		register(groupCopyMapRecordCache = new MapItemStoreCache<GroupCopyMapRecord>(GroupCopyMapRecord.class, "groupId", heroCapacity));
+		
+		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
+		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardDistRecord>(GroupCopyRewardDistRecord.class, "groupId", heroCapacity));
 
+		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
+		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
+		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
+		
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
@@ -156,6 +187,7 @@ public class MapItemStoreFactory {
 		//
 		// register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 		//
+		
 		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
 		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
@@ -167,10 +199,11 @@ public class MapItemStoreFactory {
 		
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
 		
+		register(activityRedEnvelopeTypeItemCache = new MapItemStoreCache<ActivityRedEnvelopeTypeItem>(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity));
 		
-		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity));
 		
-		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity));
 
 		// register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
 
@@ -301,6 +334,38 @@ public class MapItemStoreFactory {
 		return groupMemberCache;
 	}
 
+	public static MapItemStoreCache<GroupCopyMapRecord> getGroupCopyMapRecordCache() {
+		return groupCopyMapRecordCache;
+	}
+
+	public static MapItemStoreCache<GroupCopyLevelRecord> getGroupCopyLevelRecordCache() {
+		return groupCopyLevelRecordCache;
+	}
+
+	public static MapItemStoreCache<UserGroupCopyMapRecord> getUserGroupCopyLevelRecordCache() {
+		return userGroupCopyLevelRecordCache;
+	}
+	
+	/**
+	 * 获取帮派奖励分配记录
+	 * @return
+	 */
+	public static MapItemStoreCache<GroupCopyRewardDistRecord> getGroupCopyRewardRecordCache() {
+		return groupCopyRewardRecordCache;
+	}
+
+	/**
+	 * 获取帮派副本关卡全服单次伤害缓存
+	 * @return
+	 */
+	public static MapItemStoreCache<ServerGroupCopyDamageRecord> getServerGroupCopyDamageRecordCache() {
+		return serverGroupCopyDamageRecordCache;
+	}
+
+	public static MapItemStoreCache<CopyItemDropAndApplyRecord> getItemDropAndApplyRecordCache() {
+		return itemDropAndApplyRecordCache;
+	}
+
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
 		return newGuideGiveItemHistoryCache;
 	}
@@ -344,6 +409,14 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
 		return activityVitalityItemCache;
 	}
+	
+	
+	
+
+	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
+		return activityRedEnvelopeTypeItemCache;
+	}
+
 
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;

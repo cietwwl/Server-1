@@ -15,6 +15,7 @@ import com.playerdata.activity.ActivityComResult;
 
 
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
@@ -128,7 +129,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}
-			if(DateUtils.isNewDayHour(5,targetItem.getLasttime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){
@@ -278,7 +279,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 						return idAndNumMap;
 					}
 					if(random.nextInt(10000)<=numAndProbability[1]){
-						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
 						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				

@@ -13,6 +13,8 @@ public class ActivityRankTypeSubCfg {
 	// 排名奖励
 	private String reward;
 	
+	private String fashionReward;
+	
 	private int[] rankRanges = new int[2];
 	
 	private String emailId;
@@ -28,8 +30,14 @@ public class ActivityRankTypeSubCfg {
 	public String getParentCfgId() {
 		return parentCfgId;
 	}
-	
 
+	public String getFashionReward() {
+		return fashionReward;
+	}
+
+	public void setFashionReward(String fashionReward) {
+		this.fashionReward = fashionReward;
+	}
 
 	public String getEmailId() {
 		return emailId;

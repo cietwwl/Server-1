@@ -9,6 +9,7 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
@@ -57,7 +58,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			return;
 		}
 		for (ActivityDailyTypeItem targetItem : item) {
-			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);

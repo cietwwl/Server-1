@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
@@ -69,7 +70,15 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	}
 	
 	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeEnum countTypeEnum) {
-		int day = getday(countTypeEnum);
+		int day ;
+		ActivityDailyDiscountTypeCfg cfgByEnumId = getCfgById(countTypeEnum.getCfgId());
+		if(cfgByEnumId == null){
+			day = 0;
+		}else{
+			day = ActivityTypeHelper.getDayBy5Am(cfgByEnumId.getStartTime());
+		}
+		
+		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(countTypeEnum);
 		for(ActivityDailyDiscountTypeSubCfg activityVitalitySubCfg : subCfgList){
@@ -85,6 +94,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 				ActivityDailyDiscountTypeSubItem subitem = new ActivityDailyDiscountTypeSubItem();
 				subitem.setCfgId(itemCfg.getId());
 				subitem.setItemId(itemCfg.getItemId());
+				subitem.setItemNum(itemCfg.getItemNum());
 				subitem.setCount(0);
 				subItemList.add(subitem);
 			}
@@ -94,19 +104,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		return subItemList;		
 	}
 	
-	/**根据当前时间返回处于活动之王活动的第几天*/
-	private int getday(ActivityDailyDiscountTypeEnum countTypeEnum) {
-		ActivityDailyDiscountTypeCfg cfgByEnumId = getCfgById(countTypeEnum.getCfgId());
-		if(cfgByEnumId == null){
-			return 0;
-		}
-		long startTime = cfgByEnumId.getStartTime();
-		long currentTime = System.currentTimeMillis();
-//		int day = DateUtils.getDayDistance(startTime, currentTime);
-		int day = DateUtils.getDayLimitHour(5, startTime); 
-		day++;		
-		return day;
-	}
+
 
 	public ActivityDailyDiscountTypeCfg getConfig(String cfgId) {
 		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();

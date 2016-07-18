@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -13,6 +14,7 @@ import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
@@ -305,6 +307,15 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityVitalityType);
 		
+		versionMap.put(eSynType.ActivityRedEnvelopeType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityRedEnvelopeTypeMgr.getInstance().synRedEnvelopeTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityRedEnvelopeType);
+		
+		
 		versionMap.put(eSynType.GFightOnlinePersonalData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
@@ -337,6 +348,7 @@ public class DataSynVersionHolder {
 //		}));
 //		orderList.add(eSynType.GFightOnlineResourceData);
 		
+		notInVersionControlList.add(notInVersionControlP);
 		
 
 		notInVersionControlList.add(notInVersionControlP);

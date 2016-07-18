@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
@@ -62,7 +63,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	public ActivityVitalityTypeItem newItem(Player player,ActivityVitalityTypeEnum aVitalityTypeEnum){
 		ActivityVitalityCfg cfgById = getConfig(aVitalityTypeEnum.getCfgId());
 		if(cfgById!=null){
-			int day = getday();
+			int day = ActivityVitalityCfgDAO.getInstance().getday() ;
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
 			String itemId = ActivityVitalityTypeHelper.getItemId(player.getUserId(), aVitalityTypeEnum);
 			item.setId(itemId);
@@ -83,21 +84,17 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 	}
 	
-	
-
-	/**根据当前时间返回处于活动之王活动的第几天,相对间隔天数，以hour点为基准*/
-	public int getday() {
-		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
-		if(cfgById == null){
+	/**防止策划把活跃之王的配置表删除，导致报空*/
+	public int getday(){
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
+		if(cfg == null){
 			return 0;
-		}
-		long startTime = cfgById.getStartTime();
-		long currentTime = System.currentTimeMillis();
-//		int day = DateUtils.getDayDistance(startTime, currentTime);
-		int day = DateUtils.getDayLimitHour(5, startTime); 
-		day++;		
-		return day;
+		}		
+		return ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
+	
 	}
+
+	
 
 	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityVitalityTypeEnum eNum) {
 		List<ActivityVitalityTypeSubItem> subItemList = null;

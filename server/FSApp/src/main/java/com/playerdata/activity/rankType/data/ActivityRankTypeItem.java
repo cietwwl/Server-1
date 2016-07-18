@@ -40,12 +40,18 @@ public class ActivityRankTypeItem implements  IMapItem {
 	private String emailId ;
 	
 	@CombineSave
+	private String fashionReward ;
+	@CombineSave
 	private long redPointLastTime;	
 	
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
+	
 
+	public String getFashionReward() {
+		return fashionReward;
+	}
 	public void setRedPointLastTime(long redPointLastTime) {
 		this.redPointLastTime = redPointLastTime;
 	}
@@ -53,6 +59,9 @@ public class ActivityRankTypeItem implements  IMapItem {
 	@CombineSave
 	private boolean isTouchRedPoint;	
 
+	public void setFashionReward(String fashionReward) {
+		this.fashionReward = fashionReward;
+	}
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
 	}

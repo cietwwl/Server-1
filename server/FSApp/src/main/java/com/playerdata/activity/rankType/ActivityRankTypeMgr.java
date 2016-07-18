@@ -104,7 +104,9 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
-					
+					if(!StringUtils.isBlank(activityRankTypeItem.getFashionReward())){
+						ComGiftMgr.getInstance().addtagoffathionInfoTOEmail(player, activityRankTypeItem.getFashionReward(), activityRankTypeItem.getEmailId(), null);
+					}
 				}
 				SendRewardRecord record = sendMap.get(activityRankTypeItem.getCfgId());
 				if(record == null){
@@ -122,7 +124,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					sendtime = nowtime;
 					nowtime = tmp;					
 				}
-				if(DateUtils.getHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
+				if(DateUtils.getAbsoluteHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 				}				
@@ -234,14 +236,19 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
 					String emaiId = null;
+					String tmpfathionReward =null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
 							emaiId = subCfg.getEmailId();
+							tmpfathionReward = subCfg.getFashionReward();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
+						if(tmpfathionReward != null){
+							targetItem.setFashionReward(tmpfathionReward);
+						}
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);

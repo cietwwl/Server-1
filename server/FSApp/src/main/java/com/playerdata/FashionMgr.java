@@ -85,16 +85,36 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 */
 	public void convertData(){
 		List<FashionItem> lst = fashionItemHolder.getItemList();
-		//List<FashionItem> uplst = new ArrayList<FashionItem>();
+		RefInt oldId = new RefInt();
 		for (FashionItem fashionItem : lst) {
-			if (fashionItem.UpgradeOldData()){
-				//uplst.add(fashionItem);
-				fashionItemHolder.updateItem(m_player, fashionItem);
+			if (fashionItem.UpgradeOldData(oldId)){
+				fashionItemHolder.directRemove(m_player, oldId.value);
+				fashionItemHolder.addItem(m_player, fashionItem);
 			}
 		}
 		
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
+		boolean isChanged = false;
 		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
+			isChanged = true;
+		}
+		
+		if (fashionUsed != null){
+			int[] usingList = fashionUsed.getUsingList();
+			for (int i = 0; i < usingList.length;i++){
+				int fashionModelId = usingList[i];
+				if(fashionModelId != -1){
+					FashionItem item = fashionItemHolder.getItem(fashionModelId);
+					if (item == null){
+						//因为旧数据在检查时装过期的时候，无法找到ID而没有脱下时装!
+						fashionUsed.setUsing(i, -1);
+						isChanged = true;
+					}
+				}
+			}
+		}
+		
+		if (isChanged){
 			fashionUsedHolder.update(fashionUsed);
 		}
 	}
@@ -247,33 +267,6 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		return false;
 	}
 
-	//
-	// /**
-	// * 计算增益数据并缓存
-	// *
-	// * @return
-	// */
-	// public IEffectCfg getEffectData() {
-	// if (totalEffects == null) {
-	// AttrData addedValues = new AttrData();
-	// AttrData addedPercentages = new AttrData();
-	// FashionBeingUsed used = createOrUpdate();
-	// if (used != null) {
-	// int career = m_player.getCareer();
-	// IEffectCfg[] list = used.getEffectList(getValidCount(), career);
-	// for (int i = 0; i < list.length; i++) {
-	// IEffectCfg eff = list[i];
-	// if (eff != null) {
-	// addedValues.plus(eff.getAddedValues());
-	// addedPercentages.plus(eff.getAddedPercentages());
-	// }
-	// }
-	// }
-	// totalEffects = new BattleAddedEffects(addedValues, addedPercentages);
-	// }
-	// return totalEffects;
-	// }
-
 	/**
 	 * 获取时装增加的总属性
 	 * 
@@ -415,7 +408,14 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		
 		FashionItem old = fashionItemHolder.getItem(fashionId);
 		if (old != null && old.isBrought()){//已经有这件时装，不能再赠送
-			return false;
+			if (timingUnit == null){
+				timingUnit = DefaultTimeUnit;
+			}
+			old.setExpiredTime(old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
+			fashionItemHolder.updateItem(player, old);
+			return true;
 		}
 		
 		if (old == null){
@@ -428,6 +428,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 			long now = System.currentTimeMillis();
 			old.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
 		}
 		
@@ -439,7 +440,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		if (sendEmail) {
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
-			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
+//			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
 			GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();
