@@ -59,17 +59,25 @@ public class GroupCopyLevelBL {
 	 * @return
 	 */
 	public static GroupCopyProgress createProgress(String level){
-		
-		GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
-		List<String> idList = levelCfg.getmIDList();
-		
-		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();;
-		GroupCopyMonsterSynStruct struct = null;
-		CopyMonsterCfg monsterCfg;
-		for (String id : idList) {
-			monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-			struct = new GroupCopyMonsterSynStruct(monsterCfg);
-			mData.add(struct);
+		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();
+		try {
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+			List<String> idList = levelCfg.getmIDList();
+			
+			GroupCopyMonsterSynStruct struct = null;
+			CopyMonsterCfg monsterCfg;
+			if(idList.isEmpty()){
+				GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,关卡：【" + level + "】里的怪物列表为空！！", null);
+			}
+			for (String id : idList) {
+				monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
+				struct = new GroupCopyMonsterSynStruct(monsterCfg);
+				mData.add(struct);
+			}
+			
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常", e);
 		}
 		return new GroupCopyProgress(mData);
 		
