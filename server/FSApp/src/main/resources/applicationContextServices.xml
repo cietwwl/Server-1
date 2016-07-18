@@ -95,6 +95,11 @@
 		     	<entry key="MSG_GROUP_SECRET" value-ref="groupSecretService" />
      			<entry key="MSG_GROUP_SECRET_MATCH" value-ref="groupSecretServiceMatch" />
      			<entry key="MSG_GROUP_FIGHT_ONLINE" value-ref="gfightOnlineService" />
+			     
+			     <entry key="MSG_GROUP_COPY_ADMIN" value-ref="groupCopyAdminService" />
+			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
+			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
+			     
 			</map>
 		</property>
 	</bean>
@@ -167,4 +172,10 @@
 	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
 	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 	<bean id="gfightOnlineService" class="com.playerdata.groupFightOnline.service.GFightOnlineService"/>
+	
+	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopy.GroupCopyAdminService"  />
+	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
+	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
+	
+	
 </beans>  

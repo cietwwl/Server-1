@@ -21,6 +21,7 @@ public class FieldEnum implements IFieldToJson{
 		}	
 
 		Enum<?> value = (Enum<?>)objectValue;
+		
 		return String.valueOf(value.ordinal()) ;
 	}
 	

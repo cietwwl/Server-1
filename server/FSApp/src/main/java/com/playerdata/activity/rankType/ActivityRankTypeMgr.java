@@ -99,7 +99,9 @@ public class ActivityRankTypeMgr {
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
-					
+					if(!StringUtils.isBlank(activityRankTypeItem.getFashionReward())){
+						ComGiftMgr.getInstance().addtagoffathionInfoTOEmail(player, activityRankTypeItem.getFashionReward(), activityRankTypeItem.getEmailId(), null);
+					}
 				}
 				SendRewardRecord record = sendMap.get(activityRankTypeItem.getCfgId());
 				if(record == null){
@@ -229,14 +231,19 @@ public class ActivityRankTypeMgr {
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
 					String emaiId = null;
+					String tmpfathionReward =null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
 							emaiId = subCfg.getEmailId();
+							tmpfathionReward = subCfg.getFashionReward();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
+						if(tmpfathionReward != null){
+							targetItem.setFashionReward(tmpfathionReward);
+						}
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);

@@ -270,7 +270,7 @@ public class ActivityDailyDiscountTypeMgr {
 			return;
 		}
 		targetItem.setCount(targetItem.getCount()+1);
-		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getItemId()),1);
+		player.getItemBagMgr().addItem(targetItem.getItemId(),targetItem.getItemNum());
 	}	
 	
 }

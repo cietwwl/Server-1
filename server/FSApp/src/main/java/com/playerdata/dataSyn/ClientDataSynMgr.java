@@ -238,6 +238,13 @@ public class ClientDataSynMgr {
 		}
 	}
 	
+	/**
+	 * 将客户端的json字符串转为服务器对象
+	 * @param clazz
+	 * @param json
+	 * @return
+	 * @throws Exception
+	 */
 	public static Object fromClientJson2Data(Class<?> clazz, String json) throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(clazz);
 		return serverClassInfo.fromJson(json);

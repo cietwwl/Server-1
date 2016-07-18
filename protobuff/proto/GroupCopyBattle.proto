@@ -1,0 +1,69 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCopyBattleProto";
+
+package GroupCopyBattle;
+
+//【客户端通知服务器消息类型】
+enum RequestType{
+	FIGHT_BEGIN = 1;//战斗开始
+	FIGHT_END = 2;//战斗结束
+	ENTER_APPLY = 3;//请求进入关卡，如果关卡内有人，服务器要返回关卡战斗中的CopyBattleRoleStruct，前端再判断是不是自己
+}
+
+
+
+//【帮派副本战斗消息】
+message GroupCopyBattleComReqMsg{
+	required RequestType reqType = 1;//请求协议类型
+	optional string version = 2;//版本号
+	required string level = 3; //关卡id
+	optional GroupCopyMonsterData mData = 4;//退出战斗时怪物信息(服务器要计算进度及保存)
+	optional HeroList heros = 5;//退出战斗时返回
+	optional CopyBattleRoleStruct battleRoleData = 6;
+}
+
+//【佣兵列表】
+message HeroList{
+	repeated string id = 1;
+}
+
+message GroupCopyMonsterData{
+    repeated string monsterData = 1;//战斗怪物信息 json
+}
+
+//【帮派副本战斗响应消息】
+message GroupCopyBattleComRspMsg{
+	required RequestType reqType = 1;//请求协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional GroupCopyMonsterData mData = 4;//进入战斗时怪物信息 
+	optional CopyRewardInfo dropInfo = 5;//掉落列表
+	optional CopyBattleRoleStruct battleRole = 6;//占用关卡的角色数据
+}
+
+//【掉落列表】
+message CopyRewardInfo{
+	repeated CopyRewardStruct drop = 1;
+	required int32 gold = 2;//奖励的金币
+	repeated CopyRewardStruct personalReward = 3; //个人奖励
+	optional int32 finalHitPrice = 4;//最后一击奖励的帮贡值
+}
+
+//【掉落道具结构】
+message CopyRewardStruct{
+	required int32 itemID = 1;
+	required int32 count = 2;
+	
+}
+
+//【占用关卡角色数据结构】
+message CopyBattleRoleStruct{
+	required string roleName = 1;
+	required string roleIcon = 2;
+	required string state = 3;
+	required int32 lv = 4;
+	required int32 leftTime = 5;//剩余时间
+	required string roleID = 6;
+}
+

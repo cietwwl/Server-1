@@ -43,6 +43,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		int size = cfgList.size();
 		for (int i = 0; i < size; i++) {
 			TaskCfg cfg = cfgList.get(i);
+			
 			if (cfg.getOpenLevel() <= m_pPlayer.getLevel() && !taskItemHolder.containsTask(cfg.getId())) {
 				itemList.add(createTaskItem(cfg));
 			}
@@ -162,6 +163,7 @@ public class TaskItemMgr implements TaskMgrIF {
 
 		for (TaskItem task : itemList) {
 
+			
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);

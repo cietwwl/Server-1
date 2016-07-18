@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -347,6 +348,7 @@ public class DataSynVersionHolder {
 //		}));
 //		orderList.add(eSynType.GFightOnlineResourceData);
 		
+		notInVersionControlList.add(notInVersionControlP);
 		
 
 		notInVersionControlList.add(notInVersionControlP);
