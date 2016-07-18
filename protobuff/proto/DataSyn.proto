@@ -93,7 +93,7 @@ enum eSynType	//数据同步类型
 	ActivityVitalityType = 70;//活动，活跃度
 	ActivityDailyDiscountType = 71;//活动，每日折扣
 	ActivityVipDiscountType = 72;//活动，七日vip折扣
-	ActivityRedEnvelopeType = 73;//活动，七日vip折扣
+	ActivityRedEnvelopeType = 73;//活动，开服红包
 	
 
 	QuestionList = 80; //反馈问题列表	

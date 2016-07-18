@@ -354,7 +354,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 */
 	public void updateContribution(Player player, int contribution, int dayContribution) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
-		userGroupData.setContribution(userGroupData.getContribution() + contribution);
+		userGroupData.setContribution(contribution);
 		userGroupData.setDayContribution(dayContribution);
 		holder.synData(player);
 	}

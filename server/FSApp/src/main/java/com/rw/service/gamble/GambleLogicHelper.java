@@ -472,7 +472,7 @@ public class GambleLogicHelper {
 		}
 		return true;
 	}
-
+	
 	public static void logTrace(StringBuilder trace, GambleDropHistory historyRecord) {
 		if (trace != null){
 			trace.append("historyRecord:").append(historyRecord.toDebugString());

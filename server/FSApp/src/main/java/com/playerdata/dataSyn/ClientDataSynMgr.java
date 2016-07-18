@@ -136,9 +136,6 @@ public class ClientDataSynMgr {
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
 			msgDataSyn.setVersion(newVersion);
-			if (serverData instanceof com.rwbase.common.attrdata.RoleAttrData || (serverData instanceof com.rwbase.dao.hero.pojo.RoleBaseInfo)) {
-				System.out.println("==========" + synData.build());
-			}
 			sendMsg(player, serverData, synType, msgDataSyn);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
