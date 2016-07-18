@@ -105,7 +105,7 @@ public class GroupCopyLevelBL {
 				}
 				
 				
-				if(userRecord.getLeftFightCount() < 0){//暂时测试改为<  后面要改为==
+				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  后面要改为==
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
