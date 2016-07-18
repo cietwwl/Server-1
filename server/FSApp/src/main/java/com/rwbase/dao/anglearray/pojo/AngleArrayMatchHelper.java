@@ -114,7 +114,6 @@ public final class AngleArrayMatchHelper {
 		TeamInfo finalTeamInfo = null;
 		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
 		String ranResult = null;
-		boolean isUpdateRanking = true;
 
 		// 排行榜
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
@@ -245,9 +244,7 @@ public final class AngleArrayMatchHelper {
 				if (!hasTeam) {
 					finalTeamInfo = getRobotTeamInfo(robotId);
 				} else {
-					// finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
-					finalTeamInfo = teamInfo;
-					isUpdateRanking = false;
+					finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
 				}
 			} else {
 				if (!hasTeam) {
@@ -263,10 +260,8 @@ public final class AngleArrayMatchHelper {
 
 		int matchFighting = finalTeamInfo.getTeamFighting();
 		if (matchRankingEntry != null) {
-			if (isUpdateRanking) {
-				matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
-				ranking.subimitUpdatedTask(matchRankingEntry);
-			}
+			matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
+			ranking.subimitUpdatedTask(matchRankingEntry);
 		} else {// 如果没有就添加到排行榜
 			AngleArrayComparable comparable = new AngleArrayComparable();
 			comparable.setFighting(matchFighting);
