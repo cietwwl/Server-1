@@ -118,7 +118,7 @@ public class GroupCopyLevelBL {
 						lvRecord.setProgress(progress);
 					}
 					
-					userRecord.incrFightCount();
+					
 					GroupCopyMonsterData.Builder b = GroupCopyMonsterData.newBuilder();
 
 					//将怪物数据转换成json

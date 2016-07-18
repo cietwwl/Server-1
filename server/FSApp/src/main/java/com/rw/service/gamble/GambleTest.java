@@ -93,7 +93,6 @@ public class GambleTest {
 		for (int i = 0; i < gambleTime; i++) {
 			if (!isFree) {
 				historyRecord.setFreeCount(100);
-				historyRecord.setFirstFreeGamble(false);
 				historyRecord.setFirstChargeGamble(false);
 			} else {
 				historyRecord.setFreeCount(0);
@@ -175,7 +174,7 @@ public class GambleTest {
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
-		boolean isFirstTime = isFree ? historyRecord.isFreeGambleFirstTime() : historyRecord.isChargeGambleFirstTime();
+		boolean isFirstTime = historyRecord.isChargeGambleFirstTime();
 
 		if (isFirstTime && firstDropItemId > 0) {// firstDropItemId配置为0表示不想搞首抽必掉
 			// 计算首次必掉
