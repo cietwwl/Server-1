@@ -14,7 +14,12 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
@@ -24,7 +29,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
 
-public class ActivityRedEnvelopeTypeMgr {
+public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityRedEnvelopeTypeMgr instance = new ActivityRedEnvelopeTypeMgr();
 
@@ -128,8 +133,12 @@ public class ActivityRedEnvelopeTypeMgr {
 		if (!isClose(item)) {			
 			return;	
 		}
-		item.setClosed(true);
+		if(!item.isClosed()){
+			item.setClosed(true);
+			item.setTouchRedPoint(false);
+		}
 		if(isCanTakeGift(item)){
+			
 			dataHolder.updateItem(player, item);
 			return;
 		}
@@ -179,7 +188,7 @@ public class ActivityRedEnvelopeTypeMgr {
 		return false;
 	}
 	
-	private boolean isCanTakeGift(ActivityRedEnvelopeTypeItem item) {
+	public boolean isCanTakeGift(ActivityRedEnvelopeTypeItem item) {
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());	
 		long takenTime = cfg.getGetRewardsTime();
 		long currentTime = System.currentTimeMillis();
@@ -245,6 +254,26 @@ public class ActivityRedEnvelopeTypeMgr {
 
 
 		return result;
+	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum target) {
+		ActivityRedEnvelopeItemHolder activityRedEnvelopeTypeItemHolder = new ActivityRedEnvelopeItemHolder();
+		ActivityRedEnvelopeTypeEnum redEnvelopeEnum = ActivityRedEnvelopeTypeEnum.getById(target.getCfgId());
+		if(redEnvelopeEnum == null){
+			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityRedEnvelopeTypeItem dataItem = activityRedEnvelopeTypeItemHolder.getItem(player.getUserId());
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityRedEnvelopeTypeItemHolder.updateItem(player, dataItem);
+		}	
+		
 	}	
 
 }

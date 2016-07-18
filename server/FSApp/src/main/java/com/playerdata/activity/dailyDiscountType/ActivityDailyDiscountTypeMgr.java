@@ -12,6 +12,11 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
@@ -23,7 +28,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
 
-public class ActivityDailyDiscountTypeMgr {
+public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityDailyDiscountTypeMgr instance = new ActivityDailyDiscountTypeMgr();
 
@@ -271,6 +276,26 @@ public class ActivityDailyDiscountTypeMgr {
 		}
 		targetItem.setCount(targetItem.getCount()+1);
 		player.getItemBagMgr().addItem(targetItem.getItemId(),targetItem.getItemNum());
+	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityDailyDiscountTypeItemHolder activityCountTypeItemHolder = new ActivityDailyDiscountTypeItemHolder();
+		ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(eNum.getCfgId());
+		if(dailyDiscountEnum == null){
+			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityDailyDiscountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),dailyDiscountEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}	
+		
 	}	
 	
 }

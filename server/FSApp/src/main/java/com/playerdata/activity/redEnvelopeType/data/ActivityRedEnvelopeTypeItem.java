@@ -62,6 +62,17 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 	@CombineSave
 	private int goldCount;
 	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
 	public void resetByVersion(ActivityRedEnvelopeTypeCfg cfg,List<ActivityRedEnvelopeTypeSubItem> subItemList,int day){
 		closed = false;
 		lastTime = System.currentTimeMillis();
@@ -70,6 +81,7 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 		this.day = day;
 		istaken = false;
 		goldCount = 0;
+		isTouchRedPoint = false;
 	}
 	
 	public void resetByOtherday(ActivityRedEnvelopeTypeCfg cfg,int day){

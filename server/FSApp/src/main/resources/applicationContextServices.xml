@@ -100,6 +100,9 @@
 			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
 			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
 			     
+     			
+     			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -169,6 +172,8 @@
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
 	<bean id="fixEquipService" class="com.playerdata.fixEquip.FixEquipService"  />
 	
+	
+	
 	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
 	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 	<bean id="gfightOnlineService" class="com.playerdata.groupFightOnline.service.GFightOnlineService"/>
@@ -177,5 +182,8 @@
 	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
 	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
 	
+	
+	
+	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	
 </beans>  
