@@ -18,5 +18,7 @@ public interface ITaoistMgr extends IRandomMgr {
 
 	Iterable<TaoistInfo> getMagicList();
 
+	public Map<Integer, AttributeItem> getTaoistAttrMap();
+	
 	public Iterable<Entry<Integer, Integer>> getAllTaoist();
 }

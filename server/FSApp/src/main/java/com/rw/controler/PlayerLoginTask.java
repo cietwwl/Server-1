@@ -167,8 +167,6 @@ public class PlayerLoginTask implements PlayerTask {
 
 		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
 		UserChannelMgr.bindUserID(userId, ctx);
-		// 增加清空重连时间
-		UserChannelMgr.clearDisConnectTime(userId);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		player.onLogin();
 		if (StringUtils.isBlank(player.getUserName())) {

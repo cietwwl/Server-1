@@ -31,7 +31,7 @@ public class HeroTaoistAttributeComponent extends AbstractAttributeCalc {
 		Map<Integer, AttributeItem> map = null;
 		if (!player.isRobot()) {
 			ITaoistMgr taoistMgr = player.getTaoistMgr();
-			map = taoistMgr.getEff().sample();
+			map = taoistMgr.getTaoistAttrMap();
 		} else {
 			Map<Integer, Integer> robotTaoistMap = ArenaRobotDataMgr.getMgr().getRobotTaoistMap(player.getUserId());
 			if (robotTaoistMap != null && !robotTaoistMap.isEmpty()) {

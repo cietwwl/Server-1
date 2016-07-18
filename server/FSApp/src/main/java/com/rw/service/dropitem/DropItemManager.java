@@ -326,6 +326,7 @@ public class DropItemManager {
 		if (isFirstDrop && copyId > 0) {
 			record.addFirstDrop(copyId);
 			needUpdate = true;
+			GameLog.error("DropItemManaer", "#trace", "记录首掉："+record.getUserId()+","+copyId);
 		}
 		if (needUpdate) {
 			DropRecordDAO.getInstance().update(record);

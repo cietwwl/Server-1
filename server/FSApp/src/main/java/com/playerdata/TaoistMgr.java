@@ -36,9 +36,9 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		this.player = player;
-		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
-		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
-		onEffectChange(record, false);
+		// TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		// TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		// onEffectChange(record, false);
 	}
 
 	private boolean hasSubscribeLevel = false;
@@ -134,6 +134,12 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 	@Override
 	public void onClose(IStream<Integer> whichStream) {
 		// nothing to do, for now
+	}
+
+	public Map<Integer, AttributeItem> getTaoistAttrMap() {
+		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		return getEffects(record);
 	}
 
 	/**

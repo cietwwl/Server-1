@@ -731,7 +731,7 @@ public final class DataSynProtos {
      * <code>ActivityRedEnvelopeType = 73;</code>
      *
      * <pre>
-     *活动，七日vip折扣
+     *活动，开服红包
      * </pre>
      */
     ActivityRedEnvelopeType(68, 73),
@@ -815,6 +815,14 @@ public final class DataSynProtos {
      * </pre>
      */
     EmbattleInfo(78, 89),
+    /**
+     * <code>MAGICEQUIP_FETTER = 90;</code>
+     *
+     * <pre>
+     *法宝神器羁绊
+     * </pre>
+     */
+    MAGICEQUIP_FETTER(79, 90),
     ;
 
     /**
@@ -1365,7 +1373,7 @@ public final class DataSynProtos {
      * <code>ActivityRedEnvelopeType = 73;</code>
      *
      * <pre>
-     *活动，七日vip折扣
+     *活动，开服红包
      * </pre>
      */
     public static final int ActivityRedEnvelopeType_VALUE = 73;
@@ -1449,6 +1457,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int EmbattleInfo_VALUE = 89;
+    /**
+     * <code>MAGICEQUIP_FETTER = 90;</code>
+     *
+     * <pre>
+     *法宝神器羁绊
+     * </pre>
+     */
+    public static final int MAGICEQUIP_FETTER_VALUE = 90;
 
 
     public final int getNumber() { return value; }
@@ -1534,6 +1550,7 @@ public final class DataSynProtos {
         case 87: return GFightSimpleLeader;
         case 88: return GFightFinalReward;
         case 89: return EmbattleInfo;
+        case 90: return MAGICEQUIP_FETTER;
         default: return null;
       }
     }
@@ -5623,7 +5640,7 @@ public final class DataSynProtos {
       "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
       "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
       "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\270\r\n\010eSynType\022\025\n\021" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\317\r\n\010eSynType\022\025\n\021" +
       "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
       "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
       "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
@@ -5666,8 +5683,8 @@ public final class DataSynProtos {
       "Data\020S\022\034\n\030GFightOnlinePersonalData\020T\022\034\n\030" +
       "GFightOnlineResourceData\020U\022\r\n\tMajorData\020" +
       "V\022\026\n\022GFightSimpleLeader\020W\022\025\n\021GFightFinal" +
-      "Reward\020X\022\020\n\014EmbattleInfo\020YB\034\n\013com.rwprot" +
-      "oB\rDataSynProtos"
+      "Reward\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICEQUIP" +
+      "_FETTER\020ZB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

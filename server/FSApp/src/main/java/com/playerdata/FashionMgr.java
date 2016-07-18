@@ -85,11 +85,11 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	 */
 	public void convertData() {
 		List<FashionItem> lst = fashionItemHolder.getItemList();
-		// List<FashionItem> uplst = new ArrayList<FashionItem>();
+		RefInt oldId = new RefInt();
 		for (FashionItem fashionItem : lst) {
-			if (fashionItem.UpgradeOldData()) {
-				// uplst.add(fashionItem);
-				fashionItemHolder.updateItem(m_player, fashionItem);
+			if (fashionItem.UpgradeOldData(oldId)){
+				fashionItemHolder.directRemove(m_player, oldId.value);
+				fashionItemHolder.addItem(m_player, fashionItem);
 			}
 		}
 
@@ -396,8 +396,15 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 
 		FashionItem old = fashionItemHolder.getItem(fashionId);
-		if (old != null && old.isBrought()) {// 已经有这件时装，不能再赠送
-			return false;
+		if (old != null && old.isBrought()){//已经有这件时装，不能再赠送
+			if (timingUnit == null){
+				timingUnit = DefaultTimeUnit;
+			}
+			old.setExpiredTime(old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
+			fashionItemHolder.updateItem(player, old);
+			return true;
 		}
 
 		if (old == null) {
@@ -410,6 +417,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 			long now = System.currentTimeMillis();
 			old.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
+			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
 		}
 
@@ -421,7 +429,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		if (sendEmail) {
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
-			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
+//			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
 			GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();
