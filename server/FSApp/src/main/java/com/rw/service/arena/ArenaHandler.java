@@ -258,9 +258,11 @@ public class ArenaHandler {
 			}
 		}
 
-		// 存储到阵容中
-		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE),
-			EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+		if (!player.isRobot()) {
+			// 存储到阵容中
+			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE),
+				EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+		}
 	}
 
 	public ByteString getEnemyInfoData(MsgArenaRequest request, Player player) {
