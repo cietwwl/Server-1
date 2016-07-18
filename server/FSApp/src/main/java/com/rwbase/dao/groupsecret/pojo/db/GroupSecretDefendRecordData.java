@@ -5,12 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.persistence.Transient;
-
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 
@@ -23,7 +22,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 public class GroupSecretDefendRecordData {
 	private String userId;// 角色的
 	private List<DefendRecord> recordList;// 记录的List
-	@Transient
+	@JsonIgnore
 	private int oldestIndex = -1;// 最老的记录对应的Id
 
 	public GroupSecretDefendRecordData() {
@@ -89,10 +88,12 @@ public class GroupSecretDefendRecordData {
 	 * @param comparator
 	 * @return
 	 */
-	public synchronized List<DefendRecord> getSortDefendRecordList(Comparator<DefendRecord> comparator) {
+	public synchronized List<DefendRecord> getSortDefendRecordList(Comparator<DefendRecord> comparator, String userId) {
 		if (recordList.isEmpty()) {
 			return Collections.emptyList();
 		}
+
+		boolean hasModify = false;
 
 		int size = recordList.size();
 		List<DefendRecord> sortList = new ArrayList<DefendRecord>(size);
@@ -102,7 +103,16 @@ public class GroupSecretDefendRecordData {
 				continue;
 			}
 
+			if (record.getId() != i) {
+				record.setId(i);
+				hasModify = true;
+			}
+
 			sortList.add(record);
+		}
+
+		if (hasModify) {
+			GroupSecretDefendRecordDataMgr.getMgr().update(userId);
 		}
 
 		if (comparator != null) {
