@@ -39,6 +39,7 @@ public class MagicSecretHandler {
 	private static final int GIVE_UP_BUFF = 11;
 
 	public final static int STAGE_COUNT_EACH_CHATPER = 8;
+	private final static int MAX_CHATPER_ID = 6;
 
 	private static MagicSecretHandler handler = new MagicSecretHandler();
 
@@ -61,16 +62,10 @@ public class MagicSecretHandler {
 		if (dungeonId == null) {
 			return sweep(client);
 		}
-
+		RobotLog.info("------------------------------"+dungeonId);
 		result = fight(client, dungeonId);
 		if (!result) {
 			RobotLog.fail("战斗申请反馈结果=" + result);
-			return result;
-		}
-		RobotLog.info("------------------------------"+dungeonId);
-		String[] split = dungeonId.split("_");
-		if(Integer.parseInt(split[0]) % 100 == STAGE_COUNT_EACH_CHATPER){
-			RobotLog.info("乾坤幻境操作成功=" + result);
 			return result;
 		}
 		result = getReward(client);
@@ -81,6 +76,12 @@ public class MagicSecretHandler {
 		result = openBox(client);
 		if (!result) {
 			RobotLog.fail("领取道具反馈结果=" + result);
+			return result;
+		}
+		RobotLog.info("------------------------------"+dungeonId);
+		String[] split = dungeonId.split("_");
+		if(Integer.parseInt(split[0]) % 100 == STAGE_COUNT_EACH_CHATPER){
+			RobotLog.info("乾坤幻境操作成功=" + result);
 			return result;
 		}
 		result = giveUpBox(client);
@@ -172,7 +173,7 @@ public class MagicSecretHandler {
 		for (Iterator<Entry<String, MagicChapterInfo>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<String, MagicChapterInfo> next = iterator.next();
 			MagicChapterInfo chapterInfo = next.getValue();
-
+			
 			List<Integer> finishedStages = chapterInfo.getFinishedStages();
 			int maxValue = -1;
 			for (Integer value : finishedStages) {
@@ -182,6 +183,9 @@ public class MagicSecretHandler {
 			}
 			if (maxValue % 100 == STAGE_COUNT_EACH_CHATPER) {
 				continue;
+			}
+			if(Integer.parseInt(chapterInfo.getChapterId()) > MAX_CHATPER_ID){
+				break;
 			}
 
 			if (maxValue == -1) {
@@ -432,10 +436,15 @@ public class MagicSecretHandler {
 						return false;
 					}
 					msResultType result = rsp.getRstType();
+					if(result.equals(msResultType.TIMES_NOT_ENOUGH)){
+						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理乾坤幻境已经完成次数 " + result);
+						return true;
+					}
 					if (!result.equals(msResultType.SUCCESS)) {
 						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
 						return false;
 					}
+					
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]exchangeBuff 失败", e);
 					return false;

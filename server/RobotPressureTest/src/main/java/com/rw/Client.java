@@ -1,5 +1,6 @@
 package com.rw;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -49,7 +50,7 @@ public class Client {
 	private int serverId;// 上一次登录的服务器Id
 	// private String lastHost;// 上一次登录的服务器IP
 	// private String lastPort;// 上一次登录的服务器端口
-	private List<ServerInfo> serverList;// 服务器列表信息
+	private List<ServerInfo> serverList = new ArrayList<ServerInfo>();// 服务器列表信息
 
 	private ClientMsgHandler msgHandler;
 	private StoreItemHolder storeItemHolder = new StoreItemHolder();
