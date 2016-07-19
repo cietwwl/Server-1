@@ -100,11 +100,12 @@ public class ArenaBM {
 			return false;
 		}
 
-		arenaData.setAtkHeroList(list);
+//		arenaData.setAtkHeroList(list);
+		arenaData.setAtkList(list);
 		tableArenaDataDAO.update(arenaData);
 
 		// TODO HC 通知万仙阵检查阵容的战力
-		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkHeroList());
+		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkList());
 		return true;
 	}
 
@@ -113,7 +114,8 @@ public class ArenaBM {
 		if (arenaData == null) {
 			return Collections.EMPTY_LIST;
 		}
-		List<String> list = arenaData.getAtkHeroList();
+		//List<String> list = arenaData.getAtkHeroList();
+		List<String> list = arenaData.getAtkList();
 		return list == null ? Collections.EMPTY_LIST : list;
 	}
 
@@ -180,17 +182,18 @@ public class ArenaBM {
 
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
-		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
+//		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
 		for (Hero hero : maxFightingHeros) {
 			String heroId = hero.getUUId();
 			if (!heroId.equals(userId)) {
 				defaultHeros.add(heroId);
-				defaultAtkHeros.add(hero.getTemplateId());
+				//defaultAtkHeros.add(hero.getTemplateId());
 			}
 		}
 
 		data.setHeroIdList(defaultHeros);
-		data.setAtkHeroList(defaultAtkHeros);
+		data.setAtkList(new ArrayList<String>(defaultHeros));
+//		data.setAtkHeroList(defaultAtkHeros);
 
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
