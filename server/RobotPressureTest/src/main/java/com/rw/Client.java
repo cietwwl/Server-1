@@ -32,6 +32,7 @@ import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.majordata.MajorDataholder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
+import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
 
 /*
@@ -97,6 +98,8 @@ public class Client {
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
+	
+	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
 	// last seqId
 	// private volatile int lastSeqId;
@@ -371,6 +374,14 @@ public class Client {
 
 	public void setCommandInfo(CommandInfo commandInfo) {
 		this.commandInfo = commandInfo;
+	}
+
+	public TaoistDataHolder getTaoistDataHolder() {
+		return taoistDataHolder;
+	}
+
+	public void setTaoistDataHolder(TaoistDataHolder taoistDataHolder) {
+		this.taoistDataHolder = taoistDataHolder;
 	}
 
 }

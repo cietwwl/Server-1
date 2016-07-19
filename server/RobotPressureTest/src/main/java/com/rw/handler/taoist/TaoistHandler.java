@@ -1,15 +1,21 @@
 package com.rw.handler.taoist;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.swing.DebugGraphics;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.TaoistMagicProtos.ErrorCode_Taoist;
+import com.rwproto.TaoistMagicProtos.TaoistInfo;
 import com.rwproto.TaoistMagicProtos.TaoistRequest;
 import com.rwproto.TaoistMagicProtos.TaoistRequestType;
 import com.rwproto.TaoistMagicProtos.TaoistResponse;
@@ -19,20 +25,81 @@ import com.rwproto.TaoistMagicProtos.TaoistResponse;
 
 public class TaoistHandler {
 	private static  TaoistHandler handler = new TaoistHandler();
-	private static final int[] Id = {110001,110002,110003,110004,110005,110006,130001,130002,130003,130004,210001,210002,220001,220002,230001,230002};
 
 	public static  TaoistHandler getHandler() {
 		return handler;
 	}
 	
-	public boolean upTaoist(Client client,int id) {
-		int tmp = 110001;
-		for(Integer i :Id){
-			if(i == id){
-				tmp = i;
-				break;
-			}
+	public boolean updateTaoist(Client client){
+		boolean result = getTaoistInfo(client);
+		if(result){
+			result = upTaoist(client);
 		}
+		if(result){
+			RobotLog.info("升级道术成功");
+		}
+		return result;
+	}
+	
+	public boolean getTaoistInfo(Client client){
+		
+		TaoistRequest.Builder req = TaoistRequest.newBuilder();		
+		req.setReqType(TaoistRequestType.getTaoistData);
+		
+		boolean success =client.getMsgHandler().sendMsg(Command.MSG_TAOIST, req.build().toByteString(), new MsgReciver() {
+			@Override
+			public Command getCmd() {
+				return Command.MSG_TAOIST;
+			}
+
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString serializedContent = response.getSerializedContent();
+				try {
+
+					TaoistResponse rsp = TaoistResponse.parseFrom(serializedContent);
+					if (rsp == null) {
+						RobotLog.fail("TaoistHandler[send] 转换响应消息为null");
+						return false;
+					}
+					
+					ErrorCode_Taoist result =rsp.getErrorCode();
+					if (!result.equals(ErrorCode_Taoist.Success)) {
+						RobotLog.fail("TaoistHandler[send] 服务器处理消息失败 " + result);
+						return false;
+					}
+					
+					List<TaoistInfo> list = rsp.getTaoistInfoListList();
+					TaoistDataHolder taoistDataHolder = client.getTaoistDataHolder();
+					taoistDataHolder.setTaoistInfoListList(list);
+				
+				} catch (InvalidProtocolBufferException e) {
+					RobotLog.fail("TaoistHandler[send] 失败", e);
+					return false;
+				}
+				
+				
+				
+				return true;
+			}			
+		});
+		
+		
+		
+		
+		return success;
+	}
+	
+	public boolean upTaoist(Client client) {
+		int tmp = client.getTaoistDataHolder().getTaoistId();
+		if(tmp == 0){
+			RobotLog.fail("TaoistHandler[send] 找不到可以升级的道术");
+			return true;
+		}
+		if(!client.getTaoistDataHolder().checkTaoistUpdate(tmp)){
+			return true;
+		}
+		
 		
 		TaoistRequest.Builder req = TaoistRequest.newBuilder();		
 		req.setReqType(TaoistRequestType.updateTaoist);
@@ -56,7 +123,7 @@ public class TaoistHandler {
 						RobotLog.fail("TaoistHandler[send] 转换响应消息为null");
 						return false;
 					}
-
+					
 					ErrorCode_Taoist result =rsp.getErrorCode();
 					if (!result.equals(ErrorCode_Taoist.Success)) {
 						RobotLog.fail("TaoistHandler[send] 服务器处理消息失败 " + result);
