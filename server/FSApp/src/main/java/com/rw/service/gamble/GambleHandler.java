@@ -122,7 +122,7 @@ public class GambleHandler {
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
-		boolean isFirstTime = isFree ? historyRecord.isFreeGambleFirstTime() : historyRecord.isChargeGambleFirstTime();
+		boolean isFirstTime = historyRecord.isChargeGambleFirstTime();
 		
 		if (isFirstTime && firstDropItemId > 0){//firstDropItemId配置为0表示不想搞首抽必掉
 			//计算首次必掉
@@ -133,6 +133,7 @@ public class GambleHandler {
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
 				historyRecord.add(isFree,itemModel,slotCount.value);
+				historyRecord.clearGuaranteeHistory(false,dropPlan,trace);
 			}
 		}
 

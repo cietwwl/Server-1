@@ -126,9 +126,6 @@ public class GroupCopyLevelRecordHolder{
 	
 	public void synAllData(Player player, int version){
 		
-		if(dataVersion.get() == version && version != 0){
-			return;
-		}
 		List<GroupCopyLevelRecord> groupRecordList = getItemList();
 		ClientDataSynMgr.synDataList(player, groupRecordList, synType, eSynOpType.UPDATE_LIST,dataVersion.get());
 	}
