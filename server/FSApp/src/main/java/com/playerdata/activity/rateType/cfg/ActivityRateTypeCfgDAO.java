@@ -56,7 +56,7 @@ public final class ActivityRateTypeCfgDAO extends
 			}
 			map.put(Integer.parseInt(copytypeOrEspecial[0]), especialList);			
 		}
-		
+		cfgTmp.setCopyTypeMap(map);
 //		for(Map.Entry<Integer, List<Integer>> entry:map.entrySet()){
 //			StringBuffer str = new StringBuffer();
 //			for(Integer especial : entry.getValue()){
