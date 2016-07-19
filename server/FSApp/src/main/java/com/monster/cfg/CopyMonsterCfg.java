@@ -21,7 +21,7 @@ public class CopyMonsterCfg {
 	private int modeId;
 	
 	/**生命*/
-	private int life;
+	private int Life;
 	
 	/**血条数量*/
 	private int HpCount;
@@ -57,7 +57,7 @@ public class CopyMonsterCfg {
 		return modeId;
 	}
 	public int getLife() {
-		return life;
+		return Life;
 	}
 	public int getHpCount() {
 		return HpCount;

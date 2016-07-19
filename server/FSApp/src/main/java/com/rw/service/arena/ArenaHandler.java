@@ -34,6 +34,7 @@ import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.fashion.FashionHandle;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -844,6 +845,10 @@ public class ArenaHandler {
 		List<Skill> skills = armyInfo.getPlayer().getSkillList();
 		for (Skill skill : skills) {
 			data.addRoleSkill(transfrom(skill));
+		}
+		String gName = GroupHelper.getGroupName(enemyId);
+		if (StringUtils.isNotBlank(gName)){
+			data.setGroupName(gName);
 		}
 		return data.build();
 	}

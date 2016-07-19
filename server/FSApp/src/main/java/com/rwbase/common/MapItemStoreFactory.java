@@ -25,6 +25,7 @@ import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
+import com.playerdata.teambattle.data.TBTeamItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -128,6 +129,8 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<GFFinalRewardItem> groupFightRewardItemCache;
 	
+	private static MapItemStoreCache<TBTeamItem> teamBattleItemCache;
+	
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
@@ -220,6 +223,8 @@ public class MapItemStoreFactory {
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 		
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
+		
+		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
 	}
@@ -484,6 +489,14 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GFFinalRewardItem> getGFFinalRewardItemCache() {
 		return groupFightRewardItemCache;
+	}
+	
+	/**
+	 * 获取在线帮战个人奖励的缓存
+	 * @return
+	 */
+	public static MapItemStoreCache<TBTeamItem> getTBTeamItemCache() {
+		return teamBattleItemCache;
 	}
 	
 	/**
