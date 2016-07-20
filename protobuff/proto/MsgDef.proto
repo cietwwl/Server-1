@@ -100,6 +100,7 @@ enum Command {
 	MSG_GROUP_SECRET_MATCH = 204;//帮派秘境探索
 	MSG_GROUP_FIGHT_ONLINE=205;//在线帮战
 	MSG_RED_POINT_SERVICE = 206;//红点扩展点击传送
+	MSG_TEAM_BATTLE = 207;
 	
 	
 	MSG_FEEDBACK = 995;//客服功能

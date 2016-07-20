@@ -174,6 +174,8 @@ public class GMHandler {
 		
 		//添加帮派物资
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
+		//添加帮派副本战斗次数    * setgbf 1000
+		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
 		
 		// 聊天消息测试
 		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
@@ -1161,12 +1163,12 @@ public class GMHandler {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
 		}
-		String targetUserId= arrCommandContents[0];
+		String targetUserId = arrCommandContents[0];
 		try {
 			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
 			fUserChannelMap.setAccessible(true);
 			@SuppressWarnings("unchecked")
-			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>)fUserChannelMap.get(null);
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
 			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
@@ -1184,5 +1186,16 @@ public class GMHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
+		
+		int count = Integer.parseInt(arrcomStrings[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
 	}
 }
