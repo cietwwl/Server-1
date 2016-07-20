@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -32,10 +33,28 @@ public class ActivityRateTypeItem implements IMapItem {
 	@CombineSave
 	private int multiple;
 	
+	@CombineSave
+	private long redPointLastTime;	
 	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
 	
-
-
 	public int getMultiple() {
 		return multiple;
 	}
@@ -82,6 +101,12 @@ public class ActivityRateTypeItem implements IMapItem {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public void reset(ActivityRateTypeCfg activityRateTypeCfg) {
+		this.version = activityRateTypeCfg.getVersion();
+		isTouchRedPoint = false;
+		
 	}
 
 }

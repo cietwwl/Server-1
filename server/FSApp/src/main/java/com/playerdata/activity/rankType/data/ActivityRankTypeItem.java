@@ -41,20 +41,39 @@ public class ActivityRankTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private String fashionReward ;
+	@CombineSave
+	private long redPointLastTime;	
 	
-	public String getId() {
-		return id;
+	public long getRedPointLastTime() {
+		return redPointLastTime;
 	}
 	
 
 	public String getFashionReward() {
 		return fashionReward;
 	}
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
 
 	public void setFashionReward(String fashionReward) {
 		this.fashionReward = fashionReward;
 	}
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
 
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
 	public String getEmailId() {
 		return emailId;
 	}
@@ -78,7 +97,7 @@ public class ActivityRankTypeItem implements  IMapItem {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -123,5 +142,6 @@ public class ActivityRankTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		this.reward = null;
 		this.emailId=null;
+		this.isTouchRedPoint = false;
 	}	
 }

@@ -47,7 +47,29 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private String version ;
+	
+	@CombineSave
+	private long redPointLastTime;	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
 
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -114,5 +136,6 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		this.subItemList = ActivityDailyDiscountTypeCfgDAO.getInstance().newSubItemList(
 						ActivityDailyDiscountTypeEnum.getById(targetCfg.getId()));
+		isTouchRedPoint = false;
 	}
 }
