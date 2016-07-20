@@ -8,6 +8,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.service.FsService;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
+import com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
@@ -19,27 +20,36 @@ public class ChatService implements FsService {
 
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-
 		try {
-			MsgChatRequest msgChatRequest = MsgChatRequest.parseFrom(request.getBody().getSerializedContent());
-			eChatType chatType = msgChatRequest.getChatType();
-			if (isChatBan(player, msgChatRequest) == null) {
-				switch (chatType) {
-				case CHAT_WORLD:
-					result = chatHandler.chatWorld(player, msgChatRequest);
-					break;
-				case CHAT_FAMILY:
-					result = chatHandler.chatInGroup(player, msgChatRequest);
-					break;
-				case CHAT_PERSON:
-					result = chatHandler.chatPerson(player, msgChatRequest);
-					break;
-				case CHAT_TREASURE:
-					result = chatHandler.getChatTreasure(player, msgChatRequest);
-					break;
-				default:
-					break;
+			switch (request.getHeader().getCommand()) {
+			case MSG_CHAT:
+				MsgChatRequest msgChatRequest = MsgChatRequest.parseFrom(request.getBody().getSerializedContent());
+				eChatType chatType = msgChatRequest.getChatType();
+				if (isChatBan(player, msgChatRequest) == null) {
+					switch (chatType) {
+					case CHAT_WORLD:
+						result = chatHandler.chatWorld(player, msgChatRequest);
+						break;
+					case CHAT_FAMILY:
+						result = chatHandler.chatInGroup(player, msgChatRequest);
+						break;
+					case CHAT_PERSON:
+						result = chatHandler.chatPerson(player, msgChatRequest);
+						break;
+					case CHAT_TREASURE:
+						result = chatHandler.getChatTreasure(player, msgChatRequest);
+						break;
+					default:
+						break;
+					}
 				}
+				break;
+			case MSG_CHAT_REQUEST_PRIVATE_CHATS: // 获取用户相关的私聊列表
+				MsgChatRequestPrivateChats privateChatsRequest = MsgChatRequestPrivateChats.parseFrom(request.getBody().getSerializedContent());
+				result = ChatHandler.getInstance().getChatPrivate(player, privateChatsRequest);
+				break;
+			default:
+				break;
 			}
 
 		} catch (InvalidProtocolBufferException e) {

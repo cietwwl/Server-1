@@ -1,18 +1,23 @@
 package com.rwbase.dao.chat.pojo;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /*
  * @author HC
  * @date 2016年6月27日 下午4:58:36
  * @Description 
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ChatMessageSaveData {
+@JsonIgnoreProperties(ignoreUnknown = true, value={"time"})
+public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
+	@JsonSerialize(include=Inclusion.NON_NULL)
 	private ChatUserInfo sendInfo;
+	@JsonSerialize(include=Inclusion.NON_NULL)
 	private ChatUserInfo receiveInfo;
 	private String message;// 消息
-	private String time;// 时间
+//	private String time;// 时间
+	private long sendTime; // 时间（改为long）
 	private int secCfgId;// 秘境的模版Id
 	private String secId;// 秘境的Id
 	private boolean isRead;// 是否已经读了
@@ -30,8 +35,12 @@ public class ChatMessageSaveData {
 		this.message = message;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+//	public void setTime(String time) {
+//		this.time = time;
+//	}
+	
+	public void setSendTime(long pTime) {
+		this.sendTime = pTime;
 	}
 
 	public void setSecCfgId(int secCfgId) {
@@ -62,8 +71,12 @@ public class ChatMessageSaveData {
 		return message;
 	}
 
-	public String getTime() {
-		return time;
+//	public String getTime() {
+//		return time;
+//	}
+	
+	public long getSendTime() {
+		return sendTime;
 	}
 
 	public int getSecCfgId() {
@@ -81,4 +94,16 @@ public class ChatMessageSaveData {
 	public int getInviteNum() {
 		return inviteNum;
 	}
+
+	@Override
+	public String toString() {
+		return "ChatMessageSaveData [sendInfo=" + sendInfo + ", receiveInfo=" + receiveInfo + ", message=" + message + ", sendTime=" + sendTime + ", secCfgId=" + secCfgId + ", secId=" + secId
+				+ ", isRead=" + isRead + ", inviteNum=" + inviteNum + "]";
+	}
+
+	@Override
+	public int compareTo(ChatMessageSaveData o) {
+		return this.sendTime < o.sendTime ? -1 : 1;
+	}
+	
 }

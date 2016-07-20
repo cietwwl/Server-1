@@ -98,6 +98,8 @@
 			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
 			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
 			     
+			     <entry key="MSG_CHAT_REQUEST_PRIVATE_CHATS" value-ref="chatService" />
+			     
 			</map>
 		</property>
 	</bean>

@@ -45,6 +45,14 @@ public final class ChatServiceProtos {
      * </pre>
      */
     CHAT_TREASURE(3, 4),
+    /**
+     * <code>CHAT_SYSTEM = 5;</code>
+     *
+     * <pre>
+     * 系统消息
+     * </pre>
+     */
+    CHAT_SYSTEM(4, 5),
     ;
 
     /**
@@ -79,6 +87,14 @@ public final class ChatServiceProtos {
      * </pre>
      */
     public static final int CHAT_TREASURE_VALUE = 4;
+    /**
+     * <code>CHAT_SYSTEM = 5;</code>
+     *
+     * <pre>
+     * 系统消息
+     * </pre>
+     */
+    public static final int CHAT_SYSTEM_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -89,6 +105,7 @@ public final class ChatServiceProtos {
         case 2: return CHAT_FAMILY;
         case 3: return CHAT_PERSON;
         case 4: return CHAT_TREASURE;
+        case 5: return CHAT_SYSTEM;
         default: return null;
       }
     }
@@ -340,59 +357,59 @@ public final class ChatServiceProtos {
      */
     int getLevel();
 
-    // optional string familyId = 5;
+    // optional string groupId = 5;
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
-    boolean hasFamilyId();
+    boolean hasGroupId();
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
-    java.lang.String getFamilyId();
+    java.lang.String getGroupId();
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
     com.google.protobuf.ByteString
-        getFamilyIdBytes();
+        getGroupIdBytes();
 
-    // optional string familyName = 6;
+    // optional string groupName = 6;
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
-    boolean hasFamilyName();
+    boolean hasGroupName();
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
-    java.lang.String getFamilyName();
+    java.lang.String getGroupName();
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
     com.google.protobuf.ByteString
-        getFamilyNameBytes();
+        getGroupNameBytes();
 
     // optional string headbox = 7;
     /**
@@ -420,6 +437,78 @@ public final class ChatServiceProtos {
      */
     com.google.protobuf.ByteString
         getHeadboxBytes();
+
+    // optional int32 vipLv = 8;
+    /**
+     * <code>optional int32 vipLv = 8;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    boolean hasVipLv();
+    /**
+     * <code>optional int32 vipLv = 8;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    int getVipLv();
+
+    // optional int32 fashionTemplateId = 9;
+    /**
+     * <code>optional int32 fashionTemplateId = 9;</code>
+     *
+     * <pre>
+     * 时装的模板id
+     * </pre>
+     */
+    boolean hasFashionTemplateId();
+    /**
+     * <code>optional int32 fashionTemplateId = 9;</code>
+     *
+     * <pre>
+     * 时装的模板id
+     * </pre>
+     */
+    int getFashionTemplateId();
+
+    // optional int32 careerType = 10;
+    /**
+     * <code>optional int32 careerType = 10;</code>
+     *
+     * <pre>
+     * 职业类型
+     * </pre>
+     */
+    boolean hasCareerType();
+    /**
+     * <code>optional int32 careerType = 10;</code>
+     *
+     * <pre>
+     * 职业类型
+     * </pre>
+     */
+    int getCareerType();
+
+    // optional int32 gender = 11;
+    /**
+     * <code>optional int32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    boolean hasGender();
+    /**
+     * <code>optional int32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    int getGender();
   }
   /**
    * Protobuf type {@code MessageUserInfo}
@@ -494,17 +583,37 @@ public final class ChatServiceProtos {
             }
             case 42: {
               bitField0_ |= 0x00000010;
-              familyId_ = input.readBytes();
+              groupId_ = input.readBytes();
               break;
             }
             case 50: {
               bitField0_ |= 0x00000020;
-              familyName_ = input.readBytes();
+              groupName_ = input.readBytes();
               break;
             }
             case 58: {
               bitField0_ |= 0x00000040;
               headbox_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              vipLv_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              fashionTemplateId_ = input.readInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              careerType_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              gender_ = input.readInt32();
               break;
             }
           }
@@ -736,28 +845,28 @@ public final class ChatServiceProtos {
       return level_;
     }
 
-    // optional string familyId = 5;
-    public static final int FAMILYID_FIELD_NUMBER = 5;
-    private java.lang.Object familyId_;
+    // optional string groupId = 5;
+    public static final int GROUPID_FIELD_NUMBER = 5;
+    private java.lang.Object groupId_;
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
-    public boolean hasFamilyId() {
+    public boolean hasGroupId() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
-    public java.lang.String getFamilyId() {
-      java.lang.Object ref = familyId_;
+    public java.lang.String getGroupId() {
+      java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -765,54 +874,54 @@ public final class ChatServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          familyId_ = s;
+          groupId_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string familyId = 5;</code>
+     * <code>optional string groupId = 5;</code>
      *
      * <pre>
      *帮会Id
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getFamilyIdBytes() {
-      java.lang.Object ref = familyId_;
+        getGroupIdBytes() {
+      java.lang.Object ref = groupId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        familyId_ = b;
+        groupId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    // optional string familyName = 6;
-    public static final int FAMILYNAME_FIELD_NUMBER = 6;
-    private java.lang.Object familyName_;
+    // optional string groupName = 6;
+    public static final int GROUPNAME_FIELD_NUMBER = 6;
+    private java.lang.Object groupName_;
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
-    public boolean hasFamilyName() {
+    public boolean hasGroupName() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
-    public java.lang.String getFamilyName() {
-      java.lang.Object ref = familyName_;
+    public java.lang.String getGroupName() {
+      java.lang.Object ref = groupName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -820,26 +929,26 @@ public final class ChatServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          familyName_ = s;
+          groupName_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string familyName = 6;</code>
+     * <code>optional string groupName = 6;</code>
      *
      * <pre>
      *帮会名字
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getFamilyNameBytes() {
-      java.lang.Object ref = familyName_;
+        getGroupNameBytes() {
+      java.lang.Object ref = groupName_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        familyName_ = b;
+        groupName_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -901,14 +1010,114 @@ public final class ChatServiceProtos {
       }
     }
 
+    // optional int32 vipLv = 8;
+    public static final int VIPLV_FIELD_NUMBER = 8;
+    private int vipLv_;
+    /**
+     * <code>optional int32 vipLv = 8;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    public boolean hasVipLv() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 vipLv = 8;</code>
+     *
+     * <pre>
+     * vip等级
+     * </pre>
+     */
+    public int getVipLv() {
+      return vipLv_;
+    }
+
+    // optional int32 fashionTemplateId = 9;
+    public static final int FASHIONTEMPLATEID_FIELD_NUMBER = 9;
+    private int fashionTemplateId_;
+    /**
+     * <code>optional int32 fashionTemplateId = 9;</code>
+     *
+     * <pre>
+     * 时装的模板id
+     * </pre>
+     */
+    public boolean hasFashionTemplateId() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 fashionTemplateId = 9;</code>
+     *
+     * <pre>
+     * 时装的模板id
+     * </pre>
+     */
+    public int getFashionTemplateId() {
+      return fashionTemplateId_;
+    }
+
+    // optional int32 careerType = 10;
+    public static final int CAREERTYPE_FIELD_NUMBER = 10;
+    private int careerType_;
+    /**
+     * <code>optional int32 careerType = 10;</code>
+     *
+     * <pre>
+     * 职业类型
+     * </pre>
+     */
+    public boolean hasCareerType() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 careerType = 10;</code>
+     *
+     * <pre>
+     * 职业类型
+     * </pre>
+     */
+    public int getCareerType() {
+      return careerType_;
+    }
+
+    // optional int32 gender = 11;
+    public static final int GENDER_FIELD_NUMBER = 11;
+    private int gender_;
+    /**
+     * <code>optional int32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public boolean hasGender() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public int getGender() {
+      return gender_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
       headImage_ = "";
       level_ = 0;
-      familyId_ = "";
-      familyName_ = "";
+      groupId_ = "";
+      groupName_ = "";
       headbox_ = "";
+      vipLv_ = 0;
+      fashionTemplateId_ = 0;
+      careerType_ = 0;
+      gender_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -939,13 +1148,25 @@ public final class ChatServiceProtos {
         output.writeInt32(4, level_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getFamilyIdBytes());
+        output.writeBytes(5, getGroupIdBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getFamilyNameBytes());
+        output.writeBytes(6, getGroupNameBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBytes(7, getHeadboxBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, vipLv_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(9, fashionTemplateId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, careerType_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, gender_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -974,15 +1195,31 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getFamilyIdBytes());
+          .computeBytesSize(5, getGroupIdBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getFamilyNameBytes());
+          .computeBytesSize(6, getGroupNameBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getHeadboxBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, vipLv_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, fashionTemplateId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, careerType_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, gender_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1108,12 +1345,20 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         level_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        familyId_ = "";
+        groupId_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
-        familyName_ = "";
+        groupName_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
         headbox_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        vipLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        fashionTemplateId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        careerType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        gender_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -1161,15 +1406,31 @@ public final class ChatServiceProtos {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.familyId_ = familyId_;
+        result.groupId_ = groupId_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.familyName_ = familyName_;
+        result.groupName_ = groupName_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
         result.headbox_ = headbox_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.vipLv_ = vipLv_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.fashionTemplateId_ = fashionTemplateId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.careerType_ = careerType_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.gender_ = gender_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1204,20 +1465,32 @@ public final class ChatServiceProtos {
         if (other.hasLevel()) {
           setLevel(other.getLevel());
         }
-        if (other.hasFamilyId()) {
+        if (other.hasGroupId()) {
           bitField0_ |= 0x00000010;
-          familyId_ = other.familyId_;
+          groupId_ = other.groupId_;
           onChanged();
         }
-        if (other.hasFamilyName()) {
+        if (other.hasGroupName()) {
           bitField0_ |= 0x00000020;
-          familyName_ = other.familyName_;
+          groupName_ = other.groupName_;
           onChanged();
         }
         if (other.hasHeadbox()) {
           bitField0_ |= 0x00000040;
           headbox_ = other.headbox_;
           onChanged();
+        }
+        if (other.hasVipLv()) {
+          setVipLv(other.getVipLv());
+        }
+        if (other.hasFashionTemplateId()) {
+          setFashionTemplateId(other.getFashionTemplateId());
+        }
+        if (other.hasCareerType()) {
+          setCareerType(other.getCareerType());
+        }
+        if (other.hasGender()) {
+          setGender(other.getGender());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1593,198 +1866,198 @@ public final class ChatServiceProtos {
         return this;
       }
 
-      // optional string familyId = 5;
-      private java.lang.Object familyId_ = "";
+      // optional string groupId = 5;
+      private java.lang.Object groupId_ = "";
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
-      public boolean hasFamilyId() {
+      public boolean hasGroupId() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
-      public java.lang.String getFamilyId() {
-        java.lang.Object ref = familyId_;
+      public java.lang.String getGroupId() {
+        java.lang.Object ref = groupId_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          familyId_ = s;
+          groupId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getFamilyIdBytes() {
-        java.lang.Object ref = familyId_;
+          getGroupIdBytes() {
+        java.lang.Object ref = groupId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          familyId_ = b;
+          groupId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
-      public Builder setFamilyId(
+      public Builder setGroupId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000010;
-        familyId_ = value;
+        groupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
-      public Builder clearFamilyId() {
+      public Builder clearGroupId() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        familyId_ = getDefaultInstance().getFamilyId();
+        groupId_ = getDefaultInstance().getGroupId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string familyId = 5;</code>
+       * <code>optional string groupId = 5;</code>
        *
        * <pre>
        *帮会Id
        * </pre>
        */
-      public Builder setFamilyIdBytes(
+      public Builder setGroupIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000010;
-        familyId_ = value;
+        groupId_ = value;
         onChanged();
         return this;
       }
 
-      // optional string familyName = 6;
-      private java.lang.Object familyName_ = "";
+      // optional string groupName = 6;
+      private java.lang.Object groupName_ = "";
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
-      public boolean hasFamilyName() {
+      public boolean hasGroupName() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
-      public java.lang.String getFamilyName() {
-        java.lang.Object ref = familyName_;
+      public java.lang.String getGroupName() {
+        java.lang.Object ref = groupName_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          familyName_ = s;
+          groupName_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getFamilyNameBytes() {
-        java.lang.Object ref = familyName_;
+          getGroupNameBytes() {
+        java.lang.Object ref = groupName_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          familyName_ = b;
+          groupName_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
-      public Builder setFamilyName(
+      public Builder setGroupName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000020;
-        familyName_ = value;
+        groupName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
-      public Builder clearFamilyName() {
+      public Builder clearGroupName() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        familyName_ = getDefaultInstance().getFamilyName();
+        groupName_ = getDefaultInstance().getGroupName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string familyName = 6;</code>
+       * <code>optional string groupName = 6;</code>
        *
        * <pre>
        *帮会名字
        * </pre>
        */
-      public Builder setFamilyNameBytes(
+      public Builder setGroupNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000020;
-        familyName_ = value;
+        groupName_ = value;
         onChanged();
         return this;
       }
@@ -1887,6 +2160,202 @@ public final class ChatServiceProtos {
         return this;
       }
 
+      // optional int32 vipLv = 8;
+      private int vipLv_ ;
+      /**
+       * <code>optional int32 vipLv = 8;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public boolean hasVipLv() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 vipLv = 8;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public int getVipLv() {
+        return vipLv_;
+      }
+      /**
+       * <code>optional int32 vipLv = 8;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public Builder setVipLv(int value) {
+        bitField0_ |= 0x00000080;
+        vipLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vipLv = 8;</code>
+       *
+       * <pre>
+       * vip等级
+       * </pre>
+       */
+      public Builder clearVipLv() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        vipLv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 fashionTemplateId = 9;
+      private int fashionTemplateId_ ;
+      /**
+       * <code>optional int32 fashionTemplateId = 9;</code>
+       *
+       * <pre>
+       * 时装的模板id
+       * </pre>
+       */
+      public boolean hasFashionTemplateId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 fashionTemplateId = 9;</code>
+       *
+       * <pre>
+       * 时装的模板id
+       * </pre>
+       */
+      public int getFashionTemplateId() {
+        return fashionTemplateId_;
+      }
+      /**
+       * <code>optional int32 fashionTemplateId = 9;</code>
+       *
+       * <pre>
+       * 时装的模板id
+       * </pre>
+       */
+      public Builder setFashionTemplateId(int value) {
+        bitField0_ |= 0x00000100;
+        fashionTemplateId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fashionTemplateId = 9;</code>
+       *
+       * <pre>
+       * 时装的模板id
+       * </pre>
+       */
+      public Builder clearFashionTemplateId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        fashionTemplateId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 careerType = 10;
+      private int careerType_ ;
+      /**
+       * <code>optional int32 careerType = 10;</code>
+       *
+       * <pre>
+       * 职业类型
+       * </pre>
+       */
+      public boolean hasCareerType() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 careerType = 10;</code>
+       *
+       * <pre>
+       * 职业类型
+       * </pre>
+       */
+      public int getCareerType() {
+        return careerType_;
+      }
+      /**
+       * <code>optional int32 careerType = 10;</code>
+       *
+       * <pre>
+       * 职业类型
+       * </pre>
+       */
+      public Builder setCareerType(int value) {
+        bitField0_ |= 0x00000200;
+        careerType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 careerType = 10;</code>
+       *
+       * <pre>
+       * 职业类型
+       * </pre>
+       */
+      public Builder clearCareerType() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        careerType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 gender = 11;
+      private int gender_ ;
+      /**
+       * <code>optional int32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public boolean hasGender() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public int getGender() {
+        return gender_;
+      }
+      /**
+       * <code>optional int32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder setGender(int value) {
+        bitField0_ |= 0x00000400;
+        gender_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder clearGender() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        gender_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MessageUserInfo)
     }
 
@@ -1901,9 +2370,9 @@ public final class ChatServiceProtos {
   public interface ChatMessageDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .MessageUserInfo sendMessageUserInfo = 1;
+    // optional .MessageUserInfo sendMessageUserInfo = 1;
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -1911,7 +2380,7 @@ public final class ChatServiceProtos {
      */
     boolean hasSendMessageUserInfo();
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -1919,7 +2388,7 @@ public final class ChatServiceProtos {
      */
     com.rwproto.ChatServiceProtos.MessageUserInfo getSendMessageUserInfo();
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -1980,32 +2449,23 @@ public final class ChatServiceProtos {
     com.google.protobuf.ByteString
         getMessageBytes();
 
-    // optional string time = 4;
+    // optional int64 time = 4;
     /**
-     * <code>optional string time = 4;</code>
+     * <code>optional int64 time = 4;</code>
      *
      * <pre>
-     *时间
+     * 发送的时间（修改于2016-07-19，从string改为int64）
      * </pre>
      */
     boolean hasTime();
     /**
-     * <code>optional string time = 4;</code>
+     * <code>optional int64 time = 4;</code>
      *
      * <pre>
-     *时间
+     * 发送的时间（修改于2016-07-19，从string改为int64）
      * </pre>
      */
-    java.lang.String getTime();
-    /**
-     * <code>optional string time = 4;</code>
-     *
-     * <pre>
-     *时间
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getTimeBytes();
+    long getTime();
 
     // optional string treasureName = 5;
     /**
@@ -2197,9 +2657,9 @@ public final class ChatServiceProtos {
               message_ = input.readBytes();
               break;
             }
-            case 34: {
+            case 32: {
               bitField0_ |= 0x00000008;
-              time_ = input.readBytes();
+              time_ = input.readInt64();
               break;
             }
             case 42: {
@@ -2267,11 +2727,11 @@ public final class ChatServiceProtos {
     }
 
     private int bitField0_;
-    // required .MessageUserInfo sendMessageUserInfo = 1;
+    // optional .MessageUserInfo sendMessageUserInfo = 1;
     public static final int SENDMESSAGEUSERINFO_FIELD_NUMBER = 1;
     private com.rwproto.ChatServiceProtos.MessageUserInfo sendMessageUserInfo_;
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -2281,7 +2741,7 @@ public final class ChatServiceProtos {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -2291,7 +2751,7 @@ public final class ChatServiceProtos {
       return sendMessageUserInfo_;
     }
     /**
-     * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+     * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
      *
      * <pre>
      *发送消息的人的信息
@@ -2390,59 +2850,28 @@ public final class ChatServiceProtos {
       }
     }
 
-    // optional string time = 4;
+    // optional int64 time = 4;
     public static final int TIME_FIELD_NUMBER = 4;
-    private java.lang.Object time_;
+    private long time_;
     /**
-     * <code>optional string time = 4;</code>
+     * <code>optional int64 time = 4;</code>
      *
      * <pre>
-     *时间
+     * 发送的时间（修改于2016-07-19，从string改为int64）
      * </pre>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string time = 4;</code>
+     * <code>optional int64 time = 4;</code>
      *
      * <pre>
-     *时间
+     * 发送的时间（修改于2016-07-19，从string改为int64）
      * </pre>
      */
-    public java.lang.String getTime() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          time_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string time = 4;</code>
-     *
-     * <pre>
-     *时间
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getTimeBytes() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        time_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getTime() {
+      return time_;
     }
 
     // optional string treasureName = 5;
@@ -2631,7 +3060,7 @@ public final class ChatServiceProtos {
       sendMessageUserInfo_ = com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance();
       receiveMessageUserInfo_ = com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance();
       message_ = "";
-      time_ = "";
+      time_ = 0L;
       treasureName_ = "";
       treasureDefNum_ = 0;
       treasureId_ = "";
@@ -2643,17 +3072,15 @@ public final class ChatServiceProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasSendMessageUserInfo()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasMessage()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!getSendMessageUserInfo().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      if (hasSendMessageUserInfo()) {
+        if (!getSendMessageUserInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasReceiveMessageUserInfo()) {
         if (!getReceiveMessageUserInfo().isInitialized()) {
@@ -2678,7 +3105,7 @@ public final class ChatServiceProtos {
         output.writeBytes(3, getMessageBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getTimeBytes());
+        output.writeInt64(4, time_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(5, getTreasureNameBytes());
@@ -2718,7 +3145,7 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getTimeBytes());
+          .computeInt64Size(4, time_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2872,7 +3299,7 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         message_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        time_ = "";
+        time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
         treasureName_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -2984,9 +3411,7 @@ public final class ChatServiceProtos {
           onChanged();
         }
         if (other.hasTime()) {
-          bitField0_ |= 0x00000008;
-          time_ = other.time_;
-          onChanged();
+          setTime(other.getTime());
         }
         if (other.hasTreasureName()) {
           bitField0_ |= 0x00000010;
@@ -3012,17 +3437,15 @@ public final class ChatServiceProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasSendMessageUserInfo()) {
-          
-          return false;
-        }
         if (!hasMessage()) {
           
           return false;
         }
-        if (!getSendMessageUserInfo().isInitialized()) {
-          
-          return false;
+        if (hasSendMessageUserInfo()) {
+          if (!getSendMessageUserInfo().isInitialized()) {
+            
+            return false;
+          }
         }
         if (hasReceiveMessageUserInfo()) {
           if (!getReceiveMessageUserInfo().isInitialized()) {
@@ -3052,12 +3475,12 @@ public final class ChatServiceProtos {
       }
       private int bitField0_;
 
-      // required .MessageUserInfo sendMessageUserInfo = 1;
+      // optional .MessageUserInfo sendMessageUserInfo = 1;
       private com.rwproto.ChatServiceProtos.MessageUserInfo sendMessageUserInfo_ = com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ChatServiceProtos.MessageUserInfo, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder, com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> sendMessageUserInfoBuilder_;
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3067,7 +3490,7 @@ public final class ChatServiceProtos {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3081,7 +3504,7 @@ public final class ChatServiceProtos {
         }
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3101,7 +3524,7 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3119,7 +3542,7 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3142,7 +3565,7 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3159,7 +3582,7 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3171,7 +3594,7 @@ public final class ChatServiceProtos {
         return getSendMessageUserInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3185,7 +3608,7 @@ public final class ChatServiceProtos {
         }
       }
       /**
-       * <code>required .MessageUserInfo sendMessageUserInfo = 1;</code>
+       * <code>optional .MessageUserInfo sendMessageUserInfo = 1;</code>
        *
        * <pre>
        *发送消息的人的信息
@@ -3456,100 +3879,51 @@ public final class ChatServiceProtos {
         return this;
       }
 
-      // optional string time = 4;
-      private java.lang.Object time_ = "";
+      // optional int64 time = 4;
+      private long time_ ;
       /**
-       * <code>optional string time = 4;</code>
+       * <code>optional int64 time = 4;</code>
        *
        * <pre>
-       *时间
+       * 发送的时间（修改于2016-07-19，从string改为int64）
        * </pre>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string time = 4;</code>
+       * <code>optional int64 time = 4;</code>
        *
        * <pre>
-       *时间
+       * 发送的时间（修改于2016-07-19，从string改为int64）
        * </pre>
        */
-      public java.lang.String getTime() {
-        java.lang.Object ref = time_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          time_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getTime() {
+        return time_;
       }
       /**
-       * <code>optional string time = 4;</code>
+       * <code>optional int64 time = 4;</code>
        *
        * <pre>
-       *时间
+       * 发送的时间（修改于2016-07-19，从string改为int64）
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getTimeBytes() {
-        java.lang.Object ref = time_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          time_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string time = 4;</code>
-       *
-       * <pre>
-       *时间
-       * </pre>
-       */
-      public Builder setTime(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
+      public Builder setTime(long value) {
+        bitField0_ |= 0x00000008;
         time_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string time = 4;</code>
+       * <code>optional int64 time = 4;</code>
        *
        * <pre>
-       *时间
+       * 发送的时间（修改于2016-07-19，从string改为int64）
        * </pre>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        time_ = getDefaultInstance().getTime();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string time = 4;</code>
-       *
-       * <pre>
-       *时间
-       * </pre>
-       */
-      public Builder setTimeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        time_ = value;
+        time_ = 0L;
         onChanged();
         return this;
       }
@@ -4635,6 +5009,51 @@ public final class ChatServiceProtos {
      * </pre>
      */
     boolean getOnLogin();
+
+    // repeated .MessageUserInfo usersOfPrivateChannel = 6;
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo> 
+        getUsersOfPrivateChannelList();
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    com.rwproto.ChatServiceProtos.MessageUserInfo getUsersOfPrivateChannel(int index);
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    int getUsersOfPrivateChannelCount();
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> 
+        getUsersOfPrivateChannelOrBuilderList();
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder getUsersOfPrivateChannelOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code MsgChatResponse}
@@ -4722,6 +5141,14 @@ public final class ChatServiceProtos {
               onLogin_ = input.readBool();
               break;
             }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                usersOfPrivateChannel_ = new java.util.ArrayList<com.rwproto.ChatServiceProtos.MessageUserInfo>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              usersOfPrivateChannel_.add(input.readMessage(com.rwproto.ChatServiceProtos.MessageUserInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4732,6 +5159,9 @@ public final class ChatServiceProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           listMessage_ = java.util.Collections.unmodifiableList(listMessage_);
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          usersOfPrivateChannel_ = java.util.Collections.unmodifiableList(usersOfPrivateChannel_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4857,11 +5287,68 @@ public final class ChatServiceProtos {
       return onLogin_;
     }
 
+    // repeated .MessageUserInfo usersOfPrivateChannel = 6;
+    public static final int USERSOFPRIVATECHANNEL_FIELD_NUMBER = 6;
+    private java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo> usersOfPrivateChannel_;
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    public java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo> getUsersOfPrivateChannelList() {
+      return usersOfPrivateChannel_;
+    }
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> 
+        getUsersOfPrivateChannelOrBuilderList() {
+      return usersOfPrivateChannel_;
+    }
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    public int getUsersOfPrivateChannelCount() {
+      return usersOfPrivateChannel_.size();
+    }
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    public com.rwproto.ChatServiceProtos.MessageUserInfo getUsersOfPrivateChannel(int index) {
+      return usersOfPrivateChannel_.get(index);
+    }
+    /**
+     * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+     *
+     * <pre>
+     * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+     * </pre>
+     */
+    public com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder getUsersOfPrivateChannelOrBuilder(
+        int index) {
+      return usersOfPrivateChannel_.get(index);
+    }
+
     private void initFields() {
       chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
       chatResultType_ = com.rwproto.ChatServiceProtos.eChatResultType.SUCCESS;
       listMessage_ = java.util.Collections.emptyList();
       onLogin_ = false;
+      usersOfPrivateChannel_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4874,6 +5361,12 @@ public final class ChatServiceProtos {
       }
       for (int i = 0; i < getListMessageCount(); i++) {
         if (!getListMessage(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getUsersOfPrivateChannelCount(); i++) {
+        if (!getUsersOfPrivateChannel(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -4896,6 +5389,9 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(5, onLogin_);
+      }
+      for (int i = 0; i < usersOfPrivateChannel_.size(); i++) {
+        output.writeMessage(6, usersOfPrivateChannel_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -4921,6 +5417,10 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, onLogin_);
+      }
+      for (int i = 0; i < usersOfPrivateChannel_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, usersOfPrivateChannel_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5031,6 +5531,7 @@ public final class ChatServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getListMessageFieldBuilder();
+          getUsersOfPrivateChannelFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5051,6 +5552,12 @@ public final class ChatServiceProtos {
         }
         onLogin_ = false;
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (usersOfPrivateChannelBuilder_ == null) {
+          usersOfPrivateChannel_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          usersOfPrivateChannelBuilder_.clear();
+        }
         return this;
       }
 
@@ -5100,6 +5607,15 @@ public final class ChatServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.onLogin_ = onLogin_;
+        if (usersOfPrivateChannelBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            usersOfPrivateChannel_ = java.util.Collections.unmodifiableList(usersOfPrivateChannel_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.usersOfPrivateChannel_ = usersOfPrivateChannel_;
+        } else {
+          result.usersOfPrivateChannel_ = usersOfPrivateChannelBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5151,6 +5667,32 @@ public final class ChatServiceProtos {
         if (other.hasOnLogin()) {
           setOnLogin(other.getOnLogin());
         }
+        if (usersOfPrivateChannelBuilder_ == null) {
+          if (!other.usersOfPrivateChannel_.isEmpty()) {
+            if (usersOfPrivateChannel_.isEmpty()) {
+              usersOfPrivateChannel_ = other.usersOfPrivateChannel_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureUsersOfPrivateChannelIsMutable();
+              usersOfPrivateChannel_.addAll(other.usersOfPrivateChannel_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.usersOfPrivateChannel_.isEmpty()) {
+            if (usersOfPrivateChannelBuilder_.isEmpty()) {
+              usersOfPrivateChannelBuilder_.dispose();
+              usersOfPrivateChannelBuilder_ = null;
+              usersOfPrivateChannel_ = other.usersOfPrivateChannel_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              usersOfPrivateChannelBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUsersOfPrivateChannelFieldBuilder() : null;
+            } else {
+              usersOfPrivateChannelBuilder_.addAllMessages(other.usersOfPrivateChannel_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -5162,6 +5704,12 @@ public final class ChatServiceProtos {
         }
         for (int i = 0; i < getListMessageCount(); i++) {
           if (!getListMessage(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getUsersOfPrivateChannelCount(); i++) {
+          if (!getUsersOfPrivateChannel(i).isInitialized()) {
             
             return false;
           }
@@ -5549,6 +6097,318 @@ public final class ChatServiceProtos {
         return this;
       }
 
+      // repeated .MessageUserInfo usersOfPrivateChannel = 6;
+      private java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo> usersOfPrivateChannel_ =
+        java.util.Collections.emptyList();
+      private void ensureUsersOfPrivateChannelIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          usersOfPrivateChannel_ = new java.util.ArrayList<com.rwproto.ChatServiceProtos.MessageUserInfo>(usersOfPrivateChannel_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChatServiceProtos.MessageUserInfo, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder, com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> usersOfPrivateChannelBuilder_;
+
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo> getUsersOfPrivateChannelList() {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(usersOfPrivateChannel_);
+        } else {
+          return usersOfPrivateChannelBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public int getUsersOfPrivateChannelCount() {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          return usersOfPrivateChannel_.size();
+        } else {
+          return usersOfPrivateChannelBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.MessageUserInfo getUsersOfPrivateChannel(int index) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          return usersOfPrivateChannel_.get(index);
+        } else {
+          return usersOfPrivateChannelBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder setUsersOfPrivateChannel(
+          int index, com.rwproto.ChatServiceProtos.MessageUserInfo value) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.set(index, value);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder setUsersOfPrivateChannel(
+          int index, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder builderForValue) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder addUsersOfPrivateChannel(com.rwproto.ChatServiceProtos.MessageUserInfo value) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.add(value);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder addUsersOfPrivateChannel(
+          int index, com.rwproto.ChatServiceProtos.MessageUserInfo value) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.add(index, value);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder addUsersOfPrivateChannel(
+          com.rwproto.ChatServiceProtos.MessageUserInfo.Builder builderForValue) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.add(builderForValue.build());
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder addUsersOfPrivateChannel(
+          int index, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder builderForValue) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder addAllUsersOfPrivateChannel(
+          java.lang.Iterable<? extends com.rwproto.ChatServiceProtos.MessageUserInfo> values) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          ensureUsersOfPrivateChannelIsMutable();
+          super.addAll(values, usersOfPrivateChannel_);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder clearUsersOfPrivateChannel() {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          usersOfPrivateChannel_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public Builder removeUsersOfPrivateChannel(int index) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          ensureUsersOfPrivateChannelIsMutable();
+          usersOfPrivateChannel_.remove(index);
+          onChanged();
+        } else {
+          usersOfPrivateChannelBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.MessageUserInfo.Builder getUsersOfPrivateChannelBuilder(
+          int index) {
+        return getUsersOfPrivateChannelFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder getUsersOfPrivateChannelOrBuilder(
+          int index) {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          return usersOfPrivateChannel_.get(index);  } else {
+          return usersOfPrivateChannelBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> 
+           getUsersOfPrivateChannelOrBuilderList() {
+        if (usersOfPrivateChannelBuilder_ != null) {
+          return usersOfPrivateChannelBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(usersOfPrivateChannel_);
+        }
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.MessageUserInfo.Builder addUsersOfPrivateChannelBuilder() {
+        return getUsersOfPrivateChannelFieldBuilder().addBuilder(
+            com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.MessageUserInfo.Builder addUsersOfPrivateChannelBuilder(
+          int index) {
+        return getUsersOfPrivateChannelFieldBuilder().addBuilder(
+            index, com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MessageUserInfo usersOfPrivateChannel = 6;</code>
+       *
+       * <pre>
+       * 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChatServiceProtos.MessageUserInfo.Builder> 
+           getUsersOfPrivateChannelBuilderList() {
+        return getUsersOfPrivateChannelFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChatServiceProtos.MessageUserInfo, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder, com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder> 
+          getUsersOfPrivateChannelFieldBuilder() {
+        if (usersOfPrivateChannelBuilder_ == null) {
+          usersOfPrivateChannelBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ChatServiceProtos.MessageUserInfo, com.rwproto.ChatServiceProtos.MessageUserInfo.Builder, com.rwproto.ChatServiceProtos.MessageUserInfoOrBuilder>(
+                  usersOfPrivateChannel_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          usersOfPrivateChannel_ = null;
+        }
+        return usersOfPrivateChannelBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgChatResponse)
     }
 
@@ -5558,6 +6418,533 @@ public final class ChatServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:MsgChatResponse)
+  }
+
+  public interface MsgChatRequestPrivateChatsOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string userId = 1;
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    boolean hasUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+  }
+  /**
+   * Protobuf type {@code MsgChatRequestPrivateChats}
+   */
+  public static final class MsgChatRequestPrivateChats extends
+      com.google.protobuf.GeneratedMessage
+      implements MsgChatRequestPrivateChatsOrBuilder {
+    // Use MsgChatRequestPrivateChats.newBuilder() to construct.
+    private MsgChatRequestPrivateChats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MsgChatRequestPrivateChats(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MsgChatRequestPrivateChats defaultInstance;
+    public static MsgChatRequestPrivateChats getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MsgChatRequestPrivateChats getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MsgChatRequestPrivateChats(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ChatServiceProtos.internal_static_MsgChatRequestPrivateChats_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ChatServiceProtos.internal_static_MsgChatRequestPrivateChats_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.class, com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MsgChatRequestPrivateChats> PARSER =
+        new com.google.protobuf.AbstractParser<MsgChatRequestPrivateChats>() {
+      public MsgChatRequestPrivateChats parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MsgChatRequestPrivateChats(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MsgChatRequestPrivateChats> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string userId = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userId_;
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 请求的target的userId
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      userId_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIdBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIdBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MsgChatRequestPrivateChats}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChatsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ChatServiceProtos.internal_static_MsgChatRequestPrivateChats_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ChatServiceProtos.internal_static_MsgChatRequestPrivateChats_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.class, com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.Builder.class);
+      }
+
+      // Construct using com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ChatServiceProtos.internal_static_MsgChatRequestPrivateChats_descriptor;
+      }
+
+      public com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats getDefaultInstanceForType() {
+        return com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.getDefaultInstance();
+      }
+
+      public com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats build() {
+        com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats buildPartial() {
+        com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats result = new com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats) {
+          return mergeFrom((com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats other) {
+        if (other == com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000001;
+          userId_ = other.userId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string userId = 1;
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 请求的target的userId
+       * </pre>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MsgChatRequestPrivateChats)
+    }
+
+    static {
+      defaultInstance = new MsgChatRequestPrivateChats(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MsgChatRequestPrivateChats)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -5580,6 +6967,11 @@ public final class ChatServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_MsgChatResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MsgChatRequestPrivateChats_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MsgChatRequestPrivateChats_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5589,27 +6981,31 @@ public final class ChatServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021ChatService.proto\"\214\001\n\017MessageUserInfo\022" +
+      "\n\021ChatService.proto\"\330\001\n\017MessageUserInfo\022" +
       "\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \001(\t\022\021\n\thea" +
-      "dImage\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\020\n\010familyId\030" +
-      "\005 \001(\t\022\022\n\nfamilyName\030\006 \001(\t\022\017\n\007headbox\030\007 \001" +
-      "(\t\"\371\001\n\017ChatMessageData\022-\n\023sendMessageUse" +
-      "rInfo\030\001 \002(\0132\020.MessageUserInfo\0220\n\026receive" +
-      "MessageUserInfo\030\002 \001(\0132\020.MessageUserInfo\022" +
-      "\017\n\007message\030\003 \002(\t\022\014\n\004time\030\004 \001(\t\022\024\n\014treasu" +
-      "reName\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\n" +
-      "treasureId\030\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016",
-      "\n\006isRead\030\t \001(\010\"Y\n\016MsgChatRequest\022\034\n\010Chat" +
-      "Type\030\001 \002(\0162\n.eChatType\022)\n\017chatMessageDat" +
-      "a\030\002 \001(\0132\020.ChatMessageData\"\221\001\n\017MsgChatRes" +
-      "ponse\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016c" +
-      "hatResultType\030\002 \001(\0162\020.eChatResultType\022%\n" +
-      "\013listMessage\030\003 \003(\0132\020.ChatMessageData\022\017\n\007" +
-      "onLogin\030\005 \001(\010*P\n\teChatType\022\016\n\nCHAT_WORLD" +
-      "\020\001\022\017\n\013CHAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\r" +
-      "CHAT_TREASURE\020\004*(\n\017eChatResultType\022\013\n\007SU" +
-      "CCESS\020\001\022\010\n\004FAIL\020\002B \n\013com.rwprotoB\021ChatSe",
-      "rviceProtos"
+      "dImage\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\017\n\007groupId\030\005" +
+      " \001(\t\022\021\n\tgroupName\030\006 \001(\t\022\017\n\007headbox\030\007 \001(\t" +
+      "\022\r\n\005vipLv\030\010 \001(\005\022\031\n\021fashionTemplateId\030\t \001" +
+      "(\005\022\022\n\ncareerType\030\n \001(\005\022\016\n\006gender\030\013 \001(\005\"\371" +
+      "\001\n\017ChatMessageData\022-\n\023sendMessageUserInf" +
+      "o\030\001 \001(\0132\020.MessageUserInfo\0220\n\026receiveMess" +
+      "ageUserInfo\030\002 \001(\0132\020.MessageUserInfo\022\017\n\007m" +
+      "essage\030\003 \002(\t\022\014\n\004time\030\004 \001(\003\022\024\n\014treasureNa",
+      "me\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\ntrea" +
+      "sureId\030\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016\n\006is" +
+      "Read\030\t \001(\010\"Y\n\016MsgChatRequest\022\034\n\010ChatType" +
+      "\030\001 \002(\0162\n.eChatType\022)\n\017chatMessageData\030\002 " +
+      "\001(\0132\020.ChatMessageData\"\302\001\n\017MsgChatRespons" +
+      "e\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016chatR" +
+      "esultType\030\002 \001(\0162\020.eChatResultType\022%\n\013lis" +
+      "tMessage\030\003 \003(\0132\020.ChatMessageData\022\017\n\007onLo" +
+      "gin\030\005 \001(\010\022/\n\025usersOfPrivateChannel\030\006 \003(\013" +
+      "2\020.MessageUserInfo\",\n\032MsgChatRequestPriv",
+      "ateChats\022\016\n\006userId\030\001 \002(\t*a\n\teChatType\022\016\n" +
+      "\nCHAT_WORLD\020\001\022\017\n\013CHAT_FAMILY\020\002\022\017\n\013CHAT_P" +
+      "ERSON\020\003\022\021\n\rCHAT_TREASURE\020\004\022\017\n\013CHAT_SYSTE" +
+      "M\020\005*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004F" +
+      "AIL\020\002B \n\013com.rwprotoB\021ChatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5621,7 +7017,7 @@ public final class ChatServiceProtos {
           internal_static_MessageUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MessageUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "FamilyId", "FamilyName", "Headbox", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "GroupId", "GroupName", "Headbox", "VipLv", "FashionTemplateId", "CareerType", "Gender", });
           internal_static_ChatMessageData_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_ChatMessageData_fieldAccessorTable = new
@@ -5639,7 +7035,13 @@ public final class ChatServiceProtos {
           internal_static_MsgChatResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgChatResponse_descriptor,
-              new java.lang.String[] { "ChatType", "ChatResultType", "ListMessage", "OnLogin", });
+              new java.lang.String[] { "ChatType", "ChatResultType", "ListMessage", "OnLogin", "UsersOfPrivateChannel", });
+          internal_static_MsgChatRequestPrivateChats_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_MsgChatRequestPrivateChats_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MsgChatRequestPrivateChats_descriptor,
+              new java.lang.String[] { "UserId", });
           return null;
         }
       };

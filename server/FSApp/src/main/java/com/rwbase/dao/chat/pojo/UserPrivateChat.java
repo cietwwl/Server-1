@@ -1,7 +1,11 @@
 package com.rwbase.dao.chat.pojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
 
@@ -11,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.service.chat.ChatHandler;
+import com.rwproto.ChatServiceProtos.ChatMessageData;
 
 /*
  * @author HC
@@ -24,11 +29,15 @@ public class UserPrivateChat {
 	private String userId;// 主键
 	// private List<String> privateChatList;// 私聊信息列表
 	// private List<String> treasureChatList;// 密境信息列表
+	@JsonIgnore
+	private Map<String, Integer> _cacheCountOfUsers = new HashMap<String, Integer>();
 	private List<ChatMessageSaveData> privateChat;// 私聊信息列表
+	private List<ChatMessageSaveData> privateChatSent; // 我发出的私聊信息
 	private List<ChatMessageSaveData> secretChat;// 帮派秘境的聊天信息列表
 
 	public UserPrivateChat() {
-		privateChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE);
+		privateChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);
+		privateChatSent = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);
 		secretChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE);
 	}
 
@@ -172,6 +181,45 @@ public class UserPrivateChat {
 	// }
 	// return list;
 	// }
+	private void handleCount(String userId) {
+		Integer count = _cacheCountOfUsers.get(userId);
+		if (count == null) {
+			count = 1;
+		} else {
+			count++;
+		}
+		_cacheCountOfUsers.put(userId, count);
+	}
+	
+	private void checkOnAdd(ChatMessageSaveData privateChatMsgData) {
+		if (privateChat.size() > 0 && _cacheCountOfUsers.isEmpty()) {
+			// 初始化
+			for (ChatMessageSaveData cmsd : privateChat) {
+				String userId = cmsd.getSendInfo().getUserId();
+				handleCount(userId);
+			}
+		}
+		String targetUserId = privateChatMsgData.getSendInfo().getUserId();
+		Integer count = _cacheCountOfUsers.get(targetUserId);
+		if (count != null && count > ChatHandler.MAX_CACHE_MSG_SIZE_PER_ONE) {
+			for (Iterator<ChatMessageSaveData> itr = privateChat.iterator(); itr.hasNext();) {
+				if (itr.next().getSendInfo().getUserId().equals(targetUserId)) {
+					itr.remove();
+					_cacheCountOfUsers.put(targetUserId, --count);
+					break;
+				}
+			}
+		}
+	}
+	
+	private void addToList(ChatMessageSaveData privateChatMsgData, List<ChatMessageSaveData> target, int sizeControl) {
+		int size = target.size();
+		if (size >= sizeControl) {
+			target.remove(0);
+		}
+
+		target.add(privateChatMsgData);
+	}
 
 	/**
 	 * 添加一个私聊信息
@@ -179,12 +227,29 @@ public class UserPrivateChat {
 	 * @param privateChatMsgData
 	 */
 	public synchronized void addPrivateChatMessage(ChatMessageSaveData privateChatMsgData) {
-		int size = privateChat.size();
-		if (size >= ChatHandler.MAX_CACHE_MSG_SIZE) {
-			privateChat.remove(0);
+		List<ChatMessageSaveData> targetList;
+		int sizeControl;
+		boolean rec = false;
+		if(privateChatMsgData.getSendInfo() == null || privateChatMsgData.getSendInfo().getUserId().equals(userId)) {
+			// 我发出的
+			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
+			targetList = privateChatSent;
+		} else {
+			checkOnAdd(privateChatMsgData);
+			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
+			targetList = privateChat;
+			rec = true;
 		}
-
-		privateChat.add(privateChatMsgData);
+		this.addToList(privateChatMsgData, targetList, sizeControl);
+		if(rec) {
+			handleCount(privateChatMsgData.getSendInfo().getUserId());
+		}
+//		int size = privateChat.size();
+//		if (size >= ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT) {
+//			privateChat.remove(0);
+//		}
+//
+//		privateChat.add(privateChatMsgData);
 	}
 
 	/**
@@ -208,9 +273,58 @@ public class UserPrivateChat {
 	 */
 	@JsonIgnore
 	public List<ChatMessageSaveData> getPrivateChatMessageList() {
-		return new ArrayList<ChatMessageSaveData>(privateChat);
+		if (privateChat.isEmpty() && privateChatSent.isEmpty()) {
+			return Collections.emptyList();
+		}
+//		List<ChatMessageSaveData> mergeList = new LinkedList<ChatMessageSaveData>(privateChat);
+//		int lastIndex = 0;
+//		int flagIndex = 0;
+//		int mergeCount = 0;
+//		ChatMessageSaveData sent;
+//		ChatMessageSaveData rec;
+//		for(int i = 0; i < privateChatSent.size(); i++) {
+//			sent = privateChat.get(i);
+//			flagIndex = mergeList.size();
+//			for(int k = lastIndex; k < flagIndex; k++) {
+//				rec = mergeList.get(k);
+//				if (sent.getSendTime() < rec.getSendTime()) {
+//					mergeList.add(k, sent);
+//					lastIndex = flagIndex = k; // update flag index  and last index
+//					mergeCount++;
+//					break;
+//				}
+//			}
+//			if(flagIndex == mergeList.size()) {
+//				break;
+//			}
+//		}
+//		if(mergeCount < privateChatSent.size()) {
+//			for(int i = mergeCount; i < privateChatSent.size(); i++) {
+//				mergeList.add(privateChatSent.get(i));
+//			}
+//		}
+////		return new ArrayList<ChatMessageSaveData>(privateChat);
+//		return mergeList;
+		List<ChatMessageSaveData> mergeList = new ArrayList<ChatMessageSaveData>(privateChat.size() + privateChatSent.size());
+		mergeList.addAll(privateChat);
+		mergeList.addAll(privateChatSent);
+		if (mergeList.size() > 1) {
+			Collections.sort(mergeList);
+		}
+		return mergeList;
 	}
 
+//	/**
+//	 * 更新私聊信息中的某条信息的状态
+//	 * 
+//	 * @param index
+//	 * @param chatMsgData
+//	 */
+//	@JsonIgnore
+//	public synchronized void updatePrivateChatMessageState(int index, ChatMessageSaveData saveData) {
+//		this.privateChat.set(index, saveData);
+//	}
+	
 	/**
 	 * 更新私聊信息中的某条信息的状态
 	 * 
@@ -218,8 +332,25 @@ public class UserPrivateChat {
 	 * @param chatMsgData
 	 */
 	@JsonIgnore
-	public synchronized void updatePrivateChatMessageState(int index, ChatMessageSaveData saveData) {
-		this.privateChat.set(index, saveData);
+	public synchronized void updatePrivateChatMessageState(int index, ChatMessageData data) {
+//		this.privateChat.set(index, saveData);
+		if (data.hasSendMessageUserInfo() && data.getSendMessageUserInfo().getUserId() == userId) {
+			for (int i = 0; i < privateChatSent.size(); i++) {
+				ChatMessageSaveData cmsd = privateChatSent.get(i);
+				if (cmsd.getReceiveInfo().getUserId().equals(data.getReceiveMessageUserInfo().getUserId()) && cmsd.getSendTime() == data.getTime()) {
+					cmsd.setRead(true);
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < privateChat.size(); i++) {
+				ChatMessageSaveData cmsd = privateChat.get(i);
+				if (cmsd.getSendInfo().getUserId().equals(data.getSendMessageUserInfo().getUserId()) && cmsd.getSendTime() == data.getTime()) {
+					cmsd.setRead(true);
+					break;
+				}
+			}
+		}
 	}
 
 	/**

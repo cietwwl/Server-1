@@ -200,13 +200,14 @@ public class ChatBM {
 		UserPrivateChat chat = dao.get(userId);
 
 		for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
-			ChatMessageSaveData saveData = parseMsgData2SaveData(e.getValue());
-			if (saveData == null) {
-				continue;
-			}
-
-			saveData.setRead(true);
-			chat.updatePrivateChatMessageState(e.getKey(), saveData);
+//			ChatMessageSaveData saveData = parseMsgData2SaveData(userId, e.getValue());
+//			if (saveData == null) {
+//				continue;
+//			}
+//
+//			saveData.setRead(true);
+//			chat.updatePrivateChatMessageState(e.getKey(), saveData);
+			chat.updatePrivateChatMessageState(e.getKey(), e.getValue());
 		}
 
 		dao.update(userId);
@@ -227,7 +228,7 @@ public class ChatBM {
 		UserPrivateChat chat = dao.get(userId);
 
 		for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
-			ChatMessageSaveData saveData = parseMsgData2SaveData(e.getValue());
+			ChatMessageSaveData saveData = parseMsgData2SaveData(userId, e.getValue());
 			if (saveData == null) {
 				continue;
 			}
@@ -245,7 +246,7 @@ public class ChatBM {
 	 * @param msgData
 	 */
 	public void addPrivateChat(String userId, ChatMessageData msgData) {
-		ChatMessageSaveData saveData = parseMsgData2SaveData(msgData);
+		ChatMessageSaveData saveData = parseMsgData2SaveData(userId, msgData);
 		if (saveData == null) {
 			return;
 		}
@@ -264,7 +265,7 @@ public class ChatBM {
 	 * @param msgData
 	 */
 	public void addGroupSecretChat(String userId, ChatMessageData msgData) {
-		ChatMessageSaveData saveData = parseMsgData2SaveData(msgData);
+		ChatMessageSaveData saveData = parseMsgData2SaveData(userId, msgData);
 		if (saveData == null) {
 			return;
 		}
@@ -301,6 +302,33 @@ public class ChatBM {
 		}
 
 		return msgList;
+	}
+	
+	/**
+	 * 获取ownerUserId的私聊聊表中，与targetUserId相关联的私聊记录
+	 * 
+	 * @param ownerUserId
+	 * @param targetUserId
+	 * @return
+	 */
+	public List<ChatMessageData> getPrivateChatListOfTarget(String ownerUserId, String targetUserId) {
+		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(ownerUserId);
+		List<ChatMessageSaveData> privateChatSaveDataList = dao.getPrivateChatMessageList();
+		if (privateChatSaveDataList.isEmpty()) {
+			return Collections.emptyList();
+		}
+		List<ChatMessageData> resultList = new ArrayList<ChatMessageData>();
+		for(ChatMessageSaveData cmsd : privateChatSaveDataList) {
+			if (cmsd.getSendInfo() != null && cmsd.getSendInfo().getUserId().equals(targetUserId)) {
+				resultList.add(this.parseSaveData2MsgData(cmsd));
+				continue;
+			}
+			if (cmsd.getReceiveInfo() != null && cmsd.getReceiveInfo().getUserId().equals(targetUserId)) {
+				resultList.add(this.parseSaveData2MsgData(cmsd));
+				continue;
+			}
+		}
+		return resultList;
 	}
 
 	/**
@@ -343,13 +371,17 @@ public class ChatBM {
 
 		// 发送的人
 		MessageUserInfo sendInfo = parseSaveUserData2MsgData(saveData.getSendInfo());
-		if (sendInfo == null) {
-			return null;
-		}
+		// 修改于2016-07-18 20:43 现在允许没有sender BEGIN >>>>
+//		if (sendInfo == null) {
+//			return null;
+//		}
+		// 2016-07-18 20:43 <<<< END
 
 		ChatMessageData.Builder messageData = ChatMessageData.newBuilder();
 
-		messageData.setSendMessageUserInfo(sendInfo);
+		if (sendInfo != null) {
+			messageData.setSendMessageUserInfo(sendInfo);
+		}
 
 		// 接受的人
 		MessageUserInfo receiveInfo = parseSaveUserData2MsgData(saveData.getReceiveInfo());
@@ -368,10 +400,11 @@ public class ChatBM {
 		String message = saveData.getMessage();
 		messageData.setMessage(!StringUtils.isEmpty(message) ? message : "");
 
-		String time = saveData.getTime();
-		if (!StringUtils.isEmpty(time)) {
-			messageData.setTime(time);
-		}
+//		String time = saveData.getTime();
+//		if (!StringUtils.isEmpty(time)) {
+//			messageData.setTime(time);
+//		}
+		messageData.setTime(saveData.getSendTime());
 
 		String secId = saveData.getSecId();
 		if (!StringUtils.isEmpty(secId)) {
@@ -394,12 +427,12 @@ public class ChatBM {
 			MessageUserInfo.Builder userInfo = MessageUserInfo.newBuilder();
 			String groupId = info.getGroupId();
 			if (!StringUtils.isEmpty(groupId)) {
-				userInfo.setFamilyId(groupId);
+				userInfo.setGroupId(groupId);
 			}
 
 			String groupName = info.getGroupName();
 			if (!StringUtils.isEmpty(groupName)) {
-				userInfo.setFamilyName(groupName);
+				userInfo.setGroupName(groupName);
 			}
 
 			String userId = info.getUserId();
@@ -423,6 +456,8 @@ public class ChatBM {
 			}
 
 			userInfo.setLevel(info.getLevel());
+			userInfo.setCareerType(info.getCareerType());
+			userInfo.setGender(info.getGender());
 			return userInfo.build();
 		}
 
@@ -435,17 +470,19 @@ public class ChatBM {
 	 * @param chatMsgData
 	 * @return
 	 */
-	private ChatMessageSaveData parseMsgData2SaveData(ChatMessageData chatMsgData) {
+	private ChatMessageSaveData parseMsgData2SaveData(String userId, ChatMessageData chatMsgData) {
 		if (chatMsgData == null) {
 			return null;
 		}
 
 		ChatMessageSaveData saveData = new ChatMessageSaveData();
+		
+		if (chatMsgData.hasSendMessageUserInfo() /*&& !chatMsgData.getSendMessageUserInfo().getUserId().equals(userId)*/) {
+			ChatUserInfo sendInfo = parseMsgUserData2SaveData(chatMsgData.getSendMessageUserInfo());
+			saveData.setSendInfo(sendInfo);
+		}
 
-		ChatUserInfo sendInfo = parseMsgUserData2SaveData(chatMsgData.getSendMessageUserInfo());
-		saveData.setSendInfo(sendInfo);
-
-		if (chatMsgData.hasReceiveMessageUserInfo()) {
+		if (chatMsgData.hasReceiveMessageUserInfo() /*&& !chatMsgData.getReceiveMessageUserInfo().getUserId().equals(userId)*/) {
 			ChatUserInfo receiveInfo = parseMsgUserData2SaveData(chatMsgData.getReceiveMessageUserInfo());
 			saveData.setReceiveInfo(receiveInfo);
 		}
@@ -455,7 +492,7 @@ public class ChatBM {
 		}
 
 		if (chatMsgData.hasTime()) {
-			saveData.setTime(chatMsgData.getTime());
+			saveData.setSendTime(chatMsgData.getTime());
 		}
 
 		if (chatMsgData.hasMessage()) {
@@ -495,12 +532,20 @@ public class ChatBM {
 		}
 
 		ChatUserInfo userInfo = new ChatUserInfo();
-		if (info.hasFamilyId()) {
-			userInfo.setGroupId(info.getFamilyId());
+//		if (info.hasFamilyId()) {
+//			userInfo.setGroupId(info.getFamilyId());
+//		}
+
+//		if (info.hasFamilyName()) {
+//			userInfo.setGroupName(info.getFamilyName());
+//		}
+		
+		if (info.hasGroupId()) {
+			userInfo.setGroupId(info.getGroupId());
 		}
 
-		if (info.hasFamilyName()) {
-			userInfo.setGroupName(info.getFamilyName());
+		if (info.hasGroupName()) {
+			userInfo.setGroupName(info.getGroupName());
 		}
 
 		if (info.hasHeadbox()) {

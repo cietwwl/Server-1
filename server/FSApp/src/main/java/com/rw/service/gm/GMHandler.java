@@ -175,6 +175,9 @@ public class GMHandler {
 		//添加帮派物资
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
 		
+		// 聊天消息测试
+		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
+		
 	}
 
 	public boolean isActive() {
@@ -1152,5 +1155,34 @@ public class GMHandler {
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
+	}
+	
+	public boolean getPrivateChatList(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId= arrCommandContents[0];
+		try {
+			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
+			fUserChannelMap.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>)fUserChannelMap.get(null);
+			fUserChannelMap.setAccessible(false);
+			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
+			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
+			headerBuilder.setUserId(player.getUserId());
+			requestBuilder.setHeader(headerBuilder.build());
+			com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
+			requestBuilder.setBody(bodyBuilder.build());
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
