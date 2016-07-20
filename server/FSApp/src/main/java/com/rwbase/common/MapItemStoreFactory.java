@@ -24,6 +24,7 @@ import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
+import com.playerdata.teambattle.data.TBTeamItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -124,6 +125,8 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<GFFinalRewardItem> groupFightRewardItemCache;
 	
+	private static MapItemStoreCache<TBTeamItem> teamBattleItemCache;
+	
 	
 	private static MapItemStoreCache<MagicEquipFetterRecord> magicEquipFetterCache;
 	
@@ -143,7 +146,7 @@ public class MapItemStoreFactory {
 
 		// int playerCapacity = config.getPlayerCapacity();
 		int heroCapacity = config.getPlayerCapacity();
-
+		int actualHeroCapacity = config.getHeroCapacity();
 		list = new ArrayList<MapItemStoreCache>();
 		register(itemCache = new MapItemStoreCache<ItemData>(ItemData.class, "userId", heroCapacity));
 
@@ -151,7 +154,7 @@ public class MapItemStoreFactory {
 
 		register(copyMapRecord = new MapItemStoreCache<CopyMapRecord>(CopyMapRecord.class, "userId", heroCapacity));
 
-		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
+		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", actualHeroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
 
@@ -163,7 +166,7 @@ public class MapItemStoreFactory {
 
 		register(magicCache = new MapItemStoreCache<Magic>(Magic.class, "id", heroCapacity));
 
-		register(skillCache = new MapItemStoreCache<Skill>(Skill.class, "ownerId", heroCapacity * 4));
+		register(skillCache = new MapItemStoreCache<Skill>(Skill.class, "ownerId", actualHeroCapacity));
 
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
@@ -200,9 +203,9 @@ public class MapItemStoreFactory {
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
 		
 		
-		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity));
 		
-		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity));
 
 		// register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
 
@@ -219,6 +222,8 @@ public class MapItemStoreFactory {
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 		
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
+		
+		//register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
 		
@@ -477,6 +482,14 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GFFinalRewardItem> getGFFinalRewardItemCache() {
 		return groupFightRewardItemCache;
+	}
+	
+	/**
+	 * 获取在线帮战个人奖励的缓存
+	 * @return
+	 */
+	public static MapItemStoreCache<TBTeamItem> getTBTeamItemCache() {
+		return teamBattleItemCache;
 	}
 	
 	/**

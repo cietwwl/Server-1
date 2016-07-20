@@ -5,13 +5,16 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.bm.group.GroupBM;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
@@ -61,6 +64,18 @@ public class GroupCopyMapRecordHolder{
 		return record;
 	}
 
+	
+	private void checkMapState(GroupCopyMapRecord record){
+		if(record.getStatus() == GroupCopyMapStatus.LOCKING){
+			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(record.getChaterID());
+			Group group = GroupBM.get(groupId);
+			int groupLevel = group.getGroupBaseDataMgr().getGroupData().getGroupLevel();
+			if(groupLevel >= cfg.getUnLockLv()){
+				record.setStatus(GroupCopyMapStatus.NOTSTART);
+				getItemStore().updateItem(record);
+			}
+		}
+	}
 
 	public List<GroupCopyMapRecord> getItemList()	
 	{
@@ -102,7 +117,11 @@ public class GroupCopyMapRecordHolder{
 	}
 	
 	public void synAllData(Player player, int version){
-		List<GroupCopyMapRecord> itemList = getItemList();			
+		List<GroupCopyMapRecord> itemList = getItemList();	
+		//在这里做一下检查
+		for (GroupCopyMapRecord record : itemList) {
+			checkMapState(record);
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
