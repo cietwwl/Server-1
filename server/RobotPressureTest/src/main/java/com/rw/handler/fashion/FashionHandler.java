@@ -80,8 +80,9 @@ public class FashionHandler {
 				ErrorType error = resp.getError();
 				switch (error) {
 				case FAIL:
-					throw new Exception(parseFunctionDesc() + "fail msg:"
+					RobotLog.info(parseFunctionDesc() + "fail msg:"
 							+ resp.getTips());
+					return true;
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
 					return true;
