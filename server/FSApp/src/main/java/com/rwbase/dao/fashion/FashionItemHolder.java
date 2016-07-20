@@ -100,14 +100,32 @@ public class FashionItemHolder{
 	}
 	
 	public boolean directRemove(Player player, int oldFashionId){
-		boolean success = getItemStore().removeItem(player.getUserId()+"_"+oldFashionId);//player.getUserId()+"_"+
+		return directRemove(player.getUserId(),oldFashionId);
+	}
+	
+	public boolean directRemove(String uid, int oldFashionId){
+		boolean success = getItemStore().removeItem(uid+"_"+oldFashionId);//player.getUserId()+"_"+
 		if(success){
 		}else{
-			GameLog.error("时装", player.getUserId(), "删除时装失败:"+oldFashionId);
+			GameLog.error("时装", uid, "删除时装失败:"+oldFashionId);
 		}
 		return success;
 	}
-	
+
+	public void directAddItem(String uid, FashionItem item) {
+		MapItemStoreCache<FashionItem> cache = MapItemStoreFactory.getFashionCache();
+		MapItemStore<FashionItem> other = cache.getMapItemStore(uid, FashionItem.class);
+		try {
+			boolean addSuccess = other.addItem(item);
+			if(addSuccess){
+				notifyProxy.delayNotify();
+			}
+		} catch (Exception e) {
+			//并发添加同一个key的时装可能会导致抛异常
+			e.printStackTrace();
+		}
+	}
+
 	public boolean addItem(Player player, FashionItem item){
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){

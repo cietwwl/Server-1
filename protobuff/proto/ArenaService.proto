@@ -71,6 +71,7 @@ message ArenaData{
 	optional string templeteId = 17;
 	optional int32 winCount = 18;
 	optional string armyInfo = 19;
+	optional string groupName = 20;
 }
 
 message ArenaInfo{

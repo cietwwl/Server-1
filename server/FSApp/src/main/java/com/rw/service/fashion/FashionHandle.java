@@ -1,20 +1,26 @@
 package com.rw.service.fashion;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.arena.ArenaRobotDataMgr;
+import com.common.RefInt;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.FashionMgr;
 import com.playerdata.Player;
+import com.rwbase.common.NotifyChangeCallBack;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfg;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionItem;
+import com.rwbase.dao.fashion.FashionItemHolder;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
@@ -187,7 +193,52 @@ public class FashionHandle {
 		return SetSuccessResponse(response, player);
 	}
 
+	public void convertData(FashionItemHolder fashionItemHolder, FashionBeingUsedHolder fashionUsedHolder,
+		FashionBeingUsed fashionUsed, String uid) {
+		List<FashionItem> lst = fashionItemHolder.getItemList();
+		RefInt oldId = new RefInt();
+		for (FashionItem fashionItem : lst) {
+			if (fashionItem.UpgradeOldData(oldId)) {
+				fashionItemHolder.directRemove(uid, oldId.value);
+				fashionItemHolder.directAddItem(uid, fashionItem);
+			}
+		}
+
+		boolean isChanged = false;
+		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
+			isChanged = true;
+		}
+
+		if (fashionUsed != null) {
+			int[] usingList = fashionUsed.getUsingList();
+			for (int i = 0; i < usingList.length; i++) {
+				int fashionModelId = usingList[i];
+				if (fashionModelId != -1) {
+					FashionItem item = fashionItemHolder.getItem(fashionModelId);
+					if (item == null) {
+						// 因为旧数据在检查时装过期的时候，无法找到ID而没有脱下时装!
+						fashionUsed.setUsing(i, -1);
+						isChanged = true;
+					}
+				}
+			}
+		}
+
+		if (isChanged) {
+			fashionUsedHolder.update(fashionUsed);
+		}
+	}
+
 	public FashionUsed.Builder getFashionUsedProto(String uid) {
+		// 绕开player直接加载时装数据
+		// 更新旧的时装ID
+		NotifyChangeCallBack notifyProxy = new NotifyChangeCallBack();
+		FashionItemHolder fashionItemHolder = new FashionItemHolder(uid, notifyProxy);
+
+		FashionBeingUsedHolder holder = FashionBeingUsedHolder.getInstance();
+		FashionBeingUsed fashUsing = holder.get(uid);
+		convertData(fashionItemHolder, holder, fashUsing, uid);
+
 		UserDataDao userDataDAO = UserDataDao.getInstance();
 		User user = userDataDAO.getByUserId(uid);
 		boolean isRobot = false;
@@ -196,9 +247,7 @@ public class FashionHandle {
 		}
 
 		if (!isRobot) {
-			// 绕开player直接加载时装数据
-			FashionBeingUsedHolder holder = FashionBeingUsedHolder.getInstance();
-			FashionUsedIF fashionUsed = holder.get(uid);
+			FashionUsedIF fashionUsed = fashUsing;
 			if (fashionUsed != null) {
 				// by Franky:
 				FashionUsed.Builder value = FashionUsed.newBuilder();
@@ -227,8 +276,6 @@ public class FashionHandle {
 			if (fashionIdArr == null || fashionIdArr.length != 3) {
 				return null;
 			}
-
-			// 按照顺序是--->套装，翅膀，宠物
 			FashionUsed.Builder value = FashionUsed.newBuilder();
 			boolean fashionSet = false;
 			int suitId = fashionIdArr[0];

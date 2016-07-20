@@ -177,9 +177,9 @@ public final class AngleArrayMatchHelper {
 				PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
 				if (arenaData != null) {
 					// 先找攻击阵容<模版Id>
-					List<String> atkHeroList = arenaData.getAtkHeroList();// 阵容信息
+					List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
 					if (atkHeroList != null && !atkHeroList.isEmpty() && readOnlyPlayer != null) {
-						teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByTmpIdList(readOnlyPlayer, atkHeroList, heroModelIdList);
+						teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(readOnlyPlayer, atkHeroList, heroModelIdList);
 						hasTeam = true;
 					} else {
 						// 再找防守阵容

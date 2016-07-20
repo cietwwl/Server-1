@@ -18,6 +18,7 @@ import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.HeroMgr;
 import com.playerdata.HotPointMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
@@ -37,6 +38,7 @@ import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.fashion.FashionHandle;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -236,17 +238,22 @@ public class ArenaHandler {
 
 	public void setArenaHero(Player player, TableArenaData arenaData, List<BattleHeroPosition> heroPosList) {
 		String userId = player.getUserId();
-		int fighting = player.getMainRoleHero().getFighting();
 		arenaData.setUserId(userId);
+
+		HeroMgr heroMgr = player.getHeroMgr();
 		if (heroPosList != null) {
 			int size = heroPosList.size();
 			List<String> heroIds = new ArrayList<String>(size);
-			for (int i = 0; i < size; i++) {
-				heroIds.add(heroPosList.get(i).getHeroId());
+			for (int i = size; --i >= 0;) {
+				String uuid = heroPosList.get(i).getHeroId();
+				if (heroMgr.getHeroById(uuid) != null) {
+					heroIds.add(uuid);
+				}
 			}
 			arenaData.setHeroIdList(heroIds);
 		}
 
+		int fighting = player.getMainRoleHero().getFighting();
 		arenaData.setFighting(fighting);
 		TableArenaDataDAO.getInstance().update(arenaData);
 		ListRanking<String, ArenaExtAttribute> ranking = ArenaBM.getInstance().getRanking(player.getCareer());
@@ -842,6 +849,10 @@ public class ArenaHandler {
 
 		for (int i = 0; i < armySize; i++) {
 			ArmyHero hero = armyList.get(i);
+			if (hero == null) {
+				continue;
+			}
+
 			hero.setPosition(posInfo == null ? i + 1 : posInfo.getHeroPos(hero.getRoleBaseInfo().getId()));
 			data.addHeros(getHeroData(hero));
 			fighting += hero.getFighting();
@@ -865,6 +876,10 @@ public class ArenaHandler {
 		List<Skill> skills = armyInfo.getPlayer().getSkillList();
 		for (Skill skill : skills) {
 			data.addRoleSkill(transfrom(skill));
+		}
+		String gName = GroupHelper.getGroupName(enemyId);
+		if (StringUtils.isNotBlank(gName)) {
+			data.setGroupName(gName);
 		}
 		return data.build();
 	}

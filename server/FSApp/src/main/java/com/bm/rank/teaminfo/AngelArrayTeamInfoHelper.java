@@ -125,7 +125,7 @@ public class AngelArrayTeamInfoHelper {
 	 */
 	public static void checkAndUpdateTeamInfo(Player p, List<String> teamHeroList) {
 		List<Integer> heroModelList = new ArrayList<Integer>();
-		int fighting = getTeamInfoHeroModelListByTmpIdList(p, teamHeroList, heroModelList);
+		int fighting = getTeamInfoHeroModelListById(p, teamHeroList, heroModelList);
 		checkAndUpdateTeamInfo(p, heroModelList, fighting);
 	}
 
@@ -179,7 +179,45 @@ public class AngelArrayTeamInfoHelper {
 	 * @param heroModelList
 	 * @return
 	 */
-	public static int getTeamInfoHeroModelListByTmpIdList(PlayerIF p, List<String> teamHeroList, List<Integer> heroModelList) {
+//	public static int getTeamInfoHeroModelListByTmpIdList(PlayerIF p, List<String> teamHeroList, List<Integer> heroModelList) {
+//		if (p == null || teamHeroList == null || teamHeroList.isEmpty()) {
+//			return 0;
+//		}
+//
+//		int fighting = p.getMainRoleHero().getFighting();
+//
+//		int mainRoleModelId = p.getModelId();
+//		heroModelList.add(mainRoleModelId);
+//
+//		HeroMgrIF heroMgr = p.getHeroMgr();
+//		int heroSize = teamHeroList.size();
+//		for (int i = 0; i < heroSize; i++) {
+//			int heroModelId;
+//			String heroTemplateId = teamHeroList.get(i);
+//			int indexOf = heroTemplateId.indexOf("_");
+//			if (indexOf == -1) {// 没有下划线
+//				heroModelId = Integer.parseInt(heroTemplateId);
+//			} else {
+//				heroModelId = Integer.parseInt(heroTemplateId.substring(0, indexOf));
+//			}
+//
+//			if (heroModelId == mainRoleModelId) {
+//				continue;
+//			}
+//
+//			HeroIF hero = heroMgr.getHeroByModerId(heroModelId);
+//			if (hero == null) {
+//				continue;
+//			}
+//
+//			fighting += hero.getFighting();
+//			heroModelList.add(heroModelId);
+//		}
+//
+//		return fighting;
+//	}
+	
+	public static int getTeamInfoHeroModelListById(PlayerIF p, List<String> teamHeroList, List<Integer> heroModelList) {
 		if (p == null || teamHeroList == null || teamHeroList.isEmpty()) {
 			return 0;
 		}
@@ -192,26 +230,10 @@ public class AngelArrayTeamInfoHelper {
 		HeroMgrIF heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
-			int heroModelId;
-			String heroTemplateId = teamHeroList.get(i);
-			int indexOf = heroTemplateId.indexOf("_");
-			if (indexOf == -1) {// 没有下划线
-				heroModelId = Integer.parseInt(heroTemplateId);
-			} else {
-				heroModelId = Integer.parseInt(heroTemplateId.substring(0, indexOf));
-			}
-
-			if (heroModelId == mainRoleModelId) {
-				continue;
-			}
-
-			HeroIF hero = heroMgr.getHeroByModerId(heroModelId);
-			if (hero == null) {
-				continue;
-			}
-
+			String uuid = teamHeroList.get(i);
+			HeroIF hero = heroMgr.getHeroById(uuid);
 			fighting += hero.getFighting();
-			heroModelList.add(heroModelId);
+			heroModelList.add(hero.getModelId());
 		}
 
 		return fighting;
