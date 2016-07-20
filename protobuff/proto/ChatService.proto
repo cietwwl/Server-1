@@ -7,6 +7,7 @@ enum eChatType {
 	CHAT_FAMILY = 2; // 公会
 	CHAT_PERSON = 3; // 私聊
 	CHAT_TREASURE = 4;//秘境分享
+	CHAT_SYSTEM = 5; // 系统消息
 }
 enum eChatResultType {
 	SUCCESS = 1;//成功
@@ -18,16 +19,20 @@ message MessageUserInfo{
 	optional string userName = 2;//角色名字
 	optional string headImage = 3;//头像
 	optional int32 level = 4;//角色等级
-	optional string familyId = 5;//帮会Id
-	optional string familyName = 6;//帮会名字
+	optional string groupId = 5;//帮会Id
+	optional string groupName = 6;//帮会名字
 	optional string headbox = 7;//头像品质框
+	optional int32 vipLv = 8; // vip等级
+	optional int32 fashionTemplateId = 9; // 时装的模板id
+	optional int32 careerType = 10; // 职业类型
+	optional int32 gender = 11; // 性别
 }
 
 message ChatMessageData{
-	required MessageUserInfo sendMessageUserInfo = 1;//发送消息的人的信息
+	optional MessageUserInfo sendMessageUserInfo = 1;//发送消息的人的信息
 	optional MessageUserInfo receiveMessageUserInfo = 2;//接收消息的人的信息
 	required string message = 3;//消息内容
-	optional string time = 4;//时间
+	optional int64 time = 4; // 发送的时间（修改于2016-07-19，从string改为int64）
 	optional string treasureName = 5;//密境的名字
 	optional int32 treasureDefNum = 6;//密境邀请的人数
 	optional string treasureId = 7;//密境Id
@@ -45,4 +50,9 @@ message MsgChatResponse{
 	optional eChatResultType chatResultType = 2;
 	repeated ChatMessageData listMessage = 3;
 	optional bool onLogin = 5;//是否是登录
+	repeated MessageUserInfo usersOfPrivateChannel = 6; // 私聊列表上面的用户列表（私聊缓存的数量较大，所以先发这个列表到客户端，客户端通过uuid再请求私聊的列表）
+}
+
+message MsgChatRequestPrivateChats {
+	required string userId = 1; // 请求的target的userId
 }
