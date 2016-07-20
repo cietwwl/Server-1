@@ -121,6 +121,9 @@ public class BilogItemInfo {
 			return newlist;
 		}
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(emailId);
+		if(giftcfg == null){
+			return newlist;
+		}
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();
 		while(iterable.hasNext()){
