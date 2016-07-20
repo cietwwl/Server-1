@@ -196,20 +196,20 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		
 		
 		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0,multiplePlayerExp);		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin,multipleCoin);
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
 	}
 	
 	/** 通用活动三可能扩展的双倍需要发送给客户端显示的在此处理;只能存在一种枚举,需要双加的额外添组合 */
-	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,int coinvalue,int multiple) {
-		if (multiple == 1) {
-			return eSpecialItemIDUserInfo;
-		}
+	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,int coinvalue) {
+//		if (multiple <= 1) {
+//			return eSpecialItemIDUserInfo;
+//		}
 //		return eSpecialItemIDUserInfo;
-		if(expvalue > 0){
+		if(expvalue != 0){
 			eSpecialItemIDUserInfo.setPlayerExp(expvalue);
 		}
-		if(coinvalue > 0){
+		if(coinvalue != 0){
 			eSpecialItemIDUserInfo.setCoin(coinvalue);
 		}
 		return eSpecialItemIDUserInfo;
@@ -264,7 +264,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
 				continue;
 			}
-			if(ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, eNum)){
+			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, eNum)){
 				continue;
 			}
 			List<Integer> especials = map.get(copyType);
