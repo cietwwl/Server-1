@@ -53,6 +53,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
+import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
@@ -129,6 +130,9 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
+	private MagicEquipFetterMgr me_FetterMgr = new MagicEquipFetterMgr();
+	
+	
 	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
@@ -304,11 +308,13 @@ public class Player implements PlayerIF {
 		m_battleTowerMgr.init(this);
 
 		guideMgr.init(this);
+		
 
 		afterMgrInit();
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
+		me_FetterMgr.init(this);//注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by Alex
 		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
 	}
 

@@ -36,6 +36,7 @@ import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
+import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
@@ -122,6 +123,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<GFBiddingItem> groupFightBiddingItemCache;
 	
 	private static MapItemStoreCache<GFFinalRewardItem> groupFightRewardItemCache;
+	
+	
+	private static MapItemStoreCache<MagicEquipFetterRecord> magicEquipFetterCache;
+	
 	
 	private static List<MapItemStoreCache> list;
 
@@ -216,6 +221,8 @@ public class MapItemStoreFactory {
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
 		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+		
+		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -479,4 +486,11 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<MajorData> getMajorDataCache() {
 		return majorDataCache;
 	}
+
+	public static MapItemStoreCache<MagicEquipFetterRecord> getMagicEquipFetterCache() {
+		return magicEquipFetterCache;
+	}
+	
+	
+	
 }
