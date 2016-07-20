@@ -1,0 +1,40 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "TeamBattleProto";
+
+package teamBattle;
+
+enum TBRequestType{
+	SYN_TEAM_BATTLE = 1;	//请求同步组队副本信息
+	SAVE_TEAM_INFO = 2;		//保存个人的队伍信息
+	CREATE_TEAM = 3;	//创建队伍
+	JOIN_TEAM = 4;		//加入队伍
+	LEAVE_TEAM = 5;		//离开队伍
+	ACCEPT_INVITE = 6;	//接受入队邀请
+	SET_TEAM_FREE_JION = 7;	//设置队伍是否可以快速加入
+	KICK_OFF_MEMBER = 8;	//踢掉队伍成员
+	INVITE_PLAYER = 9;		//邀请玩家加入组队
+	START_FIGHT = 10;		//开始战斗
+	INFORM_FIGHT_RESULT = 11;	//通知战斗结果
+	SCORE_EXCHANGE = 12;	//积分兑换奖励
+}
+
+enum TBResultType {
+	SUCCESS = 1; //成功
+	DATA_ERROR = 2; //数据异常
+}
+
+message TeamBattleReqMsg{
+	required TBRequestType reqType = 1; //请求功能协议类型
+	optional string hardID = 2;		//章节id
+	optional string teamID = 3;		//队伍id
+	optional string userID = 4;		//要操作的角色id
+	optional string armyHeros = 5; 	//个人调整的防守队伍信息（TBArmyHerosInfo）不用包括主角
+	optional string rewardID = 6;	//要获取的奖励ID
+	optional int32 fightResult = 7;	//战斗结果
+}
+
+message TeamBattleRspMsg{
+	required TBResultType rstType = 1; //是否成功处理
+	repeated string armyInfo = 2;	//队友队伍详情
+}
