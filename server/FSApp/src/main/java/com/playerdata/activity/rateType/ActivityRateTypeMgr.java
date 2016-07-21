@@ -7,6 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
@@ -15,7 +20,7 @@ import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 
-public class ActivityRateTypeMgr {
+public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityRateTypeMgr instance = new ActivityRateTypeMgr();
 
@@ -109,7 +114,8 @@ public class ActivityRateTypeMgr {
 			} else {
 				if (!StringUtils.equals(targetItem.getVersion(),
 						activityRateTypeCfg.getVersion())) {
-					targetItem.setVersion(activityRateTypeCfg.getVersion());
+					targetItem.reset(activityRateTypeCfg);
+//					targetItem.setVersion(activityRateTypeCfg.getVersion());
 				}
 				targetItem.setClosed(false);
 				dataHolder.updateItem(player, targetItem);
@@ -241,6 +247,26 @@ public class ActivityRateTypeMgr {
 		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
 		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;		
 		return multiple;
+	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityRateTypeItemHolder activityCountTypeItemHolder = new ActivityRateTypeItemHolder();
+		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(eNum.getCfgId());
+		if(rateEnum == null){
+			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityRateTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rateEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}	
+		
 	}
 	
 	

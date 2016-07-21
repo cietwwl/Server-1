@@ -12,12 +12,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.fsutil.dao.annotation.NonSave;
-import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
+import com.rwbase.dao.groupsecret.pojo.db.data.HeroInfoData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
 
 /*
@@ -36,9 +36,9 @@ public class GroupSecretMatchEnemyData {
 	private long matchTime;// 搜索到的时间
 	private long atkTime;// 攻击的时间
 	private int cfgId;// 搜索到的秘境类型
-	private Map<String, HeroLeftInfoSynData> teamOneMap;// 防守的一队敌人血量信息
-	private Map<String, HeroLeftInfoSynData> teamTwoMap;// 防守的二队敌人血量信息
-	private Map<String, HeroLeftInfoSynData> teamThreeMap;// 防守的三队敌人血量信息
+	private Map<String, HeroInfoData> teamOneMap;// 防守的一队敌人血量信息
+	private Map<String, HeroInfoData> teamTwoMap;// 防守的二队敌人血量信息
+	private Map<String, HeroInfoData> teamThreeMap;// 防守的三队敌人血量信息
 	private int[] robRes = new int[3];// 可以掠夺的资源数量
 	private int[] robGS = new int[3];// 可以掠夺的帮派物资
 	private int[] robGE = new int[3];// 可以掠夺的帮派经验
@@ -50,9 +50,9 @@ public class GroupSecretMatchEnemyData {
 	private AtomicInteger version = new AtomicInteger(-1);
 
 	public GroupSecretMatchEnemyData() {
-		teamOneMap = new HashMap<String, HeroLeftInfoSynData>(5);
-		teamTwoMap = new HashMap<String, HeroLeftInfoSynData>(5);
-		teamThreeMap = new HashMap<String, HeroLeftInfoSynData>(5);
+		teamOneMap = new HashMap<String, HeroInfoData>(5);
+		teamTwoMap = new HashMap<String, HeroInfoData>(5);
+		teamThreeMap = new HashMap<String, HeroInfoData>(5);
 	}
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -163,25 +163,25 @@ public class GroupSecretMatchEnemyData {
 	 * @return
 	 */
 	@JsonIgnore
-	public Map<String, HeroLeftInfoSynData> getTeamAttrInfoMap(int defendIndex) {
+	public Map<String, HeroInfoData> getTeamAttrInfoMap(int defendIndex) {
 		if (defendIndex == GroupSecretIndex.LEFT_VALUE) {
 			if (teamTwoMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, HeroLeftInfoSynData>(teamTwoMap);
+			return new HashMap<String, HeroInfoData>(teamTwoMap);
 		} else if (defendIndex == GroupSecretIndex.MAIN_VALUE) {
 			if (teamOneMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, HeroLeftInfoSynData>(teamOneMap);
+			return new HashMap<String, HeroInfoData>(teamOneMap);
 		} else if (defendIndex == GroupSecretIndex.RIGHT_VALUE) {
 			if (teamThreeMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, HeroLeftInfoSynData>(teamThreeMap);
+			return new HashMap<String, HeroInfoData>(teamThreeMap);
 		} else {
 			return Collections.emptyMap();
 		}
@@ -293,13 +293,13 @@ public class GroupSecretMatchEnemyData {
 	 * @param leftMap
 	 */
 	@JsonIgnore
-	public void initHeroLeftInfo(int index, Map<String, HeroLeftInfoSynData> leftMap) {
+	public void initHeroLeftInfo(int index, Map<String, HeroInfoData> leftMap) {
 		if (index == GroupSecretIndex.MAIN_VALUE) {
-			this.teamOneMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+			this.teamOneMap = new HashMap<String, HeroInfoData>(leftMap);
 		} else if (index == GroupSecretIndex.LEFT_VALUE) {
-			this.teamTwoMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+			this.teamTwoMap = new HashMap<String, HeroInfoData>(leftMap);
 		} else if (index == GroupSecretIndex.RIGHT_VALUE) {
-			this.teamThreeMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+			this.teamThreeMap = new HashMap<String, HeroInfoData>(leftMap);
 		}
 	}
 
@@ -312,8 +312,8 @@ public class GroupSecretMatchEnemyData {
 	 * @return 返回是否更新血量成功
 	 */
 	@JsonIgnore
-	public boolean updateHeroLeftInfo(int index, String heroId, HeroLeftInfoSynData heroLeftInfo) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamMap(index);
+	public boolean updateHeroLeftInfo(int index, String heroId, HeroInfoData heroLeftInfo) {
+		Map<String, HeroInfoData> teamAttrInfoMap = getTeamMap(index);
 
 		if (!teamAttrInfoMap.containsKey(heroId)) {// 是否已经包含了英雄
 			return false;
@@ -332,7 +332,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public boolean checkTeamHasHeroId(int index, String heroId) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
+		Map<String, HeroInfoData> teamAttrInfoMap = getTeamAttrInfoMap(index);
 		if (teamAttrInfoMap == null) {
 			return false;
 		}
@@ -348,7 +348,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public List<String> getDefendHeroIdList(int index) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
+		Map<String, HeroInfoData> teamAttrInfoMap = getTeamAttrInfoMap(index);
 		Iterator<String> itr = teamAttrInfoMap.keySet().iterator();
 
 		List<String> heroIdList = new ArrayList<String>(teamAttrInfoMap.size());
@@ -379,10 +379,10 @@ public class GroupSecretMatchEnemyData {
 	 * @return
 	 */
 	public boolean checkDefnedIndexHasAlive(int index) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamMap(index);
-		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
-			HeroLeftInfoSynData value = e.getValue();
-			if (value == null || value.getLife() > 0) {
+		Map<String, HeroInfoData> teamAttrInfoMap = getTeamMap(index);
+		for (Entry<String, HeroInfoData> e : teamAttrInfoMap.entrySet()) {
+			HeroInfoData value = e.getValue();
+			if (value == null || value.getLeft() == null || value.getLeft().getLife() > 0) {
 				return true;
 			}
 		}
@@ -390,7 +390,7 @@ public class GroupSecretMatchEnemyData {
 		return false;
 	}
 
-	private Map<String, HeroLeftInfoSynData> getTeamMap(int index) {
+	private Map<String, HeroInfoData> getTeamMap(int index) {
 		if (index == GroupSecretIndex.LEFT_VALUE) {
 			return teamTwoMap;
 		} else if (index == GroupSecretIndex.MAIN_VALUE) {

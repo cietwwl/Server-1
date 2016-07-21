@@ -83,6 +83,8 @@
 			     <entry key="MSG_ACTIVITY_EXCHANGE_TYPE" value-ref="activityExchangeTypeService" />
 			     <entry key="MSG_ACTIVITY_VITALITY_TYPE" value-ref="activityVitalityTypeService" />
 			     <entry key="MSG_ACTIVITY_DailyDiscount_TYPE" value-ref="activityDailyDiscountTypeService" />
+			     <entry key="MSG_ACTIVITY_RedEnvelope_TYPE" value-ref="activityRedEnvelopeTypeService" />
+			     
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
@@ -98,8 +100,11 @@
 			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
 			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
 			     
-			     <entry key="MSG_CHAT_REQUEST_PRIVATE_CHATS" value-ref="chatService" />
-			     
+     			
+     			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
+
+				<entry key="MSG_CHAT_REQUEST_PRIVATE_CHATS" value-ref="chatService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -159,6 +164,8 @@
 	<bean id="activityDailyTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyTypeService"  />
 	<bean id="activityExchangeTypeService" class="com.playerdata.activity.exChangeType.service.ActivityExchangeTypeService"  />
 	<bean id="activityDailyDiscountTypeService" class="com.playerdata.activity.dailyDiscountType.service.ActivityDailyDiscountTypeService"  />
+	<bean id="activityRedEnvelopeTypeService" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
+	
 	
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
@@ -166,6 +173,8 @@
 	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
 	<bean id="fixEquipService" class="com.playerdata.fixEquip.FixEquipService"  />
+	
+	
 	
 	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
 	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
@@ -175,5 +184,8 @@
 	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
 	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
 	
+	
+	
+	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	
 </beans>  

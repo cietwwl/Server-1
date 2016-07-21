@@ -196,6 +196,11 @@
 	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
+	
+	
+	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
@@ -249,7 +254,8 @@
 	<!-- 怪物 -->
 	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />
 	
-	
+	<!-- 竞技场机器人 -->
+	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
