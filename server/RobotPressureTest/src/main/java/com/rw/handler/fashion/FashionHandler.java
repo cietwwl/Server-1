@@ -79,11 +79,17 @@ public class FashionHandler {
 				FashionResponse resp = FashionResponse.parseFrom(bs);
 				ErrorType error = resp.getError();
 				switch (error) {
+				case FAIL:
+					RobotLog.info(parseFunctionDesc() + "fail msg:"
+							+ resp.getTips());
+					return true;
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
 					return true;
 				default:
-					throw new Exception(resp.getTips());
+					RobotLog.info(parseFunctionDesc() + "fail msg:"
+							+ resp.getTips());
+					return true;
 				}
 				
 			}catch(Exception ex){
