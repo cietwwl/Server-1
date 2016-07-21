@@ -1,20 +1,29 @@
 package com.playerdata.activity.rateType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.cfg.CopyCfg;
 
-public class ActivityRateTypeMgr {
+public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityRateTypeMgr instance = new ActivityRateTypeMgr();
 
@@ -42,34 +51,18 @@ public class ActivityRateTypeMgr {
 		}
 				
 		{
-			ActivityRateTypeItem targetItem = dataHolder.getItem(
-					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动			
-			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= cfgById.getLevelLimit();			
+			ActivityRateTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
+			if(targetItem == null){//没数据自然没双倍，第一次需要小退
+				checkNewOpen(player);				
+				return false;
+			}
+			return !ActivityRateTypeMgr.getInstance().isClose(targetItem)&&player.getLevel() >= cfgById.getLevelLimit();			
 		}
 	}
 
-	public int getmultiple(Player player,
-			ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
-				.getInstance();
-		if (activityRateTypeEnum == null) {
-			GameLog.error("activityratetypemgr", "没有枚举", "获得倍数时无枚举");
-			return 1;
-		}
-		ActivityRateTypeItem targetItem = dataHolder.getItem(
-				player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
-		if (targetItem == null) {
-			GameLog.error("activityratetypemgr", "没有数据 ", "获得倍数时数据库无数据");
-			return 1;
-		}
-		return targetItem.getMultiple();
-	}
+	
 
-	public float getRate(ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
-				.getCfgById(activityRateTypeEnum.getCfgId());
-		return cfgById == null ? 1 : cfgById.getRate();
-	}
+
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
@@ -105,7 +98,8 @@ public class ActivityRateTypeMgr {
 			} else {
 				if (!StringUtils.equals(targetItem.getVersion(),
 						activityRateTypeCfg.getVersion())) {
-					targetItem.setVersion(activityRateTypeCfg.getVersion());
+					targetItem.reset(activityRateTypeCfg);
+//					targetItem.setVersion(activityRateTypeCfg.getVersion());
 				}
 				targetItem.setClosed(false);
 				dataHolder.updateItem(player, targetItem);
@@ -160,7 +154,7 @@ public class ActivityRateTypeMgr {
 		return isclose;
 	}
 
-	private boolean isOpen(ActivityRateTypeCfg ActivityRateTypeCfg) {
+	public boolean isOpen(ActivityRateTypeCfg ActivityRateTypeCfg) {
 		boolean isopen = false;
 		long startTime = ActivityRateTypeCfg.getStartTime();
 		long endTime = ActivityRateTypeCfg.getEndTime();
@@ -182,26 +176,140 @@ public class ActivityRateTypeMgr {
 		return isopen;
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param copyCfg  副本
+	 * @param player
+	 * @param eSpecialItemIDUserInfo  传入的战斗结果数据对象
+	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
+	 */
+	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
+//		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+//		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+//		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+	
+		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
+		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
+		
+		
+		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
+	}
+	
 	/** 通用活动三可能扩展的双倍需要发送给客户端显示的在此处理;只能存在一种枚举,需要双加的额外添组合 */
-	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(
-			ActivityRateTypeEnum activityRateEnum,
-			eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,
-			int coinvalue) {
-		if (activityRateEnum == null) {
-			return null;
-		}
-
-		switch (activityRateEnum) {
-		case Normal_copy_EXP_DOUBLE:
-		case ELITE_copy_EXP_DOUBLE:
+	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,int coinvalue) {
+//		if (multiple <= 1) {
+//			return eSpecialItemIDUserInfo;
+//		}
+//		return eSpecialItemIDUserInfo;
+		if(expvalue != 0){
 			eSpecialItemIDUserInfo.setPlayerExp(expvalue);
-			break;
-		case TOWER_DOUBLE:
+		}
+		if(coinvalue != 0){
 			eSpecialItemIDUserInfo.setCoin(coinvalue);
-			break;
-		default:
-			break;
 		}
 		return eSpecialItemIDUserInfo;
 	}
+	
+//	public int getmultiple(Player player,
+//			ActivityRateTypeEnum activityRateTypeEnum) {
+//		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
+//				.getInstance();
+//		if (activityRateTypeEnum == null) {
+//			GameLog.error("activityratetypemgr", "没有枚举", "获得倍数时无枚举");
+//			return 1;
+//		}
+//		ActivityRateTypeItem targetItem = dataHolder.getItem(
+//				player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
+//		if (targetItem == null) {
+//			GameLog.error("activityratetypemgr", "没有数据 ", "获得倍数时数据库无数据");
+//			return 1;
+//		}
+//		return targetItem.getMultiple();
+//	}
+	
+//	/**
+//	 * 核实与当前副本相关的活动是否存在，活动是否开启，以及返回倍数
+//	 * @param copyType 战斗类型
+//	 * @param doubleType 奖励双倍的类型 
+//	 * @return  倍数
+//	 * 此方法用于战后结算后台增加金币经验数据，以及战前生成物品道具
+//	 */
+//	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
+//		int multiple = 1;
+//		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyType, doubleType);
+//		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+//		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;		
+//		return multiple;
+//	}
+	
+	/**
+	 * 传入副本类型，根据类型，是否开启获得当前对应副本的“产出类型→产出倍数”的映射返回；
+	 */
+	public Map<Integer, Integer> getEspecialItemtypeAndEspecialWithTime(Player player,int copyType){
+		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
+		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRateTypeCfg cfg : cfgList){
+			Map<Integer, List<Integer>> map = cfg.getCopyTypeMap();
+			if(map.get(copyType)== null){
+				continue;
+			}			
+			//当前玩家通关的副本类型在这个活动里有对应的双倍奖励
+			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(cfg.getId());
+			if(eNum == null){
+				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
+				continue;
+			}
+			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, eNum)){
+				continue;
+			}
+			List<Integer> especials = map.get(copyType);
+			for(Integer especial : especials){
+				if(especialItemtypeAndEspecialWithTime.containsKey(especial)){
+					int old = especialItemtypeAndEspecialWithTime.get(especial);
+					especialItemtypeAndEspecialWithTime.put(especial, old + cfg.getMultiple()-1);
+				}else{
+					especialItemtypeAndEspecialWithTime.put(especial, cfg.getMultiple()-1);//一个活动对一个特定副本的某种产出的若干倍翻倍
+				}
+			}			
+		}		
+		return especialItemtypeAndEspecialWithTime;
+	}
+	
+	public int getMultiple(Map<Integer, Integer> map ,int especial){
+		int multiple = 0;
+		if(map.containsKey(especial)){
+			multiple = map.get(especial);
+		}
+		return multiple;
+	}
+	
+	
+	
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityRateTypeItemHolder activityCountTypeItemHolder = new ActivityRateTypeItemHolder();
+		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(eNum.getCfgId());
+		if(rateEnum == null){
+			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityRateTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rateEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}	
+		
+	}
+	
+	
+	
 }

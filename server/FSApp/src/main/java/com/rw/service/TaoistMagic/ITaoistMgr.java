@@ -1,13 +1,16 @@
 package com.rw.service.TaoistMagic;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.common.IRandomMgr;
 import com.rw.fsutil.common.stream.IStream;
-import com.rwbase.dao.fashion.IEffectCfg;
+import com.rwbase.common.attribute.AttributeItem;
 import com.rwproto.TaoistMagicProtos.TaoistInfo;
 
 public interface ITaoistMgr extends IRandomMgr {
 
-	IStream<IEffectCfg> getEff();
+	IStream<Map<Integer, AttributeItem>> getEff();
 
 	boolean setLevel(int tid, int level);
 
@@ -15,4 +18,7 @@ public interface ITaoistMgr extends IRandomMgr {
 
 	Iterable<TaoistInfo> getMagicList();
 
+	public Map<Integer, AttributeItem> getTaoistAttrMap();
+	
+	public Iterable<Entry<Integer, Integer>> getAllTaoist();
 }

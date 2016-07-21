@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.playerdata.Player;
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.AttrDataHelper;
-import com.rwbase.common.attrdata.AttrDataType;
 import com.rwbase.dao.fetters.pojo.IFettersCheckForceUseHeroId;
 import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.fetters.pojo.IFettersSubRestrictCondition;
@@ -300,75 +297,75 @@ public class FettersBM {
 		player.addOrUpdateHeroFetters(heroModelId, syn, canSyn);
 	}
 
-	/**
-	 * 获取羁绊的属性
-	 * 
-	 * @param openList
-	 * @return
-	 */
-	public static Map<Integer, AttrData> calcHeroFettersAttr(Map<Integer, SynConditionData> openList) {
-		Map<Integer, Float> attrDataMap = new HashMap<Integer, Float>();// 固定值
-		Map<Integer, Float> precentAttrDataMap = new HashMap<Integer, Float>();// 百分比值
-
-		FettersConditionCfgDAO cfgDAO = FettersConditionCfgDAO.getCfgDAO();
-
-		for (Entry<Integer, SynConditionData> e : openList.entrySet()) {
-			SynConditionData value = e.getValue();
-			if (value == null) {
-				continue;
-			}
-
-			List<Integer> list = value.getConditionList();
-			if (list == null || list.isEmpty()) {
-				continue;
-			}
-
-			for (int i = 0, size = list.size(); i < size; i++) {
-				FettersConditionTemplate tmp = cfgDAO.getFettersConditionTemplateByUniqueId(list.get(i));
-				if (tmp == null) {
-					continue;
-				}
-
-				// 固定值
-				Map<Integer, Float> attrData = tmp.getFettersAttrDataMap();
-				if (attrData != null && !attrData.isEmpty()) {
-					for (Entry<Integer, Float> entry : attrData.entrySet()) {
-						Integer key = entry.getKey();
-						Float hasValue = attrDataMap.get(key);
-						if (hasValue == null) {
-							attrDataMap.put(key, entry.getValue());
-						} else {
-							attrDataMap.put(key, entry.getValue() + hasValue);
-						}
-					}
-				}
-
-				// 百分比值
-				Map<Integer, Float> precentAttrData = tmp.getFettersPrecentAttrDataMap();
-				if (precentAttrData != null && !precentAttrData.isEmpty()) {
-					for (Entry<Integer, Float> entry : precentAttrData.entrySet()) {
-						Integer key = entry.getKey();
-						Float hasValue = precentAttrDataMap.get(key);
-						if (hasValue == null) {
-							precentAttrDataMap.put(key, entry.getValue());
-						} else {
-							precentAttrDataMap.put(key, entry.getValue() + hasValue);
-						}
-					}
-				}
-			}
-		}
-
-		if (attrDataMap.isEmpty() && precentAttrDataMap.isEmpty()) {
-			return null;
-		}
-
-		Map<Integer, AttrData> map = new HashMap<Integer, AttrData>(2);
-		map.put(AttrDataType.ATTR_DATA_TYPE.type, AttrDataHelper.parseMap2AttrData(attrDataMap));
-		map.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, AttrDataHelper.parseMap2AttrData(precentAttrDataMap));
-
-		return map;
-	}
+	// /**
+	// * 获取羁绊的属性
+	// *
+	// * @param openList
+	// * @return
+	// */
+	// public static Map<Integer, AttrData> calcHeroFettersAttr(Map<Integer, SynConditionData> openList) {
+	// Map<Integer, Float> attrDataMap = new HashMap<Integer, Float>();// 固定值
+	// Map<Integer, Float> precentAttrDataMap = new HashMap<Integer, Float>();// 百分比值
+	//
+	// FettersConditionCfgDAO cfgDAO = FettersConditionCfgDAO.getCfgDAO();
+	//
+	// for (Entry<Integer, SynConditionData> e : openList.entrySet()) {
+	// SynConditionData value = e.getValue();
+	// if (value == null) {
+	// continue;
+	// }
+	//
+	// List<Integer> list = value.getConditionList();
+	// if (list == null || list.isEmpty()) {
+	// continue;
+	// }
+	//
+	// for (int i = 0, size = list.size(); i < size; i++) {
+	// FettersConditionTemplate tmp = cfgDAO.getFettersConditionTemplateByUniqueId(list.get(i));
+	// if (tmp == null) {
+	// continue;
+	// }
+	//
+	// // 固定值
+	// Map<Integer, Float> attrData = tmp.getFettersAttrDataMap();
+	// if (attrData != null && !attrData.isEmpty()) {
+	// for (Entry<Integer, Float> entry : attrData.entrySet()) {
+	// Integer key = entry.getKey();
+	// Float hasValue = attrDataMap.get(key);
+	// if (hasValue == null) {
+	// attrDataMap.put(key, entry.getValue());
+	// } else {
+	// attrDataMap.put(key, entry.getValue() + hasValue);
+	// }
+	// }
+	// }
+	//
+	// // 百分比值
+	// Map<Integer, Float> precentAttrData = tmp.getFettersPrecentAttrDataMap();
+	// if (precentAttrData != null && !precentAttrData.isEmpty()) {
+	// for (Entry<Integer, Float> entry : precentAttrData.entrySet()) {
+	// Integer key = entry.getKey();
+	// Float hasValue = precentAttrDataMap.get(key);
+	// if (hasValue == null) {
+	// precentAttrDataMap.put(key, entry.getValue());
+	// } else {
+	// precentAttrDataMap.put(key, entry.getValue() + hasValue);
+	// }
+	// }
+	// }
+	// }
+	// }
+	//
+	// if (attrDataMap.isEmpty() && precentAttrDataMap.isEmpty()) {
+	// return null;
+	// }
+	//
+	// Map<Integer, AttrData> map = new HashMap<Integer, AttrData>(2);
+	// map.put(AttrDataType.ATTR_DATA_TYPE.type, AttrDataHelper.parseMap2AttrData(attrDataMap));
+	// map.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, AttrDataHelper.parseMap2AttrData(precentAttrDataMap));
+	//
+	// return map;
+	// }
 
 	/**
 	 * 检查羁绊达成的条件列表

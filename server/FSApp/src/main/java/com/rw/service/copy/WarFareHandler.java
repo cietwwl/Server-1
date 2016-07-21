@@ -11,16 +11,25 @@ import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.dropitem.DropItemManager;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.unendingwar.UnendingWarHandler;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
+import com.rwproto.CopyServiceProtos.TagBattleData;
 
 public class WarFareHandler {
 
@@ -35,6 +44,9 @@ public class WarFareHandler {
 	 */
 	public ByteString battleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		TagBattleData tagBattleData = copyRequest.getTagBattleData();
+		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		int fightTime = tagBattleData.getFightTime();
 		int levelId = copyRequest.getTagBattleData().getLevelId();
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
@@ -47,18 +59,21 @@ public class WarFareHandler {
 
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-
+		
+		int times = copyRequest.getTagBattleData().getBattleClearingTime();
+		
+		UserEventMgr.getInstance().warFareDifficultyTwoVitality(player, levelId, times);
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
-
+		
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
 
-		int times = copyRequest.getTagBattleData().getBattleClearingTime();
+		
 
 		AtomicInteger unendingWarCoin = new AtomicInteger();
 		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID(),unendingWarCoin);
-	
+		
 		
 		
 		
@@ -87,9 +102,18 @@ public class WarFareHandler {
 		TableUnendingWar table = player.unendingWarMgr.getTable();
 		table.setLastChallengeTime(System.currentTimeMillis());
 		table.setNum(table.getNum() + 1);
-
+		
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(addList);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
+		}
+				
 		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
 	}
+	
+
+	
 }

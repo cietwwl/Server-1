@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.business.SevenDayGifCfg;
 import com.rwbase.dao.business.SevenDayGifCfgDAO;
 import com.rwbase.dao.business.SevenDayGifInfo;
@@ -51,10 +55,9 @@ public class DailyGifHandler {
 
 		res.setType(EType.GetGif);
 		res.setCount(dailyGiftData.getCount());
-//		res.setGetCount(dailyGiftData.getGetCount());
 		res.addAllGetCount(dailyGiftData.getCounts());
 		sendGoods(player, count);
-		player.NotifyCommonMsg("领取成功");
+
 		player.getDailyGifMgr().save();
 		return res.build().toByteString();
 	}
@@ -75,6 +78,10 @@ public class DailyGifHandler {
 					player.getItemBagMgr().addItem(Integer.parseInt(rewardItem[0]), Integer.parseInt(rewardItem[1]));
 				}
 			}
+			List<BilogItemInfo> rewardslist = BilogItemInfo.fromStrArr(reward);
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);				
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVENDAYACTIVITY,0,0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVENDAYACTIVITY, 0, true, 0, rewardInfoActivity,0);
 		}
 	}
 }

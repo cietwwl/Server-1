@@ -31,6 +31,29 @@ public class FieldTypeHelper {
 		return fieldType;
 	}
 
+	public static Object ToPrimitiveValue(Class<?> type, String value){
+		
+		if(type == int.class){			
+			return Integer.valueOf(value);
+		}else if(type == float.class){			
+			return Float.valueOf(value);			
+		}else if(type == boolean.class){
+			return Boolean.valueOf(value);			
+		}else if(type == double.class){
+			return Double.valueOf(value);			
+		}else if(type == long.class){
+			return Long.valueOf(value);
+		}
+		return null;
+	}
+	
+	public static Object toEnumValue(Class<?> fieldType, String value){
+		
+		int index = Integer.parseInt(value);
+		Object[] enumLst=fieldType.getEnumConstants();
+		return enumLst[index];
+		
+	}
 
 
 	public static boolean isPrimitive(Class<?> targetClass) {

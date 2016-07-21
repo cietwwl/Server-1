@@ -1,9 +1,12 @@
 package com.rw.service.log;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import com.rw.common.SynTask;
 import com.rw.common.SynTaskExecutor;
@@ -19,6 +22,8 @@ public class BILogMgr {
 	
 	private static Logger biLog = Logger.getLogger("biLog");
 	private static BILogMgr instance = new BILogMgr();
+	
+	private static Map<eBILogType, Logger> LogMap = new HashMap<eBILogType, Logger>();
 	
 	private Map<eBILogType, BILogTemplate> templateMap;
 	
@@ -37,6 +42,31 @@ public class BILogMgr {
 		
 	}
 	
+	private Logger getLogger(eBILogType type){
+		if(LogMap.containsKey(type)){
+			return LogMap.get(type);
+		}else{
+			Logger logger = Logger.getLogger(type.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + type.getLogName()+"/"+type.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(type, logger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return logger;
+		}
+	}
+	
 	/**手机硬件信息只在极刑注册处有用*/
 	public void logAccountReg(ClientInfo clientInfo, Long registerTime, RegLog reglog,boolean success){
 		
@@ -50,7 +80,7 @@ public class BILogMgr {
 		
 		log(eBILogType.AccountRegLog, clientInfo, moreInfo,reglog);
 		log(eBILogType.AccountLoginLog, clientInfo, moreInfo,reglog);
-		log(eBILogType.ModelRegLog, clientInfo, moreInfo,reglog);
+//		log(eBILogType.ModelRegLog, clientInfo, moreInfo,reglog);
 		
 		
 	}
@@ -92,7 +122,8 @@ public class BILogMgr {
 				@Override
 				public void dotask() {
 //					biLog.info(logType + " " + logTemplate.getTextTemplate());
-					biLog.info(log);
+					Logger logger = getLogger(logType);
+					logger.info(log);
 					LogService.getInstance().sendLog(log);
 				}
 			});

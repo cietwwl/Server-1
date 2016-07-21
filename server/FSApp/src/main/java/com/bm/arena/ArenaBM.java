@@ -13,7 +13,9 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
+import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -26,6 +28,10 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.ArenaPrizeCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
@@ -94,11 +100,12 @@ public class ArenaBM {
 			return false;
 		}
 
-		arenaData.setAtkHeroList(list);
+//		arenaData.setAtkHeroList(list);
+		arenaData.setAtkList(list);
 		tableArenaDataDAO.update(arenaData);
 
 		// TODO HC 通知万仙阵检查阵容的战力
-		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkHeroList());
+		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkList());
 		return true;
 	}
 
@@ -107,7 +114,8 @@ public class ArenaBM {
 		if (arenaData == null) {
 			return Collections.EMPTY_LIST;
 		}
-		List<String> list = arenaData.getAtkHeroList();
+		//List<String> list = arenaData.getAtkHeroList();
+		List<String> list = arenaData.getAtkList();
 		return list == null ? Collections.EMPTY_LIST : list;
 	}
 
@@ -171,6 +179,22 @@ public class ArenaBM {
 		// TableAttrDAO.getInstance().get(player.getUserId()));
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
+
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		ArrayList<String> defaultHeros = new ArrayList<String>(4);
+//		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
+		for (Hero hero : maxFightingHeros) {
+			String heroId = hero.getUUId();
+			if (!heroId.equals(userId)) {
+				defaultHeros.add(heroId);
+				//defaultAtkHeros.add(hero.getTemplateId());
+			}
+		}
+
+		data.setHeroIdList(defaultHeros);
+		data.setAtkList(new ArrayList<String>(defaultHeros));
+//		data.setAtkHeroList(defaultAtkHeros);
+
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);
@@ -214,6 +238,7 @@ public class ArenaBM {
 		return ranking.getRankingEntry(userId);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ListRanking<String, ArenaExtAttribute> getRanking(int career) {
 		return RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
 	}
@@ -270,6 +295,7 @@ public class ArenaBM {
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		tableArenaData.setRemainCount(infoCfg.getCount());
 		tableArenaData.setScore(0);
+		tableArenaData.setBuyTimes(0);
 		tableArenaData.getRewardList().clear();
 		TableArenaDataDAO.getInstance().update(tableArenaData);
 	}
@@ -293,9 +319,15 @@ public class ArenaBM {
 		if (StringUtils.isEmpty(strPrize)) {
 			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
 		}
+		BILogMgr.getInstance().logActivityBegin(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, 0);
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
+
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromEmailId(ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize);
+		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
+		BILogMgr.getInstance().logActivityEnd(PlayerMgr.getInstance().find(userId), null, BIActivityCode.ARENA_REWARDS, 0, true, 0, rewardInfoActivity, 0);
 		Player player = PlayerMgr.getInstance().find(userId);
 		player.getTempAttribute().setRedPointChanged();
+		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
 	}
 
 	// 筛选玩家
@@ -311,7 +343,7 @@ public class ArenaBM {
 		// 前10名以外按照此规则拉取对手(M是名次)：
 		// 第三个人区间[0.8M,1.0M)
 		// 第二个人区间[0.6M,0.8M)
-		// 第个人区间[0.4M,0.6M)
+		// 第一个人区间[0.4M,0.6M)
 		int place = getArenaPlace(player);
 		if (place <= 10) {
 			fillByTenSteps(userId, result, 0, ranking, 3);
@@ -371,10 +403,7 @@ public class ArenaBM {
 		int last = random + distance;
 		// 在范围中选一个
 		for (int i = random; i <= last; i++) {
-			if (i > end) {
-				i -= distance;
-			}
-			if (addEntry(userId, list, ranking, i)) {
+			if (addEntry(userId, list, ranking, i > end ? (i - distance) : i)) {
 				return true;
 			}
 		}
@@ -465,17 +494,24 @@ public class ArenaBM {
 	 * @return
 	 */
 	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId) {
+		return getRecordHurtValue(userId, recordId, null);
+	}
+
+	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId, RefParam<String> enemyUserId) {
 		List<RecordInfo> list = getArenaRecordList(userId);
 		if (list == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		for (int i = list.size(); --i >= 0;) {
 			RecordInfo info = list.get(i);
 			if (info.getRecordId() == recordId) {
+				if (enemyUserId != null) {
+					enemyUserId.value = info.getUserId();
+				}
 				return info.getHurtList();
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public List<RecordInfo> getArenaRecordList(String userId) {
@@ -509,6 +545,7 @@ public class ArenaBM {
 		int level = player.getLevel();
 		String headImage = player.getHeadImage();
 		String userName = player.getUserName();
+		String headBox = player.getHeadFrame();
 		TableArenaData data = tableArenaDataDAO.get(userId);
 		int fighting = 0;
 		if (data != null) {
@@ -517,6 +554,7 @@ public class ArenaBM {
 			data.setCareer(career);
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
+			data.setHeadbox(headBox);
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());
@@ -537,6 +575,7 @@ public class ArenaBM {
 			// TODO 出问题的时候不更新战力，后面改
 			arenaExt.setFighting(fighting);
 			arenaExt.setHeadImage(headImage);
+			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
@@ -555,6 +594,20 @@ public class ArenaBM {
 		}
 		fighting += armyInfo.getPlayer().getFighting();
 		return fighting;
+	}
+
+	public int getMaxPlace(TableArenaData data) {
+		int maxPlace = data.getMaxPlace();
+		ListRankingEntry<String, ArenaExtAttribute> entry = getEntry(data.getUserId(), data.getCareer());
+		if (entry == null) {
+			return maxPlace;
+		} else {
+			int ranking = entry.getRanking();
+			if (ranking < 0) {
+				return maxPlace;
+			}
+			return Math.min(ranking, maxPlace);
+		}
 	}
 
 	public void notifyPlayerLevelUp(String userId, int career, int newLevel) {

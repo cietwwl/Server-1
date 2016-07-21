@@ -1,6 +1,5 @@
 package com.rw.manager;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +19,8 @@ public class ServerSwitch {
 	private static boolean serverstatus;// 服务器状态
 	private static boolean gmSwitch;// 打开GM
 	private static boolean giftCodeOpen = true;// 是否开启兑换码
+	private static boolean checkCfg=false;
+	private static boolean printEncode =  false;
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -29,7 +30,8 @@ public class ServerSwitch {
 			gmSwitch = Boolean.parseBoolean(props.getProperty("gmSwitch"));
 			// 兑换码开启
 			giftCodeOpen = props.getProperty("giftCodeOpen").equalsIgnoreCase("true");
-		} catch (IOException e) {
+			checkCfg = props.getProperty("checkCfg").equalsIgnoreCase("true");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -46,5 +48,12 @@ public class ServerSwitch {
 
 	public static boolean isGiftCodeOpen() {
 		return giftCodeOpen;
+	}
+	public static boolean isCheckCfg() {
+		return checkCfg;
+	}
+
+	public static boolean isPrintEncode() {
+		return printEncode;
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.Skill;
@@ -26,16 +27,17 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 
 	@Override
 	public Map<String, RoleCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
-		initData();
+		Map<String, RoleCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
 
-		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
+		if (readCsv2Map != null && !readCsv2Map.isEmpty()) {
 			HashMap<Integer, RoleCfg> roleCfgMapByModelId = new HashMap<Integer, RoleCfg>();
-			for (Entry<String, RoleCfg> e : cfgCacheMap.entrySet()) {
+			for (Entry<String, RoleCfg> e : readCsv2Map.entrySet()) {
 				RoleCfg value = e.getValue();
 				if (value == null) {
 					continue;
 				}
+
+				value.initData();
 
 				int modelId = value.getModelId();
 				if (roleCfgMapByModelId.containsKey(modelId)) {
@@ -46,7 +48,11 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			}
 
 			this.roleCfgMapByModelId = roleCfgMapByModelId;
+			this.cfgCacheMap = readCsv2Map;
 		}
+
+		initData();
+
 		return cfgCacheMap;
 	}
 
@@ -111,7 +117,6 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			return null;
 		}
 		List<Skill> arr = new ArrayList<Skill>();
-
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId01())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId01());
@@ -119,6 +124,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setLevel(1);
 			arr.add(pSkill);
 		}
+
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId02())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId02());
@@ -126,6 +132,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setLevel(0);
 			arr.add(pSkill);
 		}
+
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId03())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId03());
@@ -133,6 +140,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setLevel(0);
 			arr.add(pSkill);
 		}
+
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId04())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId04());
@@ -140,6 +148,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setLevel(0);
 			arr.add(pSkill);
 		}
+
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId05())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getSkillId05());
@@ -147,11 +156,20 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			pSkill.setLevel(-1);
 			arr.add(pSkill);
 		}
+
 		if (StringUtils.isNotBlank(pPlayerCfg.getDieSkillId())) {
 			Skill pSkill = new Skill();
 			pSkill.setSkillId(pPlayerCfg.getDieSkillId());
 			pSkill.setOrder(5);
 			pSkill.setLevel(-2);// 死亡技能等级设为-2
+			arr.add(pSkill);
+		}
+		
+		if (StringUtils.isNotBlank(pPlayerCfg.getAttackId())) {
+			Skill pSkill = new Skill();
+			pSkill.setSkillId(pPlayerCfg.getAttackId());
+			pSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
+			pSkill.setLevel(1);
 			arr.add(pSkill);
 		}
 		return arr;

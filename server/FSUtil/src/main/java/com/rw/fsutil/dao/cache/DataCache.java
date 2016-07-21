@@ -46,6 +46,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private CacheJsonConverter<V> jsonConverter;
 	private final AtomicLong generator = new AtomicLong();
 
+	@SuppressWarnings("serial")
 	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler) {
 		this.name = name;
 		this.capacity = maxCapacity;
@@ -918,6 +919,14 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				version = 0;
 			}
 			try {
+				if(name.equals("DropRecord")){
+					ReentrantFutureTask task = taskMap.get(key);
+					String taskName = null;
+					if (task != null) {
+						 taskName = task.getTask().getClass().getName();
+					}
+					logger.warn("trace update record:" + key + "," + name + "," + CacheFactory.getStackTrace(trace) + ",version = " + version + "," + taskName);
+				}
 				if (!loader.updateToDB(key, v)) {
 					times++;
 					if (times < 3 || (times % 10 == 0)) {

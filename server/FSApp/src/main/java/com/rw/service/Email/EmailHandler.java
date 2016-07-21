@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
+import com.playerdata.PlayerMgr;
+import com.rw.dataaccess.processor.EmailCreator;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailItem;
 import com.rwproto.EmailProtos.EmailInfo;
@@ -46,7 +54,9 @@ public class EmailHandler {
 			response.setResultType(EmailResultType.SUCCESS);
 		}else{
 			response.setResultType(EmailResultType.FAIL);
-		}		
+		}
+		
+		
 		return response.build().toByteString();
 	}
 
@@ -55,6 +65,8 @@ public class EmailHandler {
 		EmailResponse.Builder response = EmailResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
 		EmailItem item = player.getEmailMgr().getEmailItem(request.getEmailId());
+		
+		
 		//判断是否可以领取
 		String result = isAttachmentCanTake(player, item);
 		if(result.equals("")){
@@ -73,6 +85,14 @@ public class EmailHandler {
 			response.setResultType(EmailResultType.FAIL);		
 			response.setFailResult(result);
 		}
+		
+		//新手大礼包的活动日志
+		if(StringUtils.equals(item.getCfgid(), EmailCreator.email)){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.CREATROLE_REWARDS_EMAIL,0,0);
+			List<BilogItemInfo> rewardslist = BilogItemInfo.fromStr(item.getEmailAttachment());
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.CREATROLE_REWARDS_EMAIL, 0, true, 0, rewardInfoActivity,0);
+		}
 		return response.build().toByteString();
 	}
 	
@@ -86,7 +106,8 @@ public class EmailHandler {
 		if(item.isReceive()){
 			result = "附件已领取。";
 		}else if(isInCoolTime){
-			result = "附件暂未能领取。请稍后。";
+			String strCoolTime = DateUtils.getDateTimeFormatString(item.getCoolTime(), "yyyy-MM-dd HH:mm:ss");
+			result = "冻结时间为"+strCoolTime+",结束后可领取附件奖励。";
 		}else if(isBeforBeginTime){
 			result = "附件尚未到可领取时间,请耐心等待。";
 		}else if(isAfterEndTime){

@@ -2,14 +2,20 @@ package com.playerdata;
 
 import java.util.concurrent.TimeUnit;
 
+import com.bm.player.Observer;
+import com.bm.player.ObserverFactory;
+import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.majorDatas.MajorDataDataHolder;
+import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
@@ -22,15 +28,19 @@ import com.rwbase.dao.user.readonly.TableUserOtherIF;
 public class UserGameDataMgr {
 
 	private UserGameDataHolder userGameDataHolder;
+	private MajorDataDataHolder majorDataHolder;
 	private Player player;// 角色
 
 	public UserGameDataMgr(Player player, String userId) {
 		this.player = player;
+		majorDataHolder = new MajorDataDataHolder(userId);
 		userGameDataHolder = new UserGameDataHolder(userId);
+		
 	}
 
 	public void syn(int version) {
 		userGameDataHolder.syn(player, version);
+		majorDataHolder.syn(player, version);
 	}
 
 	/**
@@ -140,16 +150,35 @@ public class UserGameDataMgr {
 		userGameDataHolder.update(player);
 	}
 
+//	public int addCoin(int nValue) {
+//		UserGameData tableUserOther = userGameDataHolder.get();
+//		if (tableUserOther.getCoin() + nValue >= 0) {
+//			tableUserOther.setCoin(tableUserOther.getCoin() + nValue);
+//			userGameDataHolder.update(player);
+//
+//			String scenceId = null;// 暂时留空
+//			ItemChangedEventType_1 type_1 = null; // 暂时留空
+//			ItemChangedEventType_2 type_2 = null;// 暂时留空
+//			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, tableUserOther.getCoin());
+//			if(nValue < 0){
+//				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
+//			}
+//			return 0;
+//		}
+//		return -1;
+//	}
+	
 	public int addCoin(int nValue) {
 		UserGameData tableUserOther = userGameDataHolder.get();
-		if (tableUserOther.getCoin() + nValue >= 0) {
-			tableUserOther.setCoin(tableUserOther.getCoin() + nValue);
-			userGameDataHolder.update(player);
+		MajorData marjorData = majorDataHolder.getMarjorData();
+		if (marjorData.getCoin() + nValue >= 0) {
+			marjorData.setCoin(marjorData.getCoin() + nValue);
+			majorDataHolder.update(player);
 
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, tableUserOther.getCoin());
+			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, marjorData.getCoin());
 			if(nValue < 0){
 				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
 			}
@@ -168,26 +197,71 @@ public class UserGameDataMgr {
 	}
 
 	public int getGold() {
-		return userGameDataHolder.get().getGold();
+		return majorDataHolder.getMarjorData().getGold();
 	}
 
 	public int getGiftGold() {
-		return userGameDataHolder.get().getGiftGold();
+		return majorDataHolder.getMarjorData().getGiftGold();
 	}
 
 	public int getChargeGold() {
-		return userGameDataHolder.get().getChargeGold();
+		return majorDataHolder.getMarjorData().getChargeGold();
+	}
+	
+	public boolean isGoldEngough(int value){
+		if(value>0){
+			return true;
+		}
+		
+		MajorData marjorData = majorDataHolder.getMarjorData();
+		
+		int giftGold = marjorData.getGiftGold();
+		int chargeGold = marjorData.getChargeGold();
+		boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
+		return hasEngoughGold;
+		
+	}
+	
+	public boolean isCoinEnough(int value){
+		if(value > 0){
+			return true;
+		}
+		MajorData marjorData = majorDataHolder.getMarjorData();
+		long curCoin = marjorData.getCoin();
+		return curCoin + value >=0;
 	}
 
+//	public int addGold(int value) {
+//		UserGameData tableUserOther = userGameDataHolder.get();
+//		int result = 0;
+//		if (value >= 0) {
+//			// 加钻石
+//			result = incrGold(tableUserOther, value);
+//		} else {
+//			// 扣钻石
+//			result = decrGold(tableUserOther, value);
+//			// 消耗日常任务
+//			if (result == 0) {
+//				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CONST, Math.abs(value));
+//			}
+//		}
+//
+//		if (result == 0) {
+//			userGameDataHolder.update(player);
+//		}
+//
+//		return result;
+//	}
+	
 	public int addGold(int value) {
-		UserGameData tableUserOther = userGameDataHolder.get();
+		MajorData marjorData = majorDataHolder.getMarjorData();
 		int result = 0;
 		if (value >= 0) {
 			// 加钻石
-			result = incrGold(tableUserOther, value);
+			result = incrGold(marjorData, value);
 		} else {
 			// 扣钻石
-			result = decrGold(tableUserOther, value);
+			result = decrGold(marjorData, value);
 			// 消耗日常任务
 			if (result == 0) {
 				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CONST, Math.abs(value));
@@ -195,65 +269,120 @@ public class UserGameDataMgr {
 		}
 
 		if (result == 0) {
-			userGameDataHolder.update(player);
+			majorDataHolder.update(player);
 		}
 
 		return result;
 	}
 
-	// 增加钻石
-	private int incrGold(UserGameData tableUserOther, int value) {
+//	// 增加钻石
+//	private int incrGold(UserGameData tableUserOther, int value) {
+//
+//		tableUserOther.setGiftGold(tableUserOther.getGiftGold() + value);
+//		tableUserOther.updateGold();
+//
+//		String scenceId = null;// 暂时留空
+//		ItemChangedEventType_1 type_1 = null; // 暂时留空
+//		ItemChangedEventType_2 type_2 = null;// 暂时留空
+//		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, tableUserOther.getGiftGold());
+//
+//		return 0;
+//	}
 
-		tableUserOther.setGiftGold(tableUserOther.getGiftGold() + value);
-		tableUserOther.updateGold();
+	// 增加钻石
+	private int incrGold(MajorData majordata, int value) {
+
+		majordata.setGiftGold(majordata.getGiftGold() + value);
+		majordata.updateGold();
 
 		String scenceId = null;// 暂时留空
 		ItemChangedEventType_1 type_1 = null; // 暂时留空
 		ItemChangedEventType_2 type_2 = null;// 暂时留空
-		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, tableUserOther.getGiftGold());
+		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, majordata.getGiftGold());
 
 		return 0;
 	}
 
+//	// 消费钻石
+//	private int decrGold(UserGameData tableUserOther, int value) {
+//		// 先消费赠送货币，再消费充值货币
+//		int giftGold = tableUserOther.getGiftGold();
+//		int chargeGold = tableUserOther.getChargeGold();
+//		boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
+//		int result = -1;
+//		int giftGoldChanged = 0;
+//		if (hasEngoughGold) {
+//			if (giftGold + value >= 0) {
+//				tableUserOther.setGiftGold(giftGold + value);
+//				giftGoldChanged = value;
+//			} else {
+//				tableUserOther.setGiftGold(0);
+//				giftGoldChanged = -tableUserOther.getGiftGold();
+//
+//				int chargeLeft = giftGold + chargeGold + value;
+//				tableUserOther.setChargeGold(chargeLeft);
+//			}
+//			tableUserOther.updateGold();
+//			result = 0;
+//		} else {
+//			result = -1;
+//		}
+//		if (result == 0) {
+//			String scenceId = null;// 暂时留空
+//			ItemChangedEventType_1 type_1 = null; // 暂时留空
+//			ItemChangedEventType_2 type_2 = null;// 暂时留空
+//			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
+//			UserEventMgr.getInstance().UseGold(player, -value);
+//		}
+//		return result;
+//	}
+	
 	// 消费钻石
-	private int decrGold(UserGameData tableUserOther, int value) {
-		// 先消费赠送货币，再消费充值货币
-		int giftGold = tableUserOther.getGiftGold();
-		int chargeGold = tableUserOther.getChargeGold();
-		boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
-		int result = -1;
-		int giftGoldChanged = 0;
-		if (hasEngoughGold) {
-			if (giftGold + value >= 0) {
-				tableUserOther.setGiftGold(giftGold + value);
-				giftGoldChanged = value;
+		private int decrGold(MajorData majordata, int value) {
+			// 先消费赠送货币，再消费充值货币
+			int giftGold = majordata.getGiftGold();
+			int chargeGold = majordata.getChargeGold();
+			boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
+			int result = -1;
+			int giftGoldChanged = 0;
+			if (hasEngoughGold) {
+				if (giftGold + value >= 0) {
+					majordata.setGiftGold(giftGold + value);
+					giftGoldChanged = value;
+				} else {
+					majordata.setGiftGold(0);
+					giftGoldChanged = -majordata.getGiftGold();
+
+					int chargeLeft = giftGold + chargeGold + value;
+					majordata.setChargeGold(chargeLeft);
+				}
+				majordata.updateGold();
+				result = 0;
 			} else {
-				tableUserOther.setGiftGold(0);
-				giftGoldChanged = -tableUserOther.getGiftGold();
-
-				int chargeLeft = giftGold + chargeGold + value;
-				tableUserOther.setChargeGold(chargeLeft);
+				result = -1;
 			}
-			tableUserOther.updateGold();
-			result = 0;
-		} else {
-			result = -1;
+			if (result == 0) {
+				String scenceId = null;// 暂时留空
+				ItemChangedEventType_1 type_1 = null; // 暂时留空
+				ItemChangedEventType_2 type_2 = null;// 暂时留空
+				BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
+				UserEventMgr.getInstance().UseGold(player, -value);
+			}
+			return result;
 		}
-		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
-			UserEventMgr.getInstance().UseGold(player, -giftGoldChanged);
-		}
-		return result;
-	}
 
+//	public void addReCharge(int addNum) {
+//		UserGameData tableUserOther = userGameDataHolder.get();
+//		tableUserOther.setChargeGold(tableUserOther.getChargeGold() + addNum);
+//		tableUserOther.updateGold();
+//		userGameDataHolder.update(player);
+//	}
+	
 	public void addReCharge(int addNum) {
-		UserGameData tableUserOther = userGameDataHolder.get();
-		tableUserOther.setChargeGold(tableUserOther.getChargeGold() + addNum);
-		tableUserOther.updateGold();
-		userGameDataHolder.update(player);
+		MajorData marjorData = majorDataHolder.getMarjorData();
+		marjorData.setChargeGold(marjorData.getChargeGold() + addNum);
+		marjorData.updateGold();
+		majorDataHolder.update(player);
 	}
 
 	public int getRookieFlag() {
@@ -269,20 +398,15 @@ public class UserGameDataMgr {
 	}
 
 	public long getCoin() {
-		return userGameDataHolder.get().getCoin();
+		return majorDataHolder.getMarjorData().getCoin();
 	}
 
-	public int getUnendingWarCoin() {
-		return userGameDataHolder.get().getUnendingWarCoin();
+	public int getMagicSecretCoin() {
+		return MagicSecretMgr.getInstance().getSecretGold(player);
 	}
 
-	public int addUnendingWarCoin(int count) {
-		int value = count + getUnendingWarCoin();
-		if (value > 0) {
-			userGameDataHolder.get().setUnendingWarCoin(value);
-			userGameDataHolder.update(player);
-			return 0;
-		}
+	public int addMagicSecretCoin(int count) {
+		if(MagicSecretMgr.getInstance().addSecretGold(player, count)) return 0;
 		return -1;
 	}
 
@@ -292,7 +416,7 @@ public class UserGameDataMgr {
 
 	public int addTowerCoin(int count) {
 		int value = count + getTowerCoin();
-		if (value > 0) {
+		if (value >= 0) {
 			userGameDataHolder.get().setTowerCoin(value);
 			userGameDataHolder.update(player);
 			return 0;
@@ -398,6 +522,13 @@ public class UserGameDataMgr {
 	public void setHeadBox(String box) {
 		userGameDataHolder.get().setHeadFrame(box);
 		userGameDataHolder.update(player);
+
+		RankingMgr.getInstance().onPlayerChange(player);
+		// 通知一下监听的人，修改对应数据
+		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+		if (observer != null) {
+			observer.playerChangeHeadBox(player);
+		}
 	}
 
 	public String getHeadBox() {
@@ -509,11 +640,11 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getArenaCoin();
 	}
 
-	public int addPeakArenaCoin(int currency) {
+	public boolean addPeakArenaCoin(int currency) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		int gold = tableUserOther.getPeakArenaCoin();
 		if (currency < 0 && gold <= 0) {
-			return -1;
+			return false;
 		}
 		int total = gold + currency;
 		if (currency < 0 && total < 0) {
@@ -521,7 +652,7 @@ public class UserGameDataMgr {
 		}
 		tableUserOther.setPeakArenaCoin(total);
 		userGameDataHolder.update(player);
-		return 0;
+		return true;
 	}
 
 	public int getPeakArenaCoin() {
@@ -587,10 +718,10 @@ public class UserGameDataMgr {
 			result = m_GuildUserMgr.addGuildCoin(dec) == 1;
 			break;
 		case PeakArenaCoin:
-			result = this.addPeakArenaCoin(dec) == 0;
+			result = this.addPeakArenaCoin(dec);
 			break;
-		case UnendingWarCoin:
-			result = this.addUnendingWarCoin(dec) == 0;
+		case MagicSecretCoin:
+			result = this.addMagicSecretCoin(dec) == 0;
 			break;
 		default:
 			break;
@@ -632,8 +763,8 @@ public class UserGameDataMgr {
 		case PeakArenaCoin:
 			old = this.getPeakArenaCoin();
 			break;
-		case UnendingWarCoin:
-			old = this.getUnendingWarCoin();
+		case MagicSecretCoin:
+			old = this.getMagicSecretCoin();
 			break;
 		default:
 			break;

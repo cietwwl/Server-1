@@ -46,16 +46,16 @@ public class CopyLevelRecordHolder {
 	}
 
 	/*
-	 * 获取当前用户的副本关卡记录,以"id_100010,3,0,0"的形式记录下"关卡id,通关星级,今天打的次数,购买次数"的信息
+	 * 获取当前用户的副本关卡记录
 	 */
-	public List<String> getLevelRecordList() {
-		List<String> userLevelRecords = new ArrayList<String>();
+	public List<CopyLevelRecord> getLevelRecordList() {
+		List<CopyLevelRecord> userLevelRecords = new ArrayList<CopyLevelRecord>();
 
 		Enumeration<CopyLevelRecord> copyLevelEnum = getCopyLevelRecord().getEnum();
 
 		while (copyLevelEnum.hasMoreElements()) {
 			CopyLevelRecord copyRecord = (CopyLevelRecord) copyLevelEnum.nextElement();
-			userLevelRecords.add(copyRecord.toClientData());
+			userLevelRecords.add(copyRecord);
 		}
 		return userLevelRecords;
 	}

@@ -9,14 +9,17 @@ import java.util.Map;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.copy.CopyHandler;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.dropitem.DropAdjustmentCfg;
 import com.rwbase.dao.dropitem.DropAdjustmentCfgDAO;
 import com.rwbase.dao.dropitem.DropAdjustmentState;
@@ -75,7 +78,7 @@ public class DropItemManager {
 		}
 	}
 	
-	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本,扫荡，道具预计掉落*/
+	/**聚宝之地 ！炼息山谷！生存幻境,无尽战火；普通本精英本,扫荡，道具预计掉落*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -93,10 +96,6 @@ public class DropItemManager {
 		}
 		List<Integer> list = CopyHandler.convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
-	}
-	/**无尽战火奖励*/
-	public List<? extends ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId) throws DataAccessTimeoutException {
-		return pretreatDrop(player, list, copyId, false);
 	}
 
 	/**
@@ -207,18 +206,21 @@ public class DropItemManager {
 				}
 			}
 			
-			int multiple = 1;
-			if(!firstDrop){
-				ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
-				boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-				multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
-//				System.out.println("dropitem.multiple" + multiple + "  enum =" + activityRateTypeEnum.getCfgId() + isRateOpen);				
-			}
-			if(multiple != 1){
+			if(!firstDrop&&copyCfg != null){
+//				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
+				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+				int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+				
+				
+				
 				for(ItemInfo iteminfo : dropItemInfoList){
-					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
+					iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
 				}
-			}			
+				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
+				int tmp = dropItemInfoList.size();
+				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
+			}
+				
 			
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
@@ -330,6 +332,7 @@ public class DropItemManager {
 		if (isFirstDrop && copyId > 0) {
 			record.addFirstDrop(copyId);
 			needUpdate = true;
+			GameLog.error("DropItemManaer", "#trace", "记录首掉："+record.getUserId()+","+copyId);
 		}
 		if (needUpdate) {
 			DropRecordDAO.getInstance().update(record);

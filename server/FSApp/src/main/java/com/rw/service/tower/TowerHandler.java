@@ -11,6 +11,10 @@ import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.army.ArmyInfo;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -184,12 +188,22 @@ public class TowerHandler {
 		// 敌方阵容信息
 		List<String> readOnlyKeyList = towerMgr.getEnemyInfoIdList();
 
-		if (readOnlyKeyList.isEmpty()) {
-			GameLog.error("getTowerData()-Method", userId, "个人万仙阵匹配的敌人信息是空的，EnemyInfoList.isEmpty");
+		// TODO HC 检查万仙阵的层信息
+		int size = readOnlyKeyList.size();
+		int curGroupId = curFloor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 按照3层为一组，当前层应该是第几组
+		int maxGroupSize = curGroupId * AngelArrayConst.TOWER_UPDATE_NUM;// 检查当前组中最大的层数应该是多少
+		if (size < maxGroupSize) {// 当前随机到的人数不能足够，最大层，需要补缺，需要补缺的范围是从size到maxGroupSize
+			towerMgr.updateAngleArrayFloorData(userId, angleArrayData.getResetLevel(), angleArrayData.getResetFighting(), size, false);
+		}
+
+		readOnlyKeyList = towerMgr.getEnemyInfoIdList();
+		size = readOnlyKeyList.size();
+		if (size < maxGroupSize) {
+			GameLog.error("getTowerData()-Method", userId, String.format("个人万仙阵匹配敌人信息不完整,curFloor[%s],maxGroupFloor[%s]", curFloor, maxGroupSize));
 		}
 
 		List<TagTowerHeadInfo> enemyHeadList = new ArrayList<TagTowerHeadInfo>();
-		for (int i = 0, size = readOnlyKeyList.size(); i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			String id = readOnlyKeyList.get(i);
 			enemyHeadList.add(getTowerHeadInfo(towerMgr.getEnemyArmyInfo(id), towerMgr.getKey4FloorId(id)));
 		}
@@ -386,7 +400,6 @@ public class TowerHandler {
 	public ByteString getAward(MsgTowerRequest request, Player player) {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
-
 		String userId = player.getUserId();
 		int level = player.getLevel();
 		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
@@ -417,7 +430,11 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS, 0, 0);
 		String totalArardStr = towerMgr.getAwardByFloor(player, currTowerId);// 奖品数据字符串
+		List<BilogItemInfo> list = BilogItemInfo.fromStr(totalArardStr);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS, 0, true, 0, rewardInfoActivity, 0);
 		if (totalArardStr.length() > 0) {
 			response.setAwardListStr(totalArardStr);
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);
@@ -481,11 +498,11 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
-		//by franky
+		// by franky
 		int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 		if (resetCount - angleArrayData.getResetTimes() > 0) {
-		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
-		//if (privilegeCfg.getExpeditionCount() - angleArrayData.getResetTimes() > 0) {
+			// PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+			// if (privilegeCfg.getExpeditionCount() - angleArrayData.getResetTimes() > 0) {
 			towerMgr.resetAngleArrayData(player, false);// 玩家手动重置
 			TagTowerData towerData = getTowerData(player, 0, false);
 			response.setTowerData(towerData);

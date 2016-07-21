@@ -277,7 +277,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				String maxCharge = maxChargeType.get(privilegeEnum);
 				if (StringUtils.isNotBlank(maxCharge)){
 					//判断最高充值类型是否已经达到或者超过了
-					if (!pro.reachChargeLevel(maxCharge)){
+					if (pro.hasChargeType(maxCharge) && !pro.reachChargeLevel(maxCharge)){
 						privilegeValues.setChargeType(maxCharge);
 					}
 				}
@@ -290,8 +290,11 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 					ConfigClass priCfg = cfgCacheMap.get(sourceName);
 					privilegeValues.setValue(priCfg.getValueByName(privilegeEnum).toString());
 				} else {
-					GameLog.info("特权", pro.getClass().getName() + ":当前特权:" + pro.getCurrentChargeType(),
-							"没有找到对应的特权属性:"+privilegeEnum, null);
+					String currentChargeType = pro.getCurrentChargeType();
+					if (!"monthnone".equals(currentChargeType)){
+						GameLog.info("特权", pro.getClass().getName() + ":当前特权:" + currentChargeType,
+								"没有找到对应的特权属性:"+privilegeEnum, null);
+					}
 					privilegeValues.setValue("");
 				}
 				
@@ -339,10 +342,29 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			PrivilegeValue.Builder accVal = accB.getKvBuilder(privilegeEnum.ordinal());
 			PrivilegeValue right = added.getKv(privilegeEnum.ordinal());
 			
+			combineMaxChargeType(accVal,right, pname);
 			accVal = pwriter.combine(accVal,right, pname);
 			accB.setKv(privilegeEnum.ordinal(), accVal);
 		}
 		return acc;
+	}
+	
+	private void combineMaxChargeType(PrivilegeValue.Builder accVal, PrivilegeValue right,
+			String pname) {
+		String addedChargeTy = right.getChargeType();
+		if (StringUtils.isBlank(addedChargeTy)){
+			return;
+		}
+		String accChargeTy = accVal.getChargeType();
+		if (StringUtils.isBlank(accChargeTy)){
+			accVal.setChargeType(addedChargeTy);
+			return;
+		}
+		//新增的最大充值类型比原来的大
+		if (ChargeTypePriority.getShareInstance().compare(addedChargeTy, accChargeTy)>0){
+			accVal.setChargeType(addedChargeTy);
+			return;
+		}
 	}
 
 	@Override

@@ -9,15 +9,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rw.service.log.template.BILogTemplateHelper;
+import com.rwbase.dao.item.pojo.ItemData;
 
 public class LogTemplateMaker {
 
 	
-	final private String filePath="D:\\gitserver\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
-	
+	final private String filePath="E:\\projectnew\\serverother\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
+
 	public void doTask() throws Exception{
-		
 		File file = new File(filePath);
 		
 		List<String> textLineList = readLine(file);

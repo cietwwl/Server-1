@@ -4,6 +4,9 @@ option java_outer_classname = "ArenaServiceProtos";
 import "SkillService.proto";
 import "SyncAttri.proto";
 import "BattleCommon.proto";
+import "FashionService.proto";
+
+package ArenaService;
 
 enum eArenaType {
 	GET_INFO = 0;     //
@@ -24,9 +27,16 @@ enum eArenaType {
 	HIS_RANK_REWARD_VIEW = 15;//历史排行榜奖励总和
 	HIS_RANK_GET_REWARD = 16;//领取历史排行榜阶段奖励
 }
+
 enum eArenaResultType {
 	ARENA_SUCCESS = 1;//成功
 	ARENA_FAIL = 2;//失败
+}
+
+//阵容类型
+enum ArenaEmbattleType{
+	ARENA_ATK = 1;//攻击阵容
+	ARENA_DEFEND = 2;//防守阵容
 }
 
 message HeroData{
@@ -61,6 +71,7 @@ message ArenaData{
 	optional string templeteId = 17;
 	optional int32 winCount = 18;
 	optional string armyInfo = 19;
+	optional string groupName = 20;
 }
 
 message ArenaInfo{
@@ -74,6 +85,8 @@ message ArenaInfo{
 	optional string name = 9;
 	repeated string heroImages = 10;
 	optional int32 modelId = 11;	//模型id，应该是required，为了调试方便先用optional
+	optional FashionService.FashionUsed fashionUsage = 12;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 sex = 13;// 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
 }
 
 message ArenaRecord{
@@ -91,12 +104,12 @@ message ArenaRecord{
 message MsgArenaRequest{
     required eArenaType arenaType = 1;
 	optional string userId = 2;
-	repeated string heroIds = 3;
+	repeated BattleCommon.BattleHeroPosition heroIds = 3;
 	optional ArenaInfo enemy = 4;
 	optional int32 win = 5;
 	repeated HurtValue hurtValue = 6;	//战斗伤害统计
 	optional int32 recordId = 7;		//请求的伤害统计id
-	repeated string atkIdList = 8;		//进攻阵容佣兵列表
+	repeated BattleCommon.BattleHeroPosition atkIdList = 8;		//进攻阵容佣兵列表
 	optional int32 rewardId = 14;// 领取奖励
 	optional int32 historyRewardId = 15;	//领取历史排行榜奖励ID
 }
@@ -108,10 +121,11 @@ message HurtValue{
 	required int32 startlevel = 4;	//星级
 	required int32 level = 5;		//等级
 	required bool isDead = 6;		//是否死亡
-	required ePlayerType playerType = 7;	//角色类型
-	required ePlayerCamp camp = 8;	//阵营
+	required BattleCommon.ePlayerType playerType = 7;	//角色类型
+	required BattleCommon.ePlayerCamp camp = 8;	//阵营
 	required float Hp = 9;			//剩余血量
 	required float Sp = 10;			//剩余蓝量
+	optional string quality = 11;   //品质配置ID
 }
 
 message MsgArenaResponse{

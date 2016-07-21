@@ -41,6 +41,7 @@ public class User implements TableUserIF {
 	private long exp;
 	// 用于后台数据查询
 	private int level;
+	private boolean isRobot;// 是否是机器人
 
 	@NonSave
 	private String channelId;// 渠道Id
@@ -222,8 +223,8 @@ public class User implements TableUserIF {
 	public String getChatBanReason() {
 		return getExtendInfo().getChatBanReason();
 	}
-	
-	public long getChatBanCoolTime(){
+
+	public long getChatBanCoolTime() {
 		return getExtendInfo().getChatBanCoolTime();
 	}
 
@@ -244,5 +245,13 @@ public class User implements TableUserIF {
 
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
+	}
+
+	public boolean isRobot() {
+		return isRobot;
+	}
+
+	public void setRobot(boolean isRobot) {
+		this.isRobot = isRobot;
 	}
 }

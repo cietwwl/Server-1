@@ -3,19 +3,22 @@ package com.playerdata.group;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.AttrDataType;
+import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.common.attribute.AttributeUtils;
+import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -28,6 +31,7 @@ import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwproto.GroupCommonProto.GroupPost;
 
 /*
  * @author HC
@@ -47,6 +51,9 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
+		if (player.isRobot()) {
+			return;
+		}
 		UserGroupAttributeData data = new UserGroupAttributeData();
 		data.setUserId(userId);
 		data.setGroupId("");
@@ -79,6 +86,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		userGroupData.setGroupName(groupData.getGroupName());
 		userGroupData.setContribution(memberData.getContribution());
+		userGroupData.setDayContribution(memberData.getDayContribution());
 		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
@@ -95,6 +103,32 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		return holder.getUserGroupData();
 	}
 
+	/**
+	 * 重置管理员每天分配奖励次数
+	 */
+	public void resetAllotGroupRewardCount(){
+		UserGroupAttributeData data = holder.getUserGroupData();
+		if(data == null){
+			return;
+		}
+		Group group = GroupBM.get(data.getGroupId());
+		if(group == null){
+			return;
+		}
+		//检查职位
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		if(memberData == null){
+			return;
+		}
+		
+		int post = memberData.getPost();
+		if(post != GroupPost.LEADER_VALUE && post != GroupPost.ASSISTANT_LEADER_VALUE){
+			return;
+		}
+		group.getGroupMemberMgr().resetAllotGroupRewardCount(userId,GroupCopyLevelBL.MAX_ALLOT_COUNT, false);
+		
+	}
+	
 	/**
 	 * 获取个人的帮贡
 	 * 
@@ -135,7 +169,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		group.getGroupMemberMgr().updateMemberContribution(userId, offContribution);
+		group.getGroupMemberMgr().updateMemberContribution(userId, offContribution, false);
 	}
 
 	/**
@@ -156,6 +190,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		notifyGroupSkillAttrData(player);
 		// 通知好友更改更新帮派名字
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+		player.getStoreMgr().AddStore();
 	}
 
 	/**
@@ -200,6 +235,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 		// 通知阵容更新下名字
 		AngelArrayTeamInfoHelper.updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
+		player.getStoreMgr().removeStore(eStoreType.Union.getOrder());
 	}
 
 	/**
@@ -315,88 +351,46 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * 
 	 * @param player
 	 * @param contribution
+	 * @param dayContribution 今天的总捐献数量
 	 */
-	public void updateContribution(Player player, int contribution) {
+	public void updateContribution(Player player, int contribution, int dayContribution) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		userGroupData.setContribution(contribution);
+		userGroupData.setDayContribution(dayContribution);
 		holder.synData(player);
 	}
 
-	// /**
-	// *
-	// * @return
-	// */
-	// public synchronized AttrData getGroupSkillAttrData() {
-	// if (groupSkillAttrData == null) {
-	// groupSkillAttrData = calcGroupSkillAttrData();
-	// }
-	//
-	// return groupSkillAttrData;
-	// }
-	//
-	// public synchronized void updateGroupSkillAttrData() {
-	// groupSkillAttrData = calcGroupSkillAttrData();
-	// }
-
 	/**
-	 * 获取帮派技能增加属性
+	 * 获取帮派增加的属性
 	 * 
 	 * @return
 	 */
-	public Map<Integer, AttrData> getGroupSkillAttrData() {
-		Map<Integer, AttrData> attrMap = new HashMap<Integer, AttrData>(2);
+	public Map<Integer, AttributeItem> getGroupSkillAttrDataMap() {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		if (userGroupData == null) {
-			return attrMap;
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
+			return null;
 		}
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
-			return attrMap;
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
+			return null;
 		}
 
 		if (!userGroupData.hasStudySkill()) {
-			return attrMap;
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
+			return null;
 		}
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			return attrMap;
+			// GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
+			return null;
 		}
 
-		int energy = 0;// 能量值
-		int life = 0;// 生命
-		int attack = 0;// 攻击
-		int physiqueDef = 0;// 体魄防御
-		int spiritDef = 0;// 精神防御
-		int hit = 0;// 命中
-		int dodge = 0;// 闪避
-		int critical = 0;// 暴击率
-		int toughness = 0;// 韧性
-		int resist = 0;// 抵抗
-		int attackHurt = 0;// 攻击伤害
-		int cutHurt = 0;// 伤害减免
-		int criticalHurt = 0;// 暴击伤害提升
-		int cutCritHurt = 0;// 暴击伤害减免
-		int lifeReceive = 0;// 生命回复
-		int energyReceive = 0;// 能量值回复
-		int attackVampire = 0;// 攻击吸血
-		int attackSpeed = 0;// 攻击速度
-		int moveSpeed = 0;// 移动速度
-		int addCure = 0;// 受到治疗效果增加
-		int cutCure = 0;// 受到治疗效果减少
-		int attackPercent = 0;// 攻击百分比
-		int criticalHurtPercent = 0;// 暴击伤害提升百分比
-		int criticalPercent = 0;// 暴击伤害提升百分比
-		int attackVampirePercent = 0; // 吸血百分比
-		int spiritDefPercent = 0;// 法术防御百分比
-		int dodgePercent = 0;// 闪避百分比
-		int physiqueDefPercent = 0;// 物理防御百分比
-		int attackHurtPercent = 0; // 伤害减免百分比
-		int lifePercent = 0;// 生命百分比
+		Map<Integer, Integer> skillMap = new HashMap<Integer, Integer>();
 
-		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
-		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
 		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 		Enumeration<GroupSkillItem> researchSkill = groupData.getResearchSkill();
 		while (researchSkill.hasMoreElements()) {
@@ -409,6 +403,28 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 				continue;
 			}
 
+			skillMap.put(skillId, studySkillLevel);
+		}
+
+		return getGroupSkillAttrMap(skillMap);
+	}
+
+	/**
+	 * 获取帮派技能转换的属性Map
+	 * 
+	 * @param skillMap
+	 * @return
+	 */
+	public static HashMap<Integer, AttributeItem> getGroupSkillAttrMap(Map<Integer, Integer> skillMap) {
+		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>(skillMap.size());
+
+		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
+		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
+
+		for (Entry<Integer, Integer> e : skillMap.entrySet()) {
+			int skillId = e.getKey();
+			int studySkillLevel = e.getValue();
+
 			GroupSkillLevelTemplate tmp = dao.getSkillLevelTemplate(skillId, studySkillLevel);
 			if (tmp == null) {
 				continue;
@@ -419,85 +435,9 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 				continue;
 			}
 
-			energy += skillAttr.getEnergy();// 能量值
-			life += skillAttr.getLife();// 生命
-			attack += skillAttr.getAttack();// 攻击
-			physiqueDef += skillAttr.getPhysiqueDef();// 体魄防御
-			spiritDef += skillAttr.getSpiritDef();// 精神防御
-			hit += skillAttr.getHit();// 命中
-			dodge += skillAttr.getDodge();// 闪避
-			critical += skillAttr.getCritical();// 暴击率
-			toughness += skillAttr.getToughness();// 韧性
-			resist += skillAttr.getResist();// 抵抗
-			attackHurt += skillAttr.getAttackHurt();// 攻击伤害
-			cutHurt += skillAttr.getCutHurt();// 伤害减免
-			criticalHurt += skillAttr.getCriticalHurt();// 暴击伤害提升
-			cutCritHurt += skillAttr.getCutCritHurt();// 暴击伤害减免
-			lifeReceive += skillAttr.getLifeReceive();// 生命回复
-			energyReceive += skillAttr.getEnergyReceive();// 能量值回复
-			attackVampire += skillAttr.getAttackVampire();// 攻击吸血
-			attackSpeed += skillAttr.getAttackSpeed();// 攻击速度
-			moveSpeed += skillAttr.getMoveSpeed();// 移动速度
-			addCure += skillAttr.getAddCure();// 受到治疗效果增加
-			cutCure += skillAttr.getCutCure();// 受到治疗效果减少
-			// //////////////////////////////////////////////百分比
-			attackPercent += skillAttr.getAttackPercent();// 攻击百分比
-			criticalHurtPercent += skillAttr.getCriticalHurtPercent();// 暴击伤害提升百分比
-			criticalPercent += skillAttr.getCriticalPercent();// 暴击伤害提升百分比
-			attackVampirePercent += skillAttr.getAttackVampirePercent(); // 吸血百分比
-			spiritDefPercent += skillAttr.getSpiritDefPercent();// 法术防御百分比
-			dodgePercent += skillAttr.getDodgePercent();// 闪避百分比
-			physiqueDefPercent += skillAttr.getPhysiqueDefPercent();// 物理防御百分比
-			attackHurtPercent += skillAttr.getAttackHurtPercent(); // 伤害减免百分比
-			lifePercent += skillAttr.getLifePercent();// 生命百分比
+			AttributeUtils.calcAttribute(skillAttr.getAttrDataMap(), skillAttr.getPrecentAttrDataMap(), map);
 		}
 
-		AttrData attrData = new AttrData();
-		attrData.setEnergy(energy);
-		attrData.setLife(life);
-		attrData.setAttack(attack);
-		attrData.setPhysiqueDef(physiqueDef);
-		attrData.setSpiritDef(spiritDef);
-		attrData.setHit(hit);
-		attrData.setDodge(dodge);
-		attrData.setCritical(critical);
-		attrData.setToughness(toughness);
-		attrData.setResist(resist);
-		attrData.setAttackHurt(attackHurt);
-		attrData.setCutHurt(cutHurt);
-		attrData.setCriticalHurt(criticalHurt);
-		attrData.setCutCritHurt(cutCritHurt);
-		attrData.setLifeReceive(lifeReceive);
-		attrData.setEnergyReceive(energyReceive);
-		attrData.setAttackVampire(attackVampire);
-		attrData.setAttackSpeed(attackSpeed);
-		attrData.setMoveSpeed(moveSpeed);
-		attrData.setAddCure(addCure);
-		attrData.setCutCure(cutCure);
-		attrMap.put(AttrDataType.ATTR_DATA_TYPE.type, attrData);
-
-		AttrData precentAttrData = new AttrData();
-		precentAttrData.setAttack(attackPercent);
-		precentAttrData.setAttackHurt(attackHurtPercent);
-		precentAttrData.setAttackVampire(attackVampirePercent);
-		precentAttrData.setCritical(criticalPercent);
-		precentAttrData.setCriticalHurt(criticalHurtPercent);
-		precentAttrData.setSpiritDef(spiritDefPercent);
-		precentAttrData.setDodge(dodgePercent);
-		precentAttrData.setPhysiqueDef(physiqueDefPercent);
-		precentAttrData.setLife(lifePercent);
-		attrMap.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, precentAttrData);
-
-		return attrMap;
+		return map;
 	}
-	// /**
-	// * 推送个人帮派学习技能的数据
-	// *
-	// * @param player
-	// * @param version
-	// */
-	// public void synUserSkillData(Player player, int version) {
-	// holder.synSkillData(player, version);
-	// }
-
 }

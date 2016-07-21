@@ -10,7 +10,6 @@ import com.common.EquipHelper;
 import com.playerdata.readonly.EquipMgrIF;
 import com.rw.service.Equip.EquipHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.equipment.EquipItem;
@@ -44,9 +43,9 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 		equipItemHolder.regChangeCallBack(callBack);
 	}
 
-	public AttrData getTotalEquipAttrData() {
-		return equipItemHolder.toAttrData();
-	}
+	// public AttrData getTotalEquipAttrData() {
+	// return equipItemHolder.toAttrData();
+	// }
 
 	/**
 	 * 装备附灵
@@ -76,7 +75,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				// 配置错误
 				return -3;
 			}
-			int levelBeforeAttach = pEquipAttachCfg.getId();
+
+			int tempStarLevel = pEquipAttachCfg.getStarLevel();
 			int nextNeedExp = pEquipAttachCfg.getNeedExp();// 下一级需要的经验值
 			while (totalExp >= nextNeedExp) {
 				if (CheckIsHasNext(pEquipAttachCfg)) {
@@ -120,8 +120,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				equipItem.setLevel(pEquipAttachCfg.getId());
 				equipItem.setExp(totalExp);
 				equipItemHolder.updateItem(m_pPlayer, equipItem);
-				
-				UserEventMgr.getInstance().attachDaily(m_pPlayer, 1);//pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
+
+				UserEventMgr.getInstance().attachDaily(m_pPlayer, pEquipAttachCfg.getStarLevel(), tempStarLevel);// pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
 			}
 			//
 			//
@@ -475,8 +475,8 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				break;
 			}
 			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
+			equipItem.setLevel(pEquipAttachCfg.getId());
 		}
-		equipItem.setLevel(pEquipAttachCfg.getId());
 		equipItem.setExp(0);
 		equipItemHolder.updateItem(m_pPlayer, equipItem);
 	}

@@ -9,8 +9,6 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -43,12 +41,37 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
+	@CombineSave
+	private long redPointLastTime;
+	
+	
+	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+
 	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
 		closed = false;
 		count=0;
 		version = cfg.getVersion();
 		subItemList = sublist;
-		
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

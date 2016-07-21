@@ -1,6 +1,12 @@
 package com.rw.service.FresherActivity.Achieve;
 
+import java.util.List;
+
 import com.playerdata.Player;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
@@ -25,6 +31,13 @@ public class FrshActAchieveNormalReward implements IFrshActAchieveRewardHandler 
 			}
 			player.getItemBagMgr().addItem(Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
 		}
+		
+		String rewardInfoActivity="";
+		List<BilogItemInfo> list = BilogItemInfo.fromStrArr(split);
+		rewardInfoActivity = BILogTemplateHelper.getString(list);		
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE, 0, true, 0, rewardInfoActivity,cfgId);
+		
+		
 		return null;
 	}
 

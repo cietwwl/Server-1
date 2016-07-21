@@ -5,11 +5,12 @@ package DataSyn;
 
 //数据同步操作类型
 enum eSynOpType {
-	UPDATE_LIST = 1;//更新一组数据
+	UPDATE_LIST = 1;//更新一组数据，原数据删除
 	UPDATE_SINGLE = 2; //更新一条数据
 	ADD_SINGLE = 3; // 增加一条数据
 	REMOVE_SINGLE = 4;// 删除一条数据
 	UPDATE_FIELD = 5;//只更新单条记录的某些字段
+	UPDATE_PART_LIST = 6;//更新部分数据列表，不在列表中的不更新
 }
 
 
@@ -23,10 +24,10 @@ enum eSynType	//数据同步类型
 {
 	COPY_LEVEL_RECORD = 1;	//关卡记录，包括精英，普通，英雄
 	COPY_MAP_RECORD = 2;    //地图记录，包括精英，普通，英雄
-	SECRETAREA_INFO = 3;    //帮派秘境-秘境信息
+	SECRETAREA_BASE_INFO = 3;    //帮派秘境-秘境基础信息
 	SECRETAREA_DEF_RECORD = 4;    //帮派秘境-防守记录
 	SECRETAREA_USER_INFO = 5;    //帮派秘境-用户信息
-	SECRETAREA_BATTLE_INFO = 6;    //帮派秘境-用户信息
+	SECRETAREA_DEFEND_TEAM_INFO = 6;    //帮派秘境-秘境的防守信息
 	SECRETAREA_USER_RECORD = 7;  //帮派秘境-用户的秘境记录
 	FASHION_ITEM = 8;			//时装数据
 	EQUIP_ITEM=9;//装备列表
@@ -56,9 +57,9 @@ enum eSynType	//数据同步类型
 	GroupMemberData = 33;//帮派正式成员信息
 	GroupLog=34;//帮派log
 	UserGroupAttributeData=35;//用户个人的帮派信息
-	GroupCopyLevel=36;//帮派关卡记录
-	GroupCopyMap=37; //帮派地图记录
-	GroupCopyReward=38;//帮派奖励分配记录
+	GROUP_COPY_LEVEL=36;//帮派关卡记录
+	GROUP_COPY_MAP=37; //帮派地图记录
+	GROUP_COPY_REWARD=38;//帮派奖励分配记录
 	GroupApplyMemberData = 39;//申请成员信息
 	GroupResearchSkill = 40;//帮派技能研发
 	GroupStudySkill = 41;//帮派技能学习
@@ -70,7 +71,12 @@ enum eSynType	//数据同步类型
 	FIX_EXP_EQUIP=47; //专属装备经验类型
 	UserGroupSecretData=48; //帮派秘境用户数据
 	GroupSecretData = 49;   //秘境数据
-
+	MagicSecretData = 50;   //法宝秘境数据
+	MagicChapterData = 51;   //法宝秘境章节数据
+	SECRETAREA_TEAM_INFO = 52;//帮派秘境的阵容信息
+	USE_GROUP_COPY_DATA = 53;//帮派副本个人数据
+	GROUP_COPY_SERVER_RANK = 54;//帮派副本前10排行数据
+	GROUP_ITEM_DROP_APPLY = 55;//帮派副本掉落
 
 	//活动从60-79
 	ActivityCountType = 60;//活动，计数类型
@@ -78,18 +84,39 @@ enum eSynType	//数据同步类型
 	ActivityTimeCardType = 61;//活动，计数类型
 	ActivityRateType = 62;//活动，奖励翻倍类型
 	ActivityDateType = 63;//活动，日期类型
-	ActivityTimeSaleType = 64;//活动，限时折扣
-	ActivityDateSaleType = 65;//活动，每日折扣
+	ActivityTimeSaleType = 64;//活动
+	ActivityDateSaleType = 65;//活动
 	ActivityRankType = 66;//活动，排行榜
 	ActivityExchangeType = 67;//活动，兑换
 	ActivityTimeCountType = 68;//活动，在线奖励
 	ActivityDailyType = 69;//活动，每日福利
+	ActivityVitalityType = 70;//活动，活跃度
+	ActivityDailyDiscountType = 71;//活动，每日折扣
+	ActivityVipDiscountType = 72;//活动，七日vip折扣
+	ActivityRedEnvelopeType = 73;//活动，开服红包
+	
+
+	QuestionList = 80; //反馈问题列表	
+	GFBiddingData = 81;	//在线帮战个人压标数据
+	GFDefendArmyData = 82;	//在线帮战防守队伍信息
+	GFightOnlineGroupData = 83;	//在线帮战帮派信息
+	GFightOnlinePersonalData = 84;	//在线帮战个人信息
+	GFightOnlineResourceData = 85;	//在线帮战资源点信息
+	MajorData = 86;    //关键数据
+	GFightSimpleLeader = 87;	//在线帮战防守队伍简要信息
+	GFightFinalReward = 88;		//在线帮战最终的奖励
+	
+	EmbattleInfo = 89;//阵容站位
+	
+	
+	MAGICEQUIP_FETTER = 90; //法宝神器羁绊
+	USER_TEAM_BATTLE = 91;	//组队战斗，玩家信息
+	TEAM_BATTLE_TEAM = 92;	//组队战斗，队伍信息
 }
 
 message MsgDataSynList
 {
     repeated MsgDataSyn msgDataSyn = 3;				//同步数列表
-
 }
 
 message DataSynVersion{
@@ -107,4 +134,5 @@ message MsgDataSyn
     optional eSynOpType synOpType = 2;			//同步操作类型
     repeated SynData SynData = 3;				//同步数据
     optional int32 version=4;					//数据版本号
+    optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
 }

@@ -17,6 +17,7 @@ import com.gm.task.GmCheckBag;
 import com.gm.task.GmCheckDataOpProgress;
 import com.gm.task.GmDeleteBag;
 import com.gm.task.GmDeleteGameNotice;
+import com.gm.task.GmEditCloseTips;
 import com.gm.task.GmEditGameNotice;
 import com.gm.task.GmEditPlatformNotice;
 import com.gm.task.GmEmailAll;
@@ -35,12 +36,14 @@ import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
 import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
+import com.gm.task.GmResponsePlayerQuestion;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
 import com.gm.task.GmServerStatus;
 import com.gm.task.GmServerSwitch;
 import com.gm.task.GmStartRobotCreation;
 import com.gm.task.GmSwitchBIGm;
+import com.gm.task.GmUpdateCacheSwitch;
 import com.gm.task.GmUserDetailInfo;
 import com.gm.task.GmUserInfo;
 import com.gm.task.GmViewEmailList;
@@ -114,14 +117,20 @@ public class GmHandler {
 		taskMap.put(20005, new GmEditGameNotice());
 		taskMap.put(20006, new GmViewGameNotice());
 		taskMap.put(20007, new GmDeleteGameNotice());
+		taskMap.put(20019, new GmResponsePlayerQuestion());
 		taskMap.put(20032, new GmViewFriends());
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
 		taskMap.put(20040, new GmViewEmailList());
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
+		
 		//获取各种排名的用户id列表
 		taskMap.put(77777, new GmGetRankList());
+		//修改服务器关闭提示语
+		taskMap.put(99998, new GmEditCloseTips());
+		//更新缓存记录开关
+		taskMap.put(99997, new GmUpdateCacheSwitch());
 	}
 
 	

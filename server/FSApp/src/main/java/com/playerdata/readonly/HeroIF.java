@@ -45,6 +45,7 @@ public interface HeroIF {
 	 * @return
 	 */
 	public int getLevel();
+
 	public int getCareer();
 
 	/**
@@ -69,6 +70,8 @@ public interface HeroIF {
 	public String getQualityId();
 
 	public RoleCfg getHeroCfg();
+
+	public AttrMgrIF getAttrMgr();
 
 	// /**
 	// * 获取法宝信息

@@ -1,5 +1,19 @@
 package com.rw.netty;
 
+import java.net.InetSocketAddress;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.log.GameLog;
+import com.playerdata.GambleMgr;
+import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.GambleTest;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.RequestProtos.Request;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -13,52 +27,46 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
-import java.net.InetSocketAddress;
-
-import org.apache.log4j.PropertyConfigurator;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.log.GameLog;
-import com.rw.manager.GameManager;
-import com.rw.manager.ServerSwitch;
-import com.rw.service.http.HttpServer;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.RequestProtos.Request;
-
 public class Server {
 	public static final boolean isDebug = true;
 
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		GameWorldFactory.init(32, 16);
+		GameWorldFactory.init(64, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-		
+		System.setProperty("io.netty.recycler.maxCapacity.default", "1024");
 		GameManager.initServerProperties();
-
+		System.out.println("start init...");
 		ServerSwitch.initProperty();
 
-//		GameManager.initBeforeLoading();
+		// 初始化属性的映射关系
+		AttributeBM.initAttributeMap();
+
+		// GameManager.initBeforeLoading();
 		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
 
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
-		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
+		int ioThreads = Runtime.getRuntime().availableProcessors() * 2;
 		// new PrintServerState().startPrintState();
-		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
-		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
+		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(ioThreads);
 		try {
-			//检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+			// 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();
-			
+
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
-			// lida 2015-08-21 启动http通信端口
-			int httpPort = GameManager.getHttpPort();
-			HttpServer.httpServerStart(httpPort);
+			//初始化每日热点数据
+			GambleMgr.resetWhenStart();
+			//GambleTest.Test();
 
+			// 时效任务初始化
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+			serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
 			serverBootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup);
 			serverBootstrap.channel(NioServerSocketChannel.class);

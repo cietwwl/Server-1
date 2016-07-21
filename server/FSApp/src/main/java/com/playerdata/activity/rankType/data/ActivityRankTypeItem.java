@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -12,7 +13,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_RankType_item")
+@Table(name = "activity_ranktype_item")
 public class ActivityRankTypeItem implements  IMapItem {
 
 	@Id
@@ -26,19 +27,80 @@ public class ActivityRankTypeItem implements  IMapItem {
 	@CombineSave
 	private boolean closed = false;
 
+	@CombineSave
+	private String version;	
 	
 	@CombineSave
 	private boolean taken = false;//活动昂大奖是否领取
 
+	@CombineSave
+	private String reward ;
+	
+	@CombineSave
+	private String emailId ;
+	
+	@CombineSave
+	private String fashionReward ;
+	@CombineSave
+	private long redPointLastTime;	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+	
 
+	public String getFashionReward() {
+		return fashionReward;
+	}
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public void setFashionReward(String fashionReward) {
+		this.fashionReward = fashionReward;
+	}
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
 	public String getId() {
 		return id;
+	}
+	
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getReward() {
+		return reward;
+	}
+
+	public void setReward(String reward) {
+		this.reward = reward;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
-
 
 	public String getUserId() {
 		return userId;
@@ -71,7 +133,15 @@ public class ActivityRankTypeItem implements  IMapItem {
 	public void setTaken(boolean taken) {
 		this.taken = taken;
 	}
-	
-	
-	
+
+
+
+	public void reset(ActivityRankTypeCfg targetCfg) {
+		this.taken = false;
+		this.closed = false;
+		this.version = targetCfg.getVersion();
+		this.reward = null;
+		this.emailId=null;
+		this.isTouchRedPoint = false;
+	}	
 }

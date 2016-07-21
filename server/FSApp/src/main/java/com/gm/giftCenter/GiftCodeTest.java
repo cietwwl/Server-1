@@ -21,7 +21,7 @@ public class GiftCodeTest {
 
 			}
 		});
-		GiftCodeResponse resopnse = gmSender.send(giftCodeItem.toGmSendItemData(), GiftCodeResponse.class);
+		GiftCodeResponse resopnse = gmSender.send(giftCodeItem.toGmSendItemData(), GiftCodeResponse.class, 20039);
 		giftCodeItem.getGmCallBack().doCallBack(resopnse);
 	}
 }

@@ -59,6 +59,11 @@ enum EItemAttributeType{
 	Magic_Total_Exp=7;//纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
 }
 
+message RewardInfo{
+	required string rewardId = 1;//奖励的物品Id
+	required int32 rewardCount = 2;//奖励的数量
+}
+
 message TagItemAttriData{
 	required int32 AttrId = 1;//背包扩展属性
 	required string AttValue = 2;//扩展属性值
@@ -103,4 +108,5 @@ message MsgItemBagResponse {
 	required EItemBagEventType eventType = 1;
 	repeated TagItemData itemSyncDatas = 2;
 	optional ResponseInfo rspInfo = 3;//协议处理的响应状态
+	repeated RewardInfo rewardInfo = 4;//通用奖励的信息
 }

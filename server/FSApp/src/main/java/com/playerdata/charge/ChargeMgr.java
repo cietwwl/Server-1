@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -48,7 +47,7 @@ public class ChargeMgr {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
 		if(dataItem == null){
-			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
+//			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
 			return false;
 		}
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
@@ -162,9 +161,10 @@ public class ChargeMgr {
 		
 		
 		if(target!=null){
-			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
-				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+//			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
+//				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+//			}else
+			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -191,8 +191,7 @@ public class ChargeMgr {
 			}
 		}else{
 			GameLog.error("chargemgr", "sdk-充值", "充值失败,未找到商品  ； 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
-		}
-		
+		}		
 		return true;
 	}
 
@@ -321,8 +320,35 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+	
+	
+	public ChargeResult buyMonthCardByGm(Player player, String chargeItemId) {
+		ChargeResult result = ChargeResult.newResult(false);
+		result.setTips("配置表异常");
+		
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeItemId);
 
-	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+		if (target != null) {
+			List<ActivityTimeCardTypeSubCfg> timeCardList = ActivityTimeCardTypeSubCfgDAO
+					.getInstance().getAllCfg();
+			for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
+				if (timecardcfg.getChargeType() == target.getChargeType()) {
+					result = buyMonthCard(player, timecardcfg.getId());
+					break;
+				}
+			}
+		}else{
+			result.setSuccess(false);
+			result.setTips("没这个商品");
+		}
+		
+		return result;
+	}
+
+	
+	
+	
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -337,7 +363,10 @@ public class ChargeMgr {
 		
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
-		ChargeTypeEnum cardtypenume = ChargeCfgDao.getInstance().getCfgById(chargeItemId).getChargeType();
+		ChargeTypeEnum cardtypenume = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getChargeType();
+		
+		
+		
 		String cardtype= cardtypenume.getCfgId();
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
 			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
@@ -359,11 +388,11 @@ public class ChargeMgr {
 			
 			
 			
-			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDaysLimit()){				
+			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()){				
 				result.setTips("购买月卡成功");				
 			}else{				
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡cfgid =" + timeCardSubCfgId);
 			}
 		}
 		if (result.isSuccess()){
@@ -383,6 +412,7 @@ public class ChargeMgr {
 		}
 		return result;
 	}
+
 
 	
 	

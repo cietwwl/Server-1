@@ -10,6 +10,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -219,8 +220,8 @@ public class GroupSkillHandler {
 		}
 
 		// 扣除个人贡献
-		groupMemberMgr.updateMemberContribution(userId, -skillLevelTemplate.getStudyNeedContribution());
-
+		groupMemberMgr.updateMemberContribution(userId, -skillLevelTemplate.getStudyNeedContribution(), false);
+		UserEventMgr.getInstance().LearnSkillInfactionVitality(player, 1);
 		commonRsp.setIsSuccess(true);
 		commonRsp.setTipMsg("学习技能成功");
 		return commonRsp.build().toByteString();

@@ -5,6 +5,9 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.HotPointMgr;
 import com.playerdata.Player;
+import com.playerdata.SignMgr;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwproto.SignServiceProtos.ERequestType;
 import com.rwproto.SignServiceProtos.EResultType;
@@ -39,6 +42,9 @@ public class SignHandler
 		response.setYear(player.getSignMgr().getCurrentYear());
 		response.setReSignCount(player.getSignMgr().getResignCount());
 		response.addAllTagSignData(signDataList);
+		response.setSignNum(player.getSignMgr().getSignNum());
+		response.setCurrentSignRewardId(player.getSignMgr().getSignRewardId());
+		response.setRequireSignNum(player.getSignMgr().getSignRewardRequireSignNum());
 		response.setResultype(EResultType.NEED_REFRESH);
 		return response.build().toByteString();
 	}
@@ -58,6 +64,9 @@ public class SignHandler
 			response.setYear(player.getSignMgr().getCurrentYear());
 			response.setReSignCount(player.getSignMgr().getResignCount());
 			response.addAllTagSignData(signDataList);
+			response.setSignNum(player.getSignMgr().getSignNum());
+			response.setCurrentSignRewardId(player.getSignMgr().getSignRewardId());
+			response.setRequireSignNum(player.getSignMgr().getSignRewardRequireSignNum());
 			response.setResultype(EResultType.NEED_REFRESH);
 			return response.build().toByteString();
 		}
@@ -74,19 +83,25 @@ public class SignHandler
 					response.setYear(player.getSignMgr().getCurrentYear());
 					response.setReSignCount(player.getSignMgr().getResignCount());
 					response.addAllTagSignData(signDataList);
+					response.setSignNum(player.getSignMgr().getSignNum());
+					response.setCurrentSignRewardId(player.getSignMgr().getSignRewardId());
+					response.setRequireSignNum(player.getSignMgr().getSignRewardRequireSignNum());
 					response.setResultype(EResultType.NEED_REFRESH);
 					return response.build().toByteString();
 				}
 			}
 		}
 		String signId = request.getSignId();
+		
 		if(player.getSignMgr().Checklegal(signId))
 		{
 			player.getSignMgr().changeSignData(signId, player, response);
+			
 		}
 		else
 		{
-			response.setResultype(EResultType.NULL);
+			response.setResultMsg("非法请求");
+			response.setResultype(EResultType.FAIL);
 		}
 		HotPointMgr.changeHotPointState(player.getUserId(), EHotPointType.Sign, false);
 		response.setMonth(player.getSignMgr().getCurrentMonth());	//以上一次更新的月份为准...
@@ -94,6 +109,29 @@ public class SignHandler
 		List<String> signDataList = player.getSignMgr().getAllSignRecord();
 		response.addAllTagSignData(signDataList);
 		response.setReSignCount(player.getSignMgr().getResignCount());
+		response.setSignNum(player.getSignMgr().getSignNum());
+		response.setCurrentSignRewardId(player.getSignMgr().getSignRewardId());
+		response.setRequireSignNum(player.getSignMgr().getSignRewardRequireSignNum());
+		return response.build().toByteString();
+	}
+	
+	/**
+	 * 处理签到次数领取对应的奖励
+	 * @param player
+	 * @return
+	 */
+	public ByteString processSignReward(Player player){
+		MsgSignResponse.Builder response = MsgSignResponse.newBuilder().setRequestType(ERequestType.SIGN_REWARD);
+		String result = player.getSignMgr().processSignReward(player);
+		if(result!=null){
+			response.setResultMsg(result);
+			response.setResultype(EResultType.FAIL);
+		}else{
+			response.setSignNum(player.getSignMgr().getSignNum());
+			response.setCurrentSignRewardId(player.getSignMgr().getSignRewardId());
+			response.setRequireSignNum(player.getSignMgr().getSignRewardRequireSignNum());
+			response.setResultype(EResultType.SIGN_REWARD_SUCCESS);
+		}
 		return response.build().toByteString();
 	}
 }

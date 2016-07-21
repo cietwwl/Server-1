@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.common.RefInt;
 import com.playerdata.readonly.ItemBagMgrIF;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ItemBagHolder;
@@ -128,7 +129,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue()) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
 				addItem(itemId, itemCount);
 			} else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
@@ -257,6 +258,15 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
 	public boolean addItem(int cfgId, int count) {
+		
+		//增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
+		//TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
+		if (ItemCfgHelper.isFashionSpecialItem(cfgId)){
+			RefInt fashionId = new RefInt();
+			RefInt expireTimeCount=new RefInt();
+			ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
+			return FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+		}
 		return addItem0(cfgId, count, null, null, true);
 	}
 
@@ -306,6 +316,37 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		Collections.sort(itemList, comparator);// 物品排序
 
 		return useItem0(itemList.get(0).getId(), count, newItemList, updateItemList, dataOperation);
+	}
+
+	/**
+	 * 使用类宝箱类道具
+	 * 
+	 * @param useItemList 要使用物品列表(只能是物品类，不能是货币)
+	 * @param addItemList 要产生的物品
+	 * @param modifyMoneyMap 要使用的货币，使用货币的修改<如果是正数：加；如果是负数：减>
+	 * @return
+	 */
+	public boolean useLikeBoxItem(List<IUseItem> useItemList, List<INewItem> addItemList, Map<Integer, Integer> modifyMoneyMap) {
+		// 金钱操作
+		if (modifyMoneyMap != null) {
+			for (Entry<Integer, Integer> e : modifyMoneyMap.entrySet()) {
+				Integer useCount = e.getValue();
+				if (useCount == 0) {
+					continue;
+				}
+
+				if (!addItem(e.getKey(), useCount)) {
+					return false;
+				}
+			}
+		}
+
+		// 证明只用扣钱
+		if ((useItemList == null || useItemList.isEmpty()) && (addItemList == null || addItemList.isEmpty())) {
+			return true;
+		}
+
+		return useLikeBoxItem(useItemList, addItemList);
 	}
 
 	/**
@@ -420,8 +461,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				player.addPower(count);
 			} else if (cfgId == eSpecialItemId.PlayerExp.getValue()) {
 				player.addUserExp(count);
-			} else if (cfgId == eSpecialItemId.UnendingWarCoin.getValue()) {
-				player.getUserGameDataMgr().addUnendingWarCoin(count);
+			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()) {
+				player.getUserGameDataMgr().addMagicSecretCoin(count);
 			} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {
 				player.getUserGameDataMgr().addTowerCoin(count);
 			} else if (cfgId == eSpecialItemId.GuildCoin.getValue()) {

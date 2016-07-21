@@ -1,10 +1,15 @@
 package com.rw.service.dailyActivity;
 
 import java.util.List;
+
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.DailyActivityMgr;
 import com.playerdata.Player;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
@@ -70,6 +75,11 @@ public class DailyActivityHandler {
 			GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + taskId, null);
 			return returnFailResponse(response);
 		}
+		
+		
+//		BIActivityCode activitycode =  BILogTemplateHelper.getByDailyTaskId(taskId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
+		
 		// 从任务列表中删除该任务
 		if(activityMgr.RemoveTaskById(taskId))
 		{
@@ -78,6 +88,13 @@ public class DailyActivityHandler {
 				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
 			}
 			response.setTaskId(request.getTaskId());
+			
+			
+			
+			List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
+			
 		}
 		else
 		{

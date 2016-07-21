@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.bm.chat.ChatBM;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -105,6 +106,8 @@ public final class GroupBM {
 		group = new Group(groupId);// 直接加载帮派的成员列表到内存
 		cacheGroupDataMap.putIfAbsent(groupId, group);
 
+		// 检查是否要重置每日获取经验和物资上限
+		group.getGroupBaseDataMgr().checkOrResetGroupDayExpAndSupplyLimit();
 		return group;
 	}
 
@@ -178,8 +181,9 @@ public final class GroupBM {
 
 		// 放入成员
 		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
-				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false);
+				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame());
 
+	
 		return group;
 	}
 
@@ -233,6 +237,8 @@ public final class GroupBM {
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+				// 清除所有的秘境消息
+				ChatBM.getInstance().clearAllGroupSecretChatMessage(player.getUserId());
 			}
 		};
 
@@ -285,5 +291,19 @@ public final class GroupBM {
 		sb.append(GameManager.getServerId());
 		sb.append(generator.generateId());
 		return sb.toString();
+	}
+
+	/**
+	 * 检查所有在线帮派的每日经验等限制
+	 */
+	public static void checkOrAllGroupDayLimit() {
+		for (Entry<String, Group> e : cacheGroupDataMap.entrySet()) {
+			Group group = e.getValue();
+			if (group == null) {
+				continue;
+			}
+
+			group.getGroupBaseDataMgr().checkOrResetGroupDayExpAndSupplyLimit();
+		}
 	}
 }

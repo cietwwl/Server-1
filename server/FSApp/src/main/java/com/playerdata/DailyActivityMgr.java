@@ -1,7 +1,9 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
@@ -9,11 +11,9 @@ import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.DailyActivityHolder;
 import com.rwbase.dao.task.DailyFinishType;
-import com.rwbase.dao.task.TableDailyActivityItemDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
 import com.rwbase.dao.task.pojo.DailyActivityData;
-import com.rwbase.dao.task.pojo.DailyActivityTaskItem;
 
 /**
  * 任务的数据管理类。
@@ -49,7 +49,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 
 	// 从配置文件中重新刷新任务列表
 	public List<DailyActivityData> getTaskListByCfg(boolean refresh) {
-		List<DailyActivityCfgEntity> taskCfgList = DailyActivityCfgDAO.getInstance().getAllReadOnlyEntitys();
+		DailyActivityCfgDAO cfgDAO = DailyActivityCfgDAO.getInstance();
+		List<DailyActivityCfgEntity> taskCfgList = cfgDAO.getAllReadOnlyEntitys();
 		List<DailyActivityData> currentList;
 		// 刷新
 		if (refresh) {
@@ -118,7 +119,36 @@ public class DailyActivityMgr implements PlayerEventListener {
 		} else if (changed) {
 			holder.save();
 		}
-		return currentList;
+
+		// TODO HC 临时打个 补丁，用来解决日常任务被删除了某个配置之后，导致还出现的Bug
+		List<DailyActivityData> list = new ArrayList<DailyActivityData>();
+		Map<Integer, DailyActivityData> temMap = new HashMap<Integer, DailyActivityData>();
+		for (int i = currentList.size() - 1; i >= 0; --i) {
+			DailyActivityData data = currentList.get(i);
+			if (data == null) {
+				continue;
+			}
+
+			int taskId = data.getTaskId();
+			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
+			if (cfg == null) {
+//				System.out.println("------ID："+taskId+", 的任务不存在");
+				continue;
+			}
+
+			if(temMap.containsKey(taskId)){
+//				System.out.println("======ID："+taskId+", 重复");
+				//过滤掉重复的数据
+				continue;
+			}
+			
+			temMap.put(taskId, data);
+//			System.out.println("------处理后的任务ID："+taskId+", 任务描述："+ cfg.getCfg().getDescription());
+		}
+		
+		list.addAll(temMap.values());
+
+		return list;
 	}
 
 	/** 检查该配置的任务是否已经被领取(移动到remove列表 ) **/
@@ -200,6 +230,10 @@ public class DailyActivityMgr implements PlayerEventListener {
 			for (int i = 0; i < size; i++) {
 				DailyActivityData taskData = taskList.get(i);
 				DailyActivityCfgEntity entity = activityDAO.getCfgEntity(taskData.getTaskId());
+				if (entity == null) {
+					continue;
+				}
+
 				if (entity.getCfg().getTaskType() != taskType) {
 					continue;
 				}
@@ -231,6 +265,10 @@ public class DailyActivityMgr implements PlayerEventListener {
 	private DailyActivityData getActivityDataById(int type) {
 		for (DailyActivityData td : holder.getTaskItem().getTaskList()) {
 			DailyActivityCfg tempCfg = (DailyActivityCfg) DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(td.getTaskId()));
+			if (tempCfg == null) {
+				continue;
+			}
+
 			if (tempCfg.getTaskType() == type)
 				return td;
 		}

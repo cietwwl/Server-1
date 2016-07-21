@@ -5,6 +5,8 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.common.RefInt;
+import com.playerdata.FashionMgr;
 import com.rw.fsutil.dao.annotation.NonSave;
 
 /**
@@ -12,7 +14,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fashion_being_using")
-public class FashionBeingUsed implements FashionUsedIF{
+public class FashionBeingUsed implements FashionUsedIF {
 	@Id
 	private String userId;
 	private int wingId = -1;
@@ -21,50 +23,87 @@ public class FashionBeingUsed implements FashionUsedIF{
 	@NonSave
 	private int totalEffectPlanId = -1;
 
-	public int[] getUsingList(){
+	/**
+	 * 时装信息：按照顺序是--->套装，翅膀，宠物
+	 * 
+	 * @return
+	 */
+	public int[] getUsingList() {
 		int[] result = new int[3];
-		result[0]=wingId;
-		result[1]=suitId;
-		result[2]=petId;
-		return null;
-	}
-	
-	public IEffectCfg[] getEffectList(int validCount,int career){
-		IEffectCfg[] result = new IEffectCfg[4];
-		result[0]=FashionEffectCfgDao.getInstance().getConfig(wingId,career);
-		result[1]=FashionEffectCfgDao.getInstance().getConfig(suitId,career);
-		result[2]=FashionEffectCfgDao.getInstance().getConfig(petId,career);
-		result[3] = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
+		result[0] = suitId;
+		result[1] = wingId;
+		result[2] = petId;
 		return result;
 	}
 	
+	public void setUsing(int index,int fid){
+		switch(index){
+		case 0:
+			wingId = fid;
+			break;
+		case 1:
+			suitId = fid;
+			break;
+		case 2:
+			petId = fid;
+			break;
+		}
+	}
+	
+	public boolean UpgradeOldData(){
+		boolean result = false;
+		RefInt newFid = new RefInt();
+		if (FashionMgr.UpgradeIdLogic(wingId, newFid)){
+			wingId = newFid.value;
+			result = true;
+		}
+		if (FashionMgr.UpgradeIdLogic(suitId, newFid)){
+			suitId = newFid.value;
+			result = true;
+		}
+		if (FashionMgr.UpgradeIdLogic(petId, newFid)){
+			petId = newFid.value;
+			result = true;
+		}
+		return result;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public int getWingId() {
 		return wingId;
 	}
+
 	public void setWingId(int wingId) {
 		this.wingId = wingId;
 	}
+
 	public int getSuitId() {
 		return suitId;
 	}
+
 	public void setSuitId(int suitId) {
 		this.suitId = suitId;
 	}
+
 	public int getPetId() {
 		return petId;
 	}
+
 	public void setPetId(int petId) {
 		this.petId = petId;
 	}
+
 	public int getTotalEffectPlanId() {
 		return totalEffectPlanId;
 	}
+
 	public void setTotalEffectPlanId(int totalEffectPlanId) {
 		this.totalEffectPlanId = totalEffectPlanId;
 	}

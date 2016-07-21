@@ -17,6 +17,10 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 
 public class ActivityTimeCountTypeMgr {
 
@@ -65,6 +69,7 @@ public class ActivityTimeCountTypeMgr {
 					addItemList = new ArrayList<ActivityTimeCountTypeItem>();
 				}
 				addItemList.add(targetItem);
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
 			} else {
 				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
 					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
@@ -93,7 +98,7 @@ public class ActivityTimeCountTypeMgr {
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {
@@ -136,20 +141,39 @@ public class ActivityTimeCountTypeMgr {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
-		
-		if(dataItem!=null){
-			
-			long currentTimeMillis = System.currentTimeMillis();
-			long lastCountTime = dataItem.getLastCountTime();
-			long timeSpan = currentTimeMillis - lastCountTime;
-			
-			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
-				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
+
+		if (dataItem == null) {
+
+			return;
+		}
+		if (dataItem.isClosed()) {
+			// 玩家已领取完奖励
+			return;
+		}
+		long currentTimeMillis = System.currentTimeMillis();
+		long lastCountTime = dataItem.getLastCountTime();
+		long timeSpan = currentTimeMillis - lastCountTime;
+		boolean istimeout = true;
+		List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO
+				.getInstance().getAllCfg();
+		for (ActivityTimeCountTypeSubCfg cfg : subCfgList) {
+			if (cfg.getCount() >= dataItem.getCount()) {
+				istimeout = false;
+				break;
 			}
-			
-			dataItem.setLastCountTime(currentTimeMillis);
-			dataHolder.updateItem(player, dataItem);
-		}		
+		}
+		if (istimeout) {
+			// 礼包处于可领取状态
+			return;
+		}
+		if (timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond * 1000) {
+			// 过长时间没有响应，比如离线
+			dataItem.setCount(dataItem.getCount() + (int) (timeSpan / 1000));
+
+		}
+		// 礼包处于有效计时状态
+		dataItem.setLastCountTime(currentTimeMillis);
+		dataHolder.updateItem(player, dataItem);
 	}
 
 	
@@ -202,6 +226,10 @@ public class ActivityTimeCountTypeMgr {
 				result.setSuccess(true);
 				result.setReason("领取成功");
 				checkGiftIsAllTake(player,dataItem);
+				
+				
+				
+				
 				dataHolder.updateItem(player, dataItem);
 			}
 		}
@@ -216,6 +244,9 @@ public class ActivityTimeCountTypeMgr {
 				isTakeAll = false;
 			}
 		}
+		if(!isTakeAll){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
+		}
 		dataItem.setClosed(isTakeAll);
 		
 	}
@@ -229,7 +260,11 @@ public class ActivityTimeCountTypeMgr {
 		}	
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
+		List<BilogItemInfo> rewardslist = BilogItemInfo.fromComGiftID(subCfg.getGiftId());
+		String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);		
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, true, 0,rewardInfoActivity,0);
 
+		
+		
 	}
-
 }

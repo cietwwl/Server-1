@@ -7,12 +7,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynType;
@@ -53,7 +60,7 @@ public class DataSynVersionHolder {
 		if (synType == eSynType.COPY_LEVEL_RECORD || synType == eSynType.COPY_MAP_RECORD) {
 			versionType = eSynType.VERSION_COPY;
 		} else if (synType == eSynType.USER_HEROS || synType == eSynType.ROLE_BASE_ITEM || synType == eSynType.SKILL_ITEM
-				|| synType == eSynType.EQUIP_ITEM || synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
+			|| synType == eSynType.EQUIP_ITEM || synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
 
 			versionType = eSynType.USER_HEROS;
 		}
@@ -203,16 +210,16 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.FRESHER_ATIVITY_DATA);
-		
+
 		versionMap.put(eSynType.ActivityCountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {				
-				ActivityCountTypeMgr.getInstance().synCountTypeData(player);	
-//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			public void synAllData(Player player, int version) {
+				ActivityCountTypeMgr.getInstance().synCountTypeData(player);
+				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityCountType);
-		
+
 		versionMap.put(eSynType.Charge, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
@@ -220,44 +227,142 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.Charge);
-		
+
 		versionMap.put(eSynType.ActivityTimeCardType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {				
+			public void synAllData(Player player, int version) {
 				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityTimeCardType);
-		
+
 		versionMap.put(eSynType.ActivityRateType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {				
+			public void synAllData(Player player, int version) {
 				ActivityRateTypeMgr.getInstance().synData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityRateType);
-		
+
 		versionMap.put(eSynType.ActivityTimeCountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {				
+			public void synAllData(Player player, int version) {
 				ActivityTimeCountTypeMgr.getInstance().synTimeCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityTimeCountType);
-		
+
 		versionMap.put(eSynType.ActivityDailyType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
-			public void synAllData(Player player, int version) {				
-				ActivityDailyCountTypeMgr.getInstance().synCountTypeData(player);	
-//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			public void synAllData(Player player, int version) {
+				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);
+				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
 
+		versionMap.put(eSynType.ActivityExchangeType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				ActivityExchangeTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityExchangeType);
+
+		versionMap.put(eSynType.ActivityDailyDiscountType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				ActivityDailyDiscountTypeMgr.getInstance().synCountTypeData(player);
+				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityDailyDiscountType);
+
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				MagicSecretMgr.getInstance().synUserMSData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
+
+		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				MagicSecretMgr.getInstance().synMagicChapterData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicChapterData);
+
+		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				// ActivityDailyTypeMgr.getInstance().synCountTypeData(player);
+				ActivityVitalityTypeMgr.getInstance().synVitalityTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityVitalityType);
+		
+		versionMap.put(eSynType.ActivityRedEnvelopeType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityRedEnvelopeTypeMgr.getInstance().synRedEnvelopeTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityRedEnvelopeType);
+		
+		versionMap.put(eSynType.GFightOnlinePersonalData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				UserGFightOnlineHolder.getInstance().synData(player);
+			}
+		}));
+		orderList.add(eSynType.GFightOnlinePersonalData);
+		//
+		// versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
+		// @Override
+		// public void synAllData(Player player, int version) {
+		// GFDefendArmyItemHolder.getInstance().synSelfData(player);
+		// }
+		// }));
+		// orderList.add(eSynType.GFDefendArmyData);
+		//
+		// versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
+		// @Override
+		// public void synAllData(Player player, int version) {
+		// GFBiddingItemHolder.getInstance().synAllData(player);
+		// }
+		// }));
+		// orderList.add(eSynType.GFBiddingData);
+		//
+		// versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
+		// @Override
+		// public void synAllData(Player player, int version) {
+		// GFightOnlineResourceHolder.getInstance().synData(player);
+		// }
+		// }));
+		// orderList.add(eSynType.GFightOnlineResourceData);
+
 		notInVersionControlList.add(notInVersionControlP);
-		
-		
-		
-		
+
+		notInVersionControlList.add(notInVersionControlP);
+
+		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {
+
+			@Override
+			public void synAllData(Player player, int version) {
+				// TODO Auto-generated method stub
+				// player.getPlayerQuestionMgr().sync(version);
+			}
+		}));
+		orderList.add(eSynType.QuestionList);
+
+		versionMap.put(eSynType.EmbattleInfo, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				EmbattleInfoMgr.getMgr().syn(player);
+			}
+		}));
+		orderList.add(eSynType.EmbattleInfo);
 	}
 }

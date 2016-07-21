@@ -13,23 +13,27 @@ public class RandomStringGroups {
 	protected int[] distributions;
 	protected int accumulation;
 
+	@JsonIgnore
 	public static RandomStringGroups Create(String module, String moduleID, String pairSeperator, String keyValueSeperator,
 			String pairListStr){
 		return new RandomStringGroups(module, moduleID, pairSeperator, keyValueSeperator, pairListStr);
 	}
 	
+	@JsonIgnore
 	public static RandomStringGroups Create(List<Pair<String, Integer>> pairList){
 		return new RandomStringGroups(pairList);
 	}
 
 	protected RandomStringGroups(){}
 	
+	@JsonIgnore
 	protected RandomStringGroups(String module, String moduleID, String pairSeperator, String keyValueSeperator,
 			String pairListStr) {
 		this(ListParser.ParseStrIntPairList(module, moduleID, pairSeperator,
 				keyValueSeperator, pairListStr));
 	}
 	
+	@JsonIgnore
 	protected RandomStringGroups(List<Pair<String, Integer>> pairList){
 		int ordinarySize = pairList.size();
 		plans = new String[ordinarySize];
@@ -64,7 +68,7 @@ public class RandomStringGroups {
 	}
 	
 	@JsonIgnore
-	public String getRandomGroup(Random r){
-		return getRandomGroup(r,null,null);
+	public int size() {
+		return distributions.length;
 	}
 }

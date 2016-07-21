@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bm.rank.teaminfo.TeamInfoListenerPlayerChange;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.store.StoreListenerPlayerChange;
 import com.rwbase.dao.group.GroupListenerPlayerChange;
 
@@ -26,6 +27,7 @@ public class PlayerChangePopertyObserver implements Observer {
 		new GroupListenerPlayerChange(this);
 		new TeamInfoListenerPlayerChange(this);
 		new StoreListenerPlayerChange(this);
+		new GFOnlineListenerPlayerChange(this);
 	}
 
 	public void addSubscribe(PlayerChangePopertySubscribe subscribe) {
@@ -99,5 +101,18 @@ public class PlayerChangePopertyObserver implements Observer {
 	@Override
 	public int getObserverType() {
 		return ObserverFactory.ObserverType.PLAYER_CHANER.ordinal();
+	}
+
+	@Override
+	public void playerChangeHeadBox(Player p) {
+		// TODO Auto-generated method stub
+		if (subscribeList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = subscribeList.size(); i < size; i++) {
+			PlayerChangePopertySubscribe sub = subscribeList.get(i);
+			sub.playerChangeHeadBox(p);
+		}
 	}
 }

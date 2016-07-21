@@ -25,7 +25,6 @@ import com.rwproto.RequestProtos.Request;
 
 public class NewGuideService implements FsService {
 
-	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		GuidanceResponse.Builder builder = GuidanceResponse.newBuilder();
@@ -54,14 +53,13 @@ public class NewGuideService implements FsService {
 				boolean result = giveItem(cfg, player, outTip);
 				return setResponse(builder, outTip.value, result);
 			default:
-				break;
+				return builder.build().toByteString();
 			}
 
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
-		} finally {
-			return null;
-		}
+			return builder.build().toByteString();
+		} 
 
 	}
 

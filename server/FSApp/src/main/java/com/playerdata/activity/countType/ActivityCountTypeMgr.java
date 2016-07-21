@@ -10,6 +10,9 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
@@ -17,8 +20,16 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 
-public class ActivityCountTypeMgr {
+public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityCountTypeMgr instance = new ActivityCountTypeMgr();
 
@@ -31,7 +42,30 @@ public class ActivityCountTypeMgr {
 	public void synCountTypeData(Player player) {
 		ActivityCountTypeItemHolder.getInstance().synAllData(player);
 	}
-
+	
+	/**
+	 * 
+	 * @param player 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+	 */
+	public void checkActivity(Player player){
+		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityExchangeTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
+	}
+	
+	
+	
+	
+	
+	
+	
 //	public void refreshDateFreshActivity(Player player) {
 //		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 //		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
@@ -52,7 +86,7 @@ public class ActivityCountTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-		checkCfgVersion(player);	
+		checkCfgVersion(player);
 		checkClose(player);
 
 	}
@@ -114,7 +148,6 @@ public class ActivityCountTypeMgr {
 
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
 			if (isClose(activityCountTypeItem)) {
-
 				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
 				sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
 				activityCountTypeItem.setClosed(true);
@@ -133,7 +166,7 @@ public class ActivityCountTypeMgr {
 			}			
 			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
 
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
 				if (isAdd) {
 					subItem.setTaken(true);
 				} else {
@@ -224,6 +257,25 @@ public class ActivityCountTypeMgr {
 
 	}
 
-	
 
+
+	
+	public void updateRedPoint(Player player, ActivityRedPointEnum target) {
+		ActivityCountTypeItemHolder activityCountTypeItemHolder = new ActivityCountTypeItemHolder();
+		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(target.getCfgId());
+		if(eNum == null){
+			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityCountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),eNum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}		
+	}
+	
 }

@@ -1,10 +1,13 @@
 package com.playerdata;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,17 +19,22 @@ import com.bm.player.ObserverFactory.ObserverType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
+import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
+import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.log.GameLog;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
-import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -49,15 +57,17 @@ import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
+import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
-import com.rwbase.dao.fashion.IEffectCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.HeroFettersDataHolder;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -82,6 +92,9 @@ import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.SyncVersion;
+import com.rwproto.ResponseProtos;
+import com.rwproto.ResponseProtos.Response;
+import com.rwproto.ResponseProtos.ResponseHeader;
 
 /**
  * 玩家类
@@ -94,7 +107,6 @@ import com.rwproto.ReConnectionProtos.SyncVersion;
 
 public class Player implements PlayerIF {
 
-	private PlayerMsgMgr playerMsgMgr;
 	private UserDataMgr userDataMgr;
 	private UserGameDataMgr userGameDataMgr;
 
@@ -102,7 +114,6 @@ public class Player implements PlayerIF {
 	private HeroMgr m_HeroMgr = new HeroMgr();
 	private CopyRecordMgr m_CopyRecordMgr = new CopyRecordMgr();
 	private MagicMgr magicMgr = new MagicMgr();
-
 	private FriendMgr m_friendMgr = new FriendMgr();
 
 	// 延迟初始化的Mgr
@@ -118,12 +129,13 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
-	//特权管理器
+	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
+	private UserGroupCopyMapRecordMgr userGroupCopyRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
 	private FashionMgr m_FashionMgr = new FashionMgr();
@@ -132,10 +144,14 @@ public class Player implements PlayerIF {
 	private AssistantMgr m_AssistantMgr = new AssistantMgr();
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
-	
+
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
+
+	// 客户端管理工具
+	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
+
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -158,7 +174,10 @@ public class Player implements PlayerIF {
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
-	private SynDataInReqMgr synDataInReqMgr = new SynDataInReqMgr();
+
+	// 个人帮派秘境的Holder
+	private GroupSecretBaseInfoSynDataHolder baseHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretTeamInfoSynDataHolder teamHolder = new GroupSecretTeamInfoSynDataHolder();
 
 	public static Player newOld(String userId) {
 		return new Player(userId, true);
@@ -222,10 +241,10 @@ public class Player implements PlayerIF {
 
 	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
 		this.tempAttribute = new PlayerTempAttribute();
-		playerMsgMgr = new PlayerMsgMgr(userId);
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
+		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
@@ -242,6 +261,8 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
+
+		playerQuestionMgr.init(this);
 
 		if (initMgr) {
 			initMgr();
@@ -274,20 +295,20 @@ public class Player implements PlayerIF {
 		unendingWarMgr.init(this);
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
-		m_TaskMgr.init(this);
 		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
 		m_AssistantMgr.init(this);
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
-		
+
 		guideMgr.init(this);
-		
+
 		afterMgrInit();
 		upgradeMgr.init(this);
-		
+
 		privilegeMgr.init(this);
+		m_TaskMgr.init(this);// 任务要获取其他模块的数据，所以把它放在最后进行初始化 ---by Alex
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -299,7 +320,11 @@ public class Player implements PlayerIF {
 
 			@Override
 			public void doAction() {
-				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
 			}
 		});
 
@@ -309,14 +334,18 @@ public class Player implements PlayerIF {
 				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
 			}
 		});
-		
-		taoistMgr.getEff().subscribe(new IStreamListner<IEffectCfg>() {
+
+		taoistMgr.getEff().subscribe(new IStreamListner<Map<Integer, AttributeItem>>() {
 			@Override
-			public void onChange(IEffectCfg newValue) {
-				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			public void onChange(Map<Integer, AttributeItem> newValue) {
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
 			}
+
 			@Override
-			public void onClose(IStream<IEffectCfg> whichStream) {
+			public void onClose(IStream<Map<Integer, AttributeItem>> whichStream) {
 			}
 		});
 		// initDataVersionControl();
@@ -328,7 +357,6 @@ public class Player implements PlayerIF {
 
 				@Override
 				public void synAllData(Player player, int version) {
-
 					onMinutes();
 					onNewHour();
 					onNewDayZero();
@@ -338,9 +366,6 @@ public class Player implements PlayerIF {
 					userDataMgr.setLastLoginTime(now);
 					// 推送帮派的数据
 					getUserGroupAttributeDataMgr().synUserGroupData(player);
-					// // 推送个人的帮派技能数据
-					// getUserGroupAttributeDataMgr().synUserSkillData(player,
-					// -1);
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
@@ -353,7 +378,18 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
+					// 登录之后推送体力信息
+					PowerInfoDataHolder.synPowerInfo(player);
+					// 登录推送所有的羁绊属性
+					HeroFettersDataHolder.synAll(player);
 
+					ActivityCountTypeMgr.getInstance().checkActivity(player);
+					m_AssistantMgr.synData();
+
+					// 推送帮派秘境基础数据
+					UserGroupSecretBaseDataMgr.getMgr().synData(player);
+					// 推送帮派秘境的Team信息
+					GroupSecretTeamDataMgr.getMgr().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -361,13 +397,14 @@ public class Player implements PlayerIF {
 	}
 
 	public void onLogin() {
+		String userId = getUserId();
+		UserChannelMgr.onBSBegin(userId);
 		notifyLogin();
 		initDataVersionControl();
-		onBSStart();// 合并数据同步信息
 		try {
 			dataSynVersionHolder.synAll(this);
 		} finally {
-			onBSEnd();
+			UserChannelMgr.onBSEnd(userId);
 		}
 
 		GroupMemberHelper.onPlayerLogin(this);
@@ -376,10 +413,10 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		// 当角色登录的时候，更新下登录的时间
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
-		// 登录之后推送体力信息
-		PowerInfoDataHolder.synPowerInfo(this);
-		// 登录推送所有的羁绊属性
-		HeroFettersDataHolder.synAll(this);
+		// 角色登录检查秘境数据是否可以重置
+		UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
+		// 测试：时效任务的角色登录
+		com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -478,15 +515,11 @@ public class Player implements PlayerIF {
 			onNewDayZeroTimeAction = PlayerTimeActionHelper.onNewDayZero(this);
 		}
 
-		if (isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
+		if (DateUtils.isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime(now);
 			onNewDayZeroTimeAction.doAction();
 		}
-	}
-
-	private boolean isNewDayHour(int hour, long lastResetTime) {
-		return DateUtils.getCurrentHour() >= hour && DateUtils.dayChanged(lastResetTime);
 	}
 
 	private TimeAction onNewDay5ClockTimeAction;
@@ -502,10 +535,11 @@ public class Player implements PlayerIF {
 			onNewDay5ClockTimeAction = PlayerTimeActionHelper.onNewDay5ClockTimeAction(this);
 		}
 
-		if (isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
+		if (DateUtils.isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
+			UserGroupSecretBaseDataMgr.getMgr().resetGroupSecretData(this, now);
 		}
 	}
 
@@ -530,22 +564,12 @@ public class Player implements PlayerIF {
 	public void heartBeatCheck() {
 		// getSecretMgr().updateKeyNumByTime();
 		// getSecretMgr().updateSecretByTime();
-		
+
 		ActivityTimeCountTypeMgr.getInstance().doTimeCount(this, ActivityTimeCountTypeEnum.role_online);
 		getAssistantMgr().doCheck();
 		if (this.tempAttribute.checkAndResetRedPoint()) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
 		}
-	}
-
-	// BusinessService start
-	public void onBSStart() {
-		synDataInReqMgr.setInReq(true);
-	}
-
-	// BusinessService end
-	public void onBSEnd() {
-		synDataInReqMgr.doSyn(this);
 	}
 
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
@@ -588,7 +612,31 @@ public class Player implements PlayerIF {
 	}
 
 	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
-		playerMsgMgr.sendMsg(Cmd, pBuffer, true);
+		String userId = getUserId();
+		try {
+			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
+			if (ctx == null) {
+				return;
+			}
+			Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
+			if (pBuffer != null) {
+				builder.setSerializedContent(pBuffer);
+			}
+
+			ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
+			ResponseHeader.Builder header = ResponseHeader.newBuilder();
+			header.mergeFrom(builder.getHeader());
+			header.setStatusCode(200);
+			response.setHeader(header.build());
+			response.setSerializedContent(builder.getSerializedContent());
+			if (!GameUtil.checkMsgSize(response, userId)) {
+				return;
+			}
+			ctx.channel().writeAndFlush(response.build());
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public int addUserExp(long addExp) {
@@ -659,12 +707,13 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
-	//by franky 升级通知，响应时可以通过sample方法获取旧的等级
+	// by franky 升级通知，响应时可以通过sample方法获取旧的等级
 	private StreamImpl<Integer> levelNotification = new StreamImpl<Integer>();
-	public IStream<Integer> getLevelNotification(){
+
+	public IStream<Integer> getLevelNotification() {
 		return levelNotification;
 	}
-	
+
 	public void SetLevel(int newLevel) {
 		// 最高等级
 		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
@@ -680,7 +729,7 @@ public class Player implements PlayerIF {
 		if (observer != null) {
 			observer.playerChangeLevel(this);
 		}
-		
+
 		levelNotification.fire(newLevel);
 	}
 
@@ -701,6 +750,7 @@ public class Player implements PlayerIF {
 			addPower(addpower);
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
+			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
@@ -732,6 +782,7 @@ public class Player implements PlayerIF {
 
 	public void onCareerChange(int career, int sex) {
 		try {
+			// int oldModelId = getModelId();
 			RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, getStarLevel());
 			if (cfg == null) {
 				NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "配置错误！");
@@ -747,6 +798,8 @@ public class Player implements PlayerIF {
 			getMainRoleHero().getEquipMgr().EquipAdvance(newQuality, false);
 			setStarLevel(cfg.getStarLevel());
 
+			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
+			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
@@ -783,8 +836,8 @@ public class Player implements PlayerIF {
 		case PeakArenaCoin:
 			reslut = userGameDataMgr.getPeakArenaCoin();
 			break;
-		case UnendingWarCoin:
-			reslut = userGameDataMgr.getUnendingWarCoin();
+		case MagicSecretCoin:
+			reslut = userGameDataMgr.getMagicSecretCoin();
 			break;
 		default:
 			break;
@@ -882,6 +935,10 @@ public class Player implements PlayerIF {
 
 	public String getHeadImage() {
 		return userDataMgr.getHeadImage();
+	}
+
+	public String getHeadFrame() {
+		return userGameDataMgr.getHeadBox();
 	}
 
 	public int getCareer() {
@@ -1021,7 +1078,6 @@ public class Player implements PlayerIF {
 		// return null;
 	}
 
-
 	public MagicMgr getMagicMgr() {
 		return this.magicMgr;
 	}
@@ -1038,18 +1094,6 @@ public class Player implements PlayerIF {
 
 	public UserDataMgr getUserDataMgr() {
 		return userDataMgr;
-	}
-
-	public SynDataInReqMgr getSynDataInReqMgr() {
-		return synDataInReqMgr;
-	}
-
-	public void setSynDataInReqMgr(SynDataInReqMgr synDataInReqMgr) {
-		this.synDataInReqMgr = synDataInReqMgr;
-	}
-
-	public PlayerMsgMgr getPlayerMsgMgr() {
-		return playerMsgMgr;
 	}
 
 	public RedPointMgr getRedPointMgr() {
@@ -1085,6 +1129,10 @@ public class Player implements PlayerIF {
 		return upgradeMgr;
 	}
 
+	public PlayerQuestionMgr getPlayerQuestionMgr() {
+		return playerQuestionMgr;
+	}
+
 	/**
 	 * 获取个人的帮派数据
 	 * 
@@ -1092,6 +1140,15 @@ public class Player implements PlayerIF {
 	 */
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
 		return userGroupAttributeDataMgr;
+	}
+
+	/**
+	 * 获取个人的帮派副本数据
+	 * 
+	 * @return
+	 */
+	public UserGroupCopyMapRecordMgr getUserGroupCopyRecordMgr() {
+		return userGroupCopyRecordMgr;
 	}
 
 	/**
@@ -1189,12 +1246,12 @@ public class Player implements PlayerIF {
 	}
 
 	/**
-	 * 临时方法
+	 * 是否是机器人
 	 * 
 	 * @return
 	 */
 	public boolean isRobot() {
-		return getUserId().length() > 20;
+		return userDataMgr.getUser().isRobot();
 	}
 
 	/** 每分钟执行 */
@@ -1232,7 +1289,7 @@ public class Player implements PlayerIF {
 	public ITaoistMgr getTaoistMgr() {
 		return taoistMgr;
 	}
-	
+
 	/**
 	 * 获取所有的英雄羁绊
 	 * 
@@ -1291,10 +1348,29 @@ public class Player implements PlayerIF {
 	}
 
 	private IPrivilegeProvider monthProvider;
+
 	public IPrivilegeProvider getMonthCardPrivilegeProvider() {
-		 if (monthProvider == null){
-			 monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
-		 }
-		 return monthProvider;
+		if (monthProvider == null) {
+			monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
+		}
+		return monthProvider;
+	}
+
+	/**
+	 * 获取秘境基础数据的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretBaseInfoSynDataHolder getBaseHolder() {
+		return baseHolder;
+	}
+
+	/**
+	 * 获取秘境Team信息的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
+		return teamHolder;
 	}
 }

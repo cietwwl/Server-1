@@ -40,6 +40,10 @@ public interface PlayerIF {
 	public StoreMgrIF getStoreMgr();
 
 	public int getModelId();
+	
+	public int getSex();
+	
+	public int getCareer();
 
 	// public int getLogoutTimer();
 
@@ -81,4 +85,6 @@ public interface PlayerIF {
 	public int getVip();
 
 	public String getHeadImage();
+	
+	public String getHeadFrame();
 }

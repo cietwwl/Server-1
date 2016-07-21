@@ -19,6 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.arena.RobotManager;
+import com.bm.group.GroupBM;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -26,11 +27,14 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
 import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
@@ -47,6 +51,8 @@ import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
+import com.rwbase.dao.arena.ArenaRobotCfgDAO;
+import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
@@ -61,15 +67,12 @@ public class GameManager {
 	private static boolean reloadconfig;
 	// author:lida 2015-09-23 区id
 	private static int zoneId;
-	private static int httpPort;
 	private static long openTime; // 新服开服时间
 	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); // 登陆服信息
 	private static String logServerIp; // 日志服ip
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
 	private static GameNoticeDataHolder gameNotice;
-	private static String giftCodeServerIp;// 兑换码服务器Id
-	private static int giftCodeServerPort;// 兑换码服务器端口
 	private static int giftCodeTimeOut;// 兑换码服务器请求超时
 	private static String gmAccount;// GM账户名
 	private static String gmPassword;// GM密码
@@ -85,13 +88,13 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
-		
+
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
-		
-		//初始化MapItemStoreFactory
+
+		// 初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
 
 		// initServerProperties();
@@ -125,7 +128,11 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
+		
+		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
+		
 		RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -133,7 +140,7 @@ public class GameManager {
 		GameLog.debug("排行排序用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
-
+		ActivityRankTypeMgr.getInstance().creatMap();//排行榜的活动奖励的配置表初始化
 		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
@@ -145,6 +152,9 @@ public class GameManager {
 		// 羁绊的初始化
 		FettersBM.init();
 
+
+		//帮派副本奖励分发数据初始化
+		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 
@@ -156,7 +166,6 @@ public class GameManager {
 			generateIdNumber = Integer.parseInt(props.getProperty("generateIdNumber"));
 			generateTotalNumber = Integer.parseInt(props.getProperty("generateTotalNumber"));
 			zoneId = Integer.parseInt(props.getProperty("zoneId"));
-			httpPort = Integer.parseInt(props.getProperty("httpPort"));
 			String strPlatformUrl = props.getProperty("platformUrl");
 			String[] split = strPlatformUrl.split(",");
 			for (String value : split) {
@@ -172,8 +181,6 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-			giftCodeServerIp = props.getProperty("giftCodeServerIp");
-			giftCodeServerPort = Integer.parseInt(props.getProperty("giftCodeServerPort"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 
 			gmAccount = props.getProperty("gmAccount");
@@ -243,7 +250,7 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		//PlayerMgr.getInstance().saveAllPlayer();
+		// PlayerMgr.getInstance().saveAllPlayer();
 		// PlayerMgr.getInstance().kickOffAllPlayer();
 
 		shutDownService();
@@ -251,8 +258,7 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
@@ -365,10 +371,6 @@ public class GameManager {
 		return zoneId;
 	}
 
-	public static int getHttpPort() {
-		return httpPort;
-	}
-
 	public static long getOpenTime() {
 		return openTime;
 	}
@@ -393,14 +395,6 @@ public class GameManager {
 		return performanceConfig;
 	}
 
-	public static String getGiftCodeServerIp() {
-		return giftCodeServerIp;
-	}
-
-	public static int getGiftCodeServerPort() {
-		return giftCodeServerPort;
-	}
-
 	public static int getGiftCodeTimeOut() {
 		return giftCodeTimeOut;
 	}
@@ -412,7 +406,7 @@ public class GameManager {
 	public static String getGmPassword() {
 		return gmPassword;
 	}
-	
+
 	/**
 	 * 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 	 */

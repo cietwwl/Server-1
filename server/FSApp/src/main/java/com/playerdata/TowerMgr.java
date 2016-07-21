@@ -9,7 +9,6 @@ import com.bm.rank.RankType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Weight;
 import com.log.GameLog;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -24,6 +23,7 @@ import com.rw.service.tower.TowerHandler.FloorState;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.AngelArrayUtils;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
@@ -205,7 +205,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 		List<String> allEnemyIdList = angelArrayFloorDataHolder.getEnemyUserIdList();
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
-		int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
+		// 计算出来当前要生成多少层的数据，这个做法主要是用来兼容如果某一关出现错误，可以随时补漏
+		int group = floor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 当前组Id
+		int size = group * AngelArrayConst.TOWER_UPDATE_NUM;
+		// int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
 
 		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
 		List<String> hasUserIdList = holder.getAllUserIdList();
@@ -223,7 +226,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
 				angelArrayTeamInfo = AngleArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
-						matchCfg.getRobotId());
+					matchCfg.getRobotId());
 				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
 				isNewRobot = true;
 			}
@@ -244,7 +247,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				}
 
 				GameLog.info("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，己方等级[%s]，己方匹配战力区间战力是[%s,%s]，匹配到的玩家Id是[%s]，匹配阵容战力是[%s]，名字[%s]，来源于[%s]", floor, level, minFighting, maxFighting, uuid,
-						teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
+					teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
 			} else {
 				GameLog.error("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，匹配不到玩家阵容", floor));
 			}
@@ -356,13 +359,12 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		if (floor > maxFloor) {
 			firstReward.append(TowerFirstAwardCfgDAO.getInstance().GetGooldListStr(String.valueOf(floor + 1)));
 		}
-		
-		int multiple = 1;
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(CopyType.COPY_TYPE_TOWER, 3);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
-		
-		
+
+//		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player, CopyType.COPY_TYPE_TOWER, 3);
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, CopyType.COPY_TYPE_TOWER);		
+		int multipleBraveCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.BraveCoin.getValue());
+		int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
 		
 		
 		
@@ -372,10 +374,11 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int gold = awardCfg.gold;
 			int towerCoin = awardCfg.towerCoin;
 			if (gold > 0) {
-				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold*multiple).append(",");
+				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold * multipleCoin).append(",");
 			}
 			if (towerCoin > 0) {
-				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
+				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin*multipleBraveCoin).append(",");
+
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
@@ -394,7 +397,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 					int maxNum = goodCfg.getMaxNum();// 最大数量
 					int num = leastNum + (int) Math.random() * (maxNum - leastNum + 1);
 					if (num > 0) {
-						dropReward.append(goodCfg.getItemId()).append("_").append(num*multiple).append(",");
+						dropReward.append(goodCfg.getItemId()).append("_").append(num * multipleItem).append(",");
 					}
 				}
 			}
@@ -430,6 +433,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);
+			}
+			if (templateId == eSpecialItemId.BraveCoin.getValue()) {
+				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
 		}
 	}
@@ -514,7 +520,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			curAttrData = new CurAttrData();
 			curAttrData.setId(heroId);
 			curAttrData.setCurLife(attrData.getLife());
-			curAttrData.setCurEnergy(attrData.getEnergy());
 		}
 
 		return curAttrData;
@@ -522,6 +527,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
+		if (player.isRobot()) {
+			return;
+		}
 		// 创建万仙阵数据
 		String userId = player.getUserId();
 		TableAngleArrayData angleData = new TableAngleArrayData(userId);

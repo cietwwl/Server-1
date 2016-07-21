@@ -13,11 +13,13 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.equipment.EquipItemIF;
 import com.rwbase.dao.skill.pojo.SkillIF;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwproto.EquipProtos.EquipAttrData;
 import com.rwproto.EquipProtos.EquipData;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.OtherRoleAttrProtos.EMsgType;
 import com.rwproto.OtherRoleAttrProtos.OtherHero;
@@ -39,8 +41,7 @@ public class OtherRoleHandler {
 		OtherRoleAttrResponse.Builder res = OtherRoleAttrResponse.newBuilder();
 		OtherRoleAttr.Builder otherRoleAttr = OtherRoleAttr.newBuilder();
 
-		PlayerIF playerOther = PlayerMgr.getInstance().getReadOnlyPlayer(
-				otherUserId);
+		PlayerIF playerOther = PlayerMgr.getInstance().getReadOnlyPlayer(otherUserId);
 		if (playerOther == null) {
 			return null;
 		}
@@ -51,18 +52,26 @@ public class OtherRoleHandler {
 		return res.build().toByteString();
 	}
 
-	public void setOtherInfo(OtherRoleAttr.Builder otherRoleAttr,
-			PlayerIF player) {
+	public void setOtherInfo(OtherRoleAttr.Builder otherRoleAttr,PlayerIF player) {
 		TableUserIF tableUser = player.getTableUser();
 		otherRoleAttr.setUserId(tableUser.getUserId());
 		otherRoleAttr.setLevel(player.getLevel());
 		otherRoleAttr.setUserName(tableUser.getUserName());
+		
+		//by franky
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(tableUser.getUserId());
+		if (usingFashion != null){
+			otherRoleAttr.setFashionUsage(usingFashion);
+		}
+		otherRoleAttr.setJob(player.getCareer());
+		otherRoleAttr.setSex(player.getSex());
 
 		if (tableUser.getHeadImageWithDefault() == null) {
 			otherRoleAttr.setHeadImage("");
 		} else {
 			otherRoleAttr.setHeadImage(tableUser.getHeadImageWithDefault());
 		}
+		otherRoleAttr.setHeadbox(player.getHeadFrame());
 
 		Hero mainPHero = null;
 		List<Hero> heroList = null;

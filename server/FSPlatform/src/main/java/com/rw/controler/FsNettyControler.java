@@ -45,6 +45,7 @@ public class FsNettyControler {
 		}
 		
 		ByteString resultContent = getSerivice(command).doTask(exRequest, account);
+		System.out.println("++++++++++++++++++++++++"+command);
 		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(exRequest, command));
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);

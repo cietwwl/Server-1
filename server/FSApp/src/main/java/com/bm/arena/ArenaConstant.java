@@ -2,15 +2,8 @@ package com.bm.arena;
 
 import java.util.concurrent.TimeUnit;
 
-import com.rwbase.dao.peakArena.pojo.TablePeakArenaData;
-
 public interface ArenaConstant {
 
-	/**
-	 * 巅峰竞技场最低起扣分
-	 */
-	int PEAK_AREAN_MIN_SCORE = 4000;
-	
 	String COOL_DOWN = "冷却中";
 	
 	String ENEMY_PLACE_CHANGED = "对手排名发生变化，请重新挑战";
@@ -28,10 +21,6 @@ public interface ArenaConstant {
 	String NOT_NEED_RESET = "不需要重置";
 	
 	String VIP_LEVEL_NOT_ENOUGHT = "vip等级不够";
-	/**
-	 * 服务器没有找到OpenLevel对象，先临时加常量
-	 */
-	int PEAK_ARENA_OPEN_LEVEL = 55;
 	
 	/**
 	 * 开放竞技场等级
@@ -42,10 +31,6 @@ public interface ArenaConstant {
 	 */
 	int ARENA_FIGHTING_TIMEOUT = (int) TimeUnit.SECONDS.toMillis(100);
 	
-	/**
-	 * 巅峰竞技场战斗锁定超时时间
-	 */
-	int PEAK_ARENA_FIGHTING_TIMEOUT = (int) TimeUnit.SECONDS.toMillis(300);
 	/**
 	 * 竞技场排名上升时的邮件ID
 	 */

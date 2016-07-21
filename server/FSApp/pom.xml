@@ -13,33 +13,34 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
+		<java.home>${env.JAVA_HOME}</java.home>
 	</properties>
 
- 	<build>
+	<build>
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-assembly-plugin</artifactId>
-			    
-				<executions>  <!--执行器 mvn assembly:assembly-->
+				<artifactId>maven-assembly-plugin</artifactId>
+
+				<executions>  <!--执行器 mvn assembly:assembly -->
 					<execution>
-						<id>make-zip</id><!--名字任意 -->  
-						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->  
-						<goals>  
-						   <goal>single</goal><!-- 只运行一次 -->  
-						</goals>  
+						<id>make-zip</id><!--名字任意 -->
+						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+						<goals>
+							<goal>single</goal><!-- 只运行一次 -->
+						</goals>
 						<configuration>
-								 <descriptors> <!--描述文件路径-->
-									  <descriptor>src/main/resources/zip.xml</descriptor>
-								</descriptors>
+							<descriptors> <!--描述文件路径 -->
+								<descriptor>src/main/resources/zip.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>
-			 </plugin>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 
 	<dependencies>
 		<dependency>
@@ -81,6 +82,13 @@
 			<!-- <scope>test</scope> -->
 		</dependency>
 
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.5.0</version>
+			<scope>system</scope>
+			<systemPath>${java.home}/lib/tools.jar</systemPath>
+		</dependency>
 		<!--这里下面的两个dependency, servlet-api与jsp-api所需 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -94,32 +102,39 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.11</version>
-	      <scope>test</scope>
-	    </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.0.2.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>csv</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>jutils</groupId>
+			<artifactId>jutils</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 		
-	 	<dependency>
-		   	<groupId>org.springframework</groupId>
-		   	<artifactId>spring-test</artifactId>
-		   	<version>3.0.2.RELEASE</version>
-		   	<scope>test</scope>
-		 </dependency>
-
-
-	 	<dependency>
-	 		<groupId>org.apache.commons</groupId>
-	 		<artifactId>csv</artifactId>
-	 		<version>1.2</version>
-	 	</dependency>
-	 	<dependency>
-	 		<groupId>jutils</groupId>
-	 		<artifactId>jutils</artifactId>
-	 		<version>1.0.2</version>
-	 	</dependency>
+		<!-- http://mvnrepository.com/artifact/com.alibaba.rocketmq/rocketmq-client -->
+		<dependency>
+      		<groupId>com.alibaba.rocketmq</groupId>
+      		<artifactId>rocketmq-client</artifactId>
+      		<version>3.4.9</version>
+		</dependency>
 	</dependencies>
 
 

@@ -3,6 +3,7 @@ package com.rwbase.dao.user.accountInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,7 +51,7 @@ public class TableAccount{
 	
 	private String imei;
 	@SaveAsJson
-	private List<Integer> lastLoginList = new ArrayList<Integer>();
+	private List<Integer> lastLoginList = new LinkedList<Integer>();
 	@SaveAsJson
 	private List<Integer> iphoneLastLoginList = new ArrayList<Integer>();
 	@SaveAsJson
@@ -69,22 +70,7 @@ public class TableAccount{
 			this.userZoneInfoMap.put(zoneInfo.getZoneId(), zoneInfo);
 		}
 		
-		addToLastLogin(zoneInfo, this.lastLoginList);
-	}
-
-	private void addToLastLogin(UserZoneInfo ZoneInfo,
-			List<Integer> lastLoginListP) {
-		if (lastLoginListP.size() == 0) {
-			lastLoginListP.add(0, ZoneInfo.getZoneId());
-		} else {
-			int lastZoneId = lastLoginListP.get(0);
-			if (lastZoneId != ZoneInfo.getZoneId()) {
-				lastLoginListP.add(0, lastZoneId);
-				if (lastLoginListP.size() > 2) {
-					lastLoginListP.remove(2);
-				}
-			}
-		}
+		setLastLogin(false, zoneInfo.getZoneId());
 	}
 	
 	public UserZoneInfo getUserZoneInfoByZoneId(int zoneId){
@@ -127,9 +113,28 @@ public class TableAccount{
 			iphoneLastLoginList.clear();
 			iphoneLastLoginList.add(zoneId);
 		} else {
-			lastLoginList.clear();
-			lastLoginList.add(zoneId);
+			
+			//兼容旧数据
+			if(lastLoginList.size() < userZoneInfoMap.size()){
+				lastLoginList.clear();
+				lastLoginList.addAll(userZoneInfoMap.keySet());
+			}
+			
+			
+			if (lastLoginList.size() > 0) {
+				Integer lastZoneId = lastLoginList.get(0);
+				if (lastZoneId != zoneId) {
+					lastLoginList.remove((Integer) zoneId);
+					lastLoginList.add(zoneId);
+				}
+			} else {
+				lastLoginList.add(zoneId);
+			}
 		}
+	}
+	
+	public List<Integer> getLastLogin(){
+		return lastLoginList;
 	}
 	
 	public UserZoneInfo getZoneIdInUserZoneInfoMap(int zoneId){

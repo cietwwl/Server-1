@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
+
+	<bean class="com.common.CfgChecker"/>
+
+	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
+	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
 	
 	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.ArenaScoreCfgDAO"  init-method="init" />
@@ -43,12 +49,11 @@
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.friend.CfgFriendGiftDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleRewardCfgDAO"  init-method="init" />
 	
 	<bean class="com.rw.service.gamble.datamodel.GamblePlanCfgHelper"  init-method="init" />
 	<bean class="com.rw.service.gamble.datamodel.GambleDropCfgHelper"  init-method="init" />
 	<bean class="com.rw.service.gamble.datamodel.HotGambleCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.gamble.datamodel.DropMissingCfgHelper"  init-method="init" />
 	
 	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
@@ -70,8 +75,13 @@
 	
 	<bean class="com.rwbase.dao.mainmsg.CfgPmdDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaPrizeCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaScoreCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaInfoHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.ranking.CfgRankingDAO"  init-method="init" />
@@ -79,6 +89,7 @@
 	<bean class="com.rwbase.dao.role.InlayCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.role.RoleCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.role.RoleQualityCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.role.RoleQualityColorCfgDAO"  init-method="init" />
 
 	<bean class="com.rwbase.dao.setting.HeadBoxCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.setting.HeadCfgDAO"  init-method="init" />
@@ -140,6 +151,11 @@
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillAttributeCfgDAO" init-method="init" />
 	
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao" init-method="init" />
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao" init-method="init" />
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao" init-method="init" />
+	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao" init-method="init" />
+	
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
@@ -159,14 +175,29 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
-	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO"  init-method="init" />
-	
-	
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO"  init-method="init" />
 	
 	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao"  init-method="init" />
+	
+	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
 	
 	
 	
@@ -177,6 +208,54 @@
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
 	
+	<!-- Buffer表 -->
+	<bean class="com.rwbase.dao.battle.pojo.BufferCfgDAO"  init-method="init" />
+	<!-- 道具使用效果 -->
+	<bean class="com.rwbase.dao.item.ItemUseEffectCfgDAO"  init-method="init" />
+
+	<bean class="com.gm.customer.PlayerQuestionService"  init-method="init" />
+	
+	<!-- 专属装备 -->
+	<bean class="com.playerdata.fixEquip.cfg.FixEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />
+	
+	<!-- 法宝秘境 -->
+	<bean class="com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.DungeonScoreCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.FabaoBuffCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO"  init-method="init" />
+	
+	<!-- 帮派秘境 -->
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
+	
+	<!-- 在线帮战 -->
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
+	
+	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
+	<!-- 怪物 -->
+	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />
+	
+	<!-- 竞技场机器人 -->
+	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

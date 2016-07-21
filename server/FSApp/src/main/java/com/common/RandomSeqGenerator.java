@@ -51,7 +51,9 @@ public class RandomSeqGenerator {
 		int groupIndex = tmpseed % groupSize;
 		int planId = seqPlanIdList[groupIndex];
 		currentPlan = helper.getPlan(planId);
-		seqIndex = seqIndex % currentPlan.length;
+		if (currentPlan != null){
+			seqIndex = seqIndex % currentPlan.length;
+		}
 	}
 
 	/**

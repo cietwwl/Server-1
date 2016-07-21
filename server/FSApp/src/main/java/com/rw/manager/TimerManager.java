@@ -1,18 +1,28 @@
 package com.rw.manager;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.bm.guild.GuildGTSMgr;
+import com.bm.group.GroupBM;
+import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
+import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.rw.fsutil.dao.cache.SimpleThreadFactory;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
+import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.gamble.GambleHandler;
+import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
@@ -34,9 +44,11 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
+	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
-	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
+	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimeService"));
+	private static ExecutorService heavyWeightsExecturos = Executors.newFixedThreadPool(4);
 
 	public static void init() {
 		final long SECOND = 1000;// 秒
@@ -52,6 +64,15 @@ public class TimerManager {
 				PlayerMgr.getInstance().secondFunc4AllPlayer();
 			}
 		}, SECOND);
+		
+		time10SecondOp = new TimeSpanOpHelper(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				GFightStateTransfer.getInstance().checkTransfer();
+			}
+			
+		}, SECOND * 10);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -63,11 +84,9 @@ public class TimerManager {
 		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
-				// PlayerMgr.getInstance().saveAllPlayer();
 				GuildDAO.getInstance().flush();
-				// SecretAreaInfoDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
-
+				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, MINUTE_5);
 
@@ -75,7 +94,10 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				GuildGTSMgr.getInstance().checkAssignMent();
+				
+				
+				//帮派副本定时发奖
+//				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
 
@@ -83,7 +105,13 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().dayZero4Func4AllPlayer();
-				RankingActivity.getInstance().notifyRecord();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingActivity.getInstance().notifyRecord();
+					}
+				});
 			}
 		}, 0);
 
@@ -91,9 +119,51 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				RankingMgr.getInstance().resetUpdateState();
+				// TODO 与allen沟通后临时解决慢速任务阻塞时效问题问题，时效需要整理
+				heavyWeightsExecturos.execute(new Runnable() {
+					@Override
+					public void run() {
+						GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
+					}
+				});
+
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingMgr.getInstance().resetUpdateState();
+					}
+				});
+
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						MSScoreRankMgr.dispatchMSDailyReward();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						GroupBM.checkOrAllGroupDayLimit();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						GFightOnlineResourceMgr.getInstance().dispatchDailyReward();
+					}
+				});
 			}
 		}, 5);
 
@@ -101,7 +171,13 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				RankingMgr.getInstance().arenaCalculate();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingMgr.getInstance().arenaCalculate();
+					}
+				});
 			}
 		}, 21);
 
@@ -111,6 +187,7 @@ public class TimerManager {
 			public void run() {
 				try {
 					timeSecondOp.tryRun();
+					time10SecondOp.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}
@@ -127,6 +204,7 @@ public class TimerManager {
 					timeHourOp.tryRun();
 					dayOpOnZero.tryRun();
 					dayOpOn5Am.tryRun();
+					dayOpOn9Pm.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}
@@ -170,22 +248,21 @@ public class TimerManager {
 					dayOpOn23h50m4Bilog.tryRun();
 					biTime10MinuteOp.tryRun();
 					biTimeMinuteOp.tryRun();
-					dayOpOn9Pm.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[biTimeService]", e);
 				}
 			}
 		}, 0, 1, TimeUnit.SECONDS);
-
 	}
 
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 ***/
-		// RankingMgr.getInstance().onTimeMinute();
+		/**** 排行 榜奖励***/
+		ActivityRankTypeMgr.getInstance().sendGift();
 
-		//GambleMgr.minutesUpdate();
+		// GambleMgr.minutesUpdate();
+
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}

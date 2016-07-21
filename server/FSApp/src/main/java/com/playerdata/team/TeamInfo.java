@@ -1,15 +1,22 @@
 package com.playerdata.team;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.ArmyMagic;
+import com.playerdata.dataSyn.annotation.SynClass;
 
 /*
  * @author HC
  * @date 2016年4月15日 下午4:30:10
  * @Description 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class TeamInfo {
 	private List<HeroInfo> hero;// 英雄列表，包含主角
 	// 法宝信息
@@ -20,6 +27,14 @@ public class TeamInfo {
 	private int career;// 职业
 	private String headId;// 头像Id
 	private String groupName;// 帮派名字
+	// 道术
+	private Map<Integer, Integer> taoist;// 道术
+	// 帮派技能
+	private Map<Integer, Integer> gs;// 帮派技能
+	// 时装
+	private FashionInfo fashion;// 时装
+	// 指定的额外属性Id(仅用于机器人类)
+	private int extraId;// 指定的额外属性Id(仅用于机器人类)
 	// 阵容的战力
 	private int teamFighting;// 阵容战力
 	// 等级
@@ -28,6 +43,8 @@ public class TeamInfo {
 
 	public TeamInfo() {
 		hero = new ArrayList<HeroInfo>();
+		taoist = new HashMap<Integer, Integer>();
+		gs = new HashMap<Integer, Integer>();
 	}
 
 	public List<HeroInfo> getHero() {
@@ -108,5 +125,37 @@ public class TeamInfo {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public Map<Integer, Integer> getTaoist() {
+		return taoist;
+	}
+
+	public void setTaoist(Map<Integer, Integer> taoist) {
+		this.taoist = taoist;
+	}
+
+	public Map<Integer, Integer> getGs() {
+		return gs;
+	}
+
+	public void setGs(Map<Integer, Integer> gs) {
+		this.gs = gs;
+	}
+
+	public FashionInfo getFashion() {
+		return fashion;
+	}
+
+	public void setFashion(FashionInfo fashion) {
+		this.fashion = fashion;
+	}
+
+	public int getExtraId() {
+		return extraId;
+	}
+
+	public void setExtraId(int extraId) {
+		this.extraId = extraId;
 	}
 }

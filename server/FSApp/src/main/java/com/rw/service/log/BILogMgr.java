@@ -1,16 +1,20 @@
 package com.rw.service.log;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
@@ -27,7 +31,9 @@ import com.rw.service.log.template.ActivityEndLogTemplate;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BIActivityEntry;
 import com.rw.service.log.template.BILogTemplate;
+import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
+import com.rw.service.log.template.ChatLogTemplate;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
@@ -42,6 +48,7 @@ import com.rw.service.log.template.RoleLogoutLogTemplate;
 import com.rw.service.log.template.RoleUpgradeLogTemplate;
 import com.rw.service.log.template.TaskBeginLogTemplate;
 import com.rw.service.log.template.TaskEndLogTemplate;
+import com.rw.service.log.template.ZoneCountChargeGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountCoinLogTemplate;
 import com.rw.service.log.template.ZoneCountGiftGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountLevelSpreadLogTemplate;
@@ -51,18 +58,16 @@ import com.rw.service.log.template.ZoneLoginLogTemplate;
 import com.rw.service.log.template.ZoneLogoutLogTemplate;
 import com.rw.service.log.template.ZoneRegLogTemplate;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.task.DailyActivityCfgDAO;
+import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class BILogMgr {
-
-	// private ZoneRegInfo zoneRegInfo;
-	//
-	// private ZoneLoginInfo zoneLoginInfo;
-	//
-	// private RoleGameInfo roleGameInfo;
-
-	private static Logger biLog = Logger.getLogger("biLog");
+	
+	private static Map<eBILogType, Logger> LogMap = new HashMap<eBILogType, Logger>();
 
 	private static BILogMgr instance = new BILogMgr();
 
@@ -97,8 +102,35 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
+		templateMap.put(eBILogType.ZoneCountChargeGold, new ZoneCountChargeGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
+		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
 
+	}
+	
+	private Logger getLogger(eBILogType type){
+		if(LogMap.containsKey(type)){
+			return LogMap.get(type);
+		}else{
+			Logger logger = Logger.getLogger(type.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + type.getLogName()+"/"+type.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(type, logger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return logger;
+		}
 	}
 
 	public void logZoneReg(Player player) {
@@ -121,6 +153,16 @@ public class BILogMgr {
 		logAccountLogout(player, moreInfo);
 		logRoleLogout(player);
 	}
+	
+	public void logChat(Player player, String targetUserId, int type, String content){
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("chatSenderAccount", player.getUserDataMgr().getAccount());
+		moreInfo.put("vip", String.valueOf(player.getVip()));
+		moreInfo.put("chatReceiverUseId", targetUserId);
+		moreInfo.put("chatType", String.valueOf(type));
+		moreInfo.put("chatContent", String.valueOf(content));
+		logPlayer(eBILogType.Chat, player, moreInfo);
+	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {
 
@@ -132,7 +174,12 @@ public class BILogMgr {
 	}
 
 	private void logRoleLogout(Player player) {
-		logPlayer(eBILogType.RoleLogout, player, null);
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
+		
+		logPlayer(eBILogType.RoleLogout, player, moreInfo);
 	}
 
 	/* 服务器当前没人在线时传入onlinecount为null */
@@ -161,7 +208,7 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountCoin, null, null, null, moreInfo);
 	}
-	public void logZoneCountGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
+	public void logZoneCountGiftGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();
 
@@ -173,6 +220,22 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountGiftGold, null, null, null, moreInfo);
 	}
+	
+	public void logZoneCountChargeGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
+
+		Map<String, String> moreInfo = new HashMap<String, String>();
+
+		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("zoneChargeGoldRemain", "" + zoneGoldRemain);
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
+
+		log(eBILogType.ZoneCountChargeGold, null, null, null, moreInfo);
+	}
+	
+	
+	
 	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -233,23 +296,64 @@ public class BILogMgr {
 		}
 
 	}
-
-	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode) {
+	
+	/**
+	 * 
+	 * @param player
+	 * @param activityEntry 活动入口
+	 * @param activityCode  活动code
+	 * @param severBegin  为开服活动时传入的子参数
+	 */
+	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode,int copyLevelId,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("activityEntry", "" + activityEntry.getEntry());
-		moreInfo.put("activityCode", "" + activityCode.getCode());
+		moreInfo.put("activityEntry", ""  + player.getUserDataMgr().getEntranceId());
+		
+		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
+			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
+			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else if(StringUtils.equals(activityCode.toString(), BIActivityCode.DAILY_TASK.toString())){
+			DailyActivityCfg cfg = DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(severBegin));
+			moreInfo.put("activityCode", "" + cfg.getBICode());
+		}else{
+			moreInfo.put("activityCode", "" + activityCode.getCode());
+		}
+		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("result", "1");
 
 		logPlayer(eBILogType.ActivityBegin, player, moreInfo);
 	}
-
-	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int activityTime) {
+	/**
+	 * 
+	 * @param player
+	 * @param activityEntry 入口id
+	 * @param activityCode  活动code
+	 * @param copyLevelId   副本id
+	 * @param isWin         是否成功
+	 * @param activityTime  耗时
+	 * @param rewardinfoactivity  奖励文字
+	 * @param severBegin  为开服活动时传入的子参数
+	 */
+	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId,boolean isWin,int activityTime,String rewardinfoactivity,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("activityEntry", "" + activityEntry.getEntry());
-		moreInfo.put("activityCode", "" + activityCode.getCode());
+		moreInfo.put("activityEntry", "" + player.getUserDataMgr().getEntranceId());
+		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
+			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
+			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else if(StringUtils.equals(activityCode.toString(), BIActivityCode.DAILY_TASK.toString())){
+			DailyActivityCfg cfg = DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(severBegin));
+			moreInfo.put("activityCode", "" + cfg.getBICode());
+		}else{
+			moreInfo.put("activityCode", "" + activityCode.getCode());
+		}
+		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("activityTime", "" + activityTime);
 		moreInfo.put("result", "1");
-
+		if (isWin) {
+			moreInfo.put("operationCode", "activity_win");
+		} else {
+			moreInfo.put("operationCode", "activity_fail");
+		}
+		moreInfo.put("rewardsinfoactivity", rewardinfoactivity);
 		logPlayer(eBILogType.ActivityEnd, player, moreInfo);
 	}
 
@@ -277,7 +381,7 @@ public class BILogMgr {
 	 * @param taskId
 	 * @param biTaskType
 	 */
-	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType, boolean success) {
+	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType, boolean success,String rewardinfoactivity) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 
 		if (success) {
@@ -289,12 +393,14 @@ public class BILogMgr {
 		moreInfo.put("taskId", taskId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("biTaskType", "" + biTaskType.getTypeNo());
-
+		moreInfo.put("activityTime", "" + 0);
+		moreInfo.put("rewardsinfotask", rewardinfoactivity);
 		logPlayer(eBILogType.TaskEnd, player, moreInfo);
 	}
 
 	public void logCopyBegin(Player player, Integer copyId, int copyLevel, boolean isFirst, eBILogCopyEntrance entranceType) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
@@ -306,7 +412,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("copyStatus", "2");
 		}
-		moreInfo.put("copyEntrance", entranceType.name());
+//		moreInfo.put("copyEntrance", entranceType.name());
 
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 	}
@@ -317,14 +423,16 @@ public class BILogMgr {
 	 * @param copyId
 	 * @param isFirst 是否首次
 	 */
-	public void logCopyEnd(Player player, Integer copyId, int copyLevel, boolean isFirst, boolean isWin, int fightTime) {
+	public void logCopyEnd(Player player, Integer copyId, int copyLevel, boolean isFirst, boolean isWin, int fightTime,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
+		
 		moreInfo.put("fightTime", "" + fightTime);		
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
@@ -337,7 +445,10 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("operationCode", "case_fail");
 		}
-		
+		moreInfo.put("rewardsinfocopy", rewards);
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
@@ -358,8 +469,9 @@ public class BILogMgr {
 	 * @param player
 	 * @param copyId 扫荡
 	 */
-	public void logSweep(Player player, Integer copyId, int copyLevel) {
+	public void logSweep(Player player, Integer copyId, int copyLevel,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyStatus", "3");
@@ -369,6 +481,10 @@ public class BILogMgr {
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
+		moreInfo.put("rewardsinfocopy", rewards);
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
@@ -474,7 +590,8 @@ public class BILogMgr {
 				@Override
 				public void run() {
 //					biLog.info(logType + " " + logTemplate.getTextTemplate());
-					biLog.info(logType + " " + log);
+					Logger logger = getLogger(logType);
+					logger.info(logType + " " + log);
 					LogService.getInstance().sendLog(log);
 
 				}

@@ -1,7 +1,7 @@
 package com.playerdata;
 
 import com.common.Action;
-import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoHolder;
@@ -35,13 +35,13 @@ public class RoleBaseInfoMgr extends IDataMgr {
 		return false;
 	}
 
-	public AttrData getTotalBaseAttrData() {
-		return roleBaseInfoHolder.toAttrData();
-	}
-
-	public AttrData getTotalQualityAttrDataForLog() {
-		return roleBaseInfoHolder.toQualityAttrDataForLog();
-	}
+	// public AttrData getTotalBaseAttrData() {
+	// return roleBaseInfoHolder.toAttrData();
+	// }
+	//
+	// public AttrData getTotalQualityAttrDataForLog() {
+	// return roleBaseInfoHolder.toQualityAttrDataForLog();
+	// }
 
 	public void setQualityId(String id) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
@@ -122,7 +122,7 @@ public class RoleBaseInfoMgr extends IDataMgr {
 		roleBaseInfo.setLevel(level);
 		roleBaseInfo.setExp(exp);
 		roleBaseInfoHolder.update(m_pPlayer);
-
+		UserEventMgr.getInstance().heroUpGradeVitality(m_pPlayer, level);
 		// 等级修改
 		if (oldLevel != level) {
 			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());

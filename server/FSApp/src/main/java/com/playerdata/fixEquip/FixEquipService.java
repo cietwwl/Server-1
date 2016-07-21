@@ -30,6 +30,9 @@ public class FixEquipService implements FsService {
 			case Norm_level_up:
 				byteString = normEquipHandler.levelUp(player, commonReq);
 				break;
+			case Norm_level_up_one_key:
+				byteString = normEquipHandler.levelUpOneKey(player, commonReq);
+				break;
 			case Norm_quality_up:
 				byteString = normEquipHandler.qualityUp(player, commonReq);
 				break;

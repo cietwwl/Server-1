@@ -29,5 +29,4 @@ public class AttributeItem {
 	public AttributeType getType() {
 		return type;
 	}
-
 }

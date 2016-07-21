@@ -5,10 +5,12 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import com.bm.login.ZoneBM;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.SessionInfo;
 import com.rw.netty.UserChannelMgr;
@@ -50,6 +52,8 @@ public class GameLogicTask implements PlayerTask {
 			System.err.println("开始处理：" + new Date() + "," + command + "," + seqID);
 			// plyaer为null不敢做过滤
 			if (player != null) {
+				UserDataMgr userDataMgr = player.getUserDataMgr();
+				userDataMgr.setEntranceId(request.getHeader().getEntranceId());
 				userId = player.getUserId();
 				ChannelHandlerContext ctx = UserChannelMgr.get(userId);
 				if (ctx == null) {
@@ -71,27 +75,22 @@ public class GameLogicTask implements PlayerTask {
 				}
 				handleGuildance(header, userId);
 			}
-//			try {
-//				Thread.sleep(10100);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 			try {
-				player.onBSStart();
+				// 收集逻辑产生的数据变化
+				UserChannelMgr.onBSBegin(userId);
 				resultContent = nettyControler.getSerivice(command).doTask(request, player);
 				player.getAssistantMgr().doCheck();
 				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++" + command);
 			} finally {
-				player.onBSEnd();
+				// 把逻辑产生的数据变化先同步到客户端
+				UserChannelMgr.onBSEnd(userId);
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);
 			nettyControler.sendErrorResponse(userId, request.getHeader(), 500);
 			return;
 		}
-		if (resultContent != null) {
-			nettyControler.sendResponse(userId, header, resultContent, sessionId);
-		}
+		nettyControler.sendResponse(userId, header, resultContent, sessionId);
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);

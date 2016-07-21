@@ -7,7 +7,6 @@ import com.common.Action;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -53,25 +52,25 @@ public class RoleBaseInfoHolder {// 战斗数据
 		}
 	}
 
-	public AttrData toAttrData() {
-		RoleBaseInfo roleBaseInfo = get();
-		if (roleBaseInfo != null) {
-			return RoleBaseInfoHelper.toAttrData(roleBaseInfo);
-		} else {
-			GameLog.error("hero", "RoleBaseInfoHolder#toAttrData()", "get hero fail:" + uuid);
-			return null;
-		}
-	}
-
-	public AttrData toQualityAttrDataForLog() {
-		RoleBaseInfo roleBaseInfo = get();
-		if (roleBaseInfo != null) {
-			return RoleBaseInfoHelper.addQualityAttrData(roleBaseInfo);
-		} else {
-			GameLog.error("hero", "RoleBaseInfoHolder#toQualityAttrDataForLog()", "get hero fail:" + uuid);
-			return null;
-		}
-	}
+	// public AttrData toAttrData() {
+	// RoleBaseInfo roleBaseInfo = get();
+	// if (roleBaseInfo != null) {
+	// return RoleBaseInfoHelper.toAttrData(roleBaseInfo);
+	// } else {
+	// GameLog.error("hero", "RoleBaseInfoHolder#toAttrData()", "get hero fail:" + uuid);
+	// return null;
+	// }
+	// }
+	//
+	// public AttrData toQualityAttrDataForLog() {
+	// RoleBaseInfo roleBaseInfo = get();
+	// if (roleBaseInfo != null) {
+	// return RoleBaseInfoHelper.addQualityAttrData(roleBaseInfo);
+	// } else {
+	// GameLog.error("hero", "RoleBaseInfoHolder#toQualityAttrDataForLog()", "get hero fail:" + uuid);
+	// return null;
+	// }
+	// }
 
 	public void flush() {
 	}

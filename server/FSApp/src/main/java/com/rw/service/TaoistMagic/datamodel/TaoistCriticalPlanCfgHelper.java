@@ -28,6 +28,9 @@ public class TaoistCriticalPlanCfgHelper extends CfgCsvDao<TaoistCriticalPlanCfg
 	@Override
 	public int[] getPlan(int planId) {
 		TaoistCriticalPlanCfg cfg = cfgCacheMap.get(String.valueOf(planId));
-		return cfg.getPlans();
+		if (cfg != null){
+			return cfg.getPlans();
+		}
+		return null;
 	}
 }

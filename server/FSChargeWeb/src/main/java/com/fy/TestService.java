@@ -9,6 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+import java.util.Properties;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+
 import com.fy.common.FastJsonUtil;
 
 public class TestService {
@@ -17,12 +23,12 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1027");
+		content.setCpTradeNo("1028");
 		content.setGameId(3);
 		content.setUserId("100100000455");
-		content.setRoleId("100100000466");
+		content.setRoleId("100100000756");
 		
-		content.setServerId(20);
+		content.setServerId(27);
 		content.setChannelId("0");
 		
 		content.setItemId("1");
@@ -37,7 +43,19 @@ public class TestService {
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
 		String serverIp = "127.0.0.1";
-		int port = 9090;
+		int port = 10007;
+		
+		Resource resource = new ClassPathResource("charge.properties");
+		int serverPort = 10000;
+		try {
+			Properties props = PropertiesLoaderUtils.loadProperties(resource);
+			serverPort = Integer.parseInt(props.getProperty("serverPort"));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 		String url = "http://"+serverIp+":"+port+"/charge";
 
 		String jsonContent = FastJsonUtil.toJson(content);

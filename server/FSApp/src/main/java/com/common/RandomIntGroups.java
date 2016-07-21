@@ -37,16 +37,66 @@ public class RandomIntGroups {
 		}
 	}
 	
+	public int[] getPlanList(){
+		return plans;
+	}
+	
 	public int getRandomGroup(Random r){
+		return getRandomGroup(r,null);
+	}
+
+	public int getRandomGroup(Random r, RefInt selectedGroupIndex) {
+		if (accumulation <= 0) return 0;
+		if (plans.length <= 0) return 0;
+		
 		int ran = r.nextInt(accumulation);
 		for (int i = 0; i < distributions.length; i++) {
 			int dis = distributions[i];
 			if (ran < dis){
+				if (selectedGroupIndex != null){
+					selectedGroupIndex.value = i;
+				}
 				return plans[i];
 			}
 		}
 		//bug here!
 		GameLog.error("RandomGroups", "getRandomGroup", "bug in distribution");
+		
+		if (selectedGroupIndex != null){
+			selectedGroupIndex.value = 0;
+		}
 		return plans[0];
+	}
+
+	public int size() {
+		return plans.length;
+	}
+
+	public RandomIntGroups removeIndex(int value) {
+		if (value<0 || value >= plans.length){
+			return this;
+		}
+		int oldCount = plans.length;
+		if (oldCount <=1){
+			return null;
+		}
+		RandomIntGroups result = new RandomIntGroups();
+		result.plans = new int[oldCount - 1];
+		result.distributions = new int[oldCount - 1];
+		int newIndex = 0;
+		int oldDelta = distributions[0];
+		for (int i = 0;i<oldCount;i++){
+			if (i>0){
+				oldDelta = distributions[i] - distributions[i - 1];
+			}
+			if (i == value){
+				continue;
+			}
+			result.plans[newIndex]=plans[i];
+			result.accumulation += oldDelta;
+			result.distributions[newIndex] = result.accumulation;
+			newIndex++;
+		}
+		return result;
 	}
 }

@@ -8,8 +8,141 @@ public final class RedPointServiceProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  /**
+   * Protobuf enum {@code RequestType}
+   */
+  public enum RequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>RT_ALL = 1;</code>
+     *
+     * <pre>
+     *主动请求刷新所有红点
+     * </pre>
+     */
+    RT_ALL(0, 1),
+    /**
+     * <code>RT_ONE = 2;</code>
+     *
+     * <pre>
+     *主动请求刷新一个红点
+     * </pre>
+     */
+    RT_ONE(1, 2),
+    ;
+
+    /**
+     * <code>RT_ALL = 1;</code>
+     *
+     * <pre>
+     *主动请求刷新所有红点
+     * </pre>
+     */
+    public static final int RT_ALL_VALUE = 1;
+    /**
+     * <code>RT_ONE = 2;</code>
+     *
+     * <pre>
+     *主动请求刷新一个红点
+     * </pre>
+     */
+    public static final int RT_ONE_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static RequestType valueOf(int value) {
+      switch (value) {
+        case 1: return RT_ALL;
+        case 2: return RT_ONE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+            public RequestType findValueByNumber(int number) {
+              return RequestType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.RedPointServiceProtos.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final RequestType[] VALUES = values();
+
+    public static RequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private RequestType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:RequestType)
+  }
+
   public interface RedPointServiceRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // required .RequestType reqType = 1;
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     */
+    com.rwproto.RedPointServiceProtos.RequestType getReqType();
+
+    // optional int32 id = 2;
+    /**
+     * <code>optional int32 id = 2;</code>
+     */
+    boolean hasId();
+    /**
+     * <code>optional int32 id = 2;</code>
+     */
+    int getId();
+
+    // optional string extraInfo = 3;
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    boolean hasExtraInfo();
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    java.lang.String getExtraInfo();
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtraInfoBytes();
   }
   /**
    * Protobuf type {@code RedPointServiceRequest}
@@ -44,6 +177,7 @@ public final class RedPointServiceProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -59,6 +193,27 @@ public final class RedPointServiceProtos {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.RedPointServiceProtos.RequestType value = com.rwproto.RedPointServiceProtos.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              id_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              extraInfo_ = input.readBytes();
               break;
             }
           }
@@ -100,13 +255,96 @@ public final class RedPointServiceProtos {
       return PARSER;
     }
 
+    private int bitField0_;
+    // required .RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.RedPointServiceProtos.RequestType reqType_;
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     */
+    public com.rwproto.RedPointServiceProtos.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // optional int32 id = 2;
+    public static final int ID_FIELD_NUMBER = 2;
+    private int id_;
+    /**
+     * <code>optional int32 id = 2;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 id = 2;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // optional string extraInfo = 3;
+    public static final int EXTRAINFO_FIELD_NUMBER = 3;
+    private java.lang.Object extraInfo_;
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    public boolean hasExtraInfo() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    public java.lang.String getExtraInfo() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          extraInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string extraInfo = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtraInfoBytes() {
+      java.lang.Object ref = extraInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extraInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
+      reqType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+      id_ = 0;
+      extraInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -114,6 +352,15 @@ public final class RedPointServiceProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getExtraInfoBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -123,6 +370,18 @@ public final class RedPointServiceProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getExtraInfoBytes());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -239,6 +498,12 @@ public final class RedPointServiceProtos {
 
       public Builder clear() {
         super.clear();
+        reqType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        extraInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -265,6 +530,21 @@ public final class RedPointServiceProtos {
 
       public com.rwproto.RedPointServiceProtos.RedPointServiceRequest buildPartial() {
         com.rwproto.RedPointServiceProtos.RedPointServiceRequest result = new com.rwproto.RedPointServiceProtos.RedPointServiceRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.extraInfo_ = extraInfo_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -280,11 +560,26 @@ public final class RedPointServiceProtos {
 
       public Builder mergeFrom(com.rwproto.RedPointServiceProtos.RedPointServiceRequest other) {
         if (other == com.rwproto.RedPointServiceProtos.RedPointServiceRequest.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasExtraInfo()) {
+          bitField0_ |= 0x00000004;
+          extraInfo_ = other.extraInfo_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -305,6 +600,150 @@ public final class RedPointServiceProtos {
         }
         return this;
       }
+      private int bitField0_;
+
+      // required .RequestType reqType = 1;
+      private com.rwproto.RedPointServiceProtos.RequestType reqType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       */
+      public com.rwproto.RedPointServiceProtos.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       */
+      public Builder setReqType(com.rwproto.RedPointServiceProtos.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 id = 2;
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000002;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string extraInfo = 3;
+      private java.lang.Object extraInfo_ = "";
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public boolean hasExtraInfo() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public java.lang.String getExtraInfo() {
+        java.lang.Object ref = extraInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          extraInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtraInfoBytes() {
+        java.lang.Object ref = extraInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public Builder setExtraInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        extraInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public Builder clearExtraInfo() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        extraInfo_ = getDefaultInstance().getExtraInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       */
+      public Builder setExtraInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        extraInfo_ = value;
+        onChanged();
+        return this;
+      }
 
       // @@protoc_insertion_point(builder_scope:RedPointServiceRequest)
     }
@@ -319,6 +758,26 @@ public final class RedPointServiceProtos {
 
   public interface RedPointServiceResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // required .RequestType respType = 1;
+    /**
+     * <code>required .RequestType respType = 1;</code>
+     */
+    boolean hasRespType();
+    /**
+     * <code>required .RequestType respType = 1;</code>
+     */
+    com.rwproto.RedPointServiceProtos.RequestType getRespType();
+
+    // required bool isSuccess = 2;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     */
+    boolean hasIsSuccess();
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     */
+    boolean getIsSuccess();
   }
   /**
    * Protobuf type {@code RedPointServiceResponse}
@@ -353,6 +812,7 @@ public final class RedPointServiceProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -368,6 +828,22 @@ public final class RedPointServiceProtos {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.RedPointServiceProtos.RequestType value = com.rwproto.RedPointServiceProtos.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                respType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              isSuccess_ = input.readBool();
               break;
             }
           }
@@ -409,13 +885,56 @@ public final class RedPointServiceProtos {
       return PARSER;
     }
 
+    private int bitField0_;
+    // required .RequestType respType = 1;
+    public static final int RESPTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.RedPointServiceProtos.RequestType respType_;
+    /**
+     * <code>required .RequestType respType = 1;</code>
+     */
+    public boolean hasRespType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .RequestType respType = 1;</code>
+     */
+    public com.rwproto.RedPointServiceProtos.RequestType getRespType() {
+      return respType_;
+    }
+
+    // required bool isSuccess = 2;
+    public static final int ISSUCCESS_FIELD_NUMBER = 2;
+    private boolean isSuccess_;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     */
+    public boolean hasIsSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     */
+    public boolean getIsSuccess() {
+      return isSuccess_;
+    }
+
     private void initFields() {
+      respType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+      isSuccess_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasRespType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -423,6 +942,12 @@ public final class RedPointServiceProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, respType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, isSuccess_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -432,6 +957,14 @@ public final class RedPointServiceProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, respType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, isSuccess_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -548,6 +1081,10 @@ public final class RedPointServiceProtos {
 
       public Builder clear() {
         super.clear();
+        respType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        isSuccess_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -574,6 +1111,17 @@ public final class RedPointServiceProtos {
 
       public com.rwproto.RedPointServiceProtos.RedPointServiceResponse buildPartial() {
         com.rwproto.RedPointServiceProtos.RedPointServiceResponse result = new com.rwproto.RedPointServiceProtos.RedPointServiceResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.respType_ = respType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isSuccess_ = isSuccess_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -589,11 +1137,25 @@ public final class RedPointServiceProtos {
 
       public Builder mergeFrom(com.rwproto.RedPointServiceProtos.RedPointServiceResponse other) {
         if (other == com.rwproto.RedPointServiceProtos.RedPointServiceResponse.getDefaultInstance()) return this;
+        if (other.hasRespType()) {
+          setRespType(other.getRespType());
+        }
+        if (other.hasIsSuccess()) {
+          setIsSuccess(other.getIsSuccess());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasRespType()) {
+          
+          return false;
+        }
+        if (!hasIsSuccess()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -612,6 +1174,76 @@ public final class RedPointServiceProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .RequestType respType = 1;
+      private com.rwproto.RedPointServiceProtos.RequestType respType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+      /**
+       * <code>required .RequestType respType = 1;</code>
+       */
+      public boolean hasRespType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .RequestType respType = 1;</code>
+       */
+      public com.rwproto.RedPointServiceProtos.RequestType getRespType() {
+        return respType_;
+      }
+      /**
+       * <code>required .RequestType respType = 1;</code>
+       */
+      public Builder setRespType(com.rwproto.RedPointServiceProtos.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        respType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .RequestType respType = 1;</code>
+       */
+      public Builder clearRespType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        respType_ = com.rwproto.RedPointServiceProtos.RequestType.RT_ALL;
+        onChanged();
+        return this;
+      }
+
+      // required bool isSuccess = 2;
+      private boolean isSuccess_ ;
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       */
+      public boolean hasIsSuccess() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       */
+      public boolean getIsSuccess() {
+        return isSuccess_;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       */
+      public Builder setIsSuccess(boolean value) {
+        bitField0_ |= 0x00000002;
+        isSuccess_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       */
+      public Builder clearIsSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isSuccess_ = false;
+        onChanged();
         return this;
       }
 
@@ -645,9 +1277,13 @@ public final class RedPointServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025RedPointService.proto\"\030\n\026RedPointServi" +
-      "ceRequest\"\031\n\027RedPointServiceResponseB$\n\013" +
-      "com.rwprotoB\025RedPointServiceProtos"
+      "\n\025RedPointService.proto\"V\n\026RedPointServi" +
+      "ceRequest\022\035\n\007reqType\030\001 \002(\0162\014.RequestType" +
+      "\022\n\n\002id\030\002 \001(\005\022\021\n\textraInfo\030\003 \001(\t\"L\n\027RedPo" +
+      "intServiceResponse\022\036\n\010respType\030\001 \002(\0162\014.R" +
+      "equestType\022\021\n\tisSuccess\030\002 \002(\010*%\n\013Request" +
+      "Type\022\n\n\006RT_ALL\020\001\022\n\n\006RT_ONE\020\002B$\n\013com.rwpr" +
+      "otoB\025RedPointServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -659,13 +1295,13 @@ public final class RedPointServiceProtos {
           internal_static_RedPointServiceRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RedPointServiceRequest_descriptor,
-              new java.lang.String[] { });
+              new java.lang.String[] { "ReqType", "Id", "ExtraInfo", });
           internal_static_RedPointServiceResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_RedPointServiceResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RedPointServiceResponse_descriptor,
-              new java.lang.String[] { });
+              new java.lang.String[] { "RespType", "IsSuccess", });
           return null;
         }
       };

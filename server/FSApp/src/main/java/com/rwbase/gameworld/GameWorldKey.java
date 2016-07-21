@@ -26,6 +26,11 @@ public enum GameWorldKey {
 	RANKING_ACTIVITY_CAL("RANKING_ACTIVITY_CAL"),
 	
 	/**
+	 * 需要定时分发奖励的帮派id
+	 */
+	GROUP_COPY_DIST_REWARD_ID("GROUP_COPY_DIST_REWARD_ID"),
+	
+	/**
 	 * 战力榜
 	 */
 	FIGHTING(GmGetRankList.RankInfoType.FIGHTING.name()),

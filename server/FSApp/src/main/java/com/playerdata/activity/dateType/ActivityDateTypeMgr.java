@@ -74,16 +74,13 @@ public class ActivityDateTypeMgr {
 					ActivityDateTypeSubCfg subItemCfg = ActivityDateTypeSubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
 					
 					if(!subItem.isTaken() && subItem.getCount() >= subItemCfg.getAwardCount()){
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"");	
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"","");	
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {
 							GameLog.error(LogModule.ComActivityDate, player.getUserId(),"通用活动关闭后发送未领取奖励邮件失败。",null);
-						}		
-						
-					}
-					
-									
+						}						
+					}									
 				}						
 				activityDateTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityDateTypeItem);

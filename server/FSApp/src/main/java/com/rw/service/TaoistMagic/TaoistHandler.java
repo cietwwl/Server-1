@@ -10,6 +10,7 @@ import com.playerdata.UserGameDataMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistConsumeCfgHelper;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwproto.TaoistMagicProtos.ErrorCode_Taoist;
 import com.rwproto.TaoistMagicProtos.TaoistInfo;
 import com.rwproto.TaoistMagicProtos.TaoistRequest;
@@ -72,7 +73,13 @@ public class TaoistHandler {
 		if (planNums == null) {
 			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
-
+		
+//		System.out.print("道术暴击序列:");
+//		for(int i = 0; i<planNums.length;i++){
+//			System.out.print(planNums[i]+",");
+//		}
+//		System.out.println();
+		
 		int criticalCount = 0;
 		if (total.value > upgradeCount) {
 			criticalCount = total.value - upgradeCount;
@@ -106,7 +113,10 @@ public class TaoistHandler {
 		taoistMgr.RefreshSeed();
 		response.setCriticalRamdom(taoistMgr.getRandomSeed());
 		response.setErrorCode(ErrorCode_Taoist.Success);
-		response.setResultTip("暴击次数:"+criticalCount);
+		response.setResultTip("暴击增加倍数:"+criticalCount+",消耗货币:"+coinCount);
+
+		//通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.TAOIST_STRENGTH, 1);
 		return response.build().toByteString();
 	}
 

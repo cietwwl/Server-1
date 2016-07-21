@@ -2,12 +2,15 @@ package com.common;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+
+import org.springframework.util.StringUtils;
 
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
@@ -48,8 +51,7 @@ public class HPCUtil {
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(long value, int expectLength) {
@@ -59,11 +61,9 @@ public class HPCUtil {
 	/**
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
-	 * @param sb
-	 *            补0后的String填充到此StringBuilder中
+	 * @param sb 补0后的String填充到此StringBuilder中
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(StringBuilder sb, long value, int expectLength) {
@@ -109,7 +109,7 @@ public class HPCUtil {
 		}
 		return (T[]) array;
 	}
-	
+
 	/**
 	 * 转换成类型映射数组
 	 * 
@@ -191,14 +191,57 @@ public class HPCUtil {
 	}
 
 	/**
+	 * 通过指定分隔符解析成List<Integer>，如不包含指定分隔符，按一个Integer解析
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static int[] parseIntegerArray(String text, String split) {
+		if (!text.contains(split)) {
+			return new int[] { Integer.parseInt(text) };
+		}
+
+		StringTokenizer token = new StringTokenizer(text, split);
+		int[] arr = new int[token.countTokens()];
+		int i = 0;
+		while (token.hasMoreTokens()) {
+			arr[i++] = Integer.parseInt(token.nextToken());
+		}
+		return arr;
+	}
+
+	/**
+	 * 通过指定分隔符解析成List<String>，如不包含指定分隔符，按一个String解析
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static String[] parseStringArray(String text, String split) {
+		if (!text.contains(split)) {
+			return new String[] { text };
+		}
+
+		StringTokenizer token = new StringTokenizer(text, split);
+		String[] arr = new String[token.countTokens()];
+		int i = 0;
+		while (token.hasMoreTokens()) {
+			arr[i++] = token.nextToken();
+		}
+		return arr;
+	}
+
+	/**
 	 * 通过一级与二级分隔符，把文本解析成Map<Integer,Integer>
+	 * 
 	 * @param text
 	 * @param firstSplit
 	 * @param secondSplit
 	 * @return
 	 */
 	public static Map<Integer, Integer> parseIntegerMap(String text, String firstSplit, String secondSplit) {
-		HashMap<Integer,Integer> map = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		StringTokenizer token = new StringTokenizer(text, firstSplit);
 		while (token.hasMoreTokens()) {
 			fillIntoMap(token.nextToken(), secondSplit, map);
@@ -241,13 +284,14 @@ public class HPCUtil {
 	public static boolean isResetTime(long lastTime) {
 		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
 	}
-	
+
 	/**
 	 * 通过文本按照默认格式创建{@link ItemInfo}列表
+	 * 
 	 * @param text
 	 * @return
 	 */
-	public static List<ItemInfo> createItemInfo(String text){
+	public static List<ItemInfo> createItemInfo(String text) {
 		String[] reward = text.split(",");
 		ArrayList<ItemInfo> rewardList = new ArrayList<ItemInfo>(reward.length);
 		for (int i = 0; i < reward.length; i++) {
@@ -260,4 +304,30 @@ public class HPCUtil {
 		return rewardList;
 	}
 
+	/**
+	 * 解析字符串成为List
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static List<String> parseStr2List(String text, String split) {
+		if (StringUtils.isEmpty(text)) {
+			return Collections.emptyList();
+		}
+
+		if (!text.contains(split)) {
+			ArrayList<String> list = new ArrayList<String>(1);
+			list.add(text);
+			return list;
+		}
+
+		ArrayList<String> list = new ArrayList<String>();
+		StringTokenizer token = new StringTokenizer(text, split);
+		while (token.hasMoreTokens()) {
+			list.add(token.nextToken());
+		}
+
+		return list;
+	}
 }

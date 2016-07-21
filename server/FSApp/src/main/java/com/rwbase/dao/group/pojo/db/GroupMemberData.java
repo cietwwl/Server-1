@@ -3,6 +3,8 @@ package com.rwbase.dao.group.pojo.db;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -14,6 +16,7 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
  * @Description 帮派成员信息
  */
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "group_member")
 public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
@@ -28,6 +31,7 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private String name;// 成员名字
 	private int level;// 成员的等级<short>
 	private String headId;// 头像的Id
+	private String headbox;// 头像框
 	private int vipLevel;// 成员的Vip等级<byte>
 	@IgnoreSynField
 	private int job;// 成员的职业<byte>
@@ -42,6 +46,9 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private long applyTime;// 申请加入帮派的时间
 	private long receiveTime;// 接受加入帮派的时间
 	private int totalContribution;// 帮派个人总贡献
+	@IgnoreSynField
+	private int dayContribution;// 当天捐献的数量
+	private int allotRewardCount;//每天分配奖励次数  非管理员则为0
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -203,6 +210,10 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public int getTotalContribution() {
 		return totalContribution;
+	}
+
+	public int getDayContribution() {
+		return dayContribution;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -372,4 +383,25 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	public void setTotalContribution(int totalContribution) {
 		this.totalContribution = totalContribution;
 	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
+	}
+
+	public void setDayContribution(int dayContribution) {
+		this.dayContribution = dayContribution;
+	}
+
+	public int getAllotRewardCount() {
+		return allotRewardCount;
+	}
+
+	public void setAllotRewardCount(int allotRewardCount) {
+		this.allotRewardCount = allotRewardCount;
+	}
+	
 }

@@ -26,7 +26,7 @@ public class CommodityCfgDAO extends CfgCsvDao<CommodityCfg> {
 		for (CommodityCfg cfg : all) {
 			if(cfg.getStoreId() == storeId && cfg.getType() == type){
 				String[] levelZone = cfg.getLevel().split("_");
-				if(Integer.parseInt(levelZone[0]) <= level && Integer.parseInt(levelZone[1]) > level ){
+				if(Integer.parseInt(levelZone[0]) <= level && Integer.parseInt(levelZone[1]) >= level ){
 					map.add(cfg);
 				}
 			}

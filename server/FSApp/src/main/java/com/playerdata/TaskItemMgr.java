@@ -7,7 +7,10 @@ import com.log.GameLog;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.readonly.TaskMgrIF;
 import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.enu.eTaskSuperType;
 import com.rwbase.dao.hotPoint.EHotPointType;
@@ -40,6 +43,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		int size = cfgList.size();
 		for (int i = 0; i < size; i++) {
 			TaskCfg cfg = cfgList.get(i);
+			
 			if (cfg.getOpenLevel() <= m_pPlayer.getLevel() && !taskItemHolder.containsTask(cfg.getId())) {
 				itemList.add(createTaskItem(cfg));
 			}
@@ -49,7 +53,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 		size = itemList.size();
 		for (int i = 0; i < size; i++) {
-			TaskItem task = itemList.get(i);
+			TaskItem task = itemList.get(i);			
 			BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
 		}
 	}
@@ -145,6 +149,9 @@ public class TaskItemMgr implements TaskMgrIF {
 		case Add_Friend:
 			curplan = m_pPlayer.getFriendMgr().getFriendList().size();
 			break;
+		case Challage_BattleTower:
+			curplan = m_pPlayer.getBattleTowerMgr().getTableBattleTower().getHighestFloor();
+			break;
 		default:
 			break;
 		}
@@ -156,6 +163,7 @@ public class TaskItemMgr implements TaskMgrIF {
 
 		for (TaskItem task : itemList) {
 
+			
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
@@ -173,11 +181,13 @@ public class TaskItemMgr implements TaskMgrIF {
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
-						task.setDrawState(1);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true);
+						task.setDrawState(1);						
+												
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					} else {
 						task.setDrawState(0);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false);
+						
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					}
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
@@ -189,14 +199,15 @@ public class TaskItemMgr implements TaskMgrIF {
 	public void AddTaskTimes(eTaskFinishDef taskType, int count) {
 		List<TaskItem> itemList = taskItemHolder.getItemList();
 		for (TaskItem task : itemList) {
+			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.More.ordinal()) {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
-					task.setDrawState(1);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true);
+					task.setDrawState(1);					
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				} else {
 					task.setDrawState(0);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
 				break;

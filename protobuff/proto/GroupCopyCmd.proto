@@ -1,0 +1,65 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCopyCmdProto";
+
+package GroupCopyCmd;
+
+enum GroupCopyReqType{
+	GET_INFO = 1;
+	GET_DROP_APPLY_INFO = 2;//请求发送掉落及申请列表
+	BUFF_DONATE = 3;//buff赞助
+	GET_GROUP_HURT_RANK = 4;//获取帮派前10伤害排名
+	APPLY_SERVER_RANK = 5;//请求全服排行榜
+	APPLY_WAR_PRICE = 6;//申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+	CANCEL_APPLY_ITEM = 7;//取消申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+}
+
+
+
+
+//副本地图章节状态  [枚举类型要从0开始，否则后端序列化给前端的时候会出错]
+enum GroupCopyMapStatus{
+	LOCKING = 0;
+    NOTSTART = 1;
+	ONGOING = 2;
+	FINISH = 3;
+}
+
+message GroupCopyCmdReqMsg{
+	required GroupCopyReqType reqType = 1;//请求的协议类型
+	optional string version = 2; //版本号
+	optional GroupCopyDonateData donateData = 3;//赞助
+	optional string id = 4;//地图id或关卡id
+	optional string itemID = 5;//物品id 
+}
+
+message GroupCopyCmdRspMsg{
+	required GroupCopyReqType reqType = 1; //请求的协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional GroupCopyHurtRank hurtRank = 4;//帮派前10伤害排行数据
+}
+
+message GroupCopyDonateData{
+	required string level = 1;//关卡id
+	required int32 donateTime = 2;//赞助次数
+}
+
+//帮派前10伤害排行数据
+message GroupCopyHurtRank{
+ 	repeated ArmyHurtStruct rankData = 1;
+}
+
+
+
+
+//角色伤害结构
+message ArmyHurtStruct{
+	required string headIcon = 1;
+	required string roleName = 2;
+	required int32 lv = 3;
+	required int64 killTime = 4; //击杀时间
+	required int32 damage = 5;
+	
+}
+

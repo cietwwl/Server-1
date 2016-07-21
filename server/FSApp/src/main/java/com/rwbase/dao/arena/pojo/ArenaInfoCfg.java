@@ -1,77 +1,45 @@
 package com.rwbase.dao.arena.pojo;
 
-public class ArenaInfoCfg {
+import com.common.BaseConfig;
 
-	private int id;
-	private String copyId;
-    private int copyType;
-    private String name;
-    private int count;
-    private int openLv;
-    private int cost;
-    private int cdTime;
-    private int maxScore;
-    private String describe;
-    
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getCopyId() {
-		return copyId;
-	}
-	public void setCopyId(String copyId) {
-		this.copyId = copyId;
-	}
+public class ArenaInfoCfg extends BaseConfig {
+	private int copyType;
+	private int count;
+	private int cdTime;
+	private int winCdTime;
+	private int loseCdTime;
+
 	public int getCopyType() {
 		return copyType;
 	}
-	public void setCopyType(int copyType) {
-		this.copyType = copyType;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public int getCount() {
 		return count;
 	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	public int getOpenLv() {
-		return openLv;
-	}
-	public void setOpenLv(int openLv) {
-		this.openLv = openLv;
-	}
-	public int getCost() {
-		return cost;
-	}
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
+
 	public int getCdTime() {
 		return cdTime;
 	}
-	public void setCdTime(int cdTime) {
-		this.cdTime = cdTime;
+
+	public int getWinCdTime() {
+		return winCdTime;
 	}
-	public int getMaxScore() {
-		return maxScore;
+
+	public int getLoseCdTime() {
+		return loseCdTime;
 	}
-	public void setMaxScore(int maxScore) {
-		this.maxScore = maxScore;
+
+	private int cdTimeInMillSecond;
+
+	public int getCdTimeInMillSecond() {
+		return cdTimeInMillSecond;
 	}
-	public String getDescribe() {
-		return describe;
+
+	@Override
+	public void ExtraInitAfterLoad() {
+		if (cdTime < 0)
+			throw new RuntimeException("cdTime不能是负数");
+		cdTimeInMillSecond = cdTime * 1000;
 	}
-	public void setDescribe(String describe) {
-		this.describe = describe;
-	}
-	
+
 }

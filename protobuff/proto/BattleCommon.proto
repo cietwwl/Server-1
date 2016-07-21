@@ -1,18 +1,35 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "BattleCommon";
+package BattleCommon;
 
 enum ePlayerType {
 	MAINPLAYER = 0; //主角
 	HIRE       = 1; //佣兵
 	MONSTER    = 2; //怪物
-    INVISIBLE_NPC = 3; //不可见Ncp用来放技能
-	SUMMON_NORMAL = 4; //普通召唤物
-	SUMMON_ANIMAL = 5; //小型召唤物
+	MONSTER_TINY_BOSS = 3; //小boss
+	MONSTER_LARGE_BOSS = 4; //大boss
+	INVISIBLE_NPC = 5; //不可见Ncp用来放技能
+	SUMMON_NORMAL = 6; //普通召唤物
+	SUMMON_ANIMAL = 7; //小型召唤物
 }
 
 enum ePlayerCamp {
 	Me   = 0; //我方
 	Enemy = 1; //敌方
 	Other = 2; //其他
+}
+
+//阵容信息-模块
+enum eBattlePositionType{
+	GroupSecretPos = 1;//秘境
+	PeakArenaPos = 2;//巅峰竞技场
+	ArenaPos = 3;//竞技场
+	GroupFightPos = 4;//帮战
+}
+
+//阵容上的英雄站位信息
+message BattleHeroPosition{
+	required string heroId = 1;//英雄Id
+	required int32 pos = 2;//站位
 }

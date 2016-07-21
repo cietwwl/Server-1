@@ -11,12 +11,12 @@ import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
@@ -35,22 +35,21 @@ public class UserEventLoginDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				String id = ActivityDailyCountTypeEnum.LoginDaily.getCfgId();
-				ActivityDailyCountTypeSubCfg cfg = ActivityDailyCountTypeSubCfgDAO
+				String id = ActivityDailyTypeEnum.LoginDaily.getCfgId();
+				ActivityDailyTypeSubCfg cfg = ActivityDailyTypeSubCfgDAO
 						.getInstance().getById(id);
-				boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance()
+				boolean isBetweendays = ActivityDailyTypeMgr.getInstance()
 						.isOpen(cfg);
-				boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
-				if (isBetweendays&&isLevelEnough) {// 每日福利任务的登陆类型子任务在此触发
-					ActivityDailyCountTypeMgr.getInstance().addCount(player,
-							ActivityDailyCountTypeEnum.LoginDaily, 1);
+				if (isBetweendays) {// 每日福利任务的登陆类型子任务在此触发,策划特殊需求，级别达到即完成，不需要重新登录触发&&isLevelEnough
+					ActivityDailyTypeMgr.getInstance().addCount(player,
+							ActivityDailyTypeEnum.LoginDaily, 1);
 				}
 			}
 
 			@Override
 			public void logError(Player player, Throwable ex) {
 				StringBuilder reason = new StringBuilder(
-						ActivityDailyCountTypeEnum.LoginDaily.toString())
+						ActivityDailyTypeEnum.LoginDaily.toString())
 						.append(" error");
 				GameLog.error(LogModule.UserEvent,
 						"userId:" + player.getUserId(), reason.toString(), ex);

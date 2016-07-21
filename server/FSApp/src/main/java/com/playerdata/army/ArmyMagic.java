@@ -1,5 +1,6 @@
 package com.playerdata.army;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.util.StringUtils;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -7,8 +8,10 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmyMagic {
 
+	private String id;
 	private int modelId;
 	private int level;
 
@@ -16,9 +19,18 @@ public class ArmyMagic {
 	}
 
 	public ArmyMagic(ItemData magicItem) {
+		this.id = magicItem.getId();
 		this.modelId = magicItem.getModelId();
 		String magicLevel = magicItem.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
 		this.level = StringUtils.isEmpty(magicLevel) ? 0 : Integer.parseInt(magicLevel);
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public int getModelId() {
