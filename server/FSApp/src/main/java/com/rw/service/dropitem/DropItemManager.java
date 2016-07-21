@@ -15,6 +15,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.copy.CopyHandler;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -206,9 +207,14 @@ public class DropItemManager {
 			}
 			
 			if(!firstDrop&&copyCfg != null){
-				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
+//				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
+				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+				int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+				
+				
+				
 				for(ItemInfo iteminfo : dropItemInfoList){
-					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
+					iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
 				}
 				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
 				int tmp = dropItemInfoList.size();

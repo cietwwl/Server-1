@@ -254,15 +254,11 @@ public class AccountLoginHandler {
 	}
 	
 	private String getServerStatusTips(ZoneInfoCache zone, String status) {
-		if (status.equals("关闭")) {
-			String closeTips = zone.getCloseTips();
-			if (StringUtils.isEmpty(closeTips)) {
-				return "服务器" + status + "中...";
-			} else {
-				return closeTips;
-			}
-		} else {
+		String closeTips = zone.getCloseTips();
+		if (StringUtils.isEmpty(closeTips)) {
 			return "服务器" + status + "中...";
+		} else {
+			return closeTips;
 		}
 	}
 
