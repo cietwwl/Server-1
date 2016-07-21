@@ -15,6 +15,7 @@ public class SynFettersData {
 	private int heroModelId;// 英雄的模版Id
 	private Map<Integer, SynConditionData> openList;// 开放列表
 
+	
 	public int getHeroModelId() {
 		return heroModelId;
 	}

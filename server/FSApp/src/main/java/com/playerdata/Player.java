@@ -809,6 +809,9 @@ public class Player implements PlayerIF {
 
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
+			
+
+			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
@@ -1157,6 +1160,16 @@ public class Player implements PlayerIF {
 	 */
 	public UserGroupCopyMapRecordMgr getUserGroupCopyRecordMgr() {
 		return userGroupCopyRecordMgr;
+	}
+
+	
+	
+	/**
+	 * 获取个人法宝神器羁绊管理类
+	 * @return
+	 */
+	public MagicEquipFetterMgr getMe_FetterMgr() {
+		return me_FetterMgr;
 	}
 
 	/**

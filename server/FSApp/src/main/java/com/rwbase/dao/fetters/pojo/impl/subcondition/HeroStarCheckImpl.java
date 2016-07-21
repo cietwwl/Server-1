@@ -32,6 +32,6 @@ public class HeroStarCheckImpl implements IFettersSubCondition {
 
 	@Override
 	public int getSubConditionType() {
-		return FettersBM.SubConditionType.HERO_STAR.type;
+		return FettersBM.SubConditionType.STAR.type;
 	}
 }

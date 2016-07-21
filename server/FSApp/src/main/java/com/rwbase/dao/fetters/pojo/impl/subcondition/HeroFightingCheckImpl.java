@@ -26,6 +26,6 @@ public class HeroFightingCheckImpl implements IFettersSubCondition {
 
 	@Override
 	public int getSubConditionType() {
-		return FettersBM.SubConditionType.HERO_FIGHTING.type;
+		return FettersBM.SubConditionType.FIGHTING.type;
 	}
 }

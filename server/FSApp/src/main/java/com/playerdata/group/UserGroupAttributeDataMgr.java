@@ -62,6 +62,10 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		
+		if(userGroupData == null){
+			return;
+		}
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return;

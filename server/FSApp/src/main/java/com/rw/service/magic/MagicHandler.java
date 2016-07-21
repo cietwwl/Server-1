@@ -336,6 +336,9 @@ public class MagicHandler {
 		//通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
 		
+		//通知法宝神器羁绊
+		player.getMe_FetterMgr().notifyMagicChange(player, itemData);
+		
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();
 	}
@@ -715,6 +718,12 @@ public class MagicHandler {
 
 		msgMagicResponse.setNewMagicModelId(resultId);
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
+		
+		//合成成功，通知法宝神器羁绊
+		ItemData itemData = new ItemData();
+		itemData.init(resultId, 1);
+		player.getMe_FetterMgr().notifyMagicChange(player, itemData);
+		
 		return msgMagicResponse.build().toByteString();
 	}
 
@@ -872,6 +881,9 @@ public class MagicHandler {
 			response.setNewMagicModelId(upToCfg.getId());
 			fillResponseInfo(response, true, "进阶成功！");
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+			
+			//通知法宝神器羁绊
+			player.getMe_FetterMgr().notifyMagicChange(player, item);
 			break;
 		} while (true);
 

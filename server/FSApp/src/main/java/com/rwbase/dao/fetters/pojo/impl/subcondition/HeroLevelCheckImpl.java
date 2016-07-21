@@ -32,6 +32,6 @@ public class HeroLevelCheckImpl implements IFettersSubCondition {
 
 	@Override
 	public int getSubConditionType() {
-		return FettersBM.SubConditionType.HERO_LEVEL.type;
+		return FettersBM.SubConditionType.LEVEL.type;
 	}
 }

@@ -50,6 +50,8 @@ public class FixNormEquipMgr {
 	public boolean initIfNeed(Player player, Hero hero){
 		if(!isInited(player, hero)){
 			newHeroInit(player, hero.getUUId(), hero.getModelId());
+			//通知神器羁绊系统
+			player.getMe_FetterMgr().notifyHeroChange(player, hero);
 		}
 		return true;
 	}
@@ -110,8 +112,15 @@ public class FixNormEquipMgr {
 		}		
 		
 		fixNormEquipDataItemHolder.updateItemList(player, itemList);
+		//通知神器羁绊系统
+		player.getMe_FetterMgr().notifyHeroChange(player, mainRoleHero);
 		return true;
 		
+	}
+	
+	public List<FixNormEquipDataItem> getFixNorEquipItemList(String ownerID){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerID);
+		return Collections.unmodifiableList(itemList);
 	}
 	
 

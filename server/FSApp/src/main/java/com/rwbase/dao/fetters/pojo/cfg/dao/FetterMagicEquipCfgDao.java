@@ -1,7 +1,7 @@
 package com.rwbase.dao.fetters.pojo.cfg.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -12,58 +12,74 @@ import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
 
 public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 
-	private Map<Integer, List<MagicEquipConditionCfg>> configMap = new HashMap<Integer, List<MagicEquipConditionCfg>>();
+	
+	
+	public static int TYPE_MAGICWEAPON = 1;
+	
+	public static int TYPE_FIXEQUIP = 2;
+	
+	
 	
 	public static FetterMagicEquipCfgDao getInstance(){
-		return SpringContextUtil.getBean(MagicEquipConditionCfg.class);
+		return SpringContextUtil.getBean(FetterMagicEquipCfgDao.class);
 	}
 	
 	@Override
 	protected Map<String, MagicEquipConditionCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fetters/FetterMagicEquipCfg.csv", MagicEquipConditionCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fetters/magicEquipConditionCfg.csv", MagicEquipConditionCfg.class);
 		return cfgCacheMap;
 	}
 
 	
 	private MagicEquipConditionCfg getCfg(int cfgID){
-		return getCfg(fetterID);
+		return cfgCacheMap.get(String.valueOf(cfgID));
 	}
+	
 
 	@Override
 	public void CheckConfig() {
 		List<MagicEquipConditionCfg> list = getAllCfg();
 		for (MagicEquipConditionCfg cfg : list) {
-			
 			cfg.formateData();
-			
-			List<MagicEquipConditionCfg> dataList = configMap.get(cfg.getItemModelId());
-			if(dataList == null){
-				dataList = new ArrayList<MagicEquipConditionCfg>();
-				configMap.put(cfg.getItemModelId(), dataList);
-			}
-			dataList.add(cfg);
 		}
 	}
 	
 	/**
-	 * 检查配置内对应的羁绊配置
-	 * @param cfgID  羁绊条件ID
-	 * @param lv 等级
-	 * @param star 星级
+	 * 找出目标类型的配置
+	 * @param type 法宝或神器
 	 * @return
 	 */
-	public MagicEquipConditionCfg getCfgByLvStar(int cfgID, int lv, int star){
-		MagicEquipConditionCfg cfg = null;
-		
-		List<MagicEquipConditionCfg> list = configMap.get(cfgID);
-		if(list != null && !list.isEmpty()){
-			for (MagicEquipConditionCfg i : list) {
-				if(i.get)
+	public List<MagicEquipConditionCfg> getCfgByType(int type){
+		List<MagicEquipConditionCfg> temp = new ArrayList<MagicEquipConditionCfg>();
+		for (MagicEquipConditionCfg cfg : getAllCfg()) {
+			if(cfg.getType() == type){
+				temp.add(cfg);
 			}
 		}
 		
-		
-		return cfg;
+		return Collections.unmodifiableList(temp);
 	}
+
+	
+	/**
+	 * 根据modelID获取配置列表
+	 * @param modelId
+	 * @return
+	 */
+	public List<MagicEquipConditionCfg> getCfgListByModelID(int modelId) {
+		List<MagicEquipConditionCfg> temp = new ArrayList<MagicEquipConditionCfg>();
+		for (MagicEquipConditionCfg cfg : getAllCfg()) {
+			if(cfg.getModelIDList().contains(modelId)){
+				temp.add(cfg);
+			}
+		}
+		
+		return Collections.unmodifiableList(temp);
+		
+	}
+	
+	
+	
+	
 	
 }

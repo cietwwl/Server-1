@@ -697,6 +697,10 @@ public class ItemBagHandler {
 				}
 
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
+				
+				//法宝分解通知法宝神器羁绊模块
+				player.getMe_FetterMgr().notifyMagicDecompose(player);
+				
 				break;
 			}
 

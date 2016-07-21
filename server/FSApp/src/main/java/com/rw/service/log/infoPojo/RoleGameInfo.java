@@ -90,9 +90,12 @@ public class RoleGameInfo {
 		
 		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
 		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
-		String groupId = baseData.getGroupId();
-		if (!StringUtils.isEmpty(groupId)) {
-			roleGameInfo.setFactionId(groupId);
+		if(baseData != null){
+			//新创建角色没有帮派，所以要加这个判断
+			String groupId = baseData.getGroupId();
+			if (!StringUtils.isEmpty(groupId)) {
+				roleGameInfo.setFactionId(groupId);
+			}
 		}
 		
 		

@@ -22,11 +22,12 @@ public class MagicEquipFetterRecord implements IMapItem{
 	@Id
 	private String id;
 
-	@CombineSave
-	private String userID;
 	
+	private String userId;
+	
+	//已经开启羁绊id
 	@CombineSave
-	private Map<Integer, SynMagicEquipFetterData> dataMap = new HashMap<Integer, SynMagicEquipFetterData>();
+	private List<Integer> fetterIDs = new ArrayList<Integer>();
 	
 	
 	
@@ -37,25 +38,14 @@ public class MagicEquipFetterRecord implements IMapItem{
 
 
 
-	public String getUserID() {
-		return userID;
+	public String getUserId() {
+		return userId;
 	}
 
 
 
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-
-
-	public Map<Integer, SynMagicEquipFetterData> getDataMap() {
-		return dataMap;
-	}
-
-
-
-	public void setDataMap(Map<Integer, SynMagicEquipFetterData> dataMap) {
-		this.dataMap = dataMap;
+	public void setUserId(String userID) {
+		this.userId = userID;
 	}
 
 
@@ -63,6 +53,25 @@ public class MagicEquipFetterRecord implements IMapItem{
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	
+	public List<Integer> getFetterIDs() {
+		return fetterIDs;
+	}
+
+
+
+	public void setFetterIDs(List<Integer> fetterIDs) {
+		this.fetterIDs = fetterIDs;
+	}
+
+
+
+	public void AddFetter(int fetterID){
+		//已经开启羁绊id
+		fetterIDs.add(fetterID);
+	}
+	
 	
 	
 }

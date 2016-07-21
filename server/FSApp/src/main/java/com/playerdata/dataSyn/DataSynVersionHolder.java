@@ -313,6 +313,16 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.GFightOnlinePersonalData);
+		
+		
+		versionMap.put(eSynType.MAGICEQUIP_FETTER, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				player.getMe_FetterMgr().loginNotify(player);
+			}
+		}));
+		orderList.add(eSynType.MAGICEQUIP_FETTER);
+		
 //		
 //		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
 //			@Override
