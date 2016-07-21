@@ -39,10 +39,10 @@ public class FashionBeingUsed implements FashionUsedIF {
 	public void setUsing(int index,int fid){
 		switch(index){
 		case 0:
-			wingId = fid;
+			suitId = fid;
 			break;
 		case 1:
-			suitId = fid;
+			wingId = fid;
 			break;
 		case 2:
 			petId = fid;
