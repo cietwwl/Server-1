@@ -47,7 +47,7 @@ import com.rwproto.MsgDef;
 public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
-	private static String GiveEMailID = "10036";
+	//private static String GiveEMailID = "10036";
 	private static String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
 
 	private Player m_player = null;
@@ -441,7 +441,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
 //			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
-			GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
+			//GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();
 		return true;

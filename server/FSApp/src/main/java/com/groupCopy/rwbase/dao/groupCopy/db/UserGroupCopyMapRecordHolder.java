@@ -120,4 +120,13 @@ public class UserGroupCopyMapRecordHolder{
 		}
 	}
 	
+	
+	public void setFigntCount(int count, Player player){
+		List<UserGroupCopyMapRecord> list = getItemList();
+		for (UserGroupCopyMapRecord record : list) {
+			record.setLeftFightCount(count);
+		}
+		update();
+		syncData(player);
+	}
 }

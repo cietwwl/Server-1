@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.util.StringUtils;
+
 import com.bm.group.GroupBM;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
@@ -20,6 +22,7 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.DistRewRecordItem;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
@@ -28,6 +31,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
@@ -89,6 +93,9 @@ public class GroupCopyMgr {
 	/**帮派副本胜利品及申请列表*/
 	private DropAndApplyRecordHolder dropHolder;
 
+	private final String System_dist = "系统自动分配";
+	private final String role_dist = "由%s进行分配";
+	
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
 	public final static DropApplyComparator adComparator = new DropApplyComparator();
 
@@ -278,6 +285,10 @@ public class GroupCopyMgr {
 			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
+		
+		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
+		
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
 		ItemDropAndApplyTemplate dropApplyRecord = null;
@@ -679,6 +690,7 @@ public class GroupCopyMgr {
 			//检查每个章节
 			List<ApplyInfo> applyInfo = new ArrayList<ApplyInfo>();
 			List<DropInfo> dropInfo = new ArrayList<DropInfo>();
+			long time = System.currentTimeMillis();
 			for (CopyItemDropAndApplyRecord record : itemList) {
 				boolean send = false;
 				Collection<ItemDropAndApplyTemplate> map = record.getDaMap().values();
@@ -696,12 +708,17 @@ public class GroupCopyMgr {
 					//如果申请人和物品都有数据，则进行分发
 					Collections.sort(applyInfo, adComparator);
 					Collections.sort(dropInfo, adComparator);
-					
-					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, dropInfo.get(0), applyInfo.get(0), groupName);
+					ApplyInfo apply = applyInfo.get(0);
+					DropInfo drop = dropInfo.get(0);
+					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, drop, apply, groupName);
 					if(sendMail){
 						send = true;
 //						System.err.println("发放道具成功：" + template.getItemID());
-						template.deleteApply(dropInfo.get(0), applyInfo.get(0));
+						template.deleteApply(drop, apply);
+						
+						DistRewRecordItem item = new DistRewRecordItem(template.getItemID(), apply.getRoleName(), time, getDistStr(apply));
+						//添加分配记录
+						rewardRecordHolder.addDistRecord(item);
 					}
 					
 					applyInfo.clear();
@@ -714,6 +731,16 @@ public class GroupCopyMgr {
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[chekcAdSendGroupPriceMail]", "发送帮派奖励出现异常", e);
 		}
+	}
+
+	
+	
+	
+	private String getDistStr(ApplyInfo apply) {
+		if(StringUtils.isEmpty(apply.getDistRoleName())){
+			
+		}
+		return null;
 	}
 
 	/**

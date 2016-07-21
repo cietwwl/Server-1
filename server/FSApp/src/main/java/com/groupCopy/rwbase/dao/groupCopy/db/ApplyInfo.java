@@ -3,6 +3,7 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.groupCopy.bm.groupCopy.DropApplyInteface;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
@@ -14,6 +15,12 @@ public class ApplyInfo implements DropApplyInteface{
 	private String roleName;
 	private long applyTime;//玩家申请时间
 
+	/**
+	 * 分配者名，如果不是手动分配，则为空
+	 */
+	@IgnoreSynField
+	private String distRoleName;
+	
 	public ApplyInfo() {
 	}
 
@@ -51,6 +58,14 @@ public class ApplyInfo implements DropApplyInteface{
 	@Override
 	public long getOccurTime() {
 		return applyTime;
+	}
+
+	public String getDistRoleName() {
+		return distRoleName;
+	}
+
+	public void setDistRoleName(String distRoleName) {
+		this.distRoleName = distRoleName;
 	}
 
 	

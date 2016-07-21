@@ -28,6 +28,8 @@ public class GroupCopyLevelCfg {
 	
 	private String monsters;
 	
+	private int groupExp;
+	
 	private int readyTime;//准备时间，单位为s
 	
 	private int finalHitReward;//最后一击帮贡奖励
@@ -151,6 +153,14 @@ public class GroupCopyLevelCfg {
 	 */
 	public List<String> getmIDList() {
 		return mIDList;
+	}
+
+	public int getGroupExp() {
+		return groupExp;
+	}
+
+	public void setGroupExp(int groupExp) {
+		this.groupExp = groupExp;
 	}
 
 	

@@ -28,7 +28,8 @@ public class GroupCopyMonsterSynStruct {
 	}
 	public GroupCopyMonsterSynStruct(CopyMonsterCfg monsterCfg) {
 		id = monsterCfg.getId();
-		totalHP = monsterCfg.getHpCount() * monsterCfg.getLife();
+//		totalHP = monsterCfg.getHpCount() * monsterCfg.getLife();
+		totalHP = monsterCfg.getLife();
 		curHP = totalHP;
 		totalMP = monsterCfg.getEnergy();
 		curMP = totalMP;
