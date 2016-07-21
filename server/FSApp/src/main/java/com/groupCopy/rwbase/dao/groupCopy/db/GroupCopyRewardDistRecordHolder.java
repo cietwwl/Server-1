@@ -27,7 +27,7 @@ public class GroupCopyRewardDistRecordHolder{
 	}
 	
 	private void initData(){
-		GroupCopyRewardDistRecord item = getItem(groupId);
+		GroupCopyRewardDistRecord item = getItem();
 		if(item == null){
 			item = new GroupCopyRewardDistRecord();
 			item.setGroupId(groupId);
@@ -38,7 +38,7 @@ public class GroupCopyRewardDistRecordHolder{
 	}
 	
 	/*
-	 * 获取用户已经拥有的时装
+	 * 
 	 */
 	public List<GroupCopyRewardDistRecord> getItemList()	
 	{
@@ -57,15 +57,15 @@ public class GroupCopyRewardDistRecordHolder{
 		getItemStore().updateItem(item);
 	}
 	
-	public GroupCopyRewardDistRecord getItem(String itemId){
-		return getItemStore().getItem(itemId);
+	public GroupCopyRewardDistRecord getItem(){
+		return getItemStore().getItem(groupId);
 	}
 	
 	
 	public boolean addItem(Player player, GroupCopyRewardDistRecord item){
 	
 		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess){
+		if(addSuccess && player != null){
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
@@ -81,5 +81,17 @@ public class GroupCopyRewardDistRecordHolder{
 	private MapItemStore<GroupCopyRewardDistRecord> getItemStore(){
 		MapItemStoreCache<GroupCopyRewardDistRecord> cache = MapItemStoreFactory.getGroupCopyRewardRecordCache();
 		return cache.getMapItemStore(groupId, GroupCopyRewardDistRecord.class);
+	}
+
+	public void addDistRecord(DistRewRecordItem item) {
+		GroupCopyRewardDistRecord record = getItem();
+		if(record == null){
+			record = new GroupCopyRewardDistRecord();
+			record.setGroupId(groupId);
+			record.setId(groupId);
+			getItemStore().addItem(record);
+		}
+		record.addRecord(item);
+		getItemStore().updateItem(record);
 	}
 }
