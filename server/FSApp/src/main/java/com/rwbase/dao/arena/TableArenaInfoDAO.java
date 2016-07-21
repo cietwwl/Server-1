@@ -1,21 +1,16 @@
 package com.rwbase.dao.arena;
 
 import com.rw.fsutil.cacheDao.DataKVDao;
-import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.arena.pojo.TableArenaInfo;
 
-public class TableArenaInfoDAO extends DataKVDao<TableArenaInfo>{
+public class TableArenaInfoDAO extends DataKVDao<TableArenaInfo> {
 
-	private static TableArenaInfoDAO instance;
-	private TableArenaInfoDAO(){}
-	
-	public static TableArenaInfoDAO getInstance()
-	{
-		if(instance == null){
-			instance = new TableArenaInfoDAO();
-		}
+	private static TableArenaInfoDAO instance = new TableArenaInfoDAO();
+
+	TableArenaInfoDAO() {
+	}
+
+	public static TableArenaInfoDAO getInstance() {
 		return instance;
 	}
-	
-	//public 
 }

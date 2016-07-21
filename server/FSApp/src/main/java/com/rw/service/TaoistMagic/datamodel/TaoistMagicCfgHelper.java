@@ -2,6 +2,7 @@ package com.rw.service.TaoistMagic.datamodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,9 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		return SpringContextUtil.getBean(TaoistMagicCfgHelper.class);
 	}
 
-	private HashMap<Integer,List<TaoistMagicCfg>> openMap;
+	private HashMap<Integer, List<TaoistMagicCfg>> openMap;
+	private Map<Integer, List<TaoistMagicCfg>> tagTaoistMap;// 分类
+
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistMagicCfg.csv", TaoistMagicCfg.class);
@@ -34,11 +37,14 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		HashMap<Integer, Integer> tagMap = new HashMap<Integer, Integer>();
 		HashMap<Integer, HashSet<Integer>> orderMap = new HashMap<Integer, HashSet<Integer>>();
 		openMap = new HashMap<Integer, List<TaoistMagicCfg>>();
+
+		Map<Integer, List<TaoistMagicCfg>> tagTaoistMap = new HashMap<Integer, List<TaoistMagicCfg>>();
+
 		for (TaoistMagicCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 			int tagNum = cfg.getTagNum();
 			int openLevel = cfg.getOpenLevel();
-			
+
 			Integer oldTagCfg = tagMap.get(tagNum);
 			if (oldTagCfg == null) {
 				tagMap.put(tagNum, openLevel);
@@ -47,9 +53,9 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 					throw new RuntimeException("同一个分页的道术技能应该是同一个开放等级！" + "key=" + cfg.getKey());
 				}
 			}
-			
+
 			List<TaoistMagicCfg> openList = openMap.get(openLevel);
-			if (openList == null){
+			if (openList == null) {
 				openList = new ArrayList<TaoistMagicCfg>();
 				openMap.put(openLevel, openList);
 			}
@@ -63,6 +69,14 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			if (!orderSet.add(cfg.getOrder())) {
 				throw new RuntimeException("重复的道术排列序号" + "key=" + cfg.getKey());
 			}
+
+			List<TaoistMagicCfg> list = tagTaoistMap.get(tagNum);
+			if (list == null) {
+				list = new ArrayList<TaoistMagicCfg>();
+				tagTaoistMap.put(tagNum, list);
+			}
+
+			list.add(cfg);
 		}
 
 		Set<Entry<Integer, HashSet<Integer>>> orderEntrySet = orderMap.entrySet();
@@ -75,12 +89,16 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				}
 			}
 		}
+
+		this.tagTaoistMap = Collections.unmodifiableMap(tagTaoistMap);
+
 		return cfgCacheMap;
 	}
 
 	public Iterable<TaoistMagicCfg> getOpenList(int openLevel) {
 		List<TaoistMagicCfg> lst = openMap.get(openLevel);
-		if (lst != null && lst.size() <= 0) return null;
+		if (lst != null && lst.size() <= 0)
+			return null;
 		return lst;
 	}
 
@@ -238,5 +256,19 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		}
 
 		return attrMap;
+	}
+
+	/**
+	 * 通过分页标签获取某页的所有道术
+	 * 
+	 * @param tagNum
+	 * @return
+	 */
+	public List<TaoistMagicCfg> getTaoistCfgListByTag(int tagNum) {
+		if (!tagTaoistMap.containsKey(tagNum)) {
+			return null;
+		}
+
+		return new ArrayList<TaoistMagicCfg>(tagTaoistMap.get(tagNum));
 	}
 }
