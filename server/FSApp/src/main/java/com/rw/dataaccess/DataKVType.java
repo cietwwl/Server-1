@@ -2,7 +2,6 @@ package com.rw.dataaccess;
 
 import com.common.HPCUtil;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
-import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;

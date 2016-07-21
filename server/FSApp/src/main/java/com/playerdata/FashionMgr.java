@@ -44,7 +44,7 @@ import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 
-public class FashionMgr implements FashionMgrIF,PlayerEventListener {
+public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
 	//private static String GiveEMailID = "10036";
@@ -71,19 +71,19 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	public boolean isInited() {
 		return isInited;
 	}
-	
-	public static boolean UpgradeIdLogic(int fid,RefInt newFid){
-		if ((fid / 100) == 100){
+
+	public static boolean UpgradeIdLogic(int fid, RefInt newFid) {
+		if ((fid / 100) == 100) {
 			newFid.value = 900000 + fid % 100;
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
 	 */
-	public void convertData(){
+	public void convertData() {
 		List<FashionItem> lst = fashionItemHolder.getItemList();
 		RefInt oldId = new RefInt();
 		for (FashionItem fashionItem : lst) {
@@ -121,7 +121,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 			public void doAction() {
 				RecomputeBattleAdded();
 				callBack.doAction();
-				//时装过期计算完毕再计算当前激活的头像框
+				// 时装过期计算完毕再计算当前激活的头像框
 				RecomputeUnlockHeadFrame();
 				// 因为回调可能发送请求，时装穿戴数据的发送需要放在最后
 				sendFashionBeingUsedChanged();
@@ -154,15 +154,15 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		String uid = m_player.getUserId();
 		for (FashionItem fashionItem : lst) {
 			FashionCommonCfg cfg = fashionHelper.getConfig(fashionItem.getFashionId());
-			if (cfg != null){
+			if (cfg != null) {
 				HeadBoxCfg hcfg = headHelper.getCfgById(String.valueOf(cfg.getFrameIconId()));
-				if (hcfg != null){
+				if (hcfg != null) {
 					dataList.add(hcfg.getSpriteId());
-				}else{
-					GameLog.error("时装", uid, "HeadBoxCfg.csv找不到解锁时装,frameIconId:"+cfg.getFrameIconId());
+				} else {
+					GameLog.error("时装", uid, "HeadBoxCfg.csv找不到解锁时装,frameIconId:" + cfg.getFrameIconId());
 				}
-			}else{
-				GameLog.error("时装", uid, "FashionCommonCfg.csv找不到时装ID:"+fashionItem.getFashionId());
+			} else {
+				GameLog.error("时装", uid, "FashionCommonCfg.csv找不到时装ID:" + fashionItem.getFashionId());
 			}
 		}
 		m_player.getSettingMgr().setFashionUnlockHeadBox(dataList);
@@ -267,37 +267,49 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		return false;
 	}
 
+	//
+	// /**
+	// * 计算增益数据并缓存
+	// *
+	// * @return
+	// */
+	// public IEffectCfg getEffectData() {
+	// if (totalEffects == null) {
+	// AttrData addedValues = new AttrData();
+	// AttrData addedPercentages = new AttrData();
+	// FashionBeingUsed used = createOrUpdate();
+	// if (used != null) {
+	// int career = m_player.getCareer();
+	// IEffectCfg[] list = used.getEffectList(getValidCount(), career);
+	// for (int i = 0; i < list.length; i++) {
+	// IEffectCfg eff = list[i];
+	// if (eff != null) {
+	// addedValues.plus(eff.getAddedValues());
+	// addedPercentages.plus(eff.getAddedPercentages());
+	// }
+	// }
+	// }
+	// totalEffects = new BattleAddedEffects(addedValues, addedPercentages);
+	// }
+	// return totalEffects;
+	// }
+
 	/**
 	 * 获取时装增加的总属性
 	 * 
 	 * @return
 	 */
 	public Map<Integer, AttributeItem> getAttributeMap() {
-		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 
 		FashionBeingUsed used = createOrUpdate();
 		if (used != null) {
 			int career = m_player.getCareer();
 			int[] usingList = used.getUsingList();
 
-			FashionEffectCfgDao effectCfgDAO = FashionEffectCfgDao.getInstance();
-			// 基础的时装
-			for (int i = 0, len = usingList.length; i < len; i++) {
-				FashionEffectCfg cfg = effectCfgDAO.getConfig(usingList[i], career);
-				if (cfg == null) {
-					continue;
-				}
-
-				AttributeUtils.calcAttribute(cfg.getAttrDataMap(), cfg.getPrecentAttrDataMap(), map);
-			}
-
-			FashionQuantityEffectCfg qualictyCfg = FashionQuantityEffectCfgDao.getInstance().getConfig(getValidCount());
-			if (qualictyCfg != null) {
-				AttributeUtils.calcAttribute(qualictyCfg.getAttrDataMap(), qualictyCfg.getPrecentAttrDataMap(), map);
-			}
+			return getAttrMap(usingList, career, getValidCount());
 		}
 
-		return map;
+		return null;
 	}
 
 	public boolean save() {
@@ -368,18 +380,17 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 * @param userId
 	 * @param sendEmail
 	 */
-	public static boolean giveFashionItem(int fashionId, int expaireTimeCount, String userId, boolean putOnNow
-			, boolean sendEmail,TimeUnit timingUnit) {
+	public static boolean giveFashionItem(int fashionId, int expaireTimeCount, String userId, boolean putOnNow, boolean sendEmail, TimeUnit timingUnit) {
 		Player player = PlayerMgr.getInstance().find(userId);
 		if (player != null) {
-			return player.getFashionMgr().giveFashionItem(fashionId, expaireTimeCount, putOnNow, sendEmail,timingUnit);
+			return player.getFashionMgr().giveFashionItem(fashionId, expaireTimeCount, putOnNow, sendEmail, timingUnit);
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 赠送时装 有效期expaireTimeCount设置为－1表示永久有效
-	 * timingUnit为空表示使用默认的时间单位（目前的单位是天）
+	 * 赠送时装 有效期expaireTimeCount设置为－1表示永久有效 timingUnit为空表示使用默认的时间单位（目前的单位是天）
+	 * 
 	 * @param fashionId
 	 * @param expaireTimeCount
 	 * @param player
@@ -387,16 +398,14 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 * @param sendEmail
 	 * @param timingUnit
 	 */
-	public static boolean giveFashionItem(int fashionId, int expaireTimeCount, Player player, boolean putOnNow
-			, boolean sendEmail,TimeUnit timingUnit) {
+	public static boolean giveFashionItem(int fashionId, int expaireTimeCount, Player player, boolean putOnNow, boolean sendEmail, TimeUnit timingUnit) {
 		if (player != null) {
-			return player.getFashionMgr().giveFashionItem(fashionId, expaireTimeCount, putOnNow, sendEmail,timingUnit);
+			return player.getFashionMgr().giveFashionItem(fashionId, expaireTimeCount, putOnNow, sendEmail, timingUnit);
 		}
 		return false;
 	}
 
-	private boolean giveFashionItem(int fashionId, int expaireTimeCount, boolean putOnNow,
-			boolean sendEmail, TimeUnit timingUnit) {
+	private boolean giveFashionItem(int fashionId, int expaireTimeCount, boolean putOnNow, boolean sendEmail, TimeUnit timingUnit) {
 		Player player = m_player;
 		if (player == null) {
 			return false;
@@ -405,7 +414,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		if (fashionCfg == null) {
 			return false;
 		}
-		
+
 		FashionItem old = fashionItemHolder.getItem(fashionId);
 		if (old != null && old.isBrought()){//已经有这件时装，不能再赠送
 			if (timingUnit == null){
@@ -417,12 +426,12 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 			fashionItemHolder.updateItem(player, old);
 			return true;
 		}
-		
-		if (old == null){
-			old = newFashionItem(fashionCfg, expaireTimeCount,timingUnit);
+
+		if (old == null) {
+			old = newFashionItem(fashionCfg, expaireTimeCount, timingUnit);
 			fashionItemHolder.addItem(player, old);
-		}else{
-			if (timingUnit == null){
+		} else {
+			if (timingUnit == null) {
 				timingUnit = DefaultTimeUnit;
 			}
 			long now = System.currentTimeMillis();
@@ -431,7 +440,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
 		}
-		
+
 		if (putOnNow) {
 			FashionBeingUsed fashionUsed = createOrUpdate();
 			putOn(old, fashionUsed);
@@ -456,7 +465,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 * @param sendEmail
 	 */
 	public void giveFashionItem(int fashionId, int days, boolean putOnNow, boolean sendEmail) {
-		giveFashionItem(fashionId,days,putOnNow,sendEmail,DefaultTimeUnit);
+		giveFashionItem(fashionId, days, putOnNow, sendEmail, DefaultTimeUnit);
 	}
 
 	public boolean GMSetExpiredTime(int fashionId, long minutes) {
@@ -495,7 +504,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		notifyProxy.checkDelayNotify();
 		return true;
 	}
-	
+
 	/**
 	 * 职业改变
 	 */
@@ -552,10 +561,10 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	}
 
 	private FashionItem newFashionItem(FashionCommonCfg cfg, int days) {
-		return newFashionItem(cfg,days,DefaultTimeUnit);
+		return newFashionItem(cfg, days, DefaultTimeUnit);
 	}
-	
-	private FashionItem newFashionItem(FashionCommonCfg cfg, int expaireTimeCount,TimeUnit timingUnit) {
+
+	private FashionItem newFashionItem(FashionCommonCfg cfg, int expaireTimeCount, TimeUnit timingUnit) {
 		FashionItem item = new FashionItem();
 		item.setFashionId(cfg.getId());
 		item.setType(cfg.getFashionType().ordinal());
@@ -564,9 +573,9 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		long now = System.currentTimeMillis();
 		item.setBuyTime(now);
 		if (expaireTimeCount > 0) {
-			if (timingUnit == null){
+			if (timingUnit == null) {
 				timingUnit = DefaultTimeUnit;
-				GameLog.info("时装", m_player.getUserId(), "创建时装没有指定时间单位，使用默认值:"+DefaultTimeUnit);
+				GameLog.info("时装", m_player.getUserId(), "创建时装没有指定时间单位，使用默认值:" + DefaultTimeUnit);
 			}
 			item.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
 		} else {
@@ -707,7 +716,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 				notifyProxy.delayNotify();
 
 				FashionCommonCfg fashcfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
-				if (fashcfg != null){//兼容旧的数据
+				if (fashcfg != null) {// 兼容旧的数据
 					String fashionName = fashcfg.getName();
 					if (fasItem.isBrought() && fashcfg != null && !StringUtils.isBlank(fashionName)) {
 						final List<String> args = new ArrayList<String>();
@@ -750,7 +759,7 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 	 * 
 	 * @return
 	 */
-	private int getValidCount() {
+	public int getValidCount() {
 		int result = 0;
 		long now = System.currentTimeMillis();
 		RefParam<String> tip = new RefParam<String>();
@@ -801,5 +810,34 @@ public class FashionMgr implements FashionMgrIF,PlayerEventListener {
 		}
 		updateQuantityEffect(fashionUsed);
 		return fashionUsed;
+	}
+
+	/**
+	 * 计算属性
+	 * 
+	 * @param usingList
+	 * @param career
+	 * @param validCount
+	 * @return
+	 */
+	public static Map<Integer, AttributeItem> getAttrMap(int[] usingList, int career, int validCount) {
+		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
+		FashionEffectCfgDao effectCfgDAO = FashionEffectCfgDao.getInstance();
+		// 基础的时装
+		for (int i = 0, len = usingList.length; i < len; i++) {
+			FashionEffectCfg cfg = effectCfgDAO.getConfig(usingList[i], career);
+			if (cfg == null) {
+				continue;
+			}
+
+			AttributeUtils.calcAttribute(cfg.getAttrDataMap(), cfg.getPrecentAttrDataMap(), map);
+		}
+
+		FashionQuantityEffectCfg qualictyCfg = FashionQuantityEffectCfgDao.getInstance().getConfig(validCount);
+		if (qualictyCfg != null) {
+			AttributeUtils.calcAttribute(qualictyCfg.getAttrDataMap(), qualictyCfg.getPrecentAttrDataMap(), map);
+		}
+
+		return map;
 	}
 }

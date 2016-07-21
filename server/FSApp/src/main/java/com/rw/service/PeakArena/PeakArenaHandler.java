@@ -19,6 +19,10 @@ import com.playerdata.UserGameDataMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -47,6 +51,9 @@ import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.MsgDef;
+import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
+import com.rwproto.BattleCommon.BattleHeroPosition;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
@@ -305,6 +312,12 @@ public class PeakArenaHandler {
 			team.setMagicId(teamInfo.getMagicId());
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
+			String teamKey = ""+teamInfo.getTeamId();
+			List<BattleHeroPosition> heroPosList = teamInfo.getHeroPositionsList();
+			//TODO 保存站位信息
+			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, 
+					eBattlePositionType.PeakArenaPos_VALUE,teamKey,
+				EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 		}
 		TablePeakArenaDataDAO.getInstance().update(peakData);
 		response.setArenaData(getPeakArenaData(peakData, player));
@@ -354,6 +367,7 @@ public class PeakArenaHandler {
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
 		}
+		
 		String enemyId = request.getUserId();
 		ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry = PeakArenaBM.getInstance().getEnemyEntry(enemyId);
 		if (enemyEntry == null) {
@@ -739,13 +753,42 @@ public class PeakArenaHandler {
 				GameLog.error("巅峰竞技场", userId, "找不到法宝,ID=" + magicId);
 			}
 
+			//TODO 获取站位信息
+			EmbattlePositionInfo heroPositionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, 
+					eBattlePositionType.PeakArenaPos_VALUE, ""+team.getTeamId());
+			if (heroPositionInfo != null){
+				List<EmbattleHeroPosition> lst = heroPositionInfo.getPos();
+				if (lst.size() > 0){
+					for (EmbattleHeroPosition embattleHeroPosition : lst) {
+						BattleHeroPosition.Builder hposProto = BattleHeroPosition.newBuilder();
+						hposProto.setHeroId(embattleHeroPosition.getId());
+						hposProto.setPos(embattleHeroPosition.getPos());
+						teamBuilder.addHeroPositions(hposProto);
+					}
+				}
+			}
+			
 			List<String> heroIdList = team.getHeros();
 			if (heroIdList != null)
 				heroIdList.remove(arenaData.getUserId());
 			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
 			List<ArmyHero> armyList = armyInfo.getHeroList();
+			int[] usedPos = new int[heroIdList.size()];
+			int posIndex = 0;
 			for (ArmyHero hero : armyList) {
-				teamBuilder.addHeros(getHeroData(hero, i));
+				int position = 0;
+				if (heroPositionInfo != null){
+					//TODO 写入站位，可能找不到，这时返回0，需要兼容旧数据
+					position = heroPositionInfo.getHeroPos(hero.getRoleBaseInfo().getId());
+				}
+				
+				if (position == 0){
+					position = getNextPosition(usedPos);
+				}
+				usedPos[posIndex] = position;
+				posIndex++;
+				hero.setPosition(position);
+				teamBuilder.addHeros(getHeroData(hero,i));
 			}
 			teamBuilder.setPlayer(teamMainRole);
 			teamBuilder.addAllHeroIds(heroIdList);
@@ -757,6 +800,29 @@ public class PeakArenaHandler {
 			data.addTeams(teamBuilder);
 		}
 		return data.build();
+	}
+	
+	public int getNextPosition(int[] usedPosition){
+		int maxPosValue = 0;
+		for (int tmpIndex = 0; tmpIndex < usedPosition.length;++tmpIndex){
+			if (usedPosition[tmpIndex] > maxPosValue){
+				maxPosValue = usedPosition[tmpIndex];
+			}
+		}
+		int newPos;
+		for (newPos = 1; newPos<=maxPosValue;++newPos){
+			boolean isContained = false;
+			for(int j = 0; j<usedPosition.length;++j){
+				if (newPos == usedPosition[j]){
+					isContained = true;
+					break;
+				}
+			}
+			if (!isContained){
+				break;
+			}
+		}
+		return newPos;
 	}
 
 	public ArenaRecord getPeakArenaRecord(PeakRecordInfo record) {

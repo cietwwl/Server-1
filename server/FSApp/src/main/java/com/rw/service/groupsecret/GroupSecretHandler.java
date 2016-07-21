@@ -14,6 +14,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
@@ -45,6 +47,9 @@ import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwproto.BattleCommon;
+import com.rwproto.BattleCommon.BattleHeroPosition;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
@@ -225,7 +230,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		List<String> teamHeroIdList = req.getTeamHeroIdList();
+		List<BattleHeroPosition> teamHeroIdList = req.getTeamHeroIdList();
 		if (teamHeroIdList == null || teamHeroIdList.isEmpty()) {
 			GameLog.error("请求创建秘境", userId, "从客户端传递过来的防守阵容信息是空的");
 			GroupSecretHelper.fillRspInfo(rsp, false, "防守阵容不能为空");
@@ -236,14 +241,14 @@ public class GroupSecretHandler {
 		GroupSecretTeamData teamData = teamMgr.get(userId);
 		List<String> defendHeroList = teamData.getDefendHeroList();
 
+		int totalFighting = 0;
+		boolean containsMainRole = false;
+
 		int size = teamHeroIdList.size();
 		List<String> canAddDefendList = new ArrayList<String>(size);
-
-		int totalFighting = 0;
-
-		boolean containsMainRole = false;
 		for (int i = 0; i < size; i++) {
-			String teamUserId = teamHeroIdList.get(i);
+			BattleHeroPosition heroPos = teamHeroIdList.get(i);
+			String teamUserId = heroPos.getHeroId();
 			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
 			if (hero == null) {
 				GameLog.error("请求创建秘境", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
@@ -311,6 +316,10 @@ public class GroupSecretHandler {
 		String generateCacheSecretId = GroupSecretHelper.generateCacheSecretId(userId, secretData.getId());
 		baseDataMgr.addDefendSecretId(userId, generateCacheSecretId);
 
+		// 增加阵容
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, generateCacheSecretId,
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
+
 		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId, level);
 		SecretBaseInfoSynData base = synData.getBase();
 		if (base != null) {
@@ -325,9 +334,9 @@ public class GroupSecretHandler {
 		// 把秘境数据加入到排行榜
 		GroupSecretMatchHelper.addGroupSecret2Rank(player, secretData);
 
-		//通知角色日常任务 by Alex
+		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSECRET_EXPLORE, 1);
-		
+
 		// 回应消息
 		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
 		createRsp.setId(generateCacheSecretId);
@@ -481,6 +490,9 @@ public class GroupSecretHandler {
 		// 从排行榜移除
 		GroupSecretMatchHelper.removeGroupSecretMatchEntry(player, getRewardSecretId);
 
+		// 移除阵容
+		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, getRewardSecretId);
+
 		// 通知客户端删除
 		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null, 0));
@@ -622,7 +634,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		List<String> teamHeroIdList = req.getTeamHeroIdList();
+		List<BattleHeroPosition> teamHeroIdList = req.getTeamHeroIdList();
 		if (teamHeroIdList.isEmpty()) {
 			GameLog.error("请求更换秘境阵容", userId, "从客户端传递过来的防守阵容信息是空的");
 			GroupSecretHelper.fillRspInfo(rsp, false, "更换的防守阵容不能为空");
@@ -641,15 +653,20 @@ public class GroupSecretHandler {
 
 		List<String> checkList = new ArrayList<String>(size);
 
+		List<String> teamIdList = new ArrayList<String>(size);
+
 		boolean containsMainRole = false;
 		for (int i = 0; i < size; i++) {
-			String teamUserId = teamHeroIdList.get(i);
+			BattleHeroPosition heroPos = teamHeroIdList.get(i);
+			String teamUserId = heroPos.getHeroId();
 			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
 			if (hero == null) {
 				GameLog.error("请求更换秘境阵容", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
 				GroupSecretHelper.fillRspInfo(rsp, false, "英雄不存在");
 				return rsp.build().toByteString();
 			}
+
+			teamIdList.add(teamUserId);// 增加阵容用的Id
 
 			totalFighting += hero.getFighting();
 
@@ -698,11 +715,15 @@ public class GroupSecretHandler {
 		proGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * proTimeMinutes);
 
 		// 可以去更新阵容了
-		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, teamHeroIdList);
+		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, teamIdList);
 		// 更新使用的阵容
 		if (!changeList.isEmpty()) {
 			teamMgr.changeTeamHeroList(player, changeList);
 		}
+
+		// 增加阵容
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, changeTeamSecretId,
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -1116,7 +1137,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		List<String> teamHeroIdList = req.getHeroIdList();
+		List<BattleHeroPosition> teamHeroIdList = req.getHeroIdList();
 		if (teamHeroIdList.isEmpty()) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能空");
 			return rsp.build().toByteString();
@@ -1133,7 +1154,8 @@ public class GroupSecretHandler {
 
 		boolean containsMainRole = false;
 		for (int i = 0; i < size; i++) {
-			String teamUserId = teamHeroIdList.get(i);
+			BattleHeroPosition heroPos = teamHeroIdList.get(i);
+			String teamUserId = heroPos.getHeroId();
 			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
 			if (hero == null) {
 				GameLog.error("接受邀请驻守成员", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
@@ -1204,6 +1226,10 @@ public class GroupSecretHandler {
 			GroupSecretHelper.fillRspInfo(rsp, false, "据点已被其他成员派驻");
 			return rsp.build().toByteString();
 		}
+
+		// 更新一下防守阵容
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, reqId,
+			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		// 更新目前防守的秘境列表
 		baseDataMgr.addDefendSecretId(userId, reqId);

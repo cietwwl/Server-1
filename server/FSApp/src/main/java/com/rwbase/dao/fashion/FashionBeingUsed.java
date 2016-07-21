@@ -23,10 +23,15 @@ public class FashionBeingUsed implements FashionUsedIF {
 	@NonSave
 	private int totalEffectPlanId = -1;
 
+	/**
+	 * 时装信息：按照顺序是--->套装，翅膀，宠物
+	 * 
+	 * @return
+	 */
 	public int[] getUsingList() {
 		int[] result = new int[3];
-		result[0] = wingId;
-		result[1] = suitId;
+		result[0] = suitId;
+		result[1] = wingId;
 		result[2] = petId;
 		return result;
 	}
@@ -34,10 +39,10 @@ public class FashionBeingUsed implements FashionUsedIF {
 	public void setUsing(int index,int fid){
 		switch(index){
 		case 0:
-			wingId = fid;
+			suitId = fid;
 			break;
 		case 1:
-			suitId = fid;
+			wingId = fid;
 			break;
 		case 2:
 			petId = fid;

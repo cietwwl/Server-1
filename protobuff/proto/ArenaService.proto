@@ -27,9 +27,16 @@ enum eArenaType {
 	HIS_RANK_REWARD_VIEW = 15;//历史排行榜奖励总和
 	HIS_RANK_GET_REWARD = 16;//领取历史排行榜阶段奖励
 }
+
 enum eArenaResultType {
 	ARENA_SUCCESS = 1;//成功
 	ARENA_FAIL = 2;//失败
+}
+
+//阵容类型
+enum ArenaEmbattleType{
+	ARENA_ATK = 1;//攻击阵容
+	ARENA_DEFEND = 2;//防守阵容
 }
 
 message HeroData{
@@ -97,12 +104,12 @@ message ArenaRecord{
 message MsgArenaRequest{
     required eArenaType arenaType = 1;
 	optional string userId = 2;
-	repeated string heroIds = 3;
+	repeated BattleCommon.BattleHeroPosition heroIds = 3;
 	optional ArenaInfo enemy = 4;
 	optional int32 win = 5;
 	repeated HurtValue hurtValue = 6;	//战斗伤害统计
 	optional int32 recordId = 7;		//请求的伤害统计id
-	repeated string atkIdList = 8;		//进攻阵容佣兵列表
+	repeated BattleCommon.BattleHeroPosition atkIdList = 8;		//进攻阵容佣兵列表
 	optional int32 rewardId = 14;// 领取奖励
 	optional int32 historyRewardId = 15;	//领取历史排行榜奖励ID
 }
