@@ -237,7 +237,8 @@ public class FixExpEquipMgr {
 
 			int totalExp = selectItems2Exp(consumeType, selectItemList);
 			int nextQualityNeedExp = getNextQualityNeedExp(dataItem);
-			totalExp = totalExp < nextQualityNeedExp ? totalExp : nextQualityNeedExp;
+			int curExp = dataItem.getExp();
+			totalExp = totalExp+curExp < nextQualityNeedExp?totalExp:(nextQualityNeedExp-curExp);
 
 			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int totalCost = totalExp * equipCfg.getCostPerExp();
@@ -297,8 +298,9 @@ public class FixExpEquipMgr {
 
 				if (totalExp + dataItem.getExp() >= curLevelCfg.getExpNeed()) {
 					dataItem.setLevel(nextLevel);
+					int expCost = curLevelCfg.getExpNeed() - dataItem.getExp();
+					totalExp = totalExp - expCost;
 					dataItem.setExp(0);
-					totalExp = totalExp - (curLevelCfg.getExpNeed() - dataItem.getExp());
 				} else {
 					dataItem.setExp(totalExp + dataItem.getExp());
 					totalExp = 0;
