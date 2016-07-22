@@ -93,8 +93,8 @@ public class GroupCopyMgr {
 	/**帮派副本胜利品及申请列表*/
 	private DropAndApplyRecordHolder dropHolder;
 
-	private final String System_dist = "系统自动分配";
-	private final String role_dist = "由%s进行分配";
+	private final String SYSTEM_DIST = "系统自动分配";
+	private final String ROLE_DIST = "由%s进行分配";
 	
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
 	public final static DropApplyComparator adComparator = new DropApplyComparator();
@@ -735,12 +735,19 @@ public class GroupCopyMgr {
 
 	
 	
-	
+	/**
+	 * 获取分配字符串
+	 * @param apply
+	 * @return
+	 */
 	private String getDistStr(ApplyInfo apply) {
+		String str = "";
 		if(StringUtils.isEmpty(apply.getDistRoleName())){
-			
+			str = SYSTEM_DIST;
+		}else{
+			str = String.format(ROLE_DIST, apply.getDistRoleName());
 		}
-		return null;
+		return str;
 	}
 
 	/**

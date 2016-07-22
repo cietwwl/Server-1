@@ -1,10 +1,12 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.util.StringUtils;
 
 import com.groupCopy.bm.groupCopy.DropApplyInteface;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.util.StringUtil;
 
 
 @SynClass
@@ -61,6 +63,9 @@ public class ApplyInfo implements DropApplyInteface{
 	}
 
 	public String getDistRoleName() {
+		if(StringUtils.isEmpty(distRoleName)){
+			return "";
+		}
 		return distRoleName;
 	}
 

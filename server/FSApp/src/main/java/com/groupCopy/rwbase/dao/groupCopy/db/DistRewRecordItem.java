@@ -18,6 +18,10 @@ public class DistRewRecordItem {
 	private String getType;
 	
 	
+	public DistRewRecordItem() {
+	}
+
+
 	public DistRewRecordItem(int itemID, String roleName, long timeStr,
 			String getType) {
 		super();
