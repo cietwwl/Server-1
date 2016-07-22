@@ -420,7 +420,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 			if (timingUnit == null){
 				timingUnit = DefaultTimeUnit;
 			}
-			old.setExpiredTime(old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+			//有效期<=0看成永久时装
+			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
@@ -435,7 +436,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 				timingUnit = DefaultTimeUnit;
 			}
 			long now = System.currentTimeMillis();
-			old.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
+			//有效期<=0看成永久时装
+			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
