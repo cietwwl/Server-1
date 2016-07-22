@@ -208,6 +208,10 @@ public class FixExpEquipHandler {
 							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
+						if(rsp.getTipMsg().indexOf("等级不够") > 0){
+							RobotLog.info("人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
+							return true;
+						}
 						RobotLog.fail("fixExpequipHandler[send.doQualityUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
 						return false;
 					}
@@ -248,7 +252,7 @@ public class FixExpEquipHandler {
 		}else{
 			item.setModelId(expId);
 		}
-		item.setCount(999);
+		item.setCount(888);
 		
 		SelectItem tmpitem = item.buildPartial();	
 		com.rwproto.FixEquipProto.ExpLevelUpReqParams.Builder expIdAndNum = ExpLevelUpReqParams.newBuilder();
