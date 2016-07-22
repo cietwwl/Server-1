@@ -1,5 +1,6 @@
 package com.rw.mutiTest;
 
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 
 import com.rw.Robot;
+import com.rw.Test;
 
 public class MutiTestOnetimeCreate {
 
@@ -37,7 +39,6 @@ public class MutiTestOnetimeCreate {
 	private static AtomicLong maxTimeCost = new AtomicLong();
 	
 	private static boolean withCarrer = false;
-
 	public static void main(String[] args) throws Exception {
 
 		for (int i = start; i < start + totalCount; i++) {
@@ -49,7 +50,24 @@ public class MutiTestOnetimeCreate {
 				public void run() {
 					try {
 						String accountId = preName + index;
-						createRobot(accountId);
+//						Robot robot = createRobot(accountId);
+						Robot robot = Test.loginRobot(accountId);
+						
+						for(int i = 0;i< 5;i++){
+							int normolEquipType = Test.random.nextInt(5) ;
+							normolEquipType = normolEquipType == 0?1:normolEquipType;
+							boolean issucc = robot.testFixEquip(0,0,1,normolEquipType);
+							System.out.println( i + "@@@@@@@" + issucc + "         " + normolEquipType);
+						}
+						for(int i = 0;i < 4;i++){
+							int expEquipType = Test.random.nextInt(9) ;
+							if(expEquipType < 6){
+								expEquipType = 6 + expEquipType/2;
+							}
+							boolean issucc = robot.testFixEquip(1,0,1,expEquipType);
+							System.out.println( i + "~~~~~~~" + issucc + "         " + expEquipType);
+						}
+						
 					} catch (Throwable e) {
 						e.printStackTrace();
 					}finally{

@@ -939,9 +939,42 @@ public class Robot {
 		checkItemEnough(806526);
 		checkItemEnough(806527);
 		checkItemEnough(806528);		
+		
 		checkItemEnough(806553);//升星材料
 		checkItemEnough(806554);//升星材料
+		checkItemEnough(806555);//升星材料
+		checkItemEnough(806556);//升星材料
+		checkItemEnough(806557);//升星材料
+		checkItemEnough(806558);//升星材料
+		checkItemEnough(806559);//升星材料
+		checkItemEnough(806560);//升星材料
+		checkItemEnough(806561);//升星材料
+		checkItemEnough(806562);//升星材料
+		checkItemEnough(806563);//升星材料
+		checkItemEnough(806564);//升星材料
+		checkItemEnough(806565);//升星材料
+		checkItemEnough(806566);//升星材料
+		checkItemEnough(806567);//升星材料
+		checkItemEnough(806568);//升星材料
+		checkItemEnough(806569);//升星材料
+		checkItemEnough(806570);//升星材料
+		checkItemEnough(806571);//升星材料
+		checkItemEnough(806572);//升星材料
+		checkItemEnough(806573);//升星材料
+		checkItemEnough(806574);//升星材料
+		checkItemEnough(806575);//升星材料
+		checkItemEnough(806576);//升星材料
+		checkItemEnough(806577);//升星材料
+		checkItemEnough(806578);//升星材料
+		checkItemEnough(806579);//升星材料
+		checkItemEnough(806580);//升星材料
+		checkItemEnough(806581);//升星材料
+		checkItemEnough(806582);//升星材料
+		checkItemEnough(806583);//升星材料
+		checkItemEnough(806584);//升星材料
+		checkItemEnough(806585);//升星材料		
 		checkItemEnough(806586);//升星材料
+		
 		checkItemEnough(806505);//下←格经验材料
 		checkItemEnough(806510);//下右格经验材料
 		checkItemEnough(806551);//←升级别材料

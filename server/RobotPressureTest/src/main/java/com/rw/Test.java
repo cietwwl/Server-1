@@ -295,7 +295,7 @@ public class Test {
 		
 	
 	// 登录
-	private static Robot loginRobot(String accountId) {
+	public static Robot loginRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
 		robot.loginPlatform();
 		robot.loginGame();
