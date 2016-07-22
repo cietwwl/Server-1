@@ -92,8 +92,9 @@ public class MagicEquipFetterDataHolder {
 	 * 检查数据库内记录是否与当前集合一致，如果没有则进行添加
 	 * @param curCfgs
 	 * @param type TODO 类型，用于判断是法宝还是神器
+	 * @param modelID TODO 英雄modelID
 	 */
-	public void compareRcord(Set<MagicEquipConditionCfg> curCfgs, int type){
+	public void compareRcord(Set<MagicEquipConditionCfg> curCfgs, int type, int modelID){
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		if(item == null){
 			item = checkRecord();
@@ -128,7 +129,7 @@ public class MagicEquipFetterDataHolder {
 			
 			if(!exist){
 				//检查是否要保留
-				if(cfg.recordOldData()){
+				if(cfg.recordOldData() && cfg.getModelIDList().contains(modelID)){
 					//如果是要保留，则判断新集合内是否有相同类型记录，比较两个等级，保留最高
 					boolean del = false;
 					for (MagicEquipConditionCfg temp : sameType) {

@@ -136,7 +136,7 @@ public class MagicEquipFetterMgr {
 		
 		tempSet.removeAll(remove);
 		
-		holder.compareRcord(tempSet, FetterMagicEquipCfgDao.TYPE_FIXEQUIP);
+		holder.compareRcord(tempSet, FetterMagicEquipCfgDao.TYPE_FIXEQUIP, hero.getModelId());
 
 		if(syn){
 			holder.synAllData(player, holder.getVersion());
@@ -225,8 +225,14 @@ public class MagicEquipFetterMgr {
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
 		
 		Set<MagicEquipConditionCfg> temp = new HashSet<MagicEquipConditionCfg>();
+		int modelId = player.getModelId();
 		
 		for (MagicEquipConditionCfg cfg : cfgList) {
+			//判断一下羁绊是不是合适主角英雄，因为英雄会转职
+			if(!cfg.getModelIDList().contains(modelId)){
+				continue;
+			}
+			
 			//找出所有合符条件的配置
 			boolean match = true;
 			Map<Integer, Map<Integer, Integer>> conditionMap = cfg.getConditionMap();
@@ -265,7 +271,7 @@ public class MagicEquipFetterMgr {
 		}
 		
 		temp.removeAll(remove);
-		holder.compareRcord(temp, FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
+		holder.compareRcord(temp, FetterMagicEquipCfgDao.TYPE_MAGICWEAPON, modelId);
 
 
 		if(syn){
