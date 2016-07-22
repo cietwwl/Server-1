@@ -90,7 +90,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已经达到最高级") > 0){
+						if(rsp.getTipMsg().indexOf("已经达到最高级") != -1){
 							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
@@ -200,11 +200,11 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
+						if(rsp.getTipMsg().indexOf("已经达到最品质") != -1){
 							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
-						if(rsp.getTipMsg().indexOf("等级不够") > 0){
+						if(rsp.getTipMsg().indexOf("等级不够") != -1){
 							RobotLog.info("人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
 							return true;
 						}
@@ -261,7 +261,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已达最高星级") > 0){
+						if(rsp.getTipMsg().indexOf("已达最高星级")!= -1){
 							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
@@ -318,7 +318,7 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已是最低等级") > 0){
+						if(rsp.getTipMsg().indexOf("已是最低等级") != -1){
 							RobotLog.info("装备已最低，直接返回true");
 							return true;
 						}
