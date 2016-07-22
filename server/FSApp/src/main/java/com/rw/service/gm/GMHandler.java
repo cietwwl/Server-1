@@ -524,7 +524,7 @@ public class GMHandler {
 		}
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			player.getUserGameDataMgr().addGold(addNum);
+			player.getUserGameDataMgr().addGoldByGm(addNum);
 			return true;
 		}
 		return false;

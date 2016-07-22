@@ -92,9 +92,29 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 				fashionItemHolder.addItem(m_player, fashionItem);
 			}
 		}
-
+		
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
+		boolean isChanged = false;
 		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
+			isChanged = true;
+		}
+		
+		if (fashionUsed != null){
+			int[] usingList = fashionUsed.getUsingList();
+			for (int i = 0; i < usingList.length;i++){
+				int fashionModelId = usingList[i];
+				if(fashionModelId != -1){
+					FashionItem item = fashionItemHolder.getItem(fashionModelId);
+					if (item == null){
+						//因为旧数据在检查时装过期的时候，无法找到ID而没有脱下时装!
+						fashionUsed.setUsing(i, -1);
+						isChanged = true;
+					}
+				}
+			}
+		}
+		
+		if (isChanged){
 			fashionUsedHolder.update(fashionUsed);
 		}
 	}

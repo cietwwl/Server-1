@@ -311,14 +311,14 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"UserGroupAttributeData", Value=35)]
       UserGroupAttributeData = 35,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupCopyLevel", Value=36)]
-      GroupCopyLevel = 36,
+      [global::ProtoBuf.ProtoEnum(Name=@"GROUP_COPY_LEVEL", Value=36)]
+      GROUP_COPY_LEVEL = 36,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupCopyMap", Value=37)]
-      GroupCopyMap = 37,
+      [global::ProtoBuf.ProtoEnum(Name=@"GROUP_COPY_MAP", Value=37)]
+      GROUP_COPY_MAP = 37,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupCopyReward", Value=38)]
-      GroupCopyReward = 38,
+      [global::ProtoBuf.ProtoEnum(Name=@"GROUP_COPY_REWARD", Value=38)]
+      GROUP_COPY_REWARD = 38,
             
       [global::ProtoBuf.ProtoEnum(Name=@"GroupApplyMemberData", Value=39)]
       GroupApplyMemberData = 39,
@@ -361,6 +361,15 @@ namespace DataSyn
             
       [global::ProtoBuf.ProtoEnum(Name=@"SECRETAREA_TEAM_INFO", Value=52)]
       SECRETAREA_TEAM_INFO = 52,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"USE_GROUP_COPY_DATA", Value=53)]
+      USE_GROUP_COPY_DATA = 53,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GROUP_COPY_SERVER_RANK", Value=54)]
+      GROUP_COPY_SERVER_RANK = 54,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GROUP_ITEM_DROP_APPLY", Value=55)]
+      GROUP_ITEM_DROP_APPLY = 55,
             
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
       ActivityCountType = 60,
@@ -432,7 +441,16 @@ namespace DataSyn
       GFightFinalReward = 88,
             
       [global::ProtoBuf.ProtoEnum(Name=@"EmbattleInfo", Value=89)]
-      EmbattleInfo = 89
+      EmbattleInfo = 89,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MAGICEQUIP_FETTER", Value=90)]
+      MAGICEQUIP_FETTER = 90,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"USER_TEAM_BATTLE", Value=91)]
+      USER_TEAM_BATTLE = 91,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"TEAM_BATTLE_TEAM", Value=92)]
+      TEAM_BATTLE_TEAM = 92
     }
   
 }
