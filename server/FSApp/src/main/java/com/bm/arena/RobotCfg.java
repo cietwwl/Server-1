@@ -36,6 +36,13 @@ public class RobotCfg {
 	private String heroThirdSkillLevel; // 佣兵第三个技能等级
 	private String heroFourthSkillLevel;// 佣兵第四个技能等级
 	private String heroFifthSkillLevel; // 佣兵第五个技能等级
+	// 增加的机器人数据
+	private String fixEquipLevel;// 神器的等级
+	private String fixEquipQuality;// 神器的品质
+	private String fixEquipStar;// 神器的星数
+	private String taoistLevel;// 道术的等级
+	private String heroFetters;// 羁绊的等级
+	private int extraAttrId;// 额外增加的属性Id
 
 	public String getRanking() {
 		return ranking;
@@ -299,5 +306,29 @@ public class RobotCfg {
 
 	public void setRobotType(int robotType) {
 		this.robotType = robotType;
+	}
+
+	public String getFixEquipLevel() {
+		return fixEquipLevel;
+	}
+
+	public String getFixEquipQuality() {
+		return fixEquipQuality;
+	}
+
+	public String getFixEquipStar() {
+		return fixEquipStar;
+	}
+
+	public String getTaoistLevel() {
+		return taoistLevel;
+	}
+
+	public String getHeroFetters() {
+		return heroFetters;
+	}
+
+	public int getExtraAttrId() {
+		return extraAttrId;
 	}
 }
