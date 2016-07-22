@@ -28,6 +28,8 @@ public interface IDropGambleItemPlan {
 	
 	public IDropGambleItemPlan removeHistoryFromOrdinaryGroup(int planId);
 	
+	public IDropGambleItemPlan removeHistoryFromOrdinaryGroup(int planId);
+	
 	/**
 	 * 特殊组别：单抽
 	 * @return

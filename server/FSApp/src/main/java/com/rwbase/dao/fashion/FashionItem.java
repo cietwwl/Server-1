@@ -50,9 +50,12 @@ public class FashionItem implements IMapItem, FashionItemIF {
 		}
 	}
 	
-	public boolean UpgradeOldData(){
+	public boolean UpgradeOldData(RefInt oldId){
 		RefInt newFid = new RefInt();
 		if (FashionMgr.UpgradeIdLogic(fashionId, newFid)){
+			if (oldId != null){
+				oldId.value = fashionId;
+			}
 			fashionId = newFid.value;
 			id = userId + "_" + fashionId;
 			return true;
