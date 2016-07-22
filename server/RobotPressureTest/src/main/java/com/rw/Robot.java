@@ -299,7 +299,7 @@ public class Robot {
 
 	public void checkItemEnough(int modelId) {
 		ItemData itemData = client.getItembagHolder().getByModelId(modelId);		
-		if (itemData==null||itemData.getCount() < 10) {
+		if (itemData==null||itemData.getCount() < 50) {
 			gainItem(modelId, 888);
 		}
 	}
