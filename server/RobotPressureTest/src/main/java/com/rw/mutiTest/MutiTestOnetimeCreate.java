@@ -17,13 +17,13 @@ public class MutiTestOnetimeCreate {
 
 	// 执行线程数，并发数
 	private static int threadCount = MutiTestAccount.threadCount;
-	
+
 	final private static int totalCount = MutiTestAccount.totalCount;
-	
+
 	private static int start = MutiTestAccount.start;
-	
+
 	private static String preName = MutiTestAccount.preName;
-	
+
 	// 执行间隔 ms
 	private static long span = 1000L;
 
@@ -37,8 +37,9 @@ public class MutiTestOnetimeCreate {
 	private static AtomicInteger failCount = new AtomicInteger(0);
 
 	private static AtomicLong maxTimeCost = new AtomicLong();
-	
+
 	private static boolean withCarrer = false;
+
 	public static void main(String[] args) throws Exception {
 
 		for (int i = start; i < start + totalCount; i++) {
@@ -50,27 +51,32 @@ public class MutiTestOnetimeCreate {
 				public void run() {
 					try {
 						String accountId = preName + index;
-//						Robot robot = createRobot(accountId);
-						Robot robot = Test.loginRobot(accountId);
-						
-						for(int i = 0;i< 5;i++){
-							int normolEquipType = Test.random.nextInt(5) ;
-							normolEquipType = normolEquipType == 0?1:normolEquipType;
-							boolean issucc = robot.testFixEquip(0,0,1,normolEquipType);
-							System.out.println( i + "@@@@@@@" + issucc + "         " + normolEquipType);
-						}
-						for(int i = 0;i < 4;i++){
-							int expEquipType = Test.random.nextInt(9) ;
-							if(expEquipType < 6){
-								expEquipType = 6 + expEquipType/2;
-							}
-							boolean issucc = robot.testFixEquip(1,0,1,expEquipType);
-							System.out.println( i + "~~~~~~~" + issucc + "         " + expEquipType);
-						}
-						
+						createRobot(accountId);
+//						Robot robot = Test.loginRobot(accountId);
+//
+//						for (int i = 0; i < 5; i++) {
+//							int normolEquipType = Test.random.nextInt(5);
+//							normolEquipType = normolEquipType == 0 ? 1
+//									: normolEquipType;
+//							boolean issucc = robot.testFixEquip(0, 0, 1,
+//									normolEquipType);
+//							System.out.println(i + "@@@@@@@" + issucc
+//									+ "         " + normolEquipType);
+//						}
+//						for (int i = 0; i < 4; i++) {
+//							int expEquipType = Test.random.nextInt(9);
+//							if (expEquipType < 6) {
+//								expEquipType = 6 + expEquipType / 2;
+//							}
+//							boolean issucc = robot.testFixEquip(1, 0, 1,
+//									expEquipType);
+//							System.out.println(i + "~~~~~~~" + issucc
+//									+ "         " + expEquipType);
+//						}
+
 					} catch (Throwable e) {
 						e.printStackTrace();
-					}finally{
+					} finally {
 						finishCount.incrementAndGet();
 					}
 				}
@@ -82,10 +88,11 @@ public class MutiTestOnetimeCreate {
 			Thread.sleep(span);
 		}
 		long avgTimeCost = timeCost.get() / finishCount.get();
-		
+
 		tmpLog.info("tasks all ongoing ; success:" + successCount.get()
 				+ " fail:" + failCount.get() + " finishCount:"
-				+ finishCount.get() + " avg in ms:" + avgTimeCost + " maxTimeCost:"+maxTimeCost.get());
+				+ finishCount.get() + " avg in ms:" + avgTimeCost
+				+ " maxTimeCost:" + maxTimeCost.get());
 	}
 
 	// 注册创建角色
@@ -95,14 +102,14 @@ public class MutiTestOnetimeCreate {
 			long startTime = System.currentTimeMillis();
 
 			if (robot.creatRole()) {
-				if(withCarrer){
-					if(robot.upgrade(60) && robot.selectCarrer()){
+				if (withCarrer) {
+					if (robot.upgrade(60) && robot.selectCarrer()) {
 						successCount.incrementAndGet();
-					}else{
+					} else {
 						failCount.incrementAndGet();
 					}
-					
-				}else{
+
+				} else {
 					successCount.incrementAndGet();
 				}
 			} else {
@@ -115,7 +122,7 @@ public class MutiTestOnetimeCreate {
 				maxTimeCost.set(cost);
 			}
 			return robot;
-		}else{
+		} else {
 			failCount.incrementAndGet();
 		}
 		return robot;

@@ -243,6 +243,7 @@ public class FixEquipHandler {
 		req.setEquipId(tmp);
 		
 		
+		
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_FIX_EQUIP, req.build().toByteString(), new MsgReciver() {
 			
 			public Command getCmd() {
@@ -265,7 +266,7 @@ public class FixEquipHandler {
 							RobotLog.info("装备已最高，直接返回true");
 							return true;
 						}
-						RobotLog.fail("fixequipHandler[send.doStarUp]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
+						RobotLog.fail("fixequipHandler[send.doStarUp]服务器处理获取列表消息失败 !" + rsp.getTipMsg() );
 						return false;
 					}
 					
