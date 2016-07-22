@@ -1,6 +1,7 @@
 package com.rwbase.dao.fetters.pojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,18 @@ public class MagicEquipFetterRecord implements IMapItem{
 	
 	//已经开启羁绊id
 	@CombineSave
-	private List<Integer> fetterIDs = new ArrayList<Integer>();
+	private List<Integer> fixEquipFetters = new ArrayList<Integer>();
+	
+	@CombineSave
+	private List<Integer> magicFetters = new ArrayList<Integer>();
 	
 	
 	
+	public MagicEquipFetterRecord() {
+	}
+
+
+
 	@Override
 	public String getId() {
 		return id;
@@ -53,25 +62,43 @@ public class MagicEquipFetterRecord implements IMapItem{
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
-	public List<Integer> getFetterIDs() {
-		return fetterIDs;
+
+
+
+	public List<Integer> getFixEquipFetters() {
+		return fixEquipFetters;
 	}
 
 
 
-	public void setFetterIDs(List<Integer> fetterIDs) {
-		this.fetterIDs = fetterIDs;
+	public void setFixEquipFetters(List<Integer> fixEquipFetters) {
+		this.fixEquipFetters = fixEquipFetters;
 	}
 
 
 
-	public void AddFetter(int fetterID){
-		//已经开启羁绊id
-		fetterIDs.add(fetterID);
+	public List<Integer> getMagicFetters() {
+		return magicFetters;
+	}
+
+
+
+	public void setMagicFetters(List<Integer> magicFetters) {
+		this.magicFetters = magicFetters;
+	}
+
+
+
+	public boolean isEmpty() {
+		return magicFetters.isEmpty() && fixEquipFetters.isEmpty();
 	}
 	
-	
+
+	public List<Integer> getAllFetters(){
+		List<Integer> tempList = new ArrayList<Integer>();
+		tempList.addAll(fixEquipFetters);
+		tempList.addAll(magicFetters);
+		return tempList;
+	}
 	
 }

@@ -15,6 +15,7 @@ import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.common.attribute.AttributeSet.Builder;
 import com.rwbase.common.attribute.impl.AbstractAttributeCalc;
 import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
+import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
 
 /**
  * 法宝神器羁绊属性计算
@@ -31,9 +32,9 @@ public class HeroMagicEquipFetterAttriComponent extends AbstractAttributeCalc{
 
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
-		List<MagicEquipConditionCfg> list = player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModelId());
+		List<Integer> list = player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModelId());
 		if(hero.isMainRole()){
-			List<MagicEquipConditionCfg> magicFetter = player.getMe_FetterMgr().getMagicFetter();
+			List<Integer> magicFetter = player.getMe_FetterMgr().getMagicFetter();
 			list.addAll(magicFetter);
 		}
 		if(list.isEmpty()){
@@ -44,9 +45,9 @@ public class HeroMagicEquipFetterAttriComponent extends AbstractAttributeCalc{
 		//属性Map集合
 		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 		
-		
-		for (MagicEquipConditionCfg cfg : list) {
-			
+		MagicEquipConditionCfg cfg;
+		for (int id : list) {
+			cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
 			
 			// 计算固定值
 			Map<Integer, Integer> attrDataMap = cfg.getAttrDataMap();

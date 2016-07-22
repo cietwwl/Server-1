@@ -136,7 +136,7 @@ public class MagicEquipFetterMgr {
 		
 		tempSet.removeAll(remove);
 		
-		holder.compareRcord(tempSet);
+		holder.compareRcord(tempSet, FetterMagicEquipCfgDao.TYPE_FIXEQUIP);
 
 		if(syn){
 			holder.synAllData(player, holder.getVersion());
@@ -259,12 +259,13 @@ public class MagicEquipFetterMgr {
 						sub.getUniqueId() != conditionCfg.getUniqueId() && 
 						conditionCfg.getConditionLevel() <= sub.getConditionLevel()){
 					remove.add(conditionCfg);
+					break;
 				}
 			}
 		}
 		
 		temp.removeAll(remove);
-		holder.compareRcord(temp);
+		holder.compareRcord(temp, FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
 
 
 		if(syn){
@@ -353,7 +354,7 @@ public class MagicEquipFetterMgr {
 	 * 获取英雄的神器羁绊列表
 	 * @param modelId
 	 */
-	public List<MagicEquipConditionCfg> getHeroFixEqiupFetter(int modelId) {
+	public List<Integer> getHeroFixEqiupFetter(int modelId) {
 		return holder.getFixEquipFetterByModelID(modelId);
 	}
 
@@ -363,7 +364,7 @@ public class MagicEquipFetterMgr {
 	/**
 	 * 获取法宝的羁绊列表
 	 */
-	public List<MagicEquipConditionCfg> getMagicFetter() {
+	public List<Integer> getMagicFetter() {
 		return holder.getMagicFetters();
 	}
 }
