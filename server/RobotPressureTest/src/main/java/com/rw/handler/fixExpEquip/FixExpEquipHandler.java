@@ -252,7 +252,7 @@ public class FixExpEquipHandler {
 		}else{
 			item.setModelId(expId);
 		}
-		item.setCount(888);
+		item.setCount(30);
 		
 		SelectItem tmpitem = item.buildPartial();	
 		com.rwproto.FixEquipProto.ExpLevelUpReqParams.Builder expIdAndNum = ExpLevelUpReqParams.newBuilder();

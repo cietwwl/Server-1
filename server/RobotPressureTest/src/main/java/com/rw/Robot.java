@@ -300,7 +300,7 @@ public class Robot {
 	public void checkItemEnough(int modelId) {
 		ItemData itemData = client.getItembagHolder().getByModelId(modelId);		
 		if (itemData==null||itemData.getCount() < 50) {
-			gainItem(modelId, 888);
+			gainItem(modelId, 999);
 		}
 	}
 
@@ -940,6 +940,7 @@ public class Robot {
 		checkItemEnough(806527);
 		checkItemEnough(806528);		
 		checkItemEnough(806553);//升星材料
+		checkItemEnough(806554);//升星材料
 		checkItemEnough(806586);//升星材料
 		checkItemEnough(806505);//下←格经验材料
 		checkItemEnough(806510);//下右格经验材料
