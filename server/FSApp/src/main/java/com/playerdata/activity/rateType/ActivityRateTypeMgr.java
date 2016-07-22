@@ -215,37 +215,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		return eSpecialItemIDUserInfo;
 	}
 	
-//	public int getmultiple(Player player,
-//			ActivityRateTypeEnum activityRateTypeEnum) {
-//		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
-//				.getInstance();
-//		if (activityRateTypeEnum == null) {
-//			GameLog.error("activityratetypemgr", "没有枚举", "获得倍数时无枚举");
-//			return 1;
-//		}
-//		ActivityRateTypeItem targetItem = dataHolder.getItem(
-//				player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
-//		if (targetItem == null) {
-//			GameLog.error("activityratetypemgr", "没有数据 ", "获得倍数时数据库无数据");
-//			return 1;
-//		}
-//		return targetItem.getMultiple();
-//	}
-	
-//	/**
-//	 * 核实与当前副本相关的活动是否存在，活动是否开启，以及返回倍数
-//	 * @param copyType 战斗类型
-//	 * @param doubleType 奖励双倍的类型 
-//	 * @return  倍数
-//	 * 此方法用于战后结算后台增加金币经验数据，以及战前生成物品道具
-//	 */
-//	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
-//		int multiple = 1;
-//		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyType, doubleType);
-//		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-//		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;		
-//		return multiple;
-//	}
+
 	
 	/**
 	 * 传入副本类型，根据类型，是否开启获得当前对应副本的“产出类型→产出倍数”的映射返回；
