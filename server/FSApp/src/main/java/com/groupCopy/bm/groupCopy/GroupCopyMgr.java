@@ -231,39 +231,6 @@ public class GroupCopyMgr {
 		}
 	}
 
-	/**
-	 * 作弊通关 
-	 * @param player
-	 * @param levelID
-	 * @return
-	 */
-	public GroupCopyResult cheatEndFight(Player player, String levelID){
-		//先找到原来的记录
-		GroupCopyLevelRecord lvRecord = lvRecordHolder.getByLevel(levelID);
-		GroupCopyProgress p;
-		List<GroupCopyMonsterSynStruct> monsterList = new ArrayList<GroupCopyMonsterSynStruct>();
-		if(lvRecord == null || lvRecord.getProgress() == null){
-			//原来没有记录，则从配置表初始化
-			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelID);
-			List<String> list = levelCfg.getmIDList();
-			CopyMonsterCfg monsterCfg = null;
-			GroupCopyMonsterSynStruct mStruct = null;
-			for (String id : list) {
-				 monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-				 mStruct = new GroupCopyMonsterSynStruct(monsterCfg);
-				 monsterList.add(mStruct);
-			}
-		}else{
-			List<GroupCopyMonsterSynStruct> getmDatas = lvRecord.getProgress().getmDatas();
-			
-			
-		}
-		
-		//这些怪物扣掉500HP
-		return null;
-		
-	}
-
 	
 	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);

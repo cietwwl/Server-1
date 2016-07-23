@@ -21,7 +21,7 @@ public class CopyMonsterCfg {
 	private int modeId;
 	
 	/**生命*/
-	private int Life;
+	private int life;
 	
 	/**品质*/
 	private int quality;
@@ -55,7 +55,7 @@ public class CopyMonsterCfg {
 		return modeId;
 	}
 	public int getLife() {
-		return Life;
+		return life;
 	}
 	
 	public int getQuality() {
