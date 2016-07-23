@@ -147,7 +147,7 @@ public class MagicEquipFetterMgr {
 	/**
 	 * 检查神器条件是否满足条件产生羁绊
 	 * @param entry
-	 * @param itemList
+	 *@param itemList
 	 * @return
 	 */
 	private boolean checkFixEquipMatch(Entry<Integer, Map<Integer, Integer>> map,
@@ -223,15 +223,19 @@ public class MagicEquipFetterMgr {
 		
 		
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
-		
+		if(list.isEmpty()){
+			GameLog.error(LogModule.COMMON, "MagicEquipFetterMgr[checkAndAddMagicFetter]", String.format("检查角色[%s]法宝羁绊数据，发现角色没有法宝道具！", player.getUserName()), null);
+			return;
+		}
 		Set<MagicEquipConditionCfg> temp = new HashSet<MagicEquipConditionCfg>();
 		int modelId = player.getModelId();
 		
 		for (MagicEquipConditionCfg cfg : cfgList) {
 			//判断一下羁绊是不是合适主角英雄，因为英雄会转职
-			if(!cfg.getModelIDList().contains(modelId)){
+			if(Integer.parseInt(cfg.getHeroModelID()) != modelId){
 				continue;
 			}
+			
 			
 			//找出所有合符条件的配置
 			boolean match = true;

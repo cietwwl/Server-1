@@ -129,7 +129,7 @@ public class MagicEquipFetterDataHolder {
 			
 			if(!exist){
 				//检查是否要保留
-				if(cfg.recordOldData() && cfg.getModelIDList().contains(modelID)){
+				if(cfg.recordOldData() && Integer.parseInt(cfg.getHeroModelID()) == modelID){
 					//如果是要保留，则判断新集合内是否有相同类型记录，比较两个等级，保留最高
 					boolean del = false;
 					for (MagicEquipConditionCfg temp : sameType) {
