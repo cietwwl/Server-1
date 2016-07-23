@@ -31,10 +31,15 @@ message TeamBattleReqMsg{
 	optional string userID = 4;		//要操作的角色id
 	optional string armyHeros = 5; 	//个人调整的防守队伍信息（TBArmyHerosInfo）不用包括主角
 	optional string rewardID = 6;	//要获取的奖励ID
-	optional int32 fightResult = 7;	//战斗结果
+	optional int32 count = 7;		//要兑换的积分奖励数量
+	optional int32 fightResult = 8;	//战斗结果
+	optional string loopID = 9;		//战斗的循环id
+	optional int32 battleTime = 10;	//战斗的场次
 }
 
 message TeamBattleRspMsg{
 	required TBResultType rstType = 1; //是否成功处理
-	repeated string armyInfo = 2;	//队友队伍详情
+	optional string tipMsg = 2;		//提示消息，可以是成功，也可以是失败的提示消息
+	repeated string armyInfo = 3;	//队友队伍详情
+	optional bool freeJoin = 4;		//组队当前是否可以自由加入
 }

@@ -16,6 +16,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.NotifyChangeCallBack;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
@@ -84,19 +85,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
 	 */
 	public void convertData() {
-		List<FashionItem> lst = fashionItemHolder.getItemList();
-		RefInt oldId = new RefInt();
-		for (FashionItem fashionItem : lst) {
-			if (fashionItem.UpgradeOldData(oldId)){
-				fashionItemHolder.directRemove(m_player, oldId.value);
-				fashionItemHolder.addItem(m_player, fashionItem);
-			}
-		}
-
-		FashionBeingUsed fashionUsed = getFashionBeingUsed();
-		if (fashionUsed != null && fashionUsed.UpgradeOldData()) {
-			fashionUsedHolder.update(fashionUsed);
-		}
+		FashionHandle.getInstance().convertData(fashionItemHolder, fashionUsedHolder,
+				getFashionBeingUsed(),m_player.getUserId());
 	}
 
 	@Override
@@ -400,7 +390,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 			if (timingUnit == null){
 				timingUnit = DefaultTimeUnit;
 			}
-			old.setExpiredTime(old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+			//有效期<=0看成永久时装
+			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
@@ -415,7 +406,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 				timingUnit = DefaultTimeUnit;
 			}
 			long now = System.currentTimeMillis();
-			old.setExpiredTime(now + timingUnit.toMillis(expaireTimeCount));
+			//有效期<=0看成永久时装
+			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);

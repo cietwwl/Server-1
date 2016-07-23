@@ -1,11 +1,15 @@
 package com.groupCopy.bm.groupCopy;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.bm.group.GroupBM;
+import com.common.GameUtil;
+import com.common.Utils;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao;
@@ -17,11 +21,13 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
+import com.mysql.jdbc.TimeUtil;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.gameworld.GameWorldFactory;
 
 
 /**
@@ -45,7 +51,12 @@ public class GroupCopyMailHelper {
 	 * 分发帮派奖励
 	 */
 	public void dispatchGroupWarPrice(){
-		
+		//检查时间，要求是在12-24点发送
+		Calendar C = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+		int hour = C.get(Calendar.HOUR_OF_DAY);
+		if(hour < 12){
+			return;
+		}
 		List<String> idList = GroupCopyDistIDManager.getInstance().getGroupIDList();
 		for (String id : idList) {
 			Group group = GroupBM.get(id);

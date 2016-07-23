@@ -56,4 +56,8 @@ public class GroupCopyRewardDistRecord implements IMapItem {
 	}
 	
 	
+	public void addRecord(DistRewRecordItem item){
+		recordList.add(item);
+	}
+	
 }

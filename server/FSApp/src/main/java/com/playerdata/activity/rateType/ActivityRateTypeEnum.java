@@ -85,29 +85,5 @@ public enum ActivityRateTypeEnum{
 		return target;
 	}
 	
-	/**rewardsType ,0为道具，1为经验,2为金币,3为金币+道具*/
-	public static ActivityRateTypeEnum getByCopyTypeAndRewardsType(int copyType,int rewardsType){
-		if(copyType == CopyType.COPY_TYPE_NORMAL){
-			 if(rewardsType == 1){
-				return Normal_copy_EXP_DOUBLE;
-			}
-		}else if(copyType == CopyType.COPY_TYPE_ELITE){
-			if(rewardsType == 0){
-				return ELITE_copy_DOUBLE;
-			}
-		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
-			return JBZD_DOUBLE;
-		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-			return LXSG_DOUBLE;
-		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
-			return SCHJ_DOUBLE;
-		}else if(copyType == CopyType.COPY_TYPE_TOWER){
-			if(rewardsType == 3){
-				return TOWER_DOUBLE;
-			}		
-		}else if (copyType == CopyType.COPY_TYPE_WARFARE){
-			return WARFARE_DOUBLE;
-		}
-		return null;
-	}	
+	
 }
