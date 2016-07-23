@@ -719,10 +719,6 @@ public class MagicHandler {
 		msgMagicResponse.setNewMagicModelId(resultId);
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		
-		//合成成功，通知法宝神器羁绊
-		ItemData itemData = new ItemData();
-		itemData.init(resultId, 1);
-		player.getMe_FetterMgr().notifyMagicChange(player, itemData);
 		
 		return msgMagicResponse.build().toByteString();
 	}

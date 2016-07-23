@@ -12,6 +12,7 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.readonly.FashionMgrIF.ItemFilter;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
@@ -277,6 +278,11 @@ public class ItemBagHandler {
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
 		}
 		
+		if(ItemCfgHelper.getItemType(cfg.getId()) == EItemTypeDef.Magic){
+			ItemData data = new ItemData();
+			data.setModelId(cfg.getId());
+			player.getMe_FetterMgr().notifyMagicChange(player, data);
+		}
 		
 		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		// response.setEventType(EItemBagEventType.ItemBag_Compose);

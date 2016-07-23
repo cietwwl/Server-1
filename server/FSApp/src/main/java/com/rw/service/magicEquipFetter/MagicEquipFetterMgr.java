@@ -325,6 +325,9 @@ public class MagicEquipFetterMgr {
 	 */
 	public void notifyMagicChange(Player player, ItemData itemData) {
 		List<MagicEquipConditionCfg> list = FetterMagicEquipCfgDao.getInstance().getCfgListByModelID(itemData.getModelId());
+		if(list.isEmpty()){
+			return;
+		}
 		checkAndAddMagicFetter(player, list, true);
 		
 	}
