@@ -98,7 +98,7 @@ public class MagicEquipFetterDataHolder {
 			item = checkRecord();
 		}
 		
-		List<Integer> fetterIDs = item.getMagicFetters();
+		List<Integer> fetterIDs = item.getFixEquipFetters();
 
 
 		List<MagicEquipConditionCfg> existType = new ArrayList<MagicEquipConditionCfg>();
@@ -150,7 +150,7 @@ public class MagicEquipFetterDataHolder {
 		for (MagicEquipConditionCfg cfg : tempSet) {
 			fetterIDs.add(cfg.getUniqueId());
 		}
-		item.setMagicFetters(fetterIDs);
+		item.setFixEquipFetters(fetterIDs);
 		getItemStore().updateItem(item);
 		
 	}
