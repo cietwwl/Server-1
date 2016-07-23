@@ -337,7 +337,7 @@ public class GroupCopyLevelBL {
 		//个人奖励的金币
 		damage = damage > 0 ? damage : 0;
 		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
-		
+		System.out.println(String.format("===========================帮派副本，角色[%s],伤害[%s]", player.getUserName(), damage));
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());

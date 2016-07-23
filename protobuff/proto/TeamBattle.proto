@@ -33,6 +33,8 @@ message TeamBattleReqMsg{
 	optional string rewardID = 6;	//要获取的奖励ID
 	optional int32 count = 7;		//要兑换的积分奖励数量
 	optional int32 fightResult = 8;	//战斗结果
+	optional string loopID = 9;		//战斗的循环id
+	optional int32 battleTime = 10;	//战斗的场次
 }
 
 message TeamBattleRspMsg{
