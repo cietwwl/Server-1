@@ -53,7 +53,7 @@ public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventH
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
 					
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, add);
+					ActivityVitalityTypeMgr.getInstance().addCount(player,ActivityVitalityTypeEnum.Vitality, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}

@@ -37,7 +37,7 @@ public class UserEventHeroUpgradeVitalityHandler implements IUserEventHandler{
 					if(activityVitalityTypeSubItem.getCount() > 0){
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}	
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.HeroUpgradeVitality,subCfg, add);
+					ActivityVitalityTypeMgr.getInstance().addCount(player,ActivityVitalityTypeEnum.Vitality, ActivityVitalityTypeEnum.HeroUpgradeVitality,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}

@@ -27,6 +27,9 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @Description 帮派的基础配置表Dao
  */
 public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg> {
+	private List<ActivityVitalityTypeSubItem> subItemList;
+	private List<ActivityVitalityTypeSubBoxItem> subBoxItemList;
+
 	public static ActivityVitalityCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityVitalityCfgDAO.class);
 	}
@@ -97,45 +100,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	
 
 	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityVitalityTypeEnum eNum) {
-		List<ActivityVitalityTypeSubItem> subItemList = null;
-		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		if(eNum == ActivityVitalityTypeEnum.Vitality){
-			subItemList = newItemListOne(day,eNum,allsubCfgList);	
-		}			
-		if(eNum == ActivityVitalityTypeEnum.VitalityTwo){
-			subItemList = newItemListTwo(day,eNum,allsubCfgList);
-		}
-		return subItemList;
-	}
-
-	private List<ActivityVitalityTypeSubItem> newItemListOne(int day,
-			ActivityVitalityTypeEnum eNum,
-			List<ActivityVitalitySubCfg> allsubCfgList) {
-		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
-		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-			if(activityVitalitySubCfg.getDay() != day){
-				continue;
-			}
-			
-			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
-			subitem.setCfgId(activityVitalitySubCfg.getId());
-			subitem.setCount(0);
-			subitem.setTaken(false);
-			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-			subitem.setType(activityVitalitySubCfg.getType());
-			subItemList.add(subitem);
-		}	
-		return subItemList;
-	}
-	
-	private List<ActivityVitalityTypeSubItem> newItemListTwo(int day,
-			ActivityVitalityTypeEnum eNum,
-			List<ActivityVitalitySubCfg> allsubCfgList) {
-		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
-		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-			String eNumStr = eNum.getCfgId();
-			if(!StringUtils.equals(eNumStr, activityVitalitySubCfg.getActiveType()+"")){
-				
+		subItemList = null;		
+		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getCfgListByEnum(eNum);
+		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){			
+			if(eNum==ActivityVitalityTypeEnum.Vitality&&activityVitalitySubCfg.getDay() != day){
 				continue;
 			}			
 			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
@@ -144,112 +112,38 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
 			subitem.setType(activityVitalitySubCfg.getType());
+			if(subItemList == null){
+				subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
+			}
 			subItemList.add(subitem);
-		}	
+		}			
 		return subItemList;
 	}
-	
 
+	
+	
 	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day,ActivityVitalityTypeEnum eNum) {
-		List<ActivityVitalityTypeSubBoxItem> subItemList = null;
-		List<ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();
-		if(eNum == ActivityVitalityTypeEnum.Vitality){
-			subItemList = newBoxItemListOne(day,eNum,allsubCfgList);	
-		}			
-		if(eNum == ActivityVitalityTypeEnum.VitalityTwo){
-			subItemList = newBoxItemListTwo(day,eNum,allsubCfgList);
+		subBoxItemList = null;
+		List<ActivityVitalityRewardCfg> allRewardCfgList = ActivityVitalityRewardCfgDAO.getInstance().getCfgListByEnum(eNum);
+		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : allRewardCfgList){
+			if(eNum==ActivityVitalityTypeEnum.Vitality&&activityVitalityRewardCfg.getDay() != day){
+				continue;
+			}
+			ActivityVitalityTypeSubBoxItem subBoxItem = new ActivityVitalityTypeSubBoxItem();
+			subBoxItem.setCfgId(activityVitalityRewardCfg.getId());
+			subBoxItem.setCount(activityVitalityRewardCfg.getActivecount());
+			subBoxItem.setTaken(false);
+			subBoxItem.setGiftId(activityVitalityRewardCfg.getGiftId());
+			if(subBoxItemList == null){
+				subBoxItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
+			}
+			subBoxItemList.add(subBoxItem);
 		}
-		return subItemList;
-		
-		
-		
-//		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
-//		List< ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();	
-//		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
-//			if(activityVitalitySubCfg.getDay() != day){
-//				continue;
-//			}
-//			
-//			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
-//			subitem.setCfgId(activityVitalitySubCfg.getId());
-//			subitem.setCount(activityVitalitySubCfg.getActivecount());
-//			subitem.setTaken(false);
-//			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-//			subItemList.add(subitem);
-//		}		
-//		return subItemList;
+		return subBoxItemList;
 	}
 	
-	private List<ActivityVitalityTypeSubBoxItem> newBoxItemListTwo(int day,
-			ActivityVitalityTypeEnum eNum,
-			List<ActivityVitalityRewardCfg> allsubCfgList) {
-		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
-		boolean isempty=true;
-		if(allsubCfgList == null){
-			subItemList = null;
-			return subItemList;
-		}
-		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
-			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
-				isempty = false;
-				break;
-			}
-		}
-		
-		if(isempty){			
-			subItemList = null;
-			return subItemList;
-		}
-		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
-			String eNumStr = eNum.getCfgId();
-			if(!StringUtils.equals(eNumStr, activityVitalitySubCfg.getActiveType()+"")){
-				
-				continue;
-			}			
-			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
-			subitem.setCfgId(activityVitalitySubCfg.getId());
-			subitem.setCount(activityVitalitySubCfg.getActivecount());
-			subitem.setTaken(false);
-			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-			subItemList.add(subitem);
-		}	
-		return subItemList;
-	}
-
-	private List<ActivityVitalityTypeSubBoxItem> newBoxItemListOne(int day,
-			ActivityVitalityTypeEnum eNum,
-			List<ActivityVitalityRewardCfg> allsubCfgList) {
-		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
-		boolean isempty=true;
-		if(allsubCfgList == null){
-			subItemList = null;
-			return subItemList;
-		}
-		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
-			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
-				isempty = false;
-				break;
-			}
-		}
-		
-		if(isempty){			
-			subItemList = null;
-			return subItemList;
-		}
-		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : allsubCfgList){
-			if(activityVitalityRewardCfg.getDay() != day){
-				continue;
-			}
-			
-			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
-			subitem.setCfgId(activityVitalityRewardCfg.getId());
-			subitem.setCount(activityVitalityRewardCfg.getActivecount());
-			subitem.setTaken(false);
-			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
-			subItemList.add(subitem);
-		}
-		return subItemList;
-	}
+	
+	
 	
 	public ActivityVitalityCfg getCfgByItem(ActivityVitalityTypeItem Item){
 		List<ActivityVitalityCfg> cfglist = ActivityVitalityCfgDAO.getInstance().getAllCfg();
@@ -263,15 +157,6 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return cfg;
 	}
 	
-	public ActivityVitalityCfg getparentCfg(){
-		List<ActivityVitalityCfg> allCfgList = getAllCfg();		
-		if(allCfgList == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
-			return null;			
-		}		
-		
-		ActivityVitalityCfg vitalityCfg = allCfgList.get(0);		
-		return vitalityCfg;
-	}
+
 
 }

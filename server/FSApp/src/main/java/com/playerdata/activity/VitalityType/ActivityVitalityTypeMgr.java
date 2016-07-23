@@ -257,26 +257,15 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		return true;
 	}
 	
-	public void addCount(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
+	public void addCount(Player player, ActivityVitalityTypeEnum vitalityType, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityVitalityTypeEnum.Vitality);		
-		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
-		
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),vitalityType);		
+		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeItem(player,vitalityType, countType, dataItem);			
 		addVitalitycount(dataItem,subItem,subCfg,countadd);
 		subItem.setCount(subItem.getCount() + countadd);
 		dataHolder.updateItem(player, dataItem);
 	}
 	
-	public void addCountTwo(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
-		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		
-		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityVitalityTypeEnum.VitalityTwo);		
-		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnumTwo(player, countType, dataItem);	
-		
-		addVitalitycount(dataItem,subItem,subCfg,countadd);
-		subItem.setCount(subItem.getCount() + countadd);
-		dataHolder.updateItem(player, dataItem);
-	}
 	/**增加活跃度*/
     private void addVitalitycount(ActivityVitalityTypeItem dataItem, ActivityVitalityTypeSubItem subItem,
     		ActivityVitalitySubCfg subCfg,int countadd) {
@@ -284,47 +273,21 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			dataItem.setActiveCount(dataItem.getActiveCount() + subCfg.getActiveCount());
 		}   	
 	}
-
-	
-	private ActivityVitalityTypeSubItem getbyVitalityTypeEnumTwo(Player player,
-			ActivityVitalityTypeEnum countType,
-			ActivityVitalityTypeItem dataItem) {
-		ActivityVitalityTypeSubItem subItem = null;
-		ActivityVitalitySubCfg cfg = null;
-		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		for(ActivityVitalitySubCfg subcfg :subcfglist){						
-			if(StringUtils.equals(subcfg.getType(), countType.getCfgId())){
-			cfg = subcfg;
-			break;
-			}
-		}
-		if(cfg == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
-			return subItem;
-		}
-		if(dataItem != null){
-			List<ActivityVitalityTypeSubItem> sublist = dataItem.getSubItemList();
-			for(ActivityVitalityTypeSubItem subitem : sublist){
-				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
-					subItem = subitem;
-					break;
-				}
-			}			
-		}		
-		return subItem;
-	}
-
 	
 	//	
-	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalityTypeEnum typeEnum,ActivityVitalityTypeItem dataItem){		
+	public ActivityVitalityTypeSubItem getbyVitalityTypeItem (Player player,ActivityVitalityTypeEnum vitalityEnum,ActivityVitalityTypeEnum typeEnum,ActivityVitalityTypeItem dataItem){		
 		ActivityVitalityTypeSubItem subItem = null;
 		ActivityVitalitySubCfg cfg = null;
-		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		for(ActivityVitalitySubCfg subcfg :subcfglist){
-			if (ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()) {
-				continue;
-			}			
+		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getCfgListByEnum(vitalityEnum);
+		for(ActivityVitalitySubCfg subcfg :subcfglist){		
 			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){
+				if(vitalityEnum == ActivityVitalityTypeEnum.VitalityTwo&&subcfg.getDay() == -1){
+					cfg = subcfg;
+					break;
+				}else if(vitalityEnum == ActivityVitalityTypeEnum.Vitality&&subcfg.getDay() == ActivityVitalityCfgDAO.getInstance().getday() ){
+					cfg = subcfg;
+					break;
+				}				
 			cfg = subcfg;
 			break;
 			}
@@ -367,7 +330,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			}			
 		}		
 		ActivityComResult result = ActivityComResult.newInstance(false);
-
 		if (dataItem == null) {
 			result.setReason("活动尚未开启");
 
@@ -376,16 +338,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 				result.setReason("已经领取");	
 				return result;
 			}		
-			takeGift(player, item);
+			doTakeGift(player, item);
 			result.setSuccess(true);
 			dataHolder.updateItem(player, dataItem);
-
-		}
-
+			}
 		return result;
 	}
 	
-	private void takeGift(Player player, ActivityVitalityTypeSubItem targetItem) {		
+	private void doTakeGift(Player player, ActivityVitalityTypeSubItem targetItem) {		
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());
 	}
@@ -430,11 +390,9 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		return result;
 	}
 
-	private void takeBoxGift(Player player,	ActivityVitalityTypeSubBoxItem targetItem) {
-		
+	private void takeBoxGift(Player player,	ActivityVitalityTypeSubBoxItem targetItem) {		
 		targetItem.setTaken(true);
-		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());
-		
+		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());		
 	}
 
 	@Override
@@ -453,14 +411,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		if(!dataItem.isTouchRedPoint()){
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
-		}
-		
+		}		
 	}
-
-
-
-
-	
-	
-
 }
