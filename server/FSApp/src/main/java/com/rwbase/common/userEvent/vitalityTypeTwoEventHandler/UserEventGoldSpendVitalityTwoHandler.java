@@ -10,11 +10,8 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
+import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventGoldSpendVitalityTwoHandler  implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
