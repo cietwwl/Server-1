@@ -337,7 +337,7 @@ public class MagicHandler {
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
 		
 		//通知法宝神器羁绊
-		player.getMe_FetterMgr().notifyMagicChange(player, itemData);
+		player.getMe_FetterMgr().notifyMagicChange(player);
 		
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();
@@ -879,7 +879,7 @@ public class MagicHandler {
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 			
 			//通知法宝神器羁绊
-			player.getMe_FetterMgr().notifyMagicChange(player, item);
+			player.getMe_FetterMgr().notifyMagicChange(player);
 			break;
 		} while (true);
 

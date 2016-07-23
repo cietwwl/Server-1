@@ -56,8 +56,7 @@ public class MagicEquipFetterMgr {
 	 * @param player
 	 */
 	private void checkPlayerData(Player player) {
-		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
-		checkAndAddMagicFetter(player, cfgList, false);
+		checkAndAddMagicFetter(player, false);
 		
 		
 		checkAndAddEquipFetter(player);
@@ -136,7 +135,7 @@ public class MagicEquipFetterMgr {
 		
 		tempSet.removeAll(remove);
 		
-		holder.compareRcord(tempSet, FetterMagicEquipCfgDao.TYPE_FIXEQUIP, hero.getModelId());
+		holder.checkFixEquipFetterRecord(tempSet, hero.getModelId());
 
 		if(syn){
 			holder.synAllData(player, holder.getVersion());
@@ -219,7 +218,8 @@ public class MagicEquipFetterMgr {
 	 * @param cfgList 检查的羁绊列表
 	 * @param syn 是否需要同步到客户端
 	 */
-	private void checkAndAddMagicFetter(Player player, List<MagicEquipConditionCfg> cfgList, boolean syn) {
+	private void checkAndAddMagicFetter(Player player, boolean syn) {
+		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
 		
 		
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
@@ -275,7 +275,7 @@ public class MagicEquipFetterMgr {
 		}
 		
 		temp.removeAll(remove);
-		holder.compareRcord(temp, FetterMagicEquipCfgDao.TYPE_MAGICWEAPON, modelId);
+		holder.compareMagicFetterRcord(temp, modelId);
 
 
 		if(syn){
@@ -323,12 +323,9 @@ public class MagicEquipFetterMgr {
 	 * @param player
 	 * @param itemData
 	 */
-	public void notifyMagicChange(Player player, ItemData itemData) {
-		List<MagicEquipConditionCfg> list = FetterMagicEquipCfgDao.getInstance().getCfgListByModelID(itemData.getModelId());
-		if(list.isEmpty()){
-			return;
-		}
-		checkAndAddMagicFetter(player, list, true);
+	public void notifyMagicChange(Player player) {
+		
+		checkAndAddMagicFetter(player, true);
 		
 	}
 
@@ -346,19 +343,6 @@ public class MagicEquipFetterMgr {
 	}
 
 
-
-
-	/**
-	 * 法宝分解的通知
-	 * @param player
-	 * @param item
-	 */
-	public void notifyMagicDecompose(Player player) {
-		//重新检查一下法宝数据
-		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
-		checkAndAddMagicFetter(player, cfgList, false);
-		
-	}
 
 
 

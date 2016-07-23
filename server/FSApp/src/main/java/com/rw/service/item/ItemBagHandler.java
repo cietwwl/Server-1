@@ -279,9 +279,7 @@ public class ItemBagHandler {
 		}
 		
 		if(ItemCfgHelper.getItemType(cfg.getId()) == EItemTypeDef.Magic){
-			ItemData data = new ItemData();
-			data.setModelId(cfg.getId());
-			player.getMe_FetterMgr().notifyMagicChange(player, data);
+			player.getMe_FetterMgr().notifyMagicChange(player);
 		}
 		
 		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
@@ -705,7 +703,7 @@ public class ItemBagHandler {
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
 				
 				//法宝分解通知法宝神器羁绊模块
-				player.getMe_FetterMgr().notifyMagicDecompose(player);
+				player.getMe_FetterMgr().notifyMagicChange(player);
 				
 				break;
 			}

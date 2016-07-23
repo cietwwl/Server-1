@@ -87,14 +87,80 @@ public class MagicEquipFetterDataHolder {
 		return itemStoreCache.getMapItemStore(userID, MagicEquipFetterRecord.class);
 	}
 	
+	/**
+	 * 检查英雄羁绊数据
+	 * @param tempSet
+	 * @param modelId
+	 */
+	public void checkFixEquipFetterRecord(Set<MagicEquipConditionCfg> tempSet, int modelId) {
+		MagicEquipFetterRecord item = getItemStore().getItem(userID);
+		if(item == null){
+			item = checkRecord();
+		}
+		
+		List<Integer> fetterIDs = item.getMagicFetters();
+
+
+		List<MagicEquipConditionCfg> existType = new ArrayList<MagicEquipConditionCfg>();
+		for (MagicEquipConditionCfg cfg : tempSet) {
+			if(fetterIDs.contains(cfg.getUniqueId())){
+				existType.add(cfg);
+			}
+		}
+		
+		//去掉数据库里已经存在的
+		tempSet.removeAll(existType);
+		if(tempSet.isEmpty()){
+			return;
+		}
+		
+		existType.clear();
+		List<Integer> clearOld = new ArrayList<Integer>();
+		//检查数据库里有没有相同类型的旧数据
+		for (Integer id : fetterIDs) {
+			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
+			
+			for (MagicEquipConditionCfg fetter : tempSet) {
+				if(fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
+					if(cfg.recordOldData()){
+						//要保留的旧记录，可能是降星之前的, 判断一下哪个等级高
+						if(cfg.getConditionLevel() >= fetter.getConditionLevel()){
+							//新的记录没有超过旧的，保留旧记录
+							existType.add(fetter);
+						}else{
+							//超过了，去掉旧的
+							clearOld.add(id);
+							break;
+						}
+					}else{
+						//不用保留，直接清理
+						clearOld.add(id);
+						break;
+					}
+				}
+			}
+		}
+		
+		
+		tempSet.removeAll(existType);
+		fetterIDs.removeAll(clearOld);
+		if(tempSet.isEmpty() && clearOld.isEmpty()){
+			return;
+		}
+		for (MagicEquipConditionCfg cfg : tempSet) {
+			fetterIDs.add(cfg.getUniqueId());
+		}
+		item.setMagicFetters(fetterIDs);
+		getItemStore().updateItem(item);
+		
+	}
 	
 	/**
-	 * 检查数据库内记录是否与当前集合一致，如果没有则进行添加
+	 * 检查数据库内法宝羁绊记录是否与当前集合一致，如果没有则进行添加
 	 * @param curCfgs
-	 * @param type TODO 类型，用于判断是法宝还是神器
 	 * @param modelID TODO 英雄modelID
 	 */
-	public void compareRcord(Set<MagicEquipConditionCfg> curCfgs, int type, int modelID){
+	public void compareMagicFetterRcord(Set<MagicEquipConditionCfg> curCfgs, int modelID){
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		if(item == null){
 			item = checkRecord();
@@ -105,11 +171,7 @@ public class MagicEquipFetterDataHolder {
 		
 
 		List<Integer> fetterIDs;
-		if(type == FetterMagicEquipCfgDao.TYPE_FIXEQUIP){
-			fetterIDs = item.getFixEquipFetters();
-		}else{
-			fetterIDs = item.getMagicFetters();
-		}
+		fetterIDs = item.getMagicFetters();
 		List<MagicEquipConditionCfg> sameType = new ArrayList<MagicEquipConditionCfg>();
 		//先找出数据库里多出来的记录，判断是否要保留
 		for (Integer id : fetterIDs) {
@@ -157,11 +219,8 @@ public class MagicEquipFetterDataHolder {
 			newList.add(m.getUniqueId());
 		}
 
-		if(type == FetterMagicEquipCfgDao.TYPE_FIXEQUIP){
-			item.setFixEquipFetters(newList);
-		}else if(type == FetterMagicEquipCfgDao.TYPE_MAGICWEAPON){
-			item.setMagicFetters(newList);
-		}
+		
+		item.setMagicFetters(newList);
 		getItemStore().updateItem(item);
 	}
 	
@@ -194,4 +253,7 @@ public class MagicEquipFetterDataHolder {
 		List<Integer> fetterIDs = item.getMagicFetters();
 		return Collections.unmodifiableList(fetterIDs);
 	}
+
+
+	
 }
