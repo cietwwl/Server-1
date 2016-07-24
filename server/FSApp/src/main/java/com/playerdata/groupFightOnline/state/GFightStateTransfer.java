@@ -23,6 +23,7 @@ public class GFightStateTransfer {
 		List<GFightOnlineResourceCfg> cfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		for(GFightOnlineResourceCfg cfg : cfgs){
 			GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(cfg.getResID());
+			if(resData == null) continue;
 			GFResourceState lastState = GFResourceState.getState(resData.getState());
 			IGFightState gfState = getGFightState(cfg.getResID(), lastState);
 			GFResourceState resCurrentState = cfg.checkResourceState();
