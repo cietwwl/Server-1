@@ -28,8 +28,6 @@ public class GroupCopyDataVersionMgr {
 				
 				group.synGroupLevelData(player, groupDataVersion.getGroupCopyLevelData());
 				group.synGroupMapData(player, groupDataVersion.getGroupCopyMapData());
-				group.synGroupRewardData(player, groupDataVersion.getGroupCopyRewardData());
-				
 				player.getUserGroupCopyRecordMgr().syncData(player);
 				
 				
