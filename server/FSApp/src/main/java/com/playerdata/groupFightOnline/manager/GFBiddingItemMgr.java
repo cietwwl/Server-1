@@ -65,7 +65,7 @@ public class GFBiddingItemMgr {
 			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getEmailId()), GFightHelper.itemListToString(bidRewardTotal), 
 					String.format(successContent, GroupHelper.getGroupName(bidItem.getBidGroup()), resCfg.getResName(), bidCfg.getCostCount(), bidCfg.getRate()));
 		}else{
-			String failContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getEmailId())).getContent();
+			String failContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getFailEmailID())).getContent();
 			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getFailEmailID()), null,
 					String.format(failContent, GroupHelper.getGroupName(bidItem.getBidGroup()), resCfg.getResName(), bidCfg.getCostCount()));
 		}

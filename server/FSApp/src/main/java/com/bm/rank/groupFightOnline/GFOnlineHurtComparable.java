@@ -33,10 +33,10 @@ public class GFOnlineHurtComparable implements Comparable<GFOnlineHurtComparable
 			return -1;
 		}
 		if(totalHurt > o.totalHurt){
-			return -1;
+			return 1;
 		}
 		if(totalHurt < o.totalHurt){
-			return 1;
+			return -1;
 		}
 		if(lastHurtTime > o.lastHurtTime){
 			return 1;
