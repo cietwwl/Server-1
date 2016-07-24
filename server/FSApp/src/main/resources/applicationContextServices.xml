@@ -82,6 +82,7 @@
 			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyTypeService" />
 			     <entry key="MSG_ACTIVITY_EXCHANGE_TYPE" value-ref="activityExchangeTypeService" />
 			     <entry key="MSG_ACTIVITY_VITALITY_TYPE" value-ref="activityVitalityTypeService" />
+			     <entry key="MSG_ACTIVITY_DailyDiscount_TYPE" value-ref="activityDailyDiscountTypeService" />
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
@@ -150,7 +151,7 @@
 	<bean id="activityTimeCountTypeService" class="com.playerdata.activity.timeCountType.service.ActivityTimeCountTypeService"  />
 	<bean id="activityDailyTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyTypeService"  />
 	<bean id="activityExchangeTypeService" class="com.playerdata.activity.exChangeType.service.ActivityExchangeTypeService"  />
-	
+	<bean id="activityDailyDiscountTypeService" class="com.playerdata.activity.dailyDiscountType.service.ActivityDailyDiscountTypeService"  />
 	
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
