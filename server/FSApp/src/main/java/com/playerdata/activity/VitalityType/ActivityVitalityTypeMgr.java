@@ -24,12 +24,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.rw.fsutil.util.DateUtils;
+
 
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
@@ -287,9 +282,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 				}else if(vitalityEnum == ActivityVitalityTypeEnum.Vitality&&subcfg.getDay() == ActivityVitalityCfgDAO.getInstance().getday() ){
 					cfg = subcfg;
 					break;
-				}				
-			cfg = subcfg;
-			break;
+				}
 			}
 		}
 		if(cfg == null){
