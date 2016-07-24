@@ -92,6 +92,7 @@ public class GFightOnlineResourceMgr {
 		String emailContent = String.format(EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getEmailId())).getContent(), resCfg.getResName());
 		GFightOnlineResourceData resData = get(resourceID);
 		if(StringUtils.isNotBlank(resData.getOwnerGroupID())){
+			if(GroupBM.get(resData.getOwnerGroupID()) == null) return;
 			List<? extends GroupMemberDataIF> memberList = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getMemberSortList(null);
 			for(GroupMemberDataIF memberInfo : memberList){	
 				EmailUtils.sendEmail(memberInfo.getUserId(), String.valueOf(resCfg.getEmailId()), resCfg.getOwnerDailyReward(), emailContent);
