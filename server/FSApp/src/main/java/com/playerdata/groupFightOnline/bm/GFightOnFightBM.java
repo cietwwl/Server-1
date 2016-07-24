@@ -54,6 +54,14 @@ public class GFightOnFightBM {
 	}
 	
 	/**
+	 * 开战阶段开始时，要处理的事件
+	 * @param resourceID
+	 */
+	public void fightStart(int resourceID){
+		
+	}
+	
+	/**
 	 * 随机获取一个对手
 	 * @param player
 	 * @param gfRsp

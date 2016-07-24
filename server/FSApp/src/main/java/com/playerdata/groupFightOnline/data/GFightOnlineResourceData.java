@@ -74,6 +74,7 @@ public class GFightOnlineResourceData {
 	}
 	
 	public void clearCurrentLoopData(){
+		ownerGroupID = null;
 		recordList.clear();
 	}
 }

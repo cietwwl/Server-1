@@ -1,25 +1,21 @@
 package com.playerdata.groupFightOnline.state;
 
+import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
+
 public class GFightBidding extends IGFightState{
 
-	public GFightBidding(int resourceID) {
-		super(resourceID);
+	public GFightBidding(int resourceID, GFResourceState resState) {
+		super(resourceID, resState);
 	}
 
 	@Override
 	public void Enter() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean canExit() {
-		// TODO Auto-generated method stub
-		return false;
+		GFightGroupBidBM.getInstance().bidStart(resourceID);
 	}
 
 	@Override
 	public IGFightState getNext() {
-		return new GFightPrepare(resourceID);
+		return new GFightPrepare(resourceID, GFResourceState.PREPARE);
 	}
 }

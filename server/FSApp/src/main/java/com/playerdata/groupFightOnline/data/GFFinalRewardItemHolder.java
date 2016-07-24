@@ -6,10 +6,13 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.bm.GFightConst;
+import com.playerdata.groupFightOnline.bm.GFightHelper;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -53,17 +56,41 @@ public class GFFinalRewardItemHolder {
 	}
 	
 	/**
+	 * 移除单个奖励
+	 * @param rewardID
+	 * @return
+	 */
+	public boolean removeSingleRewardItem(String rewardID){
+		String[] idArr = rewardID.split("_");
+		if(idArr.length != 3) return false;
+		//三个字符串分别代表:资源点id，角色id，奖励类型
+		return getItemStore(idArr[1], Integer.valueOf(idArr[0])).removeItem(rewardID);
+	}
+	
+	/**
 	 * 同步个人的所有奖励信息
+	 * 如果有超时奖励,就发邮件,并删除
 	 * @param player
 	 */
 	public void synData(Player player){
 		List<GFFinalRewardItem> itemList = new ArrayList<GFFinalRewardItem>();
 		List<GFightOnlineResourceCfg> resCfg = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		long currentTime = System.currentTimeMillis();
+		List<String> removeIDArr = new ArrayList<String>();
 		for(GFightOnlineResourceCfg cfg : resCfg){
 			Enumeration<GFFinalRewardItem> rewardEnum = getItemStore(player.getUserId(), cfg.getResID()).getEnum();
 			while(rewardEnum.hasMoreElements()){
-				itemList.add(rewardEnum.nextElement());
+				GFFinalRewardItem rwdItem = rewardEnum.nextElement();
+				if(currentTime - rwdItem.getRewardGetTime() > GFightConst.REWARD_CONTAIN_TIME){
+					EmailUtils.sendEmail(rwdItem.getUserID(), String.valueOf(rwdItem.getEmailId()), GFightHelper.itemListToString(rwdItem.getRewardContent()), rwdItem.getRewardDesc());
+					removeIDArr.add(rwdItem.getId());
+				}else{
+					itemList.add(rewardEnum.nextElement());
+				}
 			}
+		}
+		for(String removeID : removeIDArr){
+			removeSingleRewardItem(removeID);
 		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}

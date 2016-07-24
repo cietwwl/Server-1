@@ -1,26 +1,22 @@
 package com.playerdata.groupFightOnline.state;
 
+import com.playerdata.groupFightOnline.bm.GFightPrepareBM;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
+
 public class GFightPrepare extends IGFightState{
 
-	public GFightPrepare(int resourceID) {
-		super(resourceID);
+	public GFightPrepare(int resourceID, GFResourceState resState) {
+		super(resourceID, resState);
 	}
 
 	@Override
 	public void Enter() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean canExit() {
-		// TODO Auto-generated method stub
-		return false;
+		GFightPrepareBM.getInstance().prepareStart(resourceID);
 	}
 
 	@Override
 	public IGFightState getNext() {
-		return new GFightFight(resourceID);
+		return new GFightFight(resourceID, GFResourceState.FIGHT);
 	}
 
 	

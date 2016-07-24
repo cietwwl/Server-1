@@ -42,6 +42,14 @@ public class GFightPrepareBM {
 		return InstanceHolder.instance;
 	}
 	
+	/**
+	 * 备战阶段开始时，要处理的事件
+	 * @param resourceID
+	 */
+	public void prepareStart(int resourceID){
+		
+	}
+	
 //	/**
 //	 * 查看某个帮派所有防守队伍的简要信息
 //	 * @param player

@@ -3,6 +3,8 @@ package com.playerdata.groupFightOnline.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.group.GroupBM;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -67,7 +69,7 @@ public class GFightOnlineResourceHolder {
 		GFResourceInfo resInfo = new GFResourceInfo();
 		resInfo.setResourceID(resData.getResourceID());
 		resInfo.setState(resData.getState());
-		if(resData.getOwnerGroupID() == null || resData.getOwnerGroupID().isEmpty()) return resInfo;
+		if(StringUtils.isBlank(resData.getOwnerGroupID())) return resInfo;
 		Group gp = GroupBM.get(resData.getOwnerGroupID());
 		if(gp == null) return resInfo;
 		GroupBaseDataIF groupData = gp.getGroupBaseDataMgr().getGroupData();

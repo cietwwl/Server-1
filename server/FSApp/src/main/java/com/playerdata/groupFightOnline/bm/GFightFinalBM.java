@@ -58,6 +58,7 @@ public class GFightFinalBM {
 	 * @param resourceID
 	 */
 	public void handleGFightResult(int resourceID){
+		GFightOnlineResourceMgr.getInstance().clearVictoryGroup(resourceID);
 		//杀敌排行奖励
 		handleKillRankReward(resourceID);
 		//伤害排行奖励

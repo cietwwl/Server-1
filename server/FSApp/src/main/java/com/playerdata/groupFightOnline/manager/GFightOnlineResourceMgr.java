@@ -2,15 +2,18 @@ package com.playerdata.groupFightOnline.manager;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.bm.group.GroupBM;
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.bm.GFightFinalBM;
-import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
-import com.playerdata.groupFightOnline.enums.GFResourceState;
+import com.rw.service.Email.EmailUtils;
+import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 public class GFightOnlineResourceMgr {
 	
@@ -40,81 +43,59 @@ public class GFightOnlineResourceMgr {
 		GFightOnlineResourceHolder.getInstance().update(resData);
 	}
 	
+	/**
+	 * 清除资源点的占有者
+	 * 同时清除战斗记录信息
+	 * @param resourceID
+	 */
+	public void clearVictoryGroup(int resourceID){
+		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
+		resData.clearCurrentLoopData();
+		GFightOnlineResourceHolder.getInstance().update(resData);
+	}
+	
 	public void synData(Player player){
 		GFightOnlineResourceHolder.getInstance().synData(player);
 	}
-	
-	public void checkGFightResourceState(){
-		List<GFightOnlineResourceCfg> cfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
-		for(GFightOnlineResourceCfg cfg : cfgs){
-			GFResourceState state = cfg.checkResourceState();
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
-			if(resData == null) {
-				resData = new GFightOnlineResourceData();
-				resData.setResourceID(cfg.getResID());
-			}
-			switch (state) {
-			case REST:
-				if(GFResourceState.FIGHT.equals(resData.getState())){
-					fightEndEvent(cfg.getResID());
-				}
-				resData.setState(GFResourceState.REST.getValue());
-				break;
-			case BIDDING:
-				if(GFResourceState.REST.equals(resData.getState()) 
-						|| GFResourceState.INIT.equals(resData.getState())
-						|| GFResourceState.FIGHT.equals(resData.getState())){
-					biddingStartEvent(cfg.getResID());
-					resData.setState(GFResourceState.BIDDING.getValue());
-				}else if(!GFResourceState.BIDDING.equals(resData.getState())){
-					resData.setState(GFResourceState.REST.getValue());
-				}
-				break;
-			case PREPARE:
-				if(GFResourceState.BIDDING.equals(resData.getState())){
-					prepareStartEvent(cfg.getResID());
-					resData.setState(GFResourceState.PREPARE.getValue());
-				}else if(!GFResourceState.PREPARE.equals(resData.getState())){
-					resData.setState(GFResourceState.REST.getValue());
-				}
-				break;
-			case FIGHT:
-				if(GFResourceState.PREPARE.equals(resData.getState())){
-					fightStartEvent(cfg.getResID());
-					resData.setState(GFResourceState.FIGHT.getValue());
-				}else if(!GFResourceState.FIGHT.equals(resData.getState())){
-					resData.setState(GFResourceState.REST.getValue());
-				}
-				break;
-			default:
-				resData.setState(GFResourceState.REST.getValue());
-				break;
-			}
-			GFightOnlineResourceHolder.getInstance().update(resData);
-		}
-	}
-	
-	private void fightEndEvent(int resourceID){
-		GFightFinalBM.getInstance().handleGFightResult(resourceID);
-	}
-	
-	private void biddingStartEvent(int resourceID){
-		GFightGroupBidBM.getInstance().bidStart(resourceID);
-	}
-	
-	private void prepareStartEvent(int resourceID){
-		//GFightPrepareBM.getInstance().prepareStart(resourceID);
-	}
-	
-	private void fightStartEvent(int resourceID){
-		//GFightOnFightBM.getInstance().fightStart(resourceID);
-	}
 
+	/**
+	 * 添加战斗记录
+	 * @param resourceID
+	 * @param record
+	 */
 	public void addFightRecord(int resourceID, GFFightRecord record){
 		GFightOnlineResourceHolder.getInstance().addFightRecord(resourceID, record);
 	}
 	
+	/**
+	 * 获取战斗记录
+	 * @param resourceID
+	 * @return
+	 */
 	public List<GFFightRecord> getFightRecord(int resourceID){
 		return GFightOnlineResourceHolder.getInstance().getFightRecord(resourceID);
+	}
+	
+	/**
+	 * 发放资源点占领的每日奖励
+	 */
+	public void dispatchDailyReward(){
+		List<GFightOnlineResourceCfg> resCfg = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : resCfg){
+			dispatchOwnerReward(cfg.getResID());
+		}
+	}
+	
+	private void dispatchOwnerReward(int resourceID){
+		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(resourceID));
+		if(resCfg == null) return;
+		String emailContent = String.format(EmailCfgDAO.getInstance().getCfgById(String.valueOf(resCfg.getEmailId())).getContent(), resCfg.getResName());
+		GFightOnlineResourceData resData = get(resourceID);
+		if(StringUtils.isNotBlank(resData.getOwnerGroupID())){
+			List<? extends GroupMemberDataIF> memberList = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getMemberSortList(null);
+			for(GroupMemberDataIF memberInfo : memberList){	
+				EmailUtils.sendEmail(memberInfo.getUserId(), String.valueOf(resCfg.getEmailId()), resCfg.getOwnerDailyReward(), emailContent);
+			}
+		}
 	}
 }

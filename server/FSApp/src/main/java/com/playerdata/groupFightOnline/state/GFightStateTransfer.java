@@ -1,54 +1,86 @@
 package com.playerdata.groupFightOnline.state;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
-import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.enums.GFResourceState;
+import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 
 public class GFightStateTransfer {
-
-	private List<IGFightState> curStates = new ArrayList<IGFightState>();
-	private GFightStateTransfer instance = new GFightStateTransfer();
 	
-	public void init(){
-		List<GFightOnlineResourceCfg> cfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
-		for(GFightOnlineResourceCfg cfg : cfgs){
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
-			GFResourceState state = GFResourceState.getState(resData.getState());
-			switch (state) {
-			case REST:
-				curStates.add(new GFightRest(cfg.getResID()));
-				break;
-			case BIDDING:
-				curStates.add(new GFightBidding(cfg.getResID()));
-				break;
-			case PREPARE:
-				curStates.add(new GFightPrepare(cfg.getResID()));
-				break;
-			case FIGHT:
-				curStates.add(new GFightFight(cfg.getResID()));
-				break;
-			default:
-				curStates.add(new GFightRest(cfg.getResID()));
-				break;
-			}
-		}
-	}
+	private boolean isAutoCheck = true;
 	
-	public GFightStateTransfer getInstance(){
+	private static GFightStateTransfer instance = new GFightStateTransfer();
+	
+	public static GFightStateTransfer getInstance(){
 		return instance;
 	}
 	
 	public void checkTransfer(){
-		for(IGFightState curState : curStates){
-			if(curState.canExit()){
-				curState = curState.getNext();
-				curState.Enter();
+		if(!isAutoCheck) return;
+		List<GFightOnlineResourceCfg> cfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : cfgs){
+			GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(cfg.getResID());
+			GFResourceState lastState = GFResourceState.getState(resData.getState());
+			IGFightState gfState = getGFightState(cfg.getResID(), lastState);
+			GFResourceState resCurrentState = cfg.checkResourceState();
+			while(gfState.canExit(resCurrentState)){
+				gfState = gfState.getNext();
+				gfState.Enter();
 			}
+			if(gfState.getStateValue() != resData.getState()){
+				resData.setState(gfState.getStateValue());
+				GFightOnlineResourceMgr.getInstance().update(resData);
+			}
+		}
+	}
+	
+	/**
+	 * 设置是否自动切换服务端状态
+	 * GM专用
+	 * @param isAuto
+	 */
+	public void setAutoCheck(boolean isAuto){
+		this.isAutoCheck = isAuto;
+	}
+	
+	/**
+	 * 只用于主动控制资源点时间段,使用这个的时候,需要关掉自动检测
+	 * GM专用
+	 * @param resourceID 资源点id
+	 * @param state 要调整的状态
+	 */
+	public void transferToState(int resourceID, int state){
+		GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(resourceID);
+		GFResourceState lastState = GFResourceState.getState(resData.getState());
+		IGFightState gfState = getGFightState(resourceID, lastState);
+		GFResourceState resCurrentState = GFResourceState.getState(state);
+		while(gfState.canExit(resCurrentState)){
+			gfState = gfState.getNext();
+			gfState.Enter();
+		}
+		if(gfState.getStateValue() != resData.getState()){
+			resData.setState(gfState.getStateValue());
+			GFightOnlineResourceMgr.getInstance().update(resData);
+		}
+	}
+	
+	public IGFightState getGFightState(int resourceID, GFResourceState state){
+		switch (state) {
+		case INIT:
+			return new GFightInit(resourceID, state);
+		case BIDDING:
+			return new GFightBidding(resourceID, state);
+		case PREPARE:
+			return new GFightPrepare(resourceID, state);
+		case FIGHT:
+			return new GFightFight(resourceID, state);
+		case REST:
+			return new GFightRest(resourceID, state);
+		default:
+			return new GFightInit(resourceID, state);
 		}
 	}
 }
