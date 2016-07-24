@@ -1,6 +1,7 @@
 package com.bm.rank.groupFightOnline;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +10,6 @@ import com.bm.rank.RankType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
@@ -114,9 +114,9 @@ public class GFOnlineKillRankMgr {
 		
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(resourceID));
 		if(resCfg == null) return;
-		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
 		try {
-			EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration(1, GFightConst.KILL_REWARD_MAX_RANK);
+			List<GFOnlineKillItem> killRank = getGFKillRankList(resourceID);
+			Iterator<GFOnlineKillItem> it = killRank.iterator();
 			int rewardCfgCount = GFightOnlineDefeatRankDAO.getInstance().getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
@@ -126,15 +126,15 @@ public class GFOnlineKillRankMgr {
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;
-					if (it.hasMoreElements()) {
-						MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
-						dispatchingUser = entry.getExtendedAttribute().getUserId();
+					if (it.hasNext()) {
+						GFOnlineKillItem entry = it.next();
+						dispatchingUser = entry.getUserId();
 						//构造奖励内容
 						GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
 						finalRewardItem.setEmailId(rewardCfg.getEmailId());
 						EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(rewardCfg.getEmailId()));
 						if(emailCfg != null) {
-							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getExtendedAttribute().getTotalKill(), j));
+							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getTotalKill(), j));
 							finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
 						}
 						

@@ -22,6 +22,7 @@ import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
@@ -156,6 +157,10 @@ public class GMHandler {
 
 		// 封神台，设置当前层数
 		funcCallBackMap.put("setbattletowerfloor", "setBattleTowerFloor");
+		
+		// 设置帮战阶段
+		funcCallBackMap.put("setgfstate", "setGFightState");
+		funcCallBackMap.put("setgfauto", "setGFightAutoState");
 	}
 
 	public boolean isActive() {
@@ -1048,6 +1053,22 @@ public class GMHandler {
 			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
 		}
 
+		return true;
+	}
+	
+	public boolean setGFightState(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().transferToState(Integer.valueOf(arrCommandContents[0]), Integer.valueOf(arrCommandContents[1]));
+		return true;
+	}
+	
+	public boolean setGFightAutoState(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
 }

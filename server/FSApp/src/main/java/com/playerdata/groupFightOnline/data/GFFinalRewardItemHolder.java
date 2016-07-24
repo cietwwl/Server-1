@@ -85,7 +85,7 @@ public class GFFinalRewardItemHolder {
 					EmailUtils.sendEmail(rwdItem.getUserID(), String.valueOf(rwdItem.getEmailId()), GFightHelper.itemListToString(rwdItem.getRewardContent()), rwdItem.getRewardDesc());
 					removeIDArr.add(rwdItem.getId());
 				}else{
-					itemList.add(rewardEnum.nextElement());
+					itemList.add(rwdItem);
 				}
 			}
 		}

@@ -58,6 +58,7 @@ public class GFightStateTransfer {
 	 * @param state 要调整的状态
 	 */
 	public void transferToState(int resourceID, int state){
+		setAutoCheck(false);
 		GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(resourceID);
 		GFResourceState lastState = GFResourceState.getState(resData.getState());
 		IGFightState gfState = getGFightState(resourceID, lastState);
