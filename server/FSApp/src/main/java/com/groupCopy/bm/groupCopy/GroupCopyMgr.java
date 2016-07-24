@@ -361,8 +361,8 @@ public class GroupCopyMgr {
 	 * @param player
 	 * @param version
 	 */
-	public void synRewardData(Player player, int version){
-		rewardRecordHolder.synAllData(player, version);
+	public void synRewardLogData(Player player){
+		rewardRecordHolder.synAllData(player);
 	}
 	
 	public void synDropAppyData(Player player, String chaterID){

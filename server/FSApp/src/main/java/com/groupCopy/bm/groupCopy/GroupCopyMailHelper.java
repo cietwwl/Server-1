@@ -45,9 +45,9 @@ public class GroupCopyMailHelper {
 		//检查时间，要求是在12-24点发送
 		Calendar C = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
 		int hour = C.get(Calendar.HOUR_OF_DAY);
-//		if(hour < 12){
-//			return;
-//		}
+		if(hour < 12){
+			return;
+		}
 		List<String> idList = GroupCopyDistIDManager.getInstance().getGroupIDList();
 		for (String id : idList) {
 			Group group = GroupBM.get(id);
