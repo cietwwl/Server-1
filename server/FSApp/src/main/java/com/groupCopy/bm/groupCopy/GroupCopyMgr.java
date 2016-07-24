@@ -48,6 +48,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
 import com.rwbase.gameworld.GameWorldExecutor;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -675,8 +676,25 @@ public class GroupCopyMgr {
 					//如果申请人和物品都有数据，则进行分发
 					Collections.sort(applyInfo, adComparator);
 					Collections.sort(dropInfo, adComparator);
-					ApplyInfo apply = applyInfo.get(0);
+					ApplyInfo apply = null;
 					DropInfo drop = dropInfo.get(0);
+					boolean match = false;
+					//找到符合的申请人，在物品掉落后进入帮派的不可以分
+					for (int i = 0; i < applyInfo.size(); i++) {
+						apply = applyInfo.get(i);
+						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
+						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+						if(baseData == null || (drop.getOccurTime() < baseData.getJoinTime())){
+							continue;
+						}
+						match = true;
+						break;
+					}
+					if(!match){
+						//找不到合条件的分配者，则不分配此物品
+						continue;
+					}
+					
 					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, drop, apply, groupName);
 					if(sendMail){
 						send = true;
