@@ -27,7 +27,7 @@ public class FashionService implements FsService{
 		try {
 			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
 			FashionEventType eventType = req.getEventType();
-			if (eventType != FashionEventType.getFashiondata){
+			if (eventType == FashionEventType.buy || eventType == FashionEventType.renew){
 				IPrivilegeManager privilegeMgr = player.getPrivilegeMgr();
 				GeneralPrivilegeNames privilege = GeneralPrivilegeNames.isAllowBuyFashion;
 				boolean isOpen = privilegeMgr.getBoolPrivilege(privilege);
