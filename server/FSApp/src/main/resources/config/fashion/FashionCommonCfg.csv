@@ -1,9 +1,9 @@
 id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank,frameIconId,femaleVoice,notAllowBuy,notAllowRenew
 900001,,Wing,恶魔翅膀,这是邪恶力量的象征！,,stand,,8,,,,
-900002,,Suit,斗星,改良水手服样式的套装，青春气息十足,Sound_100005_01.mp3,stand,,8,3,Sound_100005_01.mp3,,
-900003,,Suit,光辉礼服,华丽的贵族礼服，高贵优雅,Sound_101005_01.mp3,stand,,8,4,Sound_101005_01.mp3,,
+900002,,Suit,斗星,改良水手服样式的套装，青春气息十足,Sound_100005_01.mp3,stand,,8,3,,,
+900003,,Suit,光辉礼服,华丽的贵族礼服，高贵优雅,Sound_101005_01.mp3,stand,,8,4,,,
 900004,,Pet,熊猫仙,为了修炼仙法一直背着卷轴的熊猫，小心会咬人,,mainidle,,8,,,,
-900005,,Suit,魅影蝠袍,传说中穿上可化身恶魔的礼服。,Sound_100005_01.mp3,stand,,8,5,Sound_100005_01.mp3,,
+900005,,Suit,魅影蝠袍,传说中穿上可化身恶魔的礼服。,Sound_100005_01.mp3,stand,,8,5,,,
 900006,,Suit,海浪,炎炎夏日，去海边拥抱浪花吧！,,stand,,8,6,,,
 900007,,Wing,钢铁之翼,由钢铁城特制的合金制成。,,stand,,8,,,,
 900008,,Wing,粉色之恋,萌萌哒的粉红，妹子的最爱~,,stand,,8,,,,
@@ -13,3 +13,4 @@ id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank,frameIconId
 900012,,Suit,不可购买,测试不可购买,,stand,,4,,,true,
 900013,,Suit,不可续费,测试不可续费,,stand,,4,,,,true
 900014,,Suit,"不可购买,不可续费","测试不可购买,不可续费",,stand,,4,,,true,true
+900015,,Suit,永久时装,永久时装,,stand,,4,,,,
