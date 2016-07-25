@@ -188,8 +188,8 @@ public final class Group {
 		groupCopyMgr.synLevelData(player, version);
 	}
 	
-	public void synGroupRewardData(Player player, int version){
-		groupCopyMgr.synRewardData(player, version);
+	public void synGroupRewardLogData(Player player){
+		groupCopyMgr.synRewardLogData(player);
 	}
 	
 	public void synGroupCopyDropApplyData(Player player, String id){

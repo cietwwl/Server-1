@@ -22,93 +22,101 @@ public final class TeamBattleProto {
      */
     SYN_TEAM_BATTLE(0, 1),
     /**
-     * <code>SAVE_TEAM_INFO = 2;</code>
+     * <code>NON_SYN_TEAM_BATTLE = 2;</code>
+     *
+     * <pre>
+     *请求不再同步组队副本信息
+     * </pre>
+     */
+    NON_SYN_TEAM_BATTLE(1, 2),
+    /**
+     * <code>SAVE_TEAM_INFO = 3;</code>
      *
      * <pre>
      *保存个人的队伍信息
      * </pre>
      */
-    SAVE_TEAM_INFO(1, 2),
+    SAVE_TEAM_INFO(2, 3),
     /**
-     * <code>CREATE_TEAM = 3;</code>
+     * <code>CREATE_TEAM = 4;</code>
      *
      * <pre>
      *创建队伍
      * </pre>
      */
-    CREATE_TEAM(2, 3),
+    CREATE_TEAM(3, 4),
     /**
-     * <code>JOIN_TEAM = 4;</code>
+     * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
      *加入队伍
      * </pre>
      */
-    JOIN_TEAM(3, 4),
+    JOIN_TEAM(4, 5),
     /**
-     * <code>LEAVE_TEAM = 5;</code>
+     * <code>LEAVE_TEAM = 6;</code>
      *
      * <pre>
      *离开队伍
      * </pre>
      */
-    LEAVE_TEAM(4, 5),
+    LEAVE_TEAM(5, 6),
     /**
-     * <code>ACCEPT_INVITE = 6;</code>
+     * <code>ACCEPT_INVITE = 7;</code>
      *
      * <pre>
      *接受入队邀请
      * </pre>
      */
-    ACCEPT_INVITE(5, 6),
+    ACCEPT_INVITE(6, 7),
     /**
-     * <code>SET_TEAM_FREE_JION = 7;</code>
+     * <code>SET_TEAM_FREE_JION = 8;</code>
      *
      * <pre>
      *设置队伍是否可以快速加入
      * </pre>
      */
-    SET_TEAM_FREE_JION(6, 7),
+    SET_TEAM_FREE_JION(7, 8),
     /**
-     * <code>KICK_OFF_MEMBER = 8;</code>
+     * <code>KICK_OFF_MEMBER = 9;</code>
      *
      * <pre>
      *踢掉队伍成员
      * </pre>
      */
-    KICK_OFF_MEMBER(7, 8),
+    KICK_OFF_MEMBER(8, 9),
     /**
-     * <code>INVITE_PLAYER = 9;</code>
+     * <code>INVITE_PLAYER = 10;</code>
      *
      * <pre>
      *邀请玩家加入组队
      * </pre>
      */
-    INVITE_PLAYER(8, 9),
+    INVITE_PLAYER(9, 10),
     /**
-     * <code>START_FIGHT = 10;</code>
+     * <code>START_FIGHT = 11;</code>
      *
      * <pre>
      *开始战斗
      * </pre>
      */
-    START_FIGHT(9, 10),
+    START_FIGHT(10, 11),
     /**
-     * <code>INFORM_FIGHT_RESULT = 11;</code>
+     * <code>INFORM_FIGHT_RESULT = 12;</code>
      *
      * <pre>
      *通知战斗结果
      * </pre>
      */
-    INFORM_FIGHT_RESULT(10, 11),
+    INFORM_FIGHT_RESULT(11, 12),
     /**
-     * <code>SCORE_EXCHANGE = 12;</code>
+     * <code>SCORE_EXCHANGE = 13;</code>
      *
      * <pre>
      *积分兑换奖励
      * </pre>
      */
-    SCORE_EXCHANGE(11, 12),
+    SCORE_EXCHANGE(12, 13),
     ;
 
     /**
@@ -120,93 +128,101 @@ public final class TeamBattleProto {
      */
     public static final int SYN_TEAM_BATTLE_VALUE = 1;
     /**
-     * <code>SAVE_TEAM_INFO = 2;</code>
+     * <code>NON_SYN_TEAM_BATTLE = 2;</code>
+     *
+     * <pre>
+     *请求不再同步组队副本信息
+     * </pre>
+     */
+    public static final int NON_SYN_TEAM_BATTLE_VALUE = 2;
+    /**
+     * <code>SAVE_TEAM_INFO = 3;</code>
      *
      * <pre>
      *保存个人的队伍信息
      * </pre>
      */
-    public static final int SAVE_TEAM_INFO_VALUE = 2;
+    public static final int SAVE_TEAM_INFO_VALUE = 3;
     /**
-     * <code>CREATE_TEAM = 3;</code>
+     * <code>CREATE_TEAM = 4;</code>
      *
      * <pre>
      *创建队伍
      * </pre>
      */
-    public static final int CREATE_TEAM_VALUE = 3;
+    public static final int CREATE_TEAM_VALUE = 4;
     /**
-     * <code>JOIN_TEAM = 4;</code>
+     * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
      *加入队伍
      * </pre>
      */
-    public static final int JOIN_TEAM_VALUE = 4;
+    public static final int JOIN_TEAM_VALUE = 5;
     /**
-     * <code>LEAVE_TEAM = 5;</code>
+     * <code>LEAVE_TEAM = 6;</code>
      *
      * <pre>
      *离开队伍
      * </pre>
      */
-    public static final int LEAVE_TEAM_VALUE = 5;
+    public static final int LEAVE_TEAM_VALUE = 6;
     /**
-     * <code>ACCEPT_INVITE = 6;</code>
+     * <code>ACCEPT_INVITE = 7;</code>
      *
      * <pre>
      *接受入队邀请
      * </pre>
      */
-    public static final int ACCEPT_INVITE_VALUE = 6;
+    public static final int ACCEPT_INVITE_VALUE = 7;
     /**
-     * <code>SET_TEAM_FREE_JION = 7;</code>
+     * <code>SET_TEAM_FREE_JION = 8;</code>
      *
      * <pre>
      *设置队伍是否可以快速加入
      * </pre>
      */
-    public static final int SET_TEAM_FREE_JION_VALUE = 7;
+    public static final int SET_TEAM_FREE_JION_VALUE = 8;
     /**
-     * <code>KICK_OFF_MEMBER = 8;</code>
+     * <code>KICK_OFF_MEMBER = 9;</code>
      *
      * <pre>
      *踢掉队伍成员
      * </pre>
      */
-    public static final int KICK_OFF_MEMBER_VALUE = 8;
+    public static final int KICK_OFF_MEMBER_VALUE = 9;
     /**
-     * <code>INVITE_PLAYER = 9;</code>
+     * <code>INVITE_PLAYER = 10;</code>
      *
      * <pre>
      *邀请玩家加入组队
      * </pre>
      */
-    public static final int INVITE_PLAYER_VALUE = 9;
+    public static final int INVITE_PLAYER_VALUE = 10;
     /**
-     * <code>START_FIGHT = 10;</code>
+     * <code>START_FIGHT = 11;</code>
      *
      * <pre>
      *开始战斗
      * </pre>
      */
-    public static final int START_FIGHT_VALUE = 10;
+    public static final int START_FIGHT_VALUE = 11;
     /**
-     * <code>INFORM_FIGHT_RESULT = 11;</code>
+     * <code>INFORM_FIGHT_RESULT = 12;</code>
      *
      * <pre>
      *通知战斗结果
      * </pre>
      */
-    public static final int INFORM_FIGHT_RESULT_VALUE = 11;
+    public static final int INFORM_FIGHT_RESULT_VALUE = 12;
     /**
-     * <code>SCORE_EXCHANGE = 12;</code>
+     * <code>SCORE_EXCHANGE = 13;</code>
      *
      * <pre>
      *积分兑换奖励
      * </pre>
      */
-    public static final int SCORE_EXCHANGE_VALUE = 12;
+    public static final int SCORE_EXCHANGE_VALUE = 13;
 
 
     public final int getNumber() { return value; }
@@ -214,17 +230,18 @@ public final class TeamBattleProto {
     public static TBRequestType valueOf(int value) {
       switch (value) {
         case 1: return SYN_TEAM_BATTLE;
-        case 2: return SAVE_TEAM_INFO;
-        case 3: return CREATE_TEAM;
-        case 4: return JOIN_TEAM;
-        case 5: return LEAVE_TEAM;
-        case 6: return ACCEPT_INVITE;
-        case 7: return SET_TEAM_FREE_JION;
-        case 8: return KICK_OFF_MEMBER;
-        case 9: return INVITE_PLAYER;
-        case 10: return START_FIGHT;
-        case 11: return INFORM_FIGHT_RESULT;
-        case 12: return SCORE_EXCHANGE;
+        case 2: return NON_SYN_TEAM_BATTLE;
+        case 3: return SAVE_TEAM_INFO;
+        case 4: return CREATE_TEAM;
+        case 5: return JOIN_TEAM;
+        case 6: return LEAVE_TEAM;
+        case 7: return ACCEPT_INVITE;
+        case 8: return SET_TEAM_FREE_JION;
+        case 9: return KICK_OFF_MEMBER;
+        case 10: return INVITE_PLAYER;
+        case 11: return START_FIGHT;
+        case 12: return INFORM_FIGHT_RESULT;
+        case 13: return SCORE_EXCHANGE;
         default: return null;
       }
     }
@@ -3425,15 +3442,16 @@ public final class TeamBattleProto {
       "leTime\030\n \001(\005\"q\n\020TeamBattleRspMsg\022)\n\007rstT" +
       "ype\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006t" +
       "ipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJoi" +
-      "n\030\004 \001(\010*\371\001\n\rTBRequestType\022\023\n\017SYN_TEAM_BA",
-      "TTLE\020\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE_TEA" +
-      "M\020\003\022\r\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021\n\rAC" +
-      "CEPT_INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020\007\022\023\n" +
-      "\017KICK_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020\t\022\017\n" +
-      "\013START_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESULT\020\013\022" +
-      "\022\n\016SCORE_EXCHANGE\020\014*+\n\014TBResultType\022\013\n\007S" +
-      "UCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwprotoB" +
-      "\017TeamBattleProto"
+      "n\030\004 \001(\010*\222\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BA",
+      "TTLE\020\001\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_" +
+      "TEAM_INFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEA" +
+      "M\020\005\022\016\n\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026" +
+      "\n\022SET_TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBE" +
+      "R\020\t\022\021\n\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022" +
+      "\027\n\023INFORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHAN" +
+      "GE\020\r*+\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDAT" +
+      "A_ERROR\020\002B\036\n\013com.rwprotoB\017TeamBattleProt" +
+      "o"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

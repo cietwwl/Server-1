@@ -1,11 +1,14 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /**
  * 分配记录模板
  * 
  * @author Alex
  * 2016年6月17日 下午2:13:20
  */
+@SynClass
 public class DistRewRecordItem {
 
 	//奖励的道具id
@@ -22,12 +25,12 @@ public class DistRewRecordItem {
 	}
 
 
-	public DistRewRecordItem(int itemID, String roleName, long timeStr,
+	public DistRewRecordItem(int itemID, String roleName, long time,
 			String getType) {
 		super();
 		this.itemID = itemID;
 		this.roleName = roleName;
-		this.captureTime = timeStr;
+		this.captureTime = time;
 		this.getType = getType;
 	}
 
