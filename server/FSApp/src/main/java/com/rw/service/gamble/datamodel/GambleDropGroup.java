@@ -211,6 +211,7 @@ public class GambleDropGroup extends RandomStringGroups {
 	 * @param guanrateeHero
 	 * @return
 	 */
+	@JsonIgnore
 	public List<Pair<String, Integer>> getHotRandomGroup(Random r, int hotCount,String guanrateeHero) {
 		List<String> historyRecord=new ArrayList<String>(1);
 		List<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>(hotCount);

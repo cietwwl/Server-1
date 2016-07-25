@@ -33,6 +33,9 @@ import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
+import com.rw.service.TaoistMagic.ITaoistMgr;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
@@ -42,6 +45,7 @@ import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
@@ -117,7 +121,6 @@ public class GMHandler {
 		funcCallBackMap.put("addhero", "addHero1");
 		funcCallBackMap.put("setteam1", "setTeam1");
 		funcCallBackMap.put("setteam2", "setTeam2");
-		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
@@ -157,6 +160,11 @@ public class GMHandler {
 
 		// 封神台，设置当前层数
 		funcCallBackMap.put("setbattletowerfloor", "setBattleTowerFloor");
+		funcCallBackMap.put("endbtsweep", "endBTsweep");
+		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
+
+		// 道术
+		funcCallBackMap.put("setalltaoist", "setAllTaoist");
 		
 		// 设置帮战阶段
 		funcCallBackMap.put("setgfstate", "setGFightState");
@@ -190,6 +198,39 @@ public class GMHandler {
 			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
 		}
 		GameLog.info("GM", "reloadConfig", "finished", null);
+		return result;
+	}
+
+	public boolean endBTsweep(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "endBTsweep", "start", null);
+		boolean result = true;
+		TableBattleTowerDao dao = TableBattleTowerDao.getDao();
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
+		int highestFloor = tableBattleTower.getHighestFloor();
+		// 更新数据
+		tableBattleTower.setSweepStartTime(0);
+		// by franky 扫荡结束时需要重置每层扫荡时间，下次开始扫荡就按照新的特权值进行设置
+		tableBattleTower.setSweepTimePerFloor(0);
+		tableBattleTower.setSweepState(false);
+		tableBattleTower.setSweepStartFloor(0);
+		tableBattleTower.setCurFloor(highestFloor);
+		tableBattleTower.setResult(true);
+		UserEventMgr.getInstance().BattleTower(player, highestFloor);
+		dao.update(tableBattleTower);
+		GameLog.info("GM", "endBTsweep ", "finished", null);
+		return result;
+	}
+
+	public boolean setAllTaoist(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setAllTaoist", "start", null);
+		boolean result = true;
+		ITaoistMgr mgr = player.getTaoistMgr();
+		Iterable<TaoistMagicCfg> cfglst = TaoistMagicCfgHelper.getInstance().getIterateAllCfg();
+		for (TaoistMagicCfg cfg : cfglst) {
+			mgr.setLevel(cfg.getKey(), 50);
+		}
+		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
 
@@ -849,6 +890,9 @@ public class GMHandler {
 		}
 
 		tableBattleTower.setResetTimes(0);
+		tableBattleTower.setCurBossTimes(0);
+		long now = System.currentTimeMillis();
+		tableBattleTower.setResetTime(now);
 		TableBattleTowerDao.getDao().update(tableBattleTower);
 		return true;
 	}
@@ -971,7 +1015,7 @@ public class GMHandler {
 			}
 
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.gmResetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1043,14 +1087,19 @@ public class GMHandler {
 			if (su < 0) {
 				return false;
 			}
-
-			groupMemberMgr.updateMemberContribution(userId, value, false);
+			groupMemberMgr.updateMemberContribution(userId, value, true);
 		} else if (functionName.equalsIgnoreCase("exp")) {// 增加帮派经验
 			if (value <= 0) {
 				return false;
 			}
 
 			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
+		} else if (functionName.equalsIgnoreCase("token")) {// 增加帮派令牌
+			if (value == 0) {
+				return false;
+			}
+
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, 0, value, true);
 		}
 
 		return true;
