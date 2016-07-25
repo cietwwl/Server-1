@@ -343,7 +343,7 @@ public class FashionHandle {
 		return setErrorResponse(response, player, addedLog, reason, err);
 	}
 
-	private FashionResponse.Builder getResponse(FashionRequest req) {
+	public FashionResponse.Builder getResponse(FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		response.setEventType(req.getEventType());
 		return response;
