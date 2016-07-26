@@ -17,17 +17,16 @@ import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
+import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
 import com.rwproto.CopyServiceProtos.TagBattleData;
-import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class CelestialHandler {
 
@@ -58,6 +57,12 @@ public class CelestialHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
+		if(PvECommonHelper.isTimesLimit(player, levelId)){
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "当前挑战次数不足，请增加次数后重试！");
+			return copyResponse.setEResultType(EResultType.NOT_ENOUGH_TIMES).build().toByteString();
+		}
+		
+		
 		String rewardInfoActivity="";
 		List<? extends ItemInfo> listItemBattle = null;
 		try {

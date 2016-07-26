@@ -15,6 +15,7 @@ import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
+import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -54,6 +55,11 @@ public class JBZDHandler {
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
+		}
+		
+		if(PvECommonHelper.isTimesLimit(player, levelId)){
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "当前挑战次数不足，请增加次数后重试！");
+			return copyResponse.setEResultType(EResultType.NOT_ENOUGH_TIMES).build().toByteString();
 		}
 		
 		List<? extends ItemInfo> dropItems = null;

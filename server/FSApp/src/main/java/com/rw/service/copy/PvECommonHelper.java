@@ -18,6 +18,7 @@ import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.pve.PveHandler;
+import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
@@ -218,10 +219,6 @@ public class PvECommonHelper {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
 		}
-		if (isTimesLimit(copyRecord, copyCfg, times)) {
-			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
-			return EResultType.NOT_ENOUGH_TIMES;
-		}
 		try {
 			int levelType = copyCfg.getLevelType();
 			CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(String.valueOf(copyCfg.getLevelID()));
@@ -243,21 +240,10 @@ public class PvECommonHelper {
 		return (copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * times > player.getUserGameDataMgr().getPower();
 	}
 
-	private static boolean isTimesLimit(CopyLevelRecordIF copyRecord, CopyCfg copyCfg, int times) {
-		return false;// 这里不是重置次数
-		// boolean isTimesLimit = true;
-		// int allowTimes = copyCfg.getResetNum();
-		// if (allowTimes <= 0) {
-		// // 如果小于0说明不做限制
-		// isTimesLimit = false;
-		// } else {
-		//
-		// int currentCount = copyRecord == null ? 0 :
-		// copyRecord.getCurrentCount();
-		// isTimesLimit = currentCount + times > allowTimes;
-		//
-		// }
-		// return isTimesLimit;
+	public static boolean isTimesLimit(Player player,int levelId) {
+		
+		return player.getCopyDataMgr().getCopyCount(String.valueOf(levelId))<=0;
+	
 	}
 
 	public static void deduceSweepCost(Player player, MsgCopyRequest copyRequest, MsgCopyResponse.Builder copyResponse, int times) {
