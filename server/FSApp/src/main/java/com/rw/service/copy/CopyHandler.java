@@ -10,10 +10,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
-import com.playerdata.copy.CopyCalculateState;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
@@ -105,7 +103,7 @@ public class CopyHandler {
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
-		CopyCalculateState state = copyRecordMgr.getCalculateState();
+
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
 		
@@ -132,20 +130,7 @@ public class CopyHandler {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
-		if (state == null) {
-			GameLog.error("battle", "copyBattleClear", player + "请求获取未开始的战斗结算：" + levelId, null);
-			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
-		}
-		int lastBattleId = state.getLastBattleId();
-		if (lastBattleId != levelId) {
-			GameLog.error("battle", "copyBattleClear", player + "请求获取不一致的战斗结算：" + levelId + "," + lastBattleId, null);
-			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
-		}
-		// 重复请求
-		MsgCopyResponse.Builder lastResponse = state.getLastCopyResponse();
-		if (lastResponse != null) {
-			return lastResponse.build().toByteString();
-		}
+
 
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
@@ -198,8 +183,7 @@ public class CopyHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		// 设置已经获取
-		state.setLastCopyResponse(copyResponse);
+
 
 		
 		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL) {
