@@ -10,18 +10,17 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("sgn0845");
+		 Robot robot = loginRobot("0725407669");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpallen"+random.nextInt(2000));
+//		 Robot robot = createRobot("tmpallen"+random.nextInt(2000));
 		 if(robot == null){
 		 }else{
 			 boolean issucc =false;
-			 
-			 issucc=robot.testWorShip(3);
+			 issucc=robot.attackEnemyGroupSecret();
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 

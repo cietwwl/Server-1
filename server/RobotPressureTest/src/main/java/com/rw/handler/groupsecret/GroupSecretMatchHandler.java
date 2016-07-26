@@ -1,5 +1,7 @@
 package com.rw.handler.groupsecret;
 
+import io.netty.util.internal.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,7 +10,9 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.gameLogin.GameLoginHandler;
 import com.rw.handler.hero.UserHerosDataHolder;
+import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonReqMsg;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonRspMsg;
@@ -48,15 +52,18 @@ public class GroupSecretMatchHandler {
 		msg.setIndex(GroupSecretIndex.MAIN);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
-		List<String> battleHeroList = new ArrayList<String>();
-		for (int i = 0; i < 5; i++) {
-			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
-				String heroId = (String) iterator.next();
-				battleHeroList.add(heroId);
-				iterator.remove();
-			}
+		int mainRoleIndex = 0;
+		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
+			String heroId = (String) iterator.next();
+			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+			pos.setHeroId(heroId);
+			pos.setPos(mainRoleIndex);				
+			msg.addHeroList(pos);
+			if(mainRoleIndex > 4){
+				break;
+			}				
 		}
-		msg.addAllHeroList(battleHeroList);
+		req.setAttackStartReq(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
 	}
 	
@@ -85,7 +92,14 @@ public class GroupSecretMatchHandler {
 				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg.parseFrom(bs);
 				if (resp.getIsSuccess()) {
 					RobotLog.info(parseFunctionDesc() + "成功");
+					return true;
 				} else {
+					if(resp.getTipMsg().indexOf("找不到")!= -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
+					}
+					int i = resp.getTipMsg().indexOf("找不到");
+					RobotLog.fail(resp.getTipMsg());
 					throw new Exception(resp.getTipMsg());
 				}
 			} catch (Exception ex) {

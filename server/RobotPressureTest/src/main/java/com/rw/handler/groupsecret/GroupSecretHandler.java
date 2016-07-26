@@ -11,10 +11,9 @@ import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
-import com.rw.handler.sign.SignHandler;
+import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
-import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
@@ -48,19 +47,29 @@ public class GroupSecretHandler {
 		GroupSecretTeamDataHolder groupSecretTeamDataHolder = client.getGroupSecretTeamDataHolder();
 		GroupSecretTeamData data = groupSecretTeamDataHolder.getData();
 		List<String> defendHeroList = data.getDefendHeroList();
+		
+		List<BattleHeroPosition> heroPosList = new ArrayList<BattleHeroPosition>();
+		int mainRoleIndex = -1;
 		for (int i = 0; i < 5; i++) {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 				String heroId = (String) iterator.next();
 				if(heroId == client.getUserId()){
+					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+					pos.setHeroId(heroId);
+					pos.setPos(0);
+					msg.addTeamHeroId(pos);
+					mainRoleIndex = i;
 					continue;
 				}
+				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
-					msg.addTeamHeroId(heroId);
-					iterator.remove();
+					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+					pos.setHeroId(heroId);
+					pos.setPos(mainRoleIndex == -1 ? i++ : i);
+					msg.addTeamHeroId(pos);
 				}
 			}
 		}
-		msg.addTeamHeroId(client.getUserId());
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
 	}
@@ -100,18 +109,24 @@ public class GroupSecretHandler {
 		String treasureId = chatMessageData.getTreasureId();
 		JoinSecretDefendReqMsg.Builder msg = JoinSecretDefendReqMsg.newBuilder();
 		msg.setId(treasureId);
-		msg.setIndex(GroupSecretIndex.MAIN);
+		msg.setIndex(GroupSecretIndex.LEFT);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		List<String> battleHeroList = new ArrayList<String>();
-		for (int i = 0; i < 5; i++) {
-			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
-				String heroId = (String) iterator.next();
-				battleHeroList.add(heroId);
-				iterator.remove();
+		int mainRoleIndex = 0;
+		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
+			String heroId = (String) iterator.next();
+			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+			pos.setHeroId(heroId);
+			pos.setPos(mainRoleIndex);				
+			msg.addHeroId(pos)	;
+			mainRoleIndex ++;
+			if(mainRoleIndex > 4){
+				break;
 			}
 		}
-		msg.addAllHeroId(battleHeroList);
+		
+		req.setJoinReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "接受邀请"));
 	}
 
