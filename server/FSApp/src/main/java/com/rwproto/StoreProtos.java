@@ -33,6 +33,14 @@ public final class StoreProtos {
      * <code>ProbStore = 5;</code>
      */
     ProbStore(4, 5),
+    /**
+     * <code>WakenRewardDraw = 6;</code>
+     */
+    WakenRewardDraw(5, 6),
+    /**
+     * <code>WakenExchange = 7;</code>
+     */
+    WakenExchange(6, 7),
     ;
 
     /**
@@ -55,6 +63,14 @@ public final class StoreProtos {
      * <code>ProbStore = 5;</code>
      */
     public static final int ProbStore_VALUE = 5;
+    /**
+     * <code>WakenRewardDraw = 6;</code>
+     */
+    public static final int WakenRewardDraw_VALUE = 6;
+    /**
+     * <code>WakenExchange = 7;</code>
+     */
+    public static final int WakenExchange_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -66,6 +82,8 @@ public final class StoreProtos {
         case 3: return OpenStore;
         case 4: return SyncStore;
         case 5: return ProbStore;
+        case 6: return WakenRewardDraw;
+        case 7: return WakenExchange;
         default: return null;
       }
     }
@@ -115,6 +133,104 @@ public final class StoreProtos {
     }
 
     // @@protoc_insertion_point(enum_scope:eStoreRequestType)
+  }
+
+  /**
+   * Protobuf enum {@code eWakenRewardDrawType}
+   */
+  public enum eWakenRewardDrawType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>oneDraw = 1;</code>
+     *
+     * <pre>
+     *单抽
+     * </pre>
+     */
+    oneDraw(0, 1),
+    /**
+     * <code>tenDraw = 2;</code>
+     *
+     * <pre>
+     *十连抽
+     * </pre>
+     */
+    tenDraw(1, 2),
+    ;
+
+    /**
+     * <code>oneDraw = 1;</code>
+     *
+     * <pre>
+     *单抽
+     * </pre>
+     */
+    public static final int oneDraw_VALUE = 1;
+    /**
+     * <code>tenDraw = 2;</code>
+     *
+     * <pre>
+     *十连抽
+     * </pre>
+     */
+    public static final int tenDraw_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static eWakenRewardDrawType valueOf(int value) {
+      switch (value) {
+        case 1: return oneDraw;
+        case 2: return tenDraw;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<eWakenRewardDrawType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<eWakenRewardDrawType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<eWakenRewardDrawType>() {
+            public eWakenRewardDrawType findValueByNumber(int number) {
+              return eWakenRewardDrawType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.StoreProtos.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final eWakenRewardDrawType[] VALUES = values();
+
+    public static eWakenRewardDrawType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private eWakenRewardDrawType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:eWakenRewardDrawType)
   }
 
   /**
@@ -174,7 +290,7 @@ public final class StoreProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.StoreProtos.getDescriptor().getEnumTypes().get(1);
+      return com.rwproto.StoreProtos.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final eProbType[] VALUES = values();
@@ -274,7 +390,7 @@ public final class StoreProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.StoreProtos.getDescriptor().getEnumTypes().get(2);
+      return com.rwproto.StoreProtos.getDescriptor().getEnumTypes().get(3);
     }
 
     private static final eStoreResultType[] VALUES = values();
@@ -331,6 +447,16 @@ public final class StoreProtos {
      * <code>optional int32 solt = 3;</code>
      */
     int getSolt();
+
+    // optional int32 exchangeCount = 4;
+    /**
+     * <code>optional int32 exchangeCount = 4;</code>
+     */
+    boolean hasExchangeCount();
+    /**
+     * <code>optional int32 exchangeCount = 4;</code>
+     */
+    int getExchangeCount();
   }
   /**
    * Protobuf type {@code tagCommodity}
@@ -396,6 +522,11 @@ public final class StoreProtos {
             case 24: {
               bitField0_ |= 0x00000004;
               solt_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              exchangeCount_ = input.readInt32();
               break;
             }
           }
@@ -486,10 +617,27 @@ public final class StoreProtos {
       return solt_;
     }
 
+    // optional int32 exchangeCount = 4;
+    public static final int EXCHANGECOUNT_FIELD_NUMBER = 4;
+    private int exchangeCount_;
+    /**
+     * <code>optional int32 exchangeCount = 4;</code>
+     */
+    public boolean hasExchangeCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 exchangeCount = 4;</code>
+     */
+    public int getExchangeCount() {
+      return exchangeCount_;
+    }
+
     private void initFields() {
       id_ = 0;
       count_ = 0;
       solt_ = 0;
+      exchangeCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -512,6 +660,9 @@ public final class StoreProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, solt_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, exchangeCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -532,6 +683,10 @@ public final class StoreProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, solt_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, exchangeCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -655,6 +810,8 @@ public final class StoreProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         solt_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        exchangeCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -695,6 +852,10 @@ public final class StoreProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.solt_ = solt_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.exchangeCount_ = exchangeCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -719,6 +880,9 @@ public final class StoreProtos {
         }
         if (other.hasSolt()) {
           setSolt(other.getSolt());
+        }
+        if (other.hasExchangeCount()) {
+          setExchangeCount(other.getExchangeCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -842,6 +1006,39 @@ public final class StoreProtos {
       public Builder clearSolt() {
         bitField0_ = (bitField0_ & ~0x00000004);
         solt_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 exchangeCount = 4;
+      private int exchangeCount_ ;
+      /**
+       * <code>optional int32 exchangeCount = 4;</code>
+       */
+      public boolean hasExchangeCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 exchangeCount = 4;</code>
+       */
+      public int getExchangeCount() {
+        return exchangeCount_;
+      }
+      /**
+       * <code>optional int32 exchangeCount = 4;</code>
+       */
+      public Builder setExchangeCount(int value) {
+        bitField0_ |= 0x00000008;
+        exchangeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 exchangeCount = 4;</code>
+       */
+      public Builder clearExchangeCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        exchangeCount_ = 0;
         onChanged();
         return this;
       }
@@ -1858,6 +2055,483 @@ public final class StoreProtos {
     // @@protoc_insertion_point(class_scope:tagStore)
   }
 
+  public interface tagRewardOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 modelId = 1;
+    /**
+     * <code>optional int32 modelId = 1;</code>
+     */
+    boolean hasModelId();
+    /**
+     * <code>optional int32 modelId = 1;</code>
+     */
+    int getModelId();
+
+    // optional int32 count = 2;
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    boolean hasCount();
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code tagReward}
+   */
+  public static final class tagReward extends
+      com.google.protobuf.GeneratedMessage
+      implements tagRewardOrBuilder {
+    // Use tagReward.newBuilder() to construct.
+    private tagReward(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private tagReward(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final tagReward defaultInstance;
+    public static tagReward getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public tagReward getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private tagReward(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              modelId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.StoreProtos.internal_static_tagReward_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.StoreProtos.internal_static_tagReward_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.StoreProtos.tagReward.class, com.rwproto.StoreProtos.tagReward.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<tagReward> PARSER =
+        new com.google.protobuf.AbstractParser<tagReward>() {
+      public tagReward parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new tagReward(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<tagReward> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 modelId = 1;
+    public static final int MODELID_FIELD_NUMBER = 1;
+    private int modelId_;
+    /**
+     * <code>optional int32 modelId = 1;</code>
+     */
+    public boolean hasModelId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 modelId = 1;</code>
+     */
+    public int getModelId() {
+      return modelId_;
+    }
+
+    // optional int32 count = 2;
+    public static final int COUNT_FIELD_NUMBER = 2;
+    private int count_;
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      modelId_ = 0;
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, modelId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, modelId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.StoreProtos.tagReward parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.StoreProtos.tagReward prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code tagReward}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.StoreProtos.tagRewardOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.StoreProtos.internal_static_tagReward_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.StoreProtos.internal_static_tagReward_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.StoreProtos.tagReward.class, com.rwproto.StoreProtos.tagReward.Builder.class);
+      }
+
+      // Construct using com.rwproto.StoreProtos.tagReward.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        modelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.StoreProtos.internal_static_tagReward_descriptor;
+      }
+
+      public com.rwproto.StoreProtos.tagReward getDefaultInstanceForType() {
+        return com.rwproto.StoreProtos.tagReward.getDefaultInstance();
+      }
+
+      public com.rwproto.StoreProtos.tagReward build() {
+        com.rwproto.StoreProtos.tagReward result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.StoreProtos.tagReward buildPartial() {
+        com.rwproto.StoreProtos.tagReward result = new com.rwproto.StoreProtos.tagReward(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.modelId_ = modelId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.StoreProtos.tagReward) {
+          return mergeFrom((com.rwproto.StoreProtos.tagReward)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.StoreProtos.tagReward other) {
+        if (other == com.rwproto.StoreProtos.tagReward.getDefaultInstance()) return this;
+        if (other.hasModelId()) {
+          setModelId(other.getModelId());
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.StoreProtos.tagReward parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.StoreProtos.tagReward) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 modelId = 1;
+      private int modelId_ ;
+      /**
+       * <code>optional int32 modelId = 1;</code>
+       */
+      public boolean hasModelId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 modelId = 1;</code>
+       */
+      public int getModelId() {
+        return modelId_;
+      }
+      /**
+       * <code>optional int32 modelId = 1;</code>
+       */
+      public Builder setModelId(int value) {
+        bitField0_ |= 0x00000001;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 modelId = 1;</code>
+       */
+      public Builder clearModelId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        modelId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 count = 2;
+      private int count_ ;
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000002;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:tagReward)
+    }
+
+    static {
+      defaultInstance = new tagReward(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:tagReward)
+  }
+
   public interface StoreRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1894,6 +2568,26 @@ public final class StoreProtos {
      * <code>optional .tagCommodity commodity = 3;</code>
      */
     com.rwproto.StoreProtos.tagCommodityOrBuilder getCommodityOrBuilder();
+
+    // optional .eWakenRewardDrawType drawType = 4;
+    /**
+     * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+     */
+    boolean hasDrawType();
+    /**
+     * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+     */
+    com.rwproto.StoreProtos.eWakenRewardDrawType getDrawType();
+
+    // optional int32 consumeType = 5;
+    /**
+     * <code>optional int32 consumeType = 5;</code>
+     */
+    boolean hasConsumeType();
+    /**
+     * <code>optional int32 consumeType = 5;</code>
+     */
+    int getConsumeType();
   }
   /**
    * Protobuf type {@code StoreRequest}
@@ -1973,6 +2667,22 @@ public final class StoreProtos {
                 commodity_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+              com.rwproto.StoreProtos.eWakenRewardDrawType value = com.rwproto.StoreProtos.eWakenRewardDrawType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(4, rawValue);
+              } else {
+                bitField0_ |= 0x00000008;
+                drawType_ = value;
+              }
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              consumeType_ = input.readInt32();
               break;
             }
           }
@@ -2069,10 +2779,44 @@ public final class StoreProtos {
       return commodity_;
     }
 
+    // optional .eWakenRewardDrawType drawType = 4;
+    public static final int DRAWTYPE_FIELD_NUMBER = 4;
+    private com.rwproto.StoreProtos.eWakenRewardDrawType drawType_;
+    /**
+     * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+     */
+    public boolean hasDrawType() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+     */
+    public com.rwproto.StoreProtos.eWakenRewardDrawType getDrawType() {
+      return drawType_;
+    }
+
+    // optional int32 consumeType = 5;
+    public static final int CONSUMETYPE_FIELD_NUMBER = 5;
+    private int consumeType_;
+    /**
+     * <code>optional int32 consumeType = 5;</code>
+     */
+    public boolean hasConsumeType() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 consumeType = 5;</code>
+     */
+    public int getConsumeType() {
+      return consumeType_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.StoreProtos.eStoreRequestType.BuyCommodity;
       storeType_ = 0;
       commodity_ = com.rwproto.StoreProtos.tagCommodity.getDefaultInstance();
+      drawType_ = com.rwproto.StoreProtos.eWakenRewardDrawType.oneDraw;
+      consumeType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2099,6 +2843,12 @@ public final class StoreProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, commodity_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeEnum(4, drawType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, consumeType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2119,6 +2869,14 @@ public final class StoreProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, commodity_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, drawType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, consumeType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2247,6 +3005,10 @@ public final class StoreProtos {
           commodityBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        drawType_ = com.rwproto.StoreProtos.eWakenRewardDrawType.oneDraw;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        consumeType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2291,6 +3053,14 @@ public final class StoreProtos {
         } else {
           result.commodity_ = commodityBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.drawType_ = drawType_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.consumeType_ = consumeType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2315,6 +3085,12 @@ public final class StoreProtos {
         }
         if (other.hasCommodity()) {
           mergeCommodity(other.getCommodity());
+        }
+        if (other.hasDrawType()) {
+          setDrawType(other.getDrawType());
+        }
+        if (other.hasConsumeType()) {
+          setConsumeType(other.getConsumeType());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2533,6 +3309,75 @@ public final class StoreProtos {
         return commodityBuilder_;
       }
 
+      // optional .eWakenRewardDrawType drawType = 4;
+      private com.rwproto.StoreProtos.eWakenRewardDrawType drawType_ = com.rwproto.StoreProtos.eWakenRewardDrawType.oneDraw;
+      /**
+       * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+       */
+      public boolean hasDrawType() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+       */
+      public com.rwproto.StoreProtos.eWakenRewardDrawType getDrawType() {
+        return drawType_;
+      }
+      /**
+       * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+       */
+      public Builder setDrawType(com.rwproto.StoreProtos.eWakenRewardDrawType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        drawType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .eWakenRewardDrawType drawType = 4;</code>
+       */
+      public Builder clearDrawType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        drawType_ = com.rwproto.StoreProtos.eWakenRewardDrawType.oneDraw;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 consumeType = 5;
+      private int consumeType_ ;
+      /**
+       * <code>optional int32 consumeType = 5;</code>
+       */
+      public boolean hasConsumeType() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 consumeType = 5;</code>
+       */
+      public int getConsumeType() {
+        return consumeType_;
+      }
+      /**
+       * <code>optional int32 consumeType = 5;</code>
+       */
+      public Builder setConsumeType(int value) {
+        bitField0_ |= 0x00000010;
+        consumeType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 consumeType = 5;</code>
+       */
+      public Builder clearConsumeType() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        consumeType_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:StoreRequest)
     }
 
@@ -2650,6 +3495,31 @@ public final class StoreProtos {
      * <code>optional int32 costType = 8;</code>
      */
     int getCostType();
+
+    // repeated .tagReward rewards = 9;
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    java.util.List<com.rwproto.StoreProtos.tagReward> 
+        getRewardsList();
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    com.rwproto.StoreProtos.tagReward getRewards(int index);
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    int getRewardsCount();
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    java.util.List<? extends com.rwproto.StoreProtos.tagRewardOrBuilder> 
+        getRewardsOrBuilderList();
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    com.rwproto.StoreProtos.tagRewardOrBuilder getRewardsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code StoreResponse}
@@ -2771,6 +3641,14 @@ public final class StoreProtos {
               costType_ = input.readInt32();
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                rewards_ = new java.util.ArrayList<com.rwproto.StoreProtos.tagReward>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              rewards_.add(input.readMessage(com.rwproto.StoreProtos.tagReward.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2781,6 +3659,9 @@ public final class StoreProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           store_ = java.util.Collections.unmodifiableList(store_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          rewards_ = java.util.Collections.unmodifiableList(rewards_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2995,6 +3876,42 @@ public final class StoreProtos {
       return costType_;
     }
 
+    // repeated .tagReward rewards = 9;
+    public static final int REWARDS_FIELD_NUMBER = 9;
+    private java.util.List<com.rwproto.StoreProtos.tagReward> rewards_;
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    public java.util.List<com.rwproto.StoreProtos.tagReward> getRewardsList() {
+      return rewards_;
+    }
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    public java.util.List<? extends com.rwproto.StoreProtos.tagRewardOrBuilder> 
+        getRewardsOrBuilderList() {
+      return rewards_;
+    }
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    public int getRewardsCount() {
+      return rewards_.size();
+    }
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    public com.rwproto.StoreProtos.tagReward getRewards(int index) {
+      return rewards_.get(index);
+    }
+    /**
+     * <code>repeated .tagReward rewards = 9;</code>
+     */
+    public com.rwproto.StoreProtos.tagRewardOrBuilder getRewardsOrBuilder(
+        int index) {
+      return rewards_.get(index);
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.StoreProtos.eStoreRequestType.BuyCommodity;
       reslutType_ = com.rwproto.StoreProtos.eStoreResultType.SUCCESS;
@@ -3004,6 +3921,7 @@ public final class StoreProtos {
       storeType_ = 0;
       probType_ = com.rwproto.StoreProtos.eProbType.Open;
       costType_ = 0;
+      rewards_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3040,6 +3958,9 @@ public final class StoreProtos {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(8, costType_);
+      }
+      for (int i = 0; i < rewards_.size(); i++) {
+        output.writeMessage(9, rewards_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3081,6 +4002,10 @@ public final class StoreProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, costType_);
+      }
+      for (int i = 0; i < rewards_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, rewards_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3192,6 +4117,7 @@ public final class StoreProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getCommodityFieldBuilder();
           getStoreFieldBuilder();
+          getRewardsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3224,6 +4150,12 @@ public final class StoreProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         costType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        if (rewardsBuilder_ == null) {
+          rewards_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          rewardsBuilder_.clear();
+        }
         return this;
       }
 
@@ -3293,6 +4225,15 @@ public final class StoreProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.costType_ = costType_;
+        if (rewardsBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
+            rewards_ = java.util.Collections.unmodifiableList(rewards_);
+            bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.rewards_ = rewards_;
+        } else {
+          result.rewards_ = rewardsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3357,6 +4298,32 @@ public final class StoreProtos {
         }
         if (other.hasCostType()) {
           setCostType(other.getCostType());
+        }
+        if (rewardsBuilder_ == null) {
+          if (!other.rewards_.isEmpty()) {
+            if (rewards_.isEmpty()) {
+              rewards_ = other.rewards_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureRewardsIsMutable();
+              rewards_.addAll(other.rewards_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rewards_.isEmpty()) {
+            if (rewardsBuilder_.isEmpty()) {
+              rewardsBuilder_.dispose();
+              rewardsBuilder_ = null;
+              rewards_ = other.rewards_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+              rewardsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardsFieldBuilder() : null;
+            } else {
+              rewardsBuilder_.addAllMessages(other.rewards_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3990,6 +4957,246 @@ public final class StoreProtos {
         return this;
       }
 
+      // repeated .tagReward rewards = 9;
+      private java.util.List<com.rwproto.StoreProtos.tagReward> rewards_ =
+        java.util.Collections.emptyList();
+      private void ensureRewardsIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          rewards_ = new java.util.ArrayList<com.rwproto.StoreProtos.tagReward>(rewards_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.StoreProtos.tagReward, com.rwproto.StoreProtos.tagReward.Builder, com.rwproto.StoreProtos.tagRewardOrBuilder> rewardsBuilder_;
+
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public java.util.List<com.rwproto.StoreProtos.tagReward> getRewardsList() {
+        if (rewardsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rewards_);
+        } else {
+          return rewardsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public int getRewardsCount() {
+        if (rewardsBuilder_ == null) {
+          return rewards_.size();
+        } else {
+          return rewardsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public com.rwproto.StoreProtos.tagReward getRewards(int index) {
+        if (rewardsBuilder_ == null) {
+          return rewards_.get(index);
+        } else {
+          return rewardsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder setRewards(
+          int index, com.rwproto.StoreProtos.tagReward value) {
+        if (rewardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardsIsMutable();
+          rewards_.set(index, value);
+          onChanged();
+        } else {
+          rewardsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder setRewards(
+          int index, com.rwproto.StoreProtos.tagReward.Builder builderForValue) {
+        if (rewardsBuilder_ == null) {
+          ensureRewardsIsMutable();
+          rewards_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder addRewards(com.rwproto.StoreProtos.tagReward value) {
+        if (rewardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardsIsMutable();
+          rewards_.add(value);
+          onChanged();
+        } else {
+          rewardsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder addRewards(
+          int index, com.rwproto.StoreProtos.tagReward value) {
+        if (rewardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardsIsMutable();
+          rewards_.add(index, value);
+          onChanged();
+        } else {
+          rewardsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder addRewards(
+          com.rwproto.StoreProtos.tagReward.Builder builderForValue) {
+        if (rewardsBuilder_ == null) {
+          ensureRewardsIsMutable();
+          rewards_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder addRewards(
+          int index, com.rwproto.StoreProtos.tagReward.Builder builderForValue) {
+        if (rewardsBuilder_ == null) {
+          ensureRewardsIsMutable();
+          rewards_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder addAllRewards(
+          java.lang.Iterable<? extends com.rwproto.StoreProtos.tagReward> values) {
+        if (rewardsBuilder_ == null) {
+          ensureRewardsIsMutable();
+          super.addAll(values, rewards_);
+          onChanged();
+        } else {
+          rewardsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder clearRewards() {
+        if (rewardsBuilder_ == null) {
+          rewards_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+        } else {
+          rewardsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public Builder removeRewards(int index) {
+        if (rewardsBuilder_ == null) {
+          ensureRewardsIsMutable();
+          rewards_.remove(index);
+          onChanged();
+        } else {
+          rewardsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public com.rwproto.StoreProtos.tagReward.Builder getRewardsBuilder(
+          int index) {
+        return getRewardsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public com.rwproto.StoreProtos.tagRewardOrBuilder getRewardsOrBuilder(
+          int index) {
+        if (rewardsBuilder_ == null) {
+          return rewards_.get(index);  } else {
+          return rewardsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public java.util.List<? extends com.rwproto.StoreProtos.tagRewardOrBuilder> 
+           getRewardsOrBuilderList() {
+        if (rewardsBuilder_ != null) {
+          return rewardsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rewards_);
+        }
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public com.rwproto.StoreProtos.tagReward.Builder addRewardsBuilder() {
+        return getRewardsFieldBuilder().addBuilder(
+            com.rwproto.StoreProtos.tagReward.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public com.rwproto.StoreProtos.tagReward.Builder addRewardsBuilder(
+          int index) {
+        return getRewardsFieldBuilder().addBuilder(
+            index, com.rwproto.StoreProtos.tagReward.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .tagReward rewards = 9;</code>
+       */
+      public java.util.List<com.rwproto.StoreProtos.tagReward.Builder> 
+           getRewardsBuilderList() {
+        return getRewardsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.StoreProtos.tagReward, com.rwproto.StoreProtos.tagReward.Builder, com.rwproto.StoreProtos.tagRewardOrBuilder> 
+          getRewardsFieldBuilder() {
+        if (rewardsBuilder_ == null) {
+          rewardsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.StoreProtos.tagReward, com.rwproto.StoreProtos.tagReward.Builder, com.rwproto.StoreProtos.tagRewardOrBuilder>(
+                  rewards_,
+                  ((bitField0_ & 0x00000100) == 0x00000100),
+                  getParentForChildren(),
+                  isClean());
+          rewards_ = null;
+        }
+        return rewardsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:StoreResponse)
     }
 
@@ -4012,6 +5219,11 @@ public final class StoreProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_tagStore_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_tagReward_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_tagReward_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_StoreRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4030,26 +5242,32 @@ public final class StoreProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013Store.proto\"7\n\014tagCommodity\022\n\n\002id\030\001 \001(" +
-      "\005\022\r\n\005count\030\002 \001(\005\022\014\n\004solt\030\003 \001(\005\"q\n\010tagSto" +
-      "re\022\014\n\004type\030\001 \001(\005\022\022\n\nrefreshNum\030\002 \001(\005\022\016\n\006" +
-      "retime\030\003 \001(\003\022\021\n\texistType\030\005 \001(\005\022 \n\tcommo" +
-      "dity\030\004 \003(\0132\r.tagCommodity\"l\n\014StoreReques" +
-      "t\022\'\n\013requestType\030\001 \002(\0162\022.eStoreRequestTy" +
-      "pe\022\021\n\tstoreType\030\002 \001(\005\022 \n\tcommodity\030\003 \001(\013" +
-      "2\r.tagCommodity\"\363\001\n\rStoreResponse\022\'\n\013req" +
-      "uestType\030\001 \001(\0162\022.eStoreRequestType\022%\n\nre" +
-      "slutType\030\002 \001(\0162\021.eStoreResultType\022\023\n\013res",
-      "lutValue\030\003 \001(\t\022 \n\tcommodity\030\004 \001(\0132\r.tagC" +
-      "ommodity\022\030\n\005store\030\005 \003(\0132\t.tagStore\022\021\n\tst" +
-      "oreType\030\006 \001(\005\022\034\n\010probType\030\007 \001(\0162\n.eProbT" +
-      "ype\022\020\n\010costType\030\010 \001(\005*d\n\021eStoreRequestTy" +
-      "pe\022\020\n\014BuyCommodity\020\001\022\020\n\014RefreshStore\020\002\022\r" +
-      "\n\tOpenStore\020\003\022\r\n\tSyncStore\020\004\022\r\n\tProbStor" +
-      "e\020\005* \n\teProbType\022\010\n\004Open\020\001\022\t\n\005Close\020\002*@\n" +
-      "\020eStoreResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001" +
-      "\022\n\n\006HasTip\020\002\022\t\n\005NoTip\020\003B\032\n\013com.rwprotoB\013" +
-      "StoreProtos"
+      "\n\013Store.proto\"N\n\014tagCommodity\022\n\n\002id\030\001 \001(" +
+      "\005\022\r\n\005count\030\002 \001(\005\022\014\n\004solt\030\003 \001(\005\022\025\n\rexchan" +
+      "geCount\030\004 \001(\005\"q\n\010tagStore\022\014\n\004type\030\001 \001(\005\022" +
+      "\022\n\nrefreshNum\030\002 \001(\005\022\016\n\006retime\030\003 \001(\003\022\021\n\te" +
+      "xistType\030\005 \001(\005\022 \n\tcommodity\030\004 \003(\0132\r.tagC" +
+      "ommodity\"+\n\ttagReward\022\017\n\007modelId\030\001 \001(\005\022\r" +
+      "\n\005count\030\002 \001(\005\"\252\001\n\014StoreRequest\022\'\n\013reques" +
+      "tType\030\001 \002(\0162\022.eStoreRequestType\022\021\n\tstore" +
+      "Type\030\002 \001(\005\022 \n\tcommodity\030\003 \001(\0132\r.tagCommo" +
+      "dity\022\'\n\010drawType\030\004 \001(\0162\025.eWakenRewardDra",
+      "wType\022\023\n\013consumeType\030\005 \001(\005\"\220\002\n\rStoreResp" +
+      "onse\022\'\n\013requestType\030\001 \001(\0162\022.eStoreReques" +
+      "tType\022%\n\nreslutType\030\002 \001(\0162\021.eStoreResult" +
+      "Type\022\023\n\013reslutValue\030\003 \001(\t\022 \n\tcommodity\030\004" +
+      " \001(\0132\r.tagCommodity\022\030\n\005store\030\005 \003(\0132\t.tag" +
+      "Store\022\021\n\tstoreType\030\006 \001(\005\022\034\n\010probType\030\007 \001" +
+      "(\0162\n.eProbType\022\020\n\010costType\030\010 \001(\005\022\033\n\007rewa" +
+      "rds\030\t \003(\0132\n.tagReward*\214\001\n\021eStoreRequestT" +
+      "ype\022\020\n\014BuyCommodity\020\001\022\020\n\014RefreshStore\020\002\022" +
+      "\r\n\tOpenStore\020\003\022\r\n\tSyncStore\020\004\022\r\n\tProbSto",
+      "re\020\005\022\023\n\017WakenRewardDraw\020\006\022\021\n\rWakenExchan" +
+      "ge\020\007*0\n\024eWakenRewardDrawType\022\013\n\007oneDraw\020" +
+      "\001\022\013\n\007tenDraw\020\002* \n\teProbType\022\010\n\004Open\020\001\022\t\n" +
+      "\005Close\020\002*@\n\020eStoreResultType\022\013\n\007SUCCESS\020" +
+      "\000\022\010\n\004FAIL\020\001\022\n\n\006HasTip\020\002\022\t\n\005NoTip\020\003B\032\n\013co" +
+      "m.rwprotoB\013StoreProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4061,25 +5279,31 @@ public final class StoreProtos {
           internal_static_tagCommodity_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_tagCommodity_descriptor,
-              new java.lang.String[] { "Id", "Count", "Solt", });
+              new java.lang.String[] { "Id", "Count", "Solt", "ExchangeCount", });
           internal_static_tagStore_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_tagStore_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_tagStore_descriptor,
               new java.lang.String[] { "Type", "RefreshNum", "Retime", "ExistType", "Commodity", });
-          internal_static_StoreRequest_descriptor =
+          internal_static_tagReward_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_tagReward_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_tagReward_descriptor,
+              new java.lang.String[] { "ModelId", "Count", });
+          internal_static_StoreRequest_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_StoreRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_StoreRequest_descriptor,
-              new java.lang.String[] { "RequestType", "StoreType", "Commodity", });
+              new java.lang.String[] { "RequestType", "StoreType", "Commodity", "DrawType", "ConsumeType", });
           internal_static_StoreResponse_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_StoreResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_StoreResponse_descriptor,
-              new java.lang.String[] { "RequestType", "ReslutType", "ReslutValue", "Commodity", "Store", "StoreType", "ProbType", "CostType", });
+              new java.lang.String[] { "RequestType", "ReslutType", "ReslutValue", "Commodity", "Store", "StoreType", "ProbType", "CostType", "Rewards", });
           return null;
         }
       };

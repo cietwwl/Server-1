@@ -7,13 +7,16 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.store.pojo.CommodityCfg;
 import com.rwbase.dao.store.pojo.StoreCfg;
+import com.rwproto.StoreProtos.StoreRequest;
 import com.rwproto.StoreProtos.StoreResponse;
 import com.rwproto.StoreProtos.eStoreRequestType;
 import com.rwproto.StoreProtos.eStoreResultType;
+import com.rwproto.StoreProtos.eWakenRewardDrawType;
 import com.rwproto.StoreProtos.tagCommodity;
 
 
@@ -68,7 +71,7 @@ public class StoreHandler {
 			}			
 		}else if(result==-2){
 			resp.setCostType(cfg.getCostType());
-			resp.setReslutValue(String.valueOf(cfg.getCostType()) + "不足");
+			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(cfg.getCostType())).getName() + "不足");
 		}else if(result==-3){
 			resp.setReslutValue("已经卖完了！");
 		}
@@ -98,5 +101,41 @@ public class StoreHandler {
 
 	public void SetPlayer(Player player) {
 		m_pPlayer = player;
+	}
+	
+	public ByteString wakenRewardDraw(Player player, StoreRequest req){
+		StoreResponse.Builder resp = StoreResponse.newBuilder();
+		eWakenRewardDrawType drawType = req.getDrawType();
+		int consumeType = req.getConsumeType();
+		player.getStoreMgr().processWakenLottery(player, drawType, resp, consumeType);
+		return resp.build().toByteString();
+	}
+	
+	public ByteString exchangeWakenItem(Player player, StoreRequest req){
+		tagCommodity reqCommodity = req.getCommodity();
+		StoreResponse.Builder resp =StoreResponse.newBuilder();
+		resp.setRequestType(eStoreRequestType.BuyCommodity);
+		int result = m_pPlayer.getStoreMgr().exchangeItem(reqCommodity.getId());
+		resp.setReslutType(eStoreResultType.FAIL);
+		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(reqCommodity.getId());
+		if(cfg == null){
+			resp.setReslutValue("已经兑换了！");
+			return resp.build().toByteString();
+		}
+		StoreCfg storeCfg = StoreCfgDAO.getInstance().getStoreCfgByID(cfg.getStoreId());
+		if(result > 0){
+			resp.setReslutType(eStoreResultType.SUCCESS);
+			tagCommodity.Builder respCommodity = tagCommodity.newBuilder();
+			respCommodity.setId(reqCommodity.getId());
+			respCommodity.setExchangeCount(result);
+			resp.setStoreType(storeCfg.getType());			
+			resp.setCommodity(respCommodity);
+		}else if(result==-2){
+			resp.setCostType(cfg.getCostType());
+			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(cfg.getCostType())).getName() + "不足");
+		}else if(result==-3){
+			resp.setReslutValue("已经兑换了！");
+		}
+		return resp.build().toByteString();
 	}
 }

@@ -639,6 +639,44 @@ public class UserGameDataMgr {
 	public int getArenaCoin() {
 		return userGameDataHolder.get().getArenaCoin();
 	}
+	
+	public int addWakenPiece(int value){
+		UserGameData tableUserOther = userGameDataHolder.get();
+		int wakenPiece = tableUserOther.getWakenPiece();
+		if(value < 0 && wakenPiece <= 0){
+			return -1;
+		}
+		int total = wakenPiece + value;
+		if(value < 0 && total < 0){
+			total = 0;
+		}
+		tableUserOther.setWakenPiece(total);
+		userGameDataHolder.update(player);
+		return 0;
+	}
+	
+	public int getWakenPiece(){
+		return userGameDataHolder.get().getWakenPiece();
+	}
+	
+	public int addWakenKey(int value){
+		UserGameData tableUserOther = userGameDataHolder.get();
+		int wakenKey = tableUserOther.getWakenKey();
+		if(value < 0 && wakenKey <= 0){
+			return -1;
+		}
+		int total = wakenKey + value;
+		if(value < 0 && total < 0){
+			total = 0;
+		}
+		tableUserOther.setWakenKey(total);
+		userGameDataHolder.update(player);
+		return 0;
+	}
+	
+	public int getWakenKey(){
+		return userGameDataHolder.get().getWakenKey();
+	}
 
 	public boolean addPeakArenaCoin(int currency) {
 		UserGameData tableUserOther = userGameDataHolder.get();
