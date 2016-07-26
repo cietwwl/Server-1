@@ -9,8 +9,6 @@ import org.springframework.util.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.service.group.helper.GroupCmdHelper;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
 
@@ -114,9 +112,9 @@ public class RoleGameInfo {
 			logtask(player,roleGameInfo,moreinfo);			
 		}		
 		
-		if(player.getCopyRecordMgr().getCalculateState() != null){
-			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
-		}
+//		if(player.getCopyRecordMgr().getCalculateState() != null){
+//			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
+//		}
 		
 		return roleGameInfo;
 	}
