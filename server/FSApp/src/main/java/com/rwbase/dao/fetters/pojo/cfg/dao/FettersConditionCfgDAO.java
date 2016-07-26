@@ -105,4 +105,33 @@ public class FettersConditionCfgDAO extends CfgCsvDao<FettersConditionCfg> {
 	public FettersConditionTemplate getFettersConditionTemplateByUniqueId(int uniqueId) {
 		return this.conditionTmpMap.get(uniqueId);
 	}
+
+	/**
+	 * <pre>
+	 * 通过条件Id获取羁绊的条件模版
+	 * <b>返回的是一个不可修改列表</b>
+	 * </pre>
+	 * 
+	 * @param conditionId
+	 * @param level 条件的等级
+	 * @return
+	 */
+	public FettersConditionTemplate getFettersConditionListByIdAndLevel(int conditionId, int level) {
+		List<FettersConditionTemplate> list = this.conditionMap.get(conditionId);
+		if (list == null || list.isEmpty()) {
+			return null;
+		}
+
+		for (int i = 0, size = list.size(); i < size; i++) {
+			FettersConditionTemplate fettersConditionTemplate = list.get(i);
+			if (fettersConditionTemplate == null) {
+				continue;
+			}
+
+			if (fettersConditionTemplate.getConditionLevel() == level) {
+				return fettersConditionTemplate;
+			}
+		}
+		return null;
+	}
 }

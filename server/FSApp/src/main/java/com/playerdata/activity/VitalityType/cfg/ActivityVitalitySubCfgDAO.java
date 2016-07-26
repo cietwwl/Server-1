@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -89,7 +90,7 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 			// 活动未开启,不计数
 			return null;
 		}
-		int day = ActivityVitalityCfgDAO.getInstance().getday();// getday方法必须在活动开启时才可有效传入参数,故需先用isopen来判断
+		int day = ActivityVitalityCfgDAO.getInstance().getday() ;
 		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
 		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
 		for (ActivityVitalitySubCfg subcfg : allCfg) {

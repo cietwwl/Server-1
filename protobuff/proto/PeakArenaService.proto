@@ -3,6 +3,7 @@ option java_package = "com.rwproto";
 option java_outer_classname = "PeakArenaServiceProtos";
 import "SkillService.proto";
 import "FashionService.proto";
+import "BattleCommon.proto";
 
 enum eArenaType {
 	GET_DATA = 0;     //
@@ -48,6 +49,7 @@ message TeamInfo{
 	optional HeroData player = 6; //用于传递对手的主角给客户端
 	optional string armyInfo = 7;//Json字符串：对手队伍信息
 	optional int32 enemyMagicModelId = 8; //对手的法宝模板ID，用来显示
+	repeated BattleCommon.BattleHeroPosition heroPositions = 9;//仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
 }
 
 message ArenaData{

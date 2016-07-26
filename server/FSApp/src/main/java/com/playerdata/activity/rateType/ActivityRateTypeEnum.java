@@ -3,30 +3,37 @@ package com.playerdata.activity.rateType;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copypve.CopyType;
 
 public enum ActivityRateTypeEnum{	
 	// implements TypeIdentification
 	
-	Normal_copy_EXP_DOUBLE("307"),//普通副本经验双倍
-	Normal_copy_DOUBLE("302"),//普通副本道具双倍
+	Normal_copy_EXP_DOUBLE("301",eSpecialItemId.Coin.getValue(),eSpecialItemId.PlayerExp.getValue(),eSpecialItemId.item.getValue(),-1),//普通副本
 	
-	ELITE_copy_DOUBLE("301"),//精英副本道具双倍
-	ELITE_copy_EXP_DOUBLE("306"),//精英副本经验双倍
+	ELITE_copy_DOUBLE("302",eSpecialItemId.Coin.getValue(),eSpecialItemId.PlayerExp.getValue(),eSpecialItemId.item.getValue(),-1),//精英副本,魂石未实现
 	
-	JBZD_DOUBLE("303"),//聚宝之地道具双倍
+	LXSG_DOUBLE("303",-1,-1,eSpecialItemId.item.getValue(),-1),//炼息山谷
 	
-	LXSG_DOUBLE("304"),//炼息山谷道具双倍
+	JBZD_DOUBLE("304",eSpecialItemId.Coin.getValue(),-1,-1,-1),//聚宝之地	
 	
-	SCHJ_DOUBLE("305"),//生存幻境道具双倍		
+	SCHJ_DOUBLE("305",-1,-1,eSpecialItemId.item.getValue(),-1),//生存幻境		
 	
-	TOWER_DOUBLE("308"),//万仙阵道具金币双倍
+	TOWER_DOUBLE("306",eSpecialItemId.Coin.getValue(),eSpecialItemId.BraveCoin.getValue(),eSpecialItemId.item.getValue(),-1),//万仙阵
 	
-	WARFARE_DOUBLE("309");//无尽战火道具双倍
+	WARFARE_DOUBLE("309",-1,-1,-1,-1);//无尽战火，功能已另做
 	
 	private String cfgId;
-	private ActivityRateTypeEnum(String cfgId){
+	private int num0;
+	private int num1;
+	private int num2;
+	private int num3;
+	private ActivityRateTypeEnum(String cfgId,int num0,int num1,int num2,int num3){
 		this.cfgId = cfgId;
+		this.num0 = num0;
+		this.num1 = num1;
+		this.num2 = num2;
+		this.num3 = num3;
 	} 
 	
 	public String getCfgId(){
@@ -34,6 +41,38 @@ public enum ActivityRateTypeEnum{
 	}
 	
 	
+	public int getNum0() {
+		return num0;
+	}
+
+	public void setNum0(int num0) {
+		this.num0 = num0;
+	}
+
+	public int getNum1() {
+		return num1;
+	}
+
+	public void setNum1(int num1) {
+		this.num1 = num1;
+	}
+
+	public int getNum2() {
+		return num2;
+	}
+
+	public void setNum2(int num2) {
+		this.num2 = num2;
+	}
+
+	public int getNum3() {
+		return num3;
+	}
+
+	public void setNum3(int num3) {
+		this.num3 = num3;
+	}
+
 	public static ActivityRateTypeEnum getById(String cfgId){
 		ActivityRateTypeEnum target = null;
 		for (ActivityRateTypeEnum enumTmp : values()) {
@@ -46,42 +85,5 @@ public enum ActivityRateTypeEnum{
 		return target;
 	}
 	
-	/**rewardsType ,0为道具，1为经验,2为金币,3为金币+道具*/
-	public static ActivityRateTypeEnum getByCopyTypeAndRewardsType(int copyType,int rewardsType){
-		if(copyType == CopyType.COPY_TYPE_NORMAL){
-			if(rewardsType == 0){
-//				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
-				return Normal_copy_DOUBLE;
-			}else if(rewardsType == 1){
-//				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
-				return Normal_copy_EXP_DOUBLE;
-			}
-		}else if(copyType == CopyType.COPY_TYPE_ELITE){
-			if(rewardsType == 0){
-//				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
-				return ELITE_copy_DOUBLE;
-			}else if(rewardsType == 1){
-//				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
-				return ELITE_copy_EXP_DOUBLE;
-			}
-		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
-//			GameLog.error("ActivityRateEnum", "双倍触发", "类型聚宝" + copyType);
-			return JBZD_DOUBLE;
-		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-//			GameLog.error("ActivityRateEnum", "双倍触发", "类型练熄" + copyType);
-			return LXSG_DOUBLE;
-		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
-//			GameLog.error("ActivityRateEnum", "双倍触发", "类型幻境" + copyType);
-			return SCHJ_DOUBLE;
-		}else if(copyType == CopyType.COPY_TYPE_TOWER){
-			if(rewardsType == 3){
-//				GameLog.error("ActivityRateEnum", "双倍触发", "类型万仙道具+金币" + copyType);
-				return TOWER_DOUBLE;
-			}		
-		}else if (copyType == CopyType.COPY_TYPE_WARFARE){
-//			GameLog.error("ActivityRateEnum", "双倍触发", "类型战火" + copyType);
-			return WARFARE_DOUBLE;
-		}
-		return null;
-	}	
+	
 }

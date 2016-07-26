@@ -30,8 +30,6 @@ public class ActivityRankTypeSubCfg {
 	public String getParentCfgId() {
 		return parentCfgId;
 	}
-	
-
 
 	public String getFashionReward() {
 		return fashionReward;

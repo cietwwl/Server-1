@@ -5,3 +5,6 @@ CREATE TABLE `activity_ratetype_item` (
   PRIMARY KEY (`id`),
   KEY `userId` (`extention`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+

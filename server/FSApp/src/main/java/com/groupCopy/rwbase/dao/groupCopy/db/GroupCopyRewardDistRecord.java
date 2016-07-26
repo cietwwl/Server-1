@@ -18,14 +18,11 @@ import com.rw.fsutil.dao.annotation.CombineSave;
  *
  */
 @Table(name = "group_copy_reward_record")
-@SynClass
 public class GroupCopyRewardDistRecord implements IMapItem {
 
 	@Id
-	@IgnoreSynField
 	private String id; // 对应帮派id
 	
-	@IgnoreSynField
 	private String groupId;
 	
 	
@@ -55,5 +52,9 @@ public class GroupCopyRewardDistRecord implements IMapItem {
 		this.groupId = groupId;
 	}
 	
+	
+	public void addRecord(DistRewRecordItem item){
+		recordList.add(item);
+	}
 	
 }
