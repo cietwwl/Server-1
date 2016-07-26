@@ -22,6 +22,7 @@ import com.rwbase.dao.fetters.MagicEquipFetterDataHolder;
 import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.magic.Magic;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 /**
@@ -220,7 +221,6 @@ public class MagicEquipFetterMgr {
 	 */
 	private void checkAndAddMagicFetter(Player player, boolean syn) {
 		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
-		
 		
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
 		if(list.isEmpty()){

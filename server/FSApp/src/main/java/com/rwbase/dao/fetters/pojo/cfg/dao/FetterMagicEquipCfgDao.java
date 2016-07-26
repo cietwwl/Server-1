@@ -31,11 +31,6 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 	}
 
 	
-	private MagicEquipConditionCfg getCfg(int cfgID){
-		return cfgCacheMap.get(String.valueOf(cfgID));
-	}
-	
-
 	@Override
 	public void CheckConfig() {
 		List<MagicEquipConditionCfg> list = getAllCfg();

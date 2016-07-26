@@ -278,9 +278,6 @@ public class ItemBagHandler {
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
 		}
 		
-		if(ItemCfgHelper.getItemType(cfg.getId()) == EItemTypeDef.Magic){
-			player.getMe_FetterMgr().notifyMagicChange(player);
-		}
 		
 		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		// response.setEventType(EItemBagEventType.ItemBag_Compose);
