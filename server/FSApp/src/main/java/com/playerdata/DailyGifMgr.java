@@ -1,5 +1,7 @@
 package com.playerdata;
 
+import java.util.List;
+
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
@@ -13,6 +15,9 @@ import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwproto.DailyGifProtos.DailyGifResponse;
+import com.rwproto.DailyGifProtos.EType;
+import com.rwproto.MsgDef.Command;
 
 public class DailyGifMgr implements PlayerEventListener{
 	
@@ -34,6 +39,7 @@ public class DailyGifMgr implements PlayerEventListener{
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		updataCount(player);
+		SendDailyGifInfo();
 	}
 
 	public SevenDayGifInfo getTable() {
@@ -69,6 +75,17 @@ public class DailyGifMgr implements PlayerEventListener{
 				save();
 			}
 		}
+	}
+	
+	private void SendDailyGifInfo(){
+		DailyGifResponse.Builder res = DailyGifResponse.newBuilder();
+		// res.setInfo(otherRoleAttr);
+		res.setType(EType.InfoMsg);
+		res.setCount(m_pPlayer.getDailyGifMgr().getTable().getCount());
+		List<Integer> temps = m_pPlayer.getDailyGifMgr().getTable().getCounts();
+		res.addAllGetCount(temps);
+
+		m_pPlayer.SendMsg(Command.MSG_DailyGif, res.build().toByteString());
 	}
 	
 	public void checkIsSevenDay(Player pRole)

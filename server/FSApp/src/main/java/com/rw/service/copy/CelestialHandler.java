@@ -83,7 +83,7 @@ public class CelestialHandler {
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
 
 		// 注意 此处表格数据为单独处理的
-		List<String> itemList = addCelestialRewards(player, copyRequest, levelId);
+		List<String> itemList = addCelestialRewards(player, copyRequest, levelId, listItemBattle);
 
 		copyResponse.addAllTagItemList(itemList);
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial2, 1);
@@ -125,33 +125,9 @@ public class CelestialHandler {
 	
 	
 	
-	private List<String> addCelestialRewards(Player player, MsgCopyRequest copyRequest, int levelId) {
+	private List<String> addCelestialRewards(Player player, MsgCopyRequest copyRequest, int levelId, List<? extends ItemInfo> listItemBattle) {
 		player.getCopyDataMgr().subCopyCount(String.valueOf(levelId));
-		// List<ItemInfoIF> listItems =
-		// player.getCopyDataMgr().checkFirstPrize(CopyType.COPY_TYPE_CELESTIAL,
-		// String.valueOf(levelId));
-		// if (listItems != null) {
-		// addList.addAll(listItems);
-		// }
-		// if (copyRequest.getTagBattleData().getBattleStatus() ==
-		// EBattleStatus.WIN) {
-		// listItems =
-		// player.getCopyDataMgr().addKillPrize(String.valueOf(levelId));
-		// if (listItems != null) {
-		// addList.addAll(listItems);
-		// }
-		// }
-		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
-		// String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
-		// List<Integer> list = CopyHandler.convertToIntList(pItemsID);
-		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
-		List<? extends ItemInfo> listItemBattle = null;
-		try {
-			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
-			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		
 		ArrayList<String> list_ = new ArrayList<String>();
 		if (listItemBattle != null) {
 			for (ItemInfo item : listItemBattle) {
