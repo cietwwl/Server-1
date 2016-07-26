@@ -12,6 +12,7 @@ enum GroupCopyReqType{
 	APPLY_SERVER_RANK = 5;//请求全服排行榜
 	APPLY_WAR_PRICE = 6;//申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
 	CANCEL_APPLY_ITEM = 7;//取消申请战利品[客户端发送物品所在章节id,及物品id],申请成功后服务器会重新发送此章节的申请数据到客户端
+	GET_DIST_REWARD_LOG = 8;//获取奖励分配记录
 }
 
 

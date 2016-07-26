@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import com.alibaba.rocketmq.common.DataVersion;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -21,12 +23,13 @@ public class GroupCopyRewardDistRecordHolder{
 	final private String groupId;
 	final private eSynType synType = eSynType.GROUP_COPY_REWARD;
 	
+	
 	public GroupCopyRewardDistRecordHolder(String groupIdP) {
 		groupId = groupIdP;
 		initData();
 	}
 	
-	private void initData(){
+	private GroupCopyRewardDistRecord initData(){
 		GroupCopyRewardDistRecord item = getItem();
 		if(item == null){
 			item = new GroupCopyRewardDistRecord();
@@ -34,27 +37,14 @@ public class GroupCopyRewardDistRecordHolder{
 			item.setId(groupId);
 			getItemStore().addItem(item);
 		}
-		
-	}
-	
-	/*
-	 * 
-	 */
-	public List<GroupCopyRewardDistRecord> getItemList()	
-	{
-		
-		List<GroupCopyRewardDistRecord> itemList = new ArrayList<GroupCopyRewardDistRecord>();
-		Enumeration<GroupCopyRewardDistRecord> mapEnum = getItemStore().getEnum();
-		while (mapEnum.hasMoreElements()) {
-			GroupCopyRewardDistRecord item = (GroupCopyRewardDistRecord) mapEnum.nextElement();
-			itemList.add(item);
-		}
-		
-		return itemList;
+		return item;
 	}
 	
 	public void updateItem(Player player, GroupCopyRewardDistRecord item){
 		getItemStore().updateItem(item);
+		if(player != null){
+			synAllData(player);
+		}
 	}
 	
 	public GroupCopyRewardDistRecord getItem(){
@@ -62,18 +52,11 @@ public class GroupCopyRewardDistRecordHolder{
 	}
 	
 	
-	public boolean addItem(Player player, GroupCopyRewardDistRecord item){
 	
-		boolean addSuccess = getItemStore().addItem(item);
-		if(addSuccess && player != null){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
-	
-	public void synAllData(Player player, int version){
-		List<GroupCopyRewardDistRecord> itemList = getItemList();			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+	public void synAllData(Player player){
+		GroupCopyRewardDistRecord item = getItem();
+		List<DistRewRecordItem> list = item.getRecordList();
+		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
@@ -86,10 +69,7 @@ public class GroupCopyRewardDistRecordHolder{
 	public void addDistRecord(DistRewRecordItem item) {
 		GroupCopyRewardDistRecord record = getItem();
 		if(record == null){
-			record = new GroupCopyRewardDistRecord();
-			record.setGroupId(groupId);
-			record.setId(groupId);
-			getItemStore().addItem(record);
+			record = initData();
 		}
 		record.addRecord(item);
 		getItemStore().updateItem(record);

@@ -6,17 +6,18 @@ package teamBattle;
 
 enum TBRequestType{
 	SYN_TEAM_BATTLE = 1;	//请求同步组队副本信息
-	SAVE_TEAM_INFO = 2;		//保存个人的队伍信息
-	CREATE_TEAM = 3;	//创建队伍
-	JOIN_TEAM = 4;		//加入队伍
-	LEAVE_TEAM = 5;		//离开队伍
-	ACCEPT_INVITE = 6;	//接受入队邀请
-	SET_TEAM_FREE_JION = 7;	//设置队伍是否可以快速加入
-	KICK_OFF_MEMBER = 8;	//踢掉队伍成员
-	INVITE_PLAYER = 9;		//邀请玩家加入组队
-	START_FIGHT = 10;		//开始战斗
-	INFORM_FIGHT_RESULT = 11;	//通知战斗结果
-	SCORE_EXCHANGE = 12;	//积分兑换奖励
+	NON_SYN_TEAM_BATTLE = 2;	//请求不再同步组队副本信息
+	SAVE_TEAM_INFO = 3;		//保存个人的队伍信息
+	CREATE_TEAM = 4;	//创建队伍
+	JOIN_TEAM = 5;		//加入队伍
+	LEAVE_TEAM = 6;		//离开队伍
+	ACCEPT_INVITE = 7;	//接受入队邀请
+	SET_TEAM_FREE_JION = 8;	//设置队伍是否可以快速加入
+	KICK_OFF_MEMBER = 9;	//踢掉队伍成员
+	INVITE_PLAYER = 10;		//邀请玩家加入组队
+	START_FIGHT = 11;		//开始战斗
+	INFORM_FIGHT_RESULT = 12;	//通知战斗结果
+	SCORE_EXCHANGE = 13;	//积分兑换奖励
 }
 
 enum TBResultType {

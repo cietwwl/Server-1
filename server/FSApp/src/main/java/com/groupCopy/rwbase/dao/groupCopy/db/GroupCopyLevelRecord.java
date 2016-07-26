@@ -123,7 +123,7 @@ public class GroupCopyLevelRecord implements IMapItem {
 	
 	
 	public void resetLevelData() {
-		progress = GroupCopyLevelBL.createProgress(id);
+		progress = GroupCopyLevelBL.createProgress(levelID);
 		buffInfo.clear();
 
 	}
