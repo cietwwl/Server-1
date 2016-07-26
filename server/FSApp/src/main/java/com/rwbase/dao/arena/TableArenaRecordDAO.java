@@ -5,16 +5,12 @@ import com.rwbase.dao.arena.pojo.TableArenaRecord;
 
 public class TableArenaRecordDAO extends DataKVDao<TableArenaRecord> {
 
-	private static TableArenaRecordDAO instance;
-	
-	private TableArenaRecordDAO() {}
-	
-	public static TableArenaRecordDAO getInstance()
-	{
-		if(instance == null){
-			instance = new TableArenaRecordDAO();
-		}
+	private static TableArenaRecordDAO instance = new TableArenaRecordDAO();
+
+	TableArenaRecordDAO() {
+	}
+
+	public static TableArenaRecordDAO getInstance() {
 		return instance;
 	}
-	
 }

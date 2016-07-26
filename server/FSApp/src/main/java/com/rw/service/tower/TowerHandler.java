@@ -429,8 +429,8 @@ public class TowerHandler {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
-		
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS,0,0);
+
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS, 0, 0);
 		String totalArardStr = towerMgr.getAwardByFloor(player, currTowerId);// 奖品数据字符串
 		List<BilogItemInfo> list = BilogItemInfo.fromStr(totalArardStr);
 		String rewardInfoActivity = BILogTemplateHelper.getString(list);

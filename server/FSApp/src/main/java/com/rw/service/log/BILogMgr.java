@@ -136,7 +136,7 @@ public class BILogMgr {
 	public void logZoneReg(Player player) {
 		logPlayer(eBILogType.ZoneReg, player, null);
 		logPlayer(eBILogType.RoleCreated, player, null);
-		logZoneLogin(player);
+//		logZoneLogin(player);
 	}
 
 	public void logZoneLogin(Player player) {

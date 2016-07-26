@@ -1,6 +1,8 @@
 package com.playerdata.activity.rateType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,6 +20,7 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelpe
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 
 public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
@@ -57,28 +60,9 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		}
 	}
 
-	public int getmultiple(Player player,
-			ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
-				.getInstance();
-		if (activityRateTypeEnum == null) {
-			GameLog.error("activityratetypemgr", "没有枚举", "获得倍数时无枚举");
-			return 1;
-		}
-		ActivityRateTypeItem targetItem = dataHolder.getItem(
-				player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
-		if (targetItem == null) {
-			GameLog.error("activityratetypemgr", "没有数据 ", "获得倍数时数据库无数据");
-			return 1;
-		}
-		return targetItem.getMultiple();
-	}
+	
 
-	public float getRate(ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
-				.getCfgById(activityRateTypeEnum.getCfgId());
-		return cfgById == null ? 1 : cfgById.getRate();
-	}
+
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
@@ -192,28 +176,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		return isopen;
 	}
 
-	/** 通用活动三可能扩展的双倍需要发送给客户端显示的在此处理;只能存在一种枚举,需要双加的额外添组合 */
-	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(
-			ActivityRateTypeEnum activityRateEnum,
-			eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,
-			int coinvalue) {
-		if (activityRateEnum == null) {
-			return null;
-		}
-
-		switch (activityRateEnum) {
-		case Normal_copy_EXP_DOUBLE:
-		case ELITE_copy_EXP_DOUBLE:
-			eSpecialItemIDUserInfo.setPlayerExp(expvalue);
-			break;
-		case TOWER_DOUBLE:
-			eSpecialItemIDUserInfo.setCoin(coinvalue);
-			break;
-		default:
-			break;
-		}
-		return eSpecialItemIDUserInfo;
-	}
+	
 	
 	/**
 	 * 
@@ -223,32 +186,80 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
 	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
-		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
-		getesESpecialItemIDUserInfo(activityRateTypeEnum, eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiple,0);
+//		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+//		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+//		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+	
+		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
+		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
 		
-		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
-		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);
-		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 		
-		getesESpecialItemIDUserInfo(activityRateTypeEnumcoin, eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multiplecoin);
+		
+		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
 	}
 	
+	/** 通用活动三可能扩展的双倍需要发送给客户端显示的在此处理;只能存在一种枚举,需要双加的额外添组合 */
+	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo eSpecialItemIDUserInfo, int expvalue,int coinvalue) {
+//		if (multiple <= 1) {
+//			return eSpecialItemIDUserInfo;
+//		}
+//		return eSpecialItemIDUserInfo;
+		if(expvalue != 0){
+			eSpecialItemIDUserInfo.setPlayerExp(expvalue);
+		}
+		if(coinvalue != 0){
+			eSpecialItemIDUserInfo.setCoin(coinvalue);
+		}
+		return eSpecialItemIDUserInfo;
+	}
+	
+
+	
 	/**
-	 * 核实与当前副本相关的活动是否存在，活动是否开启，以及返回倍数
-	 * @param copyType 战斗类型
-	 * @param doubleType 奖励双倍的类型 
-	 * @return  倍数
-	 * 此方法用于战后结算后台增加金币经验数据，以及战前生成物品道具
+	 * 传入副本类型，根据类型，是否开启获得当前对应副本的“产出类型→产出倍数”的映射返回；
 	 */
-	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
-		int multiple = 1;
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyType, doubleType);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;		
+	public Map<Integer, Integer> getEspecialItemtypeAndEspecialWithTime(Player player,int copyType){
+		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
+		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRateTypeCfg cfg : cfgList){
+			Map<Integer, List<Integer>> map = cfg.getCopyTypeMap();
+			if(map.get(copyType)== null){
+				continue;
+			}			
+			//当前玩家通关的副本类型在这个活动里有对应的双倍奖励
+			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(cfg.getId());
+			if(eNum == null){
+				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
+				continue;
+			}
+			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, eNum)){
+				continue;
+			}
+			List<Integer> especials = map.get(copyType);
+			for(Integer especial : especials){
+				if(especialItemtypeAndEspecialWithTime.containsKey(especial)){
+					int old = especialItemtypeAndEspecialWithTime.get(especial);
+					especialItemtypeAndEspecialWithTime.put(especial, old + cfg.getMultiple()-1);
+				}else{
+					especialItemtypeAndEspecialWithTime.put(especial, cfg.getMultiple()-1);//一个活动对一个特定副本的某种产出的若干倍翻倍
+				}
+			}			
+		}		
+		return especialItemtypeAndEspecialWithTime;
+	}
+	
+	public int getMultiple(Map<Integer, Integer> map ,int especial){
+		int multiple = 0;
+		if(map.containsKey(especial)){
+			multiple = map.get(especial);
+		}
 		return multiple;
 	}
-
+	
+	
+	
 	@Override
 	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
 		ActivityRateTypeItemHolder activityCountTypeItemHolder = new ActivityRateTypeItemHolder();

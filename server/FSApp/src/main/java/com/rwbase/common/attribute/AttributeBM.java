@@ -7,18 +7,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.army.ArmyMagic;
 import com.playerdata.fixEquip.attr.FixExpEquipAttributeComponent;
 import com.playerdata.fixEquip.attr.FixNormEquipAttributeComponent;
+import com.playerdata.team.FashionInfo;
 import com.playerdata.team.HeroInfo;
+import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.calc.HeroBaseAttrCalc;
 import com.rwbase.common.attribute.calc.HeroEquipAttrCalc;
+import com.rwbase.common.attribute.calc.HeroExtraAttrCalc;
+import com.rwbase.common.attribute.calc.HeroFashionAttrCalc;
+import com.rwbase.common.attribute.calc.HeroFettersAttrCalc;
+import com.rwbase.common.attribute.calc.HeroFixExpEquipAttrCalc;
+import com.rwbase.common.attribute.calc.HeroFixNormEquipAttrCalc;
 import com.rwbase.common.attribute.calc.HeroGemAttrCalc;
+import com.rwbase.common.attribute.calc.HeroGroupSkillAttrCalc;
 import com.rwbase.common.attribute.calc.HeroMagicAttrCalc;
 import com.rwbase.common.attribute.calc.HeroSkillAttrCalc;
+import com.rwbase.common.attribute.calc.HeroTaoistAttrCalc;
 import com.rwbase.common.attribute.component.HeroBaseAttributeComponent;
 import com.rwbase.common.attribute.component.HeroEquipAttributeComponent;
+import com.rwbase.common.attribute.component.HeroExtraAttributeComponent;
 import com.rwbase.common.attribute.component.HeroFashionAttributeComponent;
 import com.rwbase.common.attribute.component.HeroFettersAttributeComponent;
 import com.rwbase.common.attribute.component.HeroGemAttributeComponent;
@@ -28,11 +39,21 @@ import com.rwbase.common.attribute.component.HeroSkillAttributeComponent;
 import com.rwbase.common.attribute.component.HeroTaoistAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotBaseAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotEquipAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotExtraAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotFashionAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotFettersAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotFixExpEquipAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotFixNormEquipAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotGemAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotGroupSkillAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotMagicAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotSkillAttributeComponent;
+import com.rwbase.common.attribute.component.robot.RobotTaoistAttributeComponent;
 import com.rwbase.common.attribute.impl.AttributeFormula;
 import com.rwbase.common.attribute.param.MagicParam;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
+import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.pojo.RoleCfg;
 
 /*
  * @author HC
@@ -62,9 +83,7 @@ public class AttributeBM {
 		componentList.add(new HeroTaoistAttributeComponent());
 		componentList.add(new FixExpEquipAttributeComponent());
 		componentList.add(new FixNormEquipAttributeComponent());
-		
-		
-		
+		componentList.add(new HeroExtraAttributeComponent());
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
@@ -72,11 +91,26 @@ public class AttributeBM {
 		IComponentCalc heroGemAttrCalc = new HeroGemAttrCalc();
 		IComponentCalc heroSkillAttrCalc = new HeroSkillAttrCalc();
 		IComponentCalc heroMagicAttrCalc = new HeroMagicAttrCalc();
+		IComponentCalc heroFixExpEquipAttrCalc = new HeroFixExpEquipAttrCalc();
+		IComponentCalc heroFixNormEquipAttrCalc = new HeroFixNormEquipAttrCalc();
+		IComponentCalc heroFashionAttrCalc = new HeroFashionAttrCalc();
+		IComponentCalc heroFettersAttrCalc = new HeroFettersAttrCalc();
+		IComponentCalc heroExtraAttrCalc = new HeroExtraAttrCalc();
+		IComponentCalc heroGroupSkillAttrCalc = new HeroGroupSkillAttrCalc();
+		IComponentCalc heroTaoistAttrCalc = new HeroTaoistAttrCalc();
+
 		calcMap.put(heroBaseAttrCalc.getComponentTypeEnum(), heroBaseAttrCalc);
 		calcMap.put(heroEquipAttrCalc.getComponentTypeEnum(), heroEquipAttrCalc);
 		calcMap.put(heroGemAttrCalc.getComponentTypeEnum(), heroGemAttrCalc);
 		calcMap.put(heroSkillAttrCalc.getComponentTypeEnum(), heroSkillAttrCalc);
 		calcMap.put(heroMagicAttrCalc.getComponentTypeEnum(), heroMagicAttrCalc);
+		calcMap.put(heroFixExpEquipAttrCalc.getComponentTypeEnum(), heroFixExpEquipAttrCalc);
+		calcMap.put(heroFixNormEquipAttrCalc.getComponentTypeEnum(), heroFixNormEquipAttrCalc);
+		calcMap.put(heroFashionAttrCalc.getComponentTypeEnum(), heroFashionAttrCalc);
+		calcMap.put(heroFettersAttrCalc.getComponentTypeEnum(), heroFettersAttrCalc);
+		calcMap.put(heroExtraAttrCalc.getComponentTypeEnum(), heroExtraAttrCalc);
+		calcMap.put(heroGroupSkillAttrCalc.getComponentTypeEnum(), heroGroupSkillAttrCalc);
+		calcMap.put(heroTaoistAttrCalc.getComponentTypeEnum(), heroTaoistAttrCalc);
 	}
 
 	/**
@@ -164,15 +198,43 @@ public class AttributeBM {
 		return calcMap.get(component);
 	}
 
-	public static AttrData getRobotAttrData(String userId, HeroInfo heroInfo, MagicParam magicInfo) {
+	public static AttrData getRobotAttrData(String userId, HeroInfo heroInfo, TeamInfo teamInfo) {
 		List<IAttributeComponent> componentList = new ArrayList<IAttributeComponent>();
 		componentList.add(new RobotBaseAttributeComponent(heroInfo));
 		componentList.add(new RobotEquipAttributeComponent(heroInfo));
 		componentList.add(new RobotGemAttributeComponent(heroInfo));
-		if(magicInfo!=null){
-			componentList.add(new RobotMagicAttributeComponent(magicInfo));
+
+		ArmyMagic magic = teamInfo.getMagic();
+		MagicParam magicParam = null;
+		if (magic != null) {
+			MagicParam.MagicBuilder builder = new MagicBuilder();
+			builder.setMagicId(String.valueOf(magic.getModelId()));
+			builder.setMagicLevel(magic.getLevel());
+			builder.setUserId(teamInfo.getUuid());
+			magicParam = builder.build();
+			componentList.add(new RobotMagicAttributeComponent(magicParam));
 		}
+
 		componentList.add(new RobotSkillAttributeComponent(heroInfo));
+		componentList.add(new RobotFettersAttributeComponent(heroInfo.getFetters()));
+
+		int heroModelId = Integer.parseInt(heroInfo.getBaseInfo().getTmpId().split("_")[0]);
+		componentList.add(new RobotFixExpEquipAttributeComponent(heroModelId, heroInfo.getFixEquip()));
+		componentList.add(new RobotFixNormEquipAttributeComponent(heroModelId, heroInfo.getFixEquip()));
+
+		FashionInfo fashion = teamInfo.getFashion();
+		RoleCfg roleCfg = RoleCfgDAO.getInstance().getRoleCfgByModelId(heroModelId);
+		if (roleCfg != null && roleCfg.getRoleType() == 1 && fashion != null) {
+			int[] fashionId = new int[3];
+			fashionId[0] = fashion.getSuit();
+			fashionId[1] = fashion.getWing();
+			fashionId[2] = fashion.getPet();
+			componentList.add(new RobotFashionAttributeComponent(fashionId, teamInfo.getCareer(), fashion.getCount()));
+		}
+
+		componentList.add(new RobotTaoistAttributeComponent(teamInfo.getTaoist()));
+		componentList.add(new RobotGroupSkillAttributeComponent(teamInfo.getGs()));
+		componentList.add(new RobotExtraAttributeComponent(teamInfo.getExtraId()));
 
 		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);
 		attributeCalculator.updateAttribute();

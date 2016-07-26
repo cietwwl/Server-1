@@ -433,6 +433,108 @@ public final class ArenaServiceProtos {
     // @@protoc_insertion_point(enum_scope:ArenaService.eArenaResultType)
   }
 
+  /**
+   * Protobuf enum {@code ArenaService.ArenaEmbattleType}
+   *
+   * <pre>
+   *阵容类型
+   * </pre>
+   */
+  public enum ArenaEmbattleType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>ARENA_ATK = 1;</code>
+     *
+     * <pre>
+     *攻击阵容
+     * </pre>
+     */
+    ARENA_ATK(0, 1),
+    /**
+     * <code>ARENA_DEFEND = 2;</code>
+     *
+     * <pre>
+     *防守阵容
+     * </pre>
+     */
+    ARENA_DEFEND(1, 2),
+    ;
+
+    /**
+     * <code>ARENA_ATK = 1;</code>
+     *
+     * <pre>
+     *攻击阵容
+     * </pre>
+     */
+    public static final int ARENA_ATK_VALUE = 1;
+    /**
+     * <code>ARENA_DEFEND = 2;</code>
+     *
+     * <pre>
+     *防守阵容
+     * </pre>
+     */
+    public static final int ARENA_DEFEND_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static ArenaEmbattleType valueOf(int value) {
+      switch (value) {
+        case 1: return ARENA_ATK;
+        case 2: return ARENA_DEFEND;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<ArenaEmbattleType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<ArenaEmbattleType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ArenaEmbattleType>() {
+            public ArenaEmbattleType findValueByNumber(int number) {
+              return ArenaEmbattleType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.ArenaServiceProtos.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final ArenaEmbattleType[] VALUES = values();
+
+    public static ArenaEmbattleType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private ArenaEmbattleType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ArenaService.ArenaEmbattleType)
+  }
+
   public interface HeroDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -8756,25 +8858,30 @@ public final class ArenaServiceProtos {
     com.google.protobuf.ByteString
         getUserIdBytes();
 
-    // repeated string heroIds = 3;
+    // repeated .BattleCommon.BattleHeroPosition heroIds = 3;
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    java.util.List<java.lang.String>
-    getHeroIdsList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getHeroIdsList();
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getHeroIds(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
     int getHeroIdsCount();
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    java.lang.String getHeroIds(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroIdsOrBuilderList();
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    com.google.protobuf.ByteString
-        getHeroIdsBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdsOrBuilder(
+        int index);
 
     // optional .ArenaService.ArenaInfo enemy = 4;
     /**
@@ -8863,18 +8970,26 @@ public final class ArenaServiceProtos {
      */
     int getRecordId();
 
-    // repeated string atkIdList = 8;
+    // repeated .BattleCommon.BattleHeroPosition atkIdList = 8;
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getAtkIdListList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getAtkIdListList();
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+     *
+     * <pre>
+     *进攻阵容佣兵列表
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getAtkIdList(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
@@ -8882,22 +8997,23 @@ public final class ArenaServiceProtos {
      */
     int getAtkIdListCount();
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    java.lang.String getAtkIdList(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getAtkIdListOrBuilderList();
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getAtkIdListBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getAtkIdListOrBuilder(
+        int index);
 
     // optional int32 rewardId = 14;
     /**
@@ -9004,10 +9120,10 @@ public final class ArenaServiceProtos {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                heroIds_ = new com.google.protobuf.LazyStringArrayList();
+                heroIds_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              heroIds_.add(input.readBytes());
+              heroIds_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
             case 34: {
@@ -9043,10 +9159,10 @@ public final class ArenaServiceProtos {
             }
             case 66: {
               if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-                atkIdList_ = new com.google.protobuf.LazyStringArrayList();
+                atkIdList_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000080;
               }
-              atkIdList_.add(input.readBytes());
+              atkIdList_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
             case 112: {
@@ -9068,13 +9184,13 @@ public final class ArenaServiceProtos {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          heroIds_ = new com.google.protobuf.UnmodifiableLazyStringList(heroIds_);
+          heroIds_ = java.util.Collections.unmodifiableList(heroIds_);
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           hurtValue_ = java.util.Collections.unmodifiableList(hurtValue_);
         }
         if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-          atkIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(atkIdList_);
+          atkIdList_ = java.util.Collections.unmodifiableList(atkIdList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9167,34 +9283,40 @@ public final class ArenaServiceProtos {
       }
     }
 
-    // repeated string heroIds = 3;
+    // repeated .BattleCommon.BattleHeroPosition heroIds = 3;
     public static final int HEROIDS_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList heroIds_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroIds_;
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    public java.util.List<java.lang.String>
-        getHeroIdsList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroIdsList() {
       return heroIds_;
     }
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroIdsOrBuilderList() {
+      return heroIds_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
     public int getHeroIdsCount() {
       return heroIds_.size();
     }
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    public java.lang.String getHeroIds(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getHeroIds(int index) {
       return heroIds_.get(index);
     }
     /**
-     * <code>repeated string heroIds = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
      */
-    public com.google.protobuf.ByteString
-        getHeroIdsBytes(int index) {
-      return heroIds_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdsOrBuilder(
+        int index) {
+      return heroIds_.get(index);
     }
 
     // optional .ArenaService.ArenaInfo enemy = 4;
@@ -9315,22 +9437,32 @@ public final class ArenaServiceProtos {
       return recordId_;
     }
 
-    // repeated string atkIdList = 8;
+    // repeated .BattleCommon.BattleHeroPosition atkIdList = 8;
     public static final int ATKIDLIST_FIELD_NUMBER = 8;
-    private com.google.protobuf.LazyStringList atkIdList_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> atkIdList_;
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getAtkIdListList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getAtkIdListList() {
       return atkIdList_;
     }
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+     *
+     * <pre>
+     *进攻阵容佣兵列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getAtkIdListOrBuilderList() {
+      return atkIdList_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
@@ -9340,25 +9472,25 @@ public final class ArenaServiceProtos {
       return atkIdList_.size();
     }
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    public java.lang.String getAtkIdList(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getAtkIdList(int index) {
       return atkIdList_.get(index);
     }
     /**
-     * <code>repeated string atkIdList = 8;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
      *
      * <pre>
      *进攻阵容佣兵列表
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getAtkIdListBytes(int index) {
-      return atkIdList_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getAtkIdListOrBuilder(
+        int index) {
+      return atkIdList_.get(index);
     }
 
     // optional int32 rewardId = 14;
@@ -9412,12 +9544,12 @@ public final class ArenaServiceProtos {
     private void initFields() {
       arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       userId_ = "";
-      heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      heroIds_ = java.util.Collections.emptyList();
       enemy_ = com.rwproto.ArenaServiceProtos.ArenaInfo.getDefaultInstance();
       win_ = 0;
       hurtValue_ = java.util.Collections.emptyList();
       recordId_ = 0;
-      atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      atkIdList_ = java.util.Collections.emptyList();
       rewardId_ = 0;
       historyRewardId_ = 0;
     }
@@ -9430,6 +9562,12 @@ public final class ArenaServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      for (int i = 0; i < getHeroIdsCount(); i++) {
+        if (!getHeroIds(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       if (hasEnemy()) {
         if (!getEnemy().isInitialized()) {
           memoizedIsInitialized = 0;
@@ -9438,6 +9576,12 @@ public final class ArenaServiceProtos {
       }
       for (int i = 0; i < getHurtValueCount(); i++) {
         if (!getHurtValue(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getAtkIdListCount(); i++) {
+        if (!getAtkIdList(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -9456,7 +9600,7 @@ public final class ArenaServiceProtos {
         output.writeBytes(2, getUserIdBytes());
       }
       for (int i = 0; i < heroIds_.size(); i++) {
-        output.writeBytes(3, heroIds_.getByteString(i));
+        output.writeMessage(3, heroIds_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(4, enemy_);
@@ -9471,7 +9615,7 @@ public final class ArenaServiceProtos {
         output.writeInt32(7, recordId_);
       }
       for (int i = 0; i < atkIdList_.size(); i++) {
-        output.writeBytes(8, atkIdList_.getByteString(i));
+        output.writeMessage(8, atkIdList_.get(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(14, rewardId_);
@@ -9496,14 +9640,9 @@ public final class ArenaServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getUserIdBytes());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < heroIds_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(heroIds_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getHeroIdsList().size();
+      for (int i = 0; i < heroIds_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, heroIds_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -9521,14 +9660,9 @@ public final class ArenaServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, recordId_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < atkIdList_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(atkIdList_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getAtkIdListList().size();
+      for (int i = 0; i < atkIdList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, atkIdList_.get(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
@@ -9646,8 +9780,10 @@ public final class ArenaServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHeroIdsFieldBuilder();
           getEnemyFieldBuilder();
           getHurtValueFieldBuilder();
+          getAtkIdListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -9660,8 +9796,12 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         userId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        if (heroIdsBuilder_ == null) {
+          heroIds_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          heroIdsBuilder_.clear();
+        }
         if (enemyBuilder_ == null) {
           enemy_ = com.rwproto.ArenaServiceProtos.ArenaInfo.getDefaultInstance();
         } else {
@@ -9678,8 +9818,12 @@ public final class ArenaServiceProtos {
         }
         recordId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        if (atkIdListBuilder_ == null) {
+          atkIdList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          atkIdListBuilder_.clear();
+        }
         rewardId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
         historyRewardId_ = 0;
@@ -9720,12 +9864,15 @@ public final class ArenaServiceProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.userId_ = userId_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          heroIds_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              heroIds_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (heroIdsBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            heroIds_ = java.util.Collections.unmodifiableList(heroIds_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.heroIds_ = heroIds_;
+        } else {
+          result.heroIds_ = heroIdsBuilder_.build();
         }
-        result.heroIds_ = heroIds_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -9751,12 +9898,15 @@ public final class ArenaServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.recordId_ = recordId_;
-        if (((bitField0_ & 0x00000080) == 0x00000080)) {
-          atkIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              atkIdList_);
-          bitField0_ = (bitField0_ & ~0x00000080);
+        if (atkIdListBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            atkIdList_ = java.util.Collections.unmodifiableList(atkIdList_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.atkIdList_ = atkIdList_;
+        } else {
+          result.atkIdList_ = atkIdListBuilder_.build();
         }
-        result.atkIdList_ = atkIdList_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000020;
         }
@@ -9789,15 +9939,31 @@ public final class ArenaServiceProtos {
           userId_ = other.userId_;
           onChanged();
         }
-        if (!other.heroIds_.isEmpty()) {
-          if (heroIds_.isEmpty()) {
-            heroIds_ = other.heroIds_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureHeroIdsIsMutable();
-            heroIds_.addAll(other.heroIds_);
+        if (heroIdsBuilder_ == null) {
+          if (!other.heroIds_.isEmpty()) {
+            if (heroIds_.isEmpty()) {
+              heroIds_ = other.heroIds_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureHeroIdsIsMutable();
+              heroIds_.addAll(other.heroIds_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.heroIds_.isEmpty()) {
+            if (heroIdsBuilder_.isEmpty()) {
+              heroIdsBuilder_.dispose();
+              heroIdsBuilder_ = null;
+              heroIds_ = other.heroIds_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              heroIdsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroIdsFieldBuilder() : null;
+            } else {
+              heroIdsBuilder_.addAllMessages(other.heroIds_);
+            }
+          }
         }
         if (other.hasEnemy()) {
           mergeEnemy(other.getEnemy());
@@ -9834,15 +10000,31 @@ public final class ArenaServiceProtos {
         if (other.hasRecordId()) {
           setRecordId(other.getRecordId());
         }
-        if (!other.atkIdList_.isEmpty()) {
-          if (atkIdList_.isEmpty()) {
-            atkIdList_ = other.atkIdList_;
-            bitField0_ = (bitField0_ & ~0x00000080);
-          } else {
-            ensureAtkIdListIsMutable();
-            atkIdList_.addAll(other.atkIdList_);
+        if (atkIdListBuilder_ == null) {
+          if (!other.atkIdList_.isEmpty()) {
+            if (atkIdList_.isEmpty()) {
+              atkIdList_ = other.atkIdList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensureAtkIdListIsMutable();
+              atkIdList_.addAll(other.atkIdList_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.atkIdList_.isEmpty()) {
+            if (atkIdListBuilder_.isEmpty()) {
+              atkIdListBuilder_.dispose();
+              atkIdListBuilder_ = null;
+              atkIdList_ = other.atkIdList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              atkIdListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAtkIdListFieldBuilder() : null;
+            } else {
+              atkIdListBuilder_.addAllMessages(other.atkIdList_);
+            }
+          }
         }
         if (other.hasRewardId()) {
           setRewardId(other.getRewardId());
@@ -9859,6 +10041,12 @@ public final class ArenaServiceProtos {
           
           return false;
         }
+        for (int i = 0; i < getHeroIdsCount(); i++) {
+          if (!getHeroIds(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         if (hasEnemy()) {
           if (!getEnemy().isInitialized()) {
             
@@ -9867,6 +10055,12 @@ public final class ArenaServiceProtos {
         }
         for (int i = 0; i < getHurtValueCount(); i++) {
           if (!getHurtValue(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getAtkIdListCount(); i++) {
+          if (!getAtkIdList(i).isInitialized()) {
             
             return false;
           }
@@ -10003,97 +10197,244 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // repeated string heroIds = 3;
-      private com.google.protobuf.LazyStringList heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition heroIds = 3;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroIds_ =
+        java.util.Collections.emptyList();
       private void ensureHeroIdsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          heroIds_ = new com.google.protobuf.LazyStringArrayList(heroIds_);
+          heroIds_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(heroIds_);
           bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> heroIdsBuilder_;
+
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
-      public java.util.List<java.lang.String>
-          getHeroIdsList() {
-        return java.util.Collections.unmodifiableList(heroIds_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroIdsList() {
+        if (heroIdsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroIds_);
+        } else {
+          return heroIdsBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
       public int getHeroIdsCount() {
-        return heroIds_.size();
+        if (heroIdsBuilder_ == null) {
+          return heroIds_.size();
+        } else {
+          return heroIdsBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
-      public java.lang.String getHeroIds(int index) {
-        return heroIds_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getHeroIds(int index) {
+        if (heroIdsBuilder_ == null) {
+          return heroIds_.get(index);
+        } else {
+          return heroIdsBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getHeroIdsBytes(int index) {
-        return heroIds_.getByteString(index);
-      }
-      /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
       public Builder setHeroIds(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdsIsMutable();
-        heroIds_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdsIsMutable();
+          heroIds_.set(index, value);
+          onChanged();
+        } else {
+          heroIdsBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public Builder setHeroIds(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdsBuilder_ == null) {
+          ensureHeroIdsIsMutable();
+          heroIds_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroIdsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public Builder addHeroIds(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdsIsMutable();
+          heroIds_.add(value);
+          onChanged();
+        } else {
+          heroIdsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
       public Builder addHeroIds(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdsIsMutable();
-        heroIds_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdsIsMutable();
+          heroIds_.add(index, value);
+          onChanged();
+        } else {
+          heroIdsBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public Builder addHeroIds(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdsBuilder_ == null) {
+          ensureHeroIdsIsMutable();
+          heroIds_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroIdsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public Builder addHeroIds(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdsBuilder_ == null) {
+          ensureHeroIdsIsMutable();
+          heroIds_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroIdsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
       public Builder addAllHeroIds(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureHeroIdsIsMutable();
-        super.addAll(values, heroIds_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (heroIdsBuilder_ == null) {
+          ensureHeroIdsIsMutable();
+          super.addAll(values, heroIds_);
+          onChanged();
+        } else {
+          heroIdsBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
       public Builder clearHeroIds() {
-        heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
+        if (heroIdsBuilder_ == null) {
+          heroIds_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          heroIdsBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string heroIds = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
        */
-      public Builder addHeroIdsBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdsIsMutable();
-        heroIds_.add(value);
-        onChanged();
+      public Builder removeHeroIds(int index) {
+        if (heroIdsBuilder_ == null) {
+          ensureHeroIdsIsMutable();
+          heroIds_.remove(index);
+          onChanged();
+        } else {
+          heroIdsBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getHeroIdsBuilder(
+          int index) {
+        return getHeroIdsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdsOrBuilder(
+          int index) {
+        if (heroIdsBuilder_ == null) {
+          return heroIds_.get(index);  } else {
+          return heroIdsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getHeroIdsOrBuilderList() {
+        if (heroIdsBuilder_ != null) {
+          return heroIdsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroIds_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroIdsBuilder() {
+        return getHeroIdsFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroIdsBuilder(
+          int index) {
+        return getHeroIdsFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroIds = 3;</code>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getHeroIdsBuilderList() {
+        return getHeroIdsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getHeroIdsFieldBuilder() {
+        if (heroIdsBuilder_ == null) {
+          heroIdsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  heroIds_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          heroIds_ = null;
+        }
+        return heroIdsBuilder_;
       }
 
       // optional .ArenaService.ArenaInfo enemy = 4;
@@ -10607,133 +10948,316 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // repeated string atkIdList = 8;
-      private com.google.protobuf.LazyStringList atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition atkIdList = 8;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> atkIdList_ =
+        java.util.Collections.emptyList();
       private void ensureAtkIdListIsMutable() {
         if (!((bitField0_ & 0x00000080) == 0x00000080)) {
-          atkIdList_ = new com.google.protobuf.LazyStringArrayList(atkIdList_);
+          atkIdList_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(atkIdList_);
           bitField0_ |= 0x00000080;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> atkIdListBuilder_;
+
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getAtkIdListList() {
-        return java.util.Collections.unmodifiableList(atkIdList_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getAtkIdListList() {
+        if (atkIdListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(atkIdList_);
+        } else {
+          return atkIdListBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
       public int getAtkIdListCount() {
-        return atkIdList_.size();
+        if (atkIdListBuilder_ == null) {
+          return atkIdList_.size();
+        } else {
+          return atkIdListBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
-      public java.lang.String getAtkIdList(int index) {
-        return atkIdList_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getAtkIdList(int index) {
+        if (atkIdListBuilder_ == null) {
+          return atkIdList_.get(index);
+        } else {
+          return atkIdListBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
-       *
-       * <pre>
-       *进攻阵容佣兵列表
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getAtkIdListBytes(int index) {
-        return atkIdList_.getByteString(index);
-      }
-      /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
       public Builder setAtkIdList(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureAtkIdListIsMutable();
-        atkIdList_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (atkIdListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAtkIdListIsMutable();
+          atkIdList_.set(index, value);
+          onChanged();
+        } else {
+          atkIdListBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public Builder setAtkIdList(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (atkIdListBuilder_ == null) {
+          ensureAtkIdListIsMutable();
+          atkIdList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          atkIdListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public Builder addAtkIdList(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (atkIdListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAtkIdListIsMutable();
+          atkIdList_.add(value);
+          onChanged();
+        } else {
+          atkIdListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
       public Builder addAtkIdList(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureAtkIdListIsMutable();
-        atkIdList_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (atkIdListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAtkIdListIsMutable();
+          atkIdList_.add(index, value);
+          onChanged();
+        } else {
+          atkIdListBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public Builder addAtkIdList(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (atkIdListBuilder_ == null) {
+          ensureAtkIdListIsMutable();
+          atkIdList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          atkIdListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public Builder addAtkIdList(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (atkIdListBuilder_ == null) {
+          ensureAtkIdListIsMutable();
+          atkIdList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          atkIdListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
       public Builder addAllAtkIdList(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureAtkIdListIsMutable();
-        super.addAll(values, atkIdList_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (atkIdListBuilder_ == null) {
+          ensureAtkIdListIsMutable();
+          super.addAll(values, atkIdList_);
+          onChanged();
+        } else {
+          atkIdListBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
       public Builder clearAtkIdList() {
-        atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000080);
-        onChanged();
+        if (atkIdListBuilder_ == null) {
+          atkIdList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          atkIdListBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string atkIdList = 8;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
        *
        * <pre>
        *进攻阵容佣兵列表
        * </pre>
        */
-      public Builder addAtkIdListBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureAtkIdListIsMutable();
-        atkIdList_.add(value);
-        onChanged();
+      public Builder removeAtkIdList(int index) {
+        if (atkIdListBuilder_ == null) {
+          ensureAtkIdListIsMutable();
+          atkIdList_.remove(index);
+          onChanged();
+        } else {
+          atkIdListBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getAtkIdListBuilder(
+          int index) {
+        return getAtkIdListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getAtkIdListOrBuilder(
+          int index) {
+        if (atkIdListBuilder_ == null) {
+          return atkIdList_.get(index);  } else {
+          return atkIdListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getAtkIdListOrBuilderList() {
+        if (atkIdListBuilder_ != null) {
+          return atkIdListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(atkIdList_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addAtkIdListBuilder() {
+        return getAtkIdListFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addAtkIdListBuilder(
+          int index) {
+        return getAtkIdListFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition atkIdList = 8;</code>
+       *
+       * <pre>
+       *进攻阵容佣兵列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getAtkIdListBuilderList() {
+        return getAtkIdListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getAtkIdListFieldBuilder() {
+        if (atkIdListBuilder_ == null) {
+          atkIdListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  atkIdList_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          atkIdList_ = null;
+        }
+        return atkIdListBuilder_;
       }
 
       // optional int32 rewardId = 14;
@@ -19594,54 +20118,57 @@ public final class ArenaServiceProtos {
       "ecordId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\t\022\013\n\003win\030\003 \001" +
       "(\005\022\017\n\007placeUp\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\021\n\thea" +
       "dImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\014\n\004time\030\010 \001(" +
-      "\003\022\021\n\tchallenge\030\t \001(\005\"\220\002\n\017MsgArenaRequest",
+      "\003\022\021\n\tchallenge\030\t \001(\005\"\324\002\n\017MsgArenaRequest",
       "\022+\n\tarenaType\030\001 \002(\0162\030.ArenaService.eAren" +
-      "aType\022\016\n\006userId\030\002 \001(\t\022\017\n\007heroIds\030\003 \003(\t\022&" +
-      "\n\005enemy\030\004 \001(\0132\027.ArenaService.ArenaInfo\022\013" +
-      "\n\003win\030\005 \001(\005\022*\n\thurtValue\030\006 \003(\0132\027.ArenaSe" +
-      "rvice.HurtValue\022\020\n\010recordId\030\007 \001(\005\022\021\n\tatk" +
-      "IdList\030\010 \003(\t\022\020\n\010rewardId\030\016 \001(\005\022\027\n\017histor" +
-      "yRewardId\030\017 \001(\005\"\354\001\n\tHurtValue\022\016\n\006heroId\030" +
-      "\001 \002(\t\022\r\n\005value\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nst" +
-      "artlevel\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030" +
-      "\006 \002(\010\022-\n\nplayerType\030\007 \002(\0162\031.BattleCommon",
-      ".ePlayerType\022\'\n\004camp\030\010 \002(\0162\031.BattleCommo" +
-      "n.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\022\017\n" +
-      "\007quality\030\013 \001(\t\"\325\004\n\020MsgArenaResponse\022+\n\ta" +
-      "renaType\030\001 \002(\0162\030.ArenaService.eArenaType" +
-      "\0227\n\017arenaResultType\030\002 \001(\0162\036.ArenaService" +
-      ".eArenaResultType\022*\n\tarenaData\030\003 \001(\0132\027.A" +
-      "renaService.ArenaData\022)\n\010listInfo\030\004 \003(\0132" +
-      "\027.ArenaService.ArenaInfo\022-\n\nlistRecord\030\005" +
-      " \003(\0132\031.ArenaService.ArenaRecord\022\r\n\005place" +
-      "\030\006 \001(\005\022*\n\thurtValue\030\007 \003(\0132\027.ArenaService",
-      ".HurtValue\022\017\n\007atkList\030\010 \003(\t\0221\n\007history\030\t" +
-      " \001(\0132 .ArenaService.HistoryRankingRise\022\021" +
-      "\n\tresetCost\030\n \001(\005\022\024\n\014buyTimesCost\030\013 \001(\005\022" +
-      "\020\n\010buyTimes\030\014 \001(\005\022\024\n\014currentScore\030\r \001(\005\022" +
-      "\020\n\010getCount\030\016 \003(\005\0229\n\rhistoryReward\030\017 \001(\013" +
-      "2\".ArenaService.ArenaHistoryResponse\0228\n\020" +
-      "gainRewardResult\030\020 \001(\0162\036.ArenaService.eA" +
-      "renaResultType\"j\n\022HistoryRankingRise\022\026\n\016" +
-      "historyRanking\030\001 \002(\005\022\026\n\016currentRanking\030\002" +
-      " \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021\n\trankingUp\030\004 \002",
-      "(\005\"\204\001\n\024ArenaHistoryResponse\0226\n\trewardSum" +
-      "\030\001 \003(\0132#.ArenaService.ArenaHistoryReward" +
-      "Sum\0224\n\nrewardView\030\002 \003(\0132 .ArenaService.A" +
-      "renaHisRewardView\"4\n\025ArenaHistoryRewardS" +
-      "um\022\016\n\006itemId\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\":\n\022Arena" +
-      "HisRewardView\022\020\n\010rewardId\030\001 \002(\005\022\022\n\ngainR" +
-      "eward\030\002 \002(\010*\310\002\n\neArenaType\022\014\n\010GET_INFO\020\000" +
-      "\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014A" +
-      "RENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_T" +
-      "IME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_",
-      "FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n" +
-      "\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016GET_HUR" +
-      "T_VALUE\020\013\022\r\n\tBUY_TIMES\020\014\022\t\n\005SCORE\020\r\022\016\n\nG" +
-      "ET_REWARD\020\016\022\030\n\024HIS_RANK_REWARD_VIEW\020\017\022\027\n" +
-      "\023HIS_RANK_GET_REWARD\020\020*5\n\020eArenaResultTy" +
-      "pe\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B!\n" +
-      "\013com.rwprotoB\022ArenaServiceProtos"
+      "aType\022\016\n\006userId\030\002 \001(\t\0221\n\007heroIds\030\003 \003(\0132 " +
+      ".BattleCommon.BattleHeroPosition\022&\n\005enem" +
+      "y\030\004 \001(\0132\027.ArenaService.ArenaInfo\022\013\n\003win\030" +
+      "\005 \001(\005\022*\n\thurtValue\030\006 \003(\0132\027.ArenaService." +
+      "HurtValue\022\020\n\010recordId\030\007 \001(\005\0223\n\tatkIdList" +
+      "\030\010 \003(\0132 .BattleCommon.BattleHeroPosition" +
+      "\022\020\n\010rewardId\030\016 \001(\005\022\027\n\017historyRewardId\030\017 " +
+      "\001(\005\"\354\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005val" +
+      "ue\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 \002",
+      "(\005\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022-\n\npla" +
+      "yerType\030\007 \002(\0162\031.BattleCommon.ePlayerType" +
+      "\022\'\n\004camp\030\010 \002(\0162\031.BattleCommon.ePlayerCam" +
+      "p\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\022\017\n\007quality\030\013 \001" +
+      "(\t\"\325\004\n\020MsgArenaResponse\022+\n\tarenaType\030\001 \002" +
+      "(\0162\030.ArenaService.eArenaType\0227\n\017arenaRes" +
+      "ultType\030\002 \001(\0162\036.ArenaService.eArenaResul" +
+      "tType\022*\n\tarenaData\030\003 \001(\0132\027.ArenaService." +
+      "ArenaData\022)\n\010listInfo\030\004 \003(\0132\027.ArenaServi" +
+      "ce.ArenaInfo\022-\n\nlistRecord\030\005 \003(\0132\031.Arena",
+      "Service.ArenaRecord\022\r\n\005place\030\006 \001(\005\022*\n\thu" +
+      "rtValue\030\007 \003(\0132\027.ArenaService.HurtValue\022\017" +
+      "\n\007atkList\030\010 \003(\t\0221\n\007history\030\t \001(\0132 .Arena" +
+      "Service.HistoryRankingRise\022\021\n\tresetCost\030" +
+      "\n \001(\005\022\024\n\014buyTimesCost\030\013 \001(\005\022\020\n\010buyTimes\030" +
+      "\014 \001(\005\022\024\n\014currentScore\030\r \001(\005\022\020\n\010getCount\030" +
+      "\016 \003(\005\0229\n\rhistoryReward\030\017 \001(\0132\".ArenaServ" +
+      "ice.ArenaHistoryResponse\0228\n\020gainRewardRe" +
+      "sult\030\020 \001(\0162\036.ArenaService.eArenaResultTy" +
+      "pe\"j\n\022HistoryRankingRise\022\026\n\016historyRanki",
+      "ng\030\001 \002(\005\022\026\n\016currentRanking\030\002 \002(\005\022\021\n\tgold" +
+      "Award\030\003 \001(\005\022\021\n\trankingUp\030\004 \002(\005\"\204\001\n\024Arena" +
+      "HistoryResponse\0226\n\trewardSum\030\001 \003(\0132#.Are" +
+      "naService.ArenaHistoryRewardSum\0224\n\nrewar" +
+      "dView\030\002 \003(\0132 .ArenaService.ArenaHisRewar" +
+      "dView\"4\n\025ArenaHistoryRewardSum\022\016\n\006itemId" +
+      "\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\":\n\022ArenaHisRewardVie" +
+      "w\022\020\n\010rewardId\030\001 \002(\005\022\022\n\ngainReward\030\002 \002(\010*" +
+      "\310\002\n\neArenaType\022\014\n\010GET_INFO\020\000\022\020\n\014CHANGE_E" +
+      "NEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020",
+      "\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARE" +
+      "NA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020" +
+      "\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD" +
+      "\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016GET_HURT_VALUE\020\013\022\r\n" +
+      "\tBUY_TIMES\020\014\022\t\n\005SCORE\020\r\022\016\n\nGET_REWARD\020\016\022" +
+      "\030\n\024HIS_RANK_REWARD_VIEW\020\017\022\027\n\023HIS_RANK_GE" +
+      "T_REWARD\020\020*5\n\020eArenaResultType\022\021\n\rARENA_" +
+      "SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002*4\n\021ArenaEmbatt" +
+      "leType\022\r\n\tARENA_ATK\020\001\022\020\n\014ARENA_DEFEND\020\002B" +
+      "!\n\013com.rwprotoB\022ArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

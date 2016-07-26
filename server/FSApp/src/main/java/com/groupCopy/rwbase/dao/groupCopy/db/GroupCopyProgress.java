@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.common.Utils;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
@@ -37,7 +39,11 @@ public class GroupCopyProgress {
 			totalHp += struct.getTotalHP();
 			currentHp += struct.getCurHP();
 		}
-		
+		if(totalHp == 0){
+			GameLog.error(LogModule.GroupCopy, "GroupCopyProgress[initProgress]", "初始化怪物"
+					+ "信息，发现怪物的总hp为0", null);
+			return;
+		}
 		progress = Utils.div((totalHp - currentHp), totalHp, 5);
 	}
 
@@ -71,17 +77,6 @@ public class GroupCopyProgress {
 
 	public void setmDatas(List<GroupCopyMonsterSynStruct> mDatas) {
 		this.mDatas = mDatas;
-	}
-
-	public void reset() {
-		
-		synchronized (mDatas) {
-			for (GroupCopyMonsterSynStruct struct : mDatas) {
-				struct.setCurHP(struct.getTotalHP());
-				struct.setCurMP(struct.getTotalMP());
-			}
-			initProgress();
-		}
 	}
 
 	
