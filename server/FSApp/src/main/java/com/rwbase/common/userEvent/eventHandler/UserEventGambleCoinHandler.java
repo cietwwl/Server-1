@@ -10,7 +10,6 @@ import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventGambleCoinHandler implements IUserEventHandler{
 

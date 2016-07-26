@@ -207,7 +207,7 @@ public class ActivityCollector implements RedPointCollector{
 				List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
 				for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
 					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if(!cfg.isCanGetReward()){
+					if(cfg.isCanGetReward()){
 						break;
 					}					
 					if (subItemCfg == null) {

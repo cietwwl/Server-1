@@ -1,12 +1,11 @@
 package com.playerdata.activity.VitalityType.cfg;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -31,14 +30,55 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeSubCfg.csv", ActivityVitalitySubCfg.class);			
 		return cfgCacheMap;
 	}
+	
+
 
 	/**根据传入的活动类型来查找激活的子活动*/
 	public ActivityVitalitySubCfg getByTypeAndActiveType(ActivityVitalityTypeEnum eNum,String subId){
 		ActivityVitalitySubCfg target = null;
+		if(eNum == ActivityVitalityTypeEnum.Vitality){
+			target=getVitalityOne(subId);
+		}
+		if(eNum == ActivityVitalityTypeEnum.VitalityTwo){
+			target=getViatlityTwo(subId);
+		}
+		return target;		
+	}
+	
+	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		ActivityVitalityCfg cfg = null;
 		for(ActivityVitalityCfg cfgtmp : cfgList){
-			if(StringUtils.equals(eNum.getCfgId(),cfgtmp.getId() )){
+			if(StringUtils.equals(ActivityVitalityTypeEnum.VitalityTwo.getCfgId(),cfgtmp.getId() )){
+				cfg = cfgtmp;
+				break;						
+			}
+		}
+		if(cfg == null){
+			return null;
+		}
+		if (!ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+			// 活动未开启,不计数
+			return null;
+		}
+		ActivityVitalitySubCfg target = null;
+		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
+		for (ActivityVitalitySubCfg subcfg : allCfg) {
+			if (StringUtils.equals(subcfg.getType(), subId)&&subcfg.getDay() == -1) {
+				target = subcfg;
+				break;
+			}
+		}		
+		return target;
+	}
+	
+	
+	
+	private ActivityVitalitySubCfg getVitalityOne(String subId) {
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		ActivityVitalityCfg cfg = null;
+		for(ActivityVitalityCfg cfgtmp : cfgList){
+			if(StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(),cfgtmp.getId() )){
 				cfg = cfgtmp;
 				break;						
 			}
@@ -51,21 +91,18 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 			return null;
 		}
 		int day = ActivityVitalityCfgDAO.getInstance().getday() ;
-		List<ActivityVitalitySubCfg> allSubCfgList = getCfgListByEnum(eNum);
-		for(ActivityVitalitySubCfg subCfg : allSubCfgList){
-			if(StringUtils.equals(subCfg.getType(), subId)){
-				if(eNum == ActivityVitalityTypeEnum.VitalityTwo&&subCfg.getDay() == -1){
-					target = subCfg;
-					break;
-				}else if(eNum == ActivityVitalityTypeEnum.Vitality&&subCfg.getDay() == day){
-					target = subCfg;
-					break;
-				}
+		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
+		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
+		for (ActivityVitalitySubCfg subcfg : allCfg) {
+			if (StringUtils.equals(subcfg.getType(), subId) && subcfg.getDay() == day) {
+				target = subcfg;
+				break;
 			}
-		}	
-		return target;		
+		}
+		return target;
 	}
-	
+
+
 	//根据传入的id来获得子活动
 	public ActivityVitalitySubCfg getById(String subId){
 		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
@@ -77,19 +114,5 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 			}
 		}		
 		return target;
-	}
-
-
-	public List<ActivityVitalitySubCfg> getCfgListByEnum(
-			ActivityVitalityTypeEnum eNum) {
-		List<ActivityVitalitySubCfg> allSubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		List<ActivityVitalitySubCfg> subEnumCfgList  = new ArrayList<ActivityVitalitySubCfg>();
-		for(ActivityVitalitySubCfg subCfg : allSubCfgList){
-			if(!StringUtils.equals(eNum.getCfgId(), subCfg.getActiveType()+"")){
-				continue;
-			}
-				subEnumCfgList.add(subCfg);
-		}		
-		return subEnumCfgList;
 	}
 }

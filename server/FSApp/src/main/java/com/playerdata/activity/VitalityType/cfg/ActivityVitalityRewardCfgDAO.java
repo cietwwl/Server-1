@@ -1,12 +1,10 @@
 package com.playerdata.activity.VitalityType.cfg;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -35,19 +33,6 @@ public class ActivityVitalityRewardCfgDAO extends CfgCsvDao<ActivityVitalityRewa
 			}
 		}
 		return target;		
-	}
-
-
-	public List<ActivityVitalityRewardCfg> getCfgListByEnum(
-			ActivityVitalityTypeEnum eNum) {
-		List<ActivityVitalityRewardCfg> allRewardCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();
-		List<ActivityVitalityRewardCfg> rewardCfgList = new ArrayList<ActivityVitalityRewardCfg>();
-		for(ActivityVitalityRewardCfg rewardCfg : allRewardCfgList){
-			if(StringUtils.equals(eNum.getCfgId(), rewardCfg.getActiveType()+"")){
-				rewardCfgList.add(rewardCfg);
-			}
-		}		
-		return rewardCfgList;
 	}
 	
 }

@@ -8,10 +8,11 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.UserEventHandleTask;
+import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
 public class UserEventUseSilverKeyVitalityTwoHandler implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
@@ -27,7 +28,7 @@ public class UserEventUseSilverKeyVitalityTwoHandler implements IUserEventHandle
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
 				if(subCfg!=null&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCount(player,ActivityVitalityTypeEnum.VitalityTwo, ActivityVitalityTypeEnum.UseSilverKeyVitalityTwo,subCfg, Integer.parseInt(params.toString()));
+					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.UseSilverKeyVitalityTwo,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
