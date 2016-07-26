@@ -421,6 +421,9 @@ public class BattleTowerHandler {
 		int pageIndex = req.getPageIndex();// 请求查看第几页的数据
 		List<TableBattleTowerRankIF> friendRankList = battleTowerMgr.getFriendRankList(pageIndex);
 		int size = friendRankList.size();
+		int perPageSize = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg().getPerPageFriendSize();
+		int offset = (pageIndex-1) * perPageSize;
+		offset = offset < 0 ? 0 : offset;
 
 		// 填充消息
 		ItemData playerMagic = player.getMagic();
@@ -447,7 +450,7 @@ public class BattleTowerHandler {
 			if (StringUtils.isNotBlank(roleQualityId)){
 				rankingRoleInfo.setQualityId(roleQualityId);
 			}
-			rankingRoleInfo.setRankIndex(i + 1);
+			rankingRoleInfo.setRankIndex(offset + i + 1);
 			rankingRoleInfo.setHighestFloor(roleInfo.getFloor());
 			String friendUserId = roleInfo.getUserId();
 			rankingRoleInfo.setIsMyself(userId.equals(friendUserId));// 是否是自己
