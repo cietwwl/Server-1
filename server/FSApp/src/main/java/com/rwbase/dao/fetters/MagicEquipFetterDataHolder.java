@@ -75,7 +75,11 @@ public class MagicEquipFetterDataHolder {
 		if(item.isEmpty()){
 			return;
 		}
-		
+		StringBuffer sb = new StringBuffer("同步羁绊数据：");
+		for (Integer id : item.getAllFetters()) {
+			sb.append("[").append(id).append("]");
+		}
+		System.out.println(sb.toString());
 		SynMagicEquipFetterData synData = new SynMagicEquipFetterData(userID, item.getAllFetters());
 				
 		ClientDataSynMgr.synData(player, synData, syType, eSynOpType.UPDATE_SINGLE);
@@ -238,9 +242,11 @@ public class MagicEquipFetterDataHolder {
 	 * @return
 	 */
 	public List<Integer> getFixEquipFetterByModelID(int modelId) {
+		List<Integer> temp = new ArrayList<Integer>();
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		List<Integer> fetterIDs = item.getFixEquipFetters();
-		return Collections.unmodifiableList(fetterIDs);
+		temp.addAll(fetterIDs);
+		return temp;
 	}
 
 
@@ -249,9 +255,11 @@ public class MagicEquipFetterDataHolder {
 	 * @return
 	 */
 	public List<Integer> getMagicFetters() {
+		List<Integer> temp = new ArrayList<Integer>();
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		List<Integer> fetterIDs = item.getMagicFetters();
-		return Collections.unmodifiableList(fetterIDs);
+		temp.addAll(fetterIDs);
+		return temp;
 	}
 
 

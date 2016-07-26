@@ -334,6 +334,14 @@ public class Player implements PlayerIF {
 			}
 		});
 
+		me_FetterMgr.reChangeCallBack(new Action() {
+			
+			@Override
+			public void doAction() {
+				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			}
+		});
+		
 		m_FashionMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {

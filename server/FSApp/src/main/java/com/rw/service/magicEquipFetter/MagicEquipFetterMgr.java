@@ -1,8 +1,6 @@
 package com.rw.service.magicEquipFetter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.common.GameUtil;
+import com.common.Action;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -22,7 +20,6 @@ import com.rwbase.dao.fetters.MagicEquipFetterDataHolder;
 import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.magic.Magic;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 /**
@@ -38,6 +35,7 @@ public class MagicEquipFetterMgr {
 	private MagicEquipFetterDataHolder holder;
 	
 
+	private final List<Action> actionListener = new ArrayList<Action>();
 
 	
 	public void init(Player player){
@@ -50,6 +48,7 @@ public class MagicEquipFetterMgr {
 		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
 		checkPlayerData(player);
 		holder.synAllData(player, holder.getVersion());
+		notifyListenerAction();
 	}
 	
 	/**
@@ -58,8 +57,6 @@ public class MagicEquipFetterMgr {
 	 */
 	private void checkPlayerData(Player player) {
 		checkAndAddMagicFetter(player, false);
-		
-		
 		checkAndAddEquipFetter(player);
 	}
 
@@ -112,6 +109,7 @@ public class MagicEquipFetterMgr {
 				}
 				if(match){
 					temp.add(cfg);
+//					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 				}
 			}
 		}
@@ -176,7 +174,7 @@ public class MagicEquipFetterMgr {
 			int value = entry.getValue();
 			SubConditionType type = FettersBM.SubConditionType.getEnum(key);
 			if(type == null){
-				GameLog.error(LogModule.COMMON, "MagicEquipFetterMgr", "检查神器羁绊条件产生异常，神器CfgID:" + item.getCfgId()
+				GameLog.error(LogModule.COMMON, "MagicEquipFetterMgr", "检查神器羁绊条件产生异常，神器 ID:" + item.getCfgId()
 						+ ",条件类型：" + key, null);
 				continue;
 			}
@@ -207,6 +205,7 @@ public class MagicEquipFetterMgr {
 				return false;
 			}
 		}
+		
 		return true;
 	}
 
@@ -251,6 +250,7 @@ public class MagicEquipFetterMgr {
 			}
 			if(match){
 				temp.add(cfg);
+//				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 			}
 		}
 		
@@ -326,7 +326,7 @@ public class MagicEquipFetterMgr {
 	public void notifyMagicChange(Player player) {
 		
 		checkAndAddMagicFetter(player, true);
-		
+		notifyListenerAction();
 	}
 
 
@@ -339,7 +339,7 @@ public class MagicEquipFetterMgr {
 	 */
 	public void notifyHeroChange(Player player, Hero hero) {
 		checkOrAddTargetHeroEquipFetter(player, hero, true);
-		
+		notifyListenerAction();
 	}
 
 
@@ -363,5 +363,17 @@ public class MagicEquipFetterMgr {
 	 */
 	public List<Integer> getMagicFetter() {
 		return holder.getMagicFetters();
+	}
+
+
+
+	public void reChangeCallBack(Action action) {
+		actionListener.add(action);
+	}
+	
+	private void notifyListenerAction(){
+		for (Action action : actionListener) {
+			action.doAction();
+		}
 	}
 }

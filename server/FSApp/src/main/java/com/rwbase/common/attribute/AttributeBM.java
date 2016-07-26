@@ -35,6 +35,7 @@ import com.rwbase.common.attribute.component.HeroFettersAttributeComponent;
 import com.rwbase.common.attribute.component.HeroGemAttributeComponent;
 import com.rwbase.common.attribute.component.HeroGroupSkillAttributeComponent;
 import com.rwbase.common.attribute.component.HeroMagicAttributeComponent;
+import com.rwbase.common.attribute.component.HeroMagicEquipFetterAttriComponent;
 import com.rwbase.common.attribute.component.HeroSkillAttributeComponent;
 import com.rwbase.common.attribute.component.HeroTaoistAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotBaseAttributeComponent;
@@ -84,6 +85,7 @@ public class AttributeBM {
 		componentList.add(new FixExpEquipAttributeComponent());
 		componentList.add(new FixNormEquipAttributeComponent());
 		componentList.add(new HeroExtraAttributeComponent());
+		componentList.add(new HeroMagicEquipFetterAttriComponent());
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
@@ -98,6 +100,7 @@ public class AttributeBM {
 		IComponentCalc heroExtraAttrCalc = new HeroExtraAttrCalc();
 		IComponentCalc heroGroupSkillAttrCalc = new HeroGroupSkillAttrCalc();
 		IComponentCalc heroTaoistAttrCalc = new HeroTaoistAttrCalc();
+		IComponentCalc MagicEquipAttrCac = new MagicEquipFetterAttrCal();
 
 		calcMap.put(heroBaseAttrCalc.getComponentTypeEnum(), heroBaseAttrCalc);
 		calcMap.put(heroEquipAttrCalc.getComponentTypeEnum(), heroEquipAttrCalc);
@@ -111,6 +114,7 @@ public class AttributeBM {
 		calcMap.put(heroExtraAttrCalc.getComponentTypeEnum(), heroExtraAttrCalc);
 		calcMap.put(heroGroupSkillAttrCalc.getComponentTypeEnum(), heroGroupSkillAttrCalc);
 		calcMap.put(heroTaoistAttrCalc.getComponentTypeEnum(), heroTaoistAttrCalc);
+		calcMap.put(MagicEquipAttrCac.getComponentTypeEnum(), MagicEquipAttrCac);
 	}
 
 	/**
