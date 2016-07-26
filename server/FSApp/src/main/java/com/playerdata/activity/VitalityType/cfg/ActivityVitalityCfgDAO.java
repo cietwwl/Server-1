@@ -27,8 +27,7 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @Description 帮派的基础配置表Dao
  */
 public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg> {
-	private List<ActivityVitalityTypeSubItem> subItemList;
-	private List<ActivityVitalityTypeSubBoxItem> subBoxItemList;
+	
 
 	public static ActivityVitalityCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityVitalityCfgDAO.class);
@@ -100,7 +99,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	
 
 	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityVitalityTypeEnum eNum) {
-		subItemList = null;		
+		 List<ActivityVitalityTypeSubItem>	subItemList = null;		
 		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getCfgListByEnum(eNum);
 		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){			
 			if(eNum==ActivityVitalityTypeEnum.Vitality&&activityVitalitySubCfg.getDay() != day){
@@ -123,7 +122,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	
 	
 	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day,ActivityVitalityTypeEnum eNum) {
-		subBoxItemList = null;
+		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = null;
 		List<ActivityVitalityRewardCfg> allRewardCfgList = ActivityVitalityRewardCfgDAO.getInstance().getCfgListByEnum(eNum);
 		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : allRewardCfgList){
 			if(eNum==ActivityVitalityTypeEnum.Vitality&&activityVitalityRewardCfg.getDay() != day){
