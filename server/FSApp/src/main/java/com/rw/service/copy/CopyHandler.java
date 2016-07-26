@@ -26,6 +26,7 @@ import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.template.BIActivityCode;
+import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
@@ -122,6 +123,8 @@ public class CopyHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
+		
+
 
 		// 物品掉落
 		List<String> itemList = new ArrayList<String>();

@@ -55,10 +55,6 @@ public class LQSGHandler {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
 		
-		if(PvECommonHelper.isTimesLimit(player, levelId)){
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "当前挑战次数不足，请增加次数后重试！");
-			return copyResponse.setEResultType(EResultType.NOT_ENOUGH_TIMES).build().toByteString();
-		}
 		
 		List<? extends ItemInfo> dropItems = null;
 		try {
