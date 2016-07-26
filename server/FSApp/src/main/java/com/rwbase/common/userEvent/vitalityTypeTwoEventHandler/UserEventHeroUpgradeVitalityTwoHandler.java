@@ -8,14 +8,13 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
+import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventHeroUpgradeVitalityTwoHandler implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
@@ -38,7 +37,7 @@ public class UserEventHeroUpgradeVitalityTwoHandler implements IUserEventHandler
 					if(activityVitalityTypeSubItem.getCount() > 0){
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
-					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.HeroUpgradeVitalityTwo,subCfg, add);
+					ActivityVitalityTypeMgr.getInstance().addCount(player,ActivityVitalityTypeEnum.VitalityTwo, ActivityVitalityTypeEnum.HeroUpgradeVitalityTwo,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}

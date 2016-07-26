@@ -3,21 +3,19 @@ package com.rwbase.common.userEvent.vitalityTypeEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.binary.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
+import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventHandler{
 	
@@ -55,7 +53,7 @@ public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventH
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
 					
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, add);
+					ActivityVitalityTypeMgr.getInstance().addCount(player,ActivityVitalityTypeEnum.Vitality, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
