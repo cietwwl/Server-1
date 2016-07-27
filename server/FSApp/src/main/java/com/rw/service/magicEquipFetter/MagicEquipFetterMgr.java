@@ -48,7 +48,6 @@ public class MagicEquipFetterMgr {
 		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
 		checkPlayerData(player);
 		holder.synAllData(player, holder.getVersion());
-		notifyListenerAction();
 	}
 	
 	/**
@@ -109,7 +108,7 @@ public class MagicEquipFetterMgr {
 				}
 				if(match){
 					temp.add(cfg);
-//					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 				}
 			}
 		}
@@ -250,7 +249,7 @@ public class MagicEquipFetterMgr {
 			}
 			if(match){
 				temp.add(cfg);
-//				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 			}
 		}
 		

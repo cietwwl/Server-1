@@ -245,7 +245,12 @@ public class MagicEquipFetterDataHolder {
 		List<Integer> temp = new ArrayList<Integer>();
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		List<Integer> fetterIDs = item.getFixEquipFetters();
-		temp.addAll(fetterIDs);
+		for (Integer id : fetterIDs) {
+			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
+			if(Integer.parseInt(cfg.getHeroModelID()) == modelId){
+				temp.add(id);
+			}
+		}
 		return temp;
 	}
 

@@ -22,9 +22,12 @@ public class MagicEquipFetterAttrCal implements IComponentCalc{
 
 		Player player = PlayerMgr.getInstance().find(param.getUserID());
 		Hero hero = player.getHeroMgr().getHeroByModerId(param.getHeroModelID());
+		System.out.println("-----------计算英雄羁绊：" + hero.getHeroCfg().getName());
 		List<Integer> list = player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModelId());
-		List<Integer> magicFetter = player.getMe_FetterMgr().getMagicFetter();
-		list.addAll(magicFetter);
+		if(hero.isMainRole()){
+			List<Integer> magicFetter = player.getMe_FetterMgr().getMagicFetter();
+			list.addAll(magicFetter);
+		}
 		if(list.isEmpty()){
 			return null;
 		}
@@ -75,12 +78,13 @@ public class MagicEquipFetterAttrCal implements IComponentCalc{
 		if (map.isEmpty()) {
 			return null;
 		}
-//		StringBuilder sb = new StringBuilder("完成法宝神器羁绊属性计算，增加的属性有：");
-//		for (AttributeItem abi : map.values()) {
-//			sb.append("类型：[").append(abi.getType().attrFieldName).append("],数值：增加的千分比：[").append(abi.getIncPerTenthousand())
-//			.append("],增加的固定值：[").append(abi.getIncreaseValue()).append("]");
-//		}
-//		System.out.println(sb.toString());
+		StringBuilder sb = new StringBuilder("完成英雄["+hero.getHeroCfg().getName()+"]的法宝神器羁绊属性计算，增加的属性有：");
+		for (AttributeItem abi : map.values()) {
+			
+			sb.append("类型：[").append(abi.getType().attrFieldName).append("],数值：增加的千分比：[").append(abi.getIncPerTenthousand())
+			.append("],增加的固定值：[").append(abi.getIncreaseValue()).append("]");
+		}
+		System.out.println(sb.toString());
 	
 		return new Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
