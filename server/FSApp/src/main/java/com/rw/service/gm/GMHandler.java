@@ -178,6 +178,9 @@ public class GMHandler {
 		//添加帮派副本战斗次数    * setgbf 1000
 		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
 		
+		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
+		funcCallBackMap.put("addwakenkey", "addWakenKey");
+		
 	}
 
 	public boolean isActive() {
@@ -484,6 +487,32 @@ public class GMHandler {
 		// ActivityExchangeTypeHandler.getInstance();
 		// ActivityExchangeTypeHandler.GmTakeGift(player, strs);
 		//
+		return false;
+	}
+	
+	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenPiece(addNum);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addWakenKey(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenKey(addNum);
+			return true;
+		}
 		return false;
 	}
 

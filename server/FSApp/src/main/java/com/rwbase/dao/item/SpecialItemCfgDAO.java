@@ -24,4 +24,6 @@ public class SpecialItemCfgDAO extends CfgCsvDao<SpecialItemCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("item/SpecialItem.csv", SpecialItemCfg.class);
 		return cfgCacheMap;
 	}
+	
+	
 }

@@ -23,9 +23,9 @@ public class ActivityDailyDiscountItemCfgDao extends CfgCsvDao<ActivityDailyDisc
 
 
 	private void prase(ActivityDailyDiscountItemCfg itemCfg) {
-		String idAndNum = itemCfg.getItemIdAndNum();
-		String[] strs = idAndNum.split("_");
-		itemCfg.setItemId(Integer.parseInt(strs[0]));
-		itemCfg.setItemNum(Integer.parseInt(strs[1]));
+//		String idAndNum = itemCfg.getItemIdAndNum();
+//		String[] strs = idAndNum.split("_");
+//		itemCfg.setItemId(Integer.parseInt(strs[0]));
+//		itemCfg.setItemNum(Integer.parseInt(strs[1]));
 	}
 }

@@ -40,6 +40,7 @@ import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
+import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
@@ -129,6 +130,10 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<TBTeamItem> teamBattleItemCache;
 
+	
+	private static MapItemStoreCache<MagicEquipFetterRecord> magicEquipFetterCache;
+	
+	
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
@@ -223,6 +228,8 @@ public class MapItemStoreFactory {
 		// register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+		
+		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));
 
 		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
 	}
@@ -511,6 +518,13 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<MajorData> getMajorDataCache() {
 		return majorDataCache;
 	}
+
+	public static MapItemStoreCache<MagicEquipFetterRecord> getMagicEquipFetterCache() {
+		return magicEquipFetterCache;
+	}
+	
+	
+	
 
 	/**
 	 * 获取站位的Cache

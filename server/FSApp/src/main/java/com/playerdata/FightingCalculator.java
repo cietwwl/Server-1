@@ -10,6 +10,7 @@ import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillEffectCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
@@ -46,10 +47,12 @@ public class FightingCalculator {
 	/**
 	 * 计算战斗力
 	 * 
-	 * @param heroTemplateId 英雄的模版Id
+	 * @param heroTemplateId
+	 *            英雄的模版Id
 	 * @param skillLevel
 	 * @param magicLevel
-	 * @param magicModelId 法宝的模版Id
+	 * @param magicModelId
+	 *            法宝的模版Id
 	 * @param totalAttrData
 	 * @return
 	 */
@@ -93,7 +96,13 @@ public class FightingCalculator {
 			}
 
 			if (attrName.equals(PHYSIC_ATTAK) || attrName.equals(SPRITE_ATTAK)) {
-				fighting += attrValue / (attackCD / COMMON_ATK_RATE) * cfg.getWeight();
+				float reactionTime = 0;
+				RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(heroTemplateId);
+				if (roleCfg != null) {
+					reactionTime = roleCfg.getReactionTime();
+				}
+				fighting += attrValue / ((attackCD + reactionTime) / COMMON_ATK_RATE) * cfg.getWeight();
+
 			} else {
 				fighting += attrValue * cfg.getWeight();
 			}
