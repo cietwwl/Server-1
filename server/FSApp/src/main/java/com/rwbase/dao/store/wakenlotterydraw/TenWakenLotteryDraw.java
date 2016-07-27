@@ -23,7 +23,7 @@ public class TenWakenLotteryDraw implements IWakenLotteryDraw{
 		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < drawTime; i++) {
 			WakenLotteryResult result;
-			if(i == guaranteeeTime){
+			if(i+1 == guaranteeeTime){
 				result = WakenLotteryProcesser.getInstantce().processLottery(guaranteeRewardPlanList);
 			}else{
 				result = WakenLotteryProcesser.getInstantce().processLottery(payRewardPlanList);

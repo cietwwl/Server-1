@@ -6,6 +6,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.enu.eStoreType;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.store.CommodityCfgDAO;
@@ -18,10 +19,10 @@ import com.rwproto.StoreProtos.eStoreRequestType;
 import com.rwproto.StoreProtos.eStoreResultType;
 import com.rwproto.StoreProtos.eWakenRewardDrawType;
 import com.rwproto.StoreProtos.tagCommodity;
+import com.sun.org.apache.regexp.internal.recompile;
 
 
 public class StoreHandler {
-	private Player m_pPlayer;
 	private static StoreHandler instance = new StoreHandler();	
 	private StoreHandler(){		
 	}
@@ -39,19 +40,19 @@ public class StoreHandler {
 		return openStoreNotification;
 	}
 
-	public ByteString OpenStore(int storeType) {
-		openStoreNotification.fire(Pair.Create(m_pPlayer, storeType));
+	public ByteString OpenStore(Player player, int storeType) {
+		openStoreNotification.fire(Pair.Create(player, storeType));
 		openStoreNotification.hold(null);//clear cache 
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
-		m_pPlayer.getStoreMgr().OpenStore(storeType);
-		m_pPlayer.getTempAttribute().setRefreshStore(false);
+		player.getStoreMgr().OpenStore(storeType);
+		player.getTempAttribute().setRefreshStore(false);
 		return resp.build().toByteString();
 	}
 
-	public ByteString BuyCommodity(tagCommodity reqCommodity) {
+	public ByteString BuyCommodity(Player player, tagCommodity reqCommodity) {
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		resp.setRequestType(eStoreRequestType.BuyCommodity);
-		int result = m_pPlayer.getStoreMgr().BuyCommodity(reqCommodity.getId(), reqCommodity.getCount());
+		int result = player.getStoreMgr().BuyCommodity(reqCommodity.getId(), reqCommodity.getCount());
 		resp.setReslutType(eStoreResultType.FAIL);
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(reqCommodity.getId());
 		if(cfg == null){
@@ -67,7 +68,7 @@ public class StoreHandler {
 			resp.setStoreType(storeCfg.getType());			
 			resp.setCommodity(respCommodity);
 			if(eSpecialItemId.getDef(cfg.getCostType())==eSpecialItemId.BraveCoin){
-				UserEventMgr.getInstance().buyInTowerShopVitality(m_pPlayer, 1);
+				UserEventMgr.getInstance().buyInTowerShopVitality(player, 1);
 			}			
 		}else if(result==-2){
 			resp.setCostType(cfg.getCostType());
@@ -78,10 +79,10 @@ public class StoreHandler {
 		return resp.build().toByteString();
 	}
 
-	public ByteString RefreshStore(int storeType) {
+	public ByteString RefreshStore(Player player, int storeType) {
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		resp.setRequestType(eStoreRequestType.RefreshStore);
-		int result = m_pPlayer.getStoreMgr().ResqRefresh(storeType);
+		int result = player.getStoreMgr().ResqRefresh(storeType);
 		resp.setReslutType(eStoreResultType.FAIL);
 		resp.setStoreType(storeType);
 		StoreCfg storeCfg = StoreCfgDAO.getInstance().getStoreCfg(storeType);
@@ -98,10 +99,6 @@ public class StoreHandler {
 		}
 		return resp.build().toByteString();
 	}
-
-	public void SetPlayer(Player player) {
-		m_pPlayer = player;
-	}
 	
 	public ByteString wakenRewardDraw(Player player, StoreRequest req){
 		StoreResponse.Builder resp = StoreResponse.newBuilder();
@@ -115,7 +112,7 @@ public class StoreHandler {
 		tagCommodity reqCommodity = req.getCommodity();
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		resp.setRequestType(eStoreRequestType.BuyCommodity);
-		int result = m_pPlayer.getStoreMgr().exchangeItem(reqCommodity.getId());
+		int result = player.getStoreMgr().exchangeItem(reqCommodity.getId(), reqCommodity.getCount());
 		resp.setReslutType(eStoreResultType.FAIL);
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(reqCommodity.getId());
 		if(cfg == null){
@@ -136,6 +133,14 @@ public class StoreHandler {
 		}else if(result==-3){
 			resp.setReslutValue("已经兑换了！");
 		}
+		return resp.build().toByteString();
+	}
+	
+	public ByteString refreshExchangeItem(Player player, StoreRequest req){
+		StoreResponse.Builder resp =StoreResponse.newBuilder();
+		player.getStoreMgr().refreshStoreInfo(eStoreType.Waken.getOrder());
+		resp.setRequestType(eStoreRequestType.RefreshExchangeItem);
+		resp.setReslutType(eStoreResultType.SUCCESS);
 		return resp.build().toByteString();
 	}
 }

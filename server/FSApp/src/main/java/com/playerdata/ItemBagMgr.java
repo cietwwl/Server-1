@@ -447,7 +447,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			if (cfgId == eSpecialItemId.Coin.getValue()) {
 				return player.getUserGameDataMgr().getCoin() >= count;
 			} else if (cfgId == eSpecialItemId.Gold.getValue()) {
-				return player.getUserGameDataMgr().getCoin() >= count;
+				return player.getUserGameDataMgr().getGold() >= count;
 			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()) {
 				return player.getUserGameDataMgr().getMagicSecretCoin() >= count;
 			} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {

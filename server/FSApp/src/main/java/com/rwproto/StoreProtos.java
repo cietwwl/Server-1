@@ -41,6 +41,10 @@ public final class StoreProtos {
      * <code>WakenExchange = 7;</code>
      */
     WakenExchange(6, 7),
+    /**
+     * <code>RefreshExchangeItem = 8;</code>
+     */
+    RefreshExchangeItem(7, 8),
     ;
 
     /**
@@ -71,6 +75,10 @@ public final class StoreProtos {
      * <code>WakenExchange = 7;</code>
      */
     public static final int WakenExchange_VALUE = 7;
+    /**
+     * <code>RefreshExchangeItem = 8;</code>
+     */
+    public static final int RefreshExchangeItem_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -84,6 +92,7 @@ public final class StoreProtos {
         case 5: return ProbStore;
         case 6: return WakenRewardDraw;
         case 7: return WakenExchange;
+        case 8: return RefreshExchangeItem;
         default: return null;
       }
     }
@@ -5259,15 +5268,16 @@ public final class StoreProtos {
       " \001(\0132\r.tagCommodity\022\030\n\005store\030\005 \003(\0132\t.tag" +
       "Store\022\021\n\tstoreType\030\006 \001(\005\022\034\n\010probType\030\007 \001" +
       "(\0162\n.eProbType\022\020\n\010costType\030\010 \001(\005\022\033\n\007rewa" +
-      "rds\030\t \003(\0132\n.tagReward*\214\001\n\021eStoreRequestT" +
+      "rds\030\t \003(\0132\n.tagReward*\245\001\n\021eStoreRequestT" +
       "ype\022\020\n\014BuyCommodity\020\001\022\020\n\014RefreshStore\020\002\022" +
       "\r\n\tOpenStore\020\003\022\r\n\tSyncStore\020\004\022\r\n\tProbSto",
       "re\020\005\022\023\n\017WakenRewardDraw\020\006\022\021\n\rWakenExchan" +
-      "ge\020\007*0\n\024eWakenRewardDrawType\022\013\n\007oneDraw\020" +
-      "\001\022\013\n\007tenDraw\020\002* \n\teProbType\022\010\n\004Open\020\001\022\t\n" +
-      "\005Close\020\002*@\n\020eStoreResultType\022\013\n\007SUCCESS\020" +
-      "\000\022\010\n\004FAIL\020\001\022\n\n\006HasTip\020\002\022\t\n\005NoTip\020\003B\032\n\013co" +
-      "m.rwprotoB\013StoreProtos"
+      "ge\020\007\022\027\n\023RefreshExchangeItem\020\010*0\n\024eWakenR" +
+      "ewardDrawType\022\013\n\007oneDraw\020\001\022\013\n\007tenDraw\020\002*" +
+      " \n\teProbType\022\010\n\004Open\020\001\022\t\n\005Close\020\002*@\n\020eSt" +
+      "oreResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n\n\006" +
+      "HasTip\020\002\022\t\n\005NoTip\020\003B\032\n\013com.rwprotoB\013Stor" +
+      "eProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

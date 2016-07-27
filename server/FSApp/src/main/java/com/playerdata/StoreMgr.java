@@ -28,12 +28,14 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.store.TableStoreDao;
+import com.rwbase.dao.store.WakenLotteryDrawCfgDAO;
 import com.rwbase.dao.store.pojo.CommodityCfg;
 import com.rwbase.dao.store.pojo.CommodityData;
 import com.rwbase.dao.store.pojo.StoreCfg;
 import com.rwbase.dao.store.pojo.StoreData;
 import com.rwbase.dao.store.pojo.StoreDataHolder;
 import com.rwbase.dao.store.pojo.TableStore;
+import com.rwbase.dao.store.pojo.WakenLotteryDrawCfg;
 import com.rwbase.dao.store.wakenlotterydraw.WakenLotteryProcesser;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.StorePrivilegeNames;
@@ -416,6 +418,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}else{
 			checkRefreshByDay(vo, cfg, lastDayTime, todayTime);
 		}
+		
+		if(vo.getType() == eStoreType.Waken){
+			WakenLotteryDrawCfg wakenLotteryDrawCfg = WakenLotteryDrawCfgDAO.getInstance().getCfgById("1");
+			WakenLotteryProcesser.getInstantce().checkDrawReset(m_pPlayer, vo, wakenLotteryDrawCfg);
+		}
 	}
 	
 	private void checkRefreshByWeekDay(StoreData vo, StoreCfg cfg, long lastDayTime, long todayTime) {
@@ -425,6 +432,12 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		
 		List<Integer> refreshDayList = cfg.getRefreshDayList();
 		for (Integer weekDay : refreshDayList) {
+			//特殊处理 java 星期天是1
+			weekDay++;
+			if (weekDay > 7) {
+				weekDay = 1;
+			}
+			
 			String[] timeArr = cfg.getAutoRetime().split("_");
 			for (String time : timeArr) {
 				int hour = Integer.parseInt(time.substring(0, 2));
@@ -690,7 +703,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param count
 	 * @return
 	 */
-	public int exchangeItem(int commodityId) {
+	public int exchangeItem(int commodityId, int time) {
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(commodityId);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：commodity表没有id为" + commodityId + "的商品", null);
@@ -705,14 +718,14 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		for (CommodityData pCommodityData : list) {
 			if (pCommodityData.getId() == commodityId) {
 				int exchangeCount = pCommodityData.getExchangeCount();
-				if (cfg.getExchangeTime() == 0 || exchangeCount < cfg.getExchangeTime()) {
+				exchangeCount += time;
+				if (cfg.getExchangeTime() == 0 || exchangeCount <= cfg.getExchangeTime()) {
 					eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
 					if (m_pPlayer.getReward(etype) < cfg.getCost()) {
 						return -2;
 					}
-					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount());
-					m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cfg.getCost());
-					exchangeCount++;
+					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount() * time);
+					m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -(cfg.getCost() * time));
 					pCommodityData.setExchangeCount(exchangeCount);
 					storeDataHolder.update(m_pPlayer, storeCfg.getType());
 					return exchangeCount;

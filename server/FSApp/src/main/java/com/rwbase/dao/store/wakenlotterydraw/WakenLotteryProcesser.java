@@ -12,6 +12,7 @@ import com.common.HPCUtil;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreType;
+import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.store.WakenLotteryDrawCfgDAO;
 import com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO;
 import com.rwbase.dao.store.pojo.StoreData;
@@ -73,7 +74,7 @@ public class WakenLotteryProcesser {
 		//判断是否金钱充足
 		if(storeData.getDrawTime() >= cfg.getFreeTime() && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
 			resp.setReslutType(eStoreResultType.FAIL);
-			resp.setReslutValue("开启觉醒宝箱的消耗品不足");
+			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(consumeType)).getName() + "不足");
 			return;
 		}
 		
@@ -97,6 +98,7 @@ public class WakenLotteryProcesser {
 			Entry<Integer, Integer> entry = iterator.next();
 			Integer modelId = entry.getKey();
 			Integer count = entry.getValue();
+			player.getItemBagMgr().addItem(modelId, count);
 			if (modelId != eSpecialItemId.WAKEN_PIECE.getValue()) {
 				tagReward.Builder reward = tagReward.newBuilder();
 				reward.setModelId(modelId);
@@ -132,7 +134,7 @@ public class WakenLotteryProcesser {
 	 * @param holder
 	 * @param cfg
 	 */
-	private void checkDrawReset(Player player, StoreData storeData, WakenLotteryDrawCfg cfg){
+	public void checkDrawReset(Player player, StoreData storeData, WakenLotteryDrawCfg cfg){
 		long lastDrawTime = storeData.getLastDrawTime();
 		int resetTime = Integer.parseInt(cfg.getResetTime());
 		Calendar instance = Calendar.getInstance();
