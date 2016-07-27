@@ -205,7 +205,8 @@ public class GFDefendArmyItemHolder{
 		if(resData == null || GFResourceState.FIGHT.equals(resData.getState())) return;
 		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
 			String armyID = userID + "_" + i;
-			if(getItemStore(groupID).removeItem(armyID)){
+			GFDefendArmyItem armyItem = getItemStore(groupID).getItem(armyID);
+			if(getItemStore(groupID).removeItem(armyID) && armyItem != null && GFArmyState.NORMAL.equals((armyItem.getState()))){
 				GFightOnlineGroupMgr.getInstance().addDefenderCount(groupID, -1);
 			}
 		}

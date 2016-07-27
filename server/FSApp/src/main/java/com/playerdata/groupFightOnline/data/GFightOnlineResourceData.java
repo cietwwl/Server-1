@@ -34,6 +34,10 @@ public class GFightOnlineResourceData {
 	@IgnoreSynField
 	private List<GFFightRecord> recordList = new ArrayList<GFFightRecord>();
 	
+	@CombineSave
+	@IgnoreSynField
+	private boolean ownerBidAble = false;
+	
 	@IgnoreSynField
 	@NonSave
 	private static final int LIST_SIZE = 50;
@@ -76,5 +80,13 @@ public class GFightOnlineResourceData {
 	public void clearCurrentLoopData(){
 		ownerGroupID = null;
 		recordList.clear();
+	}
+
+	public boolean isOwnerBidAble() {
+		return ownerBidAble;
+	}
+
+	public void setOwnerBidAble(boolean ownerBidAble) {
+		this.ownerBidAble = ownerBidAble;
 	}
 }

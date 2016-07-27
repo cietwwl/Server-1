@@ -318,6 +318,41 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.GFightOnlinePersonalData);
+		
+		
+		versionMap.put(eSynType.MAGICEQUIP_FETTER, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				player.getMe_FetterMgr().loginNotify(player);
+			}
+		}));
+		orderList.add(eSynType.MAGICEQUIP_FETTER);
+		
+//		
+//		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFDefendArmyItemHolder.getInstance().synSelfData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFDefendArmyData);
+//		
+//		versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFBiddingItemHolder.getInstance().synAllData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFBiddingData);
+//		
+//		versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFightOnlineResourceHolder.getInstance().synData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFightOnlineResourceData);
+		
 		//
 		// versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
 		// @Override

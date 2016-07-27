@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
@@ -179,6 +180,9 @@ public class GMHandler {
 		
 		// 聊天消息测试
 		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
+
+		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
+		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
 	}
 
@@ -346,8 +350,9 @@ public class GMHandler {
 			return false;
 		}
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
+		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据
@@ -485,6 +490,32 @@ public class GMHandler {
 		// ActivityExchangeTypeHandler.getInstance();
 		// ActivityExchangeTypeHandler.GmTakeGift(player, strs);
 		//
+		return false;
+	}
+	
+	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenPiece(addNum);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addWakenKey(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenKey(addNum);
+			return true;
+		}
 		return false;
 	}
 

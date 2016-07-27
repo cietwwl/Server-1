@@ -46,6 +46,14 @@ public class ArmyHeroSimple {
 		return armyHero;		
 	}
 	
+	public static ArmyHeroSimple newBlankInstance() {
+		ArmyHeroSimple armyHero = new ArmyHeroSimple();	
+		armyHero.id = "0";
+		armyHero.qualityId = "";
+		armyHero.curAttrData.setId("");
+		return armyHero;
+	}
+	
 	public String getId() {
 		return id;
 	}

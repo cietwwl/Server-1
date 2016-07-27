@@ -2,7 +2,6 @@ package com.rw.service.Privilege.datamodel;
 
 import com.common.BaseConfig;
 
-@SuppressWarnings("unused")
 public class generalPrivilegeProperties extends BaseConfig implements IThresholdConfig {
   private com.rwproto.PrivilegeProtos.GeneralPrivilegeNames name; //关键字段:特权控制点
   private int threshold; //上限
@@ -18,6 +17,18 @@ public class generalPrivilegeProperties extends BaseConfig implements IThreshold
 	@Override
 	public int getThreshold() {
 		return threshold;
+	}
+
+	public String getBuyTip() {
+		return buyTip;
+	}
+
+	public String getNomoreTip() {
+		return nomoreTip;
+	}
+
+	public String getEnableTip() {
+		return enableTip;
 	}
 
 }

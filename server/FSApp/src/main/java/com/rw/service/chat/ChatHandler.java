@@ -586,6 +586,9 @@ public class ChatHandler {
 
 	private void sendFamilyMsg(Player player) {
 		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if(userGroupData == null){
+			return;
+		}
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return;

@@ -16,6 +16,8 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineCostCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineCostDAO;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
@@ -150,10 +152,26 @@ public class GFightOnFightBM {
 			return;
 		}
 		try {
-			//TODO 判断次数，计算费用
-			GFDefendArmyMgr.getInstance().changeEnimyItem(player, groupID);
-			//TODO 扣除费用，添加次数
+			//判断次数，计算费用
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
+			int changeTimes = userGFData.getChangeEnimyTimes();
+			GFightOnlineCostCfg costCfg = GFightOnlineCostDAO.getInstance().getCfgById(String.valueOf(changeTimes));
+			if(costCfg == null){
+				List<GFightOnlineCostCfg> cfgList = GFightOnlineCostDAO.getInstance().getAllCfg();
+				int maxIndex = 1;
+				for(GFightOnlineCostCfg cfg : cfgList){
+					if(maxIndex < cfg.getKey()) maxIndex = cfg.getKey();
+				}
+				costCfg = GFightOnlineCostDAO.getInstance().getCfgById(String.valueOf(maxIndex));
+			}
+			if(costCfg.getCost() > player.getUserGameDataMgr().getGold()){
+				gfRsp.setRstType(GFResultType.DIAMOND_NOT_ENOUGH);
+				gfRsp.setTipMsg("钻石不足");
+				return;
+			}
+			GFDefendArmyMgr.getInstance().changeEnimyItem(player, groupID);
+			//扣除费用，添加次数
+			player.getUserGameDataMgr().addGold(-costCfg.getCost());
 			userGFData.addChangeEnimyTimes();
 			GFDefendArmyItem defender = GFDefendArmyMgr.getInstance().getItem(userGFData.getRandomDefender().getGroupID(), userGFData.getRandomDefender().getDefendArmyID());
 			gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defender));
@@ -374,6 +392,7 @@ public class GFightOnFightBM {
 		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(groupID, enimyArmyID);
 		ArmyInfoSimple simpleArmy = armyItem.getSimpleArmy();
 		for(CurAttrData attr : stateList){
+			if(StringUtils.isBlank(attr.getId()) || StringUtils.equals(attr.getId(), "0")) continue;
 			ArmyHeroSimple hero = simpleArmy.getArmyHeroByID(attr.getId());
 			if(hero == null) throw new GFFightResultException("战斗结果数据和防守整容数据不匹配");
 			hero.setCurAttrData(attr);

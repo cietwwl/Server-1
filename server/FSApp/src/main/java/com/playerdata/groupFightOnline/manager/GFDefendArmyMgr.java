@@ -112,6 +112,7 @@ public class GFDefendArmyMgr {
 		for(DefendArmyHerosInfo item : items){
 			if(item.getHeroIDs() == null) continue;
 			for(String id : item.getHeroIDs()){
+				if(StringUtils.isBlank(id)) continue;
 				if(heroIDRepeatCheckSet.contains(id)) throw new GFArmyDataException("一个英雄不能存在于两个队伍");
 				heroIDRepeatCheckSet.add(id);
 			}
