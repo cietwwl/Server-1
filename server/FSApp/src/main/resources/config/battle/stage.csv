@@ -15,10 +15,10 @@ id_13,,id_13,36,-15.63,5,,,-18.92,,1,,3,5.5,Scene/Battle/bg_boss2.mp3
 id_14,,id_14,36,-15.63,5,,,-18.92,,1,,3,5.5,Scene/Battle/bg_boss2.mp3
 id_15,,id_15,36,-15.63,5,,,-18.92,,1,,3,5.5,Scene/Battle/bg_boss2.mp3
 id_16,,id_16,36,-15.63,5,,,-18.92,,1,,3,5.5,Scene/Battle/bg_boss2.mp3
-id_17,,id_17,36,-0.34,16.3,-26.35,-23,78.5,,1,1,3,5.5,Scene/Battle/bg_boss2.mp3
+id_17,,id_17,36,4.6,1,7,-23,78.5,,1,1,3,5.5,Scene/Battle/bg_boss2.mp3
 id_18,,id_18,36,0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
 110000_1,,110000_1,36,-0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_normalbattle.mp3
-110000_2,,110000_2,36,-0.34,16.3,-26.35,-23,78.5,,1,1,3,5.5,Scene/Battle/bg_boss2.mp3
+110000_2,,110000_2,36,4.6,1,7,-23,78.5,,1,1,3,5.5,Scene/Battle/bg_boss2.mp3
 110101_1,,110101_1,36,-0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_normalbattle.mp3
 110102_1,,110102_1,36,-0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_normalbattle.mp3
 120101_1,,120101_1,36,-0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_normalbattle.mp3
@@ -224,6 +224,9 @@ id_18,,id_18,36,0.5,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
 192001_1,,192001,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
 192002_1,,192002,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
 192003_1,,192003,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
+193001_1,,193001,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
+193002_1,,193002,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
+193003_1,,193003,36,,6.79,-12.79,,,,,1,3,5.5,Scene/Battle/bg_boss2.mp3
 161102_1,,161102_1,36,,6.79,-12.79,,,,,,3,4.5,Scene/Battle/bg_normalbattle.mp3
 161103_1,,161103_1,36,,6.79,-12.79,,,,,,3,4.5,Scene/Battle/bg_normalbattle.mp3
 161104_1,,161104_1,36,,6.79,-12.79,,,,,,3,4.5,Scene/Battle/bg_normalbattle.mp3
