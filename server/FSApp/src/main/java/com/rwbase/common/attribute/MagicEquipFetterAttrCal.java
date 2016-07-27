@@ -23,10 +23,8 @@ public class MagicEquipFetterAttrCal implements IComponentCalc{
 		Player player = PlayerMgr.getInstance().find(param.getUserID());
 		Hero hero = player.getHeroMgr().getHeroByModerId(param.getHeroModelID());
 		List<Integer> list = player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModelId());
-		if(hero.isMainRole()){
-			List<Integer> magicFetter = player.getMe_FetterMgr().getMagicFetter();
-			list.addAll(magicFetter);
-		}
+		List<Integer> magicFetter = player.getMe_FetterMgr().getMagicFetter();
+		list.addAll(magicFetter);
 		if(list.isEmpty()){
 			return null;
 		}
