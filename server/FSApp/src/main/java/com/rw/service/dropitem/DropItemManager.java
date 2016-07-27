@@ -10,15 +10,12 @@ import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.rw.fsutil.common.DataAccessTimeoutException;
-import com.rw.service.copy.CopyHandler;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.dropitem.DropAdjustmentCfg;
 import com.rwbase.dao.dropitem.DropAdjustmentCfgDAO;
 import com.rwbase.dao.dropitem.DropAdjustmentState;
@@ -93,10 +90,27 @@ public class DropItemManager {
 		if (!firstDrop) {
 			items = copyCfg.getItems();
 		}
-		List<Integer> list = CopyHandler.convertToIntList(items);
+		List<Integer> list = convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
 	}
 
+	private List<Integer> convertToIntList(String str) {
+		if (str == null || str.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
+		String[] pItemsID = str.split(",");
+		int length = pItemsID.length;
+		ArrayList<Integer> result = new ArrayList<Integer>(length);
+		for (int i = 0; i < length; i++) {
+			try {
+				result.add(Integer.parseInt(pItemsID[i]));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * 预处理掉落
 	 * 
@@ -206,9 +220,14 @@ public class DropItemManager {
 			}
 			
 			if(!firstDrop&&copyCfg != null){
-				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
+//				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
+				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+				int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+				
+				
+				
 				for(ItemInfo iteminfo : dropItemInfoList){
-					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
+					iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
 				}
 				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
 				int tmp = dropItemInfoList.size();
@@ -326,6 +345,7 @@ public class DropItemManager {
 		if (isFirstDrop && copyId > 0) {
 			record.addFirstDrop(copyId);
 			needUpdate = true;
+			GameLog.error("DropItemManaer", "#trace", "记录首掉："+record.getUserId()+","+copyId);
 		}
 		if (needUpdate) {
 			DropRecordDAO.getInstance().update(record);

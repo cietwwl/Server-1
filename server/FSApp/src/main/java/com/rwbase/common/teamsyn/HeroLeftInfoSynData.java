@@ -1,5 +1,7 @@
 package com.rwbase.common.teamsyn;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /*
@@ -7,6 +9,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * @date 2016年5月30日 下午12:16:15
  * @Description 英雄剩余血量能量的信息
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 public class HeroLeftInfoSynData {
 	private int life;// 剩余的生命

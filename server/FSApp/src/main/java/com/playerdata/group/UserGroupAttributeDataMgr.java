@@ -3,6 +3,7 @@ package com.playerdata.group;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.util.StringUtils;
 
@@ -354,7 +355,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 */
 	public void updateContribution(Player player, int contribution, int dayContribution) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
-		userGroupData.setContribution(userGroupData.getContribution() + contribution);
+		userGroupData.setContribution(contribution);
 		userGroupData.setDayContribution(dayContribution);
 		holder.synData(player);
 	}
@@ -365,32 +366,31 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public Map<Integer, AttributeItem> getGroupSkillAttrDataMap() {
-		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		if (userGroupData == null) {
 			// GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
-			return map;
+			return null;
 		}
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
 			// GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
-			return map;
+			return null;
 		}
 
 		if (!userGroupData.hasStudySkill()) {
 			// GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
-			return map;
+			return null;
 		}
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			// GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
-			return map;
+			return null;
 		}
 
-		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
-		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
+		Map<Integer, Integer> skillMap = new HashMap<Integer, Integer>();
+
 		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 		Enumeration<GroupSkillItem> researchSkill = groupData.getResearchSkill();
 		while (researchSkill.hasMoreElements()) {
@@ -402,6 +402,28 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			if (studySkillLevel <= 0) {// 没学习
 				continue;
 			}
+
+			skillMap.put(skillId, studySkillLevel);
+		}
+
+		return getGroupSkillAttrMap(skillMap);
+	}
+
+	/**
+	 * 获取帮派技能转换的属性Map
+	 * 
+	 * @param skillMap
+	 * @return
+	 */
+	public static HashMap<Integer, AttributeItem> getGroupSkillAttrMap(Map<Integer, Integer> skillMap) {
+		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>(skillMap.size());
+
+		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
+		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
+
+		for (Entry<Integer, Integer> e : skillMap.entrySet()) {
+			int skillId = e.getKey();
+			int studySkillLevel = e.getValue();
 
 			GroupSkillLevelTemplate tmp = dao.getSkillLevelTemplate(skillId, studySkillLevel);
 			if (tmp == null) {

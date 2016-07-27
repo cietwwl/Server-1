@@ -1,5 +1,5 @@
-set csPath=E:\proto\cs\
-set javaPath=E:\proto\java\
+set csPath=E:\git-fs\server\protobuff\proto\cs\
+set javaPath=E:\git-fs\server\protobuff\proto\java\
 
 @echo -----begin to explain shape file-----
 

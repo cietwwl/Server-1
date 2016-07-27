@@ -122,7 +122,7 @@ public class GambleHandler {
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
-		boolean isFirstTime = isFree ? historyRecord.isFreeGambleFirstTime() : historyRecord.isChargeGambleFirstTime();
+		boolean isFirstTime = historyRecord.isChargeGambleFirstTime();
 		
 		if (isFirstTime && firstDropItemId > 0){//firstDropItemId配置为0表示不想搞首抽必掉
 			//计算首次必掉
@@ -133,6 +133,7 @@ public class GambleHandler {
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
 				historyRecord.add(isFree,itemModel,slotCount.value);
+				historyRecord.clearGuaranteeHistory(false,dropPlan,trace);
 			}
 		}
 
@@ -178,7 +179,6 @@ public class GambleHandler {
 				GambleLogicHelper.logTrace(trace,"最后容错：20个经验单,ID="+defaultItem);
 				continue;
 			}
-
 			int dropGroupId;
 			boolean isGuarantee = false;
 			if (historyRecord.passExclusiveCheck(isFree)){//前面N次的抽卡必须不一样，之后的就不需要唯一性检查
@@ -230,6 +230,7 @@ public class GambleHandler {
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
 					historyRecord.add(isFree,itemModel,slotCount.value);
+					GambleLogicHelper.logTrace(trace,"checkDistinctTag,isFree:"+isFree+",ExclusiveCount:"+dropPlan.getExclusiveCount());
 					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
 				}else{
 					//有错误，减少最大抽卡数量
@@ -244,7 +245,7 @@ public class GambleHandler {
 			
 			historyRecord.clearGuaranteeHistory(isGuarantee,dropPlan,trace);
 		}
-
+		
 		clearContext();
 		//System.out.println(trace.toString());
 		GambleLogicHelper.testHasHero(dropList,trace,gamblePlanId,userId);

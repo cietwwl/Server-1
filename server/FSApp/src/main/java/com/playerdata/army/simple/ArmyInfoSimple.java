@@ -30,14 +30,16 @@ public class ArmyInfoSimple {
 	public List<ArmyHeroSimple> getHeroList() {
 		return heroList;
 	}
+	
 	public void setHeroList(List<ArmyHeroSimple> heroList) {
 		this.heroList = heroList;
 	}
 	
 	public ArmyHeroSimple getArmyHeroByID(String id){
-		if(player.getId().equals(id)) return player;
+		if(StringUtils.equals(player.getId(),id)) return player;
 		for(ArmyHeroSimple hero : heroList) {
-			if(hero.getId().equals(id)) return hero;
+			if(hero == null) continue;
+			if(StringUtils.equals(hero.getId(),id)) return hero;
 		}
 		return null;
 	}
@@ -95,24 +97,4 @@ public class ArmyInfoSimple {
 		}
 		return heroIdList;
 	}
-	
-	public ArmyHeroSimple getByHeroId(String heroId){
-		ArmyHeroSimple target = null;
-		for (ArmyHeroSimple armyHero : heroList) {
-			if(StringUtils.equals(heroId, armyHero.getId()) ){
-				target = armyHero;
-				break;
-			}	
-		}
-		return target;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		ArmyInfoSimple amryInfo = new ArmyInfoSimple();
-		ArmyHeroSimple armyHero = new ArmyHeroSimple();
-		amryInfo.setPlayer(armyHero);
-		System.out.println(amryInfo.toJson());
-	}
-	
-	
 }

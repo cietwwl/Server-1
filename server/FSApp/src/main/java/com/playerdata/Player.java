@@ -255,7 +255,6 @@ public class Player implements PlayerIF {
 			m_HeroMgr.init(this, true);
 		}
 
-		
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
 		// 法宝数据
@@ -309,7 +308,7 @@ public class Player implements PlayerIF {
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
-		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
+		m_TaskMgr.init(this);// 任务要获取其他模块的数据，所以把它放在最后进行初始化 ---by Alex
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -522,8 +521,6 @@ public class Player implements PlayerIF {
 			onNewDayZeroTimeAction.doAction();
 		}
 	}
-
-	
 
 	private TimeAction onNewDay5ClockTimeAction;
 
@@ -785,7 +782,7 @@ public class Player implements PlayerIF {
 
 	public void onCareerChange(int career, int sex) {
 		try {
-			int oldModelId = getModelId();
+			// int oldModelId = getModelId();
 			RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, getStarLevel());
 			if (cfg == null) {
 				NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "配置错误！");
@@ -1150,6 +1147,7 @@ public class Player implements PlayerIF {
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
 		return userGroupAttributeDataMgr;
 	}
+
 	/**
 	 * 获取个人的帮派副本数据
 	 * 
@@ -1254,12 +1252,12 @@ public class Player implements PlayerIF {
 	}
 
 	/**
-	 * 临时方法
+	 * 是否是机器人
 	 * 
 	 * @return
 	 */
 	public boolean isRobot() {
-		return getUserId().length() > 20;
+		return userDataMgr.getUser().isRobot();
 	}
 
 	/** 每分钟执行 */

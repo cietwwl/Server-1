@@ -132,6 +132,7 @@ public class EmailUtils {
 	public static EmailData createEmailData(String cfgId, String attachment,List<String> args) {
 		EmailData emailData = new EmailData();
 		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(cfgId);
+		if(cfg == null) return emailData;
 		if (!StringUtils.isEmpty(attachment)) {
 			emailData.setEmailAttachment(attachment);
 		} else {

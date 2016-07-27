@@ -20,6 +20,7 @@ public class ServerSwitch {
 	private static boolean gmSwitch;// 打开GM
 	private static boolean giftCodeOpen = true;// 是否开启兑换码
 	private static boolean checkCfg=false;
+	private static boolean printEncode =  false;
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -50,5 +51,9 @@ public class ServerSwitch {
 	}
 	public static boolean isCheckCfg() {
 		return checkCfg;
+	}
+
+	public static boolean isPrintEncode() {
+		return printEncode;
 	}
 }

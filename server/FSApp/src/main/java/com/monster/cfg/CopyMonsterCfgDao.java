@@ -15,7 +15,7 @@ public class CopyMonsterCfgDao extends CfgCsvDao<CopyMonsterCfg> {
 
 	@Override
 	protected Map<String, CopyMonsterCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Monster/monster.csv", CopyMonsterCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("battle/monster.csv", CopyMonsterCfg.class);
 		return cfgCacheMap;
 	}
 	

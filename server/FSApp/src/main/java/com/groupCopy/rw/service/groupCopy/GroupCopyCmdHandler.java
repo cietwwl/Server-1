@@ -173,4 +173,25 @@ public class GroupCopyCmdHandler {
 		return rspCmd.build().toByteString();
 	}
 
+
+
+	/**
+	 * 获取奖励分配记录
+	 * @param player
+	 * @return
+	 */
+	public ByteString getDistRewardLog(Player player) {
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.APPLY_WAR_PRICE);
+		Group g = GroupHelper.getGroup(player);
+		if(g != null){
+			g.getGroupCopyMgr().synRewardLogData(player);
+			rspCmd.setIsSuccess(true);
+		}else{
+			rspCmd.setIsSuccess(false);
+			rspCmd.setTipMsg("角色不在帮派内");
+		}
+		return rspCmd.build().toByteString();
+	}
+
 }

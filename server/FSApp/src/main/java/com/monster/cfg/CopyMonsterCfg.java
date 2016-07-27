@@ -18,13 +18,11 @@ public class CopyMonsterCfg {
 	/**怪物描述*/
 	private String description;
 	/**模型id*/
-	private int modelId;
+	private int modeId;
 	
 	/**生命*/
-	private int Life;
+	private int life;
 	
-	/**血条数量*/
-	private int HpCount;
 	/**品质*/
 	private int quality;
 	
@@ -51,15 +49,15 @@ public class CopyMonsterCfg {
 	public String getDescription() {
 		return description;
 	}
-	public int getModelId() {
-		return modelId;
+	
+	
+	public int getModeId() {
+		return modeId;
 	}
 	public int getLife() {
-		return Life;
+		return life;
 	}
-	public int getHpCount() {
-		return HpCount;
-	}
+	
 	public int getQuality() {
 		return quality;
 	}

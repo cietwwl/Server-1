@@ -14,7 +14,7 @@ public enum AttributeComponentEnum {
 	Hero_Equip,
 	/** 专属装备 */
 	Hero_Fix_Exp_Equip,
-	/**专属 装备 */
+	/** 专属 装备 */
 	Hero_Fix_Norm_Equip,
 	/** 时装 */
 	Hero_Fashion,
@@ -27,5 +27,7 @@ public enum AttributeComponentEnum {
 	/** 个人技能 */
 	Hero_Skill,
 	/** 道术 */
-	Hero_Taoist;
+	Hero_Taoist,
+	/** 额外属性 */
+	Hero_Extra;
 }
