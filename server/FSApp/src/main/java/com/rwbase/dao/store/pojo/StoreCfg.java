@@ -1,5 +1,8 @@
 package com.rwbase.dao.store.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StoreCfg {
 
 	private int id;
@@ -18,6 +21,8 @@ public class StoreCfg {
 	private int levelLimit;
 	private int existMin;
 	private int version;
+	private String refreshDay;
+	private List<Integer> refreshDayList = new ArrayList<Integer>();
 	public int getId() {
 		return id;
 	}
@@ -113,6 +118,18 @@ public class StoreCfg {
 	}
 	public void setShowType(int showType) {
 		this.showType = showType;
+	}
+	public String getRefreshDay() {
+		return refreshDay;
+	}
+	public void setRefreshDay(String refreshDay) {
+		this.refreshDay = refreshDay;
+	}
+	public List<Integer> getRefreshDayList() {
+		return refreshDayList;
+	}
+	public void setRefreshDayList(List<Integer> refreshDayList) {
+		this.refreshDayList = refreshDayList;
 	}
 	
 }

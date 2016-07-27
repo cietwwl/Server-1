@@ -3,6 +3,8 @@ package com.playerdata.army;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -42,8 +44,9 @@ class ArmySimpleInfoHelper {
 
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfoSimple.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
-		
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);
@@ -58,9 +61,12 @@ class ArmySimpleInfoHelper {
 		if (heroIdList == null) return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			Hero heroTmp = heroMgr.getHeroById(heroId);
-			ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
-			heroList.add(armyHero);
+			if(StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0")) heroList.add(ArmyHeroSimple.newBlankInstance());
+			else{
+				Hero heroTmp = heroMgr.getHeroById(heroId);
+				ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
+				heroList.add(armyHero);
+			}
 		}
 		return heroList;
 	}

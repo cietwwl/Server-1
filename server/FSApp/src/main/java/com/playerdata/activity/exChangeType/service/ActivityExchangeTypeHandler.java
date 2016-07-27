@@ -37,9 +37,9 @@ public class ActivityExchangeTypeHandler {
 		return response.build().toByteString();
 	}
 	
-	public static void GmTakeGift(Player player,String[] strs){
-		ActivityExchangeTypeMgr.getInstance().takeGift(player, ActivityExChangeTypeEnum.getById(strs[0]), strs[1]);
-	}
+//	public static void GmTakeGift(Player player,String[] strs){
+//		ActivityExchangeTypeMgr.getInstance().takeGift(player, ActivityExChangeTypeEnum.getById(strs[0]), strs[1]);
+//	}
 	
 	
 	

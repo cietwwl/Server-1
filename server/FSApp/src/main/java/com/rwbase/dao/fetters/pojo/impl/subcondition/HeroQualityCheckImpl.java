@@ -28,6 +28,6 @@ public class HeroQualityCheckImpl implements IFettersSubCondition {
 
 	@Override
 	public int getSubConditionType() {
-		return FettersBM.SubConditionType.HERO_QUALITY.type;
+		return FettersBM.SubConditionType.QUALITY.type;
 	}
 }

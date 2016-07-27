@@ -15,7 +15,7 @@ public class GroupCopyMapCfg {
 	
     private String id; //副本地图ID...
     private String name; //名称...
-    private int unLockLv; //解锁等级...
+    private int unlockLv; //解锁等级...
     private int openCost; //开启消耗...
     private int extraRewardTime; //额外奖励时限，单位小时
     private int extraReward;//额外奖励
@@ -77,7 +77,7 @@ public class GroupCopyMapCfg {
 
 
 	public int getUnLockLv() {
-		return unLockLv;
+		return unlockLv;
 	}
 
 

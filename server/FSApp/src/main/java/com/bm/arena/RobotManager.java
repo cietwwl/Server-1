@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -29,6 +30,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
+import com.playerdata.embattle.EmbattlePositonHelper;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
@@ -40,6 +42,8 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
+import com.rwbase.dao.arena.pojo.ArenaRobotData;
+import com.rwbase.dao.arena.pojo.HeroFettersRobotInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
@@ -54,6 +58,8 @@ import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 public class RobotManager {
@@ -331,7 +337,7 @@ public class RobotManager {
 			String skillId = skill.getSkillId();
 			int lv = skill.getLevel();
 			int order = skill.getOrder();
-			
+
 			// 如果是普攻技能就直接不去检查等级等信息
 			if (order == SkillConstant.NORMAL_SKILL_ORDER) {
 				continue;
@@ -434,11 +440,89 @@ public class RobotManager {
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
-				handler.setArenaHero(player, arenaData, task.getHeroList());
+				handler.setArenaHero(player, arenaData, EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE,
+					String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
 				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
-						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+					+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
+	}
+
+	/**
+	 * 获取神器信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotFixInfo(RobotEntryCfg cfg) {
+		int[] fixInfo = new int[3];
+		// 神器
+		int[] fixEquipLevel = cfg.getFixEquipLevel();
+		fixInfo[0] = getRandom(fixEquipLevel);
+		int[] fixEquipQuality = cfg.getFixEquipQuality();
+		fixInfo[1] = getRandom(fixEquipQuality);
+		int[] fixEquipStar = cfg.getFixEquipStar();
+		fixInfo[2] = getRandom(fixEquipStar);
+
+		return fixInfo;
+	}
+
+	/**
+	 * 获取时装数据
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotFashionInfo(RobotEntryCfg cfg) {
+		List<String> fashions = cfg.getFashions();
+		int[] fashionIdArr = new int[3];
+		if (fashions.size() >= 3) {
+			for (int i = 0; i < 3; i++) {
+				fashionIdArr[i] = Integer.parseInt(fashions.get(i));
+			}
+		}
+		return fashionIdArr;
+	}
+
+	/**
+	 * 获取道术的信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static int[] getRobotTaoistInfo(RobotEntryCfg cfg) {
+		List<int[]> taoistLevel = cfg.getTaoistLevel();
+		int[] taoistLevelArr = new int[3];
+		if (taoistLevel.size() >= 3) {
+			for (int i = 0; i < 3; i++) {
+				taoistLevelArr[i] = getRandom(taoistLevel.get(i));
+			}
+		}
+		return taoistLevelArr;
+	}
+
+	/**
+	 * 获取英雄羁绊信息
+	 * 
+	 * @param cfg
+	 * @return
+	 */
+	public static HeroFettersRobotInfo[] getRobotFettersInfo(RobotEntryCfg cfg) {
+		Map<String, int[]> heroFetters = cfg.getHeroFetters();
+		HeroFettersRobotInfo[] fetters = new HeroFettersRobotInfo[0];
+		if (!heroFetters.isEmpty()) {
+			fetters = new HeroFettersRobotInfo[heroFetters.size()];
+			int i = 0;
+			for (Entry<String, int[]> e : heroFetters.entrySet()) {
+				HeroFettersRobotInfo info = new HeroFettersRobotInfo();
+				info.setId(e.getKey());
+				info.setLevel(getRandom(e.getValue()));
+
+				fetters[i++] = info;
+			}
+		}
+
+		return fetters;
 	}
 
 	static class ProductPlayerTask implements Callable<RankingPlayer> {
@@ -473,6 +557,7 @@ public class RobotManager {
 			user.setUserId(userId);
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
+			user.setRobot(true);
 			UserDataDao.getInstance().saveOrUpdate(user);
 			int star = getRandom(cfg.getStar());
 			int quality = getRandom(cfg.getQuality());
@@ -505,11 +590,11 @@ public class RobotManager {
 			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
 			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
-			String fashonId = getRandom(cfg.getFashions());
-			if (!fashonId.equals("0")) {
-				int fashionID = Integer.parseInt(fashonId);
-				player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
-			}
+			// String fashonId = getRandom(cfg.getFashions());
+			// if (!fashonId.equals("0")) {
+			// int fashionID = Integer.parseInt(fashonId);
+			// player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
+			// }
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
 			ItemBagMgr itemBagMgr = player.getItemBagMgr();
@@ -546,6 +631,7 @@ public class RobotManager {
 			int[] heroSkill3 = cfg.getHeroThirdSkillLevel();
 			int[] heroSkill4 = cfg.getHeroFourthSkillLevel();
 			int[] heroSkill5 = cfg.getHeroFifthSkillLevel();
+
 			ArrayList<String> arenaList = new ArrayList<String>();
 			for (Hero hero : heroList) {
 				changeHero(hero, cfg);
@@ -554,6 +640,23 @@ public class RobotManager {
 				changeSkill(player, hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				arenaList.add(hero.getUUId());
 			}
+
+			// 增加其他的扩展内容
+			ArenaRobotData robotData = new ArenaRobotData();
+			robotData.setUserId(userId);
+			// 神器
+			robotData.setFixEquip(getRobotFixInfo(cfg));
+			// 时装
+			robotData.setFashionId(getRobotFashionInfo(cfg));
+			// 道术
+			robotData.setTaoist(getRobotTaoistInfo(cfg));
+			// 羁绊
+			robotData.setFetters(getRobotFettersInfo(cfg));
+			// 额外属性
+			robotData.setExtraAttrId(cfg.getExtraAttrId());
+			// 把机器人这个配置数据放到数据库
+			ArenaRobotDataMgr.getMgr().addArenaRobotData(robotData);
+
 			player.getAttrMgr().reCal();
 			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();

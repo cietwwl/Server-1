@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
@@ -174,6 +175,11 @@ public class GMHandler {
 		
 		//添加帮派物资
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
+		//添加帮派副本战斗次数    * setgbf 1000
+		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
+		
+		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
+		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
 	}
 
@@ -341,8 +347,9 @@ public class GMHandler {
 			return false;
 		}
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
+		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据
@@ -482,6 +489,32 @@ public class GMHandler {
 		//
 		return false;
 	}
+	
+	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenPiece(addNum);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addWakenKey(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenKey(addNum);
+			return true;
+		}
+		return false;
+	}
 
 	public boolean getgift(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -519,7 +552,7 @@ public class GMHandler {
 		}
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			player.getUserGameDataMgr().addGold(addNum);
+			player.getUserGameDataMgr().addGoldByGm(addNum);
 			return true;
 		}
 		return false;
@@ -1151,6 +1184,17 @@ public class GMHandler {
 			return false;
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
+		return true;
+	}
+	
+	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
+		
+		int count = Integer.parseInt(arrcomStrings[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
 		return true;
 	}
 }

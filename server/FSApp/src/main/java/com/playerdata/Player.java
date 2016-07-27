@@ -53,6 +53,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
+import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
@@ -129,6 +130,9 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
+	private MagicEquipFetterMgr me_FetterMgr = new MagicEquipFetterMgr();
+	
+	
 	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
@@ -255,7 +259,6 @@ public class Player implements PlayerIF {
 			m_HeroMgr.init(this, true);
 		}
 
-		
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
 		// 法宝数据
@@ -304,11 +307,13 @@ public class Player implements PlayerIF {
 		m_battleTowerMgr.init(this);
 
 		guideMgr.init(this);
+		
 
 		afterMgrInit();
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
+		me_FetterMgr.init(this);//注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by Alex
 		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
 	}
 
@@ -329,6 +334,18 @@ public class Player implements PlayerIF {
 			}
 		});
 
+		me_FetterMgr.reChangeCallBack(new Action() {
+			
+			@Override
+			public void doAction() {
+				
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
+			}
+		});
+		
 		m_FashionMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
@@ -522,8 +539,6 @@ public class Player implements PlayerIF {
 			onNewDayZeroTimeAction.doAction();
 		}
 	}
-
-	
 
 	private TimeAction onNewDay5ClockTimeAction;
 
@@ -785,7 +800,7 @@ public class Player implements PlayerIF {
 
 	public void onCareerChange(int career, int sex) {
 		try {
-			int oldModelId = getModelId();
+			// int oldModelId = getModelId();
 			RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, getStarLevel());
 			if (cfg == null) {
 				NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "配置错误！");
@@ -803,6 +818,9 @@ public class Player implements PlayerIF {
 
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
+			
+
+			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
@@ -841,6 +859,12 @@ public class Player implements PlayerIF {
 			break;
 		case MagicSecretCoin:
 			reslut = userGameDataMgr.getMagicSecretCoin();
+			break;
+		case WAKEN_KEY:
+			reslut = userGameDataMgr.getWakenKey();
+			break;
+		case WAKEN_PIECE:
+			reslut = userGameDataMgr.getWakenPiece();
 			break;
 		default:
 			break;
@@ -1144,6 +1168,7 @@ public class Player implements PlayerIF {
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
 		return userGroupAttributeDataMgr;
 	}
+
 	/**
 	 * 获取个人的帮派副本数据
 	 * 
@@ -1151,6 +1176,16 @@ public class Player implements PlayerIF {
 	 */
 	public UserGroupCopyMapRecordMgr getUserGroupCopyRecordMgr() {
 		return userGroupCopyRecordMgr;
+	}
+
+	
+	
+	/**
+	 * 获取个人法宝神器羁绊管理类
+	 * @return
+	 */
+	public MagicEquipFetterMgr getMe_FetterMgr() {
+		return me_FetterMgr;
 	}
 
 	/**
@@ -1248,12 +1283,12 @@ public class Player implements PlayerIF {
 	}
 
 	/**
-	 * 临时方法
+	 * 是否是机器人
 	 * 
 	 * @return
 	 */
 	public boolean isRobot() {
-		return getUserId().length() > 20;
+		return userDataMgr.getUser().isRobot();
 	}
 
 	/** 每分钟执行 */
