@@ -1,6 +1,13 @@
 package com.rwbase.dao.chat.pojo;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -9,21 +16,92 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @date 2016年6月27日 下午5:12:12
  * @Description 聊天人的基础信息
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChatUserInfo {
+	
+	private static final String _KEY_USER_ID = "1";
+	private static final String _KEY_HEAD_IMAGE = "3";
+	private static final String _KEY_USER_NAME = "2";
+	private static final String _KEY_LEVEL = "4";
+	private static final String _KEY_GROUP_ID = "5";
+	private static final String _KEY_GROUP_NAME = "6";
+	private static final String _KEY_HEAD_BOX = "7";
+	private static final String _KEY_CAREER_TYPE = "8";
+	private static final String _KEY_GENDER = "9";
+	
+
+	private static final Map<String, Field> _fieldsOfNewKeys;
+	private static final Map<String, Field> _fieldsOfOldKeys;
+	
+	static {
+
+		Map<String, Field> fieldsOfNewKeys = new HashMap<String, Field>();
+		Map<String, Field> fieldsOfOldKeys = new HashMap<String, Field>();
+
+		Field[] allFields = ChatUserInfo.class.getDeclaredFields();
+		for (int i = 0; i < allFields.length; i++) {
+			Field f = allFields[i];
+			if (f.isAnnotationPresent(JsonProperty.class)) {
+				f.setAccessible(true);
+				JsonProperty jp = f.getAnnotation(JsonProperty.class);
+				fieldsOfNewKeys.put(jp.value(), f);
+				fieldsOfOldKeys.put(f.getName(), f);
+			}
+		}
+		_fieldsOfNewKeys = Collections.unmodifiableMap(fieldsOfNewKeys);
+		_fieldsOfOldKeys = Collections.unmodifiableMap(fieldsOfOldKeys);
+	}
+
+	@JsonProperty(_KEY_USER_ID)
 	private String userId;// 角色Id
+	
+	@JsonProperty(_KEY_USER_NAME)
 	private String userName;// 角色名字
-	@JsonSerialize(include=Inclusion.NON_NULL)
+	
+	@JsonSerialize(include = Inclusion.NON_NULL)
+	@JsonProperty(_KEY_HEAD_IMAGE)
 	private String headImage;// 头像
+	
+	@JsonProperty(_KEY_LEVEL)
 	private int level;// 角色等级
-	@JsonSerialize(include=Inclusion.NON_NULL)
+	
+	@JsonSerialize(include = Inclusion.NON_NULL)
+	@JsonProperty(_KEY_GROUP_ID)
 	private String groupId;// 帮会Id
-	@JsonSerialize(include=Inclusion.NON_NULL)
+	
+	@JsonSerialize(include = Inclusion.NON_NULL)
+	@JsonProperty(_KEY_GROUP_NAME)
 	private String groupName;// 帮会名字
-	@JsonSerialize(include=Inclusion.NON_NULL)
+	
+	@JsonSerialize(include = Inclusion.NON_NULL)
+	@JsonProperty(_KEY_HEAD_BOX)
 	private String headbox;// 头像品质框
+	
+	@JsonProperty(_KEY_CAREER_TYPE)
 	private int careerType; // 职业类型
+	
+	@JsonProperty(_KEY_GENDER)
 	private int gender; // 性别
+	
+	private static  ChatUserInfo handleJsonMap(Map<String, Object> map, Map<String, Field> fieldMap) throws Exception {
+		ChatUserInfo cui = new ChatUserInfo();
+		for (Iterator<Map.Entry<String, Object>> itr = map.entrySet().iterator(); itr.hasNext();) {
+			Map.Entry<String, Object> entry = itr.next();
+			Field f = fieldMap.get(entry.getKey());
+			f.set(cui, entry.getValue());
+		}
+		return cui;
+	}
+	
+	@JsonCreator
+	public static ChatUserInfo forValue(Map<String, Object> map) throws Exception {
+		Map<String, Field> fieldMap;
+		if (map.containsKey(_KEY_USER_ID)) {
+			fieldMap = _fieldsOfNewKeys;
+		} else {
+			fieldMap = _fieldsOfOldKeys;
+		}
+		return handleJsonMap(map, fieldMap);
+	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;

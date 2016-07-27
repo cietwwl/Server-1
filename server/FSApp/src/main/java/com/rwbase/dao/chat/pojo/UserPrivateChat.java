@@ -13,11 +13,13 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import com.rw.service.chat.ChatHandler;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 
-/*
+/**
  * @author HC
  * @date 2015年8月12日 下午2:14:11
  * @Description 
@@ -25,14 +27,23 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPrivateChat {
+	
+	private static final Function<ChatMessageSaveData, String> _getSenderIdFunc = new GetSenderUserIdFunc();
+	private static final Function<ChatMessageSaveData, String> _getReceiverIdFunc = new GetReceiverUserIdFunc();
+	private static final Function<ChatMessageData, String> _getSenderIdOfProtoFunc = new GetSenderUserIdOfProtoFunc();
+	private static final Function<ChatMessageData, String> _getReceiverIdOfProtoFunc = new GetReceiverUserIdOfProtoFunc();
+	
 	@Id
 	private String userId;// 主键
 	// private List<String> privateChatList;// 私聊信息列表
 	// private List<String> treasureChatList;// 密境信息列表
 	@JsonIgnore
 	private Map<String, Integer> _cacheCountOfUsers = new HashMap<String, Integer>();
+	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	private List<ChatMessageSaveData> privateChat;// 私聊信息列表
+	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	private List<ChatMessageSaveData> privateChatSent; // 我发出的私聊信息
+	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	private List<ChatMessageSaveData> secretChat;// 帮派秘境的聊天信息列表
 
 	public UserPrivateChat() {
@@ -244,12 +255,6 @@ public class UserPrivateChat {
 		if(rec) {
 			handleCount(privateChatMsgData.getSendInfo().getUserId());
 		}
-//		int size = privateChat.size();
-//		if (size >= ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT) {
-//			privateChat.remove(0);
-//		}
-//
-//		privateChat.add(privateChatMsgData);
 	}
 
 	/**
@@ -303,7 +308,6 @@ public class UserPrivateChat {
 //				mergeList.add(privateChatSent.get(i));
 //			}
 //		}
-////		return new ArrayList<ChatMessageSaveData>(privateChat);
 //		return mergeList;
 		List<ChatMessageSaveData> mergeList = new ArrayList<ChatMessageSaveData>(privateChat.size() + privateChatSent.size());
 		mergeList.addAll(privateChat);
@@ -332,23 +336,24 @@ public class UserPrivateChat {
 	 * @param chatMsgData
 	 */
 	@JsonIgnore
-	public synchronized void updatePrivateChatMessageState(int index, ChatMessageData data) {
-//		this.privateChat.set(index, saveData);
+	public synchronized void updatePrivateChatMessageState(ChatMessageData data) {
+		List<ChatMessageSaveData> targetList = null;
+		Function<ChatMessageSaveData, String> getFunc = null;
+		Function<ChatMessageData, String> getOfProtoFunc = null;
 		if (data.hasSendMessageUserInfo() && data.getSendMessageUserInfo().getUserId() == userId) {
-			for (int i = 0; i < privateChatSent.size(); i++) {
-				ChatMessageSaveData cmsd = privateChatSent.get(i);
-				if (cmsd.getReceiveInfo().getUserId().equals(data.getReceiveMessageUserInfo().getUserId()) && cmsd.getSendTime() == data.getTime()) {
-					cmsd.setRead(true);
-					break;
-				}
-			}
+			getFunc = _getReceiverIdFunc;
+			getOfProtoFunc = _getReceiverIdOfProtoFunc;
+			targetList = privateChatSent;
 		} else {
-			for (int i = 0; i < privateChat.size(); i++) {
-				ChatMessageSaveData cmsd = privateChat.get(i);
-				if (cmsd.getSendInfo().getUserId().equals(data.getSendMessageUserInfo().getUserId()) && cmsd.getSendTime() == data.getTime()) {
-					cmsd.setRead(true);
-					break;
-				}
+			getFunc = _getSenderIdFunc;
+			getOfProtoFunc = _getSenderIdOfProtoFunc;
+			targetList = privateChat;
+		}
+		for (int i = 0; i < targetList.size(); i++) {
+			ChatMessageSaveData cmsd = targetList.get(i);
+			if (getFunc.apply(cmsd).equals(getOfProtoFunc.apply(data)) && cmsd.getSendTime() == data.getTime()) {
+				cmsd.setRead(true);
+				break;
 			}
 		}
 	}
@@ -379,5 +384,46 @@ public class UserPrivateChat {
 	 */
 	public synchronized void clearAllTreasureChatMessage() {
 		secretChat.clear();
+	}
+	
+	private static interface Function<T, R> {
+
+		public R apply(T t);
+	}
+	
+	private static class GetSenderUserIdFunc implements Function<ChatMessageSaveData, String> {
+
+		@Override
+		public String apply(ChatMessageSaveData t) {
+			return t.getSendInfo().getUserId();
+		}
+
+	}
+	
+	private static class GetReceiverUserIdFunc implements Function<ChatMessageSaveData, String> {
+
+		@Override
+		public String apply(ChatMessageSaveData t) {
+			return t.getReceiveInfo().getUserId();
+		}
+
+	}
+	
+	private static class GetSenderUserIdOfProtoFunc implements Function<ChatMessageData, String> {
+
+		@Override
+		public String apply(ChatMessageData t) {
+			return t.getSendMessageUserInfo().getUserId();
+		}
+		
+	}
+	
+	private static class GetReceiverUserIdOfProtoFunc implements Function<ChatMessageData, String> {
+
+		@Override
+		public String apply(ChatMessageData t) {
+			return t.getReceiveMessageUserInfo().getUserId();
+		}
+		
 	}
 }

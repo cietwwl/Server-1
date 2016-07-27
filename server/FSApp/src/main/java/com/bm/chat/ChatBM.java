@@ -21,10 +21,12 @@ import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
+import com.rwbase.dao.chat.pojo.ChatAttachmentSaveData;
 import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
 import com.rwbase.dao.chat.pojo.ChatUserInfo;
 import com.rwbase.dao.chat.pojo.UserPrivateChat;
 import com.rwbase.dao.friend.FriendUtils;
+import com.rwproto.ChatServiceProtos.ChatAttachItem;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
@@ -39,6 +41,7 @@ public class ChatBM {
 	private static ChatBM instance = new ChatBM();
 	// private static List<ChatMessageData.Builder> listWorld = Collections.synchronizedList(new
 	// ArrayList<ChatMessageData.Builder>(ChatHandler.MAX_CACHE_MSG_SIZE));// 多线程保护
+	private static final int _CHAT_WORLD_TASK_ITR = 500; // 世界聊天发送进程的时间间隔（单位：毫秒）
 	private static ConcurrentHashMap<String, List<ChatMessageData.Builder>> familyChatMap = new ConcurrentHashMap<String, List<ChatMessageData.Builder>>();
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
@@ -89,7 +92,8 @@ public class ChatBM {
 					// msgChatResponse.setOnLogin(false);
 					for (int i = 0; i < size; i++) {
 						ChatInfo chatInfo = list.get(i);
-						ChatMessageData chatMsg = chatInfo.getMessage().build();
+//						ChatMessageData chatMsg = chatInfo.getMessage().build();
+						ChatMessageData chatMsg = chatInfo.getMessage();
 						String userId = chatMsg.getSendMessageUserInfo().getUserId();
 						if (userId == null || userId.isEmpty()) {
 							continue;
@@ -119,7 +123,7 @@ public class ChatBM {
 	}
 
 	private ChatBM() {
-		ses.scheduleAtFixedRate(new ChatRun(), 0, 1500, TimeUnit.MILLISECONDS);
+		ses.scheduleAtFixedRate(new ChatRun(), 0, _CHAT_WORLD_TASK_ITR, TimeUnit.MILLISECONDS);
 	}
 
 	public static ChatBM getInstance() {
@@ -191,15 +195,16 @@ public class ChatBM {
 	 * @param userId
 	 * @param updateMap
 	 */
-	public void updatePrivateChatState(String userId, Map<Integer, ChatMessageData> updateMap) {
-		if (updateMap == null || updateMap.isEmpty()) {
+//	public void updatePrivateChatState(String userId, Map<Integer, ChatMessageData> updateMap) {
+	public void updatePrivateChatState(String userId, List<ChatMessageData> updates) {
+		if (updates == null || updates.isEmpty()) {
 			return;
 		}
 
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat chat = dao.get(userId);
 
-		for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
+//		for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
 //			ChatMessageSaveData saveData = parseMsgData2SaveData(userId, e.getValue());
 //			if (saveData == null) {
 //				continue;
@@ -207,9 +212,10 @@ public class ChatBM {
 //
 //			saveData.setRead(true);
 //			chat.updatePrivateChatMessageState(e.getKey(), saveData);
-			chat.updatePrivateChatMessageState(e.getKey(), e.getValue());
+//		}
+		for (ChatMessageData e : updates) {
+			chat.updatePrivateChatMessageState(e);
 		}
-
 		dao.update(userId);
 	}
 
@@ -318,14 +324,16 @@ public class ChatBM {
 			return Collections.emptyList();
 		}
 		List<ChatMessageData> resultList = new ArrayList<ChatMessageData>();
-		for(ChatMessageSaveData cmsd : privateChatSaveDataList) {
+		boolean add;
+		for (ChatMessageSaveData cmsd : privateChatSaveDataList) {
+			add = false;
 			if (cmsd.getSendInfo() != null && cmsd.getSendInfo().getUserId().equals(targetUserId)) {
-				resultList.add(this.parseSaveData2MsgData(cmsd));
-				continue;
+				add = true;
+			} else if (cmsd.getReceiveInfo() != null && cmsd.getReceiveInfo().getUserId().equals(targetUserId)) {
+				add = true;
 			}
-			if (cmsd.getReceiveInfo() != null && cmsd.getReceiveInfo().getUserId().equals(targetUserId)) {
+			if (add) {
 				resultList.add(this.parseSaveData2MsgData(cmsd));
-				continue;
 			}
 		}
 		return resultList;
@@ -400,10 +408,6 @@ public class ChatBM {
 		String message = saveData.getMessage();
 		messageData.setMessage(!StringUtils.isEmpty(message) ? message : "");
 
-//		String time = saveData.getTime();
-//		if (!StringUtils.isEmpty(time)) {
-//			messageData.setTime(time);
-//		}
 		messageData.setTime(saveData.getSendTime());
 
 		String secId = saveData.getSecId();
@@ -411,6 +415,13 @@ public class ChatBM {
 			messageData.setTreasureId(secId);
 			messageData.setTreasureDefNum(saveData.getInviteNum());
 			messageData.setTreasureType(saveData.getSecCfgId());
+		}
+		
+		List<ChatAttachmentSaveData> attachments = saveData.getAttachments();
+		if (attachments.size() > 0) {
+			for (ChatAttachmentSaveData attach : attachments) {
+				messageData.addAttachItem(attach.toProto());
+			}
 		}
 
 		return messageData.build();
@@ -477,12 +488,14 @@ public class ChatBM {
 
 		ChatMessageSaveData saveData = new ChatMessageSaveData();
 		
-		if (chatMsgData.hasSendMessageUserInfo() /*&& !chatMsgData.getSendMessageUserInfo().getUserId().equals(userId)*/) {
+		if (chatMsgData.hasSendMessageUserInfo() && !chatMsgData.getSendMessageUserInfo().getUserId().equals(userId)) {
+			// sender的userId与userId相等，表示我是发送者，所以保存数据的时候不需要保存sender的信息
 			ChatUserInfo sendInfo = parseMsgUserData2SaveData(chatMsgData.getSendMessageUserInfo());
 			saveData.setSendInfo(sendInfo);
 		}
 
-		if (chatMsgData.hasReceiveMessageUserInfo() /*&& !chatMsgData.getReceiveMessageUserInfo().getUserId().equals(userId)*/) {
+		if (chatMsgData.hasReceiveMessageUserInfo() && !chatMsgData.getReceiveMessageUserInfo().getUserId().equals(userId)) {
+			// receiver的userId与userId相等，表示我是接收者，所以保存数据的时候不需要保存receiver的信息
 			ChatUserInfo receiveInfo = parseMsgUserData2SaveData(chatMsgData.getReceiveMessageUserInfo());
 			saveData.setReceiveInfo(receiveInfo);
 		}
@@ -515,6 +528,16 @@ public class ChatBM {
 
 		if (chatMsgData.hasTreasureType()) {
 			saveData.setSecCfgId(chatMsgData.getTreasureType());
+		}
+		
+		if (chatMsgData.getAttachItemCount() > 0) {
+			List<ChatAttachmentSaveData> list = new ArrayList<ChatAttachmentSaveData>(chatMsgData.getAttachItemCount());
+			for (ChatAttachItem attachment : chatMsgData.getAttachItemList()) {
+				ChatAttachmentSaveData attachmentSaveData = new ChatAttachmentSaveData();
+				attachmentSaveData.translate(attachment);
+				list.add(attachmentSaveData);
+			}
+			saveData.setAttachment(list);
 		}
 
 		return saveData;

@@ -1,10 +1,7 @@
 package com.rw.service.chat;
 
 import java.util.ArrayList;
-//import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -32,6 +29,7 @@ import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
+import com.rwproto.ChatServiceProtos.MsgPersonChatUserInfo;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef;
@@ -39,7 +37,7 @@ import com.rwproto.MsgDef.Command;
 
 public class ChatHandler {
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
-	public static final int MAX_CACHE_MSG_SIZE = 6;// 各个聊天频道缓存的最大聊天记录数
+	public static final int MAX_CACHE_MSG_SIZE = 20;// 各个聊天频道缓存的最大聊天记录数
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
 	public static final int MAX_CACHE_MSG_SIZE_PER_ONE = 10; // 私聊频道最每个人最高的保存数量
 	private static ChatHandler instance;
@@ -55,6 +53,12 @@ public class ChatHandler {
 		return instance;
 	}
 	
+	/**
+	 * 
+	 * @param player
+	 * @param appendBasic 是否添加基本信息（等级，头像id，名字，头像品质框，职业类型，性别）
+	 * @return
+	 */
 	private MessageUserInfo.Builder createMessageUserInfoBuilder(PlayerIF player, boolean appendBasic) {
 		MessageUserInfo.Builder messageUserInfoBuilder = MessageUserInfo.newBuilder();
 		messageUserInfoBuilder.setUserId(player.getTableUserOther().getUserId());
@@ -68,18 +72,28 @@ public class ChatHandler {
 		}
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupName = userGroupAttributeData.getGroupName();
-		messageUserInfoBuilder.setGroupId(userGroupAttributeData.getGroupId());
+		String groupId = userGroupAttributeData.getGroupId();
+		if (!StringUtils.isEmpty(groupId)) {
+			messageUserInfoBuilder.setGroupId(groupId);
+		}
 		if (!StringUtils.isEmpty(groupName)) {
 			messageUserInfoBuilder.setGroupName(groupName);
 		}
 		return messageUserInfoBuilder;
 	}
 	
-	private ChatMessageData.Builder createChatMessageData(Player player, ChatMessageData clientData, boolean needReceiverInfo) {
+	/**
+	 * 
+	 * @param player
+	 * @param clientData
+	 * @param clearReceiverInfo 是否清理receiver的信息
+	 * @return
+	 */
+	private ChatMessageData.Builder createChatMessageData(Player player, ChatMessageData clientData, boolean clearReceiverInfo) {
 		ChatMessageData.Builder newBuilder = clientData.toBuilder();
 		MessageUserInfo.Builder sendMsgInfo = this.createMessageUserInfoBuilder(player, true);
 		newBuilder.setSendMessageUserInfo(sendMsgInfo);
-		if (!needReceiverInfo && newBuilder.hasReceiveMessageUserInfo()) {
+		if (clearReceiverInfo && newBuilder.hasReceiveMessageUserInfo()) {
 			newBuilder.clearReceiveMessageUserInfo();
 		}
 
@@ -150,7 +164,7 @@ public class ChatHandler {
 //		data.setMessage(chatContent);
 //		data.setTime(getMessageTime());
 		
-		ChatMessageData.Builder data = this.createChatMessageData(player, message, false);
+		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 		String chatContent = data.getMessage();
 
 		msgChatResponse.addListMessage(data);
@@ -229,7 +243,7 @@ public class ChatHandler {
 //			data.setTime(getMessageTime());
 //			String chatContent = filterDirtyWord(message.getMessage());
 //			data.setMessage(chatContent);
-			ChatMessageData.Builder data = this.createChatMessageData(player, message, false);
+			ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 			String chatContent = data.getMessage();
 			msgChatResponse.addListMessage(data);
 			ChatBM.getInstance().addFamilyChat(groupId, data);
@@ -272,8 +286,8 @@ public class ChatHandler {
 	 * @return
 	 */
 	public ByteString chatPerson(Player player, MsgChatRequest msgChatRequest) {
-		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-		msgChatResponse.setChatType(msgChatRequest.getChatType());
+		MsgChatResponse.Builder msgChatResponseBuilder = MsgChatResponse.newBuilder();
+		msgChatResponseBuilder.setChatType(msgChatRequest.getChatType());
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 
@@ -281,23 +295,23 @@ public class ChatHandler {
 		String receiveUserId = message.getReceiveMessageUserInfo().getUserId();
 		if (FriendUtils.isBlack(sendUserId, receiveUserId)) {// 已经把对方拉黑
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您已把对方拉黑");
-			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-			return msgChatResponse.build().toByteString();
+			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
+			return msgChatResponseBuilder.build().toByteString();
 		} else if (FriendUtils.isBlack(receiveUserId, sendUserId)) {// 被对方拉黑
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您已被对方拉黑");
-			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-			return msgChatResponse.build().toByteString();
+			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
+			return msgChatResponseBuilder.build().toByteString();
 		} else if (sendUserId.equals(receiveUserId)) {// 是否是同一个角色Id
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您不能私聊自己");
-			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-			return msgChatResponse.build().toByteString();
+			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
+			return msgChatResponseBuilder.build().toByteString();
 		}
 
 		PlayerIF toPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(receiveUserId);
 		if (toPlayer == null) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您所私聊的角色不存在");
-			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-			return msgChatResponse.build().toByteString();
+			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
+			return msgChatResponseBuilder.build().toByteString();
 		}
 
 //		MessageUserInfo.Builder receiveUserInfo = MessageUserInfo.newBuilder(message.getReceiveMessageUserInfo());
@@ -331,35 +345,42 @@ public class ChatHandler {
 //		String chatContent = filterDirtyWord(message.getMessage());
 //		data.setMessage(chatContent);
 		
-		MessageUserInfo.Builder receiveUserInfo = this.createMessageUserInfoBuilder(toPlayer, true);
-		ChatMessageData.Builder data = this.createChatMessageData(player, message, false);
-		data.setReceiveMessageUserInfo(receiveUserInfo);
+		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 		String chatContent = data.getMessage();
-		msgChatResponse.addListMessage(data);
+		msgChatResponseBuilder.addListMessage(data);
 		
 		//聊天日志
 		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);
 
-		// 聊天日志
-		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);
-
-		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-		ByteString result = msgChatResponse.build().toByteString();
+		msgChatResponseBuilder.setChatResultType(eChatResultType.SUCCESS);
+		ByteString result = msgChatResponseBuilder.build().toByteString();
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
-			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer);// 发送给玩家
+			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 		}
-
+		
+		// @2016-07-26 21:33 by Chen.P: online也不一定已经阅读了 BEGIN >>>>
+//		if (isOnline) {
+//			data.setIsRead(true);
+//		} else {
+//			data.setIsRead(false);
+//		}
+		// 2016-07-26 21:33 END <<<<
+		data.setIsRead(false);
+		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
+		
+		// 发送消息给接收者的时候不需要发送接收者的信息
+		MessageUserInfo.Builder receiveUserInfo = this.createMessageUserInfoBuilder(toPlayer, true);
+		data.setReceiveMessageUserInfo(receiveUserInfo);
+		
+		data.clearSendMessageUserInfo(); // 发送给发送者的时候，不需要发送者的信息
+		
 		// 存储两个数据
 		data.setIsRead(true);
 		updatePlayerChatMsg(sendUserId, data, eChatType.CHAT_PERSON);
-
-		if (isOnline) {
-			data.setIsRead(true);
-		} else {
-			data.setIsRead(false);
-		}
-		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
+		
+		result = msgChatResponseBuilder.setListMessage(0, data.build()).build().toByteString();
+		
 		return result;
 	}
 
@@ -499,10 +520,15 @@ public class ChatHandler {
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ChatMessageData chatData;
 		int size = list.size();
+		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>();
 		for (int i = 0; i < size; i++) {
 			chatData = list.get(i);
 			msgChatResponse.addListMessage(chatData);
+			if(chatData.getIsRead()) {
+				unReadList.add(chatData);
+			}
 		}
+		ChatBM.getInstance().updatePrivateChatState(player.getUserId(), unReadList);
 		return msgChatResponse.build().toByteString();
 	}
 
@@ -587,42 +613,47 @@ public class ChatHandler {
 		msgChatResponse.setChatType(eChatType.CHAT_PERSON);
 		msgChatResponse.setOnLogin(true);
 
-		Map<Integer, ChatMessageData> updateStateMsgMap = new HashMap<Integer, ChatMessageData>();
+//		Map<Integer, ChatMessageData> updateStateMsgMap = new HashMap<Integer, ChatMessageData>();
+		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>();
 		ChatBM instance = ChatBM.getInstance();
 		String userId = player.getUserId();
 		List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
-		List<String> userIds = new ArrayList<String>();
+		List<String[]> userInfos = new ArrayList<String[]>();
 		for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
 			ChatMessageData chatMsgData = privateChatMessageList.get(i);
 			msgChatResponse.addListMessage(chatMsgData);
 
 			if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
-				updateStateMsgMap.put(i, chatMsgData);
+				unReadList.add(chatMsgData);
 			}
 			String tempUserId;
+			String tempUserName;
 			if (chatMsgData.hasSendMessageUserInfo()) {
 				tempUserId = chatMsgData.getSendMessageUserInfo().getUserId();
-				if (!tempUserId.equals(userId) && !userIds.contains(tempUserId)) {
-					userIds.add(tempUserId);
+				tempUserName = chatMsgData.getSendMessageUserInfo().getUserName();
+				if (!tempUserId.equals(userId) && !userInfos.contains(tempUserId)) {
+					userInfos.add(new String[] { tempUserId, tempUserName });
 				}
 			}
 			if (chatMsgData.hasReceiveMessageUserInfo()) {
 				tempUserId = chatMsgData.getReceiveMessageUserInfo().getUserId();
-				if (!tempUserId.equals(userId) && !userIds.contains(tempUserId)) {
-					userIds.add(tempUserId);
+				tempUserName = chatMsgData.getReceiveMessageUserInfo().getUserName();
+				if (!tempUserId.equals(userId) && !userInfos.contains(tempUserId)) {
+					userInfos.add(new String[] { tempUserId, tempUserName });
 				}
 			}
 		}
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-		for (String tempId : userIds) {
-			MessageUserInfo.Builder builder = MessageUserInfo.newBuilder();
-			builder.setUserId(tempId);
+		for (String[] tempUserInfos : userInfos) {
+			MsgPersonChatUserInfo.Builder builder = MsgPersonChatUserInfo.newBuilder();
+			builder.setUserId(tempUserInfos[0]);
+			builder.setName(tempUserInfos[1]);
 			msgChatResponse.addUsersOfPrivateChannel(builder.build());
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 
-		instance.updatePrivateChatState(userId, updateStateMsgMap);
+		instance.updatePrivateChatState(userId, unReadList);
 	}
 
 	private void sendTreasureMsg(Player player) {
