@@ -40,12 +40,13 @@ public class DailyHandler {
 			}
 		}
 		if(info != null){
+			dailyActivityDataHolder.setNum(dailyActivityDataHolder.getNum() + 1);
 			MsgDailyActivityRequest.Builder request = MsgDailyActivityRequest.newBuilder();
 			request.setRequestType(EDailyActivityRequestType.Task_Finish);
 			request.setTaskId(info.getTaskId());
 			client.getMsgHandler().sendMsg(Command.MSG_DAILY_ACTIVITY, request.build().toByteString(), new DailyMsgReceier(command, functionName, "日常"));
 		}else{
-			RobotLog.info("所有已完成任务的奖励都已领取");
+			RobotLog.info("所有已完成任务的奖励都已领取,此次机器人测试完成了任务数为 = " + dailyActivityDataHolder.getNum());
 		}
 	}
 	
