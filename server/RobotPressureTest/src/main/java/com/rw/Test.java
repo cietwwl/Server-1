@@ -20,7 +20,7 @@ public class Test {
 		 if(robot == null){
 		 }else{
 			 boolean issucc =false;
-			 issucc=robot.attackEnemyGroupSecret();
+			 issucc=robot.dailyActivity();
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 

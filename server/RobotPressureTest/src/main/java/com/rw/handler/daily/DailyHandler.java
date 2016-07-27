@@ -44,22 +44,26 @@ public class DailyHandler {
 			request.setRequestType(EDailyActivityRequestType.Task_Finish);
 			request.setTaskId(info.getTaskId());
 			client.getMsgHandler().sendMsg(Command.MSG_DAILY_ACTIVITY, request.build().toByteString(), new DailyMsgReceier(command, functionName, "日常"));
+		}else{
+			RobotLog.info("所有已完成任务的奖励都已领取");
 		}
 	}
 	
-	public void responseAchieveDailyReward(Client client, MsgDailyActivityResponse response) throws Exception {
+	public boolean responseAchieveDailyReward(Client client, MsgDailyActivityResponse response) throws Exception {
 		eDailyActivityResultType resultType = response.getResultType();
 		switch (resultType) {
 		case SUCCESS:
 			RobotLog.info("完成任务成功");
 			achieveDailyReward(client);
-			break;
+			return true;
 		default:
-			throw new Exception("任务领取失败");
+			RobotLog.info("完成任务失败");
+			return false;
 		}
+		
 	}
 	
-	private void processResponse(Client client, MsgDailyActivityResponse response) throws Exception{
+	private boolean processResponse(Client client, MsgDailyActivityResponse response) throws Exception{
 		DailyActivityDataHolder dailyActivityDataHolder = client.getDailyActivityDataHolder();
 		EDailyActivityRequestType responseType = response.getResponseType();
 		switch (responseType) {
@@ -69,11 +73,12 @@ public class DailyHandler {
 			break;
 		case Task_Finish:
 			dailyActivityDataHolder.setTaskList(response.getTaskListList());
-			responseAchieveDailyReward(client, response);
-			break;
+			return responseAchieveDailyReward(client, response);
 		default:
 			break;
 		}
+		RobotLog.info("获取任务列表");		
+		return true;
 	}
 	
 	private class DailyMsgReceier extends PrintMsgReciver{
@@ -96,8 +101,8 @@ public class DailyHandler {
 				eDailyActivityResultType resultype = resp.getResultType();
 				switch (resultype) {
 				case SUCCESS:
-					processResponse(client, resp);
-					return true;
+					return processResponse(client, resp);
+					 
 				case FAIL:
 					throw new Exception("获取任务失败");
 				default:
