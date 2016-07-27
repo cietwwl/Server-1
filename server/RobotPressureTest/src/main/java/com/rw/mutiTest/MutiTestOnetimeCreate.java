@@ -41,7 +41,6 @@ public class MutiTestOnetimeCreate {
 	private static boolean withCarrer = false;
 
 	public static void main(String[] args) throws Exception {
-
 		for (int i = start; i < start + totalCount; i++) {
 
 			final int index = i;
@@ -53,7 +52,7 @@ public class MutiTestOnetimeCreate {
 						String accountId = preName + index;
 						createRobot(accountId);
 //						Robot robot = Test.loginRobot(accountId);
-//
+////
 //						for (int i = 0; i < 5; i++) {
 //							int normolEquipType = Test.random.nextInt(5);
 //							normolEquipType = normolEquipType == 0 ? 1
@@ -61,7 +60,7 @@ public class MutiTestOnetimeCreate {
 //							boolean issucc = robot.testFixEquip(0, 0, 1,
 //									normolEquipType);
 //							System.out.println(i + "@@@@@@@" + issucc
-//									+ "         " + normolEquipType);
+//									+ "         " + normolEquipType  + "    " +accountId);
 //						}
 //						for (int i = 0; i < 4; i++) {
 //							int expEquipType = Test.random.nextInt(9);
@@ -71,7 +70,7 @@ public class MutiTestOnetimeCreate {
 //							boolean issucc = robot.testFixEquip(1, 0, 1,
 //									expEquipType);
 //							System.out.println(i + "~~~~~~~" + issucc
-//									+ "         " + expEquipType);
+//									+ "         " + expEquipType+ "    " +accountId);
 //						}
 
 					} catch (Throwable e) {

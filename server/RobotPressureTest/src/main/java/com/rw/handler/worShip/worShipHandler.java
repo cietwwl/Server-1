@@ -56,7 +56,7 @@ public class worShipHandler {
 
 					EWorshipResultType result = rsp.getResultType();
 					if (result == EWorshipResultType.FAIL) {
-						RobotLog.fail("WorshipHandler[send] 服务器处理消息失败 ，一天止咳膜拜一次");
+						RobotLog.info("WorshipHandler[send] 服务器处理消息失败 ，一天只可膜拜一次");
 						return true;
 					}
 
