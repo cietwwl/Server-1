@@ -184,6 +184,8 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
+		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		
 	}
 
 	public boolean isActive() {
@@ -1227,6 +1229,14 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addServerStatusTips(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
 }
