@@ -624,7 +624,7 @@ public class ChatHandler {
 		List<String[]> userInfos = new ArrayList<String[]>();
 		for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
 			ChatMessageData chatMsgData = privateChatMessageList.get(i);
-			msgChatResponse.addListMessage(chatMsgData);
+//			msgChatResponse.addListMessage(chatMsgData);
 
 			if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
 				unReadList.add(chatMsgData);

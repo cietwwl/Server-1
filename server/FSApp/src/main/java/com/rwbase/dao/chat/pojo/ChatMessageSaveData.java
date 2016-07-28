@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -118,38 +119,47 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 		this._attachments = attachments;
 	}
 
+	@JsonIgnore
 	public ChatUserInfo getSendInfo() {
 		return sendInfo;
 	}
 
+	@JsonIgnore
 	public ChatUserInfo getReceiveInfo() {
 		return receiveInfo;
 	}
 
+	@JsonIgnore
 	public String getMessage() {
 		return message;
 	}
 	
+	@JsonIgnore
 	public long getSendTime() {
 		return sendTime;
 	}
 
+	@JsonIgnore
 	public int getSecCfgId() {
 		return secCfgId;
 	}
 
+	@JsonIgnore
 	public String getSecId() {
 		return secId;
 	}
 
+	@JsonIgnore
 	public boolean isRead() {
 		return isRead;
 	}
 
+	@JsonIgnore
 	public int getInviteNum() {
 		return inviteNum;
 	}
 	
+	@JsonIgnore
 	public List<ChatAttachmentSaveData> getAttachments() {
 		if (_attachments.equals(Collections.EMPTY_LIST)) {
 			return _attachments;
