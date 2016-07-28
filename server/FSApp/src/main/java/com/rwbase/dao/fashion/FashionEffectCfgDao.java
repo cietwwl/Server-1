@@ -29,7 +29,7 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 			for (Entry<String, FashionEffectCfg> entry : values) {
 				FashionEffectCfg cfg = entry.getValue();
 				cfg.initData();
-				cfg.ExtraInit();
+				cfg.ExtraInitAfterLoad();
 				IReadOnlyPair<Integer, ECareer> pair = Pair.CreateReadonly(cfg.getFashionId(), cfg.getCareerTypeField());
 				if (effectMapping.put(pair, cfg) != null) {
 					GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:" + cfg.getFashionId() + "," + cfg.getCareerTypeField(), null);
