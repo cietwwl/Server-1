@@ -154,6 +154,10 @@ public class GroupSecretHandler {
 					return true;
 				} else {
 					String tips = resp.getTipMsg();
+					if(tips.indexOf("当前只能创建")!= -1){
+						RobotLog.fail(parseFunctionDesc() + "失败:"+tips);
+						return true;
+					}
 					RobotLog.fail(parseFunctionDesc() + "失败:"+tips);
 				}
 			} catch (Exception ex) {
