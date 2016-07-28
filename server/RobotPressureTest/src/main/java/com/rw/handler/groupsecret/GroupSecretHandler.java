@@ -1,5 +1,7 @@
 package com.rw.handler.groupsecret;
 
+import io.netty.util.internal.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,9 +53,9 @@ public class GroupSecretHandler {
 		List<BattleHeroPosition> heroPosList = new ArrayList<BattleHeroPosition>();
 		int mainRoleIndex = -1;
 		for (int i = 0; i < 5; i++) {
-			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
+			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {				
 				String heroId = (String) iterator.next();
-				if(heroId == client.getUserId()){
+				if(heroId.equals(client.getUserId())){
 					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 					pos.setHeroId(heroId);
 					pos.setPos(0);
@@ -67,6 +69,9 @@ public class GroupSecretHandler {
 					pos.setHeroId(heroId);
 					pos.setPos(mainRoleIndex == -1 ? i++ : i);
 					msg.addTeamHeroId(pos);
+					if(defendHeroList != null){
+						defendHeroList.add(heroId);
+					}
 					break;
 				}
 			}
