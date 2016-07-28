@@ -482,8 +482,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if((lastDayTime < lastUpdateTime && todayTime >= lastUpdateTime) || (lastDayTime < todayUpdateTime && todayTime >= todayUpdateTime)){
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
+				vo.setRefresh(true);
 				storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
-				m_pPlayer.getTempAttribute().setRefreshStore(true);
 				return;
 			}
 		}
@@ -492,8 +492,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	private void refreshCommodity(StoreData vo){
 		vo.setCommodity(RandomList(vo.getType().getOrder()));
 		vo.setLastRefreshTime(System.currentTimeMillis());
+		vo.setRefresh(true);
 		storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
-		m_pPlayer.getTempAttribute().setRefreshStore(true);
+		
 	}
 
 	/**
@@ -642,6 +643,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	}
 
 	public void OpenStore(int storeType) {
+		StoreData storeData = getStore(storeType);
+		storeData.setRefresh(false);
 		refreshStoreInfo(storeType);
 	}
 
@@ -734,5 +737,35 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isWakenStoreRedPoint(){
+		StoreData store = getStore(eStoreType.Waken);
+		if(store.getDrawTime() <= 0){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isStoreRefresh(){
+		Enumeration<StoreData> storeEnumeration = getStoreEnumeration();
+		while (storeEnumeration.hasMoreElements()) {
+			StoreData storeData = (StoreData) storeEnumeration.nextElement();
+			if(storeData.isRefresh()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void viewStore(int type){
+		eStoreType storeType = eStoreType.getDef(type);
+		StoreData store = getStore(storeType);
+		store.setRefresh(false);
+		storeDataHolder.update(m_pPlayer, type);
 	}
 }
