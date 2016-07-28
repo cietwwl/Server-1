@@ -49,7 +49,9 @@ public class GroupSecretHandler {
 		GroupSecretTeamDataHolder groupSecretTeamDataHolder = client.getGroupSecretTeamDataHolder();
 		GroupSecretTeamData data = groupSecretTeamDataHolder.getData();
 		List<String> defendHeroList = data.getDefendHeroList();
-		
+		if(defendHeroList == null){
+			defendHeroList = new ArrayList<String>();
+		}
 		List<BattleHeroPosition> heroPosList = new ArrayList<BattleHeroPosition>();
 		int mainRoleIndex = -1;
 		for (int i = 0; i < 5; i++) {
@@ -61,6 +63,7 @@ public class GroupSecretHandler {
 					pos.setPos(0);
 					msg.addTeamHeroId(pos);
 					mainRoleIndex = i;
+					defendHeroList.add(heroId);
 					continue;
 				}
 				
@@ -69,9 +72,7 @@ public class GroupSecretHandler {
 					pos.setHeroId(heroId);
 					pos.setPos(mainRoleIndex == -1 ? i++ : i);
 					msg.addTeamHeroId(pos);
-					if(defendHeroList != null){
-						defendHeroList.add(heroId);
-					}
+					defendHeroList.add(heroId);
 					break;
 				}
 			}
