@@ -105,7 +105,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					dataHolder.updateItem(player, activityRankTypeItem);
 					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
 					if(!StringUtils.isBlank(activityRankTypeItem.getFashionReward())){
-						ComGiftMgr.getInstance().addtagoffathionInfoTOEmail(player, activityRankTypeItem.getFashionReward(), activityRankTypeItem.getEmailId(), null);
+//						ComGiftMgr.getInstance().addtagoffathionInfoTOEmail(player, activityRankTypeItem.getFashionReward(), activityRankTypeItem.getEmailId(), null);
 					}
 				}
 				SendRewardRecord record = sendMap.get(activityRankTypeItem.getCfgId());

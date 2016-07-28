@@ -8,6 +8,8 @@ public class TeamMember {
 	
 	private String userID;
 	
+	private int lastFinishBattle = 0;
+	
 	private TBMemberState state;
 
 	public String getUserID() {
@@ -24,5 +26,13 @@ public class TeamMember {
 
 	public void setState(TBMemberState state) {
 		this.state = state;
+	}
+
+	public int getLastFinishBattle() {
+		return lastFinishBattle;
+	}
+
+	public void setLastFinishBattle(int lastFinishBattle) {
+		this.lastFinishBattle = lastFinishBattle;
 	}
 }

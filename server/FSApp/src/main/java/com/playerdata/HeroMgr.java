@@ -258,6 +258,9 @@ public class HeroMgr implements HeroMgrIF {
 			hero.regAttrChangeCallBack();
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroNum);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
+			//通知神器羁绊系统
+			player.getMe_FetterMgr().notifyHeroChange(player, hero);
+			
 		}
 		return hero;
 	}

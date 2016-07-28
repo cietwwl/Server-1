@@ -44,8 +44,7 @@ public class FixNormEquipMgr {
 	public boolean initIfNeed(Player player, Hero hero) {
 		if (!isInited(player, hero)) {
 			newHeroInit(player, hero.getUUId(), hero.getModelId());
-			//通知神器羁绊系统
-			player.getMe_FetterMgr().notifyHeroChange(player, hero);
+
 		}
 		return true;
 	}

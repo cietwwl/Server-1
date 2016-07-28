@@ -36,6 +36,7 @@ public enum LogModule {
 	GroupFightOnline("在线帮派战斗"), 
 	RedPoint("红点"),
 	GroupCopy("帮派副本"),
+	TeamBattle("组队副本"),
 	;
 	
 	private String name;

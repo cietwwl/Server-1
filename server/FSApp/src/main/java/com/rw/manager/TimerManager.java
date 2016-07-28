@@ -19,6 +19,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleHandler;
@@ -160,6 +161,13 @@ public class TimerManager {
 					@Override
 					public void run() {
 						GFightOnlineResourceMgr.getInstance().dispatchDailyReward();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						TBTeamItemMgr.getInstance().dailyReset();
 					}
 				});
 			}
