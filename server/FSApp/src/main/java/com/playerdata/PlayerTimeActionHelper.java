@@ -3,6 +3,8 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
@@ -13,9 +15,9 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -243,6 +245,14 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
+			}
+		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				UserTeamBattleDataMgr.getInstance().dailyReset(player);
 			}
 		});
 		

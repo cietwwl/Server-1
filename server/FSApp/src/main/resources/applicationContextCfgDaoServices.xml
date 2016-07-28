@@ -252,6 +252,11 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineCostDAO"  init-method="init" />
 	
+	<!-- 组队战 -->
+	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
 	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />

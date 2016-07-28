@@ -1,15 +1,18 @@
 package com.playerdata.teambattle.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -23,24 +26,26 @@ public class UserTeamBattleData {
 	
 	@CombineSave
 	private int score;
-	
-	@CombineSave
-	private ArrayList<String> gotScoreReward = new ArrayList<String>(); // 已经获取过的积分奖励
 
 	@CombineSave
 	private int tbGold; // 组队战货币
 	
 	@CombineSave
-	private List<StaticMemberTeamInfo> teamMembers;
+	private List<Integer> finishedLoops = new ArrayList<Integer>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
 	
 	@CombineSave
-	private List<String> finishedLoops;	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
+	private List<String> finishedHards = new ArrayList<String>();	//已经完成的章节
 	
 	@CombineSave
-	private List<String> finishedHards;	//已经完成的章节
-	
-	@CombineSave
+	@IgnoreSynField
 	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
+	
+	@CombineSave
+	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
+	
+	@NonSave
+	@IgnoreSynField
+	private boolean isSynTeam = false;
 	
 	public String getId() {
 		return id;
@@ -58,19 +63,11 @@ public class UserTeamBattleData {
 		this.teamID = teamID;
 	}
 
-	public List<StaticMemberTeamInfo> getTeamMembers() {
-		return teamMembers;
-	}
-
-	public void setTeamMembers(List<StaticMemberTeamInfo> teamMembers) {
-		this.teamMembers = teamMembers;
-	}
-
-	public List<String> getFinishedLoops() {
+	public List<Integer> getFinishedLoops() {
 		return finishedLoops;
 	}
 
-	public void setFinishedLoops(List<String> finishedLoops) {
+	public void setFinishedLoops(List<Integer> finishedLoops) {
 		this.finishedLoops = finishedLoops;
 	}
 
@@ -90,14 +87,6 @@ public class UserTeamBattleData {
 		this.score = score;
 	}
 
-	public ArrayList<String> getGotScoreReward() {
-		return gotScoreReward;
-	}
-
-	public void setGotScoreReward(ArrayList<String> gotScoreReward) {
-		this.gotScoreReward = gotScoreReward;
-	}
-
 	public int getTbGold() {
 		return tbGold;
 	}
@@ -112,5 +101,33 @@ public class UserTeamBattleData {
 
 	public void setFinishedHards(List<String> finishedHards) {
 		this.finishedHards = finishedHards;
+	}
+	
+	public boolean isSynTeam() {
+		return isSynTeam;
+	}
+
+	public void setSynTeam(boolean isSynTeam) {
+		this.isSynTeam = isSynTeam;
+	}
+
+	public HashMap<String, String> getEnimyMap() {
+		return enimyMap;
+	}
+
+	public void setEnimyMap(HashMap<String, String> enimyMap) {
+		this.enimyMap = enimyMap;
+	}
+
+	public void clearCurrentTeam(){
+		finishedLoops.clear();
+		teamID = null;
+	}
+	
+	public void dailyReset(){
+		enimyMap.clear();
+		finishedLoops.clear();
+		finishedHards.clear();
+		teamID = null;
 	}
 }

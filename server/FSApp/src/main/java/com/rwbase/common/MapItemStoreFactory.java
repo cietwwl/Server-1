@@ -225,8 +225,9 @@ public class MapItemStoreFactory {
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
-		// register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
-
+		
+		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
+		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
 		
 		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));

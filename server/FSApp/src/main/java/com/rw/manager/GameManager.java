@@ -27,6 +27,7 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.gm.task.gmCommand.GmCommandManager;
 import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
@@ -151,6 +152,9 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
+		
+		//GM的初始化
+		GmCommandManager.loadCommandClass();
 
 
 		//帮派副本奖励分发数据初始化
