@@ -385,6 +385,11 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addGold " + gold);
 		return sendSuccess;
 	}
+	
+	public boolean addHero() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* teambringit " + 1);
+		return sendSuccess;
+	}
 
 	public boolean additem(int id) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
