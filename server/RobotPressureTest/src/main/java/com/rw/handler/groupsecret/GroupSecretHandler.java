@@ -59,7 +59,7 @@ public class GroupSecretHandler {
 					pos.setPos(0);
 					msg.addTeamHeroId(pos);
 					mainRoleIndex = i;
-					break;
+					continue;
 				}
 				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
@@ -67,6 +67,7 @@ public class GroupSecretHandler {
 					pos.setHeroId(heroId);
 					pos.setPos(mainRoleIndex == -1 ? i++ : i);
 					msg.addTeamHeroId(pos);
+					break;
 				}
 			}
 		}
