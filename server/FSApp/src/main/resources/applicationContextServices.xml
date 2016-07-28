@@ -103,6 +103,9 @@
 			     <entry key="MSG_CHAT_REQUEST_PRIVATE_CHATS" value-ref="chatService" />
      			
      			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
+     			
+     			<entry key="MSG_TEAM_BATTLE" value-ref="teamBattleService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -182,7 +185,7 @@
 	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
 	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
 	
-	
+	<bean id="teamBattleService" class = "com.playerdata.teambattle.service.TeamBattleService" />
 	
 	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	

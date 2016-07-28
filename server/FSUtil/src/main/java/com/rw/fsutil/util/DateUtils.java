@@ -32,7 +32,9 @@ public class DateUtils {
 		return getCurrent().get(Calendar.HOUR_OF_DAY);
 	}
 
-	
+	public static int getCurMinuteOfHour(){
+		return getCurrent().get(Calendar.MINUTE);
+	}
 	
 	private static final long DAY_MILLIS = TimeUnit.DAYS.toMillis(1);// 1天的毫秒数
 
@@ -451,6 +453,13 @@ public class DateUtils {
 		}
 		return true;
 	}
+	
+	public static String timeToCountDown(long time) {
+		int hour = (int) (time / (60 * 60 * 1000));
+		int minute = (int) ((time - hour * 60 * 60 * 1000) / (60 * 1000));
+		int second = (int) ((time - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000);
+		return hour + ":" + minute + ":" + second;
+	}
 
 	public static void main(String[] args) throws ParseException {
 		// System.out.println(new Date(getHour(System.currentTimeMillis(),
@@ -461,5 +470,6 @@ public class DateUtils {
 		// long time = sdf.parse("2015-12-11 4:00:01").getTime();
 		//
 		// System.err.println(isResetTime(5, 0, 0, time));
+		
 	}
 }

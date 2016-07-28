@@ -663,7 +663,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 		long buyTime = item.getBuyTime();
 		long expired = item.getExpiredTime();
-		if (buyTime > expired) {
+		if (expired >0 && buyTime > expired) {
 			LogError(tip, "时装数据异常", ",购买时间比到期时间迟！fashionId=" + fashionId);
 			return false;
 		}
