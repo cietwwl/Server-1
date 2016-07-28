@@ -9,8 +9,12 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.rwbase.dao.group.pojo.cfg.GroupFunctionCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -78,7 +82,8 @@ public class GFightGroupBidBM {
 		}
 		if(!GFightConditionJudge.getInstance().isLevelEnoughForBid(player)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-			gfRsp.setTipMsg("帮派等级没达到竞标要求");
+			GroupFunctionCfg funCfg = GroupFunctionCfgDAO.getDAO().getCfgById(GFightConst.GF_BID_AUTHORITY_ID);
+			gfRsp.setTipMsg("竞标要求帮派达到" + funCfg.getNeedGroupLevel() + "级");
 			return;
 		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupMgr.getInstance().getByUser(player);
@@ -87,10 +92,13 @@ public class GFightGroupBidBM {
 			gfRsp.setTipMsg("竞标数量没有达到最小要求(起始或最小增长值)");
 			return;
 		}
-		if(gfGroupData.getResourceID() > 0 && gfGroupData.getResourceID() != resourceID) {
-			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
-			gfRsp.setTipMsg("不能同时竞标两个资源点");
-			return;
+		if(gfGroupData.getResourceID() > 0){// && gfGroupData.getResourceID() != resourceID) {
+			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfGroupData.getResourceID());
+			if(!resData.isOwnerBidAble()){
+				gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+				gfRsp.setTipMsg("竞标冷却期间，不能竞标");
+				return;
+			}
 		}
 		if(!GFightConditionJudge.getInstance().haveAuthorityToBid(player)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 

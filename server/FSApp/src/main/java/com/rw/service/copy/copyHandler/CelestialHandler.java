@@ -1,4 +1,4 @@
-package com.rw.service.copy;
+package com.rw.service.copy.copyHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,7 @@ import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
+import com.rw.service.copy.PvECommonHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
@@ -16,17 +17,16 @@ import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
+import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
 import com.rwproto.CopyServiceProtos.TagBattleData;
-import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class CelestialHandler {
 
@@ -57,6 +57,8 @@ public class CelestialHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
+		
+		
 		String rewardInfoActivity="";
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
@@ -69,9 +71,7 @@ public class CelestialHandler {
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(listItemBattle);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
-		}
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		if(!isWin){			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}	
@@ -144,36 +144,36 @@ public class CelestialHandler {
 		}
 	}
 
-	/*
-	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
-	 */
-	public ByteString sweep(Player player, MsgCopyRequest copyRequest) {
-		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
-		int levelId = copyRequest.getLevelId();
-		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
-		CopyLevelRecordIF copyRecord = player.getCopyRecordMgr().getLevelRecord(levelId);
-		int times = copyRequest.getTagBattleData().getBattleClearingTime();
-		// 合法性检查
-		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, times);
-		if (type != EResultType.NONE) {
-			return copyResponse.setEResultType(type).build().toByteString();
-		}
-
-		//
-		PvECommonHelper.deduceSweepCost(player, copyRequest, copyResponse, times);
-
-		String strLevelID = String.valueOf(levelId);
-		player.getCopyDataMgr().subCopyCount(strLevelID);
-		copyResponse.setCopyCount(player.getCopyDataMgr().getCopyCount(strLevelID));
-
-		copyResponse.setLevelId(levelId);
-
-		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
-
-		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
-
-		copyResponse.addAllTagSweepInfoList(listSweepInfo);
-		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
-	}
+//	/*
+//	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+//	 */
+//	public ByteString sweep(Player player, MsgCopyRequest copyRequest) {
+//		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+//		int levelId = copyRequest.getLevelId();
+//		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
+//		CopyLevelRecordIF copyRecord = player.getCopyRecordMgr().getLevelRecord(levelId);
+//		int times = copyRequest.getTagBattleData().getBattleClearingTime();
+//		// 合法性检查
+//		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, times);
+//		if (type != EResultType.NONE) {
+//			return copyResponse.setEResultType(type).build().toByteString();
+//		}
+//
+//		//
+//		PvECommonHelper.deduceSweepCost(player, copyRequest, copyResponse, times);
+//
+//		String strLevelID = String.valueOf(levelId);
+//		player.getCopyDataMgr().subCopyCount(strLevelID);
+//		copyResponse.setCopyCount(player.getCopyDataMgr().getCopyCount(strLevelID));
+//
+//		copyResponse.setLevelId(levelId);
+//
+//		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
+//
+//		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
+//
+//		copyResponse.addAllTagSweepInfoList(listSweepInfo);
+//		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
+//	}
 
 }

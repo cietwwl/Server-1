@@ -860,6 +860,12 @@ public class Player implements PlayerIF {
 		case MagicSecretCoin:
 			reslut = userGameDataMgr.getMagicSecretCoin();
 			break;
+		case WAKEN_KEY:
+			reslut = userGameDataMgr.getWakenKey();
+			break;
+		case WAKEN_PIECE:
+			reslut = userGameDataMgr.getWakenPiece();
+			break;
 		default:
 			break;
 		}

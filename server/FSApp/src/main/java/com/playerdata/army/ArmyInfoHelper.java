@@ -35,6 +35,7 @@ public class ArmyInfoHelper {
 		Player player = PlayerMgr.getInstance().find(playerId );
 		
 		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
+		if(magic == null) magic = player.getMagic();
 		
 		ArmyInfo armyInfo = build(heroIdList , player, magic);
 		if(setCurData){
@@ -52,7 +53,7 @@ public class ArmyInfoHelper {
 		List<ArmyHero> heroList = armyInfo.getHeroList();
 		for (ArmyHero armyHero : heroList) {
 			String heroId = armyHero.getRoleBaseInfo().getId();
-			ArmyHeroSimple simpleHero = armyInfoSimple.getByHeroId(heroId);
+			ArmyHeroSimple simpleHero = armyInfoSimple.getArmyHeroByID(heroId);
 			armyHero.setCurAttrData(simpleHero.getCurAttrData());
 		}
 		
@@ -70,6 +71,8 @@ public class ArmyInfoHelper {
 //		armyPlayer.setFighting(player.);
 		if(magic!=null){
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfo.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
 
 		List<ArmyHero> heroList = getArmyHeros(player, heroIdList);

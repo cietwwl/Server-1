@@ -119,7 +119,16 @@ public class GFDefendArmyItem implements IMapItem{
 	
 	public GFDefendArmySimpleLeader getSimpleLeader(){
 		if(simpleArmy == null || simpleArmy.getHeroList() == null || simpleArmy.getHeroList().size() == 0) return null;
-		ArmyHeroSimple heroSimple = simpleArmy.getHeroList().get(0);
+		int maxFightIndex = 0;
+		int maxFight = 0;
+		for(int i = 0; i < simpleArmy.getHeroList().size(); i++){
+			ArmyHeroSimple heroSimple = simpleArmy.getHeroList().get(i);
+			if(heroSimple.getFighting() > maxFight){
+				maxFightIndex = i;
+				maxFight = heroSimple.getFighting();
+			}
+		}
+		ArmyHeroSimple heroSimple = simpleArmy.getHeroList().get(maxFightIndex);
 		simpleLeader.setArmyID(armyID);
 		simpleLeader.setGroupID(groupID);
 		simpleLeader.setState(state);
