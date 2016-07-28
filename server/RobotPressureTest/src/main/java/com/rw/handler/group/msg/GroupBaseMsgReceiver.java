@@ -29,6 +29,10 @@ public class GroupBaseMsgReceiver extends PrintMsgReciver {
 				RobotLog.fail(parseFunctionDesc() + "转换响应消息为null");
 				return false;
 			} else if (!rsp.getIsSuccess()) {
+				if(rsp.getTipMsg().indexOf("当前拥有帮派")!= -1){
+					RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " 特殊返回为true");
+					return true;
+				}
 				RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : ""));
 				return false;
 			} else {
