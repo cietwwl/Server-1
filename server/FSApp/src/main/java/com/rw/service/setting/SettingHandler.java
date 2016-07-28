@@ -3,7 +3,9 @@ package com.rw.service.setting;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
+import com.mysql.jdbc.TimeUtil;
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.publicdata.PublicData;
@@ -74,6 +76,16 @@ public class SettingHandler
 			msgResponse.setInfo("该昵称已存在");
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "该昵称已存在");
 			return msgResponse.build().toByteString();
+		}
+		long time1 = System.currentTimeMillis() - player.getSettingMgr().getLastChangeNameTime();
+		long cdTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.CHAGNE_NAME_CDTIME)*1000;
+		if(time1 < cdTime){
+			long leftTime = cdTime - time1;
+			msgResponse.setResultType(eSettingResultType.FAIL);
+			String timeToCountDown = DateUtils.timeToCountDown(leftTime);
+			msgResponse.setInfo("还需要"+timeToCountDown+"才能改名");
+			return msgResponse.build().toByteString();
+			
 		}
 		
 		player.SetUserName(name);

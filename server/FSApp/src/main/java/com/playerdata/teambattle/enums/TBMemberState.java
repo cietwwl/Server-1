@@ -14,9 +14,13 @@ public enum TBMemberState {
 	 */
 	Fight(2),
 	/**
+	 * 至少完成了一个循环
+	 */
+	HalfFinish(3),
+	/**
 	 * 打完
 	 */
-	Finish(3);
+	Finish(4);
 	
 	private int value;
 	TBMemberState(int value){

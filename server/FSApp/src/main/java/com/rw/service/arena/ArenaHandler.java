@@ -358,6 +358,12 @@ public class ArenaHandler {
 		if (m_MyArenaData == null) {
 			return sendFailResponse(response, "数据错误", player);
 		}
+		
+		// 检查挑战次数
+		if (m_MyArenaData.getRemainCount() <= 0){
+			return sendFailResponse(response, "挑战次数已用完", player);
+		}
+		
 		String enemyUserId = request.getUserId();
 		TableArenaData enemyArenaData = ArenaBM.getInstance().getArenaData(enemyUserId);
 		if (enemyArenaData == null) {

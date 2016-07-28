@@ -28,6 +28,7 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
+import com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -50,10 +51,9 @@ import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
-import com.rwproto.MsgDef;
-import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.BattleCommon.eBattlePositionType;
+import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
@@ -363,6 +363,10 @@ public class PeakArenaHandler {
 	public ByteString fightStart(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
+		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
+		if (closeCfg.isCloseTime()){
+			return sendFailRespon(player, response, closeCfg.getCloseTimeTip());
+		}
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);

@@ -81,6 +81,7 @@
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaInfoHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
@@ -250,6 +251,11 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineCostDAO"  init-method="init" />
+	
+	<!-- 组队战 -->
+	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
