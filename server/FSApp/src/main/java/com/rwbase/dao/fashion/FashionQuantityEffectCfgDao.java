@@ -29,7 +29,7 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 				FashionQuantityEffectCfg cfg = entry.getValue();
 				cfg.initData();
 
-				cfg.ExtraInit(entry.getKey());
+				cfg.ExtraInitAfterLoad();//entry.getKey()
 				lst.add(cfg);
 			}
 

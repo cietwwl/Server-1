@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
@@ -346,8 +347,9 @@ public class GMHandler {
 			return false;
 		}
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
+		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据

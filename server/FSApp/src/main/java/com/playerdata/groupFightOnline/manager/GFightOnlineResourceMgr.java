@@ -14,6 +14,7 @@ import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.Group;
 
 public class GFightOnlineResourceMgr {
 	
@@ -93,8 +94,9 @@ public class GFightOnlineResourceMgr {
 		GFightOnlineResourceData resData = get(resourceID);
 		if(resData == null) return;
 		if(StringUtils.isNotBlank(resData.getOwnerGroupID())){
-			if(GroupBM.get(resData.getOwnerGroupID()) == null) return;
-			List<? extends GroupMemberDataIF> memberList = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getMemberSortList(null);
+			Group group = GroupBM.get(resData.getOwnerGroupID());
+			if(group == null) return;
+			List<? extends GroupMemberDataIF> memberList = group.getGroupMemberMgr().getMemberSortList(null);
 			for(GroupMemberDataIF memberInfo : memberList){	
 				EmailUtils.sendEmail(memberInfo.getUserId(), String.valueOf(resCfg.getEmailId()), resCfg.getOwnerDailyReward(), emailContent);
 			}
