@@ -1,6 +1,7 @@
 package com.rw.service.chat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,8 +19,11 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
+import com.rwbase.common.IFunction;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
+import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
+import com.rwbase.dao.chat.pojo.ChatUserInfo;
 import com.rwbase.dao.friend.FriendUtils;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -39,6 +43,7 @@ import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
 public class ChatHandler {
+	
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
 	public static final int MAX_CACHE_MSG_SIZE = 20;// 各个聊天频道缓存的最大聊天记录数
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
@@ -82,6 +87,8 @@ public class ChatHandler {
 		if (!StringUtils.isEmpty(groupName)) {
 			messageUserInfoBuilder.setGroupName(groupName);
 		}
+		messageUserInfoBuilder.setVipLv(player.getVip());
+		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
 		return messageUserInfoBuilder;
 	}
 	
@@ -369,11 +376,13 @@ public class ChatHandler {
 //			data.setIsRead(false);
 //		}
 		// 2016-07-26 21:33 END <<<<
-		String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(player.getUserId());
-		System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
-		if (toPlayer.getTableUser().getUserId().equals(currentTargetUserId)) {
+		String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
+//		System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+		if (player.getUserId().equals(currentTargetUserId)) {
+			// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 			data.setIsRead(true);
 		} else {
+			// 否則對方仍未讀到這條消息
 			data.setIsRead(false);
 		}
 		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
@@ -382,7 +391,7 @@ public class ChatHandler {
 		MessageUserInfo.Builder receiveUserInfo = this.createMessageUserInfoBuilder(toPlayer, true);
 		data.setReceiveMessageUserInfo(receiveUserInfo);
 		
-		data.clearSendMessageUserInfo(); // 发送给发送者的时候，不需要发送者的信息
+		data.clearSendMessageUserInfo(); // 發送給發送者的時候，不需要發送者的信息
 		
 		// 存储两个数据
 		data.setIsRead(true);
@@ -627,35 +636,56 @@ public class ChatHandler {
 	}
 
 	private void sendPrivateMsg(Player player) {
-
+		System.out.println("發送私聊信息給：" + player.getUserId() + ", " + player.getUserName());
 		// 2016-07-29 修改by CHEN.P，聊天現在改為先發送用戶列表
-//		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>();
+//		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>(); // 2016-07-29 這裡不需要unReadList
 		ChatBM instance = ChatBM.getInstance();
 		String userId = player.getUserId();
-		List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
+//		List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
+		List<ChatMessageSaveData> privateChatMessageList = instance.getPrivateChatListSaveData(userId);
 		Map<String, String> userInfos = new LinkedHashMap<String, String>();
+		Map<String, Integer> unReadCountMap = new HashMap<String, Integer>();
 		for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
-			ChatMessageData chatMsgData = privateChatMessageList.get(i);
+//			ChatMessageData chatMsgData = privateChatMessageList.get(i);
 
 //			if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
 //				unReadList.add(chatMsgData);
 //			}
-			String tempUserId;
-			String tempUserName;
-			if (chatMsgData.hasSendMessageUserInfo()) {
-				tempUserId = chatMsgData.getSendMessageUserInfo().getUserId();
-				tempUserName = chatMsgData.getSendMessageUserInfo().getUserName();
-				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
-					// 用戶列表需要過濾自己
-					userInfos.put(tempUserId, tempUserName);
-				}
+			ChatMessageSaveData chatMsgData = privateChatMessageList.get(i);
+//			if (chatMsgData.hasSendMessageUserInfo()) {
+//				tempUserId = chatMsgData.getSendMessageUserInfo().getUserId();
+//				tempUserName = chatMsgData.getSendMessageUserInfo().getUserName();
+//				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
+//					// 用戶列表需要過濾自己
+//					userInfos.put(tempUserId, tempUserName);
+//				}
+//			}
+//			if (chatMsgData.hasReceiveMessageUserInfo()) {
+//				tempUserId = chatMsgData.getReceiveMessageUserInfo().getUserId();
+//				tempUserName = chatMsgData.getReceiveMessageUserInfo().getUserName();
+//				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
+//					// 用戶列表需要過濾自己
+//					userInfos.put(tempUserId, tempUserName);
+//				}
+//			}
+			ChatUserInfo userInfo;
+			if (chatMsgData.getSendInfo() != null) {
+				// 別人發給我的
+				userInfo = chatMsgData.getSendInfo();
+			} else {
+				// 我發給別人的
+				userInfo = chatMsgData.getReceiveInfo();
 			}
-			if (chatMsgData.hasReceiveMessageUserInfo()) {
-				tempUserId = chatMsgData.getReceiveMessageUserInfo().getUserId();
-				tempUserName = chatMsgData.getReceiveMessageUserInfo().getUserName();
-				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
-					// 用戶列表需要過濾自己
-					userInfos.put(tempUserId, tempUserName);
+			String tempUserId = userInfo.getUserId();
+			if (!tempUserId.equals(userId)) {
+				userInfos.put(tempUserId, userInfo.getUserName());
+				if (!chatMsgData.isRead()) {
+					Integer count = unReadCountMap.get(tempUserId);
+					if (count == null) {
+						count = 0;
+					}
+					count++;
+					unReadCountMap.put(tempUserId, count);
 				}
 			}
 		}
@@ -666,10 +696,12 @@ public class ChatHandler {
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		for (Iterator<Map.Entry<String, String>> itr = userInfos.entrySet().iterator(); itr.hasNext();) {
 			Map.Entry<String, String> entry = itr.next();
-			System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "]");
+			Integer unReadCount = unReadCountMap.get(entry.getKey());
+			System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "," + unReadCount + "]");
 			MsgPersonChatUserInfo.Builder builder = MsgPersonChatUserInfo.newBuilder();
 			builder.setUserId(entry.getKey());
 			builder.setName(entry.getValue());
+			builder.setUnReadCount(unReadCount == null ? 0 : unReadCount);
 			msgChatResponse.addUsersOfPrivateChannel(builder.build());
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());

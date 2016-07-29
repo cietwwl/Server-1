@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import com.rw.service.chat.ChatHandler;
+import com.rwbase.common.IFunction;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 
 /**
@@ -28,10 +29,10 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPrivateChat {
 	
-	private static final Function<ChatMessageSaveData, String> _getSenderIdFunc = new GetSenderUserIdFunc();
-	private static final Function<ChatMessageSaveData, String> _getReceiverIdFunc = new GetReceiverUserIdFunc();
-	private static final Function<ChatMessageData, String> _getSenderIdOfProtoFunc = new GetSenderUserIdOfProtoFunc();
-	private static final Function<ChatMessageData, String> _getReceiverIdOfProtoFunc = new GetReceiverUserIdOfProtoFunc();
+	private static final IFunction<ChatMessageSaveData, String> _getSenderIdFunc = new GetSenderUserIdFunc();
+	private static final IFunction<ChatMessageSaveData, String> _getReceiverIdFunc = new GetReceiverUserIdFunc();
+	private static final IFunction<ChatMessageData, String> _getSenderIdOfProtoFunc = new GetSenderUserIdOfProtoFunc();
+	private static final IFunction<ChatMessageData, String> _getReceiverIdOfProtoFunc = new GetReceiverUserIdOfProtoFunc();
 	
 	@Id
 	private String userId;// 主键
@@ -350,8 +351,8 @@ public class UserPrivateChat {
 	@JsonIgnore
 	public synchronized void updatePrivateChatMessageState(ChatMessageData data) {
 		List<ChatMessageSaveData> targetList = null;
-		Function<ChatMessageSaveData, String> getFunc = null;
-		Function<ChatMessageData, String> getOfProtoFunc = null;
+		IFunction<ChatMessageSaveData, String> getFunc = null;
+		IFunction<ChatMessageData, String> getOfProtoFunc = null;
 		if (data.hasSendMessageUserInfo() && data.getSendMessageUserInfo().getUserId() == userId) {
 			getFunc = _getReceiverIdFunc;
 			getOfProtoFunc = _getReceiverIdOfProtoFunc;
@@ -398,12 +399,7 @@ public class UserPrivateChat {
 		secretChat.clear();
 	}
 	
-	private static interface Function<T, R> {
-
-		public R apply(T t);
-	}
-	
-	private static class GetSenderUserIdFunc implements Function<ChatMessageSaveData, String> {
+	private static class GetSenderUserIdFunc implements IFunction<ChatMessageSaveData, String> {
 
 		@Override
 		public String apply(ChatMessageSaveData t) {
@@ -412,7 +408,7 @@ public class UserPrivateChat {
 
 	}
 	
-	private static class GetReceiverUserIdFunc implements Function<ChatMessageSaveData, String> {
+	private static class GetReceiverUserIdFunc implements IFunction<ChatMessageSaveData, String> {
 
 		@Override
 		public String apply(ChatMessageSaveData t) {
@@ -421,7 +417,7 @@ public class UserPrivateChat {
 
 	}
 	
-	private static class GetSenderUserIdOfProtoFunc implements Function<ChatMessageData, String> {
+	private static class GetSenderUserIdOfProtoFunc implements IFunction<ChatMessageData, String> {
 
 		@Override
 		public String apply(ChatMessageData t) {
@@ -430,7 +426,7 @@ public class UserPrivateChat {
 		
 	}
 	
-	private static class GetReceiverUserIdOfProtoFunc implements Function<ChatMessageData, String> {
+	private static class GetReceiverUserIdOfProtoFunc implements IFunction<ChatMessageData, String> {
 
 		@Override
 		public String apply(ChatMessageData t) {

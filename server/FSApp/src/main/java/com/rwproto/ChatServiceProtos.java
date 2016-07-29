@@ -6212,6 +6212,24 @@ public final class ChatServiceProtos {
      */
     com.google.protobuf.ByteString
         getNameBytes();
+
+    // optional int32 unReadCount = 3;
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    boolean hasUnReadCount();
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    int getUnReadCount();
   }
   /**
    * Protobuf type {@code MsgPersonChatUserInfo}
@@ -6272,6 +6290,11 @@ public final class ChatServiceProtos {
             case 18: {
               bitField0_ |= 0x00000002;
               name_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              unReadCount_ = input.readInt32();
               break;
             }
           }
@@ -6424,9 +6447,34 @@ public final class ChatServiceProtos {
       }
     }
 
+    // optional int32 unReadCount = 3;
+    public static final int UNREADCOUNT_FIELD_NUMBER = 3;
+    private int unReadCount_;
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    public boolean hasUnReadCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    public int getUnReadCount() {
+      return unReadCount_;
+    }
+
     private void initFields() {
       userId_ = "";
       name_ = "";
+      unReadCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6450,6 +6498,9 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getNameBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, unReadCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6466,6 +6517,10 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, unReadCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6587,6 +6642,8 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         name_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        unReadCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -6623,6 +6680,10 @@ public final class ChatServiceProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.unReadCount_ = unReadCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6648,6 +6709,9 @@ public final class ChatServiceProtos {
           bitField0_ |= 0x00000002;
           name_ = other.name_;
           onChanged();
+        }
+        if (other.hasUnReadCount()) {
+          setUnReadCount(other.getUnReadCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6872,6 +6936,55 @@ public final class ChatServiceProtos {
   }
   bitField0_ |= 0x00000002;
         name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 unReadCount = 3;
+      private int unReadCount_ ;
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public boolean hasUnReadCount() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public int getUnReadCount() {
+        return unReadCount_;
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public Builder setUnReadCount(int value) {
+        bitField0_ |= 0x00000004;
+        unReadCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public Builder clearUnReadCount() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        unReadCount_ = 0;
         onChanged();
         return this;
       }
@@ -9658,23 +9771,23 @@ public final class ChatServiceProtos {
       "Read\030\t \001(\010\022#\n\nattachItem\030\n \003(\0132\017.ChatAtt" +
       "achItem\"i\n\016ChatAttachItem\022\014\n\004type\030\001 \002(\005\022" +
       "\n\n\002id\030\002 \002(\t\022\r\n\005index\030\003 \002(\005\022\r\n\005level\030\004 \001(" +
-      "\005\022\021\n\tqualityId\030\005 \001(\t\022\014\n\004star\030\006 \001(\t\"5\n\025Ms" +
+      "\005\022\021\n\tqualityId\030\005 \001(\t\022\014\n\004star\030\006 \001(\t\"J\n\025Ms" +
       "gPersonChatUserInfo\022\016\n\006userId\030\001 \002(\t\022\014\n\004n" +
-      "ame\030\002 \001(\t\"Y\n\016MsgChatRequest\022\034\n\010ChatType\030" +
-      "\001 \002(\0162\n.eChatType\022)\n\017chatMessageData\030\002 \001" +
-      "(\0132\020.ChatMessageData\"\310\001\n\017MsgChatResponse",
-      "\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016chatRe" +
-      "sultType\030\002 \001(\0162\020.eChatResultType\022%\n\013list" +
-      "Message\030\003 \003(\0132\020.ChatMessageData\022\017\n\007onLog" +
-      "in\030\005 \001(\010\0225\n\025usersOfPrivateChannel\030\006 \003(\0132" +
-      "\026.MsgPersonChatUserInfo\",\n\032MsgChatReques" +
-      "tPrivateChats\022\016\n\006userId\030\001 \002(\t*a\n\teChatTy" +
-      "pe\022\016\n\nCHAT_WORLD\020\001\022\017\n\013CHAT_FAMILY\020\002\022\017\n\013C" +
-      "HAT_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004\022\017\n\013CHAT_" +
-      "SYSTEM\020\005*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001" +
-      "\022\010\n\004FAIL\020\002*$\n\017eAttachItemType\022\010\n\004Item\020\001\022",
-      "\007\n\003Emo\020\002B \n\013com.rwprotoB\021ChatServiceProt" +
-      "os"
+      "ame\030\002 \001(\t\022\023\n\013unReadCount\030\003 \001(\005\"Y\n\016MsgCha" +
+      "tRequest\022\034\n\010ChatType\030\001 \002(\0162\n.eChatType\022)" +
+      "\n\017chatMessageData\030\002 \001(\0132\020.ChatMessageDat",
+      "a\"\310\001\n\017MsgChatResponse\022\034\n\010chatType\030\001 \002(\0162" +
+      "\n.eChatType\022(\n\016chatResultType\030\002 \001(\0162\020.eC" +
+      "hatResultType\022%\n\013listMessage\030\003 \003(\0132\020.Cha" +
+      "tMessageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025usersOf" +
+      "PrivateChannel\030\006 \003(\0132\026.MsgPersonChatUser" +
+      "Info\",\n\032MsgChatRequestPrivateChats\022\016\n\006us" +
+      "erId\030\001 \002(\t*a\n\teChatType\022\016\n\nCHAT_WORLD\020\001\022" +
+      "\017\n\013CHAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHA" +
+      "T_TREASURE\020\004\022\017\n\013CHAT_SYSTEM\020\005*(\n\017eChatRe" +
+      "sultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*$\n\017eAtta",
+      "chItemType\022\010\n\004Item\020\001\022\007\n\003Emo\020\002B \n\013com.rwp" +
+      "rotoB\021ChatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9704,7 +9817,7 @@ public final class ChatServiceProtos {
           internal_static_MsgPersonChatUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgPersonChatUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "Name", });
+              new java.lang.String[] { "UserId", "Name", "UnReadCount", });
           internal_static_MsgChatRequest_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_MsgChatRequest_fieldAccessorTable = new

@@ -310,6 +310,11 @@ public class ChatBM {
 		return msgList;
 	}
 	
+	public List<ChatMessageSaveData> getPrivateChatListSaveData(String userId) {
+		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
+		return dao.getPrivateChatMessageList();
+	}
+	
 	/**
 	 * 获取ownerUserId的私聊聊表中，与targetUserId相关联的私聊记录
 	 * 

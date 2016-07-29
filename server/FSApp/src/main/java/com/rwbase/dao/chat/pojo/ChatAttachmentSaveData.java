@@ -17,7 +17,7 @@ public class ChatAttachmentSaveData {
 	
 	@JsonProperty(_KEY_TYPE)
 	private int _type; // 附件的类型
-	
+
 	@JsonProperty(_KEY_ID)
 	private String _id; // 附件的id（如果是表情的话，就是表情的模板id）
 	
@@ -66,5 +66,10 @@ public class ChatAttachmentSaveData {
 			builder.setStar(this._star);
 		}
 		return builder.build();
+	}
+	
+	@Override
+	public String toString() {
+		return "ChatAttachmentSaveData [type=" + _type + ", id=" + _id + ", index=" + _index + ", level=" + _level + ", qualityId=" + _qualityId + ", star=" + _star + "]";
 	}
 }
