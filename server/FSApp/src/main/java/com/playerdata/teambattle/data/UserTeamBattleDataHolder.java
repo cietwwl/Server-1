@@ -1,6 +1,5 @@
 package com.playerdata.teambattle.data;
 
-import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;

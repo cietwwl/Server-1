@@ -19,6 +19,6 @@ public class ServerCommonDataHolder {
 	public void teamBattleDailyReset() {
 		ServerCommonData scdData = get();
 		scdData.teamBattleDailyReset();
-		update(scdData);
+		ServerCommonDataDAO.getInstance().commit(scdData);
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.enu.eStoreExistType;
 import com.rwbase.common.enu.eStoreType;
 
@@ -29,6 +30,8 @@ public class StoreData implements StoreDataIF{
 	private long lastDrawTime;   		//上一次抽箱时间    	
 	private int drawTime;				//免费抽箱的次数
 	private int recordGuaranteeTime;    //记录保底次数
+	@NonSave
+	private boolean refresh;            //是否刷新状态
 	
 	public List<CommodityData> getCommodity() {
 		return commodity;
@@ -107,5 +110,11 @@ public class StoreData implements StoreDataIF{
 	}
 	public void setRecordGuaranteeTime(int recordGuaranteeTime) {
 		this.recordGuaranteeTime = recordGuaranteeTime;
+	}
+	public boolean isRefresh() {
+		return refresh;
+	}
+	public void setRefresh(boolean refresh) {
+		this.refresh = refresh;
 	}
 }
