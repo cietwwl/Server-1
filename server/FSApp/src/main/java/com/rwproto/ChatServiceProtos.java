@@ -261,47 +261,81 @@ public final class ChatServiceProtos {
   public enum eAttachItemType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>Item = 1;</code>
-     *
-     * <pre>
-     *道具类
-     * </pre>
-     */
-    Item(0, 1),
-    /**
-     * <code>Emo = 2;</code>
+     * <code>Emo = 1;</code>
      *
      * <pre>
      *表情类
      * </pre>
      */
-    Emo(1, 2),
+    Emo(0, 1),
+    /**
+     * <code>Item = 2;</code>
+     *
+     * <pre>
+     *道具类
+     * </pre>
+     */
+    Item(1, 2),
+    /**
+     * <code>Hero = 3;</code>
+     *
+     * <pre>
+     *英雄类
+     * </pre>
+     */
+    Hero(2, 3),
+    /**
+     * <code>Magic = 4;</code>
+     *
+     * <pre>
+     *法宝
+     * </pre>
+     */
+    Magic(3, 4),
     ;
 
     /**
-     * <code>Item = 1;</code>
-     *
-     * <pre>
-     *道具类
-     * </pre>
-     */
-    public static final int Item_VALUE = 1;
-    /**
-     * <code>Emo = 2;</code>
+     * <code>Emo = 1;</code>
      *
      * <pre>
      *表情类
      * </pre>
      */
-    public static final int Emo_VALUE = 2;
+    public static final int Emo_VALUE = 1;
+    /**
+     * <code>Item = 2;</code>
+     *
+     * <pre>
+     *道具类
+     * </pre>
+     */
+    public static final int Item_VALUE = 2;
+    /**
+     * <code>Hero = 3;</code>
+     *
+     * <pre>
+     *英雄类
+     * </pre>
+     */
+    public static final int Hero_VALUE = 3;
+    /**
+     * <code>Magic = 4;</code>
+     *
+     * <pre>
+     *法宝
+     * </pre>
+     */
+    public static final int Magic_VALUE = 4;
 
 
     public final int getNumber() { return value; }
 
     public static eAttachItemType valueOf(int value) {
       switch (value) {
-        case 1: return Item;
-        case 2: return Emo;
+        case 1: return Emo;
+        case 2: return Item;
+        case 3: return Hero;
+        case 4: return Magic;
         default: return null;
       }
     }
@@ -4914,95 +4948,32 @@ public final class ChatServiceProtos {
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // required int32 index = 3;
+    // optional string extraInfo = 3;
     /**
-     * <code>required int32 index = 3;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *插入消息的索引
+     *额外的消息
      * </pre>
      */
-    boolean hasIndex();
+    boolean hasExtraInfo();
     /**
-     * <code>required int32 index = 3;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *插入消息的索引
+     *额外的消息
      * </pre>
      */
-    int getIndex();
-
-    // optional int32 level = 4;
+    java.lang.String getExtraInfo();
     /**
-     * <code>optional int32 level = 4;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *等级
-     * </pre>
-     */
-    boolean hasLevel();
-    /**
-     * <code>optional int32 level = 4;</code>
-     *
-     * <pre>
-     *等级
-     * </pre>
-     */
-    int getLevel();
-
-    // optional string qualityId = 5;
-    /**
-     * <code>optional string qualityId = 5;</code>
-     *
-     * <pre>
-     *品质
-     * </pre>
-     */
-    boolean hasQualityId();
-    /**
-     * <code>optional string qualityId = 5;</code>
-     *
-     * <pre>
-     *品质
-     * </pre>
-     */
-    java.lang.String getQualityId();
-    /**
-     * <code>optional string qualityId = 5;</code>
-     *
-     * <pre>
-     *品质
+     *额外的消息
      * </pre>
      */
     com.google.protobuf.ByteString
-        getQualityIdBytes();
-
-    // optional string star = 6;
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    boolean hasStar();
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    java.lang.String getStar();
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getStarBytes();
+        getExtraInfoBytes();
   }
   /**
    * Protobuf type {@code ChatAttachItem}
@@ -5065,24 +5036,9 @@ public final class ChatServiceProtos {
               id_ = input.readBytes();
               break;
             }
-            case 24: {
+            case 26: {
               bitField0_ |= 0x00000004;
-              index_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              level_ = input.readInt32();
-              break;
-            }
-            case 42: {
-              bitField0_ |= 0x00000010;
-              qualityId_ = input.readBytes();
-              break;
-            }
-            case 50: {
-              bitField0_ |= 0x00000020;
-              star_ = input.readBytes();
+              extraInfo_ = input.readBytes();
               break;
             }
           }
@@ -5204,76 +5160,28 @@ public final class ChatServiceProtos {
       }
     }
 
-    // required int32 index = 3;
-    public static final int INDEX_FIELD_NUMBER = 3;
-    private int index_;
+    // optional string extraInfo = 3;
+    public static final int EXTRAINFO_FIELD_NUMBER = 3;
+    private java.lang.Object extraInfo_;
     /**
-     * <code>required int32 index = 3;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *插入消息的索引
+     *额外的消息
      * </pre>
      */
-    public boolean hasIndex() {
+    public boolean hasExtraInfo() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 index = 3;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *插入消息的索引
+     *额外的消息
      * </pre>
      */
-    public int getIndex() {
-      return index_;
-    }
-
-    // optional int32 level = 4;
-    public static final int LEVEL_FIELD_NUMBER = 4;
-    private int level_;
-    /**
-     * <code>optional int32 level = 4;</code>
-     *
-     * <pre>
-     *等级
-     * </pre>
-     */
-    public boolean hasLevel() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional int32 level = 4;</code>
-     *
-     * <pre>
-     *等级
-     * </pre>
-     */
-    public int getLevel() {
-      return level_;
-    }
-
-    // optional string qualityId = 5;
-    public static final int QUALITYID_FIELD_NUMBER = 5;
-    private java.lang.Object qualityId_;
-    /**
-     * <code>optional string qualityId = 5;</code>
-     *
-     * <pre>
-     *品质
-     * </pre>
-     */
-    public boolean hasQualityId() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional string qualityId = 5;</code>
-     *
-     * <pre>
-     *品质
-     * </pre>
-     */
-    public java.lang.String getQualityId() {
-      java.lang.Object ref = qualityId_;
+    public java.lang.String getExtraInfo() {
+      java.lang.Object ref = extraInfo_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -5281,81 +5189,26 @@ public final class ChatServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          qualityId_ = s;
+          extraInfo_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string qualityId = 5;</code>
+     * <code>optional string extraInfo = 3;</code>
      *
      * <pre>
-     *品质
+     *额外的消息
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getQualityIdBytes() {
-      java.lang.Object ref = qualityId_;
+        getExtraInfoBytes() {
+      java.lang.Object ref = extraInfo_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        qualityId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional string star = 6;
-    public static final int STAR_FIELD_NUMBER = 6;
-    private java.lang.Object star_;
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    public boolean hasStar() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    public java.lang.String getStar() {
-      java.lang.Object ref = star_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          star_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string star = 6;</code>
-     *
-     * <pre>
-     *星级
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getStarBytes() {
-      java.lang.Object ref = star_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        star_ = b;
+        extraInfo_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -5365,10 +5218,7 @@ public final class ChatServiceProtos {
     private void initFields() {
       type_ = 0;
       id_ = "";
-      index_ = 0;
-      level_ = 0;
-      qualityId_ = "";
-      star_ = "";
+      extraInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5380,10 +5230,6 @@ public final class ChatServiceProtos {
         return false;
       }
       if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIndex()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5401,16 +5247,7 @@ public final class ChatServiceProtos {
         output.writeBytes(2, getIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, index_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, level_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getQualityIdBytes());
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getStarBytes());
+        output.writeBytes(3, getExtraInfoBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -5431,19 +5268,7 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, index_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, level_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getQualityIdBytes());
-      }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getStarBytes());
+          .computeBytesSize(3, getExtraInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5565,14 +5390,8 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         id_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        index_ = 0;
+        extraInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        level_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        qualityId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
-        star_ = "";
-        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -5612,19 +5431,7 @@ public final class ChatServiceProtos {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.index_ = index_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.level_ = level_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.qualityId_ = qualityId_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
-        }
-        result.star_ = star_;
+        result.extraInfo_ = extraInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5649,20 +5456,9 @@ public final class ChatServiceProtos {
           id_ = other.id_;
           onChanged();
         }
-        if (other.hasIndex()) {
-          setIndex(other.getIndex());
-        }
-        if (other.hasLevel()) {
-          setLevel(other.getLevel());
-        }
-        if (other.hasQualityId()) {
-          bitField0_ |= 0x00000010;
-          qualityId_ = other.qualityId_;
-          onChanged();
-        }
-        if (other.hasStar()) {
-          bitField0_ |= 0x00000020;
-          star_ = other.star_;
+        if (other.hasExtraInfo()) {
+          bitField0_ |= 0x00000004;
+          extraInfo_ = other.extraInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -5675,10 +5471,6 @@ public final class ChatServiceProtos {
           return false;
         }
         if (!hasId()) {
-          
-          return false;
-        }
-        if (!hasIndex()) {
           
           return false;
         }
@@ -5851,296 +5643,100 @@ public final class ChatServiceProtos {
         return this;
       }
 
-      // required int32 index = 3;
-      private int index_ ;
+      // optional string extraInfo = 3;
+      private java.lang.Object extraInfo_ = "";
       /**
-       * <code>required int32 index = 3;</code>
+       * <code>optional string extraInfo = 3;</code>
        *
        * <pre>
-       *插入消息的索引
+       *额外的消息
        * </pre>
        */
-      public boolean hasIndex() {
+      public boolean hasExtraInfo() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 index = 3;</code>
+       * <code>optional string extraInfo = 3;</code>
        *
        * <pre>
-       *插入消息的索引
+       *额外的消息
        * </pre>
        */
-      public int getIndex() {
-        return index_;
+      public java.lang.String getExtraInfo() {
+        java.lang.Object ref = extraInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          extraInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 index = 3;</code>
+       * <code>optional string extraInfo = 3;</code>
        *
        * <pre>
-       *插入消息的索引
+       *额外的消息
        * </pre>
        */
-      public Builder setIndex(int value) {
-        bitField0_ |= 0x00000004;
-        index_ = value;
+      public com.google.protobuf.ByteString
+          getExtraInfoBytes() {
+        java.lang.Object ref = extraInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string extraInfo = 3;</code>
+       *
+       * <pre>
+       *额外的消息
+       * </pre>
+       */
+      public Builder setExtraInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        extraInfo_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 index = 3;</code>
+       * <code>optional string extraInfo = 3;</code>
        *
        * <pre>
-       *插入消息的索引
+       *额外的消息
        * </pre>
        */
-      public Builder clearIndex() {
+      public Builder clearExtraInfo() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        index_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 level = 4;
-      private int level_ ;
-      /**
-       * <code>optional int32 level = 4;</code>
-       *
-       * <pre>
-       *等级
-       * </pre>
-       */
-      public boolean hasLevel() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional int32 level = 4;</code>
-       *
-       * <pre>
-       *等级
-       * </pre>
-       */
-      public int getLevel() {
-        return level_;
-      }
-      /**
-       * <code>optional int32 level = 4;</code>
-       *
-       * <pre>
-       *等级
-       * </pre>
-       */
-      public Builder setLevel(int value) {
-        bitField0_ |= 0x00000008;
-        level_ = value;
+        extraInfo_ = getDefaultInstance().getExtraInfo();
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 level = 4;</code>
+       * <code>optional string extraInfo = 3;</code>
        *
        * <pre>
-       *等级
+       *额外的消息
        * </pre>
        */
-      public Builder clearLevel() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        level_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional string qualityId = 5;
-      private java.lang.Object qualityId_ = "";
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public boolean hasQualityId() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public java.lang.String getQualityId() {
-        java.lang.Object ref = qualityId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          qualityId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getQualityIdBytes() {
-        java.lang.Object ref = qualityId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          qualityId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public Builder setQualityId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        qualityId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public Builder clearQualityId() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        qualityId_ = getDefaultInstance().getQualityId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string qualityId = 5;</code>
-       *
-       * <pre>
-       *品质
-       * </pre>
-       */
-      public Builder setQualityIdBytes(
+      public Builder setExtraInfoBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
-        qualityId_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional string star = 6;
-      private java.lang.Object star_ = "";
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public boolean hasStar() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public java.lang.String getStar() {
-        java.lang.Object ref = star_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          star_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getStarBytes() {
-        java.lang.Object ref = star_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          star_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public Builder setStar(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000020;
-        star_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public Builder clearStar() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        star_ = getDefaultInstance().getStar();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string star = 6;</code>
-       *
-       * <pre>
-       *星级
-       * </pre>
-       */
-      public Builder setStarBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000020;
-        star_ = value;
+  bitField0_ |= 0x00000004;
+        extraInfo_ = value;
         onChanged();
         return this;
       }
@@ -6212,6 +5808,24 @@ public final class ChatServiceProtos {
      */
     com.google.protobuf.ByteString
         getNameBytes();
+
+    // optional int32 unReadCount = 3;
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    boolean hasUnReadCount();
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    int getUnReadCount();
   }
   /**
    * Protobuf type {@code MsgPersonChatUserInfo}
@@ -6272,6 +5886,11 @@ public final class ChatServiceProtos {
             case 18: {
               bitField0_ |= 0x00000002;
               name_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              unReadCount_ = input.readInt32();
               break;
             }
           }
@@ -6424,9 +6043,34 @@ public final class ChatServiceProtos {
       }
     }
 
+    // optional int32 unReadCount = 3;
+    public static final int UNREADCOUNT_FIELD_NUMBER = 3;
+    private int unReadCount_;
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    public boolean hasUnReadCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 unReadCount = 3;</code>
+     *
+     * <pre>
+     * 未讀數量
+     * </pre>
+     */
+    public int getUnReadCount() {
+      return unReadCount_;
+    }
+
     private void initFields() {
       userId_ = "";
       name_ = "";
+      unReadCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6450,6 +6094,9 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getNameBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, unReadCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6466,6 +6113,10 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, unReadCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6587,6 +6238,8 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         name_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        unReadCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -6623,6 +6276,10 @@ public final class ChatServiceProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.unReadCount_ = unReadCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6648,6 +6305,9 @@ public final class ChatServiceProtos {
           bitField0_ |= 0x00000002;
           name_ = other.name_;
           onChanged();
+        }
+        if (other.hasUnReadCount()) {
+          setUnReadCount(other.getUnReadCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6872,6 +6532,55 @@ public final class ChatServiceProtos {
   }
   bitField0_ |= 0x00000002;
         name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 unReadCount = 3;
+      private int unReadCount_ ;
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public boolean hasUnReadCount() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public int getUnReadCount() {
+        return unReadCount_;
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public Builder setUnReadCount(int value) {
+        bitField0_ |= 0x00000004;
+        unReadCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 unReadCount = 3;</code>
+       *
+       * <pre>
+       * 未讀數量
+       * </pre>
+       */
+      public Builder clearUnReadCount() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        unReadCount_ = 0;
         onChanged();
         return this;
       }
@@ -9656,25 +9365,24 @@ public final class ChatServiceProtos {
       "me\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\ntrea" +
       "sureId\030\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016\n\006is" +
       "Read\030\t \001(\010\022#\n\nattachItem\030\n \003(\0132\017.ChatAtt" +
-      "achItem\"i\n\016ChatAttachItem\022\014\n\004type\030\001 \002(\005\022" +
-      "\n\n\002id\030\002 \002(\t\022\r\n\005index\030\003 \002(\005\022\r\n\005level\030\004 \001(" +
-      "\005\022\021\n\tqualityId\030\005 \001(\t\022\014\n\004star\030\006 \001(\t\"5\n\025Ms" +
-      "gPersonChatUserInfo\022\016\n\006userId\030\001 \002(\t\022\014\n\004n" +
-      "ame\030\002 \001(\t\"Y\n\016MsgChatRequest\022\034\n\010ChatType\030" +
-      "\001 \002(\0162\n.eChatType\022)\n\017chatMessageData\030\002 \001" +
-      "(\0132\020.ChatMessageData\"\310\001\n\017MsgChatResponse",
-      "\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016chatRe" +
-      "sultType\030\002 \001(\0162\020.eChatResultType\022%\n\013list" +
-      "Message\030\003 \003(\0132\020.ChatMessageData\022\017\n\007onLog" +
-      "in\030\005 \001(\010\0225\n\025usersOfPrivateChannel\030\006 \003(\0132" +
-      "\026.MsgPersonChatUserInfo\",\n\032MsgChatReques" +
-      "tPrivateChats\022\016\n\006userId\030\001 \002(\t*a\n\teChatTy" +
-      "pe\022\016\n\nCHAT_WORLD\020\001\022\017\n\013CHAT_FAMILY\020\002\022\017\n\013C" +
-      "HAT_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004\022\017\n\013CHAT_" +
-      "SYSTEM\020\005*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001" +
-      "\022\010\n\004FAIL\020\002*$\n\017eAttachItemType\022\010\n\004Item\020\001\022",
-      "\007\n\003Emo\020\002B \n\013com.rwprotoB\021ChatServiceProt" +
-      "os"
+      "achItem\"=\n\016ChatAttachItem\022\014\n\004type\030\001 \002(\005\022" +
+      "\n\n\002id\030\002 \002(\t\022\021\n\textraInfo\030\003 \001(\t\"J\n\025MsgPer" +
+      "sonChatUserInfo\022\016\n\006userId\030\001 \002(\t\022\014\n\004name\030" +
+      "\002 \001(\t\022\023\n\013unReadCount\030\003 \001(\005\"Y\n\016MsgChatReq" +
+      "uest\022\034\n\010ChatType\030\001 \002(\0162\n.eChatType\022)\n\017ch" +
+      "atMessageData\030\002 \001(\0132\020.ChatMessageData\"\310\001" +
+      "\n\017MsgChatResponse\022\034\n\010chatType\030\001 \002(\0162\n.eC",
+      "hatType\022(\n\016chatResultType\030\002 \001(\0162\020.eChatR" +
+      "esultType\022%\n\013listMessage\030\003 \003(\0132\020.ChatMes" +
+      "sageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025usersOfPriv" +
+      "ateChannel\030\006 \003(\0132\026.MsgPersonChatUserInfo" +
+      "\",\n\032MsgChatRequestPrivateChats\022\016\n\006userId" +
+      "\030\001 \002(\t*a\n\teChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013C" +
+      "HAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_TR" +
+      "EASURE\020\004\022\017\n\013CHAT_SYSTEM\020\005*(\n\017eChatResult" +
+      "Type\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*9\n\017eAttachIt" +
+      "emType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002\022\010\n\004Hero\020\003\022\t\n\005M",
+      "agic\020\004B \n\013com.rwprotoB\021ChatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9698,13 +9406,13 @@ public final class ChatServiceProtos {
           internal_static_ChatAttachItem_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChatAttachItem_descriptor,
-              new java.lang.String[] { "Type", "Id", "Index", "Level", "QualityId", "Star", });
+              new java.lang.String[] { "Type", "Id", "ExtraInfo", });
           internal_static_MsgPersonChatUserInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_MsgPersonChatUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgPersonChatUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "Name", });
+              new java.lang.String[] { "UserId", "Name", "UnReadCount", });
           internal_static_MsgChatRequest_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_MsgChatRequest_fieldAccessorTable = new

@@ -16,8 +16,10 @@ enum eChatResultType {
 }
 
 enum eAttachItemType{
-	Item = 1;//道具类
-	Emo = 2;//表情类
+	Emo = 1;//表情类
+	Item = 2;//道具类
+	Hero = 3;//英雄类
+	Magic = 4;//法宝
 }
 
 message MessageUserInfo{
@@ -50,10 +52,7 @@ message ChatMessageData{
 message ChatAttachItem{
 	required int32 type = 1;//类型
 	required string id = 2;//Id
-	required int32 index = 3;//插入消息的索引
-	optional int32 level = 4;//等级
-	optional string qualityId = 5;//品质
-	optional string star = 6;//星级
+	optional string extraInfo = 3;//额外的消息
 }
 
 message MsgPersonChatUserInfo {
