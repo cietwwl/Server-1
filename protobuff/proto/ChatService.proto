@@ -59,6 +59,7 @@ message ChatAttachItem{
 message MsgPersonChatUserInfo {
 	required string userId = 1; // 请求的target的userId
 	optional string name = 2;//私聊人的名字
+	optional int32 unReadCount = 3; // 未讀數量
 }
 
 message MsgChatRequest{
