@@ -19,7 +19,8 @@ public enum eTaskFinishDef {
 	Section_Star(11),//副本星数
 	Finish_Copy_Elite(12),//完成副本精英副本
 	Finish_Copy_Hero(13),//完成副本英雄副本
-	Add_Friend(14);
+	Add_Friend(14),
+	Challage_BattleTower(15);//挑战封神台到指定层数
 	
 	private int order;
 	eTaskFinishDef(int order){
