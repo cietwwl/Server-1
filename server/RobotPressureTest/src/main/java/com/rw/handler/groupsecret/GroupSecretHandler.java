@@ -180,6 +180,9 @@ public class GroupSecretHandler {
 	
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
+		if(defendSecretIdList == null){
+			return;
+		}
 		for(int i = 0;i < defendSecretIdList.size();i++){
 			if(!defendSecretIdList.get(i).isFinish()){
 				continue;
