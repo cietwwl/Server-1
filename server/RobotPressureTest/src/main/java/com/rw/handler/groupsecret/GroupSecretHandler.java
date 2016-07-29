@@ -59,7 +59,7 @@ public class GroupSecretHandler {
 					pos.setPos(0);
 					msg.addTeamHeroId(pos);
 					mainRoleIndex = i;
-					continue;
+					break;
 				}
 				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
@@ -148,12 +148,7 @@ public class GroupSecretHandler {
 					return true;
 				} else {
 					String tips = resp.getTipMsg();
-					if(resp.getReqType() == RequestType.CREATE_GROUP_SECRET){
-						if (tips.indexOf("您当前只能创建") != -1 && tips.indexOf("个秘境") != -1) {
-							return true;
-						}
-					}
-					throw new Exception(resp.getTipMsg());
+					RobotLog.fail(parseFunctionDesc() + "失败:"+tips);
 				}
 			} catch (Exception ex) {
 				RobotLog.fail(parseFunctionDesc() + "失败", ex);
