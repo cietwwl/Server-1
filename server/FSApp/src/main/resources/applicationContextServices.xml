@@ -101,6 +101,7 @@
 			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
 			     
 			     <entry key="MSG_CHAT_REQUEST_PRIVATE_CHATS" value-ref="chatService" />
+			     <entry key="MSG_CHAT_SET_CURRENT_TARGET" value-ref="chatService" />
      			
      			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
      			

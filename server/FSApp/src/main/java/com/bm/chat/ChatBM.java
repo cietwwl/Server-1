@@ -605,4 +605,23 @@ public class ChatBM {
 		chat.clearAllTreasureChatMessage();
 		dao.update(userId);
 	}
+	
+	/**
+	 * 
+	 * 更新當前私聊的目標id
+	 * 
+	 * @param userId
+	 */
+	public void updateCurrentTargetUserIdOfPrivateChat(String userId, String targetUserId) {
+		System.out.println("設置私聊對象id~~~userId=" + userId + ", targetUserId=" + targetUserId);
+		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
+		UserPrivateChat chat = dao.get(userId);
+		chat.setCurrentTargetUserIdOfPrivateChat(targetUserId);
+	}
+	
+	public String getCurrentTargetIdOfPirvateChat(String userId) {
+		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
+		UserPrivateChat chat = dao.get(userId);
+		return chat.getCurrentTargetUserIdOfPrivateChat();
+	}
 }

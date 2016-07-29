@@ -39,6 +39,8 @@ public class UserPrivateChat {
 	// private List<String> treasureChatList;// 密境信息列表
 	@JsonIgnore
 	private Map<String, Integer> _cacheCountOfUsers = new HashMap<String, Integer>();
+	@JsonIgnore
+	private String _currentTargetUserIdOfPrivateChat = ""; // 當前私聊的目標id
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	private List<ChatMessageSaveData> privateChat;// 私聊信息列表
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
@@ -230,6 +232,16 @@ public class UserPrivateChat {
 		}
 
 		target.add(privateChatMsgData);
+	}
+	
+	@JsonIgnore
+	public String getCurrentTargetUserIdOfPrivateChat() {
+		return _currentTargetUserIdOfPrivateChat;
+	}
+	
+	@JsonIgnore
+	public void setCurrentTargetUserIdOfPrivateChat(String userId) {
+		this._currentTargetUserIdOfPrivateChat = userId;
 	}
 
 	/**

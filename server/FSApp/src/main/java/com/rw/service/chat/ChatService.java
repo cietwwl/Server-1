@@ -48,6 +48,10 @@ public class ChatService implements FsService {
 				MsgChatRequestPrivateChats privateChatsRequest = MsgChatRequestPrivateChats.parseFrom(request.getBody().getSerializedContent());
 				result = ChatHandler.getInstance().getChatPrivate(player, privateChatsRequest);
 				break;
+			case MSG_CHAT_SET_CURRENT_TARGET:
+				MsgChatRequestPrivateChats setTargetRequest = MsgChatRequestPrivateChats.parseFrom(request.getBody().getSerializedContent());
+				result = ChatHandler.getInstance().setCurrentTargetOfPrivateChat(player, setTargetRequest);
+				break;
 			default:
 				break;
 			}
