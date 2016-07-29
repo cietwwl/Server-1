@@ -11,11 +11,15 @@ import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.pojo.RoleCfg;
 
 public class GmFindHeroList implements IGmTask{
 	@Override
@@ -46,7 +50,15 @@ public class GmFindHeroList implements IGmTask{
 			Hero hero = heroMap.nextElement();
 			RoleBaseInfo roleBaseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("heroName",roleBaseInfo.getId() );
+			
+			RoleCfgDAO instance = RoleCfgDAO.getInstance();
+			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getId());
+			String heroName = "";
+			if(heroCfg != null){
+				heroName = heroCfg.getName();
+				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户阵容出现了异常佣兵模板id =" + roleBaseInfo.getId(), null);
+			}		
+			map.put("heroName",heroName);
 			map.put("qualityLev", roleBaseInfo.getQualityId());
 			map.put("starLev", roleBaseInfo.getStarLevel());
 			map.put("isFight", 0);
