@@ -892,8 +892,7 @@ public class Robot {
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);
-//		return GroupSecretHandler.getInstance().createGroupSecret(client);
-		return true;
+		return GroupSecretHandler.getInstance().createGroupSecret(client);
 	}
 	
 	
