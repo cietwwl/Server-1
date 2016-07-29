@@ -31,4 +31,15 @@ public class GroupSecretBaseInfoSynDataHolder {
 			return null;
 		}
 	}
+
+	public List<SecretBaseInfoSynData> getDefanceList() {
+		return defanceList;
+	}
+
+	public void setDefanceList(List<SecretBaseInfoSynData> defanceList) {
+		this.defanceList = defanceList;
+	}
+	
+	
+	
 }

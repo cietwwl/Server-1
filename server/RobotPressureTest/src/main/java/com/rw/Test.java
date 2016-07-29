@@ -3,6 +3,7 @@ package com.rw;
 import java.util.Random;
 
 import com.rw.handler.copy.CopyType;
+import com.rw.handler.groupsecret.GroupSecretHandler;
 
 public class Test {
 
@@ -10,20 +11,20 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("tmpallen335");
+		 Robot robot = loginRobot("tmpallen338");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpallen"+ 335);
+//		 Robot robot = createRobot("tmpallen"+ 338);
 		 if(robot == null){
 		 }else{
 			 boolean issucc =false;
-			 robot.addHero(5);
-////			 robot.createGroup("xiaofei334");
-//			 issucc = robot.createGroupSecret();
-			 System.out.println("@@@@@@@@@@@test" + issucc);			 
+//			 robot.addHero(5);
+//			 robot.createGroup("xiaofei338");
+			 issucc = robot.searchGroupSecret();
+			 System.out.println("@@@@@@@@@@@test" + issucc);
 		 }
 		 
 		 

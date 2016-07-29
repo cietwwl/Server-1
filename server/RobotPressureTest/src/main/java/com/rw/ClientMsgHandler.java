@@ -130,6 +130,9 @@ public abstract class ClientMsgHandler {
 					case FRESHER_ATIVITY_DATA:
 						getClient().getFresherActivityHolder().syn(msgDataSyn);
 						break;
+					case SECRETAREA_BASE_INFO:
+						getClient().getGroupSecretBaseInfoSynDataHolder().syn(msgDataSyn);
+						break;
 					case SECRETAREA_TEAM_INFO:
 						getClient().getGroupSecretTeamDataHolder().syn(msgDataSyn);
 						break;
@@ -156,7 +159,7 @@ public abstract class ClientMsgHandler {
 						break;
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
-						break;
+						break;						
 					default:
 					}
 				}

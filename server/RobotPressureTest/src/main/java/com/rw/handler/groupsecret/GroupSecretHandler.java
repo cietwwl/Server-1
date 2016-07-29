@@ -16,6 +16,7 @@ import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
+import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
@@ -173,5 +174,29 @@ public class GroupSecretHandler {
 		private String parseFunctionDesc() {
 			return functionName + "[" + protoType + "] ";
 		}
+	}
+
+	public void getGroupSecretReward(Client client) {
+	
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
+		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
+		for(int i = 0;i < defendSecretIdList.size();i++){
+			if(!defendSecretIdList.get(i).isFinish()){
+				continue;
+			}
+			GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
+			req.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
+			GetGroupSecretRewardReqMsg.Builder msg = GetGroupSecretRewardReqMsg.newBuilder();
+			msg.setId(defendSecretIdList.get(i).getId());
+			req.setGetRewardReqMsg(msg);			
+		}		
+	}
+
+	public void openMainView(Client client) {
+		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
+		req.setReqType(RequestType.OPEN_MAIN_VIEW);
+		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "打开界面"));
+		
+		
 	}
 }
