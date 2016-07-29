@@ -35,7 +35,10 @@ public class StoreService implements FsService {
 					result = handler.exchangeWakenItem(player, req);
 					break;
 				case RefreshExchangeItem:
-					
+					result = handler.refreshExchangeItem(player, req);
+					break;
+				case ViewStore:
+					result = handler.viewStore(player, req);
 					break;
 			}
 		}catch(InvalidProtocolBufferException e){
