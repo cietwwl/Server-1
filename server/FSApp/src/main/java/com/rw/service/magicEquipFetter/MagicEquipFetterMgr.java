@@ -108,7 +108,7 @@ public class MagicEquipFetterMgr {
 				}
 				if(match){
 					temp.add(cfg);
-					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+//					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 				}
 			}
 		}
@@ -249,7 +249,7 @@ public class MagicEquipFetterMgr {
 			}
 			if(match){
 				temp.add(cfg);
-				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+//				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 			}
 		}
 		
@@ -337,7 +337,11 @@ public class MagicEquipFetterMgr {
 	 * @param hero
 	 */
 	public void notifyHeroChange(Player player, Hero hero) {
-		checkOrAddTargetHeroEquipFetter(player, hero, true);
+		if(hero.isMainRole()){
+			checkPlayerData(player);
+		}else{
+			checkOrAddTargetHeroEquipFetter(player, hero, true);
+		}
 		notifyListenerAction();
 	}
 

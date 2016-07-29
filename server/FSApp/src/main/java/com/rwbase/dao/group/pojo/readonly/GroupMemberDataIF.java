@@ -131,4 +131,9 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public int getDayContribution();
+	
+	/**
+	 * 获取帮派管理员帮派副本的当前手动分配次数
+	 */
+	public int getAllotRewardCount();
 }

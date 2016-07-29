@@ -2,12 +2,11 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.groupCopy.bm.groupCopy.DropApplyInteface;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DropInfo implements DropApplyInteface{
+public class DropInfo{
 
 	private int count;
 	
@@ -40,10 +39,6 @@ public class DropInfo implements DropApplyInteface{
 		this.time = time;
 	}
 
-	@Override
-	public long getOccurTime() {
-		return time;
-	}
 	
 	
 	
