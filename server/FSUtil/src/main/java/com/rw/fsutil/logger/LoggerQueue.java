@@ -28,7 +28,7 @@ public class LoggerQueue {
 	private ConcurrentLinkedQueue<LoggerSender> queue;
 	private static String ID = "id";
 	private static String INFO = "info";
-	private static long ONE_MINUTE = TimeUnit.MINUTES.toMillis(1);
+	private static long TWO_MINUTE = TimeUnit.MINUTES.toMillis(2);
 	private final JdbcTemplate template;
 	private final String sql;
 	private final String deleteSql;
@@ -107,20 +107,27 @@ public class LoggerQueue {
 	 */
 	public void addLogger(String content) {
 		// 这里的模型应该是同步入本地库/日志，异步发送网络请求
-		long id = insertIntoDB(content);
 		long currentTime = System.currentTimeMillis();
 		TryConnectRecorder old = recorder.get();
 		long timeMillis = old.getRecordTimeMillis();
-		if ((currentTime - timeMillis) > ONE_MINUTE) {
+		if ((currentTime - timeMillis) > TWO_MINUTE) {
 			TryConnectRecorder newRecorder = new TryConnectRecorder(currentTime);
 			this.recorder.compareAndSet(old, newRecorder);
 		}
 		TryConnectRecorder current = recorder.get();
 		if (current.getSuccessTimes().get() <= 0 && current.getFailTimes().get() > 10) {
+			insertIntoDB(content);
 			return;
 		}
-
+		// 先修改为尝试直接发送，发送失败入库
+		LoggerSender sender = getSender();
+		if (sender != null && sender.sendLogger(content) == SendResult.SUCCESS) {
+			queue.offer(sender);
+			return;
+		}
+		long id = insertIntoDB(content);
 		LoggerObject loggerObject = new LoggerObject(id, content);
+		loggerObject.addFailReason("");
 		// 记录数据库
 		// 发送网络请求
 		// 响应网络请求
