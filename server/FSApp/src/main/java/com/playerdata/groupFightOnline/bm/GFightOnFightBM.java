@@ -154,7 +154,7 @@ public class GFightOnFightBM {
 		try {
 			//判断次数，计算费用
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
-			int changeTimes = userGFData.getChangeEnimyTimes();
+			int changeTimes = userGFData.getChangeEnimyTimes() + 1;
 			GFightOnlineCostCfg costCfg = GFightOnlineCostDAO.getInstance().getCfgById(String.valueOf(changeTimes));
 			if(costCfg == null){
 				List<GFightOnlineCostCfg> cfgList = GFightOnlineCostDAO.getInstance().getAllCfg();
