@@ -70,6 +70,11 @@ public class DropAndApplyRecordHolder {
 		return getItemStore().getItem(getRecordID(chaterID));
 	}
 	
+	public ItemDropAndApplyTemplate getItemApplyDataByID(String chaterID, int itemID){
+		CopyItemDropAndApplyRecord item = getItemStore().getItem((getRecordID(chaterID)));
+		return item.getDaMap().get(String.valueOf(itemID));
+	}
+	
 	
 	/**
 	 * 同步单章节数据到客户端
