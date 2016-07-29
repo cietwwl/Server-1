@@ -92,6 +92,9 @@ public final class GroupBM {
 	 * @return
 	 */
 	public static Group get(String groupId) {
+		if(groupId == null || groupId.isEmpty()){
+			return null;
+		}
 		Group group = cacheGroupDataMap.get(groupId);
 		if (group != null) {// 内存中直接命中
 			return group;

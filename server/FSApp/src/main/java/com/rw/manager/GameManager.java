@@ -34,6 +34,7 @@ import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -155,6 +156,8 @@ public class GameManager {
 
 		//帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
+		
+		WorshipMgr.getInstance().getByWorshipedInfo();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 
