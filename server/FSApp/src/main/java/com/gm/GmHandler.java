@@ -27,6 +27,7 @@ import com.gm.task.GmEmailSingleSend;
 import com.gm.task.GmEmailWhiteList;
 import com.gm.task.GmExecuteGM;
 import com.gm.task.GmExecuteGMCommand;
+import com.gm.task.GmFindHeroList;
 import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
@@ -124,6 +125,10 @@ public class GmHandler {
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
 		taskMap.put(20040, new GmViewEmailList());
+		taskMap.put(20055, new GmFindHeroList());
+		
+		
+		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
 		
