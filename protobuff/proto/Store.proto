@@ -11,6 +11,7 @@ enum eStoreRequestType {
 	WakenRewardDraw = 6;
 	WakenExchange = 7;
 	RefreshExchangeItem = 8;
+	ViewStore = 9;
 }
 
 enum eWakenRewardDrawType{

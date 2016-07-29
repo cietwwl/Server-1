@@ -6,6 +6,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
@@ -30,6 +32,7 @@ import com.playerdata.teambattle.enums.TBMemberState;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
 
@@ -458,7 +461,7 @@ public class TeamBattleBM {
 				teamMember.setState(TBMemberState.Finish);
 				utbData.getFinishedHards().add(teamItem.getHardID());
 				if(cfg.getMail() != 0){
-					EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
+					// EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
 					for(TeamMember mem : teamItem.getMembers()){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
@@ -468,6 +471,14 @@ public class TeamBattleBM {
 				}
 			}else{
 				teamMember.setState(TBMemberState.HalfFinish);
+			}
+			if(cfg.getReward() != null && cfg.getReward().size() > 0){
+				ItemBagMgr bagMgr = player.getItemBagMgr();
+				for (ItemInfo itm : cfg.getReward()) {
+					GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
+					if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
+						GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+				}
 			}
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());

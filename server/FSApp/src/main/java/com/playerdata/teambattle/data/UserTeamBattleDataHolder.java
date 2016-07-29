@@ -1,5 +1,6 @@
 package com.playerdata.teambattle.data;
 
+import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -29,6 +30,7 @@ public class UserTeamBattleDataHolder {
 	 */
 	public void synData(Player player) {
 		UserTeamBattleData userTBData = get(player.getUserId());
+		userTBData.setEnimyMap(ServerCommonDataHolder.getInstance().get().getTeamBattleEnimyMap());
 		if (userTBData != null) {
 			ClientDataSynMgr.synData(player, userTBData, synType, eSynOpType.UPDATE_SINGLE);
 		}
