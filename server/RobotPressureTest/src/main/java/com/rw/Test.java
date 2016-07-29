@@ -23,7 +23,7 @@ public class Test {
 			 boolean issucc =false;
 //			 robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
-			 issucc = robot.searchGroupSecret();
+			 issucc = robot.createGroupSecret();
 			 System.out.println("@@@@@@@@@@@test" + issucc);
 		 }
 		 

@@ -188,7 +188,10 @@ public class GroupSecretHandler {
 			req.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
 			GetGroupSecretRewardReqMsg.Builder msg = GetGroupSecretRewardReqMsg.newBuilder();
 			msg.setId(defendSecretIdList.get(i).getId());
-			req.setGetRewardReqMsg(msg);			
+			req.setGetRewardReqMsg(msg);
+			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "领取奖励"));
+			
+			
 		}		
 	}
 
