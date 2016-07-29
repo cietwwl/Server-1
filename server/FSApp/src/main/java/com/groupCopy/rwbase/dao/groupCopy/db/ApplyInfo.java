@@ -11,7 +11,7 @@ import com.rw.fsutil.util.StringUtil;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ApplyInfo implements DropApplyInteface{
+public class ApplyInfo{
 	
 	private String roleID;
 	private String roleName;
@@ -57,10 +57,6 @@ public class ApplyInfo implements DropApplyInteface{
 		this.applyTime = applyTime;
 	}
 
-	@Override
-	public long getOccurTime() {
-		return applyTime;
-	}
 
 	public String getDistRoleName() {
 		if(StringUtils.isEmpty(distRoleName)){

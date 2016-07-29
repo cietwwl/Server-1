@@ -1,18 +1,28 @@
 package com.groupCopy.rw.service.groupCopy;
 
+import org.springframework.util.StringUtils;
+
+import com.bm.group.GroupBM;
+import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
-import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
-import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
-import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
-import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg;
-import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
+import com.rwproto.GroupCopyAdminProto.ApplyRewardInfo;
+import com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg;
+import com.rwproto.GroupCopyAdminProto.ChoseDistRewardData;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg;
+import com.rwproto.GroupCopyAdminProto.MemberDamageInfo;
+import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.rw.fsutil.util.StringUtil;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
@@ -135,6 +145,140 @@ public class GroupCopyAdminHandler {
 			
 		}	
 		commonRsp.setIsSuccess(success);	
+		return commonRsp.build().toByteString();
+	}
+
+	
+	/**
+	 * 获取所有章节的帮派副本奖励申请数据
+	 * @param player
+	 * @return
+	 */
+	public ByteString getAllRewardApplyInfo(Player player) {
+		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
+		commonRsp.setReqType(RequestType.GET_APPLY_REWARD_INFO);
+
+		Group group = GroupHelper.getGroup(player);
+		boolean success = false;
+		if(group!=null){
+			//检查角色的可分配次数
+			GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+			GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
+			if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
+				commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
+			}else if(memberData.getAllotRewardCount() == 0){
+				commonRsp.setTipMsg("今天已没有手动分配次数");
+			}else{
+				//可以分配，进行获取数据
+				GroupCopyResult result = group.getGroupCopyMgr().applyAllRewardInfo(player);
+				if(result.isSuccess()){
+					success = true;
+					commonRsp.setApplyInfo((ApplyRewardInfo.Builder) result.getItem());
+				}
+			}
+		}else{
+			commonRsp.setTipMsg("请先加入帮派!");
+		}
+		
+		commonRsp.setIsSuccess(success)	;
+		return commonRsp.build().toByteString();
+	}
+
+	/**
+	 * 获取成员章节伤害信息
+	 * @param player
+	 * @param reqMsg
+	 * @return
+	 */
+	public ByteString getAllMemberChaterDamage(Player player, GroupCopyAdminComReqMsg reqMsg) {
+		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
+		boolean success = false;
+		
+		commonRsp.setReqType(RequestType.GET_CHATER_DAMAGE);
+
+		Group group = GroupHelper.getGroup(player);
+		if(group!=null){
+
+			//检查角色的可分配次数
+			GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+			GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
+			if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
+				commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
+			}else if(memberData.getAllotRewardCount() == 0){
+				commonRsp.setTipMsg("今天已没有手动分配次数");
+			}else{
+				//可以分配，进行获取数据
+				ChaterDamageReqMsg msgData = reqMsg.getDamageReqMsg();
+				String mapID = msgData.getMapId();
+				int itemID = msgData.getItemID();
+				GroupCopyResult result = group.getGroupCopyMgr().applyAllRoleDamageInfo(group, mapID, itemID);
+				if(result.isSuccess()){
+					success = true;
+					commonRsp.setDamageInfo((MemberDamageInfo.Builder) result.getItem());
+				}
+			}
+		}else{
+			commonRsp.setTipMsg("请先加入帮派!");
+		}
+		
+		commonRsp.setIsSuccess(success)	;
+		return commonRsp.build().toByteString();
+	}
+
+	
+	/**
+	 * 选择手动分配奖励成员
+	 * @param player
+	 * @param commonReq
+	 * @return
+	 */
+	public ByteString choseDistRole(Player player, GroupCopyAdminComReqMsg reqMsg) {
+		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
+		boolean success = false;
+		
+		commonRsp.setReqType(RequestType.CHOSE_DIST_ROLE);
+		commonRsp.setIsSuccess(success);
+		Group group = GroupHelper.getGroup(player);
+		if(group == null){
+			commonRsp.setTipMsg("请先加入帮派!");
+			return commonRsp.build().toByteString();
+		}
+		//检查角色的可分配次数
+		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
+		if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
+			commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
+			return commonRsp.build().toByteString();
+		}
+		if(memberData.getAllotRewardCount() == 0){
+			commonRsp.setTipMsg("今天已没有手动分配次数");
+			return commonRsp.build().toByteString();
+		}
+			
+		//可以分配，进行获取数据
+		ChoseDistRewardData msgData = reqMsg.getChoseDistReward();
+		ChaterDamageReqMsg itemData = msgData.getItemData();
+		
+		String mapID = itemData.getMapId();
+		int itemID = itemData.getItemID();
+		String selectRoleID = msgData.getRoleID();
+		
+		//检查一下选择的角色是否还是帮派里
+		Player role = PlayerMgr.getInstance().find(selectRoleID);
+		Group group2 = GroupHelper.getGroup(role);
+		
+		if(group2 == null || !group.getGroupBaseDataMgr().getGroupData().getGroupId().equals(group2.getGroupBaseDataMgr().getGroupData().getGroupId())){
+			commonRsp.setTipMsg("角色已经离开帮派");
+			return commonRsp.build().toByteString();
+		}
+		
+		
+		GroupCopyResult result = group.getGroupCopyMgr().distReward2Role(group, role, mapID, itemID, player.getUserName());
+		if(result.isSuccess()){
+			commonRsp.setIsSuccess(true);
+			commonRsp.setTipMsg("分配成功");
+		}
+		
 		return commonRsp.build().toByteString();
 	}
 
