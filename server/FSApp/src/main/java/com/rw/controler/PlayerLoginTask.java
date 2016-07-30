@@ -153,9 +153,9 @@ public class PlayerLoginTask implements PlayerTask {
 			if (hasValue == null) {
 				dao.update(userPlotProgress);
 			}
-			response.setLoginType(eGameLoginType.CREATE_ROLE);
-		}else{
 			response.setLoginType(eGameLoginType.GAME_LOGIN);
+		}else{
+			response.setLoginType(eGameLoginType.CREATE_ROLE);
 		}
 		long createTime = user.getCreateTime();
 		response.setCreateTime(createTime);
