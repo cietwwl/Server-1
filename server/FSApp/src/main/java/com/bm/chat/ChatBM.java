@@ -476,6 +476,9 @@ public class ChatBM {
 			userInfo.setCareerType(info.getCareerType());
 			userInfo.setGender(info.getGender());
 			userInfo.setVipLv(info.getVipLv());
+			if(info.getFashionTemplateId() > 0) {
+				userInfo.setFashionTemplateId(info.getFashionTemplateId());
+			}
 			return userInfo.build();
 		}
 
@@ -601,6 +604,11 @@ public class ChatBM {
 		if (info.hasVipLv()) {
 			// 設置VIP等級
 			userInfo.setVipLv(info.getVipLv());
+		}
+		
+		if(info.hasFashionTemplateId()) {
+			// 設置時裝模板id
+			userInfo.setFashionTemplateId(info.getFashionTemplateId());
 		}
 
 		return userInfo;

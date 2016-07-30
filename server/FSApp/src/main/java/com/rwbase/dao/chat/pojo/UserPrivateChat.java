@@ -39,7 +39,7 @@ public class UserPrivateChat {
 	// private List<String> privateChatList;// 私聊信息列表
 	// private List<String> treasureChatList;// 密境信息列表
 	@JsonIgnore
-	private Map<String, Integer> _cacheCountOfUsers = new HashMap<String, Integer>();
+	private Map<String, Integer> _receiveCountOfUser = new HashMap<String, Integer>();
 	@JsonIgnore
 	private String _currentTargetUserIdOfPrivateChat = ""; // 當前私聊的目標id
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
@@ -47,7 +47,7 @@ public class UserPrivateChat {
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	private List<ChatMessageSaveData> privateChatSent; // 我发出的私聊信息
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
-	private List<ChatMessageSaveData> secretChat;// 帮派秘境的聊天信息列表
+	private List<ChatMessageSaveData> secretChat;// 帮派秘境的聊天信息列表;
 
 	public UserPrivateChat() {
 		privateChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);
@@ -196,17 +196,17 @@ public class UserPrivateChat {
 	// return list;
 	// }
 	private void handleCount(String userId) {
-		Integer count = _cacheCountOfUsers.get(userId);
+		Integer count = _receiveCountOfUser.get(userId);
 		if (count == null) {
 			count = 1;
 		} else {
 			count++;
 		}
-		_cacheCountOfUsers.put(userId, count);
+		_receiveCountOfUser.put(userId, count);
 	}
 	
 	private void checkOnAdd(ChatMessageSaveData privateChatMsgData) {
-		if (privateChat.size() > 0 && _cacheCountOfUsers.isEmpty()) {
+		if (privateChat.size() > 0 && _receiveCountOfUser.isEmpty()) {
 			// 初始化
 			for (ChatMessageSaveData cmsd : privateChat) {
 				String userId = cmsd.getSendInfo().getUserId();
@@ -214,7 +214,7 @@ public class UserPrivateChat {
 			}
 		}
 		String targetUserId = privateChatMsgData.getSendInfo().getUserId();
-		Integer count = _cacheCountOfUsers.get(targetUserId);
+		Integer count = _receiveCountOfUser.get(targetUserId);
 //		System.out.println("targetUserId=" + targetUserId + ", count=" + count);
 		if (count != null && count >= ChatHandler.MAX_CACHE_MSG_SIZE_PER_ONE) {
 //			System.out.println("超出數量限制！srcUserId=" + this.userId + ", targetUserId=" + targetUserId);
@@ -223,20 +223,60 @@ public class UserPrivateChat {
 				if (temp.getSendInfo().getUserId().equals(targetUserId)) {
 					itr.remove();
 //					System.out.println("移除：" + temp);
-					_cacheCountOfUsers.put(targetUserId, --count);
+					_receiveCountOfUser.put(targetUserId, --count);
 					break;
 				}
 			}
 		}
 	}
 	
+	private int decreaseCount(String pUserId, Map<String, Integer> map) {
+		Integer count = map.remove(pUserId);
+		count--;
+		if (count > 0) {
+			map.put(pUserId, count);
+		}
+		return count;
+	}
+	
+	private int increaseCount(String pUserId, Map<String, Integer> map) {
+		Integer count = map.get(pUserId);
+		if (count == null) {
+			count = 1;
+		} else {
+			count++;
+		}
+		map.put(pUserId, count);
+		return count;
+	}
+	
+	private void afterRemoveOld(ChatMessageSaveData data) {
+		String tempUserId;
+		if (data.getSendInfo() != null) {
+			if (!(tempUserId = data.getSendInfo().getUserId()).equals(this.userId)) {
+				this.decreaseCount(tempUserId, _receiveCountOfUser);
+			}
+		}
+	}
+	
+	private void afterAddNew(ChatMessageSaveData data) {
+		String userId;
+		if (data.getSendInfo() != null && !(userId = data.getSendInfo().getUserId()).equals(this.userId)) {
+			this.increaseCount(userId, _receiveCountOfUser);
+			return;
+		}
+	}
+	
 	private void addToList(ChatMessageSaveData privateChatMsgData, List<ChatMessageSaveData> target, int sizeControl) {
 		int size = target.size();
 		if (size >= sizeControl) {
-			target.remove(0);
+			ChatMessageSaveData removed = target.remove(0);
+			this.afterRemoveOld(removed);
 		}
 
 		target.add(privateChatMsgData);
+		
+		this.afterAddNew(privateChatMsgData);
 	}
 	
 	@JsonIgnore
@@ -257,8 +297,7 @@ public class UserPrivateChat {
 	public synchronized void addPrivateChatMessage(ChatMessageSaveData privateChatMsgData) {
 		List<ChatMessageSaveData> targetList;
 		int sizeControl;
-		boolean rec = false;
-		if(privateChatMsgData.getSendInfo() == null || privateChatMsgData.getSendInfo().getUserId().equals(userId)) {
+		if (privateChatMsgData.getSendInfo() == null || privateChatMsgData.getSendInfo().getUserId().equals(userId)) {
 			// 我發出的
 			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
 			targetList = privateChatSent;
@@ -267,12 +306,8 @@ public class UserPrivateChat {
 			checkOnAdd(privateChatMsgData);
 			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
 			targetList = privateChat;
-			rec = true;
 		}
 		this.addToList(privateChatMsgData, targetList, sizeControl);
-		if(rec) {
-			handleCount(privateChatMsgData.getSendInfo().getUserId());
-		}
 	}
 
 	/**

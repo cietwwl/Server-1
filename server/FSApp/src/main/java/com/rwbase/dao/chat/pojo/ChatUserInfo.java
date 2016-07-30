@@ -33,6 +33,7 @@ public class ChatUserInfo {
 	private static final String _KEY_CAREER_TYPE = "8";
 	private static final String _KEY_GENDER = "9";
 	private static final String _KEY_VIP_LV = "10";
+	private static final String _KEY_FASHION_TEMPLATE_ID = "11";
 	
 
 	private static final Map<String, Field> _fieldsOfNewKeys;
@@ -91,6 +92,10 @@ public class ChatUserInfo {
 	@JsonProperty(_KEY_VIP_LV)
 	@JsonSerialize(include=Inclusion.NON_DEFAULT)
 	private int vipLv; // VIP等級
+	
+	@JsonProperty(_KEY_FASHION_TEMPLATE_ID)
+	@JsonSerialize(include=Inclusion.NON_DEFAULT)
+	private int fashionTemplateId;
 	
 	private static  ChatUserInfo handleJsonMap(Map<String, Object> map, Map<String, Field> fieldMap) throws Exception {
 		ChatUserInfo cui = new ChatUserInfo();
@@ -152,6 +157,10 @@ public class ChatUserInfo {
 	public void setVipLv(int pVipLv) {
 		this.vipLv = pVipLv;
 	}
+	
+	public void setFashionTemplateId(int pFashionTemplateId) {
+		this.fashionTemplateId = pFashionTemplateId;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -191,6 +200,10 @@ public class ChatUserInfo {
 	
 	public int getVipLv() {
 		return vipLv;
+	}
+	
+	public int getFashionTemplateId() {
+		return fashionTemplateId;
 	}
 
 	@Override
