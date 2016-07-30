@@ -33,6 +33,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GameLoginProtos.GameLoginRequest;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
+import com.rwproto.GameLoginProtos.eGameLoginType;
 import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.RequestHeader;
@@ -152,7 +153,13 @@ public class PlayerLoginTask implements PlayerTask {
 			if (hasValue == null) {
 				dao.update(userPlotProgress);
 			}
+			response.setLoginType(eGameLoginType.CREATE_ROLE);
+		}else{
+			response.setLoginType(eGameLoginType.GAME_LOGIN);
 		}
+		long createTime = user.getCreateTime();
+		response.setCreateTime(createTime);
+		
 		final Player p = player;
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
