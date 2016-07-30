@@ -19,7 +19,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
-import com.rwbase.common.IFunction;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
@@ -233,12 +232,13 @@ public class ChatHandler {
 		player.setLastGroupChatCacheTime(nowTime);// 更新上次聊天的时间
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
-		if (!message.hasSendMessageUserInfo()) {
+		// 2016-07-29 看不出這段用意，暫時去掉
+		/*if (!message.hasSendMessageUserInfo()) {
 			List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
 			for (int i = 0, size = list.size(); i < size; i++) {
 				msgChatResponse.addListMessage(list.get(i));
 			}
-		} else {
+		} else*/ {
 //			ChatMessageData.Builder data = ChatMessageData.newBuilder();
 //			MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
 //			sendMsgInfo.setUserId(player.getUserId());
@@ -367,24 +367,19 @@ public class ChatHandler {
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
-		}
-		
-		// @2016-07-26 21:33 by Chen.P: online也不一定已经阅读了 BEGIN >>>>
-//		if (isOnline) {
-//			data.setIsRead(true);
-//		} else {
-//			data.setIsRead(false);
-//		}
-		// 2016-07-26 21:33 END <<<<
-		String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
-//		System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
-		if (player.getUserId().equals(currentTargetUserId)) {
-			// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
-			data.setIsRead(true);
+			
+			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
+//			System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+			if (player.getUserId().equals(currentTargetUserId)) {
+				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
+				data.setIsRead(true);
+			} else {
+				data.setIsRead(false);
+			}
 		} else {
-			// 否則對方仍未讀到這條消息
 			data.setIsRead(false);
 		}
+		
 		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
 		
 		// 发送消息给接收者的时候不需要发送接收者的信息
@@ -542,7 +537,7 @@ public class ChatHandler {
 		for (int i = 0; i < size; i++) {
 			chatData = list.get(i);
 			msgChatResponse.addListMessage(chatData);
-			if(chatData.getIsRead()) {
+			if(!chatData.getIsRead()) {
 				unReadList.add(chatData);
 			}
 		}
@@ -636,7 +631,7 @@ public class ChatHandler {
 	}
 
 	private void sendPrivateMsg(Player player) {
-		System.out.println("發送私聊信息給：" + player.getUserId() + ", " + player.getUserName());
+//		System.out.println("發送私聊信息給：" + player.getUserId() + ", " + player.getUserName());
 		// 2016-07-29 修改by CHEN.P，聊天現在改為先發送用戶列表
 //		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>(); // 2016-07-29 這裡不需要unReadList
 		ChatBM instance = ChatBM.getInstance();
@@ -652,28 +647,13 @@ public class ChatHandler {
 //				unReadList.add(chatMsgData);
 //			}
 			ChatMessageSaveData chatMsgData = privateChatMessageList.get(i);
-//			if (chatMsgData.hasSendMessageUserInfo()) {
-//				tempUserId = chatMsgData.getSendMessageUserInfo().getUserId();
-//				tempUserName = chatMsgData.getSendMessageUserInfo().getUserName();
-//				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
-//					// 用戶列表需要過濾自己
-//					userInfos.put(tempUserId, tempUserName);
-//				}
-//			}
-//			if (chatMsgData.hasReceiveMessageUserInfo()) {
-//				tempUserId = chatMsgData.getReceiveMessageUserInfo().getUserId();
-//				tempUserName = chatMsgData.getReceiveMessageUserInfo().getUserName();
-//				if (!tempUserId.equals(userId) && !userInfos.containsKey(tempUserId)) {
-//					// 用戶列表需要過濾自己
-//					userInfos.put(tempUserId, tempUserName);
-//				}
-//			}
+			
 			ChatUserInfo userInfo;
 			if (chatMsgData.getSendInfo() != null) {
-				// 別人發給我的
+				// 有可能是別人發給我的
 				userInfo = chatMsgData.getSendInfo();
 			} else {
-				// 我發給別人的
+				// 有可能是我發給別人的
 				userInfo = chatMsgData.getReceiveInfo();
 			}
 			String tempUserId = userInfo.getUserId();
@@ -697,7 +677,7 @@ public class ChatHandler {
 		for (Iterator<Map.Entry<String, String>> itr = userInfos.entrySet().iterator(); itr.hasNext();) {
 			Map.Entry<String, String> entry = itr.next();
 			Integer unReadCount = unReadCountMap.get(entry.getKey());
-			System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "," + unReadCount + "]");
+//			System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "," + unReadCount + "]");
 			MsgPersonChatUserInfo.Builder builder = MsgPersonChatUserInfo.newBuilder();
 			builder.setUserId(entry.getKey());
 			builder.setName(entry.getValue());

@@ -328,6 +328,7 @@ public class ChatBM {
 		if (privateChatSaveDataList.isEmpty()) {
 			return Collections.emptyList();
 		}
+//		System.out.println(privateChatSaveDataList);
 		List<ChatMessageData> resultList = new ArrayList<ChatMessageData>();
 		boolean add;
 		for (ChatMessageSaveData cmsd : privateChatSaveDataList) {
@@ -474,6 +475,7 @@ public class ChatBM {
 			userInfo.setLevel(info.getLevel());
 			userInfo.setCareerType(info.getCareerType());
 			userInfo.setGender(info.getGender());
+			userInfo.setVipLv(info.getVipLv());
 			return userInfo.build();
 		}
 
@@ -595,6 +597,11 @@ public class ChatBM {
 		if (info.hasUserName()) {
 			userInfo.setUserName(info.getUserName());
 		}
+		
+		if (info.hasVipLv()) {
+			// 設置VIP等級
+			userInfo.setVipLv(info.getVipLv());
+		}
 
 		return userInfo;
 	}
@@ -618,7 +625,7 @@ public class ChatBM {
 	 * @param userId
 	 */
 	public void updateCurrentTargetUserIdOfPrivateChat(String userId, String targetUserId) {
-		System.out.println("設置私聊對象id~~~userId=" + userId + ", targetUserId=" + targetUserId);
+//		System.out.println("設置私聊對象id~~~userId=" + userId + ", targetUserId=" + targetUserId);
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat chat = dao.get(userId);
 		chat.setCurrentTargetUserIdOfPrivateChat(targetUserId);

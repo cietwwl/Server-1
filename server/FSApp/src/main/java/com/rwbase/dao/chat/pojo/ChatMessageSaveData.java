@@ -13,9 +13,11 @@ import java.util.Map;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -31,6 +33,7 @@ import com.rw.fsutil.util.jackson.JsonUtil;
  */
 @JsonDeserialize(using = ChatMessageSaveData.ChatMessageSaveDataDeserializer.class)
 @JsonIgnoreProperties(ignoreUnknown=true, value={"time"})
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
 public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 	
 	private static final String _KEY_SENDER_INFO = "1";

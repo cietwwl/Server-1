@@ -25,7 +25,7 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
  * @date 2015年8月12日 下午2:14:11
  * @Description 
  */
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPrivateChat {
 	
@@ -215,10 +215,14 @@ public class UserPrivateChat {
 		}
 		String targetUserId = privateChatMsgData.getSendInfo().getUserId();
 		Integer count = _cacheCountOfUsers.get(targetUserId);
-		if (count != null && count > ChatHandler.MAX_CACHE_MSG_SIZE_PER_ONE) {
+//		System.out.println("targetUserId=" + targetUserId + ", count=" + count);
+		if (count != null && count >= ChatHandler.MAX_CACHE_MSG_SIZE_PER_ONE) {
+//			System.out.println("超出數量限制！srcUserId=" + this.userId + ", targetUserId=" + targetUserId);
 			for (Iterator<ChatMessageSaveData> itr = privateChat.iterator(); itr.hasNext();) {
-				if (itr.next().getSendInfo().getUserId().equals(targetUserId)) {
+				ChatMessageSaveData temp = itr.next();
+				if (temp.getSendInfo().getUserId().equals(targetUserId)) {
 					itr.remove();
+//					System.out.println("移除：" + temp);
 					_cacheCountOfUsers.put(targetUserId, --count);
 					break;
 				}
@@ -255,10 +259,11 @@ public class UserPrivateChat {
 		int sizeControl;
 		boolean rec = false;
 		if(privateChatMsgData.getSendInfo() == null || privateChatMsgData.getSendInfo().getUserId().equals(userId)) {
-			// 我发出的
+			// 我發出的
 			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
 			targetList = privateChatSent;
 		} else {
+			// 別人發給我的
 			checkOnAdd(privateChatMsgData);
 			sizeControl = ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT;
 			targetList = privateChat;
@@ -353,18 +358,40 @@ public class UserPrivateChat {
 		List<ChatMessageSaveData> targetList = null;
 		IFunction<ChatMessageSaveData, String> getFunc = null;
 		IFunction<ChatMessageData, String> getOfProtoFunc = null;
-		if (data.hasSendMessageUserInfo() && data.getSendMessageUserInfo().getUserId() == userId) {
-			getFunc = _getReceiverIdFunc;
-			getOfProtoFunc = _getReceiverIdOfProtoFunc;
-			targetList = privateChatSent;
+		// 注：sendUserInfo和receiverUserInfo現在是互斥的
+		if (data.hasSendMessageUserInfo()) {
+			// 如果有sendUserInfo的情況
+			if (data.getSendMessageUserInfo().getUserId() == userId) {
+				// 如果sender的UserId是自身的userId，則表示這條私聊是我發出的
+				getFunc = _getReceiverIdFunc;
+				getOfProtoFunc = _getReceiverIdOfProtoFunc;
+				targetList = privateChatSent;
+			} else {
+				// 否則，這條私聊是我收到的，因為我不是發送者
+				getFunc = _getSenderIdFunc;
+				getOfProtoFunc = _getSenderIdOfProtoFunc;
+				targetList = privateChat;
+			}
 		} else {
-			getFunc = _getSenderIdFunc;
-			getOfProtoFunc = _getSenderIdOfProtoFunc;
-			targetList = privateChat;
+			// 如果有接收者userInfo的情況
+			if (data.getReceiveMessageUserInfo().getUserId().equals(userId)) {
+				// 如果接收者的userId和自身的userId相同，則表示這條私聊是我收到的
+				getFunc = _getSenderIdFunc;
+				getOfProtoFunc = _getSenderIdOfProtoFunc;
+				targetList = privateChat;
+			} else {
+				// 否則表示這條私聊是我發出的
+				getFunc = _getReceiverIdFunc;
+				getOfProtoFunc = _getReceiverIdOfProtoFunc;
+				targetList = privateChatSent;
+			}
 		}
 		for (int i = 0; i < targetList.size(); i++) {
 			ChatMessageSaveData cmsd = targetList.get(i);
-			if (getFunc.apply(cmsd).equals(getOfProtoFunc.apply(data)) && cmsd.getSendTime() == data.getTime()) {
+			String userIdOfCmsd = getFunc.apply(cmsd);
+			String userIdOfData = getOfProtoFunc.apply(data);
+//			System.out.println(String.format("userIdOfCmsd=%s, userIdOfData=%s, cmsd.getSendTime()=%d, data.getTime()=%d", userIdOfCmsd, userIdOfData, cmsd.getSendTime(), data.getTime()));
+			if (userIdOfCmsd.equals(userIdOfData) && cmsd.getSendTime() == data.getTime()) {
 				cmsd.setRead(true);
 				break;
 			}

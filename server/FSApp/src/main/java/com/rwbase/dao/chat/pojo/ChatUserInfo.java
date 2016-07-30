@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -16,6 +19,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * @date 2016年6月27日 下午5:12:12
  * @Description 聊天人的基础信息
  */
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class ChatUserInfo {
 	
 	private static final String _KEY_USER_ID = "1";
@@ -27,6 +32,7 @@ public class ChatUserInfo {
 	private static final String _KEY_HEAD_BOX = "7";
 	private static final String _KEY_CAREER_TYPE = "8";
 	private static final String _KEY_GENDER = "9";
+	private static final String _KEY_VIP_LV = "10";
 	
 
 	private static final Map<String, Field> _fieldsOfNewKeys;
@@ -81,6 +87,10 @@ public class ChatUserInfo {
 	
 	@JsonProperty(_KEY_GENDER)
 	private int gender; // 性别
+	
+	@JsonProperty(_KEY_VIP_LV)
+	@JsonSerialize(include=Inclusion.NON_DEFAULT)
+	private int vipLv; // VIP等級
 	
 	private static  ChatUserInfo handleJsonMap(Map<String, Object> map, Map<String, Field> fieldMap) throws Exception {
 		ChatUserInfo cui = new ChatUserInfo();
@@ -138,6 +148,10 @@ public class ChatUserInfo {
 	public void setGender(int pGender) {
 		this.gender = pGender;
 	}
+	
+	public void setVipLv(int pVipLv) {
+		this.vipLv = pVipLv;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -173,6 +187,10 @@ public class ChatUserInfo {
 	
 	public int getGender() {
 		return gender;
+	}
+	
+	public int getVipLv() {
+		return vipLv;
 	}
 
 	@Override
