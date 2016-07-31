@@ -3,6 +3,8 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;

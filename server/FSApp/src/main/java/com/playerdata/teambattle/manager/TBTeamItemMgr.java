@@ -2,11 +2,15 @@ package com.playerdata.teambattle.manager;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
@@ -63,9 +67,19 @@ public class TBTeamItemMgr{
 			UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
 			if(utbMemData == null) continue;
 			if(utbMemData.getSelfTeamInfo() == null){
+				Player player = PlayerMgr.getInstance().find(member.getUserID());
+				if(player == null) continue;
+				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros();
+				List<String> heroIDs = new ArrayList<String>();
+				Map<String, Integer> heroPosMap = new HashMap<String, Integer>();
+				for(int i = 1; i < heros.size(); i++){
+					heroIDs.add(heros.get(i).getHeroData().getId());
+					heroPosMap.put(heros.get(i).getHeroData().getId(), i);
+				}
 				StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
 				teamInfo.setUserID(member.getUserID());
-				teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", null));
+				teamInfo.setHeroPosMap(heroPosMap);
+				teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
 				utbMemData.setSelfTeamInfo(teamInfo);
 			}
 			memTeams.add(utbMemData.getSelfTeamInfo());
