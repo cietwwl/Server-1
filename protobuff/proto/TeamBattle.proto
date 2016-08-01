@@ -18,6 +18,7 @@ enum TBRequestType{
 	START_FIGHT = 11;		//开始战斗
 	INFORM_FIGHT_RESULT = 12;	//通知战斗结果
 	SCORE_EXCHANGE = 13;	//积分兑换奖励
+	SAVE_MEMBER_POSITION = 14;	//保存成员上阵顺序
 }
 
 enum TBResultType {
@@ -36,6 +37,7 @@ message TeamBattleReqMsg{
 	optional int32 fightResult = 8;	//战斗结果
 	optional string loopID = 9;		//战斗的循环id
 	optional int32 battleTime = 10;	//战斗的场次
+	optional string memPos = 11;	//成员上阵顺序
 }
 
 message TeamBattleRspMsg{

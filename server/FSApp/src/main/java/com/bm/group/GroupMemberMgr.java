@@ -124,11 +124,12 @@ public class GroupMemberMgr {
 	 * @param applyTime 申请时间
 	 * @param receiveTime 接受时间
 	 * @param isAddApply 是否是增加申请成员
+	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
 	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, boolean isAddApply, String headbox) {
-		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox);
+			long receiveTime, boolean isAddApply, String headbox, int alloctTime) {
+		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox, alloctTime);
 		return holder.addMember(userId, memberData, isAddApply);
 	}
 
@@ -166,10 +167,11 @@ public class GroupMemberMgr {
 	 * @param fighting 战力
 	 * @param applyTime 申请时间
 	 * @param receiveTime 接受时间
+	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
 	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, String headbox) {
+			long receiveTime, String headbox, int alloctTime) {
 		GroupMemberData memberData = new GroupMemberData();
 		memberData.setId(newMemberUniqueId(playerId, groupId));
 		memberData.setUserId(playerId);
@@ -185,6 +187,7 @@ public class GroupMemberMgr {
 		memberData.setReceiveTime(receiveTime);
 		memberData.setTemplateId(templateId);
 		memberData.setHeadbox(headbox);
+		memberData.setAllotRewardCount(alloctTime);
 		return memberData;
 	}
 

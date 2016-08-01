@@ -7,6 +7,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.teambattle.bm.TeamBattleBM;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
+import com.rwproto.RequestProtos.Request;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
@@ -111,6 +112,13 @@ public class TeamBattleHandler {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
 		tbBM.scoreExchage(player, tbRsp, msgTBRequest.getRewardID(), msgTBRequest.getCount());
+		return tbRsp.build().toByteString();
+	}
+
+	public ByteString saveMemPosition(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.saveMemPosition(player, tbRsp, msgTBRequest.getMemPos());
 		return tbRsp.build().toByteString();
 	}
 }

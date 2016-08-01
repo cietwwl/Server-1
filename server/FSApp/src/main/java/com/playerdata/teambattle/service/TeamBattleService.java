@@ -65,6 +65,9 @@ public class TeamBattleService implements FsService {
 			case SCORE_EXCHANGE:
 				result = mHandler.scoreExchage(player, msgTBRequest);
 				break;
+			case SAVE_MEMBER_POSITION:
+				result = mHandler.saveMemPosition(player, msgTBRequest);
+				break;
 			default:
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
