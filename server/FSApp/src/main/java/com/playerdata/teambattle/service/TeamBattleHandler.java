@@ -7,7 +7,6 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.teambattle.bm.TeamBattleBM;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
-import com.rwproto.RequestProtos.Request;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
