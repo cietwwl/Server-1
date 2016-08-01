@@ -19,7 +19,7 @@ public class MapItemStoreFactory {
 
 	public static void init() {
 		list = new ArrayList<PFMapItemStoreCache>();
-		register(tableWhiteList = new PFMapItemStoreCache<TableWhiteList>(TableWhiteList.class, "accountId", 100));
+		register(tableWhiteList = new PFMapItemStoreCache<TableWhiteList>(TableWhiteList.class, "accountId", 100, false));
 		
 	
 	}
