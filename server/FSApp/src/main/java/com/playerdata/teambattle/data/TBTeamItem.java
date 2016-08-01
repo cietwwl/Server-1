@@ -31,10 +31,6 @@ public class TBTeamItem implements IMapItem{
 	@CombineSave
 	private final List<TeamMember> members;
 	
-	public TBTeamItem(){
-		this.members = new ArrayList<TeamMember>();
-	}
-	
 	@CombineSave
 	private String leaderID;
 	
@@ -48,6 +44,10 @@ public class TBTeamItem implements IMapItem{
 	@IgnoreSynField
 	private boolean isSelecting = false;
 
+	public TBTeamItem(){
+		this.members = new ArrayList<TeamMember>();
+	}
+	
 	@Override
 	public String getId() {
 		return teamID;
