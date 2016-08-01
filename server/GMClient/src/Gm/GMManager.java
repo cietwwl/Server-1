@@ -29,7 +29,9 @@ import Gm.Task.GmEmailAll;
 import Gm.Task.GmEmailSingleCheck;
 import Gm.Task.GmEmailWhiteList;
 import Gm.Task.GmFindDaoistList;
+import Gm.Task.GmFindFationSwingPetList;
 import Gm.Task.GmFindHeroList;
+import Gm.Task.GmFindHeroSkillList;
 import Gm.Task.GmFindMagicList;
 import Gm.Task.GmHotUpdateTest;
 import Gm.Task.GmKickOffPlayer;
@@ -133,8 +135,9 @@ public class GMManager {
 //		GmResponsePlayerQuestion handler = new GmResponsePlayerQuestion(); 
 //		GmFindHeroList handler = new GmFindHeroList();
 //		GmFindMagicList handler = new GmFindMagicList();
-		GmFindDaoistList handler =new GmFindDaoistList();
-		
+//		GmFindDaoistList handler =new GmFindDaoistList();
+//		GmFindFationSwingPetList handler = new GmFindFationSwingPetList();
+		GmFindHeroSkillList handler = new GmFindHeroSkillList();
 		
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);

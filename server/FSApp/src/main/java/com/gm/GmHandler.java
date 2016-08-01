@@ -28,7 +28,9 @@ import com.gm.task.GmEmailWhiteList;
 import com.gm.task.GmExecuteGM;
 import com.gm.task.GmExecuteGMCommand;
 import com.gm.task.GmFindDaoistList;
+import com.gm.task.GmFindFishionSwingPetList;
 import com.gm.task.GmFindHeroList;
+import com.gm.task.GmFindHeroSkillList;
 import com.gm.task.GmFindMagicList;
 import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
@@ -130,6 +132,10 @@ public class GmHandler {
 		taskMap.put(20055, new GmFindHeroList());
 		taskMap.put(20056, new GmFindMagicList());
 		taskMap.put(20057, new GmFindDaoistList());
+		taskMap.put(20058, new GmFindFishionSwingPetList());
+		taskMap.put(20059, new GmFindHeroSkillList());
+		
+		
 		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		

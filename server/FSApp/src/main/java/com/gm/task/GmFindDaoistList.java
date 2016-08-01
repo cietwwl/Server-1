@@ -48,35 +48,6 @@ public class GmFindDaoistList implements IGmTask{
 	}
 	
 	private void setInfo(Player player, GmResponse response) {
-//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-//		List<ItemData> itemMap = itemBagMgr.getItemListByType(EItemTypeDef.Magic);
-//		ItemData itemMagic = player.getMagic();
-//		for(ItemData item :itemMap){
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(item.getModelId()));
-//			String magicName = "";
-//			String magicLev = "";
-//			String magicInfo = "";
-//			int magicId = 0;
-//			if(magicCfg==null){
-//				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户法宝出现了异常佣兵模板id =" + item.getModelId(), null);
-//				}else{
-//					magicName = magicCfg.getName();
-//					magicLev = magicCfg.getQuality()+"";
-//					magicInfo = magicCfg.getDescription();
-//					magicId = magicCfg.getId();
-//				}
-//			map.put("equipName", magicName);
-//			map.put("equipLev", magicLev);
-//			
-//			if(itemMagic.getModelId()==magicId){
-//				map.put("isEquip", 0);
-//			}else{
-//				map.put("isEquip", 1);
-//			}
-//			map.put("equipStr", magicInfo);
-//			response.addResult(map);
-//		}
 		Iterable<TaoistInfo> list = player.getTaoistMgr().getMagicList();
 		Iterator<TaoistInfo> iterator = list.iterator();
 		while(iterator.hasNext()){
@@ -90,16 +61,16 @@ public class GmFindDaoistList implements IGmTask{
 			if(taoistMagicCfg==null){
 				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户道术出现了异常佣兵模板id =" + info.getTaoistID(), null);
 			}else{
-//				name = taoistMagicCfg.get
+				name = taoistMagicCfg.getSkillName();
 				type = taoistMagicCfg.getTagNum();
-				
-				
+				remark = taoistMagicCfg.getSkillName();				
 			}
-			
-			
-			
-		}
-		
+			map.put("name", name);
+			map.put("lev", level);
+			map.put("remark", remark);
+			map.put("type", type);			
+			response.addResult(map);
+		}		
 	}
 
 
