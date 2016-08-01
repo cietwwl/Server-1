@@ -20,8 +20,6 @@ public class WhiteListHandler {
 			if(accountId == null){
 				continue;
 			}
-			TableWhiteListHolder holder = new TableWhiteListHolder(accountId);
-			TableWhiteList tableWhiteList = holder.getTableWhiteList();
 			
 			TableWhiteList item = TableWhiteListDAO.getInstance().getWhiteListItem(accountId);
 

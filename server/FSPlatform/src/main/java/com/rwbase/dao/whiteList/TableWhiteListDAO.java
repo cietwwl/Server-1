@@ -3,9 +3,9 @@ package com.rwbase.dao.whiteList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.rw.fsutil.cacheDao.DataRdbDao;
+import com.rw.fsutil.cacheDao.PFDataRdbDao;
 
-public class TableWhiteListDAO extends DataRdbDao<TableWhiteList> {
+public class TableWhiteListDAO extends PFDataRdbDao<TableWhiteList> {
 	private HashMap<String, TableWhiteList> WhiteListMap = new HashMap<String, TableWhiteList>();
 	
 	private static TableWhiteListDAO instance = new TableWhiteListDAO();
