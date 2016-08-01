@@ -14,6 +14,7 @@ import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.fetters.MagicEquipFetterDataHolder;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
@@ -31,16 +32,20 @@ public class UserGameDataMgr {
 	private MajorDataDataHolder majorDataHolder;
 	private Player player;// 角色
 
+	
+	
 	public UserGameDataMgr(Player player, String userId) {
 		this.player = player;
 		majorDataHolder = new MajorDataDataHolder(userId);
 		userGameDataHolder = new UserGameDataHolder(userId);
 
+		
 	}
 
 	public void syn(int version) {
 		userGameDataHolder.syn(player, version);
 		majorDataHolder.syn(player, version);
+		
 	}
 
 	/**
@@ -721,6 +726,44 @@ public class UserGameDataMgr {
 
 	public int getArenaCoin() {
 		return userGameDataHolder.get().getArenaCoin();
+	}
+	
+	public int addWakenPiece(int value){
+		UserGameData tableUserOther = userGameDataHolder.get();
+		int wakenPiece = tableUserOther.getWakenPiece();
+		if(value < 0 && wakenPiece <= 0){
+			return -1;
+		}
+		int total = wakenPiece + value;
+		if(value < 0 && total < 0){
+			total = 0;
+		}
+		tableUserOther.setWakenPiece(total);
+		userGameDataHolder.update(player);
+		return 0;
+	}
+	
+	public int getWakenPiece(){
+		return userGameDataHolder.get().getWakenPiece();
+	}
+	
+	public int addWakenKey(int value){
+		UserGameData tableUserOther = userGameDataHolder.get();
+		int wakenKey = tableUserOther.getWakenKey();
+		if(value < 0 && wakenKey <= 0){
+			return -1;
+		}
+		int total = wakenKey + value;
+		if(value < 0 && total < 0){
+			total = 0;
+		}
+		tableUserOther.setWakenKey(total);
+		userGameDataHolder.update(player);
+		return 0;
+	}
+	
+	public int getWakenKey(){
+		return userGameDataHolder.get().getWakenKey();
 	}
 
 	public boolean addPeakArenaCoin(int currency) {

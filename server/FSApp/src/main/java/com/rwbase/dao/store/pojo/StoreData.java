@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.enu.eStoreExistType;
 import com.rwbase.common.enu.eStoreType;
 
@@ -24,6 +25,13 @@ public class StoreData implements StoreDataIF{
 	private eStoreExistType existType;
 	private eStoreType type;
 	private int version;
+	private boolean isFirstFreeLottery = true; // 是否第一次免费抽箱
+	private boolean isFirstPayLottery = true;	//是否第一次付费抽箱
+	private long lastDrawTime;   		//上一次抽箱时间    	
+	private int drawTime;				//免费抽箱的次数
+	private int recordGuaranteeTime;    //记录保底次数
+	@NonSave
+	private boolean refresh;            //是否刷新状态
 	
 	public List<CommodityData> getCommodity() {
 		return commodity;
@@ -72,5 +80,41 @@ public class StoreData implements StoreDataIF{
 	}
 	public void setFreeRefreshNum(int fressRefreshNum) {
 		this.freeRefreshNum = fressRefreshNum;
+	}
+	public boolean isFirstFreeLottery() {
+		return isFirstFreeLottery;
+	}
+	public void setFirstFreeLottery(boolean isFirstFreeLottery) {
+		this.isFirstFreeLottery = isFirstFreeLottery;
+	}
+	public boolean isFirstPayLottery() {
+		return isFirstPayLottery;
+	}
+	public void setFirstPayLottery(boolean isFirstPayLottery) {
+		this.isFirstPayLottery = isFirstPayLottery;
+	}
+	public long getLastDrawTime() {
+		return lastDrawTime;
+	}
+	public void setLastDrawTime(long lastDrawTime) {
+		this.lastDrawTime = lastDrawTime;
+	}
+	public int getDrawTime() {
+		return drawTime;
+	}
+	public void setDrawTime(int drawTime) {
+		this.drawTime = drawTime;
+	}
+	public int getRecordGuaranteeTime() {
+		return recordGuaranteeTime;
+	}
+	public void setRecordGuaranteeTime(int recordGuaranteeTime) {
+		this.recordGuaranteeTime = recordGuaranteeTime;
+	}
+	public boolean isRefresh() {
+		return refresh;
+	}
+	public void setRefresh(boolean refresh) {
+		this.refresh = refresh;
 	}
 }

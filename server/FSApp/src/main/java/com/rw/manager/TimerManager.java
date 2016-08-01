@@ -1,6 +1,5 @@
 package com.rw.manager;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.gm.activity.RankingActivity;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -19,6 +18,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleHandler;
@@ -86,7 +86,7 @@ public class TimerManager {
 			public void doTask() {
 				GuildDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
-				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				
 			}
 		}, MINUTE_5);
 
@@ -94,10 +94,8 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				
-				
 				//帮派副本定时发奖
-//				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
 
@@ -162,6 +160,20 @@ public class TimerManager {
 					@Override
 					public void run() {
 						GFightOnlineResourceMgr.getInstance().dispatchDailyReward();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						TBTeamItemMgr.getInstance().dailyReset();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						ServerCommonDataHolder.getInstance().teamBattleDailyReset();
 					}
 				});
 			}

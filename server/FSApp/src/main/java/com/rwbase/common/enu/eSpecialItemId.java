@@ -13,12 +13,10 @@ public enum eSpecialItemId {
 	BATTLE_TOWER_COPPER_KEY(10, null), // 试练塔铜钥匙
 	BATTLE_TOWER_SILVER_KEY(11, null), // 试练塔银钥匙
 	BATTLE_TOWER_GOLD_KEY(12, null), // 试练塔金钥匙
-	
-	
-	
+	WAKEN_PIECE(15, null), //可用于兑换神器觉醒材料
+	WAKEN_KEY(16, null), //可用于打开觉醒宝箱
 	eSpecial_End(20, null),
 	item(99,null);//道具,适用于双倍掉落活动时
-
 	private final int value;
 	private final eAttrIdDef eAttrId;// 临时解决方案：定义两者映射关系
 

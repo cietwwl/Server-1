@@ -44,8 +44,11 @@ public class GroupCopyCmdService implements FsService{
 			case APPLY_WAR_PRICE://申请战利品
 				bStr = cmdHandler.applyWarPrice(player,reqMsg);
 				break;
-			case CANCEL_APPLY_ITEM://取消申请人战利品
+			case CANCEL_APPLY_ITEM://取消申请战利品
 				bStr = cmdHandler.cancelApplyItem(player, reqMsg);
+				break;
+			case GET_DIST_REWARD_LOG://奖励分配记录
+				bStr = cmdHandler.getDistRewardLog(player);
 				break;
 			default:
 				GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "接收到了一个Unknown的消息，无法处理", null);

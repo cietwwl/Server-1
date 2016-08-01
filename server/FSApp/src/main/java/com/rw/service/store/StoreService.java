@@ -18,16 +18,27 @@ public class StoreService implements FsService {
 		try {
 			StoreRequest req = StoreRequest.parseFrom(request.getBody().getSerializedContent());
 			eStoreRequestType reqType = req.getRequestType();
-			handler.SetPlayer(player);
 			switch (reqType) {
 				case OpenStore:
-					result = handler.OpenStore(req.getStoreType());
+					result = handler.OpenStore(player, req.getStoreType());
 					break;
 				case BuyCommodity:
-					result = handler.BuyCommodity(req.getCommodity());
+					result = handler.BuyCommodity(player, req.getCommodity());
 					break;
 				case RefreshStore:
-					result = handler.RefreshStore(req.getStoreType());
+					result = handler.RefreshStore(player, req.getStoreType());
+					break;
+				case WakenRewardDraw:
+					result = handler.wakenRewardDraw(player, req);
+					break;
+				case WakenExchange:
+					result = handler.exchangeWakenItem(player, req);
+					break;
+				case RefreshExchangeItem:
+					result = handler.refreshExchangeItem(player, req);
+					break;
+				case ViewStore:
+					result = handler.viewStore(player, req);
 					break;
 			}
 		}catch(InvalidProtocolBufferException e){

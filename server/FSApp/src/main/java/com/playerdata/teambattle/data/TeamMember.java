@@ -1,5 +1,6 @@
 package com.playerdata.teambattle.data;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.enums.TBMemberState;
 
@@ -8,7 +9,12 @@ public class TeamMember {
 	
 	private String userID;
 	
+	private int lastFinishBattle = 0;
+	
 	private TBMemberState state;
+	
+	@IgnoreSynField
+	private long fightStartTime = 0;
 
 	public String getUserID() {
 		return userID;
@@ -24,5 +30,21 @@ public class TeamMember {
 
 	public void setState(TBMemberState state) {
 		this.state = state;
+	}
+
+	public int getLastFinishBattle() {
+		return lastFinishBattle;
+	}
+
+	public void setLastFinishBattle(int lastFinishBattle) {
+		this.lastFinishBattle = lastFinishBattle;
+	}
+
+	public long getFightStartTime() {
+		return fightStartTime;
+	}
+
+	public void setFightStartTime(long fightStartTime) {
+		this.fightStartTime = fightStartTime;
 	}
 }

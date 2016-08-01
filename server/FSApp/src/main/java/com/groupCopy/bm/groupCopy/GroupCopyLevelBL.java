@@ -33,6 +33,8 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dropitem.DropItemManager;
+import com.rwbase.dao.battle.pojo.BattleCfgDAO;
+import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 /**
@@ -61,18 +63,24 @@ public class GroupCopyLevelBL {
 	public static GroupCopyProgress createProgress(String level){
 		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();
 		try {
-			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
-			List<String> idList = levelCfg.getmIDList();
+			List<CopyMonsterInfoCfg> list = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(level);
+			
 			
 			GroupCopyMonsterSynStruct struct = null;
-			CopyMonsterCfg monsterCfg;
-			if(idList.isEmpty()){
+			CopyMonsterCfg monster;
+			if(list.isEmpty()){
 				GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,关卡：【" + level + "】里的怪物列表为空！！", null);
 			}
-			for (String id : idList) {
-				monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-				struct = new GroupCopyMonsterSynStruct(monsterCfg);
-				mData.add(struct);
+			for (CopyMonsterInfoCfg monsterCfg : list) {
+				for (String id : monsterCfg.getEnemyList()) {
+					monster = CopyMonsterCfgDao.getInstance().getCfgById(id);
+					if(monster == null){
+						GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,找不到关卡：【" + level + "】里的怪物["+id+"]！！", null);
+						continue;
+					}
+					struct = new GroupCopyMonsterSynStruct(monster);
+					mData.add(struct);
+				}
 			}
 			
 			
@@ -337,7 +345,6 @@ public class GroupCopyLevelBL {
 		//个人奖励的金币
 		damage = damage > 0 ? damage : 0;
 		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
-		
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());

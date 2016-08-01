@@ -29,6 +29,7 @@ import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
@@ -40,6 +41,7 @@ import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
+import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
@@ -48,6 +50,7 @@ import com.rwbase.dao.magic.Magic;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.task.pojo.TaskItem;
+import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
 
 public class MapItemStoreFactory {
 
@@ -129,6 +132,11 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<TBTeamItem> teamBattleItemCache;
 
+	
+	private static MapItemStoreCache<MagicEquipFetterRecord> magicEquipFetterCache;
+	
+	private static PFMapItemStoreCache<TablePlatformWhiteList> platformWhiteListCache;
+	
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
@@ -220,11 +228,16 @@ public class MapItemStoreFactory {
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
-		// register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
-
+		
+		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
+		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+		
+		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));
 
 		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
+		
+		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -512,6 +525,13 @@ public class MapItemStoreFactory {
 		return majorDataCache;
 	}
 
+	public static MapItemStoreCache<MagicEquipFetterRecord> getMagicEquipFetterCache() {
+		return magicEquipFetterCache;
+	}
+	
+	
+	
+
 	/**
 	 * 获取站位的Cache
 	 * 
@@ -519,5 +539,13 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<EmbattleInfo> getEmbattleInfoCache() {
 		return embattleInfoItemCache;
+	}
+
+	/**
+	 * 获取白名单的Cache
+	 * @return
+	 */
+	public static PFMapItemStoreCache<TablePlatformWhiteList> getPlatformWhiteListCache() {
+		return platformWhiteListCache;
 	}
 }

@@ -1,25 +1,30 @@
-package com.rw.service.copy;
+package com.rw.service.copy.copyHandler;
 
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
+import com.rw.service.copy.PvECommonHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
-import com.rw.service.pve.PveHandler;
-import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.enu.eActivityType;
+import com.rwbase.common.enu.eStoreConditionType;
+import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
@@ -28,35 +33,33 @@ import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
 import com.rwproto.CopyServiceProtos.TagBattleData;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
-public class TrailHandler {
+public class EliteCopyHandler {
 
-	private static TrailHandler instance = new TrailHandler();
+	private static EliteCopyHandler instance = new EliteCopyHandler();
 
-	public static TrailHandler getInstance() {
+	public static EliteCopyHandler getInstance() {
 		return instance;
 	}
 
 	/*
 	 * 试炼之境 战斗结算
 	 */
-	public ByteString battleClear(Player player, MsgCopyRequest copyRequest, int copyType) {
+	public ByteString battleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		TagBattleData tagBattleData = copyRequest.getTagBattleData();
-		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		boolean isWin = tagBattleData.getFightResult() == EBattleStatus.WIN;
 		int fightTime = tagBattleData.getFightTime();
-		
-		int levelId = copyRequest.getTagBattleData().getLevelId();
-		
-		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
 
+		int levelId = tagBattleData.getLevelId();
+
+		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
+
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
-		// 合法性检查
-		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
-		if (type != EResultType.NONE) {
-			return copyResponse.setEResultType(type).build().toByteString();
-		}
+		boolean isFirst = copyRecord.isFirst();
 		
+		
+		String rewardInfoActivity="";
 		List<? extends ItemInfo> dropItems = null;
 		try {
 			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
@@ -64,30 +67,54 @@ public class TrailHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String rewardInfoActivity="";
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity,0);
-		}
+
+		
 		if(!isWin){
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
-		
-		
-		
+
+
+
+		// 合法性检查
+		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
+		if (type != EResultType.NONE) {
+			return copyResponse.setEResultType(type).build().toByteString();
+		}
+
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
-		
-		// TODO HC @Modify 2015-11-30 bug fix 没有把掉落物品放进去发送给玩家
+
+		// 物品增加...
 		PvECommonHelper.addCopyRewards(player, copyCfg, dropItems);
 
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
 
-		player.getCopyDataMgr().subCopyCount(String.valueOf(levelId));
+		// 此处专门处理副本地图的关卡记录...
+		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
+		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+		
+		
+		if (StringUtils.isBlank(levelRecord4Client)) {
+			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+
+		}
+		copyResponse.addTagCopyLevelRecord(levelRecord4Client);
+		
+		// 任务数量 日常		
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Elite, 1);
+		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Copy_Elite);
+		player.getFresherActivityMgr().doCheck(eActivityType.A_EliteCopyLv);
+
+		// 黑市或者神秘商店
+		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);
+		// 任务--完成副本--章节星数--完成章节
+		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Section_Star);
+		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Section);
 
 		TagBattleClearingResult.Builder tagBattleClearingResult = TagBattleClearingResult.newBuilder(); // 战斗结算返回的信息...
 		tagBattleClearingResult.addAllUpHeroId(listUpHero);// 升级英雄ID...
@@ -95,30 +122,18 @@ public class TrailHandler {
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
 
-		// 练气山谷、聚宝之地日常任务
-		if (copyType == CopyType.COPY_TYPE_TRIAL_JBZD) {
-			// 增加聚宝之地的金币
-			int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
-			if (addCoin > 0) {
-				player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), addCoin);
-			}
-			// 聚宝之地
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
-			UserEventMgr.getInstance().TreasureLandCopyWinDaily(player, 1);
-		} else {
-			// 练气山谷
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_LQSG, 1);
-		}
 
-		// 战斗结束，推送pve消息给前端
-		PveHandler.getInstance().sendPveInfo(player);
+		UserEventMgr.getInstance().ElityCopyWin(player, 1);
+		
 		return copyResponse.build().toByteString();
 	}
 
 	/*
-	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 扫荡关卡...
+	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 副本扫荡经验双倍预计掉落
 	 */
-	public ByteString sweep(Player player, MsgCopyRequest copyRequest, int copyType) {
+	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		int levelId = copyRequest.getLevelId();
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
@@ -134,35 +149,38 @@ public class TrailHandler {
 		}
 		//
 		PvECommonHelper.deduceSweepCost(player, copyRequest, copyResponse, times);
-		String strLevelID = String.valueOf(levelId);
 
-		for (int i = 0; i < times; i++) {
-			player.getCopyDataMgr().subCopyCount(strLevelID);
-		}
+		// 同步日常任务
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Elite, times);
 
-		copyResponse.setCopyCount(player.getCopyDataMgr().getCopyCount(strLevelID));
-
+		// 黑市或者神秘商店
+		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);
 		copyResponse.setLevelId(levelId);
+
+		String levelRecord4Client = player.getCopyRecordMgr().updateLevelRecord(levelId, 3, times);
 
 		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
 
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
 
-		copyResponse.addAllTagSweepInfoList(listSweepInfo);
-
-		// 练气山谷、聚宝之地日常任务
-		if (copyType == CopyType.COPY_TYPE_TRIAL_JBZD) {
-			// 聚宝之地
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
-		} else {
-			// 练气山谷
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_LQSG, 1);
+		/** 扫荡处发送经验双倍字段给客户端显示 */
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();
+		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg, player, eSpecialItemIDUserInfo);
+		if (eSpecialItemIDUserInfo != null) {
+			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
+			if (StringUtils.isNotBlank(clientData)) {
+				copyResponse.setESpecialItemIdList(clientData);
+			}
 		}
 
-		// 战斗结束，推送pve消息给前端
-		PveHandler.getInstance().sendPveInfo(player);
-
+		copyResponse.addAllTagSweepInfoList(listSweepInfo);
+		if (levelRecord4Client != null) {
+			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
+		}
+		
+		UserEventMgr.getInstance().ElityCopyWin(player, times);
 		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
 	}
+	
 
 }

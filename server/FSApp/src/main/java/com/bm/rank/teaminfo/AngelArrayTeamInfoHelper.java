@@ -11,6 +11,7 @@ import com.bm.rank.RankType;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
 import com.common.RefInt;
+import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -64,7 +65,8 @@ public class AngelArrayTeamInfoHelper {
 	/**
 	 * 当角色登录的时候，刷新上线时间
 	 * 
-	 * @param p 角色信息
+	 * @param p
+	 *            角色信息
 	 */
 	public static void updateRankingEntry(Player p, TeamInfoCallback call) {
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
@@ -120,7 +122,8 @@ public class AngelArrayTeamInfoHelper {
 	/**
 	 *
 	 * @param p
-	 * @param teamHeroList 竞技场的进攻阵容信息
+	 * @param teamHeroList
+	 *            竞技场的进攻阵容信息
 	 * @return
 	 */
 	public static void checkAndUpdateTeamInfo(Player p, List<String> teamHeroList) {
@@ -179,44 +182,45 @@ public class AngelArrayTeamInfoHelper {
 	 * @param heroModelList
 	 * @return
 	 */
-//	public static int getTeamInfoHeroModelListByTmpIdList(PlayerIF p, List<String> teamHeroList, List<Integer> heroModelList) {
-//		if (p == null || teamHeroList == null || teamHeroList.isEmpty()) {
-//			return 0;
-//		}
-//
-//		int fighting = p.getMainRoleHero().getFighting();
-//
-//		int mainRoleModelId = p.getModelId();
-//		heroModelList.add(mainRoleModelId);
-//
-//		HeroMgrIF heroMgr = p.getHeroMgr();
-//		int heroSize = teamHeroList.size();
-//		for (int i = 0; i < heroSize; i++) {
-//			int heroModelId;
-//			String heroTemplateId = teamHeroList.get(i);
-//			int indexOf = heroTemplateId.indexOf("_");
-//			if (indexOf == -1) {// 没有下划线
-//				heroModelId = Integer.parseInt(heroTemplateId);
-//			} else {
-//				heroModelId = Integer.parseInt(heroTemplateId.substring(0, indexOf));
-//			}
-//
-//			if (heroModelId == mainRoleModelId) {
-//				continue;
-//			}
-//
-//			HeroIF hero = heroMgr.getHeroByModerId(heroModelId);
-//			if (hero == null) {
-//				continue;
-//			}
-//
-//			fighting += hero.getFighting();
-//			heroModelList.add(heroModelId);
-//		}
-//
-//		return fighting;
-//	}
-	
+	// public static int getTeamInfoHeroModelListByTmpIdList(PlayerIF p,
+	// List<String> teamHeroList, List<Integer> heroModelList) {
+	// if (p == null || teamHeroList == null || teamHeroList.isEmpty()) {
+	// return 0;
+	// }
+	//
+	// int fighting = p.getMainRoleHero().getFighting();
+	//
+	// int mainRoleModelId = p.getModelId();
+	// heroModelList.add(mainRoleModelId);
+	//
+	// HeroMgrIF heroMgr = p.getHeroMgr();
+	// int heroSize = teamHeroList.size();
+	// for (int i = 0; i < heroSize; i++) {
+	// int heroModelId;
+	// String heroTemplateId = teamHeroList.get(i);
+	// int indexOf = heroTemplateId.indexOf("_");
+	// if (indexOf == -1) {// 没有下划线
+	// heroModelId = Integer.parseInt(heroTemplateId);
+	// } else {
+	// heroModelId = Integer.parseInt(heroTemplateId.substring(0, indexOf));
+	// }
+	//
+	// if (heroModelId == mainRoleModelId) {
+	// continue;
+	// }
+	//
+	// HeroIF hero = heroMgr.getHeroByModerId(heroModelId);
+	// if (hero == null) {
+	// continue;
+	// }
+	//
+	// fighting += hero.getFighting();
+	// heroModelList.add(heroModelId);
+	// }
+	//
+	// return fighting;
+	// }
+
 	public static int getTeamInfoHeroModelListById(PlayerIF p, List<String> teamHeroList, List<Integer> heroModelList) {
 		if (p == null || teamHeroList == null || teamHeroList.isEmpty()) {
 			return 0;
@@ -232,6 +236,10 @@ public class AngelArrayTeamInfoHelper {
 		for (int i = 0; i < heroSize; i++) {
 			String uuid = teamHeroList.get(i);
 			HeroIF hero = heroMgr.getHeroById(uuid);
+			if (hero == null) {
+				GameLog.error("AngelArrayTeamInfoHelper", p.getUserName(), "get hero by uuid fail:" + uuid);
+				continue;
+			}
 			fighting += hero.getFighting();
 			heroModelList.add(hero.getModelId());
 		}
@@ -281,7 +289,8 @@ public class AngelArrayTeamInfoHelper {
 	 * 获取万仙阵阵容信息
 	 * 
 	 * @param p
-	 * @param teamHeroList 佣兵的ModelId
+	 * @param teamHeroList
+	 *            佣兵的ModelId
 	 * @return
 	 */
 	public static AngelArrayTeamInfoAttribute getAngelArrayTeamInfoAttribute(Player p, List<Integer> teamHeroList) {
@@ -301,7 +310,8 @@ public class AngelArrayTeamInfoHelper {
 	 * 转换Player到TeamInfo
 	 * 
 	 * @param p
-	 * @param teamHeroList 包含了主角在内的攻击英雄的ModelId
+	 * @param teamHeroList
+	 *            包含了主角在内的攻击英雄的ModelId
 	 * @return
 	 */
 	public static TeamInfo parsePlayer2TeamInfo(Player p, List<Integer> teamHeroList) {
@@ -455,8 +465,7 @@ public class AngelArrayTeamInfoHelper {
 	 */
 	private static List<HeroInfo> changeHeroInfo(Player p, List<Integer> teamHeroList, RefInt fighting) {
 		// 获取竞技场的阵容
-		EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(p.getUserId(), eBattlePositionType.ArenaPos_VALUE,
-			String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE));// 竞技场的攻击阵容
+		EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(p.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE));// 竞技场的攻击阵容
 
 		// 英雄的阵容
 		int heroSize = teamHeroList.size();
@@ -784,7 +793,7 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
 		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-			heroAttrData));
+				heroAttrData));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 

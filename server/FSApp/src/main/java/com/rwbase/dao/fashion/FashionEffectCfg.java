@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.common.BaseConfig;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
@@ -17,7 +18,7 @@ import com.rwbase.common.enu.ECareer;
  * @author franky
  *
  */
-public class FashionEffectCfg {
+public class FashionEffectCfg extends BaseConfig{
 	private String key; // 关键字
 	private int id; // 时装id
 	private ECareer CareerType = ECareer.None; // 职业
@@ -47,7 +48,8 @@ public class FashionEffectCfg {
 	private Map<Integer, Integer> attrDataMap;// 增加固定值属性
 	private Map<Integer, Integer> precentAttrDataMap;// 增加的百分比属性
 
-	public void ExtraInit() {
+	@Override
+	public void ExtraInitAfterLoad() {
 		// 求增益值和百分比
 		// addedValues = new AttrData();
 		// addedPercentages = new AttrData();

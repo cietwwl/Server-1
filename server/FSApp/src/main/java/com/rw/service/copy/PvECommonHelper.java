@@ -9,8 +9,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.ItemInfoIF;
@@ -27,13 +25,12 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class PvECommonHelper {
@@ -218,7 +215,7 @@ public class PvECommonHelper {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
 		}
-		if (isTimesLimit(copyRecord, copyCfg, times)) {
+		if (isTimesLimit(player, copyCfg, copyRecord,times)) {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
 		}
@@ -243,22 +240,26 @@ public class PvECommonHelper {
 		return (copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * times > player.getUserGameDataMgr().getPower();
 	}
 
-	private static boolean isTimesLimit(CopyLevelRecordIF copyRecord, CopyCfg copyCfg, int times) {
-		return false;// 这里不是重置次数
-		// boolean isTimesLimit = true;
-		// int allowTimes = copyCfg.getResetNum();
-		// if (allowTimes <= 0) {
-		// // 如果小于0说明不做限制
-		// isTimesLimit = false;
-		// } else {
-		//
-		// int currentCount = copyRecord == null ? 0 :
-		// copyRecord.getCurrentCount();
-		// isTimesLimit = currentCount + times > allowTimes;
-		//
-		// }
-		// return isTimesLimit;
+	private static boolean isTimesLimit(Player player, CopyCfg copyCfg,CopyLevelRecordIF copyRecord, int times) {
+	
+		boolean isLimit = false;
+		int levelType = copyCfg.getLevelType();
+		if(levelType == CopyType.COPY_TYPE_TRIAL_JBZD 
+				||levelType == CopyType.COPY_TYPE_TRIAL_LQSG
+				||levelType == CopyType.COPY_TYPE_CELESTIAL ){			
+			//历史原因  ， 聚宝之地 练气山谷 生存幻境 的次数保存在copydata, 
+			isLimit = player.getCopyDataMgr().getCopyCount(String.valueOf(copyCfg.getLevelID())) - times < 0;				
+		}else if(levelType == CopyType.COPY_TYPE_ELITE){
+			//精英和普通副本保存在copylevelRecord
+			isLimit = copyRecord.getCurrentCount()+times > copyCfg.getResetNum();
+		}else {
+			//do nothing 另外的pve都有自己的次数判断,普通副本不做限制
+		}
+		
+		return isLimit;
 	}
+	
+	
 
 	public static void deduceSweepCost(Player player, MsgCopyRequest copyRequest, MsgCopyResponse.Builder copyResponse, int times) {
 		ERequestType requestType = copyRequest.getRequestType();

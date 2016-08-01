@@ -37,7 +37,7 @@ public class FashionCommonCfgDao extends CfgCsvDao<FashionCommonCfg> {
 		Collection<Entry<String,FashionCommonCfg>> values =  cfgCacheMap.entrySet();
 		for (Entry<String,FashionCommonCfg> entry : values) {
 			FashionCommonCfg cfg = entry.getValue();
-			cfg.ExtraInit();
+			cfg.ExtraInitAfterLoad();
 		}
 		return cfgCacheMap;
 	}

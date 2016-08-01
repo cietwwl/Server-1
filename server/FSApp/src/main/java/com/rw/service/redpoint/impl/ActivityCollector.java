@@ -141,6 +141,10 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			ActivityRateTypeItem rateItem = datarateholder.getItem(player.getUserId(), typeEnum);
+			if(rateItem==null){
+				//登录时活动没开启，没生成数据；持续在线到活动开启了
+				continue;
+			}
 			if(!rateItem.isTouchRedPoint()){
 				activityList.add(cfg.getId());
 				continue;
@@ -330,8 +334,8 @@ public class ActivityCollector implements RedPointCollector{
 		}		
 		
 		
-//		if (!activityList.isEmpty()) {
+		if (!activityList.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
-//		}		
+		}		
 	}	
 }

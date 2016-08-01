@@ -8,6 +8,15 @@ enum eStoreRequestType {
 	OpenStore = 3;  
 	SyncStore=4;
 	ProbStore = 5;
+	WakenRewardDraw = 6;
+	WakenExchange = 7;
+	RefreshExchangeItem = 8;
+	ViewStore = 9;
+}
+
+enum eWakenRewardDrawType{
+	oneDraw = 1;   //µ¥³é
+	tenDraw = 2;   //Ê®Á¬³é
 }
 
 enum eProbType{
@@ -26,6 +35,7 @@ message tagCommodity{
 	optional int32 id = 1;
 	optional int32 count = 2;
 	optional int32 solt = 3;
+	optional int32 exchangeCount = 4;
 }
 message tagStore{
 	optional int32 type = 1;
@@ -34,11 +44,17 @@ message tagStore{
 	optional int32 existType = 5;
 	repeated tagCommodity commodity = 4;
 }
+message tagReward{
+	optional int32 modelId = 1;
+	optional int32 count = 2;
+}
 
 message StoreRequest {
 	required eStoreRequestType requestType = 1;
     optional int32 storeType = 2;
     optional tagCommodity commodity = 3;
+	optional eWakenRewardDrawType drawType = 4;
+	optional int32 consumeType = 5;
 }
 
 message StoreResponse {
@@ -50,4 +66,5 @@ message StoreResponse {
 	optional int32 storeType = 6;
 	optional eProbType probType = 7;
 	optional int32 costType = 8;
+	repeated tagReward rewards = 9;
 }

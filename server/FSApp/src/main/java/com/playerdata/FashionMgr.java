@@ -375,7 +375,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		return false;
 	}
 
-	private boolean giveFashionItem(int fashionId, int expaireTimeCount, boolean putOnNow, boolean sendEmail, TimeUnit timingUnit) {
+	public boolean giveFashionItem(int fashionId, int expaireTimeCount, boolean putOnNow, boolean sendEmail, TimeUnit timingUnit) {
 		Player player = m_player;
 		if (player == null) {
 			return false;
@@ -663,7 +663,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 		long buyTime = item.getBuyTime();
 		long expired = item.getExpiredTime();
-		if (buyTime > expired) {
+		if (expired >0 && buyTime > expired) {
 			LogError(tip, "时装数据异常", ",购买时间比到期时间迟！fashionId=" + fashionId);
 			return false;
 		}
@@ -705,7 +705,13 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 						fasItem.setBrought(false);
 					}
 				}
-				fashionItemHolder.removeItem(m_player, fasItem);
+				
+				//允许购买的时装需要从购买数据库中删除，但是不允许购买的时装需要保留在数据库中继续勾引玩家
+				if (fashcfg == null || !fashcfg.getNotAllowBuy()){
+					fashionItemHolder.removeItem(m_player, fasItem);
+				}else{
+					fashionItemHolder.updateItem(m_player, fasItem);
+				}
 			}
 		}
 	}
