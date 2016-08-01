@@ -32,7 +32,6 @@ public class GmFindHeroList implements IGmTask{
 			if(player != null){
 				setInfo(player,response);
 				response.setStatus(0);
-				response.setStatus(1);
 			}else{
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ROLE_NOT_FOUND.getStatus()));
 			}
@@ -52,12 +51,13 @@ public class GmFindHeroList implements IGmTask{
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			RoleCfgDAO instance = RoleCfgDAO.getInstance();
-			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getId());
+			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
 			String heroName = "";
-			if(heroCfg != null){
-				heroName = heroCfg.getName();
+			if(heroCfg == null){				
 				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户阵容出现了异常佣兵模板id =" + roleBaseInfo.getId(), null);
-			}		
+			}else{
+				heroName = heroCfg.getName();
+			}
 			map.put("heroName",heroName);
 			map.put("qualityLev", roleBaseInfo.getQualityId());
 			map.put("starLev", roleBaseInfo.getStarLevel());

@@ -28,6 +28,9 @@ import Gm.Task.GmEditPlatformNotice;
 import Gm.Task.GmEmailAll;
 import Gm.Task.GmEmailSingleCheck;
 import Gm.Task.GmEmailWhiteList;
+import Gm.Task.GmFindDaoistList;
+import Gm.Task.GmFindHeroList;
+import Gm.Task.GmFindMagicList;
 import Gm.Task.GmHotUpdateTest;
 import Gm.Task.GmKickOffPlayer;
 import Gm.Task.GmOnlineCount;
@@ -127,8 +130,12 @@ public class GMManager {
 //		GmChatBanPlayer handler = new GmChatBanPlayer();
 //		GmBlockPlayer handler = new GmBlockPlayer();
 //		GmBlockRelease handler = new GmBlockRelease();
-		GmResponsePlayerQuestion handler = new GmResponsePlayerQuestion(); 
-
+//		GmResponsePlayerQuestion handler = new GmResponsePlayerQuestion(); 
+//		GmFindHeroList handler = new GmFindHeroList();
+//		GmFindMagicList handler = new GmFindMagicList();
+		GmFindDaoistList handler =new GmFindDaoistList();
+		
+		
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);
 		
@@ -138,7 +145,7 @@ public class GMManager {
 //		processGmRequest(request, "119.29.163.123", 12345);
 //		processGmRequest(request, "119.29.163.123", 7098);
 //		processGmRequest(request, "119.29.111.118", 7098);
-		processGmRequest(request, "192.168.2.247", 12345);
+		processGmRequest(request, "192.168.2.124", 12345);
 //		processGmRequest(request, "119.29.162.42", 12346);
 //		processGmRequest(request, "119.29.111.118", 7098);
 //		processGmRequest(request, "192.168.2.233", 12345);
