@@ -42,7 +42,7 @@ import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
 public class ChatHandler {
-	
+
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
 	public static final int MAX_CACHE_MSG_SIZE = 20;// 各个聊天频道缓存的最大聊天记录数
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
@@ -59,7 +59,7 @@ public class ChatHandler {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * 
 	 * @param player
@@ -90,7 +90,7 @@ public class ChatHandler {
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
 		return messageUserInfoBuilder;
 	}
-	
+
 	/**
 	 * 
 	 * @param player
@@ -117,13 +117,13 @@ public class ChatHandler {
 		msgChatResponse.setChatType(msgChatRequest.getChatType());
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
-//		String userId = player.getUserId();
+		// String userId = player.getUserId();
 		// 2016-07-19 17:14 修改：接收的时候，可以不需要这个senderInfo BEGIN >>>>
-//		if (!message.hasSendMessageUserInfo()) {
-//			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "发送聊天数据异常");
-//			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-//			return msgChatResponse.build().toByteString();
-//		}
+		// if (!message.hasSendMessageUserInfo()) {
+		// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "发送聊天数据异常");
+		// msgChatResponse.setChatResultType(eChatResultType.FAIL);
+		// return msgChatResponse.build().toByteString();
+		// }
 		// 2016-07-19 17:14 <<<< END
 
 		long nowTime = System.currentTimeMillis();
@@ -137,47 +137,48 @@ public class ChatHandler {
 
 		player.setLastWorldChatCacheTime(nowTime);// 更新上次聊天的时间
 
-		// 收费
-		int freeChat = player.getUserGameDataMgr().getFreeChat();
-		if (freeChat == 0) {
-			// 扣钻石
-			if (m_ChatCost == 0) {
-				m_ChatCost = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_COST);
-			}
-			if (player.getUserGameDataMgr().getGold() >= m_ChatCost) {
-				player.getUserGameDataMgr().addGold(-m_ChatCost);
-			} else {
-				msgChatResponse.setChatResultType(eChatResultType.FAIL);
-				return msgChatResponse.build().toByteString();
-			}
-		} else {
-			player.getUserGameDataMgr().setFreeChat(freeChat - 1);
-		}
+		// TODO HC 策划需求不再进行收费跟免费次数限制
+		// // 收费
+		// int freeChat = player.getUserGameDataMgr().getFreeChat();
+		// if (freeChat == 0) {
+		// // 扣钻石
+		// if (m_ChatCost == 0) {
+		// m_ChatCost = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_COST);
+		// }
+		// if (player.getUserGameDataMgr().getGold() >= m_ChatCost) {
+		// player.getUserGameDataMgr().addGold(-m_ChatCost);
+		// } else {
+		// msgChatResponse.setChatResultType(eChatResultType.FAIL);
+		// return msgChatResponse.build().toByteString();
+		// }
+		// } else {
+		// player.getUserGameDataMgr().setFreeChat(freeChat - 1);
+		// }
 
-//		ChatMessageData.Builder data = ChatMessageData.newBuilder();
-//		MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
-//		sendMsgInfo.setUserId(userId);
-//
-//		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-//		String groupName = userGroupAttributeData.getGroupName();
-//		sendMsgInfo.setFamilyId(userGroupAttributeData.getGroupId());
-//		if (!StringUtils.isEmpty(groupName)) {
-//			sendMsgInfo.setFamilyName(groupName);
-//		}
-//		data.setSendMessageUserInfo(sendMsgInfo);
-//		if (message.hasReceiveMessageUserInfo()) {
-//			data.setReceiveMessageUserInfo(message.getReceiveMessageUserInfo());
-//		}
-//
-//		String chatContent = filterDirtyWord(message.getMessage());
-//		data.setMessage(chatContent);
-//		data.setTime(getMessageTime());
-		
+		// ChatMessageData.Builder data = ChatMessageData.newBuilder();
+		// MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
+		// sendMsgInfo.setUserId(userId);
+		//
+		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String groupName = userGroupAttributeData.getGroupName();
+		// sendMsgInfo.setFamilyId(userGroupAttributeData.getGroupId());
+		// if (!StringUtils.isEmpty(groupName)) {
+		// sendMsgInfo.setFamilyName(groupName);
+		// }
+		// data.setSendMessageUserInfo(sendMsgInfo);
+		// if (message.hasReceiveMessageUserInfo()) {
+		// data.setReceiveMessageUserInfo(message.getReceiveMessageUserInfo());
+		// }
+		//
+		// String chatContent = filterDirtyWord(message.getMessage());
+		// data.setMessage(chatContent);
+		// data.setTime(getMessageTime());
+
 		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 		String chatContent = data.getMessage();
 
 		msgChatResponse.addListMessage(data);
-		//聊天日志
+		// 聊天日志
 		BILogMgr.getInstance().logChat(player, "", BIChatType.WORD.getType(), chatContent);
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ByteString result = msgChatResponse.build().toByteString();
@@ -233,26 +234,24 @@ public class ChatHandler {
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 		// 2016-07-29 看不出這段用意，暫時去掉
-		/*if (!message.hasSendMessageUserInfo()) {
-			List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
-			for (int i = 0, size = list.size(); i < size; i++) {
-				msgChatResponse.addListMessage(list.get(i));
-			}
-		} else*/ {
-//			ChatMessageData.Builder data = ChatMessageData.newBuilder();
-//			MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
-//			sendMsgInfo.setUserId(player.getUserId());
-//			// 设置帮派信息
-//			String groupName = userGroupData.getGroupName();
-//			sendMsgInfo.setFamilyId(userGroupData.getGroupId());
-//			if (!StringUtils.isEmpty(groupName)) {
-//				sendMsgInfo.setFamilyName(groupName);
-//			}
-//
-//			data.setSendMessageUserInfo(sendMsgInfo);
-//			data.setTime(getMessageTime());
-//			String chatContent = filterDirtyWord(message.getMessage());
-//			data.setMessage(chatContent);
+		/*
+		 * if (!message.hasSendMessageUserInfo()) { List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId); for (int i =
+		 * 0, size = list.size(); i < size; i++) { msgChatResponse.addListMessage(list.get(i)); } } else
+		 */{
+			// ChatMessageData.Builder data = ChatMessageData.newBuilder();
+			// MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
+			// sendMsgInfo.setUserId(player.getUserId());
+			// // 设置帮派信息
+			// String groupName = userGroupData.getGroupName();
+			// sendMsgInfo.setFamilyId(userGroupData.getGroupId());
+			// if (!StringUtils.isEmpty(groupName)) {
+			// sendMsgInfo.setFamilyName(groupName);
+			// }
+			//
+			// data.setSendMessageUserInfo(sendMsgInfo);
+			// data.setTime(getMessageTime());
+			// String chatContent = filterDirtyWord(message.getMessage());
+			// data.setMessage(chatContent);
 			ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 			String chatContent = data.getMessage();
 			msgChatResponse.addListMessage(data);
@@ -324,42 +323,42 @@ public class ChatHandler {
 			return msgChatResponseBuilder.build().toByteString();
 		}
 
-//		MessageUserInfo.Builder receiveUserInfo = MessageUserInfo.newBuilder(message.getReceiveMessageUserInfo());
-//		receiveUserInfo.setLevel(toPlayer.getLevel());// 等级
-//		receiveUserInfo.setHeadImage(toPlayer.getTableUser().getHeadImageWithDefault());// 头像Id
-//		receiveUserInfo.setUserName(toPlayer.getTableUser().getUserName());// 角色名字
-//		receiveUserInfo.setHeadbox(toPlayer.getHeadFrame());// 头像品质框
-//
-//		// 设置帮派信息
-//		UserGroupAttributeDataIF toPlayerGroupData = toPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-//		String toPlayerGroupName = toPlayerGroupData.getGroupName();
-//		receiveUserInfo.setFamilyId(toPlayerGroupData.getGroupId());
-//		if (!StringUtils.isEmpty(toPlayerGroupName)) {
-//			receiveUserInfo.setFamilyName(toPlayerGroupName);
-//		}
+		// MessageUserInfo.Builder receiveUserInfo = MessageUserInfo.newBuilder(message.getReceiveMessageUserInfo());
+		// receiveUserInfo.setLevel(toPlayer.getLevel());// 等级
+		// receiveUserInfo.setHeadImage(toPlayer.getTableUser().getHeadImageWithDefault());// 头像Id
+		// receiveUserInfo.setUserName(toPlayer.getTableUser().getUserName());// 角色名字
+		// receiveUserInfo.setHeadbox(toPlayer.getHeadFrame());// 头像品质框
+		//
+		// // 设置帮派信息
+		// UserGroupAttributeDataIF toPlayerGroupData = toPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String toPlayerGroupName = toPlayerGroupData.getGroupName();
+		// receiveUserInfo.setFamilyId(toPlayerGroupData.getGroupId());
+		// if (!StringUtils.isEmpty(toPlayerGroupName)) {
+		// receiveUserInfo.setFamilyName(toPlayerGroupName);
+		// }
 
-//		ChatMessageData.Builder data = ChatMessageData.newBuilder();
-//		MessageUserInfo.Builder sendMessageUserInfo = message.getSendMessageUserInfo().toBuilder();
-//		sendMessageUserInfo.setUserId(sendUserId);
-//		// 设置帮派信息
-//		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-//		String groupName = userGroupAttributeData.getGroupName();
-//		sendMessageUserInfo.setFamilyId(userGroupAttributeData.getGroupId());
-//		if (!StringUtils.isEmpty(groupName)) {
-//			sendMessageUserInfo.setFamilyName(groupName);
-//		}
-//		data.setSendMessageUserInfo(sendMessageUserInfo);// 发送消息的人
-//		data.setReceiveMessageUserInfo(receiveUserInfo);// 接受消息的人
-//
-//		data.setTime(getMessageTime());
-//		String chatContent = filterDirtyWord(message.getMessage());
-//		data.setMessage(chatContent);
-		
+		// ChatMessageData.Builder data = ChatMessageData.newBuilder();
+		// MessageUserInfo.Builder sendMessageUserInfo = message.getSendMessageUserInfo().toBuilder();
+		// sendMessageUserInfo.setUserId(sendUserId);
+		// // 设置帮派信息
+		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String groupName = userGroupAttributeData.getGroupName();
+		// sendMessageUserInfo.setFamilyId(userGroupAttributeData.getGroupId());
+		// if (!StringUtils.isEmpty(groupName)) {
+		// sendMessageUserInfo.setFamilyName(groupName);
+		// }
+		// data.setSendMessageUserInfo(sendMessageUserInfo);// 发送消息的人
+		// data.setReceiveMessageUserInfo(receiveUserInfo);// 接受消息的人
+		//
+		// data.setTime(getMessageTime());
+		// String chatContent = filterDirtyWord(message.getMessage());
+		// data.setMessage(chatContent);
+
 		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 		String chatContent = data.getMessage();
 		msgChatResponseBuilder.addListMessage(data);
-		
-		//聊天日志
+
+		// 聊天日志
 		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);
 
 		msgChatResponseBuilder.setChatResultType(eChatResultType.SUCCESS);
@@ -367,9 +366,9 @@ public class ChatHandler {
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
-			
+
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
-//			System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+			// System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 				data.setIsRead(true);
@@ -379,21 +378,21 @@ public class ChatHandler {
 		} else {
 			data.setIsRead(false);
 		}
-		
+
 		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
-		
+
 		// 发送消息给接收者的时候不需要发送接收者的信息
 		MessageUserInfo.Builder receiveUserInfo = this.createMessageUserInfoBuilder(toPlayer, true);
 		data.setReceiveMessageUserInfo(receiveUserInfo);
-		
+
 		data.clearSendMessageUserInfo(); // 發送給發送者的時候，不需要發送者的信息
-		
+
 		// 存储两个数据
 		data.setIsRead(true);
 		updatePlayerChatMsg(sendUserId, data, eChatType.CHAT_PERSON);
-		
+
 		result = msgChatResponseBuilder.setListMessage(0, data.build()).build().toByteString();
-		
+
 		return result;
 	}
 
@@ -427,53 +426,53 @@ public class ChatHandler {
 			return false;
 		}
 
-//		String headImage = player.getHeadImage();// 头像
-//		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-//		String familyId = userGroupData.getGroupId();
-//		String familyName = userGroupData.getGroupName();
-//		int pLevel = player.getLevel();// 等级
-//		String playerName = player.getUserName();// 角色名字
-//		String msgTime = getMessageTime();// 发布消息的时间
-//		String userId = player.getUserId();
-//		String headFrame = player.getHeadFrame();// 头像品质框
-//
-//		for (int i = 0, size = playerList.size(); i < size; i++) {
-//			ChatMessageData.Builder msgData = ChatMessageData.newBuilder();
-//			MessageUserInfo.Builder sendMessaegUserInfo = MessageUserInfo.newBuilder();
-//			sendMessaegUserInfo.setUserId(userId);
-//			sendMessaegUserInfo.setUserName(playerName);
-//			sendMessaegUserInfo.setLevel(pLevel);
-//			sendMessaegUserInfo.setHeadImage(headImage);
-//			sendMessaegUserInfo.setFamilyId(familyId);
-//			sendMessaegUserInfo.setFamilyName(familyName);
-//			sendMessaegUserInfo.setHeadbox(headFrame);
-//
-//			msgData.setSendMessageUserInfo(sendMessaegUserInfo);// 信息
-//			msgData.setTreasureId(treasureId);// 密境Id
-//			msgData.setTreasureDefNum(num);// 邀请的人数
-//			msgData.setTreasureType(type);// 类型
-//			msgData.setTime(msgTime);
-//			msgData.setMessage(message == null ? "" : message);
-//
-//			String playerId = playerList.get(i);
-//			Player p = PlayerMgr.getInstance().find(playerId);
-//			if (p != null) {// 在线才有发送
-//				MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-//				msgChatResponse.setChatType(eChatType.CHAT_TREASURE);
-//				msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-//
-//				msgChatResponse.addListMessage(msgData);
-//				ByteString result = msgChatResponse.build().toByteString();
-//				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
-//			}
-//
-//			updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);
-//		}
-		
-		if(message == null) {
+		// String headImage = player.getHeadImage();// 头像
+		// UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String familyId = userGroupData.getGroupId();
+		// String familyName = userGroupData.getGroupName();
+		// int pLevel = player.getLevel();// 等级
+		// String playerName = player.getUserName();// 角色名字
+		// String msgTime = getMessageTime();// 发布消息的时间
+		// String userId = player.getUserId();
+		// String headFrame = player.getHeadFrame();// 头像品质框
+		//
+		// for (int i = 0, size = playerList.size(); i < size; i++) {
+		// ChatMessageData.Builder msgData = ChatMessageData.newBuilder();
+		// MessageUserInfo.Builder sendMessaegUserInfo = MessageUserInfo.newBuilder();
+		// sendMessaegUserInfo.setUserId(userId);
+		// sendMessaegUserInfo.setUserName(playerName);
+		// sendMessaegUserInfo.setLevel(pLevel);
+		// sendMessaegUserInfo.setHeadImage(headImage);
+		// sendMessaegUserInfo.setFamilyId(familyId);
+		// sendMessaegUserInfo.setFamilyName(familyName);
+		// sendMessaegUserInfo.setHeadbox(headFrame);
+		//
+		// msgData.setSendMessageUserInfo(sendMessaegUserInfo);// 信息
+		// msgData.setTreasureId(treasureId);// 密境Id
+		// msgData.setTreasureDefNum(num);// 邀请的人数
+		// msgData.setTreasureType(type);// 类型
+		// msgData.setTime(msgTime);
+		// msgData.setMessage(message == null ? "" : message);
+		//
+		// String playerId = playerList.get(i);
+		// Player p = PlayerMgr.getInstance().find(playerId);
+		// if (p != null) {// 在线才有发送
+		// MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+		// msgChatResponse.setChatType(eChatType.CHAT_TREASURE);
+		// msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+		//
+		// msgChatResponse.addListMessage(msgData);
+		// ByteString result = msgChatResponse.build().toByteString();
+		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
+		// }
+		//
+		// updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);
+		// }
+
+		if (message == null) {
 			message = "";
 		}
-		
+
 		ChatMessageData.Builder msgData = ChatMessageData.newBuilder();
 		MessageUserInfo.Builder sendMessaegUserInfo = this.createMessageUserInfoBuilder(player, true);
 
@@ -524,7 +523,7 @@ public class ChatHandler {
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		return msgChatResponse.build().toByteString();
 	}
-	
+
 	public ByteString getChatPrivate(Player player, MsgChatRequestPrivateChats request) {
 		String targetUserId = request.getUserId();
 		List<ChatMessageData> list = ChatBM.getInstance().getPrivateChatListOfTarget(player.getUserId(), targetUserId);
@@ -537,37 +536,37 @@ public class ChatHandler {
 		for (int i = 0; i < size; i++) {
 			chatData = list.get(i);
 			msgChatResponse.addListMessage(chatData);
-			if(!chatData.getIsRead()) {
+			if (!chatData.getIsRead()) {
 				unReadList.add(chatData);
 			}
 		}
 		ChatBM.getInstance().updatePrivateChatState(player.getUserId(), unReadList);
 		return msgChatResponse.build().toByteString();
 	}
-	
+
 	public ByteString setCurrentTargetOfPrivateChat(Player player, MsgChatRequestPrivateChats request) {
 		String targetUserId = request.getUserId();
 		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
 		return ByteString.EMPTY;
 	}
 
-//	private String getMessageTime() {
-//		String time = "";
-//
-//		Calendar c = Calendar.getInstance();
-//		int hour = c.get(Calendar.HOUR_OF_DAY);
-//		int minute = c.get(Calendar.MINUTE);
-//		if (hour < 10) {
-//			time += "0";
-//		}
-//		time += hour + ":";
-//		if (minute < 10) {
-//			time += "0";
-//		}
-//		time += minute;
-//
-//		return time;
-//	}
+	// private String getMessageTime() {
+	// String time = "";
+	//
+	// Calendar c = Calendar.getInstance();
+	// int hour = c.get(Calendar.HOUR_OF_DAY);
+	// int minute = c.get(Calendar.MINUTE);
+	// if (hour < 10) {
+	// time += "0";
+	// }
+	// time += hour + ":";
+	// if (minute < 10) {
+	// time += "0";
+	// }
+	// time += minute;
+	//
+	// return time;
+	// }
 
 	/**
 	 * 发送聊天数据
@@ -587,25 +586,25 @@ public class ChatHandler {
 
 	private void sendWorldMsg(Player player) {
 		// 2016-07-19 修改：上线不用再推送世界聊天 >>>> BEGIN
-//		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-//		msgChatResponse.setOnLogin(true);
-//		msgChatResponse.setChatType(eChatType.CHAT_WORLD);
-//		List<ChatInfo> list = ChatBM.getInstance().getWorldList();
-//		for (int i = 0; i < list.size(); i++) {
-//			ChatMessageData chatMsg = list.get(i).getMessage().build();
-//			if (!FriendUtils.isBlack(player, chatMsg.getSendMessageUserInfo().getUserId())) {// 不在黑名单
-//				msgChatResponse.addListMessage(chatMsg);
-//			}
-//		}
-//		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-//		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+		// MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+		// msgChatResponse.setOnLogin(true);
+		// msgChatResponse.setChatType(eChatType.CHAT_WORLD);
+		// List<ChatInfo> list = ChatBM.getInstance().getWorldList();
+		// for (int i = 0; i < list.size(); i++) {
+		// ChatMessageData chatMsg = list.get(i).getMessage().build();
+		// if (!FriendUtils.isBlack(player, chatMsg.getSendMessageUserInfo().getUserId())) {// 不在黑名单
+		// msgChatResponse.addListMessage(chatMsg);
+		// }
+		// }
+		// msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+		// player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 		// 2016-07-19 修改：上线不用再推送世界聊天 <<<< END
 		player.setLastWorldChatId(ChatBM.getInstance().getChatVersion());// 缓存版本号
 	}
 
 	private void sendFamilyMsg(Player player) {
 		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if(userGroupData == null){
+		if (userGroupData == null) {
 			return;
 		}
 		String groupId = userGroupData.getGroupId();
@@ -631,23 +630,23 @@ public class ChatHandler {
 	}
 
 	private void sendPrivateMsg(Player player) {
-//		System.out.println("發送私聊信息給：" + player.getUserId() + ", " + player.getUserName());
+		// System.out.println("發送私聊信息給：" + player.getUserId() + ", " + player.getUserName());
 		// 2016-07-29 修改by CHEN.P，聊天現在改為先發送用戶列表
-//		List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>(); // 2016-07-29 這裡不需要unReadList
+		// List<ChatMessageData> unReadList = new ArrayList<ChatMessageData>(); // 2016-07-29 這裡不需要unReadList
 		ChatBM instance = ChatBM.getInstance();
 		String userId = player.getUserId();
-//		List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
+		// List<ChatMessageData> privateChatMessageList = instance.getPrivateChatList(userId);
 		List<ChatMessageSaveData> privateChatMessageList = instance.getPrivateChatListSaveData(userId);
 		Map<String, String> userInfos = new LinkedHashMap<String, String>();
 		Map<String, Integer> unReadCountMap = new HashMap<String, Integer>();
 		for (int i = 0, size = privateChatMessageList.size(); i < size; i++) {
-//			ChatMessageData chatMsgData = privateChatMessageList.get(i);
+			// ChatMessageData chatMsgData = privateChatMessageList.get(i);
 
-//			if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
-//				unReadList.add(chatMsgData);
-//			}
+			// if (!chatMsgData.hasIsRead() || !chatMsgData.getIsRead()) {
+			// unReadList.add(chatMsgData);
+			// }
 			ChatMessageSaveData chatMsgData = privateChatMessageList.get(i);
-			
+
 			ChatUserInfo userInfo;
 			if (chatMsgData.getSendInfo() != null) {
 				// 有可能是別人發給我的
@@ -677,7 +676,7 @@ public class ChatHandler {
 		for (Iterator<Map.Entry<String, String>> itr = userInfos.entrySet().iterator(); itr.hasNext();) {
 			Map.Entry<String, String> entry = itr.next();
 			Integer unReadCount = unReadCountMap.get(entry.getKey());
-//			System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "," + unReadCount + "]");
+			// System.out.println("tempUserInfos=[" + entry.getKey() + ", " + entry.getValue() + "," + unReadCount + "]");
 			MsgPersonChatUserInfo.Builder builder = MsgPersonChatUserInfo.newBuilder();
 			builder.setUserId(entry.getKey());
 			builder.setName(entry.getValue());
@@ -686,7 +685,7 @@ public class ChatHandler {
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 
-//		instance.updatePrivateChatState(userId, unReadList);
+		// instance.updatePrivateChatState(userId, unReadList);
 	}
 
 	private void sendTreasureMsg(Player player) {
