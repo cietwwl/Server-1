@@ -47,7 +47,7 @@ public class MagicEquipFetterMgr {
 	public void loginNotify(Player player){
 		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
 		checkPlayerData(player);
-		holder.synAllData(player, holder.getVersion());
+		holder.synAllData(player, 0);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class MagicEquipFetterMgr {
 		holder.checkFixEquipFetterRecord(tempSet, hero.getModelId());
 
 		if(syn){
-			holder.synAllData(player, holder.getVersion());
+			holder.synAllData(player, 0);
 		}
 	}
 
@@ -278,7 +278,7 @@ public class MagicEquipFetterMgr {
 
 
 		if(syn){
-			holder.synAllData(player, holder.getVersion());
+			holder.synAllData(player, 0);
 		}
 		
 	}
@@ -338,10 +338,10 @@ public class MagicEquipFetterMgr {
 	 */
 	public void notifyHeroChange(Player player, Hero hero) {
 		if(hero.isMainRole()){
-			checkPlayerData(player);
-		}else{
-			checkOrAddTargetHeroEquipFetter(player, hero, true);
+			checkAndAddMagicFetter(player, false);
 		}
+		checkOrAddTargetHeroEquipFetter(player, hero, false);
+		holder.synAllData(player, 0);
 		notifyListenerAction();
 	}
 
