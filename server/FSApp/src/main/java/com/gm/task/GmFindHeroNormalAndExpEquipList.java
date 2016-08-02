@@ -12,22 +12,15 @@ import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
-import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.EquipMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
-import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.team.HeroFixEquipInfo;
-import com.rwbase.dao.equipment.EquipItem;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 
@@ -55,14 +48,16 @@ public class GmFindHeroNormalAndExpEquipList implements IGmTask{
 	
 	private void setInfo(Player player, GmResponse response) {
 		HeroMgr heroMgr = player.getHeroMgr();
-		Enumeration<Hero> heroMap = heroMgr.getHerosEnumeration();
+//		Enumeration<Hero> heroMap = heroMgr.getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = heroMgr.getHerosEnumeration(player);
 		while(heroMap.hasMoreElements()){
 			Hero hero = heroMap.nextElement();
-			RoleBaseInfo roleBaseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//			RoleBaseInfo roleBaseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			RoleCfgDAO instance = RoleCfgDAO.getInstance();
-			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
+//			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
+			RoleCfg heroCfg = instance.getCfgByModeID(hero.getModeId()+"");
 			String heroName = "";
 			if(heroCfg == null){
 				heroName = player.getUserName();

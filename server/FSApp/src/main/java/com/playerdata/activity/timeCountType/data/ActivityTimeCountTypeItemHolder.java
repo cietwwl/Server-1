@@ -2,11 +2,15 @@ package com.playerdata.activity.timeCountType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeHelper;
+import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -69,6 +73,14 @@ public class ActivityTimeCountTypeItemHolder{
 //	
 	public void synAllData(Player player){
 		List<ActivityTimeCountTypeItem> itemList = getItemList(player.getUserId());			
+		Iterator<ActivityTimeCountTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem)it.next();
+			if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

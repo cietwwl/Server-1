@@ -27,7 +27,8 @@ public class FixExpEquipHandler {
 		String itemId = commonReq.getEquipId();		
 		ExpLevelUpReqParams reqParams = commonReq.getExpLevelUpReqParams();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, itemId, reqParams);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -51,7 +52,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixExpEquipMgr().qualityUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -71,7 +73,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixExpEquipMgr().starUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -87,7 +90,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixExpEquipMgr().starDown(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());

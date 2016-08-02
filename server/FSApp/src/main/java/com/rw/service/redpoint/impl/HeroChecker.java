@@ -37,19 +37,21 @@ public class HeroChecker implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
 		ArrayList<String> heroRedPointList = new ArrayList<String>();
-		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+//		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		ArrayList<String> heroEquipList = new ArrayList<String>();
 		ArrayList<String> upgradeStarList = new ArrayList<String>();
 		HeroMgr heroMgr = player.getHeroMgr();
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
 		for (String id : heroIdList) {
-			Hero hero = heroMgr.getHeroById(id);
+//			Hero hero = heroMgr.getHeroById(id);
+			Hero hero = heroMgr.getHeroById(player, id);
 			String templateId = hero.getTemplateId();
 			// roleCfgCopys.remove(roleCfgCopys.get(String.valueOf(hero.getModelId())));
-			removeByModelId(roleCfgCopys, hero.getModelId());
+			removeByModelId(roleCfgCopys, hero.getModeId());
 			EquipMgr equipMgr = hero.getEquipMgr();
-			List<EquipItem> equipList = equipMgr.getEquipList();
+			List<EquipItem> equipList = equipMgr.getEquipList(hero.getUUId());
 			if (equipList.size() >= 6) {
 				heroRedPointList.add(templateId);
 			} else {

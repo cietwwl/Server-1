@@ -16,7 +16,7 @@ public class AssistantCheckFixEquipAdvance extends DefaultAssistantChecker {
 		super.doCheck(player);
 		
 		HeroMgr heroMgr = player.getHeroMgr();
-		List<String> heroIdList = heroMgr.getHeroIdList();
+		List<String> heroIdList = heroMgr.getHeroIdList(player);
 		AssistantEventID result = null;
 		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
 			result = checkQualityUP(player, heroMgr, heroIdList);
@@ -31,7 +31,7 @@ public class AssistantCheckFixEquipAdvance extends DefaultAssistantChecker {
 
 	private AssistantEventID checkLevelUP(Player player, HeroMgr heroMgr, List<String> heroIdList) {
 		for (String id : heroIdList) {
-			Hero hero = heroMgr.getHeroById(id);
+			Hero hero = heroMgr.getHeroById(player, id);
 			String heroId = hero.getUUId();
 			
 			List<String> qualityUpListTmp = hero.getFixExpEquipMgr().levelUpList(player, heroId);
@@ -50,7 +50,7 @@ public class AssistantCheckFixEquipAdvance extends DefaultAssistantChecker {
 
 	private AssistantEventID checkQualityUP(Player player, HeroMgr heroMgr, List<String> heroIdList) {
 		for (String id : heroIdList) {
-			Hero hero = heroMgr.getHeroById(id);
+			Hero hero = heroMgr.getHeroById(player, id);
 			String heroId = hero.getUUId();
 			
 			List<String> qualityUpListTmp = hero.getFixExpEquipMgr().qualityUpList(player, heroId);			

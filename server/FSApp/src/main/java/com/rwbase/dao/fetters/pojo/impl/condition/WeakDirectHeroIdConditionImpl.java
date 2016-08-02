@@ -29,7 +29,8 @@ public class WeakDirectHeroIdConditionImpl implements IFettersSubRestrictConditi
 			return false;
 		}
 
-		Hero hero = player.getHeroMgr().getHeroByModerId(heroModelId);
+//		Hero hero = player.getHeroMgr().getHeroByModerId(heroModelId);
+		Hero hero = player.getHeroMgr().getHeroByModerId(player, heroModelId);
 		if (hero == null) {
 			return false;
 		}

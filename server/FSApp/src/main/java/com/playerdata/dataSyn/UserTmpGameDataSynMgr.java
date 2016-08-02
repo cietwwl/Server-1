@@ -1,9 +1,5 @@
 package com.playerdata.dataSyn;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.common.BeanCopyer;
 import com.playerdata.Player;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -26,7 +22,8 @@ public class UserTmpGameDataSynMgr {
 		UserTmpGameData userTmpGameData = new UserTmpGameData();
 		boolean doSyn = false;
 		if(synAll || userTmpGameDataFlag.isSynFightingAll()){
-			int fightingAll = player.getHeroMgr().getFightingAll();
+//			int fightingAll = player.getHeroMgr().getFightingAll();
+			int fightingAll = player.getHeroMgr().getFightingAll(player);
 			
 			userTmpGameData.setFightingAll(fightingAll);
 			doSyn = true;

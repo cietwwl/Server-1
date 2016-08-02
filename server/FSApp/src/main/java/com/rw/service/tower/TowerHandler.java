@@ -18,9 +18,9 @@ import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.dao.anglearray.AngelArrayConst;
-import com.rwbase.dao.anglearray.AngelArrayUtils;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.AngelArrayConst;
+import com.rwbase.dao.angelarray.AngelArrayUtils;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.tower.pojo.TowerHeroChange;
@@ -95,7 +95,7 @@ public class TowerHandler {
 		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
-		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+		TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
 			GameLog.error("万仙阵获取面板信息", userId, "万仙阵获取不到个人的TableAngleArrayData数据");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
@@ -125,7 +125,7 @@ public class TowerHandler {
 	private TagTowerData getTowerData(Player player, int floor, boolean isAddInfo) {
 		String userId = player.getUserId();
 		TowerMgr towerMgr = player.getTowerMgr();
-		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+		TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
 			GameLog.error("getTowerData()-Method", userId, "万仙阵获取不到个人的TableAngleArrayData数据");
 			return null;
@@ -323,7 +323,7 @@ public class TowerHandler {
 		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
-		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
+		TableAngelArrayData angleData = towerMgr.getAngleArrayData();
 		if (angleData == null) {
 			GameLog.error("万仙阵战斗结束", userId, "角色对应的TableAngleArratData的数据为Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
@@ -425,7 +425,7 @@ public class TowerHandler {
 		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
-		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
+		TableAngelArrayData angleData = towerMgr.getAngleArrayData();
 		if (angleData == null) {
 			GameLog.error("万仙阵获取奖励", userId, "万仙阵获取不到TableAngleArrayData Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
@@ -506,7 +506,7 @@ public class TowerHandler {
 		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
-		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+		TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
 			GameLog.error("万仙阵重置数据", userId, "万仙阵个人的数据TableAngelArrayData Is Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);

@@ -266,7 +266,8 @@ public class GambleHandler {
 			for (int i = 0; i < dropList.size(); i++) {
 				GambleRewardData rewardData = dropList.get(i);
 				if (rewardData.getItemId().indexOf("_") != -1) {// 佣兵
-					player.getHeroMgr().addHero(rewardData.getItemId());
+//					player.getHeroMgr().addHero(rewardData.getItemId());
+					player.getHeroMgr().addHero(player, rewardData.getItemId());
 					MainMsgHandler.getInstance().sendPmdJtYb(player, rewardData.getItemId());
 				} else {
 					reward += "," + rewardData.getItemId() + "~" + rewardData.getItemNum();

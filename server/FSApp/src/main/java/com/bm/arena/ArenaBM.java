@@ -124,10 +124,12 @@ public class ArenaBM {
 	public static final int ARENA_SIZE = 3;
 
 	public ArenaExtAttribute createArenaExt(Player player) {
-		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+//		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
-		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		return arenaExt;
 	}
 
@@ -182,7 +184,8 @@ public class ArenaBM {
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
 
-		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
 		// ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
 		for (Hero hero : maxFightingHeros) {
@@ -586,7 +589,8 @@ public class ArenaBM {
 			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
-			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 			// 不主动提交属性变化的更新了
 		}
 	}

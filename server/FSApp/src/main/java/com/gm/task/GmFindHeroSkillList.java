@@ -19,7 +19,6 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
@@ -49,14 +48,16 @@ public class GmFindHeroSkillList implements IGmTask{
 	}
 	private void setInfo(Player player, GmResponse response) {
 		HeroMgr heroMgr = player.getHeroMgr();
-		Enumeration<Hero> heroMap = heroMgr.getHerosEnumeration();
+//		Enumeration<Hero> heroMap = heroMgr.getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = heroMgr.getHerosEnumeration(player);
 		while(heroMap.hasMoreElements()){
 			Hero hero = heroMap.nextElement();
-			RoleBaseInfo roleBaseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//			RoleBaseInfo roleBaseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			RoleCfgDAO instance = RoleCfgDAO.getInstance();
-			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
+//			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
+			RoleCfg heroCfg = instance.getCfgByModeID(hero.getModeId() + "");
 			String heroName = "";
 			boolean isCareer = true;
 			if(player.getCareer()==0){
@@ -70,7 +71,7 @@ public class GmFindHeroSkillList implements IGmTask{
 			}
 			
 			SkillMgr skillMgr = hero.getSkillMgr();
-			List<Skill> skillList = skillMgr.getSkillList();
+			List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
 			String[] names = new String[5];
 			if(skillList.size() != 5){
 				GameLog.error(LogModule.GmSender, player.getUserId(), "英雄技能数量异常,size=" + skillList.size(), null);

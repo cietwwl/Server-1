@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.common.HPCUtil;
+import com.common.Utils;
 import com.playerdata.EquipMgr;
 import com.playerdata.Hero;
 import com.playerdata.ItemBagMgr;
@@ -45,7 +46,8 @@ public class DropMissingLogic {
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		Random r = HPCUtil.getRandom();
 		
-		List<Hero> heroList = player.getHeroMgr().getAllHeros(comparator);
+//		List<Hero> heroList = player.getHeroMgr().getAllHeros(comparator);
+		List<Hero> heroList = player.getHeroMgr().getAllHeros(player, comparator);
 		for (int i = 0; i < heroList.size(); i++) {
 			Hero hero = heroList.get(i);
 			List<Integer> equipCandidates = searchOneHero(hero,itemBagMgr,qualityHelper,cfg);
@@ -75,7 +77,8 @@ public class DropMissingLogic {
 		String qualityId = hero.getQualityId();
 		int quality = qualityHelper.getQuality(qualityId);
 		quality = cfg.checkQualityRange(quality);
-		qualityId = hero.getModelId()+"_"+(quality+1);
+//		qualityId = hero.getModeId()+"_"+(quality+1);
+		qualityId = Utils.computeQualityId(hero.getModeId(), (quality+1));
 			//配置的装备列表
 			ArrayList<Integer> equipCfgList = qualityHelper.getEquipList(qualityId,cfg.getExcludeEquipPosition());
 			//已装备列表
@@ -83,7 +86,7 @@ public class DropMissingLogic {
 			
 			EquipMgr equipMgr = hero.getEquipMgr();
 			if (equipMgr != null){
-				List<EquipItem> hasEquipList = equipMgr.getEquipList();
+				List<EquipItem> hasEquipList = equipMgr.getEquipList(hero.getUUId());
 				for (EquipItem item : hasEquipList) {
 					if (item != null){
 						wearEquipIdList.add(item.getModelId());

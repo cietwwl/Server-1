@@ -34,8 +34,8 @@ public class UserTeamBattleDataHolder {
 	 */
 	public void synData(Player player) {
 		UserTeamBattleData userTBData = get(player.getUserId());
-		userTBData.setEnimyMap(ServerCommonDataHolder.getInstance().get().getTeamBattleEnimyMap());
 		if (userTBData != null) {
+			userTBData.setEnimyMap(ServerCommonDataHolder.getInstance().get().getTeamBattleEnimyMap());
 			ClientDataSynMgr.synData(player, userTBData, synType, eSynOpType.UPDATE_SINGLE);
 		}
 	}

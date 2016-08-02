@@ -11,8 +11,8 @@ enum ERequestType	//请求
 	BATTLE_CLEARING = 5;			//战斗结算
 	BATTLE_ITEMS_BACK = 6; 			//战斗物品结算
 	GM_SETLEVEL = 7;				//GM设定关卡命令
-	GET_GIFT = 8;				//领取宝箱
-	Map_Animation = 9;		//副本动画
+	GET_GIFT = 8;					//领取宝箱
+	Map_Animation = 9;				//副本动画
 }
 
 enum EBattleStatus	//战斗状态
@@ -110,3 +110,5 @@ message FortuneResult //聚宝之地结算数据
 	optional int32 killMonsterCount = 4; //击杀小财神个数
 	optional int32 deductGoldCount = 5; //被吸取的金币
 }
+
+

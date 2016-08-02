@@ -767,9 +767,66 @@ public class UserGameDataMgr {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
 	}
 	
+	public int getFightingAll() {
+		return this.userGameDataHolder.get().getFightingAll();
+	}
+	
+	public void setFightingAll(int fightingAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.setFightingAll(fightingAll);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
 	public void setMapAnimationState(MapAnimationState animationState){
 		userGameDataHolder.get().setMapAnimationState(animationState);
 		userGameDataHolder.update(player);
+	}
+
+	public void notifySingleFightingChange(int newSingleValue, int preSingleValue) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleFightingChange(newSingleValue, preSingleValue);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseFightingAll(int value) {
+		this.userGameDataHolder.get().increaseFightingAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public int getStarAll() {
+		return userGameDataHolder.get().getStarAll();
+	}
+	
+	public void setStarAll(int pStarAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getStarAll();
+		gameData.setStarAll(pStarAll);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseStarAll(int value) {
+		this.userGameDataHolder.get().increaseStarAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public void notifySingleStarChange(int newStarLv, int preStarLv) {
+		if(newStarLv == preStarLv) {
+			return;
+		}
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleStarChange(newStarLv, preStarLv);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
 	}
 
 	/**

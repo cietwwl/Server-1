@@ -23,7 +23,7 @@ public class RoleBaseInfoParser implements DataValueParser<RoleBaseInfo>{
 	public JSONObject toJson(RoleBaseInfo entity) {
 		JSONObject json = new JSONObject();
 		json.put("id", entity.getId());
-		json.put("careerType", entity.getCareerType());
+		json.put("careerType", entity.getCareer());
 		
 		json.put("templateId", entity.getTemplateId());
 		json.put("modeId", entity.getModeId());

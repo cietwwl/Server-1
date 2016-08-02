@@ -9,8 +9,8 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
+import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.MD5;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 
 public class DataEncoder {
 	
@@ -61,7 +61,7 @@ public class DataEncoder {
 		armyinfo.setPlayerHeadImage("pimage");
 		armyinfo.setGuildName("groupName");
 		
-		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
+		RoleBaseInfoImpl roleBaseInfo = new RoleBaseInfoImpl();
 		roleBaseInfo.setCareerType(0);
 		roleBaseInfo.setExp(1000);
 		roleBaseInfo.setId("id");

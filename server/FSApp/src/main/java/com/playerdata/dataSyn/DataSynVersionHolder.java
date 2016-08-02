@@ -142,7 +142,8 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.USER_HEROS, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				player.getHeroMgr().synAllHeroToClient(version);
+//				player.getHeroMgr().synAllHeroToClient(version);
+				player.getHeroMgr().synAllHeroToClient(player, version);
 			}
 		}));
 		orderList.add(eSynType.USER_HEROS);

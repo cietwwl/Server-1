@@ -64,16 +64,17 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
-		boolean canUpgrade = pEquipMgr.getEquipCount() >= 6;
+		boolean canUpgrade = pEquipMgr.getEquipCount(roleId) >= 6;
 		if (canUpgrade) {
-			Hero role = player.getHeroMgr().getHeroById(roleId);
+//			Hero role = player.getHeroMgr().getHeroById(roleId);
+			Hero role = player.getHeroMgr().getHeroById(player, roleId);
 
 			RoleQualityCfg pNextCfg = RoleQualityCfgDAO.getInstance().getNextConfig(role.getQualityId());
 			if (pNextCfg != null) {
 				if (roleId.equals(player.getUserId()) && player.getCareer() == ECareer.None.ordinal() && pNextCfg.getQuality() > EHeroQuality.Green.ordinal()) {
 					player.NotifyCommonMsg("没有职业不能进下一阶！");
 				} else {
-					pEquipMgr.EquipAdvance(pNextCfg.getId(), true);
+					pEquipMgr.EquipAdvance(player, roleId, pNextCfg.getId(), true);
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
 					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
@@ -113,18 +114,22 @@ public class EquipHandler {
 			}
 		}
 
-		int result = pEquipMgr.EquipAttach(equipIndex, mateList);// 增加装备的附灵经验
+		int result = pEquipMgr.EquipAttach(player, roleId, equipIndex, mateList);// 增加装备的附灵经验
 		switch (result) {
-		case -1:
+//		case -1:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-		case -2:
+//		case -2:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_COIN);
 			break;
-		case 0:
+//		case 0:
+		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			response.setError(ErrorType.SUCCESS);
 			break;
-		case -3:
+//		case -3:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_CFG:
 			response.setError(ErrorType.CONFIG_ERROR);
 			break;
 		}
@@ -156,15 +161,18 @@ public class EquipHandler {
 			return response.build().toByteString();
 		}
 
-		int result = pEquipMgr.EquipOneKeyAttach(equipIndex);// 一键附灵
+		int result = pEquipMgr.EquipOneKeyAttach(player, roleId, equipIndex);// 一键附灵
 		switch (result) {
-		case -1:
+//		case -1:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-		case -2:
+//		case -2:
+		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_GOLD);
 			break;
-		case 0:
+//		case 0:
+		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_Strength, 1);
 			response.setError(ErrorType.SUCCESS);
 			break;
@@ -356,7 +364,8 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
-		Hero role = player.getHeroMgr().getHeroById(roleId);
+//		Hero role = player.getHeroMgr().getHeroById(roleId);
+		Hero role = player.getHeroMgr().getHeroById(player, roleId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(role.getQualityId());
 		if (equips.isEmpty()) {
 			response.setError(ErrorType.FAIL);
@@ -372,8 +381,10 @@ public class EquipHandler {
 		RoleType pRoleType = getRoleType(player, roleId);
 		boolean isEnoughLevel = true;
 		if (pRoleType == RoleType.Hero) {
-			Hero pHero = player.getHeroMgr().getHeroById(roleId);
-			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
+//			Hero pHero = player.getHeroMgr().getHeroById(roleId);
+//			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
+			Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
+			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getLevel();
 		} else {
 			isEnoughLevel = pHeroEquipCfg.getLevel() <= player.getLevel();
 		}
@@ -383,7 +394,7 @@ public class EquipHandler {
 		}
 
 		// try {
-		if (pEquipMgr.WearEquip(equipIndex)) {
+		if (pEquipMgr.WearEquip(player, roleId, equipIndex)) {
 			response.setError(ErrorType.SUCCESS);
 		} else {
 			response.setError(ErrorType.FAIL);
@@ -409,7 +420,8 @@ public class EquipHandler {
 		rsp.setEventType(EquipEventType.OneKeyWearEquip);
 
 		// 检查英雄是否有
-		Hero hero = player.getHeroMgr().getHeroById(roleId);
+//		Hero hero = player.getHeroMgr().getHeroById(roleId);
+		Hero hero = player.getHeroMgr().getHeroById(player, roleId);
 		if (hero == null) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero", roleId));
 			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
@@ -428,7 +440,7 @@ public class EquipHandler {
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 		//已装备列表
-		List<EquipItem> hasEquipList = equipMgr.getEquipList();
+		List<EquipItem> hasEquipList = equipMgr.getEquipList(roleId);
 		int size = hasEquipList.size();
 		if (size == 6) {// 装备穿满了
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]装备已经穿戴满了，不需要一键穿装", roleId));
@@ -489,7 +501,7 @@ public class EquipHandler {
 		// 准备穿戴装备
 		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
 			Integer index = e.getKey();
-			if (equipMgr.wearEquip(e.getValue(), index)) {
+			if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
 				rsp.addOneKeySuccessIndex(index);
 			}
 		}
@@ -504,7 +516,7 @@ public class EquipHandler {
 		if (player.getUserId().equals(roleId)) {
 			return player.getMainRoleHero().getEquipMgr();
 		}
-		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+		Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 		if (pHero != null) {
 			return pHero.getEquipMgr();
 		}

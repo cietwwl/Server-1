@@ -19,6 +19,7 @@ import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
@@ -30,7 +31,6 @@ import com.playerdata.army.ArmyMagic;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -248,7 +248,8 @@ public class ArenaHandler {
 			List<String> heroIds = new ArrayList<String>(size);
 			for (int i = size; --i >= 0;) {
 				String uuid = heroPosList.get(i).getHeroId();
-				if (heroMgr.getHeroById(uuid) != null) {
+//				if (heroMgr.getHeroById(uuid) != null) {
+				if (heroMgr.getHeroById(player, uuid) != null) {
 					heroIds.add(uuid);
 				}
 			}
@@ -778,7 +779,8 @@ public class ArenaHandler {
 		ArrayList<String> heroImages = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			String heroId = heroIds.get(i);
-			HeroIF hero = player.getHeroMgr().getHeroById(heroId);
+//			HeroIF hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero != null) {
 				heroImages.add(hero.getHeroCfg().getImageId());
 			}

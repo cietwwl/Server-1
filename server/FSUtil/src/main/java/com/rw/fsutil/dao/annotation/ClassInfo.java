@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,7 +26,7 @@ public class ClassInfo {
 	private Field idField;
 
 	private Map<String, Field> filedNameMap = new HashMap<String, Field>();
-
+	
 	private Map<String, JavaType> collectionGenericType = new HashMap<String, JavaType>();
 
 	public Object newInstance() throws Exception {
@@ -64,6 +65,18 @@ public class ClassInfo {
 						JavaType mapType = ClassHelper.getMapGenericJavaType(field);
 						collectionGenericType.put(fieldName, mapType);
 					}
+				} else {
+					// CHEN.P @ 2016-07-13 21:39 处理Column标注 BEGIN
+					// CombineSave和SaveAsJson不用管
+					Column column = field.getAnnotation(Column.class);
+					if (column != null) {
+						String columnName = column.name();
+						if (columnName != null && (columnName = columnName.trim()).length() > 0) {
+							filedNameMap.remove(fieldName);
+							filedNameMap.put(columnName, field);
+						}
+					}
+					// CHEN.P @ 2016-07-13 21:39 END
 				}
 
 			}

@@ -23,7 +23,6 @@ import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
@@ -82,7 +81,8 @@ public class HeroHandler {
 
 		// TODO @modify 2015-08-10 HC
 		player.getItemBagMgr().useItemByCfgId(pHeroCfg.getSoulStoneId(), summonNumber);// 减少神魂石
-		player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
+//		player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
+		player.getHeroMgr().addHero(player, pHeroCfg.getRoleId());// 增加佣兵
 		msgHeroResponse.setModerId(modelId);
 		msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
 
@@ -96,7 +96,8 @@ public class HeroHandler {
 
 		MsgHeroResponse.Builder rsp = MsgHeroResponse.newBuilder();
 		rsp.setEventType(eHeroType.EVOLUTION_HERO);
-		Hero role = player.getHeroMgr().getHeroById(roleId);
+//		Hero role = player.getHeroMgr().getHeroById(roleId);
+		Hero role = player.getHeroMgr().getHeroById(player, roleId);
 		if (role == null) {
 			rsp.setEHeroResultType(eHeroResultType.HERO_NOT_EXIST);
 			return rsp.build().toByteString();
@@ -151,16 +152,19 @@ public class HeroHandler {
 		}
 
 		String heroUUID = msgHeroRequest.getHeroId();
-		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+//		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+		Hero pHero = player.getHeroMgr().getHeroById(player, heroUUID);
 		if (pHero == null) {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]的佣兵不存在", heroUUID), null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.HERO_NOT_EXIST);
 			return msgHeroResponse.build().toByteString();
 		}
 
-		RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+//		RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+		RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getTemplateId());
 		if (heroCfg == null) {
-			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+//			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getTemplateId()), null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);
 			return msgHeroResponse.build().toByteString();
 		}
@@ -199,14 +203,15 @@ public class HeroHandler {
 		int perExpItemAdd = consumeCfg.getValue();// 单个物品增加的经验
 
 		// 当前的角色经验值
-		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
-		if (baseInfo == null) {
-			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
-			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
-			return msgHeroResponse.build().toByteString();
-		}
+//		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
+//		if (baseInfo == null) {
+//			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
+//			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
+//			return msgHeroResponse.build().toByteString();
+//		}
 
-		long curExp = baseInfo.getExp();// 当前经验
+//		long curExp = baseInfo.getExp();// 当前经验
+		long curExp = pHero.getExp();// 当前经验
 		LevelCfgDAO levelCfgDao = LevelCfgDAO.getInstance();
 		LevelCfg levelCfg = levelCfgDao.getByLevel(curLevel);
 		if (levelCfg == null) {
@@ -328,16 +333,19 @@ public class HeroHandler {
 			return msgRsp.build().toByteString();
 		}
 		String heroUUID = msgHeroRequest.getHeroId();
-		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+//		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+		Hero pHero = player.getHeroMgr().getHeroById(player, heroUUID);
 		if (pHero == null) {
 			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]的佣兵不存在", heroUUID), null);
 			msgRsp.setEHeroResultType(eHeroResultType.HERO_NOT_EXIST);
 			return msgRsp.build().toByteString();
 		}
 
-		RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+//		RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+		RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getTemplateId());
 		if (heroCfg == null) {
-			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+//			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getTemplateId()), null);
 			msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);
 			return msgRsp.build().toByteString();
 		}
@@ -359,13 +367,14 @@ public class HeroHandler {
 		}
 
 		// 佣兵当前经验
-		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
-		if (baseInfo == null) {
-			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
-			msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
-			return msgRsp.build().toByteString();
-		}
-		long curExp = baseInfo.getExp();
+//		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
+//		if (baseInfo == null) {
+//			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
+//			msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
+//			return msgRsp.build().toByteString();
+//		}
+//		long curExp = baseInfo.getExp();
+		long curExp = pHero.getExp();
 
 		LevelCfgDAO levelCfgDao = LevelCfgDAO.getInstance();
 		LevelCfg levelCfg = levelCfgDao.getByLevel(curLevel);

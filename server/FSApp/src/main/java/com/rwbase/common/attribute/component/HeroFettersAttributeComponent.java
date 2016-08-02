@@ -27,7 +27,7 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 		// String userId = player.getUserId();
 		Map<Integer, SynConditionData> openMap = null;
 		if (!player.isRobot()) {
-			SynFettersData heroFetters = player.getHeroFettersByModelId(hero.getModelId());
+			SynFettersData heroFetters = player.getHeroFettersByModelId(hero.getModeId());
 			if (heroFetters == null) {
 				// GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄没有激活的羁绊数据", hero.getUUId(), hero.getModelId()));
 				return null;
@@ -35,7 +35,7 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 
 			openMap = heroFetters.getOpenList();
 		} else {
-			openMap = ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModelId());
+			openMap = ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModeId());
 		}
 
 		if (openMap == null || openMap.isEmpty()) {

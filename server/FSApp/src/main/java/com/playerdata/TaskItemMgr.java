@@ -127,13 +127,16 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getCopyRecordMgr().isMapClear(value) ? 1 : 0;
 			break;
 		case Hero_Count:
-			curplan = m_pPlayer.getHeroMgr().getHerosSize();
+//			curplan = m_pPlayer.getHeroMgr().getHerosSize();
+			curplan = m_pPlayer.getHeroMgr().getHerosSize(m_pPlayer);
 			break;
 		case Hero_Quality:
-			curplan = m_pPlayer.getHeroMgr().checkQuality(value1);
+//			curplan = m_pPlayer.getHeroMgr().checkQuality(value1);
+			curplan = m_pPlayer.getHeroMgr().checkQuality(m_pPlayer, value1);
 			break;
 		case Hero_Star:
-			curplan = m_pPlayer.getHeroMgr().isHasStar(value1);
+//			curplan = m_pPlayer.getHeroMgr().isHasStar(value1);
+			curplan = m_pPlayer.getHeroMgr().isHasStar(m_pPlayer, value1);
 			break;
 		case Player_Level:
 			curplan = m_pPlayer.getLevel();

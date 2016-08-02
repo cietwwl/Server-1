@@ -22,7 +22,8 @@ public abstract class AbstractAttributeCalc implements IAttributeComponent {
 			return null;
 		}
 
-		Hero hero = player.getHeroMgr().getHeroById(heroId);
+//		Hero hero = player.getHeroMgr().getHeroById(heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		if (hero == null) {
 			GameLog.error("计算佣兵属性", userId, String.format("Id为[%s]的英雄不能从Player身上查找到", heroId));
 			return null;

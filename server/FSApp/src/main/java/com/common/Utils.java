@@ -79,4 +79,8 @@ public class Utils {
 		BigDecimal b2 = new BigDecimal(Double.toString(v2));
 		return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
+	
+	public static String computeQualityId(int modeId, int quality) {
+		return modeId + "_" + quality;
+	}
 }

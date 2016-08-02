@@ -10,7 +10,6 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.fashion.FashionHandle;
@@ -76,8 +75,10 @@ public class OtherRoleHandler {
 		Hero mainPHero = null;
 		List<Hero> heroList = null;
 		List<Hero> tempHeroList = new ArrayList<Hero>();
-		Enumeration<? extends HeroIF> pHeroMap = player.getHeroMgr()
-				.getHerosEnumeration();
+//		Enumeration<? extends HeroIF> pHeroMap = player.getHeroMgr()
+//				.getHerosEnumeration();
+		Enumeration<? extends Hero> pHeroMap = player.getHeroMgr()
+				.getHerosEnumeration(player);
 		while (pHeroMap.hasMoreElements()) { // 佣兵信息的遍历
 			Hero pHero = (Hero) pHeroMap.nextElement();
 			if (!pHero.isMainRole()) {
@@ -87,12 +88,14 @@ public class OtherRoleHandler {
 			}
 		}
 
-		HeroIF mainRoleHero = player.getMainRoleHero();
+		Hero mainRoleHero = player.getMainRoleHero();
 		otherRoleAttr.setTemplateId(mainRoleHero.getTemplateId());
 		otherRoleAttr.setFighting(mainRoleHero.getFighting());
 
+//		List<? extends EquipItemIF> equipList = player.getEquipMgr()
+//				.getEquipList(mainRoleHero.getHeroData().getId());
 		List<? extends EquipItemIF> equipList = player.getEquipMgr()
-				.getEquipList();
+				.getEquipList(mainRoleHero.getId());
 		ItemDataIF itemDataIFfb = player.getMagic();
 		if (itemDataIFfb != null) {
 
@@ -132,8 +135,8 @@ public class OtherRoleHandler {
 			otherRoleAttr.addEquipInfo(tagItem);
 		}
 
-		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList();// player.getSkillMgr().getTableSkill().getSkillLIst();
-
+//		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getHeroData().getId());// player.getSkillMgr().getTableSkill().getSkillLIst();
+		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getId());
 		for (int j = 0; j < skillList.size(); j++) {
 
 			SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
@@ -155,8 +158,10 @@ public class OtherRoleHandler {
 
 		for (Hero hero : heroList) {
 			OtherHero.Builder otherHero = OtherHero.newBuilder();
-			otherHero.setHeroId(hero.getHeroData().getTemplateId());
-			otherHero.setModeId(String.valueOf(hero.getHeroData().getModeId()));
+//			otherHero.setHeroId(hero.getHeroData().getTemplateId());
+//			otherHero.setModeId(String.valueOf(hero.getHeroData().getModeId()));
+			otherHero.setHeroId(hero.getTemplateId());
+			otherHero.setModeId(String.valueOf(hero.getModeId()));
 			if (hero.getHeroCfg().getImageId() != null) {
 				otherHero.setIcon(hero.getHeroCfg().getImageId());
 			}
@@ -166,7 +171,7 @@ public class OtherRoleHandler {
 			otherHero.setStarLevel(hero.getHeroCfg().getStarLevel());
 			otherHero.setFighting(hero.getFighting());
 
-			skillList = hero.getSkillMgr().getSkillList();
+			skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 			for (int j = 0; j < skillList.size(); j++) {
 
 				SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
@@ -178,7 +183,7 @@ public class OtherRoleHandler {
 			}
 
 			List<? extends EquipItemIF> heroequipList = hero.getEquipMgr()
-					.getEquipList();
+					.getEquipList(hero.getUUId());
 
 			if (itemDataIFfb != null && hero.isMainRole()) {
 				EquipData.Builder tagItem = EquipData.newBuilder();

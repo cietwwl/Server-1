@@ -8,7 +8,7 @@ import com.playerdata.CopyDataMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyDataIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.copypve.CopyEntryCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
@@ -57,7 +57,7 @@ public class PveHandler {
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
 		// 万仙阵
 		PveActivity.Builder tower = PveActivity.newBuilder();
-		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
+		TableAngelArrayData angleData = player.getTowerMgr().getAngleArrayData();
 		int count = 0;
 
 		if (angleData != null) {
@@ -109,7 +109,7 @@ public class PveHandler {
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player, currentTime));
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
 		PveActivity.Builder tower = PveActivity.newBuilder();
-		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
+		TableAngelArrayData angleData = player.getTowerMgr().getAngleArrayData();
 
 		// by franky
 		int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);

@@ -2,11 +2,15 @@ package com.playerdata.activity.dailyDiscountType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -93,7 +97,15 @@ public class ActivityDailyDiscountTypeItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());		
+		Iterator<ActivityDailyDiscountTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem)it.next();
+			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

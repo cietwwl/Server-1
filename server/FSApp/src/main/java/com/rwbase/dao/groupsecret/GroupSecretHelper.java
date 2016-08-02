@@ -13,13 +13,13 @@ import com.bm.group.GroupBM;
 import com.bm.groupSecret.GroupSecretBM;
 import com.common.HPCUtil;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
@@ -152,7 +152,8 @@ public class GroupSecretHelper {
 				int mainRoleIndex = -1;
 				for (int j = 0; j < heroSize; j++) {
 					String heroId = heroList.get(j);
-					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+//					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+					Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 					if (hero == null) {
 						continue;
 					}
@@ -170,8 +171,10 @@ public class GroupSecretHelper {
 						heroPos = posInfo.getHeroPos(heroId);
 					}
 
-					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
-						hero.getLevel(), isMainRole, false, heroPos, null));
+//					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
+//						hero.getLevel(), isMainRole, false, heroPos, null));
+					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getStarLevel(),
+							hero.getLevel(), isMainRole, false, heroPos, null));
 				}
 
 				String groupName = "";
@@ -234,7 +237,8 @@ public class GroupSecretHelper {
 			List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
 			for (Entry<String, HeroInfoData> entry : teamAttrInfoMap.entrySet()) {
 				String heroId = entry.getKey();
-				HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+//				HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+				Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 				if (hero == null) {
 					continue;
 				}
@@ -245,7 +249,8 @@ public class GroupSecretHelper {
 				HeroInfoData heroInfoData = entry.getValue();
 				HeroLeftInfoSynData heroLeftInfo = heroInfoData.getLeft();
 				if (heroLeftInfo == null) {
-					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+//					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+					AttrData totalData = hero.getAttrMgr().getTotalAttrData();
 					heroLeftInfo = new HeroLeftInfoSynData(totalData.getLife(), 0, totalData.getLife(), totalData.getEnergy());
 					isHasLife = true;
 				} else {
@@ -257,8 +262,10 @@ public class GroupSecretHelper {
 					}
 				}
 
-				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
-					.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
+//				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
+//					.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
+				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), heroId
+						.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
 			}
 
 			String groupName = "";

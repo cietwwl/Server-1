@@ -67,7 +67,7 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null);
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), classInfo.getClass().getName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null);
 	}
 
 	/**

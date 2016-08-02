@@ -34,7 +34,8 @@ public class FrshActCheckHeroNum implements IFrshActCheckTask{
 		
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		
-		int herosSize = player.getHeroMgr().getHerosSize();
+//		int herosSize = player.getHeroMgr().getHerosSize();
+		int herosSize = player.getHeroMgr().getHerosSize(player);
 		
 		for (FresherActivityItemIF freActivityItem : fresherActivityItems) {
 			if(!FresherActivityChecker.checkFresherActivity(freActivityItem)){
