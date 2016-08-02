@@ -1,7 +1,10 @@
 package com.rw.handler.teamBattle.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.handler.teamBattle.enums.TBMemberState;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamMember {
 	
 	private String userID;

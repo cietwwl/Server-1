@@ -22,11 +22,11 @@ public class UserTeamBattleDataHolder {
 		listHolder.Syn(msgDataSyn);
 		// 更新数据
 		List<UserTeamBattleData> itemList = listHolder.getItemList();
-		for (int i = 0, size = itemList.size(); i < size; i++) {
-			utbData = itemList.get(i);
+		if (null != itemList && !itemList.isEmpty()) {
+			utbData = itemList.get(0);
 		}
 		for(String id : TeamBattleHandler.HARD_ARR){
-			if(!utbData.getFinishedHards().contains(id)){
+			if(null != utbData && !utbData.getFinishedHards().contains(id)){
 				currentHardID = id;
 				return;
 			}	
