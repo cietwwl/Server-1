@@ -7,7 +7,6 @@ import com.playerdata.Hero;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 
 
 /**
@@ -32,15 +31,17 @@ public class ArmyHeroSimple {
 	
 	public static ArmyHeroSimple  newInstance(Hero hero) {
 		AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
-		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 		
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
-		BeanCopyer.copy(baseInfo, armyHero);		
+//		BeanCopyer.copy(baseInfo, armyHero);	
+		BeanCopyer.copy(hero, armyHero);
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
 		armyHero.curAttrData.setCurLife(totalAttrData.getLife());
 		armyHero.curAttrData.setCurEnergy(0);
-		armyHero.curAttrData.setId(hero.getHeroData().getId());
+//		armyHero.curAttrData.setId(hero.getHeroData().getId());
+		armyHero.curAttrData.setId(hero.getId());
 		armyHero.fighting = hero.getFighting();
 		
 		return armyHero;		

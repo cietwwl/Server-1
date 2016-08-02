@@ -10,9 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.BeanCopyer;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
+import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.AttrData.Builder;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.SkillCfg;
@@ -34,7 +34,7 @@ public class MonsterArmyHelper {
 		}
 		
 		
-		RoleBaseInfo roleBaseInfo = getRoleBaseInfo (monster);
+		RoleBaseInfoImpl roleBaseInfo = getRoleBaseInfo (monster);
 		if (roleBaseInfo != null) {
 			hero.setRoleBaseInfo(roleBaseInfo);
 		}
@@ -147,8 +147,8 @@ public class MonsterArmyHelper {
 	}
 	
 
-	private static RoleBaseInfo getRoleBaseInfo(MonsterCfg monster){
-        RoleBaseInfo roleInfo = new RoleBaseInfo();
+	private static RoleBaseInfoImpl getRoleBaseInfo(MonsterCfg monster){
+		RoleBaseInfoImpl roleInfo = new RoleBaseInfoImpl();
         BeanCopyer.copy(monster,roleInfo);
 		return roleInfo;
 	}

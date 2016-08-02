@@ -120,7 +120,8 @@ public class WorshipUtils {
 		worshipItem.setCareerLevel(player.getStarLevel());
 		worshipItem.setImageId(player.getHeadImage());
 		worshipItem.setHeadFrame(player.getHeadFrame());
-		worshipItem.setFightingAll(player.getHeroMgr().getFightingAll());
+//		worshipItem.setFightingAll(player.getHeroMgr().getFightingAll());
+		worshipItem.setFightingAll(player.getHeroMgr().getFightingAll(player));
 		worshipItem.setLevel(player.getLevel());
 		worshipItem.setCanReceive(true);
 		worshipItem.setItemData(itemData);

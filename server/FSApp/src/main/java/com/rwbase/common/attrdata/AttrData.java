@@ -1,53 +1,222 @@
 package com.rwbase.common.attrdata;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.common.BeanOperationHelper;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attribute.AttributeConst;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
 public class AttrData implements AttrDataIF {
 
-	private final int life; // 最大生命值...
-	private final int energy; // 能量值...
-	private final int physiqueAttack; // 物理攻击...
-	private final int spiritAttack;// 魔法攻击...
-	private final int physiqueDef; // 体魄防御...
-	private final int spiritDef; // 精神防御...
-	private final int attackVampire; // 攻击吸血...
-	private final int critical; // 暴击率...
-	private final int criticalHurt; // 暴击伤害提升...
-	private final int toughness; // 韧性...
-	private final int lifeReceive; // 生命回复...
-	private final int energyReceive; // 能量值回复...
-	private final int struckEnergy;// 击杀增加能量...
-	private final int attackEnergy;// 攻击能量...
-	private final int energyTrans; // 能量转化...
-	private final int cutHurt;// 伤害减免
-	private final int cutCritHurt;// 暴击伤害减免
-	private final int resist;// 抵抗
-	private final int addCure;// 受到治疗效果增加
-	private final int cutCure;// 受到治疗效果减少
-	private final int lifeGrowUp; // 生命成长...
-	private final int pAttackGrowUp; // 物理攻击成长...
-	private final int sAttackGrowUp; // 法术攻击成长...
-	private final int physicqueDefGrowUp; // 体魄防御成长...
-	private final int spiritDefGrowUp; // 精神防御成长...
-	private final int enchantExp;// 附灵经验...
-	private final int skillLevel;// 技能总等级
-	private final int attackType;// 攻击类型
-	private final int dodge; // 闪避
-	private final int hit; // 命中
-	private final int energyPerSecond; // 每秒恢复的能量
+	@IgnoreSynField
+	private static final String _KEY_LIFE = "1";
+	@IgnoreSynField
+	private static final String _KEY_ENERGY = "2";
+	@IgnoreSynField
+	private static final String _KEY_PHYSIQUE_ATTACK = "3";
+	@IgnoreSynField
+	private static final String _KEY_SPIRIT_ATTACK = "4";
+	@IgnoreSynField
+	private static final String _KEY_PHYSIQUE_DEF = "5";
+	@IgnoreSynField
+	private static final String _KEY_SPIRIT_DEF = "6";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_VAMPIRE = "7";
+	@IgnoreSynField
+	private static final String _KEY_CRITICAL = "8";
+	@IgnoreSynField
+	private static final String _KEY_CRITICAL_HURT = "9";
+	@IgnoreSynField
+	private static final String _KEY_TOUGHNESS = "10";
+	@IgnoreSynField
+	private static final String _KEY_LIFE_RECEIVE = "11";
+	@IgnoreSynField
+	private static final String _KEY_ENERGY_RECEIVE = "12";
+	@IgnoreSynField
+	private static final String _KEY_STRUCK_ENERGY = "13";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_ENERGY = "14";
+	@IgnoreSynField
+	private static final String _KEY_ENERGY_TRANS = "15";
+	@IgnoreSynField
+	private static final String _KEY_CUT_HURT = "16";
+	@IgnoreSynField
+	private static final String _KEY_CUT_CRIT_HURT = "17";
+	@IgnoreSynField
+	private static final String _KEY_RESIST = "18";
+	@IgnoreSynField
+	private static final String _KEY_ADD_CURE = "19";
+	@IgnoreSynField
+	private static final String _KEY_CUT_CURE = "20";
+	@IgnoreSynField
+	private static final String _KEY_LIFE_GROW_UP = "21";
+	@IgnoreSynField
+	private static final String _KEY_P_ATTACK_GROW_UP = "22";
+	@IgnoreSynField
+	private static final String _KEY_S_ATTACK_GROW_UP = "23";
+	@IgnoreSynField
+	private static final String _KEY_PHYSICQUE_DEF_GROW_UP = "24";
+	@IgnoreSynField
+	private static final String _KEY_SPIRIT_DEF_GROW_UP = "25";
+	@IgnoreSynField
+	private static final String _KEY_ENCHANT_EXP = "26";
+	@IgnoreSynField
+	private static final String _KEY_SKILL_LEVEL = "27";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_TYPE = "28";
+	@IgnoreSynField
+	private static final String _KEY_DODGE = "29";
+	@IgnoreSynField
+	private static final String _KEY_HIT = "30";
+	@IgnoreSynField
+	private static final String _KEY_ENERGY_PER_SECOND = "31";
+	@IgnoreSynField
+	private static final String _KEY_HARD_STRAIGHT = "32";
+	@IgnoreSynField
+	private static final String _KEY_REACTION_TIME = "33";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_DISTANCE = "34";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_SPEED = "35";
+	@IgnoreSynField
+	private static final String _KEY_MOVE_SPEED = "36";
+	@IgnoreSynField
+	private static final String _KEY_ATTACK_HURT = "37";
+	@IgnoreSynField
+	private static final String _KEY_VIEW_RANGE = "38";
+	@IgnoreSynField
+	private static final String _KEY_VOLUME_RADIUS = "39";
+	@IgnoreSynField
+	private static final String _KEY_DO_HURT = "40";
+	
+	@JsonProperty(_KEY_LIFE)
+	private int life; // 最大生命值...
+	
+	@JsonProperty(_KEY_ENERGY)
+	private int energy; // 能量值...
+	
+	@JsonProperty(_KEY_PHYSIQUE_ATTACK)
+	private int physiqueAttack; // 物理攻击...
+	
+	@JsonProperty(_KEY_SPIRIT_ATTACK)
+	private int spiritAttack;// 魔法攻击...
+	
+	@JsonProperty(_KEY_PHYSIQUE_DEF)
+	private int physiqueDef; // 体魄防御...
+	
+	@JsonProperty(_KEY_SPIRIT_DEF)
+	private int spiritDef; // 精神防御...
+	
+	@JsonProperty(_KEY_ATTACK_VAMPIRE)
+	private int attackVampire; // 攻击吸血...
+	
+	@JsonProperty(_KEY_CRITICAL)
+	private int critical; // 暴击率...
+	
+	@JsonProperty(_KEY_CRITICAL_HURT)
+	private int criticalHurt; // 暴击伤害提升...
+	
+	@JsonProperty(_KEY_TOUGHNESS)
+	private int toughness; // 韧性...
+	
+	@JsonProperty(_KEY_LIFE_RECEIVE)
+	private int lifeReceive; // 生命回复...
+	
+	@JsonProperty(_KEY_ENERGY_RECEIVE)
+	private int energyReceive; // 能量值回复...
+	
+	@JsonProperty(_KEY_STRUCK_ENERGY)
+	private int struckEnergy;// 击杀增加能量...
+	
+	@JsonProperty(_KEY_ATTACK_ENERGY)
+	private int attackEnergy;// 攻击能量...
+	
+	@JsonProperty(_KEY_ENERGY_TRANS)
+	private int energyTrans; // 能量转化...
+	
+	@JsonProperty(_KEY_CUT_HURT)
+	private int cutHurt;// 伤害减免
+	
+	@JsonProperty(_KEY_CUT_CRIT_HURT)
+	private int cutCritHurt;// 暴击伤害减免
+	
+	@JsonProperty(_KEY_RESIST)
+	private int resist;// 抵抗
+	
+	@JsonProperty(_KEY_ADD_CURE)
+	private int addCure;// 受到治疗效果增加
+	
+	@JsonProperty(_KEY_CUT_CURE)
+	private int cutCure;// 受到治疗效果减少
+	
+	@JsonProperty(_KEY_LIFE_GROW_UP)
+	private int lifeGrowUp; // 生命成长...
+	
+	@JsonProperty(_KEY_P_ATTACK_GROW_UP)
+	private int pAttackGrowUp; // 物理攻击成长...
+	
+	@JsonProperty(_KEY_S_ATTACK_GROW_UP)
+	private int sAttackGrowUp; // 法术攻击成长...
+	
+	@JsonProperty(_KEY_PHYSICQUE_DEF_GROW_UP)
+	private int physicqueDefGrowUp; // 体魄防御成长...
+	
+	@JsonProperty(_KEY_SPIRIT_DEF_GROW_UP)
+	private int spiritDefGrowUp; // 精神防御成长...
+	
+	@JsonProperty(_KEY_ENCHANT_EXP)
+	private int enchantExp;// 附灵经验...
+	
+	@JsonProperty(_KEY_SKILL_LEVEL)
+	private int skillLevel;// 技能总等级
+	
+	@JsonProperty(_KEY_ATTACK_TYPE)
+	private int attackType;// 攻击类型
+	
+	@JsonProperty(_KEY_DODGE)
+	private int dodge; // 闪避
+	
+	@JsonProperty(_KEY_HIT)
+	private int hit; // 命中
+	
+	@JsonProperty(_KEY_ENERGY_PER_SECOND)
+	private int energyPerSecond; // 每秒恢复的能量
 
-	private final float hardStraight;
-	private final float reactionTime;
-	private final float attackDistance; // 攻击距离...
-	private final float attackSpeed; // 攻击速度...
-	private final float moveSpeed; // 移动速度...
-	private final float attackHurt;// 攻击伤害
-	private final float viewRange; // 视野范围
-	private final float volumeRadius; // 人物半径
-	private final float doHurt; // 硬直界限
+	@JsonProperty(_KEY_HARD_STRAIGHT)
+	private float hardStraight;
+	
+	@JsonProperty(_KEY_REACTION_TIME)
+	private float reactionTime;
+	
+	@JsonProperty(_KEY_ATTACK_DISTANCE)
+	private float attackDistance; // 攻击距离...
+	
+	@JsonProperty(_KEY_ATTACK_SPEED)
+	private float attackSpeed; // 攻击速度...
+	
+	@JsonProperty(_KEY_MOVE_SPEED)
+	private float moveSpeed; // 移动速度...
+	
+	@JsonProperty(_KEY_ATTACK_HURT)
+	private float attackHurt;// 攻击伤害
+	
+	@JsonProperty(_KEY_VIEW_RANGE)
+	private float viewRange; // 视野范围
+	
+	@JsonProperty(_KEY_VOLUME_RADIUS)
+	private float volumeRadius; // 人物半径
+	
+	@JsonProperty(_KEY_DO_HURT)
+	private float doHurt; // 硬直界限
+	
+	public AttrData() {}
 
 	public AttrData(int life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
 			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int pAttackGrowUp,

@@ -1,7 +1,7 @@
 package com.bm.rank.teaminfo;
 
 import com.bm.rank.RankingJacksonExtension;
-import com.bm.rank.anglearray.AngleArrayComparable;
+import com.bm.rank.angelarray.AngelArrayComparable;
 import com.rw.fsutil.ranking.RankingEntry;
 
 /*
@@ -9,14 +9,14 @@ import com.rw.fsutil.ranking.RankingEntry;
  * @date 2016年4月18日 下午2:15:39
  * @Description 万仙阵阵容排行榜记录信息
  */
-public class AngelArrayTeamInfoExtension extends RankingJacksonExtension<AngleArrayComparable, AngelArrayTeamInfoAttribute> {
+public class AngelArrayTeamInfoExtension extends RankingJacksonExtension<AngelArrayComparable, AngelArrayTeamInfoAttribute> {
 
 	public AngelArrayTeamInfoExtension() {
-		super(AngleArrayComparable.class, AngelArrayTeamInfoAttribute.class);
+		super(AngelArrayComparable.class, AngelArrayTeamInfoAttribute.class);
 	}
 
 	@Override
-	public void notifyEntryEvicted(RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> entry) {
+	public void notifyEntryEvicted(RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> entry) {
 	}
 
 	@Override

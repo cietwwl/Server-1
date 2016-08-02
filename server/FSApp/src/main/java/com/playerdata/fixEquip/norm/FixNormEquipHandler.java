@@ -25,7 +25,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -47,7 +48,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUpOneKey(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -68,7 +70,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixNormEquipMgr().qualityUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -89,7 +92,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixNormEquipMgr().starUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
@@ -108,7 +112,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();
 		
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+//		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		Hero targetHero = player.getHeroMgr().getHeroById(player, ownerId);
 		FixEquipResult result = targetHero.getFixNormEquipMgr().starDown(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());

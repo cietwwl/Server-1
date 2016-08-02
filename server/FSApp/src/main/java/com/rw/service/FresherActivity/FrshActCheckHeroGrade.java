@@ -64,7 +64,8 @@ public class FrshActCheckHeroGrade implements IFrshActCheckTask{
 	}
 	
 	private Map<Integer, Integer> getHeroQualityMap(Player player){
-		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration(player);
 		Map<Integer, Integer> qualityMap = new HashMap<Integer, Integer>();
 		EHeroQuality[] qualityValue = EHeroQuality.getAllValue();
 		//统计当前英雄各品质的个数

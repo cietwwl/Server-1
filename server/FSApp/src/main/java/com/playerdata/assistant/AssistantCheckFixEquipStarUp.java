@@ -15,7 +15,7 @@ public class AssistantCheckFixEquipStarUp extends DefaultAssistantChecker {
 	public AssistantEventID doCheck(Player player) {
 		super.doCheck(player);
 		HeroMgr heroMgr = player.getHeroMgr();
-		List<String> heroIdList = heroMgr.getHeroIdList();
+		List<String> heroIdList = heroMgr.getHeroIdList(player);
 		//检查是否可以觉醒
 		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
 			return checkStarUp(player, heroMgr, heroIdList);
@@ -28,7 +28,7 @@ public class AssistantCheckFixEquipStarUp extends DefaultAssistantChecker {
 	 */
 	private AssistantEventID checkStarUp(Player player, HeroMgr heroMgr, List<String> heroIdList) {
 		for (String id : heroIdList) {
-			Hero hero = heroMgr.getHeroById(id);
+			Hero hero = heroMgr.getHeroById(player, id);
 			String heroId = hero.getUUId();	
 			
 			List<String> starUpListTmp = hero.getFixExpEquipMgr().starUpList(player, heroId);			

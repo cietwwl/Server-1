@@ -30,7 +30,6 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
-import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class PvECommonHelper {
@@ -44,7 +43,8 @@ public class PvECommonHelper {
 		List<String> listUpHero = new ArrayList<String>();
 		List<String> heroIdList = copyRequest.getTagBattleData().getHeroIdList();
 		for (String heroId : heroIdList) {
-			Hero hero = player.getHeroMgr().getHeroById(heroId);
+//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
 			if (hero != null && addHeroExp == 1) {
 				listUpHero.add(heroId);

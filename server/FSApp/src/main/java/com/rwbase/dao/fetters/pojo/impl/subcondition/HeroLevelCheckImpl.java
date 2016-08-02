@@ -17,7 +17,8 @@ public class HeroLevelCheckImpl implements IFettersSubCondition {
 	@Override
 	public boolean match(Player player, int checkId, int value) {
 		HeroMgr heroMgr = player.getHeroMgr();
-		Hero hero = heroMgr.getHeroByModerId(checkId);
+//		Hero hero = heroMgr.getHeroByModerId(checkId);
+		Hero hero = heroMgr.getHeroByModerId(player, checkId);
 		if (hero == null) {
 			return false;
 		}

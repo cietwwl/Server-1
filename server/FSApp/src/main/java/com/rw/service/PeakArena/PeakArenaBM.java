@@ -282,7 +282,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	
 	private void initTeamInfo(TablePeakArenaData peakData,Player player){
 		HeroMgr heroMgr = player.getHeroMgr();
-		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());
+//		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());
+		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(player, HeroFightPowerComparator.getInstance());
 		
 		int count = peakData.getTeamCount();
 		if (count <=0){
@@ -336,23 +337,24 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			}
 			heroIndex += distributions[i];
 			
-			List<TableSkill> heroSkillList = getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			List<TableSkill> heroSkillList = getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
 		}
 	}
 	
-	public List<TableSkill> getHeroInfoList(List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
+	public List<TableSkill> getHeroInfoList(Player player, List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
 		List<String> newHeroList = new ArrayList<String>();
 		List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 		for (String id : heroIdsList) {
-			Hero heroData = heroMgr.getHeroById(id);
+//			Hero heroData = heroMgr.getHeroById(id);
+			Hero heroData = heroMgr.getHeroById(player, id);
 			if (heroData == null){
 				GameLog.error("巅峰竞技场", playerId, "无效佣兵ID="+id);
 				continue;
 			}
 			newHeroList.add(id);
-			TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
+			TableSkill skill = heroData.getSkillMgr().getTableSkill(player, heroData.getUUId()); 
 			heroSkillList.add(skill);
 		}
 		if (checkedHeroIDList != null){
@@ -402,10 +404,12 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 
 	public PeakArenaExtAttribute createExtData(Player player) {
-		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+//		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
-		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		return arenaExt;
 	}
 

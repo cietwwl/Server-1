@@ -50,6 +50,8 @@ public class RobotEntryCfg {
 	private final List<int[]> taoistLevel;// 道术的等级
 	private final Map<String, int[]> heroFetters;// 羁绊属性的
 	private final int extraAttrId;// 额外的属性Id
+	private final int minLimitValue;// 低限制值
+	private final int maxLimitValue;// 高限制值
 
 	public RobotEntryCfg(int ranking, RobotCfg cfg) {
 		this.ranking = ranking;
@@ -103,7 +105,7 @@ public class RobotEntryCfg {
 
 			this.taoistLevel = Collections.unmodifiableList(list);
 		} else {
-			this.taoistLevel = Collections.EMPTY_LIST;
+			this.taoistLevel = Collections.emptyList();
 		}
 
 		// 羁绊信息
@@ -124,7 +126,16 @@ public class RobotEntryCfg {
 
 			this.heroFetters = Collections.unmodifiableMap(map);
 		} else {
-			this.heroFetters = Collections.EMPTY_MAP;
+			this.heroFetters = Collections.emptyMap();
+		}
+
+		// 限定值范围
+		int[] limitValueArr = parseIntArray(cfg.getLimitValue());
+		if (limitValueArr.length < 2) {
+			minLimitValue = maxLimitValue = limitValueArr[0];
+		} else {
+			minLimitValue = limitValueArr[0];
+			maxLimitValue = limitValueArr[1];
 		}
 	}
 
@@ -348,5 +359,13 @@ public class RobotEntryCfg {
 
 	public int getExtraAttrId() {
 		return extraAttrId;
+	}
+
+	public int getMinLimitValue() {
+		return minLimitValue;
+	}
+
+	public int getMaxLimitValue() {
+		return maxLimitValue;
 	}
 }

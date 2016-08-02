@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.common.Utils;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
@@ -36,7 +37,7 @@ public class GMHeroProcesser {
 		final int maxLevel = GMHeroBase.gmGetMaxLevel();
 				
 		final int maxQuality = GMHeroBase.gmGetMaxQuality();
-		
+
 		
 		gmChangeCareer(player, career);
 		
@@ -59,13 +60,14 @@ public class GMHeroProcesser {
 					String templateId = roleCfg.getRoleId();
 					GMHeroBase.gmAddHero(entry.getKey(), player);
 					int maxStar = GMHeroBase.gmGetMaxStar(templateId);
-					Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+//					Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+					Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 					GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 					GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
 					String qualityId = getQualityId(hero, maxQuality,false);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
 					
-					List<Skill> skillList = hero.getSkillMgr().getSkillList();
+					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 					for (Skill skill : skillList) {
 						SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
 						String maxSkillId = GMHeroBase.gmGetMaxSkillId(cfg.getSkillId(), maxLevel);
@@ -103,12 +105,12 @@ public class GMHeroProcesser {
 			Entry<String, RoleCfg> entry = iterator.next();
 			RoleCfg roleCfg = entry.getValue();
 			String templateId = roleCfg.getRoleId();
-			if(player.getHeroMgr().getHeroByTemplateId(templateId) != null){
+			if(player.getHeroMgr().getHeroByTemplateId(player, templateId) != null){
 				continue;
 			}			
 			GMHeroBase.gmAddHero(entry.getKey(), player);
 			Hero hero = player.getHeroMgr()
-					.getHeroByTemplateId(templateId);
+					.getHeroByTemplateId(player, templateId);
 			GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 //			System.out.println("~~~~~~~~~~~~~~~~~~~~~~add");
 			break;
@@ -124,7 +126,7 @@ public class GMHeroProcesser {
 		boolean blnChangeCareer = false;
 		if (player.getCareer() != career) {
 			player.SetCareer(career);
-			player.getMainRoleHero().getEquipMgr().changeEquip();
+			player.getMainRoleHero().getEquipMgr().changeEquip(player, player.getMainRoleHero().getUUId());
 			blnChangeCareer = true;
 		}
 		int sex = player.getSex();
@@ -139,7 +141,7 @@ public class GMHeroProcesser {
 		int career = 1; 
 		if (player.getCareer() <= 0) {
 			player.SetCareer(career);
-			player.getMainRoleHero().getEquipMgr().changeEquip();
+			player.getMainRoleHero().getEquipMgr().changeEquip(player, player.getMainRoleHero().getUUId());
 			blnChangeCareer = true;
 		}
 		int sex = player.getSex();
@@ -154,13 +156,14 @@ public class GMHeroProcesser {
 		String templateId = mainRoleHero.getTemplateId();
 		RoleCfg roleCfg = (RoleCfg)RoleCfgDAO.getInstance().getCfgById(templateId);
 		int maxStar = GMHeroBase.gmGetMaxStar(templateId);
-		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+//		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+		Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 		int star = GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
 		GMHeroBase.gmUpdateTemplateId(player.getSex(), player.getCareer(), star, hero);
 		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 		String qualityId = getQualityId(hero, maxQuality,false);
 		GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
-		List<Skill> skillList = hero.getSkillMgr().getSkillList();
+		List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 		for (Skill skill : skillList) {
 			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
 			String maxSkillId = GMHeroBase.gmGetMaxSkillId(cfg.getSkillId(), maxLevel);
@@ -181,7 +184,8 @@ public class GMHeroProcesser {
 	private static void bringitMainHeroSimple(Player player, int maxLevel, int maxQuality) {
 		Hero mainRoleHero = player.getMainRoleHero();
 		String templateId = mainRoleHero.getTemplateId();
-		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+//		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+		Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 		
 	}
@@ -227,7 +231,7 @@ public class GMHeroProcesser {
 				int gemLv = Integer.parseInt(arrCommandContents[7]);
 				
 				Map<String, RoleCfg> map = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
-				List<Hero> heroList = player.getHeroMgr().getAllHeros(new Comparator<Hero>() {
+				List<Hero> heroList = player.getHeroMgr().getAllHeros(player, new Comparator<Hero>() {
 					public int compare(Hero o1, Hero o2) {
 						if (o1.getFighting() < o2.getFighting())
 							return 1;
@@ -242,7 +246,7 @@ public class GMHeroProcesser {
 					GMHeroBase.gmEditHeroLevel(hero, heroLevel, player);
 					String qualityId = getQualityId(hero, quality, false);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
-					List<Skill> skillList = hero.getSkillMgr().getSkillList();
+					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 					for (Skill skill : skillList) {
 						if(skill == null){
 							continue;
@@ -300,7 +304,7 @@ public class GMHeroProcesser {
 				int gemCount = Integer.parseInt(arrCommandContents[6]);
 				int gemLv = Integer.parseInt(arrCommandContents[7]);
 				
-				List<Hero> heroList = player.getHeroMgr().getAllHeros(new Comparator<Hero>() {
+				List<Hero> heroList = player.getHeroMgr().getAllHeros(player, new Comparator<Hero>() {
 					public int compare(Hero o1, Hero o2) {
 						if (o1.getFighting() < o2.getFighting())
 							return 1;
@@ -316,7 +320,7 @@ public class GMHeroProcesser {
 					String qualityId = getQualityId(hero, quality, true);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
 					
-					List<Skill> skillList = hero.getSkillMgr().getSkillList();
+					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 					for (Skill skill : skillList) {
 						if(skill == null){
 							continue;
@@ -368,7 +372,8 @@ public class GMHeroProcesser {
 			return "";
 		}
 		if(limited){
-			String qualityId =	hero.getModelId()+"_"+1;
+//			String qualityId =	hero.getModeId()+"_"+1;
+			String qualityId = Utils.computeQualityId(hero.getModeId(), 1);
 			RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getConfig(qualityId);
 			int heroLv = hero.getLevel();
 			while (true) {
@@ -407,6 +412,7 @@ public class GMHeroProcesser {
 			
 			
 		}
-		return hero.getModelId() + "_" + (quality + 1);
+//		return hero.getModeId() + "_" + (quality + 1);
+		return Utils.computeQualityId(hero.getModeId(), (quality + 1));
 	}
 }

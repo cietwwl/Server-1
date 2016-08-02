@@ -137,7 +137,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		
 		int value = GetMaxPrivilege(EPrivilegeDef.SKILL_POINT_COUNT) - GetPrivilegeInCfg(m_oldVip, EPrivilegeDef.SKILL_POINT_COUNT);
 		if(value >0){
-			m_pPlayer.getMainRoleHero().getSkillMgr().updateSkillPointTime(EPrivilegeDef.SKILL_POINT_COUNT,value);
+			m_pPlayer.getMainRoleHero().getSkillMgr().updateSkillPointTime(m_pPlayer, EPrivilegeDef.SKILL_POINT_COUNT,value);
 		}
 	}
 	

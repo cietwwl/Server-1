@@ -3,6 +3,28 @@ option java_package = "com.rwproto";
 option java_outer_classname = "BattleCommon";
 package BattleCommon;
 
+enum RequestType{
+
+	Updata = 1;//更新
+
+}
+
+message BattleCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	required eBattlePositionType  positionType = 2; //阵容类型
+	required string recordkey =3;//阵容子类型
+	repeated BattleHeroPosition battleHeroPosition=4;//阵容信息
+}
+
+
+message BattleCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+}
+
+
+
+
 enum ePlayerType {
 	MAINPLAYER = 0; //主角
 	HIRE       = 1; //佣兵
@@ -27,6 +49,17 @@ enum eBattlePositionType{
 	PeakArenaPos = 2;//巅峰竞技场
 	ArenaPos = 3;//竞技场
 	GroupFightPos = 4;//帮战
+	Normal = 5;//剧情
+	EliteCopy = 6;//精英
+	Jbzd = 7;//聚宝之地
+	Lxsg = 8;//炼息山谷
+	Schj = 9;//生存幻境
+	MagicSecret = 10;//乾坤幻境
+	Tower = 11;//万仙阵
+	TowerBattle = 12;//封神台
+	
+
+
 }
 
 //阵容上的英雄站位信息

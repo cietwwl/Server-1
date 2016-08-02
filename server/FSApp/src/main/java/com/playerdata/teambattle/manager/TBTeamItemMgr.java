@@ -77,12 +77,15 @@ public class TBTeamItemMgr{
 			if(utbMemData.getSelfTeamInfo() == null){
 				Player player = PlayerMgr.getInstance().find(member.getUserID());
 				if(player == null) continue;
-				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros();
+//				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros();
+				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros(player);
 				List<String> heroIDs = new ArrayList<String>();
 				Map<String, Integer> heroPosMap = new HashMap<String, Integer>();
 				for(int i = 1; i < heros.size(); i++){
-					heroIDs.add(heros.get(i).getHeroData().getId());
-					heroPosMap.put(heros.get(i).getHeroData().getId(), i);
+//					heroIDs.add(heros.get(i).getHeroData().getId());
+//					heroPosMap.put(heros.get(i).getHeroData().getId(), i);
+					heroIDs.add(heros.get(i).getId());
+					heroPosMap.put(heros.get(i).getId(), i);
 				}
 				StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
 				teamInfo.setUserID(member.getUserID());

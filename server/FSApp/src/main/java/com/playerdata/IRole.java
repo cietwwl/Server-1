@@ -13,17 +13,6 @@ import com.rwbase.dao.role.pojo.RoleQualityCfg;
  * 
  */
 
-/// <summary>
-/// 对象类型
-/// </summary>
- enum eRoleType
-{
-  None,
-  Player ,     //角色
-  Hero ,  //佣兵
-  Monster    //怪物
-};
-
 public class IRole {
 	
 

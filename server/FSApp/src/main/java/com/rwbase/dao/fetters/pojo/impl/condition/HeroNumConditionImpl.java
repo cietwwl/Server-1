@@ -42,7 +42,8 @@ public class HeroNumConditionImpl implements IFettersSubRestrictCondition {
 				continue;
 			}
 
-			Hero hero = player.getHeroMgr().getHeroByModerId(heroModelId);
+//			Hero hero = player.getHeroMgr().getHeroByModerId(heroModelId);
+			Hero hero = player.getHeroMgr().getHeroByModerId(player, heroModelId);
 			if (hero == null) {
 				continue;
 			}

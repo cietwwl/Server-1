@@ -250,7 +250,8 @@ public class GroupSecretHandler {
 		for (int i = 0; i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroIdList.get(i);
 			String teamUserId = heroPos.getHeroId();
-			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+//			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+			Hero hero = player.getHeroMgr().getHeroById(player, teamUserId);
 			if (hero == null) {
 				GameLog.error("请求创建秘境", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
 				GroupSecretHelper.fillRspInfo(rsp, false, "英雄不存在");
@@ -660,7 +661,8 @@ public class GroupSecretHandler {
 		for (int i = 0; i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroIdList.get(i);
 			String teamUserId = heroPos.getHeroId();
-			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+//			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+			Hero hero = player.getHeroMgr().getHeroById(player, teamUserId);
 			if (hero == null) {
 				GameLog.error("请求更换秘境阵容", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
 				GroupSecretHelper.fillRspInfo(rsp, false, "英雄不存在");
@@ -1166,7 +1168,8 @@ public class GroupSecretHandler {
 		for (int i = 0; i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroIdList.get(i);
 			String teamUserId = heroPos.getHeroId();
-			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+//			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+			Hero hero = player.getHeroMgr().getHeroById(player, teamUserId);
 			if (hero == null) {
 				GameLog.error("接受邀请驻守成员", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
 				GroupSecretHelper.fillRspInfo(rsp, false, "英雄不存在");

@@ -2,15 +2,12 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
@@ -21,14 +18,12 @@ import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
 import com.rwbase.dao.sign.SignStatisticsCfgDAO;
-import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.sign.pojo.ReSignCfg;
 import com.rwbase.dao.sign.pojo.SignCfg;
 import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.SignDataHolder;
 import com.rwbase.dao.sign.pojo.SignStatisticsCfg;
 import com.rwbase.dao.sign.pojo.TableSignData;
-import com.rwproto.BattleTowerServiceProtos.ERequestType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
@@ -248,7 +243,8 @@ public class SignMgr implements PlayerEventListener {
 			player.getItemBagMgr().addItem(Integer.valueOf(itemId), count);
 		} else {
 			for (int i = 0; i < count; i++) {
-				player.getHeroMgr().addHero(itemId);
+//				player.getHeroMgr().addHero(itemId);
+				player.getHeroMgr().addHero(player, itemId);
 			}
 		}
 	}

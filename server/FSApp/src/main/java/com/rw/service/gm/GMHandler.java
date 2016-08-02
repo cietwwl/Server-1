@@ -50,7 +50,7 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -500,7 +500,8 @@ public class GMHandler {
 		}
 		String heroId = arrCommandContents[0];
 		if (player != null) {
-			player.getHeroMgr().addHero(heroId);
+//			player.getHeroMgr().addHero(heroId);
+			player.getHeroMgr().addHero(player, heroId);
 			return true;
 		}
 		return false;
@@ -688,7 +689,7 @@ public class GMHandler {
 		}
 		String newLevel = arrCommandContents[0];
 		if (player != null) {
-			player.SetLevel(Integer.parseInt(newLevel));
+			player.setLevelByGM(Integer.parseInt(newLevel));
 			return true;
 		}
 		return false;
@@ -761,7 +762,8 @@ public class GMHandler {
 		if (arrCommandContents.length == 1) {
 			long addExp = Long.parseLong(arrCommandContents[0]);
 			if (player != null) {
-				player.getHeroMgr().AddAllHeroExp(addExp);
+//				player.getHeroMgr().AddAllHeroExp(addExp);
+				player.getHeroMgr().AddAllHeroExp(player, addExp);
 				return true;
 			}
 			return false;
@@ -770,7 +772,8 @@ public class GMHandler {
 		int heroId = Integer.parseInt(arrCommandContents[0]);
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
-			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+//			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
 			return true;
 		}
 		return false;
@@ -1047,7 +1050,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
@@ -1092,14 +1096,15 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
 			return false;
 		}
 
-		hero.getEquipMgr().orderHeroWearEquip(hero);
+		hero.getEquipMgr().orderHeroWearEquip(player, hero);
 		return true;
 	}
 
@@ -1115,7 +1120,7 @@ public class GMHandler {
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("wx")) {
 			TowerMgr towerMgr = player.getTowerMgr();
-			TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+			TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 			if (angleArrayData == null) {
 				return false;
 			}

@@ -36,7 +36,8 @@ public class UserSimpleHelper {
 		List<HeroSimple> heroList = new ArrayList<HeroSimple>();
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			Hero heroTmp = heroMgr.getHeroById(heroId);
+//			Hero heroTmp = heroMgr.getHeroById(heroId);
+			Hero heroTmp = heroMgr.getHeroById(player, heroId);
 			HeroSimple armyHero = getHeroSimple(heroTmp);
 			heroList.add(armyHero);
 		}
@@ -45,7 +46,7 @@ public class UserSimpleHelper {
 
 	private static HeroSimple getHeroSimple(Hero role) {
 		SkillMgr skillMgr = role.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<Skill> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		HeroSimple armyHero = new HeroSimple(baseInfo, totalAttrData, skillList);

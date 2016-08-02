@@ -480,7 +480,7 @@ public final class RobotHeroBuilder {
 
 				// 战力
 				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
-					AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
+						AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
 				fighting += calFighting;
 			}
 		}
@@ -655,8 +655,7 @@ public final class RobotHeroBuilder {
 		return heroInfo;
 	}
 
-	public static class BuildRoleInfo
-	{
+	public static class BuildRoleInfo {
 		private final String userId;// 角色ID
 		private final String robotName;// 角色名字
 		private final String headId;// 角色头像
