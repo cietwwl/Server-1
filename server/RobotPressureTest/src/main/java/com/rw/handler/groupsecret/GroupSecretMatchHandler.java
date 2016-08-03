@@ -97,8 +97,11 @@ public class GroupSecretMatchHandler {
 					if(resp.getTipMsg().indexOf("找不到")!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
+					}			
+					if(resp.getTipMsg().indexOf("没有可以挑战的秘境")!= -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
 					}
-					int i = resp.getTipMsg().indexOf("找不到");
 					RobotLog.fail(resp.getTipMsg());
 					throw new Exception(resp.getTipMsg());
 				}

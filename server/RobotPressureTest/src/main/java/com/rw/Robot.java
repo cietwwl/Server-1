@@ -898,11 +898,12 @@ public class Robot {
 	
 
 	public boolean searchGroupSecret() {
+		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		return GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 	}
 
 	public boolean attackEnemyGroupSecret() {
-
+		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 		return GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
 	}
