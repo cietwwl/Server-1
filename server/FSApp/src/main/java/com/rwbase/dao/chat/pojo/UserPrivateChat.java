@@ -25,7 +25,9 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+import com.bm.chat.ChatInteractiveType;
 import com.rw.service.chat.ChatHandler;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 
@@ -44,6 +46,30 @@ public class UserPrivateChat {
 	private static final IFunction<ChatMessageData, String> _getSenderIdOfProtoFunc = new GetSenderUserIdOfProtoFunc();
 	private static final IFunction<ChatMessageData, String> _getReceiverIdOfProtoFunc = new GetReceiverUserIdOfProtoFunc();
 	
+	
+	// 以下function通過反射賦值給_checkSaveUserInfoFuncs BEGIN >>>>>>
+	@SuppressWarnings("unused")
+	private static final IBIFunction<UserPrivateChat, String, Boolean> _checkPrivateSentFunc = new CheckPrivateChatSentFunc();
+	@SuppressWarnings("unused")
+	private static final IBIFunction<UserPrivateChat, String, Boolean> _checkReceiveCountFunc = new CheckReceiveCountFunc();
+	@SuppressWarnings("unused")
+	private static final IBIFunction<UserPrivateChat, String, Boolean> _checkInteractiveFunc = new CheckInteractiveDataFunc();
+	// END <<<<<<
+	private static final List<IBIFunction<UserPrivateChat, String, Boolean>> _checkSaveUserInfoFuncs = new ArrayList<IBIFunction<UserPrivateChat,String,Boolean>>();
+	static {
+		Field[] allFields = UserPrivateChat.class.getDeclaredFields();
+		for (Field f : allFields) {
+			if (f.getType().isAssignableFrom(IBIFunction.class)) {
+				try {
+					@SuppressWarnings("unchecked")
+					IBIFunction<UserPrivateChat, String, Boolean> instance = (IBIFunction<UserPrivateChat, String, Boolean>) f.get(null);
+					_checkSaveUserInfoFuncs.add(instance);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	public static class UserPrivateChatDeserializer extends JsonDeserializer<UserPrivateChat> {
 		
 		private static final Map<String, Field> _fieldMap = new HashMap<String, Field>();
@@ -119,6 +145,11 @@ public class UserPrivateChat {
 					this.setUserInfo(u.privateChat, u.saveUserInfos);
 					this.setUserInfo(u.privateChatSent, u.saveUserInfos);
 				}
+				if (u.interactiveDatas.size() > 0) {
+					for (Iterator<List<ChatMessageSaveData>> itr = u.interactiveDatas.values().iterator(); itr.hasNext();) {
+						this.setUserInfo(itr.next(), u.saveUserInfos);
+					}
+				}
 			}
 			return u;
 		}
@@ -146,12 +177,16 @@ public class UserPrivateChat {
 	private List<ChatMessageSaveData> secretChat;// 帮派秘境的聊天信息列表;
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	@JsonProperty
+	private Map<ChatInteractiveType, List<ChatMessageSaveData>> interactiveDatas; // 互動信息
+	@JsonSerialize(include=Inclusion.NON_EMPTY)
+	@JsonProperty
 	private Map<String, ChatUserInfo> saveUserInfos; // 保存的userInfo
 
 	public UserPrivateChat() {
 		privateChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);
 		privateChatSent = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);
 		secretChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE);
+		interactiveDatas = new HashMap<ChatInteractiveType, List<ChatMessageSaveData>>(ChatInteractiveType.values().length + 1, 1.0f);
 		saveUserInfos = new HashMap<String, ChatUserInfo>();
 	}
 
@@ -349,35 +384,42 @@ public class UserPrivateChat {
 		map.put(pUserId, count);
 		return count;
 	}
-
-	private void afterRemoveOld(ChatMessageSaveData data) {
-		String tempUserId;
-		if (data.getSendInfo() != null) {
-			if (!(tempUserId = data.getSendInfo().getUserId()).equals(this.userId)) {
-				int result = this.decreaseCount(tempUserId, _receiveCountOfUser);
-				if (result == 0) {
-					boolean notContains = true;
-					for (ChatMessageSaveData cmsd : privateChatSent) {
-						if (cmsd.getReceiveInfo().getUserId().equals(tempUserId)) {
-							notContains = false;
-							break;
-						}
-					}
-					if (!notContains) {
-						saveUserInfos.remove(tempUserId);
-					}
-				}
+	
+	private boolean checkUserExists(String targetUserId) {
+		for(IBIFunction<UserPrivateChat, String, Boolean> func : _checkSaveUserInfoFuncs) {
+			if(func.apply(this, targetUserId)) {
+				return true;
 			}
+		}
+		return false;
+	}
+
+	private void afterRemoveOld(ChatMessageSaveData data, List<ChatMessageSaveData> targetList) {
+		String tempUserId;
+		if (targetList == privateChat) {
+			// 如果是收到的消息，需要處理收到的數量
+			tempUserId = data.getSenderUserId();
+			this.decreaseCount(tempUserId, _receiveCountOfUser);
+		} else {
+			if (data.getSenderUserId() != null) {
+				tempUserId = data.getSenderUserId();
+			} else {
+				tempUserId = data.getReceiverUserId();
+			}
+		}
+		if (!this.checkUserExists(tempUserId)) {
+			saveUserInfos.remove(tempUserId);
 		}
 	}
 	
-	private void afterAddNew(ChatMessageSaveData data) {
-		String userId;
-		if (data.getSendInfo() != null) {
-			if (!(userId = data.getSendInfo().getUserId()).equals(this.userId)) {
-				this.increaseCount(userId, _receiveCountOfUser);
+	private void afterAddNew(ChatMessageSaveData data, List<ChatMessageSaveData> targetList) {
+		if (targetList == privateChat || targetList == privateChatSent) {
+			String userId;
+			if (data.getSendInfo() != null) {
+				if (!(userId = data.getSendInfo().getUserId()).equals(this.userId)) {
+					this.increaseCount(userId, _receiveCountOfUser);
+				}
 			}
-			return;
 		}
 	}
 	
@@ -385,12 +427,12 @@ public class UserPrivateChat {
 		int size = target.size();
 		if (size >= sizeControl) {
 			ChatMessageSaveData removed = target.remove(0);
-			this.afterRemoveOld(removed);
+			this.afterRemoveOld(removed, target);
 		}
 
 		target.add(privateChatMsgData);
 		
-		this.afterAddNew(privateChatMsgData);
+		this.afterAddNew(privateChatMsgData, target);
 	}
 	
 	@JsonIgnore
@@ -454,7 +496,18 @@ public class UserPrivateChat {
 
 		secretChat.add(treasureChatMsgData);
 	}
-
+	
+	public void addInteractiveChatMessage(ChatInteractiveType type, ChatMessageSaveData pInteractiveData) {
+		synchronized (interactiveDatas) {
+			List<ChatMessageSaveData> list = interactiveDatas.get(type);
+			if (list == null) {
+				list = new ArrayList<ChatMessageSaveData>();
+				interactiveDatas.put(type, list);
+			}
+			this.addToList(pInteractiveData, list, ChatHandler.MAX_CACHE_INTERACTIVE_SIZE);
+		}
+	}
+	
 	/**
 	 * 私聊转换成对应的消息
 	 * 
@@ -500,6 +553,10 @@ public class UserPrivateChat {
 			Collections.sort(mergeList);
 		}
 		return mergeList;
+	}
+	
+	public Map<ChatInteractiveType, List<ChatMessageSaveData>> getInteractiveChatMsg() {
+		return Collections.unmodifiableMap(interactiveDatas);
 	}
 
 //	/**
@@ -626,5 +683,47 @@ public class UserPrivateChat {
 			return t.getReceiveMessageUserInfo().getUserId();
 		}
 		
+	}
+	
+	private static class CheckReceiveCountFunc implements IBIFunction<UserPrivateChat, String, Boolean> {
+
+		@Override
+		public Boolean apply(UserPrivateChat t, String targetUserId) {
+			// 是否包含該user
+			return t._receiveCountOfUser.containsKey(targetUserId);
+		}
+	}
+	
+	private static class CheckPrivateChatSentFunc implements IBIFunction<UserPrivateChat, String, Boolean> {
+
+		@Override
+		public Boolean apply(UserPrivateChat t, String targetUserId) {
+			List<ChatMessageSaveData> list = t.privateChatSent;
+			for (ChatMessageSaveData cmsd : list) {
+				if (cmsd.getReceiverUserId().equals(targetUserId)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	private static class CheckInteractiveDataFunc implements IBIFunction<UserPrivateChat, String, Boolean> {
+
+		@Override
+		public Boolean apply(UserPrivateChat t, String targetUserId) {
+			if (t.interactiveDatas.isEmpty()) {
+				return false;
+			}
+			for (List<ChatMessageSaveData> list : t.interactiveDatas.values()) {
+				for (ChatMessageSaveData cmsd : list) {
+					if (cmsd.getReceiverUserId().equals(targetUserId)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
 	}
 }

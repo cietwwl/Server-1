@@ -2,6 +2,7 @@ package com.bm.chat;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class ChatBM {
 	private static ConcurrentHashMap<String, List<ChatMessageData.Builder>> familyChatMap = new ConcurrentHashMap<String, List<ChatMessageData.Builder>>();
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
-	private static List<MsgChatResponse> interactiveMessageList = new ArrayList<MsgChatResponse>();
+	private static List<ChatInteractiveSendData> interactiveMessageList = new ArrayList<ChatInteractiveSendData>();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
 	private AtomicInteger checkMessageId = new AtomicInteger();// 上次检查的版本号
 	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat_broadcast"));// 线程池
@@ -129,42 +130,35 @@ public class ChatBM {
 			if (interactiveMessageList.isEmpty()) {
 				return;
 			}
-			Set<String> playerIdList = UserChannelMgr.getOnlinePlayerIdSet();
-			if(playerIdList == null || playerIdList.isEmpty()) {
-				return;
-			}
-			List<MsgChatResponse> list;
+			List<ChatInteractiveSendData> list;
 			synchronized (interactiveMessageList) {
-				list = new ArrayList<MsgChatResponse>(interactiveMessageList);
+				list = new ArrayList<ChatInteractiveSendData>(interactiveMessageList);
 				interactiveMessageList.clear();
 			}
 			int size = list.size();
 			Player player;
 			MessageUserInfo sender;
 			String senderUserId;
-			for (Iterator<String> itr = playerIdList.iterator(); itr.hasNext();) {
-				String playerId = itr.next();
-				player = PlayerMgr.getInstance().find(playerId);
-				if (player == null) {
+			for (int i = 0; i < size; i++) {
+				ChatInteractiveSendData chat = list.get(i);
+				MsgChatResponse msg = chat.getMsg();
+				if (msg.getListMessageCount() == 0) {
+					// warning？
 					continue;
 				}
-				for (int i = 0; i < size; i++) {
-					MsgChatResponse chat = list.get(i);
-					if (chat.getListMessageCount() == 0) {
-						// warning？
-						continue;
-					}
-					if ((sender = chat.getListMessage(0).getSendMessageUserInfo()) == null) {
-						// warning？
-						continue;
-					}
-					if ((senderUserId = sender.getUserId()).equals(playerId)) {
-						continue;
-					}
-
+				if ((sender = msg.getListMessage(0).getSendMessageUserInfo()) == null) {
+					// warning？
+					continue;
+				}
+				senderUserId = sender.getUserId();
+				for (String targetPlayerId : chat.getTargetUserIds()) {
+					player = PlayerMgr.getInstance().find(targetPlayerId);
 					if (!FriendUtils.isBlack(player, senderUserId)) {
 						// 不在黑名單
-						player.SendMsg(MsgDef.Command.MSG_CHAT, chat.toByteString());
+						if (PlayerMgr.getInstance().isOnline(targetPlayerId)) {
+							player.SendMsg(MsgDef.Command.MSG_CHAT, msg.toByteString());
+						}
+						ChatBM.this.addInteractiveChat(targetPlayerId, chat.getType(), msg.getListMessage(0));
 					}
 				}
 			}
@@ -327,6 +321,13 @@ public class ChatBM {
 
 		dao.update(userId);
 	}
+	
+	public void addInteractiveChat(String userId, ChatInteractiveType type, ChatMessageData msgData) {
+		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
+		UserPrivateChat privateChat = dao.get(userId);
+		privateChat.addInteractiveChatMessage(type, parseMsgData2SaveData(userId, msgData));
+		dao.update(userId);
+	}
 
 	/**
 	 * 增加秘境信息
@@ -434,6 +435,25 @@ public class ChatBM {
 		}
 
 		return msgList;
+	}
+	
+	public Map<ChatInteractiveType, List<ChatMessageData>> getInteractiveChatList(String userId) {
+		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
+		Map<ChatInteractiveType, List<ChatMessageSaveData>> map = dao.getInteractiveChatMsg();
+		if (map.isEmpty()) {
+			return Collections.emptyMap();
+		} else {
+			Map<ChatInteractiveType, List<ChatMessageData>> returnMap = new HashMap<ChatInteractiveType, List<ChatMessageData>>(map.size() + 1, 1.0f);
+			for (Iterator<Map.Entry<ChatInteractiveType, List<ChatMessageSaveData>>> itr = map.entrySet().iterator(); itr.hasNext();) {
+				Map.Entry<ChatInteractiveType, List<ChatMessageSaveData>> entry = itr.next();
+				List<ChatMessageData> list = new ArrayList<ChatMessageData>(entry.getValue().size());
+				for (ChatMessageSaveData cmsd : entry.getValue()) {
+					list.add(parseSaveData2MsgData(cmsd));
+				}
+				returnMap.put(entry.getKey(), list);
+			}
+			return returnMap;
+		}
 	}
 
 	/**
@@ -752,7 +772,7 @@ public class ChatBM {
 	 * @param id 互動內容的id信息（可以是一個具體的唯一id，也可以是一個模板id）
 	 * @param extraInfo 與客戶端自定義的附加內容參數
 	 */
-	public ByteString sendInteractiveMsg(Player player, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
+	public ByteString sendInteractiveMsg(Player player, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds) {
 		displayMsg = displayMsg.concat(_ATTACHMENT_IDENTIFIER); // 客戶端以#為附件表標識符，所以需要在消息的最後添加#
 		MessageUserInfo.Builder userInfoBuilder = ChatHandler.getInstance().createMessageUserInfoBuilder(player, true);
 		ChatMessageData.Builder messageBuilder = ChatMessageData.newBuilder();
@@ -768,8 +788,10 @@ public class ChatBM {
 		
 		MsgChatResponse resp = respBuilder.build();
 		
+		targetUserIds.remove(player.getUserId());
+		
 		synchronized (interactiveMessageList) {
-			interactiveMessageList.add(resp);
+			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds));
 		}
 		
 		return resp.toByteString();

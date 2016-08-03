@@ -15,19 +15,19 @@ public enum ChatInteractiveType {
 	/**
 	 * 互動類型：幫派秘境
 	 */
-	INTERACTIVE_TREASURE(eChatType.CHAT_TREASURE,  eAttachItemType.Treasure),
+	TREASURE(eChatType.CHAT_TREASURE,  eAttachItemType.Treasure),
 	/**
 	 * 互動類型：好友
 	 */
-	INTERACTIVE_FRIEND(eChatType.CHAT_FRIEND,  eAttachItemType.Friend),
+	FRIEND(eChatType.CHAT_FRIEND,  eAttachItemType.Friend),
 	/**
 	 * 互動類型：隊伍
 	 */
-	INTERACTIVE_TEAM(eChatType.CHAT_TEAM,  eAttachItemType.Team),
+	TEAM(eChatType.CHAT_TEAM,  eAttachItemType.Team),
 	/**
 	 * 互動類型：隨機BOSS
 	 */
-	INTERACTIVE_RANDOM_BOSS(eChatType.CHAT_RANDOM_BOSS,  eAttachItemType.RandomBoss),
+	RANDOM_BOSS(eChatType.CHAT_RANDOM_BOSS,  eAttachItemType.RandomBoss),
 	;
 	public final eChatType chatType;
 	public final eAttachItemType attachItemType;

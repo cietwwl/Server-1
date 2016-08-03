@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.util.StringUtils;
 
 import com.bm.chat.ChatBM;
+import com.bm.chat.ChatInteractiveType;
 //import com.bm.chat.ChatInfo;
 import com.bm.group.GroupBM;
 import com.google.protobuf.ByteString;
@@ -45,6 +46,7 @@ public class ChatHandler {
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
 	private static final long CHAT_DELAY_TIME_MILLIS_PRIVATE = TimeUnit.SECONDS.toMillis(10);// 私聊发言间隔10秒
 	public static final int MAX_CACHE_MSG_SIZE = 20;// 各个聊天频道缓存的最大聊天记录数
+	public static final int MAX_CACHE_INTERACTIVE_SIZE = 10; // 互動最大保存記錄數
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
 	public static final int MAX_CACHE_MSG_SIZE_PER_ONE = 10; // 私聊频道最每个人最高的保存数量
 	private static ChatHandler instance;
@@ -603,6 +605,8 @@ public class ChatHandler {
 		sendPrivateMsg(player);
 		// 发送密境
 		sendTreasureMsg(player);
+		// 發送互動信息
+		sendInteractiveChat(player);
 	}
 
 	private void sendWorldMsg(Player player) {
@@ -721,6 +725,19 @@ public class ChatHandler {
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+	}
+	
+	private void sendInteractiveChat(Player player) {
+		Map<ChatInteractiveType, List<ChatMessageData>> map = ChatBM.getInstance().getInteractiveChatList(player.getUserId());
+		for (Iterator<Map.Entry<ChatInteractiveType, List<ChatMessageData>>> itr = map.entrySet().iterator(); itr.hasNext();) {
+			Map.Entry<ChatInteractiveType, List<ChatMessageData>> entry = itr.next();
+			MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+			msgChatResponse.setOnLogin(true);
+			msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+			msgChatResponse.setChatType(entry.getKey().chatType);
+			msgChatResponse.addAllListMessage(entry.getValue());
+			player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+		}
 	}
 
 	private String filterDirtyWord(String content) {

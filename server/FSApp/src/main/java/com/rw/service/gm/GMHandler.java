@@ -2,6 +2,7 @@ package com.rw.service.gm;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
@@ -180,6 +182,7 @@ public class GMHandler {
 		
 		// 聊天消息测试
 		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
+		funcCallBackMap.put("addinteractivedata", "addInteractiveData");
 
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
@@ -1214,6 +1217,23 @@ public class GMHandler {
 			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
 			requestBuilder.setBody(bodyBuilder.build());
 			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean addInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		try {
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, "幫派秘境", "1", "1;2;3;4", Arrays.asList(targetUserId));
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.FRIEND, "添加好友", "2", "A;B;C;D", Arrays.asList(targetUserId));
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "E;F;G;H", Arrays.asList(targetUserId));
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, "幫派秘境", "4", "01;02;03;04", Arrays.asList(targetUserId));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
