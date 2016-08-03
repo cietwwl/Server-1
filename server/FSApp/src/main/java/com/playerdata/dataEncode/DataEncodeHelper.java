@@ -19,11 +19,16 @@ public class DataEncodeHelper {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 
+		int count = 1;
 		for (String keytmp : keyList) {
 			String value = map.get(keytmp);
 			if(StringUtils.isNotBlank(value)){
-				sb.append(keytmp).append("-").append(value).append("|");				
+				sb.append(keytmp).append("-").append(value);	
+				if(count!=keyList.size()){
+					sb.append("|");
+				}
 			}
+			count++;
 		}	
 		
 		sb.append("}");
@@ -38,10 +43,15 @@ public class DataEncodeHelper {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
 
-		for (String valueTmp : list) {			
+		int count = 1;
+		for (String valueTmp : list) {		
 			if(StringUtils.isNotBlank(valueTmp)){
-				sb.append(valueTmp).append("-").append(valueTmp).append("|");				
+				sb.append(valueTmp);		
+				if(count!=list.size()){
+					sb.append("-");
+				}
 			}
+			count++;
 		}	
 		
 		sb.append("]");

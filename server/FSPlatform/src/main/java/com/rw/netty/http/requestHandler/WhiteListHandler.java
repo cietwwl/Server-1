@@ -5,6 +5,7 @@ import java.util.List;
 import com.rw.service.http.platformResponse.WhiteListBaseDataResponse;
 import com.rw.service.http.request.ResponseObject;
 import com.rwbase.dao.whiteList.TableWhiteList;
+import com.rwbase.dao.whiteList.TableWhiteListDAO;
 import com.rwbase.dao.whiteList.TableWhiteListHolder;
 
 public class WhiteListHandler {
@@ -19,18 +20,19 @@ public class WhiteListHandler {
 			if(accountId == null){
 				continue;
 			}
-			TableWhiteListHolder holder = new TableWhiteListHolder(accountId);
-			TableWhiteList tableWhiteList = holder.getTableWhiteList();
+			
+			TableWhiteList item = TableWhiteListDAO.getInstance().getWhiteListItem(accountId);
 
 			if (process.equals(PROCESS_CLOSE)) {
-				tableWhiteList.setClose(response.isBlnClose());
-				holder.saveItem(tableWhiteList);
+				item.setClose(response.isBlnClose());
+				TableWhiteListDAO.getInstance().updateWhiteList(item);
 			} else if (response.getProcess().equals(PROCESS_ADD)) {
-				tableWhiteList.setAccountId(accountId);
-				tableWhiteList.setClose(response.isBlnClose());
-				holder.saveItem(tableWhiteList);
+				item.setAccountId(accountId);
+				item.setClose(response.isBlnClose());
+				TableWhiteListDAO.getInstance().addWhiteList(item);
+				TableWhiteListDAO.getInstance().addWhiteList(item);
 			} else if (process.equals(PROCESS_DEL)) {
-				holder.removeItem(accountId);
+				TableWhiteListDAO.getInstance().removeWhiteList(accountId);
 			}
 		}
 		
