@@ -772,6 +772,11 @@ public class BattleTowerHandler {
 		commonRsp.setConfig(config);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		commonRsp.setRspBody(rsp.build().toByteString());
+		int dis = highestFloor - sweepStartFloor;
+		//封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+		if(dis > 0){
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, dis);
+		}
 	}
 
 	/**
