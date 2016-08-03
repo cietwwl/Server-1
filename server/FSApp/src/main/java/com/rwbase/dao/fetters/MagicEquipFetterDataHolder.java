@@ -143,7 +143,7 @@ public class MagicEquipFetterDataHolder {
 					}
 				}
 			}
-			if(!exist && !cfg.recordOldData()){
+			if(!exist && !cfg.recordOldData() && Integer.parseInt(cfg.getHeroModelID()) == modelId){
 				//新同步进来的羁绊列表里没有目标旧记录，则检查一下这个记录是否要保留，因为有可能会因为降星把所有的羁绊都去掉了
 				clearOld.add(id);
 			}
