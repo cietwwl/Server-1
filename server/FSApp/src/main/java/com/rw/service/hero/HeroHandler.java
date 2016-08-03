@@ -16,6 +16,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.item.useeffect.impl.UseItemDataComparator;
 import com.rw.service.item.useeffect.impl.UseItemTempData;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -114,6 +115,7 @@ public class HeroHandler {
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+			TBListenerPlayerChange.heroChangeHandler(player);
 			break;
 		case -1:
 			rsp.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
@@ -517,5 +519,6 @@ public class HeroHandler {
 	 */
 	private void heroLevelUpEnent(Player player){
 		GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+		TBListenerPlayerChange.heroChangeHandler(player);
 	}
 }

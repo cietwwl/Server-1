@@ -17,6 +17,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
@@ -76,6 +77,7 @@ public class EquipHandler {
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
 					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+					TBListenerPlayerChange.heroChangeHandler(player);
 				}
 			} else {
 				response.setError(ErrorType.FAIL);
