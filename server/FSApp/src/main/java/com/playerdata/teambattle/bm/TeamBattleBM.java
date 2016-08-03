@@ -467,7 +467,6 @@ public class TeamBattleBM {
 				teamItem.changeLeaderAfterFinish(player.getUserId());
 				utbData.getFinishedHards().add(teamItem.getHardID());
 				if(cfg.getMail() != 0){
-					// EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
 					for(TeamMember mem : teamItem.getMembers()){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
@@ -489,7 +488,9 @@ public class TeamBattleBM {
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
-			TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
+			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
+				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
+			}
 			UserTeamBattleDataHolder.getInstance().synData(player);
 		}else if(teamMember.getState().equals(TBMemberState.Fight)){
 			teamMember.setState(TBMemberState.Ready);
