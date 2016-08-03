@@ -6,6 +6,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
@@ -166,7 +167,7 @@ public class GroupCopyAdminHandler {
 			GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
 			if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
 				commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
-			}else if(memberData.getAllotRewardCount() == 0){
+			}else if(memberData.getAllotRewardCount() <= 0){
 				commonRsp.setTipMsg("今天已没有手动分配次数");
 			}else{
 				//可以分配，进行获取数据
@@ -204,7 +205,7 @@ public class GroupCopyAdminHandler {
 			GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
 			if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
 				commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
-			}else if(memberData.getAllotRewardCount() == 0){
+			}else if(memberData.getAllotRewardCount() <= 0){
 				commonRsp.setTipMsg("今天已没有手动分配次数");
 			}else{
 				//可以分配，进行获取数据
@@ -250,7 +251,7 @@ public class GroupCopyAdminHandler {
 			commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
 			return commonRsp.build().toByteString();
 		}
-		if(memberData.getAllotRewardCount() == 0){
+		if(memberData.getAllotRewardCount() <= 0){
 			commonRsp.setTipMsg("今天已没有手动分配次数");
 			return commonRsp.build().toByteString();
 		}
@@ -275,6 +276,9 @@ public class GroupCopyAdminHandler {
 		
 		GroupCopyResult result = group.getGroupCopyMgr().distReward2Role(group, role, mapID, itemID, player.getUserName());
 		if(result.isSuccess()){
+			//扣掉角色分配次数
+			int count = memberData.getAllotRewardCount() - 1;
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
 			commonRsp.setIsSuccess(true);
 			commonRsp.setTipMsg("分配成功");
 		}

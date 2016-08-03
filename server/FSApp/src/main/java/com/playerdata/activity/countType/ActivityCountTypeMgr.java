@@ -148,13 +148,14 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
 			if (isClose(activityCountTypeItem)) {
-				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
-				sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
-				activityCountTypeItem.setClosed(true);
-				dataHolder.updateItem(player, activityCountTypeItem);
+				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();				
+				if(!activityCountTypeItem.isClosed()){
+					sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
+					activityCountTypeItem.setClosed(true);
+					dataHolder.updateItem(player, activityCountTypeItem);
+				}
 			}
 		}
-
 	}
 
 	private void sendEmailIfGiftNotTaken(Player player,ActivityCountTypeItem activityCountTypeItem,List<ActivityCountTypeSubItem> list) {

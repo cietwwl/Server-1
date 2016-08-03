@@ -73,7 +73,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityDailyTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
-			if (isClose(activityDailyCountTypeItem)) {
+			if (isClose(activityDailyCountTypeItem)&&!activityDailyCountTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
 				activityDailyCountTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityDailyCountTypeItem);
