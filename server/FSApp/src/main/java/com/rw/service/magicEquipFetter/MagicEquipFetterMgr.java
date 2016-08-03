@@ -112,9 +112,9 @@ public class MagicEquipFetterMgr {
 				}
 			}
 		}
-		if(temp.isEmpty()){
-			return;
-		}
+//		if(temp.isEmpty()){ 去掉这个，因为有可能会降星到0
+//			return;
+//		}
 		
 		//去掉所有类型相同的配置，只保留最高级的
 		Set<MagicEquipConditionCfg> tempSet = new HashSet<MagicEquipConditionCfg>();
