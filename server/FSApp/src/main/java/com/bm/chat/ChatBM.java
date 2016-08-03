@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.util.StringUtils;
 
+import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
@@ -42,80 +43,138 @@ public class ChatBM {
 	// private static List<ChatMessageData.Builder> listWorld = Collections.synchronizedList(new
 	// ArrayList<ChatMessageData.Builder>(ChatHandler.MAX_CACHE_MSG_SIZE));// 多线程保护
 	private static final int _CHAT_WORLD_TASK_ITR = 500; // 世界聊天发送进程的时间间隔（单位：毫秒）
+	private static final String _ATTACHMENT_IDENTIFIER = "#"; // 客戶端附件標識符
 	private static ConcurrentHashMap<String, List<ChatMessageData.Builder>> familyChatMap = new ConcurrentHashMap<String, List<ChatMessageData.Builder>>();
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
+	private static List<MsgChatResponse> interactiveMessageList = new ArrayList<MsgChatResponse>();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
 	private AtomicInteger checkMessageId = new AtomicInteger();// 上次检查的版本号
 	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat_broadcast"));// 线程池
 
 	private class ChatRun implements Runnable {
 
+		private void sendCacheWorldChat() {
+			// System.err.println("检查的版本Id：" + checkMessageId.get() + ",消息版本：" + messageId.get());
+			if (checkMessageId.get() >= messageId.get()) {// 上次服务器发送版本大于当前
+				return;
+			}
+
+			checkMessageId.set(messageId.get());// 检查的版本更新
+
+			Set<String> playerIdList = UserChannelMgr.getOnlinePlayerIdSet();
+			if (playerIdList == null || playerIdList.isEmpty()) {
+				return;
+			}
+
+			if (worldMessageList.isEmpty()) {
+				return;
+			}
+
+//			List<ChatInfo> list = ChatBM.getInstance().getWorldList();
+			List<ChatInfo> list;
+			synchronized(worldMessageList) {
+				list = new ArrayList<ChatInfo>(worldMessageList);
+				worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
+			}
+			int size = list.size();
+
+			Iterator<String> itr = playerIdList.iterator();
+			while (itr.hasNext()) {
+				String playerId = itr.next();
+				Player player = PlayerMgr.getInstance().find(playerId);
+				if (player == null) {
+					continue;
+				}
+
+				int lastWorldChatId = player.getLastWorldChatId();
+				if (lastWorldChatId >= messageId.get()) {
+					continue;
+				}
+
+				MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+				msgChatResponse.setChatType(eChatType.CHAT_WORLD);
+
+				// msgChatResponse.setOnLogin(false);
+				for (int i = 0; i < size; i++) {
+					ChatInfo chatInfo = list.get(i);
+//					ChatMessageData chatMsg = chatInfo.getMessage().build();
+					ChatMessageData chatMsg = chatInfo.getMessage();
+					String userId = chatMsg.getSendMessageUserInfo().getUserId();
+					if (userId == null || userId.isEmpty()) {
+						continue;
+					}
+
+					if (userId.equals(playerId)) {
+						continue;
+					}
+
+					if (player.getLastWorldChatId() >= chatInfo.getId()) {
+						continue;
+					}
+
+					if (!FriendUtils.isBlack(player, userId)) {// 不在黑名单
+						msgChatResponse.addListMessage(chatMsg);
+					}
+				}
+
+				msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+				player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+				player.setLastWorldChatId(messageId.get());// 缓存版本号
+			}
+		}
+		
+		private void sendCacheInteractiveChat() {
+			// 發送互動的消息
+			if (interactiveMessageList.isEmpty()) {
+				return;
+			}
+			Set<String> playerIdList = UserChannelMgr.getOnlinePlayerIdSet();
+			if(playerIdList == null || playerIdList.isEmpty()) {
+				return;
+			}
+			List<MsgChatResponse> list;
+			synchronized (interactiveMessageList) {
+				list = new ArrayList<MsgChatResponse>(interactiveMessageList);
+				interactiveMessageList.clear();
+			}
+			int size = list.size();
+			Player player;
+			MessageUserInfo sender;
+			String senderUserId;
+			for (Iterator<String> itr = playerIdList.iterator(); itr.hasNext();) {
+				String playerId = itr.next();
+				player = PlayerMgr.getInstance().find(playerId);
+				if (player == null) {
+					continue;
+				}
+				for (int i = 0; i < size; i++) {
+					MsgChatResponse chat = list.get(i);
+					if (chat.getListMessageCount() == 0) {
+						// warning？
+						continue;
+					}
+					if ((sender = chat.getListMessage(0).getSendMessageUserInfo()) == null) {
+						// warning？
+						continue;
+					}
+					if ((senderUserId = sender.getUserId()).equals(playerId)) {
+						continue;
+					}
+
+					if (!FriendUtils.isBlack(player, senderUserId)) {
+						// 不在黑名單
+						player.SendMsg(MsgDef.Command.MSG_CHAT, chat.toByteString());
+					}
+				}
+			}
+		}
+		
 		@Override
 		public void run() {
 			try {
-				// System.err.println("检查的版本Id：" + checkMessageId.get() + ",消息版本：" + messageId.get());
-				if (checkMessageId.get() >= messageId.get()) {// 上次服务器发送版本大于当前
-					return;
-				}
-
-				checkMessageId.set(messageId.get());// 检查的版本更新
-
-				Set<String> playerIdList = UserChannelMgr.getOnlinePlayerIdSet();
-				if (playerIdList == null || playerIdList.isEmpty()) {
-					return;
-				}
-
-				if (worldMessageList.isEmpty()) {
-					return;
-				}
-
-				List<ChatInfo> list = ChatBM.getInstance().getWorldList();
-				int size = list.size();
-
-				Iterator<String> itr = playerIdList.iterator();
-				while (itr.hasNext()) {
-					String playerId = itr.next();
-					Player player = PlayerMgr.getInstance().find(playerId);
-					if (player == null) {
-						continue;
-					}
-
-					int lastWorldChatId = player.getLastWorldChatId();
-					if (lastWorldChatId >= messageId.get()) {
-						continue;
-					}
-
-					MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-					msgChatResponse.setChatType(eChatType.CHAT_WORLD);
-
-					// msgChatResponse.setOnLogin(false);
-					for (int i = 0; i < size; i++) {
-						ChatInfo chatInfo = list.get(i);
-//						ChatMessageData chatMsg = chatInfo.getMessage().build();
-						ChatMessageData chatMsg = chatInfo.getMessage();
-						String userId = chatMsg.getSendMessageUserInfo().getUserId();
-						if (userId == null || userId.isEmpty()) {
-							continue;
-						}
-
-						if (userId.equals(playerId)) {
-							continue;
-						}
-
-						if (player.getLastWorldChatId() >= chatInfo.getId()) {
-							continue;
-						}
-
-						if (!FriendUtils.isBlack(player, userId)) {// 不在黑名单
-							msgChatResponse.addListMessage(chatMsg);
-						}
-					}
-
-					msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-					player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
-					player.setLastWorldChatId(messageId.get());// 缓存版本号
-				}
+				this.sendCacheWorldChat();
+				this.sendCacheInteractiveChat();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -135,20 +194,25 @@ public class ChatBM {
 	 * 
 	 * @param data
 	 */
-	public synchronized int updateWroldList(ChatMessageData.Builder data) {
-		int andIncrement = messageId.incrementAndGet();// 增加一个消息Id版本
-		if (worldMessageList.size() > ChatHandler.MAX_CACHE_MSG_SIZE) {
-			worldMessageList.remove(0);
+//	public synchronized int updateWroldList(ChatMessageData.Builder data) {
+	public int updateWroldList(ChatMessageData.Builder data) {
+		// 2016-08-03 by PerryChen，改為同步塊
+		synchronized (worldMessageList) {
+			int andIncrement = messageId.incrementAndGet();// 增加一个消息Id版本
+			if (worldMessageList.size() > ChatHandler.MAX_CACHE_MSG_SIZE) {
+				worldMessageList.remove(0);
+			}
+			worldMessageList.add(new ChatInfo(andIncrement, data));
+
+			// System.err.println("增加一个迭代版本：" + messageId.get());
+			return andIncrement;
 		}
-		worldMessageList.add(new ChatInfo(andIncrement, data));
-
-		// System.err.println("增加一个迭代版本：" + messageId.get());
-		return andIncrement;
 	}
 
-	public synchronized List<ChatInfo> getWorldList() {
-		return new ArrayList<ChatInfo>(worldMessageList);
-	}
+	// 2016-08-03 by PerryChen 注釋掉這個方法，改為到chatRun裡面去獲取
+//	public synchronized List<ChatInfo> getWorldList() {
+//		return new ArrayList<ChatInfo>(worldMessageList);
+//	}
 
 	/**
 	 * 获取当前的消息版本
@@ -639,9 +703,76 @@ public class ChatBM {
 		chat.setCurrentTargetUserIdOfPrivateChat(targetUserId);
 	}
 	
+	/**
+	 * 
+	 * 獲取當前私聊目標
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	public String getCurrentTargetIdOfPirvateChat(String userId) {
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat chat = dao.get(userId);
 		return chat.getCurrentTargetUserIdOfPrivateChat();
+	}
+	
+	/**
+	 * 
+	 * 更新最後一次發送私聊時間
+	 * 
+	 * @param userId
+	 * @param timeMillis
+	 */
+	public void updateLastSentPrivateChatTime(String userId, long timeMillis) {
+		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
+		UserPrivateChat chat = dao.get(userId);
+		chat.setLastSentPrivateChatTime(timeMillis);
+	}
+	
+	/**
+	 * 
+	 * 獲取最後一次發送私聊的時間
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public long getLastSentPrivateChatTime(String userId) {
+		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
+		UserPrivateChat chat = dao.get(userId);
+		return chat.getLastSentPrivateChatTime();
+	}
+	
+	/**
+	 * 
+	 * 向全世界發送一條互動信息
+	 * 
+	 * @param player 發送者
+	 * @param interactiveType 互動的類型
+	 * @param displayMsg 顯示的消息
+	 * @param id 互動內容的id信息（可以是一個具體的唯一id，也可以是一個模板id）
+	 * @param extraInfo 與客戶端自定義的附加內容參數
+	 */
+	public ByteString sendInteractiveMsg(Player player, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
+		displayMsg = displayMsg.concat(_ATTACHMENT_IDENTIFIER); // 客戶端以#為附件表標識符，所以需要在消息的最後添加#
+		MessageUserInfo.Builder userInfoBuilder = ChatHandler.getInstance().createMessageUserInfoBuilder(player, true);
+		ChatMessageData.Builder messageBuilder = ChatMessageData.newBuilder();
+		messageBuilder.setMessage(displayMsg);
+		messageBuilder.addAttachItem(ChatHandler.getInstance().createChatAttachItemProto(interactiveType.attachItemType.getNumber(), id, extraInfo));
+		messageBuilder.setSendMessageUserInfo(userInfoBuilder.build());
+		messageBuilder.setTime(System.currentTimeMillis());
+		
+		MsgChatResponse.Builder respBuilder = MsgChatResponse.newBuilder();
+		respBuilder.setChatResultType(eChatResultType.SUCCESS);
+		respBuilder.setChatType(interactiveType.chatType);
+		respBuilder.addListMessage(messageBuilder);
+		
+		MsgChatResponse resp = respBuilder.build();
+		
+		synchronized (interactiveMessageList) {
+			interactiveMessageList.add(resp);
+		}
+		
+		return resp.toByteString();
+		
 	}
 }

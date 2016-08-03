@@ -1,16 +1,18 @@
 package com.rwbase.dao.chat.pojo;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -38,6 +40,7 @@ public class ChatUserInfo {
 
 	private static final Map<String, Field> _fieldsOfNewKeys;
 	private static final Map<String, Field> _fieldsOfOldKeys;
+	private static final List<Field> _allFields;
 	
 	static {
 
@@ -56,6 +59,7 @@ public class ChatUserInfo {
 		}
 		_fieldsOfNewKeys = Collections.unmodifiableMap(fieldsOfNewKeys);
 		_fieldsOfOldKeys = Collections.unmodifiableMap(fieldsOfOldKeys);
+		_allFields = Collections.unmodifiableList(new ArrayList<Field>(_fieldsOfNewKeys.values()));
 	}
 
 	@JsonProperty(_KEY_USER_ID)
@@ -204,6 +208,28 @@ public class ChatUserInfo {
 	
 	public int getFashionTemplateId() {
 		return fashionTemplateId;
+	}
+	
+	public ChatUserInfo createAndCopy() {
+		ChatUserInfo newInstance = new ChatUserInfo();
+		try {
+			for (Field f : _allFields) {
+				f.set(newInstance, f.get(this));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newInstance;
+	}
+	
+	public void update(ChatUserInfo another) {
+		try {
+			for (Field f : _allFields) {
+				f.set(this, f.get(another));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

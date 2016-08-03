@@ -2,8 +2,6 @@ package com.rwbase.dao.chat.pojo;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,17 +12,15 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-
-import com.rw.fsutil.util.jackson.JsonUtil;
 
 /**
  * @author HC
@@ -48,6 +44,7 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 	
 	private static final Map<String, Field> _oldKeyMapping = new HashMap<String, Field>(); // 舊數據每個field對應的名字
 	private static final Map<String, Field> _newKeyMapping = new HashMap<String, Field>(); // 新數據每個field對應的名字
+	private static final Map<String, Field> _userInfoFieldMapping = new HashMap<String, Field>(); // 舊數據中兩個userInfo的field
 	
 	static {
 		Field[] allFields = ChatMessageSaveData.class.getDeclaredFields();
@@ -60,69 +57,57 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 				_newKeyMapping.put(jp.value(), f); // 新數據是用自定義key的
 			}
 		}
+		try {
+			Field fSendInfo = ChatMessageSaveData.class.getDeclaredField("sendInfo");
+			Field fReceiveInfo = ChatMessageSaveData.class.getDeclaredField("receiveInfo");
+			fSendInfo.setAccessible(true);
+			fReceiveInfo.setAccessible(true);
+			_userInfoFieldMapping.put(_KEY_SENDER_INFO, fSendInfo);
+			_userInfoFieldMapping.put(_KEY_RECEIVER_INFO, fReceiveInfo);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 	
 	public static class ChatMessageSaveDataDeserializer extends JsonDeserializer<ChatMessageSaveData> {
-
-		private Class<?> getParameterTypeOfGenericField(Field f, boolean isMap) {
-			// 解析字段的泛型參數
-			Type type = f.getGenericType();
-			Class<?> targetClass;
-			if (type instanceof ParameterizedType) {
-				ParameterizedType actualType = (ParameterizedType) type;
-				targetClass = (Class<?>)actualType.getActualTypeArguments()[isMap ? 1 : 0]; // 如果是map，默認解析value參數出來
-			} else {
-				targetClass = Object.class;
-			}
-			return targetClass;
-		}
 		
 		@Override
 		public ChatMessageSaveData deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 			JsonNode node = jp.getCodec().readTree(jp);
 			ChatMessageSaveData cmsd = new ChatMessageSaveData();
 			Map<String, Field> fieldMap = new HashMap<String, Field>();
-			if (node.has("sendInfo")) {
-				// 舊數據兼容
-				fieldMap = _oldKeyMapping;
-			} else {
+			if (node.has(_KEY_SENDER_INFO) || node.has(_KEY_RECEIVER_INFO)) {
 				// 新的數據保存方式
 				fieldMap = _newKeyMapping;
+			} else {
+				// 舊數據兼容
+				fieldMap = _oldKeyMapping;
 			}
 			for (Iterator<Map.Entry<String, Field>> itr = fieldMap.entrySet().iterator(); itr.hasNext();) {
 				Map.Entry<String, Field> entry = itr.next();
-				Class<?> clazz = entry.getValue().getType();
-				Object value;
 				JsonNode currentNode = node.get(entry.getKey());
 				if (currentNode == null) {
 					continue;
 				}
-				if (clazz.isAssignableFrom(int.class)) {
-					value = currentNode.asInt();
-				} else if (clazz.isAssignableFrom(short.class)) {
-					value = (short)currentNode.asInt();
-				} else if (clazz.isAssignableFrom(byte.class)) {
-					value = (byte)currentNode.asInt();
-				} else if (clazz.isAssignableFrom(long.class)) {
-					value = currentNode.asLong();
-				} else if (clazz.isAssignableFrom(char.class)) {
-					value = (char)currentNode.asInt();
-				} else if (clazz.isAssignableFrom(boolean.class)) {
-					value = currentNode.asBoolean();
-				} else if (clazz.isAssignableFrom(String.class)) {
-					value = currentNode.asText();
-				} else if (clazz.isAssignableFrom(List.class)) {
-					value = JsonUtil.readList(currentNode.toString(), getParameterTypeOfGenericField(entry.getValue(), false));
-				} else if (clazz.isAssignableFrom(Map.class)) {
-					value = JsonUtil.readToMap(currentNode.toString(), getParameterTypeOfGenericField(entry.getValue(), true));
-				} else {
-					value = JsonUtil.readValue(currentNode.toString(), clazz);
+				String key = entry.getKey();
+				if (key.equals(_KEY_SENDER_INFO) || key.equals(_KEY_RECEIVER_INFO)) {
+					/* 2016-08-01 由於_KEY_SENDER_INFO和_KEY_RECEIVER_INFO原來是保存成為一個ChatUserInfo，新版本數據調整之後，
+					   改為只保存一個userId，所以這裡要做新舊數據的兼容。
+					 */
+					if (currentNode.isObject()) {
+						// 曾經這兩個key是直接保存ChatUserInfo
+						Field tempField = _userInfoFieldMapping.get(key);
+						CommonJsonFieldValueSetter.setValue(currentNode, tempField, cmsd);
+						try {
+							ChatUserInfo cui = (ChatUserInfo) tempField.get(cmsd);
+							entry.getValue().set(cmsd, cui.getUserId()); // 賦值相應的userId
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						continue;
+					}
 				}
-				try {
-					entry.getValue().set(cmsd, value);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				CommonJsonFieldValueSetter.setValue(currentNode, entry.getValue(), cmsd);
 			}
 			return cmsd;
 		}
@@ -131,10 +116,18 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 	
 	@JsonSerialize(include=Inclusion.NON_NULL)
 	@JsonProperty(_KEY_SENDER_INFO)
-	private ChatUserInfo sendInfo; // 发送者信息
+	private String _senderUserId; // sender的userId
 	
 	@JsonSerialize(include=Inclusion.NON_NULL)
 	@JsonProperty(_KEY_RECEIVER_INFO)
+	private String _receiverUserId; // receiver的userId
+	
+//	@JsonSerialize(include=Inclusion.NON_NULL)
+//	@JsonProperty(_KEY_SENDER_INFO)
+	private ChatUserInfo sendInfo; // 发送者信息
+	
+//	@JsonSerialize(include=Inclusion.NON_NULL)
+//	@JsonProperty(_KEY_RECEIVER_INFO)
 	private ChatUserInfo receiveInfo; // 接收者信息
 	
 	@JsonProperty(_KEY_MESSAGE)
@@ -167,13 +160,29 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 	private List<ChatAttachmentSaveData> _attachmentsRO;
 	
 	@JsonIgnore
+	public void setSenderUserId(String pUserId) {
+		this._senderUserId = pUserId;
+	}
+	
+	@JsonIgnore
+	public void sendReceiverUserId(String pUserId) {
+		this._receiverUserId = pUserId;
+	}
+	
+	@JsonIgnore
 	public void setSendInfo(ChatUserInfo sendInfo) {
 		this.sendInfo = sendInfo;
+		if(this._senderUserId == null) {
+			this._senderUserId = this.sendInfo.getUserId();
+		}
 	}
 
 	@JsonIgnore
 	public void setReceiveInfo(ChatUserInfo receiveInfo) {
 		this.receiveInfo = receiveInfo;
+		if(this._receiverUserId == null) {
+			this._receiverUserId = this.receiveInfo.getUserId();
+		}
 	}
 
 	@JsonIgnore
@@ -209,6 +218,16 @@ public class ChatMessageSaveData implements Comparable<ChatMessageSaveData> {
 	@JsonIgnore
 	public void setAttachment(List<ChatAttachmentSaveData> attachments) {
 		this._attachments = attachments;
+	}
+	
+	@JsonIgnore
+	public String getSenderUserId() {
+		return _senderUserId;
+	}
+	
+	@JsonIgnore
+	public String getReceiverUserId() {
+		return _receiverUserId;
 	}
 
 	@JsonIgnore

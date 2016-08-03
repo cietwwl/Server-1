@@ -28,8 +28,7 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.publicdata.PublicData;
-import com.rwbase.dao.publicdata.PublicDataCfgDAO;
+import com.rwproto.ChatServiceProtos.ChatAttachItem;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
@@ -44,6 +43,7 @@ import com.rwproto.MsgDef.Command;
 public class ChatHandler {
 
 	private static final long CHAT_DELAY_TIME_MILLIS = TimeUnit.SECONDS.toMillis(10);// 发言间隔10秒
+	private static final long CHAT_DELAY_TIME_MILLIS_PRIVATE = TimeUnit.SECONDS.toMillis(10);// 私聊发言间隔10秒
 	public static final int MAX_CACHE_MSG_SIZE = 20;// 各个聊天频道缓存的最大聊天记录数
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
 	public static final int MAX_CACHE_MSG_SIZE_PER_ONE = 10; // 私聊频道最每个人最高的保存数量
@@ -66,7 +66,7 @@ public class ChatHandler {
 	 * @param appendBasic 是否添加基本信息（等级，头像id，名字，头像品质框，职业类型，性别）
 	 * @return
 	 */
-	private MessageUserInfo.Builder createMessageUserInfoBuilder(PlayerIF player, boolean appendBasic) {
+	public MessageUserInfo.Builder createMessageUserInfoBuilder(PlayerIF player, boolean appendBasic) {
 		MessageUserInfo.Builder messageUserInfoBuilder = MessageUserInfo.newBuilder();
 		messageUserInfoBuilder.setUserId(player.getTableUserOther().getUserId());
 		if (appendBasic) {
@@ -89,6 +89,16 @@ public class ChatHandler {
 		messageUserInfoBuilder.setVipLv(player.getVip());
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
 		return messageUserInfoBuilder;
+	}
+	
+	public ChatAttachItem createChatAttachItemProto(int type, String id, String extraInfo) {
+		ChatAttachItem.Builder builder = ChatAttachItem.newBuilder();
+		builder.setType(type);
+		builder.setId(id);
+		if (!StringUtils.isEmpty(extraInfo)) {
+			builder.setExtraInfo(extraInfo);
+		}
+		return builder.build();
 	}
 
 	/**
@@ -315,6 +325,16 @@ public class ChatHandler {
 			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
 			return msgChatResponseBuilder.build().toByteString();
 		}
+		
+		// 2016-08-03 聊天間隔判斷 BEGIN >>>>>>
+		long lastSentTime = ChatBM.getInstance().getLastSentPrivateChatTime(sendUserId);
+		long currentTimemillis = System.currentTimeMillis();
+		if(currentTimemillis - lastSentTime < CHAT_DELAY_TIME_MILLIS_PRIVATE) {
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "发言太快");
+			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
+			return msgChatResponseBuilder.build().toByteString();
+		}
+		// END <<<<<<
 
 		PlayerIF toPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(receiveUserId);
 		if (toPlayer == null) {
@@ -390,6 +410,7 @@ public class ChatHandler {
 		// 存储两个数据
 		data.setIsRead(true);
 		updatePlayerChatMsg(sendUserId, data, eChatType.CHAT_PERSON);
+		ChatBM.getInstance().updateLastSentPrivateChatTime(sendUserId, currentTimemillis);
 
 		result = msgChatResponseBuilder.setListMessage(0, data.build()).build().toByteString();
 

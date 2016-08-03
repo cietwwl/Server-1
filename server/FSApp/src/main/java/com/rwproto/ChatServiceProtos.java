@@ -53,6 +53,30 @@ public final class ChatServiceProtos {
      * </pre>
      */
     CHAT_SYSTEM(4, 5),
+    /**
+     * <code>CHAT_FRIEND = 6;</code>
+     *
+     * <pre>
+     * 好友互動
+     * </pre>
+     */
+    CHAT_FRIEND(5, 6),
+    /**
+     * <code>CHAT_TEAM = 7;</code>
+     *
+     * <pre>
+     * 隊伍互動
+     * </pre>
+     */
+    CHAT_TEAM(6, 7),
+    /**
+     * <code>CHAT_RANDOM_BOSS = 8;</code>
+     *
+     * <pre>
+     * 隨機boss互動
+     * </pre>
+     */
+    CHAT_RANDOM_BOSS(7, 8),
     ;
 
     /**
@@ -95,6 +119,30 @@ public final class ChatServiceProtos {
      * </pre>
      */
     public static final int CHAT_SYSTEM_VALUE = 5;
+    /**
+     * <code>CHAT_FRIEND = 6;</code>
+     *
+     * <pre>
+     * 好友互動
+     * </pre>
+     */
+    public static final int CHAT_FRIEND_VALUE = 6;
+    /**
+     * <code>CHAT_TEAM = 7;</code>
+     *
+     * <pre>
+     * 隊伍互動
+     * </pre>
+     */
+    public static final int CHAT_TEAM_VALUE = 7;
+    /**
+     * <code>CHAT_RANDOM_BOSS = 8;</code>
+     *
+     * <pre>
+     * 隨機boss互動
+     * </pre>
+     */
+    public static final int CHAT_RANDOM_BOSS_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -106,6 +154,9 @@ public final class ChatServiceProtos {
         case 3: return CHAT_PERSON;
         case 4: return CHAT_TREASURE;
         case 5: return CHAT_SYSTEM;
+        case 6: return CHAT_FRIEND;
+        case 7: return CHAT_TEAM;
+        case 8: return CHAT_RANDOM_BOSS;
         default: return null;
       }
     }
@@ -292,6 +343,38 @@ public final class ChatServiceProtos {
      * </pre>
      */
     Magic(3, 4),
+    /**
+     * <code>Treasure = 5;</code>
+     *
+     * <pre>
+     * 附件類型：秘境分享
+     * </pre>
+     */
+    Treasure(4, 5),
+    /**
+     * <code>Friend = 6;</code>
+     *
+     * <pre>
+     * 附件類型：好友互動
+     * </pre>
+     */
+    Friend(5, 6),
+    /**
+     * <code>Team = 7;</code>
+     *
+     * <pre>
+     * 附件類型：隊伍互動
+     * </pre>
+     */
+    Team(6, 7),
+    /**
+     * <code>RandomBoss = 8;</code>
+     *
+     * <pre>
+     * 附件類型：隨機boss
+     * </pre>
+     */
+    RandomBoss(7, 8),
     ;
 
     /**
@@ -326,6 +409,38 @@ public final class ChatServiceProtos {
      * </pre>
      */
     public static final int Magic_VALUE = 4;
+    /**
+     * <code>Treasure = 5;</code>
+     *
+     * <pre>
+     * 附件類型：秘境分享
+     * </pre>
+     */
+    public static final int Treasure_VALUE = 5;
+    /**
+     * <code>Friend = 6;</code>
+     *
+     * <pre>
+     * 附件類型：好友互動
+     * </pre>
+     */
+    public static final int Friend_VALUE = 6;
+    /**
+     * <code>Team = 7;</code>
+     *
+     * <pre>
+     * 附件類型：隊伍互動
+     * </pre>
+     */
+    public static final int Team_VALUE = 7;
+    /**
+     * <code>RandomBoss = 8;</code>
+     *
+     * <pre>
+     * 附件類型：隨機boss
+     * </pre>
+     */
+    public static final int RandomBoss_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -336,6 +451,10 @@ public final class ChatServiceProtos {
         case 2: return Item;
         case 3: return Hero;
         case 4: return Magic;
+        case 5: return Treasure;
+        case 6: return Friend;
+        case 7: return Team;
+        case 8: return RandomBoss;
         default: return null;
       }
     }
@@ -9377,12 +9496,15 @@ public final class ChatServiceProtos {
       "sageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025usersOfPriv" +
       "ateChannel\030\006 \003(\0132\026.MsgPersonChatUserInfo" +
       "\",\n\032MsgChatRequestPrivateChats\022\016\n\006userId" +
-      "\030\001 \002(\t*a\n\teChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013C" +
-      "HAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_TR" +
-      "EASURE\020\004\022\017\n\013CHAT_SYSTEM\020\005*(\n\017eChatResult" +
-      "Type\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*9\n\017eAttachIt" +
-      "emType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002\022\010\n\004Hero\020\003\022\t\n\005M",
-      "agic\020\004B \n\013com.rwprotoB\021ChatServiceProtos"
+      "\030\001 \002(\t*\227\001\n\teChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013" +
+      "CHAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_T" +
+      "REASURE\020\004\022\017\n\013CHAT_SYSTEM\020\005\022\017\n\013CHAT_FRIEN" +
+      "D\020\006\022\r\n\tCHAT_TEAM\020\007\022\024\n\020CHAT_RANDOM_BOSS\020\010" +
+      "*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL",
+      "\020\002*m\n\017eAttachItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002" +
+      "\022\010\n\004Hero\020\003\022\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006F" +
+      "riend\020\006\022\010\n\004Team\020\007\022\016\n\nRandomBoss\020\010B \n\013com" +
+      ".rwprotoB\021ChatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
