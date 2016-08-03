@@ -699,13 +699,14 @@ public class BattleTowerHandler {
 		tableBattleTower.setSweepState(true);// 扫荡的状态设置
 		tableBattleTower.setSweepTimePerFloor(theSweepTime4PerFloor);
 		dao.update(tableBattleTower);// 更新数据
-
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
 		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		//封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, 1);
 	}
 
 	/**
