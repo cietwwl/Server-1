@@ -58,7 +58,7 @@ public class GFightPrepareBM {
 	 */
 	@Deprecated
 	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, GFightDataVersion dataVersion) {
-		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
+		// GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, dataVersion.getOnlineGroupData());
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 

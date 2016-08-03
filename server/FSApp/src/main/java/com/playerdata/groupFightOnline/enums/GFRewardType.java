@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.dataForClient;
+package com.playerdata.groupFightOnline.enums;
 
 /**
  * 帮战结束时的奖励类型

@@ -2,7 +2,7 @@ package com.playerdata.groupFightOnline.cfg;
 import java.util.Calendar;
 
 import com.common.BaseConfig;
-import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 
 public class GFightOnlineResourceCfg extends BaseConfig {
 	private int key; //关键字段
@@ -15,8 +15,8 @@ public class GFightOnlineResourceCfg extends BaseConfig {
 	private GFTimeStruct fightStartObj;
 	private String fightEndTime; //战斗结算时间
 	private GFTimeStruct fightEndObj;
-	private String biddingBaseCost; //竞标起始资源
-	private String biddingAddCost; //加标最少资源
+	private int biddingBaseCost; //竞标起始资源
+	private int biddingAddCost; //加标最少资源
 	private int biddingLevelLimit; //竞标团队最低等级
 	private String ownerDailyReward; //资源产出
 	private int emailId; //对应邮件ID
@@ -39,10 +39,10 @@ public class GFightOnlineResourceCfg extends BaseConfig {
 	public String getFightEndTime() {
 		return fightEndTime;
 	}
-	public String getBiddingBaseCost() {
+	public int getBiddingBaseCost() {
 		return biddingBaseCost;
 	}
-	public String getBiddingAddCost() {
+	public int getBiddingAddCost() {
 		return biddingAddCost;
 	}
 	public int getBiddingLevelLimit() {

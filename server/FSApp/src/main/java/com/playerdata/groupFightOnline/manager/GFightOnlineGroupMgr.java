@@ -69,7 +69,6 @@ public class GFightOnlineGroupMgr {
 	 */
 	public void synAllData(Player player, int resourceID, int version){
 		List<GFGroupBiddingItem> bidList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
-		List<GFightOnlineGroupData> groupList = new ArrayList<GFightOnlineGroupData>();
 		List<String> groupIdList = new ArrayList<String>();
 		for(GFGroupBiddingItem item : bidList) {
 			GFightOnlineGroupData groupData = get(item.getGroupID());

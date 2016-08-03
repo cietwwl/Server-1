@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFightFinalBM;
+import com.playerdata.groupFightOnline.bm.GFightGroupBidBM;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
-import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 
 public class GFightOnlineResourceMgr {
 	
@@ -83,7 +84,7 @@ public class GFightOnlineResourceMgr {
 	}
 	
 	private void biddingStartEvent(int resourceID){
-		
+		GFightGroupBidBM.getInstance().bidStart(resourceID);
 	}
 	
 	private void prepareStartEvent(int resourceID){

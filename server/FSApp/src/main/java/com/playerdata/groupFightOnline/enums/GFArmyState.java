@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.dataForClient;
+package com.playerdata.groupFightOnline.enums;
 
 public enum GFArmyState {
 	/**

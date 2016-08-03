@@ -1,11 +1,15 @@
 package com.playerdata.groupFightOnline.bm;
 
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
+import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
-import com.playerdata.groupFightOnline.dataForClient.GFResourceState;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -47,7 +51,10 @@ class GFightConditionJudge {
 		return GFResourceState.REST.equals(resData.getState());
 	}
 	
-	public boolean isLegalBidCount(int resourceID, int oriCount, int addCount) {
+	public boolean isLegalBidCount(int resourceID, int oriCount, int newCount) {
+		GFightOnlineResourceCfg cfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(resourceID));
+		if(oriCount == 0 && newCount < cfg.getBiddingBaseCost()) return false;	//小于起始值
+		if(newCount - oriCount < cfg.getBiddingAddCost()) return false;		//小于最小增长值
 		return true;
 	}
 	
