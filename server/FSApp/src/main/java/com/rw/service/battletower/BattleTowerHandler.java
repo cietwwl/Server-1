@@ -121,14 +121,14 @@ public class BattleTowerHandler {
 		// 填充消息
 		rsp.setHighestFloor(tableBattleTower.getHighestFloor());
 		rsp.setLeftResetTimes(battleTowerResetTimes - tableBattleTower.getResetTimes());
-		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
+		final BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
 
 		final int curFloor = tableBattleTower.getCurFloor();// 当前层数
 		boolean result = tableBattleTower.getResult();// 是否有了战斗结果
 		final int highestFloor = tableBattleTower.getHighestFloor();
 
 		// by franky 每层扫荡的用时
-		int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
+		final int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
 
 		long now = System.currentTimeMillis();
 		// 扫荡信息

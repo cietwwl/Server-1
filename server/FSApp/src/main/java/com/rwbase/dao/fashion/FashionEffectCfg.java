@@ -76,6 +76,8 @@ public class FashionEffectCfg extends BaseConfig{
 		return CareerType;
 	}
 
+	
+	
 	// @Override
 	// public AttrDataIF getAddedValues() {
 	// return addedValues;
@@ -85,6 +87,10 @@ public class FashionEffectCfg extends BaseConfig{
 	// public AttrDataIF getAddedPercentages() {
 	// return addedPercentages;
 	// }
+
+	public String getAttrData() {
+		return attrData;
+	}
 
 	/**
 	 * <pre>

@@ -1,7 +1,10 @@
 package com.rwbase.dao.store.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 public class CommodityData {
 	private int id;
