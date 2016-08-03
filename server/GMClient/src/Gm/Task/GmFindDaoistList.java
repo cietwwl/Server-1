@@ -17,7 +17,8 @@ public class GmFindDaoistList extends AGMHandler {
 		this.password = GMManager.PASSWORD_VALUE;
 
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("roleId", "100100002755");
+//		args.put("roleId", "100100002755");
+		args.put("roleId", "100100002756");
 
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

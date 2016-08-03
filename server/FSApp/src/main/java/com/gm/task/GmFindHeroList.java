@@ -53,8 +53,9 @@ public class GmFindHeroList implements IGmTask{
 			RoleCfgDAO instance = RoleCfgDAO.getInstance();
 			RoleCfg heroCfg = instance.getCfgByModeID(roleBaseInfo.getModeId()+"");
 			String heroName = "";
-			if(heroCfg == null){				
-				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户阵容出现了异常佣兵模板id =" + roleBaseInfo.getId(), null);
+			if(heroCfg == null){
+				heroName = player.getUserName();
+//				GameLog.error(LogModule.GmSender, player.getUserId(), "Gm指令查询用户阵容出现了异常佣兵模板id =" + roleBaseInfo.getId(), null);
 			}else{
 				heroName = heroCfg.getName();
 			}

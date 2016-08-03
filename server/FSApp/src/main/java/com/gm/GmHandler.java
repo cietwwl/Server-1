@@ -29,7 +29,9 @@ import com.gm.task.GmExecuteGM;
 import com.gm.task.GmExecuteGMCommand;
 import com.gm.task.GmFindDaoistList;
 import com.gm.task.GmFindFishionSwingPetList;
+import com.gm.task.GmFindHeroEquipList;
 import com.gm.task.GmFindHeroList;
+import com.gm.task.GmFindHeroNormalAndExpEquipList;
 import com.gm.task.GmFindHeroSkillList;
 import com.gm.task.GmFindMagicList;
 import com.gm.task.GmForClassLoad;
@@ -134,7 +136,8 @@ public class GmHandler {
 		taskMap.put(20057, new GmFindDaoistList());
 		taskMap.put(20058, new GmFindFishionSwingPetList());
 		taskMap.put(20059, new GmFindHeroSkillList());
-		
+		taskMap.put(20060, new GmFindHeroEquipList());
+		taskMap.put(20061, new GmFindHeroNormalAndExpEquipList());
 		
 		
 		taskMap.put(99999, new GmExecuteGMCommand());

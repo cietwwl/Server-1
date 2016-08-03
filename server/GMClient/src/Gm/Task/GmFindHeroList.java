@@ -18,8 +18,9 @@ public class GmFindHeroList extends AGMHandler{
 
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("roleId", "100100002755");
+//		args.put("roleId", "100100002755");
 		
+		args.put("roleId", "100100002756");
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

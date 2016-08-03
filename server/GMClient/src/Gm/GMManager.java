@@ -30,7 +30,9 @@ import Gm.Task.GmEmailSingleCheck;
 import Gm.Task.GmEmailWhiteList;
 import Gm.Task.GmFindDaoistList;
 import Gm.Task.GmFindFationSwingPetList;
+import Gm.Task.GmFindHeroEquipList;
 import Gm.Task.GmFindHeroList;
+import Gm.Task.GmFindHeroNormalAndExpEquipList;
 import Gm.Task.GmFindHeroSkillList;
 import Gm.Task.GmFindMagicList;
 import Gm.Task.GmHotUpdateTest;
@@ -133,11 +135,14 @@ public class GMManager {
 //		GmBlockPlayer handler = new GmBlockPlayer();
 //		GmBlockRelease handler = new GmBlockRelease();
 //		GmResponsePlayerQuestion handler = new GmResponsePlayerQuestion(); 
+		
 //		GmFindHeroList handler = new GmFindHeroList();
 //		GmFindMagicList handler = new GmFindMagicList();
 //		GmFindDaoistList handler =new GmFindDaoistList();
 //		GmFindFationSwingPetList handler = new GmFindFationSwingPetList();
-		GmFindHeroSkillList handler = new GmFindHeroSkillList();
+//		GmFindHeroSkillList handler = new GmFindHeroSkillList();
+//		GmFindHeroEquipList handler = new GmFindHeroEquipList();
+		GmFindHeroNormalAndExpEquipList handler = new GmFindHeroNormalAndExpEquipList();
 		
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);
@@ -148,7 +153,7 @@ public class GMManager {
 //		processGmRequest(request, "119.29.163.123", 12345);
 //		processGmRequest(request, "119.29.163.123", 7098);
 //		processGmRequest(request, "119.29.111.118", 7098);
-		processGmRequest(request, "192.168.2.124", 12345);
+		processGmRequest(request, "192.168.2.118", 12345);
 //		processGmRequest(request, "119.29.162.42", 12346);
 //		processGmRequest(request, "119.29.111.118", 7098);
 //		processGmRequest(request, "192.168.2.233", 12345);

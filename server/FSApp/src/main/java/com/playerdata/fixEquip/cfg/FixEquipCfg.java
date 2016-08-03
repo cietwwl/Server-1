@@ -22,7 +22,11 @@ public class FixEquipCfg {
 	
 	private int costPerExp;
 	
-
+	private String name;
+	
+	private String awakenName;
+	
+	
 	public String getId() {
 		return id;
 	}
@@ -56,6 +60,15 @@ public class FixEquipCfg {
 		return expCostType;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	
+
+	public String getAwakenName() {
+		return awakenName;
+	}
 	
 	
 }

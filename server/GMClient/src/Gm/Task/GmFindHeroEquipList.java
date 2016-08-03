@@ -7,18 +7,18 @@ import Gm.AGMHandler;
 import Gm.GMManager;
 import Gm.GmRequest;
 
-public class GmFindMagicList extends AGMHandler{
+public class GmFindHeroEquipList extends AGMHandler{
+
 	@Override
 	public GmRequest createGmRequest() {
-		// TODO Auto-generated method stub
-		this.opType = 20056;
+		this.opType = 20060;
 		this.account = GMManager.ACCOUNT_VALUE;
 		this.password = GMManager.PASSWORD_VALUE;	
 
 		
 		Map<String, Object> args = new HashMap<String, Object>();
 //		args.put("roleId", "100100002755");
-		args.put("roleId", "100100002756");
+		args.put("roleId", "100100002757");
 		
 		
 		GmRequest gmRequest = new GmRequest();
@@ -28,4 +28,5 @@ public class GmFindMagicList extends AGMHandler{
 		gmRequest.setArgs(args);
 		return gmRequest;
 	}
+
 }
