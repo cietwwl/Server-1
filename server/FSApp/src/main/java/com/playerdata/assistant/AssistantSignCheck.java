@@ -22,6 +22,9 @@ public class AssistantSignCheck implements IAssistantCheck{
 		if(!player.getSignMgr().isSignToday()){
 			return AssistantEventID.Sign;
 		}
+		if(player.getSignMgr().checkAchieveSignReward()){
+			return AssistantEventID.Sign;
+		}
 		return null;
 		
 		
