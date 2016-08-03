@@ -8,6 +8,9 @@ enum eChatType {
 	CHAT_PERSON = 3; // 私聊
 	CHAT_TREASURE = 4;//秘境分享
 	CHAT_SYSTEM = 5; // 系统消息
+	CHAT_FRIEND = 6; // 好友互動
+	CHAT_TEAM = 7; // 隊伍互動
+	CHAT_RANDOM_BOSS = 8; // 隨機boss互動
 }
 
 enum eChatResultType {
@@ -20,6 +23,10 @@ enum eAttachItemType{
 	Item = 2;//道具类
 	Hero = 3;//英雄类
 	Magic = 4;//法宝
+	Treasure = 5; // 附件類型：秘境分享
+	Friend = 6; // 附件類型：好友互動
+	Team = 7; // 附件類型：隊伍互動
+	RandomBoss = 8; // 附件類型：隨機boss
 }
 
 message MessageUserInfo{
