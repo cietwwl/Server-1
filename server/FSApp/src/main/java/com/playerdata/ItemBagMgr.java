@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,16 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 */
 	public int getItemCountByModelId(int modelId) {
 		return holder.getItemCountByModelId(modelId);
+	}
+	
+
+	/**
+	 * 获取道具modelId与数量的映射
+	 * 
+	 * @return
+	 */
+	public Map<Integer, RefInt> getModelCountMap() {
+		return holder.getModelCountMap();
 	}
 
 	/**

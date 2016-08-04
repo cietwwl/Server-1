@@ -34,8 +34,10 @@ public class UserGroupCopyMapRecordHolder {
 	private void checkAndInitData() {
 		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
 		ArrayList<UserGroupCopyMapRecord> addList = null;
-		for (GroupCopyMapCfg cfg : allCfg) {
-			UserGroupCopyMapRecord record = getItemByID(cfg.getId());
+		MapItemStore<UserGroupCopyMapRecord> itemStore = getItemStore();
+		for (int i = allCfg.size(); --i >= 0;) {
+			GroupCopyMapCfg cfg = allCfg.get(i);
+			UserGroupCopyMapRecord record = itemStore.getItem(getRecordID(cfg.getId()));
 			if (record == null) {
 				if (addList == null) {
 					addList = new ArrayList<UserGroupCopyMapRecord>();
@@ -46,7 +48,7 @@ public class UserGroupCopyMapRecordHolder {
 		}
 		if (addList != null) {
 			try {
-				getItemStore().addItem(addList);
+				itemStore.addItem(addList);
 			} catch (DuplicatedKeyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
