@@ -166,6 +166,9 @@ public class TaskItemMgr implements TaskMgrIF {
 			
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
+				if(cfg == null){//避免找不到配置表，暂时把这个给跳过
+					continue;
+				}
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
 				int value1 = 0;
 				int finishType = cfg.getFinishType();
@@ -200,6 +203,10 @@ public class TaskItemMgr implements TaskMgrIF {
 		List<TaskItem> itemList = taskItemHolder.getItemList();
 		for (TaskItem task : itemList) {
 			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
+			if (cfg == null) {
+				GameLog.info("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
+				continue;
+			}
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.More.ordinal()) {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
