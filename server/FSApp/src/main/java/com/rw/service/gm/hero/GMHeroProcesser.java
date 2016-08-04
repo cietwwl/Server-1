@@ -47,13 +47,18 @@ public class GMHeroProcesser {
 					player.getUserGameDataMgr().addCoin(1999999999);
 					player.getUserGameDataMgr().addGold(1999999999);
 					Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
+					int num = 0;
 					for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy.entrySet().iterator(); iterator.hasNext();) {
+						if(num >4){
+							break;
+						}
 						Entry<String, RoleCfg> entry = iterator.next();
 						RoleCfg roleCfg = entry.getValue();
 						String templateId = roleCfg.getRoleId();
 						GMHeroBase.gmAddHero(entry.getKey(), player);
 						Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
-						GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);						
+						GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);	
+						num++;
 					}
 				}
 			});
