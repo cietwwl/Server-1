@@ -1,7 +1,6 @@
 package com.playerdata.groupFightOnline.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -16,7 +15,6 @@ public class GFightOnlineService implements FsService<GroupFightOnlineReqMsg, GF
 	
 	private GFightOnlineHandler gfHandler = GFightOnlineHandler.getInstance();
 
-	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(GroupFightOnlineReqMsg request, Player player) {
 		// TODO Auto-generated method stub
@@ -88,9 +86,8 @@ public class GFightOnlineService implements FsService<GroupFightOnlineReqMsg, GF
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "出现了Exception异常", e);
-		} finally {
-			return result;
-		}
+		} 
+		return result;
 	}
 
 	@Override
