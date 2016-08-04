@@ -819,7 +819,7 @@ public class ChatBM {
 	
 	/**
 	 * 
-	 * 向全世界發送一條互動信息
+	 * 向指定的一群人發送一條互動信息
 	 * 
 	 * @param sender 發送者
 	 * @param interactiveType 互動的類型
