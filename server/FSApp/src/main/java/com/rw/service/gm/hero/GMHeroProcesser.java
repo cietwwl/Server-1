@@ -116,6 +116,34 @@ public class GMHeroProcesser {
 		
 	}
 
+	/**非异步的增加英雄命令*/
+	public static void processTeamBringitSigle(String[] arrCommandContents, Player player){
+		int career = Integer.parseInt(arrCommandContents[0]);
+		// 添加英雄
+		final int maxLevel = GMHeroBase.gmGetMaxLevel();
+
+		Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO
+				.getInstance().getAllRoleCfgCopy();
+		int num = 0;
+		for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy
+				.entrySet().iterator(); iterator.hasNext();) {
+			if (num > 4) {
+				break;
+			}
+			Entry<String, RoleCfg> entry = iterator.next();
+			RoleCfg roleCfg = entry.getValue();
+			String templateId = roleCfg.getRoleId();
+			GMHeroBase.gmAddHero(entry.getKey(), player);
+			Hero hero = player.getHeroMgr()
+					.getHeroByTemplateId(templateId);
+			GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+			num++;
+		}		
+		return;
+	}
+	
+	
+	
 	private static void gmChangeCareer(Player player, int career) {
 		boolean blnChangeCareer = false;
 		if (player.getCareer() != career) {
@@ -358,6 +386,10 @@ public class GMHeroProcesser {
 		});
 		
 	}
+	
+	
+	
+	
 	
 	private static String getQualityId(Hero hero, int quality, boolean limited) {
 		if(quality == -1){

@@ -122,6 +122,7 @@ public class GMHandler {
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
 		funcCallBackMap.put("getallsecret", "getAllSecret");
 		funcCallBackMap.put("teambringit", "teamBringit");
+		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
 		funcCallBackMap.put("setteam1", "setTeam1");
 		funcCallBackMap.put("setteam2", "setTeam2");
@@ -931,6 +932,18 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean teamBringitSigle(String[] arrCommandContents, Player player) {
+		// if(arrCommandContents == null){
+		// return false;
+		// }
+		if (player != null) {
+			GMHeroProcesser.processTeamBringitSigle(arrCommandContents, player);
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean addHero1(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
