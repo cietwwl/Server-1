@@ -863,6 +863,6 @@ public class ChatBM {
 			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
 		
-		sender.SendMsg(Command.MSG_CHAT, resp.toByteString());
+//		sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); // 2016-08-04 暫時不用發送給自己
 	}
 }
