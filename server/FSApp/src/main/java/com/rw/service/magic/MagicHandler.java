@@ -19,6 +19,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
@@ -877,6 +878,7 @@ public class MagicHandler {
 			response.setNewMagicModelId(upToCfg.getId());
 			fillResponseInfo(response, true, "进阶成功！");
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+			TBListenerPlayerChange.heroChangeHandler(player);
 			
 			//通知法宝神器羁绊
 			player.getMe_FetterMgr().notifyMagicChange(player);

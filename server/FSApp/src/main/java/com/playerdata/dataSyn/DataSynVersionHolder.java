@@ -60,7 +60,8 @@ public class DataSynVersionHolder {
 		if (synType == eSynType.COPY_LEVEL_RECORD || synType == eSynType.COPY_MAP_RECORD) {
 			versionType = eSynType.VERSION_COPY;
 		} else if (synType == eSynType.USER_HEROS || synType == eSynType.ROLE_BASE_ITEM || synType == eSynType.SKILL_ITEM
-			|| synType == eSynType.EQUIP_ITEM || synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
+			|| synType == eSynType.EQUIP_ITEM || synType == eSynType.FIX_EXP_EQUIP ||synType == eSynType.FIX_NORM_EQUIP 
+			|| synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
 
 			versionType = eSynType.USER_HEROS;
 		}

@@ -26,7 +26,7 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 	
 	@Override
 	protected Map<String, MagicEquipConditionCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fetters/magicEquipConditionCfg.csv", MagicEquipConditionCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("HeroFetters/magicEquipConditionCfg.csv", MagicEquipConditionCfg.class);
 		return cfgCacheMap;
 	}
 

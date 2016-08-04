@@ -24,6 +24,7 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GroupCommonProto;
 
@@ -126,8 +127,10 @@ public class GFightOnlineGroupMgr {
 	public void dispatchVictoryReward(String groupId){
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if(groupData == null || groupData.getResourceID() <= 0) return;
-		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
-		String groupName = GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData().getGroupName();
+		Group group = GroupBM.get(groupId);
+		if(null == group) return;
+		List<? extends GroupMemberDataIF> groupMem = group.getGroupMemberMgr().getMemberSortList(null);
+		String groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 		long currentTime = System.currentTimeMillis();
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
 		for(GroupMemberDataIF member : groupMem){
@@ -164,8 +167,10 @@ public class GFightOnlineGroupMgr {
 	public void dispathchFailReward(String groupId){
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if(groupData == null || groupData.getResourceID() <= 0) return;
-		List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
-		String groupName = GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData().getGroupName();
+		Group group = GroupBM.get(groupId);
+		if(null == group) return;
+		List<? extends GroupMemberDataIF> groupMem = group.getGroupMemberMgr().getMemberSortList(null);
+		String groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 		long currentTime = System.currentTimeMillis();
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(groupData.getResourceID()));
 		for(GroupMemberDataIF member : groupMem){
@@ -232,9 +237,10 @@ public class GFightOnlineGroupMgr {
 				item.setItemNum(baseItem.getItemNum() * totalRateOnGroup);
 				victoryReward.add(item);
 			}
-			
+			Group group = GroupBM.get(groupId);
+			if(null == group) return;
 			//发放被压标的帮派成员奖励
-			List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
+			List<? extends GroupMemberDataIF> groupMem = group.getGroupMemberMgr().getMemberSortList(null);
 			for(GroupMemberDataIF member : groupMem){
 				String bidonContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getVictoryRewardEmailId())).getContent();
 				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()),

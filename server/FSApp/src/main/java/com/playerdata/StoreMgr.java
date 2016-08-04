@@ -745,7 +745,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 */
 	public boolean isWakenStoreRedPoint(){
 		StoreData store = getStore(eStoreType.Waken);
-		if(store.getDrawTime() <= 0){
+		if(store != null && store.getDrawTime() <= 0){
 			return true;
 		}
 		return false;

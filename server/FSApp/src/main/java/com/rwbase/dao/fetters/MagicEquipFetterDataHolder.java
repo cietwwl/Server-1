@@ -61,7 +61,7 @@ public class MagicEquipFetterDataHolder {
 	/**
 	 * 同步所有法宝神器羁绊数据
 	 * @param player
-	 * @param version 版本
+	 * @param version 版本 0表示强制同步
 	 */
 	public void synAllData(Player player, int version){
 		if(version != 0 && version == dataVersion.get()){
@@ -72,14 +72,12 @@ public class MagicEquipFetterDataHolder {
 			item = checkRecord();
 			return;
 		}
-		if(item.isEmpty()){
-			return;
-		}
-		StringBuffer sb = new StringBuffer("同步羁绊数据：");
-		for (Integer id : item.getAllFetters()) {
-			sb.append("[").append(id).append("]");
-		}
-		System.out.println(sb.toString());
+		
+//		StringBuffer sb = new StringBuffer("同步羁绊数据：");
+//		for (Integer id : item.getAllFetters()) {
+//			sb.append("[").append(id).append("]");
+//		}
+//		System.out.println(sb.toString());
 		SynMagicEquipFetterData synData = new SynMagicEquipFetterData(userID, item.getAllFetters());
 				
 		ClientDataSynMgr.synData(player, synData, syType, eSynOpType.UPDATE_SINGLE);
@@ -114,18 +112,20 @@ public class MagicEquipFetterDataHolder {
 		
 		//去掉数据库里已经存在的
 		tempSet.removeAll(existType);
-		if(tempSet.isEmpty()){
-			return;
-		}
+//		if(tempSet.isEmpty()){ 去掉这个，因为有可能会降星到0
+//			return;
+//		}
 		
 		existType.clear();
 		List<Integer> clearOld = new ArrayList<Integer>();
+		
 		//检查数据库里有没有相同类型的旧数据
 		for (Integer id : fetterIDs) {
 			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
-			
+			boolean exist = false;
 			for (MagicEquipConditionCfg fetter : tempSet) {
 				if(fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
+					exist = true;
 					if(cfg.recordOldData()){
 						//要保留的旧记录，可能是降星之前的, 判断一下哪个等级高
 						if(cfg.getConditionLevel() >= fetter.getConditionLevel()){
@@ -143,19 +143,23 @@ public class MagicEquipFetterDataHolder {
 					}
 				}
 			}
+			if(!exist && !cfg.recordOldData() && Integer.parseInt(cfg.getHeroModelID()) == modelId){
+				//新同步进来的羁绊列表里没有目标旧记录，则检查一下这个记录是否要保留，因为有可能会因为降星把所有的羁绊都去掉了
+				clearOld.add(id);
+			}
+			
 		}
 		
 		
 		tempSet.removeAll(existType);
 		fetterIDs.removeAll(clearOld);
-		if(tempSet.isEmpty() && clearOld.isEmpty()){
-			return;
-		}
+		
 		for (MagicEquipConditionCfg cfg : tempSet) {
 			fetterIDs.add(cfg.getUniqueId());
 		}
 		item.setFixEquipFetters(fetterIDs);
 		getItemStore().updateItem(item);
+		dataVersion.incrementAndGet();
 		
 	}
 	
@@ -226,6 +230,7 @@ public class MagicEquipFetterDataHolder {
 		
 		item.setMagicFetters(newList);
 		getItemStore().updateItem(item);
+		dataVersion.incrementAndGet();
 	}
 	
 	

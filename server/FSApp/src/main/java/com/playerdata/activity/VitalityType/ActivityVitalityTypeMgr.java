@@ -144,7 +144,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
-			if (isClose(activityVitalityTypeItem)) {
+			if (isClose(activityVitalityTypeItem)&&!activityVitalityTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.setClosed(true);

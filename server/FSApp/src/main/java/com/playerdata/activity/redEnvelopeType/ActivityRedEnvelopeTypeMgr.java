@@ -133,37 +133,28 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		if (!isClose(item)) {			
 			return;	
 		}
-		if(!item.isClosed()){
-			item.setClosed(true);
-			item.setTouchRedPoint(false);
-		}
+		
 		if(isCanTakeGift(item)){
-			
-			dataHolder.updateItem(player, item);
+			if(!item.isClosed()){
+				item.setClosed(true);
+				item.setTouchRedPoint(false);
+				dataHolder.updateItem(player, item);
+			}			
 			return;
-		}
+		}		
 		if(item.isIstaken()){
-			dataHolder.updateItem(player, item);
 			return;
 		}
-//		List<ActivityRedEnvelopeTypeSubItem> subItemList = item.getSubItemList();
-//		for(ActivityRedEnvelopeTypeSubItem subItem : subItemList){
-//			item.setGoldCount(item.getGoldCount() + subItem.getCount()/10);
-//		}
+
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if(cfg == null){
 			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "派发奖励替换文字的时候取不到cfg", null);
-		return;
-		}
-		
+			return;
+		}		
 		String reward = eSpecialItemId.Gold.getValue() +"_"+item.getGoldCount();
 		ComGiftMgr.getInstance().addtagInfoTOEmail(player, reward, MAKEUPEMAIL+"", cfg.getEmailTitle());
-		
-		
-//		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-//		map.put(eSpecialItemId.Gold.getValue(), item.getGoldCount());
-//		player.getItemBagMgr().useLikeBoxItem(null, null, map);
 		item.setIstaken(true);
+		item.setClosed(true);
 		dataHolder.updateItem(player, item);
 	}
 

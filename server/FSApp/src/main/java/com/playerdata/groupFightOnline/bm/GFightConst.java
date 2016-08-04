@@ -17,4 +17,6 @@ public class GFightConst {
 	final public static int REWARD_CONTAIN_TIME = 24 * 60 * 60 * 1000;	//奖励的最长保留时间
 	
 	final public static String GF_BID_AUTHORITY_ID = "21";	//竞标权限表的id
+	
+	final public static int DAILY_REFRESH_HOUR = 5;		//每日刷新时间
 }

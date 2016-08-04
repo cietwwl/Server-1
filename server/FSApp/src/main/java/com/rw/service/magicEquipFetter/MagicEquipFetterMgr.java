@@ -47,7 +47,7 @@ public class MagicEquipFetterMgr {
 	public void loginNotify(Player player){
 		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
 		checkPlayerData(player);
-		holder.synAllData(player, holder.getVersion());
+		holder.synAllData(player, 0);
 	}
 	
 	/**
@@ -108,13 +108,13 @@ public class MagicEquipFetterMgr {
 				}
 				if(match){
 					temp.add(cfg);
-					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+//					System.out.println(String.format("找到合适的神器羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 				}
 			}
 		}
-		if(temp.isEmpty()){
-			return;
-		}
+//		if(temp.isEmpty()){ 去掉这个，因为有可能会降星到0
+//			return;
+//		}
 		
 		//去掉所有类型相同的配置，只保留最高级的
 		Set<MagicEquipConditionCfg> tempSet = new HashSet<MagicEquipConditionCfg>();
@@ -136,7 +136,7 @@ public class MagicEquipFetterMgr {
 		holder.checkFixEquipFetterRecord(tempSet, hero.getModelId());
 
 		if(syn){
-			holder.synAllData(player, holder.getVersion());
+			holder.synAllData(player, 0);
 		}
 	}
 
@@ -249,36 +249,38 @@ public class MagicEquipFetterMgr {
 			}
 			if(match){
 				temp.add(cfg);
-				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
+//				System.out.println(String.format("找到合适的法宝羁绊，羁绊id：[%s],羁绊描述[%s],羁绊条件:[%s]", cfg.getUniqueId(),cfg.getFettersAttrDesc(),cfg.getSubConditionValue()));
 			}
 		}
 		
-		if(temp.isEmpty()){
-			return;
-		}
-		
-		//去掉所有法宝类型重复的配置，使用等级最高的
-		List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
-		List<MagicEquipConditionCfg> p = new ArrayList<MagicEquipConditionCfg>();
-		p.addAll(temp);
-		for (MagicEquipConditionCfg conditionCfg : p) {
-			for (MagicEquipConditionCfg sub : temp) {
-				if(sub.getType() == conditionCfg.getType() && 
-						sub.getSubType() == conditionCfg.getSubType() && 
-						sub.getUniqueId() != conditionCfg.getUniqueId() && 
-						conditionCfg.getConditionLevel() <= sub.getConditionLevel()){
-					remove.add(conditionCfg);
-					break;
+//		if(temp.isEmpty()){ 角色可能会用降星把所有的法宝羁绊去掉，所以这里不能直接的return
+//			return;
+//		}
+		if(!temp.isEmpty()){
+			
+			//去掉所有法宝类型重复的配置，使用等级最高的
+			List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
+			List<MagicEquipConditionCfg> p = new ArrayList<MagicEquipConditionCfg>();
+			p.addAll(temp);
+			for (MagicEquipConditionCfg conditionCfg : p) {
+				for (MagicEquipConditionCfg sub : temp) {
+					if(sub.getType() == conditionCfg.getType() && 
+							sub.getSubType() == conditionCfg.getSubType() && 
+							sub.getUniqueId() != conditionCfg.getUniqueId() && 
+							conditionCfg.getConditionLevel() <= sub.getConditionLevel()){
+						remove.add(conditionCfg);
+						break;
+					}
 				}
 			}
+			
+			temp.removeAll(remove);
 		}
-		
-		temp.removeAll(remove);
 		holder.compareMagicFetterRcord(temp, modelId);
 
 
 		if(syn){
-			holder.synAllData(player, holder.getVersion());
+			holder.synAllData(player, 0);
 		}
 		
 	}
@@ -337,7 +339,11 @@ public class MagicEquipFetterMgr {
 	 * @param hero
 	 */
 	public void notifyHeroChange(Player player, Hero hero) {
-		checkOrAddTargetHeroEquipFetter(player, hero, true);
+		if(hero.isMainRole()){
+			checkAndAddMagicFetter(player, false);
+		}
+		checkOrAddTargetHeroEquipFetter(player, hero, false);
+		holder.synAllData(player, 0);
 		notifyListenerAction();
 	}
 
