@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatBM;
+import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
@@ -20,7 +22,6 @@ import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
@@ -993,7 +994,11 @@ public class GroupSecretHandler {
 			message = req.getMessage();
 		}
 
-		ChatHandler.getInstance().chatTreasure(player, reqId, cfgId, inviteList.size(), message, inviteList);
+		// 秘境要传递到聊天部分的信息
+		String format = "邀请防守：[%s](人数：%s/%s)\n%s\n";
+		message = String.format(format, cfg.getName(), inviteList.size(), memberMgr.getGroupMemberSize(), message);
+		
+		ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, message, reqId, null, inviteList);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -1265,7 +1270,7 @@ public class GroupSecretHandler {
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
 		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级才能接受该邀请", openLevel));
 			return rsp.build().toByteString();
 		}
 
