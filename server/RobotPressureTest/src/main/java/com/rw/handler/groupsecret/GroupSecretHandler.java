@@ -55,7 +55,7 @@ public class GroupSecretHandler {
 		}
 		List<String> heroPosList = new ArrayList<String>();
 		int mainRoleIndex = -1;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 1; i++) {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {				
 				String heroId = (String) iterator.next();
 				if(heroId.equals(client.getUserId())){
@@ -132,7 +132,7 @@ public class GroupSecretHandler {
 			pos.setPos(mainRoleIndex);				
 			msg.addHeroId(pos)	;
 			mainRoleIndex ++;
-			if(mainRoleIndex > 4){
+			if(mainRoleIndex > 1){
 				break;
 			}
 		}

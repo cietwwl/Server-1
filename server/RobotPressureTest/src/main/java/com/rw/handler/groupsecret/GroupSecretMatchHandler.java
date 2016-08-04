@@ -59,7 +59,7 @@ public class GroupSecretMatchHandler {
 			pos.setHeroId(heroId);
 			pos.setPos(mainRoleIndex);				
 			msg.addHeroList(pos);
-			if(mainRoleIndex > 4){
+			if(mainRoleIndex > 1){
 				break;
 			}				
 		}
