@@ -175,7 +175,7 @@ public class InlayHandler {
 			 //playe.NotifyCommonMsg("没有更多位置可镶嵌");
 		}else
 		{
-			playe.NotifyCommonMsg("一键佩戴成功");
+			playe.NotifyCommonMsg("一键镶嵌成功");
 		}
 	
 		return res.build().toByteString();

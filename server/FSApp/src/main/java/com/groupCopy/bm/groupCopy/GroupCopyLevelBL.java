@@ -48,7 +48,7 @@ public class GroupCopyLevelBL {
 	public final static long MAX_WAIT_SPAN = 1 * 60 * 1000;  //准备最多持续时间，超过了重置关卡状态。
 	
 	
-	public final static int MAX_ALLOT_COUNT = 2;//每天分配的最大次数
+	public final static int MAX_ALLOT_COUNT = 1;//每天分配的最大次数
 	public final static int STATE_COPY_EMPTY = 0;  //副本空闲
 	public final static int STATE_COPY_WAIT = 1;  //副本准备进入
 	public final static int STATE_COPY_FIGHT = 2; //副本战斗中
