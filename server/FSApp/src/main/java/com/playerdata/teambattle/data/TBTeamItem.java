@@ -84,6 +84,13 @@ public class TBTeamItem implements IMapItem{
 		return null;
 	}
 	
+	public StaticMemberTeamInfo findTeamMember(String userID){
+		for(StaticMemberTeamInfo mem : teamMembers){
+			if(StringUtils.equals(mem.getUserID(), userID)) return mem;
+		}
+		return null;
+	}
+	
 	public synchronized boolean isFull(){
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return true;
 		if(members.size() == TeamBattleConst.TEAM_MAX_MEMBER - 1) return isSelecting;
@@ -98,11 +105,29 @@ public class TBTeamItem implements IMapItem{
 	
 	public synchronized boolean removeMember(TeamMember member){
 		boolean result = members.remove(member);
+		if(result){
+			StaticMemberTeamInfo staticMem = findTeamMember(member.getUserID());
+			if(null != staticMem) teamMembers.remove(staticMem);
+		}
 		if(members.size() == 0) return true;
 		if(StringUtils.equals(member.getUserID(), leaderID)){
 			leaderID = members.get(0).getUserID();
 		}
 		return result;
+	}
+	
+	public void changeLeaderAfterFinish(String userID){
+		if(StringUtils.equals(userID, leaderID) && members.size() >= 2){
+			TeamMember member = findMember(userID);
+			if(null == member) return;
+			for(TeamMember mem : members){
+				if(mem.getState().equals(TBMemberState.Ready) 
+						|| mem.getState().equals(TBMemberState.Fight) 
+						|| mem.getState().equals(TBMemberState.HalfFinish)){
+					leaderID = mem.getUserID();
+				}
+			}
+		}
 	}
 
 	public boolean isCanFreeJion() {
@@ -131,6 +156,7 @@ public class TBTeamItem implements IMapItem{
 	
 	public boolean removeAble(){
 		if(members.size() == 0) return true;
+		if(members.size() < TeamBattleConst.TEAM_MAX_MEMBER) return false;
 		for(TeamMember member : members){
 			if(member.getState().equals(TBMemberState.Fight)) return false;
 			if(member.getState().equals(TBMemberState.HalfFinish)) return false;

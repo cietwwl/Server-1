@@ -204,7 +204,7 @@ public class GroupSkillHandler {
 		// 验证帮派已经研发的等级能不能被学习
 		if (!groupBaseDataMgr.checkGroupSkillCanStudy(skillId, skillLevel)) {
 			GameLog.error("学习帮派技能", userId, String.format("学习技能[%s],等级[%s],帮派Id[%s]还没研发这个技能", skillId, skillLevel, groupId));
-			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "当前无法学习技能");
+			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "无法学习，因帮主/副帮主还没研发该等级帮派技能");
 		}
 
 		// 检查个人的帮派贡献

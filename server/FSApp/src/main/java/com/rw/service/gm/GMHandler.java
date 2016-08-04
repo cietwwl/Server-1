@@ -51,6 +51,8 @@ import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
+import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -167,6 +169,7 @@ public class GMHandler {
 		funcCallBackMap.put("endbtsweep", "endBTsweep");
 		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("setbtkey", "setBattleTowerKey");
+		funcCallBackMap.put("setbtlefttime", "setBattleTowerLeftTime");
 
 		// 道术
 		funcCallBackMap.put("setalltaoist", "setAllTaoist");
@@ -280,7 +283,24 @@ public class GMHandler {
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
+	
+	public boolean setBattleTowerLeftTime(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerLeftTime", "start", null);
+		boolean result = true;
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();// 试练塔数据管理
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();// 试练塔的存储数据
 
+		final int highestFloor = tableBattleTower.getHighestFloor();
+		int sweepStartFloor = highestFloor - 2;
+		long now = System.currentTimeMillis();
+
+		tableBattleTower.setSweepStartTime(now);
+		tableBattleTower.setSweepStartFloor(sweepStartFloor);
+		TableBattleTowerDao.getDao().update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerLeftTime " + "finished", null);
+		return result;
+	}
+	
 	public boolean setBattleTowerFloor(String[] arrCommandContents, Player player) {
 		GameLog.info("GM", "setBattleTowerFloor", "start", null);
 		boolean result = true;
@@ -1234,6 +1254,7 @@ public class GMHandler {
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.FRIEND, "添加好友", "2", "A;B;C;D", Arrays.asList(targetUserId));
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "E;F;G;H", Arrays.asList(targetUserId));
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, "幫派秘境", "4", "01;02;03;04", Arrays.asList(targetUserId));
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "TO;THE;WORLD;HAHA");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

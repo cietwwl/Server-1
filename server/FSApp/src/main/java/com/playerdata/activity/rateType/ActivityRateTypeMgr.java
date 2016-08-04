@@ -115,7 +115,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				.getUserId());
 
 		for (ActivityRateTypeItem activityRateTypeItem : itemList) {// 每种活动
-			if (isClose(activityRateTypeItem)) {
+			if (isClose(activityRateTypeItem)&&!activityRateTypeItem.isClosed()) {
 				activityRateTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityRateTypeItem);
 			}

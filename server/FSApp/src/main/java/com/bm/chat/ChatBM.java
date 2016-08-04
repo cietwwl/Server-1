@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.util.StringUtils;
 
-import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
@@ -35,6 +34,7 @@ import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef;
+import com.rwproto.MsgDef.Command;
 
 // 聊天缓存
 
@@ -49,6 +49,7 @@ public class ChatBM {
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
 	private static List<ChatInteractiveSendData> interactiveMessageList = new ArrayList<ChatInteractiveSendData>();
+	private static List<String> _EMPTY_LIST = Collections.emptyList();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
 	private AtomicInteger checkMessageId = new AtomicInteger();// 上次检查的版本号
 	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat_broadcast"));// 线程池
@@ -125,6 +126,32 @@ public class ChatBM {
 			}
 		}
 		
+		private void sendInteractiveChatTo(ChatInteractiveSendData chat, List<Player> players) {
+			MsgChatResponse msg = chat.getMsg();
+			MessageUserInfo sender;
+			if (msg.getListMessageCount() == 0) {
+				// warning？
+				return;
+			}
+			if ((sender = msg.getListMessage(0).getSendMessageUserInfo()) == null) {
+				// warning？
+				return;
+			}
+			String senderUserId = sender.getUserId();
+			for (Player player : players) {
+				if(player.getUserId().equals(senderUserId)) {
+					continue;
+				}
+				if (!FriendUtils.isBlack(player, senderUserId)) {
+					// 不在黑名單
+					if (PlayerMgr.getInstance().isOnline(player.getUserId())) {
+						player.SendMsg(MsgDef.Command.MSG_CHAT, msg.toByteString());
+					}
+					ChatBM.this.addInteractiveChat(player.getUserId(), chat.getType(), msg.getListMessage(0));
+				}
+			}
+		}
+		
 		private void sendCacheInteractiveChat() {
 			// 發送互動的消息
 			if (interactiveMessageList.isEmpty()) {
@@ -136,30 +163,28 @@ public class ChatBM {
 				interactiveMessageList.clear();
 			}
 			int size = list.size();
-			Player player;
-			MessageUserInfo sender;
-			String senderUserId;
+			List<ChatInteractiveSendData> sendToWorld = new ArrayList<ChatInteractiveSendData>();
 			for (int i = 0; i < size; i++) {
-				ChatInteractiveSendData chat = list.get(i);
-				MsgChatResponse msg = chat.getMsg();
-				if (msg.getListMessageCount() == 0) {
-					// warning？
+				ChatInteractiveSendData temp = list.get(i);
+				if(temp.isSendToWorld()) {
+					sendToWorld.add(temp);
 					continue;
-				}
-				if ((sender = msg.getListMessage(0).getSendMessageUserInfo()) == null) {
-					// warning？
-					continue;
-				}
-				senderUserId = sender.getUserId();
-				for (String targetPlayerId : chat.getTargetUserIds()) {
-					player = PlayerMgr.getInstance().find(targetPlayerId);
-					if (!FriendUtils.isBlack(player, senderUserId)) {
-						// 不在黑名單
-						if (PlayerMgr.getInstance().isOnline(targetPlayerId)) {
-							player.SendMsg(MsgDef.Command.MSG_CHAT, msg.toByteString());
+				} else {
+					List<Player> targetPlayers = new ArrayList<Player>(temp.getTargetUserIds().size());
+					for(String playerId : temp.getTargetUserIds()) {
+						Player tempPlayer = PlayerMgr.getInstance().find(playerId);
+						if(tempPlayer == null) {
+							continue;
 						}
-						ChatBM.this.addInteractiveChat(targetPlayerId, chat.getType(), msg.getListMessage(0));
+						targetPlayers.add(tempPlayer);
 					}
+					this.sendInteractiveChatTo(temp, targetPlayers);
+				}
+			}
+			if (sendToWorld.size() > 0) {
+				List<Player> allPlayers = PlayerMgr.getInstance().getOnlinePlayers();
+				for (ChatInteractiveSendData temp : sendToWorld) {
+					this.sendInteractiveChatTo(temp, allPlayers);
 				}
 			}
 		}
@@ -762,19 +787,63 @@ public class ChatBM {
 		return chat.getLastSentPrivateChatTime();
 	}
 	
+	
 	/**
 	 * 
 	 * 向全世界發送一條互動信息
 	 * 
-	 * @param player 發送者
+	 * @param sender 發送者
+	 * @param interactiveType 互動類型
+	 * @param displayMsg 顯示出來的信息
+	 * @param id 互動內容的id信息（可以是一個具體的唯一id，也可以是一個模板id）
+	 * @param extraInfo 與客戶端自定義的附加內容參數
+	 */
+	public void sendInteractiveMsgToWorld(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
+		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, _EMPTY_LIST, true);
+	}
+	
+	/**
+	 * 
+	 * 向某人發送一條互動信息
+	 * 
+	 * @param sender 發送者
+	 * @param targetUserId 目標
+	 * @param interactiveType 互動類型
+	 * @param displayMsg 顯示出來的信息
+	 * @param id 互動內容的id信息（可以是一個具體的唯一id，也可以是一個模板id）
+	 * @param extraInfo 與客戶端自定義的附加內容參數
+	 */
+	public void sendInteractiveMsgToSomeone(Player sender, String targetUserId, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
+		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, Collections.singletonList(targetUserId), false);
+	}
+	
+	/**
+	 * 
+	 * 向全世界發送一條互動信息
+	 * 
+	 * @param sender 發送者
 	 * @param interactiveType 互動的類型
 	 * @param displayMsg 顯示的消息
 	 * @param id 互動內容的id信息（可以是一個具體的唯一id，也可以是一個模板id）
 	 * @param extraInfo 與客戶端自定義的附加內容參數
 	 */
-	public ByteString sendInteractiveMsg(Player player, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds) {
+	public void sendInteractiveMsg(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds) {
+		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, targetUserIds, false);
+	}
+	
+	/**
+	 * 
+	 * @param sender
+	 * @param interactiveType
+	 * @param displayMsg
+	 * @param id
+	 * @param extraInfo
+	 * @param targetUserIds
+	 * @param sendToWorld 是否發送到世界
+	 */
+	private void sendInteractiveMsgInternal(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds, boolean sendToWorld) {
 		displayMsg = displayMsg.concat(_ATTACHMENT_IDENTIFIER); // 客戶端以#為附件表標識符，所以需要在消息的最後添加#
-		MessageUserInfo.Builder userInfoBuilder = ChatHandler.getInstance().createMessageUserInfoBuilder(player, true);
+		MessageUserInfo.Builder userInfoBuilder = ChatHandler.getInstance().createMessageUserInfoBuilder(sender, true);
 		ChatMessageData.Builder messageBuilder = ChatMessageData.newBuilder();
 		messageBuilder.setMessage(displayMsg);
 		messageBuilder.addAttachItem(ChatHandler.getInstance().createChatAttachItemProto(interactiveType.attachItemType.getNumber(), id, extraInfo));
@@ -788,13 +857,12 @@ public class ChatBM {
 		
 		MsgChatResponse resp = respBuilder.build();
 		
-		targetUserIds.remove(player.getUserId());
+		targetUserIds.remove(sender.getUserId());
 		
 		synchronized (interactiveMessageList) {
-			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds));
+			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
 		
-		return resp.toByteString();
-		
+		sender.SendMsg(Command.MSG_CHAT, resp.toByteString());
 	}
 }

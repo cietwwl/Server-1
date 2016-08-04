@@ -19,7 +19,7 @@ import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class BilogItemInfo {
 	
-	private int itemId;
+	private String itemId;
 	private int num;
 	
 
@@ -30,7 +30,7 @@ public class BilogItemInfo {
 		}
 		for(ItemInfo subitem : list){
 			BilogItemInfo newsubitem = new BilogItemInfo();
-			newsubitem.setItemId(subitem.getItemID());
+			newsubitem.setItemId(String.valueOf(subitem.getItemID()));
 			newsubitem.setNum(subitem.getItemNum());
 			newlist.add(newsubitem);			
 		}		
@@ -46,11 +46,11 @@ public class BilogItemInfo {
 		for(ItemInfo subitem : list){
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			if(newlisttmp.get(subitem.getItemID()) == null){
-				newsubitem.setItemId(subitem.getItemID());
+				newsubitem.setItemId(String.valueOf(subitem.getItemID()));
 				newsubitem.setNum(subitem.getItemNum());
 				newlisttmp.put(subitem.getItemID(), newsubitem);
 			}else{
-				newsubitem.setItemId(subitem.getItemID());
+				newsubitem.setItemId(String.valueOf(subitem.getItemID()));
 				int numnew = newlisttmp.get(subitem.getItemID()).getNum() + subitem.getItemNum();
 				newsubitem.setNum(numnew);
 				newlisttmp.put(subitem.getItemID(), newsubitem);				
@@ -78,7 +78,7 @@ public class BilogItemInfo {
 			if(split2.length < 2){
 				continue;
 			}
-			newsubitem.setItemId(Integer.parseInt(split2[0]));
+			newsubitem.setItemId(split2[0]);
 			newsubitem.setNum(Integer.parseInt(split2[1]));
 			newlist.add(newsubitem);			
 		}
@@ -98,7 +98,7 @@ public class BilogItemInfo {
 			if (split2.length < 2) {
 				continue;
 			}
-			newsubitem.setItemId(Integer.parseInt(split2[0]));
+			newsubitem.setItemId(split2[0]);
 			newsubitem.setNum(Integer.parseInt(split2[1]));
 			newlist.add(newsubitem);			
 		}
@@ -109,7 +109,7 @@ public class BilogItemInfo {
 				if (split2.length < 2) {
 					continue;
 				}
-				newsubitem.setItemId(Integer.parseInt(split2[0]));
+				newsubitem.setItemId(split2[0]);
 				newsubitem.setNum(Integer.parseInt(split2[1]));
 				newlist.add(newsubitem);			
 			}			
@@ -140,7 +140,7 @@ public class BilogItemInfo {
 			}
 			String[] idAndNum = reward.split("~");
 			BilogItemInfo subbilogitem = new BilogItemInfo();
-			subbilogitem.setItemId(Integer.parseInt(idAndNum[0]));
+			subbilogitem.setItemId(idAndNum[0]);
 			subbilogitem.setNum(Integer.parseInt(idAndNum[1]));
 			newlist.add(subbilogitem);			
 		}	
@@ -153,7 +153,7 @@ public class BilogItemInfo {
 			return newlist;
 		}
 		BilogItemInfo newsubitem = new BilogItemInfo();
-		newsubitem.setItemId(Integer.parseInt(cfg.getItemID()));
+		newsubitem.setItemId(cfg.getItemID());
 		newsubitem.setNum(cfg.getItemNum());
 		newlist.add(newsubitem);	
 		return newlist;
@@ -167,7 +167,7 @@ public class BilogItemInfo {
 		}
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 			BilogItemInfo newsubitem = new BilogItemInfo();
-			newsubitem.setItemId(entry.getKey());
+			newsubitem.setItemId(String.valueOf(entry.getKey()));
 			newsubitem.setNum(entry.getValue());
 			newlist.add(newsubitem);			
 		}
@@ -189,7 +189,7 @@ public class BilogItemInfo {
 		while(iterable.hasNext()){
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			String id = iterable.next();
-			newsubitem.setItemId(Integer.parseInt(id));
+			newsubitem.setItemId(id);
 			newsubitem.setNum(giftcfg.getGiftMap().get(id));
 			newlist.add(newsubitem);
 		}
@@ -200,12 +200,12 @@ public class BilogItemInfo {
 	
 	
 	
-	public int getItemId() {
+	public String getItemId() {
 		return itemId;
 	}
 
 
-	public void setItemId(int itemId) {
+	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
 

@@ -36,31 +36,21 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	private boolean writeDirect = false;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
-		this.searchFieldP = searchFieldP;
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
-		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-		ClassInfo classInfo = new ClassInfo(entityClazz);
-		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
+		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", false);
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, boolean writeDirect) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
-		this.searchFieldP = searchFieldP;
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
-		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-		ClassInfo classInfo = new ClassInfo(entityClazz);
-		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
-		this.writeDirect = writeDirect;
+		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", writeDirect);
 	}
 
-	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 1, loader);
+	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
+		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
 		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
+		this.writeDirect = writeDirect;
 	}
 
 	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
