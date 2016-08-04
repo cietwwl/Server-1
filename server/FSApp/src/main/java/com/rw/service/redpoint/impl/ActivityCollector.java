@@ -160,26 +160,30 @@ public class ActivityCollector implements RedPointCollector{
 		//------------------------------
 		ActivityTimeCountTypeItemHolder timeCountDataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 		ActivityTimeCountTypeItem timeCountTargetItem = timeCountDataHolder.getItem(player.getUserId(),  ActivityTimeCountTypeEnum.role_online);
-		List<ActivityTimeCountTypeSubItem> subitemlist = timeCountTargetItem.getSubItemList();
-		
-		List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getAllCfg();
-		
-		for(ActivityTimeCountTypeSubItem subitem:subitemlist){
-			ActivityTimeCountTypeSubCfg subcfg = null;
-			for(ActivityTimeCountTypeSubCfg cfg : subCfgList){
-				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){
-					subcfg = cfg;
+		if(timeCountTargetItem != null){
+			List<ActivityTimeCountTypeSubItem> subitemlist = timeCountTargetItem.getSubItemList();
+			
+			List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getAllCfg();
+			
+			for(ActivityTimeCountTypeSubItem subitem:subitemlist){
+				ActivityTimeCountTypeSubCfg subcfg = null;
+				for(ActivityTimeCountTypeSubCfg cfg : subCfgList){
+					if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){
+						subcfg = cfg;
+						break;
+					}				
+				}
+				if(subcfg==null){
+					continue;
+				}
+				if(!subitem.isTaken()&&timeCountTargetItem.getCount()>subcfg.getCount()){
+					activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
 					break;
-				}				
-			}
-			if(subcfg==null){
-				continue;
-			}
-			if(!subitem.isTaken()&&timeCountTargetItem.getCount()>subcfg.getCount()){
-				activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
-				break;
+				}
 			}
 		}
+		
+		
 		//------------------------------
 		ActivityVitalityItemHolder vitalityDataHolder = ActivityVitalityItemHolder.getInstance();
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
