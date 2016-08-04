@@ -94,6 +94,9 @@ public class ChatHandler {
 	}
 	
 	public ChatAttachItem createChatAttachItemProto(int type, String id, String extraInfo) {
+		if (id == null) {
+			id = "";
+		}
 		ChatAttachItem.Builder builder = ChatAttachItem.newBuilder();
 		builder.setType(type);
 		builder.setId(id);
