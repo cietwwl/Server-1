@@ -9,11 +9,13 @@ public class ChatInteractiveSendData {
 	private ChatInteractiveType _type;
 	private MsgChatResponse _msg;
 	private List<String> _targetUserIds;
+	private boolean _sendToWorld;
 	
-	public ChatInteractiveSendData(ChatInteractiveType pType, MsgChatResponse pMsg, List<String> pTargetUserIds) {
+	public ChatInteractiveSendData(ChatInteractiveType pType, MsgChatResponse pMsg, List<String> pTargetUserIds, boolean pSendToWorld) {
 		this._msg = pMsg;
 		this._type = pType;
 		this._targetUserIds = pTargetUserIds;
+		this._sendToWorld = pSendToWorld;
 	}
 	
 	public ChatInteractiveType getType() {
@@ -26,5 +28,9 @@ public class ChatInteractiveSendData {
 	
 	public List<String> getTargetUserIds() {
 		return _targetUserIds;
+	}
+	
+	public boolean isSendToWorld() {
+		return _sendToWorld;
 	}
 }

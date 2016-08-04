@@ -1,6 +1,5 @@
 package com.rwbase.dao.chat.pojo;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,17 +10,12 @@ import java.util.Map;
 
 import javax.persistence.Id;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
@@ -38,7 +32,7 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
  */
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using=UserPrivateChat.UserPrivateChatDeserializer.class)
+//@JsonDeserialize(using=UserPrivateChat.UserPrivateChatDeserializer.class)
 public class UserPrivateChat {
 	
 	private static final IFunction<ChatMessageSaveData, String> _getSenderIdFunc = new GetSenderUserIdFunc();
@@ -70,90 +64,90 @@ public class UserPrivateChat {
 			}
 		}
 	}
-	public static class UserPrivateChatDeserializer extends JsonDeserializer<UserPrivateChat> {
-		
-		private static final Map<String, Field> _fieldMap = new HashMap<String, Field>();
-		
-		static {
-			Field[] allFields = UserPrivateChat.class.getDeclaredFields();
-			for(int i = 0; i < allFields.length; i++) {
-				Field f = allFields[i];
-				if(f.isAnnotationPresent(JsonProperty.class)) {
-					f.setAccessible(true);
-					_fieldMap.put(f.getName(), f);
-				}
-			}
-		}
-		
-		private void handleUserInfo(String ownerUserId, List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
-			if (mList.isEmpty()) {
-				return;
-			}
-			for (ChatMessageSaveData m : mList) {
-				ChatUserInfo cui = null;
-				if (m.getSendInfo() != null) {
-					if (!m.getSendInfo().getUserId().equals(ownerUserId)) {
-						cui = m.getSendInfo();
-					}
-				} else if (m.getReceiveInfo() != null) {
-					if (!m.getReceiveInfo().getUserId().equals(ownerUserId)) {
-						cui = m.getReceiveInfo();
-					}
-				}
-				if (cui != null) {
-					if (!uMap.containsKey(cui.getUserId())) {
-						uMap.put(cui.getUserId(), cui.createAndCopy());
-					}
-				}
-			}
-		}
-		
-		private void setUserInfo(List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
-			// 把ChatUserInfo賦值ChatMessageSaveData的sender或者receiver
-			if(mList.isEmpty()) {
-				return;
-			}
-			for(ChatMessageSaveData data : mList) {
-				if(data.getReceiverUserId() != null) {
-					data.setReceiveInfo(uMap.get(data.getReceiverUserId()));
-				}
-				if(data.getSenderUserId() != null) {
-					data.setSendInfo(uMap.get(data.getSenderUserId()));
-				}
-			}
-		}
-
-		@Override
-		public UserPrivateChat deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-			UserPrivateChat u = new UserPrivateChat();
-			JsonNode node = jp.getCodec().readTree(jp);
-			Map.Entry<String, Field> entry;
-			for (Iterator<Map.Entry<String, Field>> itr = _fieldMap.entrySet().iterator(); itr.hasNext();) {
-				entry = itr.next();
-				JsonNode currentNode = node.get(entry.getKey());
-				if (currentNode != null) {
-					CommonJsonFieldValueSetter.setValue(currentNode, entry.getValue(), u);
-				}
-			}
-			if ((u.privateChat.size() > 0 || u.privateChatSent.size() > 0)) {
-				if (u.saveUserInfos.isEmpty()) {
-					// 舊數據沒有saveUserInfos，所以要生成一次
-					this.handleUserInfo(u.userId, u.privateChat, u.saveUserInfos);
-					this.handleUserInfo(u.userId, u.privateChatSent, u.saveUserInfos);
-				} else {
-					// 賦值ChatUserInfo到ChatMessageSaveData
-					this.setUserInfo(u.privateChat, u.saveUserInfos);
-					this.setUserInfo(u.privateChatSent, u.saveUserInfos);
-				}
-				if (u.interactiveDatas.size() > 0) {
-					for (Iterator<List<ChatMessageSaveData>> itr = u.interactiveDatas.values().iterator(); itr.hasNext();) {
-						this.setUserInfo(itr.next(), u.saveUserInfos);
-					}
-				}
-			}
-			return u;
-		}
-	}
+//	public static class UserPrivateChatDeserializer extends JsonDeserializer<UserPrivateChat> {
+//		
+//		private static final Map<String, Field> _fieldMap = new HashMap<String, Field>();
+//		
+//		static {
+//			Field[] allFields = UserPrivateChat.class.getDeclaredFields();
+//			for(int i = 0; i < allFields.length; i++) {
+//				Field f = allFields[i];
+//				if(f.isAnnotationPresent(JsonProperty.class)) {
+//					f.setAccessible(true);
+//					_fieldMap.put(f.getName(), f);
+//				}
+//			}
+//		}
+//		
+//		private void handleUserInfo(String ownerUserId, List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
+//			if (mList.isEmpty()) {
+//				return;
+//			}
+//			for (ChatMessageSaveData m : mList) {
+//				ChatUserInfo cui = null;
+//				if (m.getSendInfo() != null) {
+//					if (!m.getSendInfo().getUserId().equals(ownerUserId)) {
+//						cui = m.getSendInfo();
+//					}
+//				} else if (m.getReceiveInfo() != null) {
+//					if (!m.getReceiveInfo().getUserId().equals(ownerUserId)) {
+//						cui = m.getReceiveInfo();
+//					}
+//				}
+//				if (cui != null) {
+//					if (!uMap.containsKey(cui.getUserId())) {
+//						uMap.put(cui.getUserId(), cui.createAndCopy());
+//					}
+//				}
+//			}
+//		}
+//		
+//		private void setUserInfo(List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
+//			// 把ChatUserInfo賦值ChatMessageSaveData的sender或者receiver
+//			if(mList.isEmpty()) {
+//				return;
+//			}
+//			for(ChatMessageSaveData data : mList) {
+//				if(data.getReceiverUserId() != null) {
+//					data.setReceiveInfo(uMap.get(data.getReceiverUserId()));
+//				}
+//				if(data.getSenderUserId() != null) {
+//					data.setSendInfo(uMap.get(data.getSenderUserId()));
+//				}
+//			}
+//		}
+//		
+//		@Override
+//		public UserPrivateChat deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+//			UserPrivateChat u = new UserPrivateChat();
+//			JsonNode node = jp.getCodec().readTree(jp);
+//			Map.Entry<String, Field> entry;
+//			for (Iterator<Map.Entry<String, Field>> itr = _fieldMap.entrySet().iterator(); itr.hasNext();) {
+//				entry = itr.next();
+//				JsonNode currentNode = node.get(entry.getKey());
+//				if (currentNode != null) {
+//					CommonJsonFieldValueSetter.setValue(currentNode, entry.getValue(), u);
+//				}
+//			}
+//			if ((u.privateChat.size() > 0 || u.privateChatSent.size() > 0)) {
+//				if (u.saveUserInfos.isEmpty()) {
+//					// 舊數據沒有saveUserInfos，所以要生成一次
+//					this.handleUserInfo(u.userId, u.privateChat, u.saveUserInfos);
+//					this.handleUserInfo(u.userId, u.privateChatSent, u.saveUserInfos);
+//				} else {
+//					// 賦值ChatUserInfo到ChatMessageSaveData
+//					this.setUserInfo(u.privateChat, u.saveUserInfos);
+//					this.setUserInfo(u.privateChatSent, u.saveUserInfos);
+//				}
+//				if (u.interactiveDatas.size() > 0) {
+//					for (Iterator<List<ChatMessageSaveData>> itr = u.interactiveDatas.values().iterator(); itr.hasNext();) {
+//						this.setUserInfo(itr.next(), u.saveUserInfos);
+//					}
+//				}
+//			}
+//			return u;
+//		}
+//	}
 	
 	@Id
 	@JsonProperty
@@ -181,6 +175,83 @@ public class UserPrivateChat {
 	@JsonSerialize(include=Inclusion.NON_EMPTY)
 	@JsonProperty
 	private Map<String, ChatUserInfo> saveUserInfos; // 保存的userInfo
+	
+	private static void handleUserInfo(String ownerUserId, List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
+		if (mList.isEmpty()) {
+			return;
+		}
+		for (ChatMessageSaveData m : mList) {
+			ChatUserInfo cui = null;
+			if (m.getSendInfo() != null) {
+				if (!m.getSendInfo().getUserId().equals(ownerUserId)) {
+					cui = m.getSendInfo();
+				}
+			} else if (m.getReceiveInfo() != null) {
+				if (!m.getReceiveInfo().getUserId().equals(ownerUserId)) {
+					cui = m.getReceiveInfo();
+				}
+			}
+			if (cui != null) {
+				if (!uMap.containsKey(cui.getUserId())) {
+					uMap.put(cui.getUserId(), cui.createAndCopy());
+				}
+			}
+		}
+	}
+	
+	private static void setUserInfo(List<ChatMessageSaveData> mList, Map<String, ChatUserInfo> uMap) {
+		// 把ChatUserInfo賦值ChatMessageSaveData的sender或者receiver
+		if(mList.isEmpty()) {
+			return;
+		}
+		for(ChatMessageSaveData data : mList) {
+			if(data.getReceiverUserId() != null) {
+				data.setReceiveInfo(uMap.get(data.getReceiverUserId()));
+			}
+			if(data.getSenderUserId() != null) {
+				data.setSendInfo(uMap.get(data.getSenderUserId()));
+			}
+		}
+	}
+	
+	@JsonCreator
+	public static UserPrivateChat forValue(@JsonProperty("userId") String userId, @JsonProperty("privateChat") List<ChatMessageSaveData> privateChat, @JsonProperty("privateChatSent") List<ChatMessageSaveData> privateChatSent, @JsonProperty("secretChat") List<ChatMessageSaveData> secretChat,
+			@JsonProperty("interactiveDatas") Map<ChatInteractiveType, List<ChatMessageSaveData>> interactiveData, @JsonProperty("saveUserInfos") Map<String, ChatUserInfo> saveUserInfos) {
+		UserPrivateChat u = new UserPrivateChat();
+		u.userId = userId;
+		if (privateChat != null) {
+			u.privateChat = privateChat;
+		}
+		if (privateChatSent != null) {
+			u.privateChatSent = privateChatSent;
+		}
+		if (secretChat != null) {
+			u.secretChat = secretChat;
+		}
+		if (interactiveData != null) {
+			u.interactiveDatas = interactiveData;
+		}
+		if (saveUserInfos != null) {
+			u.saveUserInfos = saveUserInfos;
+		}
+		if ((u.privateChat.size() > 0 || u.privateChatSent.size() > 0)) {
+			if (u.saveUserInfos.isEmpty()) {
+				// 舊數據沒有saveUserInfos，所以要生成一次
+				handleUserInfo(u.userId, u.privateChat, u.saveUserInfos);
+				handleUserInfo(u.userId, u.privateChatSent, u.saveUserInfos);
+			} else {
+				// 賦值ChatUserInfo到ChatMessageSaveData
+				setUserInfo(u.privateChat, u.saveUserInfos);
+				setUserInfo(u.privateChatSent, u.saveUserInfos);
+			}
+			if (u.interactiveDatas.size() > 0) {
+				for (Iterator<List<ChatMessageSaveData>> itr = u.interactiveDatas.values().iterator(); itr.hasNext();) {
+					setUserInfo(itr.next(), u.saveUserInfos);
+				}
+			}
+		}
+		return u;
+	}
 
 	public UserPrivateChat() {
 		privateChat = new ArrayList<ChatMessageSaveData>(ChatHandler.MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT);

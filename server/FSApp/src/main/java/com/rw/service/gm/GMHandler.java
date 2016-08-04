@@ -1254,6 +1254,7 @@ public class GMHandler {
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.FRIEND, "添加好友", "2", "A;B;C;D", Arrays.asList(targetUserId));
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "E;F;G;H", Arrays.asList(targetUserId));
 			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, "幫派秘境", "4", "01;02;03;04", Arrays.asList(targetUserId));
+			com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "TO;THE;WORLD;HAHA");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
