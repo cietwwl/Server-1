@@ -49,16 +49,6 @@ public class GFFinalRewardMgr {
 	}
 	
 	/**
-	 * 移除某个资源点所有的奖励
-	 * @param player
-	 * @param resourceID
-	 * @return
-	 */
-	public boolean removeAllRewardItem(Player player, int resourceID){
-		return GFFinalRewardItemHolder.getInstance().removeAllRewardItem(player, resourceID);
-	}
-	
-	/**
 	 * 移除单个奖励
 	 * @param player
 	 * @param resourceID
