@@ -259,13 +259,13 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
 			success = false;
 		} else {
 
 			ResponseHeader headerTmp = rsp.getHeader();
 			if (headerTmp == null) {
-				RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
+				RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
 				success = false;
 			} else {
 				Command commandTmp = headerTmp.getCommand();

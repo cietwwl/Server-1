@@ -14,11 +14,13 @@ import com.rw.Test;
 public class MutiTestOnetimeCreate {
 
 	private static Logger tmpLog = Logger.getLogger("tmpLog");
-
+	/**线程和总数同步参数*/
+	private static int num = 1;
+	
 	// 执行线程数，并发数
-	private static int threadCount = MutiTestAccount.threadCount;
+	private static int threadCount = MutiTestAccount.threadCount/num;
 
-	final private static int totalCount = MutiTestAccount.totalCount;
+	final private static int totalCount = MutiTestAccount.totalCount/num;
 
 	private static int start = MutiTestAccount.start;
 
@@ -41,7 +43,7 @@ public class MutiTestOnetimeCreate {
 	private static boolean withCarrer = false;
 
 	public static void main(String[] args) throws Exception {
-		for (int i = start; i < start + totalCount/20; i++) {
+		for (int i = start; i < start + totalCount; i++) {
 
 			final int index = i;
 			executorService.submit(new Runnable() {
@@ -49,16 +51,46 @@ public class MutiTestOnetimeCreate {
 				@Override
 				public void run() {
 					try {
-						String accountId = preName + index;
+						
+//						long start = System.currentTimeMillis();
+//						String accountId = preName + index;
+//						System.out.println("!!!!!!!!!!!!!!!!!!!begin.name="+ accountId);
 						Robot robot = createRobot(accountId);
-//						System.out.println("!!!!!!!!" + accountId);
+//						long now = System.currentTimeMillis();
+//						long spend = now - start;
+//						long all = spend;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatrole="+ spend + "   all = " + all);
 //						Robot robot = Test.loginRobot(accountId);
-						robot.addCoin(999999);
-						robot.addGold(999999);
-						robot.upgrade(50);
-						robot.addHero(5);
+//						robot.checkEnoughMoney();						
+//						long tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~add="+ spend+ "   all = " + all);
+////						robot.upgrade(50);
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~upgrade="+ spend+ "   all = " + all);
+//						robot.addHero(5);
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~hero="+ spend+ "   all = " + all);
 						robot.createGroup(accountId);
-						robot.createGroupSecret();
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroup="+ spend+ "   all = " + all);
+//						robot.createGroupSecret();
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroupsecret="+ spend+ "   all = " + all);
 //						for (int i = 0; i < 5; i++) {
 //							int normolEquipType = Test.random.nextInt(5);
 //							normolEquipType = normolEquipType == 0 ? 1
@@ -78,7 +110,6 @@ public class MutiTestOnetimeCreate {
 //							System.out.println(i + "~~~~~~~" + issucc
 //									+ "         " + expEquipType+ "    " +accountId);
 //						}
-
 					} catch (Throwable e) {
 						e.printStackTrace();
 					} finally {
