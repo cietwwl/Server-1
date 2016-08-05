@@ -17,6 +17,9 @@ public class AssistantCfg
     UpdateSkill,
     HeroLevelUp,
     GotoCopy,
+    FixEquipUp,
+    FixEquipAdvance,
+    GotoTaoist,
   }
   private static class EventIDParser implements ConvertionUtil.Parser<AssistantEventID> {
 		@Override

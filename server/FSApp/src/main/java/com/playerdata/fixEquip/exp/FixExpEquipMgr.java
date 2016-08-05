@@ -31,6 +31,7 @@ import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.FixEquipProto.ExpLevelUpReqParams;
 import com.rwproto.FixEquipProto.SelectItem;
 
@@ -189,6 +190,19 @@ public class FixExpEquipMgr {
 		return upIdList;
 
 	}
+	
+	public List<String> levelUpList(Player player, String ownerId) {
+		// TODO 可强化并且有足够金钱的神器
+		HashMap<eConsumeTypeDef, List<ItemData>> consumeItemMap = FixEquipHelper.getFixConsumeItemMap(player);
+		return null;
+	}
+	
+	private FixEquipResult checkLevelUp(Player player, String ownerId, FixExpEquipDataItem dataItem, HashMap<eConsumeTypeDef,List<ItemData>> itemMap) {
+		FixEquipResult result = checkLevel(player,ownerId,dataItem);
+		if (!result.isSuccess()) return result;
+		result = checkLevelUpCost(player,ownerId,dataItem,itemMap);
+		return null;
+	}
 
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
 
@@ -266,6 +280,12 @@ public class FixExpEquipMgr {
 		}
 
 		return result;
+	}
+
+	private FixEquipResult checkLevelUpCost(Player player, String ownerId, FixExpEquipDataItem dataItem,
+			HashMap<eConsumeTypeDef, List<ItemData>> itemMap) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private int getNextQualityNeedExp(FixExpEquipDataItem dataItem) {

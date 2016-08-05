@@ -10,12 +10,12 @@ import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class AssistantHeroLevelUpCheck implements IAssistantCheck{
+public class AssistantHeroLevelUpCheck extends DefaultAssistantChecker {
 
 	
 	@Override
 	public AssistantEventID doCheck(Player player) {
-		
+		super.doCheck(player);
 		if(check(player)){
 			return AssistantEventID.HeroLevelUp;
 		}

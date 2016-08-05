@@ -460,4 +460,9 @@ public class FixNormEquipMgr {
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
 		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
 	}
+
+	public List<String> levelUpList(Player player, String heroId) {
+		// TODO 可强化并且有足够金钱的神器
+		return null;
+	}
 }
