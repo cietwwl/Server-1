@@ -94,13 +94,13 @@ public class GFOnlineKillRankMgr {
 		List<GFOnlineKillItem> result = new ArrayList<GFOnlineKillItem>();
 		
 		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
-		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration();
+		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration(1, size);
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
 			GFOnlineKillComparable killComparable = entry.getComparable();
 			if(killComparable.getResourceID() != resourceID) continue;
 			GFOnlineKillItem killItem = entry.getExtendedAttribute();
-			if(StringUtils.equals(killItem.getGroupID(), groupID) && result.size() < size){
+			if(StringUtils.equals(killItem.getGroupID(), groupID)){
 				killItem.setTotalKill(killComparable.getTotalKill());
 				result.add(killItem);
 			}
