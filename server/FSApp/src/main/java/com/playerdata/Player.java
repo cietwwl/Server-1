@@ -391,7 +391,6 @@ public class Player implements PlayerIF {
 					userGameDataMgr.setLastLoginTime(now);
 					getFriendMgr().onPlayerChange(player);
 					// logoutTimer = 0;
-					HotPointMgr.loadPushHotPointState(player);
 					WorshipMgr.getInstance().pushByWorshiped(player);
 					// TODO HC 聊天信息推送
 					ChatHandler.getInstance().sendChatAllMsg(player);

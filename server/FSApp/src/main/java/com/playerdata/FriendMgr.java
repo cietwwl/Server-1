@@ -14,7 +14,6 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -26,7 +25,6 @@ import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendResultVo;
-import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
@@ -409,7 +407,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					if (otherFriend.getFriendGiveList().containsKey(m_pPlayer.getUserId())) {
 						otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
 						friendDAO.update(otherFriend);
-						HotPointMgr.changeHotPointState(otherUserId, EHotPointType.Friend_Give, true);
 					}
 				}
 
@@ -485,7 +482,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				if (otherFriend != null) {
 					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
 					friendDAO.update(otherFriend);
-					HotPointMgr.changeHotPointState(giveState.getUserId(), EHotPointType.Friend_Give, true);
 					UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				}
 				giveState.setGiveState(false);

@@ -7,13 +7,11 @@ import com.log.GameLog;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.readonly.TaskMgrIF;
 import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.enu.eTaskSuperType;
-import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.task.TaskCfgDAO;
 import com.rwbase.dao.task.TaskItemHolder;
 import com.rwbase.dao.task.pojo.TaskCfg;
@@ -256,19 +254,6 @@ public class TaskItemMgr implements TaskMgrIF {
 			addItemTask(nextCfg, doSyn);
 		}
 		return 1;
-	}
-
-	public void checkHot() {
-		boolean hasHot = false;
-		List<TaskItem> tasklist = taskItemHolder.getItemList();
-		for (TaskItem taskItem : tasklist) {
-			if (taskItem.getDrawState() == 1) {
-				hasHot = true;
-				break;
-			}
-
-		}
-		HotPointMgr.changeHotPointState(m_pPlayer.getUserId(), EHotPointType.Task, hasHot);
 	}
 
 	public boolean save() {
