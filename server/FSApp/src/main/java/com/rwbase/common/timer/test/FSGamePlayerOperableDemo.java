@@ -2,12 +2,11 @@ package com.rwbase.common.timer.test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.rwbase.common.timer.IPlayerGatherer;
 import com.rwbase.common.timer.IPlayerOperable;
 
@@ -17,7 +16,7 @@ public class FSGamePlayerOperableDemo implements IPlayerOperable, IPlayerGathere
 	
 	@Override
 	public List<Player> gatherPlayers() {
-		return new ArrayList<Player>(PlayerMgr.getInstance().getAllPlayer().values());
+		return Collections.emptyList();
 	}
 
 	@Override

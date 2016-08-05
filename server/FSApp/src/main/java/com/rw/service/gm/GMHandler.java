@@ -192,6 +192,8 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
+		funcCallBackMap.put("shutdown", "shutdownServer");
+		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		
 	}
@@ -1313,6 +1315,11 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
 		return true;
 	}
 	

@@ -9,7 +9,6 @@ import com.log.GameLog;
 import com.playerdata.GambleMgr;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
-import com.rw.service.gamble.GambleTest;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -63,6 +62,7 @@ public class Server {
 
 			// 时效任务初始化
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
