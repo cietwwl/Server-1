@@ -160,6 +160,15 @@ public abstract class ClientMsgHandler {
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
 						break;						
+					case GFightOnlinePersonalData:
+						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
+						break;
+					case GFightOnlineResourceData:
+						getClient().getGFightOnlineResourceHolder().syn(msgDataSyn);
+						break;
+					case GFightOnlineGroupData:
+						getClient().getGFightOnlineGroupHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}

@@ -23,6 +23,9 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
+import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
+import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
 import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
 import com.rw.handler.groupsecret.GroupSecretInviteDataHolder;
 import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
@@ -98,6 +101,11 @@ public class Client {
 	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
+	
+	//在线帮战
+	private UserGFightOnlineHolder ugfHolder = UserGFightOnlineHolder.getInstance();
+	private GFightOnlineResourceHolder gfResHolder = GFightOnlineResourceHolder.getInstance();
+	private GFightOnlineGroupHolder gfGroupHolder = GFightOnlineGroupHolder.getInstance();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -408,4 +416,15 @@ public class Client {
 		this.taoistDataHolder = taoistDataHolder;
 	}
 
+	public UserGFightOnlineHolder getUserGFightOnlineHolder(){
+		return ugfHolder;
+	}
+	
+	public GFightOnlineResourceHolder getGFightOnlineResourceHolder(){
+		return gfResHolder;
+	}
+	
+	public GFightOnlineGroupHolder getGFightOnlineGroupHolder(){
+		return gfGroupHolder;
+	}
 }

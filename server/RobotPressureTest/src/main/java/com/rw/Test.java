@@ -2,29 +2,25 @@ package com.rw;
 
 import java.util.Random;
 
-import com.rw.handler.copy.CopyType;
-import com.rw.handler.groupsecret.GroupSecretHandler;
-
 public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("080487700");
+		 Robot robot = loginRobot("12312");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpallen"+ 362);
+//		 Robot robot = createRobot("tmpallen"+ 338);
 		 if(robot == null){
 		 }else{
-			 boolean issucc =false;
-			 robot.addHero(5);
-			 robot.createGroup("xiaofei362");
-			 issucc = robot.createGroupSecret();
-			 System.out.println("@@@@@@@@@@@test" + issucc);
+			 boolean issucc = robot.playerGroupFight();
+			 //robot.addHero(5);
+//			 robot.createGroup("xiaofei338");
+			 System.out.println("@@@@@@@@@@@test：" + issucc);
 		 }
 		 
 		 
