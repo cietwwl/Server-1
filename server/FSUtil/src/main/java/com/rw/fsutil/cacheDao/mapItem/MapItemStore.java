@@ -24,8 +24,8 @@ public class MapItemStore<T extends IMapItem> {
 	private final ConcurrentHashMap<String, Boolean> updatedMap;
 
 	private static final Boolean PRESENT = true;
-	
-	private final boolean writeDirect;     //写操作立刻更新数据库
+
+	private final boolean writeDirect; // 写操作立刻更新数据库
 
 	private DataUpdater<String> updater;
 
@@ -51,7 +51,7 @@ public class MapItemStore<T extends IMapItem> {
 		if (t == null) {
 			return false;
 		}
-		if(writeDirect){
+		if (writeDirect) {
 			return updateImmediately(key, t);
 		}
 		if (updatedMap.putIfAbsent(key, PRESENT) == null) {
@@ -59,11 +59,11 @@ public class MapItemStore<T extends IMapItem> {
 		}
 		return true;
 	}
-	
-	private boolean updateImmediately(String key, T item){
-		try{
+
+	private boolean updateImmediately(String key, T item) {
+		try {
 			commonJdbc.updateToDB(searchId, key, item);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
@@ -248,6 +248,10 @@ public class MapItemStore<T extends IMapItem> {
 
 	public int getSize() {
 		return itemMap.size();
+	}
+
+	Map<String, T> getItemMap() {
+		return this.itemMap;
 	}
 
 	/**

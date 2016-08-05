@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.rw.fsutil.common.SimpleThreadFactory;
+import com.rw.fsutil.dao.cache.trace.CacheWriter;
+import com.rw.fsutil.dao.cache.trace.CacheWriterImpl;
 
 public class CacheFactory {
 
@@ -15,16 +17,13 @@ public class CacheFactory {
 	private static Executor executor;
 	private static CacheStackTraceMap traceMap;
 	public static final String LINE_SEPARATOR;
-
+	private static CacheWriter cacheWriter;
+	
 	static {
-		executor = Executors.newFixedThreadPool(20, new SimpleThreadFactory("logger factory"));
-		traceMap = new CacheStackTraceMap(1000, "trace", executor);
+		executor = Executors.newFixedThreadPool(20, new SimpleThreadFactory("datalogs"));
+		traceMap = new CacheStackTraceMap(4096, "trace", executor);
 		LINE_SEPARATOR = (String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));
-
-	}
-
-	public static CacheLogger getLogger(Class clazz) {
-		return getLogger(clazz.getSimpleName());
+		cacheWriter = new CacheWriterImpl(traceMap);
 	}
 
 	public static CacheLogger getLogger(String name) {
@@ -47,15 +46,20 @@ public class CacheFactory {
 	public static SimpleDateFormat getFormatter() {
 		SimpleDateFormat format_ = formatterLocal.get();
 		if (format_ == null) {
-			format_ = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+			//format_ = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+			format_ = new SimpleDateFormat("HH:mm:ss.SSS");
 			formatterLocal.set(format_);
 		}
 		return format_;
 	}
 
-	public static String getStackTrace(CacheStackTrace trace){
+	public static String getStackTrace(CacheStackTrace trace) {
 		CacheStackTraceEntity entity = new CacheStackTraceEntity(trace.getStackTrace(), 1);
 		return traceMap.getMatch(entity);
 	}
-	
+
+	public static CacheWriter getCacheWriter() {
+		return cacheWriter;
+	}
+
 }
