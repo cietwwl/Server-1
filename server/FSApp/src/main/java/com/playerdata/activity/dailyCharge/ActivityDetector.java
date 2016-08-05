@@ -41,6 +41,10 @@ public class ActivityDetector {
 		return new ArrayList<ActivityDailyChargeCfg>(activityMap.values());
 	}
 	
+	public boolean hasDailyCharge(){
+		return !activityMap.isEmpty();
+	}
+	
 	public boolean containsActivity(String cfgId){
 		return activityMap.containsKey(cfgId);
 	}
