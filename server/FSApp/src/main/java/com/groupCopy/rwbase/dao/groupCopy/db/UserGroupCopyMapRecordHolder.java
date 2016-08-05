@@ -13,36 +13,48 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class UserGroupCopyMapRecordHolder{
-	
+public class UserGroupCopyMapRecordHolder {
+
 	final private String userId;
-	
+
 	final private AtomicInteger dataVersion = new AtomicInteger(0);
-	
+
 	private final eSynType synType = eSynType.USE_GROUP_COPY_DATA;
-	
+
 	public UserGroupCopyMapRecordHolder(String userID) {
 		userId = userID;
 		checkAndInitData();
 	}
-	
-	private void checkAndInitData(){
+
+	private void checkAndInitData() {
 		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
-		UserGroupCopyMapRecord record;
+		ArrayList<UserGroupCopyMapRecord> addList = null;
 		for (GroupCopyMapCfg cfg : allCfg) {
-			record = getItemByID(cfg.getId());
-			if(record == null){
+			UserGroupCopyMapRecord record = getItemByID(cfg.getId());
+			if (record == null) {
+				if (addList == null) {
+					addList = new ArrayList<UserGroupCopyMapRecord>();
+				}
 				record = createRecord(cfg);
-				getItemStore().addItem(record);
+				addList.add(record);
+			}
+		}
+		if (addList != null) {
+			try {
+				getItemStore().addItem(addList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
-	
-	private UserGroupCopyMapRecord createRecord(GroupCopyMapCfg cfg){
+
+	private UserGroupCopyMapRecord createRecord(GroupCopyMapCfg cfg) {
 		UserGroupCopyMapRecord record = new UserGroupCopyMapRecord();
 		record.setId(getRecordID(cfg.getId()));
 		record.setLeftFightCount(cfg.getEnterCount());
@@ -51,56 +63,53 @@ public class UserGroupCopyMapRecordHolder{
 		return record;
 	}
 
-	public List<UserGroupCopyMapRecord> getItemList()	
-	{
-		
+	public List<UserGroupCopyMapRecord> getItemList() {
+
 		List<UserGroupCopyMapRecord> itemList = new ArrayList<UserGroupCopyMapRecord>();
 		Enumeration<UserGroupCopyMapRecord> mapEnum = getItemStore().getEnum();
 		while (mapEnum.hasMoreElements()) {
 			UserGroupCopyMapRecord item = (UserGroupCopyMapRecord) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		
+
 		return itemList;
 	}
-	
-	
-	public boolean updateItem(Player player, UserGroupCopyMapRecord item ){
+
+	public boolean updateItem(Player player, UserGroupCopyMapRecord item) {
 		boolean success = getItemStore().updateItem(item);
-		if(success){
+		if (success) {
 			update();
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		}
 		return success;
 	}
-	
-	public UserGroupCopyMapRecord getItemByID(String itemId){
+
+	public UserGroupCopyMapRecord getItemByID(String itemId) {
 		return getItemStore().getItem(getRecordID(itemId));
 	}
-	
+
 	/**
 	 * 主键id
+	 * 
 	 * @param id
 	 * @return
 	 */
-	private String getRecordID(String id){
-		return userId+"_"+id;
+	private String getRecordID(String id) {
+		return userId + "_" + id;
 	}
-	
-	
 
-	private void update(){
+	private void update() {
 		dataVersion.incrementAndGet();
 	}
-	
-	public int getVersion(){
+
+	public int getVersion() {
 		return dataVersion.get();
 	}
-	private MapItemStore<UserGroupCopyMapRecord> getItemStore(){
+
+	private MapItemStore<UserGroupCopyMapRecord> getItemStore() {
 		MapItemStoreCache<UserGroupCopyMapRecord> itemStoreCache = MapItemStoreFactory.getUserGroupCopyLevelRecordCache();
 		return itemStoreCache.getMapItemStore(userId, UserGroupCopyMapRecord.class);
 	}
-
 
 	public void resetFightCount() {
 		List<UserGroupCopyMapRecord> list = getItemList();
@@ -110,18 +119,15 @@ public class UserGroupCopyMapRecordHolder{
 		}
 		update();
 	}
-	
-	
-	
-	public void syncData(Player player){
+
+	public void syncData(Player player) {
 		List<UserGroupCopyMapRecord> list = getItemList();
-		if(!list.isEmpty()){
+		if (!list.isEmpty()) {
 			ClientDataSynMgr.synDataList(player, getItemList(), synType, eSynOpType.UPDATE_LIST);
 		}
 	}
-	
-	
-	public void setFigntCount(int count, Player player){
+
+	public void setFigntCount(int count, Player player) {
 		List<UserGroupCopyMapRecord> list = getItemList();
 		for (UserGroupCopyMapRecord record : list) {
 			record.setLeftFightCount(count);
