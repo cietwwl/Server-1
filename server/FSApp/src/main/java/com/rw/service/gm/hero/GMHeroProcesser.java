@@ -28,17 +28,49 @@ public class GMHeroProcesser {
 	 * 处理指令teambringit
 	 * @param arrCommandContents
 	 * @param player
+	 * 如果传入的转职为5，则为迷你版增加英雄
 	 */
 	public static void processTeamBringit(String[] arrCommandContents, Player player){
 		int career = Integer.parseInt(arrCommandContents[0]);
+		// 添加英雄
+		final int maxLevel = GMHeroBase.gmGetMaxLevel();
+				
+		final int maxQuality = GMHeroBase.gmGetMaxQuality();
+		if(career== 5){
+			gmChangeCareer(player, 1);
+			bringitMainHeroSimple(player, maxLevel, maxQuality);
+			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
+				
+				@Override
+				public void run(Player player) {
+					player.setVip(15);
+					player.getUserGameDataMgr().addCoin(1999999999);
+					player.getUserGameDataMgr().addGold(1999999999);
+					Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
+					int num = 0;
+					for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy.entrySet().iterator(); iterator.hasNext();) {
+						if(num >4){
+							break;
+						}
+						Entry<String, RoleCfg> entry = iterator.next();
+						RoleCfg roleCfg = entry.getValue();
+						String templateId = roleCfg.getRoleId();
+						GMHeroBase.gmAddHero(entry.getKey(), player);
+						Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+						GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);	
+						num++;
+					}
+				}
+			});
+			
+			return;
+		}
 		
 		gmChangeCareer(player, career);
 		
 		
-		// 添加英雄
-		final int maxLevel = GMHeroBase.gmGetMaxLevel();
 		
-		final int maxQuality = GMHeroBase.gmGetMaxQuality();
+		
 		bringitMainHero(player, maxLevel, maxQuality);
 		
 		GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
@@ -141,6 +173,15 @@ public class GMHeroProcesser {
 			GMHeroBase.gmInlayJewel(hero, player, gemId);
 		}
 	}
+	
+	private static void bringitMainHeroSimple(Player player, int maxLevel, int maxQuality) {
+		Hero mainRoleHero = player.getMainRoleHero();
+		String templateId = mainRoleHero.getTemplateId();
+		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+		
+	}
+	
 	
 	/**
 	 * 添加英雄

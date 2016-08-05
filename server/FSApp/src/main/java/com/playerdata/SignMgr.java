@@ -569,7 +569,7 @@ public class SignMgr implements PlayerEventListener {
 		SignStatisticsCfg cfgById = SignStatisticsCfgDAO.getInstance().getCfgById(achieveSignId);
 		String nextID = cfgById.getNextID();
 		if(nextID.equals("0")){
-			return signNum > cfgById.getSignNum() ? overSignNum : cfgById.getSignNum();   
+			return signNum >= cfgById.getSignNum() ? overSignNum : cfgById.getSignNum();   
 		}else{
 			if(signDataHolder.getAchieveSignNum() == null){
 				return cfgById.getSignNum();
@@ -652,8 +652,10 @@ public class SignMgr implements PlayerEventListener {
 			if (!nextID.equals("0")) {
 				cfg = SignStatisticsCfgDAO.getInstance().getCfgById(nextID);
 				signNumRequire = cfg.getSignNum();
+			}else{
+				signNumRequire = signDataHolder.getOverSignNum();
 			}
-			signNumRequire = signDataHolder.getOverSignNum();
+			
 		}
 		if (signNum >= signNumRequire) {
 			signDataHolder.setAchieveSignNum(cfg.getID());

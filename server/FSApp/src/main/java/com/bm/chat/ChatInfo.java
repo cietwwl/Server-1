@@ -1,7 +1,6 @@
 package com.bm.chat;
 
 import com.rwproto.ChatServiceProtos.ChatMessageData;
-import com.rwproto.ChatServiceProtos.ChatMessageData.Builder;
 
 /*
  * @author HC
@@ -10,18 +9,23 @@ import com.rwproto.ChatServiceProtos.ChatMessageData.Builder;
  */
 public class ChatInfo {
 	private final int id;
-	private final ChatMessageData.Builder message;
+//	private final ChatMessageData.Builder message;
+	private final ChatMessageData message;
 
-	public ChatInfo(int id, Builder message) {
+	public ChatInfo(int id, ChatMessageData.Builder pMessageBuilder) {
 		this.id = id;
-		this.message = message;
+		this.message = pMessageBuilder.build();
 	}
-
+	
 	public int getId() {
 		return id;
 	}
 
-	public ChatMessageData.Builder getMessage() {
+//	public ChatMessageData.Builder getMessage() {
+//		return message;
+//	}
+	
+	public ChatMessageData getMessage() {
 		return message;
 	}
 }

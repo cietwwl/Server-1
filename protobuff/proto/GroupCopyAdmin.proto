@@ -7,6 +7,9 @@ package GroupCopyAdmin;
 enum RequestType{
 	OPEN_COPY = 1;//开启副本
 	RESET_COPY = 2;//重启副本
+	GET_APPLY_REWARD_INFO = 3;//查看可分配奖励情况,返回ApplyRewardInfo
+	GET_CHATER_DAMAGE = 4;//查看成员章节伤害,发送ChaterDamageReqMsg，
+	CHOSE_DIST_ROLE = 5;//选择分配奖励角色，手动分配[发送ChoseDistRewardData]
 }
 
 
@@ -19,6 +22,16 @@ message GroupCopyAdminResetCopyReqMsg{
 	required string mapId = 1; //重置地图的id
 }
 
+message ChaterDamageReqMsg{
+	required string mapId = 1;//章节id
+	required int32 itemID = 2;//申请的道具id
+}
+
+//选择分配奖励
+message ChoseDistRewardData{
+	required ChaterDamageReqMsg itemData = 1;
+	required string roleID = 2;//分给目标角色id
+}
 
 message GroupCopyAdminComReqMsg{
 
@@ -26,7 +39,8 @@ message GroupCopyAdminComReqMsg{
 	optional string version = 2;//版本号
 	optional GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;
 	optional GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;
-
+	optional ChaterDamageReqMsg damageReqMsg = 5;
+	optional ChoseDistRewardData choseDistReward = 6;
 }
 
 
@@ -34,4 +48,38 @@ message GroupCopyAdminComRspMsg{
 	required RequestType reqType = 1;//请求协议类型
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional ApplyRewardInfo applyInfo = 4;//当前可分配奖励数据
+	optional MemberDamageInfo damageInfo = 5;//所有成员在当前章节伤害数据
+}
+
+message ApplyRewardInfo{
+	required int32 nextTime = 1;//距离下次分配时间
+	repeated ChaterItemData  chaterData = 2;//每个章节数据
+
+}
+
+message ChaterItemData{
+	required string chaterID = 1;//章节id
+	repeated ApplyItemData itemData = 2;//每个道具数据
+}
+
+message ApplyItemData{
+	required int32 itemID = 1;
+	required int32 applyCount = 2; //申请人数
+}
+
+message MemberDamageInfo{
+	repeated MemberInfo applyRoleList = 1;//已经申请人列表
+	repeated MemberInfo unApplyRoleList = 2;//未申请人列表
+}
+
+message MemberInfo{
+	required string useID = 1;
+	required string headIcon = 2;
+	required int32 lv = 3;
+	required string roleName = 4;
+	required int32 damage = 5;
+	required bool canDist = 6;//是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+	required string headbox = 7;//用户头像框
+	
 }

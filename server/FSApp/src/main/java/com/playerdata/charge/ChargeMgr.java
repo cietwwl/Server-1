@@ -230,7 +230,7 @@ public class ChargeMgr {
 		Boolean isextragive = false;
 		Boolean ishasrecording = false;
 		for(ChargeInfoSubRecording sub :chargeInfo.getPayTimesList()){
-			if(Integer.parseInt(target.getId())==Integer.parseInt(sub.getId())){//有该道具的购买记录
+			if(StringUtils.equals(target.getId(),sub.getId() )){//有该道具的购买记录
 				ishasrecording = true;
 				if(target.getGiveCount()>sub.getCount()){//还有多余的限购次数
 					isextragive = true;

@@ -154,11 +154,15 @@ public class GFightOnFightBM {
 		try {
 			//判断次数，计算费用
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
-			int changeTimes = userGFData.getChangeEnimyTimes();
+			int changeTimes = userGFData.getChangeEnimyTimes() + 1;
 			GFightOnlineCostCfg costCfg = GFightOnlineCostDAO.getInstance().getCfgById(String.valueOf(changeTimes));
 			if(costCfg == null){
 				List<GFightOnlineCostCfg> cfgList = GFightOnlineCostDAO.getInstance().getAllCfg();
-				costCfg = cfgList.get(cfgList.size() - 1);
+				int maxIndex = 1;
+				for(GFightOnlineCostCfg cfg : cfgList){
+					if(maxIndex < cfg.getKey()) maxIndex = cfg.getKey();
+				}
+				costCfg = GFightOnlineCostDAO.getInstance().getCfgById(String.valueOf(maxIndex));
 			}
 			if(costCfg.getCost() > player.getUserGameDataMgr().getGold()){
 				gfRsp.setRstType(GFResultType.DIAMOND_NOT_ENOUGH);
@@ -388,6 +392,7 @@ public class GFightOnFightBM {
 		GFDefendArmyItem armyItem = GFDefendArmyMgr.getInstance().getItem(groupID, enimyArmyID);
 		ArmyInfoSimple simpleArmy = armyItem.getSimpleArmy();
 		for(CurAttrData attr : stateList){
+			if(StringUtils.isBlank(attr.getId()) || StringUtils.equals(attr.getId(), "0")) continue;
 			ArmyHeroSimple hero = simpleArmy.getArmyHeroByID(attr.getId());
 			if(hero == null) throw new GFFightResultException("战斗结果数据和防守整容数据不匹配");
 			hero.setCurAttrData(attr);

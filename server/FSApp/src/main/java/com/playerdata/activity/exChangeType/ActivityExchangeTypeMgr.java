@@ -123,7 +123,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	private void checkOtherDay(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem targetItem : itemlist) {	
+		for (ActivityExchangeTypeItem targetItem : itemlist) {
 			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getConfig(targetItem.getCfgId());
 			if(targetCfg == null){
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
@@ -137,8 +137,9 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 						subitem.setTime(0);
 					}
 				}
+				dataHolder.updateItem(player, targetItem);
 			}
-			dataHolder.updateItem(player, targetItem);
+			
 		}
 	}
 	

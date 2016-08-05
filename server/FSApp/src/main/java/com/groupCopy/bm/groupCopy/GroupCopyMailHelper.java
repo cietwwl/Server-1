@@ -14,6 +14,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.DropInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.email.EmailData;
@@ -43,8 +44,7 @@ public class GroupCopyMailHelper {
 	 */
 	public void dispatchGroupWarPrice(){
 		//检查时间，要求是在12-24点发送
-		Calendar C = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-		int hour = C.get(Calendar.HOUR_OF_DAY);
+		int hour = DateUtils.getCurrentHour();
 		if(hour < 12){
 			return;
 		}

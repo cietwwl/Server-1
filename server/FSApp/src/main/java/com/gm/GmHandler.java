@@ -25,7 +25,15 @@ import com.gm.task.GmEmailSingleCheck;
 import com.gm.task.GmEmailSingleDelete;
 import com.gm.task.GmEmailSingleSend;
 import com.gm.task.GmEmailWhiteList;
+import com.gm.task.GmExecuteGM;
 import com.gm.task.GmExecuteGMCommand;
+import com.gm.task.GmFindDaoistList;
+import com.gm.task.GmFindFishionSwingPetList;
+import com.gm.task.GmFindHeroEquipList;
+import com.gm.task.GmFindHeroList;
+import com.gm.task.GmFindHeroNormalAndExpEquipList;
+import com.gm.task.GmFindHeroSkillList;
+import com.gm.task.GmFindMagicList;
 import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
@@ -36,6 +44,7 @@ import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
 import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
+import com.gm.task.GmReloadCfg;
 import com.gm.task.GmResponsePlayerQuestion;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
@@ -95,10 +104,16 @@ public class GmHandler {
 		//运营功能
 		taskMap.put(20001, new GmUserInfo());
 		taskMap.put(20002, new GmServerStatus());
-		taskMap.put(20030, new GmUserDetailInfo());
+		taskMap.put(20003, new GmEditPlatformNotice());
+		taskMap.put(20004, new GmViewPlatformNotice());
+		taskMap.put(20005, new GmEditGameNotice());
+		taskMap.put(20006, new GmViewGameNotice());
+		taskMap.put(20007, new GmDeleteGameNotice());
 		taskMap.put(20014, new GmEmailWhiteList());
 		taskMap.put(20015, new GmEmailAll());
 		taskMap.put(20016, new GmEmailSingleSend());
+		taskMap.put(20019, new GmResponsePlayerQuestion());
+		taskMap.put(20020, new GmExecuteGM());
 		taskMap.put(20021, new GmEmailSingleCheck());
 		taskMap.put(20022, new GmEmailSingleDelete());
 		
@@ -109,19 +124,23 @@ public class GmHandler {
 		taskMap.put(20027, new GmOpGold());
 		taskMap.put(20028, new GmOpCoin());
 		taskMap.put(20029, new GmOpExp());
+		taskMap.put(20030, new GmUserDetailInfo());
+		taskMap.put(20032, new GmViewFriends());
 		
 		taskMap.put(20035, new GmCheckBag());
 		taskMap.put(20036, new GmDeleteBag());
-		taskMap.put(20003, new GmEditPlatformNotice());
-		taskMap.put(20004, new GmViewPlatformNotice());
-		taskMap.put(20005, new GmEditGameNotice());
-		taskMap.put(20006, new GmViewGameNotice());
-		taskMap.put(20007, new GmDeleteGameNotice());
-		taskMap.put(20019, new GmResponsePlayerQuestion());
-		taskMap.put(20032, new GmViewFriends());
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
 		taskMap.put(20040, new GmViewEmailList());
+		taskMap.put(20055, new GmFindHeroList());
+		taskMap.put(20056, new GmFindMagicList());
+		taskMap.put(20057, new GmFindDaoistList());
+		taskMap.put(20058, new GmFindFishionSwingPetList());
+		taskMap.put(20059, new GmFindHeroSkillList());
+		taskMap.put(20060, new GmFindHeroEquipList());
+		taskMap.put(20061, new GmFindHeroNormalAndExpEquipList());
+		
+		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
 		
@@ -131,6 +150,8 @@ public class GmHandler {
 		taskMap.put(99998, new GmEditCloseTips());
 		//更新缓存记录开关
 		taskMap.put(99997, new GmUpdateCacheSwitch());
+		//重新加载配置表
+		taskMap.put(99996, new GmReloadCfg());
 	}
 
 	
@@ -153,7 +174,7 @@ public class GmHandler {
 				if (unAuthorize(gmRequest)) {
 
 					gmResponse = new GmResponse();
-					gmResponse.setStatus(2);
+					gmResponse.setStatus(1);
 					gmResponse.setCount(0);
 					Map<String, Object> resultMap = new HashMap<String, Object>();
 					resultMap.put("value", "account unauthorized.");

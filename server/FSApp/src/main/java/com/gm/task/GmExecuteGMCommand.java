@@ -15,7 +15,7 @@ import com.playerdata.PlayerMgr;
 import com.rw.service.gm.GMHandler;
 
 /**
- * 调用原有的gm指令
+ * 调用原有的gm指令(需要角色id)
  * @author lida
  *
  */

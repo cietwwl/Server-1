@@ -30,6 +30,7 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class PvECommonHelper {
@@ -242,15 +243,16 @@ public class PvECommonHelper {
 	private static boolean isTimesLimit(Player player, CopyCfg copyCfg,CopyLevelRecordIF copyRecord, int times) {
 	
 		boolean isLimit = false;
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD 
-				||copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG
-				||copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL ){			
+		int levelType = copyCfg.getLevelType();
+		if(levelType == CopyType.COPY_TYPE_TRIAL_JBZD 
+				||levelType == CopyType.COPY_TYPE_TRIAL_LQSG
+				||levelType == CopyType.COPY_TYPE_CELESTIAL ){			
 			//历史原因  ， 聚宝之地 练气山谷 生存幻境 的次数保存在copydata, 
 			isLimit = player.getCopyDataMgr().getCopyCount(String.valueOf(copyCfg.getLevelID())) - times < 0;				
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE || copyCfg.getLevelType() == CopyType.COPY_TYPE_ARENA){
+		}else if(levelType == CopyType.COPY_TYPE_ELITE){
 			//精英和普通副本保存在copylevelRecord
 			isLimit = copyRecord.getCurrentCount()+times > copyCfg.getResetNum();
-		}else{
+		}else {
 			//do nothing 另外的pve都有自己的次数判断,普通副本不做限制
 		}
 		

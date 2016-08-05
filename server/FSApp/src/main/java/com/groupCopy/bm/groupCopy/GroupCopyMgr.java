@@ -7,17 +7,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
+import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
+import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.DamageComparator;
+import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.DropItemComparator;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfg;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
@@ -30,49 +31,44 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDamegeRankInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
-import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
+import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
-import com.rw.controler.GameLogicTask;
-import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.service.Email.EmailUtils;
-import com.rw.service.group.helper.GroupHelper;
-import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.email.EmailData;
-import com.rwbase.dao.group.pojo.Group;
-import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.majorDatas.MajorDataDataHolder;
-import com.rwbase.gameworld.GameWorldExecutor;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwbase.gameworld.PlayerTask;
-import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
-import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
-import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
-import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
-import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
-import com.rwproto.GroupCopyCmdProto.ArmyHurtStruct;
-import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
-import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
-import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
-import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.monster.cfg.CopyMonsterCfg;
-import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.GroupCopyAdminProto.ApplyItemData;
+import com.rwproto.GroupCopyAdminProto.ApplyRewardInfo;
+import com.rwproto.GroupCopyAdminProto.ChaterItemData;
+import com.rwproto.GroupCopyAdminProto.MemberDamageInfo;
+import com.rwproto.GroupCopyAdminProto.MemberInfo;
+import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
+import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
+import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
+import com.rwproto.GroupCopyCmdProto.ArmyHurtStruct;
+import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
+import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
+import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
+import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 /**
  * 
@@ -98,7 +94,10 @@ public class GroupCopyMgr {
 	private final String ROLE_DIST = "由%s进行分配";
 	
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
-	public final static DropApplyComparator adComparator = new DropApplyComparator();
+	public final static DropItemComparator DROPCOMPARATOR = new DropItemComparator();
+	public final static ApplyRoleComparator ROLECOMPARATOR = new ApplyRoleComparator();
+	public final static ApplyItemComparator ITEMCOMPARATOR = new ApplyItemComparator();//章节id比较器，小的在前
+	public final static DamageComparator DAMAGECOMPARATOR = new DamageComparator();
 
 	public static final int MAX_RANK_RECORDS = 10;
 	
@@ -235,11 +234,17 @@ public class GroupCopyMgr {
 	
 	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
+		
 		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
 		if(record.getProgress().getCurrentHp() == 0){
 			return nowPro.getTotalHp() - nowPro.getCurrentHp();
 		}
-		return record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		if(damage <= 0){
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
+					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp(), null);
+		}
+		return damage;
 	}
 
 	
@@ -287,7 +292,7 @@ public class GroupCopyMgr {
 			
 			//增加成员章节总伤害
 			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
-			mapRecord.addPlayerDamage(player.getUserName(), damage);
+			mapRecord.addPlayerDamage(player.getUserId(), damage);
 			mapRecordHolder.updateItem(null, mapRecord);
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[checkDamageRank]", "帮派副本战斗结束检查排行榜时出现异常", e);
@@ -595,20 +600,19 @@ public class GroupCopyMgr {
 			result.setTipMsg("找不到对应章节id为"+chaterID+"的掉落记录！");
 			return result;
 		}
-		synchronized (record) {
-			//检查是否有旧的申请记录,如果有，要去掉
-			clearBeforeApplyRecord(player, record);
-			if(apply){
-				ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
-				ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
-				applyTemplate.addApplyRole(info);
-				
-			}
+		
+		//检查是否有旧的申请记录,如果有，要去掉
+		clearBeforeApplyRecord(player, record);
+		if(apply){
+			ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
+			ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
+			applyTemplate.addApplyRole(info);
 			
-			//添加入新的记录
-			dropHolder.updateItem(player, record);
-			result.setSuccess(true);
 		}
+		
+		//添加入新的记录
+		dropHolder.updateItem(player, record);
+		result.setSuccess(true);
 		
 		
 		return result;
@@ -675,8 +679,8 @@ public class GroupCopyMgr {
 						continue;
 					
 					//如果申请人和物品都有数据，则进行分发
-					Collections.sort(applyInfo, adComparator);
-					Collections.sort(dropInfo, adComparator);
+					Collections.sort(applyInfo, ROLECOMPARATOR);
+					Collections.sort(dropInfo, DROPCOMPARATOR);
 					ApplyInfo apply = null;
 					DropInfo drop = dropInfo.get(0);
 					boolean match = false;
@@ -685,7 +689,7 @@ public class GroupCopyMgr {
 						apply = applyInfo.get(i);
 						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
 						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-						if(baseData == null || (drop.getOccurTime() < baseData.getJoinTime())){
+						if(baseData == null || (drop.getTime() < baseData.getJoinTime())){
 							continue;
 						}
 						match = true;
@@ -772,7 +776,199 @@ public class GroupCopyMgr {
 		return index;
 	}
 
+	/**
+	 * 获取所有奖励申请情况
+	 * @param player
+	 * @return
+	 */
+	public GroupCopyResult applyAllRewardInfo(Player player) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		
+		ApplyRewardInfo.Builder builder = ApplyRewardInfo.newBuilder();
+		//计算下次分配时间
+		int leftMin = 0;
+		int hour = DateUtils.getCurrentHour();
+		if(hour < 11){
+			hour = 11 - hour;
+			leftMin = hour * 60 + (60 - DateUtils.getCurMinuteOfHour());
+		}else{
+			leftMin = 60 - DateUtils.getCurMinuteOfHour();
+		}
+		
+		//组装数据
+		builder.setNextTime(leftMin);
+		
+		List<CopyItemDropAndApplyRecord> list = dropHolder.getItemList();
+		//根据chaterID 排一下序
+		Collections.sort(list, ITEMCOMPARATOR);
+		
+		ChaterItemData.Builder chaterData;
+		for (CopyItemDropAndApplyRecord record : list) {
+			chaterData = ChaterItemData.newBuilder();
+			chaterData.setChaterID(record.getChaterID());
+			for (ItemDropAndApplyTemplate datemplate : record.getDaMap().values()) {
+				if(!datemplate.getDropInfoList().isEmpty()){
+					ApplyItemData.Builder data = ApplyItemData.newBuilder();
+					data.setItemID(datemplate.getItemID());
+					data.setApplyCount(datemplate.getApplyData().size());
+					chaterData.addItemData(data);
+				}
+			}
+			if(chaterData.getItemDataCount() > 0){
+				builder.addChaterData(chaterData);
+			}
+		}
+		
+		result.setItem(builder);
+		result.setSuccess(true);
+		return result;
+	}
+
 	
+	/**
+	 * 获取所有角色的章节伤害信息
+	 * @param group TODO
+	 * @param mapID
+	 * @param itemID
+	 * @return
+	 */
+	public GroupCopyResult applyAllRoleDamageInfo(Group group, String mapID, int itemID) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		MemberDamageInfo.Builder damageInfo = MemberDamageInfo.newBuilder();
+		
+		try {
+			
+			List<? extends GroupMemberDataIF> memberList = group.getGroupMemberMgr().getMemberSortList(null);
+
+			ItemDropAndApplyTemplate template = dropHolder.getItemApplyDataByID(mapID, itemID);
+			if(template == null){
+				result.setSuccess(false);
+				result.setTipMsg("无此物品数据!");
+				return result;
+			}
+			long dropTime = template.getDropInfoList().get(0).getTime();
+			List<MemberInfo.Builder> applyList = new ArrayList<MemberInfo.Builder>();
+			List<MemberInfo.Builder> unApplyList = new ArrayList<MemberInfo.Builder>();
+			List<ApplyInfo> applyData = template.getApplyData();
+			for (GroupMemberDataIF m : memberList) {
+				MemberInfo.Builder member = MemberInfo.newBuilder();
+				Player role = PlayerMgr.getInstance().find(m.getUserId());
+				member.setUseID(m.getUserId());
+				member.setHeadIcon(m.getHeadId());
+				member.setHeadbox(role.getHeadFrame());
+				
+				member.setLv(m.getLevel());
+				member.setRoleName(m.getName());
+				member.setDamage(getRoleDamage(m.getUserId(), mapID));
+				if(m.getReceiveTime() > dropTime){
+					
+					member.setCanDist(false);
+				}else{
+					member.setCanDist(true);
+				}
+				if(getRoleApplyInfo(m.getUserId(), applyData) != null){
+					applyList.add(member);
+					
+				}else{
+					unApplyList.add(member);
+					
+				}
+			}
+			
+			
+			if(applyList.size() > 0){
+				Collections.sort(applyList,DAMAGECOMPARATOR);
+			}
+			if(unApplyList.size() > 0){
+				Collections.sort(unApplyList, DAMAGECOMPARATOR);
+			}
+			
+			for (MemberInfo.Builder applyInfo : applyList) {
+				damageInfo.addApplyRoleList(applyInfo);
+			}
+			for (MemberInfo.Builder builder : unApplyList) {
+				damageInfo.addUnApplyRoleList(builder);
+			}
+
+			result.setItem(damageInfo);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+
+	/**
+	 * 获取角色在当前章节的总伤害
+	 * @param playerID
+	 * @param chaterID
+	 * @return
+	 */
+	private int getRoleDamage(String playerID, String chaterID){
+		GroupCopyMapRecord record = mapRecordHolder.getItemByID(chaterID);
+		Integer damage = record.getGroupRoleDamageMap().get(playerID);
+		if(damage == null){
+			return 0;
+		}
+		return damage;
+	}
 	
+	private ApplyInfo getRoleApplyInfo(String roleID, List<ApplyInfo> list){
+		ApplyInfo roleApply = null;
+		for (ApplyInfo info : list) {
+			if(info.getRoleID().equals(roleID)){
+				roleApply = info;
+				break;
+			}
+		}
+		return roleApply;
+	}
+
+	/**
+	 * 分配奖励给选择的角色
+	 * @param group TODO
+	 * @param role
+	 * @param mapID
+	 * @param itemID
+	 * @param distRoleName TODO
+	 * @return
+	 */
+	public GroupCopyResult distReward2Role(Group group, Player role, String mapID, int itemID, String distRoleName) {
+		GroupCopyResult result = GroupCopyResult.newResult();
+		try {
+			//先找到章节的奖励
+			ItemDropAndApplyTemplate template = dropHolder.getItemApplyDataByID(mapID, itemID);
+			
+			//检查是否还有可以奖励的道具
+			
+			List<DropInfo> tempList = new ArrayList<DropInfo>();
+			tempList.addAll(template.getDropInfoList());
+			Collections.sort(tempList, DROPCOMPARATOR);;
+			DropInfo dropInfo = tempList.get(0);
+			
+			GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(role.getUserId(), false);
+			if(memberData.getReceiveTime() > dropInfo.getTime()){
+				result.setSuccess(false);
+				result.setTipMsg("不可将道具分配给比道具掉落更迟的玩家");
+				return result;
+			}
+			
+			//可分配，则修改记录
+			ApplyInfo applyInfo = getRoleApplyInfo(role.getUserId(), template.getApplyData());
+			if(applyInfo != null){
+				template.deleteApplyData(applyInfo);
+			}
+			applyInfo = new ApplyInfo(role.getUserId(), role.getUserName(), System.currentTimeMillis());
+			applyInfo.setDistRoleName(distRoleName);
+			template.addApplyRole(applyInfo);
+			result.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setSuccess(false);
+		}
+		return result;
+	}
 	
 }

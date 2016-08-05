@@ -2,16 +2,18 @@ package com.rw.service.gm;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
-import com.bm.guild.GuildGTSMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
@@ -20,11 +22,11 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
-import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -164,6 +166,7 @@ public class GMHandler {
 		funcCallBackMap.put("endbtsweep", "endBTsweep");
 		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("setbtkey", "setBattleTowerKey");
+		funcCallBackMap.put("setbtlefttime", "setBattleTowerLeftTime");
 
 		// 道术
 		funcCallBackMap.put("setalltaoist", "setAllTaoist");
@@ -176,6 +179,16 @@ public class GMHandler {
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
 		//添加帮派副本战斗次数    * setgbf 1000
 		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
+		
+		// 聊天消息测试
+		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
+		funcCallBackMap.put("sendinteractivedata", "sendInteractiveData");
+		funcCallBackMap.put("receiveinteractivedata", "receiveInteractiveData");
+
+		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
+		funcCallBackMap.put("addwakenkey", "addWakenKey");
+		
+		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		
 	}
 
@@ -268,7 +281,24 @@ public class GMHandler {
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
+	
+	public boolean setBattleTowerLeftTime(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerLeftTime", "start", null);
+		boolean result = true;
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();// 试练塔数据管理
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();// 试练塔的存储数据
 
+		final int highestFloor = tableBattleTower.getHighestFloor();
+		int sweepStartFloor = highestFloor - 2;
+		long now = System.currentTimeMillis();
+
+		tableBattleTower.setSweepStartTime(now);
+		tableBattleTower.setSweepStartFloor(sweepStartFloor);
+		TableBattleTowerDao.getDao().update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerLeftTime " + "finished", null);
+		return result;
+	}
+	
 	public boolean setBattleTowerFloor(String[] arrCommandContents, Player player) {
 		GameLog.info("GM", "setBattleTowerFloor", "start", null);
 		boolean result = true;
@@ -343,8 +373,9 @@ public class GMHandler {
 			return false;
 		}
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
+		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据
@@ -482,6 +513,32 @@ public class GMHandler {
 		// ActivityExchangeTypeHandler.getInstance();
 		// ActivityExchangeTypeHandler.GmTakeGift(player, strs);
 		//
+		return false;
+	}
+	
+	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenPiece(addNum);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addWakenKey(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenKey(addNum);
+			return true;
+		}
 		return false;
 	}
 
@@ -725,22 +782,6 @@ public class GMHandler {
 				Calendar c = Calendar.getInstance();
 				;
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, c.getTime().toString());
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean addguildNum(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-
-			return false;
-		}
-		if (player != null) {
-			if ("1".equals(arrCommandContents[0])) {
-				String guildId = player.getGuildUserMgr().getGuildId();
-				GuildDataMgr guildMgr = GuildGTSMgr.getInstance().getById(guildId);
-				guildMgr.getGuildPropTSMgr().gmAdd(player, 1);
 				return true;
 			}
 		}
@@ -1156,6 +1197,94 @@ public class GMHandler {
 		return true;
 	}
 	
+	public boolean getPrivateChatList(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		try {
+			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
+			fUserChannelMap.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
+			fUserChannelMap.setAccessible(false);
+			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
+			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
+			headerBuilder.setUserId(player.getUserId());
+			requestBuilder.setHeader(headerBuilder.build());
+			com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
+			requestBuilder.setBody(bodyBuilder.build());
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
+		try {
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean receiveInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
+		try {
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			Player sender = PlayerMgr.getInstance().find(targetUserId);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
 		
 		int count = Integer.parseInt(arrcomStrings[0]);
@@ -1164,6 +1293,14 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addServerStatusTips(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
 }

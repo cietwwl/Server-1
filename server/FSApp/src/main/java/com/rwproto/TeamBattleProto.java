@@ -22,93 +22,109 @@ public final class TeamBattleProto {
      */
     SYN_TEAM_BATTLE(0, 1),
     /**
-     * <code>SAVE_TEAM_INFO = 2;</code>
+     * <code>NON_SYN_TEAM_BATTLE = 2;</code>
+     *
+     * <pre>
+     *请求不再同步组队副本信息
+     * </pre>
+     */
+    NON_SYN_TEAM_BATTLE(1, 2),
+    /**
+     * <code>SAVE_TEAM_INFO = 3;</code>
      *
      * <pre>
      *保存个人的队伍信息
      * </pre>
      */
-    SAVE_TEAM_INFO(1, 2),
+    SAVE_TEAM_INFO(2, 3),
     /**
-     * <code>CREATE_TEAM = 3;</code>
+     * <code>CREATE_TEAM = 4;</code>
      *
      * <pre>
      *创建队伍
      * </pre>
      */
-    CREATE_TEAM(2, 3),
+    CREATE_TEAM(3, 4),
     /**
-     * <code>JOIN_TEAM = 4;</code>
+     * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
      *加入队伍
      * </pre>
      */
-    JOIN_TEAM(3, 4),
+    JOIN_TEAM(4, 5),
     /**
-     * <code>LEAVE_TEAM = 5;</code>
+     * <code>LEAVE_TEAM = 6;</code>
      *
      * <pre>
      *离开队伍
      * </pre>
      */
-    LEAVE_TEAM(4, 5),
+    LEAVE_TEAM(5, 6),
     /**
-     * <code>ACCEPT_INVITE = 6;</code>
+     * <code>ACCEPT_INVITE = 7;</code>
      *
      * <pre>
      *接受入队邀请
      * </pre>
      */
-    ACCEPT_INVITE(5, 6),
+    ACCEPT_INVITE(6, 7),
     /**
-     * <code>SET_TEAM_FREE_JION = 7;</code>
+     * <code>SET_TEAM_FREE_JION = 8;</code>
      *
      * <pre>
      *设置队伍是否可以快速加入
      * </pre>
      */
-    SET_TEAM_FREE_JION(6, 7),
+    SET_TEAM_FREE_JION(7, 8),
     /**
-     * <code>KICK_OFF_MEMBER = 8;</code>
+     * <code>KICK_OFF_MEMBER = 9;</code>
      *
      * <pre>
      *踢掉队伍成员
      * </pre>
      */
-    KICK_OFF_MEMBER(7, 8),
+    KICK_OFF_MEMBER(8, 9),
     /**
-     * <code>INVITE_PLAYER = 9;</code>
+     * <code>INVITE_PLAYER = 10;</code>
      *
      * <pre>
      *邀请玩家加入组队
      * </pre>
      */
-    INVITE_PLAYER(8, 9),
+    INVITE_PLAYER(9, 10),
     /**
-     * <code>START_FIGHT = 10;</code>
+     * <code>START_FIGHT = 11;</code>
      *
      * <pre>
      *开始战斗
      * </pre>
      */
-    START_FIGHT(9, 10),
+    START_FIGHT(10, 11),
     /**
-     * <code>INFORM_FIGHT_RESULT = 11;</code>
+     * <code>INFORM_FIGHT_RESULT = 12;</code>
      *
      * <pre>
      *通知战斗结果
      * </pre>
      */
-    INFORM_FIGHT_RESULT(10, 11),
+    INFORM_FIGHT_RESULT(11, 12),
     /**
-     * <code>SCORE_EXCHANGE = 12;</code>
+     * <code>SCORE_EXCHANGE = 13;</code>
      *
      * <pre>
      *积分兑换奖励
      * </pre>
      */
-    SCORE_EXCHANGE(11, 12),
+    SCORE_EXCHANGE(12, 13),
+    /**
+     * <code>SAVE_MEMBER_POSITION = 14;</code>
+     *
+     * <pre>
+     *保存成员上阵顺序
+     * </pre>
+     */
+    SAVE_MEMBER_POSITION(13, 14),
     ;
 
     /**
@@ -120,93 +136,109 @@ public final class TeamBattleProto {
      */
     public static final int SYN_TEAM_BATTLE_VALUE = 1;
     /**
-     * <code>SAVE_TEAM_INFO = 2;</code>
+     * <code>NON_SYN_TEAM_BATTLE = 2;</code>
+     *
+     * <pre>
+     *请求不再同步组队副本信息
+     * </pre>
+     */
+    public static final int NON_SYN_TEAM_BATTLE_VALUE = 2;
+    /**
+     * <code>SAVE_TEAM_INFO = 3;</code>
      *
      * <pre>
      *保存个人的队伍信息
      * </pre>
      */
-    public static final int SAVE_TEAM_INFO_VALUE = 2;
+    public static final int SAVE_TEAM_INFO_VALUE = 3;
     /**
-     * <code>CREATE_TEAM = 3;</code>
+     * <code>CREATE_TEAM = 4;</code>
      *
      * <pre>
      *创建队伍
      * </pre>
      */
-    public static final int CREATE_TEAM_VALUE = 3;
+    public static final int CREATE_TEAM_VALUE = 4;
     /**
-     * <code>JOIN_TEAM = 4;</code>
+     * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
      *加入队伍
      * </pre>
      */
-    public static final int JOIN_TEAM_VALUE = 4;
+    public static final int JOIN_TEAM_VALUE = 5;
     /**
-     * <code>LEAVE_TEAM = 5;</code>
+     * <code>LEAVE_TEAM = 6;</code>
      *
      * <pre>
      *离开队伍
      * </pre>
      */
-    public static final int LEAVE_TEAM_VALUE = 5;
+    public static final int LEAVE_TEAM_VALUE = 6;
     /**
-     * <code>ACCEPT_INVITE = 6;</code>
+     * <code>ACCEPT_INVITE = 7;</code>
      *
      * <pre>
      *接受入队邀请
      * </pre>
      */
-    public static final int ACCEPT_INVITE_VALUE = 6;
+    public static final int ACCEPT_INVITE_VALUE = 7;
     /**
-     * <code>SET_TEAM_FREE_JION = 7;</code>
+     * <code>SET_TEAM_FREE_JION = 8;</code>
      *
      * <pre>
      *设置队伍是否可以快速加入
      * </pre>
      */
-    public static final int SET_TEAM_FREE_JION_VALUE = 7;
+    public static final int SET_TEAM_FREE_JION_VALUE = 8;
     /**
-     * <code>KICK_OFF_MEMBER = 8;</code>
+     * <code>KICK_OFF_MEMBER = 9;</code>
      *
      * <pre>
      *踢掉队伍成员
      * </pre>
      */
-    public static final int KICK_OFF_MEMBER_VALUE = 8;
+    public static final int KICK_OFF_MEMBER_VALUE = 9;
     /**
-     * <code>INVITE_PLAYER = 9;</code>
+     * <code>INVITE_PLAYER = 10;</code>
      *
      * <pre>
      *邀请玩家加入组队
      * </pre>
      */
-    public static final int INVITE_PLAYER_VALUE = 9;
+    public static final int INVITE_PLAYER_VALUE = 10;
     /**
-     * <code>START_FIGHT = 10;</code>
+     * <code>START_FIGHT = 11;</code>
      *
      * <pre>
      *开始战斗
      * </pre>
      */
-    public static final int START_FIGHT_VALUE = 10;
+    public static final int START_FIGHT_VALUE = 11;
     /**
-     * <code>INFORM_FIGHT_RESULT = 11;</code>
+     * <code>INFORM_FIGHT_RESULT = 12;</code>
      *
      * <pre>
      *通知战斗结果
      * </pre>
      */
-    public static final int INFORM_FIGHT_RESULT_VALUE = 11;
+    public static final int INFORM_FIGHT_RESULT_VALUE = 12;
     /**
-     * <code>SCORE_EXCHANGE = 12;</code>
+     * <code>SCORE_EXCHANGE = 13;</code>
      *
      * <pre>
      *积分兑换奖励
      * </pre>
      */
-    public static final int SCORE_EXCHANGE_VALUE = 12;
+    public static final int SCORE_EXCHANGE_VALUE = 13;
+    /**
+     * <code>SAVE_MEMBER_POSITION = 14;</code>
+     *
+     * <pre>
+     *保存成员上阵顺序
+     * </pre>
+     */
+    public static final int SAVE_MEMBER_POSITION_VALUE = 14;
 
 
     public final int getNumber() { return value; }
@@ -214,17 +246,19 @@ public final class TeamBattleProto {
     public static TBRequestType valueOf(int value) {
       switch (value) {
         case 1: return SYN_TEAM_BATTLE;
-        case 2: return SAVE_TEAM_INFO;
-        case 3: return CREATE_TEAM;
-        case 4: return JOIN_TEAM;
-        case 5: return LEAVE_TEAM;
-        case 6: return ACCEPT_INVITE;
-        case 7: return SET_TEAM_FREE_JION;
-        case 8: return KICK_OFF_MEMBER;
-        case 9: return INVITE_PLAYER;
-        case 10: return START_FIGHT;
-        case 11: return INFORM_FIGHT_RESULT;
-        case 12: return SCORE_EXCHANGE;
+        case 2: return NON_SYN_TEAM_BATTLE;
+        case 3: return SAVE_TEAM_INFO;
+        case 4: return CREATE_TEAM;
+        case 5: return JOIN_TEAM;
+        case 6: return LEAVE_TEAM;
+        case 7: return ACCEPT_INVITE;
+        case 8: return SET_TEAM_FREE_JION;
+        case 9: return KICK_OFF_MEMBER;
+        case 10: return INVITE_PLAYER;
+        case 11: return START_FIGHT;
+        case 12: return INFORM_FIGHT_RESULT;
+        case 13: return SCORE_EXCHANGE;
+        case 14: return SAVE_MEMBER_POSITION;
         default: return null;
       }
     }
@@ -565,6 +599,159 @@ public final class TeamBattleProto {
      * </pre>
      */
     int getFightResult();
+
+    // optional string loopID = 9;
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    boolean hasLoopID();
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    java.lang.String getLoopID();
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLoopIDBytes();
+
+    // optional int32 battleTime = 10;
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    boolean hasBattleTime();
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    int getBattleTime();
+
+    // optional string memPos = 11;
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    boolean hasMemPos();
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    java.lang.String getMemPos();
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMemPosBytes();
+
+    // optional int32 inviteType = 12;
+    /**
+     * <code>optional int32 inviteType = 12;</code>
+     *
+     * <pre>
+     *邀请的类型：1，世界；2，公会；3，好友
+     * </pre>
+     */
+    boolean hasInviteType();
+    /**
+     * <code>optional int32 inviteType = 12;</code>
+     *
+     * <pre>
+     *邀请的类型：1，世界；2，公会；3，好友
+     * </pre>
+     */
+    int getInviteType();
+
+    // repeated string inviteUsers = 13;
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getInviteUsersList();
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    int getInviteUsersCount();
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    java.lang.String getInviteUsers(int index);
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getInviteUsersBytes(int index);
+
+    // optional string inviteContent = 14;
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    boolean hasInviteContent();
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    java.lang.String getInviteContent();
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getInviteContentBytes();
   }
   /**
    * Protobuf type {@code teamBattle.TeamBattleReqMsg}
@@ -663,6 +850,39 @@ public final class TeamBattleProto {
               fightResult_ = input.readInt32();
               break;
             }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              loopID_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              battleTime_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              memPos_ = input.readBytes();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              inviteType_ = input.readInt32();
+              break;
+            }
+            case 106: {
+              if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+                inviteUsers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00001000;
+              }
+              inviteUsers_.add(input.readBytes());
+              break;
+            }
+            case 114: {
+              bitField0_ |= 0x00001000;
+              inviteContent_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -671,6 +891,9 @@ public final class TeamBattleProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+          inviteUsers_ = new com.google.protobuf.UnmodifiableLazyStringList(inviteUsers_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1050,6 +1273,265 @@ public final class TeamBattleProto {
       return fightResult_;
     }
 
+    // optional string loopID = 9;
+    public static final int LOOPID_FIELD_NUMBER = 9;
+    private java.lang.Object loopID_;
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public boolean hasLoopID() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public java.lang.String getLoopID() {
+      java.lang.Object ref = loopID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          loopID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLoopIDBytes() {
+      java.lang.Object ref = loopID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        loopID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 battleTime = 10;
+    public static final int BATTLETIME_FIELD_NUMBER = 10;
+    private int battleTime_;
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    public boolean hasBattleTime() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    public int getBattleTime() {
+      return battleTime_;
+    }
+
+    // optional string memPos = 11;
+    public static final int MEMPOS_FIELD_NUMBER = 11;
+    private java.lang.Object memPos_;
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    public boolean hasMemPos() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    public java.lang.String getMemPos() {
+      java.lang.Object ref = memPos_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          memPos_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string memPos = 11;</code>
+     *
+     * <pre>
+     *成员上阵顺序
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMemPosBytes() {
+      java.lang.Object ref = memPos_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        memPos_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 inviteType = 12;
+    public static final int INVITETYPE_FIELD_NUMBER = 12;
+    private int inviteType_;
+    /**
+     * <code>optional int32 inviteType = 12;</code>
+     *
+     * <pre>
+     *邀请的类型：1，世界；2，公会；3，好友
+     * </pre>
+     */
+    public boolean hasInviteType() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional int32 inviteType = 12;</code>
+     *
+     * <pre>
+     *邀请的类型：1，世界；2，公会；3，好友
+     * </pre>
+     */
+    public int getInviteType() {
+      return inviteType_;
+    }
+
+    // repeated string inviteUsers = 13;
+    public static final int INVITEUSERS_FIELD_NUMBER = 13;
+    private com.google.protobuf.LazyStringList inviteUsers_;
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getInviteUsersList() {
+      return inviteUsers_;
+    }
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    public int getInviteUsersCount() {
+      return inviteUsers_.size();
+    }
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    public java.lang.String getInviteUsers(int index) {
+      return inviteUsers_.get(index);
+    }
+    /**
+     * <code>repeated string inviteUsers = 13;</code>
+     *
+     * <pre>
+     *邀请的好友id列表
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getInviteUsersBytes(int index) {
+      return inviteUsers_.getByteString(index);
+    }
+
+    // optional string inviteContent = 14;
+    public static final int INVITECONTENT_FIELD_NUMBER = 14;
+    private java.lang.Object inviteContent_;
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    public boolean hasInviteContent() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    public java.lang.String getInviteContent() {
+      java.lang.Object ref = inviteContent_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          inviteContent_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string inviteContent = 14;</code>
+     *
+     * <pre>
+     *邀请的内容
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getInviteContentBytes() {
+      java.lang.Object ref = inviteContent_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        inviteContent_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.TeamBattleProto.TBRequestType.SYN_TEAM_BATTLE;
       hardID_ = "";
@@ -1059,6 +1541,12 @@ public final class TeamBattleProto {
       rewardID_ = "";
       count_ = 0;
       fightResult_ = 0;
+      loopID_ = "";
+      battleTime_ = 0;
+      memPos_ = "";
+      inviteType_ = 0;
+      inviteUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      inviteContent_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1100,6 +1588,24 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, fightResult_);
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, getLoopIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, battleTime_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getMemPosBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(12, inviteType_);
+      }
+      for (int i = 0; i < inviteUsers_.size(); i++) {
+        output.writeBytes(13, inviteUsers_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeBytes(14, getInviteContentBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1140,6 +1646,35 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, fightResult_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getLoopIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, battleTime_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getMemPosBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, inviteType_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < inviteUsers_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(inviteUsers_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getInviteUsersList().size();
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(14, getInviteContentBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1273,6 +1808,18 @@ public final class TeamBattleProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         fightResult_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        loopID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        battleTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        memPos_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        inviteType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        inviteUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        inviteContent_ = "";
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -1333,6 +1880,32 @@ public final class TeamBattleProto {
           to_bitField0_ |= 0x00000080;
         }
         result.fightResult_ = fightResult_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.loopID_ = loopID_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.battleTime_ = battleTime_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.memPos_ = memPos_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.inviteType_ = inviteType_;
+        if (((bitField0_ & 0x00001000) == 0x00001000)) {
+          inviteUsers_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              inviteUsers_);
+          bitField0_ = (bitField0_ & ~0x00001000);
+        }
+        result.inviteUsers_ = inviteUsers_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.inviteContent_ = inviteContent_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1382,6 +1955,37 @@ public final class TeamBattleProto {
         }
         if (other.hasFightResult()) {
           setFightResult(other.getFightResult());
+        }
+        if (other.hasLoopID()) {
+          bitField0_ |= 0x00000100;
+          loopID_ = other.loopID_;
+          onChanged();
+        }
+        if (other.hasBattleTime()) {
+          setBattleTime(other.getBattleTime());
+        }
+        if (other.hasMemPos()) {
+          bitField0_ |= 0x00000400;
+          memPos_ = other.memPos_;
+          onChanged();
+        }
+        if (other.hasInviteType()) {
+          setInviteType(other.getInviteType());
+        }
+        if (!other.inviteUsers_.isEmpty()) {
+          if (inviteUsers_.isEmpty()) {
+            inviteUsers_ = other.inviteUsers_;
+            bitField0_ = (bitField0_ & ~0x00001000);
+          } else {
+            ensureInviteUsersIsMutable();
+            inviteUsers_.addAll(other.inviteUsers_);
+          }
+          onChanged();
+        }
+        if (other.hasInviteContent()) {
+          bitField0_ |= 0x00002000;
+          inviteContent_ = other.inviteContent_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2050,6 +2654,527 @@ public final class TeamBattleProto {
       public Builder clearFightResult() {
         bitField0_ = (bitField0_ & ~0x00000080);
         fightResult_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string loopID = 9;
+      private java.lang.Object loopID_ = "";
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public boolean hasLoopID() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public java.lang.String getLoopID() {
+        java.lang.Object ref = loopID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          loopID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLoopIDBytes() {
+        java.lang.Object ref = loopID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          loopID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder setLoopID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        loopID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder clearLoopID() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        loopID_ = getDefaultInstance().getLoopID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder setLoopIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        loopID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 battleTime = 10;
+      private int battleTime_ ;
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public boolean hasBattleTime() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public int getBattleTime() {
+        return battleTime_;
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public Builder setBattleTime(int value) {
+        bitField0_ |= 0x00000200;
+        battleTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public Builder clearBattleTime() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        battleTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string memPos = 11;
+      private java.lang.Object memPos_ = "";
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public boolean hasMemPos() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public java.lang.String getMemPos() {
+        java.lang.Object ref = memPos_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          memPos_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMemPosBytes() {
+        java.lang.Object ref = memPos_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          memPos_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public Builder setMemPos(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        memPos_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public Builder clearMemPos() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        memPos_ = getDefaultInstance().getMemPos();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string memPos = 11;</code>
+       *
+       * <pre>
+       *成员上阵顺序
+       * </pre>
+       */
+      public Builder setMemPosBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        memPos_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 inviteType = 12;
+      private int inviteType_ ;
+      /**
+       * <code>optional int32 inviteType = 12;</code>
+       *
+       * <pre>
+       *邀请的类型：1，世界；2，公会；3，好友
+       * </pre>
+       */
+      public boolean hasInviteType() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int32 inviteType = 12;</code>
+       *
+       * <pre>
+       *邀请的类型：1，世界；2，公会；3，好友
+       * </pre>
+       */
+      public int getInviteType() {
+        return inviteType_;
+      }
+      /**
+       * <code>optional int32 inviteType = 12;</code>
+       *
+       * <pre>
+       *邀请的类型：1，世界；2，公会；3，好友
+       * </pre>
+       */
+      public Builder setInviteType(int value) {
+        bitField0_ |= 0x00000800;
+        inviteType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 inviteType = 12;</code>
+       *
+       * <pre>
+       *邀请的类型：1，世界；2，公会；3，好友
+       * </pre>
+       */
+      public Builder clearInviteType() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        inviteType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated string inviteUsers = 13;
+      private com.google.protobuf.LazyStringList inviteUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureInviteUsersIsMutable() {
+        if (!((bitField0_ & 0x00001000) == 0x00001000)) {
+          inviteUsers_ = new com.google.protobuf.LazyStringArrayList(inviteUsers_);
+          bitField0_ |= 0x00001000;
+         }
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getInviteUsersList() {
+        return java.util.Collections.unmodifiableList(inviteUsers_);
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public int getInviteUsersCount() {
+        return inviteUsers_.size();
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public java.lang.String getInviteUsers(int index) {
+        return inviteUsers_.get(index);
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getInviteUsersBytes(int index) {
+        return inviteUsers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public Builder setInviteUsers(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureInviteUsersIsMutable();
+        inviteUsers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public Builder addInviteUsers(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureInviteUsersIsMutable();
+        inviteUsers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public Builder addAllInviteUsers(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureInviteUsersIsMutable();
+        super.addAll(values, inviteUsers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public Builder clearInviteUsers() {
+        inviteUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string inviteUsers = 13;</code>
+       *
+       * <pre>
+       *邀请的好友id列表
+       * </pre>
+       */
+      public Builder addInviteUsersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureInviteUsersIsMutable();
+        inviteUsers_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional string inviteContent = 14;
+      private java.lang.Object inviteContent_ = "";
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public boolean hasInviteContent() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public java.lang.String getInviteContent() {
+        java.lang.Object ref = inviteContent_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          inviteContent_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getInviteContentBytes() {
+        java.lang.Object ref = inviteContent_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          inviteContent_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public Builder setInviteContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00002000;
+        inviteContent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public Builder clearInviteContent() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        inviteContent_ = getDefaultInstance().getInviteContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string inviteContent = 14;</code>
+       *
+       * <pre>
+       *邀请的内容
+       * </pre>
+       */
+      public Builder setInviteContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00002000;
+        inviteContent_ = value;
         onChanged();
         return this;
       }
@@ -3099,23 +4224,27 @@ public final class TeamBattleProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020TeamBattle.proto\022\nteamBattle\"\267\001\n\020TeamB" +
+      "\n\020TeamBattle.proto\022\nteamBattle\"\253\002\n\020TeamB" +
       "attleReqMsg\022*\n\007reqType\030\001 \002(\0162\031.teamBattl" +
       "e.TBRequestType\022\016\n\006hardID\030\002 \001(\t\022\016\n\006teamI" +
       "D\030\003 \001(\t\022\016\n\006userID\030\004 \001(\t\022\021\n\tarmyHeros\030\005 \001" +
       "(\t\022\020\n\010rewardID\030\006 \001(\t\022\r\n\005count\030\007 \001(\005\022\023\n\013f" +
-      "ightResult\030\010 \001(\005\"q\n\020TeamBattleRspMsg\022)\n\007" +
-      "rstType\030\001 \002(\0162\030.teamBattle.TBResultType\022" +
-      "\016\n\006tipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010fre" +
-      "eJoin\030\004 \001(\010*\371\001\n\rTBRequestType\022\023\n\017SYN_TEA" +
-      "M_BATTLE\020\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE",
-      "_TEAM\020\003\022\r\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021" +
-      "\n\rACCEPT_INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020" +
-      "\007\022\023\n\017KICK_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020" +
-      "\t\022\017\n\013START_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESUL" +
-      "T\020\013\022\022\n\016SCORE_EXCHANGE\020\014*+\n\014TBResultType\022" +
-      "\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwpr" +
-      "otoB\017TeamBattleProto"
+      "ightResult\030\010 \001(\005\022\016\n\006loopID\030\t \001(\t\022\022\n\nbatt" +
+      "leTime\030\n \001(\005\022\016\n\006memPos\030\013 \001(\t\022\022\n\ninviteTy" +
+      "pe\030\014 \001(\005\022\023\n\013inviteUsers\030\r \003(\t\022\025\n\rinviteC" +
+      "ontent\030\016 \001(\t\"q\n\020TeamBattleRspMsg\022)\n\007rstT" +
+      "ype\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006t",
+      "ipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJoi" +
+      "n\030\004 \001(\010*\254\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BA" +
+      "TTLE\020\001\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_" +
+      "TEAM_INFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEA" +
+      "M\020\005\022\016\n\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026" +
+      "\n\022SET_TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBE" +
+      "R\020\t\022\021\n\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022" +
+      "\027\n\023INFORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHAN" +
+      "GE\020\r\022\030\n\024SAVE_MEMBER_POSITION\020\016*+\n\014TBResu" +
+      "ltType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013c",
+      "om.rwprotoB\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3127,7 +4256,7 @@ public final class TeamBattleProto {
           internal_static_teamBattle_TeamBattleReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "Count", "FightResult", });
+              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "Count", "FightResult", "LoopID", "BattleTime", "MemPos", "InviteType", "InviteUsers", "InviteContent", });
           internal_static_teamBattle_TeamBattleRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable = new

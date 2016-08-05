@@ -9,7 +9,11 @@ import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataException.GFRewardItemException;
 import com.playerdata.groupFightOnline.dataForRank.GFEndGroupInfo;
@@ -19,6 +23,7 @@ import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFFinalRewardMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -58,6 +63,8 @@ public class GFightFinalBM {
 	 * @param resourceID
 	 */
 	public void handleGFightResult(int resourceID){
+		//设置资源点占有者的可竞标状态
+		setResourceOwnerBidAble(resourceID);
 		GFightOnlineResourceMgr.getInstance().clearVictoryGroup(resourceID);
 		//杀敌排行奖励
 		handleKillRankReward(resourceID);
@@ -70,9 +77,9 @@ public class GFightFinalBM {
 		handleVictoryGroup(resourceID, groupRankList.get(0));
 		for(int i = 1; i < groupRankList.size(); i++)
 			handleFailGroup(groupRankList.get(i));
-		
 		//清除本次循环中的数据，以便于开始下个循环
 		clearCurrentLoopData(resourceID);
+		
 	}
 	
 	/**
@@ -153,13 +160,38 @@ public class GFightFinalBM {
 			//清除帮战的帮派信息
 			GFightOnlineGroupMgr.getInstance().clearCurrentLoopData(item.getGroupID());
 			//清除所有参与帮战的成员的个人信息
-			List<? extends GroupMemberDataIF> groupMembers = GroupBM.get(item.getGroupID()).getGroupMemberMgr().getMemberSortList(null);
-			for(GroupMemberDataIF member : groupMembers)
-				UserGFightOnlineHolder.getInstance().resetData(member.getUserId());
+			Group group = GroupBM.get(item.getGroupID());
+			if(null != group) {
+				List<? extends GroupMemberDataIF> groupMembers = group.getGroupMemberMgr().getMemberSortList(null);
+				for(GroupMemberDataIF member : groupMembers)
+					UserGFightOnlineHolder.getInstance().resetData(member.getUserId());
+			}
 		}
 		//清除几个排行榜
 		GFGroupBiddingRankMgr.clearRank(resourceID);
 		GFOnlineKillRankMgr.clearRank(resourceID);
 		GFOnlineHurtRankMgr.clearRank(resourceID);
+	}
+	
+	/**
+	 * 设置下个资源点的可占领情况
+	 * @param resourceID
+	 */
+	private void setResourceOwnerBidAble(int currentResourceID){
+		//设置当前资源点占有者的可竞标状态
+		GFightOnlineResourceData currentResData = GFightOnlineResourceHolder.getInstance().get(currentResourceID);
+		if(currentResData != null){
+			currentResData.setOwnerBidAble(false);
+			GFightOnlineResourceHolder.getInstance().update(currentResData);
+		}
+		//设置下一个资源点占有者的可竞标状态
+		List<GFightOnlineResourceCfg> resCfg = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		int size = resCfg.size();
+		int nextResourceID = (currentResourceID + 1)%size;
+		GFightOnlineResourceData nextResData = GFightOnlineResourceHolder.getInstance().get(nextResourceID);
+		if(nextResData != null){
+			nextResData.setOwnerBidAble(true);
+			GFightOnlineResourceHolder.getInstance().update(nextResData);
+		}
 	}
 }

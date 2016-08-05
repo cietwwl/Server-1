@@ -27,7 +27,8 @@ class ArmySimpleInfoHelper {
 	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
-		ItemData magic = player.getItemBagMgr().findBySlotId(magicID);
+		ItemData magic = null;
+		if(StringUtils.isNotBlank(magicID)) magic = player.getItemBagMgr().findBySlotId(magicID);
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;
 	}
@@ -44,8 +45,9 @@ class ArmySimpleInfoHelper {
 
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfoSimple.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
-		
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);
@@ -60,7 +62,7 @@ class ArmySimpleInfoHelper {
 		if (heroIdList == null) return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			if(StringUtils.isBlank(heroId)) heroList.add(ArmyHeroSimple.newBlankInstance());
+			if(StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0")) heroList.add(ArmyHeroSimple.newBlankInstance());
 			else{
 				Hero heroTmp = heroMgr.getHeroById(heroId);
 				ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);

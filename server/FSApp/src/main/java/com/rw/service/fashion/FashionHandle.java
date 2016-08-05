@@ -60,6 +60,11 @@ public class FashionHandle {
 		if (fashionCfg == null) {
 			return setErrorResponse(response, player, ",ID=" + fashionId, "没有相应时装配置");
 		}
+		
+		//判断是否允许购买
+		if (fashionCfg.getNotAllowBuy()){
+			return setErrorResponse(response, player, ",fashionId=" + fashionId, "这件时装非常珍贵，是非卖品哦");
+		}
 
 		// 检查购买配置
 		String buyPlanId = req.getBuyRenewPlanId();
@@ -167,6 +172,15 @@ public class FashionHandle {
 
 		if (item.getExpiredTime() <= 0) {
 			return setErrorResponse(response, player, ",FashionID=" + String.valueOf(renewFashionId), "永久时装不需要续费");
+		}
+		
+		FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(renewFashionId);
+		if (fashionCfg == null) {
+			return setErrorResponse(response, player, ",ID=" + renewFashionId, "没有相应时装配置");
+		}
+		//判断是否允许购买
+		if (fashionCfg.getNotAllowRenew()){
+			return setErrorResponse(response, player, ",fashionId=" + renewFashionId, "这件时装非常珍贵，不能续费");
 		}
 
 		// 检查配置是否正确
@@ -329,7 +343,7 @@ public class FashionHandle {
 		return setErrorResponse(response, player, addedLog, reason, err);
 	}
 
-	private FashionResponse.Builder getResponse(FashionRequest req) {
+	public FashionResponse.Builder getResponse(FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		response.setEventType(req.getEventType());
 		return response;

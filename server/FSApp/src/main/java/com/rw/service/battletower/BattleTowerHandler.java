@@ -121,14 +121,14 @@ public class BattleTowerHandler {
 		// 填充消息
 		rsp.setHighestFloor(tableBattleTower.getHighestFloor());
 		rsp.setLeftResetTimes(battleTowerResetTimes - tableBattleTower.getResetTimes());
-		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
+		final BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
 
 		final int curFloor = tableBattleTower.getCurFloor();// 当前层数
 		boolean result = tableBattleTower.getResult();// 是否有了战斗结果
 		final int highestFloor = tableBattleTower.getHighestFloor();
 
 		// by franky 每层扫荡的用时
-		int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
+		final int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
 
 		long now = System.currentTimeMillis();
 		// 扫荡信息
@@ -699,13 +699,14 @@ public class BattleTowerHandler {
 		tableBattleTower.setSweepState(true);// 扫荡的状态设置
 		tableBattleTower.setSweepTimePerFloor(theSweepTime4PerFloor);
 		dao.update(tableBattleTower);// 更新数据
-
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
 		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		//封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, 1);
 	}
 
 	/**
@@ -771,6 +772,11 @@ public class BattleTowerHandler {
 		commonRsp.setConfig(config);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		commonRsp.setRspBody(rsp.build().toByteString());
+		int dis = highestFloor - sweepStartFloor;
+		//封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+		if(dis > 0){
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, dis);
+		}
 	}
 
 	/**

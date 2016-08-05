@@ -2,6 +2,7 @@ package com.rwbase.gameworld;
 
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -32,11 +33,13 @@ public class GameWorldExecutor implements GameWorld {
 	private QueuedTaskExecutor<String, Player> queuedTaskExecutor;
 	private QueuedTaskExecutor<String, Void> createExecutor;
 
+
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
 		this.listeners = new ArrayList<PlayerTaskListener>(0);
 		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
-		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("aysn_logic"));
+		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, 
+				new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"),new ThreadPoolExecutor.CallerRunsPolicy());
 		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
 
 			@Override
@@ -106,6 +109,15 @@ public class GameWorldExecutor implements GameWorld {
 	}
 
 	/**
+	 * 获取某个玩家当前执行执行的任务数量
+	 * @param userId
+	 * @return
+	 */
+	public int getPlayerTaskCount(String userId) {
+		return this.queuedTaskExecutor.getTaskCount(userId);
+	}
+
+	/**
 	 * <pre>
 	 * 异步执行指定主键的任务
 	 * </pre>
@@ -146,7 +158,7 @@ public class GameWorldExecutor implements GameWorld {
 		data.setValue(attribute);
 		return GameWorldDAO.getInstance().update(data);
 	}
-	
+
 	@Override
 	public synchronized void registerPlayerDataListener(PlayerTaskListener listener) {
 		if (listeners.contains(listener)) {

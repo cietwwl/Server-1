@@ -60,7 +60,8 @@ public class DataSynVersionHolder {
 		if (synType == eSynType.COPY_LEVEL_RECORD || synType == eSynType.COPY_MAP_RECORD) {
 			versionType = eSynType.VERSION_COPY;
 		} else if (synType == eSynType.USER_HEROS || synType == eSynType.ROLE_BASE_ITEM || synType == eSynType.SKILL_ITEM
-			|| synType == eSynType.EQUIP_ITEM || synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
+			|| synType == eSynType.EQUIP_ITEM || synType == eSynType.FIX_EXP_EQUIP ||synType == eSynType.FIX_NORM_EQUIP 
+			|| synType == eSynType.INLAY_ITEM || synType == eSynType.ROLE_ATTR_ITEM) {
 
 			versionType = eSynType.USER_HEROS;
 		}
@@ -318,6 +319,41 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.GFightOnlinePersonalData);
+		
+		
+		versionMap.put(eSynType.MAGICEQUIP_FETTER, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				player.getMe_FetterMgr().loginNotify(player);
+			}
+		}));
+		orderList.add(eSynType.MAGICEQUIP_FETTER);
+		
+//		
+//		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFDefendArmyItemHolder.getInstance().synSelfData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFDefendArmyData);
+//		
+//		versionMap.put(eSynType.GFBiddingData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFBiddingItemHolder.getInstance().synAllData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFBiddingData);
+//		
+//		versionMap.put(eSynType.GFightOnlineResourceData, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {				
+//				GFightOnlineResourceHolder.getInstance().synData(player);
+//			}
+//		}));
+//		orderList.add(eSynType.GFightOnlineResourceData);
+		
 		//
 		// versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
 		// @Override
@@ -342,8 +378,6 @@ public class DataSynVersionHolder {
 		// }
 		// }));
 		// orderList.add(eSynType.GFightOnlineResourceData);
-
-		notInVersionControlList.add(notInVersionControlP);
 
 		notInVersionControlList.add(notInVersionControlP);
 

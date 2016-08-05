@@ -19,7 +19,6 @@ import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.HeroMgr;
-import com.playerdata.HotPointMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -57,7 +56,6 @@ import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
@@ -358,6 +356,12 @@ public class ArenaHandler {
 		if (m_MyArenaData == null) {
 			return sendFailResponse(response, "数据错误", player);
 		}
+		
+		// 检查挑战次数
+		if (m_MyArenaData.getRemainCount() <= 0){
+			return sendFailResponse(response, "挑战次数已用完", player);
+		}
+		
 		String enemyUserId = request.getUserId();
 		TableArenaData enemyArenaData = ArenaBM.getInstance().getArenaData(enemyUserId);
 		if (enemyArenaData == null) {
@@ -512,7 +516,6 @@ public class ArenaHandler {
 					}
 				}
 				TableArenaDataDAO.getInstance().update(enemyArenaData);
-				HotPointMgr.changeHotPointState(enemyUserId, EHotPointType.Arena, true);
 			}
 
 			ListRankingEntry<String, ArenaExtAttribute> newEntry = ranking.getRankingEntry(userId);

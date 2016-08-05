@@ -440,6 +440,52 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		}
 		return false;
 	}
+	
+	
+	public boolean checkEnoughItem(int cfgId, int count){
+		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
+			if (cfgId == eSpecialItemId.Coin.getValue()) {
+				return player.getUserGameDataMgr().getCoin() >= count;
+			} else if (cfgId == eSpecialItemId.Gold.getValue()) {
+				return player.getUserGameDataMgr().getGold() >= count;
+			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()) {
+				return player.getUserGameDataMgr().getMagicSecretCoin() >= count;
+			} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {
+				return player.getUserGameDataMgr().getTowerCoin() >= count;
+			} else if (cfgId == eSpecialItemId.GuildCoin.getValue()) {
+				return player.getUserGroupAttributeDataMgr().getUserGroupContribution() >= count;
+			} else if (cfgId == eSpecialItemId.PeakArenaCoin.getValue()) {
+				return player.getUserGameDataMgr().getPeakArenaCoin() >= count;
+			}// 新增竞技场货币处理
+			else if (cfgId == eSpecialItemId.ArenaCoin.getValue()) {
+				return player.getUserGameDataMgr().getArenaCoin() >= count;
+			}
+			else if(cfgId == eSpecialItemId.WAKEN_PIECE.getValue()){
+				return player.getUserGameDataMgr().getWakenPiece() >= count;
+			}
+			else if(cfgId == eSpecialItemId.WAKEN_KEY.getValue()){
+				return player.getUserGameDataMgr().getWakenKey() >= count;
+			}
+		} else {// 操作道具
+			if (count <= 0) {
+				return false;
+			}
+
+			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(cfgId);// 检查物品的基础模版
+			if (itemBaseCfg == null) {
+				return false;
+			}
+
+			List<ItemData> itemList = holder.getItemDataByCfgId(cfgId);
+			int sum = 0;
+			for (ItemData itemData : itemList) {
+				sum+= itemData.getCount();
+			}
+			return sum >= count;
+			
+		}
+		return false;
+	}
 
 	/**
 	 * 增加物品
@@ -478,6 +524,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				player.getBattleTowerMgr().getTableBattleTower().modifySilverKey(count);
 			} else if (cfgId == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
 				player.getBattleTowerMgr().getTableBattleTower().modifyGoldKey(count);
+			} else if(cfgId == eSpecialItemId.WAKEN_PIECE.getValue()){
+				player.getUserGameDataMgr().addWakenPiece(count);
+			}else if(cfgId == eSpecialItemId.WAKEN_KEY.getValue()){
+				player.getUserGameDataMgr().addWakenKey(count);
 			}
 		} else {// 操作道具
 			if (count <= 0) {
@@ -547,6 +597,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// if (nCount > 0 && eItemType == eItemTypeDef.HeroEquip) {
 		// m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Quality);
 		// }
+		//通知羁绊检查法宝
+		if(ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic){
+			player.getMe_FetterMgr().notifyMagicChange(player);
+		}
 		return true;
 	}
 

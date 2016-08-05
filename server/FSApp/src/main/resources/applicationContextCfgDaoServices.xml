@@ -56,9 +56,6 @@
 	<bean class="com.rw.service.gamble.datamodel.DropMissingCfgHelper"  init-method="init" />
 	
 	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildLevelDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildLogDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.ComposeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.ConsumeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.GemCfgDAO"  init-method="init" />
@@ -81,6 +78,7 @@
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaInfoHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
@@ -251,12 +249,19 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineCostDAO"  init-method="init" />
 	
+	<!-- 组队战 -->
+	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
 	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battle.pojo.BattleCfgDAO"  init-method="init" />
 	
-	
+	<bean class="com.rwbase.dao.store.WakenLotteryDrawCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao"  init-method="init" />
 	<!-- 竞技场机器人 -->
 	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
 	<!-- 
