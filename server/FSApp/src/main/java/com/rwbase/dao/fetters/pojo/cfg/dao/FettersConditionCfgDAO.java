@@ -38,7 +38,7 @@ public class FettersConditionCfgDAO extends CfgCsvDao<FettersConditionCfg> {
 
 	@Override
 	protected Map<String, FettersConditionCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fetters/FettersConditionCfg.csv", FettersConditionCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("HeroFetters/FettersConditionCfg.csv", FettersConditionCfg.class);
 
 		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
 			Map<Integer, List<FettersConditionTemplate>> conditionMap = new HashMap<Integer, List<FettersConditionTemplate>>(cfgCacheMap.size());

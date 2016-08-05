@@ -66,6 +66,7 @@ public class GFightDataVersionMgr {
 	}
 	
 	private static int getVersion(String groupID, List<SynDataGroupListVersion> versionList){
+		if(null == versionList) return 0;
 		for(SynDataGroupListVersion version : versionList){
 			if(StringUtils.equals(groupID, version.getGroupId())) return version.getVersion();
 		}

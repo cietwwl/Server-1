@@ -23,6 +23,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -185,7 +186,8 @@ public class GMHandler {
 		
 		// 聊天消息测试
 		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
-		funcCallBackMap.put("addinteractivedata", "addInteractiveData");
+		funcCallBackMap.put("sendinteractivedata", "sendInteractiveData");
+		funcCallBackMap.put("receiveinteractivedata", "receiveInteractiveData");
 
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
@@ -1244,17 +1246,58 @@ public class GMHandler {
 		}
 	}
 	
-	public boolean addInteractiveData(String[] arrCommandContents, Player player) {
+	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
 		}
 		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
 		try {
-			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, "幫派秘境", "1", "1;2;3;4", Arrays.asList(targetUserId));
-			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.FRIEND, "添加好友", "2", "A;B;C;D", Arrays.asList(targetUserId));
-			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "E;F;G;H", Arrays.asList(targetUserId));
-			com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, "幫派秘境", "4", "01;02;03;04", Arrays.asList(targetUserId));
-			com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, "組隊邀請", "3", "TO;THE;WORLD;HAHA");
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean receiveInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
+		try {
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			Player sender = PlayerMgr.getInstance().find(targetUserId);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

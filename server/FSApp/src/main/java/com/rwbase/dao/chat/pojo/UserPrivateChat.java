@@ -794,7 +794,7 @@ public class UserPrivateChat {
 			}
 			for (List<ChatMessageSaveData> list : t.interactiveDatas.values()) {
 				for (ChatMessageSaveData cmsd : list) {
-					if (cmsd.getReceiverUserId().equals(targetUserId)) {
+					if (cmsd.getSenderUserId().equals(targetUserId)) {
 						return true;
 					}
 				}
