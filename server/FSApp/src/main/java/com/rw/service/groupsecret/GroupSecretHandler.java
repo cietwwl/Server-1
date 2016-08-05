@@ -1316,12 +1316,12 @@ public class GroupSecretHandler {
 		}
 
 		String reqId = req.getId();
-		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
-		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
-		if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
-			return rsp.build().toByteString();
-		}
+		// UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		// UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
+		// if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
+		// GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
+		// return rsp.build().toByteString();
+		// }
 
 		String[] arr = GroupSecretHelper.parseString2UserIdAndSecretId(reqId);
 		String createUserId = arr[0];
