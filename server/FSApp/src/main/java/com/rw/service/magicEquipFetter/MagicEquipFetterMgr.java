@@ -112,9 +112,9 @@ public class MagicEquipFetterMgr {
 				}
 			}
 		}
-		if(temp.isEmpty()){
-			return;
-		}
+//		if(temp.isEmpty()){ 去掉这个，因为有可能会降星到0
+//			return;
+//		}
 		
 		//去掉所有类型相同的配置，只保留最高级的
 		Set<MagicEquipConditionCfg> tempSet = new HashSet<MagicEquipConditionCfg>();
@@ -253,27 +253,29 @@ public class MagicEquipFetterMgr {
 			}
 		}
 		
-		if(temp.isEmpty()){
-			return;
-		}
-		
-		//去掉所有法宝类型重复的配置，使用等级最高的
-		List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
-		List<MagicEquipConditionCfg> p = new ArrayList<MagicEquipConditionCfg>();
-		p.addAll(temp);
-		for (MagicEquipConditionCfg conditionCfg : p) {
-			for (MagicEquipConditionCfg sub : temp) {
-				if(sub.getType() == conditionCfg.getType() && 
-						sub.getSubType() == conditionCfg.getSubType() && 
-						sub.getUniqueId() != conditionCfg.getUniqueId() && 
-						conditionCfg.getConditionLevel() <= sub.getConditionLevel()){
-					remove.add(conditionCfg);
-					break;
+//		if(temp.isEmpty()){ 角色可能会用降星把所有的法宝羁绊去掉，所以这里不能直接的return
+//			return;
+//		}
+		if(!temp.isEmpty()){
+			
+			//去掉所有法宝类型重复的配置，使用等级最高的
+			List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
+			List<MagicEquipConditionCfg> p = new ArrayList<MagicEquipConditionCfg>();
+			p.addAll(temp);
+			for (MagicEquipConditionCfg conditionCfg : p) {
+				for (MagicEquipConditionCfg sub : temp) {
+					if(sub.getType() == conditionCfg.getType() && 
+							sub.getSubType() == conditionCfg.getSubType() && 
+							sub.getUniqueId() != conditionCfg.getUniqueId() && 
+							conditionCfg.getConditionLevel() <= sub.getConditionLevel()){
+						remove.add(conditionCfg);
+						break;
+					}
 				}
 			}
+			
+			temp.removeAll(remove);
 		}
-		
-		temp.removeAll(remove);
 		holder.compareMagicFetterRcord(temp, modelId);
 
 

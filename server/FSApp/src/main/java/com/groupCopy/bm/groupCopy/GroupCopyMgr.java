@@ -234,11 +234,17 @@ public class GroupCopyMgr {
 	
 	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
+		
 		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
 		if(record.getProgress().getCurrentHp() == 0){
 			return nowPro.getTotalHp() - nowPro.getCurrentHp();
 		}
-		return record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		if(damage <= 0){
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
+					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp(), null);
+		}
+		return damage;
 	}
 
 	

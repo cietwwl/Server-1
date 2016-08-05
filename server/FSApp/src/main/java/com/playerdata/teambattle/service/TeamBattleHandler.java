@@ -82,7 +82,7 @@ public class TeamBattleHandler {
 	public ByteString invitePlayer(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.invitePlayer(player, tbRsp);
+		tbBM.invitePlayer(player, tbRsp, msgTBRequest.getInviteType(), msgTBRequest.getInviteUsersList(), msgTBRequest.getInviteContent());
 		return tbRsp.build().toByteString();
 	}
 

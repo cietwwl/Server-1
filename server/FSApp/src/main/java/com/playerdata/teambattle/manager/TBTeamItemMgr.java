@@ -1,6 +1,7 @@
 package com.playerdata.teambattle.manager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +9,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.teambattle.bm.TeamBattleConst;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
@@ -118,8 +122,23 @@ public class TBTeamItemMgr{
 	 * 每日重置，清除所有的队伍数据
 	 */
 	public void dailyReset(){
-		for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
-			TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
+		long lastRefreshTime = 0;
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(null != scdData) lastRefreshTime = scdData.getTbLastRefreshTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR, TeamBattleConst.DAILY_REFRESH_HOUR);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		
+		if(lastRefreshTime < cal.getTimeInMillis()){
+			for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
+				TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
+			}
+			if(null != scdData) {
+				scdData.setTbLastRefreshTime(System.currentTimeMillis());
+				ServerCommonDataHolder.getInstance().update(scdData);
+			}
 		}
 	}
 }

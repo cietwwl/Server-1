@@ -244,6 +244,9 @@ public class Player implements PlayerIF {
 	}
 
 	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
+		if (!initMgr) {
+			MapItemStoreFactory.notifyPlayerCreated(userId);
+		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
@@ -251,7 +254,7 @@ public class Player implements PlayerIF {
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
-			MapItemStoreFactory.notifyPlayerCreated(userId);
+			//MapItemStoreFactory.notifyPlayerCreated(userId);
 			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
