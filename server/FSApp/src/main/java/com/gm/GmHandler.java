@@ -44,6 +44,7 @@ import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
 import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
+import com.gm.task.GmReloadCfg;
 import com.gm.task.GmResponsePlayerQuestion;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
@@ -149,6 +150,8 @@ public class GmHandler {
 		taskMap.put(99998, new GmEditCloseTips());
 		//更新缓存记录开关
 		taskMap.put(99997, new GmUpdateCacheSwitch());
+		//重新加载配置表
+		taskMap.put(99996, new GmReloadCfg());
 	}
 
 	
