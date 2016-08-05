@@ -1,10 +1,7 @@
 package com.rw.fsutil.dao.cache.record;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.dao.cache.CacheFactory;
 import com.rw.fsutil.dao.cache.trace.ChangedRecord;
@@ -39,11 +36,16 @@ public class SingleRecordEvent implements RecordEvent<SingleRecordEvent>, Logger
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-		sb.append('|').append(keyString);
+//		sb.append('|').append(keyString);
 		// 删除空列表，可以抽取公共方法
 		JSONObject json = jsonComparator.filter(this.json, keyString);
 		sb.append(lineSeparator);
 		sb.append(json.toJSONString());
+	}
+
+	@Override
+	public Object getKey() {
+		return key;
 	}
 
 }

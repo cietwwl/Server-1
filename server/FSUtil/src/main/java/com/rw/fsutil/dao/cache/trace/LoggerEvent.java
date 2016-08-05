@@ -41,11 +41,6 @@ public class LoggerEvent {
 		this.aysnEvent = null;
 	}
 
-	// public LoggerEvent(CacheLoggerPriority priority, LoggerWriteEvent
-	// aysnEvent) {
-	// this(priority, aysnEvent, null);
-	// }
-
 	public LoggerEvent(CacheLoggerPriority priority, LoggerWriteEvent aysnEvent, String content, CacheStackTrace trace) {
 		this.priority = priority;
 		this.content = content;

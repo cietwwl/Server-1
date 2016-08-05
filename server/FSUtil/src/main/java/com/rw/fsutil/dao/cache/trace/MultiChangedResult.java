@@ -26,7 +26,7 @@ public class MultiChangedResult implements CacheRecordEvent, ChangeInfoSet {
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-		sb.append("|").append(changedInfo.key);
+//		sb.append("|").append(changedInfo.key);
 		ChangeInfoSetImpl set = changedInfo;
 		List<JsonInfo> addList = set.getAddInfos();
 		if (addList != null) {

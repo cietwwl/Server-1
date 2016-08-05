@@ -961,7 +961,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 					} else {
 						period = updatePeriod * 10;
 					}
-					submitUpdateTask(key, period, this);
+					// submitUpdateTask(key, period, this);
+					if (delayUpdateMap.putIfAbsent(key, PRESENT) == null) {
+						scheduledExecutor.schedule(this, period, TimeUnit.SECONDS);
+					}
 				} else {
 					logger.info("UpdateTask:" + key + "," + version);
 				}

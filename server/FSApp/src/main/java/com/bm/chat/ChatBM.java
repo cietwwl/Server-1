@@ -52,7 +52,7 @@ public class ChatBM {
 	private static List<String> _EMPTY_LIST = Collections.emptyList();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
 	private AtomicInteger checkMessageId = new AtomicInteger();// 上次检查的版本号
-	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat_broadcast"));// 线程池
+	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat"));// 线程池
 
 	private class ChatRun implements Runnable {
 

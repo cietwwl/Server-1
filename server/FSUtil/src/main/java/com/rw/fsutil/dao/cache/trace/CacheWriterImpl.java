@@ -26,11 +26,16 @@ public class CacheWriterImpl implements CacheWriter {
 	}
 
 	@Override
-	public void convert(LoggerEvent event,CharArrayBuffer sb) {
+	public void convert(LoggerEvent event, CharArrayBuffer sb) {
 		LoggerWriteEvent cacheValueRecord = event.aysnEvent;
-//		StringBuilder sb = new StringBuilder(cacheValueRecord != null ? 1024 : 128);
+		boolean hasEvent = cacheValueRecord != null;
+		if (hasEvent) {
+			sb.append("id=").append(cacheValueRecord.getKey()).append(this.separator);
+		}
 		sb.append(CacheFactory.getFormatter().format(new Date(event.time))).append(this.separator);
-		sb.append(event.priority).append(this.separator);
+		if (!hasEvent) {
+			sb.append(event.priority).append(this.separator);
+		}
 		sb.append(event.threadName);
 		if (event.trace != null) {
 			StackTraceElement[] trace_ = event.trace.getStackTrace();
@@ -40,7 +45,7 @@ public class CacheWriterImpl implements CacheWriter {
 		if (event.content != null) {
 			sb.append("|").append(event.content);
 		}
-		if (cacheValueRecord != null) {
+		if (hasEvent) {
 			cacheValueRecord.write(sb);
 		}
 		sb.append(lineSeparator);

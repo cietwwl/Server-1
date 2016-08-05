@@ -33,7 +33,7 @@ public class MultiRecordEvent implements RecordEvent<MultiRecordEvent> {
 	@Override
 	public void write(CharArrayBuffer sb) {
 		String keyString = (key == null) ? "null" : key.toString();
-		sb.append('|').append(keyString);
+//		sb.append('|').append(keyString);
 		for (JSONObject json : jsonMap.values()) {
 			JSONObject temp = jsonComparator.filter(json, keyString);
 			sb.append(lineSeparator);
@@ -84,6 +84,11 @@ public class MultiRecordEvent implements RecordEvent<MultiRecordEvent> {
 			t.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Object getKey() {
+		return key;
 	}
 
 }

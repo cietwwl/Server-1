@@ -30,7 +30,7 @@ public class CacheLogger implements Runnable {
 	private volatile FileOutputStream output;
 	private final ConcurrentLinkedQueue<LoggerEvent> queue;
 	private final int flushCount = 1024 * 1024;
-	private final int compressLength = 1024 * 4;
+	private final int compressLength = 1024;
 	private final int maxCapacity;
 	private CharArrayBuffer charBuffer;
 	private GzipTempArrayBuffer baos;

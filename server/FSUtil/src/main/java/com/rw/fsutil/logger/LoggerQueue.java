@@ -56,7 +56,7 @@ public class LoggerQueue {
 		this.template = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		this.sql = "insert into " + tableName + "(info) values (?)";
 		this.deleteSql = "delete from " + tableName + " where id = ?";
-		this.timedPool = new ScheduledThreadPoolExecutor(16, new SimpleThreadFactory("logger pool"));
+		this.timedPool = new ScheduledThreadPoolExecutor(16, new SimpleThreadFactory("logger"));
 		this.tableName = tableName;
 		this.maxTryTimes = 5;
 		this.receiveTimeoutMillis = receiveTimeoutMillis;
