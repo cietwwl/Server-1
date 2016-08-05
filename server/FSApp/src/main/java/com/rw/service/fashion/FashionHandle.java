@@ -179,8 +179,8 @@ public class FashionHandle {
 			return setErrorResponse(response, player, ",ID=" + renewFashionId, "没有相应时装配置");
 		}
 		//判断是否允许购买
-		if (fashionCfg.getNotAllowBuy()){
-			return setErrorResponse(response, player, ",fashionId=" + renewFashionId, "这件时装非常珍贵，是非卖品哦");
+		if (fashionCfg.getNotAllowRenew()){
+			return setErrorResponse(response, player, ",fashionId=" + renewFashionId, "这件时装非常珍贵，不能续费");
 		}
 
 		// 检查配置是否正确
