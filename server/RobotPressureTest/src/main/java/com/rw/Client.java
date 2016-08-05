@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
+import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
@@ -68,6 +69,11 @@ public class Client {
 	private GroupBaseDataHolder groupBaseDataHolder = new GroupBaseDataHolder();
 	private GroupDataVersion groupVersion = new GroupDataVersion();
 	private GroupRequestCacheData groupCacheData = new GroupRequestCacheData();
+	
+	//帮派副本数据
+	private GroupCopyDataHolder groupCopyHolder = new GroupCopyDataHolder();
+	
+	
 	// 封神台的数据
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
@@ -269,6 +275,10 @@ public class Client {
 
 	public BattleTowerData getBattleTowerData() {
 		return battleTowerData;
+	}
+
+	public GroupCopyDataHolder getGroupCopyHolder() {
+		return groupCopyHolder;
 	}
 
 	public FresherActivityHolder getFresherActivityHolder() {
