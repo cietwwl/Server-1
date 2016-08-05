@@ -71,7 +71,7 @@ public class GmFindHeroEquipList implements IGmTask{
 
 			
 			EquipMgr equipMgr = hero.getEquipMgr();
-			List<EquipItem> equipList = equipMgr.getEquipList();
+			List<EquipItem> equipList = equipMgr.getEquipList(hero.getUUId());
 			String[] itemName = new String[6];
 			for(int i = 0 ;i < equipList.size() ;i++){
 				int id = equipList.get(i).getModelId();

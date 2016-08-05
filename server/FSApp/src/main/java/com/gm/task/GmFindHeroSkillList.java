@@ -70,7 +70,7 @@ public class GmFindHeroSkillList implements IGmTask{
 			}
 			
 			SkillMgr skillMgr = hero.getSkillMgr();
-			List<Skill> skillList = skillMgr.getSkillList();
+			List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
 			String[] names = new String[5];
 			if(skillList.size() != 5){
 				GameLog.error(LogModule.GmSender, player.getUserId(), "英雄技能数量异常,size=" + skillList.size(), null);
