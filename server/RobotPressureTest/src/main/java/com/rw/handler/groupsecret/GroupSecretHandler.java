@@ -163,7 +163,7 @@ public class GroupSecretHandler {
 						RobotLog.fail(parseFunctionDesc() + "失败:"+tips);
 						return true;
 					}
-					RobotLog.fail(parseFunctionDesc() + "失败:"+tips);
+					RobotLog.fail(parseFunctionDesc() + "失败:"+tips + "  client.accountId =" + client.getAccountId());
 				}
 			} catch (Exception ex) {
 				RobotLog.fail(parseFunctionDesc() + "失败", ex);

@@ -386,9 +386,9 @@ public class Robot {
 		return sendSuccess;
 	}
 	
-	/** 1-4 正常版的全战力；5，转为1，精简版,只加英雄加满等级，不做其他增幅*/
+	/**只加英雄和等级*/
 	public boolean addHero(int i) {
-		boolean sendSuccess = GmHandler.instance().send(client, "* teambringit " + i);
+		boolean sendSuccess = GmHandler.instance().send(client, "* teambringitsigle " + i);
 		return sendSuccess;
 	}
 
@@ -892,6 +892,7 @@ public class Robot {
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);
+//		return true;
 		return GroupSecretHandler.getInstance().createGroupSecret(client);
 	}
 	

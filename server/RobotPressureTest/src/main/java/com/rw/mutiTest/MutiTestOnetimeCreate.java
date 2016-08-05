@@ -50,12 +50,15 @@ public class MutiTestOnetimeCreate {
 				public void run() {
 					try {
 						String accountId = preName + index;
-						createRobot(accountId);
-						System.out.println("!!!!!!!!" + accountId);
-						Robot robot = Test.loginRobot(accountId);
-						
+						Robot robot = createRobot(accountId);
+//						System.out.println("!!!!!!!!" + accountId);
+//						Robot robot = Test.loginRobot(accountId);
+						robot.addCoin(999999);
+						robot.addGold(999999);
+						robot.upgrade(50);
 						robot.addHero(5);
-						
+						robot.createGroup(accountId);
+						robot.createGroupSecret();
 //						for (int i = 0; i < 5; i++) {
 //							int normolEquipType = Test.random.nextInt(5);
 //							normolEquipType = normolEquipType == 0 ? 1

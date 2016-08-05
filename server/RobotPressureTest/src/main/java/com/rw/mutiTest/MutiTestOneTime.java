@@ -49,10 +49,10 @@ public class MutiTestOneTime {
 
 					try {
 						Thread.sleep(1000l);
-						composeInit(robot);
+//						composeInit(robot);
 						long start = System.currentTimeMillis();
-						
-						compose(robot);
+						robot.createGroupSecret();
+//						compose(robot);
 
 						long cost = System.currentTimeMillis() - start;
 						timeCost.addAndGet(cost);
@@ -111,9 +111,8 @@ public class MutiTestOneTime {
 		final List<Robot> robotList = new ArrayList<Robot>();
 		final AtomicInteger finishLoginCount = new AtomicInteger();
 
-		ExecutorService loginService = Executors
-				.newFixedThreadPool(threadCount);
-		for (int i = start; i < start + totalCount; i++) {
+		ExecutorService loginService = Executors.newFixedThreadPool(threadCount);
+		for (int i = start; i < start + totalCount/200; i++) {
 
 			final int index = i;
 			loginService.submit(new Runnable() {
