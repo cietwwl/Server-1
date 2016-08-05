@@ -3,13 +3,11 @@ package com.rwbase.dao.friend;
 import java.util.Calendar;
 import java.util.Iterator;
 
-import com.playerdata.HotPointMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
-import com.rwbase.dao.hotPoint.EHotPointType;
 
 public class FriendUtils {
 	/**

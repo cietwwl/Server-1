@@ -6,34 +6,22 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import org.springframework.util.StringUtils;
 
 import com.bm.arena.ArenaBM;
-import com.bm.arena.RobotCfgDAO;
-import com.bm.arena.RobotEntryCfg;
-import com.bm.arena.RobotHelper;
-import com.bm.arena.RobotHeroCfg;
-import com.bm.arena.RobotHeroCfgDAO;
-import com.bm.arena.RobotManager;
 import com.bm.rank.RankType;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.bm.robot.RobotHeroBuilder;
+import com.bm.robot.RobotHeroBuilder.BuildRoleInfo;
 import com.common.Weight;
 import com.log.GameLog;
-import com.playerdata.FightingCalculator;
 import com.playerdata.PlayerMgr;
-import com.playerdata.army.ArmyInfo;
-import com.playerdata.army.ArmyMagic;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.HeroMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.playerdata.team.HeroBaseInfo;
 import com.playerdata.team.HeroInfo;
-import com.playerdata.team.SkillInfo;
 import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.common.SegmentList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -41,9 +29,7 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.enu.ECareer;
-import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -242,19 +228,19 @@ public final class AngleArrayMatchHelper {
 
 			if (fit) {// 正好满足条件
 				if (!hasTeam) {
-					finalTeamInfo = getRobotTeamInfo(robotId);
+					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 				} else {
-					finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
+					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
 				}
 			} else {
 				if (!hasTeam) {
-					finalTeamInfo = getRobotTeamInfo(robotId);
+					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 				} else {
-					finalTeamInfo = getRobotTeamInfo(robotId, ranResult, playerName, headId, groupName, career, heroModelIdList);
+					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
 				}
 			}
 		} else {
-			finalTeamInfo = getRobotTeamInfo(robotId);
+			finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 			ranResult = finalTeamInfo.getUuid();
 		}
 
@@ -292,6 +278,12 @@ public final class AngleArrayMatchHelper {
 		return angelArrayTeamInfoData;
 	}
 
+	/**
+	 * 获取所有的英雄Id列表
+	 * 
+	 * @param hero
+	 * @return
+	 */
 	private static List<Integer> getHeroModelIdList(List<HeroInfo> hero) {
 		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
 		List<Integer> heroModelIdList = new ArrayList<Integer>();
@@ -317,309 +309,301 @@ public final class AngleArrayMatchHelper {
 		return heroModelIdList;
 	}
 
-	/**
-	 * 生成一个机器人
-	 * 
-	 * @param robotId
-	 * @return
-	 */
-	public static ArmyInfo getRobotArmyInfo(int robotId, ArmyInfo armyInfo) {
-		return null;
-	}
-
-	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
-	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
-
-	/**
-	 * 获取角色信息
-	 * 
-	 * @param robotId
-	 * @return
-	 */
-	public static TeamInfo getRobotTeamInfo(int robotId) {
-		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
-		if (angelRobotCfg == null) {
-			return null;
-		}
-
-		Random r = new Random();
-		// 随机一个职业
-		ECareer[] values = ECareer.values();
-		ECareer careerType = values[RobotHelper.getRandomIndex(r, values.length)];
-		// 获取性别
-		int sex = RobotHelper.getRandomIndex(r, 2);
-		// 星级
-		int[] starArr = angelRobotCfg.getStar();
-		int star = starArr[RobotHelper.getRandomIndex(starArr.length)];
-		// 获取英雄模版
-		int career = careerType.getValue();
-		RoleCfg roleCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-		if (roleCfg == null) {
-			return null;
-		}
-		// 默认给个名字
-		String name = fNameArr[RobotHelper.getRandomIndex(r, fNameArr.length)] + sNameArr[RobotHelper.getRandomIndex(r, sNameArr.length)];
-
-		List<Integer> heroTmpIdList = new ArrayList<Integer>();
-		heroTmpIdList.add(roleCfg.getModelId());
-		// 阵容组合
-		List<String> heroGroupId = angelRobotCfg.getHeroGroupId();
-		String heroTeamId = heroGroupId.get(RobotHelper.getRandomIndex(r, heroGroupId.size()));
-
-		List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroTeamId);
-		if (heroCfgList == null) {
-			GameLog.error("万仙阵生成机器人", "未知角色Id", String.format("[%s]机器人阵容组合找不到RobotHeroCfg", heroTeamId));
-			return null;
-		}
-
-		RobotHeroCfg heroCfg = heroCfgList.get(RobotHelper.getRandomIndex(r, heroCfgList.size()));
-		if (heroCfg == null) {
-			GameLog.error("万仙阵生成机器人", "未知角色Id", String.format("[%s]机器人阵容组合找不到RobotHeroCfg", heroTeamId));
-			return null;
-		}
-
-		String firstHeroId = heroCfg.getFirstHeroId();
-		if (!StringUtils.isEmpty(firstHeroId)) {
-			heroTmpIdList.add(Integer.valueOf(firstHeroId));
-		}
-
-		String secondHeroId = heroCfg.getSecondHeroId();
-		if (!StringUtils.isEmpty(secondHeroId)) {
-			heroTmpIdList.add(Integer.valueOf(secondHeroId));
-		}
-
-		String thirdHeroId = heroCfg.getThirdHeroId();
-		if (!StringUtils.isEmpty(thirdHeroId)) {
-			heroTmpIdList.add(Integer.valueOf(thirdHeroId));
-		}
-
-		String fourthHeroId = heroCfg.getFourthHeroId();
-		if (!StringUtils.isEmpty(fourthHeroId)) {
-			heroTmpIdList.add(Integer.valueOf(fourthHeroId));
-		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
-
-		String headImage;
-		if (sex == ESex.Men.getOrder()) {
-			headImage = "10001";
-		} else {
-			headImage = "10002";
-		}
-		return getRobotTeamInfo(robotId, sb.toString(), name, headImage, "", career, heroTmpIdList);
-	}
-
-	/**
-	 * 获取万仙阵的机器人
-	 * 
-	 * @param robotId
-	 * @param robotName
-	 * @param career 职业
-	 * @param heroTmpIdList List中用的<E>是{@link RoleCfg#getModelId()}
-	 * @return
-	 */
-	public static TeamInfo getRobotTeamInfo(int robotId, String userId, String robotName, String headId, String groupName, int career, List<Integer> heroTmpIdList) {
-		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
-		if (angelRobotCfg == null) {
-			return null;
-		}
-
-		if (StringUtils.isEmpty(robotName)) {
-			return null;
-		}
-
-		if (heroTmpIdList == null || heroTmpIdList.isEmpty()) {
-			return null;
-		}
-
-		Random r = new Random();
-		// 主角的等级
-		int[] level = angelRobotCfg.getLevel();
-		int mainRoleLevel = level[RobotHelper.getRandomIndex(r, level.length)];
-
-		// 阵容信息
-		TeamInfo teamInfo = new TeamInfo();
-		// ----------------------------------------主角基础信息
-		// Vip等级
-		int[] vipLevel = angelRobotCfg.getVipLevel();
-		teamInfo.setVip(vipLevel[RobotHelper.getRandomIndex(r, vipLevel.length)]);
-		// 名字
-		teamInfo.setName(robotName);
-		// 设置职业
-		teamInfo.setCareer(career);
-		// 设置帮派名字
-		teamInfo.setGroupName(groupName);
-		// 设置头像Id
-		teamInfo.setHeadId(headId);
-		// 设置等级
-		teamInfo.setLevel(mainRoleLevel);
-		// 设置角色的Id
-		teamInfo.setUuid(userId);
-
-		// ----------------------------------------主角法宝
-		ArmyMagic magicInfo = new ArmyMagic();
-		// 法宝Id
-		int[] magicId = angelRobotCfg.getMagicId();
-		int finalMagicId = magicId[RobotHelper.getRandomIndex(r, magicId.length)];
-		magicInfo.setModelId(finalMagicId);
-		// 法宝等级
-		int[] magicLevelArray = angelRobotCfg.getMagicLevel();
-		int magicLevel = magicLevelArray[RobotHelper.getRandomIndex(r, magicLevelArray.length)];
-		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
-		magicInfo.setLevel(magicLevel);
-		teamInfo.setMagic(magicInfo);
-
-		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
-		checkHeroSize(heroTmpIdList, r, angelRobotCfg);
-
-		int heroSize = heroTmpIdList.size();
-		List<HeroInfo> heroInfoList = new ArrayList<HeroInfo>(heroSize);
-
-		int fighting = 0;
-		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
-
-		int mainRoleIndex = -1;
-
-		for (int i = 0; i < heroSize; i++) {
-			int heroModelId = heroTmpIdList.get(i);
-			RoleCfg roleCfg = roleCfgDAO.getRoleCfgByModelId(heroModelId);
-			if (roleCfg == null) {
-				continue;
-			}
-
-			boolean isMainRole = roleCfg.getRoleType() == 1;
-			HeroInfo heroInfo = getHeroInfo(angelRobotCfg, isMainRole, heroModelId, mainRoleLevel);
-			if (heroInfo != null) {
-				int heroPos = 0;
-				if (isMainRole) {
-					mainRoleIndex = i;
-				} else {
-					heroPos = mainRoleIndex == -1 ? i + 1 : i;
-				}
-
-				heroInfo.getBaseInfo().setPos(heroPos);
-				heroInfoList.add(heroInfo);
-
-				int skillLevel = 0;
-				List<SkillInfo> skill = heroInfo.getSkill();
-				for (int j = 0, skillSize = skill.size(); j < skillSize; j++) {
-					SkillInfo skillInfo = skill.get(j);
-					if (skillInfo == null) {
-						continue;
-					}
-
-					int sLevel = skillInfo.getSkillLevel();
-					if (sLevel > 0) {
-						skillLevel += sLevel;
-					}
-				}
-
-				// 战力
-				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
-					AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
-				fighting += calFighting;
-			}
-		}
-
-		teamInfo.setHero(heroInfoList);
-		teamInfo.setTeamFighting(fighting);
-
-		return teamInfo;
-	}
-
-	/**
-	 * 检查英雄的数量
-	 * 
-	 * @param heroTmpIdList
-	 * @param r
-	 * @param angelRobotCfg
-	 */
-	private static void checkHeroSize(List<Integer> heroTmpIdList, Random r, RobotEntryCfg angelRobotCfg) {
-		int heroSize = heroTmpIdList.size();
-		if (heroSize < 5) {
-			int needSize = 5 - heroSize;// 需要随机的数量
-			List<String> heroGroupId = angelRobotCfg.getHeroGroupId();
-			String groupId = heroGroupId.get(RobotHelper.getRandomIndex(r, heroGroupId.size()));
-			List<RobotHeroCfg> robotHeroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(groupId);
-			if (robotHeroCfgList != null && !robotHeroCfgList.isEmpty()) {
-				RobotHeroCfg robotHeroCfg = robotHeroCfgList.get(RobotHelper.getRandomIndex(r, robotHeroCfgList.size()));
-				if (robotHeroCfg != null) {
-					List<Integer> heroIdList = new ArrayList<Integer>();
-					String firstHeroId = robotHeroCfg.getFirstHeroId();
-					if (!StringUtils.isEmpty(firstHeroId)) {
-						Integer id = Integer.valueOf(firstHeroId);
-						if (!heroTmpIdList.contains(id)) {
-							heroIdList.add(id);
-						}
-					}
-					String secondHeroId = robotHeroCfg.getSecondHeroId();
-					if (!StringUtils.isEmpty(secondHeroId)) {
-						Integer id = Integer.valueOf(secondHeroId);
-						if (!heroTmpIdList.contains(id)) {
-							heroIdList.add(id);
-						}
-					}
-					String thirdHeroId = robotHeroCfg.getThirdHeroId();
-					if (!StringUtils.isEmpty(thirdHeroId)) {
-						Integer id = Integer.valueOf(thirdHeroId);
-						if (!heroTmpIdList.contains(id)) {
-							heroIdList.add(id);
-						}
-					}
-					String fourthHeroId = robotHeroCfg.getFourthHeroId();
-					if (!StringUtils.isEmpty(fourthHeroId)) {
-						Integer id = Integer.valueOf(fourthHeroId);
-						if (!heroTmpIdList.contains(id)) {
-							heroIdList.add(id);
-						}
-					}
-
-					int canRanSize = heroIdList.size();
-					if (needSize >= canRanSize) {// 如果需要的超过了就直接把列表添加进去
-						heroTmpIdList.addAll(heroIdList);
-					} else {
-						for (int i = 0; i < needSize; i++) {
-							Integer hasValue = heroIdList.remove(RobotHelper.getRandomIndex(r, heroIdList.size()));
-							if (hasValue != null) {
-								heroTmpIdList.add(hasValue);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * 获取英雄的信息
-	 * 
-	 * @param angelRobotCfg 机器人的配置
-	 * @param isMainRole 是否是主角
-	 * @param roleModelId 角色的模型Id
-	 * @param mainRoleLevel 主角的等级
-	 * @return
-	 */
-	private static HeroInfo getHeroInfo(RobotEntryCfg angelRobotCfg, boolean isMainRole, int roleModelId, int mainRoleLevel) {
-		HeroInfo heroInfo = new HeroInfo();
-		// ----------------------------------------英雄基础属性
-		HeroBaseInfo baseInfo = RobotHelper.getRobotHeroBaseInfo(roleModelId, mainRoleLevel, isMainRole, angelRobotCfg);
-		heroInfo.setBaseInfo(baseInfo);
-		// 获取RoleCfg配置
-		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
-		RoleCfg roleCfg = roleCfgDAO.getCfgById(baseInfo.getTmpId());
-		// ----------------------------------------装备
-		heroInfo.setEquip(RobotHelper.getRobotEquipList(isMainRole, roleCfg, angelRobotCfg));
-		// ----------------------------------------宝石
-		heroInfo.setGem(RobotHelper.getRobotGemList(isMainRole, angelRobotCfg));
-		// ----------------------------------------技能
-		heroInfo.setSkill(RobotHelper.getRobotSkillInfoList(baseInfo.getLevel(), isMainRole, roleCfg, angelRobotCfg));
-		// ----------------------------------------羁绊
-		heroInfo.setFetters(RobotHelper.parseHeroFettersInfo(roleModelId, RobotManager.getRobotFettersInfo(angelRobotCfg)));
-		// ----------------------------------------神器
-		heroInfo.setFixEquip(RobotHelper.parseFixInfo(roleModelId, RobotManager.getRobotFixInfo(angelRobotCfg)));
-		return heroInfo;
-	}
+	// private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
+	// private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
+	//
+	// /**
+	// * 获取角色信息
+	// *
+	// * @param robotId
+	// * @return
+	// */
+	// public static TeamInfo getRobotTeamInfo(int robotId) {
+	// RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
+	// if (angelRobotCfg == null) {
+	// return null;
+	// }
+	//
+	// Random r = new Random();
+	// // 随机一个职业
+	// ECareer[] values = ECareer.values();
+	// ECareer careerType = values[RobotHelper.getRandomIndex(r, values.length)];
+	// // 获取性别
+	// int sex = RobotHelper.getRandomIndex(r, 2);
+	// // 星级
+	// int[] starArr = angelRobotCfg.getStar();
+	// int star = starArr[RobotHelper.getRandomIndex(starArr.length)];
+	// // 获取英雄模版
+	// int career = careerType.getValue();
+	// RoleCfg roleCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
+	// if (roleCfg == null) {
+	// return null;
+	// }
+	// // 默认给个名字
+	// String name = fNameArr[RobotHelper.getRandomIndex(r, fNameArr.length)] + sNameArr[RobotHelper.getRandomIndex(r, sNameArr.length)];
+	//
+	// List<Integer> heroTmpIdList = new ArrayList<Integer>();
+	// heroTmpIdList.add(roleCfg.getModelId());
+	// // 阵容组合
+	// List<String> heroGroupId = angelRobotCfg.getHeroGroupId();
+	// String heroTeamId = heroGroupId.get(RobotHelper.getRandomIndex(r, heroGroupId.size()));
+	//
+	// List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroTeamId);
+	// if (heroCfgList == null) {
+	// GameLog.error("万仙阵生成机器人", "未知角色Id", String.format("[%s]机器人阵容组合找不到RobotHeroCfg", heroTeamId));
+	// return null;
+	// }
+	//
+	// RobotHeroCfg heroCfg = heroCfgList.get(RobotHelper.getRandomIndex(r, heroCfgList.size()));
+	// if (heroCfg == null) {
+	// GameLog.error("万仙阵生成机器人", "未知角色Id", String.format("[%s]机器人阵容组合找不到RobotHeroCfg", heroTeamId));
+	// return null;
+	// }
+	//
+	// String firstHeroId = heroCfg.getFirstHeroId();
+	// if (!StringUtils.isEmpty(firstHeroId)) {
+	// heroTmpIdList.add(Integer.valueOf(firstHeroId));
+	// }
+	//
+	// String secondHeroId = heroCfg.getSecondHeroId();
+	// if (!StringUtils.isEmpty(secondHeroId)) {
+	// heroTmpIdList.add(Integer.valueOf(secondHeroId));
+	// }
+	//
+	// String thirdHeroId = heroCfg.getThirdHeroId();
+	// if (!StringUtils.isEmpty(thirdHeroId)) {
+	// heroTmpIdList.add(Integer.valueOf(thirdHeroId));
+	// }
+	//
+	// String fourthHeroId = heroCfg.getFourthHeroId();
+	// if (!StringUtils.isEmpty(fourthHeroId)) {
+	// heroTmpIdList.add(Integer.valueOf(fourthHeroId));
+	// }
+	//
+	// StringBuilder sb = new StringBuilder();
+	// sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
+	//
+	// String headImage;
+	// if (sex == ESex.Men.getOrder()) {
+	// headImage = "10001";
+	// } else {
+	// headImage = "10002";
+	// }
+	// return getRobotTeamInfo(robotId, sb.toString(), name, headImage, "", career, heroTmpIdList);
+	// }
+	//
+	// /**
+	// * 获取万仙阵的机器人
+	// *
+	// * @param robotId
+	// * @param robotName
+	// * @param career 职业
+	// * @param heroTmpIdList List中用的<E>是{@link RoleCfg#getModelId()}
+	// * @return
+	// */
+	// public static TeamInfo getRobotTeamInfo(int robotId, String userId, String robotName, String headId, String groupName, int career,
+	// List<Integer> heroTmpIdList) {
+	// RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
+	// if (angelRobotCfg == null) {
+	// return null;
+	// }
+	//
+	// if (StringUtils.isEmpty(robotName)) {
+	// return null;
+	// }
+	//
+	// if (heroTmpIdList == null || heroTmpIdList.isEmpty()) {
+	// return null;
+	// }
+	//
+	// Random r = new Random();
+	// // 主角的等级
+	// int[] level = angelRobotCfg.getLevel();
+	// int mainRoleLevel = level[RobotHelper.getRandomIndex(r, level.length)];
+	//
+	// // 阵容信息
+	// TeamInfo teamInfo = new TeamInfo();
+	// // ----------------------------------------主角基础信息
+	// // Vip等级
+	// int[] vipLevel = angelRobotCfg.getVipLevel();
+	// teamInfo.setVip(vipLevel[RobotHelper.getRandomIndex(r, vipLevel.length)]);
+	// // 名字
+	// teamInfo.setName(robotName);
+	// // 设置职业
+	// teamInfo.setCareer(career);
+	// // 设置帮派名字
+	// teamInfo.setGroupName(groupName);
+	// // 设置头像Id
+	// teamInfo.setHeadId(headId);
+	// // 设置等级
+	// teamInfo.setLevel(mainRoleLevel);
+	// // 设置角色的Id
+	// teamInfo.setUuid(userId);
+	//
+	// // ----------------------------------------主角法宝
+	// ArmyMagic magicInfo = new ArmyMagic();
+	// // 法宝Id
+	// int[] magicId = angelRobotCfg.getMagicId();
+	// int finalMagicId = magicId[RobotHelper.getRandomIndex(r, magicId.length)];
+	// magicInfo.setModelId(finalMagicId);
+	// // 法宝等级
+	// int[] magicLevelArray = angelRobotCfg.getMagicLevel();
+	// int magicLevel = magicLevelArray[RobotHelper.getRandomIndex(r, magicLevelArray.length)];
+	// magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
+	// magicInfo.setLevel(magicLevel);
+	// teamInfo.setMagic(magicInfo);
+	//
+	// // 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
+	// checkHeroSize(heroTmpIdList, r, angelRobotCfg);
+	//
+	// int heroSize = heroTmpIdList.size();
+	// List<HeroInfo> heroInfoList = new ArrayList<HeroInfo>(heroSize);
+	//
+	// int fighting = 0;
+	// RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
+	//
+	// int mainRoleIndex = -1;
+	//
+	// for (int i = 0; i < heroSize; i++) {
+	// int heroModelId = heroTmpIdList.get(i);
+	// RoleCfg roleCfg = roleCfgDAO.getRoleCfgByModelId(heroModelId);
+	// if (roleCfg == null) {
+	// continue;
+	// }
+	//
+	// boolean isMainRole = roleCfg.getRoleType() == 1;
+	// HeroInfo heroInfo = getHeroInfo(angelRobotCfg, isMainRole, heroModelId, mainRoleLevel);
+	// if (heroInfo != null) {
+	// int heroPos = 0;
+	// if (isMainRole) {
+	// mainRoleIndex = i;
+	// } else {
+	// heroPos = mainRoleIndex == -1 ? i + 1 : i;
+	// }
+	//
+	// heroInfo.getBaseInfo().setPos(heroPos);
+	// heroInfoList.add(heroInfo);
+	//
+	// int skillLevel = 0;
+	// List<SkillInfo> skill = heroInfo.getSkill();
+	// for (int j = 0, skillSize = skill.size(); j < skillSize; j++) {
+	// SkillInfo skillInfo = skill.get(j);
+	// if (skillInfo == null) {
+	// continue;
+	// }
+	//
+	// int sLevel = skillInfo.getSkillLevel();
+	// if (sLevel > 0) {
+	// skillLevel += sLevel;
+	// }
+	// }
+	//
+	// // 战力
+	// int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ?
+	// String.valueOf(finalMagicId) : "",
+	// AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
+	// fighting += calFighting;
+	// }
+	// }
+	//
+	// teamInfo.setHero(heroInfoList);
+	// teamInfo.setTeamFighting(fighting);
+	//
+	// return teamInfo;
+	// }
+	//
+	// /**
+	// * 检查英雄的数量
+	// *
+	// * @param heroTmpIdList
+	// * @param r
+	// * @param angelRobotCfg
+	// */
+	// private static void checkHeroSize(List<Integer> heroTmpIdList, Random r, RobotEntryCfg angelRobotCfg) {
+	// int heroSize = heroTmpIdList.size();
+	// if (heroSize < 5) {
+	// int needSize = 5 - heroSize;// 需要随机的数量
+	// List<String> heroGroupId = angelRobotCfg.getHeroGroupId();
+	// String groupId = heroGroupId.get(RobotHelper.getRandomIndex(r, heroGroupId.size()));
+	// List<RobotHeroCfg> robotHeroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(groupId);
+	// if (robotHeroCfgList != null && !robotHeroCfgList.isEmpty()) {
+	// RobotHeroCfg robotHeroCfg = robotHeroCfgList.get(RobotHelper.getRandomIndex(r, robotHeroCfgList.size()));
+	// if (robotHeroCfg != null) {
+	// List<Integer> heroIdList = new ArrayList<Integer>();
+	// String firstHeroId = robotHeroCfg.getFirstHeroId();
+	// if (!StringUtils.isEmpty(firstHeroId)) {
+	// Integer id = Integer.valueOf(firstHeroId);
+	// if (!heroTmpIdList.contains(id)) {
+	// heroIdList.add(id);
+	// }
+	// }
+	// String secondHeroId = robotHeroCfg.getSecondHeroId();
+	// if (!StringUtils.isEmpty(secondHeroId)) {
+	// Integer id = Integer.valueOf(secondHeroId);
+	// if (!heroTmpIdList.contains(id)) {
+	// heroIdList.add(id);
+	// }
+	// }
+	// String thirdHeroId = robotHeroCfg.getThirdHeroId();
+	// if (!StringUtils.isEmpty(thirdHeroId)) {
+	// Integer id = Integer.valueOf(thirdHeroId);
+	// if (!heroTmpIdList.contains(id)) {
+	// heroIdList.add(id);
+	// }
+	// }
+	// String fourthHeroId = robotHeroCfg.getFourthHeroId();
+	// if (!StringUtils.isEmpty(fourthHeroId)) {
+	// Integer id = Integer.valueOf(fourthHeroId);
+	// if (!heroTmpIdList.contains(id)) {
+	// heroIdList.add(id);
+	// }
+	// }
+	//
+	// int canRanSize = heroIdList.size();
+	// if (needSize >= canRanSize) {// 如果需要的超过了就直接把列表添加进去
+	// heroTmpIdList.addAll(heroIdList);
+	// } else {
+	// for (int i = 0; i < needSize; i++) {
+	// Integer hasValue = heroIdList.remove(RobotHelper.getRandomIndex(r, heroIdList.size()));
+	// if (hasValue != null) {
+	// heroTmpIdList.add(hasValue);
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
+	//
+	// /**
+	// * 获取英雄的信息
+	// *
+	// * @param angelRobotCfg 机器人的配置
+	// * @param isMainRole 是否是主角
+	// * @param roleModelId 角色的模型Id
+	// * @param mainRoleLevel 主角的等级
+	// * @return
+	// */
+	// private static HeroInfo getHeroInfo(RobotEntryCfg angelRobotCfg, boolean isMainRole, int roleModelId, int mainRoleLevel) {
+	// HeroInfo heroInfo = new HeroInfo();
+	// // ----------------------------------------英雄基础属性
+	// HeroBaseInfo baseInfo = RobotHelper.getRobotHeroBaseInfo(roleModelId, mainRoleLevel, isMainRole, angelRobotCfg);
+	// heroInfo.setBaseInfo(baseInfo);
+	// // 获取RoleCfg配置
+	// RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
+	// RoleCfg roleCfg = roleCfgDAO.getCfgById(baseInfo.getTmpId());
+	// // ----------------------------------------装备
+	// heroInfo.setEquip(RobotHelper.getRobotEquipList(isMainRole, roleCfg, angelRobotCfg));
+	// // ----------------------------------------宝石
+	// heroInfo.setGem(RobotHelper.getRobotGemList(isMainRole, angelRobotCfg));
+	// // ----------------------------------------技能
+	// heroInfo.setSkill(RobotHelper.getRobotSkillInfoList(baseInfo.getLevel(), isMainRole, roleCfg, angelRobotCfg));
+	// // ----------------------------------------羁绊
+	// heroInfo.setFetters(RobotHelper.parseHeroFettersInfo(roleModelId, RobotManager.getRobotFettersInfo(angelRobotCfg)));
+	// // ----------------------------------------神器
+	// heroInfo.setFixEquip(RobotHelper.parseFixInfo(roleModelId, RobotManager.getRobotFixInfo(angelRobotCfg)));
+	// return heroInfo;
+	// }
 
 	/**
 	 * 获取匹配到的角色Id列表
