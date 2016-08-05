@@ -33,7 +33,7 @@ public class GroupBaseMsgReceiver extends PrintMsgReciver {
 					RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " 特殊返回为true");
 					return true;
 				}
-				RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : ""));
+				RobotLog.fail(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " client.账号=" + client.getAccountId());
 				return false;
 			} else {
 				RobotLog.info(parseFunctionDesc() + "成功");

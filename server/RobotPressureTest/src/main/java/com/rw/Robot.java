@@ -1,8 +1,6 @@
 package com.rw;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -23,7 +21,6 @@ import com.rw.handler.copy.CopyType;
 import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
-import com.rw.handler.equip.EquipItem;
 import com.rw.handler.fashion.FashionHandler;
 import com.rw.handler.fixEquip.FixEquipHandler;
 import com.rw.handler.fixExpEquip.FixExpEquipHandler;
@@ -35,6 +32,7 @@ import com.rw.handler.gameLogin.SelectCareerHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
 import com.rw.handler.hero.HeroHandler;
@@ -386,9 +384,9 @@ public class Robot {
 		return sendSuccess;
 	}
 	
-	/** 1-4 正常版的全战力；5，转为1，精简版,只加英雄加满等级，不做其他增幅*/
+	/**只加英雄和等级*/
 	public boolean addHero(int i) {
-		boolean sendSuccess = GmHandler.instance().send(client, "* teambringit " + i);
+		boolean sendSuccess = GmHandler.instance().send(client, "* teambringitsigle " + i);
 		return sendSuccess;
 	}
 
@@ -892,6 +890,7 @@ public class Robot {
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);
+//		return true;
 		return GroupSecretHandler.getInstance().createGroupSecret(client);
 	}
 	
@@ -1029,6 +1028,10 @@ public class Robot {
 	 */
 	public boolean getMagicSecretRank() {
 		return MagicSecretHandler.getHandler().getMagicSecretRank(client);
+	}
+	
+	public boolean playerGroupFight(){
+		return GroupFightHandler.getHandler().playGroupFight(client);
 	}
 
 	public boolean sendGmCommand(String value) {

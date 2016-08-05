@@ -9,7 +9,8 @@ public enum eStoreType{
 	ArenaStore(4),//竞技场商店
 	PeakStore(5),//巅峰竞技商店
 	Union(6),//帮派商店
-	Tower(7);//仙阵商店
+	Tower(7),//仙阵商店
+	Waken(8);//觉醒商店
 	
 	private int order;
 	eStoreType(int order){
