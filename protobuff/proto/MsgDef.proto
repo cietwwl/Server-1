@@ -90,6 +90,9 @@ enum Command {
 	MSG_GROUP_COPY_BATTLE = 187;//帮派副本战斗
 	MSG_GROUP_COPY_CMD = 188;//帮派副本协议
 	
+	MSG_CHAT_REQUEST_PRIVATE_CHATS = 189; // 聊天：请求私聊列表
+	MSG_CHAT_SET_CURRENT_TARGET = 190; // 聊天：客戶端通知服務器當前的私聊面板的聊天目標
+	
 	
 	MSG_TAOIST = 200;//道术系统
 	MSG_FIX_EQUIP = 201;//专属装备

@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatBM;
+import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
@@ -20,7 +22,6 @@ import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
@@ -993,7 +994,15 @@ public class GroupSecretHandler {
 			message = req.getMessage();
 		}
 
-		ChatHandler.getInstance().chatTreasure(player, reqId, cfgId, inviteList.size(), message, inviteList);
+		// 秘境要传递到聊天部分的信息
+		String format = "邀请防守：[%s](人数：%s/%s)\n%s\n";
+		message = String.format(format, cfg.getName(), inviteList.size(), memberMgr.getGroupMemberSize(), message);
+
+		// 设置邀请时间
+		StringBuilder sb = new StringBuilder();
+		sb.append("1").append(":").append(groupSecretData.getCreateTime());
+
+		ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, message, reqId, sb.toString(), inviteList);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -1265,7 +1274,7 @@ public class GroupSecretHandler {
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
 		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级才能接受该邀请", openLevel));
 			return rsp.build().toByteString();
 		}
 
@@ -1307,12 +1316,12 @@ public class GroupSecretHandler {
 		}
 
 		String reqId = req.getId();
-		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
-		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
-		if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
-			return rsp.build().toByteString();
-		}
+		// UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		// UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
+		// if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
+		// GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
+		// return rsp.build().toByteString();
+		// }
 
 		String[] arr = GroupSecretHelper.parseString2UserIdAndSecretId(reqId);
 		String createUserId = arr[0];
@@ -1328,6 +1337,16 @@ public class GroupSecretHandler {
 		if (groupSecretData == null) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "秘境已消失");
 			return rsp.build().toByteString();
+		}
+
+		long createTime = groupSecretData.getCreateTime();
+
+		if (req.hasTime()) {
+			long reqTime = req.getTime();
+			if (reqTime > 0 && reqTime != createTime) {
+				GroupSecretHelper.fillRspInfo(rsp, false, "秘境已消失");
+				return rsp.build().toByteString();
+			}
 		}
 
 		// 获取是否邀请了这个人，并且这个人是不是该帮派成员
@@ -1349,7 +1368,6 @@ public class GroupSecretHandler {
 		}
 
 		long now = System.currentTimeMillis();
-		long createTime = groupSecretData.getCreateTime();
 		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 		long passTimeMillis = now - createTime;
 		if (passTimeMillis > needTimeMillis) {

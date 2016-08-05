@@ -1,11 +1,18 @@
 package com.playerdata.teambattle.bm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.chat.ChatBM;
+import com.bm.chat.ChatInteractiveType;
+import com.bm.group.GroupBM;
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
@@ -32,7 +39,10 @@ import com.playerdata.teambattle.enums.TBMemberState;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
 
@@ -273,9 +283,11 @@ public class TeamBattleBM {
 			return;
 		}
 		try {
+			utbData.setSynTeam(true);
 			joinTeam(player, teamItem);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
+			utbData.setSynTeam(false);
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg(e.getMessage());
 		}
@@ -358,7 +370,69 @@ public class TeamBattleBM {
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void invitePlayer(Player player, Builder tbRsp) {
+	public void invitePlayer(Player player, Builder tbRsp, int inviteType, List<String> inviteUsers, String inviteContent) {
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队信息不存在");
+			return;
+		}
+		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+		if(null == teamItem || !StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("权限不足，队长才能邀请");
+			return;
+		}
+		if(teamItem.isFull()){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("成员已满");
+			return;
+		}
+		ServerCommonData scData = ServerCommonDataHolder.getInstance().get();
+		if(null == scData){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队怪物信息有误");
+			return;
+		}
+		String enimyID = scData.getTeamBattleEnimyMap().get(teamItem.getHardID());
+		MonsterCombinationCfg cfg = MonsterCombinationDAO.getInstance().getCfgById(enimyID + "_1");
+		if(null == cfg){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队怪物信息有误");
+			return;
+		}
+		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
+		switch (inviteType) {
+		case 1:
+			//世界邀请
+			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "");
+			break;
+		case 2:
+			//公会邀请
+			String groupId = GroupHelper.getUserGroupId(player.getUserId());
+			if(!StringUtils.isBlank(groupId)){
+				Group gp = GroupBM.get(groupId);
+				if(null != gp){
+					List<? extends GroupMemberDataIF> members = gp.getGroupMemberMgr().getMemberSortList(null);
+					List<String> memIDs = new ArrayList<String>();
+					for(GroupMemberDataIF mem : members){
+						if(!StringUtils.equals(mem.getUserId(), player.getUserId())) memIDs.add(mem.getUserId());
+					}
+					if(!memIDs.isEmpty()){
+						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", memIDs);
+					}
+				}
+			}
+			break;
+		case 3:
+			//好友邀请
+			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", inviteUsers);
+			break;
+		default:
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("邀请的类型有误");
+			return;
+		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 

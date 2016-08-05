@@ -7,6 +7,7 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class MonsterCombinationCfg extends BaseConfig {
 	private String id; //id
+	private String name;	//怪物名字
 	private int battleTime; //战斗场次
 	private int copyId; //copyId
 	private int scoreGain; //获胜可获得积分
@@ -18,8 +19,12 @@ public class MonsterCombinationCfg extends BaseConfig {
  	public String getId() {
  		return id;
  	}
- 	
- 	public int getBattleTime() {
+
+ 	public String getName() {
+		return name;
+	}
+
+	public int getBattleTime() {
  		return battleTime;
  	}
 
