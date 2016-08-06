@@ -182,7 +182,7 @@ public class FixEquipHelper {
 	public static HashMap<eConsumeTypeDef,List<ItemData>> getFixConsumeItemMap(Player player) {
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		List<ItemData> lst = itemBagMgr.getItemListByType(EItemTypeDef.Consume);
-		HashMap<eConsumeTypeDef, List<ItemData>> result = new HashMap<>(eConsumeTypeDef.values().length);
+		HashMap<eConsumeTypeDef, List<ItemData>> result = new HashMap<eConsumeTypeDef, List<ItemData>>(eConsumeTypeDef.values().length);
 		for (ItemData itemData : lst) {
 			ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(itemData.getModelId());
 			if (cfg != null) {
