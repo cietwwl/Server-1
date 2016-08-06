@@ -621,7 +621,11 @@ public class BattleTowerHandler {
 			Collections.sort(allCfg, comparator);// 排序
 			
 			ArrayList<Integer> generatedBossIdList = new ArrayList<Integer>();
-			
+			List<BossInfo> lst = tableBattleTower.getBossInfoList();
+			for (BossInfo bossInfo : lst) {
+				generatedBossIdList.add(bossInfo.getBossId());
+			}
+
 			for (int i = 0, size = allCfg.size(); i < size; i++) {
 				if (leftBossSize <= 0) {// 最后没有次数了，就直接退出了
 					break;
