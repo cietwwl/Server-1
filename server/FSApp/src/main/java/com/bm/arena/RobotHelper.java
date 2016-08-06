@@ -15,6 +15,7 @@ import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.team.EquipInfo;
+import com.playerdata.team.FashionInfo;
 import com.playerdata.team.HeroBaseInfo;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.playerdata.team.SkillInfo;
@@ -427,5 +428,23 @@ public class RobotHelper {
 		}
 
 		return map;
+	}
+
+	/**
+	 * 转换时装信息
+	 * 
+	 * @param fashionIdArr
+	 * @return
+	 */
+	public static FashionInfo parseFashionInfo(int[] fashionIdArr) {
+		FashionInfo fashionInfo = new FashionInfo();
+		if (fashionIdArr == null || fashionIdArr.length != 3) {
+			return fashionInfo;
+		}
+
+		fashionInfo.setSuit(fashionIdArr[0]);
+		fashionInfo.setWing(fashionIdArr[1]);
+		fashionInfo.setPet(fashionIdArr[2]);
+		return fashionInfo;
 	}
 }

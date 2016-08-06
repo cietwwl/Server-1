@@ -65,8 +65,7 @@ public class AngelArrayTeamInfoHelper {
 	/**
 	 * 当角色登录的时候，刷新上线时间
 	 * 
-	 * @param p
-	 *            角色信息
+	 * @param p 角色信息
 	 */
 	public static void updateRankingEntry(Player p, TeamInfoCallback call) {
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
@@ -122,8 +121,7 @@ public class AngelArrayTeamInfoHelper {
 	/**
 	 *
 	 * @param p
-	 * @param teamHeroList
-	 *            竞技场的进攻阵容信息
+	 * @param teamHeroList 竞技场的进攻阵容信息
 	 * @return
 	 */
 	public static void checkAndUpdateTeamInfo(Player p, List<String> teamHeroList) {
@@ -289,8 +287,7 @@ public class AngelArrayTeamInfoHelper {
 	 * 获取万仙阵阵容信息
 	 * 
 	 * @param p
-	 * @param teamHeroList
-	 *            佣兵的ModelId
+	 * @param teamHeroList 佣兵的ModelId
 	 * @return
 	 */
 	public static AngelArrayTeamInfoAttribute getAngelArrayTeamInfoAttribute(Player p, List<Integer> teamHeroList) {
@@ -310,8 +307,7 @@ public class AngelArrayTeamInfoHelper {
 	 * 转换Player到TeamInfo
 	 * 
 	 * @param p
-	 * @param teamHeroList
-	 *            包含了主角在内的攻击英雄的ModelId
+	 * @param teamHeroList 包含了主角在内的攻击英雄的ModelId
 	 * @return
 	 */
 	public static TeamInfo parsePlayer2TeamInfo(Player p, List<Integer> teamHeroList) {
@@ -392,7 +388,7 @@ public class AngelArrayTeamInfoHelper {
 		fashionInfo.setSuit(fashionIdArr[0]);
 		fashionInfo.setWing(fashionIdArr[1]);
 		fashionInfo.setPet(fashionIdArr[2]);
-		return null;
+		return fashionInfo;
 	}
 
 	/**
@@ -480,33 +476,7 @@ public class AngelArrayTeamInfoHelper {
 				continue;
 			}
 
-			HeroInfo heroInfo = new HeroInfo();
-			// 基础属性
-			heroInfo.setBaseInfo(changeHeroBaseInfo(hero));
-			// 装备
-			List<EquipInfo> equipList = changeHeroEquipList(hero);
-			if (equipList != null) {
-				heroInfo.setEquip(equipList);
-			}
-			// 宝石
-			heroInfo.setGem(hero.getInlayMgr().getInlayGemList());
-			// 技能
-			List<SkillInfo> skillList = changeHeroSkillList(hero);
-			if (skillList != null) {
-				heroInfo.setSkill(skillList);
-			}
-
-			// 羁绊
-			Map<Integer, SynConditionData> fetters = changeHeroFetters(p, hero);
-			if (fetters != null) {
-				heroInfo.setFetters(fetters);
-			}
-
-			// 神器
-			List<HeroFixEquipInfo> fixEquipList = changeHeroFixEquip(p, hero);
-			if (fixEquipList != null) {
-				heroInfo.setFixEquip(fixEquipList);
-			}
+			HeroInfo heroInfo = buildHeroInfo(p, hero);
 
 			// 站位
 			int heroPos = 0;
@@ -523,6 +493,46 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		return heroList;
+	}
+
+	/**
+	 * 构造英雄
+	 * 
+	 * @param p
+	 * @param hero
+	 * @return
+	 */
+	private static HeroInfo buildHeroInfo(Player p, Hero hero)
+	{
+		HeroInfo heroInfo = new HeroInfo();
+		// 基础属性
+		heroInfo.setBaseInfo(changeHeroBaseInfo(hero));
+		// 装备
+		List<EquipInfo> equipList = changeHeroEquipList(hero);
+		if (equipList != null) {
+			heroInfo.setEquip(equipList);
+		}
+		// 宝石
+		heroInfo.setGem(hero.getInlayMgr().getInlayGemList());
+		// 技能
+		List<SkillInfo> skillList = changeHeroSkillList(hero);
+		if (skillList != null) {
+			heroInfo.setSkill(skillList);
+		}
+
+		// 羁绊
+		Map<Integer, SynConditionData> fetters = changeHeroFetters(p, hero);
+		if (fetters != null) {
+			heroInfo.setFetters(fetters);
+		}
+
+		// 神器
+		List<HeroFixEquipInfo> fixEquipList = changeHeroFixEquip(p, hero);
+		if (fixEquipList != null) {
+			heroInfo.setFixEquip(fixEquipList);
+		}
+
+		return heroInfo;
 	}
 
 	/**
@@ -701,8 +711,10 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		// 有英雄没有站位，全部按照1~4排位
-		for (int i = 0, aSize = armyHeroList.size(); i < aSize; i++) {
-			armyHeroList.get(i).setPosition(i + 1);
+		if (nonHeroPos) {
+			for (int i = 0, aSize = armyHeroList.size(); i < aSize; i++) {
+				armyHeroList.get(i).setPosition(i + 1);
+			}
 		}
 
 		armyInfo.setHeroList(armyHeroList);
@@ -793,7 +805,7 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
 		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-				heroAttrData));
+			heroAttrData));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 
