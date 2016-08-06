@@ -152,7 +152,9 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			return;
 		}		
 		String reward = eSpecialItemId.Gold.getValue() +"_"+item.getGoldCount();
-		ComGiftMgr.getInstance().addtagInfoTOEmail(player, reward, MAKEUPEMAIL+"", cfg.getEmailTitle());
+		if(item.getGoldCount() > 0){
+			ComGiftMgr.getInstance().addtagInfoTOEmail(player, reward, MAKEUPEMAIL+"", cfg.getEmailTitle());
+		}
 		item.setIstaken(true);
 		item.setClosed(true);
 		dataHolder.updateItem(player, item);
