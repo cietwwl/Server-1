@@ -34,10 +34,14 @@ public class AssistantCheckFixEquipAdvance extends DefaultAssistantChecker {
 			Hero hero = heroMgr.getHeroById(id);
 			String heroId = hero.getUUId();
 			
-			List<String> qualityUpListTmp = hero.getFixExpEquipMgr().levelUpList(player, heroId);			
+			List<String> qualityUpListTmp = hero.getFixExpEquipMgr().levelUpList(player, heroId);
+			if(!qualityUpListTmp.isEmpty()){
+				param = heroId;
+				return AssistantEventID.FixEquipAdvance;
+			}
 			qualityUpListTmp.addAll(hero.getFixNormEquipMgr().levelUpList(player, heroId));
 			if(!qualityUpListTmp.isEmpty()){
-				param = qualityUpListTmp.get(0);
+				param = heroId;
 				return AssistantEventID.FixEquipAdvance;
 			}
 		}

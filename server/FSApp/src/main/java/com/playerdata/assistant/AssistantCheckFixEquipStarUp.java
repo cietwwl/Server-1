@@ -32,9 +32,13 @@ public class AssistantCheckFixEquipStarUp extends DefaultAssistantChecker {
 			String heroId = hero.getUUId();	
 			
 			List<String> starUpListTmp = hero.getFixExpEquipMgr().starUpList(player, heroId);			
+			if(!starUpListTmp.isEmpty()){
+				param = heroId;
+				return AssistantEventID.FixEquipUp;
+			}		
 			starUpListTmp.addAll(hero.getFixNormEquipMgr().starUpList(player, heroId));
 			if(!starUpListTmp.isEmpty()){
-				param = starUpListTmp.get(0);
+				param = heroId;
 				return AssistantEventID.FixEquipUp;
 			}		
 		}
