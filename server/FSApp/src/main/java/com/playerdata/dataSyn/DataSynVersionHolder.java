@@ -381,8 +381,6 @@ public class DataSynVersionHolder {
 
 		notInVersionControlList.add(notInVersionControlP);
 
-		notInVersionControlList.add(notInVersionControlP);
-
 		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {
 
 			@Override
