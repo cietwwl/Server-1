@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.log.GameLog;
-import com.playerdata.HotPointMgr;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rw.service.redpoint.RedPointType;
 import com.rw.service.redpoint.impl.RedPointCollector;
-import com.rwbase.dao.hotPoint.EHotPointType;
 
 public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	private Player m_pPlayer;
@@ -43,7 +41,6 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	}
 	
 	public void syncMainCityGambleHotPoint(){
-		HotPointMgr.changeHotPointState(m_pPlayer.getUserId(), EHotPointType.Gamble, !getHasFree());
 	}
 
 	@Override
