@@ -94,20 +94,21 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 	private void checkCfgVersion(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityCountTypeItem targetItem : itemList) {			
-			ActivityCountTypeCfg targetCfg = ActivityCountTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+		for (ActivityCountTypeItem targetItem : itemList) {
+			
+			
+			ActivityCountTypeCfg targetCfg = ActivityCountTypeCfgDAO.getInstance().getCfgByEnumId(targetItem);
 			if(targetCfg == null){
-				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
+//				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg, ActivityCountTypeCfgDAO.getInstance().newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
-			}
-		}
-		
-		
+			}			
+		}			
 	}
+	
 	private void checkNewOpen(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
@@ -117,7 +118,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 				// 活动未开启
 				continue;
 			}
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getEnumId());
 			if (countTypeEnum == null) {
 				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityCountTypeCfg.getId());
 				continue;
@@ -125,7 +126,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
 						
-				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
+				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum,activityCountTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
 					continue;

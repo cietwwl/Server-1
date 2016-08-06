@@ -44,9 +44,21 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;
 	
+	@CombineSave
+	private String enumId;
 	
 	
 	
+	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
