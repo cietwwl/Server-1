@@ -26,10 +26,8 @@ import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
-import com.rwbase.dao.Army.UserArmyDataDAO;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
-import com.rwbase.dao.gulid.faction.GuildDAO;
 
 public class TimerManager {
 
@@ -80,15 +78,6 @@ public class TimerManager {
 				minutesFun();
 			}
 		}, MINUTE);
-
-		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
-			@Override
-			public void doTask() {
-				GuildDAO.getInstance().flush();
-				UserArmyDataDAO.getInstance().flush();
-				
-			}
-		}, MINUTE_5);
 
 		timeHourOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
