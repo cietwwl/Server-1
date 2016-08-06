@@ -619,7 +619,9 @@ public class BattleTowerHandler {
 
 			List<BattleTowerFloorCfg> allCfg = cfgDao.getAllCfg();
 			Collections.sort(allCfg, comparator);// 排序
-
+			
+			ArrayList<Integer> generatedBossIdList = new ArrayList<Integer>();
+			
 			for (int i = 0, size = allCfg.size(); i < size; i++) {
 				if (leftBossSize <= 0) {// 最后没有次数了，就直接退出了
 					break;
@@ -630,7 +632,7 @@ public class BattleTowerHandler {
 				if (floor >= startFloor && floor <= highestFloor && cfg0.getBossPro() > 0) {
 					int rNum = r.nextInt(BOSS_RANDOM_RATE);// 100中随机
 					if (rNum >= 0 && rNum < cfg0.getBossPro()) {// 随机到了
-						BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel());
+						BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel(),generatedBossIdList,false);
 						if (boss != null) {
 							// Boss信息
 							BossInfo bossInfo = new BossInfo();
@@ -640,6 +642,7 @@ public class BattleTowerHandler {
 							bossInfo.setBossInFloor(floor);// Boss出现的层
 
 							int bossId = tableBattleTower.addBossInfo(bossInfo);
+							generatedBossIdList.add(boss.getBossId());
 							// 当次产生Boss的缓存信息
 							BossCacheInfo bossCacheInfo = new BossCacheInfo(boss.getBossId(), cfg0.getMarkId());
 							tableBattleTower.addBossCacheInfo(bossCacheInfo);
@@ -661,7 +664,7 @@ public class BattleTowerHandler {
 					// 如果是报底层
 					if (cfg0.getBossBreakEvenNum() > 0) {// 确定是保底层，已经产出了一个
 						if (!tableBattleTower.hasBossInfoInMark(cfg0.getMarkId())) {// 已经有了
-							BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel());
+							BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel(),generatedBossIdList,true);
 							if (boss != null) {
 								// Boss信息
 								BossInfo bossInfo = new BossInfo();
@@ -671,6 +674,7 @@ public class BattleTowerHandler {
 								bossInfo.setBossInFloor(floor);// Boss出现的层
 
 								int bossId = tableBattleTower.addBossInfo(bossInfo);
+								generatedBossIdList.add(boss.getBossId());
 								// 当次产生Boss的缓存信息
 								BossCacheInfo bossCacheInfo = new BossCacheInfo(boss.getBossId(), cfg0.getMarkId());
 								tableBattleTower.addBossCacheInfo(bossCacheInfo);
@@ -1265,7 +1269,12 @@ public class BattleTowerHandler {
 
 				// 产生Boss
 				if (canBoss) {
-					BattleTowerBossTemplate ranBossInfo = BattleTowerBossCfgDao.getCfgDao().ranBossInfo(player.getLevel());
+					ArrayList<Integer> generatedBossIdList = new ArrayList<Integer>(tableBattleTower.getBossInfoList().size());
+					List<BossInfo> lst = tableBattleTower.getBossInfoList();
+					for (BossInfo bossInfo : lst) {
+						generatedBossIdList.add(bossInfo.getBossId());
+					}
+					BattleTowerBossTemplate ranBossInfo = BattleTowerBossCfgDao.getCfgDao().ranBossInfo(player.getLevel(),generatedBossIdList,false);
 					if (ranBossInfo != null) {
 						BossInfo bossInfo = new BossInfo();
 						bossInfo.setBossId(ranBossInfo.getBossId());// Boss的模版Id
