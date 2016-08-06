@@ -55,7 +55,7 @@ public class MutiTestOnetimeCreate {
 //						long start = System.currentTimeMillis();
 //						String accountId = preName + index;
 //						System.out.println("!!!!!!!!!!!!!!!!!!!begin.name="+ accountId);
-						Robot robot = createRobot(accountId);
+//						Robot robot = createRobot(accountId);
 //						long now = System.currentTimeMillis();
 //						long spend = now - start;
 //						long all = spend;
@@ -79,7 +79,7 @@ public class MutiTestOnetimeCreate {
 //						spend = now - tmp;
 //						all = spend + all;
 //						System.out.println("~~~~~~~~~~~~~~~~~~~~hero="+ spend+ "   all = " + all);
-						robot.createGroup(accountId);
+//						robot.createGroup(accountId);
 //						tmp = now;
 //						now = System.currentTimeMillis();
 //						spend = now - tmp;
