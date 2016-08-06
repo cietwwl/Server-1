@@ -202,6 +202,7 @@ public class FixExpEquipMgr {
 			eConsumeTypeDef consumeType = getConsumeType(dataItem);
 			
 			List<ItemData> itemlist = consumeItemMap.get(consumeType);
+			if (itemlist == null) continue;
 			int totalExp = 0;
 			for (ItemData itemData : itemlist) {
 				int modelId = itemData.getModelId();
@@ -218,10 +219,7 @@ public class FixExpEquipMgr {
 				canUpList.add(dataItem.getId());
 			}
 		}
-	
-		
-		
-		return null;
+		return canUpList;
 	}
 	
 	private FixEquipResult checkLevelUpCost(Player player, FixExpEquipDataItem dataItem, int totalExp) {		
