@@ -30,7 +30,7 @@ public final class RobotHeroBuilder {
 
 	public static TeamInfo buildOnlyHerosTeamInfo(int robotId) {
 		String robotIdStr = String.valueOf(robotId);
-		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getOnlyHerosRobotCfg(robotIdStr);
+		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getRobotCfg(robotIdStr);
 
 		// 生成英雄的信息
 		String userId = null;
@@ -308,7 +308,7 @@ public final class RobotHeroBuilder {
 	 * @return
 	 */
 	public static TeamInfo getRobotTeamInfo(int robotId) {
-		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
+		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getRobotCfg(String.valueOf(robotId));
 		if (angelRobotCfg == null) {
 			return null;
 		}
@@ -391,7 +391,7 @@ public final class RobotHeroBuilder {
 	 * @return
 	 */
 	public static TeamInfo getRobotTeamInfo(int robotId, BuildRoleInfo roleInfo, boolean needMainRole) {
-		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getAngelRobotCfg(String.valueOf(robotId));
+		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getRobotCfg(String.valueOf(robotId));
 		if (robotCfg == null) {
 			return null;
 		}
@@ -413,6 +413,8 @@ public final class RobotHeroBuilder {
 			buildMainRole(robotCfg, teamInfo, roleInfo, mainRoleLevel);
 		}
 
+		// ----------------------------------------额外属性
+		teamInfo.setExtraId(robotCfg.getExtraAttrId());
 		// ----------------------------------------法宝信息
 		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel);
 		teamInfo.setMagic(magic);
@@ -441,10 +443,14 @@ public final class RobotHeroBuilder {
 			HeroInfo heroInfo = getHeroInfo(robotCfg, isMainRole, heroModelId, mainRoleLevel);
 			if (heroInfo != null) {
 				int heroPos = 0;
-				if (isMainRole) {
-					mainRoleIndex = i;
+				if (needMainRole) {
+					if (isMainRole) {
+						mainRoleIndex = i;
+					} else {
+						heroPos = mainRoleIndex == -1 ? i + 1 : i;
+					}
 				} else {
-					heroPos = mainRoleIndex == -1 ? i + 1 : i;
+					heroPos = i;
 				}
 
 				heroInfo.getBaseInfo().setPos(heroPos);
@@ -515,8 +521,6 @@ public final class RobotHeroBuilder {
 		teamInfo.setFashion(RobotHelper.parseFashionInfo(RobotManager.getRobotFashionInfo(robotCfg)));
 		// 道术信息
 		teamInfo.setTaoist(RobotHelper.parseTaoist2Info(RobotManager.getRobotTaoistInfo(robotCfg)));
-		// 额外属性
-		teamInfo.setExtraId(robotCfg.getExtraAttrId());
 
 		return mainRoleLevel;
 	}

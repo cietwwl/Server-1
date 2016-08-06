@@ -695,6 +695,7 @@ public class AngelArrayTeamInfoHelper {
 		int size = heroList.size();
 
 		// 英雄属性
+		boolean hasMainRole = false;
 		boolean nonHeroPos = false;
 		List<ArmyHero> armyHeroList = new ArrayList<ArmyHero>(size);
 		for (int i = 0; i < size; i++) {
@@ -702,6 +703,7 @@ public class AngelArrayTeamInfoHelper {
 
 			if (armyHero.isPlayer()) {
 				armyInfo.setPlayer(armyHero);
+				hasMainRole = true;
 			} else {
 				armyHeroList.add(armyHero);
 				if (!nonHeroPos) {
@@ -713,7 +715,7 @@ public class AngelArrayTeamInfoHelper {
 		// 有英雄没有站位，全部按照1~4排位
 		if (nonHeroPos) {
 			for (int i = 0, aSize = armyHeroList.size(); i < aSize; i++) {
-				armyHeroList.get(i).setPosition(i + 1);
+				armyHeroList.get(i).setPosition(hasMainRole ? (i + 1) : i);
 			}
 		}
 
