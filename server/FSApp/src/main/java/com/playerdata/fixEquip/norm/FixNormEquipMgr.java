@@ -153,6 +153,25 @@ public class FixNormEquipMgr {
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipStarAttr(ownerId, itemList).values());
 		return attrItemList;
 	}
+	
+	public List<String> levelUpList(Player player, String heroId) {
+		
+		List<String> levelUpList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(heroId);
+		for (FixNormEquipDataItem dataItem : itemList) {
+			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+			int curLevel = dataItem.getLevel();
+			FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+			int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+			FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+			if(result.isSuccess()){
+				levelUpList.add(dataItem.getId());
+			}
+		}
+		
+		
+		return levelUpList;
+	}
 
 	public List<String> qualityUpList(Player player, String ownerId) {
 
@@ -461,8 +480,5 @@ public class FixNormEquipMgr {
 		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
 	}
 
-	public List<String> levelUpList(Player player, String heroId) {
-		// TODO 可强化并且有足够金钱的神器
-		return null;
-	}
+	
 }
