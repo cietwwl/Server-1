@@ -110,6 +110,8 @@ public class RankingHandler {
 		baseRankInfo.setGlory(0);// 荣耀山谷排行
 		// baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.PEAK_ARENA_FIGHTING, userId));// 巅峰竞技战斗力排行
+		//MAGIC_SECRET_SCORE_RANK
+		baseRankInfo.setEndless(RankingMgr.getInstance().getRankLevel(RankType.MAGIC_SECRET_SCORE_RANK, userId));
 		RefInt refInt = new RefInt();
 		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId, refInt));// 获取队伍数据
 		if (refInt.value > 0) {
