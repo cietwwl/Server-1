@@ -68,7 +68,8 @@ public class RankingMgr {
 	private final EnumMap<RankType, RankingGetOperation> operationMap;
 	private final RankingGetOperation defaultGetOp;
 	private final EnumMap<ListRankingType, Pair<String, String>> emailMap;
-
+	private final EnumMap<RankType, RankType> dailyMapping;
+	
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
 		this.operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
@@ -83,6 +84,15 @@ public class RankingMgr {
 		this.emailMap.put(ListRankingType.SWORDMAN_ARENA, Pair.Create("10012", "10016"));
 		this.emailMap.put(ListRankingType.MAGICAN_ARENA, Pair.Create("10013", "10017"));
 		this.emailMap.put(ListRankingType.PRIEST_ARENA, Pair.Create("10014", "10018"));
+		//TODO 实时榜与昨日榜的映射关系
+		this.dailyMapping = new EnumMap<RankType, RankType>(RankType.class);
+		this.dailyMapping.put(RankType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY);
+		this.dailyMapping.put(RankType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY);
+		this.dailyMapping.put(RankType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY);
+		this.dailyMapping.put(RankType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY);
+		this.dailyMapping.put(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
+		this.dailyMapping.put(RankType.FIGHTING_ALL, RankType.FIGHTING_ALL_DAILY);
+		this.dailyMapping.put(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
 	}
 
 	public void onInitRankData() {
@@ -666,6 +676,10 @@ public class RankingMgr {
 			return getOp;
 		}
 		return defaultGetOp;
+	}
+	
+	public RankType getDailyRankType(RankType type){
+		return this.dailyMapping.get(type);
 	}
 
 	// 临时兼容配置的做法

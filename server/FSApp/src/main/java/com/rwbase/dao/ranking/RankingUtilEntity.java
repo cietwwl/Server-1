@@ -14,6 +14,8 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -66,22 +68,23 @@ public class RankingUtilEntity {
 		List<RankServiceProtos.RankInfo> rankInfoList = new ArrayList<RankServiceProtos.RankInfo>();
 		for (int i = 0; i < tableRankInfoList.size(); i++) {
 			RankingLevelData levelData = tableRankInfoList.get(i);
-			RankInfo rankInfo = createOneRankInfo(levelData, i + 1, true);
+			RankInfo rankInfo = createOneRankInfo(levelData, i + 1, true, rankType);
 			rankInfoList.add(rankInfo);
 		}
 		return rankInfoList;
 	}
 
 	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking) {
-		return createOneRankInfo(levelData, ranking, false);
+		return createOneRankInfo(levelData, ranking, false, null);
 	}
 
 	/** 写入一条数据 */
-	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime) {
+	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime, RankType type) {
 		RankInfo.Builder rankInfo;
 		rankInfo = RankInfo.newBuilder();
 		if (levelData != null) {
-			rankInfo.setHeroUUID(levelData.getUserId());
+			String userId = levelData.getUserId();
+			rankInfo.setHeroUUID(userId);
 			int rankLevel = levelData.getRankLevel();
 			if (realTime) {
 				rankInfo.setRankingLevel(ranking);
@@ -95,7 +98,21 @@ public class RankingUtilEntity {
 			rankInfo.setModelId(RankingUtils.getModelId(levelData));
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
-			rankInfo.setRankCount(levelData.getRankCount());
+			boolean setFromLastRank = false;
+			if (type != null) {
+				RankType dailyType = RankingMgr.getInstance().getDailyRankType(type);
+				if (dailyType != null) {
+					Ranking dailyRanking = RankingFactory.getRanking(dailyType);
+					int lastRank = dailyRanking.getRanking(userId);
+					if (lastRank > 0) {
+						rankInfo.setRankCount(lastRank - ranking);
+						setFromLastRank = true;
+					}
+				}
+			}
+			if (!setFromLastRank) {
+				rankInfo.setRankCount(levelData.getRankCount());
+			}
 			if (levelData.getHeadbox() == null) {
 				List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 				levelData.setHeadbox(defaultHeadBoxList.get(0));
@@ -104,7 +121,7 @@ public class RankingUtilEntity {
 			// 设置时装数据
 			rankInfo.setSex(levelData.getSex());
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
-			if (fashionUsing != null){
+			if (fashionUsing != null) {
 				rankInfo.setFashionUsage(fashionUsing);
 			}
 
