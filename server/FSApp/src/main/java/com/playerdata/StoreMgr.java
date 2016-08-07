@@ -724,7 +724,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				exchangeCount += time;
 				if (cfg.getExchangeTime() == 0 || exchangeCount <= cfg.getExchangeTime()) {
 					eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
-					if (m_pPlayer.getReward(etype) < cfg.getCost()) {
+					if (m_pPlayer.getReward(etype) < cfg.getCost() * time) {
 						return -2;
 					}
 					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount() * time);

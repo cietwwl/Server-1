@@ -117,23 +117,19 @@ public class MagicEquipFetterMgr {
 //		}
 		
 		//去掉所有类型相同的配置，只保留最高级的
-		Set<MagicEquipConditionCfg> tempSet = new HashSet<MagicEquipConditionCfg>();
-		tempSet.addAll(temp);
-		List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
+		MagicEquipConditionCfg tempCfg = null;
 		for (MagicEquipConditionCfg cfg : temp) {
-			for (MagicEquipConditionCfg targetCfg : tempSet) {
-				if(cfg.getType() == targetCfg.getType() && 
-						cfg.getSubType() == targetCfg.getSubType() && 
-								cfg.getUniqueId() != targetCfg.getUniqueId() && 
-										cfg.getConditionLevel() <= targetCfg.getConditionLevel()){
-					remove.add(cfg);
-				}
+			if(tempCfg == null){
+				tempCfg = cfg;
+				continue;
+			}
+			if(cfg.getConditionLevel() > tempCfg.getConditionLevel()){
+				tempCfg = cfg;
 			}
 		}
 		
-		tempSet.removeAll(remove);
 		
-		holder.checkFixEquipFetterRecord(tempSet, hero.getModelId());
+		holder.checkFixEquipFetterRecord(tempCfg, hero.getModelId());
 
 		if(syn){
 			holder.synAllData(player, 0);

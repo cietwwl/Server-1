@@ -23,6 +23,12 @@ public enum ActivityRateTypeEnum{
 	
 	WARFARE_DOUBLE("309",-1,-1,-1,-1);//无尽战火，功能已另做
 	
+	//封神台
+	//竞技场
+	//巅峰竞技场
+	//帮派
+	//法宝秘境
+	
 	private String cfgId;
 	private int num0;
 	private int num1;

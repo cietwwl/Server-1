@@ -68,6 +68,11 @@ public class ArmyInfo {
 	public String getGuildName() {
 		return this.guildName;
 	}
+	
+	public void addHero(ArmyHero armyHero) {
+		this.heroList.add(armyHero);
+		
+	}
 
 	public String toJson() throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(ArmyInfo.class);

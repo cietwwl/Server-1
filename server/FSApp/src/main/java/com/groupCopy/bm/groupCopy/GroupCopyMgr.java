@@ -195,6 +195,9 @@ public class GroupCopyMgr {
 				if(groupID.equals("")){
 					return result;
 				}
+				//发放帮派经验
+				Group group = GroupBM.get(groupID);
+				group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, levelCfg.getGroupExp(), 0, true);
 				GroupCopyDistIDManager.getInstance().addGroupID(groupID);
 				final String roleName = player.getUserName();
 				final boolean inExtralTime = mapRecord.getRewardTime() >= System.currentTimeMillis();
@@ -259,8 +262,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
-		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
+		
 		
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
