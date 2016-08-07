@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.mysql.jdbc.TimeUtil;
 import com.playerdata.Player;
+import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -71,12 +72,7 @@ public class SettingHandler
 			msgResponse.setResultType(eSettingResultType.FAIL);
 			return msgResponse.build().toByteString();
 		}
-		if (UserDataDao.getInstance().validateName(name)) {
-			msgResponse.setResultType(eSettingResultType.FAIL);
-			msgResponse.setInfo("该昵称已存在");
-			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "该昵称已存在");
-			return msgResponse.build().toByteString();
-		}
+		
 		long time1 = System.currentTimeMillis() - player.getSettingMgr().getLastChangeNameTime();
 		long cdTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.CHAGNE_NAME_CDTIME)*1000;
 		if(time1 < cdTime){
@@ -88,7 +84,12 @@ public class SettingHandler
 			
 		}
 		
-		player.SetUserName(name);
+		boolean result = player.SetUserName(name);
+		if (!result) {
+			msgResponse.setResultType(eSettingResultType.FAIL);
+			msgResponse.setInfo("该昵称已存在");
+			return msgResponse.build().toByteString();
+		}
 		player.getSettingMgr().setLastChangeName();
 		player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), -100);
 		msgResponse.setInfo(name);

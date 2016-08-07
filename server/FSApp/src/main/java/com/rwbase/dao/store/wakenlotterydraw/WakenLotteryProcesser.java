@@ -70,15 +70,15 @@ public class WakenLotteryProcesser {
 		StoreData storeData = storeDataMap.get(eStoreType.Waken.getOrder());
 		checkDrawReset(player, storeData, cfg);
 		
-		
+		int processType = getProcessType(storeData, cfg, type);
 		//判断是否金钱充足
-		if(storeData.getDrawTime() >= cfg.getFreeTime() && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
+		if((storeData.getDrawTime() >= cfg.getFreeTime() || processType == TYPE_TEN_DRAW) && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
 			resp.setReslutType(eStoreResultType.FAIL);
 			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(consumeType)).getName() + "不足");
 			return;
 		}
 		
-		int processType = getProcessType(storeData, cfg, type);
+		
 		IWakenLotteryDraw handler = WakenLotteryProcesserMap.get(processType);
 		HashMap<Integer, Integer> map = handler.lotteryDraw(player, holder, cfg);
 		int guaranteeTime = storeData.getRecordGuaranteeTime();

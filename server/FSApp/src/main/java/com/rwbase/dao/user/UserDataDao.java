@@ -26,9 +26,8 @@ public class UserDataDao extends  DataRdbDao<User>{
 	
 	public boolean validateName(String userName)
     {	
-	
-		User userTable=this.findOneByKey("userName",userName);
-		 if(userTable!=null)
+		List<User> result = this.findBySql("select userName from user where userName = '" + userName + "'");
+		if (result != null && result.size() > 0)
 		 {
 			 return true;
 		 }

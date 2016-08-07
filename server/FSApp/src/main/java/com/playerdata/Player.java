@@ -280,6 +280,8 @@ public class Player implements PlayerIF {
 
 		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
 		checkAllHeroFetters();
+		// 检查主角羁绊
+		this.me_FetterMgr.checkPlayerData(this);
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -888,18 +890,22 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void SetUserName(String nick) {
+	public boolean SetUserName(String nick) {
 		if (StringUtils.isNotBlank(nick)) {
-			userDataMgr.setUserName(nick);
-			RankingMgr.getInstance().onPlayerChange(this);
-			getFriendMgr().onPlayerChange(this);
+			boolean result = userDataMgr.setUserName(nick);
+			if (result) {
+				RankingMgr.getInstance().onPlayerChange(this);
+				getFriendMgr().onPlayerChange(this);
 
-			// 通知一下监听的人，修改对应数据
-			Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
-			if (observer != null) {
-				observer.playerChangeName(this);
+				// 通知一下监听的人，修改对应数据
+				Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+				if (observer != null) {
+					observer.playerChangeName(this);
+				}
 			}
+			return result;
 		}
+		return false;
 	}
 
 	public int setVip(int vip) {
