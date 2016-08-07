@@ -61,9 +61,11 @@ public class PvECommonHelper {
 		
 		
 		if (dropItems != null) {	
-			for (ItemInfoIF item : dropItems) {
-				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
-			}
+//			for (ItemInfoIF item : dropItems) {
+//				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+//			}
+			List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(dropItems);
+			player.getItemBagMgr().addItem(itemInfoList);
 			
 //			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 			
@@ -109,12 +111,12 @@ public class PvECommonHelper {
 		for (int i = 0; i < times; i++) {
 			String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
 			// List<Integer> list = CopyHandler.convertToIntList(pItemsID);
-			List<? extends ItemInfo> dropItems = null;
+			List<ItemInfo> dropItems = null;
 			try {
 				// 预生成奖励
 				DropItemManager.getInstance().pretreatDrop(player, copyCfg);
 				// 提取预生成的奖励
-				dropItems = DropItemManager.getInstance().extractDropPretreatment(player, copyCfg.getLevelID());
+				dropItems = new ArrayList<ItemInfo>(DropItemManager.getInstance().extractDropPretreatment(player, copyCfg.getLevelID()));
 			} catch (DataAccessTimeoutException e) {
 				GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + copyCfg.getLevelID(), e);
 			}
@@ -130,8 +132,9 @@ public class PvECommonHelper {
 					int itemNum = item.getItemNum();
 					listItem.add(itemId + "," + itemNum);
 					// 将奖励放入背包
-					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+//					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
+				player.getItemBagMgr().addItem(dropItems);
 //				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 //				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
 //					listItem.add(entry.getKey()+","+entry.getValue());

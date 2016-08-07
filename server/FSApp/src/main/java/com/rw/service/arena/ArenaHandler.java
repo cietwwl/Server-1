@@ -983,10 +983,13 @@ public class ArenaHandler {
 		}
 		rewardList.add(id);
 		Map<Integer, Integer> rewards = template.getRewards();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(rewards.size());
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
-			itemBagMgr.addItem(entry.getKey(), entry.getValue());
+//			itemBagMgr.addItem(entry.getKey(), entry.getValue());
+			itemInfoList.add(new ItemInfo(entry.getKey(), entry.getValue()));
 		}
+		player.getItemBagMgr().addItem(itemInfoList);
 
 		List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
 		String rewardInfoActivity = BILogTemplateHelper.getString(list);
@@ -1149,10 +1152,11 @@ public class ArenaHandler {
 		}
 		historyRewards.add(id);
 		List<ItemInfo> rewards = rankEntity.getRewardList();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		for (ItemInfo item : rewards) {
-			itemBagMgr.addItem(item.getItemID(), item.getItemNum());
-		}
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+//		for (ItemInfo item : rewards) {
+//			itemBagMgr.addItem(item.getItemID(), item.getItemNum());
+//		}
+		player.getItemBagMgr().addItem(rewards);
 		TableArenaDataDAO.getInstance().update(userId);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 

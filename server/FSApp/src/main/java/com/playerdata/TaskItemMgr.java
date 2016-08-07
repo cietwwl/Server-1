@@ -244,7 +244,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 
 		String[] rewards = cfg.getReward().split(",");
-		List<ItemInfo> items = new ArrayList<ItemInfo>();
+		List<ItemInfo> items = new ArrayList<ItemInfo>(rewards.length);
 		for (String reward : rewards) {
 			ItemInfo item = new ItemInfo();
 			item.setItemID(Integer.parseInt(reward.split("_")[0]));

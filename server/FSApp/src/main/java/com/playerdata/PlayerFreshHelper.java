@@ -1,6 +1,10 @@
 package com.playerdata;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rwbase.common.enu.ESex;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.PlayerInitialItemCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.PlayerInitialItemCfg;
@@ -77,10 +81,13 @@ public class PlayerFreshHelper {
 			int[][] initItemArr = uniqueCfg.getInitItemArr();
 			int len = 0;
 			if (initItemArr != null && (len = initItemArr.length) > 0) {
+				List<ItemInfo> list = new ArrayList<ItemInfo>(len);
 				for (int i = 0; i < len; i++) {
 					int[] rewardInfo = initItemArr[i];
-					player.getItemBagMgr().addItem(rewardInfo[0], rewardInfo[1]);
+//					player.getItemBagMgr().addItem(rewardInfo[0], rewardInfo[1]);
+					list.add(new ItemInfo(rewardInfo[0], rewardInfo[1]));
 				}
+				player.getItemBagMgr().addItem(list);
 			}
 
 			// 初始化佣兵

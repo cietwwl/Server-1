@@ -24,13 +24,13 @@ public class GFFinalRewardItem implements IMapItem{
 	@Id
 	private String rewardID;  // rewardID = resourceID_userID_rewardType
 
+	private String userID;	//奖励所属的角色
+	
+	@CombineSave
 	private String rewardOwner;	// rewardOwner = resourceID_userID
 	
 	@CombineSave
 	private int resourceID;	//奖励所属于的资源点
-	
-	@CombineSave
-	private String userID;	//奖励所属的角色
 	
 	@CombineSave
 	private int rewardType;  //奖励的类型

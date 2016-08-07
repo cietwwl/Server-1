@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayFloorDataHolder;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.tower.TowerAwardCfg;
@@ -421,6 +423,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param goodsStr
 	 */
 	private void addGoods(Player player, String[] goodsStr) {
+		List<ItemInfo> list = new ArrayList<ItemInfo>();
 		for (int i = 0; i < goodsStr.length; i++) {
 			String[] goodList = goodsStr[i].split("_");
 			int templateId = Integer.valueOf(goodList[0]);
@@ -431,11 +434,18 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				player.getHeroMgr().addHero(player, String.valueOf(templateId));
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
-				player.getItemBagMgr().addItem(templateId, num);
+//				player.getItemBagMgr().addItem(templateId, num);
+				list.add(new ItemInfo(templateId, num));
 			}
 			if (templateId == eSpecialItemId.BraveCoin.getValue()) {
 				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
+		}
+		if(list.size() > 1) {
+			player.getItemBagMgr().addItem(list);
+		} else if(list.size() > 0) {
+			ItemInfo itemInfo = list.get(0);
+			player.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
 		}
 	}
 

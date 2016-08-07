@@ -1,5 +1,6 @@
 package com.rwbase.dao.store.wakenlotterydraw;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreType;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.store.WakenLotteryDrawCfgDAO;
 import com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO;
@@ -101,12 +103,14 @@ public class WakenLotteryProcesser {
 		
 			
 
-			
+
+		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(map.size());
 		for (Iterator<Entry<Integer, Integer>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, Integer> entry = iterator.next();
 			Integer modelId = entry.getKey();
 			Integer count = entry.getValue();
-			player.getItemBagMgr().addItem(modelId, count);
+//			player.getItemBagMgr().addItem(modelId, count);
+			itemInfoList.add(new ItemInfo(modelId, count));
 			if (modelId != eSpecialItemId.WAKEN_PIECE.getValue()) {
 				tagReward.Builder reward = tagReward.newBuilder();
 				reward.setModelId(modelId);
@@ -114,6 +118,7 @@ public class WakenLotteryProcesser {
 				resp.addRewards(reward);
 			}
 		}
+		player.getItemBagMgr().addItem(itemInfoList);
 		storeData.setLastDrawTime(System.currentTimeMillis());
 		holder.update(player, eStoreType.Waken.getOrder());
 		resp.setReslutType(eStoreResultType.SUCCESS);

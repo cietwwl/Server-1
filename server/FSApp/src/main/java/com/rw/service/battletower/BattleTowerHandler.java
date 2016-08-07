@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -817,7 +818,7 @@ public class BattleTowerHandler {
 		BattleTowerConfigCfg uniqueCfg = configCfgDao.getUniqueCfg();// 唯一的配置
 
 		String[] dropArr;
-		Map<Integer, Integer> rewardItemMap = new HashMap<Integer, Integer>();// 奖励的Map
+//		Map<Integer, Integer> rewardItemMap = new HashMap<Integer, Integer>();// 奖励的Map
 		if (keyType == EKeyType.KEY_COPPER) {// 铜
 			if (useNum > tableBattleTower.getCopper_key()) {
 				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getCopper_key()), "钥匙数量不足");
@@ -849,38 +850,47 @@ public class BattleTowerHandler {
 		UserEventMgr.getInstance().UseSilverKeyVitality(player, keyType, useNum);
 		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
 		// 奖励的物品
+//		for (int i = 0; i < useNum; i++) {
+//			List<ItemInfo> ranRewardItem = rewardCfgDao.getRanRewardItem(dropArr, player);
+//			for (int j = 0, itemSize = ranRewardItem.size(); j < itemSize; j++) {
+//				ItemInfo itemInfo = ranRewardItem.get(j);
+//				Integer hasValue = rewardItemMap.get(itemInfo.getItemID());
+//				if (hasValue == null) {
+//					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum());
+//				} else {
+//					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
+//				}
+//			}
+//		}
+//
+//		// 发送奖励
+//		for (Entry<Integer, Integer> e : rewardItemMap.entrySet()) {
+//			int key = e.getKey();
+//			int num = e.getValue();
+//			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
+//				tableBattleTower.modifyCopperKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
+//				tableBattleTower.modifySilverKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
+//				tableBattleTower.modifyGoldKey(num);
+//			} else {
+//				player.getItemBagMgr().addItem(key, num);
+//			}
+//
+//			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
+//			rewardInfoMsg.setType(key);
+//			rewardInfoMsg.setCount(num);
+//			rsp.addRewardInfoMsg(rewardInfoMsg);
+//		}
+		List<ItemInfo> rewardItems = new ArrayList<ItemInfo>();
 		for (int i = 0; i < useNum; i++) {
 			List<ItemInfo> ranRewardItem = rewardCfgDao.getRanRewardItem(dropArr, player);
-			for (int j = 0, itemSize = ranRewardItem.size(); j < itemSize; j++) {
-				ItemInfo itemInfo = ranRewardItem.get(j);
-				Integer hasValue = rewardItemMap.get(itemInfo.getItemID());
-				if (hasValue == null) {
-					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum());
-				} else {
-					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
-				}
-			}
+			rewardItems.addAll(ranRewardItem);
 		}
-
-		// 发送奖励
-		for (Entry<Integer, Integer> e : rewardItemMap.entrySet()) {
-			int key = e.getKey();
-			int num = e.getValue();
-			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
-				tableBattleTower.modifyCopperKey(num);
-			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
-				tableBattleTower.modifySilverKey(num);
-			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
-				tableBattleTower.modifyGoldKey(num);
-			} else {
-				player.getItemBagMgr().addItem(key, num);
-			}
-
-			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
-			rewardInfoMsg.setType(key);
-			rewardInfoMsg.setCount(num);
-			rsp.addRewardInfoMsg(rewardInfoMsg);
-		}
+		List<ItemInfo> combine = combine(rewardItems);
+		List<RewardInfoMsg> rewardInfoMsgList = sendReward(player, tableBattleTower, combine);
+		rsp.addAllRewardInfoMsg(rewardInfoMsgList);
+		
 
 		// 开服活动通知：
 		player.getFresherActivityMgr().doCheck(eActivityType.A_OpenBox);
@@ -1219,25 +1229,27 @@ public class BattleTowerHandler {
 
 			// 发送奖励数据
 			if (itemInfoList != null) {
-				for (int i = 0, size0 = itemInfoList.size(); i < size0; i++) {
-					ItemInfo itemInfo = itemInfoList.get(i);
-					int key = itemInfo.getItemID();
-					int num = itemInfo.getItemNum();
-					if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
-						tableBattleTower.modifyCopperKey(num);
-					} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
-						tableBattleTower.modifySilverKey(num);
-					} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
-						tableBattleTower.modifyGoldKey(num);
-					} else {
-						player.getItemBagMgr().addItem(key, num);
-					}
-
-					RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
-					rewardInfoMsg.setType(key);
-					rewardInfoMsg.setCount(num);
-					rsp.addRewardInfoMsg(rewardInfoMsg);
-				}
+//				for (int i = 0, size0 = itemInfoList.size(); i < size0; i++) {
+//					ItemInfo itemInfo = itemInfoList.get(i);
+//					int key = itemInfo.getItemID();
+//					int num = itemInfo.getItemNum();
+//					if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
+//						tableBattleTower.modifyCopperKey(num);
+//					} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
+//						tableBattleTower.modifySilverKey(num);
+//					} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
+//						tableBattleTower.modifyGoldKey(num);
+//					} else {
+//						player.getItemBagMgr().addItem(key, num);
+//					}
+//
+//					RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
+//					rewardInfoMsg.setType(key);
+//					rewardInfoMsg.setCount(num);
+//					rsp.addRewardInfoMsg(rewardInfoMsg);
+//				}
+				List<RewardInfoMsg> rewardInfoMsgList = sendReward(player, tableBattleTower, itemInfoList);
+				rsp.addAllRewardInfoMsg(rewardInfoMsgList);
 			}
 
 			// Boss信息
@@ -1417,26 +1429,28 @@ public class BattleTowerHandler {
 		// 响应协议
 		ChallengeBossEndRspMsg.Builder rsp = ChallengeBossEndRspMsg.newBuilder();
 
-		for (int i = 0, size0 = itemInfoList.size(); i < size0; i++) {
-			ItemInfo itemInfo = itemInfoList.get(i);
-			int key = itemInfo.getItemID();
-			int num = itemInfo.getItemNum();
-			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
-				tableBattleTower.modifyCopperKey(num);
-			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
-				tableBattleTower.modifySilverKey(num);
-			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
-				tableBattleTower.modifyGoldKey(num);
-			} else {
-				player.getItemBagMgr().addItem(key, num);
-			}
+//		for (int i = 0, size0 = itemInfoList.size(); i < size0; i++) {
+//			ItemInfo itemInfo = itemInfoList.get(i);
+//			int key = itemInfo.getItemID();
+//			int num = itemInfo.getItemNum();
+//			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
+//				tableBattleTower.modifyCopperKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
+//				tableBattleTower.modifySilverKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
+//				tableBattleTower.modifyGoldKey(num);
+//			} else {
+//				player.getItemBagMgr().addItem(key, num);
+//			}
+//
+//			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
+//			rewardInfoMsg.setType(key);
+//			rewardInfoMsg.setCount(num);
+//			rsp.addRewardInfoMsg(rewardInfoMsg);
+//		}
 
-			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
-			rewardInfoMsg.setType(key);
-			rewardInfoMsg.setCount(num);
-			rsp.addRewardInfoMsg(rewardInfoMsg);
-		}
-
+		List<RewardInfoMsg> rewardInfoMsgList = sendReward(player, tableBattleTower, itemInfoList);
+		rsp.addAllRewardInfoMsg(rewardInfoMsgList);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
@@ -1487,30 +1501,85 @@ public class BattleTowerHandler {
 		// 奖励的组信息
 		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
 
-		Map<Integer, Integer> rewardItemMap = new HashMap<Integer, Integer>();// 奖励的Map
+//		Map<Integer, Integer> rewardItemMap = new HashMap<Integer, Integer>();// 奖励的Map
+//		for (int i = 0, size = groupIdList.size(); i < size; i++) {
+//			BattleTowerRewardCfg cfg = (BattleTowerRewardCfg) rewardCfgDao.getCfgById(String.valueOf(groupIdList.get(i)));
+//			if (cfg == null) {
+//				continue;
+//			}
+//
+//			List<ItemInfo> ranRewardItem = rewardCfgDao.getRanRewardItem(cfg.getDropIdArr(), player);
+//			for (int j = 0, itemSize = ranRewardItem.size(); j < itemSize; j++) {
+//				ItemInfo itemInfo = ranRewardItem.get(j);
+//				Integer hasValue = rewardItemMap.get(itemInfo.getItemID());
+//				if (hasValue == null) {
+//					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum());
+//				} else {
+//					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
+//				}
+//			}
+//		}
+//
+//		List<RewardInfoMsg> rewardList = new ArrayList<RewardInfoMsg>();
+//		// 发送奖励
+//		for (Entry<Integer, Integer> e : rewardItemMap.entrySet()) {
+//			int key = e.getKey();
+//			int num = e.getValue();
+//			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
+//				tableBattleTower.modifyCopperKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
+//				tableBattleTower.modifySilverKey(num);
+//			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
+//				tableBattleTower.modifyGoldKey(num);
+//			} else {
+//				player.getItemBagMgr().addItem(key, num);
+//			}
+//
+//			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
+//			rewardInfoMsg.setType(key);
+//			rewardInfoMsg.setCount(num);
+//			rewardList.add(rewardInfoMsg.build());
+//		}
+//
+//		return rewardList;
+		List<ItemInfo> list = new ArrayList<ItemInfo>();
 		for (int i = 0, size = groupIdList.size(); i < size; i++) {
-			BattleTowerRewardCfg cfg = (BattleTowerRewardCfg) rewardCfgDao.getCfgById(String.valueOf(groupIdList.get(i)));
+			BattleTowerRewardCfg cfg = rewardCfgDao.getCfgById(String.valueOf(groupIdList.get(i)));
 			if (cfg == null) {
 				continue;
 			}
-
-			List<ItemInfo> ranRewardItem = rewardCfgDao.getRanRewardItem(cfg.getDropIdArr(), player);
-			for (int j = 0, itemSize = ranRewardItem.size(); j < itemSize; j++) {
-				ItemInfo itemInfo = ranRewardItem.get(j);
-				Integer hasValue = rewardItemMap.get(itemInfo.getItemID());
-				if (hasValue == null) {
-					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum());
-				} else {
-					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
-				}
+			list.addAll(rewardCfgDao.getRanRewardItem(cfg.getDropIdArr(), player));
+		}
+		List<ItemInfo> combinList = combine(list);
+		return sendReward(player, tableBattleTower, combinList);
+	}
+	
+	private static List<ItemInfo> combine(List<ItemInfo> list) {
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int i = 0, size = list.size(); i < size; i++) {
+			ItemInfo itemInfo = list.get(i);
+			Integer hasValue = map.get(itemInfo.getItemID());
+			if (hasValue == null) {
+				map.put(itemInfo.getItemID(), itemInfo.getItemNum());
+			} else {
+				map.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
 			}
 		}
-
-		List<RewardInfoMsg> rewardList = new ArrayList<RewardInfoMsg>();
-		// 发送奖励
-		for (Entry<Integer, Integer> e : rewardItemMap.entrySet()) {
-			int key = e.getKey();
-			int num = e.getValue();
+		List<ItemInfo> copyList = new ArrayList<ItemInfo>(map.size());
+		for (Iterator<Map.Entry<Integer, Integer>> itr = map.entrySet().iterator(); itr.hasNext();) {
+			Map.Entry<Integer, Integer> entry = itr.next();
+			copyList.add(new ItemInfo(entry.getKey(), entry.getValue()));
+		}
+		return copyList;
+	}
+	
+	private static List<RewardInfoMsg> sendReward(Player player, TableBattleTower tableBattleTower, List<ItemInfo> rewardItems) {
+		List<RewardInfoMsg> rewardInfoMsgList = new ArrayList<RewardInfoMsg>();
+		List<ItemInfo> addItems = new ArrayList<ItemInfo>();
+		for (int i = 0, size0 = rewardItems.size(); i < size0; i++) {
+			ItemInfo itemInfo = rewardItems.get(i);
+			int key = itemInfo.getItemID();
+			int num = itemInfo.getItemNum();
 			if (key == eSpecialItemId.BATTLE_TOWER_COPPER_KEY.getValue()) {
 				tableBattleTower.modifyCopperKey(num);
 			} else if (key == eSpecialItemId.BATTLE_TOWER_SILVER_KEY.getValue()) {
@@ -1518,15 +1587,20 @@ public class BattleTowerHandler {
 			} else if (key == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
 				tableBattleTower.modifyGoldKey(num);
 			} else {
-				player.getItemBagMgr().addItem(key, num);
+				addItems.add(new ItemInfo(key, num));
 			}
 
 			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
 			rewardInfoMsg.setType(key);
 			rewardInfoMsg.setCount(num);
-			rewardList.add(rewardInfoMsg.build());
+			rewardInfoMsgList.add(rewardInfoMsg.build());
 		}
-
-		return rewardList;
+		if (addItems.size() > 1) {
+			player.getItemBagMgr().addItem(addItems);
+		} else if (addItems.size() > 0) {
+			ItemInfo temp = addItems.get(0);
+			player.getItemBagMgr().addItem(temp.getItemID(), temp.getItemNum());
+		}
+		return rewardInfoMsgList;
 	}
 }

@@ -25,6 +25,7 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -213,9 +214,14 @@ public class GroupCopyMgr {
 			player.getUserGameDataMgr().addCoin(gold);
 		}
 		if(!rewardList.isEmpty()){
+//			for (CopyRewardStruct struct : rewardList) {
+//				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
+//			}
+			List<ItemInfo> addList = new ArrayList<ItemInfo>(rewardList.size());
 			for (CopyRewardStruct struct : rewardList) {
-				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
+				addList.add(new ItemInfo(struct.getItemID(), struct.getCount()));
 			}
+			player.getItemBagMgr().addItem(addList);
 		}
 		//检查有没有最后一击奖励
 		if(item.getFinalHitPrice() != 0){
