@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.RefInt;
 import com.playerdata.FashionMgr;
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.NonSave;
 
 /**
@@ -14,6 +15,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fashion_being_using")
+@SynClass
 public class FashionBeingUsed implements FashionUsedIF {
 	@Id
 	private String userId;
