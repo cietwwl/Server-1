@@ -45,8 +45,6 @@ public class MagicEquipFetterMgr {
 
 
 	public void loginNotify(Player player){
-		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
-		checkPlayerData(player);
 		holder.synAllData(player, 0);
 	}
 	
@@ -54,7 +52,7 @@ public class MagicEquipFetterMgr {
 	 * 检查角色数据
 	 * @param player
 	 */
-	private void checkPlayerData(Player player) {
+	public void checkPlayerData(Player player) {
 		checkAndAddMagicFetter(player, false);
 		checkAndAddEquipFetter(player);
 	}

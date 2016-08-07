@@ -280,6 +280,8 @@ public class Player implements PlayerIF {
 
 		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
 		checkAllHeroFetters();
+		// 检查主角羁绊
+		this.me_FetterMgr.checkPlayerData(this);
 	}
 
 	public Player(String userId, boolean initMgr) {
