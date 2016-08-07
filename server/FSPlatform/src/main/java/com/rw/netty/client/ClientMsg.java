@@ -36,6 +36,9 @@ public class ClientMsg {
 	
 	public GSMessage pollMsg(){
 		GSMessage gsMsg = this.ProcessMsgList.poll();
+		if(gsMsg == null){
+			return null;
+		}
 		List<GSMessage> list = ProcessMap.get(gsMsg.getAccountId());
 		if (list.remove(gsMsg)) {
 			if (list.size() <= 0) {

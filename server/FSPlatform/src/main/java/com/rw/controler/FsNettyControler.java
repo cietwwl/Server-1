@@ -54,6 +54,16 @@ public class FsNettyControler {
 		}
 	}
 
+	public void sendErrorResponse(Request req, int exceptionCode, ChannelHandlerContext ctx) {
+		RequestHeader header = req.getHeader();
+		Command command = header.getCommand();
+		String token = req.getHeader().getToken();
+		ResponseHeader.Builder responseHeaderBuilder = ResponseHeader.newBuilder().setToken(token).setCommand(command).setStatusCode(exceptionCode);
+		Response.Builder builder = Response.newBuilder().setHeader(responseHeaderBuilder);
+		builder.setSerializedContent(ByteString.EMPTY);
+		Response response = builder.build();
+		sendResponse(header.getSeqID(), response, ctx);
+	}
 	
 	public void sendResponse(int seqID, Response result, ChannelHandlerContext ctx) {
 		if (result == null)

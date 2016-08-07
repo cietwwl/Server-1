@@ -134,7 +134,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("此处留空", "");
 		addTemplateToken("职业等级", "");	
 		addTemplateToken("进程id", "$threadId$");		
-		addTemplateToken("用户战力", "$fighting$");		
+		addTemplateToken("用户战力", "$fighting$");
+		addTemplateToken("全员战力", "$allfighting$");
 		addTemplateToken("角色ID", "$userId$");
 		addTemplateToken("职业ID", "$careerType$");
 		addTemplateToken("操作码", "$operationCode$");		

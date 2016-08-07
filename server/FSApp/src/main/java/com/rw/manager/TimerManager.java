@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
-import com.common.serverdata.ServerCommonDataHolder;
 import com.gm.activity.RankingActivity;
 import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
@@ -156,13 +155,6 @@ public class TimerManager {
 					@Override
 					public void run() {
 						TBTeamItemMgr.getInstance().dailyReset();
-					}
-				});
-				heavyWeightsExecturos.execute(new Runnable() {
-
-					@Override
-					public void run() {
-						ServerCommonDataHolder.getInstance().teamBattleDailyReset();
 					}
 				});
 			}

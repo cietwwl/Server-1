@@ -139,11 +139,13 @@ public class GroupCopyLevelBL {
 
 					//将怪物数据转换成json
 					List<GroupCopyMonsterSynStruct> getmDatas = progress.getmDatas();
+//					StringBuilder sb = new StringBuilder("发送关卡["+level+"]怪物数据：\n");
 					for (GroupCopyMonsterSynStruct m : getmDatas) {
 						String data = ClientDataSynMgr.toClientData(m);
+//						sb.append(data).append("\n");
 						b.addMonsterData(data);
 					}
-					
+//					System.out.println(sb.toString());
 					result.setItem(b);
 					
 					boolean success = groupCopyLevelRecordHolder.updateItem(player, lvRecord);
@@ -166,7 +168,7 @@ public class GroupCopyLevelBL {
 	 * @param player TODO
 	 * @return
 	 */
-	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
+	public static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
 		
 		if(groupRecord.getStatus() == STATE_COPY_EMPTY){
 			return false;
@@ -241,6 +243,25 @@ public class GroupCopyLevelBL {
 		
 		}else{
 			
+			//检查一下伤害  怪物有可能会自己加血
+//			if(damage < 0){
+//				result.setSuccess(false);
+//				result.setTipMsg("关卡怪物数据有异常!");
+//				GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[endFight]", "帮派副本关卡战斗结束，发现前后端怪物数据不同步", null);
+//				StringBuilder sb  = new StringBuilder("进入关卡前怪物及对应HP:\n");
+//				List<GroupCopyMonsterSynStruct> list = copyLvRecd.getProgress().getmDatas();
+//				for (GroupCopyMonsterSynStruct struct : list) {
+//					sb.append("怪物id:[").append(struct.getId()).append("]").append(",curHP:[").append(struct.getCurHP()).append("]\n");
+//				}
+//				System.out.println(sb.toString());
+//				sb  = new StringBuilder("战斗结束后怪物及对应HP:\n");
+//				for (GroupCopyMonsterSynStruct struct : mData) {
+//					sb.append("怪物id:[").append(struct.getId()).append("]").append(",curHP:[").append(struct.getCurHP()).append("]\n");
+//				}
+//				System.out.println(sb.toString());
+//				return result;
+//			}
+			
 			
 			UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
@@ -255,16 +276,24 @@ public class GroupCopyLevelBL {
 			
 			GroupCopyProgress nowPro = new GroupCopyProgress(mData);
 			
-			
-			
-			
 			//获取发送奖励
 			Builder rewardInfo = calculateAndSendReward(copyLvRecd.getProgress().getProgress(), nowPro.getProgress(),
 					level, player, damage);
 			
+			
+			
 			result.setItem(rewardInfo);
 			
-			copyLvRecd.setProgress(nowPro);//新创建一个对象这样set进去，会不会有问题
+			//新创建一个对象这样set进去，会不会有问题
+			//不可以这样set进去，避免前端只同步回来没有死的怪物数据，没有在上一波已经死的怪物,这样set进去就会造成数据丢失  ----by Alex
+//			copyLvRecd.setProgress(nowPro);
+			//扣除关卡内怪物的血量
+			for (GroupCopyMonsterSynStruct m : mData) {
+				copyLvRecd.getProgress().setmData(m);
+			}
+			copyLvRecd.getProgress().initProgress();//重新计算进度
+			
+			
 			
 			userRecord.incrFightCount();
 			
@@ -342,9 +371,10 @@ public class GroupCopyLevelBL {
 			e.printStackTrace();
 		}
 		
-		//个人奖励的金币
+		//个人奖励的 金币=min（伤害*0.05，100000）
+		damage = (int)(damage*0.05 > 100000 ? 100000 : damage*0.05);
 		damage = damage > 0 ? damage : 0;
-		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
+		rewardInfo.setGold(damage);//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());
