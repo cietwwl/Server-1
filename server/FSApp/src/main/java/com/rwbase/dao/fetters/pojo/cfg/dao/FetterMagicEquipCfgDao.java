@@ -2,6 +2,7 @@ package com.rwbase.dao.fetters.pojo.cfg.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,11 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 	
 	public static int TYPE_FIXEQUIP = 2;
 	
+	/**key=modelID, 优化检索速度*/
+	private Map<Integer,List<MagicEquipConditionCfg>> modelData = new HashMap<Integer, List<MagicEquipConditionCfg>>();
+	
+	/**key = type*/
+	private Map<Integer,List<MagicEquipConditionCfg>> typeData = new HashMap<Integer, List<MagicEquipConditionCfg>>();
 	
 	
 	public static FetterMagicEquipCfgDao getInstance(){
@@ -36,6 +42,28 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 		List<MagicEquipConditionCfg> list = getAllCfg();
 		for (MagicEquipConditionCfg cfg : list) {
 			cfg.formateData();
+			
+			List<Integer> modelIDList = cfg.getModelIDList();
+			for (Integer modelID : modelIDList) {
+				if(modelData.containsKey(modelID)){
+					List<MagicEquipConditionCfg> modelList = modelData.get(modelID);
+					modelList.add(cfg);
+				}else{
+					ArrayList<MagicEquipConditionCfg> temp = new ArrayList<MagicEquipConditionCfg>();
+					temp.add(cfg);
+					modelData.put(modelID, temp);
+				}
+			}
+			
+			
+			if(typeData.containsKey(cfg.getType())){
+				List<MagicEquipConditionCfg> typeList = typeData.get(cfg.getType());
+				typeList.add(cfg);
+			}else{
+				List<MagicEquipConditionCfg> typeList = new ArrayList<MagicEquipConditionCfg>();
+				typeList.add(cfg);
+				typeData.put(cfg.getType(), typeList);
+			}
 		}
 	}
 	
@@ -45,14 +73,10 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 	 * @return
 	 */
 	public List<MagicEquipConditionCfg> getCfgByType(int type){
-		List<MagicEquipConditionCfg> temp = new ArrayList<MagicEquipConditionCfg>();
-		for (MagicEquipConditionCfg cfg : getAllCfg()) {
-			if(cfg.getType() == type){
-				temp.add(cfg);
-			}
+		if(typeData.containsKey(type)){
+			return Collections.unmodifiableList(typeData.get(type));
 		}
-		
-		return Collections.unmodifiableList(temp);
+		return Collections.emptyList();
 	}
 
 	
@@ -62,14 +86,10 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg>{
 	 * @return
 	 */
 	public List<MagicEquipConditionCfg> getCfgListByModelID(int modelId) {
-		List<MagicEquipConditionCfg> temp = new ArrayList<MagicEquipConditionCfg>();
-		for (MagicEquipConditionCfg cfg : getAllCfg()) {
-			if(cfg.getModelIDList().contains(modelId)){
-				temp.add(cfg);
-			}
+		if(modelData.containsKey(modelId)){
+			return Collections.unmodifiableList(modelData.get(modelId));
 		}
-		
-		return Collections.unmodifiableList(temp);
+		return Collections.emptyList();
 		
 	}
 	
