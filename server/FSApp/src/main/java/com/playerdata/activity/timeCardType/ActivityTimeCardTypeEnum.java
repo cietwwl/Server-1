@@ -3,7 +3,7 @@ package com.playerdata.activity.timeCardType;
 
 
 public enum ActivityTimeCardTypeEnum { // implements TypeIdentification
-	Month("1");
+	Month("100001");
 
 	private String cfgId;
 

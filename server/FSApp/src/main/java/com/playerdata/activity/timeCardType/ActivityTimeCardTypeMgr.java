@@ -31,15 +31,20 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	private void checkTimeIsOver(Player player) {
-		ActivityTimeCardTypeItemHolder activityTimecardHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		ActivityTimeCardTypeItem dataItem = activityTimecardHolder.getItem(player.getUserId());
-		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem.getSubItemList();
+		ActivityTimeCardTypeItemHolder activityTimecardHolder = ActivityTimeCardTypeItemHolder
+				.getInstance();
+		ActivityTimeCardTypeItem dataItem = activityTimecardHolder
+				.getItem(player.getUserId());
+		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem
+				.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
-		int dayDistance = DateUtils.getDayDistance(logintime, System.currentTimeMillis());
+		int dayDistance = DateUtils.getDayDistance(logintime,
+				System.currentTimeMillis());
 		dataItem.setActivityLoginTime(System.currentTimeMillis());
 		if (dayDistance > 0) {
 			for (ActivityTimeCardTypeSubItem sub : monthCardList) {
-				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub.getDayLeft() - dayDistance) : 0;
+				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub
+						.getDayLeft() - dayDistance) : 0;
 				sub.setDayLeft(dayless);
 			}
 			activityTimecardHolder.updateItem(player, dataItem);
@@ -47,45 +52,50 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		ActivityTimeCardTypeCfgDAO activityTimeCardTypeCfgDAO  =ActivityTimeCardTypeCfgDAO.getInstance();
-		List<ActivityTimeCardTypeCfg> allCfgList = activityTimeCardTypeCfgDAO.getAllCfg();
-		for (ActivityTimeCardTypeCfg activityTimeCardTypeCfg : allCfgList) {
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder
+				.getInstance();
+		ActivityTimeCardTypeCfgDAO activityTimeCardTypeCfgDAO = ActivityTimeCardTypeCfgDAO
+				.getInstance();
 
-			ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(activityTimeCardTypeCfg.getId());
-			if (typeEnum != null) {
-				ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId());// 已在之前生成数据的活动
-				if (targetItem == null) {
-					ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO.newItem(player, typeEnum);
-					dataHolder.addItem(player, newItem);
-				}
-
-			}
+		ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player
+				.getUserId());// 已在之前生成数据的活动
+		if (targetItem != null) {
+			return;			
 		}
+		ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO
+				.newItem(player);
+		dataHolder.addItem(player, newItem);
 	}
 
-	public boolean isTimeCardOnGoing(String userId, String timeCardTypeCfgId, String timeCardTypeSubItemCfgId) {
+	public boolean isTimeCardOnGoing(String userId, String timeCardTypeCfgId,
+			String timeCardTypeSubItemCfgId) {
 
 		boolean isTimeCardOnGoing = false;
 		ActivityTimeCardTypeSubItem targetSubItem = null;
-		targetSubItem = getSubItem(userId, timeCardTypeCfgId, timeCardTypeSubItemCfgId);
+		targetSubItem = getSubItem(userId, timeCardTypeCfgId,
+				timeCardTypeSubItemCfgId);
 		if (targetSubItem != null) {
 			isTimeCardOnGoing = (targetSubItem.getDayLeft()) > 0;
 		}
 		return isTimeCardOnGoing;
 	}
 
-	private ActivityTimeCardTypeSubItem getSubItem(String userId, String timeCardTypeCfgId, String timeCardTypeSubItemCfgId) {
+	private ActivityTimeCardTypeSubItem getSubItem(String userId,
+			String timeCardTypeCfgId, String timeCardTypeSubItemCfgId) {
 		ActivityTimeCardTypeSubItem targetSubItem = null;
-		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder
+				.getInstance();
 
-		ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(timeCardTypeCfgId);
+		ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum
+				.getById(ActivityTimeCardTypeEnum.Month.getCfgId());//临时逗比处理下，合并后要将日常任务的表要统一改为100001
 		if (typeEnum != null) {
 			ActivityTimeCardTypeItem targetItem = dataHolder.getItem(userId);// 已在之前生成数据的活动
 			if (targetItem != null) {
-				List<ActivityTimeCardTypeSubItem> subItemList = targetItem.getSubItemList();
+				List<ActivityTimeCardTypeSubItem> subItemList = targetItem
+						.getSubItemList();
 				for (ActivityTimeCardTypeSubItem activityTimeCardTypeSubItem : subItemList) {
-					if (StringUtils.equals(timeCardTypeSubItemCfgId, activityTimeCardTypeSubItem.getId())) {
+					if (StringUtils.equals(timeCardTypeSubItemCfgId,
+							activityTimeCardTypeSubItem.getId())) {
 						targetSubItem = activityTimeCardTypeSubItem;
 						break;
 					}
@@ -97,8 +107,9 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	public boolean isOpen() {
-		List<ActivityTimeCardTypeCfg> list = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
-		return !(list == null||list.isEmpty());
+		List<ActivityTimeCardTypeCfg> list = ActivityTimeCardTypeCfgDAO
+				.getInstance().getAllCfg();
+		return !(list == null || list.isEmpty());
 	}
 
 }

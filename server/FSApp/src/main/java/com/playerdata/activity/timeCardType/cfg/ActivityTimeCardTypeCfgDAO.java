@@ -37,13 +37,13 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 		return cfg;
 	}
 	
-	public ActivityTimeCardTypeItem newItem(Player player, ActivityTimeCardTypeEnum typeEnum){
+	public ActivityTimeCardTypeItem newItem(Player player){
 		
-		String cfgId = typeEnum.getCfgId();
-		ActivityTimeCardTypeCfg cfgById = getCfgById(cfgId );
+		String cfgId = ActivityTimeCardTypeEnum.Month.getCfgId();
+		ActivityTimeCardTypeCfg cfgById = getCfgById("1" );
 		if(cfgById!=null){			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
-			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), typeEnum);
+			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), ActivityTimeCardTypeEnum.Month);
 			item.setId(itemId);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgId);

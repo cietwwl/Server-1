@@ -357,7 +357,7 @@ public class ChargeMgr {
 		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){//首次读取创建记录
-			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player,ActivityTimeCardTypeEnum.Month);
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player);
 			if(dataItem != null){
 				dataHolder.addItem(player, dataItem);
 				}
