@@ -8,6 +8,7 @@ import com.rw.ChannelServer;
 import com.rw.Client;
 import com.rw.common.MsgLog;
 import com.rw.common.RobotLog;
+import com.rw.common.push.PushMsgHandlerFactory;
 import com.rwproto.ResponseProtos.Response;
 
 /*
@@ -29,6 +30,7 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 			MsgLog.info("收到的消息, accountId：" + client.getAccountId() + " cmd:" + rsp.getHeader().getCommand());
 			client.getMsgHandler().dataSyn(rsp);
 			client.getMsgHandler().setResp(rsp);
+			PushMsgHandlerFactory.getFactory().onMsgReceive(client, rsp);// 推送消息到达
 		}
 	}
 
@@ -39,11 +41,11 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 		Attribute<Client> attr = ctx.channel().attr(ChannelServer.ATTR_CLIENT);
 		Client client = attr.get();
 		if (client == null) {
-			RobotLog.testException("channel connection and close but not init:chn="+ctx.channel(), cause);
+			RobotLog.testException("channel connection and close but not init:chn=" + ctx.channel(), cause);
 			return;
 		}
 		if (!client.getCloseFlat().get()) {
-			RobotLog.testException("channel connection and close:" + client.getAccountId() + "," + client.getCommandInfo() + "," + Thread.currentThread()+",chn="+ctx.channel(), cause);
+			RobotLog.testException("channel connection and close:" + client.getAccountId() + "," + client.getCommandInfo() + "," + Thread.currentThread() + ",chn=" + ctx.channel(), cause);
 		}
 	}
 
@@ -57,7 +59,7 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 		} else {
 			accountId = client.getAccountId();
 		}
-		RobotLog.info("open connection:" + accountId + "," + Thread.currentThread()+","+ctx.channel());
+		RobotLog.info("open connection:" + accountId + "," + Thread.currentThread() + "," + ctx.channel());
 		super.channelRegistered(ctx);
 	}
 
@@ -67,11 +69,11 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 		Attribute<Client> attr = ctx.channel().attr(ChannelServer.ATTR_CLIENT);
 		Client client = attr.get();
 		if (client == null) {
-			RobotLog.testError("close a not init channel:chn="+ctx.channel());
+			RobotLog.testError("close a not init channel:chn=" + ctx.channel());
 			return;
 		}
 		if (!client.getCloseFlat().get()) {
-			RobotLog.testError("server close connection:" + client.getAccountId() + "," + client.getCommandInfo() + "," + Thread.currentThread()+",chn="+ctx.channel());
+			RobotLog.testError("server close connection:" + client.getAccountId() + "," + client.getCommandInfo() + "," + Thread.currentThread() + ",chn=" + ctx.channel());
 		}
 	}
 }
