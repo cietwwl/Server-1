@@ -38,9 +38,10 @@ public class HeroFettersDataHolder {
 	 */
 	public static void synAll(Player player) {
 		List<SynFettersData> allHeroFetters = player.getAllHeroFetters();
-		if (allHeroFetters == null || allHeroFetters.isEmpty()) {
-			return;
-		}
+		//应fisher要求，空列表也推送----by Alex
+//		if (allHeroFetters == null || allHeroFetters.isEmpty()) {
+//			return;
+//		}
 
 		ClientDataSynMgr.synDataList(player, allHeroFetters, synType, eSynOpType.UPDATE_LIST);
 	}
