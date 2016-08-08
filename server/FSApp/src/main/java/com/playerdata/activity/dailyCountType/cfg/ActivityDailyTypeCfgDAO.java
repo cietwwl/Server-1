@@ -79,7 +79,6 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfg.getId());
-			item.setEnumId(cfg.getEnumId());
 			item.setVersion(cfg.getVersion());
 			item.setSubItemList(newItemList(cfg.getId()));
 			item.setLastTime(System.currentTimeMillis());
@@ -119,11 +118,11 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 	 * @return 根据传入的item，获取同类型的，不同id的，激活的，唯一的下期配置
 	 */
 	public ActivityDailyTypeCfg getCfgByItemOfEnumId(ActivityDailyTypeItem targetItem) {
-		String id = targetItem.getEnumId();
+		String id = targetItem.getId();
 		List<ActivityDailyTypeCfg>  cfgListIsOpen = new ArrayList<ActivityDailyTypeCfg>();
 		List<ActivityDailyTypeCfg>  cfgList = getAllCfg();
 		for(ActivityDailyTypeCfg cfg : cfgList){
-			if(!StringUtils.equals(cfg.getEnumId(), id)&&ActivityDailyTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(cfg.getId(), id)&&ActivityDailyTypeMgr.getInstance().isOpen(cfg)){
 				cfgListIsOpen.add(cfg);
 			}		
 		}

@@ -85,7 +85,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityCountTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getId());
+			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
 			if (countTypeEnum == null) {
 				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + cfg.getId());
 				continue;
@@ -139,7 +139,7 @@ public class ActivityCollector implements RedPointCollector{
 				// 活动未开启
 				continue;
 			}
-			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getId());
+			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
@@ -150,7 +150,7 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			if(!rateItem.isTouchRedPoint()){
-				activityList.add(cfg.getId());
+				activityList.add(cfg.getEnumId());
 				continue;
 			}
 		}

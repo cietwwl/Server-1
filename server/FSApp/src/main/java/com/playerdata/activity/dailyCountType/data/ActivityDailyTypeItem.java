@@ -28,18 +28,10 @@ public class ActivityDailyTypeItem implements  IMapItem {
 	@CombineSave
     private String cfgid;
 	
-	@CombineSave
-    private String enumId;
-	
-	
-	
-	public String getEnumId() {
-		return enumId;
-	}
 
-	public void setEnumId(String enumId) {
-		this.enumId = enumId;
-	}
+	
+	
+
 
 	public String getCfgid() {
 		return cfgid;
@@ -86,7 +78,6 @@ public class ActivityDailyTypeItem implements  IMapItem {
 	
 	public void reset(ActivityDailyTypeCfg cfg){
 		cfgid = cfg.getId();
-		enumId = cfg.getEnumId();
 		closed = false;
 		version = cfg.getVersion();
 		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList(cfg.getId()));

@@ -24,10 +24,7 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {
-
-
-	
+public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {	
 
 
 	public static ActivityCountTypeCfgDAO getInstance() {
@@ -66,14 +63,11 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	 * @return
 	 */
 	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum,ActivityCountTypeCfg activityCountTypeCfg){
-		
-		
-		if(activityCountTypeCfg!=null){			
-			String cfgId = activityCountTypeCfg.getId();
+		if(activityCountTypeCfg!=null){	
 			ActivityCountTypeItem item = new ActivityCountTypeItem();
 			String itemId = ActivityCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
 			item.setId(itemId);
-			item.setCfgId(cfgId);
+			item.setCfgId(activityCountTypeCfg.getId());
 			item.setEnumId(activityCountTypeCfg.getEnumId());
 			item.setUserId(player.getUserId());
 			item.setVersion(activityCountTypeCfg.getVersion());
@@ -81,8 +75,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 			return item;
 		}else{
 			return null;
-		}		
-		
+		}
 	}
 	
 	
@@ -128,7 +121,16 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		return null;
 	}
 
-	
+	public List<ActivityCountTypeCfg> getCfgListByEnumId(String enumId){
+		List<ActivityCountTypeCfg> cfgList = new ArrayList<ActivityCountTypeCfg>();
+		List<ActivityCountTypeCfg> allCfg = getAllCfg();
+		for(ActivityCountTypeCfg cfg : allCfg){
+			if(StringUtils.equals(cfg.getEnumId(), enumId)){
+				cfgList.add(cfg);
+			}			
+		}
+		return cfgList;		
+	}
 
 
 }

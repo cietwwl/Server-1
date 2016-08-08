@@ -65,7 +65,7 @@ public final class ActivityDailyTypeSubCfgDAO extends CfgCsvDao<ActivityDailyTyp
 		List<ActivityDailyTypeSubCfg> subCfgList = new ArrayList<ActivityDailyTypeSubCfg>();
 		List<ActivityDailyTypeSubCfg> allCfg = getAllCfg();
 		for(ActivityDailyTypeSubCfg tmpCfg : allCfg){
-			if(StringUtils.equals(tmpCfg.getParentId(), enumId)){
+			if(StringUtils.equals(tmpCfg.getEnumId(), enumId)){
 				subCfgList.add(tmpCfg);
 			}
 		}

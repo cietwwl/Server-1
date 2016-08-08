@@ -79,6 +79,7 @@ public class ActivityCountTypeItem implements  IMapItem {
 	}
 
 	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
+		cfgId = cfg.getId();
 		closed = false;
 		count=0;
 		version = cfg.getVersion();
