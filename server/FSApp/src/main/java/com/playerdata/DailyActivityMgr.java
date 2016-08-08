@@ -119,7 +119,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 			holder.save();
 		}
 		
-		return Collections.unmodifiableList(currentList);
+		return new ArrayList<DailyActivityData>(currentList);
 	}
 	
 	

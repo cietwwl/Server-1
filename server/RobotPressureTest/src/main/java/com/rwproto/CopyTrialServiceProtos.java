@@ -17,7 +17,7 @@ public final class CopyTrialServiceProtos {
      * <code>TRIAL_TYPE_TRIAL = 0;</code>
      *
      * <pre>
-     *试炼之境
+     *聚宝之地
      * </pre>
      */
     TRIAL_TYPE_TRIAL(0, 0),
@@ -37,13 +37,21 @@ public final class CopyTrialServiceProtos {
      * </pre>
      */
     TRIAL_RESET_COUNT(2, 2),
+    /**
+     * <code>TRAIL_VALLEY = 4;</code>
+     *
+     * <pre>
+     *炼气山谷
+     * </pre>
+     */
+    TRAIL_VALLEY(3, 4),
     ;
 
     /**
      * <code>TRIAL_TYPE_TRIAL = 0;</code>
      *
      * <pre>
-     *试炼之境
+     *聚宝之地
      * </pre>
      */
     public static final int TRIAL_TYPE_TRIAL_VALUE = 0;
@@ -63,6 +71,14 @@ public final class CopyTrialServiceProtos {
      * </pre>
      */
     public static final int TRIAL_RESET_COUNT_VALUE = 2;
+    /**
+     * <code>TRAIL_VALLEY = 4;</code>
+     *
+     * <pre>
+     *炼气山谷
+     * </pre>
+     */
+    public static final int TRAIL_VALLEY_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -72,6 +88,7 @@ public final class CopyTrialServiceProtos {
         case 0: return TRIAL_TYPE_TRIAL;
         case 1: return TRIAL_TYPE_CELESTIAL;
         case 2: return TRIAL_RESET_COUNT;
+        case 4: return TRAIL_VALLEY;
         default: return null;
       }
     }
@@ -2392,11 +2409,11 @@ public final class CopyTrialServiceProtos {
       "sgTrialResponse\022\036\n\ttrialType\030\001 \002(\0162\013.eTr" +
       "ialType\022*\n\017trialResultType\030\002 \001(\0162\021.eTria" +
       "lResultType\022\035\n\ttrialData\030\003 \003(\0132\n.TrialDa" +
-      "ta*S\n\neTrialType\022\024\n\020TRIAL_TYPE_TRIAL\020\000\022\030" +
+      "ta*e\n\neTrialType\022\024\n\020TRIAL_TYPE_TRIAL\020\000\022\030" +
       "\n\024TRIAL_TYPE_CELESTIAL\020\001\022\025\n\021TRIAL_RESET_",
-      "COUNT\020\002*)\n\020eTrialResultType\022\013\n\007SUCCESS\020\001" +
-      "\022\010\n\004FAIL\020\002B%\n\013com.rwprotoB\026CopyTrialServ" +
-      "iceProtos"
+      "COUNT\020\002\022\020\n\014TRAIL_VALLEY\020\004*)\n\020eTrialResul" +
+      "tType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B%\n\013com.rwpr" +
+      "otoB\026CopyTrialServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -4062,15 +4062,15 @@ public final class GroupCopyCmdProto {
      */
     long getKillTime();
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
     boolean hasDamage();
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
-    int getDamage();
+    long getDamage();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.ArmyHurtStruct}
@@ -4149,7 +4149,7 @@ public final class GroupCopyCmdProto {
             }
             case 40: {
               bitField0_ |= 0x00000010;
-              damage_ = input.readInt32();
+              damage_ = input.readInt64();
               break;
             }
           }
@@ -4318,19 +4318,19 @@ public final class GroupCopyCmdProto {
       return killTime_;
     }
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     public static final int DAMAGE_FIELD_NUMBER = 5;
-    private int damage_;
+    private long damage_;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
     public boolean hasDamage() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
-    public int getDamage() {
+    public long getDamage() {
       return damage_;
     }
 
@@ -4339,7 +4339,7 @@ public final class GroupCopyCmdProto {
       roleName_ = "";
       lv_ = 0;
       killTime_ = 0L;
-      damage_ = 0;
+      damage_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4386,7 +4386,7 @@ public final class GroupCopyCmdProto {
         output.writeInt64(4, killTime_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, damage_);
+        output.writeInt64(5, damage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4415,7 +4415,7 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, damage_);
+          .computeInt64Size(5, damage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4545,7 +4545,7 @@ public final class GroupCopyCmdProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         killTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
-        damage_ = 0;
+        damage_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
@@ -4907,35 +4907,35 @@ public final class GroupCopyCmdProto {
         return this;
       }
 
-      // required int32 damage = 5;
-      private int damage_ ;
+      // required int64 damage = 5;
+      private long damage_ ;
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
       public boolean hasDamage() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
-      public int getDamage() {
+      public long getDamage() {
         return damage_;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
-      public Builder setDamage(int value) {
+      public Builder setDamage(long value) {
         bitField0_ |= 0x00000010;
         damage_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
       public Builder clearDamage() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        damage_ = 0;
+        damage_ = 0L;
         onChanged();
         return this;
       }
@@ -4999,7 +4999,7 @@ public final class GroupCopyCmdProto {
       "ank\022.\n\010rankData\030\001 \003(\0132\034.GroupCopyCmd.Arm" +
       "yHurtStruct\"b\n\016ArmyHurtStruct\022\020\n\010headIco" +
       "n\030\001 \002(\t\022\020\n\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n" +
-      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005*\277\001\n\020Grou" +
+      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\003*\277\001\n\020Grou" +
       "pCopyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_A" +
       "PPLY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROU" +
       "P_HURT_RANK\020\004\022\025\n\021APPLY_SERVER_RANK\020\005\022\023\n\017" +

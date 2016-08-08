@@ -161,6 +161,14 @@ public final class ErrorService {
      * </pre>
      */
     NOT_CONFORM_CONDITIONS(18, -18),
+    /**
+     * <code>FUNCTION_NOT_OPEN = -19;</code>
+     *
+     * <pre>
+     *根据openlevellimit.csv 功能未开放
+     * </pre>
+     */
+    FUNCTION_NOT_OPEN(19, -19),
     ;
 
     /**
@@ -311,6 +319,14 @@ public final class ErrorService {
      * </pre>
      */
     public static final int NOT_CONFORM_CONDITIONS_VALUE = -18;
+    /**
+     * <code>FUNCTION_NOT_OPEN = -19;</code>
+     *
+     * <pre>
+     *根据openlevellimit.csv 功能未开放
+     * </pre>
+     */
+    public static final int FUNCTION_NOT_OPEN_VALUE = -19;
 
 
     public final int getNumber() { return value; }
@@ -336,6 +352,7 @@ public final class ErrorService {
         case -16: return CONFIG_ERROR;
         case -17: return NOT_ENOUGH_SKILL_POINT;
         case -18: return NOT_CONFORM_CONDITIONS;
+        case -19: return FUNCTION_NOT_OPEN;
         default: return null;
       }
     }
@@ -396,7 +413,7 @@ public final class ErrorService {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022ErrorService.proto\022\014ErrorService*\273\004\n\tE" +
+      "\n\022ErrorService.proto\022\014ErrorService*\333\004\n\tE" +
       "rrorType\022\013\n\007SUCCESS\020\000\022\021\n\004FAIL\020\377\377\377\377\377\377\377\377\377\001" +
       "\022\033\n\016NOT_ENOUGH_VIP\020\376\377\377\377\377\377\377\377\377\001\022\034\n\017NOT_ENO" +
       "UGH_COIN\020\375\377\377\377\377\377\377\377\377\001\022\035\n\020NOT_ENOUGH_LEVEL\020" +
@@ -411,7 +428,8 @@ public final class ErrorService {
       "EQUAL_ROLE_LEVEL\020\361\377\377\377\377\377\377\377\377\001\022\031\n\014CONFIG_ER" +
       "ROR\020\360\377\377\377\377\377\377\377\377\001\022#\n\026NOT_ENOUGH_SKILL_POINT" +
       "\020\357\377\377\377\377\377\377\377\377\001\022#\n\026NOT_CONFORM_CONDITIONS\020\356\377" +
-      "\377\377\377\377\377\377\377\001B\033\n\013com.rwprotoB\014ErrorService"
+      "\377\377\377\377\377\377\377\001\022\036\n\021FUNCTION_NOT_OPEN\020\355\377\377\377\377\377\377\377\377\001" +
+      "B\033\n\013com.rwprotoB\014ErrorService"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

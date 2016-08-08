@@ -237,7 +237,7 @@ public class TeamBattleBM {
 			return;
 		}
 		try {
-			joinTeam(player, canJionTeam);
+			TBTeamItemMgr.getInstance().joinTeam(player, canJionTeam);
 			canJionTeam.setSelecting(false);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
@@ -307,7 +307,7 @@ public class TeamBattleBM {
 		}
 		try {
 			utbData.setSynTeam(true);
-			joinTeam(player, teamItem);
+			TBTeamItemMgr.getInstance().joinTeam(player, teamItem);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
 			utbData.setSynTeam(false);
@@ -574,7 +574,8 @@ public class TeamBattleBM {
 				}
 				finishedHardInfo.setFinishTimes(finishedHardInfo.getFinishTimes() + 1);
 				if(cfg.getMail() != 0){
-					for(TeamMember mem : teamItem.getMembers()){
+					List<TeamMember> members = teamItem.getMembers();
+					for(TeamMember mem : members){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
 							if(null == emailCfg) {
@@ -592,11 +593,6 @@ public class TeamBattleBM {
 			if(cfg.getReward() != null && cfg.getReward().size() > 0){
 				ItemBagMgr bagMgr = player.getItemBagMgr();
 				List<ItemInfo> rewards = cfg.getReward();
-//				for (ItemInfo itm : rewards) {
-//					GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-//					if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-//						GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-//				}
 				if(!bagMgr.addItem(rewards)) {
 					GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品不成功！list的内容：", rewards), null);
 				}
@@ -660,32 +656,6 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("购买失败");
 			return;
 		}
-	}
-	
-	/**
-	 * 几种加入队伍方式的通用方法
-	 * @param player
-	 * @param canJionTeam
-	 * @throws JoinTeamException
-	 */
-	private void joinTeam(Player player, TBTeamItem canJionTeam) throws JoinTeamException {
-		//脱离当前的队伍
-		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		TeamMember tMem = new TeamMember();
-		tMem.setUserID(player.getUserId());
-		tMem.setUserName(player.getUserName());
-		tMem.setState(TBMemberState.Ready);
-		if(!canJionTeam.addMember(tMem)){
-			throw new JoinTeamException("加入失败");
-		}
-		utbData.setTeamID(canJionTeam.getTeamID());
-		utbData.setMemPos("");
-		
-		TBTeamItemHolder.getInstance().updateTeam(canJionTeam);
-		UserTeamBattleDataHolder.getInstance().update(player, utbData);
-		UserTeamBattleDataHolder.getInstance().synData(player);
-		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
 	}
 
 	/**

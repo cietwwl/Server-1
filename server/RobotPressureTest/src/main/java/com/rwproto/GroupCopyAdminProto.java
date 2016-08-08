@@ -9167,15 +9167,15 @@ public final class GroupCopyAdminProto {
     com.google.protobuf.ByteString
         getRoleNameBytes();
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
     boolean hasDamage();
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
-    int getDamage();
+    long getDamage();
 
     // required bool canDist = 6;
     /**
@@ -9295,7 +9295,7 @@ public final class GroupCopyAdminProto {
             }
             case 40: {
               bitField0_ |= 0x00000010;
-              damage_ = input.readInt32();
+              damage_ = input.readInt64();
               break;
             }
             case 48: {
@@ -9493,19 +9493,19 @@ public final class GroupCopyAdminProto {
       }
     }
 
-    // required int32 damage = 5;
+    // required int64 damage = 5;
     public static final int DAMAGE_FIELD_NUMBER = 5;
-    private int damage_;
+    private long damage_;
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
     public boolean hasDamage() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required int32 damage = 5;</code>
+     * <code>required int64 damage = 5;</code>
      */
-    public int getDamage() {
+    public long getDamage() {
       return damage_;
     }
 
@@ -9593,7 +9593,7 @@ public final class GroupCopyAdminProto {
       headIcon_ = "";
       lv_ = 0;
       roleName_ = "";
-      damage_ = 0;
+      damage_ = 0L;
       canDist_ = false;
       headbox_ = "";
     }
@@ -9650,7 +9650,7 @@ public final class GroupCopyAdminProto {
         output.writeBytes(4, getRoleNameBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, damage_);
+        output.writeInt64(5, damage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBool(6, canDist_);
@@ -9685,7 +9685,7 @@ public final class GroupCopyAdminProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, damage_);
+          .computeInt64Size(5, damage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
@@ -9819,7 +9819,7 @@ public final class GroupCopyAdminProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         roleName_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        damage_ = 0;
+        damage_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
         canDist_ = false;
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -10236,35 +10236,35 @@ public final class GroupCopyAdminProto {
         return this;
       }
 
-      // required int32 damage = 5;
-      private int damage_ ;
+      // required int64 damage = 5;
+      private long damage_ ;
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
       public boolean hasDamage() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
-      public int getDamage() {
+      public long getDamage() {
         return damage_;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
-      public Builder setDamage(int value) {
+      public Builder setDamage(long value) {
         bitField0_ |= 0x00000010;
         damage_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 damage = 5;</code>
+       * <code>required int64 damage = 5;</code>
        */
       public Builder clearDamage() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        damage_ = 0;
+        damage_ = 0L;
         onChanged();
         return this;
       }
@@ -10523,7 +10523,7 @@ public final class GroupCopyAdminProto {
       "(\0132\032.GroupCopyAdmin.MemberInfo\"}\n\nMember",
       "Info\022\r\n\005useID\030\001 \002(\t\022\020\n\010headIcon\030\002 \002(\t\022\n\n" +
       "\002lv\030\003 \002(\005\022\020\n\010roleName\030\004 \002(\t\022\016\n\006damage\030\005 " +
-      "\002(\005\022\017\n\007canDist\030\006 \002(\010\022\017\n\007headbox\030\007 \002(\t*s\n" +
+      "\002(\003\022\017\n\007canDist\030\006 \002(\010\022\017\n\007headbox\030\007 \002(\t*s\n" +
       "\013RequestType\022\r\n\tOPEN_COPY\020\001\022\016\n\nRESET_COP" +
       "Y\020\002\022\031\n\025GET_APPLY_REWARD_INFO\020\003\022\025\n\021GET_CH" +
       "ATER_DAMAGE\020\004\022\023\n\017CHOSE_DIST_ROLE\020\005B\"\n\013co" +

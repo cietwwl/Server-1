@@ -46,12 +46,14 @@ public class UserTeamBattleDataMgr {
 		if(StringUtils.isBlank(utbData.getTeamID())) return;
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 		if(teamItem != null) {
-			TeamMember self = teamItem.findMember(userID);
-			if(null != self){
-				if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
-					teamItem.removeMember(self);
-					if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
-						TBTeamItemHolder.getInstance().synData(teamItem);
+			synchronized (teamItem) {
+				TeamMember self = teamItem.findMember(userID);
+				if(null != self){
+					if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
+						teamItem.removeMember(self);
+						if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
+							TBTeamItemHolder.getInstance().synData(teamItem);
+						}
 					}
 				}
 			}

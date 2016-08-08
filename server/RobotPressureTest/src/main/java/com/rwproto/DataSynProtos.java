@@ -752,13 +752,21 @@ public final class DataSynProtos {
      */
     ActivityLimitHeroType(70, 75),
     /**
+     * <code>ActivityDailyRechargeType = 76;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    ActivityDailyRechargeType(71, 76),
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
      *反馈问题列表	
      * </pre>
      */
-    QuestionList(71, 80),
+    QuestionList(72, 80),
     /**
      * <code>GFBiddingData = 81;</code>
      *
@@ -766,7 +774,7 @@ public final class DataSynProtos {
      *在线帮战个人压标数据
      * </pre>
      */
-    GFBiddingData(72, 81),
+    GFBiddingData(73, 81),
     /**
      * <code>GFDefendArmyData = 82;</code>
      *
@@ -774,7 +782,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍信息
      * </pre>
      */
-    GFDefendArmyData(73, 82),
+    GFDefendArmyData(74, 82),
     /**
      * <code>GFightOnlineGroupData = 83;</code>
      *
@@ -782,7 +790,7 @@ public final class DataSynProtos {
      *在线帮战帮派信息
      * </pre>
      */
-    GFightOnlineGroupData(74, 83),
+    GFightOnlineGroupData(75, 83),
     /**
      * <code>GFightOnlinePersonalData = 84;</code>
      *
@@ -790,7 +798,7 @@ public final class DataSynProtos {
      *在线帮战个人信息
      * </pre>
      */
-    GFightOnlinePersonalData(75, 84),
+    GFightOnlinePersonalData(76, 84),
     /**
      * <code>GFightOnlineResourceData = 85;</code>
      *
@@ -798,7 +806,7 @@ public final class DataSynProtos {
      *在线帮战资源点信息
      * </pre>
      */
-    GFightOnlineResourceData(76, 85),
+    GFightOnlineResourceData(77, 85),
     /**
      * <code>MajorData = 86;</code>
      *
@@ -806,7 +814,7 @@ public final class DataSynProtos {
      *关键数据
      * </pre>
      */
-    MajorData(77, 86),
+    MajorData(78, 86),
     /**
      * <code>GFightSimpleLeader = 87;</code>
      *
@@ -814,7 +822,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍简要信息
      * </pre>
      */
-    GFightSimpleLeader(78, 87),
+    GFightSimpleLeader(79, 87),
     /**
      * <code>GFightFinalReward = 88;</code>
      *
@@ -822,7 +830,7 @@ public final class DataSynProtos {
      *在线帮战最终的奖励
      * </pre>
      */
-    GFightFinalReward(79, 88),
+    GFightFinalReward(80, 88),
     /**
      * <code>EmbattleInfo = 89;</code>
      *
@@ -830,7 +838,7 @@ public final class DataSynProtos {
      *阵容站位
      * </pre>
      */
-    EmbattleInfo(80, 89),
+    EmbattleInfo(81, 89),
     /**
      * <code>MAGICEQUIP_FETTER = 90;</code>
      *
@@ -838,7 +846,7 @@ public final class DataSynProtos {
      *法宝神器羁绊
      * </pre>
      */
-    MAGICEQUIP_FETTER(81, 90),
+    MAGICEQUIP_FETTER(82, 90),
     /**
      * <code>USER_TEAM_BATTLE = 91;</code>
      *
@@ -846,7 +854,7 @@ public final class DataSynProtos {
      *组队战斗，玩家信息
      * </pre>
      */
-    USER_TEAM_BATTLE(82, 91),
+    USER_TEAM_BATTLE(83, 91),
     /**
      * <code>TEAM_BATTLE_TEAM = 92;</code>
      *
@@ -854,15 +862,23 @@ public final class DataSynProtos {
      *组队战斗，队伍信息
      * </pre>
      */
-    TEAM_BATTLE_TEAM(83, 92),
+    TEAM_BATTLE_TEAM(84, 92),
     /**
-     * <code>ActivityDailyRechargeType = 93;</code>
+     * <code>WB_DATA = 93;</code>
      *
      * <pre>
-     *每日充值活动
+     *世界boss数据
      * </pre>
      */
-    ActivityDailyRechargeType(84, 93),
+    WB_DATA(85, 93),
+    /**
+     * <code>WB_USER_DATA = 94;</code>
+     *
+     * <pre>
+     *世界boss个人数据
+     * </pre>
+     */
+    WB_USER_DATA(86, 94),
     ;
 
     /**
@@ -1434,6 +1450,14 @@ public final class DataSynProtos {
      */
     public static final int ActivityLimitHeroType_VALUE = 75;
     /**
+     * <code>ActivityDailyRechargeType = 76;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    public static final int ActivityDailyRechargeType_VALUE = 76;
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
@@ -1538,13 +1562,21 @@ public final class DataSynProtos {
      */
     public static final int TEAM_BATTLE_TEAM_VALUE = 92;
     /**
-     * <code>ActivityDailyRechargeType = 93;</code>
+     * <code>WB_DATA = 93;</code>
      *
      * <pre>
-     *每日充值活动
+     *世界boss数据
      * </pre>
      */
-    public static final int ActivityDailyRechargeType_VALUE = 93;
+    public static final int WB_DATA_VALUE = 93;
+    /**
+     * <code>WB_USER_DATA = 94;</code>
+     *
+     * <pre>
+     *世界boss个人数据
+     * </pre>
+     */
+    public static final int WB_USER_DATA_VALUE = 94;
 
 
     public final int getNumber() { return value; }
@@ -1622,6 +1654,7 @@ public final class DataSynProtos {
         case 73: return ActivityRedEnvelopeType;
         case 74: return ActivityFortuneCatType;
         case 75: return ActivityLimitHeroType;
+        case 76: return ActivityDailyRechargeType;
         case 80: return QuestionList;
         case 81: return GFBiddingData;
         case 82: return GFDefendArmyData;
@@ -1635,7 +1668,8 @@ public final class DataSynProtos {
         case 90: return MAGICEQUIP_FETTER;
         case 91: return USER_TEAM_BATTLE;
         case 92: return TEAM_BATTLE_TEAM;
-        case 93: return ActivityDailyRechargeType;
+        case 93: return WB_DATA;
+        case 94: return WB_USER_DATA;
         default: return null;
       }
     }
@@ -7520,7 +7554,7 @@ public final class DataSynProtos {
       "g\030\003 \001(\t*{\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021" +
       "\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREM" +
       "OVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020\005\022\024\n\020UPDATE" +
-      "_PART_LIST\020\006*\321\016\n\010eSynType\022\025\n\021COPY_LEVEL_" +
+      "_PART_LIST\020\006*\360\016\n\010eSynType\022\025\n\021COPY_LEVEL_" +
       "RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\030\n\024SECRETA",
       "REA_BASE_INFO\020\003\022\031\n\025SECRETAREA_DEF_RECORD" +
       "\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\037\n\033SECRETAR" +
@@ -7559,16 +7593,17 @@ public final class DataSynProtos {
       "countType\020G\022\033\n\027ActivityVipDiscountType\020H" +
       "\022\033\n\027ActivityRedEnvelopeType\020I\022\032\n\026Activit" +
       "yFortuneCatType\020J\022\031\n\025ActivityLimitHeroTy" +
-      "pe\020K\022\020\n\014QuestionList\020P\022\021\n\rGFBiddingData\020" +
-      "Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GFightOnlineG" +
-      "roupData\020S\022\034\n\030GFightOnlinePersonalData\020T",
-      "\022\034\n\030GFightOnlineResourceData\020U\022\r\n\tMajorD" +
-      "ata\020V\022\026\n\022GFightSimpleLeader\020W\022\025\n\021GFightF" +
-      "inalReward\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICE" +
-      "QUIP_FETTER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020T" +
-      "EAM_BATTLE_TEAM\020\\\022\035\n\031ActivityDailyRechar" +
-      "geType\020]*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034" +
-      "\n\013com.rwprotoB\rDataSynProtos"
+      "pe\020K\022\035\n\031ActivityDailyRechargeType\020L\022\020\n\014Q" +
+      "uestionList\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDe" +
+      "fendArmyData\020R\022\031\n\025GFightOnlineGroupData\020",
+      "S\022\034\n\030GFightOnlinePersonalData\020T\022\034\n\030GFigh" +
+      "tOnlineResourceData\020U\022\r\n\tMajorData\020V\022\026\n\022" +
+      "GFightSimpleLeader\020W\022\025\n\021GFightFinalRewar" +
+      "d\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICEQUIP_FETT" +
+      "ER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020TEAM_BATTL" +
+      "E_TEAM\020\\\022\013\n\007WB_DATA\020]\022\020\n\014WB_USER_DATA\020^*" +
+      "\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com.rwp" +
+      "rotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
