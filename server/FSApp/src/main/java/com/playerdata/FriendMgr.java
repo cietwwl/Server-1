@@ -16,6 +16,7 @@ import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -656,6 +657,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	public FriendInfo friendItemToInfo(FriendItem item) {
 		FriendInfo.Builder friendInfo = FriendInfo.newBuilder();
+		String userId = item.getUserId();
 		friendInfo.setUserId(item.getUserId());
 		friendInfo.setUserName(item.getUserName());
 		friendInfo.setHeadImage(item.getUserHead());
@@ -664,6 +666,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLastLoginTime(item.getLastLoginTime());
 		friendInfo.setLastLoginTip(FriendUtils.getLastLoginTip(item.getLastLoginTime()));
 		friendInfo.setLevel(item.getLevel());
+		friendInfo.setGroupId(GroupHelper.getUserGroupId(userId));
+		friendInfo.setGroupName(GroupHelper.getGroupName(userId));
 		if (item.getHeadFrame() == null) {
 			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 			// TODO 这个逻辑应该放在setting中完成
