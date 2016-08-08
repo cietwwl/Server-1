@@ -1,5 +1,6 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,18 +42,37 @@ public final class ActivityDailyTypeSubCfgDAO extends CfgCsvDao<ActivityDailyTyp
 		cfgTmp.setEndTime(endTime);		
 	}
 
-
+	/**
+	 * 根据id查找subCfg
+	 * */
 	public ActivityDailyTypeSubCfg getById(String subId){
 		ActivityDailyTypeSubCfg target = new ActivityDailyTypeSubCfg();
 		List<ActivityDailyTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityDailyTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getId(), subId)){
-				target = tmpItem;
+		for (ActivityDailyTypeSubCfg tmpCfg : allCfg) {
+			if(StringUtils.equals(tmpCfg.getId(), subId)){
+				target = tmpCfg;
 			}
 		}
-		return target;
-		
+		return target;		
 	}
+	
+	/**
+	 * 
+	 * @param enumId 根据enum查找subList，一个enum可能会对应多个cfg
+	 * @return
+	 */
+	public List<ActivityDailyTypeSubCfg> getListByEnumId(String enumId){
+		List<ActivityDailyTypeSubCfg> subCfgList = new ArrayList<ActivityDailyTypeSubCfg>();
+		List<ActivityDailyTypeSubCfg> allCfg = getAllCfg();
+		for(ActivityDailyTypeSubCfg tmpCfg : allCfg){
+			if(StringUtils.equals(tmpCfg.getParentId(), enumId)){
+				subCfgList.add(tmpCfg);
+			}
+		}
+		return subCfgList;
+	}
+	
+	
 	
 	
 

@@ -42,7 +42,7 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 						.getInstance()
 						.isOpen(ActivityDailyTypeSubCfgDAO
 								.getInstance()
-								.getById(
+								.getListByEnumId(
 										ActivityDailyTypeEnum.BattleTowerDaily
 												.getCfgId()));
 				boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);

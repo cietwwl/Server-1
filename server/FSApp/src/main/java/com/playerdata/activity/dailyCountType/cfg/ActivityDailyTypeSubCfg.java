@@ -5,6 +5,7 @@ public class ActivityDailyTypeSubCfg {
 
 	private String id;
 	
+	private String parentId;
 	
 	//计数
 	private int count;
@@ -21,6 +22,17 @@ public class ActivityDailyTypeSubCfg {
 	
 	private String endTimeStr;
 	
+	
+	
+	
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
 	public int getCount() {
 		return count;
 	}

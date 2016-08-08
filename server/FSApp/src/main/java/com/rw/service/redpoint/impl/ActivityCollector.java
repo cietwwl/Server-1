@@ -28,6 +28,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -94,38 +95,41 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			if(!targetItem.isTouchRedPoint()){
-				activityList.add(cfg.getId());
+				activityList.add(cfg.getEnumId());
 				continue;
 			}
 			List<ActivityCountTypeSubItem> subitemlist = targetItem.getSubItemList();
 			for(ActivityCountTypeSubItem subitem:subitemlist){
 				if(subitem.getCount()<=targetItem.getCount()&&!subitem.isTaken()){
-					activityList.add(cfg.getId());
+					activityList.add(cfg.getEnumId());
 					break;
 				}
 			}				
 		}
 
 		//------------------------------			
-		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeCfg activityCountTypeCfg = ActivityDailyTypeMgr.getInstance().getparentCfg();
-		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());		
-		if(activityCountTypeCfg != null&&dailyTargetItem!=null){
-			if(!dailyTargetItem.isTouchRedPoint()){
-				activityList.add(activityCountTypeCfg.getId());
-			}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
-				for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
-					ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
-					if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
-						activityList.add(activityCountTypeCfg.getId());
-						break;
-					}
-				}		
+		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();		
+		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());
+		if(dailyTargetItem == null){
+			
+		}else{		
+			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
+			if(activityDailyTypeCfg != null){
+				if(!dailyTargetItem.isTouchRedPoint()){
+					activityList.add(activityDailyTypeCfg.getEnumId());
+				}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityDailyTypeCfg)){
+					for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
+						ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
+						if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
+							activityList.add(activityDailyTypeCfg.getEnumId());
+							break;
+						}
+					}		
+				}
 			}
 			
-			
-					
 		}
+		
 
 		//------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();

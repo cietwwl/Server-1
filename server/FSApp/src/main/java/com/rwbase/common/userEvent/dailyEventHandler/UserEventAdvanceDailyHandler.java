@@ -34,7 +34,7 @@ public class UserEventAdvanceDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
-							.getInstance().getById(ActivityDailyTypeEnum.AdvanceDaily.getCfgId()));
+							.getInstance().getListByEnumId(ActivityDailyTypeEnum.AdvanceDaily.getCfgId()));
 					boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
 					
 					

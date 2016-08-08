@@ -48,16 +48,64 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		checkClose(player);
 
 	}
+	
+	/**
+	 * 
+	 * @param player  
+	 * 配表如果同时开启，则会add第一个生效的数据，风险较低，需要一个检查配置的方法
+	 */
+	private void checkNewOpen(Player player) {
+		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
+		List<ActivityDailyTypeCfg> activityDailyTypeCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityDailyTypeCfg cfg : activityDailyTypeCfgList){
+			if(!isOpen(cfg)){
+				continue;
+			}
+			ActivityDailyTypeItem targetItem = dataHolder.getItem(player.getUserId());
+			if(targetItem == null){
+				targetItem = ActivityDailyTypeCfgDAO.getInstance().newItem(player,cfg);
+				dataHolder.addItem(player, targetItem);
+			}			
+		}
+	}
+	
+	public boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
 
+		if (activityCountTypeCfg != null) {
+			long startTime = activityCountTypeCfg.getStartTime();
+			long endTime = activityCountTypeCfg.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime < endTime && currentTime > startTime;
+		}
+		return false;
+	}	
+	
+	private void checkCfgVersion(Player player) {
+		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
+		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		for (ActivityDailyTypeItem targetItem : itemList) {
+			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getCfgByItemOfEnumId(targetItem);
+			if(targetCfg == null){
+//				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+				continue;
+			}					
+			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
+				targetItem.reset(targetCfg);
+				dataHolder.updateItem(player, targetItem);
+			}
+		}		
+	}
+	
 	private void checkOtherDay(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		List<ActivityDailyTypeItem> item = dataHolder.getItemList(player.getUserId());
-		ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(ActivityDailyTypeEnum.Daily.getCfgId());
-		if(targetCfg == null){
-			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-			return;
-		}
+		
 		for (ActivityDailyTypeItem targetItem : item) {
+			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(targetItem.getCfgid());
+			if(targetCfg == null){
+				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+				continue;
+			}
 			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
@@ -65,9 +113,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			}
 		}
 	}
-	
-	
-	
+		
 	private void checkClose(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
@@ -76,6 +122,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			if (isClose(activityDailyCountTypeItem)&&!activityDailyCountTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
 				activityDailyCountTypeItem.setClosed(true);
+				activityDailyCountTypeItem.setTouchRedPoint(true);
 				dataHolder.updateItem(player, activityDailyCountTypeItem);
 			}
 		}
@@ -83,7 +130,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 	
 	private boolean isClose(ActivityDailyTypeItem activityDailyCountTypeItem) {
 	if (activityDailyCountTypeItem != null) {
-		ActivityDailyTypeCfg cfgById = ActivityDailyTypeCfgDAO.getInstance().getCfgById(ActivityDailyTypeEnum.Daily.getCfgId());
+		ActivityDailyTypeCfg cfgById = ActivityDailyTypeCfgDAO.getInstance().getCfgById(activityDailyCountTypeItem.getCfgid());
 		if(cfgById!=null){
 			long endTime = cfgById.getEndTime();
 			long currentTime = System.currentTimeMillis();
@@ -112,92 +159,25 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 				}
 		}		
 	}
-
-	private void checkCfgVersion(Player player) {
-		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityDailyTypeItem targetItem : itemList) {			
-			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(ActivityDailyTypeEnum.Daily.getCfgId());
-			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-				return;
+	
+	/**
+	 * 
+	 * @param player
+	 * @return 配置同时开启两个活动，则会出现a可以开启但b不能开启的情况，而子活动又是属于b的话，会造成add没有subitem;需要检查配置的方法
+	 */
+	public boolean isLevelEnough(Player player) {
+		List<ActivityDailyTypeCfg> cfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityDailyTypeCfg cfg: cfgList){
+			if(player.getLevel() >= cfg.getLevelLimit()&&isOpen(cfg)){
+				return true;
 			}			
-			
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg);
-				dataHolder.updateItem(player, targetItem);
-			}
-		}		
-	}
-	private void checkNewOpen(Player player) {
-		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
-		if(activityCountTypeCfg == null){
-//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
-			return;
-		}
-		
-		if(!isOpen(activityCountTypeCfg)){
-			//活动未开启
-			return ;
-		}
-		
-		ActivityDailyTypeItem targetItem = dataHolder.getItem(player.getUserId());
-		if(targetItem == null){
-			targetItem = ActivityDailyTypeCfgDAO.getInstance().newItem(player);
-			dataHolder.addItem(player, targetItem);
-		}
-	}
-	
-	public ActivityDailyTypeCfg getparentCfg(){
-		List<ActivityDailyTypeCfg> allCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();		
-		if(allCfgList == null){
-//			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
-			return null;			
-		}		
-		if(allCfgList.size() != 1){
-			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
-			return null;
-		}		
-		ActivityDailyTypeCfg activityCountTypeCfg = allCfgList.get(0);		
-		return activityCountTypeCfg;
-	}
-	
-
-
-
-
-
-
-
-	public boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
-
-		if (activityCountTypeCfg != null) {
-			long startTime = activityCountTypeCfg.getStartTime();
-			long endTime = activityCountTypeCfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
-		}
+		}	
 		return false;
 	}
 	
-	public boolean isLevelEnough(Player player) {
-		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
-		if(activityCountTypeCfg == null){
-//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
-			return false;
-		}
-		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
-			return false;
-		}		
-		return true;
-	}
-	
-	public boolean isOpen(ActivityDailyTypeSubCfg activityCountTypesubCfg) {
-		
-		
-		if (activityCountTypesubCfg != null) {
-			
+	/**用于验证单个cfg是否开启*/
+	public boolean isOpen(ActivityDailyTypeSubCfg activityCountTypesubCfg) {		
+		if (activityCountTypesubCfg != null) {			
 			long startTime = activityCountTypesubCfg.getStartTime();
 			long endTime = activityCountTypesubCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
@@ -206,10 +186,32 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		return false;
 	}
 	
+	/**用于验证某个功能对应的多个subCfg是否存在开启的*/
+	public boolean isOpen(List<ActivityDailyTypeSubCfg> subList) {
+		boolean isOpen = false;
+		for(ActivityDailyTypeSubCfg subCfg:subList){
+			if(isOpen(subCfg)){
+				isOpen = true;
+				break;
+			}
+		}
+		return isOpen;
+	}
+	
+	
+	
 	public void addCount(Player player, ActivityDailyTypeEnum countType, int countadd) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		ActivityDailyTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);	
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "枚举获得了活动且判断开启，但活动未生成item;主活动未开启，子活动时间超期", null);
+			return;
+		}
+		ActivityDailyTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);
+		if(subItem == null){
+			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "枚举获得了活动且判断开启，但活动未生成对应subitem;主活动开启，其他主活动的子活动跨期进入", null);
+			return;
+		}
 		subItem.setCount(subItem.getCount() + countadd);
 		dataHolder.updateItem(player, dataItem);
 	}
