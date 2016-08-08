@@ -35,7 +35,7 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final int length;
 	private final HashMap<Class<? extends DataKVDao<?>>, Integer> dataKvMap;
 	private final HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> creatorMap;
-	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
+//	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
 	private final int dataKvCapacity;
 
 	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
@@ -72,7 +72,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		String selectRange = sb.toString();
 		for (int i = 0; i < this.length; i++) {
 			String tableName = tableNameList.get(i);
-			selectAllSqlArray[i] = "select dbkey,dbvalue,type from " + tableName + " where dbkey=?";
+			selectAllSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=?";
 			selectSqlArray[i] = "select dbvalue from " + tableName + " where dbkey=? and type=?";
 			delectSqlArray[i] = "delete from " + tableName + " where dbkey=? and type=?";
 			updateSqlArray[i] = "update " + tableName + " set dbvalue=? where dbkey=? and type=?";
@@ -81,7 +81,7 @@ public class DataKvManagerImpl implements DataKvManager {
 			if (selectRangeParam.length == 0) {
 				selectRangeSqlArray[i] = selectAllSqlArray[i];
 			} else {
-				selectRangeSqlArray[i] = "select dbkey,dbvalue,type from " + tableName + " where dbkey=? and type in " + selectRange;
+				selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in " + selectRange;
 			}
 		}
 		dataKvMap = new HashMap<Class<? extends DataKVDao<?>>, Integer>();
@@ -192,14 +192,14 @@ public class DataKvManagerImpl implements DataKvManager {
 	public List<DataKvEntity> getAllDataKvEntitys(String userId) {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
 		String sql = selectAllSqlArray[tableIndex];
-		return jdbcTemplate.query(sql, rowMapper, userId);
+		return jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
 	}
 
 	@Override
 	public List<DataKvEntity> getRangeDataKvEntitys(String userId) {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
-		String sql = selectAllSqlArray[tableIndex];
-		return jdbcTemplate.query(sql, rowMapper, userId);
+		String sql = selectRangeSqlArray[tableIndex];
+		return jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
 	}
 
 }

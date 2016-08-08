@@ -41,6 +41,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.Tuple;
 import com.rw.fsutil.dao.cache.CacheKey;
 import com.rw.fsutil.dao.mapitem.MapItemEntity;
+import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
@@ -164,11 +165,10 @@ public class MapItemStoreFactory {
 
 	private static boolean init = false;
 
-	private static HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos;
+	private static HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos;
 
 	private static ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>> preloadCaches;
 	private static HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>> preloadCachesMapping;
-	private static HashMap<Integer, Pair<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> mapItemCreators;
 	private static HashMap<Class<? extends IMapItem>, Integer> mapItemIntegration;
 	private static List<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> integrationList;
 	private static HashMap<Integer, MapItemStoreCache<? extends IMapItem>> integrationMap;
@@ -185,7 +185,6 @@ public class MapItemStoreFactory {
 		integrationMap = new HashMap<Integer, MapItemStoreCache<? extends IMapItem>>();
 		mapItemIntegration = new HashMap<Class<? extends IMapItem>, Integer>();
 		integrationList = new ArrayList<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>>();
-		mapItemCreators = new HashMap<Integer, Pair<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>>();
 		for (Map.Entry<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> entry : map.entrySet()) {
 			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = entry.getValue();
 			MapItemCreator<? extends IMapItem> creator;
@@ -197,12 +196,11 @@ public class MapItemStoreFactory {
 			Integer key = entry.getKey();
 			Class<? extends IMapItem> mapItemClass = pair.getT1();
 			mapItemIntegration.put(mapItemClass, key);
-			mapItemCreators.put(key, Pair.<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> Create(mapItemClass, creator));
 			integrationList.add(Tuple.<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> Create(key, mapItemClass, creator));
 		}
 		preloadCachesMapping = new HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>>();
 		preloadCaches = new ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>>();
-		storeInfos = new HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>>();
+		storeInfos = new HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>>();
 
 		// int playerCapacity = config.getPlayerCapacity();
 		int heroCapacity = config.getPlayerCapacity();
@@ -224,7 +222,7 @@ public class MapItemStoreFactory {
 
 		fresherActivityCache = createForPerload(FresherActivityBigItem.class, "ownerId", heroCapacity);
 
-		inlayItemCache = createForPerload(InlayItem.class, "ownerId", heroCapacity);
+		inlayItemCache = createForPerload(InlayItem.class, "ownerId", actualHeroCapacity);
 
 		register(magicCache = new MapItemStoreCache<Magic>(Magic.class, "id", heroCapacity));
 
@@ -318,8 +316,8 @@ public class MapItemStoreFactory {
 		} else {
 			// TODO Pair可以只创建一次
 			CacheKey cacheKey = new CacheKey(clazz, name);
-			RowMapper<? extends IMapItem> rm = cache.getRowMapper();
-			storeInfos.put(cacheKey, Pair.<String, RowMapper<? extends IMapItem>> Create(searchKey, rm));
+			MapItemRowBuider<? extends IMapItem> rm = cache.getRowMapper();
+			storeInfos.put(cacheKey, Pair.<String, MapItemRowBuider<? extends IMapItem>> Create(searchKey, rm));
 			Pair<CacheKey, MapItemStoreCache<? extends IMapItem>> cacheWrap = Pair.<CacheKey, MapItemStoreCache<? extends IMapItem>> Create(cacheKey, cache);
 			preloadCaches.add(cacheWrap);
 			preloadCachesMapping.put(cacheKey, cache);
@@ -660,7 +658,7 @@ public class MapItemStoreFactory {
 		return list;
 	}
 
-	public static Map<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> getItemStoreInofs() {
+	public static Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> getItemStoreInofs() {
 		return Collections.unmodifiableMap(storeInfos);
 	}
 

@@ -94,10 +94,12 @@ public class GFBiddingItemMgr {
 			if(item != null){
 				GFightBiddingCfg bidCfg = fgBidCfgDao.getCfgById(String.valueOf(item.getRateID()));
 				if(null != bidCfg){
-					for(ItemInfo bidCostItem : bidCfg.getBidCost()){
-						player.getItemBagMgr().addItem(bidCostItem.getItemID(), bidCostItem.getItemNum());
-						GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
-					}
+//					for(ItemInfo bidCostItem : bidCfg.getBidCost()){
+//						player.getItemBagMgr().addItem(bidCostItem.getItemID(), bidCostItem.getItemNum());
+//						GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
+//					}
+					player.getItemBagMgr().addItem(bidCfg.getBidCost());
+					GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
 				}
 			}
 		}

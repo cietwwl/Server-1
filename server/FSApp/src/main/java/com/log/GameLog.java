@@ -64,6 +64,32 @@ public class GameLog {
 			}
 		});
 	}
+	
+	/***
+	 * 
+	 * @param module:所属模块
+	 * @param id:发起者ID，如果是系统则为system
+	 * @param message:操作内容，一般为动宾结构
+	 * @param throwableP:捕获的异常，没有则传空
+	 */
+	public static void warn(final String module,final String id,final String message,final Throwable throwableP){
+		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+			
+			@Override
+			public void run() {
+				StringBuilder logContent = new StringBuilder();
+				logContent.append(getStackTrace())
+							.append(module).append("|")
+							.append(id).append("|")
+							.append(message).append("|");
+				if(throwableP != null){
+					debugLog.warn(logContent, throwableP);
+				}else{
+					debugLog.warn(logContent);
+				}
+			}
+		});
+	}
 
 	/**
 	 * logger info
@@ -72,6 +98,16 @@ public class GameLog {
 	 * @param message	操作内容，一般为动宾结构
 	 */
 	public static void info(String module,String id,String message){
+		info(module, id, message, null);
+	}
+	
+	/**
+	 * logger warn
+	 * @param module	所属模块
+	 * @param id		如果是系统则为system
+	 * @param message	操作内容，一般为动宾结构
+	 */
+	public static void warn(String module,String id,String message){
 		info(module, id, message, null);
 	}
 	

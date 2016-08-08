@@ -11,6 +11,14 @@ public class ItemInfo implements ItemInfoIF
 {
 	private int itemID;
 	private int itemNum;
+	
+	public ItemInfo() {}
+	
+	public ItemInfo(int pItemId, int pItemNum) {
+		this.itemID = pItemId;
+		this.itemNum = pItemNum;
+	}
+	
 	public int getItemID() {
 		return itemID;
 	}
@@ -23,6 +31,9 @@ public class ItemInfo implements ItemInfoIF
 	public void setItemNum(int itemNum) {
 		this.itemNum = itemNum;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ItemInfo [itemID=" + itemID + ", itemNum=" + itemNum + "]";
+	}
 }

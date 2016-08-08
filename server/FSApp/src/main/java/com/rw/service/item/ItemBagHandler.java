@@ -16,6 +16,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
@@ -599,11 +600,16 @@ public class ItemBagHandler {
 				}
 
 				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
 				for (Pair<Integer, Integer> pair : lst) {
-					final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue() * useCount);
-					if (!addItemResult) {
-						GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
-					}
+//					final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue() * useCount);
+//					if (!addItemResult) {
+//						GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
+//					}
+					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue() * useCount));
+				}
+				if (!bagMgr.addItem(itemInfoList)) {
+					GameLog.error("背包", "法宝", "添加背包物品失败！物品列表：" + itemInfoList);
 				}
 
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
@@ -687,11 +693,16 @@ public class ItemBagHandler {
 				}
 
 				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
 				for (Pair<Integer, Integer> pair : lst) {
-					boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue());
-					if (!addItemResult) {
-						GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" + pair.getT1().intValue());
-					}
+//					boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue());
+//					if (!addItemResult) {
+//						GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" + pair.getT1().intValue());
+//					}
+					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue()));
+				}
+				if (!bagMgr.addItem(itemInfoList)) {
+					GameLog.error("背包", "法宝", "分解法宝时添加材料失败！道具列表:" + itemInfoList);
 				}
 
 				if (addedCount > 0) {

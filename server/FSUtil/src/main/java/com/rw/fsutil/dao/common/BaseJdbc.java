@@ -19,7 +19,6 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -454,7 +453,7 @@ public abstract class BaseJdbc<T> {
 		return fieldValues;
 	}
 
-	public RowMapper<T> getRowMapper() {
+	public MapItemRowBuider<T> getRowMapper() {
 		return rowMapper;
 	}
 	
