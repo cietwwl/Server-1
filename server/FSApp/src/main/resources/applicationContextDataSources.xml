@@ -52,8 +52,8 @@
 		<property name="maxIdle" value="2"></property>
 		<property name="validationQuery" value="SELECT 1"></property>
 		<property name="testOnBorrow" value="true"></property>
-		<property name="testOnReturn" value="true"></property>
-		<property name="testWhileIdle" value="true"></property>
+		<property name="testOnReturn" value="false"></property>
+		<property name="testWhileIdle" value="false"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
 		<!-- Supported UTF-8 character set -->
 	</bean>
@@ -76,8 +76,8 @@
 		<property name="maxIdle" value="2"></property>
 		<property name="validationQuery" value="SELECT 1"></property>
 		<property name="testOnBorrow" value="true"></property>
-		<property name="testOnReturn" value="true"></property>
-		<property name="testWhileIdle" value="true"></property>
+		<property name="testOnReturn" value="false"></property>
+		<property name="testWhileIdle" value="false"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
 	</bean>	
 	
