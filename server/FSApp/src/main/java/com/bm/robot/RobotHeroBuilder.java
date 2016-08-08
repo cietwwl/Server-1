@@ -399,10 +399,6 @@ public final class RobotHeroBuilder {
 		String userId = roleInfo == null ? null : roleInfo.getUserId();
 		List<Integer> heroTmpIdList = roleInfo == null ? null : roleInfo.getHeroTmpIdList();
 
-		// if (StringUtils.isEmpty(robotName)) {
-		// return null;
-		// }
-
 		int[] level = robotCfg.getLevel();
 		int mainRoleLevel = level[RobotHelper.getRandomIndex(new Random(), level.length)];
 
@@ -421,10 +417,22 @@ public final class RobotHeroBuilder {
 		int finalMagicId = magic.getModelId();
 		int magicLevel = magic.getLevel();
 
-		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
-		checkHeroSize(heroTmpIdList, robotCfg);
+		// 检查是否有重复
+		List<Integer> hasList = new ArrayList<Integer>(heroTmpIdList.size());
+		for (int i = heroTmpIdList.size() - 1; i >= 0; --i) {
+			int id = heroTmpIdList.get(i);
 
-		int heroSize = heroTmpIdList.size();
+			if (hasList.contains(id)) {
+				continue;
+			}
+
+			hasList.add(id);
+		}
+
+		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
+		checkHeroSize(hasList, robotCfg);
+
+		int heroSize = hasList.size();
 		List<HeroInfo> heroInfoList = new ArrayList<HeroInfo>(heroSize);
 
 		int fighting = 0;
@@ -433,7 +441,7 @@ public final class RobotHeroBuilder {
 		int mainRoleIndex = -1;
 
 		for (int i = 0; i < heroSize; i++) {
-			int heroModelId = heroTmpIdList.get(i);
+			int heroModelId = hasList.get(i);
 			RoleCfg roleCfg = roleCfgDAO.getRoleCfgByModelId(heroModelId);
 			if (roleCfg == null) {
 				continue;

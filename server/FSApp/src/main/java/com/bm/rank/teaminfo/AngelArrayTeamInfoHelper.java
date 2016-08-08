@@ -239,7 +239,11 @@ public class AngelArrayTeamInfoHelper {
 				continue;
 			}
 			fighting += hero.getFighting();
-			heroModelList.add(hero.getModelId());
+
+			int modelId = hero.getModelId();
+			if (!heroModelList.contains(modelId)) {
+				heroModelList.add(modelId);
+			}
 		}
 
 		return fighting;
@@ -277,7 +281,9 @@ public class AngelArrayTeamInfoHelper {
 			}
 
 			fighting += hero.getFighting();
-			heroModelList.add(heroModelId);
+			if (!heroModelList.contains(heroModelId)) {
+				heroModelList.add(heroModelId);
+			}
 		}
 
 		return fighting;
@@ -707,7 +713,8 @@ public class AngelArrayTeamInfoHelper {
 			} else {
 				armyHeroList.add(armyHero);
 				if (!nonHeroPos) {
-					nonHeroPos = armyHero.getPosition() == 0;
+					int position = armyHero.getPosition();
+					nonHeroPos = position == 0 || position >= 5;
 				}
 			}
 		}
