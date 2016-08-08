@@ -60,35 +60,34 @@ public final class ActivityCountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);
 	}
 
-	/**
-	 * 
-	 * @param player
-	 * @param countTypeEnum
-	 * @param subdaysNum
-	 *            每日重置类型的活动,第几天
-	 * @return
-	 */
-	public ActivityCountTypeItem newItem(Player player,
-			ActivityCountTypeEnum countTypeEnum,
-			ActivityCountTypeCfg activityCountTypeCfg) {
-		if (activityCountTypeCfg != null) {
-			ActivityCountTypeItem item = new ActivityCountTypeItem();
-			String itemId = ActivityCountTypeHelper.getItemId(
-					player.getUserId(), countTypeEnum);
-			item.setId(itemId);
-			item.setCfgId(activityCountTypeCfg.getId());
-			item.setEnumId(activityCountTypeCfg.getEnumId());
-			item.setUserId(player.getUserId());
-			item.setVersion(activityCountTypeCfg.getVersion());
-			item.setSubItemList(newItemList(player, activityCountTypeCfg));
-			return item;
-		} else {
-			return null;
-		}
-	}
+//	/**
+//	 * 
+//	 * @param player
+//	 * @param countTypeEnum
+//	 * @param subdaysNum
+//	 *            每日重置类型的活动,第几天
+//	 * @return
+//	 */
+//	public ActivityCountTypeItem newItem(Player player,
+//			ActivityCountTypeEnum countTypeEnum,
+//			ActivityCountTypeCfg activityCountTypeCfg) {
+//		if (activityCountTypeCfg != null) {
+//			ActivityCountTypeItem item = new ActivityCountTypeItem();
+//			String itemId = ActivityCountTypeHelper.getItemId(
+//					player.getUserId(), countTypeEnum);
+//			item.setId(itemId);
+//			item.setCfgId(activityCountTypeCfg.getId());
+//			item.setEnumId(activityCountTypeCfg.getEnumId());
+//			item.setUserId(player.getUserId());
+//			item.setVersion(activityCountTypeCfg.getVersion());
+//			item.setSubItemList(newItemList(player, activityCountTypeCfg));
+//			return item;
+//		} else {
+//			return null;
+//		}
+//	}
 
-	public List<ActivityCountTypeSubItem> newItemList(Player player,
-			ActivityCountTypeCfg activityCountTypeCfg) {
+	public List<ActivityCountTypeSubItem> newItemList(ActivityCountTypeCfg activityCountTypeCfg) {
 		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO
 				.getInstance().getByParentCfgId(activityCountTypeCfg.getId());

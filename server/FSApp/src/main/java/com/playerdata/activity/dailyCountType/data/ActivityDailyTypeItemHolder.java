@@ -73,7 +73,7 @@ public class ActivityDailyTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	private MapItemStore<ActivityDailyTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityDailyTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityDailyTypeItem> cache = MapItemStoreFactory
 				.getActivityDailyCountTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityDailyTypeItem.class);
