@@ -4,15 +4,14 @@ import java.util.List;
 
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 
 public class DailyDisCountCreator implements MapItemCreator<ActivityDailyDiscountTypeItem>{
 
 	@Override
 	public List<ActivityDailyDiscountTypeItem> create(String userId,
 			MapItemValidateParam param) {
-		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		return ActivityDailyDiscountTypeMgr.getInstance().creatItems(userId, dataHolder.getItemStore(userId));
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

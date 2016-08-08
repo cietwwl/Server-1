@@ -12,9 +12,11 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+
+
+
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -25,16 +27,16 @@ import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
-public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
+
+public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
-	private Map<Integer, Integer> idAndNumMap = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> idAndNumMap =new HashMap<Integer, Integer>();
 
 	public static ActivityExchangeTypeMgr getInstance() {
 		return instance;
@@ -43,7 +45,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	public void synCountTypeData(Player player) {
 		ActivityExchangeTypeItemHolder.getInstance().synAllData(player);
 	}
-
+	
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
@@ -54,72 +56,42 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkNewOpen(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			for(ActivityExchangeTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~exchange.id = " + item.getId());
-			}
-			dataHolder.addItemList(player, addItemList);
-		}
-	}
-
-	/**
-	 * 返回需要添加到MapItemStore的对象(可能是活动开启、创建角色、或者配置发生变化)
-	 * 
-	 * @param userId
-	 * @param allCfgList
-	 * @param mapItemStore
-	 * @return
-	 */
-	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> mapItemStore) {
+		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
-		for (int i = 0,size = allCfgList.size();i<size;i++) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			ActivityExchangeTypeCfg cfg = allCfgList.get(i);
-			if (!isOpen(cfg)) {
+		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (!isOpen(activityExchangeTypeCfg)) {
 				// 活动未开启
 				continue;
 			}
-			ActivityExChangeTypeEnum activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(activityExchangeTypeCfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
-			if (mapItemStore != null) {
-				if (mapItemStore.getItem(itemId) != null) {
+			ActivityExchangeTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);// 已在之前生成数据的活动
+			if (targetItem == null) {						
+				targetItem = activityExchangeTypeCfgDAO.newItem(player, activityExchangeTypeCfg);// 生成新开启活动的数据
+				if (targetItem == null) {					
 					continue;
 				}
-			}
-			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
-			item.setId(itemId);
-			item.setEnumId(cfg.getEnumId());
-			item.setCfgId(cfg.getId());
-			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());
-			List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
-			List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
-			if (subItemCfgList != null) {
-				for (ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg : subItemCfgList) {
-					ActivityExchangeTypeSubItem subItem = new ActivityExchangeTypeSubItem();
-					subItem.setCfgId(activityExchangeTypeSubCfg.getId());
-					subItem.setTime(0);
-					subItem.setIsrefresh(activityExchangeTypeSubCfg.isIsrefresh());
-					subItemList.add(subItem);
+				if (addItemList == null) {
+					addItemList = new ArrayList<ActivityExchangeTypeItem>();
 				}
+				addItemList.add(targetItem);
 			}
-			item.setSubItemList(subItemList);
-			item.setLasttime(System.currentTimeMillis());
-			if (addItemList == null) {
-				addItemList = new ArrayList<ActivityExchangeTypeItem>();
-			}
-			addItemList.add(item);
 		}
-		return addItemList;
+		if (addItemList != null) {
+			dataHolder.addItemList(player, addItemList);
+		}
 	}
-
+	
+	
+	
 	public boolean isOpen(ActivityExchangeTypeCfg activityExchangeTypeCfg) {
 		if (activityExchangeTypeCfg != null) {
+//			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+//				return false;
+//			}
 			long startTime = activityExchangeTypeCfg.getChangeStartTime();
 			long endTime = activityExchangeTypeCfg.getChangeEndTime();
 			long currentTime = System.currentTimeMillis();
@@ -127,76 +99,79 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		}
 		return false;
 	}
-
+	
 	private void checkCfgVersion(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem targetItem : itemList) {
+		for (ActivityExchangeTypeItem targetItem : itemList) {			
 			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgListByItem(targetItem);
-			if (targetCfg == null) {
+			if(targetCfg == null){
 				continue;
-			}
-
+			}			
+			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityExchangeTypeCfgDAO.newItemList( targetCfg));
+				targetItem.reset(targetCfg,activityExchangeTypeCfgDAO.newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
 	}
-
+	
 	private void checkOtherDay(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
 		for (ActivityExchangeTypeItem targetItem : itemlist) {
 			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgById(targetItem.getCfgId());
-			if (targetCfg == null) {
+			if(targetCfg == null){
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, targetItem.getLasttime())) {
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
-				for (ActivityExchangeTypeSubItem subitem : subitemlist) {
-					if (subitem.isIsrefresh()) {
+				for(ActivityExchangeTypeSubItem subitem: subitemlist){
+					if(subitem.isIsrefresh()){
 						subitem.setTime(0);
 					}
 				}
 				dataHolder.updateItem(player, targetItem);
 			}
-
+			
 		}
 	}
-
-	private void checkClose(Player player) {
+	
+	private void checkClose(Player player){
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem item : itemList) {
-			if (item.isClosed()) {
-				continue;
+		for(ActivityExchangeTypeItem item : itemList){
+			if(item.isClosed()){
+				continue;			
 			}
 			ActivityExchangeTypeCfg cfg = activityExchangeTypeCfgDAO.getCfgById(item.getCfgId());
-			if (cfg == null) {
+			if(cfg == null){
 				continue;
 			}
-			if (isOpen(cfg)) {
+			if(isOpen(cfg)){
 				continue;
 			}
 			item.setClosed(true);
 			item.setTouchRedPoint(true);
-			dataHolder.updateItem(player, item);
-		}
+			dataHolder.updateItem(player, item);			
+		}		
 	}
-
-	public boolean isLevelEnough(Player player, ActivityExchangeTypeCfg cfg) {
+	public boolean isLevelEnough(Player player,ActivityExchangeTypeCfg cfg){
 		boolean iscan = false;
-		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;
+		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
 		return iscan;
-
+		
 	}
-
-	public ActivityComResult takeGift(Player player, ActivityExChangeTypeEnum countType, String subItemId) {
+	
+	
+	
+	
+	public ActivityComResult takeGift(Player player,
+			ActivityExChangeTypeEnum countType, String subItemId) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 
 		ActivityExchangeTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
@@ -216,17 +191,17 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 					break;
 				}
 			}
-
-			if (targetItem == null) {
+			
+			if(targetItem == null){
 				result.setReason("找不到子活动类型的数据");
 				return result;
 			}
-
-			if (isCanTaken(player, targetItem, true)) {
+			
+			if (isCanTaken(player,targetItem,true)) {
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
-			} else {
+			}else{
 				result.setSuccess(false);
 				result.setReason("不满足兑换条件");
 			}
@@ -235,76 +210,73 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 
 		return result;
 	}
-
+	
 	/**
 	 * 
 	 * @param player
 	 * @param targetItem
-	 * @param isspend
-	 *            判断并消耗用true；仅判断是否可以触发红点用false
+	 * @param isspend 判断并消耗用true；仅判断是否可以触发红点用false
 	 * @return
 	 */
-	public boolean isCanTaken(Player player, ActivityExchangeTypeSubItem targetItem, boolean isspend) {
+	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem,boolean isspend) {
 		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-		if (activityExchangeTypeSubCfg == null) {
+		if(activityExchangeTypeSubCfg== null){
 			return false;
 		}
-		if (targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()) {
+		if(targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()){
 			return false;
-		}
-
+		}	
+		
 		Map<String, String> exchangeNeedslist = activityExchangeTypeSubCfg.getChangelist();
-		for (Map.Entry<String, String> entry : exchangeNeedslist.entrySet()) {
+		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
 			int id = Integer.parseInt(entry.getKey());
-			if (id < eSpecialItemId.eSpecial_End.getValue()) {
-				if (player.getReward(eSpecialItemId.getDef(id)) < Integer.parseInt(entry.getValue())) {
+			if(id < eSpecialItemId.eSpecial_End.getValue()){
+				if(player.getReward(eSpecialItemId.getDef(id))<Integer.parseInt(entry.getValue())){
 					return false;
 				}
-			} else {
-				if (player.getItemBagMgr().getItemCountByModelId(id) < Integer.parseInt(entry.getValue())) {
+			}else{
+				if(player.getItemBagMgr().getItemCountByModelId(id) < Integer.parseInt(entry.getValue())){
 					return false;
-				}
+				}		
 			}
-		}
-
-		if (isspend) {
-			spendItem(exchangeNeedslist, player);
-		}
+		}		
+		
+		if(isspend){
+			spendItem(exchangeNeedslist,player);
+		}	
 		return true;
 	}
-
-	private void spendItem(Map<String, String> exchangeNeedslist, Player player) {
-		for (Map.Entry<String, String> entry : exchangeNeedslist.entrySet()) {
+	
+	private void spendItem(Map<String, String> exchangeNeedslist,Player player){
+		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
 			int id = Integer.parseInt(entry.getKey());
-			if (id < eSpecialItemId.eSpecial_End.getValue()) {
+			if(id < eSpecialItemId.eSpecial_End.getValue()){
 				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 				map.put(Integer.parseInt(entry.getKey()), -Integer.parseInt(entry.getValue()));
 				player.getItemBagMgr().useLikeBoxItem(null, null, map);
-			} else {
+			}else{
 				player.getItemBagMgr().useItemByCfgId(id, Integer.parseInt(entry.getValue()));
 			}
 		}
 	}
-
+	
 	private void takeGift(Player player, ActivityExchangeTypeSubItem targetItem) {
 		ActivityExchangeTypeSubCfg subCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-		if (subCfg == null) {
+		if(subCfg == null){
 			return;
 		}
-		targetItem.setTime(targetItem.getTime() + 1);
-		// ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
-
+		targetItem.setTime(targetItem.getTime()+1);
+//		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
+		
 		String[] str = subCfg.getAwardGift().split("_");
-		player.getItemBagMgr().addItem(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+		player.getItemBagMgr().addItem(Integer.parseInt(str[0]),Integer.parseInt(str[1]));
 	}
-
+	
+	
 	/**
 	 * 根据传入的玩家和副本，额外获得兑换道具;
-	 * 
-	 * @param player
-	 *            玩家等级是否足够
-	 * @param copyCfg
-	 *            战斗场景是否有掉落
+	 * @param player  玩家等级是否足够
+	 * @param copyCfg  战斗场景是否有掉落
 	 */
 	public Map<Integer, Integer> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
 		idAndNumMap = new HashMap<Integer, Integer>();
@@ -315,63 +287,59 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 				// 活动未开启
 				continue;
 			}
-			if (player.getLevel() < activityExchangeTypeCfg.getLevelLimit()) {
-				// 等级不足
+			if(player.getLevel() < activityExchangeTypeCfg.getLevelLimit()){
+				//等级不足
 				continue;
 			}
 			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(activityExchangeTypeCfg.getId());
-			if (dropCfgList == null) {
+			if(dropCfgList == null){
 				return idAndNumMap;
 			}
-			for (ActivityExchangeTypeDropCfg cfg : dropCfgList) {// 遍历单个活动可能对应的所有掉落道具类型
+			for(ActivityExchangeTypeDropCfg cfg : dropCfgList){//遍历单个活动可能对应的所有掉落道具类型
 				Map<Integer, Integer[]> map = cfg.getDropMap();
-
-				if (map.get(copyCfg.getLevelType()) != null) {// 该掉落配置表的该条记录适合此类战斗场景
-					Integer[] numAndProbability = map.get(copyCfg.getLevelType());
-
-					if (numAndProbability.length != 2) {
+				
+				if(map.get(copyCfg.getLevelType()) != null){//该掉落配置表的该条记录适合此类战斗场景
+					Integer[] numAndProbability =map.get(copyCfg.getLevelType());
+					
+					if(numAndProbability.length != 2){
 						idAndNumMap = null;
 						return idAndNumMap;
 					}
-					if (random.nextInt(10000) <= numAndProbability[1]) {
-						// player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()),
-						// numAndProbability[0]);
-						idAndNumMap.put(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+					if(random.nextInt(10000)<=numAndProbability[1]){
+//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
-				}
-			}
+				}				
+			}			
 		}
 		return idAndNumMap;
-	}
-
+	}	
+	
 	/**
 	 * 根据传入的玩家和副本，额外获得兑换道具，当前适用副本预掉落
-	 * 
-	 * @param player
-	 *            玩家等级是否足够
-	 * @param copyCfg
-	 *            战斗场景是否有掉落
+	 * @param player  玩家等级是否足够
+	 * @param copyCfg  战斗场景是否有掉落
 	 */
-	public void AddItemOfExchangeActivityBefore(Player player, CopyCfg copyCfg, List<ItemInfo> itemInfoList) {
+	public void AddItemOfExchangeActivityBefore(Player player, CopyCfg copyCfg,List<ItemInfo> itemInfoList) {
 		AddItemOfExchangeActivity(player, copyCfg);
-		if (idAndNumMap == null) {
-			// 没声场额外掉落
+		if(idAndNumMap == null){
+			//没声场额外掉落
 			return;
 		}
-		for (Map.Entry<Integer, Integer> entry : idAndNumMap.entrySet()) {
+		for(Map.Entry<Integer, Integer> entry:idAndNumMap.entrySet()){
 			ItemInfo itemInfo = new ItemInfo();
 			itemInfo.setItemID(entry.getKey());
 			itemInfo.setItemNum(entry.getValue());
 			itemInfoList.add(itemInfo);
-
-		}
+			
+		}	
 	}
 
 	public boolean isDropOpen(ActivityExchangeTypeCfg activityExchangeTypeCfg) {
 		if (activityExchangeTypeCfg != null) {
-			// if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
-			// return false;
-			// }
+//			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+//				return false;
+//			}
 			long startTime = activityExchangeTypeCfg.getDropStartTime();
 			long endTime = activityExchangeTypeCfg.getDropEndTime();
 			long currentTime = System.currentTimeMillis();
@@ -384,44 +352,45 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	public void updateRedPoint(Player player, String eNum) {
 		ActivityExchangeTypeItemHolder activityCountTypeItemHolder = new ActivityExchangeTypeItemHolder();
 		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(eNum);
-		if (cfg == null) {
+		if(cfg == null ){
 			return;
 		}
 		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
-		if (exchangeEnum == null) {
+		if(exchangeEnum == null){
 			return;
 		}
-		ActivityExchangeTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(), exchangeEnum);
-		if (dataItem == null) {
+		ActivityExchangeTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),exchangeEnum);
+		if(dataItem == null){
 			return;
 		}
-		if (!dataItem.isTouchRedPoint()) {
-			dataItem.setTouchRedPoint(true);
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);			
 		}
-
-		List<ActivityExchangeTypeSubItem> exchangeSubitemlist = dataItem.getSubItemList();
-		for (ActivityExchangeTypeSubItem subitem : exchangeSubitemlist) {
-			if (isCanTaken(player, subitem, false)) {
-				if (dataItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
+		
+		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
+		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
+			if(isCanTaken(player, subitem,false)){
+				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
 					continue;
 				}
 				dataItem.getHistoryRedPoint().add(subitem.getCfgId());
 			}
-		}
+		}		
 		activityCountTypeItemHolder.updateItem(player, dataItem);
 	}
 
 	public boolean isOpen(MapItemValidateParam param) {
 		List<ActivityExchangeTypeCfg> allList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityExchangeTypeCfg cfg : allList) {
-			if (isOpen(cfg, param)) {
+		for(ActivityExchangeTypeCfg cfg : allList){
+			if(isOpen(cfg,param)){
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean isOpen(ActivityExchangeTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityExchangeTypeCfg cfg,
+			MapItemValidateParam param) {
 		if (cfg != null) {
 			long startTime = cfg.getChangeStartTime();
 			long endTime = cfg.getChangeEndTime();

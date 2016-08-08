@@ -57,20 +57,20 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);	
 	}
 
-//	public ActivityFortuneCatTypeItem newItem(Player player, ActivityFortuneCatTypeCfg cfg) {
-//		if(cfg!=null){
-//			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-//			item.setId(player.getUserId());
-//			item.setUserId(player.getUserId());
-//			item.setCfgId(cfg.getId());
-//			item.setVersion(cfg.getVersion());
-//			item.setSubItemList(newSubItemList(cfg));
-//			item.setTimes(0);
-//			return item;
-//		}else{
-//			return null;
-//		}	
-//	}
+	public ActivityFortuneCatTypeItem newItem(Player player, ActivityFortuneCatTypeCfg cfg) {
+		if(cfg!=null){
+			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
+			item.setId(player.getUserId());
+			item.setUserId(player.getUserId());
+			item.setCfgId(cfg.getId());
+			item.setVersion(cfg.getVersion());
+			item.setSubItemList(newSubItemList(cfg));
+			item.setTimes(0);
+			return item;
+		}else{
+			return null;
+		}	
+	}
 //	
 	public List<ActivityFortuneCatTypeSubItem> newSubItemList(ActivityFortuneCatTypeCfg cfg) {		
 		List<ActivityFortuneCatTypeSubItem> subItemList = new ArrayList<ActivityFortuneCatTypeSubItem>();

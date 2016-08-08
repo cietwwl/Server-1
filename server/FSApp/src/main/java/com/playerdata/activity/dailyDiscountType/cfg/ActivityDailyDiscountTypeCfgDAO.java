@@ -58,22 +58,22 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);	
 	}
 
-//	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
-//		if(cfg!=null){
-//			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-//			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
-//			item.setId(itemId);
-//			item.setEnumId(cfg.getEnumId());
-//			item.setUserId(player.getUserId());
-//			item.setCfgId(cfg.getId());
-//			item.setVersion(cfg.getVersion());
-//			item.setLastTime(System.currentTimeMillis());
-//			item.setSubItemList(newSubItemList(cfg));
-//			return item;
-//		}else{
-//			return null;
-//		}	
-//	}
+	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
+		if(cfg!=null){
+			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
+			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
+			item.setId(itemId);
+			item.setEnumId(cfg.getEnumId());
+			item.setUserId(player.getUserId());
+			item.setCfgId(cfg.getId());
+			item.setVersion(cfg.getVersion());
+			item.setLastTime(System.currentTimeMillis());
+			item.setSubItemList(newSubItemList(cfg));
+			return item;
+		}else{
+			return null;
+		}	
+	}
 	
 	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeCfg cfg) {
 		int day ;
@@ -81,7 +81,9 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 			day = 0;
 		}else{
 			day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
-		}		
+		}
+		
+		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
 		if(subCfgList == null){

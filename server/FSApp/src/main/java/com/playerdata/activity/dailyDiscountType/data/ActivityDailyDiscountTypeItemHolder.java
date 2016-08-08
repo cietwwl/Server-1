@@ -104,7 +104,7 @@ public class ActivityDailyDiscountTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
+	private MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityDailyDiscountTypeItem> cache = MapItemStoreFactory.getActivityDailyDiscountTypeItemCache();
 		MapItemStore<ActivityDailyDiscountTypeItem> map = cache.getMapItemStore(userId, ActivityDailyDiscountTypeItem.class);
 		return map;
