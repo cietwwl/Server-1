@@ -169,6 +169,19 @@ public abstract class ClientMsgHandler {
 					case GFightOnlineGroupData:
 						getClient().getGFightOnlineGroupHolder().syn(msgDataSyn);
 						break;
+			//--------------------------帮派副本数据-------------------------------//			
+					case GROUP_COPY_LEVEL:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_COPY_REWARD:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_COPY_MAP:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_ITEM_DROP_APPLY:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
