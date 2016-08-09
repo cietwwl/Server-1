@@ -81,30 +81,48 @@ public class GmFindFishionSwingPetList implements IGmTask{
 				int wingId = fashionUsed.getWingId();
 				int petId = fashionUsed.getPetId();
 				int suitId = fashionUsed.getSuitId();
-				if(type == 1){
+				if(type == 0){
 					if(wingId == fashionItem.getFashionId()){
 						isDress = 0;
 					}
 				}
 				
+				if(type == 1){
+					if(petId == fashionItem.getFashionId()){
+						isDress = 0;
+					}
+				}	
+				
 				if(type == 2){
 					if(suitId == fashionItem.getFashionId()){
 						isDress = 0;
 					}
-				}
-				
-				if(type == 3){
-					if(petId == fashionItem.getFashionId()){
-						isDress = 0;
-					}
-				}				
-			}			
+				}							
+			}
+			type = changeType(type);
 			map.put("type",type);
 			map.put("name",name);
 			map.put("isDress",isDress);
 			map.put("remark",remark);
 			response.addResult(map);
 		}		
+	}
+	
+	/**策划给出的类型和银汉获得的不一致,转*/
+	private static int changeType(int type){
+		if(type == 0){
+			type = 2;
+			return type;
+		}
+		if(type == 1){
+			type =3;
+			return type;
+		}
+		if(type == 2){
+			type = 1;
+			return type;
+		}
+		return type;
 	}
 	
 	private Player getPlayer(String roleId) {

@@ -45,8 +45,6 @@ public class MagicEquipFetterMgr {
 
 
 	public void loginNotify(Player player){
-		//检查一下旧数据,如果已经开启了的羁绊而数据库里又没有的，要添加
-		checkPlayerData(player);
 		holder.synAllData(player, 0);
 	}
 	
@@ -54,7 +52,7 @@ public class MagicEquipFetterMgr {
 	 * 检查角色数据
 	 * @param player
 	 */
-	private void checkPlayerData(Player player) {
+	public void checkPlayerData(Player player) {
 		checkAndAddMagicFetter(player, false);
 		checkAndAddEquipFetter(player);
 	}
@@ -117,23 +115,19 @@ public class MagicEquipFetterMgr {
 //		}
 		
 		//去掉所有类型相同的配置，只保留最高级的
-		Set<MagicEquipConditionCfg> tempSet = new HashSet<MagicEquipConditionCfg>();
-		tempSet.addAll(temp);
-		List<MagicEquipConditionCfg> remove = new ArrayList<MagicEquipConditionCfg>();
+		MagicEquipConditionCfg tempCfg = null;
 		for (MagicEquipConditionCfg cfg : temp) {
-			for (MagicEquipConditionCfg targetCfg : tempSet) {
-				if(cfg.getType() == targetCfg.getType() && 
-						cfg.getSubType() == targetCfg.getSubType() && 
-								cfg.getUniqueId() != targetCfg.getUniqueId() && 
-										cfg.getConditionLevel() <= targetCfg.getConditionLevel()){
-					remove.add(cfg);
-				}
+			if(tempCfg == null){
+				tempCfg = cfg;
+				continue;
+			}
+			if(cfg.getConditionLevel() > tempCfg.getConditionLevel()){
+				tempCfg = cfg;
 			}
 		}
 		
-		tempSet.removeAll(remove);
 		
-		holder.checkFixEquipFetterRecord(tempSet, hero.getModelId());
+		holder.checkFixEquipFetterRecord(tempCfg, hero.getModelId());
 
 		if(syn){
 			holder.synAllData(player, 0);

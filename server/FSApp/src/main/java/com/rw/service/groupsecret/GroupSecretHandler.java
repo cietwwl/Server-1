@@ -996,7 +996,7 @@ public class GroupSecretHandler {
 
 		// 秘境要传递到聊天部分的信息
 		String format = "邀请防守：[%s](人数：%s/%s)\n%s\n";
-		message = String.format(format, cfg.getName(), inviteList.size(), memberMgr.getGroupMemberSize(), message);
+		message = String.format(format, cfg.getName(), inviteList.size(), memberMgr.getGroupMemberSize() - 1, message);
 
 		// 设置邀请时间
 		StringBuilder sb = new StringBuilder();

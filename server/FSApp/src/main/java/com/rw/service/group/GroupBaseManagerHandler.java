@@ -101,7 +101,7 @@ public class GroupBaseManagerHandler {
 		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前拥有帮派");
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前拥有帮派,id=" + groupId);
 		}
 
 		long now = System.currentTimeMillis();
@@ -115,7 +115,7 @@ public class GroupBaseManagerHandler {
 		// 检查金钱足不足够
 		long count = player.getReward(eSpecialItemId.getDef(type));
 		if (createGroupPriceArr[1] > count) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("%s不足", sicfg.getName()));
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("%s不足,数量为"+count+" 需要 " + createGroupPriceArr[1], sicfg.getName()));
 		}
 
 		// 检查传递过来的帮派名字
@@ -140,7 +140,7 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
 		if (group == null) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在，名字为=" +groupName);
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();

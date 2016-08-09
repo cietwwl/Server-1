@@ -26,7 +26,6 @@ public class GroupCopyLevelCfg {
 	
 	private String roleReward;
 	
-	private String monsters;
 	
 	private int groupExp;
 	
@@ -38,7 +37,6 @@ public class GroupCopyLevelCfg {
 	
 	private List<Integer> roleRewarList;//格式化后的个人奖励掉落方案
 	
-	private List<String> mIDList;//格式化后的怪物列表
 	
 	private String nextLevelID;//下一关卡id
 	/**
@@ -78,13 +76,6 @@ public class GroupCopyLevelCfg {
 		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
 		cfg.addLvID(id);
 		
-		if(mIDList == null){
-			mIDList = new ArrayList<String>();
-		}
-		dStr = monsters.split(",");
-		for (String str : dStr) {
-			mIDList.add(str);
-		}
 		
 	}
 
@@ -147,13 +138,6 @@ public class GroupCopyLevelCfg {
 		this.nextLevelID = nextLevelID;
 	}
 
-	/**
-	 * 获取本关卡的怪物id列表
-	 * @return
-	 */
-	public List<String> getmIDList() {
-		return mIDList;
-	}
 
 	public int getGroupExp() {
 		return groupExp;
