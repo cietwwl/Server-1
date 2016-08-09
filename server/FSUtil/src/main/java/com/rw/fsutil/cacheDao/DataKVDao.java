@@ -18,6 +18,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
 import com.rw.fsutil.log.SqlLog;
@@ -41,7 +42,8 @@ public class DataKVDao<T> {
 		DataAccessSimpleSupport simpleSupport = DataAccessFactory.getSimpleSupport();
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template));
+		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null);
 		this.type = null;
 	}
 
@@ -64,7 +66,8 @@ public class DataKVDao<T> {
 		} else {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler);
+		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null);
 	}
 
 	/**
@@ -79,7 +82,7 @@ public class DataKVDao<T> {
 	public boolean commit(T t) {
 		if (update(t)) {
 			String id = getId(t);
-			//System.out.println("commit id=" + id);
+			// System.out.println("commit id=" + id);
 			update(id);
 			return true;
 		}
@@ -162,6 +165,7 @@ public class DataKVDao<T> {
 	 * <pre>
 	 * 当缓存中不存在指定键值对时，插入一个指定键值对到缓存，但不会发起数据库操作
 	 * </pre>
+	 * 
 	 * @param key
 	 * @param value
 	 * @return
@@ -169,17 +173,18 @@ public class DataKVDao<T> {
 	public boolean putIntoCache(String key, T value) {
 		return this.cache.preInsertIfAbsent(key, value);
 	}
-	
+
 	/**
 	 * <pre>
 	 * 当缓存中不存在指定键值对时，通过dbString生成对应的对象插入缓存
 	 * 不会发起dbString
 	 * </pre>
+	 * 
 	 * @param key
 	 * @param dbString
 	 * @return
 	 */
-	public boolean putIntoCacheByDBString(String key,final String dbString){
+	public boolean putIntoCacheByDBString(String key, final String dbString) {
 		return this.cache.preInsertIfAbsent(key, new Callable<T>() {
 
 			@SuppressWarnings("unchecked")
