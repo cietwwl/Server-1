@@ -21,7 +21,7 @@ public class EquipItemParser implements DataValueParser<EquipItem>{
 
 	@Override
 	public JSONObject toJson(EquipItem entity) {
-		JSONObject json = new JSONObject(true);
+		JSONObject json = new JSONObject();
 		json.put("id", entity.getId());
 		json.put("ownerId", entity.getOwnerId());
 		json.put("equipIndex", entity.getEquipIndex());

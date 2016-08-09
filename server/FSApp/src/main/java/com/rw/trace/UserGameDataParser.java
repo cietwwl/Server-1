@@ -23,7 +23,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
 
 	@Override
 	public JSONObject toJson(UserGameData entity) {
-		JSONObject json = new JSONObject(64, true);
+		JSONObject json = new JSONObject(64);
 		json.put("userId", entity.getUserId());
 		json.put("version", entity.getVersion());
 		json.put("iphone", entity.isIphone());

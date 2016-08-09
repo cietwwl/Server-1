@@ -24,7 +24,7 @@ public class TableCopyDataParser implements DataValueParser<TableCopyData> {
 
 	@Override
 	public JSONObject toJson(TableCopyData entity) {
-		JSONObject json = new JSONObject(4, true);
+		JSONObject json = new JSONObject(4);
 		json.put("userId", entity.getUserId());
 		List<CopyData> copyList = entity.getCopyList();
 		int copyListSize = copyList.size();

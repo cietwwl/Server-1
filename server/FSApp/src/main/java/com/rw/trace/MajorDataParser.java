@@ -21,7 +21,7 @@ public class MajorDataParser implements DataValueParser<MajorData> {
 
 	@Override
 	public JSONObject toJson(MajorData entity) {
-		JSONObject json = new JSONObject(8, true);
+		JSONObject json = new JSONObject(8);
 		json.put("id", entity.getId());
 		json.put("ownerId", entity.getOwnerId());
 		json.put("coin", entity.getCoin());

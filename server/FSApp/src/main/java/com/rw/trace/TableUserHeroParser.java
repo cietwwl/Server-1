@@ -23,7 +23,7 @@ public class TableUserHeroParser implements DataValueParser<TableUserHero> {
 
 	@Override
 	public JSONObject toJson(TableUserHero entity) {
-		JSONObject json = new JSONObject(4, true);
+		JSONObject json = new JSONObject(4);
 		json.put("userId", entity.getUserId());
 		List<String> heroIds = entity.getHeroIds();
 		int heroIdsSize = heroIds.size();

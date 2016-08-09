@@ -21,7 +21,7 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
 
 	@Override
 	public JSONObject toJson(FixExpEquipDataItem entity) {
-		JSONObject json = new JSONObject(true);
+		JSONObject json = new JSONObject();
 		json.put("id", entity.getId());
 		json.put("ownerId", entity.getOwnerId());
 		json.put("cfgId", entity.getCfgId());
