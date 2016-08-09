@@ -1,6 +1,7 @@
 package com.playerdata.teambattle.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,10 +32,6 @@ public class TBTeamItem implements IMapItem{
 	@CombineSave
 	private final List<TeamMember> members;
 	
-	public TBTeamItem(){
-		this.members = new CopyOnWriteArrayList<TeamMember>();
-	}
-	
 	@CombineSave
 	private String leaderID;
 	
@@ -49,7 +46,7 @@ public class TBTeamItem implements IMapItem{
 	private boolean isSelecting = false;
 
 	public TBTeamItem(){
-		this.members = new ArrayList<TeamMember>();
+		this.members = new CopyOnWriteArrayList<TeamMember>();
 	}
 	
 	@Override
