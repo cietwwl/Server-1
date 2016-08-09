@@ -953,7 +953,9 @@ public class Robot {
 	public boolean attackEnemyGroupSecret() {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
-		return GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
+		GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
+		return GroupSecretMatchHandler.getInstance().attackEndEnemyGroupSecret(client);
+		
 	}
 
 	public boolean getGroupSecretReward() {

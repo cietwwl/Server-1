@@ -44,7 +44,7 @@ public class GroupSecretHandler {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
-		msg.setSecretCfgId(1);
+		msg.setSecretCfgId(3);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
