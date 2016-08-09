@@ -10,7 +10,6 @@ import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.hero.IHero;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -82,11 +81,6 @@ public class FixExpEquipDataItemHolder{
 	
 	
 	public void synAllData(Player player, Hero hero){
-		List<FixExpEquipDataItem> itemList = getItemList(hero.getUUId());			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
-	}
-	
-	public void synAllDataV2(Player player, IHero hero){
 		List<FixExpEquipDataItem> itemList = getItemList(hero.getUUId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}

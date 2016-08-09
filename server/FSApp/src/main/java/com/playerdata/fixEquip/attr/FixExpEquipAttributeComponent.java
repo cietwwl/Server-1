@@ -47,7 +47,7 @@ public class FixExpEquipAttributeComponent extends AbstractAttributeCalc {
 			}
 		} else {
 			String userId = player.getUserId();
-			List<FixExpEquipDataItem> fixExpEquipList = ArenaRobotDataMgr.getMgr().getFixExpEquipList(userId, hero.getModelId());
+			List<FixExpEquipDataItem> fixExpEquipList = ArenaRobotDataMgr.getMgr().getFixExpEquipList(userId, hero.getModeId());
 			if (fixExpEquipList != null && !fixExpEquipList.isEmpty()) {
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipLevelAttr(userId, fixExpEquipList).values()));
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipLevelAttr(userId, fixExpEquipList).values()));

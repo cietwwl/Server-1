@@ -43,7 +43,8 @@ public class SkillHandler {
 	}
 
 	public ByteString updateSkill(Player player, String heroId, List<SkillData> skillRequestList) {
-		Hero hero = player.getHeroMgr().getHeroById(heroId);
+//		Hero hero = player.getHeroMgr().getHeroById(heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		if (hero == null) {
 			return getFailResponse(player, "你还没有拥有这个英雄", SkillEventType.Skill_Upgrade);
 		}
@@ -217,7 +218,8 @@ public class SkillHandler {
 		if (player.getUserId().equals(roleId)) {
 			return player.getSkillMgr();
 		}
-		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+//		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+		Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 		if (pHero != null) {
 			return pHero.getSkillMgr();
 		}

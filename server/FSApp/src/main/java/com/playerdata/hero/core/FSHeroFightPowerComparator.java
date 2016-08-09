@@ -2,15 +2,15 @@ package com.playerdata.hero.core;
 
 import java.util.Comparator;
 
-import com.playerdata.hero.IHero;
+import com.playerdata.Hero;
 
-public class FSHeroFightPowerComparator implements Comparator<IHero>{
+public class FSHeroFightPowerComparator implements Comparator<Hero>{
 
 	public static final FSHeroFightPowerComparator INSTANCE = new FSHeroFightPowerComparator();
 	
 	protected FSHeroFightPowerComparator() {}
 	
-	public int compare(IHero o1, IHero o2) {
+	public int compare(Hero o1, Hero o2) {
 		if (o1.getFighting() < o2.getFighting())
 			return 1;
 		if (o1.getFighting() > o2.getFighting())

@@ -726,7 +726,8 @@ public class PeakArenaHandler {
 
 		PlayerIF role = PlayerMgr.getInstance().getReadOnlyPlayer(arenaData.getUserId());
 
-		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getHeroData().getId());
+//		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getHeroData().getId());
+		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getId());
 		for (TagSkillData skill : skills) {
 			data.addRoleSkill(skill);
 		}

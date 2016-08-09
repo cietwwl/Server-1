@@ -1,6 +1,6 @@
 package com.playerdata.hero.core.consumer;
 
-import com.playerdata.hero.IHero;
+import com.playerdata.Hero;
 import com.playerdata.hero.IHeroConsumer;
 
 public class FSCalculateAllFightingConsumer implements IHeroConsumer {
@@ -12,7 +12,7 @@ public class FSCalculateAllFightingConsumer implements IHeroConsumer {
 	}
 	
 	@Override
-	public void apply(IHero hero) {
+	public void apply(Hero hero) {
 		_totalFighting += hero.getFighting();
 	}
 

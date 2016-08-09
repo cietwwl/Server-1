@@ -72,6 +72,7 @@ public class ClassInfo {
 					if (column != null) {
 						String columnName = column.name();
 						if (columnName != null && (columnName = columnName.trim()).length() > 0) {
+							filedNameMap.remove(fieldName);
 							filedNameMap.put(columnName, field);
 						}
 					}

@@ -95,7 +95,8 @@ public class ArmyInfoHelper {
 	public static ArmyHero getArmyHero(Player player, String heroId){
 		if (player == null || heroId == null) return null;
 		HeroMgr heroMgr = player.getHeroMgr();
-		Hero heroTmp = heroMgr.getHeroById(heroId);
+//		Hero heroTmp = heroMgr.getHeroById(heroId);
+		Hero heroTmp = heroMgr.getHeroById(player, heroId);
 		ArmyHero armyHero = getArmyHero(heroTmp);
 		return armyHero;
 	}
@@ -105,7 +106,8 @@ public class ArmyInfoHelper {
 		if (heroIdList == null) return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			Hero heroTmp = heroMgr.getHeroById(heroId);
+//			Hero heroTmp = heroMgr.getHeroById(heroId);
+			Hero heroTmp = heroMgr.getHeroById(player, heroId);
 			if(heroTmp == null){
 				continue;
 			}

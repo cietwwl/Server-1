@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.common.EquipHelper;
 import com.common.IHeroAction;
-import com.playerdata.hero.IHero;
-import com.playerdata.hero.core.FSHeroDAO;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.refactor.IDataMgrSingletone;
 import com.rw.service.Equip.EquipHandler;
@@ -71,10 +69,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 //	}
 	
 	public boolean init(Hero pOwner) {
-		return true;
-	}
-	
-	public boolean initV2(IHero hero) {
 		return true;
 	}
 
@@ -441,7 +435,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 */
 	public boolean wearEquip(Player player, String heroId, String slotId, int equipIndex) {
 
-		Hero m_pOwner = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero m_pOwner = player.getHeroMgr().getHeroById(player, heroId);
 		ItemData item = player.getItemBagMgr().findBySlotId(slotId);
 		if (item == null) {
 			return false;
@@ -504,7 +498,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 * @throws CloneNotSupportedException
 	 */
 	public boolean WearEquip(Player player, String heroId, int equipIndex) {
-		Hero m_pOwner = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero m_pOwner = player.getHeroMgr().getHeroById(player, heroId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
 		int equipId = equips.get(equipIndex);
 		List<ItemData> itemList = player.getItemBagMgr().getItemListByCfgId(equipId);
@@ -536,7 +530,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 //	}
 	
 	public boolean canWearEquip(Player player, String heroId) {
-		Hero hero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
 
 		for (Integer equipId : equips) {
@@ -694,7 +688,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 * @param isSubEquip
 	 */
 	public void EquipAdvance(Player player, String heroId, String nextId, final boolean isSubEquip) {
-		Hero hero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		String preQualityId = hero.getQualityId();
 		hero.setQualityId(nextId);
 		// 任务
@@ -962,7 +956,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public boolean gmEquip(Player player, String heroId, int equipIndex) {
-		Hero m_pOwner = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero m_pOwner = player.getHeroMgr().getHeroById(player, heroId);
 		// TODO HC @modify 注意：这里的代码一定要看清楚用意然后再做修改
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
 		int equipId = equips.get(equipIndex);

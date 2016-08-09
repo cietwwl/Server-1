@@ -83,7 +83,8 @@ public class RoleGameInfo {
 		roleGameInfo.setUserId(player.getUserId());
 		roleGameInfo.setVip(player.getVip());
 		roleGameInfo.setLevel(player.getLevel());
-		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
+//		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
+		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam(player));
 		roleGameInfo.setCareerType(player.getCareer());
 		
 		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();

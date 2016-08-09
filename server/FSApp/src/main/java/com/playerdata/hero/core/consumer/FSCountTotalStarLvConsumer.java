@@ -1,6 +1,6 @@
 package com.playerdata.hero.core.consumer;
 
-import com.playerdata.hero.IHero;
+import com.playerdata.Hero;
 import com.playerdata.hero.IHeroConsumer;
 
 public class FSCountTotalStarLvConsumer implements IHeroConsumer {
@@ -12,7 +12,7 @@ public class FSCountTotalStarLvConsumer implements IHeroConsumer {
 	}
 	
 	@Override
-	public void apply(IHero hero) {
+	public void apply(Hero hero) {
 		this._totalStarLv += hero.getStarLevel();
 	}
 

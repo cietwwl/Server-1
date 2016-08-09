@@ -25,7 +25,6 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
-import com.playerdata.hero.IHero;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 
@@ -53,25 +52,13 @@ public class FixNormEquipMgr {
 
 	public boolean initIfNeed(Player player, Hero hero) {
 		if (!isInited(player, hero)) {
-			newHeroInit(player, hero.getUUId(), hero.getModelId());
+			newHeroInit(player, hero.getUUId(), hero.getModeId());
 
 		}
 		return true;
 	}
 	
-	public boolean initIfNeedV2(Player player, IHero hero) {
-		if(!isInitedV2(player, hero)){
-			newHeroInit(player, hero.getUUId(), hero.getModelId());
-		}
-		return true;
-	}
-	
 	private boolean isInited(Player player, Hero hero){
-		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
-		return !itemList.isEmpty();
-	}
-	
-	private boolean isInitedV2(Player player, IHero hero){
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
@@ -111,7 +98,7 @@ public class FixNormEquipMgr {
 	public boolean onCarrerChange(Player player) {
 
 		Hero mainRoleHero = player.getMainRoleHero();
-		int newModelId = mainRoleHero.getModelId();
+		int newModelId = mainRoleHero.getModeId();
 		String ownerId = player.getUserId();
 
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
@@ -156,10 +143,6 @@ public class FixNormEquipMgr {
 
 	public void synAllData(Player player, Hero hero) {
 		fixNormEquipDataItemHolder.synAllData(player, hero);
-	}
-	
-	public void synAllDataV2(Player player, IHero hero){
-		fixNormEquipDataItemHolder.synAllDataV2(player, hero);
 	}
 	
 

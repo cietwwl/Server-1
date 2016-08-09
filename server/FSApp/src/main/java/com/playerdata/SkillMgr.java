@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.IHeroAction;
-import com.playerdata.hero.IHero;
-import com.playerdata.hero.core.FSHeroDAO;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.SkillMgrIF;
 import com.playerdata.refactor.IDataMgrSingletone;
 import com.rw.service.skill.SkillConstant;
@@ -54,10 +53,6 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 //		initPlayer(pRole);
 //		String ownerId = pRole.getUUId();
 //		skillItemHolder = new SkillItemHolder(ownerId);
-	}
-	
-	public void initV2(IHero hero) {
-		
 	}
 	
 	public void regDataChangeCallback(IHeroAction callback) {
@@ -156,7 +151,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 //	}
 	
 	private boolean canUpgradeSkill(Player player, String heroId, Skill skill, boolean showError) {
-		Hero hero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero hero = FSHeroMgr.getInstance().getHeroById(player, heroId);
 		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SKILL_OPEN, player.getLevel())) {
 			if (showError) {
 				player.NotifyCommonMsg("角色等级不足！");
@@ -467,10 +462,11 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	 * 
 	 * @param pRole
 	 */
-	public void initSkill(Player player, String heroId, RoleCfg rolecfg) {
-		Hero m_pOwner = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+//	public void initSkill(Player player, String heroId, RoleCfg rolecfg) {
+	public void initSkill(Player player, Hero m_pOwner, RoleCfg rolecfg) {
+//		Hero m_pOwner = FSHeroMgr.getInstance().getHeroById(player, heroId);
 		List<Skill> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
-		skillItemHolder.addItem(player, heroId, battleSkillList);
+		skillItemHolder.addItem(player, m_pOwner.getId(), battleSkillList);
 	}
 
 //	/**

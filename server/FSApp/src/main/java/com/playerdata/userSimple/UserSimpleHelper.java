@@ -36,7 +36,8 @@ public class UserSimpleHelper {
 		List<HeroSimple> heroList = new ArrayList<HeroSimple>();
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			Hero heroTmp = heroMgr.getHeroById(heroId);
+//			Hero heroTmp = heroMgr.getHeroById(heroId);
+			Hero heroTmp = heroMgr.getHeroById(player, heroId);
 			HeroSimple armyHero = getHeroSimple(heroTmp);
 			heroList.add(armyHero);
 		}

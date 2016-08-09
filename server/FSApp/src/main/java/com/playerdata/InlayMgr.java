@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.common.IHeroAction;
 import com.log.GameLog;
-import com.playerdata.hero.IHero;
-import com.playerdata.hero.core.FSHeroDAO;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
@@ -40,10 +38,6 @@ public class InlayMgr /*extends IDataMgr*/ {
 //	}
 	
 	public boolean init(Hero pOwner) {
-		return true;
-	}
-	
-	public boolean initV2(IHero hero) {
 		return true;
 	}
 	
@@ -302,7 +296,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 	 * @return
 	 */
 	public boolean InlayAll(Player player, String heroId) {
-		Hero ownerHero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero ownerHero = player.getHeroMgr().getHeroById(player, heroId);
 		
 		boolean isT = false;
 
@@ -331,7 +325,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 
 		}
 
-		InlayCfg heroInlayCfg = InlayCfgDAO.getInstance().getConfig(String.valueOf(ownerHero.getModelId()));
+		InlayCfg heroInlayCfg = InlayCfgDAO.getInstance().getConfig(String.valueOf(ownerHero.getModeId()));
 		ArrayList<Integer> priorList = new ArrayList<Integer>();
 		if (heroInlayCfg != null) {
 			String[] array = heroInlayCfg.getPrior().split(",");
@@ -339,7 +333,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 				try {
 					priorList.add(Integer.parseInt(array[i]));
 				} catch (NumberFormatException e) {
-					GameLog.error("InlayMgr", "#InlayAll()", "一键宝石转换优先列表异常：" + player.getUserId() + "," + ownerHero.getModelId(), e);
+					GameLog.error("InlayMgr", "#InlayAll()", "一键宝石转换优先列表异常：" + player.getUserId() + "," + ownerHero.getModeId(), e);
 				}
 			}
 		}
@@ -485,7 +479,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 	 */
 	private int getSolt(Player player, String heroId) {
 		
-		Hero hero = FSHeroDAO.getInstance().getHero(player.getUserId(), heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		List<Integer> slotList = new ArrayList<Integer>();
 		List<InlayItem> itemList = inlayItemHolder.getItemList(heroId);
 		for (InlayItem inlayItem : itemList) {
@@ -496,7 +490,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 
 		for (int i = 0; i < 6; i++) {
 
-			if (!slotList.contains(i) && InlayItemHelper.isOpen(hero.getModelId(), i, hero.getLevel())) {
+			if (!slotList.contains(i) && InlayItemHelper.isOpen(hero.getModeId(), i, hero.getLevel())) {
 				targetSlot = i;
 				break;
 			}

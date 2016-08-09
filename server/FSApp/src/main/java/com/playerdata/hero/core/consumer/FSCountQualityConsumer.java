@@ -1,6 +1,6 @@
 package com.playerdata.hero.core.consumer;
 
-import com.playerdata.hero.IHero;
+import com.playerdata.Hero;
 import com.playerdata.hero.IHeroConsumer;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
@@ -19,7 +19,7 @@ public class FSCountQualityConsumer implements IHeroConsumer {
 	}
 	
 	@Override
-	public void apply(IHero hero) {
+	public void apply(Hero hero) {
 		RoleQualityCfg qualcfg = RoleQualityCfgDAO.getInstance().getConfig(hero.getQualityId());
 		if (qualcfg != null && qualcfg.getQuality() >= _targetQuality) {
 			_countResult++;

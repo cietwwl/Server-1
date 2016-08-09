@@ -1,6 +1,6 @@
 package com.playerdata.hero.core.consumer;
 
-import com.playerdata.hero.IHero;
+import com.playerdata.Hero;
 import com.playerdata.hero.IHeroConsumer;
 
 public class FSCountMatchTargetStarConsumer implements IHeroConsumer {
@@ -17,7 +17,7 @@ public class FSCountMatchTargetStarConsumer implements IHeroConsumer {
 	}
 
 	@Override
-	public void apply(IHero hero) {
+	public void apply(Hero hero) {
 		if (hero.getStarLevel() >= _targetStarLv) {
 			_countResult++;
 		}

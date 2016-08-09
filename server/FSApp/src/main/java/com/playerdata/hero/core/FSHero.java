@@ -1,28 +1,37 @@
 package com.playerdata.hero.core;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.playerdata.AttrMgr;
 import com.playerdata.EquipMgr;
+import com.playerdata.FightingCalculator;
+import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.HeroBaseInfo;
-import com.playerdata.hero.IHero;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.RoleAttrData;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.AttributeCalculator;
+import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -38,32 +47,47 @@ import com.rwbase.dao.user.pojo.LevelCfg;
  *  {id, careerType, templateId, modeId, level, starLevel, qualityId, exp}
  *  由于不想维护两个对象的属性，所以引入了{@link com.playerdata.hero.HeroBaseInfo}标注，来标示原来的这些属性 
  * 
+ * 注意事项：
+ * 1、内部不能直接使用_userId字段，因为如果是主角类型的英雄，_userId会为""，应该使用{@link #getOwnerUserId()}来获取userId
+ * 
  * @author CHEN.P
  *
  */
 @Table(name = "hero")
 @SynClass
-public class FSHero implements IHero {
+public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 	
+	@Transient
+	@IgnoreSynField
 	private static final int _CURRENT_SYNC_ATTR_VERSION = -1;
 	
+	@Transient
+	@IgnoreSynField
 	private static final String _COLUMN_ATTRIBUTE = "attribute";
+	
+	@Transient
+	@IgnoreSynField
+	private static final String _EMPTY_USER_ID = "";
 	
 	@Id
 	@HeroBaseInfo
 	private String id; // 唯一的id
 	
 	@Column(name="name")
+	@IgnoreSynField
 	private String _name; // 英雄的名字
 	
 	@Column(name="user_id")
+	@IgnoreSynField
 	private String _userId; // 英雄所属的玩家的userId
 	
 	@Column(name="template_id")
 	@HeroBaseInfo
+	@IgnoreSynField
 	private String templateId; // 数据模板的id
 	
 	@Column(name="hero_type")
+	@IgnoreSynField
 	private int _heroType; // 英雄的类型（主英雄，一般英雄）
 	
 	@Column(name="exp")
@@ -75,6 +99,7 @@ public class FSHero implements IHero {
 	private int level; // 英雄的等级
 	
 	@Column(name="create_time")
+	@IgnoreSynField
 	private long _createTime; // 英雄的创建时间
 	
 	@CombineSave(Column=_COLUMN_ATTRIBUTE)
@@ -85,38 +110,46 @@ public class FSHero implements IHero {
 	@HeroBaseInfo
 	private String qualityId; // 英雄的品质
 	
-	@NonSave
+	@CombineSave(Column=_COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
-	private int careerType; // 英雄的职业（不用保存）
-	@NonSave
+	private int careerType; // 英雄的职业
+	
+	@CombineSave(Column=_COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
 	private int modeId; // 英雄的模型id
 	
-	@NonSave
-	private FSHeroAttr _attr; // 英雄的属性
-	@NonSave
-	private AttributeCalculator<AttrData> _calc; // 属性计算器
-	@NonSave
-	private boolean _firstInited; // 第一次加载是否完成（只有角色第一次登录的时候才会检查这个）
-	
 	@CombineSave(Column=_COLUMN_ATTRIBUTE)
-	private FSHeroAttrDelegator _offlineAttr; // 离线战斗属性
+	@IgnoreSynField
+	private FSHeroAttr attr = new FSHeroAttr(); // 英雄的属性，總屬性會保存，角色上線，syn的時候才會重新計算屬性
+	
+	@NonSave
+	@Transient
+	@IgnoreSynField
+	private AttributeCalculator<AttrData> _calc; // 属性计算器
+	
+	@NonSave
+	@Transient
+	@IgnoreSynField
+	private AtomicBoolean _firstInited = new AtomicBoolean(); // 第一次加载是否完成（只有角色第一次登录的时候才会检查这个）
+	
+//	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+//	private FSHeroAttrDelegator _offlineAttr; // 离线战斗属性
 	
 	public FSHero() {
 	}
 	
 	public FSHero(Player owner, eRoleType roleTypeP, RoleCfg heroCfg, String uuid) {
-		this._userId = owner.getUserId();
 		this.id = uuid;
-		this._offlineAttr = new FSHeroAttrDelegator();
+		if (roleTypeP == eRoleType.Player) {
+			this._heroType = HERO_TYPE_MAIN;
+			this._userId = _EMPTY_USER_ID;
+		} else {
+			this._heroType = HERO_TYPE_COMMON;
+			this._userId = owner.getUserId();
+		}
+		this._createTime = System.currentTimeMillis();
+		this.attr.setHeroId(this.id);
 		this.initFromCfg(heroCfg);
-		FSHeroThirdPartyDataMgr.getInstance().getSkillMgr().initSkill(owner, uuid, heroCfg);
-		this.firstInit(owner, true);
-		owner.getUserTmpGameDataFlag().setSynFightingAll(true);
-	}
-	
-	private Player getOwner() {
-		return PlayerMgr.getInstance().find(this._userId);
 	}
 	
 	private void getDataFromCfg(RoleCfg heroCfg) {
@@ -130,56 +163,100 @@ public class FSHero implements IHero {
 		this.templateId = heroCfg.getRoleId();
 		this.level = 1;
 		this.starLevel = heroCfg.getStarLevel();
+		this._name = heroCfg.getName();
 	}
 	
-	private void updateLevelAndExp(Player player, int toLv, int toExp) {
+	private void updateLevelAndExp(Player owner, int toLv, int toExp) {
 		int preLevel = this.level;
 		this.exp = toExp;
 		this.level = toLv;
-		FSHeroHolder.getInstance().updateBaseInfo(player, this);
+		FSHeroHolder.getInstance().synBaseInfo(owner, this);
 		if (preLevel != toLv) {
-			this.calculateAttrs(true);
-			FSHeroThirdPartyDataMgr.getInstance().fireLevelUpEvent(player, this, preLevel);
+			this.calculateAttrsInternal(owner, true);
+		}
+		FSHeroThirdPartyDataMgr.getInstance().fireHeroLevelChangeEvent(owner, this, preLevel);
+	}
+	
+	private void calculateAttrsInternal(Player owner, boolean syncToClient) {
+		int preFighting = attr.getFighting();
+		_calc.updateAttribute();
+		attr.updateRoleBaseTotalData(_calc.getBaseResult());
+		attr.updateTotalData(_calc.getResult());
+		attr.updateFighting(FightingCalculator.calFighting(this, attr.getTotalData()));
+		if (syncToClient) {
+			FSHeroHolder.getInstance().syncAttributes(this, _CURRENT_SYNC_ATTR_VERSION);
+			if (preFighting != attr.getFighting()) {
+				// 保持那边的战斗力一致
+				owner.getUserGameDataMgr().notifySingleFightingChange(attr.getFighting(), preFighting);
+			}
+		}
+	}
+	
+	private void checkIfAttrInit() {
+		if (this.attr.getFighting() == 0) {
+			/* 
+			 * 有可能是机器人和旧数据，现在计算属性是在syn的时候计算。
+			 * 机器人不会触发syn，所以有可能属性为0
+			 * 旧数据没有保存离线的attr，所以属性也有可能为0
+			 */
+			this.firstInit(getPlayer());
 		}
 	}
 	
 	/**
 	 * 第一次init
 	 */
-	void firstInit(Player player, boolean fresh) {
-		if (!_firstInited) {
-			this._firstInited = true;
-			FSHeroThirdPartyDataMgr.getInstance().notifyFirstInit(player, this, fresh); // 其他模块都加载完之后，然后计算属性
-			this._calc = AttributeBM.getAttributeCalculator(this._userId, this.id);
-			this.calculateAttrs(false);
+	void firstInit(Player player) {
+		if (_firstInited.compareAndSet(false, true)) {
+			this.attr.setHeroId(id); // 从db读出来的时候，attr的id有可能未初始化
+			FSHeroThirdPartyDataMgr.getInstance().notifyFirstInit(player, this); // 其他模块都加载完之后，然后计算属性
+			this._calc = AttributeBM.getAttributeCalculator(player.getUserId(), this.id);
+			this.calculateAttrsInternal(player, false);
 		}
-	}
-	
-	FSHeroAttr getAttr() {
-		return _attr;
 	}
 	
 	boolean hasBeenFirstInited() {
-		return _firstInited;
+		return _firstInited.get();
 	}
 	
-	public void calculateAttrs(boolean syncToClient) {
-		_calc.updateAttribute();
-		_attr.updateRoleBaseTotalData(_calc.getBaseResult());
-		_attr.updateTotalData(_calc.getResult());
-		_offlineAttr.update(_attr.getTotalData());
-		if (syncToClient) {
-			FSHeroHolder.getInstance().syncAttributes(this, _CURRENT_SYNC_ATTR_VERSION);
-		}
-	}
-	
-	public void playerLogin(Player player) {
-		this.firstInit(player, false);
+	@Override
+	public Player getPlayer() {
+		return PlayerMgr.getInstance().find(this.getOwnerUserId());
 	}
 
 	@Override
 	public String getId() {
 		return id;
+	}
+	
+	@Override
+	public String getTemplateId() {
+		return this.templateId;
+	}
+	
+	@Override
+	public int getLevel() {
+		return level;
+	}
+	
+	@Override
+	public int getStarLevel() {
+		return starLevel;
+	}
+	
+	@Override
+	public String getQualityId() {
+		return qualityId;
+	}
+	
+	@Override
+	public long getExp() {
+		return exp;
+	}
+	
+	@Override
+	public int getModeId() {
+		return modeId;
 	}
 
 	@Override
@@ -189,32 +266,16 @@ public class FSHero implements IHero {
 
 	@Override
 	public String getOwnerUserId() {
-		return _userId;
-	}
-
-	@Override
-	public int getLevel() {
-		return level;
-	}
-
-	@Override
-	public int getExp() {
-		return exp;
+		if(this._heroType == HERO_TYPE_COMMON) {
+			return _userId;
+		} else {
+			return id;
+		}
 	}
 	
 	@Override
-	public int getCareerType() {
+	public int getCareer() {
 		return careerType;
-	}
-
-	@Override
-	public int getStarLevel() {
-		return starLevel;
-	}
-
-	@Override
-	public String getQualityId() {
-		return qualityId;
 	}
 
 	@Override
@@ -224,19 +285,16 @@ public class FSHero implements IHero {
 
 	@Override
 	public eRoleType getRoleType() {
-		switch (this._heroType) {
-		case HERO_TYPE_MAIN:
-			return eRoleType.Player;
-		default:
-			return eRoleType.Hero;
-		}
+		return this._heroType == HERO_TYPE_MAIN ? eRoleType.Player : eRoleType.Hero;
 	}
 
 	@Override
-	public void sync(int version) {
-		Player player = this.getOwner();
-		FSHeroHolder.getInstance().updateBaseInfo(player, this);
+	public void syn(int version) {
+		Player player = this.getPlayer();
+		this.firstInit(player);
+		FSHeroHolder.getInstance().synBaseInfo(player, this);
 		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, this, version);
+		FSHeroHolder.getInstance().syncAttributes(this, version);
 	}
 
 	@Override
@@ -258,26 +316,17 @@ public class FSHero implements IHero {
 	public LevelCfg getLevelCfg() {
 		return (LevelCfg) LevelCfgDAO.getInstance().getCfgById(String.valueOf(level));
 	}
-
-	@Override
-	public int getModelId() {
-		return this.modeId;
-	}
-
-	@Override
-	public String getTemplateId() {
-		return this.templateId;
-	}
+	
 
 	@Override
 	public void setTemplateId(String templateId) {
 		this.templateId = templateId;
-		FSHeroHolder.getInstance().updateBaseInfo(getOwner(), this);
+		FSHeroHolder.getInstance().synBaseInfo(getPlayer(), this);
 	}
 
 	@Override
 	public int canUpgradeStar() {
-		Player player = this.getOwner();
+		Player player = this.getPlayer();
 		int result = 0;
 		RoleCfg rolecfg = getHeroCfg();
 		int soulStoneCount = player.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
@@ -293,7 +342,7 @@ public class FSHero implements IHero {
 	}
 
 	@Override
-	public int getHeroQuality() {
+	public int GetHeroQuality() {
 		RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 		if (cfg != null) {
 			return cfg.getQuality();
@@ -304,7 +353,7 @@ public class FSHero implements IHero {
 
 	@Override
 	public void SetHeroLevel(int pLevel) {
-		Player player = this.getOwner();
+		Player player = this.getPlayer();
 		int preLevel = this.level;
 		this.updateLevelAndExp(player, pLevel, this.exp);
 		if(preLevel < pLevel) {
@@ -318,53 +367,58 @@ public class FSHero implements IHero {
 		if(pExp < 0) {
 			return;
 		}
-		if(pExp > this.exp) {
-			int subExp = (int)pExp - this.exp;
-			this.addHeroExp(subExp);
-		} else {
-			this.exp = (int)pExp;
-		}
+//		if(pExp > this.exp) {
+//			int subExp = (int)pExp - this.exp;
+//			this.addHeroExp(subExp);
+//		} else {
+//			this.exp = (int)pExp;
+//		}
+		// 2016-08-05 by Perry 還是按照原來的邏輯 BEGIN >>>>>>
+		this.exp = (int)pExp;
+		FSHeroHolder.getInstance().synBaseInfo(getPlayer(), this);
 	}
 
 	@Override
 	public int getFighting() {
-		return _attr.getFighting();
+		if(attr.getFighting() == 0) {
+			// 兼容旧数据
+			this.firstInit(getPlayer());
+		}
+		return attr.getFighting();
 	}
 	
 	@Override
 	public void setStarLevel(int star) {
-		Player player = this.getOwner();
+		Player player = this.getPlayer();
 		int preStarLv = this.starLevel;
 		this.starLevel = star;
-		FSHeroHolder.getInstance().updateBaseInfo(player, this);
-		if (preStarLv != starLevel) {
-			FSHeroThirdPartyDataMgr.getInstance().fireStarLevelChangeEvent(player, this, preStarLv);
-		}
+		FSHeroHolder.getInstance().synBaseInfo(player, this);
+		FSHeroThirdPartyDataMgr.getInstance().fireStarLevelChangeEvent(player, this, preStarLv);
 	}
 
 	@Override
 	public void setQualityId(String pQualityId) {
-		Player player = this.getOwner();
+		Player player = this.getPlayer();
 		String preQualityId = this.qualityId;
 		this.qualityId = pQualityId;
-		FSHeroHolder.getInstance().updateBaseInfo(player, this);
+		FSHeroHolder.getInstance().synBaseInfo(player, this);
 		FSHeroThirdPartyDataMgr.getInstance().fireQualityChangeEvent(player, this, preQualityId);
 	}
 
 	@Override
 	public void gmEditHeroLevel(int pLevel) {
-		this.updateLevelAndExp(getOwner(), pLevel, this.exp);
+		this.updateLevelAndExp(getPlayer(), pLevel, this.exp);
 	}
 
 	@Override
 	public void gmCheckActiveSkill() {
 		RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(this.qualityId);
-		FSHeroThirdPartyDataMgr.getInstance().activeSkill(this.getOwner(), this.id, level, cfg.getQuality());
+		FSHeroThirdPartyDataMgr.getInstance().activeSkill(this.getPlayer(), this.id, level, cfg.getQuality());
 	}
 
 	@Override
 	public int addHeroExp(long heroExp) {
-		Player player = PlayerMgr.getInstance().find(_userId);
+		Player player = PlayerMgr.getInstance().find(this.getOwnerUserId());
 		int maxLevel = player.getLevel();
 		int currentLevel = this.level;
 		int currentExp = this.exp;
@@ -408,6 +462,16 @@ public class FSHero implements IHero {
 	}
 	
 	@Override
+	public AttrMgr getAttrMgr() {
+		return this;
+	}
+	
+	@Override
+	public RoleBaseInfoMgr getRoleBaseInfoMgr() {
+		return this;
+	}
+	
+	@Override
 	public InlayMgr getInlayMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getInlayMgr();
 	}
@@ -431,24 +495,84 @@ public class FSHero implements IHero {
 	public FixExpEquipMgr getFixExpEquipMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getFixExpEquipMgr();
 	}
-	
-	public static void main(String[] args) throws Exception {
-		FSHero hero = new FSHero();
-		hero.id = java.util.UUID.randomUUID().toString();
-		hero.careerType = 1;
-		hero.modeId = 100001;
-		hero.templateId = "100001_1";
-		hero.level = 1;
-		hero.starLevel = 1;
-		hero.qualityId = "1000";
-		hero.exp = 1;
-		java.lang.reflect.Field fSyncFieldNameList = FSHeroHolder.class.getDeclaredField("_namesOfBaseInfoSyncFields");
-		fSyncFieldNameList.setAccessible(true);
-		@SuppressWarnings("unchecked")
-		java.util.List<String> fieldNameList = (java.util.List<String>)fSyncFieldNameList.get(null);
-		java.lang.reflect.Method mTransferToClientData = com.playerdata.dataSyn.ClientDataSynMgr.class.getDeclaredMethod("transferToClientData", Object.class, java.util.List.class);
-		mTransferToClientData.setAccessible(true);
-		com.rwproto.DataSynProtos.SynData.Builder builder = (com.rwproto.DataSynProtos.SynData.Builder)mTransferToClientData.invoke(null, hero, fieldNameList);
-		System.out.println(builder.build().toString());
+
+	@Override
+	public void setCareerType(int career) {
+		this.careerType = career;
+		FSHeroHolder.getInstance().synBaseInfo(getPlayer(), this);
 	}
+
+	@Override
+	public void setModelId(int pModelId) {
+		this.modeId = pModelId;
+		FSHeroHolder.getInstance().synBaseInfo(getPlayer(), this);
+	}
+
+	@Override
+	public void setLevel(int level) {
+		this.SetHeroLevel(level);
+	}
+
+	@Override
+	public void setExp(long exp) {
+		this.setHeroExp(exp);
+	}
+
+	@Override
+	public void setLevelAndExp(int level, int exp) {
+		this.updateLevelAndExp(getPlayer(), level, exp);
+	}
+	
+	@Override
+	public RoleBaseInfo getBaseInfo() {
+		return this;
+	}
+
+	@Override
+	public RoleAttrData getRoleAttrData() {
+		this.checkIfAttrInit();
+		return this.attr;
+	}
+
+	@Override
+	public AttrData getTotalAttrData() {
+		this.checkIfAttrInit();
+		return this.attr.getTotalData();
+	}
+
+	@Override
+	public RoleAttrData reCal() {
+		this.calculateAttrsInternal(this.getPlayer(), true);
+		return this.attr;
+	}
+
+//	@Override
+//	public RoleBaseInfoIF getHeroData() {
+//		return null;
+//	}
+
+//	@Override
+//	public int GetHeroLevel() {
+//		return 0;
+//	}
+	
+//	public static void main(String[] args) throws Exception {
+//		FSHero hero = new FSHero();
+//		hero.id = java.util.UUID.randomUUID().toString();
+//		hero.careerType = 1;
+//		hero.modeId = 100001;
+//		hero.templateId = "100001_1";
+//		hero.level = 1;
+//		hero.starLevel = 1;
+//		hero.qualityId = "1000";
+//		hero.exp = 1;
+//		java.lang.reflect.Field fSyncFieldNameList = FSHeroHolder.class.getDeclaredField("_namesOfBaseInfoSyncFields");
+//		fSyncFieldNameList.setAccessible(true);
+//		@SuppressWarnings("unchecked")
+//		java.util.List<String> fieldNameList = (java.util.List<String>)fSyncFieldNameList.get(null);
+//		java.lang.reflect.Method mTransferToClientData = com.playerdata.dataSyn.ClientDataSynMgr.class.getDeclaredMethod("transferToClientData", Object.class, java.util.List.class);
+//		mTransferToClientData.setAccessible(true);
+//		com.rwproto.DataSynProtos.SynData.Builder builder = (com.rwproto.DataSynProtos.SynData.Builder)mTransferToClientData.invoke(null, hero, fieldNameList);
+//		System.out.println(builder.build().toString());
+//	}
 }

@@ -46,6 +46,7 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 	private static final String _KEY_VIEW_RANGE = "38";
 	private static final String _KEY_VOLUME_RADIUS = "39";
 	private static final String _KEY_DO_HURT = "40";
+	private static final String _KEY_FIGHTING = "41";
 	
 	@JsonProperty(_KEY_LIFE)
 	private int life; // 最大生命值...
@@ -167,10 +168,13 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 	@JsonProperty(_KEY_DO_HURT)
 	private float doHurt; // 硬直界限
 	
+	@JsonProperty(_KEY_FIGHTING)
+	private int fighting; // 戰鬥力
+	
 	public FSHeroAttrDelegator() {
 	}
 	
-	public void update(AttrDataIF target) {
+	public void update(AttrDataIF target, int pFighting) {
 		this.life = target.getLife();
 		this.energy = target.getEnergy();
 		this.physiqueAttack = target.getPhysiqueAttack();
@@ -209,6 +213,8 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 		this.viewRange = target.getViewRange();
 		this.volumeRadius = target.getVolumeRadius();
 		this.doHurt = target.getDoHurt();
+		
+		this.fighting = pFighting;
 	}
 	
 	@Override

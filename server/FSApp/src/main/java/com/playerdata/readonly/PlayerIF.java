@@ -4,6 +4,8 @@ import com.playerdata.AttrMgr;
 import com.playerdata.EmailMgr;
 import com.playerdata.GambleMgr;
 import com.playerdata.GuildUserMgr;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.SignMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -21,7 +23,8 @@ public interface PlayerIF {
 
 	public ItemBagMgrIF getItemBagMgr();
 
-	public HeroMgrIF getHeroMgr();
+//	public HeroMgrIF getHeroMgr();
+	public HeroMgr getHeroMgr();
 
 	public CopyRecordMgrIF getCopyRecordMgr();
 
@@ -69,7 +72,7 @@ public interface PlayerIF {
 
 	public String getTemplateId();
 
-	public HeroIF getMainRoleHero();
+	public Hero getMainRoleHero();
 
 	/**
 	 * 获取法宝数据

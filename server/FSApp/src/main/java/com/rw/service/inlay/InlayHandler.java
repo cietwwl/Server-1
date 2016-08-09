@@ -55,7 +55,8 @@ public class InlayHandler {
 			
 		}else
 		{
-			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+//			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+			Hero hero = playe.getHeroMgr().getHeroById(playe, msgReques.getRoleId());
 			if(hero==null)
 			{
 				 playe.NotifyCommonMsg("找不到佣兵");
@@ -118,7 +119,8 @@ public class InlayHandler {
 			inlayMgr=playe.getMainRoleHero().getInlayMgr();
 		}else
 		{
-			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+//			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+			Hero hero=playe.getHeroMgr().getHeroById(playe, msgReques.getRoleId());
 			if(hero==null)
 			{
 				 playe.NotifyCommonMsg("找不到佣兵");
@@ -162,7 +164,8 @@ public class InlayHandler {
 			inlayMgr=playe.getMainRoleHero().getInlayMgr();
 		}else
 		{
-			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+//			Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
+			Hero hero=playe.getHeroMgr().getHeroById(playe, msgReques.getRoleId());
 			if(hero==null)
 			{
 				 playe.NotifyCommonMsg("找不到佣兵");

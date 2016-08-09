@@ -141,6 +141,8 @@ public class MapItemStoreFactory {
 	// 英雄的MapItemStore缓存
 	private static MapItemStoreCache<FSHero> heroItemCache;
 	
+	private static MapItemStoreCache<FSHero> mainHeroItemCache;
+	
 	private static List<MapItemStoreCache<? extends IMapItem>> list;
 
 	private static boolean init = false;
@@ -238,8 +240,10 @@ public class MapItemStoreFactory {
 		
 		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
 		
-		register(heroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "user_id", heroCapacity));
+		register(heroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "other", "user_id", heroCapacity, false));
 
+		register(mainHeroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "main", "id", heroCapacity, false));
+		
 		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));
 
 		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
@@ -540,6 +544,16 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<FSHero> getHeroDataCache() {
 		return heroItemCache;
+	}
+	
+	/**
+	 * 
+	 * 获取主英雄的数据缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<FSHero> getMainHeroDataCache() {
+		return mainHeroItemCache;
 	}
 
 	public static MapItemStoreCache<MagicEquipFetterRecord> getMagicEquipFetterCache() {

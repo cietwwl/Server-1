@@ -27,7 +27,6 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
-import com.playerdata.hero.IHero;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -59,7 +58,7 @@ public class FixExpEquipMgr {
 	public boolean initIfNeed(Player player, Hero hero) {
 		if (!isInited(player, hero)) {
 			try {
-				newHeroInit(player, hero.getUUId(), hero.getModelId());
+				newHeroInit(player, hero.getUUId(), hero.getModeId());
 			} catch (Exception e) {
 				GameLog.error(LogModule.FixEquip, "playerId:" + player.getUserId(), "英雄神器初始化失败,heroId:" + hero.getUUId(), e);
 			}
@@ -67,23 +66,7 @@ public class FixExpEquipMgr {
 		return true;
 	}
 	
-	public boolean initIfNeedV2(Player player, IHero hero){
-		if(!isInitedV2(player, hero)){
-			try {				
-				newHeroInit(player, hero.getUUId(), hero.getModelId());
-			} catch (Exception e) {
-				GameLog.error(LogModule.FixEquip, "playerId:"+player.getUserId(), "英雄神器初始化失败,heroId:"+hero.getUUId(), e);
-			}
-		}
-		return true;
-	}
-	
 	private boolean isInited(Player player, Hero hero){
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
-		return !itemList.isEmpty();
-	}
-	
-	private boolean isInitedV2(Player player, IHero hero){
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
@@ -122,7 +105,7 @@ public class FixExpEquipMgr {
 	public boolean onCarrerChange(Player player) {
 
 		Hero mainRoleHero = player.getMainRoleHero();
-		int newModelId = mainRoleHero.getModelId();
+		int newModelId = mainRoleHero.getModeId();
 		String ownerId = player.getUserId();
 
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
@@ -160,10 +143,6 @@ public class FixExpEquipMgr {
 
 	public void synAllData(Player player, Hero hero) {
 		fixExpEquipDataItemHolder.synAllData(player, hero);
-	}
-	
-	public void synAllDataV2(Player player, IHero hero){
-		fixExpEquipDataItemHolder.synAllDataV2(player, hero);
 	}
 
 	public List<AttributeItem> levelToAttrItems(String ownerId) {

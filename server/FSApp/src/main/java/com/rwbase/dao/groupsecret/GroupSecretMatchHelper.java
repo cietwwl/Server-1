@@ -58,7 +58,8 @@ public class GroupSecretMatchHelper {
 		}
 
 		int tFighting = 0;
-		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);
 			if (hero == null) {
@@ -154,7 +155,8 @@ public class GroupSecretMatchHelper {
 
 		int level = player.getLevel();
 		int fighting = 0;// 匹配的战力
-		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);
 			if (hero == null) {

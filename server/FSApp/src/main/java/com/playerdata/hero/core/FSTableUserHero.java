@@ -3,6 +3,7 @@ package com.playerdata.hero.core;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -17,6 +18,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * @author CHEN.P
  *
  */
+@Table(name = "mt_user_hero")
 @SynClass
 public class FSTableUserHero {
 

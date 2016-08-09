@@ -497,7 +497,8 @@ public class GMHandler {
 		}
 		String heroId = arrCommandContents[0];
 		if (player != null) {
-			player.getHeroMgr().addHero(heroId);
+//			player.getHeroMgr().addHero(heroId);
+			player.getHeroMgr().addHero(player, heroId);
 			return true;
 		}
 		return false;
@@ -723,7 +724,8 @@ public class GMHandler {
 		if (arrCommandContents.length == 1) {
 			long addExp = Long.parseLong(arrCommandContents[0]);
 			if (player != null) {
-				player.getHeroMgr().AddAllHeroExp(addExp);
+//				player.getHeroMgr().AddAllHeroExp(addExp);
+				player.getHeroMgr().AddAllHeroExp(player, addExp);
 				return true;
 			}
 			return false;
@@ -732,7 +734,8 @@ public class GMHandler {
 		int heroId = Integer.parseInt(arrCommandContents[0]);
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
-			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+//			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
 			return true;
 		}
 		return false;
@@ -1014,7 +1017,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
@@ -1059,7 +1063,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {

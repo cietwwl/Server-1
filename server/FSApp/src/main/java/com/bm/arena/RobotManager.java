@@ -22,6 +22,7 @@ import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.EquipHelper;
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -210,11 +211,12 @@ public class RobotManager {
 
 	}
 
-	private static void addHero(String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
+	private static void addHero(Player player, String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
 		if (templateId == null || templateId.isEmpty()) {
 			return;
 		}
-		Hero hero = mgr.addHeroWhenCreatUser(templateId);
+//		Hero hero = mgr.addHeroWhenCreatUser(templateId);
+		Hero hero = mgr.addHeroWhenCreatUser(player, templateId);
 		if (hero == null) {
 			GameLog.error("RobotManager", "#addHero", "机器人添加佣兵失败：" + templateId);
 			return;
@@ -238,7 +240,8 @@ public class RobotManager {
 	}
 
 	private static String getQualityId(Hero hero, int quality) {
-		return hero.getModelId() + "_" + (quality + 1);
+//		return hero.getModeId() + "_" + (quality + 1);
+		return Utils.computeQualityId(hero.getModeId(), (quality + 1));
 	}
 
 	private static void changeEquips(String userId, Hero hero, int[] equipments, int quality, int[] enchant) {
@@ -573,12 +576,15 @@ public class RobotManager {
 
 			Player player = new Player(userId, false, playerCfg);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
+//			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
 			mainRoleHero.SetHeroLevel(level);
 			// 品质
-			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
-			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
-			roleBaseInfoMgr.setLevel(level);
+//			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
+//			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
+//			roleBaseInfoMgr.setLevel(level);
+			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+			mainRoleHero.SetHeroLevel(level);
 			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);
@@ -613,10 +619,10 @@ public class RobotManager {
 			RobotHeroCfg heroCfg = heroCfgList.get(getRandom().nextInt(heroCfgList.size()));
 			int[] heroLevel = cfg.getHeroLevel();
 			ArrayList<Hero> heroList = new ArrayList<Hero>(4);
-			addHero(heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
 			// 装备部分
 			int[] heroEnchant = cfg.getHeroEnchant();
 			int[] equipments = cfg.getHeroEquipments();
@@ -669,7 +675,7 @@ public class RobotManager {
 
 			// 检查机器人数据并加入到万仙阵阵容排行榜
 			List<Integer> heroModelList = new ArrayList<Integer>();
-			int mainRoleModelId = mainRoleHero.getModelId();
+			int mainRoleModelId = mainRoleHero.getModeId();
 			heroModelList.add(mainRoleModelId);
 
 			int fighting = mainRoleHero.getFighting();
@@ -679,7 +685,7 @@ public class RobotManager {
 					continue;
 				}
 
-				int modelId = hero.getModelId();
+				int modelId = hero.getModeId();
 				if (modelId == mainRoleModelId) {
 					continue;
 				}

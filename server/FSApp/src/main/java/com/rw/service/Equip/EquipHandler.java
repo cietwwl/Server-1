@@ -66,7 +66,8 @@ public class EquipHandler {
 		}
 		boolean canUpgrade = pEquipMgr.getEquipCount(roleId) >= 6;
 		if (canUpgrade) {
-			Hero role = player.getHeroMgr().getHeroById(roleId);
+//			Hero role = player.getHeroMgr().getHeroById(roleId);
+			Hero role = player.getHeroMgr().getHeroById(player, roleId);
 
 			RoleQualityCfg pNextCfg = RoleQualityCfgDAO.getInstance().getNextConfig(role.getQualityId());
 			if (pNextCfg != null) {
@@ -363,7 +364,8 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
-		Hero role = player.getHeroMgr().getHeroById(roleId);
+//		Hero role = player.getHeroMgr().getHeroById(roleId);
+		Hero role = player.getHeroMgr().getHeroById(player, roleId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(role.getQualityId());
 		if (equips.isEmpty()) {
 			response.setError(ErrorType.FAIL);
@@ -379,8 +381,10 @@ public class EquipHandler {
 		RoleType pRoleType = getRoleType(player, roleId);
 		boolean isEnoughLevel = true;
 		if (pRoleType == RoleType.Hero) {
-			Hero pHero = player.getHeroMgr().getHeroById(roleId);
-			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
+//			Hero pHero = player.getHeroMgr().getHeroById(roleId);
+//			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
+			Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
+			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getLevel();
 		} else {
 			isEnoughLevel = pHeroEquipCfg.getLevel() <= player.getLevel();
 		}
@@ -416,7 +420,8 @@ public class EquipHandler {
 		rsp.setEventType(EquipEventType.OneKeyWearEquip);
 
 		// 检查英雄是否有
-		Hero hero = player.getHeroMgr().getHeroById(roleId);
+//		Hero hero = player.getHeroMgr().getHeroById(roleId);
+		Hero hero = player.getHeroMgr().getHeroById(player, roleId);
 		if (hero == null) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero", roleId));
 			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
@@ -511,7 +516,8 @@ public class EquipHandler {
 		if (player.getUserId().equals(roleId)) {
 			return player.getMainRoleHero().getEquipMgr();
 		}
-		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+//		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+		Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 		if (pHero != null) {
 			return pHero.getEquipMgr();
 		}

@@ -282,7 +282,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	
 	private void initTeamInfo(TablePeakArenaData peakData,Player player){
 		HeroMgr heroMgr = player.getHeroMgr();
-		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());
+//		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());
+		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(player, HeroFightPowerComparator.getInstance());
 		
 		int count = peakData.getTeamCount();
 		if (count <=0){
@@ -346,7 +347,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		List<String> newHeroList = new ArrayList<String>();
 		List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 		for (String id : heroIdsList) {
-			Hero heroData = heroMgr.getHeroById(id);
+//			Hero heroData = heroMgr.getHeroById(id);
+			Hero heroData = heroMgr.getHeroById(player, id);
 			if (heroData == null){
 				GameLog.error("巅峰竞技场", playerId, "无效佣兵ID="+id);
 				continue;
@@ -402,10 +404,12 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 
 	public PeakArenaExtAttribute createExtData(Player player) {
-		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+//		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
-		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		return arenaExt;
 	}
 

@@ -23,8 +23,7 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.fixEquip.FixEquipHelper;
-import com.playerdata.readonly.HeroIF;
-import com.playerdata.readonly.HeroMgrIF;
+import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.EquipInfo;
 import com.playerdata.team.FashionInfo;
@@ -44,7 +43,6 @@ import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -231,17 +229,19 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-		HeroMgrIF heroMgr = p.getHeroMgr();
+//		HeroMgrIF heroMgr = p.getHeroMgr();
+		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
 			String uuid = teamHeroList.get(i);
-			HeroIF hero = heroMgr.getHeroById(uuid);
+//			HeroIF hero = heroMgr.getHeroById(uuid);
+			Hero hero = heroMgr.getHeroById(p, uuid);
 			if (hero == null) {
 				GameLog.error("AngelArrayTeamInfoHelper", p.getUserName(), "get hero by uuid fail:" + uuid);
 				continue;
 			}
 			fighting += hero.getFighting();
-			heroModelList.add(hero.getModelId());
+			heroModelList.add(hero.getModeId());
 		}
 
 		return fighting;
@@ -265,15 +265,17 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-		HeroMgrIF heroMgr = p.getHeroMgr();
+//		HeroMgrIF heroMgr = p.getHeroMgr();
+		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
-			HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
+//			HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
+			Hero hero = heroMgr.getHeroById(p, teamHeroList.get(i));
 			if (hero == null) {
 				continue;
 			}
 
-			int heroModelId = hero.getModelId();
+			int heroModelId = hero.getModeId();
 			if (heroModelId == mainRoleModelId) {
 				continue;
 			}
@@ -475,7 +477,8 @@ public class AngelArrayTeamInfoHelper {
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>(heroSize);
 		for (int i = 0; i < heroSize; i++) {
 			int heroModelId = teamHeroList.get(i);
-			Hero hero = heroMgr.getHeroByModerId(heroModelId);
+//			Hero hero = heroMgr.getHeroByModerId(heroModelId);
+			Hero hero = heroMgr.getHeroByModerId(p, heroModelId);
 			if (hero == null) {
 				continue;
 			}
@@ -611,7 +614,7 @@ public class AngelArrayTeamInfoHelper {
 	 */
 	private static Map<Integer, SynConditionData> changeHeroFetters(Player player, Hero hero) {
 		if (!player.isRobot()) {
-			SynFettersData fettersData = player.getHeroFettersByModelId(hero.getModelId());
+			SynFettersData fettersData = player.getHeroFettersByModelId(hero.getModeId());
 			if (fettersData == null) {
 				return null;
 			}
@@ -619,7 +622,7 @@ public class AngelArrayTeamInfoHelper {
 			return fettersData.getOpenList();
 		}
 
-		return ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModelId());
+		return ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModeId());
 	}
 
 	/**
@@ -647,7 +650,7 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		String userId = player.getUserId();
-		int heroModelId = hero.getModelId();
+		int heroModelId = hero.getModeId();
 
 		ArenaRobotDataMgr mgr = ArenaRobotDataMgr.getMgr();
 		List<HeroFixEquipInfo> fixExpList = FixEquipHelper.parseFixExpEquip2SimpleList(mgr.getFixExpEquipList(userId, heroModelId));
@@ -728,7 +731,7 @@ public class AngelArrayTeamInfoHelper {
 		String tmpId = baseInfo.getTmpId();
 		RoleCfg roleCfg = cfgDAO.getCfgById(tmpId);
 
-		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
+		RoleBaseInfoImpl roleBaseInfo = new RoleBaseInfoImpl();
 		roleBaseInfo.setId(tmpId);
 		roleBaseInfo.setLevel(baseInfo.getLevel());
 		roleBaseInfo.setQualityId(baseInfo.getQuality());

@@ -1,5 +1,7 @@
 package com.playerdata.hero;
 
+import com.playerdata.Hero;
+
 public interface IHeroSyncEventListener {
 
 	/**
@@ -8,5 +10,5 @@ public interface IHeroSyncEventListener {
 	 * @param hero
 	 * @param version
 	 */
-	public void notifySync(IHero hero, int version);
+	public void notifySync(Hero hero, int version);
 }

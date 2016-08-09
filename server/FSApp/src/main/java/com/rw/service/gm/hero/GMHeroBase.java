@@ -37,7 +37,8 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmAddHero(String templateId, Player player){
-		player.getHeroMgr().addHero(templateId);
+//		player.getHeroMgr().addHero(templateId);
+		player.getHeroMgr().addHero(player, templateId);
 	}
 	
 	/**
@@ -46,7 +47,8 @@ public class GMHeroBase {
 	 * @return
 	 */
 	public static List<String> gmHeroIdList(Player player){
-		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+//		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		return heroIdList;
 	}
 	
