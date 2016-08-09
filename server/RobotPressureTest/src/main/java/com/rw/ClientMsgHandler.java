@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
 import com.rwproto.DataSynProtos.eSynType;
@@ -158,7 +159,7 @@ public abstract class ClientMsgHandler {
 						break;
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
-						break;						
+						break;
 					case GFightOnlinePersonalData:
 						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
 						break;
@@ -177,6 +178,17 @@ public abstract class ClientMsgHandler {
 					default:
 					}
 				}
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
+			}
+		}
+	}
+
+	public void receiveRsp(Response resp) {
+		if (Command.MSG_CHAT == resp.getHeader().getCommand()) {
+			try {
+				MsgChatResponse rsp = MsgChatResponse.parseFrom(resp.getSerializedContent());
 			} catch (InvalidProtocolBufferException e) {
 				e.printStackTrace();
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
@@ -222,18 +234,18 @@ public abstract class ClientMsgHandler {
 		final long sendTime = System.currentTimeMillis();
 		try {
 			final Channel channel = ChannelServer.getInstance().getChannel(client);
-			if(channel == null){
-				RobotLog.testException("channel is null:"+client.getAccountId(), new NullPointerException());
+			if (channel == null) {
+				RobotLog.testException("channel is null:" + client.getAccountId(), new NullPointerException());
 				return false;
 			}
 			client.setCommandInfo(new CommandInfo(command, seqId));
-//			StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
-//			for (int i = 0; i < trace.length; i++) {
-//				sb.append("      ").append(trace[i].toString()).append("\r\n");
-//			}
-//			RobotLog.testInfo(sb.toString());
+			// StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+			// StringBuilder sb = new StringBuilder();
+			// sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
+			// for (int i = 0; i < trace.length; i++) {
+			// sb.append("      ").append(trace[i].toString()).append("\r\n");
+			// }
+			// RobotLog.testInfo(sb.toString());
 			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
 
 			ChannelFuture f = channel.writeAndFlush(request);
