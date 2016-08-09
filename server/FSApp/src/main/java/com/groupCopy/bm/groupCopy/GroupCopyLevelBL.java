@@ -166,7 +166,7 @@ public class GroupCopyLevelBL {
 	 * @param player TODO
 	 * @return
 	 */
-	public synchronized static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
+	public static boolean isFighting(GroupCopyLevelRecord groupRecord, Player player){
 		
 		if(groupRecord.getStatus() == STATE_COPY_EMPTY){
 			return false;
@@ -255,16 +255,24 @@ public class GroupCopyLevelBL {
 			
 			GroupCopyProgress nowPro = new GroupCopyProgress(mData);
 			
-			
-			
-			
 			//获取发送奖励
 			Builder rewardInfo = calculateAndSendReward(copyLvRecd.getProgress().getProgress(), nowPro.getProgress(),
 					level, player, damage);
 			
+			
+			
 			result.setItem(rewardInfo);
 			
-			copyLvRecd.setProgress(nowPro);//新创建一个对象这样set进去，会不会有问题
+			//新创建一个对象这样set进去，会不会有问题
+			//不可以这样set进去，因为前端同步回来的是进关卡前还没有死的怪物数据，没有在上一波已经死的怪物,这样set进去就会造成数据丢失  ----by Alex
+//			copyLvRecd.setProgress(nowPro);
+			//扣除关卡内怪物的血量
+			for (GroupCopyMonsterSynStruct m : mData) {
+				copyLvRecd.getProgress().setmData(m);
+			}
+			copyLvRecd.getProgress().initProgress();//重新计算进度
+			
+			
 			
 			userRecord.incrFightCount();
 			
@@ -344,7 +352,8 @@ public class GroupCopyLevelBL {
 		
 		//个人奖励的 金币=min（伤害*0.05，100000）
 		damage = (int)(damage*0.05 > 100000 ? 100000 : damage*0.05);
-		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
+		damage = damage > 0 ? damage : 0;
+		rewardInfo.setGold(damage);//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());
