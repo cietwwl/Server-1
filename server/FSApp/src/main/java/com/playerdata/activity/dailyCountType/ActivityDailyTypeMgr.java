@@ -1,5 +1,6 @@
 package com.playerdata.activity.dailyCountType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -221,11 +222,11 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		ActivityDailyTypeSubCfg cfg = null;
 		List<ActivityDailyTypeSubCfg> subcfglist = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();
 		for(ActivityDailyTypeSubCfg subcfg :subcfglist){
-			if(StringUtils.equals(subcfg.getId(), typeEnum.getCfgId())){
-			cfg = subcfg;
-			break;
+			if(StringUtils.equals(subcfg.getEnumId(), typeEnum.getCfgId())&&isOpen(subcfg)){
+				cfg = subcfg;
 			}
 		}
+				
 		if(cfg == null){
 			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
 			return subItem;

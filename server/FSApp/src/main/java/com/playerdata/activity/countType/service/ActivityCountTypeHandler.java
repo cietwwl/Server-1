@@ -5,6 +5,8 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rwproto.ActivityCountTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityCountTypeProto.ActivityCommonRspMsg;
 
@@ -21,8 +23,12 @@ public class ActivityCountTypeHandler {
 		response.setReqType(commonReq.getReqType());
 		String activityId = commonReq.getActivityId();
 		String subItemId =  commonReq.getSubItemId();
-	
-		ActivityCountTypeEnum countType = ActivityCountTypeEnum.getById(activityId);
+		ActivityCountTypeCfg cfg = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityId); 
+		ActivityCountTypeEnum countType = null;
+		if(cfg != null){
+			countType = ActivityCountTypeEnum.getById(cfg.getEnumId());
+		}
+		
 		
 		boolean success = false;
 		String tips = null;
@@ -31,9 +37,10 @@ public class ActivityCountTypeHandler {
 			ActivityComResult result = ActivityCountTypeMgr.getInstance().takeGift(player, countType, subItemId);
 			success = result.isSuccess();
 			tips = result.getReason()+"";
+			response.setIsSuccess(success);
+			response.setTipMsg(tips);
 		}
-		response.setIsSuccess(success);
-		response.setTipMsg(tips);
+		
 		return response.build().toByteString();
 	}
 
