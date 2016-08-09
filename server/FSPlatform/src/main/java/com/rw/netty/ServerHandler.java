@@ -8,6 +8,7 @@ import com.rw.controler.FsNettyControler;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.platform.PlatformFactory;
 import com.rwproto.RequestProtos.Request;
+import com.rwproto.RequestProtos.RequestHeader;
 
 
 
@@ -18,16 +19,15 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
+		FsNettyControler controler = SpringContextUtil.getBean("fsNettyControler");
+		Request req = (Request) msg;
 		try {
 			UserChannelMgr.setThreadLocalCTX(ctx);
-			FsNettyControler controler = SpringContextUtil.getBean("fsNettyControler");
-			
-			controler.doMyService( (Request) msg,ctx);
-			
+			controler.doMyService(req, ctx);
 			UserChannelMgr.removeThreadLocalCTX();
 		} catch (Exception e) {
 			PlatformLog.error("ServerHandler", "ServerHandler[channelRead]", "", e);
-			
+			controler.sendErrorResponse(req, 500, ctx);
 		}
 	}
 	
