@@ -13,5 +13,5 @@ Key,Remarks,id,name,icon,atlas,description
 12,,12,金钥匙,Item/ect_ShiLianTa_03,Copy,可在封神台抽取金宝匣
 13,,13,探道笺,Item/icon_GongHuiYueKa,Common,强化神器的资源
 14,,14,驱魔币,Item/ect_QuMoJiFen,Common,可用于心魔录的道具兑换
-15,,15,觉醒碎片,Item/ect_DianFengJingJiChang,Common,可用于兑换神器觉醒材料
+15,,15,觉醒碎片,Item/ect_JueXingShangDian,Common,可用于兑换神器觉醒材料
 16,,16,觉醒钥匙,Item/ect_ShiLianTa_03,Common,可用于打开觉醒宝箱
