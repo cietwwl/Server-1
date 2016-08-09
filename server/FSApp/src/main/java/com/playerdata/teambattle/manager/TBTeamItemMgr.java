@@ -140,6 +140,7 @@ public class TBTeamItemMgr{
 			}
 			if(null != scdData) {
 				scdData.setTbLastRefreshTime(System.currentTimeMillis());
+				scdData.teamBattleDailyReset();
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		}

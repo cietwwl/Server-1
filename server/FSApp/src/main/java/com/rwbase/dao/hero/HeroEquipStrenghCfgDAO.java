@@ -5,7 +5,6 @@ import java.util.Map;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.gulid.CfgGuildLogDAO;
 
 public class HeroEquipStrenghCfgDAO extends CfgCsvDao<HeroEquipStrenghCfg> {
 

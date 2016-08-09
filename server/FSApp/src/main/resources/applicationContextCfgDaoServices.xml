@@ -56,9 +56,6 @@
 	<bean class="com.rw.service.gamble.datamodel.DropMissingCfgHelper"  init-method="init" />
 	
 	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildLevelDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.gulid.CfgGuildLogDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.ComposeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.ConsumeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.GemCfgDAO"  init-method="init" />

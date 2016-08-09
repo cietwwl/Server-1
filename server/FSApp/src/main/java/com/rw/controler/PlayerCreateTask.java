@@ -18,6 +18,8 @@ import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
+import com.rwbase.dao.dropitem.DropRecord;
+import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.User;
@@ -110,7 +112,11 @@ public class PlayerCreateTask implements Runnable {
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
 		PlayerParam param = new PlayerParam(accountId, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
-
+		
+		//临时做法
+		DropRecord record = new DropRecord();
+		record.setUserId(userId);
+		DropRecordDAO.getInstance().update(record);
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneReg(player);

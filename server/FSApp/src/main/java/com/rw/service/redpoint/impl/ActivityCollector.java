@@ -177,7 +177,7 @@ public class ActivityCollector implements RedPointCollector{
 					continue;
 				}
 				if(!subitem.isTaken()&&timeCountTargetItem.getCount()>subcfg.getCount()){
-					activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
+//					activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
 					break;
 				}
 			}

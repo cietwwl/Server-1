@@ -107,7 +107,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 						pStoreData.setExistType(eStoreExistType.Always);
 						pStoreData.setType(storeType);
 						m_StoreData.put(type, pStoreData);
-					} else if (m_StoreData.containsKey(type)) {
+					} else if (m_StoreData.containsKey(type)  && cfg.getVersion() != getStore(type).getVersion()) {
 						pStoreData = getStore(type);
 						pStoreData.setVersion(cfg.getVersion());
 						pStoreData.setCommodity(RandomList(type));
@@ -421,7 +421,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		
 		if(vo.getType() == eStoreType.Waken){
 			WakenLotteryDrawCfg wakenLotteryDrawCfg = WakenLotteryDrawCfgDAO.getInstance().getCfgById("1");
-			WakenLotteryProcesser.getInstantce().checkDrawReset(m_pPlayer, vo, wakenLotteryDrawCfg);
+			WakenLotteryProcesser.getInstantce().checkDrawReset(m_pPlayer, storeDataHolder, vo, wakenLotteryDrawCfg);
 		}
 	}
 	
@@ -724,7 +724,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				exchangeCount += time;
 				if (cfg.getExchangeTime() == 0 || exchangeCount <= cfg.getExchangeTime()) {
 					eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
-					if (m_pPlayer.getReward(etype) < cfg.getCost()) {
+					if (m_pPlayer.getReward(etype) < cfg.getCost() * time) {
 						return -2;
 					}
 					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount() * time);

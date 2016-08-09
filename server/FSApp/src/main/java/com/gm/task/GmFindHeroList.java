@@ -16,7 +16,9 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwbase.dao.role.pojo.RoleQualityCfg;
 
 public class GmFindHeroList implements IGmTask{
 	@Override
@@ -58,10 +60,14 @@ public class GmFindHeroList implements IGmTask{
 			}else{
 				heroName = heroCfg.getName();
 			}
+			RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
+			String quality = "品阶异常";
+			if(cfg != null){
+				quality = cfg.getQualityName();
+			}
 			map.put("heroName",heroName);
-//			map.put("qualityLev", roleBaseInfo.getQualityId());
+			map.put("qualityLev", quality);
 //			map.put("starLev", roleBaseInfo.getStarLevel());
-			map.put("qualityLev", hero.getQualityId());
 			map.put("starLev", hero.getStarLevel());
 			map.put("isFight", 0);
 			response.addResult(map);			

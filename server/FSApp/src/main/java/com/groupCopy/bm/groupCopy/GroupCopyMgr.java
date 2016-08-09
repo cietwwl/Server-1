@@ -195,6 +195,7 @@ public class GroupCopyMgr {
 				if(groupID.equals("")){
 					return result;
 				}
+				
 				GroupCopyDistIDManager.getInstance().addGroupID(groupID);
 				final String roleName = player.getUserName();
 				final boolean inExtralTime = mapRecord.getRewardTime() >= System.currentTimeMillis();
@@ -241,8 +242,8 @@ public class GroupCopyMgr {
 		}
 		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 		if(damage <= 0){
-			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
-					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp(), null);
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本["+level+"]战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
+					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp()+",请检查关卡内是否存在加血技能的怪物！！！", null);
 		}
 		return damage;
 	}
@@ -258,20 +259,19 @@ public class GroupCopyMgr {
 			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-		
+		//发放帮派经验
 		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
+		
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
-		ItemDropAndApplyTemplate dropApplyRecord = null;
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
-			dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
+			ItemDropAndApplyTemplate dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
 			dropApplyRecord.addDropItem(d.getCount());
-			dropHolder.updateItem(player, dropAndApplyRecord);
-			dropApplyRecord = null;
 		}
+		dropHolder.updateItem(player, dropAndApplyRecord);
 		
 		mapRecordHolder.updateItem(player, mapRecord);
 	}

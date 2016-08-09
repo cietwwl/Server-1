@@ -3,7 +3,6 @@ package com.playerdata.readonly;
 import com.playerdata.AttrMgr;
 import com.playerdata.EmailMgr;
 import com.playerdata.GambleMgr;
-import com.playerdata.GuildUserMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.SignMgr;
@@ -43,9 +42,9 @@ public interface PlayerIF {
 	public StoreMgrIF getStoreMgr();
 
 	public int getModelId();
-	
+
 	public int getSex();
-	
+
 	public int getCareer();
 
 	// public int getLogoutTimer();
@@ -65,8 +64,6 @@ public interface PlayerIF {
 	public GambleMgr getGambleMgr();
 
 	public FashionMgrIF getFashionMgr();
-
-	public GuildUserMgr getGuildUserMgr();
 
 	public int getLevel();
 
@@ -88,6 +85,6 @@ public interface PlayerIF {
 	public int getVip();
 
 	public String getHeadImage();
-	
+
 	public String getHeadFrame();
 }

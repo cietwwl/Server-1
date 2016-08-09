@@ -12,7 +12,6 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
-import com.playerdata.readonly.FashionMgrIF.ItemFilter;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;

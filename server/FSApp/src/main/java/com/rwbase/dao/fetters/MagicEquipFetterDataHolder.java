@@ -91,72 +91,59 @@ public class MagicEquipFetterDataHolder {
 	
 	/**
 	 * 检查英雄羁绊数据
-	 * @param tempSet
+	 * @param fetter
 	 * @param modelId
 	 */
-	public void checkFixEquipFetterRecord(Set<MagicEquipConditionCfg> tempSet, int modelId) {
+	public void checkFixEquipFetterRecord(MagicEquipConditionCfg fetter, int modelId) {
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		if(item == null){
 			item = checkRecord();
 		}
-		
 		List<Integer> fetterIDs = item.getFixEquipFetters();
-
-
-		List<MagicEquipConditionCfg> existType = new ArrayList<MagicEquipConditionCfg>();
-		for (MagicEquipConditionCfg cfg : tempSet) {
-			if(fetterIDs.contains(cfg.getUniqueId())){
-				existType.add(cfg);
+		if(fetter == null){
+			//降星到0,就要把目标英雄的神器羁绊去了
+			List<Integer> temp = new ArrayList<Integer>();
+			temp.addAll(fetterIDs);
+			boolean remove = false;
+			for (Integer id : temp) {
+				MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
+				if(Integer.parseInt(cfg.getHeroModelID()) == modelId){
+					remove = true;
+					fetterIDs.remove(id);
+					break;
+				}
 			}
+			
+			if(remove){
+				item.setFixEquipFetters(fetterIDs);
+				getItemStore().updateItem(item);
+				dataVersion.incrementAndGet();
+				
+			}
+			return;
 		}
 		
-		//去掉数据库里已经存在的
-		tempSet.removeAll(existType);
-//		if(tempSet.isEmpty()){ 去掉这个，因为有可能会降星到0
-//			return;
-//		}
-		
-		existType.clear();
+
+
+
 		List<Integer> clearOld = new ArrayList<Integer>();
 		
 		//检查数据库里有没有相同类型的旧数据
 		for (Integer id : fetterIDs) {
 			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
-			boolean exist = false;
-			for (MagicEquipConditionCfg fetter : tempSet) {
-				if(fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
-					exist = true;
-					if(cfg.recordOldData()){
-						//要保留的旧记录，可能是降星之前的, 判断一下哪个等级高
-						if(cfg.getConditionLevel() >= fetter.getConditionLevel()){
-							//新的记录没有超过旧的，保留旧记录
-							existType.add(fetter);
-						}else{
-							//超过了，去掉旧的
-							clearOld.add(id);
-							break;
-						}
-					}else{
-						//不用保留，直接清理
-						clearOld.add(id);
-						break;
-					}
-				}
+			if(id == fetter.getUniqueId()){
+				//数据库已经有记录，就不做更新了
+				return;
 			}
-			if(!exist && !cfg.recordOldData() && Integer.parseInt(cfg.getHeroModelID()) == modelId){
-				//新同步进来的羁绊列表里没有目标旧记录，则检查一下这个记录是否要保留，因为有可能会因为降星把所有的羁绊都去掉了
+			if(fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
 				clearOld.add(id);
 			}
-			
 		}
 		
-		
-		tempSet.removeAll(existType);
 		fetterIDs.removeAll(clearOld);
-		
-		for (MagicEquipConditionCfg cfg : tempSet) {
-			fetterIDs.add(cfg.getUniqueId());
-		}
+		fetterIDs.add(fetter.getUniqueId());
+
+
 		item.setFixEquipFetters(fetterIDs);
 		getItemStore().updateItem(item);
 		dataVersion.incrementAndGet();

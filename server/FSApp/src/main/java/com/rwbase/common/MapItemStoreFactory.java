@@ -238,7 +238,7 @@ public class MapItemStoreFactory {
 		
 		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 		
-		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, true));
+		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, false));
 		
 		register(heroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "other", "user_id", heroCapacity, false));
 

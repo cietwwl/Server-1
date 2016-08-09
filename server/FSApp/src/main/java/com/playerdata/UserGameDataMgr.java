@@ -31,20 +31,17 @@ public class UserGameDataMgr {
 	private MajorDataDataHolder majorDataHolder;
 	private Player player;// 角色
 
-	
-	
 	public UserGameDataMgr(Player player, String userId) {
 		this.player = player;
 		majorDataHolder = new MajorDataDataHolder(userId);
 		userGameDataHolder = new UserGameDataHolder(userId);
 
-		
 	}
 
 	public void syn(int version) {
 		userGameDataHolder.syn(player, version);
 		majorDataHolder.syn(player, version);
-		
+
 	}
 
 	/**
@@ -68,18 +65,13 @@ public class UserGameDataMgr {
 	public void addPowerByTime(int level) {
 		UserGameData userGameData = userGameDataHolder.get();
 
-		int recoverTime = PublicDataCfgDAO.getInstance()
-				.getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME);
-		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance()
-				.getCfgById(String.valueOf(level));
+		int recoverTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME);
+		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(level));
 
 		long now = System.currentTimeMillis();// 当前时间
 		if (cfg == null) {
-			StringBuilder errorReason = new StringBuilder(
-					"UserGameDataMgr[addPower]缺少").append(level).append(
-					"级的配置，对应表名为：roleUpgrade");
-			GameLog.error(LogModule.UserGameData.getName(),
-					userGameData.getUserId(), errorReason.toString(), null);
+			StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
+			GameLog.error(LogModule.UserGameData.getName(), userGameData.getUserId(), errorReason.toString(), null);
 			userGameData.setLastAddPowerTime(now);// 上次检查时间是0
 			userGameDataHolder.flush();
 		} else {
@@ -116,9 +108,7 @@ public class UserGameDataMgr {
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
 						if (tempPower < maxPower) {
-							userGameData.setLastAddPowerTime(now
-									- TimeUnit.SECONDS.toMillis(hasSeconds
-											- addValue * recoverTime));
+							userGameData.setLastAddPowerTime(now - TimeUnit.SECONDS.toMillis(hasSeconds - addValue * recoverTime));
 						} else {
 							userGameData.setLastAddPowerTime(0);
 						}
@@ -136,21 +126,15 @@ public class UserGameDataMgr {
 	public boolean addPower(int value, int level) {
 		UserGameData userGameData = userGameDataHolder.get();
 		int newPower = userGameData.getPower() + value;
-		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance()
-				.getCfgById(String.valueOf(level));
+		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(level));
 		if (cfg == null) {
-			StringBuilder errorReason = new StringBuilder(
-					"UserGameDataMgr[addPower]缺少").append(level).append(
-					"级的配置，对应表名为：roleUpgrade");
-			GameLog.error(LogModule.UserGameData.getName(),
-					userGameData.getUserId(), errorReason.toString(), null);
+			StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
+			GameLog.error(LogModule.UserGameData.getName(), userGameData.getUserId(), errorReason.toString(), null);
 			return false;
 		}
-		newPower = newPower < cfg.getMostPower() ? newPower : cfg
-				.getMostPower();
+		newPower = newPower < cfg.getMostPower() ? newPower : cfg.getMostPower();
 		if (newPower < 0) {
-			GameLog.info("Player", userGameData.getUserId(), " 扣除体力异常,体力值为负",
-					null);
+			GameLog.info("Player", userGameData.getUserId(), " 扣除体力异常,体力值为负", null);
 		}
 		userGameData.setPower(newPower);
 		userGameDataHolder.update(player);
@@ -196,8 +180,7 @@ public class UserGameDataMgr {
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1,
-					type_2, nValue, marjorData.getCoin());
+			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, marjorData.getCoin());
 			if (nValue < 0) {
 				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
 			}
@@ -210,8 +193,7 @@ public class UserGameDataMgr {
 		// 记录购买点金手的次数
 		UserGameData tableUserOther = userGameDataHolder.get();
 		if (tableUserOther.getBuyCoinTimes() + nValue >= 0) {
-			tableUserOther.setBuyCoinTimes(tableUserOther.getBuyCoinTimes()
-					+ nValue);
+			tableUserOther.setBuyCoinTimes(tableUserOther.getBuyCoinTimes() + nValue);
 			userGameDataHolder.update(player);
 		}
 	}
@@ -307,8 +289,7 @@ public class UserGameDataMgr {
 			result = decrGold(marjorData, value);
 			// 消耗日常任务
 			if (result == 0) {
-				player.getDailyActivityMgr().AddTaskTimesByType(
-						DailyActivityType.CONST, Math.abs(value));
+				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CONST, Math.abs(value));
 			}
 		}
 
@@ -343,8 +324,7 @@ public class UserGameDataMgr {
 		String scenceId = null;// 暂时留空
 		ItemChangedEventType_1 type_1 = null; // 暂时留空
 		ItemChangedEventType_2 type_2 = null;// 暂时留空
-		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1,
-				type_2, value, majordata.getGiftGold());
+		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, majordata.getGiftGold());
 
 		return 0;
 	}
@@ -412,8 +392,7 @@ public class UserGameDataMgr {
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1,
-					type_2, giftGoldChanged, majordata.getGiftGold());
+			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
 			UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
@@ -447,9 +426,8 @@ public class UserGameDataMgr {
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1,
-					type_2, giftGoldChanged, majordata.getGiftGold());
-//			UserEventMgr.getInstance().UseGold(player, -value);
+			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
+			// UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
 	}
@@ -581,8 +559,7 @@ public class UserGameDataMgr {
 	}
 
 	public void setCarrerChangeTime() {
-		userGameDataHolder.get()
-				.setCarrerChangeTime(System.currentTimeMillis());
+		userGameDataHolder.get().setCarrerChangeTime(System.currentTimeMillis());
 		userGameDataHolder.update(player);
 	}
 
@@ -610,8 +587,7 @@ public class UserGameDataMgr {
 
 		RankingMgr.getInstance().onPlayerChange(player);
 		// 通知一下监听的人，修改对应数据
-		Observer observer = ObserverFactory.getInstance().getObserver(
-				ObserverType.PLAYER_CHANER);
+		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
 		if (observer != null) {
 			observer.playerChangeHeadBox(player);
 		}
@@ -624,8 +600,7 @@ public class UserGameDataMgr {
 	public void addSkillPointCount(int count) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		if (tableUserOther.getSkillPointCount() + count >= 0) {
-			tableUserOther.setSkillPointCount(tableUserOther
-					.getSkillPointCount() + count);
+			tableUserOther.setSkillPointCount(tableUserOther.getSkillPointCount() + count);
 			userGameDataHolder.update(player);
 		}
 	}
@@ -726,42 +701,42 @@ public class UserGameDataMgr {
 	public int getArenaCoin() {
 		return userGameDataHolder.get().getArenaCoin();
 	}
-	
-	public int addWakenPiece(int value){
+
+	public int addWakenPiece(int value) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		int wakenPiece = tableUserOther.getWakenPiece();
-		if(value < 0 && wakenPiece <= 0){
+		if (value < 0 && wakenPiece <= 0) {
 			return -1;
 		}
 		int total = wakenPiece + value;
-		if(value < 0 && total < 0){
+		if (value < 0 && total < 0) {
 			total = 0;
 		}
 		tableUserOther.setWakenPiece(total);
 		userGameDataHolder.update(player);
 		return 0;
 	}
-	
-	public int getWakenPiece(){
+
+	public int getWakenPiece() {
 		return userGameDataHolder.get().getWakenPiece();
 	}
-	
-	public int addWakenKey(int value){
+
+	public int addWakenKey(int value) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		int wakenKey = tableUserOther.getWakenKey();
-		if(value < 0 && wakenKey <= 0){
+		if (value < 0 && wakenKey <= 0) {
 			return -1;
 		}
 		int total = wakenKey + value;
-		if(value < 0 && total < 0){
+		if (value < 0 && total < 0) {
 			total = 0;
 		}
 		tableUserOther.setWakenKey(total);
 		userGameDataHolder.update(player);
 		return 0;
 	}
-	
-	public int getWakenKey(){
+
+	public int getWakenKey() {
 		return userGameDataHolder.get().getWakenKey();
 	}
 
@@ -852,10 +827,8 @@ public class UserGameDataMgr {
 	/**
 	 * 扣除某种货币
 	 * 
-	 * @param currencyType
-	 *            货币类型，参考 item.xlsx SpecialItem表 不支持增加经验，因为需要额外增加英雄ID！
-	 * @param count
-	 *            扣除数量，必须是非负数
+	 * @param currencyType 货币类型，参考 item.xlsx SpecialItem表 不支持增加经验，因为需要额外增加英雄ID！
+	 * @param count 扣除数量，必须是非负数
 	 * @return 操作成功还是失败
 	 */
 	public boolean deductCurrency(eSpecialItemId currencyType, int count) {
@@ -896,10 +869,10 @@ public class UserGameDataMgr {
 		case BraveCoin:
 			result = this.addTowerCoin(dec) == 0;
 			break;
-		case GuildCoin:
-			GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
-			result = m_GuildUserMgr.addGuildCoin(dec) == 1;
-			break;
+		// case GuildCoin:
+		// GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
+		// result = m_GuildUserMgr.addGuildCoin(dec) == 1;
+		// break;
 		case PeakArenaCoin:
 			result = this.addPeakArenaCoin(dec);
 			break;
@@ -941,8 +914,7 @@ public class UserGameDataMgr {
 			old = this.getTowerCoin();
 			break;
 		case GuildCoin:
-			GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
-			old = m_GuildUserMgr.getGuildCoin();
+			old = player.getUserGroupAttributeDataMgr().getUserGroupContribution();
 			break;
 		case PeakArenaCoin:
 			old = this.getPeakArenaCoin();

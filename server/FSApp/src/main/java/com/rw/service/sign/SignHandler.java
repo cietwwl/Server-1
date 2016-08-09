@@ -3,12 +3,7 @@ package com.rw.service.sign;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
-import com.playerdata.HotPointMgr;
 import com.playerdata.Player;
-import com.playerdata.SignMgr;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.BIActivityCode;
-import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwproto.SignServiceProtos.ERequestType;
 import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignRequest;
@@ -103,7 +98,6 @@ public class SignHandler
 			response.setResultMsg("非法请求");
 			response.setResultype(EResultType.FAIL);
 		}
-		HotPointMgr.changeHotPointState(player.getUserId(), EHotPointType.Sign, false);
 		response.setMonth(player.getSignMgr().getCurrentMonth());	//以上一次更新的月份为准...
 		response.setYear(player.getSignMgr().getCurrentYear());
 		List<String> signDataList = player.getSignMgr().getAllSignRecord();

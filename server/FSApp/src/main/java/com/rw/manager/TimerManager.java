@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
-import com.common.serverdata.ServerCommonDataHolder;
 import com.gm.activity.RankingActivity;
 import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
@@ -26,10 +25,8 @@ import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
-import com.rwbase.dao.Army.UserArmyDataDAO;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
-import com.rwbase.dao.gulid.faction.GuildDAO;
 
 public class TimerManager {
 
@@ -37,7 +34,7 @@ public class TimerManager {
 	private static TimeSpanOpHelper biTime10MinuteOp;
 
 	private static TimeSpanOpHelper timeMinuteOp;
-	private static TimeSpanOpHelper time5MinuteOp;
+	// private static TimeSpanOpHelper time5MinuteOp;
 	private static TimeSpanOpHelper timeHourOp;
 	private static DayOpOnHour dayOpOnZero;
 	private static DayOpOnHour dayOpOn5Am;
@@ -64,14 +61,14 @@ public class TimerManager {
 				PlayerMgr.getInstance().secondFunc4AllPlayer();
 			}
 		}, SECOND);
-		
+
 		time10SecondOp = new TimeSpanOpHelper(new ITimeOp() {
 
 			@Override
 			public void doTask() {
 				GFightStateTransfer.getInstance().checkTransfer();
 			}
-			
+
 		}, SECOND * 10);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
@@ -81,20 +78,11 @@ public class TimerManager {
 			}
 		}, MINUTE);
 
-		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
-			@Override
-			public void doTask() {
-				GuildDAO.getInstance().flush();
-				UserArmyDataDAO.getInstance().flush();
-				
-			}
-		}, MINUTE_5);
-
 		timeHourOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				//帮派副本定时发奖
+				// 帮派副本定时发奖
 				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
@@ -169,13 +157,6 @@ public class TimerManager {
 						TBTeamItemMgr.getInstance().dailyReset();
 					}
 				});
-				heavyWeightsExecturos.execute(new Runnable() {
-
-					@Override
-					public void run() {
-						ServerCommonDataHolder.getInstance().teamBattleDailyReset();
-					}
-				});
 			}
 		}, 5);
 
@@ -212,7 +193,7 @@ public class TimerManager {
 			public void run() {
 				try {
 					timeMinuteOp.tryRun();
-					time5MinuteOp.tryRun();
+					// time5MinuteOp.tryRun();
 					timeHourOp.tryRun();
 					dayOpOnZero.tryRun();
 					dayOpOn5Am.tryRun();
@@ -270,7 +251,7 @@ public class TimerManager {
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 榜奖励***/
+		/**** 排行 榜奖励 ***/
 		ActivityRankTypeMgr.getInstance().sendGift();
 
 		// GambleMgr.minutesUpdate();
