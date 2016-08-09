@@ -8,4 +8,9 @@ public interface DataUpdater<K> {
 	 */
 	public void submitUpdateTask(K key);
 	
+	/**
+	 * 通知一个记录任务
+	 * @param key
+	 */
+	public void submitRecordTask(K key);
 }

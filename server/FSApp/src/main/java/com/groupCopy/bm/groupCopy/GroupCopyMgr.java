@@ -242,8 +242,8 @@ public class GroupCopyMgr {
 		}
 		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 		if(damage <= 0){
-			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
-					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp(), null);
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本["+level+"]战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
+					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp()+",请检查关卡内是否存在加血技能的怪物！！！", null);
 		}
 		return damage;
 	}
