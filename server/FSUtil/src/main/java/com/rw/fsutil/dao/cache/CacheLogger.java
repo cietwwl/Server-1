@@ -51,8 +51,8 @@ public class CacheLogger implements Runnable {
 		// use blockingqueue better
 		this.queue = new ConcurrentLinkedQueue<LoggerEvent>();
 		this.maxCapacity = flushCount * 2;
-		this.charBuffer = new CharArrayBuffer(this.flushCount,this.maxCapacity);
-		this.baos = new GzipTempArrayBuffer(this.flushCount);
+		this.charBuffer = new CharArrayBuffer(this.flushCount >> 2,this.maxCapacity);
+		this.baos = new GzipTempArrayBuffer(this.flushCount >> 2);
 		this.charSet = Charset.forName("UTF-8");
 	}
 
