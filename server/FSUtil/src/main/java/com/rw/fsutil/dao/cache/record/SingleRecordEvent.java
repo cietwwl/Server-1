@@ -36,7 +36,6 @@ public class SingleRecordEvent implements RecordEvent<SingleRecordEvent>, Logger
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-//		sb.append('|').append(keyString);
 		// 删除空列表，可以抽取公共方法
 		JSONObject json = jsonComparator.filter(this.json, keyString);
 		sb.append(lineSeparator);

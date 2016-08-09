@@ -2,8 +2,10 @@ package com.rw.fsutil.cacheDao;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.cacheDao.loader.DataKVIntegration;
 import com.rw.fsutil.cacheDao.loader.DataKVSactter;
@@ -16,6 +18,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
 import com.rw.fsutil.log.SqlLog;
@@ -39,7 +42,8 @@ public class DataKVDao<T> {
 		DataAccessSimpleSupport simpleSupport = DataAccessFactory.getSimpleSupport();
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), new ObjectConvertor<T>());
+		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null);
 		this.type = null;
 	}
 
@@ -62,7 +66,8 @@ public class DataKVDao<T> {
 		} else {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, new ObjectConvertor<T>());
+		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null);
 	}
 
 	/**

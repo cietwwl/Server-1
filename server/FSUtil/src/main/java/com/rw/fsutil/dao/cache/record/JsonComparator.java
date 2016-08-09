@@ -12,7 +12,7 @@ import com.rw.fsutil.dao.cache.trace.ChangedRecord;
 
 public class JsonComparator {
 
-	private String REMOVED = "[rm]";
+	public static final String REMOVED = "[rm]";
 	private Map<String, ChangedRecord> emptyMap = Collections.emptyMap();
 
 	public Map<String, ChangedRecord> compareJSON(JSONObject lastRecord, JSONObject newRecord) {
@@ -212,7 +212,7 @@ public class JsonComparator {
 				// remove 0 value
 				Number number = (Number) next;
 				if (number.intValue() == 0) {
-  					if (keyList == null) {
+					if (keyList == null) {
 						keyList = new ArrayList<String>();
 					}
 					keyList.add(entry.getKey());
@@ -232,4 +232,5 @@ public class JsonComparator {
 			return json;
 		}
 	}
+
 }

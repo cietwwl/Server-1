@@ -15,18 +15,14 @@ public class MultiChangedResult implements CacheRecordEvent, ChangeInfoSet {
 		lineSeparator = CacheFactory.LINE_SEPARATOR;
 	}
 
-	private final Map<String, JSONObject> lastInfo;
 	private final ChangeInfoSetImpl changedInfo;
 
-	public MultiChangedResult(Map<String, JSONObject> lastInfo, ChangeInfoSetImpl changedInfo) {
-		super();
-		this.lastInfo = lastInfo;
+	public MultiChangedResult(ChangeInfoSetImpl changedInfo) {
 		this.changedInfo = changedInfo;
 	}
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-//		sb.append("|").append(changedInfo.key);
 		ChangeInfoSetImpl set = changedInfo;
 		List<JsonInfo> addList = set.getAddInfos();
 		if (addList != null) {

@@ -93,6 +93,7 @@ public class MapItemStore<T extends IMapItem> {
 			T t = itemList.get(i);
 			itemMap.put(t.getId(), t);
 		}
+		updater.submitRecordTask(searchId);
 		return true;
 	}
 
@@ -110,6 +111,7 @@ public class MapItemStore<T extends IMapItem> {
 		}
 		if (success) {
 			itemMap.put(item.getId(), item);
+			updater.submitRecordTask(searchId);
 			return true;
 		} else {
 			return false;
@@ -123,6 +125,7 @@ public class MapItemStore<T extends IMapItem> {
 		boolean result;
 		try {
 			result = commonJdbc.delete(searchId, id);
+			updater.submitRecordTask(searchId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -156,6 +159,7 @@ public class MapItemStore<T extends IMapItem> {
 		for (int i = result.size(); --i >= 0;) {
 			itemMap.remove(result.get(i));
 		}
+		updater.submitRecordTask(searchId);
 		return result;
 	}
 

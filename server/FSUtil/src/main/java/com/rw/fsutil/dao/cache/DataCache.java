@@ -330,7 +330,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			RecordEvent<?> lastRecord = old.get();
 			CacheRecordEvent recordEvent = jsonConverter.parse(lastRecord, jsonMap);
 			if (recordEvent == null) {
-				System.out.println("无效commit:" + name);
+				//System.out.println("无效commit:" + name);
 				return;
 			}
 			if (old.compareAndSet(lastRecord, jsonMap)) {
@@ -1227,6 +1227,14 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void submitRecordTask(K key) {
+		CacheValueEntity<V> entity = this.get(key);
+		if (entity != null) {
+			record(key, entity.getValue(), entity, new CacheStackTrace());
+		}
 	}
 
 }

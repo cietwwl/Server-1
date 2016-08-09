@@ -1,12 +1,8 @@
 package com.rw.fsutil.dao.cache.record;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.dao.cache.CacheFactory;
 import com.rw.fsutil.dao.cache.trace.ChangeInfoSetImpl;
@@ -33,7 +29,6 @@ public class MultiRecordEvent implements RecordEvent<MultiRecordEvent> {
 	@Override
 	public void write(CharArrayBuffer sb) {
 		String keyString = (key == null) ? "null" : key.toString();
-//		sb.append('|').append(keyString);
 		for (JSONObject json : jsonMap.values()) {
 			JSONObject temp = jsonComparator.filter(json, keyString);
 			sb.append(lineSeparator);
@@ -75,7 +70,7 @@ public class MultiRecordEvent implements RecordEvent<MultiRecordEvent> {
 				}
 			}
 			if (setImpl != null) {
-				return new MultiChangedResult(jsonMap, setImpl);
+				return new MultiChangedResult(setImpl);
 			} else {
 				return null;
 			}

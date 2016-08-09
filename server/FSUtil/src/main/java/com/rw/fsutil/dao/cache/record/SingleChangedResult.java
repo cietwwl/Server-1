@@ -32,7 +32,7 @@ public class SingleChangedResult implements CacheRecordEvent, JsonChangeInfo {
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-//		sb.append('|').append(key);
+		sb.append(lineSeparator);
 		Map<String, ChangedRecord> updateMap = recordMap;
 		JSONObject updateJson = new JSONObject(updateMap.size());
 		for (Map.Entry<String, ChangedRecord> entry : updateMap.entrySet()) {

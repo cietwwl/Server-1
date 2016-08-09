@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.rw.fsutil.dao.cache.record.RecordEvent;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.common.DBThreadPoolMgr;
 
 @SuppressWarnings("rawtypes")
@@ -17,14 +18,22 @@ public class DataCacheFactory {
 
 	private static HashMap<String, Object> ignoreConvertorMap = new HashMap<String, Object>();
 
-	public static void init(List<String> list) {
+	private static HashMap<Class<?>,DataValueParser<?>> parserMap = new  HashMap<Class<?>,DataValueParser<?>>();
+	
+	public static void init(List<String> list, Map<Class<?>, DataValueParser<?>> parser) {
 		Object PRESENT = new Object();
 		for (int i = list.size(); --i >= 0;) {
 			ignoreConvertorMap.put(list.get(i), PRESENT);
 		}
+		parserMap.putAll(parser);
+	}
+	
+	public static <T> DataValueParser<T> getParser(Class<T> clazz){
+		return (DataValueParser<T>) parserMap.get(clazz);
 	}
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ? extends RecordEvent<?>> jsonConverter) {
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, 
+			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ? extends RecordEvent<?>> jsonConverter) {
 		DataCache oldCache = cacheMap.get(clazz);
 		if (oldCache != null) {
 			System.err.println("DataCache名字重复1：" + clazz);

@@ -5,12 +5,23 @@ import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.dao.cache.record.CacheRecordEvent;
 import com.rw.fsutil.dao.cache.record.SingleRecordEvent;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 
 public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SingleRecordEvent> {
 
+	private final DataValueParser<T> parser;
+
+	public ObjectConvertor(DataValueParser<T> parser) {
+		this.parser = parser;
+	}
+
 	@Override
 	public SingleRecordEvent parseToRecordData(String key, T cacheValue) throws Exception {
-		return new SingleRecordEvent(key, (JSONObject) JSON.toJSON(cacheValue));
+		if (parser != null) {
+			return new SingleRecordEvent(key, parser.toJson(cacheValue));
+		} else {
+			return new SingleRecordEvent(key, (JSONObject) JSON.toJSON(cacheValue));
+		}
 	}
 
 	@Override
