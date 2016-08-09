@@ -567,6 +567,7 @@ public class ChatHandler {
 			}
 		}
 		ChatBM.getInstance().updatePrivateChatState(player.getUserId(), unReadList);
+		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
 		return msgChatResponse.build().toByteString();
 	}
 

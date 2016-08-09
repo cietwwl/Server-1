@@ -83,7 +83,8 @@ private static WorshipHandler instance = new WorshipHandler();
 		response.setResultType(EWorshipResultType.SUCCESS);
 		response.setWorshipCareer(career);
 		List<WorshipInfo> worshipList = WorshipMgr.getInstance().getWorshipList(ECareer.valueOf(career));
-		for (int i = 0; i < WorshipUtils.UpperWorshipNum; i++) {//修改为20个上限
+		int num = WorshipUtils.UpperWorshipNum > worshipList.size() ? worshipList.size() : WorshipUtils.UpperWorshipNum;
+		for (int i = 0; i < num; i++) {//修改为20个上限
 			response.addWorshipList(worshipList.get(i));
 		}
 //		response.addAllWorshipList();
