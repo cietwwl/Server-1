@@ -342,8 +342,8 @@ public class GroupCopyLevelBL {
 			e.printStackTrace();
 		}
 		
-		//个人奖励的金币
-		damage = damage > 0 ? damage : 0;
+		//个人奖励的 金币=min（伤害*0.05，100000）
+		damage = (int)(damage*0.05 > 100000 ? 100000 : damage*0.05);
 		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
