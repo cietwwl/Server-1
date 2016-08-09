@@ -499,7 +499,7 @@ public class GroupSecretMatchHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, id, EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroList));
 
 		rsp.setIsSuccess(true);
-		// rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
+		 rsp.setTipMsg("战前数据发送完毕");
 		rsp.setAttackStartRsp(endRsp);
 		return rsp.build().toByteString();
 	}
