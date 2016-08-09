@@ -29,17 +29,14 @@ public class MainMsgHandler {
 
 	public void sendPmdGm(Player player, String[] arrCommandContents) {
 
-		if (arrCommandContents != null)
-		{
+		if (arrCommandContents != null) {
 			int id = 0;
-			if (arrCommandContents.length > 0)
-			{
+			if (arrCommandContents.length > 0) {
 				id = new Integer(arrCommandContents[0]);
 			}
 
 			List<String> arr = new ArrayList<String>();
-			for (int i = 1; i < arrCommandContents.length; i++)
-			{
+			for (int i = 1; i < arrCommandContents.length; i++) {
 				arr.add(arrCommandContents[i]);
 			}
 			sendPmd(id, arr);
@@ -53,24 +50,17 @@ public class MainMsgHandler {
 		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
 		res.setId(id);
 		res.setType(EMsgType.PmdMsg);
-		if (arr != null && arr.size() > 0)
-		{
-			for (int i = 0; i < arr.size(); i++)
-			{
-				if (i == 0)
-				{
+		if (arr != null && arr.size() > 0) {
+			for (int i = 0; i < arr.size(); i++) {
+				if (i == 0) {
 					res.setInfo1(arr.get(i));
-				} else if (i == 1)
-				{
+				} else if (i == 1) {
 					res.setInfo2(arr.get(i));
-				} else if (i == 2)
-				{
+				} else if (i == 2) {
 					res.setInfo3(arr.get(i));
-				} else if (i == 3)
-				{
+				} else if (i == 3) {
 					res.setInfo4(arr.get(i));
-				} else if (i == 4)
-				{
+				} else if (i == 4) {
 					res.setInfo5(arr.get(i));
 				}
 			}
@@ -83,8 +73,7 @@ public class MainMsgHandler {
 		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(playeMap.values());
-		for (Player player : list)
-		{
+		for (Player player : list) {
 			player.SendMsg(Command.MSG_MainMsg, pBuffer);
 		}
 
@@ -98,11 +87,9 @@ public class MainMsgHandler {
 	}
 
 	/** 祭坛抽到物品(非佣兵),物品id为 **/
-	public void sendPmdJtGoods(Player player, String goodsId)
-	{
+	public void sendPmdJtGoods(Player player, String goodsId) {
 		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1)
-		{
+		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -112,11 +99,9 @@ public class MainMsgHandler {
 	}
 
 	/** 祭坛抽到特殊佣兵 **/
-	public void sendPmdJtYb(Player player, String goodsId)
-	{
+	public void sendPmdJtYb(Player player, String goodsId) {
 		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1)
-		{
+		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -125,8 +110,7 @@ public class MainMsgHandler {
 	}
 
 	/** 领取首冲礼包 **/
-	public void sendPmdSc(Player player)
-	{
+	public void sendPmdSc(Player player) {
 		List<String> arr = new ArrayList<String>();
 		arr.add(player.getUserName());
 		// arr.add(ybName+"");
@@ -134,8 +118,7 @@ public class MainMsgHandler {
 	}
 
 	/** 购买月卡 **/
-	public void sendPmdYk(Player player)
-	{
+	public void sendPmdYk(Player player) {
 		List<String> arr = new ArrayList<String>();
 		arr.add(player.getUserName());
 		// arr.add(ybName+"");
@@ -143,8 +126,7 @@ public class MainMsgHandler {
 	}
 
 	/** 开服活动 **/
-	public void sendPmdHd(Player player)
-	{
+	public void sendPmdHd(Player player) {
 		// List<String> arr=new ArrayList<String>();
 		// arr.add(player.getUserName());
 		// arr.add(ybName+"");
@@ -152,8 +134,7 @@ public class MainMsgHandler {
 	}
 
 	/** 通关万仙阵 **/
-	public void sendPmdWxz(Player player)
-	{
+	public void sendPmdWxz(Player player) {
 		List<String> arr = new ArrayList<String>();
 		arr.add(player.getUserName());
 		// arr.add(ybName+"");
@@ -161,8 +142,7 @@ public class MainMsgHandler {
 	}
 
 	/** 无尽战火通关难度XX **/
-	public void sendPmdSl(Player player, int num)
-	{
+	public void sendPmdSl(Player player, int num) {
 		List<String> arr = new ArrayList<String>();
 		arr.add(player.getUserName());
 		// arr.add(ybName+"");
@@ -170,8 +150,7 @@ public class MainMsgHandler {
 	}
 
 	/** 通关试炼塔层数（玩家通关10的倍数层数触发公告） **/
-	public void sendPmdSlt(Player player, int num)
-	{
+	public void sendPmdSlt(Player player, int num) {
 		List<String> arr = new ArrayList<String>();
 		arr.add(player.getUserName());
 		arr.add(num + "");
@@ -179,22 +158,17 @@ public class MainMsgHandler {
 	}
 
 	/** 伙伴升星,3星以及以上 **/
-	public void sendPmdHpsx(Player player, String pName, int num)
-	{
-		if (num <= 3)
-		{
+	public void sendPmdHpsx(Player player, String pName, int num) {
+		if (num <= 3) {
 			return;
 		}
 
 		String colors = "[ffffff]";
-		if (num == 3)
-		{
+		if (num == 3) {
 			colors = "[00b5ff]";
-		} else if (num == 4)
-		{
+		} else if (num == 4) {
 			colors = "[ef00ff]";
-		} else if (num == 5)
-		{
+		} else if (num >= 5) {
 			colors = "[ff7800]";
 		}
 		List<String> arr = new ArrayList<String>();
@@ -209,8 +183,7 @@ public class MainMsgHandler {
 	// id:6、7、8、9、10显示为紫色
 	// id:11、12、13显示为橙色
 	/** 伙伴进阶,蓝色以上 **/
-	public void sendPmdHpJj(Player player, String pName, int num, RoleQualityCfg roleQualityCfg)
-	{
+	public void sendPmdHpJj(Player player, String pName, int num, RoleQualityCfg roleQualityCfg) {
 
 		String st = "";
 		String qualityName = roleQualityCfg.getQualityName();
@@ -225,17 +198,14 @@ public class MainMsgHandler {
 			msgId = 14;
 		}
 		String colors = "[ffffff]";
-		if (qualityName.indexOf("蓝色") != -1)
-		{
+		if (qualityName.indexOf("蓝色") != -1) {
 			st = roleQualityCfg.getQualityName();
 			colors = "[00b5ff]";
-		} else if (qualityName.indexOf("紫色") != -1)
-		{
+		} else if (qualityName.indexOf("紫色") != -1) {
 			st = roleQualityCfg.getQualityName();
 
 			colors = "[ef00ff]";
-		} else if (qualityName.indexOf("橙色") != -1)
-		{
+		} else if (qualityName.indexOf("橙色") != -1) {
 			st = roleQualityCfg.getQualityName();
 			colors = "[ff7800]";
 		}
@@ -248,21 +218,16 @@ public class MainMsgHandler {
 	}
 
 	/** 主角升星,3星以及以上 **/
-	public void sendPmdZjsx(Player player, int num)
-	{
-		if (num <= 3)
-		{
+	public void sendPmdZjsx(Player player, int num) {
+		if (num <= 3) {
 			return;
 		}
 		String colors = "[ffffff]";
-		if (num == 3)
-		{
+		if (num == 3) {
 			colors = "[00b5ff]";
-		} else if (num == 4)
-		{
+		} else if (num == 4) {
 			colors = "[ef00ff]";
-		} else if (num == 5)
-		{
+		} else if (num >= 5) {
 			colors = "[ff7800]";
 		}
 		List<String> arr = new ArrayList<String>();
@@ -272,8 +237,7 @@ public class MainMsgHandler {
 	}
 
 	/** 主角进阶,蓝色以上 **/
-	public void sendPmdZjJj(Player player, int num)
-	{
+	public void sendPmdZjJj(Player player, int num) {
 		String qualityId = player.getMainRoleHero().getQualityId();
 		RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 		String st = "";
@@ -289,17 +253,14 @@ public class MainMsgHandler {
 			msgId = 12;
 		}
 		String colors = "[ffffff]";
-		if (qualityName.indexOf("蓝色") != -1)
-		{
+		if (qualityName.indexOf("蓝色") != -1) {
 			st = roleQualityCfg.getQualityName();
 			colors = "[00b5ff]";
-		} else if (qualityName.indexOf("紫色") != -1)
-		{
+		} else if (qualityName.indexOf("紫色") != -1) {
 			st = roleQualityCfg.getQualityName();
 
 			colors = "[ef00ff]";
-		} else if (qualityName.indexOf("橙色") != -1)
-		{
+		} else if (qualityName.indexOf("橙色") != -1) {
 			st = roleQualityCfg.getQualityName();
 			colors = "[ff7800]";
 		}
@@ -310,10 +271,8 @@ public class MainMsgHandler {
 	}
 
 	/** 稀有法宝的获得,A、S级 **/
-	public void sendPmdFb(Player player, String fbName, int num)
-	{
-		if (num <= 2)
-		{
+	public void sendPmdFb(Player player, String fbName, int num) {
+		if (num <= 2) {
 			return;
 		}
 
