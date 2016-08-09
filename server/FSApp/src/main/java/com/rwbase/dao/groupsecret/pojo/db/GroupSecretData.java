@@ -10,6 +10,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
@@ -30,6 +31,8 @@ public class GroupSecretData {
 	private int robTimes;// 已经被掠夺的次数
 	private int secretId;// 秘境配置Id
 	private List<String> inviteList;// 邀请驻守的成员Id
+	@JsonProperty
+	private int defendSize = 0; // 驻守的人数
 	@SaveAsJson
 	private ConcurrentHashMap<Integer, DefendUserInfoData> defendMap;// 驻守的信息
 	@NonSave
@@ -120,7 +123,11 @@ public class GroupSecretData {
 		}
 
 		updateVersion();
-		return defendMap.putIfAbsent(defendIndex, data) == null;
+		boolean success = defendMap.putIfAbsent(defendIndex, data) == null;
+		if(success) {
+			defendSize++;
+		}
+		return success;
 	}
 
 	/**
@@ -200,5 +207,19 @@ public class GroupSecretData {
 	 */
 	public void updateVersion() {
 		version.incrementAndGet();
+	}
+	
+	/**
+	 * 
+	 * 获取驻守人数
+	 * 
+	 * @return
+	 */
+	public int getDefendSize() {
+		if (defendSize == 0) {
+			// 这里要兼容旧数据，一开始是没有defendSize这个字段，所以可能会为0
+			defendSize = this.defendMap.size();
+		}
+		return defendSize;
 	}
 }

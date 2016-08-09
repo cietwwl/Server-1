@@ -250,7 +250,8 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public void setRobGSValue(int index, int value) {
 		updateVersion();
-		robGS[index - 1] = value <= 0 ? 1 : value;
+//		robGS[index - 1] = value <= 0 ? 1 : value;
+		robGS[index - 1] = value < 0 ? 0 : value; // 去掉保底，2016-08-15，策划新需求
 	}
 
 	/**
@@ -262,7 +263,8 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public void setRobGEValue(int index, int value) {
 		updateVersion();
-		robGE[index - 1] = value <= 0 ? 1 : value;
+//		robGE[index - 1] = value <= 0 ? 1 : value;
+		robGE[index - 1] = value < 0 ? 0 : value; // 去掉保底，2016-08-15，策划新需求
 	}
 
 	/**
