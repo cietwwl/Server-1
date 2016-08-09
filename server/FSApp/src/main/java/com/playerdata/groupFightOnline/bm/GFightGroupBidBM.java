@@ -2,11 +2,15 @@ package com.playerdata.groupFightOnline.bm;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
@@ -92,14 +96,23 @@ public class GFightGroupBidBM {
 			gfRsp.setTipMsg("竞标数量没有达到最小要求(起始或最小增长值)");
 			return;
 		}
-		if(gfGroupData.getResourceID() > 0){// && gfGroupData.getResourceID() != resourceID) {
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfGroupData.getResourceID());
-			if(!resData.isOwnerBidAble()){
+		List<GFightOnlineResourceCfg> resDataCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : resDataCfgs){
+			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
+			if(null != resData && !resData.isOwnerBidAble() && StringUtils.equals(resData.getOwnerGroupID(), gfGroupData.getGroupID())){
 				gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
 				gfRsp.setTipMsg("竞标冷却期间，不能竞标");
 				return;
 			}
 		}
+//		if(gfGroupData.getResourceID() > 0){// && gfGroupData.getResourceID() != resourceID) {
+//			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfGroupData.getResourceID());
+//			if(!resData.isOwnerBidAble() && StringUtils.equals(resData.getOwnerGroupID(), gfGroupData.getGroupID())){
+//				gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+//				gfRsp.setTipMsg("竞标冷却期间，不能竞标");
+//				return;
+//			}
+//		}
 		if(!GFightConditionJudge.getInstance().haveAuthorityToBid(player)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
 			gfRsp.setTipMsg("您的帮派职位没有竞标权限");

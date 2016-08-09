@@ -35,6 +35,7 @@ import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef;
+import com.rwproto.MsgDef.Command;
 
 // 聊天缓存
 
@@ -862,7 +863,7 @@ public class ChatBM {
 			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
 
-		// sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); // 2016-08-04 暫時不用發送給自己
+		 sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); 
 	}
 
 	public String filterDirtyWord(String content) {
