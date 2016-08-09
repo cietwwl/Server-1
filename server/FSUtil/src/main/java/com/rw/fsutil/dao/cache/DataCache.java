@@ -321,33 +321,37 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	}
 
 	private void record(K key, V value, CacheValueEntity<V> old, CacheStackTrace trace) {
-		// 当前json
-		RecordEvent<?> jsonMap = toJson(key, value);
-		if (jsonMap == null) {
-			return;
-		}
-		for (int j = 0; j < 10; j++) {
-			RecordEvent<?> lastRecord = old.get();
-			CacheRecordEvent recordEvent = jsonConverter.parse(lastRecord, jsonMap);
-			if (recordEvent == null) {
-				//System.out.println("无效commit:" + name);
+		try {
+			// 当前json
+			RecordEvent<?> jsonMap = toJson(key, value);
+			if (jsonMap == null) {
 				return;
 			}
-			if (old.compareAndSet(lastRecord, jsonMap)) {
-				// TODO 未解决顺序问题，结合打日志程模型一起改，现在日志是慢速的
-				logger.executeAysnEvent(CacheLoggerPriority.INFO, "U", recordEvent, trace);
-				for (int i = this.dataChangedListeners.size(); --i >= 0;) {
-					DataChangedListener listener = dataChangedListeners.get(i);
-					try {
-						listener.notifyDataChanged(recordEvent);
-					} catch (Throwable t) {
-						logger.error("notify data changed exception:", t);
-					}
+			for (int j = 0; j < 10; j++) {
+				RecordEvent<?> lastRecord = old.get();
+				CacheRecordEvent recordEvent = jsonConverter.parse(lastRecord, jsonMap);
+				if (recordEvent == null) {
+					// System.out.println("无效commit:" + name);
+					return;
 				}
-				return;
+				if (old.compareAndSet(lastRecord, jsonMap)) {
+					// TODO 未解决顺序问题，结合打日志程模型一起改，现在日志是慢速的
+					logger.executeAysnEvent(CacheLoggerPriority.INFO, "U", recordEvent, trace);
+					for (int i = this.dataChangedListeners.size(); --i >= 0;) {
+						DataChangedListener listener = dataChangedListeners.get(i);
+						try {
+							listener.notifyDataChanged(recordEvent);
+						} catch (Throwable t) {
+							logger.error("notify data changed exception:", t);
+						}
+					}
+					return;
+				}
 			}
+			logger.error("record loop too much:" + name);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		logger.error("record loop too much:" + name);
 	}
 
 	/**
