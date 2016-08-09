@@ -93,7 +93,10 @@ public class WakenLotteryProcesser {
 			if (guaranteeTime == cfg.getGuaranteeeTime()) {
 				storeData.setRecordGuaranteeTime(0);
 			}
-
+			//当前是免费抽则消耗免费抽的次数
+			if(storeData.getDrawTime() < cfg.getFreeTime()){
+				storeData.setDrawTime(storeData.getDrawTime() + 1);
+			}
 		}
 		for (Iterator<Entry<Integer, Integer>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, Integer> entry = iterator.next();
