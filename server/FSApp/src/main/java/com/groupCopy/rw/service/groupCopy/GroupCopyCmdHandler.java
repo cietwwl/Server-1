@@ -182,7 +182,7 @@ public class GroupCopyCmdHandler {
 	 */
 	public ByteString getDistRewardLog(Player player) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
-		rspCmd.setReqType(GroupCopyReqType.APPLY_WAR_PRICE);
+		rspCmd.setReqType(GroupCopyReqType.GET_DIST_REWARD_LOG);
 		Group g = GroupHelper.getGroup(player);
 		if(g != null){
 			g.getGroupCopyMgr().synRewardLogData(player);
