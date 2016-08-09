@@ -22,7 +22,7 @@ public class CacheStackTraceMap {
 	private final Executor executor;
 
 	public CacheStackTraceMap(final int maxCapacity, String name, Executor executor) {
-		this.name = "trace" + new SimpleDateFormat("yyyyMMdd").format(new Date());
+		this.name = "t" + new SimpleDateFormat("MMdd").format(new Date());
 		this.executor = executor;
 		this.map = new LinkedHashMap<CacheStackTraceEntity, String>(10000, 0.5f, true) {
 
