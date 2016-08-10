@@ -1,5 +1,7 @@
 package com.rw.service.worship;
 
+import java.util.List;
+
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -13,6 +15,7 @@ import com.rwbase.dao.worship.pojo.WorshipItemData;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.WorshipServiceProtos.EWorshipRequestType;
 import com.rwproto.WorshipServiceProtos.EWorshipResultType;
+import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipRequest;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
@@ -79,7 +82,12 @@ private static WorshipHandler instance = new WorshipHandler();
 		response.setRequestType(EWorshipRequestType.PUSH_WORSHIP_LIST);
 		response.setResultType(EWorshipResultType.SUCCESS);
 		response.setWorshipCareer(career);
-		response.addAllWorshipList(WorshipMgr.getInstance().getWorshipList(ECareer.valueOf(career)));
+		List<WorshipInfo> worshipList = WorshipMgr.getInstance().getWorshipList(ECareer.valueOf(career));
+		int num = WorshipUtils.UpperWorshipNum > worshipList.size() ? worshipList.size() : WorshipUtils.UpperWorshipNum;
+		for (int i = 0; i < num; i++) {//修改为20个上限
+			response.addWorshipList(worshipList.get(i));
+		}
+//		response.addAllWorshipList();
 		player.SendMsg(Command.MSG_Worship, response.build().toByteString());
 	}
 }

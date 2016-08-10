@@ -13,6 +13,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
+import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
@@ -53,6 +54,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.BattleCommon.eBattlePositionType;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
@@ -745,6 +747,12 @@ public class PeakArenaHandler {
 			ItemData selectedMagic = null;
 			// 如果背包找不到法宝，可能是法宝被分解了！这时自动切换为玩家的法宝
 			selectedMagic = bagMgr.findBySlotId(magicId);
+			if (selectedMagic != null){
+				EItemTypeDef ty = ItemCfgHelper.getItemType(selectedMagic.getModelId());
+				if (ty != EItemTypeDef.Magic){
+					selectedMagic = null;
+				}
+			}
 			if (selectedMagic == null) {
 				selectedMagic = magic;
 			}
