@@ -20,7 +20,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
-import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
 import com.rwbase.dao.chat.pojo.ChatUserInfo;
@@ -393,7 +392,7 @@ public class ChatHandler {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
-			// System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+//			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 				data.setIsRead(true);
@@ -574,6 +573,8 @@ public class ChatHandler {
 	public ByteString setCurrentTargetOfPrivateChat(Player player, MsgChatRequestPrivateChats request) {
 		String targetUserId = request.getUserId();
 		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
+//		System.out.println("player set current target of private chat, player id : " + player.getUserId() + ", target : " + targetUserId);
+		ChatBM.getInstance().setAllChatsReadOfTarget(player.getUserId(), targetUserId);
 		return ByteString.EMPTY;
 	}
 
@@ -716,6 +717,8 @@ public class ChatHandler {
 			msgChatResponse.addUsersOfPrivateChannel(builder.build());
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+		
+		instance.updateCurrentTargetUserIdOfPrivateChat(userId, "");
 
 		// instance.updatePrivateChatState(userId, unReadList);
 	}
