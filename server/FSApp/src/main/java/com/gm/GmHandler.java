@@ -25,6 +25,7 @@ import com.gm.task.GmEmailSingleCheck;
 import com.gm.task.GmEmailSingleDelete;
 import com.gm.task.GmEmailSingleSend;
 import com.gm.task.GmEmailWhiteList;
+import com.gm.task.GmExecuteGM;
 import com.gm.task.GmExecuteGMCommand;
 import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
@@ -95,10 +96,16 @@ public class GmHandler {
 		//运营功能
 		taskMap.put(20001, new GmUserInfo());
 		taskMap.put(20002, new GmServerStatus());
-		taskMap.put(20030, new GmUserDetailInfo());
+		taskMap.put(20003, new GmEditPlatformNotice());
+		taskMap.put(20004, new GmViewPlatformNotice());
+		taskMap.put(20005, new GmEditGameNotice());
+		taskMap.put(20006, new GmViewGameNotice());
+		taskMap.put(20007, new GmDeleteGameNotice());
 		taskMap.put(20014, new GmEmailWhiteList());
 		taskMap.put(20015, new GmEmailAll());
 		taskMap.put(20016, new GmEmailSingleSend());
+		taskMap.put(20019, new GmResponsePlayerQuestion());
+		taskMap.put(20020, new GmExecuteGM());
 		taskMap.put(20021, new GmEmailSingleCheck());
 		taskMap.put(20022, new GmEmailSingleDelete());
 		
@@ -109,16 +116,11 @@ public class GmHandler {
 		taskMap.put(20027, new GmOpGold());
 		taskMap.put(20028, new GmOpCoin());
 		taskMap.put(20029, new GmOpExp());
+		taskMap.put(20030, new GmUserDetailInfo());
+		taskMap.put(20032, new GmViewFriends());
 		
 		taskMap.put(20035, new GmCheckBag());
 		taskMap.put(20036, new GmDeleteBag());
-		taskMap.put(20003, new GmEditPlatformNotice());
-		taskMap.put(20004, new GmViewPlatformNotice());
-		taskMap.put(20005, new GmEditGameNotice());
-		taskMap.put(20006, new GmViewGameNotice());
-		taskMap.put(20007, new GmDeleteGameNotice());
-		taskMap.put(20019, new GmResponsePlayerQuestion());
-		taskMap.put(20032, new GmViewFriends());
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
 		taskMap.put(20040, new GmViewEmailList());
