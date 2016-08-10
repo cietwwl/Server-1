@@ -632,6 +632,10 @@ public class UserPrivateChat {
 		return mergeList;
 	}
 	
+	public List<ChatMessageSaveData> getPrivateChatsReceived() {
+		return Collections.unmodifiableList(privateChat);
+	}
+	
 	public Map<ChatInteractiveType, List<ChatMessageSaveData>> getInteractiveChatMsg() {
 		return Collections.unmodifiableMap(interactiveDatas);
 	}

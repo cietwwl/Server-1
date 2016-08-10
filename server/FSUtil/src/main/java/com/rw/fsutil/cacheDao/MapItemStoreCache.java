@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.mapItem.MapItemConvertor;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataCache;
@@ -15,6 +16,7 @@ import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -59,7 +61,8 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, itemBagCount, 60, loader, null);
+		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
+		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
@@ -120,5 +123,10 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	@Override
 	public void submitUpdateTask(String key) {
 		this.cache.submitUpdateTask(key);
+	}
+
+	@Override
+	public void submitRecordTask(String key) {
+		this.cache.submitRecordTask(key);
 	}
 }

@@ -54,6 +54,12 @@ public class TableBattleTowerStrategy {
 			return;
 		}
 
+		for (BattleTowerRoleInfo old : roleInfoList) {
+			if (old.getUserId().equals(roleInfo.getUserId())){
+				return;
+			}
+		}
+		
 		int size = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg().getStrategyCacheRecordSize();// 战略长度
 
 		this.roleInfoList.add(roleInfo);// 添加到列表

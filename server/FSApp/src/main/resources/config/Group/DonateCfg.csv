@@ -4,6 +4,6 @@ key,Remarks,donateId,donateType,unlockIcon,bgIcon,titleIcon,donateItemType,donat
 3,,3,1,,SmallTex/Group/bg_BangPai_03,,2,200,3,220,250,400,vip等级达到3解锁,V3解锁
 4,,4,1,,SmallTex/Group/bg_BangPai_04,,2,500,5,600,500,800,vip等级达到5解锁,V5解锁
 5,,5,2,,SmallTex/Group/bg_BangPai_01,,806301,1,,1,,,,
-6,,6,2,,SmallTex/Group/bg_BangPai_02,,806301,10,,10,,,,
-7,,7,2,,SmallTex/Group/bg_BangPai_03,,806301,50,,50,,,,
-8,,8,2,,SmallTex/Group/bg_BangPai_04,,806301,200,,200,,,,
+6,,6,2,,SmallTex/Group/bg_BangPai_02,,806301,10,,11,,,,
+7,,7,2,,SmallTex/Group/bg_BangPai_03,,806301,50,,57,,,,
+8,,8,2,,SmallTex/Group/bg_BangPai_04,,806301,200,,240,,,,
