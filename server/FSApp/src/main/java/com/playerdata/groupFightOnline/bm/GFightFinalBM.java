@@ -92,7 +92,7 @@ public class GFightFinalBM {
 		if(bidList.size() == 0) return null;
 		List<GFEndGroupInfo> resultGroups = new ArrayList<GFEndGroupInfo>();
 		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFKillRankList(resourceID);
-		for(int i = 0; i < 4 && i < bidList.size(); i++){
+		for(int i = 0; i < GFightConst.IN_FIGHT_MAX_GROUP && i < bidList.size(); i++){
 			GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(bidList.get(i).getGroupID());
 			int killCount = 0;
 			for(GFOnlineKillItem killItem : killRank){

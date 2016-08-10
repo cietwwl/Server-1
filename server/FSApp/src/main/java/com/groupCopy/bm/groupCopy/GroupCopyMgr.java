@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import sun.applet.resources.MsgAppletViewer;
+
 import com.bm.group.GroupBM;
 import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
 import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
@@ -393,6 +395,22 @@ public class GroupCopyMgr {
 				rspMsg.setTipMsg("服务器繁忙！");
 				return rspMsg;
 			}
+			//检查当前关卡是否已经通关
+			if(lvData.getProgress().getProgress() == 1.0){
+				rspMsg.setTipMsg("当前关卡已通关！");
+				return rspMsg;
+			}
+			
+			
+			//检查一下当前的关卡是否为章节的当前关卡
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(levelCfg.getChaterID());
+			if(!mapRecord.getCurLevelID().equals(level)){
+				rspMsg.setTipMsg("当前关卡已通关！");
+				return rspMsg;
+						
+			}
+			
 			int status = lvData.getStatus();
 			boolean enter = false;
 			long curTime = System.currentTimeMillis();

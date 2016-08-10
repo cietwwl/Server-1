@@ -43,14 +43,13 @@ public class TimerManager {
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
 
-	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
-	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimeService"));
+	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("timer"));
+	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimer"));
 	private static ExecutorService heavyWeightsExecturos = Executors.newFixedThreadPool(4);
 
 	public static void init() {
 		final long SECOND = 1000;// 秒
 		final long MINUTE = 60 * SECOND;
-		final long MINUTE_5 = 5 * MINUTE;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
 

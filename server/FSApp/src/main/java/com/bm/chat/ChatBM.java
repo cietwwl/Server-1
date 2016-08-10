@@ -53,7 +53,7 @@ public class ChatBM {
 	private static List<String> _EMPTY_LIST = Collections.emptyList();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
 	private AtomicInteger checkMessageId = new AtomicInteger();// 上次检查的版本号
-	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat_broadcast"));// 线程池
+	private ScheduledExecutorService ses = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("chat"));// 线程池
 
 	private class ChatRun implements Runnable {
 
@@ -404,6 +404,27 @@ public class ChatBM {
 	public List<ChatMessageSaveData> getPrivateChatListSaveData(String userId) {
 		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
 		return dao.getPrivateChatMessageList();
+	}
+
+	/**
+	 * 
+	 * 把所有该玩家发送的消息设置为已读
+	 * 
+	 * @param targetUserId
+	 */
+	public void setAllChatsReadOfTarget(String userId, String targetUserId) {
+		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
+		List<ChatMessageSaveData> list = dao.getPrivateChatsReceived();
+		int setCount = 0;
+		for (ChatMessageSaveData s : list) {
+			if (!s.isRead() && targetUserId.equals(s.getSenderUserId())) {
+				s.setRead(true);
+				setCount++;
+			}
+		}
+		if (setCount > 0) {
+			TableUserPrivateChatDao.getDao().update(userId);
+		}
 	}
 
 	/**
