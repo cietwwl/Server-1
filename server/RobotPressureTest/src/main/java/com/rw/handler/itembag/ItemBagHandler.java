@@ -1,5 +1,7 @@
 package com.rw.handler.itembag;
 
+import java.util.Random;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -54,7 +56,11 @@ public class ItemBagHandler {
 	private boolean sellItem(Client client, ItemData target) {
 		MsgItemBagRequest.Builder req = MsgItemBagRequest.newBuilder();
 		req.setRequestType(EItemBagEventType.ItemBag_Sell);
-		TagItemData itemData = TagItemData.newBuilder().setModelId(target.getModelId()).setDbId(target.getId()).setCount(target.getCount()).build();
+		int count = target.getCount();
+		if(count > 1){
+			count = 1 + new Random().nextInt(count);
+		}
+		TagItemData itemData = TagItemData.newBuilder().setModelId(target.getModelId()).setDbId(target.getId()).setCount(count).build();
 		req.addItemUpdateData(itemData);
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_ItemBag, req.build().toByteString(), new MsgReciver() {

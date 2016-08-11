@@ -121,8 +121,7 @@ public class ClassInfo4Client {
 			
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
-				Object value = tableData.get(fieldName);
-				fieldJson = String.valueOf(value);
+				fieldJson = tableData.get(fieldName);
 				if(StringUtils.isNotBlank(fieldJson)){
 					fieldInfo.fromJson(target, fieldJson);
 				}

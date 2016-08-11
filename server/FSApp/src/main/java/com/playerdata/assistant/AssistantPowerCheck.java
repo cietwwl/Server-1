@@ -3,13 +3,13 @@ package com.playerdata.assistant;
 import com.playerdata.Player;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 
-public class AssistantPowerCheck implements IAssistantCheck{
+public class AssistantPowerCheck extends DefaultAssistantChecker {
 
 	private final int POWER_CHECK_VALUE = 5;
 	
 	@Override
 	public AssistantEventID doCheck(Player player) {
-		
+		super.doCheck(player);
 		if(check(player)){
 			return AssistantEventID.GotoCopy;
 		}

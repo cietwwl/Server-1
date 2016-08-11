@@ -9,6 +9,7 @@ public class RobotLog {
 	
 	private static Logger failLog=Logger.getLogger("failLog");
 
+	private static Logger testLog = Logger.getLogger("testLog");
 
 	/***** 信息日志 ****/
 	public static void info(String message) {	
@@ -22,5 +23,16 @@ public class RobotLog {
 		failLog.error(message, throwableP);
 	}
 	
+	public static void testInfo(String msg){
+		testLog.info(msg);
+	}
+	
+	public static void testError(String msg){
+		testLog.error(msg);
+	}
+	
+	public static void testException(String msg,Throwable t){
+		testLog.error(msg, t);
+	}
 
 }

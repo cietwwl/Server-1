@@ -1571,6 +1571,26 @@ public final class GameLoginProtos {
      * <code>optional .PlotView.PlotResponse plot = 7;</code>
      */
     com.rwproto.PlotViewProtos.PlotResponseOrBuilder getPlotOrBuilder();
+
+    // optional int64 createTime = 8;
+    /**
+     * <code>optional int64 createTime = 8;</code>
+     */
+    boolean hasCreateTime();
+    /**
+     * <code>optional int64 createTime = 8;</code>
+     */
+    long getCreateTime();
+
+    // optional .eGameLoginType loginType = 9;
+    /**
+     * <code>optional .eGameLoginType loginType = 9;</code>
+     */
+    boolean hasLoginType();
+    /**
+     * <code>optional .eGameLoginType loginType = 9;</code>
+     */
+    com.rwproto.GameLoginProtos.eGameLoginType getLoginType();
   }
   /**
    * Protobuf type {@code GameLoginResponse}
@@ -1678,6 +1698,22 @@ public final class GameLoginProtos {
                 plot_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000040;
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              createTime_ = input.readInt64();
+              break;
+            }
+            case 72: {
+              int rawValue = input.readEnum();
+              com.rwproto.GameLoginProtos.eGameLoginType value = com.rwproto.GameLoginProtos.eGameLoginType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(9, rawValue);
+              } else {
+                bitField0_ |= 0x00000100;
+                loginType_ = value;
+              }
               break;
             }
           }
@@ -1933,6 +1969,38 @@ public final class GameLoginProtos {
       return plot_;
     }
 
+    // optional int64 createTime = 8;
+    public static final int CREATETIME_FIELD_NUMBER = 8;
+    private long createTime_;
+    /**
+     * <code>optional int64 createTime = 8;</code>
+     */
+    public boolean hasCreateTime() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int64 createTime = 8;</code>
+     */
+    public long getCreateTime() {
+      return createTime_;
+    }
+
+    // optional .eGameLoginType loginType = 9;
+    public static final int LOGINTYPE_FIELD_NUMBER = 9;
+    private com.rwproto.GameLoginProtos.eGameLoginType loginType_;
+    /**
+     * <code>optional .eGameLoginType loginType = 9;</code>
+     */
+    public boolean hasLoginType() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .eGameLoginType loginType = 9;</code>
+     */
+    public com.rwproto.GameLoginProtos.eGameLoginType getLoginType() {
+      return loginType_;
+    }
+
     private void initFields() {
       resultType_ = com.rwproto.GameLoginProtos.eLoginResultType.SUCCESS;
       userId_ = "";
@@ -1941,6 +2009,8 @@ public final class GameLoginProtos {
       serverTime_ = 0L;
       guidance_ = com.rwproto.GuidanceProgressProtos.GuidanceResponse.getDefaultInstance();
       plot_ = com.rwproto.PlotViewProtos.PlotResponse.getDefaultInstance();
+      createTime_ = 0L;
+      loginType_ = com.rwproto.GameLoginProtos.eGameLoginType.GAME_LOGIN;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1991,6 +2061,12 @@ public final class GameLoginProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeMessage(7, plot_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt64(8, createTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeEnum(9, loginType_.getNumber());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2027,6 +2103,14 @@ public final class GameLoginProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, plot_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(8, createTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(9, loginType_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2168,6 +2252,10 @@ public final class GameLoginProtos {
           plotBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
+        createTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        loginType_ = com.rwproto.GameLoginProtos.eGameLoginType.GAME_LOGIN;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -2232,6 +2320,14 @@ public final class GameLoginProtos {
         } else {
           result.plot_ = plotBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.createTime_ = createTime_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.loginType_ = loginType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2274,6 +2370,12 @@ public final class GameLoginProtos {
         }
         if (other.hasPlot()) {
           mergePlot(other.getPlot());
+        }
+        if (other.hasCreateTime()) {
+          setCreateTime(other.getCreateTime());
+        }
+        if (other.hasLoginType()) {
+          setLoginType(other.getLoginType());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2859,6 +2961,75 @@ public final class GameLoginProtos {
         return plotBuilder_;
       }
 
+      // optional int64 createTime = 8;
+      private long createTime_ ;
+      /**
+       * <code>optional int64 createTime = 8;</code>
+       */
+      public boolean hasCreateTime() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int64 createTime = 8;</code>
+       */
+      public long getCreateTime() {
+        return createTime_;
+      }
+      /**
+       * <code>optional int64 createTime = 8;</code>
+       */
+      public Builder setCreateTime(long value) {
+        bitField0_ |= 0x00000080;
+        createTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 createTime = 8;</code>
+       */
+      public Builder clearCreateTime() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        createTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional .eGameLoginType loginType = 9;
+      private com.rwproto.GameLoginProtos.eGameLoginType loginType_ = com.rwproto.GameLoginProtos.eGameLoginType.GAME_LOGIN;
+      /**
+       * <code>optional .eGameLoginType loginType = 9;</code>
+       */
+      public boolean hasLoginType() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional .eGameLoginType loginType = 9;</code>
+       */
+      public com.rwproto.GameLoginProtos.eGameLoginType getLoginType() {
+        return loginType_;
+      }
+      /**
+       * <code>optional .eGameLoginType loginType = 9;</code>
+       */
+      public Builder setLoginType(com.rwproto.GameLoginProtos.eGameLoginType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000100;
+        loginType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .eGameLoginType loginType = 9;</code>
+       */
+      public Builder clearLoginType() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        loginType_ = com.rwproto.GameLoginProtos.eGameLoginType.GAME_LOGIN;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GameLoginResponse)
     }
 
@@ -2894,18 +3065,19 @@ public final class GameLoginProtos {
       "\tloginType\030\001 \002(\0162\017.eGameLoginType\022\021\n\tacc" +
       "ountId\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\016\n\006zoneId" +
       "\030\004 \001(\005\022\014\n\004nick\030\005 \001(\t\022\013\n\003sex\030\006 \001(\005\022\026\n\016cli" +
-      "entInfoJson\030\007 \001(\t\"\331\001\n\021GameLoginResponse\022" +
+      "entInfoJson\030\007 \001(\t\"\221\002\n\021GameLoginResponse\022" +
       "%\n\nresultType\030\001 \002(\0162\021.eLoginResultType\022\016" +
       "\n\006userId\030\002 \001(\t\022\r\n\005error\030\003 \001(\t\022\017\n\007version" +
       "\030\004 \001(\t\022\022\n\nserverTime\030\005 \001(\003\0223\n\010guidance\030\006" +
       " \001(\0132!.GuidanceService.GuidanceResponse\022",
-      "$\n\004plot\030\007 \001(\0132\026.PlotView.PlotResponse*P\n" +
-      "\016eGameLoginType\022\016\n\nGAME_LOGIN\020\001\022\021\n\rLOAD_" +
-      "MAINCITY\020\002\022\017\n\013CREATE_ROLE\020\003\022\n\n\006repeat\020\004*" +
-      "]\n\020eLoginResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL" +
-      "\020\002\022\013\n\007NO_ROLE\020\003\022\021\n\rRepeatSUCCESS\020\004\022\022\n\016Se" +
-      "rverMainTain\020\005B\036\n\013com.rwprotoB\017GameLogin" +
-      "Protos"
+      "$\n\004plot\030\007 \001(\0132\026.PlotView.PlotResponse\022\022\n" +
+      "\ncreateTime\030\010 \001(\003\022\"\n\tloginType\030\t \001(\0162\017.e" +
+      "GameLoginType*P\n\016eGameLoginType\022\016\n\nGAME_" +
+      "LOGIN\020\001\022\021\n\rLOAD_MAINCITY\020\002\022\017\n\013CREATE_ROL" +
+      "E\020\003\022\n\n\006repeat\020\004*]\n\020eLoginResultType\022\013\n\007S" +
+      "UCCESS\020\001\022\010\n\004FAIL\020\002\022\013\n\007NO_ROLE\020\003\022\021\n\rRepea" +
+      "tSUCCESS\020\004\022\022\n\016ServerMainTain\020\005B\036\n\013com.rw" +
+      "protoB\017GameLoginProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2923,7 +3095,7 @@ public final class GameLoginProtos {
           internal_static_GameLoginResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GameLoginResponse_descriptor,
-              new java.lang.String[] { "ResultType", "UserId", "Error", "Version", "ServerTime", "Guidance", "Plot", });
+              new java.lang.String[] { "ResultType", "UserId", "Error", "Version", "ServerTime", "Guidance", "Plot", "CreateTime", "LoginType", });
           return null;
         }
       };

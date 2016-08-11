@@ -62,8 +62,12 @@ public class StoreHandler {
 						RobotLog.info("StoreHandler[buyRandom] 购买成功");
 						return true;
 					} else {
-						RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 " + result + ",失败原因：" + rsp.getReslutValue());
-						return false;
+						if(rsp.getReslutValue().equals("商店刷新次数已上限")){
+							return true;
+						}else{
+							RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 " + result + ",失败原因：" + rsp.getReslutValue());
+							return false;
+						}
 
 					}
 
