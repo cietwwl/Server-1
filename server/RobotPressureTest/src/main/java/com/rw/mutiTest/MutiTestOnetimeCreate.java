@@ -53,63 +53,10 @@ public class MutiTestOnetimeCreate {
 					try {
 						
 //						long start = System.currentTimeMillis();
-//						String accountId = preName + index;
+						String accountId = preName + index;
 //						System.out.println("!!!!!!!!!!!!!!!!!!!begin.name="+ accountId);
-//						Robot robot = createRobot(accountId);
-//						long now = System.currentTimeMillis();
-//						long spend = now - start;
-//						long all = spend;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatrole="+ spend + "   all = " + all);
-//						Robot robot = Test.loginRobot(accountId);
-//						robot.checkEnoughMoney();						
-//						long tmp = now;
-//						now = System.currentTimeMillis();
-//						spend = now - tmp;
-//						all = spend + all;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~add="+ spend+ "   all = " + all);
-////						robot.upgrade(50);
-//						tmp = now;
-//						now = System.currentTimeMillis();
-//						spend = now - tmp;
-//						all = spend + all;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~upgrade="+ spend+ "   all = " + all);
-//						robot.addHero(5);
-//						tmp = now;
-//						now = System.currentTimeMillis();
-//						spend = now - tmp;
-//						all = spend + all;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~hero="+ spend+ "   all = " + all);
-//						robot.createGroup(accountId);
-//						tmp = now;
-//						now = System.currentTimeMillis();
-//						spend = now - tmp;
-//						all = spend + all;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroup="+ spend+ "   all = " + all);
-//						robot.createGroupSecret();
-//						tmp = now;
-//						now = System.currentTimeMillis();
-//						spend = now - tmp;
-//						all = spend + all;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroupsecret="+ spend+ "   all = " + all);
-//						for (int i = 0; i < 5; i++) {
-//							int normolEquipType = Test.random.nextInt(5);
-//							normolEquipType = normolEquipType == 0 ? 1
-//									: normolEquipType;
-//							boolean issucc = robot.testFixEquip(0, 0, 1,
-//									normolEquipType);
-//							System.out.println(i + "@@@@@@@" + issucc
-//									+ "         " + normolEquipType  + "    " +accountId);
-//						}
-//						for (int i = 0; i < 4; i++) {
-//							int expEquipType = Test.random.nextInt(9);
-//							if (expEquipType < 6) {
-//								expEquipType = 6 + expEquipType / 2;
-//							}
-//							boolean issucc = robot.testFixEquip(1, 0, 1,
-//									expEquipType);
-//							System.out.println(i + "~~~~~~~" + issucc
-//									+ "         " + expEquipType+ "    " +accountId);
-//						}
+						Robot robot = createRobot(accountId);
+						scriptOfXiaofei(robot,accountId);
 					} catch (Throwable e) {
 						e.printStackTrace();
 					} finally {
@@ -130,7 +77,46 @@ public class MutiTestOnetimeCreate {
 				+ finishCount.get() + " avg in ms:" + avgTimeCost
 				+ " maxTimeCost:" + maxTimeCost.get());
 	}
-
+	
+	private static void scriptOfXiaofei(Robot robot,String accountId){
+//		long now = System.currentTimeMillis();
+//		long spend = now - start;
+//		long all = spend;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~creatrole="+ spend + "   all = " + all);
+//		Robot robot = Test.loginRobot(accountId);
+		robot.checkEnoughMoney();						
+//		long tmp = now;
+//		now = System.currentTimeMillis();
+//		spend = now - tmp;
+//		all = spend + all;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~add="+ spend+ "   all = " + all);
+		robot.upgrade(50);
+//		tmp = now;
+//		now = System.currentTimeMillis();
+//		spend = now - tmp;
+//		all = spend + all;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~upgrade="+ spend+ "   all = " + all);
+		robot.addHero(5);
+//		tmp = now;
+//		now = System.currentTimeMillis();
+//		spend = now - tmp;
+//		all = spend + all;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~hero="+ spend+ "   all = " + all);
+		robot.createGroup(accountId);
+//		tmp = now;
+//		now = System.currentTimeMillis();
+//		spend = now - tmp;
+//		all = spend + all;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroup="+ spend+ "   all = " + all);
+		robot.createGroupSecret();
+//		tmp = now;
+//		now = System.currentTimeMillis();
+//		spend = now - tmp;
+//		all = spend + all;
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroupsecret="+ spend+ "   all = " + all);
+//		
+	}
+	
 	// 注册创建角色
 	private static Robot createRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
