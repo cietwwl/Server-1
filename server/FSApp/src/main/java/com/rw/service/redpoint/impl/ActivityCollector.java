@@ -238,7 +238,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityExchangeTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getId());
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
