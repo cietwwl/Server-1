@@ -17,7 +17,7 @@ public final class MsgErrInfoProtos {
      * <code>ServerMsg = 0;</code>
      *
      * <pre>
-     *æœåŠ¡å™¨é”™è¯¯
+     *·şÎñÆ÷´íÎó
      * </pre>
      */
     ServerMsg(0, 0),
@@ -25,7 +25,7 @@ public final class MsgErrInfoProtos {
      * <code>ClientMsg = 1;</code>
      *
      * <pre>
-     *å®¢æˆ·ç«¯å‘é€
+     *¿Í»§¶Ë·¢ËÍ
      * </pre>
      */
     ClientMsg(1, 1),
@@ -35,7 +35,7 @@ public final class MsgErrInfoProtos {
      * <code>ServerMsg = 0;</code>
      *
      * <pre>
-     *æœåŠ¡å™¨é”™è¯¯
+     *·şÎñÆ÷´íÎó
      * </pre>
      */
     public static final int ServerMsg_VALUE = 0;
@@ -43,7 +43,7 @@ public final class MsgErrInfoProtos {
      * <code>ClientMsg = 1;</code>
      *
      * <pre>
-     *å®¢æˆ·ç«¯å‘é€
+     *¿Í»§¶Ë·¢ËÍ
      * </pre>
      */
     public static final int ClientMsg_VALUE = 1;

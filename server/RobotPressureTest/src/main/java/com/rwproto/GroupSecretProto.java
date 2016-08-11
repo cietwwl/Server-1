@@ -6542,6 +6542,24 @@ public final class GroupSecretProto {
      */
     com.google.protobuf.ByteString
         getIdBytes();
+
+    // optional int64 time = 2;
+    /**
+     * <code>optional int64 time = 2;</code>
+     *
+     * <pre>
+     *邀请的秘境创建的时间
+     * </pre>
+     */
+    boolean hasTime();
+    /**
+     * <code>optional int64 time = 2;</code>
+     *
+     * <pre>
+     *邀请的秘境创建的时间
+     * </pre>
+     */
+    long getTime();
   }
   /**
    * Protobuf type {@code groupSecret.GetInviteSecretInfoReqMsg}
@@ -6601,6 +6619,11 @@ public final class GroupSecretProto {
             case 10: {
               bitField0_ |= 0x00000001;
               id_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              time_ = input.readInt64();
               break;
             }
           }
@@ -6698,8 +6721,33 @@ public final class GroupSecretProto {
       }
     }
 
+    // optional int64 time = 2;
+    public static final int TIME_FIELD_NUMBER = 2;
+    private long time_;
+    /**
+     * <code>optional int64 time = 2;</code>
+     *
+     * <pre>
+     *邀请的秘境创建的时间
+     * </pre>
+     */
+    public boolean hasTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 time = 2;</code>
+     *
+     * <pre>
+     *邀请的秘境创建的时间
+     * </pre>
+     */
+    public long getTime() {
+      return time_;
+    }
+
     private void initFields() {
       id_ = "";
+      time_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6720,6 +6768,9 @@ public final class GroupSecretProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getIdBytes());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, time_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6732,6 +6783,10 @@ public final class GroupSecretProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, time_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6855,6 +6910,8 @@ public final class GroupSecretProto {
         super.clear();
         id_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        time_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -6887,6 +6944,10 @@ public final class GroupSecretProto {
           to_bitField0_ |= 0x00000001;
         }
         result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.time_ = time_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6907,6 +6968,9 @@ public final class GroupSecretProto {
           bitField0_ |= 0x00000001;
           id_ = other.id_;
           onChanged();
+        }
+        if (other.hasTime()) {
+          setTime(other.getTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7033,6 +7097,55 @@ public final class GroupSecretProto {
   }
   bitField0_ |= 0x00000001;
         id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 time = 2;
+      private long time_ ;
+      /**
+       * <code>optional int64 time = 2;</code>
+       *
+       * <pre>
+       *邀请的秘境创建的时间
+       * </pre>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 time = 2;</code>
+       *
+       * <pre>
+       *邀请的秘境创建的时间
+       * </pre>
+       */
+      public long getTime() {
+        return time_;
+      }
+      /**
+       * <code>optional int64 time = 2;</code>
+       *
+       * <pre>
+       *邀请的秘境创建的时间
+       * </pre>
+       */
+      public Builder setTime(long value) {
+        bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 time = 2;</code>
+       *
+       * <pre>
+       *邀请的秘境创建的时间
+       * </pre>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        time_ = 0L;
         onChanged();
         return this;
       }
@@ -11715,39 +11828,39 @@ public final class GroupSecretProto {
       "mon.BattleHeroPosition\")\n\033GetDefendRecor" +
       "dRewardReqMsg\022\n\n\002id\030\001 \001(\005\"Q\n\033GetDefendRe" +
       "cordRewardRspMsg\022\023\n\013defendTimes\030\001 \002(\005\022\035\n" +
-      "\025getDefendRewardKeyNum\030\002 \002(\005\"\'\n\031GetInvit" +
-      "eSecretInfoReqMsg\022\n\n\002id\030\001 \002(\t\"\'\n\031GetInvi" +
-      "teSecretInfoRspMsg\022\n\n\002id\030\001 \002(\t\"\236\004\n\027Group" +
-      "SecretCommonReqMsg\022)\n\007reqType\030\001 \002(\0162\030.gr",
-      "oupSecret.RequestType\022\017\n\007version\030\002 \001(\t\022:" +
-      "\n\014createReqMsg\030\003 \001(\0132$.groupSecret.Creat" +
-      "eGroupSecretReqMsg\022@\n\017getRewardReqMsg\030\004 " +
-      "\001(\0132\'.groupSecret.GetGroupSecretRewardRe" +
-      "qMsg\022=\n\020changeTeamReqMsg\030\005 \001(\0132#.groupSe" +
-      "cret.ChangeDefendTeamReqMsg\022@\n\014inviteReq" +
-      "Msg\030\006 \001(\0132*.groupSecret.InviteGroupMembe" +
-      "rDefendReqMsg\0227\n\njoinReqMsg\030\007 \001(\0132#.grou" +
-      "pSecret.JoinSecretDefendReqMsg\022G\n\025getDef" +
-      "endRewardReqMsg\030\010 \001(\0132(.groupSecret.GetD",
-      "efendRecordRewardReqMsg\022F\n\026inviteSecretI" +
-      "nfoReqMsg\030\t \001(\0132&.groupSecret.GetInviteS" +
-      "ecretInfoReqMsg\"\264\002\n\027GroupSecretCommonRsp" +
-      "Msg\022)\n\007reqType\030\001 \002(\0162\030.groupSecret.Reque" +
-      "stType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(" +
-      "\t\022:\n\014createRspMsg\030\004 \001(\0132$.groupSecret.Cr" +
-      "eateGroupSecretRspMsg\022G\n\025getDefendReward" +
-      "RspMsg\030\005 \001(\0132(.groupSecret.GetDefendReco" +
-      "rdRewardRspMsg\022F\n\026inviteSecretInfoRspMsg" +
-      "\030\006 \001(\0132&.groupSecret.GetInviteSecretInfo",
-      "RspMsg*1\n\020GroupSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004" +
-      "LEFT\020\002\022\t\n\005RIGHT\020\003*\350\001\n\013RequestType\022\022\n\016OPE" +
-      "N_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033" +
-      "\n\027GET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHANGE_DE" +
-      "FEND_TEAM\020\004\022\030\n\024INVITE_MEMBER_DEFEND\020\005\022\025\n" +
-      "\021GET_DEFEDN_REWARD\020\006\022\022\n\016BUY_SECRET_KEY\020\007" +
-      "\022\026\n\022JOIN_SECRET_DEFEND\020\010\022\032\n\026GET_INVITE_S" +
-      "ECRET_INFO\020\tB\037\n\013com.rwprotoB\020GroupSecret" +
-      "Proto"
+      "\025getDefendRewardKeyNum\030\002 \002(\005\"5\n\031GetInvit" +
+      "eSecretInfoReqMsg\022\n\n\002id\030\001 \002(\t\022\014\n\004time\030\002 " +
+      "\001(\003\"\'\n\031GetInviteSecretInfoRspMsg\022\n\n\002id\030\001" +
+      " \002(\t\"\236\004\n\027GroupSecretCommonReqMsg\022)\n\007reqT",
+      "ype\030\001 \002(\0162\030.groupSecret.RequestType\022\017\n\007v" +
+      "ersion\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.gro" +
+      "upSecret.CreateGroupSecretReqMsg\022@\n\017getR" +
+      "ewardReqMsg\030\004 \001(\0132\'.groupSecret.GetGroup" +
+      "SecretRewardReqMsg\022=\n\020changeTeamReqMsg\030\005" +
+      " \001(\0132#.groupSecret.ChangeDefendTeamReqMs" +
+      "g\022@\n\014inviteReqMsg\030\006 \001(\0132*.groupSecret.In" +
+      "viteGroupMemberDefendReqMsg\0227\n\njoinReqMs" +
+      "g\030\007 \001(\0132#.groupSecret.JoinSecretDefendRe" +
+      "qMsg\022G\n\025getDefendRewardReqMsg\030\010 \001(\0132(.gr",
+      "oupSecret.GetDefendRecordRewardReqMsg\022F\n" +
+      "\026inviteSecretInfoReqMsg\030\t \001(\0132&.groupSec" +
+      "ret.GetInviteSecretInfoReqMsg\"\264\002\n\027GroupS" +
+      "ecretCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.gro" +
+      "upSecret.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022" +
+      "\016\n\006tipMsg\030\003 \001(\t\022:\n\014createRspMsg\030\004 \001(\0132$." +
+      "groupSecret.CreateGroupSecretRspMsg\022G\n\025g" +
+      "etDefendRewardRspMsg\030\005 \001(\0132(.groupSecret" +
+      ".GetDefendRecordRewardRspMsg\022F\n\026inviteSe" +
+      "cretInfoRspMsg\030\006 \001(\0132&.groupSecret.GetIn",
+      "viteSecretInfoRspMsg*1\n\020GroupSecretIndex" +
+      "\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*\350\001\n\013Requ" +
+      "estType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_GR" +
+      "OUP_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD\020" +
+      "\003\022\026\n\022CHANGE_DEFEND_TEAM\020\004\022\030\n\024INVITE_MEMB" +
+      "ER_DEFEND\020\005\022\025\n\021GET_DEFEDN_REWARD\020\006\022\022\n\016BU" +
+      "Y_SECRET_KEY\020\007\022\026\n\022JOIN_SECRET_DEFEND\020\010\022\032" +
+      "\n\026GET_INVITE_SECRET_INFO\020\tB\037\n\013com.rwprot" +
+      "oB\020GroupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -11807,7 +11920,7 @@ public final class GroupSecretProto {
           internal_static_groupSecret_GetInviteSecretInfoReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GetInviteSecretInfoReqMsg_descriptor,
-              new java.lang.String[] { "Id", });
+              new java.lang.String[] { "Id", "Time", });
           internal_static_groupSecret_GetInviteSecretInfoRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(9);
           internal_static_groupSecret_GetInviteSecretInfoRspMsg_fieldAccessorTable = new
