@@ -243,10 +243,12 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		int level = skill.getLevel() + addLevel;
 		StringTokenizer token = new StringTokenizer(skillId, "_");
 		String newSkillId = token.nextToken() + "_" + level;
-		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
-		if (newSkillCfg == null) {
-			return false;
-		}
+		// 2016-08-11 by PERRY 这段代码没有用，注释掉，BEGIN >>>>>>>>>>>
+//		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
+//		if (newSkillCfg == null) {
+//			return false;
+//		}
+		// 2016-08-11 END <<<<<<<<<<
 		skill.setLevel(level);
 		skill.setSkillId(newSkillId);
 		updateMoreInfo(player, heroId, skill, null);

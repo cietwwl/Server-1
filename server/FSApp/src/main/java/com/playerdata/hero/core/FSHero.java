@@ -140,16 +140,19 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 	
 	public FSHero(Player owner, eRoleType roleTypeP, RoleCfg heroCfg, String uuid) {
 		this.id = uuid;
+		boolean setName = true;
 		if (roleTypeP == eRoleType.Player) {
 			this._heroType = HERO_TYPE_MAIN;
 			this._userId = _EMPTY_USER_ID;
+			this._name = owner.getUserName();
+			setName = false;
 		} else {
 			this._heroType = HERO_TYPE_COMMON;
 			this._userId = owner.getUserId();
 		}
 		this._createTime = System.currentTimeMillis();
 		this.attr.setHeroId(this.id);
-		this.initFromCfg(heroCfg);
+		this.initFromCfg(heroCfg, setName);
 	}
 	
 	private void getDataFromCfg(RoleCfg heroCfg) {
@@ -158,12 +161,14 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 		this.qualityId = heroCfg.getQualityId();
 	}
 	
-	private void initFromCfg(RoleCfg heroCfg) {
+	private void initFromCfg(RoleCfg heroCfg, boolean setName) {
 		this.getDataFromCfg(heroCfg);
 		this.templateId = heroCfg.getRoleId();
 		this.level = 1;
 		this.starLevel = heroCfg.getStarLevel();
-		this._name = heroCfg.getName();
+		if (setName) {
+			this._name = heroCfg.getName();
+		}
 	}
 	
 	private void updateLevelAndExp(Player owner, int toLv, int toExp) {
