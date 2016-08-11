@@ -616,7 +616,12 @@ public class GroupCopyMgr {
 			result.setTipMsg("找不到对应章节id为"+chaterID+"的掉落记录！");
 			return result;
 		}
-		
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getConfig(chaterID);
+		if(!mapCfg.getWarPriceList().contains(itemID)){
+			result.setSuccess(false);
+			result.setTipMsg("找不到对应章节id为"+itemID+"的掉落道具！");
+			return result;
+		}
 		//检查是否有旧的申请记录,如果有，要去掉
 		clearBeforeApplyRecord(player, record);
 		if(apply){
