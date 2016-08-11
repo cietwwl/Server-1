@@ -94,11 +94,15 @@ public class GroupSecretMatchHandler {
 					RobotLog.info(parseFunctionDesc() + "成功");
 					return true;
 				} else {
-					if(resp.getTipMsg().indexOf("找不到")!= -1){
+					if(resp.getTipMsg().indexOf("找不到可掠夺")!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
 					}			
 					if(resp.getTipMsg().indexOf("没有可以挑战的秘境")!= -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
+					}
+					if(resp.getTipMsg().indexOf("当前您没有可以领取" )!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
 					}

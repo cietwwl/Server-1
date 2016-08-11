@@ -8,7 +8,7 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("12312");
+		 Robot robot = loginRobot("Alex6");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
@@ -17,7 +17,8 @@ public class Test {
 //		 Robot robot = createRobot("tmpallen"+ 338);
 		 if(robot == null){
 		 }else{
-			 boolean issucc = robot.playerGroupFight();
+			 //boolean issucc = robot.startTBCreateTeam();
+			 boolean issucc = robot.playerGroupCopy();
 			 //robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
 			 System.out.println("@@@@@@@@@@@test：" + issucc);

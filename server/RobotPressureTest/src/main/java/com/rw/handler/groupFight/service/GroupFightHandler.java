@@ -50,6 +50,7 @@ public class GroupFightHandler {
 		GFightOnlineResourceData gfResData = GFightOnlineResourceHolder.getInstance().getUserGFData(RESOURCE_ID);
 		switch(gfResData.getState()){
 		case 1://休战
+			RobotLog.fail("playGroupFight[send]在线帮战资源点" + RESOURCE_ID + "正在休战中");
 			return true;
 		case 2://竞标阶段
 			return playGroupFightBid(client);
@@ -185,7 +186,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("GroupFightHandler[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GroupFightHandler[send] 失败", e);
@@ -224,7 +225,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("GroupFightHandler[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					GFBidRankHolder.getInstance().updateBidRank(2, rsp.getRankDataList());
 				} catch (InvalidProtocolBufferException e) {
@@ -273,7 +274,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("GroupFightHandler[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					GFBidRankHolder.getInstance().updateBidRank(2, rsp.getRankDataList());
 				} catch (InvalidProtocolBufferException e) {
@@ -317,7 +318,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("personalBid[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("personalBid[send] 失败", e);
@@ -370,7 +371,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("modifySelfDefender[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("modifySelfDefender[send] 失败", e);
@@ -411,7 +412,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("getEnimyDefender[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					try {
 						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy((GFDefendArmyItem)ClientDataSynMgr.fromClientJson2Data(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
@@ -457,7 +458,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("getEnimyDefender[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					try {
 						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy((GFDefendArmyItem)ClientDataSynMgr.fromClientJson2Data(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
@@ -501,7 +502,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("startFight[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
@@ -557,7 +558,7 @@ public class GroupFightHandler {
 					GFResultType result = rsp.getRstType();
 					if (!result.equals(GFResultType.SUCCESS)) {
 						RobotLog.fail("informFightResult[send] 服务器处理消息失败 " + rsp.getTipMsg());
-						return false;
+						return true;
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
