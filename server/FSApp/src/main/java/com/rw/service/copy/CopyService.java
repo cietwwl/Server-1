@@ -34,6 +34,9 @@ public class CopyService implements FsService{
 			case GET_GIFT:
 				result = copyHandler.getMapGift(player, copyRequest);
 				break;
+			case Map_Animation:
+				result = copyHandler.updateMapAnimation(player, copyRequest);
+				break;
 			default:
 				break;
 			}
