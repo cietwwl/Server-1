@@ -397,6 +397,11 @@ public class Robot {
 		return sendSuccess;
 	}
 	
+	public boolean addSecretKeycount(){
+		boolean sendSuccess = GmHandler.instance().send(client, "* addsecretkeycount " + 20);
+		return sendSuccess;
+	}
+	
 	/**
 	 * 添加帮派令牌（帮战竞标）
 	 * @param token
@@ -962,11 +967,18 @@ public class Robot {
 
 	public boolean attackEnemyGroupSecret() {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
-		GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
+		boolean isCanSeach = GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
+		if(!isCanSeach){
+			RobotLog.fail("搜索敌对秘境时失败，请确认是否全部为找不到秘境");
+			return true;
+		}
+		checkEnoughSecretKeyCount();
 		GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
 		return GroupSecretMatchHandler.getInstance().attackEndEnemyGroupSecret(client);
 		
 	}
+
+	
 
 	public boolean getGroupSecretReward() {
 		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
@@ -1133,4 +1145,15 @@ public class Robot {
 			addGold(10000000);
 		}
 	}
+	
+	private void checkEnoughSecretKeyCount() {
+		if(client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount() < 21){
+			addSecretKeycount();
+		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
+		
+	}
+	
+	
+	
 }
