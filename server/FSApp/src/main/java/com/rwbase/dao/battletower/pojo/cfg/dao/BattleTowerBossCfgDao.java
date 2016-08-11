@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.common.Weight;
+import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -63,7 +64,7 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 	 * @param pLevel 角色等级
 	 * @return
 	 */
-	public BattleTowerBossTemplate ranBossInfo(int pLevel) {
+	public BattleTowerBossTemplate ranBossInfo(int pLevel,List<Integer> excludeList,boolean isGuarantee) {
 		if (bossTreeMap == null) {
 			initJsonCfg();
 		}
@@ -93,8 +94,24 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 			if (battleTowerBossTemplate == null) {
 				continue;
 			}
+			if (excludeList!=null && excludeList.contains(bossId)){
+				continue;
+			}
 
 			proMap.put(battleTowerBossTemplate, battleTowerBossTemplate.getPro());
+		}
+		
+		//特殊保底：可以产生的boss列表空，但是必须要产生保底boss的时候，忽略排除列表
+		if (isGuarantee && proMap.size() <= 0){
+			GameLog.error("封神台", "玩家等级＝"+pLevel, "可以产生的boss列表空!");
+			for (int i = 0, size = list.size(); i < size; i++) {
+				Integer bossId = list.get(i);
+				BattleTowerBossTemplate battleTowerBossTemplate = bossTmpMap.get(bossId);
+				if (battleTowerBossTemplate == null) {
+					continue;
+				}
+				proMap.put(battleTowerBossTemplate, battleTowerBossTemplate.getPro());
+			}
 		}
 
 		Weight<BattleTowerBossTemplate> weight = new Weight<BattleTowerBossTemplate>(proMap);

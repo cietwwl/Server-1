@@ -7,9 +7,8 @@ import java.util.List;
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.rw.fsutil.util.DateUtils;
-import com.playerdata.PlayerMgr;
 import com.rw.dataaccess.processor.EmailCreator;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -93,6 +92,7 @@ public class EmailHandler {
 			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.CREATROLE_REWARDS_EMAIL, 0, true, 0, rewardInfoActivity,0);
 		}
+		player.getEmailMgr().save();
 		return response.build().toByteString();
 	}
 	

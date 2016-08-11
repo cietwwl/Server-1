@@ -8,4 +8,14 @@ public class TableEmailDAO  extends DataKVDao<TableEmail> {
 	public static TableEmailDAO getInstance(){
 		return m_instance;
 	}
+	
+	/**
+	 * 获取更新周期间隔(单位：秒)
+	 * 
+	 * @return
+	 */
+	@Override
+	protected int getUpdatedSeconds() {
+		return 300;
+	}
 }

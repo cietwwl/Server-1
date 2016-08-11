@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
@@ -40,19 +41,19 @@ public class WorshipMgr {
 	private Map<ECareer, String> failEmailMap = new HashMap<ECareer, String>();//失去第一名
 	
 	/**重新排行，第一名排行数据改变*/
-	public void changeFirstRanking(ERankingType rankingType){
+	public void changeFirstRanking(RankType rankingType){
 		ECareer career;
 		switch(rankingType){
-			case WARRIOR_DAY:
+			case WARRIOR_ARENA_DAILY:
 				career = ECareer.Warrior;
 				break;
-			case SWORDMAN_DAY:
+			case SWORDMAN_ARENA_DAILY:
 				career = ECareer.SwordsMan;
 				break;
-			case MAGICAN_DAY:
+			case MAGICAN_ARENA_DAILY:
 				career = ECareer.Magican;
 				break;
-			case PRIEST_DAY:
+			case PRIEST_ARENA_DAILY:
 				career = ECareer.Priest;
 				break;
 			default:

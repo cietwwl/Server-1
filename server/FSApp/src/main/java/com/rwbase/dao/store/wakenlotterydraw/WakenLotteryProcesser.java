@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.common.HPCUtil;
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
@@ -68,17 +69,17 @@ public class WakenLotteryProcesser {
 		TableStore tableStore = holder.get();
 		ConcurrentHashMap<Integer,StoreData> storeDataMap = tableStore.getStoreDataMap();
 		StoreData storeData = storeDataMap.get(eStoreType.Waken.getOrder());
-		checkDrawReset(player, storeData, cfg);
+		checkDrawReset(player, holder, storeData, cfg);
 		
-		
+		int processType = getProcessType(storeData, cfg, type);
 		//判断是否金钱充足
-		if(storeData.getDrawTime() >= cfg.getFreeTime() && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
+		if((storeData.getDrawTime() >= cfg.getFreeTime() || processType == TYPE_TEN_DRAW) && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
 			resp.setReslutType(eStoreResultType.FAIL);
 			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(consumeType)).getName() + "不足");
 			return;
 		}
 		
-		int processType = getProcessType(storeData, cfg, type);
+		
 		IWakenLotteryDraw handler = WakenLotteryProcesserMap.get(processType);
 		HashMap<Integer, Integer> map = handler.lotteryDraw(player, holder, cfg);
 		int guaranteeTime = storeData.getRecordGuaranteeTime();
@@ -134,14 +135,34 @@ public class WakenLotteryProcesser {
 	 * @param holder
 	 * @param cfg
 	 */
-	public void checkDrawReset(Player player, StoreData storeData, WakenLotteryDrawCfg cfg){
+	public void checkDrawReset(Player player, StoreDataHolder holder, StoreData storeData, WakenLotteryDrawCfg cfg) {
 		long lastDrawTime = storeData.getLastDrawTime();
 		int resetTime = Integer.parseInt(cfg.getResetTime());
+		Calendar current = Calendar.getInstance();
+		
 		Calendar instance = Calendar.getInstance();
 		instance.set(Calendar.HOUR_OF_DAY, resetTime);
+		instance.set(Calendar.MINUTE, 0);
+		instance.set(Calendar.SECOND, 0);
+		instance.set(Calendar.MILLISECOND, 0);
 		long time = instance.getTimeInMillis();
-		if(lastDrawTime < time){
+		long currentTime = current.getTimeInMillis();
+		int distance = DateUtils.getAbsoluteHourDistance(lastDrawTime, time);
+		if (distance < 24) {
+			if (lastDrawTime < time && currentTime >= time) {
+				resetDrawTime(player, holder, storeData);
+			}
+		} else {
+			if (lastDrawTime < time) {
+				resetDrawTime(player, holder, storeData);
+			}
+		}
+	}
+	
+	private void resetDrawTime(Player player, StoreDataHolder holder, StoreData storeData){
+		if(storeData.getDrawTime() > 0){
 			storeData.setDrawTime(0);
+			holder.add(player, storeData.getType().getOrder());
 		}
 	}
 	
@@ -214,3 +235,4 @@ public class WakenLotteryProcesser {
 		return list.size() > 0 ? list.get(0) : null;
 	}
 }
+

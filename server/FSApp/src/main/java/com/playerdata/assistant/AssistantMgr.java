@@ -52,7 +52,7 @@ public class AssistantMgr {
 		activeEventList.clear();
 		for (IAssistantCheck iAssistantCheck : checkList) {
 			AssistantEventID assistantEvent = iAssistantCheck.doCheck(player);
-			if (assistantEvent != null && assistantEvent != AssistantEventID.Sign) {
+			if (assistantEvent != null) {
 				AssistantCfg cfgById = AssistantCfgDao.getInstance().getCfgById(assistantEvent);
 				if (cfgById != null) {
 					activeEventList.add(cfgById);

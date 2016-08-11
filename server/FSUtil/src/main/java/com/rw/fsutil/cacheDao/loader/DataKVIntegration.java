@@ -1,10 +1,8 @@
 package com.rw.fsutil.cacheDao.loader;
 
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -68,7 +66,7 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(key, length);
 		String sql = updateSqlArray[tableIndex];
 		String writeValue = toJson(value);
-		int affectedRows = template.update(sql.toString(), new Object[] { writeValue, key, type });
+		int affectedRows = template.update(sql, new Object[] { writeValue, key, type });
 		// lida 2015-09-23 执行成功返回的结果是2
 		return affectedRows > 0;
 	}

@@ -20,6 +20,7 @@ public class ArmyInfo {
 	private String playerName;
 	private String playerHeadImage;
 	private String guildName;
+	private ArmyFashion armyFashion;
 
 	public List<ArmyHero> getHeroList() {
 		return heroList;
@@ -72,6 +73,14 @@ public class ArmyInfo {
 	public void addHero(ArmyHero armyHero) {
 		this.heroList.add(armyHero);
 		
+	}
+	
+	public ArmyFashion getArmyFashion() {
+		return armyFashion;
+	}
+
+	public void setArmyFashion(ArmyFashion armyFashion) {
+		this.armyFashion = armyFashion;
 	}
 
 	public String toJson() throws Exception {

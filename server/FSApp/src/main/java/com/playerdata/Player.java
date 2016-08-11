@@ -272,6 +272,9 @@ public class Player implements PlayerIF {
 
 		if (initMgr) {
 			initMgr();
+			
+			// 检查主角羁绊
+			this.me_FetterMgr.checkPlayerData(this);
 		}
 
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
@@ -888,18 +891,22 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void SetUserName(String nick) {
+	public boolean SetUserName(String nick) {
 		if (StringUtils.isNotBlank(nick)) {
-			userDataMgr.setUserName(nick);
-			RankingMgr.getInstance().onPlayerChange(this);
-			getFriendMgr().onPlayerChange(this);
+			boolean result = userDataMgr.setUserName(nick);
+			if (result) {
+				RankingMgr.getInstance().onPlayerChange(this);
+				getFriendMgr().onPlayerChange(this);
 
-			// 通知一下监听的人，修改对应数据
-			Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
-			if (observer != null) {
-				observer.playerChangeName(this);
+				// 通知一下监听的人，修改对应数据
+				Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+				if (observer != null) {
+					observer.playerChangeName(this);
+				}
 			}
+			return result;
 		}
+		return false;
 	}
 
 	public int setVip(int vip) {

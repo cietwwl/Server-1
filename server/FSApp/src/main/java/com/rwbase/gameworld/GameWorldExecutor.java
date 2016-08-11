@@ -37,7 +37,7 @@ public class GameWorldExecutor implements GameWorld {
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
 		this.listeners = new ArrayList<PlayerTaskListener>(0);
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player_pool"));
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
 		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, 
 				new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"),new ThreadPoolExecutor.CallerRunsPolicy());
 		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
@@ -59,7 +59,7 @@ public class GameWorldExecutor implements GameWorld {
 				}
 			}
 		};
-		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account_pool"));
+		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account"));
 		this.createExecutor = new QueuedTaskExecutor<String, Void>(threadSize, logger, accountExecutor) {
 
 			@Override

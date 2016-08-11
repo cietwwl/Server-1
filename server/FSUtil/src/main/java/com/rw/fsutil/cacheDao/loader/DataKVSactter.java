@@ -71,14 +71,7 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 	public boolean updateToDB(String key, T value) {
 		String sql = "update " + classInfoPojo.getTableName() + " set dbvalue = ? where dbkey = ?";
 		String writeValue = toJson(value);
-		try {
-			if (classInfoPojo.getTableName().equals("drop_record")) {
-				System.out.println(new Date() + ",drop_trace:" + key + "," + writeValue);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		int affectedRows = template.update(sql.toString(), new Object[] { writeValue, key });
+		int affectedRows = template.update(sql, new Object[] { writeValue, key });
 		// lida 2015-09-23 执行成功返回的结果是2
 		return affectedRows > 0;
 	}
@@ -100,7 +93,6 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 
 	private String toJson(T t) {
 		String json = null;
-
 		try {
 			json = classInfoPojo.toJson(t);
 		} catch (Exception e) {
