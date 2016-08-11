@@ -10,10 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bm.rank.RankType;
+import com.bm.rank.fightingAll.FightingComparable;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupHelper;
@@ -28,6 +33,7 @@ import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendResultVo;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwproto.FriendServiceProtos;
@@ -194,28 +200,28 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			}
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "已向对方发送添加好友请求";
-			//增加红点检查
+			// 增加红点检查
 			PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 		}
 		return resultVo;
 	}
-	
+
 	/** 请求添加一群人好友 */
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
-		FriendResultVo resultVo = new FriendResultVo();		
+		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend tableFriend = getTableFriend();
 		resultVo.resultType = EFriendResultType.FAIL;
 		resultVo.resultMsg = "没有向人申请好友";
-		for(int i = 0; i< friendList.size();i++){
+		for (int i = 0; i < friendList.size(); i++) {
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "申请成功";
 			String otherUserId = friendList.get(i);
 			if (isSelfUser(otherUserId)) {
-//				resultVo.resultType = EFriendResultType.FAIL;
-//				resultVo.resultMsg = "该玩家是自己";
+				// resultVo.resultType = EFriendResultType.FAIL;
+				// resultVo.resultMsg = "该玩家是自己";
 			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
-//				resultVo.resultType = EFriendResultType.FAIL;
-//				resultVo.resultMsg = "对方已经是你的好友";
+				// resultVo.resultType = EFriendResultType.FAIL;
+				// resultVo.resultMsg = "对方已经是你的好友";
 			} else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
 				if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
@@ -228,15 +234,14 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 						tableFriend.removeFromBlackList(otherUserId);
 					}
 					friendDAO.update(otherTable);
-				}				
-				//增加红点检查
+				}
+				// 增加红点检查
 				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 			}
 		}
-		
+
 		return resultVo;
 	}
-	
 
 	/** 同意添加好友 */
 	public FriendResultVo consentAddFriend(String otherUserId) {
@@ -417,7 +422,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				resultVo.updateList = friendItemToInfoList(list);
 				resultVo.resultMsg = "赠送成功";
 				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
-				
+
 			} else {
 				resultVo.resultType = EFriendResultType.FAIL;
 				resultVo.resultMsg = "已赠送过该玩家体力";
@@ -497,8 +502,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.updateList = friendItemToInfoList(list);// 更新列表
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "已为所有好友赠送体力";
-			
-			
+
 		}
 		return resultVo;
 	}
@@ -668,6 +672,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLevel(item.getLevel());
 		friendInfo.setGroupId(GroupHelper.getUserGroupId(userId));
 		friendInfo.setGroupName(GroupHelper.getGroupName(userId));
+
 		if (item.getHeadFrame() == null) {
 			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 			// TODO 这个逻辑应该放在setting中完成
@@ -679,6 +684,13 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (giveState != null) {
 			friendInfo.setGiveState(giveState.isGiveState());
 			friendInfo.setReceiveState(giveState.isReceiveState());
+		}
+		Ranking<FightingComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
+		RankingEntry<FightingComparable, RankingLevelData> entry = ranking.getRankingEntry(userId);
+		if (entry != null) {
+			friendInfo.setFighting(entry.getComparable().getFighting());
+		} else {
+			friendInfo.setFighting(item.getFighting());
 		}
 		return friendInfo.build();
 	}
@@ -740,6 +752,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
 		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
+		friendItem.setFighting(player.getHeroMgr().getFightingAll());
 	}
 
 	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {
