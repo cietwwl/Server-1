@@ -2,17 +2,22 @@ package com.playerdata.groupFightOnline.bm;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
 import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
+import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupFunctionCfg;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -52,13 +57,15 @@ public class GFightGroupBidBM {
 	 * @param resourceID
 	 */
 	public void getGroupBidRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
-		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID, GFightConst.GROUP_BID_RANK_COUNT);
 		if(groupBidRank == null) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("取不到帮派竞标排行榜");
 		}
 		for(GFGroupBiddingItem item : groupBidRank) 
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		gfRsp.setSelfRank(GFGroupBiddingRankMgr.getRankIndex(resourceID, groupID));
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
@@ -92,14 +99,23 @@ public class GFightGroupBidBM {
 			gfRsp.setTipMsg("竞标数量没有达到最小要求(起始或最小增长值)");
 			return;
 		}
-		if(gfGroupData.getResourceID() > 0){// && gfGroupData.getResourceID() != resourceID) {
-			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfGroupData.getResourceID());
-			if(!resData.isOwnerBidAble()){
+		List<GFightOnlineResourceCfg> resDataCfgs = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
+		for(GFightOnlineResourceCfg cfg : resDataCfgs){
+			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(cfg.getResID());
+			if(null != resData && !resData.isOwnerBidAble() && StringUtils.equals(resData.getOwnerGroupID(), gfGroupData.getGroupID())){
 				gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
 				gfRsp.setTipMsg("竞标冷却期间，不能竞标");
 				return;
 			}
 		}
+//		if(gfGroupData.getResourceID() > 0){// && gfGroupData.getResourceID() != resourceID) {
+//			GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(gfGroupData.getResourceID());
+//			if(!resData.isOwnerBidAble() && StringUtils.equals(resData.getOwnerGroupID(), gfGroupData.getGroupID())){
+//				gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
+//				gfRsp.setTipMsg("竞标冷却期间，不能竞标");
+//				return;
+//			}
+//		}
 		if(!GFightConditionJudge.getInstance().haveAuthorityToBid(player)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION); 
 			gfRsp.setTipMsg("您的帮派职位没有竞标权限");

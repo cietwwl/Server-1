@@ -68,7 +68,7 @@ public class GroupCopyAdminHandler {
 		boolean success = false;
 		GroupCopyResult openResult;
 		String mapId = openReqMsg.getMapId();
-		
+		commonRsp.setIsSuccess(success);
 		if(group!=null){
 			//检查是不是管理员
 			GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(player.getUserId(), false);
@@ -86,20 +86,25 @@ public class GroupCopyAdminHandler {
 				GameLog.error(LogModule.GroupCopy, "GroupCopyAdminHandler[open]", "角色尝试开启帮派副本，物资不足，开启消耗["+cfg.getOpenCost()
 						+ "],目前物资："+ supplies, null);
 				commonRsp.setTipMsg("帮派物资不足");
+				return commonRsp.build().toByteString();
+			}
+			//检查一下帮派的等级是否可以开放
+			int groupLevel = group.getGroupBaseDataMgr().getGroupData().getGroupLevel();
+			if(cfg.getUnLockLv() > groupLevel){
+				commonRsp.setTipMsg("帮派升级到Lv"+cfg.getUnLockLv()+"解锁");
+				return commonRsp.build().toByteString();
+			}
+			openResult = group.getGroupCopyMgr().openMap(player, mapId );
+			success = openResult.isSuccess();
+			if(success){
+				// 扣除帮派物资
+				supplies -= cfg.getOpenCost();
+				group.getGroupBaseDataMgr().setGroupSupplier(supplies);
+				group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 			}else{
-				openResult = group.getGroupCopyMgr().openMap(player, mapId );
-				success = openResult.isSuccess();
-				if(success){
-					// 扣除帮派物资
-					supplies -= cfg.getOpenCost();
-					group.getGroupBaseDataMgr().setGroupSupplier(supplies);
-					group.getGroupBaseDataMgr().updateAndSynGroupData(player);
-				}else{
-					commonRsp.setTipMsg("开启失败");
-				}
+				commonRsp.setTipMsg("开启失败");
 			}
 		}	
-		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
 	}
 

@@ -76,6 +76,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			if (isClose(activityDailyCountTypeItem)&&!activityDailyCountTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
 				activityDailyCountTypeItem.setClosed(true);
+				activityDailyCountTypeItem.setTouchRedPoint(true);
 				dataHolder.updateItem(player, activityDailyCountTypeItem);
 			}
 		}

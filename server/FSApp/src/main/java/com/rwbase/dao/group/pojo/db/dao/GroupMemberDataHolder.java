@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -303,7 +304,7 @@ public final class GroupMemberDataHolder {
 		// 删除所有的成员信息
 		for (Entry<String, String> e : memberIdMap.entrySet()) {
 			mapItemStore.removeItem(e.getValue());
-
+			GFOnlineListenerPlayerChange.userLeaveGroupHandler(e.getValue(), groupId);
 			// 处理下个人的数据
 			if (playerTask != null) {
 				GameWorldFactory.getGameWorld().asyncExecute(e.getKey(), playerTask);

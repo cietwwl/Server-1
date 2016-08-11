@@ -19,7 +19,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.arena.RobotManager;
-import com.bm.group.GroupBM;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -28,10 +27,8 @@ import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.gm.task.gmCommand.GmCommandManager;
-import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
-import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
@@ -105,7 +102,6 @@ public class GameManager {
 		ServerSwitch.initLogic();
 
 		/**** 服务器全启数据 ******/
-		GlobalDataMgr.init();
 		// 初始化 日志服务初始化
 		LogService.getInstance().init();
 

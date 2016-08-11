@@ -5,12 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.mysql.jdbc.Statement;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
@@ -79,7 +83,7 @@ public class IdentityIdGenerator {
 	public static void main(String[] args) {
 		DruidDataSource dataSource = new DruidDataSource();
 		dataSource.setName("driverClassName");
-		String url = "jdbc:mysql://192.168.4.250:3306/gods_rank?useUnicode=true&amp;characterEncoding=utf8&characterResultSets=utf8";
+		String url = "jdbc:mysql://localhost:3306/fs_test?useUnicode=true&amp;characterEncoding=utf8&characterResultSets=utf8";
 		String driverClass = "com.mysql.jdbc.Driver";
 		dataSource.setDriverClassName(driverClass);
 		String userName = "root";
@@ -100,8 +104,16 @@ public class IdentityIdGenerator {
 			ex.printStackTrace();
 			throw new ExceptionInInitializerError(ex);
 		}
-		IdentityIdGenerator generator = new IdentityIdGenerator("testid", dataSource);
-		System.out.println(generator.generateId());
-		System.out.println(generator.generateId());
+//		IdentityIdGenerator generator = new IdentityIdGenerator("testid", dataSource);
+//		System.out.println(generator.generateId());
+//		System.out.println(generator.generateId());
+		
+		JdbcTemplate template = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
+		//template.update("insert into test (id,text)values(?,?)", new Object[]{1,"1111"});
+		ArrayList<Object[]> list = new ArrayList<Object[]>();
+		list.add(new Object[]{"2111",1});
+		list.add(new Object[]{"111",2});
+		System.out.println(Arrays.toString(template.batchUpdate("update test set text=? where id=?", list)));
+//		System.out.println(template.update("update test set text=? where id=?", new Object[]{"2111",1}));
 	}
 }

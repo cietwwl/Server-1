@@ -523,7 +523,7 @@ public class ArenaBM {
 		// 此方法不是线程安全
 		List<RecordInfo> list = table.getRecordList();
 		int size = list.size();
-		if (size >= 20) {
+		if (size >= 15) {
 			list.remove(0);
 			size--;
 		}

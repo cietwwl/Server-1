@@ -3,6 +3,8 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import com.common.Utils;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -17,9 +19,6 @@ public class GroupCopyProgress {
 	private double progress;//0-1
 	
 	private List<GroupCopyMonsterSynStruct> mDatas = new ArrayList<GroupCopyMonsterSynStruct>();
-	
-	
-	
 
 	public GroupCopyProgress() {
 		
@@ -31,7 +30,7 @@ public class GroupCopyProgress {
 		initProgress();
 	}
 
-	private void initProgress() {
+	public void initProgress() {
 
 		totalHp = 0;
 		currentHp = 0;
@@ -77,6 +76,16 @@ public class GroupCopyProgress {
 
 	public void setmDatas(List<GroupCopyMonsterSynStruct> mDatas) {
 		this.mDatas = mDatas;
+	}
+
+	public void setmData(GroupCopyMonsterSynStruct m) {
+		for (GroupCopyMonsterSynStruct struct : mDatas) {
+			if(struct.getId().equals(m.getId())){
+				struct.setCurHP(m.getCurHP());
+				struct.setCurMP(m.getCurMP());
+				break;
+			}
+		}
 	}
 
 	

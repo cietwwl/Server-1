@@ -60,4 +60,5 @@ message GroupFightOnlineRspMsg{
 	optional int32 currentPage = 10;	//防守队伍的总页数
 	repeated string fightRecord = 11; //战斗记录
 	repeated string gfRewardInfo = 12;	//可以领取的奖励
+	optional int32 selfRank = 13;
 }

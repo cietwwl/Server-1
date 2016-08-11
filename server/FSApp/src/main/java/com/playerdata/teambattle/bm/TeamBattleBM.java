@@ -451,14 +451,14 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null != utbData && utbData.getFinishedLoops().contains(battleTime)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复攻击已通过的关卡");
+			return;
+		}
 		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("组队数据异常");
-			return;
-		}
-		if(utbData.getFinishedLoops().contains(battleTime)){
-			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不能重复攻击已通过的关卡");
 			return;
 		}
 		if(battleTime - 1 > 0 && !utbData.getFinishedLoops().contains(battleTime - 1)){
@@ -507,14 +507,14 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null != utbData && utbData.getFinishedLoops().contains(loopID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复结算已通过的关卡");
+			return;
+		}
 		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("组队数据异常");
-			return;
-		}
-		if(utbData.getFinishedLoops().contains(loopID)){
-			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不能重复结算已通过的关卡");
 			return;
 		}
 		if(battleTime - 1 > 0 && !utbData.getFinishedLoops().contains(battleTime - 1)){

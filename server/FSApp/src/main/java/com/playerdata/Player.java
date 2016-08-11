@@ -131,8 +131,7 @@ public class Player implements PlayerIF {
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
 	private MagicEquipFetterMgr me_FetterMgr = new MagicEquipFetterMgr();
-	
-	
+
 	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
@@ -254,7 +253,7 @@ public class Player implements PlayerIF {
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
-			//MapItemStoreFactory.notifyPlayerCreated(userId);
+			// MapItemStoreFactory.notifyPlayerCreated(userId);
 			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
@@ -273,6 +272,9 @@ public class Player implements PlayerIF {
 
 		if (initMgr) {
 			initMgr();
+			
+			// 检查主角羁绊
+			this.me_FetterMgr.checkPlayerData(this);
 		}
 
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
@@ -310,14 +312,13 @@ public class Player implements PlayerIF {
 		m_battleTowerMgr.init(this);
 
 		guideMgr.init(this);
-		
 
 		afterMgrInit();
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
-		me_FetterMgr.init(this);//注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by Alex
-		m_TaskMgr.init(this);//任务要获取其他模块的数据，所以把它放在最后进行初始化  ---by Alex
+		me_FetterMgr.init(this);// 注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by Alex
+		m_TaskMgr.init(this);// 任务要获取其他模块的数据，所以把它放在最后进行初始化 ---by Alex
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -338,17 +339,17 @@ public class Player implements PlayerIF {
 		});
 
 		me_FetterMgr.reChangeCallBack(new Action() {
-			
+
 			@Override
 			public void doAction() {
-				
+
 				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
 				}
 			}
 		});
-		
+
 		m_FashionMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
@@ -393,7 +394,6 @@ public class Player implements PlayerIF {
 					userGameDataMgr.setLastLoginTime(now);
 					getFriendMgr().onPlayerChange(player);
 					// logoutTimer = 0;
-					HotPointMgr.loadPushHotPointState(player);
 					WorshipMgr.getInstance().pushByWorshiped(player);
 					// TODO HC 聊天信息推送
 					ChatHandler.getInstance().sendChatAllMsg(player);
@@ -821,9 +821,7 @@ public class Player implements PlayerIF {
 
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
-			
 
-			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
@@ -893,18 +891,22 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void SetUserName(String nick) {
+	public boolean SetUserName(String nick) {
 		if (StringUtils.isNotBlank(nick)) {
-			userDataMgr.setUserName(nick);
-			RankingMgr.getInstance().onPlayerChange(this);
-			getFriendMgr().onPlayerChange(this);
+			boolean result = userDataMgr.setUserName(nick);
+			if (result) {
+				RankingMgr.getInstance().onPlayerChange(this);
+				getFriendMgr().onPlayerChange(this);
 
-			// 通知一下监听的人，修改对应数据
-			Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
-			if (observer != null) {
-				observer.playerChangeName(this);
+				// 通知一下监听的人，修改对应数据
+				Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+				if (observer != null) {
+					observer.playerChangeName(this);
+				}
 			}
+			return result;
 		}
+		return false;
 	}
 
 	public int setVip(int vip) {
@@ -1130,10 +1132,6 @@ public class Player implements PlayerIF {
 		return redPointMgr;
 	}
 
-	public GuildUserMgr getGuildUserMgr() {
-		return null;
-	}
-
 	public FresherActivityMgr getFresherActivityMgr() {
 		return m_FresherActivityMgr;
 		// return null;
@@ -1181,10 +1179,9 @@ public class Player implements PlayerIF {
 		return userGroupCopyRecordMgr;
 	}
 
-	
-	
 	/**
 	 * 获取个人法宝神器羁绊管理类
+	 * 
 	 * @return
 	 */
 	public MagicEquipFetterMgr getMe_FetterMgr() {

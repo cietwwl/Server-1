@@ -14,7 +14,6 @@ import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
-import com.bm.guild.GuildGTSMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
@@ -28,7 +27,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
-import com.playerdata.guild.GuildDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -52,8 +51,6 @@ import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
-import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
-import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -66,6 +63,7 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -92,7 +90,7 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-
+		
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
@@ -125,6 +123,7 @@ public class GMHandler {
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
 		funcCallBackMap.put("getallsecret", "getAllSecret");
 		funcCallBackMap.put("teambringit", "teamBringit");
+		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
 		funcCallBackMap.put("setteam1", "setTeam1");
 		funcCallBackMap.put("setteam2", "setTeam2");
@@ -193,7 +192,7 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
-		
+		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 	}
 
 	public boolean isActive() {
@@ -520,6 +519,25 @@ public class GMHandler {
 		return false;
 	}
 	
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			
+			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+			baseDataMgr.updateBuyKeyData(player, addNum);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
 	public boolean addWakenPiece(String[] arrCommandContents, Player player){
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -792,22 +810,6 @@ public class GMHandler {
 		return false;
 	}
 
-	public boolean addguildNum(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-
-			return false;
-		}
-		if (player != null) {
-			if ("1".equals(arrCommandContents[0])) {
-				String guildId = player.getGuildUserMgr().getGuildId();
-				GuildDataMgr guildMgr = GuildGTSMgr.getInstance().getById(guildId);
-				guildMgr.getGuildPropTSMgr().gmAdd(player, 1);
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean probstore(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
@@ -939,7 +941,18 @@ public class GMHandler {
 		}
 		return false;
 	}
-
+	
+	public boolean teamBringitSigle(String[] arrCommandContents, Player player) {
+		// if(arrCommandContents == null){
+		// return false;
+		// }
+		if (player != null) {
+			GMHeroProcesser.processTeamBringitSigle(arrCommandContents, player);
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean addHero1(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
 		// return false;

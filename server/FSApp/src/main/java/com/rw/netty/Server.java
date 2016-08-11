@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
+import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.gamble.GambleTest;
@@ -34,8 +35,9 @@ public class Server {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		GameWorldFactory.init(64, 16);
+		DataCacheInitialization.init();
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-		System.setProperty("io.netty.recycler.maxCapacity.default", "1024");
+		System.setProperty("io.netty.recycler.maxCapacity.default", "512");
 		GameManager.initServerProperties();
 		System.out.println("start init...");
 		ServerSwitch.initProperty();
