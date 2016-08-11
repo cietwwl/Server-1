@@ -9,14 +9,14 @@ public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 	
 	LoginDaily("10001"),
 	TreasureLandDaily("10002"),//聚宝之地
+	BattleTowerDaily("10003"),//封神台
+	AttachDaily("10004"),//附灵
 	UpGradeStarDaily("10005"),//升星
 	AdvanceDaily("10006"),//进阶
-	BattleTowerDaily("10003"),//封神台
 	ArenaDaily("10007"),//竞技场
 	CoinSpendDaily("10008"),//花金币
-	ChargeDaily("10010"),//充值
 	GambleGoldDaily("10009"),//钻石钓鱼次数 
-	AttachDaily("10004"),//附灵
+	ChargeDaily("10010"),//充值
 	GoldSpendDaily("10011");//花钻石 
 	
 	

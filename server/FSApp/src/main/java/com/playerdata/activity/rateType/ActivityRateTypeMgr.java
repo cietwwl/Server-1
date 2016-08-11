@@ -189,6 +189,9 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
 		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRateTypeCfg cfg : cfgList){
+			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, cfg)){
+				continue;
+			}
 			Map<Integer, List<Integer>> map = cfg.getCopyTypeMap();
 			if(map.get(copyType)== null){
 				continue;
@@ -199,9 +202,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
 				continue;
 			}
-			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, cfg)){
-				continue;
-			}
+			
 			List<Integer> especials = map.get(copyType);
 			for(Integer especial : especials){
 				if(especialItemtypeAndEspecialWithTime.containsKey(especial)){

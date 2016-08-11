@@ -215,7 +215,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			if(!isLevelEnough(player, countType)){
 				result.setReason("等级不足");
 				result.setSuccess(false);
-				return result;				
+				return result;
 			}
 			if(!isCountEnough(targetItem.getCount(),itemCfg)){
 				result.setReason("次数不足，请隔天刷新");
