@@ -40,14 +40,26 @@ public class GroupCopyMgr {
 			RobotLog.info("当前机器人没有可进入的帮派副本");
 			return true;
 		}
-		handler.clientApplyDistRewardLog(client);
+		
 		handler.clientApplyDropData(client, record.getChaterID());
-		handler.clientApplyGroupDamageRank(client);
+		
 		handler.clientApplyServerRank(client, record.getCurLevelID());
-		handler.getAllRewardApplyInfo(client);
-		GroupCopyHandler.getInstance().applyCopyInfo(client);
+		
+		
 		handler.try2EnterBattle(client, record.getCurLevelID());
 		handler.clientBeginFight(client, record.getCurLevelID());
+		return true;
+	}
+	
+	public boolean donateCopy(Client client){
+		GroupCopyMapRecord record = getRandomOpenChater(client);
+		if(record == null){
+			RobotLog.info("当前机器人没有可进入的帮派副本");
+			return true;
+		}
+		GroupCopyHandler handler = GroupCopyHandler.getInstance();
+		handler.donate(client, record.getCurLevelID(), 1);
+		handler.donate(client, record.getCurLevelID(), 10);
 		return true;
 	}
 	

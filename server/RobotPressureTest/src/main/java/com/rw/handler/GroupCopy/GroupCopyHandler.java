@@ -16,8 +16,10 @@ import com.rw.dataSyn.DataSynHelper;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
 import com.rw.handler.GroupCopy.data.GroupCopyDataVersion;
+import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
 import com.rw.handler.GroupCopy.data.GroupCopyMonsterSynStruct;
 import com.rw.handler.hero.TableUserHero;
+import com.rwbase.common.RandomUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
@@ -32,6 +34,7 @@ import com.rwproto.GroupCopyBattleProto.HeroList;
 import com.rwproto.GroupCopyBattleProto.HeroList.Builder;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdRspMsg;
+import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
 import com.rwproto.GroupCopyCmdProto.GroupCopyReqType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
@@ -488,6 +491,45 @@ public class GroupCopyHandler {
 	}
 	
 	
+	/**
+	 * 赞助一次
+	 * @param client
+	 * @param level
+	 * @param cout TODO 次数
+	 */
+	public void donate(Client client, final String level, final int cout){
+		GroupCopyCmdReqMsg.Builder reqMsg = GroupCopyCmdReqMsg.newBuilder();
+		reqMsg.setReqType(GroupCopyReqType.BUFF_DONATE);
+		GroupCopyDonateData.Builder value = GroupCopyDonateData.newBuilder();
+		value.setDonateTime(cout);
+		value.setLevel(level);
+		reqMsg.setDonateData(value);
+		
+		client.getMsgHandler().sendMsg(cmdCom, reqMsg.build().toByteString(), new PrintMsgReciver(cmdCom, functionName, "赞助["+cout+"]次") {
+			
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString bs = response.getSerializedContent();
+				try {
+					GroupCopyCmdRspMsg rspMsg = GroupCopyCmdRspMsg.parseFrom(bs);
+					String tips = "";
+					if(rspMsg.getTipMsg() != null){
+						tips = rspMsg.getTipMsg();
+					}
+					if(rspMsg.getIsSuccess()){
+						RobotLog.info("帮派副本关卡["+level+"]赞助["+cout+"]次成功" + tips);
+						return true;
+					}else{
+						RobotLog.info("帮派副本关卡["+level+"]赞助["+cout+"]次异常" + tips);
+						return false;
+					}
+				} catch (Exception e) {
+					RobotLog.info("帮派副本关卡["+level+"]赞助["+cout+"]次存在异常" + e);
+				}
+				return false;
+			}
+		});
+	}
 	
 	
 	

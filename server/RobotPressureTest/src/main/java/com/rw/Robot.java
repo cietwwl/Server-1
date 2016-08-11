@@ -8,6 +8,7 @@ import org.apache.log4j.PropertyConfigurator;
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
 import com.rw.handler.DailyActivity.DailyActivityHandler;
+import com.rw.handler.GroupCopy.GroupCopyHandler;
 import com.rw.handler.GroupCopy.GroupCopyMgr;
 import com.rw.handler.activity.ActivityCountHandler;
 import com.rw.handler.activity.daily.ActivityDailyCountHandler;
@@ -1111,9 +1112,14 @@ public class Robot {
 		return GroupFightHandler.getHandler().playGroupFight(client);
 	}
 	
+	/**
+	 * 帮派副本战斗
+	 * @return
+	 */
 	public boolean playerGroupCopy(){
 		return GroupCopyMgr.getInstance().playGroupCopy(client);
 	}
+	
 
 	/**
 	 * 组队战创建或者加入队伍
@@ -1154,6 +1160,20 @@ public class Robot {
 		
 	}
 	
+	public boolean donateGroupCopy(){
+		return GroupCopyMgr.getInstance().donateCopy(client);
+	}
 	
+	public void applyDistRewardLog(){
+		GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
+	}
+	
+	public void applyGroupDamageRank(){
+		GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
+	}
+	
+	public void applyAllRewardApplyInfo(){
+		GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
+	}
 	
 }
