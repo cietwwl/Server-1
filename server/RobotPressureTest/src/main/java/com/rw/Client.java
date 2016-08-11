@@ -29,6 +29,7 @@ import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
 import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
 import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
 import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
+import com.rw.handler.groupsecret.GroupSecretUserInfoSynDataHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
@@ -98,6 +99,8 @@ public class Client {
 	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
 	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
 	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretUserInfoSynDataHolder groupSecretUserInfoSynDataHolder = new GroupSecretUserInfoSynDataHolder();
+	
 	// private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
 	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
@@ -386,7 +389,11 @@ public class Client {
 	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
 		return groupSecretBaseInfoSynDataHolder;
 	}
-
+	
+	public GroupSecretUserInfoSynDataHolder getGroupSecretUserInfoSynDataHolder(){
+		return groupSecretUserInfoSynDataHolder;
+	}
+	
 	// public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
 	// return groupSecretInviteDataHolder;
 	// }

@@ -125,6 +125,9 @@ public class GroupSecretMatchHandler {
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "秘境奖励"));
 	}
 	
+	
+	
+	
 	private class GroupSecretMatchReceier extends PrintMsgReciver {
 
 		public GroupSecretMatchReceier(Command command, String functionName, String protoType) {
@@ -148,6 +151,10 @@ public class GroupSecretMatchHandler {
 					}
 					return true;
 				} else {
+					if(resp.getTipMsg().indexOf("当前您没有可以领取" )!= -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
+					}
 					if(resp.getTipMsg().indexOf("找不到可掠夺")!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
@@ -156,10 +163,14 @@ public class GroupSecretMatchHandler {
 						RobotLog.fail(resp.getTipMsg());
 						return true;
 					}
-					if(resp.getTipMsg().indexOf("当前您没有可以领取" )!= -1){
+					if(resp.getTipMsg().indexOf("对方已被其他玩家挑战，搜索秘境费用返回") != -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
 					}
+					if(resp.getTipMsg().indexOf("当前您没有可以挑战的秘境") != -1){
+						RobotLog.fail("发起进攻收到了地方的数据信息，但结束进攻时对方已经被别人打了");
+						return true;
+					}					
 					RobotLog.fail(resp.getTipMsg());
 					throw new Exception(resp.getTipMsg());
 				}
