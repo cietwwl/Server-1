@@ -272,7 +272,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getId());
+			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
 			if (dailyDiscountEnum == null) {
 				continue;
 			}
@@ -283,28 +283,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!targetItem.isTouchRedPoint()){
 				activityList.add(targetItem.getCfgId());
 				continue;
-			}
-			
-			//原来的判断逻辑注释
-//			List<ActivityDailyDiscountTypeSubItem> dailyDiscountSubitemlist= targetItem.getSubItemList();
-//			for(ActivityDailyDiscountTypeSubItem subitem:dailyDiscountSubitemlist){
-//				if(isRed){
-//					break;
-//				}
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isLevelEnough(player, dailyDiscountEnum)){
-//					continue;
-//				}
-//				ActivityDailyDiscountItemCfg itemCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(subitem.getCfgId());
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isCountEnough(subitem.getCount(), itemCfg)){
-//					continue;
-//				}
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isGoldEnough(player, itemCfg)){
-//					continue;
-//				}
-//				activityList.add(cfg.getId());
-//				isRed = true;
-//				break;
-//			}			
+			}		
 		}
 //      ----------------------------------	
 		ActivityRankTypeItemHolder rankHolder = ActivityRankTypeItemHolder.getInstance();

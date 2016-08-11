@@ -2,12 +2,10 @@ package com.playerdata.activity.exChangeType;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum ActivityExChangeTypeEnum{	// implements TypeIdentification
-	DragonBoatFestival("60003"),
+public enum ActivityExChangeTypeEnum{	// implements TypeIdentification	
+	ExChangeActive("60001"),
 	MidAutumnFestival("60002"),
-	ExChangeActive("60001");
-
-
+	DragonBoatFestival("60003");
 	
 	
 	

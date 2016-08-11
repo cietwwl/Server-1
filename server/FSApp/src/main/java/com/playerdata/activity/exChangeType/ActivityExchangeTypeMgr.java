@@ -53,6 +53,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		checkNewOpen(player);
 		checkCfgVersion(player);
 		checkOtherDay(player);
+		checkClose(player);
 	}
 
 	private void checkNewOpen(Player player) {
@@ -141,6 +142,10 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		}
 	}
 	
+	private void checkClose(Player player){
+		
+		
+	}
 	
 	public ActivityComResult takeGift(Player player,
 			ActivityExChangeTypeEnum countType, String subItemId) {
