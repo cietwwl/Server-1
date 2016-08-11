@@ -39,6 +39,7 @@ enum EResultType	//结果
 	GM_SETSUCCESS = 12;		//GM命令成功
 	SWEEP_SUCCESS = 13;//
 	GET_GIFT_SUCCESS = 14;
+	Success = 15;			//普通成功
 }
 
 message MsgCopyRequest
