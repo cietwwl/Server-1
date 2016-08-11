@@ -31,6 +31,8 @@ import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.FixEquipProto.ExpLevelUpReqParams;
 import com.rwproto.FixEquipProto.SelectItem;
 
@@ -203,7 +205,9 @@ public class FixExpEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixExpEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} else if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
 			int nextLevel = dataItem.getLevel() + 1;
@@ -409,7 +413,9 @@ public class FixExpEquipMgr {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} else if (dataItem == null) {
 			result.setReason("装备不存在。");
 		} else {
 			int curStar = dataItem.getStar();
