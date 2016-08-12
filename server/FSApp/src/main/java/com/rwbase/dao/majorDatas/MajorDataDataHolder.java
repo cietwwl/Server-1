@@ -54,7 +54,7 @@ public class MajorDataDataHolder {
 	}
 	
 	public void addChargeGold(Player player, MajorData data){
-		MajorDataCacheFactory.getCache().updateChargeGold(data);
+		MajorDataCacheFactory.getCache().updateGold(data);
 		syn(player, data);
 	}
 	
