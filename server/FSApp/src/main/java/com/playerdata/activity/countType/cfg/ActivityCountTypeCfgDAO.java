@@ -189,13 +189,16 @@ public final class ActivityCountTypeCfgDAO extends
 		return false;
 	}
 
-	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg, long currentTime) {
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();
 			long endTime = activityCountTypeCfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
+	}
+	
+	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+		return isOpen(activityCountTypeCfg, System.currentTimeMillis());
 	}
 }

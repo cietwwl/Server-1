@@ -213,10 +213,11 @@ public class GFightOnlineGroupMgr {
 		List<GFBiddingItem> bidItems = GFBiddingItemMgr.getInstance().getResourceItemList(groupData.getResourceID());
 		int totalRateOnGroup = 0;
 		int ratePersonCount = 0;
+		GFightBiddingCfgDAO fgBidCfgDao = GFightBiddingCfgDAO.getInstance();
 		//处理个人压标结果
 		for(GFBiddingItem item : bidItems){
 			if(StringUtils.equals(item.getBidGroup(), groupId)){
-				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(item.getRateID()));
+				GFightBiddingCfg bidCfg = fgBidCfgDao.getCfgById(String.valueOf(item.getRateID()));
 				totalRateOnGroup += bidCfg.getRate();
 				ratePersonCount++;
 				GFBiddingItemMgr.getInstance().handlePersonalBidResult(item, true);
@@ -227,7 +228,7 @@ public class GFightOnlineGroupMgr {
 		
 		if(totalRateOnGroup > 0){
 			//计算压标数量对应的奖励
-			GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById("1");
+			GFightBiddingCfg bidCfg = fgBidCfgDao.getCfgById("1");
 			if(totalRateOnGroup > bidCfg.getVictoryMaxRate()) totalRateOnGroup = bidCfg.getVictoryMaxRate();
 			List<ItemInfo> victoryBase = bidCfg.getVictoryRewardItem();
 			List<ItemInfo> victoryReward = new ArrayList<ItemInfo>();

@@ -9,6 +9,7 @@ import com.rw.service.gamble.GambleNewMgr;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.redpoint.RedPointType;
 import com.rw.service.redpoint.impl.RedPointCollector;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class GambleMgr implements RedPointCollector, PlayerEventListener {
 	private GambleNewMgr wrapper = new GambleNewMgr();
@@ -49,15 +50,20 @@ public class GambleMgr implements RedPointCollector, PlayerEventListener {
 	}
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
-		wrapper.fillRedPoints(player, map);
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
+		wrapper.fillRedPoints(player, map, level);
 	}
 
 	public void resetHotHeroList() {
 		wrapper.resetHotHeroList();
 	}
-	
-	public static void resetWhenStart(){
+
+	public static void resetWhenStart() {
 		GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 }

@@ -70,7 +70,7 @@ public class MagicSecretService implements FsService<MagicSecretReqMsg, msReques
 			msRsp.setReqType(request.getReqType());
 			msRsp.setRstType(msResultType.DATA_ERROR);
 			result = msRsp.build().toByteString();
-		} 
+		}
 		return result;
 	}
 

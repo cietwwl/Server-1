@@ -19,7 +19,7 @@ import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwproto.MagicSecretProto.msRewardBox;
+import com.rwproto.MagicSecretProto.MSItemInfo;
 
 class MSConditionJudger {
 	
@@ -182,18 +182,18 @@ class MSConditionJudger {
 	 * @param msRwdBox
 	 * @return
 	 */
-	public static boolean judgeRewardBoxLegal(Player player, String chapterID, msRewardBox msRwdBox){
+	public static boolean judgeRewardBoxLegal(Player player, String chapterID, MSItemInfo msRwdBox){
 		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeRewardBoxLegal, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
 			return false;
 		}
 		for(ItemInfo itm : mcInfo.getCanOpenBoxes()){
-			if(itm.getItemID() == Integer.parseInt(msRwdBox.getBoxID()) &&
-					itm.getItemNum() >= msRwdBox.getBoxCount())
+			if(itm.getItemID() == Integer.parseInt(msRwdBox.getItemID()) &&
+					itm.getItemNum() >= msRwdBox.getItemCount())
 				return true;
 		}
-		GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeRewardBoxLegal, 章节[%s]中需要打开的箱子[%s]数量[%s]不足", chapterID, msRwdBox.getBoxID(), msRwdBox.getBoxCount()), null);
+		GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeRewardBoxLegal, 章节[%s]中需要打开的箱子[%s]数量[%s]不足", chapterID, msRwdBox.getItemID(), msRwdBox.getItemCount()), null);
 		return false;
 	}
 	
@@ -204,7 +204,7 @@ class MSConditionJudger {
 	 * @param msRwdBox
 	 * @return
 	 */
-	public static boolean judgeOpenBoxCost(Player player, String chapterID, msRewardBox msRwdBox){
+	public static boolean judgeOpenBoxCost(Player player, String chapterID, MSItemInfo msRwdBox){
 		String firstDungeonID = chapterID + "01_1";
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(firstDungeonID);
 		if(dungDataCfg == null){
@@ -212,14 +212,14 @@ class MSConditionJudger {
 			return false;
 		}
 		ItemInfo cost = new ItemInfo();
-		if(msRwdBox.getBoxID().equalsIgnoreCase("1")){
+		if(msRwdBox.getItemID().equalsIgnoreCase("1")){
 			cost.setItemID(dungDataCfg.getObjCoBox().getBoxCost().getItemID());
 			cost.setItemNum(dungDataCfg.getObjCoBox().getBoxCost().getItemNum());
 		}else{
 			cost.setItemID(dungDataCfg.getObjHiBox().getBoxCost().getItemID());
 			cost.setItemNum(dungDataCfg.getObjHiBox().getBoxCost().getItemNum());
 		}
-		cost.setItemNum(cost.getItemNum() * msRwdBox.getBoxCount());
+		cost.setItemNum(cost.getItemNum() * msRwdBox.getItemCount());
 		// 资源比对
 		if (cost.getItemID() <= eSpecialItemId.eSpecial_End.getValue()) {
 			if (cost.getItemID() == eSpecialItemId.Coin.getValue()) {
