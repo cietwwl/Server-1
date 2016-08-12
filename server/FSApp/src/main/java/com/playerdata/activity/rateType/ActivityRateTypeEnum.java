@@ -2,9 +2,7 @@ package com.playerdata.activity.rateType;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
 import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.copypve.CopyType;
 
 public enum ActivityRateTypeEnum{	
 	// implements TypeIdentification

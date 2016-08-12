@@ -6,12 +6,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
@@ -150,24 +146,13 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
 		long startTime = cfgById.getStartTime();
-		isclose = currentTime > endTime ? true : false;
-		if (!isclose) {
-			isclose = currentTime < startTime ? true : false;
-		}
-
-		if (!isclose) {// 活动期间的小时区间是否开启
-			int hour = DateUtils.getCurrentHour();
-			for (ActivityRateTypeStartAndEndHourHelper timebyhour : cfgById
-					.getStartAndEnd()) {
-				isclose = hour >= timebyhour.getStarthour()
-						&& hour < timebyhour.getEndhour() ? false : true;
-				if (!isclose) {
-					break;
-				}
-			}
+		if(currentTime > endTime || currentTime < startTime){
+			isclose = true;			
 		}
 		return isclose;
-	}	
+	}
+	
+	
 	
 	/**
 	 * 
@@ -191,6 +176,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	public Map<Integer, Integer> getEspecialItemtypeAndEspecialWithTime(Player player,int copyType){
 		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
 		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+	
 		for(ActivityRateTypeCfg cfg : cfgList){
 			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, cfg)){
 				continue;
@@ -232,7 +218,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				checkNewOpen(player);				
 				return false;
 			}
-			return !ActivityRateTypeMgr.getInstance().isClose(targetItem)&&player.getLevel() >= cfg.getLevelLimit();			
+			return ActivityRateTypeMgr.getInstance().isOpen(cfg)&&player.getLevel() >= cfg.getLevelLimit();			
 		}
 	}
 	
