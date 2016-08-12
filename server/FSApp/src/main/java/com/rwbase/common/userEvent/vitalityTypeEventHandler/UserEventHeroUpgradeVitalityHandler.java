@@ -44,7 +44,7 @@ public class UserEventHeroUpgradeVitalityHandler implements IUserEventHandler{
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.HeroUpgradeVitality.toString()).append(" error");				
-				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
+				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
 		

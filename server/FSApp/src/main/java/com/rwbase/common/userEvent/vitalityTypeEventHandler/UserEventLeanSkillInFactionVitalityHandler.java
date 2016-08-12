@@ -34,7 +34,7 @@ public class UserEventLeanSkillInFactionVitalityHandler implements IUserEventHan
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.LearnSkillInfactionVitality.toString()).append(" error");				
-				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
+				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
 		
