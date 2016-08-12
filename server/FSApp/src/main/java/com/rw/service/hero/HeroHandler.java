@@ -15,6 +15,8 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.item.useeffect.impl.UseItemDataComparator;
 import com.rw.service.item.useeffect.impl.UseItemTempData;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -112,6 +114,8 @@ public class HeroHandler {
 			role.setStarLevel(nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
+			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+			TBListenerPlayerChange.heroChangeHandler(player);
 			break;
 		case -1:
 			rsp.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
@@ -248,6 +252,7 @@ public class HeroHandler {
 			return msgHeroResponse.build().toByteString();
 		}
 
+		int beforeAddLevel = curLevel;
 		boolean isFull = false;
 		int addExp = useCount * perExpItemAdd;
 		while (addExp >= (levelExp - curExp)) {
@@ -282,6 +287,7 @@ public class HeroHandler {
 			GameLog.info("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s],吞卡后浪费经验值[%s],等级[%s],当前经验[%s]\n吞卡数量[%s][%s]", heroUUID, addExp, curLevel, curExp, itemId, useCount), null);
 			msgHeroResponse.setModerId(heroUUID);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
+			if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 			return msgHeroResponse.build().toByteString();
 		} else {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s]需要吞卡的Id是[%s],数量为[%s]失败了", heroUUID, itemId, useCount), null);
@@ -382,6 +388,7 @@ public class HeroHandler {
 		Map<String, Integer> usedMap = new HashMap<String, Integer>();// 已经使用的道具
 		int totalCount = 0;
 		// int totalExp = 0;
+		int beforeAddLevel = curLevel;
 		while (curLevel < player.getLevel()) {
 
 			if (curExp >= levelExp) {
@@ -453,7 +460,15 @@ public class HeroHandler {
 			}
 
 		}
+		
+		if(curExp > levelExp){
+			curExp = levelExp;
+		}
 
+		//按策划要求  去掉溢出的经验
+		if(curExp > levelExp){
+			curExp = levelExp;
+		}
 		MaxUseExpRes.Builder muer = MaxUseExpRes.newBuilder();
 		muer.setLevel(curLevel);
 		muer.setCostNum(totalCount);
@@ -465,7 +480,7 @@ public class HeroHandler {
 			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
 			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
 		}
-
+		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 		return msgRsp.build().toByteString();
 	}
 
@@ -496,5 +511,14 @@ public class HeroHandler {
 
 		Collections.sort(retList, UseItemDataComparator.getInstance());
 		return retList;
+	}
+	
+	/**
+	 * 英雄升级事件
+	 * @param player
+	 */
+	private void heroLevelUpEnent(Player player){
+		GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+		TBListenerPlayerChange.heroChangeHandler(player);
 	}
 }

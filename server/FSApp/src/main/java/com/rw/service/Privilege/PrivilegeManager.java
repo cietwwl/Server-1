@@ -155,10 +155,10 @@ public class PrivilegeManager
 		IPrivilegeConfigSourcer tmpcfg = config;
 		for (Pair<IPrivilegeProvider, PrivilegeProperty.Builder> pair : newPrivilegeMap) {
 			Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider> key=Pair.<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>Create(tmpcfg, pair.getT1());
-			AllPrivilege old = cache.get(key);
 			AllPrivilege.Builder tmp = AllPrivilege.newBuilder();
 			config.setValue(tmp, pair.getT2());
-			tmp = config.combine(tmp,old);
+//			AllPrivilege old = cache.get(key);
+//			tmp = config.combine(tmp,old);
 			cache.put(key, tmp.build());
 		}
 		AllPrivilege.Builder all = combinePrivilege();

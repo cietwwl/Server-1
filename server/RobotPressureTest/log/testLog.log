@@ -1,0 +1,417 @@
+[INFO ] 2016-07-11 20:05:03,261 testLog 创建机器人：机器人[1]sgn0845,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:05:03,339 testLog connect start:sgn0845,main,4896@fyjs-PC
+[INFO ] 2016-07-11 20:05:03,410 testLog connect completed1:sgn0845,success=true,done=true,cancel=false,cost=74,Thread[main,5,main],chn=[id: 0xea099b86, /192.168.2.124:64002 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:05:03,410 testLog connect completed2:sgn0845,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xea099b86, /192.168.2.124:64002 => /192.168.2.233:8081],true
+[INFO ] 2016-07-11 20:05:03,410 testLog connect success:sgn0845,Thread[main,5,main],chn=[id: 0xea099b86, /192.168.2.124:64002 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:05:03,427 testLog 发送消息 客户端Id：sgn0845,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:05:03,446 testLog 收到的消息, accountId：sgn0845,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:05:03,447 testLog 机器人[1] accountId=sgn0845 处理耗时=5cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:05:04,455 testLog 发送消息 客户端Id：sgn0845,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:05:04,456 testLog 机器人[1] accountId=sgn0845 间隔时间：1009
+[INFO ] 2016-07-11 20:05:04,457 testLog 收到的消息, accountId：sgn0845,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:05:04,458 testLog 机器人[1] accountId=sgn0845 处理耗时=2cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:05:04,468 testLog close start2:sgn0845,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[ERROR] 2016-07-11 20:05:04,985 testLog channel is null:sgn0845
+java.lang.NullPointerException
+	at com.rw.ClientMsgHandler.sendMsg(ClientMsgHandler.java:206)
+	at com.rw.handler.chat.GmHandler.send(GmHandler.java:36)
+	at com.rw.Robot.upgrade(Robot.java:366)
+	at com.rw.Robot.testTaoist(Robot.java:902)
+	at com.rw.Test.main(Test.java:17)
+[ERROR] 2016-07-11 20:05:04,996 testLog channel is null:sgn0845
+java.lang.NullPointerException
+	at com.rw.ClientMsgHandler.sendMsg(ClientMsgHandler.java:206)
+	at com.rw.handler.taoist.TaoistHandler.getTaoistInfo(TaoistHandler.java:54)
+	at com.rw.handler.taoist.TaoistHandler.updateTaoist(TaoistHandler.java:34)
+	at com.rw.Robot.testTaoist(Robot.java:904)
+	at com.rw.Test.main(Test.java:17)
+[ERROR] 2016-07-11 20:05:04,997 testLog channel is null:sgn0845
+java.lang.NullPointerException
+	at com.rw.ClientMsgHandler.sendMsg(ClientMsgHandler.java:206)
+	at com.rw.handler.chat.GmHandler.send(GmHandler.java:36)
+	at com.rw.Robot.additem(Robot.java:349)
+	at com.rw.Robot.testFixEquip(Robot.java:887)
+	at com.rw.Test.main(Test.java:24)
+[ERROR] 2016-07-11 20:05:04,998 testLog channel is null:sgn0845
+java.lang.NullPointerException
+	at com.rw.ClientMsgHandler.sendMsg(ClientMsgHandler.java:206)
+	at com.rw.handler.chat.GmHandler.send(GmHandler.java:36)
+	at com.rw.Robot.additem(Robot.java:349)
+	at com.rw.Robot.testFixEquip(Robot.java:888)
+	at com.rw.Test.main(Test.java:24)
+[ERROR] 2016-07-11 20:05:04,999 testLog channel is null:sgn0845
+java.lang.NullPointerException
+	at com.rw.ClientMsgHandler.sendMsg(ClientMsgHandler.java:206)
+	at com.rw.handler.chat.GmHandler.send(GmHandler.java:36)
+	at com.rw.Robot.additem(Robot.java:349)
+	at com.rw.Robot.testFixEquip(Robot.java:889)
+	at com.rw.Test.main(Test.java:24)
+[INFO ] 2016-07-11 20:05:32,510 testLog 创建机器人：机器人[1]testallen1084,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:05:32,585 testLog connect start:testallen1084,main,5360@fyjs-PC
+[INFO ] 2016-07-11 20:05:32,658 testLog connect completed2:testallen1084,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x1648cb18, /192.168.2.124:64511 => /192.168.2.233:8081],true
+[INFO ] 2016-07-11 20:05:32,658 testLog connect completed1:testallen1084,success=true,done=true,cancel=false,cost=77,Thread[main,5,main],chn=[id: 0x1648cb18, /192.168.2.124:64511 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:05:32,658 testLog connect success:testallen1084,Thread[main,5,main],chn=[id: 0x1648cb18, /192.168.2.124:64511 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:05:32,675 testLog 发送消息 客户端Id：testallen1084,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:05:32,998 testLog 收到的消息, accountId：testallen1084,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:05:33,001 testLog 机器人[1] accountId=testallen1084 处理耗时=310cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:05:33,021 testLog 发送消息 客户端Id：testallen1084,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:05:33,023 testLog 机器人[1] accountId=testallen1084 间隔时间：22
+[INFO ] 2016-07-11 20:05:33,024 testLog 收到的消息, accountId：testallen1084,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:05:33,024 testLog 机器人[1] accountId=testallen1084 处理耗时=1cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:06:53,770 testLog 创建机器人：机器人[1]testallen799,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:06:53,843 testLog connect start:testallen799,main,5196@fyjs-PC
+[INFO ] 2016-07-11 20:06:53,914 testLog connect completed1:testallen799,success=true,done=true,cancel=false,cost=75,Thread[main,5,main],chn=[id: 0xb3afb2f9, /192.168.2.124:49487 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:06:53,914 testLog connect completed2:testallen799,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xb3afb2f9, /192.168.2.124:49487 => /192.168.2.233:8081],true
+[INFO ] 2016-07-11 20:06:53,914 testLog connect success:testallen799,Thread[main,5,main],chn=[id: 0xb3afb2f9, /192.168.2.124:49487 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:06:53,930 testLog 发送消息 客户端Id：testallen799,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:06:54,604 testLog 收到的消息, accountId：testallen799,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:06:54,606 testLog 机器人[1] accountId=testallen799 处理耗时=659cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:06:54,622 testLog 发送消息 客户端Id：testallen799,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:06:54,624 testLog 机器人[1] accountId=testallen799 间隔时间：18
+[INFO ] 2016-07-11 20:06:54,625 testLog 收到的消息, accountId：testallen799,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:06:54,625 testLog 机器人[1] accountId=testallen799 处理耗时=1cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:07:13,675 testLog 创建机器人：机器人[1]testallen1537,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:07:13,746 testLog connect start:testallen1537,main,5592@fyjs-PC
+[INFO ] 2016-07-11 20:07:13,818 testLog connect completed2:testallen1537,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xa3f08e50, /192.168.2.124:49818 => /192.168.2.233:8081],true
+[INFO ] 2016-07-11 20:07:13,818 testLog connect completed1:testallen1537,success=true,done=true,cancel=false,cost=75,Thread[main,5,main],chn=[id: 0xa3f08e50, /192.168.2.124:49818 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:07:13,818 testLog connect success:testallen1537,Thread[main,5,main],chn=[id: 0xa3f08e50, /192.168.2.124:49818 => /192.168.2.233:8081]
+[INFO ] 2016-07-11 20:07:13,835 testLog 发送消息 客户端Id：testallen1537,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:07:14,111 testLog 收到的消息, accountId：testallen1537,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:07:14,113 testLog 机器人[1] accountId=testallen1537 处理耗时=263cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:07:14,129 testLog 发送消息 客户端Id：testallen1537,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:07:14,132 testLog 机器人[1] accountId=testallen1537 间隔时间：19
+[INFO ] 2016-07-11 20:07:14,133 testLog 收到的消息, accountId：testallen1537,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:07:14,134 testLog 机器人[1] accountId=testallen1537 处理耗时=2cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:09:16,044 testLog 创建机器人：机器人[1]testallen724,com.rw.Client@4430d82d
+[INFO ] 2016-07-11 20:09:16,116 testLog connect start:testallen724,main,3892@fyjs-PC
+[INFO ] 2016-07-11 20:09:16,186 testLog connect completed1:testallen724,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0xdfcd9020, /192.168.2.124:51829 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:16,186 testLog connect completed2:testallen724,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xdfcd9020, /192.168.2.124:51829 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:09:16,186 testLog connect success:testallen724,Thread[main,5,main],chn=[id: 0xdfcd9020, /192.168.2.124:51829 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:16,203 testLog 发送消息 客户端Id：testallen724,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:16,311 testLog 收到的消息, accountId：testallen724,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:16,312 testLog 机器人[1] accountId=testallen724 处理耗时=94cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@4430d82d
+[INFO ] 2016-07-11 20:09:16,322 testLog 发送消息 客户端Id：testallen724,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:16,324 testLog 机器人[1] accountId=testallen724 间隔时间：12
+[INFO ] 2016-07-11 20:09:16,327 testLog 收到的消息, accountId：testallen724,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:16,327 testLog 机器人[1] accountId=testallen724 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@4430d82d
+[INFO ] 2016-07-11 20:09:16,340 testLog close start2:testallen724,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:09:16,340 testLog connect start:testallen724,main,3892@fyjs-PC
+[INFO ] 2016-07-11 20:09:16,341 testLog connect completed2:testallen724,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0xe9159205, /192.168.2.124:51830 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:09:16,341 testLog connect completed1:testallen724,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0xe9159205, /192.168.2.124:51830 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:16,342 testLog connect success:testallen724,Thread[main,5,main],chn=[id: 0xe9159205, /192.168.2.124:51830 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:16,345 testLog 发送消息 客户端Id：testallen724,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:16,345 testLog 机器人[1] accountId=testallen724 间隔时间：18
+[INFO ] 2016-07-11 20:09:16,415 testLog 收到的消息, accountId：testallen724,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:16,416 testLog 机器人[1] accountId=testallen724 处理耗时=71cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@4430d82d
+[INFO ] 2016-07-11 20:09:29,899 testLog 创建机器人：机器人[1]testallen1032,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:29,970 testLog connect start:testallen1032,main,5672@fyjs-PC
+[INFO ] 2016-07-11 20:09:30,040 testLog connect completed1:testallen1032,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0xfe3125c3, /192.168.2.124:52092 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:30,040 testLog connect completed2:testallen1032,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xfe3125c3, /192.168.2.124:52092 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:09:30,040 testLog connect success:testallen1032,Thread[main,5,main],chn=[id: 0xfe3125c3, /192.168.2.124:52092 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:30,055 testLog 发送消息 客户端Id：testallen1032,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:30,167 testLog 收到的消息, accountId：testallen1032,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:30,169 testLog 机器人[1] accountId=testallen1032 处理耗时=97cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:30,180 testLog 发送消息 客户端Id：testallen1032,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:30,182 testLog 机器人[1] accountId=testallen1032 间隔时间：13
+[INFO ] 2016-07-11 20:09:30,187 testLog 收到的消息, accountId：testallen1032,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:30,187 testLog 机器人[1] accountId=testallen1032 处理耗时=5cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:30,200 testLog close start2:testallen1032,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:09:30,200 testLog connect start:testallen1032,main,5672@fyjs-PC
+[INFO ] 2016-07-11 20:09:30,201 testLog connect completed2:testallen1032,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x4f50c1e8, /192.168.2.124:52093 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:09:30,202 testLog connect completed1:testallen1032,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0x4f50c1e8, /192.168.2.124:52093 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:30,202 testLog connect success:testallen1032,Thread[main,5,main],chn=[id: 0x4f50c1e8, /192.168.2.124:52093 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:30,205 testLog 发送消息 客户端Id：testallen1032,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:30,205 testLog 机器人[1] accountId=testallen1032 间隔时间：18
+[INFO ] 2016-07-11 20:09:30,214 testLog 收到的消息, accountId：testallen1032,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:30,214 testLog 机器人[1] accountId=testallen1032 处理耗时=9cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:36,223 testLog 创建机器人：机器人[1]testallen676,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:36,294 testLog connect start:testallen676,main,5812@fyjs-PC
+[INFO ] 2016-07-11 20:09:36,365 testLog connect completed1:testallen676,success=true,done=true,cancel=false,cost=76,Thread[main,5,main],chn=[id: 0x741365e6, /192.168.2.124:52225 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:36,365 testLog connect completed2:testallen676,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x741365e6, /192.168.2.124:52225 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:09:36,365 testLog connect success:testallen676,Thread[main,5,main],chn=[id: 0x741365e6, /192.168.2.124:52225 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:09:36,382 testLog 发送消息 客户端Id：testallen676,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:36,493 testLog 收到的消息, accountId：testallen676,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:09:36,495 testLog 机器人[1] accountId=testallen676 处理耗时=97cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:36,509 testLog 发送消息 客户端Id：testallen676,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:36,511 testLog 机器人[1] accountId=testallen676 间隔时间：16
+[INFO ] 2016-07-11 20:09:36,513 testLog 收到的消息, accountId：testallen676,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:09:36,514 testLog 机器人[1] accountId=testallen676 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:09:36,526 testLog close start2:testallen676,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:09:36,526 testLog connect start:testallen676,main,5812@fyjs-PC
+[INFO ] 2016-07-11 20:09:36,528 testLog connect completed2:testallen676,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0xa2e7fd3c, /192.168.2.124:52226 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:09:36,528 testLog connect completed1:testallen676,success=true,done=true,cancel=false,cost=2,Thread[main,5,main],chn=[id: 0xa2e7fd3c, /192.168.2.124:52226 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:36,529 testLog connect success:testallen676,Thread[main,5,main],chn=[id: 0xa2e7fd3c, /192.168.2.124:52226 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:09:36,534 testLog 发送消息 客户端Id：testallen676,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:36,535 testLog 机器人[1] accountId=testallen676 间隔时间：21
+[INFO ] 2016-07-11 20:09:36,547 testLog 收到的消息, accountId：testallen676,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:09:36,547 testLog 机器人[1] accountId=testallen676 处理耗时=12cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:10:15,622 testLog 创建机器人：机器人[1]testallen1985,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:10:15,694 testLog connect start:testallen1985,main,5988@fyjs-PC
+[INFO ] 2016-07-11 20:10:15,763 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0x544f209c, /192.168.2.124:52894 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:10:15,763 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x544f209c, /192.168.2.124:52894 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:10:15,764 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0x544f209c, /192.168.2.124:52894 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:10:15,780 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:10:15,922 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:10:15,923 testLog 机器人[1] accountId=testallen1985 处理耗时=127cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:10:15,935 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:10:15,938 testLog 机器人[1] accountId=testallen1985 间隔时间：14
+[INFO ] 2016-07-11 20:10:15,940 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:10:15,941 testLog 机器人[1] accountId=testallen1985 处理耗时=4cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:10:15,955 testLog close start2:testallen1985,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:10:15,956 testLog connect start:testallen1985,main,5988@fyjs-PC
+[INFO ] 2016-07-11 20:10:15,958 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x2d661bae, /192.168.2.124:52906 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:10:15,958 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0x2d661bae, /192.168.2.124:52906 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:10:15,958 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0x2d661bae, /192.168.2.124:52906 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:10:15,964 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:10:15,965 testLog 机器人[1] accountId=testallen1985 间隔时间：24
+[INFO ] 2016-07-11 20:10:15,980 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:10:15,980 testLog 机器人[1] accountId=testallen1985 处理耗时=15cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:10:36,471 testLog 创建机器人：机器人[1]testallen1985,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:10:36,542 testLog connect start:testallen1985,main,4928@fyjs-PC
+[INFO ] 2016-07-11 20:10:36,612 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=74,Thread[main,5,main],chn=[id: 0x236c78c8, /192.168.2.124:53270 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:10:36,612 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x236c78c8, /192.168.2.124:53270 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:10:36,613 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0x236c78c8, /192.168.2.124:53270 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:10:36,628 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:10:36,650 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:10:36,651 testLog 机器人[1] accountId=testallen1985 处理耗时=6cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:10:36,657 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:10:36,658 testLog 机器人[1] accountId=testallen1985 间隔时间：7
+[INFO ] 2016-07-11 20:10:36,661 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:10:36,661 testLog 机器人[1] accountId=testallen1985 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:10:36,670 testLog close start2:testallen1985,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:10:36,670 testLog connect start:testallen1985,main,4928@fyjs-PC
+[INFO ] 2016-07-11 20:10:36,672 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0xb60aeb34, /192.168.2.124:53271 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:10:36,672 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0xb60aeb34, /192.168.2.124:53271 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:10:36,672 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0xb60aeb34, /192.168.2.124:53271 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:10:36,675 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:10:36,676 testLog 机器人[1] accountId=testallen1985 间隔时间：15
+[INFO ] 2016-07-11 20:10:36,679 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:10:36,679 testLog 机器人[1] accountId=testallen1985 处理耗时=3cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:13:11,942 testLog 创建机器人：机器人[1]testallen1985,com.rw.Client@233d28e3
+[INFO ] 2016-07-11 20:13:12,016 testLog connect start:testallen1985,main,5540@fyjs-PC
+[INFO ] 2016-07-11 20:13:12,087 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=74,Thread[main,5,main],chn=[id: 0x1dc16e52, /192.168.2.124:55774 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:13:12,087 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x1dc16e52, /192.168.2.124:55774 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:13:12,088 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0x1dc16e52, /192.168.2.124:55774 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:13:12,104 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:13:12,127 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:13:12,128 testLog 机器人[1] accountId=testallen1985 处理耗时=7cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@233d28e3
+[INFO ] 2016-07-11 20:13:12,135 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:13:12,137 testLog 机器人[1] accountId=testallen1985 间隔时间：9
+[INFO ] 2016-07-11 20:13:12,139 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:13:12,139 testLog 机器人[1] accountId=testallen1985 处理耗时=2cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@233d28e3
+[INFO ] 2016-07-11 20:13:12,146 testLog close start2:testallen1985,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:13:12,147 testLog connect start:testallen1985,main,5540@fyjs-PC
+[INFO ] 2016-07-11 20:13:13,149 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0xeb146e84],false
+[ERROR] 2016-07-11 20:13:13,149 testLog close a not init channel:chn=[id: 0xeb146e84]
+[ERROR] 2016-07-11 20:13:13,150 testLog timeout connection:testallen1985
+java.util.concurrent.ExecutionException: java.net.ConnectException: Connection refused: no further information: /192.168.2.124:8080
+	at io.netty.util.concurrent.AbstractFuture.get(AbstractFuture.java:47)
+	at com.rw.ChannelServer.doConnect(ChannelServer.java:118)
+	at com.rw.Client.doConnect(Client.java:133)
+	at com.rw.handler.gameLogin.GameLoginHandler.createRole(GameLoginHandler.java:47)
+	at com.rw.Robot.creatRole(Robot.java:135)
+	at com.rw.Test.createRobot(Test.java:309)
+	at com.rw.Test.main(Test.java:19)
+Caused by: java.net.ConnectException: Connection refused: no further information: /192.168.2.124:8080
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:599)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:208)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:287)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:528)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:468)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:382)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:354)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)
+	at io.netty.util.concurrent.DefaultThreadFactory$DefaultRunnableDecorator.run(DefaultThreadFactory.java:137)
+	at java.lang.Thread.run(Thread.java:662)
+[INFO ] 2016-07-11 20:13:43,142 testLog 创建机器人：机器人[1]testallen1985,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:13:43,215 testLog connect start:testallen1985,main,4056@fyjs-PC
+[INFO ] 2016-07-11 20:13:43,285 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0xf268d5ca, /192.168.2.124:55959 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:13:43,285 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xf268d5ca, /192.168.2.124:55959 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:13:43,285 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0xf268d5ca, /192.168.2.124:55959 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:13:43,301 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:13:43,322 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:13:43,323 testLog 机器人[1] accountId=testallen1985 处理耗时=6cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:13:43,329 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:13:43,330 testLog 机器人[1] accountId=testallen1985 间隔时间：7
+[INFO ] 2016-07-11 20:13:43,333 testLog 收到的消息, accountId：testallen1985,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:13:43,333 testLog 机器人[1] accountId=testallen1985 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:13:43,341 testLog close start2:testallen1985,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:13:43,341 testLog connect start:testallen1985,main,4056@fyjs-PC
+[INFO ] 2016-07-11 20:13:43,342 testLog connect completed2:testallen1985,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0xdaafddc2, /192.168.2.124:55960 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:13:43,342 testLog connect completed1:testallen1985,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0xdaafddc2, /192.168.2.124:55960 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:13:43,343 testLog connect success:testallen1985,Thread[main,5,main],chn=[id: 0xdaafddc2, /192.168.2.124:55960 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:13:43,346 testLog 发送消息 客户端Id：testallen1985,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:13:43,346 testLog 机器人[1] accountId=testallen1985 间隔时间：13
+[INFO ] 2016-07-11 20:14:03,347 testLog 机器人[1] accountId=testallen1985 处理耗时=20001cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:15:36,045 testLog 创建机器人：机器人[1]testallen19851020,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:15:36,116 testLog connect start:testallen19851020,main,3188@fyjs-PC
+[INFO ] 2016-07-11 20:15:36,185 testLog connect completed1:testallen19851020,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0x2f5acfb7, /192.168.2.124:57827 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:15:36,185 testLog connect completed2:testallen19851020,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x2f5acfb7, /192.168.2.124:57827 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:15:36,185 testLog connect success:testallen19851020,Thread[main,5,main],chn=[id: 0x2f5acfb7, /192.168.2.124:57827 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:15:36,201 testLog 发送消息 客户端Id：testallen19851020,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:15:36,340 testLog 收到的消息, accountId：testallen19851020,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:15:36,341 testLog 机器人[1] accountId=testallen19851020 处理耗时=124cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:15:36,349 testLog 发送消息 客户端Id：testallen19851020,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:15:36,351 testLog 机器人[1] accountId=testallen19851020 间隔时间：10
+[INFO ] 2016-07-11 20:15:36,353 testLog 收到的消息, accountId：testallen19851020,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:15:36,353 testLog 机器人[1] accountId=testallen19851020 处理耗时=2cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:15:36,363 testLog close start2:testallen19851020,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:15:36,363 testLog connect start:testallen19851020,main,3188@fyjs-PC
+[INFO ] 2016-07-11 20:15:36,365 testLog connect completed2:testallen19851020,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x2fe06e48, /192.168.2.124:57828 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:15:36,365 testLog connect completed1:testallen19851020,success=true,done=true,cancel=false,cost=2,Thread[main,5,main],chn=[id: 0x2fe06e48, /192.168.2.124:57828 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:15:36,365 testLog connect success:testallen19851020,Thread[main,5,main],chn=[id: 0x2fe06e48, /192.168.2.124:57828 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:15:36,371 testLog 发送消息 客户端Id：testallen19851020,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:15:36,372 testLog 机器人[1] accountId=testallen19851020 间隔时间：19
+[INFO ] 2016-07-11 20:15:56,373 testLog 机器人[1] accountId=testallen19851020 处理耗时=20001cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:16:14,310 testLog 收到的消息, accountId：testallen19851020,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:16:39,123 testLog 创建机器人：机器人[1]testallen19851462,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:16:39,197 testLog connect start:testallen19851462,main,5056@fyjs-PC
+[INFO ] 2016-07-11 20:16:39,267 testLog connect completed1:testallen19851462,success=true,done=true,cancel=false,cost=75,Thread[main,5,main],chn=[id: 0xc7caa322, /192.168.2.124:58880 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:16:39,267 testLog connect completed2:testallen19851462,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xc7caa322, /192.168.2.124:58880 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:16:39,267 testLog connect success:testallen19851462,Thread[main,5,main],chn=[id: 0xc7caa322, /192.168.2.124:58880 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:16:39,283 testLog 发送消息 客户端Id：testallen19851462,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:16:39,412 testLog 收到的消息, accountId：testallen19851462,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:16:39,413 testLog 机器人[1] accountId=testallen19851462 处理耗时=114cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:16:39,424 testLog 发送消息 客户端Id：testallen19851462,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:16:39,426 testLog 机器人[1] accountId=testallen19851462 间隔时间：13
+[INFO ] 2016-07-11 20:16:39,429 testLog 收到的消息, accountId：testallen19851462,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:16:39,429 testLog 机器人[1] accountId=testallen19851462 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:16:39,442 testLog close start2:testallen19851462,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:16:39,442 testLog connect start:testallen19851462,main,5056@fyjs-PC
+[INFO ] 2016-07-11 20:16:39,443 testLog connect completed2:testallen19851462,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x6788b2b2, /192.168.2.124:58884 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:16:39,443 testLog connect completed1:testallen19851462,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0x6788b2b2, /192.168.2.124:58884 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:16:39,443 testLog connect success:testallen19851462,Thread[main,5,main],chn=[id: 0x6788b2b2, /192.168.2.124:58884 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:16:39,446 testLog 发送消息 客户端Id：testallen19851462,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:16:39,447 testLog 机器人[1] accountId=testallen19851462 间隔时间：18
+[INFO ] 2016-07-11 20:16:59,448 testLog 机器人[1] accountId=testallen19851462 处理耗时=20001cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:20:51,103 testLog 收到的消息, accountId：testallen19851462,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:21:28,542 testLog 创建机器人：机器人[1]testallen19851877,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:21:28,614 testLog connect start:testallen19851877,main,2116@fyjs-PC
+[INFO ] 2016-07-11 20:21:28,684 testLog connect completed1:testallen19851877,success=true,done=true,cancel=false,cost=73,Thread[main,5,main],chn=[id: 0xb00bec5e, /192.168.2.124:63591 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:21:28,684 testLog connect completed2:testallen19851877,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xb00bec5e, /192.168.2.124:63591 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:21:28,684 testLog connect success:testallen19851877,Thread[main,5,main],chn=[id: 0xb00bec5e, /192.168.2.124:63591 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:21:28,700 testLog 发送消息 客户端Id：testallen19851877,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:21:28,820 testLog 收到的消息, accountId：testallen19851877,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:21:28,821 testLog 机器人[1] accountId=testallen19851877 处理耗时=104cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:21:28,828 testLog 发送消息 客户端Id：testallen19851877,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:21:28,829 testLog 机器人[1] accountId=testallen19851877 间隔时间：8
+[INFO ] 2016-07-11 20:21:28,831 testLog 收到的消息, accountId：testallen19851877,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:21:28,831 testLog 机器人[1] accountId=testallen19851877 处理耗时=2cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:21:28,839 testLog close start2:testallen19851877,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:21:28,840 testLog connect start:testallen19851877,main,2116@fyjs-PC
+[INFO ] 2016-07-11 20:21:28,841 testLog connect completed2:testallen19851877,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x69d4e282, /192.168.2.124:63601 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:21:28,841 testLog connect completed1:testallen19851877,success=true,done=true,cancel=false,cost=2,Thread[main,5,main],chn=[id: 0x69d4e282, /192.168.2.124:63601 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:21:28,842 testLog connect success:testallen19851877,Thread[main,5,main],chn=[id: 0x69d4e282, /192.168.2.124:63601 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:21:28,846 testLog 发送消息 客户端Id：testallen19851877,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:21:28,846 testLog 机器人[1] accountId=testallen19851877 间隔时间：15
+[INFO ] 2016-07-11 20:21:48,847 testLog 机器人[1] accountId=testallen19851877 处理耗时=20001cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:21:57,398 testLog 收到的消息, accountId：testallen19851877,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:22:17,679 testLog 创建机器人：机器人[1]te@stallen19851949,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:17,753 testLog connect start:te@stallen19851949,main,860@fyjs-PC
+[INFO ] 2016-07-11 20:22:17,824 testLog connect completed1:te@stallen19851949,success=true,done=true,cancel=false,cost=75,Thread[main,5,main],chn=[id: 0x2cef433e, /192.168.2.124:64422 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:22:17,824 testLog connect completed2:te@stallen19851949,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0x2cef433e, /192.168.2.124:64422 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:22:17,825 testLog connect success:te@stallen19851949,Thread[main,5,main],chn=[id: 0x2cef433e, /192.168.2.124:64422 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:22:17,841 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:22:17,962 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:22:17,963 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=106cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:17,973 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:22:17,974 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：11
+[INFO ] 2016-07-11 20:22:17,979 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:22:17,979 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=5cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:17,989 testLog close start2:te@stallen19851949,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:22:17,989 testLog connect start:te@stallen19851949,main,860@fyjs-PC
+[INFO ] 2016-07-11 20:22:17,991 testLog connect completed2:te@stallen19851949,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x3cedaab4, /192.168.2.124:64432 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:22:17,991 testLog connect completed1:te@stallen19851949,success=true,done=true,cancel=false,cost=1,Thread[main,5,main],chn=[id: 0x3cedaab4, /192.168.2.124:64432 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:22:17,991 testLog connect success:te@stallen19851949,Thread[main,5,main],chn=[id: 0x3cedaab4, /192.168.2.124:64432 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:22:17,995 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:22:17,995 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：16
+[INFO ] 2016-07-11 20:22:25,905 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_PRIVILEGE,seqId=0
+[INFO ] 2016-07-11 20:22:26,005 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DAILY_ACTIVITY,seqId=0
+[INFO ] 2016-07-11 20:22:26,134 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_SIGN,seqId=0
+[INFO ] 2016-07-11 20:22:26,138 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DAILY_ACTIVITY,seqId=0
+[INFO ] 2016-07-11 20:22:26,742 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_Worship,seqId=0
+[INFO ] 2016-07-11 20:22:26,747 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:26,747 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:26,748 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:27,073 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:22:27,291 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:22:27,292 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=9297cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:27,300 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_GM,seqId=4
+[INFO ] 2016-07-11 20:22:27,300 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：8
+[INFO ] 2016-07-11 20:22:27,337 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:22:27,340 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_GM,seqId=4
+[INFO ] 2016-07-11 20:22:27,341 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=40cmd=,MSG_GM,seqId=4,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:27,343 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_GM,seqId=5
+[INFO ] 2016-07-11 20:22:27,343 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：3
+[INFO ] 2016-07-11 20:22:27,354 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:22:27,383 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:22:27,384 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_GM,seqId=5
+[INFO ] 2016-07-11 20:22:27,385 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=42cmd=,MSG_GM,seqId=5,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:27,385 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:22:27,385 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_GM,seqId=6
+[INFO ] 2016-07-11 20:22:27,386 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：1
+[INFO ] 2016-07-11 20:22:27,425 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:22:27,427 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_GM,seqId=6
+[INFO ] 2016-07-11 20:22:27,428 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:22:27,428 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=42cmd=,MSG_GM,seqId=6,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:27,433 testLog 发送消息 客户端Id：te@stallen19851949,command=MSG_FIX_EQUIP,seqId=7
+[INFO ] 2016-07-11 20:22:27,433 testLog 机器人[1] accountId=te@stallen19851949 间隔时间：5
+[INFO ] 2016-07-11 20:22:27,443 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:22:27,444 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_FIX_EQUIP,seqId=7
+[INFO ] 2016-07-11 20:22:27,444 testLog 机器人[1] accountId=te@stallen19851949 处理耗时=11cmd=,MSG_FIX_EQUIP,seqId=7,com.rw.Client@518bf072
+[INFO ] 2016-07-11 20:22:27,446 testLog 收到的消息, accountId：te@stallen19851949,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:22:58,539 testLog 创建机器人：机器人[1]te@stallen1985115,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:22:58,616 testLog connect start:te@stallen1985115,main,5080@fyjs-PC
+[INFO ] 2016-07-11 20:22:58,692 testLog connect completed1:te@stallen1985115,success=true,done=true,cancel=false,cost=80,Thread[main,5,main],chn=[id: 0xa41640a0, /192.168.2.124:65122 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:22:58,692 testLog connect completed2:te@stallen1985115,Thread[nioEventLoopGroup-2-1,10,main],chn=[id: 0xa41640a0, /192.168.2.124:65122 => /192.168.2.234:8081],true
+[INFO ] 2016-07-11 20:22:58,692 testLog connect success:te@stallen1985115,Thread[main,5,main],chn=[id: 0xa41640a0, /192.168.2.124:65122 => /192.168.2.234:8081]
+[INFO ] 2016-07-11 20:22:58,708 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:22:58,825 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_LOGIN_PLATFORM,seqId=1
+[INFO ] 2016-07-11 20:22:58,826 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=101cmd=,MSG_LOGIN_PLATFORM,seqId=1,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:22:58,836 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:22:58,838 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：12
+[INFO ] 2016-07-11 20:22:58,841 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_LOGIN_PLATFORM,seqId=2
+[INFO ] 2016-07-11 20:22:58,841 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=3cmd=,MSG_LOGIN_PLATFORM,seqId=2,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:22:58,852 testLog close start2:te@stallen1985115,[command=MSG_LOGIN_PLATFORM, seqId=2]
+[INFO ] 2016-07-11 20:22:58,853 testLog connect start:te@stallen1985115,main,5080@fyjs-PC
+[INFO ] 2016-07-11 20:22:58,855 testLog connect completed2:te@stallen1985115,Thread[nioEventLoopGroup-2-2,10,main],chn=[id: 0x10808e0a, /192.168.2.124:65126 => /192.168.2.124:8080],true
+[INFO ] 2016-07-11 20:22:58,855 testLog connect completed1:te@stallen1985115,success=true,done=true,cancel=false,cost=3,Thread[main,5,main],chn=[id: 0x10808e0a, /192.168.2.124:65126 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:22:58,855 testLog connect success:te@stallen1985115,Thread[main,5,main],chn=[id: 0x10808e0a, /192.168.2.124:65126 => /192.168.2.124:8080]
+[INFO ] 2016-07-11 20:22:58,860 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:22:58,860 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：19
+[INFO ] 2016-07-11 20:22:59,574 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_PRIVILEGE,seqId=0
+[INFO ] 2016-07-11 20:22:59,647 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DAILY_ACTIVITY,seqId=0
+[INFO ] 2016-07-11 20:22:59,749 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_SIGN,seqId=0
+[INFO ] 2016-07-11 20:22:59,749 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DAILY_ACTIVITY,seqId=0
+[INFO ] 2016-07-11 20:22:59,750 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_Worship,seqId=0
+[INFO ] 2016-07-11 20:22:59,750 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:59,750 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:59,751 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_CHAT,seqId=0
+[INFO ] 2016-07-11 20:22:59,834 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:23:00,031 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_LOGIN_GAME,seqId=3
+[INFO ] 2016-07-11 20:23:00,032 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=1172cmd=,MSG_LOGIN_GAME,seqId=3,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:23:00,039 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_GM,seqId=4
+[INFO ] 2016-07-11 20:23:00,040 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：8
+[INFO ] 2016-07-11 20:23:00,075 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:23:00,077 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_GM,seqId=4
+[INFO ] 2016-07-11 20:23:00,077 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=37cmd=,MSG_GM,seqId=4,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:23:00,077 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:23:00,079 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_GM,seqId=5
+[INFO ] 2016-07-11 20:23:00,079 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：2
+[INFO ] 2016-07-11 20:23:00,107 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:23:00,109 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_GM,seqId=5
+[INFO ] 2016-07-11 20:23:00,109 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:23:00,109 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=30cmd=,MSG_GM,seqId=5,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:23:00,109 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_GM,seqId=6
+[INFO ] 2016-07-11 20:23:00,110 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：1
+[INFO ] 2016-07-11 20:23:00,141 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:23:00,143 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_GM,seqId=6
+[INFO ] 2016-07-11 20:23:00,143 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_RED_POINT,seqId=0
+[INFO ] 2016-07-11 20:23:00,143 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=33cmd=,MSG_GM,seqId=6,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:23:00,148 testLog 发送消息 客户端Id：te@stallen1985115,command=MSG_FIX_EQUIP,seqId=7
+[INFO ] 2016-07-11 20:23:00,150 testLog 机器人[1] accountId=te@stallen1985115 间隔时间：7
+[INFO ] 2016-07-11 20:23:20,151 testLog 机器人[1] accountId=te@stallen1985115 处理耗时=20001cmd=,MSG_FIX_EQUIP,seqId=7,com.rw.Client@62c09554
+[INFO ] 2016-07-11 20:27:51,929 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_DATA_SYN,seqId=0
+[INFO ] 2016-07-11 20:27:51,930 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_FIX_EQUIP,seqId=7
+[INFO ] 2016-07-11 20:27:51,934 testLog 收到的消息, accountId：te@stallen1985115,cmdMSG_RED_POINT,seqId=0

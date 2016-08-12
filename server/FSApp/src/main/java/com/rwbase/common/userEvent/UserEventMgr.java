@@ -23,6 +23,7 @@ import com.rwbase.common.userEvent.eventHandler.UserEventGambleCoinHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventGambleGoldHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventLoginHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventUseGoldHandler;
+import com.rwbase.common.userEvent.redEnvelopeTypeEventHandler.UserEventGoldSpendRedEnvelopeHandler;
 import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventArenaVitalityHandler;
 import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventAttachVitalityHandler;
 import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventBattleTowerVitalityHandler;
@@ -145,7 +146,8 @@ public class UserEventMgr {
 		eventHandlerMap.put(UserEventType.UseSilverKeyVitalityTwo, new UserEventUseSilverKeyVitalityTwoHandler());
 		eventHandlerMap.put(UserEventType.GambleGoldVitalityTwo, new UserEventGambleGoldVitalityTwoHandler());
 		eventHandlerMap.put(UserEventType.arenaVitalityTwo, new UserEventArenaVitalityTwoHandler());
-		
+		//-----------------------------我是淫荡的分割线！！！活跃之王二↑，开服红包↓
+		eventHandlerMap.put(UserEventType.spendGoldRedEnvelope,  new UserEventGoldSpendRedEnvelopeHandler());
 		
 		
 	}
@@ -175,6 +177,8 @@ public class UserEventMgr {
 		goldSpendDaily(player, GoldSpending);
 		goldSpendVitality(player, GoldSpending);
 		goldSpendVitalityTwo(player, GoldSpending);
+		goldSpendRedEnvelope(player,GoldSpending);
+		
 	}
 	
 	
@@ -320,9 +324,9 @@ public class UserEventMgr {
 	private void goldSpendVitality(com.playerdata.Player player,
 			int goldSpending) {
 		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitality, goldSpending);
-		raiseEvent(player, userEvent);
-		
+		raiseEvent(player, userEvent);		
 	}
+	
 	/**消费行为分类-活跃之王二*/
 	private void goldSpendVitalityTwo(com.playerdata.Player player,
 			int goldSpending) {
@@ -558,6 +562,13 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.arenaVitalityTwo, count);
 		raiseEvent(player, userEvent);
 		
+	}
+	
+	/**消费行为分类-开服红包*/
+	private void goldSpendRedEnvelope(Player player,
+			int goldSpending) {
+		UserEvent userEvent = new UserEvent(UserEventType.spendGoldRedEnvelope, goldSpending);
+		raiseEvent(player, userEvent);		
 	}
 	
 	public void raiseEvent(Player player, UserEvent userEvent){

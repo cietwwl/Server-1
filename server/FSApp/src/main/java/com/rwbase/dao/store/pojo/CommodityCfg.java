@@ -1,5 +1,8 @@
 package com.rwbase.dao.store.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommodityCfg {
 
 	private int id;
@@ -11,6 +14,8 @@ public class CommodityCfg {
 	private int cost;
 	private int prob;
 	private String level;
+	private int superGoods;
+	private int exchangeTime;
 	public int getId() {
 		return id;
 	}
@@ -64,5 +69,17 @@ public class CommodityCfg {
 	}
 	public void setLevel(String level) {
 		this.level = level;
+	}
+	public int getSuperGoods() {
+		return superGoods;
+	}
+	public void setSuperGoods(int superGoods) {
+		this.superGoods = superGoods;
+	}
+	public int getExchangeTime() {
+		return exchangeTime;
+	}
+	public void setExchangeTime(int exchangeTime) {
+		this.exchangeTime = exchangeTime;
 	}
 }

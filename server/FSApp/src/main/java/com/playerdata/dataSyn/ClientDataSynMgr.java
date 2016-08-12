@@ -235,6 +235,7 @@ public class ClientDataSynMgr {
 	}
 
 	private static void sendMsg(Player player, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
+		int a = 1;
 		SynDataInReqMgr synDataInReqMgr = UserChannelMgr.getSynDataInReqMgr(player.getUserId());
 		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
@@ -242,6 +243,13 @@ public class ClientDataSynMgr {
 		}
 	}
 	
+	/**
+	 * 将客户端的json字符串转为服务器对象
+	 * @param clazz
+	 * @param json
+	 * @return
+	 * @throws Exception
+	 */
 	public static Object fromClientJson2Data(Class<?> clazz, String json) throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(clazz);
 		return serverClassInfo.fromJson(json);

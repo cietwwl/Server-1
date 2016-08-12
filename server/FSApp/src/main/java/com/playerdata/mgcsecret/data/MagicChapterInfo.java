@@ -54,7 +54,7 @@ public class MagicChapterInfo implements  IMapItem {
 		canOpenBoxes.clear();
 		finishedStages.clear();
 		selectedDungeonIndex = -1;
-		selectableDungeons.clear();
+		if(selectableDungeons != null) selectableDungeons.clear();
 		selectedBuff.clear();
 		unselectedBuff.clear();
 		starCount = 0;

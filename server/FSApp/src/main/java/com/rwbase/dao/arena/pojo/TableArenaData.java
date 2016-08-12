@@ -32,7 +32,9 @@ public class TableArenaData {
 	private int winCount;
 	private long lastFightTime;
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
-	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表(templateId)
+	// private List<String> atkHeroList = new ArrayList<String>(); //
+	// 进攻阵容的id列表(templateId)
+	private List<String> atkList = new ArrayList<String>(); // 进攻阵容的id列表(uuid)
 	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表(uuid)
 	// private volatile long lastResetMillis; // 上次重置的毫秒
 	private int resetTimes; // 重置的次数
@@ -89,7 +91,8 @@ public class TableArenaData {
 
 	public String getHeadImage() {
 		// TODO 临时解决数据问题
-		if (headImage == null || headImage.isEmpty() || headImage.equals("1001")) {
+		if (headImage == null || headImage.isEmpty()
+				|| headImage.equals("1001")) {
 			PlayerIF player = PlayerMgr.getInstance().find(userId);
 			headImage = player.getTableUser().getHeadImageWithDefault();
 		}
@@ -106,7 +109,7 @@ public class TableArenaData {
 
 	@SuppressWarnings("unchecked")
 	public List<String> getHeroIdList() {
-		return heroIdList == null ? Collections.EMPTY_LIST : heroIdList;
+		return heroIdList == null ? Collections.EMPTY_LIST : new ArrayList<String>(heroIdList);
 	}
 
 	public void setHeroIdList(List<String> heroIdList) {
@@ -175,13 +178,13 @@ public class TableArenaData {
 		}
 	}
 
-	public List<String> getAtkHeroList() {
-		return atkHeroList;
-	}
-
-	public void setAtkHeroList(List<String> atkHeroList) {
-		this.atkHeroList = atkHeroList;
-	}
+	// public List<String> getAtkHeroList() {
+	// return atkHeroList;
+	// }
+	//
+	// public void setAtkHeroList(List<String> atkHeroList) {
+	// this.atkHeroList = atkHeroList;
+	// }
 
 	public int getResetTimes() {
 		return resetTimes;
@@ -245,6 +248,14 @@ public class TableArenaData {
 
 	public void setLastChallengeVictory(boolean lastChallengeVictory) {
 		this.lastChallengeVictory = lastChallengeVictory;
+	}
+
+	public List<String> getAtkList() {
+		return atkList;
+	}
+
+	public void setAtkList(List<String> atkList) {
+		this.atkList = atkList;
 	}
 
 }

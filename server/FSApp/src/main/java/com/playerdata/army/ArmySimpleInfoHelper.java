@@ -3,6 +3,8 @@ package com.playerdata.army;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -13,10 +15,25 @@ import com.rwbase.dao.item.pojo.ItemData;
 
 class ArmySimpleInfoHelper {
 
-	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId,List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = player.getMagic();
 
+		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
+		return armyInfoSimple;
+	}
+	
+	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
+
+		Player player = PlayerMgr.getInstance().find(playerId);
+		ItemData magic = null;
+		if(StringUtils.isNotBlank(magicID)) magic = player.getItemBagMgr().findBySlotId(magicID);
+		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
+		return armyInfoSimple;
+	}
+
+	private static ArmyInfoSimple build(List<String> heroIdList, Player player, ItemData magic) {
 		Hero mainRoleHero = player.getMainRoleHero();
 		ArmyHeroSimple armyPlayer = ArmyHeroSimple.newInstance(mainRoleHero);
 
@@ -26,9 +43,10 @@ class ArmySimpleInfoHelper {
 		armyInfoSimple.setPlayerHeadImage(player.getHeadImage());
 		
 
-		ItemData magic = player.getMagic();
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfoSimple.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
@@ -44,9 +62,12 @@ class ArmySimpleInfoHelper {
 		if (heroIdList == null) return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			Hero heroTmp = heroMgr.getHeroById(heroId);
-			ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
-			heroList.add(armyHero);
+			if(StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0")) heroList.add(ArmyHeroSimple.newBlankInstance());
+			else{
+				Hero heroTmp = heroMgr.getHeroById(heroId);
+				ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
+				heroList.add(armyHero);
+			}
 		}
 		return heroList;
 	}

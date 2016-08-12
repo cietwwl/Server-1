@@ -76,13 +76,6 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 		}
 		
 		if (gt(added.getValue(),acc.getValue())){
-			if (added.hasChargeType()){
-				String chargeType = added.getChargeType();
-				// 计算最大充值档次
-				if (StringUtils.isNotBlank(chargeType)){
-					acc.setChargeType(chargeType);
-				}
-			}
 			acc.setValue(added.getValue());
 		}
 

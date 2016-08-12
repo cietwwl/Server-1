@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.log.GameLog;
-import com.playerdata.copy.CopyCalculateState;
-import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.readonly.CopyCfgIF;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.CopyRecordMgrIF;
@@ -34,8 +32,6 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	private String userId;
 	private CopyLevelRecordHolder copyLevelRecordHolder;
 	private CopyMapRecordHolder copyMapRecordHolder;
-	@IgnoreSynField
-	private volatile CopyCalculateState calculateState;
 
 	// 战斗副本奖励,因为是战斗前获取的所以要做临时保存
 	private CopyRewards copyRewards;
@@ -363,13 +359,5 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		return true;
 	}
 
-	public CopyCalculateState getCalculateState() {
-		return calculateState;
-	}
-
-	public void setCalculateState(int battleId) {
-		CopyCalculateState state = new CopyCalculateState(battleId);
-		this.calculateState = state;
-	}
 
 }

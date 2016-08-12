@@ -1,7 +1,9 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
@@ -119,7 +121,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 
 		// TODO HC 临时打个 补丁，用来解决日常任务被删除了某个配置之后，导致还出现的Bug
-		List<DailyActivityData> list = new ArrayList<DailyActivityData>(currentList.size());
+		List<DailyActivityData> list = new ArrayList<DailyActivityData>();
+		Map<Integer, DailyActivityData> temMap = new HashMap<Integer, DailyActivityData>();
 		for (int i = currentList.size() - 1; i >= 0; --i) {
 			DailyActivityData data = currentList.get(i);
 			if (data == null) {
@@ -129,11 +132,21 @@ public class DailyActivityMgr implements PlayerEventListener {
 			int taskId = data.getTaskId();
 			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
 			if (cfg == null) {
+//				System.out.println("------ID："+taskId+", 的任务不存在");
 				continue;
 			}
 
-			list.add(data);
+			if(temMap.containsKey(taskId)){
+//				System.out.println("======ID："+taskId+", 重复");
+				//过滤掉重复的数据
+				continue;
+			}
+			
+			temMap.put(taskId, data);
+//			System.out.println("------处理后的任务ID："+taskId+", 任务描述："+ cfg.getCfg().getDescription());
 		}
+		
+		list.addAll(temMap.values());
 
 		return list;
 	}

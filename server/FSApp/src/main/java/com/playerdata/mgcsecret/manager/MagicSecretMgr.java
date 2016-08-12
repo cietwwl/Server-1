@@ -175,7 +175,7 @@ public class MagicSecretMgr {
 			}else msRsp.setIsFirstFinish(false);
 			// 如果闯完一章节，初始化下一章节的内容（如果不是，就准备下一关卡）
 			if(MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
-				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1));
+				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1), true);
 			else handleNextDungeonPrepare(player, dungeonID);
 		}
 		//清空刚战斗的关卡
@@ -496,12 +496,12 @@ public class MagicSecretMgr {
 		return (int)(history * SCORE_COEFFICIENT) + today;
 	}
 	
-	public void synMagicChapterData(Player player) {
-		MagicChapterInfoHolder.getInstance().synAllData(player);
-	}
-	
 	public void synUserMSData(Player player) {
 		UserMagicSecretHolder.getInstance().syn(player);
+	}
+	
+	public void synMagicChapterData(Player player) {
+		MagicChapterInfoHolder.getInstance().synAllData(player);
 	}
 	
 	/**

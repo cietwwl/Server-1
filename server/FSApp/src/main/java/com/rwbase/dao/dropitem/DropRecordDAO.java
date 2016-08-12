@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+import com.log.GameLog;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 
@@ -46,6 +47,8 @@ public class DropRecordDAO extends DataKVDao<DropRecord> {
 						if (record != null) {
 							return record;
 						}
+//						GameLog.error("DropRecord", id, errorReason);
+						GameLog.error("DropRecord", "#trace", "重新创建首掉："+userId);
 						record = new DropRecord();
 						record.setUserId(userId);
 						DropRecordDAO.this.update(record);

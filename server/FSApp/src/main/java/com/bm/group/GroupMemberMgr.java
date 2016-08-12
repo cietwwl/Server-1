@@ -4,9 +4,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.rwproto.GroupCommonProto.GroupPost;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -14,7 +17,6 @@ import com.rwbase.dao.group.pojo.db.dao.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
-import com.rwproto.GroupCommonProto.GroupPost;
 
 /**
  * 帮派成员管理类
@@ -122,11 +124,12 @@ public class GroupMemberMgr {
 	 * @param applyTime 申请时间
 	 * @param receiveTime 接受时间
 	 * @param isAddApply 是否是增加申请成员
+	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
 	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, boolean isAddApply, String headbox) {
-		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox);
+			long receiveTime, boolean isAddApply, String headbox, int alloctTime) {
+		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox, alloctTime);
 		return holder.addMember(userId, memberData, isAddApply);
 	}
 
@@ -164,10 +167,11 @@ public class GroupMemberMgr {
 	 * @param fighting 战力
 	 * @param applyTime 申请时间
 	 * @param receiveTime 接受时间
+	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
 	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, String headbox) {
+			long receiveTime, String headbox, int alloctTime) {
 		GroupMemberData memberData = new GroupMemberData();
 		memberData.setId(newMemberUniqueId(playerId, groupId));
 		memberData.setUserId(playerId);
@@ -183,6 +187,7 @@ public class GroupMemberMgr {
 		memberData.setReceiveTime(receiveTime);
 		memberData.setTemplateId(templateId);
 		memberData.setHeadbox(headbox);
+		memberData.setAllotRewardCount(alloctTime);
 		return memberData;
 	}
 
@@ -324,7 +329,9 @@ public class GroupMemberMgr {
 	 * @param kickUserId
 	 */
 	public synchronized void kickMember(String kickUserId) {
+		String groupID = GroupHelper.getUserGroupId(kickUserId);
 		holder.removeMemberData(kickUserId, false);
+		GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
 	}
 
 	/**
@@ -332,8 +339,9 @@ public class GroupMemberMgr {
 	 * 
 	 * @param userId
 	 * @param offsetContribution 扣除是负数，增加是正值
+	 * @param addDay 是否要增加到今日捐献中
 	 */
-	public synchronized void updateMemberContribution(String userId, int offsetContribution) {
+	public synchronized void updateMemberContribution(String userId, int offsetContribution, boolean addDay) {
 		GroupMemberData memberData = holder.getMemberData(userId, false);
 		if (memberData == null) {
 			return;
@@ -345,13 +353,16 @@ public class GroupMemberMgr {
 		memberData.setContribution(contribution);
 		if (offsetContribution > 0) {
 			memberData.setTotalContribution(memberData.getTotalContribution() + offsetContribution);
+			if (addDay) {
+				memberData.setDayContribution(memberData.getDayContribution() + offsetContribution);
+			}
 		}
 		holder.updateMemberData(memberData.getId());
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		holder.synMemberData(memberPlayer, false, -1);
 
 		// 通知修改了个人贡献值
-		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution, memberData.getDayContribution());
 	}
 
 	/**
@@ -401,13 +412,14 @@ public class GroupMemberMgr {
 		item.setHeadId(headIcon);
 		holder.updateMemberData(item.getId());
 	}
-	
+
 	/**
 	 * 更新成员的头像框
+	 * 
 	 * @param userId
 	 * @param headbox
 	 */
-	public synchronized void updateMemberHeadbox(String userId, String headbox){
+	public synchronized void updateMemberHeadbox(String userId, String headbox) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
@@ -456,15 +468,42 @@ public class GroupMemberMgr {
 	 * @param donateTimes
 	 * @param lastDonateTime
 	 */
-	public void updateMemberDataDonateTimes(String userId, int donateTimes, long lastDonateTime) {
+	public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
 		}
 
-		item.setDonateTimes(donateTimes);
+		item.setDonateTimes(0);
+		item.setLastDonateTime(lastDonateTime);
+		item.setDayContribution(0);
+		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
+	}
+
+	/**
+	 * 更新帮派成员的捐献时间
+	 * 
+	 * @param userId
+	 * @param donateTimes
+	 * @param lastDonateTime
+	 */
+	public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		item.setDonateTimes(0);
 		item.setLastDonateTime(lastDonateTime);
 		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
 	}
 
 	/**
@@ -474,8 +513,9 @@ public class GroupMemberMgr {
 	 * @param donateTimes
 	 * @param lastDonateTime
 	 * @param contribution 增加了多少贡献
+	 * @param add 是否添加到当日捐献
 	 */
-	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution) {
+	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution, boolean add) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;
@@ -486,12 +526,15 @@ public class GroupMemberMgr {
 		item.setContribution(item.getContribution() + contribution);
 		if (contribution > 0) {
 			item.setTotalContribution(item.getTotalContribution() + contribution);
+			if (add) {
+				item.setDayContribution(item.getDayContribution() + contribution);
+			}
 		}
 		holder.updateMemberData(item.getId());
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		// 通知修改了个人贡献值
-		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, item.getContribution(), item.getDayContribution());
 	}
 
 	/**
@@ -548,5 +591,18 @@ public class GroupMemberMgr {
 		StringBuilder sb = new StringBuilder();
 		sb.append(userId).append("_").append(groupId);
 		return sb.toString();
+	}
+
+	/**
+	 * 重置帮派管理员每天分配奖励次数
+	 * @param userId
+	 * @param maxAllotCount
+	 * @param b
+	 */
+	public void resetAllotGroupRewardCount(String userId, int maxAllotCount,
+			boolean b) {
+		GroupMemberData data = holder.getMemberData(userId, b);
+		data.setAllotRewardCount(maxAllotCount);
+		
 	}
 }

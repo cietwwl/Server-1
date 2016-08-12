@@ -6,8 +6,10 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwproto.FixEquipProto.CommonReqMsg;
 import com.rwproto.FixEquipProto.CommonRspMsg;
+import com.rwproto.FriendServiceProtos.EFriendResultType;
 
 public class FixNormEquipHandler {
 	
@@ -30,6 +32,11 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
+		if(result.isSuccess()){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		
 		return response.build().toByteString();
 	}
@@ -47,7 +54,11 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		return response.build().toByteString();
 	}
 	
@@ -64,7 +75,11 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			//通知角色日常任务 by Alex
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_UPGRADE, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		return response.build().toByteString();
 	}
 	
@@ -80,6 +95,9 @@ public class FixNormEquipHandler {
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
+		}
+		if(result.isSuccess()){
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
 		}
 		
 		return response.build().toByteString();
@@ -97,7 +115,9 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		return response.build().toByteString();
 	}
 

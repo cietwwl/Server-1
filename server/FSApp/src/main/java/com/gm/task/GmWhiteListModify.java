@@ -18,6 +18,8 @@ import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.WhiteListBaseDataResponse;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
+import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteListDataHolder;
 
 public class GmWhiteListModify implements IGmTask{
 
@@ -41,6 +43,13 @@ public class GmWhiteListModify implements IGmTask{
 					}
 				}
 			}
+			for (String accountId : accountList) {
+				TablePlatformWhiteListDataHolder holder = new TablePlatformWhiteListDataHolder(accountId);
+				TablePlatformWhiteList tablePlatformWhiteList = holder.getTablePlatformWhiteList();
+				tablePlatformWhiteList.setAccountId(accountId);
+				tablePlatformWhiteList.setClose(false);
+				holder.saveItem(tablePlatformWhiteList);
+			}
 			whiteListBaseDataResponse.setBlnClose(!ServerStatusMgr.isWhilteListON());
 			whiteListBaseDataResponse.setAccountList(accountList);
 			whiteListBaseDataResponse.setProcess("add");
@@ -54,6 +63,11 @@ public class GmWhiteListModify implements IGmTask{
 					ServerStatusMgr.removeWhite(accountId.trim());
 					accountList.add(accountId);
 				}
+			}
+			
+			for (String accountId : accountList) {
+				TablePlatformWhiteListDataHolder holder = new TablePlatformWhiteListDataHolder(accountId);
+				holder.removeItem(accountId);
 			}
 			
 			whiteListBaseDataResponse.setBlnClose(!ServerStatusMgr.isWhilteListON());

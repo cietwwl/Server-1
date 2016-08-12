@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import com.common.BaseConfig;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.AttrDataIF;
@@ -12,7 +13,7 @@ import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.common.attribute.AttributeUtils;
 
-public class FashionQuantityEffectCfg {
+public class FashionQuantityEffectCfg extends BaseConfig {
 	public static Comparator<? super FashionQuantityEffectCfg> getComparator() {
 		return Comparator;
 	}
@@ -24,17 +25,6 @@ public class FashionQuantityEffectCfg {
 			return o1.quantity - o2.quantity;
 		}
 	};
-
-	// public static FashionQuantityEffectCfg ZeroEffect() {
-	// if (zeroEff == null) {
-	// zeroEff = new FashionQuantityEffectCfg();
-	// zeroEff.addedPercentages = new AttrData();
-	// zeroEff.addedValues = new AttrData();
-	// }
-	// return zeroEff;
-	// }
-
-	// private static FashionQuantityEffectCfg zeroEff;
 
 	private int quantity;// 时装数量
 	// 战斗增益效果
@@ -63,11 +53,7 @@ public class FashionQuantityEffectCfg {
 	private Map<Integer, Integer> attrDataMap;// 增加固定值属性
 	private Map<Integer, Integer> precentAttrDataMap;// 增加的百分比属性
 
-	public void ExtraInit(String quantity) {
-		this.quantity = Integer.parseInt(quantity);
-		// // 求增益值和百分比
-		// addedValues = new AttrData();
-		// addedPercentages = new AttrData();
+	public void ExtraInitAfterLoad() {
 		List<IReadOnlyPair<String, Object>> sourceValues = new ArrayList<IReadOnlyPair<String, Object>>();
 		List<IReadOnlyPair<String, Object>> sourcePer = new ArrayList<IReadOnlyPair<String, Object>>();
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType1, attrName1, attrValue1);
@@ -75,8 +61,6 @@ public class FashionQuantityEffectCfg {
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType3, attrName3, attrValue3);
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType4, attrName4, attrValue4);
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType5, attrName5, attrValue5);
-		// BeanCopyer.SetFields(sourceValues, addedValues, null);
-		// BeanCopyer.SetFields(sourcePer, addedPercentages, null);
 	}
 
 	public int getQuantity() {

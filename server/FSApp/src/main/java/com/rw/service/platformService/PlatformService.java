@@ -94,6 +94,9 @@ public class PlatformService {
 			List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
 			for (PlatformInfo platformInfo : platformInfos) {
 				ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
+				if(reponse == null){
+					continue;
+				}
 				if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
 					break;
 				}

@@ -2543,6 +2543,51 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getEnemyMagicModelId();
+
+    // repeated .BattleCommon.BattleHeroPosition heroPositions = 9;
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getHeroPositionsList();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getHeroPositions(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    int getHeroPositionsCount();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroPositionsOrBuilderList();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroPositionsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code TeamInfo}
@@ -2649,6 +2694,14 @@ public final class PeakArenaServiceProtos {
               enemyMagicModelId_ = input.readInt32();
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                heroPositions_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              heroPositions_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2662,6 +2715,9 @@ public final class PeakArenaServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           heroIds_ = new com.google.protobuf.UnmodifiableLazyStringList(heroIds_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          heroPositions_ = java.util.Collections.unmodifiableList(heroPositions_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2997,6 +3053,62 @@ public final class PeakArenaServiceProtos {
       return enemyMagicModelId_;
     }
 
+    // repeated .BattleCommon.BattleHeroPosition heroPositions = 9;
+    public static final int HEROPOSITIONS_FIELD_NUMBER = 9;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroPositions_;
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroPositionsList() {
+      return heroPositions_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroPositionsOrBuilderList() {
+      return heroPositions_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    public int getHeroPositionsCount() {
+      return heroPositions_.size();
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.BattleHeroPosition getHeroPositions(int index) {
+      return heroPositions_.get(index);
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+     *
+     * <pre>
+     *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroPositionsOrBuilder(
+        int index) {
+      return heroPositions_.get(index);
+    }
+
     private void initFields() {
       teamId_ = 0;
       heros_ = java.util.Collections.emptyList();
@@ -3006,6 +3118,7 @@ public final class PeakArenaServiceProtos {
       player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
       armyInfo_ = "";
       enemyMagicModelId_ = 0;
+      heroPositions_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3024,6 +3137,12 @@ public final class PeakArenaServiceProtos {
       }
       if (hasPlayer()) {
         if (!getPlayer().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getHeroPositionsCount(); i++) {
+        if (!getHeroPositions(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -3058,6 +3177,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(8, enemyMagicModelId_);
+      }
+      for (int i = 0; i < heroPositions_.size(); i++) {
+        output.writeMessage(9, heroPositions_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3104,6 +3226,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, enemyMagicModelId_);
+      }
+      for (int i = 0; i < heroPositions_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, heroPositions_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3215,6 +3341,7 @@ public final class PeakArenaServiceProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getHerosFieldBuilder();
           getPlayerFieldBuilder();
+          getHeroPositionsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3247,6 +3374,12 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         enemyMagicModelId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        if (heroPositionsBuilder_ == null) {
+          heroPositions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          heroPositionsBuilder_.clear();
+        }
         return this;
       }
 
@@ -3318,6 +3451,15 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.enemyMagicModelId_ = enemyMagicModelId_;
+        if (heroPositionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
+            heroPositions_ = java.util.Collections.unmodifiableList(heroPositions_);
+            bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.heroPositions_ = heroPositions_;
+        } else {
+          result.heroPositions_ = heroPositionsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3392,6 +3534,32 @@ public final class PeakArenaServiceProtos {
         if (other.hasEnemyMagicModelId()) {
           setEnemyMagicModelId(other.getEnemyMagicModelId());
         }
+        if (heroPositionsBuilder_ == null) {
+          if (!other.heroPositions_.isEmpty()) {
+            if (heroPositions_.isEmpty()) {
+              heroPositions_ = other.heroPositions_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureHeroPositionsIsMutable();
+              heroPositions_.addAll(other.heroPositions_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.heroPositions_.isEmpty()) {
+            if (heroPositionsBuilder_.isEmpty()) {
+              heroPositionsBuilder_.dispose();
+              heroPositionsBuilder_ = null;
+              heroPositions_ = other.heroPositions_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+              heroPositionsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroPositionsFieldBuilder() : null;
+            } else {
+              heroPositionsBuilder_.addAllMessages(other.heroPositions_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3409,6 +3577,12 @@ public final class PeakArenaServiceProtos {
         }
         if (hasPlayer()) {
           if (!getPlayer().isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getHeroPositionsCount(); i++) {
+          if (!getHeroPositions(i).isInitialized()) {
             
             return false;
           }
@@ -4338,6 +4512,318 @@ public final class PeakArenaServiceProtos {
         enemyMagicModelId_ = 0;
         onChanged();
         return this;
+      }
+
+      // repeated .BattleCommon.BattleHeroPosition heroPositions = 9;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroPositions_ =
+        java.util.Collections.emptyList();
+      private void ensureHeroPositionsIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          heroPositions_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(heroPositions_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> heroPositionsBuilder_;
+
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroPositionsList() {
+        if (heroPositionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroPositions_);
+        } else {
+          return heroPositionsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public int getHeroPositionsCount() {
+        if (heroPositionsBuilder_ == null) {
+          return heroPositions_.size();
+        } else {
+          return heroPositionsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition getHeroPositions(int index) {
+        if (heroPositionsBuilder_ == null) {
+          return heroPositions_.get(index);
+        } else {
+          return heroPositionsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder setHeroPositions(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroPositionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroPositionsIsMutable();
+          heroPositions_.set(index, value);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder setHeroPositions(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroPositionsBuilder_ == null) {
+          ensureHeroPositionsIsMutable();
+          heroPositions_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroPositionsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder addHeroPositions(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroPositionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroPositionsIsMutable();
+          heroPositions_.add(value);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder addHeroPositions(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroPositionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroPositionsIsMutable();
+          heroPositions_.add(index, value);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder addHeroPositions(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroPositionsBuilder_ == null) {
+          ensureHeroPositionsIsMutable();
+          heroPositions_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroPositionsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder addHeroPositions(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroPositionsBuilder_ == null) {
+          ensureHeroPositionsIsMutable();
+          heroPositions_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroPositionsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder addAllHeroPositions(
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (heroPositionsBuilder_ == null) {
+          ensureHeroPositionsIsMutable();
+          super.addAll(values, heroPositions_);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder clearHeroPositions() {
+        if (heroPositionsBuilder_ == null) {
+          heroPositions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public Builder removeHeroPositions(int index) {
+        if (heroPositionsBuilder_ == null) {
+          ensureHeroPositionsIsMutable();
+          heroPositions_.remove(index);
+          onChanged();
+        } else {
+          heroPositionsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getHeroPositionsBuilder(
+          int index) {
+        return getHeroPositionsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroPositionsOrBuilder(
+          int index) {
+        if (heroPositionsBuilder_ == null) {
+          return heroPositions_.get(index);  } else {
+          return heroPositionsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getHeroPositionsOrBuilderList() {
+        if (heroPositionsBuilder_ != null) {
+          return heroPositionsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroPositions_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroPositionsBuilder() {
+        return getHeroPositionsFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroPositionsBuilder(
+          int index) {
+        return getHeroPositionsFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroPositions = 9;</code>
+       *
+       * <pre>
+       *仅用于保存自己的阵容的站位，不需要主角的(固定为0)，从1到4
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getHeroPositionsBuilderList() {
+        return getHeroPositionsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getHeroPositionsFieldBuilder() {
+        if (heroPositionsBuilder_ == null) {
+          heroPositionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  heroPositions_,
+                  ((bitField0_ & 0x00000100) == 0x00000100),
+                  getParentForChildren(),
+                  isClean());
+          heroPositions_ = null;
+        }
+        return heroPositionsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:TeamInfo)
@@ -14768,58 +15254,60 @@ public final class PeakArenaServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\026PeakArenaService.proto\032\022SkillService.p" +
-      "roto\032\024FashionService.proto\"\321\001\n\010HeroData\022" +
-      "\016\n\006heroId\030\001 \002(\t\022\022\n\ntempleteId\030\002 \002(\t\022\r\n\005l" +
-      "evel\030\003 \001(\005\022\021\n\tstarLevel\030\004 \001(\005\022\020\n\010fightin" +
-      "g\030\005 \001(\005\022\021\n\tqualityId\030\006 \001(\t\022\013\n\003exp\030\007 \001(\003\022" +
-      "*\n\006skills\030\010 \003(\0132\032.SkillService.TagSkillD" +
-      "ata\022\016\n\006teamId\030\n \001(\005\022\021\n\theadImage\030\013 \001(\t\"\262" +
-      "\001\n\010TeamInfo\022\016\n\006teamId\030\001 \002(\005\022\030\n\005heros\030\002 \003" +
-      "(\0132\t.HeroData\022\017\n\007heroIds\030\003 \003(\t\022\017\n\007magicI" +
-      "d\030\004 \001(\t\022\022\n\nmagicLevel\030\005 \001(\005\022\031\n\006player\030\006 ",
-      "\001(\0132\t.HeroData\022\020\n\010armyInfo\030\007 \001(\t\022\031\n\021enem" +
-      "yMagicModelId\030\010 \001(\005\"\265\002\n\tArenaData\022\016\n\006use" +
-      "rId\030\001 \002(\t\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001" +
-      "(\005\022\020\n\010winCount\030\010 \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004" +
-      "name\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030\016" +
-      " \001(\t\022\022\n\ntempleteId\030\017 \001(\t\022\020\n\010fighting\030\020 \001" +
-      "(\005\022-\n\troleSkill\030\021 \003(\0132\032.SkillService.Tag" +
-      "SkillData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\021\n\tg" +
-      "roupName\030\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\022\021\n\thead" +
-      "Frame\030\031 \001(\t\"\207\002\n\tArenaInfo\022\016\n\006userId\030\001 \002(",
-      "\t\022\r\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005le" +
-      "vel\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001" +
-      "(\t\022\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022" +
-      "\021\n\tqualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\the" +
-      "adFrame\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fa" +
-      "shionService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\214\001" +
-      "\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001" +
-      "(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\thea" +
-      "dImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(" +
-      "\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest",
-      "\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022\016\n\006user" +
-      "Id\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005en" +
-      "emy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007re" +
-      "order\030\006 \003(\005\"\215\003\n\020MsgArenaResponse\022\036\n\taren" +
-      "aType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultT" +
-      "ype\030\002 \001(\0162\021.eArenaResultType\022\035\n\tarenaDat" +
-      "a\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n." +
-      "ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRec" +
-      "ord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n" +
-      "\021maxChallengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001",
-      "(\005\022\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016challengeC" +
-      "ount\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurren" +
-      "cyPerHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007pl" +
-      "aceUp\030\017 \001(\005*\225\002\n\neArenaType\022\014\n\010GET_DATA\020\000" +
-      "\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014A" +
-      "RENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_T" +
-      "IME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_" +
-      "FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n" +
-      "\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_" +
-      "OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT",
-      "_CONTINUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA" +
-      "_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprot" +
-      "oB\026PeakArenaServiceProtos"
+      "roto\032\024FashionService.proto\032\022BattleCommon" +
+      ".proto\"\321\001\n\010HeroData\022\016\n\006heroId\030\001 \002(\t\022\022\n\nt" +
+      "empleteId\030\002 \002(\t\022\r\n\005level\030\003 \001(\005\022\021\n\tstarLe" +
+      "vel\030\004 \001(\005\022\020\n\010fighting\030\005 \001(\005\022\021\n\tqualityId" +
+      "\030\006 \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.Sk" +
+      "illService.TagSkillData\022\016\n\006teamId\030\n \001(\005\022" +
+      "\021\n\theadImage\030\013 \001(\t\"\353\001\n\010TeamInfo\022\016\n\006teamI" +
+      "d\030\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007her" +
+      "oIds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\t\022\022\n\nmagicLeve",
+      "l\030\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\022\020\n\010ar" +
+      "myInfo\030\007 \001(\t\022\031\n\021enemyMagicModelId\030\010 \001(\005\022" +
+      "7\n\rheroPositions\030\t \003(\0132 .BattleCommon.Ba" +
+      "ttleHeroPosition\"\265\002\n\tArenaData\022\016\n\006userId" +
+      "\030\001 \002(\t\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022" +
+      "\020\n\010winCount\030\010 \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004nam" +
+      "e\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030\016 \001(" +
+      "\t\022\022\n\ntempleteId\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022" +
+      "-\n\troleSkill\030\021 \003(\0132\032.SkillService.TagSki" +
+      "llData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\021\n\tgrou",
+      "pName\030\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\022\021\n\theadFra" +
+      "me\030\031 \001(\t\"\207\002\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r" +
+      "\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level" +
+      "\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022" +
+      "\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\t" +
+      "qualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadF" +
+      "rame\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fashi" +
+      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\214\001\n\013A" +
+      "renaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022" +
+      "\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadIm",
+      "age\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021" +
+      "\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n" +
+      "\tarenaType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030" +
+      "\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy" +
+      "\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reord" +
+      "er\030\006 \003(\005\"\215\003\n\020MsgArenaResponse\022\036\n\tarenaTy" +
+      "pe\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType" +
+      "\030\002 \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003" +
+      " \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Are" +
+      "naInfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord",
+      "\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021ma" +
+      "xChallengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022" +
+      "\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016challengeCoun" +
+      "t\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyP" +
+      "erHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007place" +
+      "Up\030\017 \001(\005*\225\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n" +
+      "\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AREN" +
+      "A_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME" +
+      "\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIG" +
+      "HT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SY",
+      "NC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVE" +
+      "R\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CO" +
+      "NTINUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SU" +
+      "CCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026" +
+      "PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -14837,7 +15325,7 @@ public final class PeakArenaServiceProtos {
           internal_static_TeamInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TeamInfo_descriptor,
-              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", "ArmyInfo", "EnemyMagicModelId", });
+              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", "ArmyInfo", "EnemyMagicModelId", "HeroPositions", });
           internal_static_ArenaData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ArenaData_fieldAccessorTable = new
@@ -14876,6 +15364,7 @@ public final class PeakArenaServiceProtos {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.rwproto.SkillServiceProtos.getDescriptor(),
           com.rwproto.FashionServiceProtos.getDescriptor(),
+          com.rwproto.BattleCommon.getDescriptor(),
         }, assigner);
   }
 

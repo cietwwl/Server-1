@@ -3,14 +3,10 @@ package com.playerdata.activity.dailyCountType;
 import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityDailyTypeEnum{	// implements TypeIdentification
-//	Login("11"),
-//	GoldSpending("12"),
-//	CopyWin("13"),
-//	ElityCopyWin("14"),
-//	BattleTower("15"),
-//	GambleCoin("16"),
-//	GambleGold("18"),
+
 	Daily("201"),
+	
+	
 	LoginDaily("20101"),
 	TreasureLandDaily("20102"),//聚宝之地
 	UpGradeStarDaily("20105"),//升星

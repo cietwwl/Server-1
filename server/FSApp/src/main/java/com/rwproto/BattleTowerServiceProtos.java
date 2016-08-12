@@ -14046,6 +14046,24 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     int getFloor();
+
+    // optional int32 copyId = 2;
+    /**
+     * <code>optional int32 copyId = 2;</code>
+     *
+     * <pre>
+     *用于验证客户端是否作弊或者出错
+     * </pre>
+     */
+    boolean hasCopyId();
+    /**
+     * <code>optional int32 copyId = 2;</code>
+     *
+     * <pre>
+     *用于验证客户端是否作弊或者出错
+     * </pre>
+     */
+    int getCopyId();
   }
   /**
    * Protobuf type {@code ChallengeStartReqMsg}
@@ -14105,6 +14123,11 @@ public final class BattleTowerServiceProtos {
             case 8: {
               bitField0_ |= 0x00000001;
               floor_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              copyId_ = input.readInt32();
               break;
             }
           }
@@ -14171,8 +14194,33 @@ public final class BattleTowerServiceProtos {
       return floor_;
     }
 
+    // optional int32 copyId = 2;
+    public static final int COPYID_FIELD_NUMBER = 2;
+    private int copyId_;
+    /**
+     * <code>optional int32 copyId = 2;</code>
+     *
+     * <pre>
+     *用于验证客户端是否作弊或者出错
+     * </pre>
+     */
+    public boolean hasCopyId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 copyId = 2;</code>
+     *
+     * <pre>
+     *用于验证客户端是否作弊或者出错
+     * </pre>
+     */
+    public int getCopyId() {
+      return copyId_;
+    }
+
     private void initFields() {
       floor_ = 0;
+      copyId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -14193,6 +14241,9 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, floor_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, copyId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -14205,6 +14256,10 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, floor_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, copyId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -14328,6 +14383,8 @@ public final class BattleTowerServiceProtos {
         super.clear();
         floor_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        copyId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -14360,6 +14417,10 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.floor_ = floor_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.copyId_ = copyId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -14378,6 +14439,9 @@ public final class BattleTowerServiceProtos {
         if (other == com.rwproto.BattleTowerServiceProtos.ChallengeStartReqMsg.getDefaultInstance()) return this;
         if (other.hasFloor()) {
           setFloor(other.getFloor());
+        }
+        if (other.hasCopyId()) {
+          setCopyId(other.getCopyId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -14459,6 +14523,55 @@ public final class BattleTowerServiceProtos {
         return this;
       }
 
+      // optional int32 copyId = 2;
+      private int copyId_ ;
+      /**
+       * <code>optional int32 copyId = 2;</code>
+       *
+       * <pre>
+       *用于验证客户端是否作弊或者出错
+       * </pre>
+       */
+      public boolean hasCopyId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 copyId = 2;</code>
+       *
+       * <pre>
+       *用于验证客户端是否作弊或者出错
+       * </pre>
+       */
+      public int getCopyId() {
+        return copyId_;
+      }
+      /**
+       * <code>optional int32 copyId = 2;</code>
+       *
+       * <pre>
+       *用于验证客户端是否作弊或者出错
+       * </pre>
+       */
+      public Builder setCopyId(int value) {
+        bitField0_ |= 0x00000002;
+        copyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 copyId = 2;</code>
+       *
+       * <pre>
+       *用于验证客户端是否作弊或者出错
+       * </pre>
+       */
+      public Builder clearCopyId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        copyId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ChallengeStartReqMsg)
     }
 
@@ -14468,6 +14581,442 @@ public final class BattleTowerServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:ChallengeStartReqMsg)
+  }
+
+  public interface ChallengeStartRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 copyId = 1;
+    /**
+     * <code>optional int32 copyId = 1;</code>
+     *
+     * <pre>
+     *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+     * </pre>
+     */
+    boolean hasCopyId();
+    /**
+     * <code>optional int32 copyId = 1;</code>
+     *
+     * <pre>
+     *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+     * </pre>
+     */
+    int getCopyId();
+  }
+  /**
+   * Protobuf type {@code ChallengeStartRspMsg}
+   *
+   * <pre>
+   *[CHALLENGE_START]挑战某一层的响应协议
+   * </pre>
+   */
+  public static final class ChallengeStartRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements ChallengeStartRspMsgOrBuilder {
+    // Use ChallengeStartRspMsg.newBuilder() to construct.
+    private ChallengeStartRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChallengeStartRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChallengeStartRspMsg defaultInstance;
+    public static ChallengeStartRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChallengeStartRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChallengeStartRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              copyId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.class, com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChallengeStartRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<ChallengeStartRspMsg>() {
+      public ChallengeStartRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChallengeStartRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChallengeStartRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 copyId = 1;
+    public static final int COPYID_FIELD_NUMBER = 1;
+    private int copyId_;
+    /**
+     * <code>optional int32 copyId = 1;</code>
+     *
+     * <pre>
+     *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+     * </pre>
+     */
+    public boolean hasCopyId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 copyId = 1;</code>
+     *
+     * <pre>
+     *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+     * </pre>
+     */
+    public int getCopyId() {
+      return copyId_;
+    }
+
+    private void initFields() {
+      copyId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, copyId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, copyId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ChallengeStartRspMsg}
+     *
+     * <pre>
+     *[CHALLENGE_START]挑战某一层的响应协议
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.class, com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        copyId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg getDefaultInstanceForType() {
+        return com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg build() {
+        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg buildPartial() {
+        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg result = new com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.copyId_ = copyId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg) {
+          return mergeFrom((com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg other) {
+        if (other == com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.getDefaultInstance()) return this;
+        if (other.hasCopyId()) {
+          setCopyId(other.getCopyId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 copyId = 1;
+      private int copyId_ ;
+      /**
+       * <code>optional int32 copyId = 1;</code>
+       *
+       * <pre>
+       *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+       * </pre>
+       */
+      public boolean hasCopyId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 copyId = 1;</code>
+       *
+       * <pre>
+       *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+       * </pre>
+       */
+      public int getCopyId() {
+        return copyId_;
+      }
+      /**
+       * <code>optional int32 copyId = 1;</code>
+       *
+       * <pre>
+       *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+       * </pre>
+       */
+      public Builder setCopyId(int value) {
+        bitField0_ |= 0x00000001;
+        copyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 copyId = 1;</code>
+       *
+       * <pre>
+       *如果客户端发送的copyID不正确，则返回正确的copyID进行修正
+       * </pre>
+       */
+      public Builder clearCopyId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        copyId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ChallengeStartRspMsg)
+    }
+
+    static {
+      defaultInstance = new ChallengeStartRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ChallengeStartRspMsg)
   }
 
   public interface ChallengeEndReqMsgOrBuilder
@@ -15615,6 +16164,24 @@ public final class BattleTowerServiceProtos {
      */
     com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder(
         int index);
+
+    // optional int32 copyId = 3;
+    /**
+     * <code>optional int32 copyId = 3;</code>
+     *
+     * <pre>
+     *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+     * </pre>
+     */
+    boolean hasCopyId();
+    /**
+     * <code>optional int32 copyId = 3;</code>
+     *
+     * <pre>
+     *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+     * </pre>
+     */
+    int getCopyId();
   }
   /**
    * Protobuf type {@code ChallengeEndRspMsg}
@@ -15687,6 +16254,11 @@ public final class BattleTowerServiceProtos {
               bossInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.BossInfoMsg.PARSER, extensionRegistry));
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000001;
+              copyId_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -15732,6 +16304,7 @@ public final class BattleTowerServiceProtos {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .RewardInfoMsg rewardInfoMsg = 1;
     public static final int REWARDINFOMSG_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> rewardInfoMsg_;
@@ -15844,9 +16417,34 @@ public final class BattleTowerServiceProtos {
       return bossInfoMsg_.get(index);
     }
 
+    // optional int32 copyId = 3;
+    public static final int COPYID_FIELD_NUMBER = 3;
+    private int copyId_;
+    /**
+     * <code>optional int32 copyId = 3;</code>
+     *
+     * <pre>
+     *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+     * </pre>
+     */
+    public boolean hasCopyId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 copyId = 3;</code>
+     *
+     * <pre>
+     *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+     * </pre>
+     */
+    public int getCopyId() {
+      return copyId_;
+    }
+
     private void initFields() {
       rewardInfoMsg_ = java.util.Collections.emptyList();
       bossInfoMsg_ = java.util.Collections.emptyList();
+      copyId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -15878,6 +16476,9 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < bossInfoMsg_.size(); i++) {
         output.writeMessage(2, bossInfoMsg_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(3, copyId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -15894,6 +16495,10 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < bossInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, bossInfoMsg_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, copyId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -16029,6 +16634,8 @@ public final class BattleTowerServiceProtos {
         } else {
           bossInfoMsgBuilder_.clear();
         }
+        copyId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -16056,6 +16663,7 @@ public final class BattleTowerServiceProtos {
       public com.rwproto.BattleTowerServiceProtos.ChallengeEndRspMsg buildPartial() {
         com.rwproto.BattleTowerServiceProtos.ChallengeEndRspMsg result = new com.rwproto.BattleTowerServiceProtos.ChallengeEndRspMsg(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (rewardInfoMsgBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             rewardInfoMsg_ = java.util.Collections.unmodifiableList(rewardInfoMsg_);
@@ -16074,6 +16682,11 @@ public final class BattleTowerServiceProtos {
         } else {
           result.bossInfoMsg_ = bossInfoMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.copyId_ = copyId_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -16140,6 +16753,9 @@ public final class BattleTowerServiceProtos {
               bossInfoMsgBuilder_.addAllMessages(other.bossInfoMsg_);
             }
           }
+        }
+        if (other.hasCopyId()) {
+          setCopyId(other.getCopyId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -16802,6 +17418,55 @@ public final class BattleTowerServiceProtos {
           bossInfoMsg_ = null;
         }
         return bossInfoMsgBuilder_;
+      }
+
+      // optional int32 copyId = 3;
+      private int copyId_ ;
+      /**
+       * <code>optional int32 copyId = 3;</code>
+       *
+       * <pre>
+       *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+       * </pre>
+       */
+      public boolean hasCopyId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 copyId = 3;</code>
+       *
+       * <pre>
+       *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+       * </pre>
+       */
+      public int getCopyId() {
+        return copyId_;
+      }
+      /**
+       * <code>optional int32 copyId = 3;</code>
+       *
+       * <pre>
+       *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+       * </pre>
+       */
+      public Builder setCopyId(int value) {
+        bitField0_ |= 0x00000004;
+        copyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 copyId = 3;</code>
+       *
+       * <pre>
+       *如果胜利了，返回下一关的copyID，跟战斗结束后发送OPEN_CHALLENGE_VIEW的结果应该是一样的
+       * </pre>
+       */
+      public Builder clearCopyId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        copyId_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ChallengeEndRspMsg)
@@ -25005,6 +25670,11 @@ public final class BattleTowerServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ChallengeStartReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ChallengeStartRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ChallengeStartRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_ChallengeEndReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -25100,45 +25770,46 @@ public final class BattleTowerServiceProtos {
       " \003(\0132\016.RewardInfoMsg\"?\n\021UseLuckyKeyReqMs" +
       "g\022\032\n\007keyType\030\001 \002(\0162\t.EKeyType\022\016\n\006useNum\030" +
       "\002 \002(\005\":\n\021UseLuckyKeyRspMsg\022%\n\rrewardInfo" +
-      "Msg\030\001 \003(\0132\016.RewardInfoMsg\"%\n\024ChallengeSt" +
-      "artReqMsg\022\r\n\005floor\030\001 \002(\005\"d\n\022ChallengeEnd" +
-      "ReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\022/\n",
-      "\022rankingHeroInfoMsg\030\003 \003(\0132\023.RankingHeroI" +
-      "nfoMsg\"^\n\022ChallengeEndRspMsg\022%\n\rrewardIn" +
-      "foMsg\030\001 \003(\0132\016.RewardInfoMsg\022!\n\013bossInfoM" +
-      "sg\030\002 \003(\0132\014.BossInfoMsg\"*\n\030ChallengeBossS" +
-      "tartReqMsg\022\016\n\006bossId\030\001 \002(\005\"8\n\026ChallengeB" +
-      "ossEndReqMsg\022\016\n\006bossId\030\001 \002(\005\022\016\n\006result\030\002" +
-      " \002(\010\"?\n\026ChallengeBossEndRspMsg\022%\n\rreward" +
-      "InfoMsg\030\001 \003(\0132\016.RewardInfoMsg\"T\n\021OverFri" +
-      "endInfoMsg\022\020\n\010headIcon\030\001 \002(\t\022\r\n\005level\030\002 " +
-      "\002(\005\022\014\n\004name\030\003 \002(\t\022\020\n\010floorGap\030\004 \002(\005\"]\n\013B",
-      "ossInfoMsg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030" +
-      "\002 \002(\005\022\026\n\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInF" +
-      "loor\030\004 \001(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(" +
-      "\005\022\r\n\005count\030\002 \002(\005\"\215\002\n\022RankingRoleInfoMsg\022" +
-      "\021\n\trankIndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010head" +
-      "Icon\030\003 \002(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005leve" +
-      "l\030\005 \002(\005\022\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHer" +
-      "oInfoMsg\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010i" +
-      "sMyself\030\010 \001(\010\022\021\n\theadFrame\030\t \001(\t\022\017\n\007star" +
-      "Num\030\n \001(\005\022\022\n\nmagicLevel\030\013 \001(\005\022\021\n\tquality",
-      "Id\030\014 \001(\t\"\216\001\n\022RankingHeroInfoMsg\022\016\n\006heroI" +
-      "d\030\001 \002(\t\022\017\n\007starNum\030\002 \001(\005\022\017\n\007quality\030\003 \001(" +
-      "\005\022\r\n\005level\030\004 \001(\005\022\022\n\nisMainRole\030\005 \001(\010\022\020\n\010" +
-      "heroUUID\030\006 \001(\t\022\021\n\tqualityId\030\014 \001(\t*\256\002\n\014ER" +
-      "equestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPEN_C" +
-      "HALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LIST\020" +
-      "\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_LUC" +
-      "K_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_END\020\007" +
-      "\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_TOWE" +
-      "R_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHALLEN",
-      "GE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n\022CH" +
-      "ALLENGE_BOSS_END\020\r*.\n\016EResponseState\022\016\n\n" +
-      "RSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyType\022\016" +
-      "\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY_GO" +
-      "LD\020\003B\'\n\013com.rwprotoB\030BattleTowerServiceP" +
-      "rotos"
+      "Msg\030\001 \003(\0132\016.RewardInfoMsg\"5\n\024ChallengeSt" +
+      "artReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006copyId\030\002 \001(\005" +
+      "\"&\n\024ChallengeStartRspMsg\022\016\n\006copyId\030\001 \001(\005",
+      "\"d\n\022ChallengeEndReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n" +
+      "\006result\030\002 \002(\010\022/\n\022rankingHeroInfoMsg\030\003 \003(" +
+      "\0132\023.RankingHeroInfoMsg\"n\n\022ChallengeEndRs" +
+      "pMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardInfo" +
+      "Msg\022!\n\013bossInfoMsg\030\002 \003(\0132\014.BossInfoMsg\022\016" +
+      "\n\006copyId\030\003 \001(\005\"*\n\030ChallengeBossStartReqM" +
+      "sg\022\016\n\006bossId\030\001 \002(\005\"8\n\026ChallengeBossEndRe" +
+      "qMsg\022\016\n\006bossId\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026" +
+      "ChallengeBossEndRspMsg\022%\n\rrewardInfoMsg\030" +
+      "\001 \003(\0132\016.RewardInfoMsg\"T\n\021OverFriendInfoM",
+      "sg\022\020\n\010headIcon\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004n" +
+      "ame\030\003 \002(\t\022\020\n\010floorGap\030\004 \002(\005\"]\n\013BossInfoM" +
+      "sg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n" +
+      "\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInFloor\030\004 \001" +
+      "(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(\005\022\r\n\005cou" +
+      "nt\030\002 \002(\005\"\215\002\n\022RankingRoleInfoMsg\022\021\n\trankI" +
+      "ndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010headIcon\030\003 \002" +
+      "(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022" +
+      "\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHeroInfoMsg" +
+      "\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010isMyself\030",
+      "\010 \001(\010\022\021\n\theadFrame\030\t \001(\t\022\017\n\007starNum\030\n \001(" +
+      "\005\022\022\n\nmagicLevel\030\013 \001(\005\022\021\n\tqualityId\030\014 \001(\t" +
+      "\"\216\001\n\022RankingHeroInfoMsg\022\016\n\006heroId\030\001 \002(\t\022" +
+      "\017\n\007starNum\030\002 \001(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005lev" +
+      "el\030\004 \001(\005\022\022\n\nisMainRole\030\005 \001(\010\022\020\n\010heroUUID" +
+      "\030\006 \001(\t\022\021\n\tqualityId\030\014 \001(\t*\256\002\n\014ERequestTy" +
+      "pe\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPEN_CHALLENGE" +
+      "_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LIST\020\003\022\025\n\021GET" +
+      "_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005" +
+      "\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_",
+      "LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_TOWER_DATA\020\t" +
+      "\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHALLENGE_END\020\013" +
+      "\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n\022CHALLENGE_" +
+      "BOSS_END\020\r*.\n\016EResponseState\022\016\n\nRSP_SUCE" +
+      "SS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyType\022\016\n\nKEY_CO" +
+      "PPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013" +
+      "com.rwprotoB\030BattleTowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -25246,63 +25917,69 @@ public final class BattleTowerServiceProtos {
           internal_static_ChallengeStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeStartReqMsg_descriptor,
-              new java.lang.String[] { "Floor", });
-          internal_static_ChallengeEndReqMsg_descriptor =
+              new java.lang.String[] { "Floor", "CopyId", });
+          internal_static_ChallengeStartRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(17);
+          internal_static_ChallengeStartRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ChallengeStartRspMsg_descriptor,
+              new java.lang.String[] { "CopyId", });
+          internal_static_ChallengeEndReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(18);
           internal_static_ChallengeEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeEndReqMsg_descriptor,
               new java.lang.String[] { "Floor", "Result", "RankingHeroInfoMsg", });
           internal_static_ChallengeEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+            getDescriptor().getMessageTypes().get(19);
           internal_static_ChallengeEndRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeEndRspMsg_descriptor,
-              new java.lang.String[] { "RewardInfoMsg", "BossInfoMsg", });
+              new java.lang.String[] { "RewardInfoMsg", "BossInfoMsg", "CopyId", });
           internal_static_ChallengeBossStartReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+            getDescriptor().getMessageTypes().get(20);
           internal_static_ChallengeBossStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossStartReqMsg_descriptor,
               new java.lang.String[] { "BossId", });
           internal_static_ChallengeBossEndReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(20);
+            getDescriptor().getMessageTypes().get(21);
           internal_static_ChallengeBossEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossEndReqMsg_descriptor,
               new java.lang.String[] { "BossId", "Result", });
           internal_static_ChallengeBossEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(21);
+            getDescriptor().getMessageTypes().get(22);
           internal_static_ChallengeBossEndRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossEndRspMsg_descriptor,
               new java.lang.String[] { "RewardInfoMsg", });
           internal_static_OverFriendInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_OverFriendInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OverFriendInfoMsg_descriptor,
               new java.lang.String[] { "HeadIcon", "Level", "Name", "FloorGap", });
           internal_static_BossInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(23);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_BossInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BossInfoMsg_descriptor,
               new java.lang.String[] { "BossId", "BossCfgId", "BossRemainTime", "BossInFloor", });
           internal_static_RewardInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_RewardInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RewardInfoMsg_descriptor,
               new java.lang.String[] { "Type", "Count", });
           internal_static_RankingRoleInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_RankingRoleInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingRoleInfoMsg_descriptor,
               new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", "HeadFrame", "StarNum", "MagicLevel", "QualityId", });
           internal_static_RankingHeroInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_RankingHeroInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingHeroInfoMsg_descriptor,

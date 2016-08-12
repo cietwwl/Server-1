@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
@@ -21,8 +23,10 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
+import com.rwbase.dao.groupsecret.pojo.db.data.HeroInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.GroupSecretMatchProto.HeroLeftInfo;
 
 /*
@@ -67,6 +71,9 @@ public class GroupSecretMatchEnemyDataMgr {
 		update(userId);
 
 		removeData(player, id);
+
+		// 更新阵容
+		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, id);
 	}
 
 	/**
@@ -80,11 +87,18 @@ public class GroupSecretMatchEnemyDataMgr {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
 
+		String matchUserId = groupSecretData.getUserId();
+		int id = groupSecretData.getId();
+
+		// 阵容信息
+		EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(matchUserId, eBattlePositionType.GroupSecretPos_VALUE,
+			GroupSecretHelper.generateCacheSecretId(matchUserId, id));
+
 		int secretId = groupSecretData.getSecretId();
 		long now = System.currentTimeMillis();
-		enemyData.setId(groupSecretData.getId());
+		enemyData.setId(id);
 		enemyData.setMatchTime(now);
-		enemyData.setMatchUserId(groupSecretData.getUserId());
+		enemyData.setMatchUserId(matchUserId);
 		enemyData.setUserId(userId);
 		enemyData.setCfgId(secretId);
 		enemyData.setZoneId(zoneId);
@@ -123,9 +137,23 @@ public class GroupSecretMatchEnemyDataMgr {
 			List<String> heroList = nextElement.getHeroList();
 			int size = heroList.size();
 
-			Map<String, HeroLeftInfoSynData> map = new HashMap<String, HeroLeftInfoSynData>(size);
+			Map<String, HeroInfoData> map = new HashMap<String, HeroInfoData>(size);
+
+			int mainRoleIndex = -1;// 主角所在的索引
 			for (int i = 0; i < size; i++) {
-				map.put(heroList.get(i), null);
+				String heroUUId = heroList.get(i);
+				boolean isMainRole = heroUUId.equals(nextElement.getUserId());
+				int heroPos = 0;
+				if (posInfo == null) {
+					if (isMainRole) {
+						mainRoleIndex = i;
+					} else {
+						heroPos = mainRoleIndex == -1 ? i + 1 : i;
+					}
+				} else {
+					heroPos = posInfo.getHeroPos(heroUUId);
+				}
+				map.put(heroUUId, new HeroInfoData(heroPos, null));
 			}
 
 			enemyData.initHeroLeftInfo(index, map);
@@ -177,7 +205,8 @@ public class GroupSecretMatchEnemyDataMgr {
 			return false;
 		}
 
-		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(enemyData.getId());
+		int id = enemyData.getId();
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
 		if (groupSecretData == null) {
 			return false;
 		}
@@ -187,9 +216,13 @@ public class GroupSecretMatchEnemyDataMgr {
 			return false;
 		}
 
-		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserInfoData.getUserId());
+		String defendUserId = defendUserInfoData.getUserId();
+		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserId);
 
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);
+		// 阵容
+		EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(defendUserId, eBattlePositionType.GroupSecretPos_VALUE, GroupSecretHelper.generateCacheSecretId(matchUserId, id));
+
+		Map<String, HeroInfoData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);
 
 		for (int i = 0, size = leftList.size(); i < size; i++) {
 			HeroLeftInfo leftInfo = leftList.get(i);
@@ -203,14 +236,16 @@ public class GroupSecretMatchEnemyDataMgr {
 				continue;
 			}
 
-			HeroLeftInfoSynData heroLeftInfoSynData = teamAttrInfoMap.get(heroId);
+			HeroInfoData heroInfoData = teamAttrInfoMap.get(heroId);
 			int leftLife = leftInfo.getLeftLife();
-			if (heroLeftInfoSynData == null) {
+			int pos = heroInfoData.getPos();
+			HeroLeftInfoSynData left = heroInfoData.getLeft();
+			if (left == null) {
 				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
-				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy()));
+				enemyData.updateHeroLeftInfo(index, heroId, new HeroInfoData(pos, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy())));
 			} else {
-				int maxLife = heroLeftInfoSynData.getMaxLife();
-				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, heroLeftInfoSynData.getMaxEnergy()));
+				enemyData.updateHeroLeftInfo(index, heroId,
+					new HeroInfoData(heroInfoData.getPos(), new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), left.getMaxLife(), left.getMaxEnergy())));
 			}
 		}
 

@@ -2,18 +2,21 @@ package com.rw.service.gm;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
-import com.bm.guild.GuildGTSMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
+import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -23,7 +26,8 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
-import com.playerdata.guild.GuildDataMgr;
+import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -33,6 +37,9 @@ import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
+import com.rw.service.TaoistMagic.ITaoistMgr;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
@@ -42,28 +49,21 @@ import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
-import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
-import com.rwbase.dao.copypve.CopyType;
-import com.rwbase.dao.copypve.pojo.CopyData;
-import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
-import com.rwbase.dao.fashion.FashionBuyRenewCfg;
-import com.rwbase.dao.fashion.FashionCommonCfg;
-import com.rwbase.dao.fashion.FashionEffectCfg;
-import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -90,7 +90,7 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-
+		
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
@@ -123,17 +123,17 @@ public class GMHandler {
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
 		funcCallBackMap.put("getallsecret", "getAllSecret");
 		funcCallBackMap.put("teambringit", "teamBringit");
+		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
 		funcCallBackMap.put("setteam1", "setTeam1");
 		funcCallBackMap.put("setteam2", "setTeam2");
-		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
-		
-		//重新加载某些配置文件
+
+		// 重新加载某些配置文件
 		funcCallBackMap.put("reloadconfig", "reloadConfig");
-		
+
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
@@ -153,19 +153,46 @@ public class GMHandler {
 
 		// 钓鱼台配置更新并重新生成热点数据
 		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
-		
-		//特权系统重新加载所有特权相关配置
+
+		// 特权系统重新加载所有特权相关配置
 		funcCallBackMap.put("reloadprivilegeconfig", "reloadPrivilegeConfig");
-		
-		//设置充值开关,0开启1关闭
+
+		// 设置充值开关,0开启1关闭
 		funcCallBackMap.put("setchargeon", "setChargeOn");
-		
-		//巅峰竞技场，重新加载配置
+
+		// 巅峰竞技场，重新加载配置
 		funcCallBackMap.put("reloadpeakarenaconfig", "reloadPeakArenaConfig");
 		funcCallBackMap.put("resetpeakarenachallenge", "resetPeakArenaChallenge");
-		//清理副本cd
-		funcCallBackMap.put("clearcd", "clearCd");
+
+		// 封神台，设置当前层数
+		funcCallBackMap.put("setbattletowerfloor", "setBattleTowerFloor");
+		funcCallBackMap.put("endbtsweep", "endBTsweep");
+		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
+		funcCallBackMap.put("setbtkey", "setBattleTowerKey");
+		funcCallBackMap.put("setbtlefttime", "setBattleTowerLeftTime");
+
+		// 道术
+		funcCallBackMap.put("setalltaoist", "setAllTaoist");
 		
+		// 设置帮战阶段
+		funcCallBackMap.put("setgfstate", "setGFightState");
+		funcCallBackMap.put("setgfauto", "setGFightAutoState");
+		
+		//添加帮派物资
+		funcCallBackMap.put("setgp", "SetGroupSupplier");
+		//添加帮派副本战斗次数    * setgbf 1000
+		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
+		
+		// 聊天消息测试
+		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
+		funcCallBackMap.put("sendinteractivedata", "sendInteractiveData");
+		funcCallBackMap.put("receiveinteractivedata", "receiveInteractiveData");
+
+		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
+		funcCallBackMap.put("addwakenkey", "addWakenKey");
+		
+		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 	}
 
 	public boolean isActive() {
@@ -186,44 +213,135 @@ public class GMHandler {
 			return false;
 		}
 	}
-
-	/** GM命令 */
-	public boolean reloadConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadConfig", "start",null);
+	
+	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
-		for(int i = 0; i<arrCommandContents.length;i++){
-			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+		Group group = GroupHelper.getGroup(player);
+		if(group == null){
+			return false;
 		}
-		GameLog.info("GM", "reloadConfig", "finished",null);
+		group.getGroupBaseDataMgr().setGroupSupplier(100000);
+		group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 		return result;
 	}
-	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "resetPeakArenaChallenge", "start",null);
-		PeakArenaBM.getInstance().resetDataInNewDay(player);
-		GameLog.info("GM", "resetPeakArenaChallenge", "finished",null);
-		return true;
+
+	/** GM命令 */
+	public boolean reloadConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadConfig", "start", null);
+		boolean result = true;
+		for (int i = 0; i < arrCommandContents.length; i++) {
+			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+		}
+		GameLog.info("GM", "reloadConfig", "finished", null);
+		return result;
+	}
+
+	public boolean endBTsweep(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "endBTsweep", "start", null);
+		boolean result = true;
+		TableBattleTowerDao dao = TableBattleTowerDao.getDao();
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
+		int highestFloor = tableBattleTower.getHighestFloor();
+		// 更新数据
+		tableBattleTower.setSweepStartTime(0);
+		// by franky 扫荡结束时需要重置每层扫荡时间，下次开始扫荡就按照新的特权值进行设置
+		tableBattleTower.setSweepTimePerFloor(0);
+		tableBattleTower.setSweepState(false);
+		tableBattleTower.setSweepStartFloor(0);
+		tableBattleTower.setCurFloor(highestFloor);
+		tableBattleTower.setResult(true);
+		UserEventMgr.getInstance().BattleTower(player, highestFloor);
+		dao.update(tableBattleTower);
+		GameLog.info("GM", "endBTsweep ", "finished", null);
+		return result;
 	}
 	
-	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadPeakArenaConfig", "start",null);
+	public boolean setBattleTowerKey(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerKey", "start", null);
+		boolean result = true;
+		TableBattleTowerDao dao = TableBattleTowerDao.getDao();
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
+		int count = Integer.parseInt(arrCommandContents[0]);
+		// 更新数据
+		tableBattleTower.setCopper_key(count);
+		tableBattleTower.setGold_key(count);
+		tableBattleTower.setSilver_key(count);
+		dao.update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerKey ", "finished", null);
+		return result;
+	}
+
+	public boolean setAllTaoist(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setAllTaoist", "start", null);
+		boolean result = true;
+		ITaoistMgr mgr = player.getTaoistMgr();
+		Iterable<TaoistMagicCfg> cfglst = TaoistMagicCfgHelper.getInstance().getIterateAllCfg();
+		for (TaoistMagicCfg cfg : cfglst) {
+			mgr.setLevel(cfg.getKey(), 50);
+		}
+		GameLog.info("GM", "setAllTaoist ", "finished", null);
+		return result;
+	}
+	
+	public boolean setBattleTowerLeftTime(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerLeftTime", "start", null);
+		boolean result = true;
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();// 试练塔数据管理
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();// 试练塔的存储数据
+
+		final int highestFloor = tableBattleTower.getHighestFloor();
+		int sweepStartFloor = highestFloor - 2;
+		long now = System.currentTimeMillis();
+
+		tableBattleTower.setSweepStartTime(now);
+		tableBattleTower.setSweepStartFloor(sweepStartFloor);
+		TableBattleTowerDao.getDao().update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerLeftTime " + "finished", null);
+		return result;
+	}
+	
+	public boolean setBattleTowerFloor(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "setBattleTowerFloor", "start", null);
+		boolean result = true;
+		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();// 试练塔数据管理
+		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();// 试练塔的存储数据
+		int curFloor = Integer.parseInt(arrCommandContents[0]);
+		tableBattleTower.setCurFloor(curFloor);
+		tableBattleTower.setHighestFloor(curFloor);
+		TableBattleTowerDao.getDao().update(tableBattleTower);
+		GameLog.info("GM", "setBattleTowerFloor " + curFloor, "finished", null);
+		return result;
+	}
+
+	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "resetPeakArenaChallenge", "start", null);
+		PeakArenaBM.getInstance().resetDataInNewDay(player);
+		GameLog.info("GM", "resetPeakArenaChallenge", "finished", null);
+		return true;
+	}
+
+	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadPeakArenaConfig", "start", null);
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(peakArenaInfoHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaBuyCostHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaResetCostHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaMatchRuleHelper.class.getName());
 		result = result && reloadConfigByHelperClass(peakArenaPrizeHelper.class.getName());
-		GameLog.info("GM", "reloadPeakArenaConfig", "finished",null);
+		GameLog.info("GM", "reloadPeakArenaConfig", "finished", null);
 		return result;
 	}
-	
-	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player){
-		GameLog.info("GM", "reloadPrivilegeConfig", "start",null);
+
+	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player) {
+		GameLog.info("GM", "reloadPrivilegeConfig", "start", null);
 		PrivilegeConfigHelper.getInstance().reloadAllPrivilegeConfigs();
-		GameLog.info("GM", "reloadPrivilegeConfig", "finished",null);
+		GameLog.info("GM", "reloadPrivilegeConfig", "finished", null);
 		return true;
 	}
-	
-	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player) {
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(FashionBuyRenewCfgDao.class.getName());
 		result = result && reloadConfigByHelperClass(FashionEffectCfgDao.class.getName());
@@ -232,7 +350,7 @@ public class GMHandler {
 		return result;
 	}
 
-	public boolean reloadUnlockFashionIconCfg(String[] arrCommandContents, Player player){
+	public boolean reloadUnlockFashionIconCfg(String[] arrCommandContents, Player player) {
 		boolean result = true;
 		result = result && reloadConfigByHelperClass(HeadBoxCfgDAO.class.getName());
 		result = result && reloadConfigByHelperClass(FashionCommonCfgDao.class.getName());
@@ -258,8 +376,9 @@ public class GMHandler {
 			return false;
 		}
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
+		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据
@@ -393,10 +512,55 @@ public class GMHandler {
 			player.getUserGameDataMgr().addCoin(addNum);
 			return true;
 		}
-//		String [] strs = {"901","90001"};
-//		ActivityExchangeTypeHandler.getInstance();
-//		ActivityExchangeTypeHandler.GmTakeGift(player, strs);
-//		
+		// String [] strs = {"901","90001"};
+		// ActivityExchangeTypeHandler.getInstance();
+		// ActivityExchangeTypeHandler.GmTakeGift(player, strs);
+		//
+		return false;
+	}
+	
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			
+			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+			baseDataMgr.updateBuyKeyData(player, addNum);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenPiece(addNum);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addWakenKey(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addWakenKey(addNum);
+			return true;
+		}
 		return false;
 	}
 
@@ -411,7 +575,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean setChargeOn(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -419,8 +583,8 @@ public class GMHandler {
 		}
 		if (player != null) {
 			int isChargeOn = Integer.parseInt(arrCommandContents[0]);
-			boolean ChargeOn= false;
-			if(isChargeOn == 0){
+			boolean ChargeOn = false;
+			if (isChargeOn == 0) {
 				ChargeOn = true;
 			}
 			ServerStatusMgr.setChargeOn(ChargeOn);
@@ -428,27 +592,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	
-	public boolean clearCd(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 2) {
-			System.out.println(" command param not right ...");
-			return false;
-		}
-		if (player != null) {
-			int copyType = Integer.parseInt(arrCommandContents[0]);
-			if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD||copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-				CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(arrCommandContents[1]);
-				CopyData copyData = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
-//				(copyData.getLastChallengeTime()-500000)>0?(copyData.getLastChallengeTime()-500000):0;
-				copyData.setLastChallengeTime((copyData.getLastChallengeTime()-500000)>0?(copyData.getLastChallengeTime()-500000):0);//减8分钟cd
-				}			
-			return true;
-		}
-		return false;
-	}
-	
-	
+
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -456,7 +600,7 @@ public class GMHandler {
 		}
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			player.getUserGameDataMgr().addGold(addNum);
+			player.getUserGameDataMgr().addGoldByGm(addNum);
 			return true;
 		}
 		return false;
@@ -572,7 +716,8 @@ public class GMHandler {
 
 	public boolean addTowerNum(String[] arrCommandContents, Player player) {
 		int num = Integer.parseInt(arrCommandContents[0]);
-		player.getTowerMgr().addTowerNum(num);;
+		player.getTowerMgr().addTowerNum(num);
+		;
 		return true;
 	}
 
@@ -656,24 +801,9 @@ public class GMHandler {
 		}
 		if (player != null) {
 			if ("1".equals(arrCommandContents[0])) {
-				Calendar c = Calendar.getInstance();;
+				Calendar c = Calendar.getInstance();
+				;
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, c.getTime().toString());
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean addguildNum(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-
-			return false;
-		}
-		if (player != null) {
-			if ("1".equals(arrCommandContents[0])) {
-				String guildId = player.getGuildUserMgr().getGuildId();
-				GuildDataMgr guildMgr = GuildGTSMgr.getInstance().getById(guildId);
-				guildMgr.getGuildPropTSMgr().gmAdd(player, 1);
 				return true;
 			}
 		}
@@ -737,14 +867,12 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
-							String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
-							param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -782,14 +910,12 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
-							String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
-							param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -805,7 +931,6 @@ public class GMHandler {
 		}
 	}
 
-
 	public boolean teamBringit(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
 		// return false;
@@ -816,7 +941,18 @@ public class GMHandler {
 		}
 		return false;
 	}
-
+	
+	public boolean teamBringitSigle(String[] arrCommandContents, Player player) {
+		// if(arrCommandContents == null){
+		// return false;
+		// }
+		if (player != null) {
+			GMHeroProcesser.processTeamBringitSigle(arrCommandContents, player);
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean addHero1(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
 		// return false;
@@ -863,6 +999,9 @@ public class GMHandler {
 		}
 
 		tableBattleTower.setResetTimes(0);
+		tableBattleTower.setCurBossTimes(0);
+		long now = System.currentTimeMillis();
+		tableBattleTower.setResetTime(now);
 		TableBattleTowerDao.getDao().update(tableBattleTower);
 		return true;
 	}
@@ -985,7 +1124,7 @@ public class GMHandler {
 			}
 
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.updateMemberDataDonateTimes(player.getUserId(), 0, System.currentTimeMillis());
+			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1047,7 +1186,7 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0, 0, true);
 		} else if (functionName.equalsIgnoreCase("pc")) {// 改变个人贡献
 			if (value == 0) {
 				return false;
@@ -1057,16 +1196,144 @@ public class GMHandler {
 			if (su < 0) {
 				return false;
 			}
-
-			groupMemberMgr.updateMemberContribution(userId, value);
+			groupMemberMgr.updateMemberContribution(userId, value, true);
 		} else if (functionName.equalsIgnoreCase("exp")) {// 增加帮派经验
 			if (value <= 0) {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value);
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
+		} else if (functionName.equalsIgnoreCase("token")) {// 增加帮派令牌
+			if (value == 0) {
+				return false;
+			}
+
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, 0, value, true);
 		}
 
+		return true;
+	}
+	
+	public boolean setGFightState(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().transferToState(Integer.valueOf(arrCommandContents[0]), Integer.valueOf(arrCommandContents[1]));
+		return true;
+	}
+	
+	public boolean setGFightAutoState(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
+		return true;
+	}
+	
+	public boolean getPrivateChatList(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		try {
+			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
+			fUserChannelMap.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
+			fUserChannelMap.setAccessible(false);
+			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
+			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
+			headerBuilder.setUserId(player.getUserId());
+			requestBuilder.setHeader(headerBuilder.build());
+			com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
+			requestBuilder.setBody(bodyBuilder.build());
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
+		try {
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean receiveInteractiveData(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+		String targetUserId = arrCommandContents[0];
+		String type = arrCommandContents[1];
+		try {
+			Calendar now = Calendar.getInstance();
+			int second = now.get(Calendar.SECOND);
+			int minute = now.get(Calendar.MINUTE);
+			int hour = now.get(Calendar.HOUR_OF_DAY);
+			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+			Player sender = PlayerMgr.getInstance().find(targetUserId);
+			if(type.equals("1")) {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
+			} else {
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
+				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
+			}
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
+		
+		int count = Integer.parseInt(arrcomStrings[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addServerStatusTips(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
 }

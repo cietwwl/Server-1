@@ -43,6 +43,10 @@ public class GroupBaseConfigTemplate {
 	private final int leaderLogoutTimeNoneRecommend;// 帮主离线多久不推荐（天为单位）
 	private final int groupLogCacheSize;// 帮派日志缓存的最大条数
 	private final int canDonateCoolingTime;// 进入帮派之后多久可以捐献
+	private final int maxExpLimitPerDay;// 每天可以获得最大的经验数量...
+	private final int maxSupplyLimitPerDay;// 每天可以获得最大的物资数量...
+	private final int maxContributionLimitPerDay;// 每天可以捐献的最大数量...
+	private final int tokenId;// 令牌的Id
 
 	public GroupBaseConfigTemplate(GroupConfigCfg baseCfg) {
 		this.cfgId = baseCfg.getCfgId();
@@ -69,6 +73,10 @@ public class GroupBaseConfigTemplate {
 		this.leaderLogoutTimeNoneRecommend = baseCfg.getLeaderLogoutTimeNoneRecommend();
 		this.groupLogCacheSize = baseCfg.getGroupLogCacheSize();
 		this.canDonateCoolingTime = baseCfg.getCanDonateCoolingTime();
+		this.maxExpLimitPerDay = baseCfg.getMaxExpLimitPerDay();// 每天可以获得最大的经验数量...
+		this.maxSupplyLimitPerDay = baseCfg.getMaxSupplyLimitPerDay();// 每天可以获得最大的物资数量...
+		this.maxContributionLimitPerDay = baseCfg.getMaxContributionLimitPerDay();// 每天可以捐献的最大数量...
+		this.tokenId = baseCfg.getTokenId();// 令牌的Id
 
 		this.createGroupPriceArr = switchStr2CreateGroupPriceArr(baseCfg.getCreateGroupPrice());
 		this.renamePriceArr = switchStr2RenamePriceArr(baseCfg.getRenamePrice());
@@ -383,5 +391,21 @@ public class GroupBaseConfigTemplate {
 	 */
 	public int getCanDonateCoolingTime() {
 		return canDonateCoolingTime;
+	}
+
+	public int getMaxExpLimitPerDay() {
+		return maxExpLimitPerDay;
+	}
+
+	public int getMaxSupplyLimitPerDay() {
+		return maxSupplyLimitPerDay;
+	}
+
+	public int getMaxContributionLimitPerDay() {
+		return maxContributionLimitPerDay;
+	}
+
+	public int getTokenId() {
+		return tokenId;
 	}
 }

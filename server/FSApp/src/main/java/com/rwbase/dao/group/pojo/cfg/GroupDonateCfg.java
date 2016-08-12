@@ -13,6 +13,7 @@ public class GroupDonateCfg {
 	private int rewardContribution;// 奖励的帮派贡献
 	private int rewardGroupSupply;// 奖励的帮派物资
 	private int rewardGroupExp;// 奖励的帮派经验
+	private int donateType;// 捐献的类型
 
 	/**
 	 * 获取捐献的Id
@@ -75,5 +76,14 @@ public class GroupDonateCfg {
 	 */
 	public int getRewardGroupExp() {
 		return rewardGroupExp;
+	}
+
+	/**
+	 * 获取捐献类型
+	 * 
+	 * @return
+	 */
+	public int getDonateType() {
+		return donateType;
 	}
 }

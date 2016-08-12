@@ -14,6 +14,9 @@ public class SignCollector implements RedPointCollector {
 		if (!player.getSignMgr().isSignToday()) {
 			map.put(RedPointType.HOME_WINDOW_SIGN_IN, Collections.EMPTY_LIST);
 		}
+		if(player.getSignMgr().checkAchieveSignReward()){
+			map.put(RedPointType.HOME_WINDOW_SIGN_IN, Collections.EMPTY_LIST);
+		}
 	}
 
 }

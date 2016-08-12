@@ -52,6 +52,23 @@ public enum RedPointType {
     SECRET_ENTRY,
     SECRET_RES_REWARD,
     SECRET_RECORD_KEY,
-    MAGIC_SECRET_SCORE_REWARD,   
+    MAGIC_SECRET_SCORE_REWARD,
+    BATTLE_TOWER_SWEEP_END,
+    ;
+    private RedPointType(){
+    	
+    }
+    
+    public RedPointType getEnumByInt(int id){
+    	RedPointType redPointType = null;
+    	for(RedPointType eNum : values()){    		
+    		if(eNum.ordinal() == id){
+    			redPointType = eNum;
+    			break;
+    		}
+    	}    	
+    	return redPointType;
+    }
+    
     
 }

@@ -33,7 +33,7 @@ public class FettersBaseCfgDAO extends CfgCsvDao<FettersBaseCfg> {
 
 	@Override
 	protected Map<String, FettersBaseCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fetters/FettersBaseCfg.csv", FettersBaseCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("HeroFetters/FettersBaseCfg.csv", FettersBaseCfg.class);
 
 		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
 			int size = cfgCacheMap.size();

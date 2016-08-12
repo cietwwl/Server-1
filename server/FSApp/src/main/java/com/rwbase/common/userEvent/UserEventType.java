@@ -59,8 +59,8 @@ public enum UserEventType {
 	StrengthenMagicVitalityTwo,//强化法宝到x级
 	UseSilverKeyVitalityTwo,//使用银钥匙x个
 	GambleGoldVitalityTwo,//购买中级经验丹
-	arenaVitalityTwo;//竞技场多少次	
+	arenaVitalityTwo,//竞技场多少次	
 	
-	
+	spendGoldRedEnvelope;//开服红包
 	
 }

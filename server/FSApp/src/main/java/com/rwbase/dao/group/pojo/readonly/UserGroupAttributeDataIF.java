@@ -2,6 +2,8 @@ package com.rwbase.dao.group.pojo.readonly;
 
 import java.util.List;
 
+import com.rwbase.dao.group.pojo.db.GroupSkillItem;
+
 /*
  * @author HC
  * @date 2016年2月23日 下午2:48:58
@@ -71,4 +73,19 @@ public interface UserGroupAttributeDataIF {
 	 * @return
 	 */
 	public long getJoinTime();
+
+	/**
+	 * 获取已经学习的帮派技能
+	 * 
+	 * @return
+	 */
+	public List<GroupSkillItem> getSkillItemList();
+
+	/**
+	 * 获取技能已经学习的等级
+	 * 
+	 * @param skillId
+	 * @return
+	 */
+	public int getStudySkillLevel(int skillId);
 }

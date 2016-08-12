@@ -1,5 +1,7 @@
 package com.playerdata.activity.rateType.cfg;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +33,37 @@ public final class ActivityRateTypeCfgDAO extends
 		for (ActivityRateTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 			parseTimeByHour(cfgTmp);
+			parseCopyTypeAndespecialEnum(cfgTmp);
 		}
 		return cfgCacheMap;
+	}
+
+	
+	
+	/**
+	 * 
+	 * @param cfgTmp copytype_especial#especial,copytype_especial
+	 */
+	private void parseCopyTypeAndespecialEnum(ActivityRateTypeCfg cfgTmp) {
+		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+		String[] copylist = cfgTmp.getCopytypeAndespecialitemidEnum().split(",");
+		for(String copytypeAndEspecial : copylist){
+			String[] copytypeOrEspecial = copytypeAndEspecial.split("_");
+			String[] especials = copytypeOrEspecial[1].split("#");
+			List<Integer> especialList = new ArrayList<Integer>();
+			for(String especialItemId : especials){
+				especialList.add(Integer.parseInt(especialItemId));
+			}
+			map.put(Integer.parseInt(copytypeOrEspecial[0]), especialList);			
+		}
+		cfgTmp.setCopyTypeMap(map);
+//		for(Map.Entry<Integer, List<Integer>> entry:map.entrySet()){
+//			StringBuffer str = new StringBuffer();
+//			for(Integer especial : entry.getValue()){
+//				str.append(especial).append("#");
+//			}
+//			System.out.println(entry.getKey() + " value =" + str);
+//		}
 	}
 
 	private void parseTimeByHour(ActivityRateTypeCfg cfgTmp) {

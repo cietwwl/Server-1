@@ -219,6 +219,7 @@ public class PlatformService {
 			if(zoneInfo.getZoneId() == cache.getZoneId()){
 				TableZoneInfo zone = TableZoneInfoDAO.getInstance().getByKey(zoneInfo.getZoneId());
 				zone.setStatus(cache.getStatus());
+				zone.setCloseTips(cache.getCloseTips());
 				zoneDataHolder.updateZoneInfo(zone);
 				initZoneCache();
 				break;

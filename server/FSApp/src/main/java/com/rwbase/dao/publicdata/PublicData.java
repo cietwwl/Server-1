@@ -18,4 +18,8 @@ public class PublicData {
 	 *修改名字消耗钻石
 	 */
 	public static final int CHANGE_NAME_CONST = 12;
+	/**
+	 * 改名冷却时间
+	 */
+	public static final int CHAGNE_NAME_CDTIME = 20;
 }

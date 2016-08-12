@@ -9,8 +9,6 @@ import org.springframework.util.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.service.group.helper.GroupCmdHelper;
-import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
 
@@ -54,6 +52,8 @@ public class RoleGameInfo {
 	//在线时长
 	private String onlineTime;
 	
+	private Integer allfighting;
+	
 	public static final int Copy_Normal = 1;//银汉识别普通本为1
 	
 	final private static Field[] fieldList;
@@ -86,13 +86,17 @@ public class RoleGameInfo {
 		roleGameInfo.setVip(player.getVip());
 		roleGameInfo.setLevel(player.getLevel());
 		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
+		roleGameInfo.setAllfighting(player.getHeroMgr().getFightingAll());
 		roleGameInfo.setCareerType(player.getCareer());
 		
 		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
 		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
-		String groupId = baseData.getGroupId();
-		if (!StringUtils.isEmpty(groupId)) {
-			roleGameInfo.setFactionId(groupId);
+		if(baseData != null){
+			//新创建角色没有帮派，所以要加这个判断
+			String groupId = baseData.getGroupId();
+			if (!StringUtils.isEmpty(groupId)) {
+				roleGameInfo.setFactionId(groupId);
+			}
 		}
 		
 		
@@ -114,9 +118,9 @@ public class RoleGameInfo {
 			logtask(player,roleGameInfo,moreinfo);			
 		}		
 		
-		if(player.getCopyRecordMgr().getCalculateState() != null){
-			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
-		}
+//		if(player.getCopyRecordMgr().getCalculateState() != null){
+//			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
+//		}
 		
 		return roleGameInfo;
 	}
@@ -360,6 +364,14 @@ public class RoleGameInfo {
 
 	public void setTaskInfo(String taskInfo) {
 		this.taskInfo = taskInfo;
+	}
+
+	public Integer getAllfighting() {
+		return allfighting;
+	}
+
+	public void setAllfighting(Integer allfighting) {
+		this.allfighting = allfighting;
 	}
 	
 	

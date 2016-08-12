@@ -25,14 +25,14 @@ public class RoleAttrData {
 	//
 	// private AttrData heroFettersTotalData;// 羁绊属性
 
-	private String log;
+//	private String log;
 
 	public RoleAttrData(String heroId, AttrData roleBaseTotalData, AttrData totalData, int fighting, String log) {
 		this.heroId = heroId;
 		this.roleBaseTotalData = roleBaseTotalData;
 		this.totalData = totalData;
 		this.fighting = fighting;
-		this.log = log;
+//		this.log = log;
 	}
 
 	// public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP,
@@ -146,13 +146,13 @@ public class RoleAttrData {
 		return totalData;
 	}
 
-	public String getLog() {
-		return log;
-	}
-
-	public void setLog(String log) {
-		this.log = log;
-	}
+//	public String getLog() {
+//		return log;
+//	}
+//
+//	public void setLog(String log) {
+//		this.log = log;
+//	}
 
 	public static class Builder {
 		private String heroId;

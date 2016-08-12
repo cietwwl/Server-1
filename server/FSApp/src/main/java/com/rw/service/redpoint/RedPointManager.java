@@ -10,6 +10,7 @@ import java.util.Map;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.RedPointMgr;
+import com.playerdata.activity.ActivityRedPointManager;
 import com.rw.service.redpoint.impl.RedPointCollector;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
@@ -135,5 +136,18 @@ public class RedPointManager {
 			}
 		}
 		return classes;
+	}
+
+	public boolean reFreshRedPoint(Player player,int id, String extraInfo) {
+		boolean issucce = false;
+		RedPointType eNum = RedPointType.values()[id];
+		switch (eNum) {
+		case HOME_WINDOW_ACTIVITY:
+			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
+			break;
+		default:
+			break;
+		}		
+		return issucce;
 	}
 }

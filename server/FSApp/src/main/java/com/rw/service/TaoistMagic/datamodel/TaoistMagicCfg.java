@@ -13,6 +13,7 @@ import com.rwbase.dao.attribute.AttributeLanguageCfgDAO;
 
 public class TaoistMagicCfg extends BaseConfig {
 	private int key; // key
+	private String skillName;//技能名字
 	private int tagNum;// 分页
 	private int openLevel; // 分页开放等级
 	private int order;// 序号
@@ -22,6 +23,10 @@ public class TaoistMagicCfg extends BaseConfig {
 
 	private Map<String, TaoistMagicFormula> attrDataMap;// 属性
 	private Map<String, TaoistMagicFormula> precentAttrDataMap;// 百分比属性
+
+	public String getSkillName() {
+		return skillName;
+	}
 
 	public int getKey() {
 		return key;

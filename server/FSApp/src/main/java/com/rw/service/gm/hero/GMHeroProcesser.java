@@ -28,17 +28,21 @@ public class GMHeroProcesser {
 	 * 处理指令teambringit
 	 * @param arrCommandContents
 	 * @param player
+	 * 如果传入的转职为5，则为迷你版增加英雄
 	 */
 	public static void processTeamBringit(String[] arrCommandContents, Player player){
 		int career = Integer.parseInt(arrCommandContents[0]);
+		// 添加英雄
+		final int maxLevel = GMHeroBase.gmGetMaxLevel();
+				
+		final int maxQuality = GMHeroBase.gmGetMaxQuality();
+		
 		
 		gmChangeCareer(player, career);
 		
 		
-		// 添加英雄
-		final int maxLevel = GMHeroBase.gmGetMaxLevel();
 		
-		final int maxQuality = GMHeroBase.gmGetMaxQuality();
+		
 		bringitMainHero(player, maxLevel, maxQuality);
 		
 		GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
@@ -83,6 +87,38 @@ public class GMHeroProcesser {
 		});
 		
 	}
+	
+	/**非异步的增加英雄命令,一次加一个*/
+	public static void processTeamBringitSigle(String[] arrCommandContents, Player player){
+		// 添加英雄
+		final int maxLevel = GMHeroBase.gmGetMaxLevel();
+
+		Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO
+				.getInstance().getAllRoleCfgCopy();
+//		long begin = System.currentTimeMillis();
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~begin");
+		for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy
+				.entrySet().iterator(); iterator.hasNext();) {
+			
+			Entry<String, RoleCfg> entry = iterator.next();
+			RoleCfg roleCfg = entry.getValue();
+			String templateId = roleCfg.getRoleId();
+			if(player.getHeroMgr().getHeroByTemplateId(templateId) != null){
+				continue;
+			}			
+			GMHeroBase.gmAddHero(entry.getKey(), player);
+			Hero hero = player.getHeroMgr()
+					.getHeroByTemplateId(templateId);
+			GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+//			System.out.println("~~~~~~~~~~~~~~~~~~~~~~add");
+			break;
+		}
+//		long end = System.currentTimeMillis();
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~end        time =" + (end - begin));
+		
+		return;
+	}
+	
 
 	private static void gmChangeCareer(Player player, int career) {
 		boolean blnChangeCareer = false;
@@ -141,6 +177,15 @@ public class GMHeroProcesser {
 			GMHeroBase.gmInlayJewel(hero, player, gemId);
 		}
 	}
+	
+	private static void bringitMainHeroSimple(Player player, int maxLevel, int maxQuality) {
+		Hero mainRoleHero = player.getMainRoleHero();
+		String templateId = mainRoleHero.getTemplateId();
+		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
+		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+		
+	}
+	
 	
 	/**
 	 * 添加英雄

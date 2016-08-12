@@ -25,6 +25,9 @@ public class SignService implements FsService {
 			case SIGNDATA_BACK:
 				result = handler.returnSignData(player);
 				break;
+			case SIGN_REWARD:
+				result = handler.processSignReward(player);
+				break;
 			default:
 				break;
 			}

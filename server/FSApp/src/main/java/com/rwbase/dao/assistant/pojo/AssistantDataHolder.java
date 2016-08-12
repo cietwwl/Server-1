@@ -1,5 +1,7 @@
 package com.rwbase.dao.assistant.pojo;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
@@ -22,23 +24,21 @@ public class AssistantDataHolder {
 	public AssistantData get() {
 		return assistantData;
 	}
-	
-	public void setAssistantEventID(AssistantEventID newEvent) {
-		AssistantEventID oldEvent = assistantData.getAssistantEventID();
-//		if (oldEvent == newEvent) {
-//			return;
-//		}
 
-		if (newEvent != AssistantEventID.Invaild || oldEvent != AssistantEventID.Invaild) {
-			assistantData.setAssistantEventID(newEvent);
-			ClientDataSynMgr.updateData(player, assistantData, roleAttrSynType, eSynOpType.UPDATE_SINGLE);
+	public void setAssistantEventID(List<AssistantEventID> newEvent) {
+		List<AssistantEventID> oldEvent = assistantData.getAssistantEvent();
+		if (newEvent.equals(oldEvent)) {
+			return;
 		}
+
+		assistantData.setAssistantEvent(newEvent);
+		ClientDataSynMgr.updateData(player, assistantData, roleAttrSynType, eSynOpType.UPDATE_SINGLE);
 	}
 
 	public void synData() {
-		if (assistantData != null && assistantData.getAssistantEventID() != null) {
+		if (assistantData != null && assistantData.getAssistantEvent() != null) {
 			ClientDataSynMgr.updateData(player, assistantData, roleAttrSynType, eSynOpType.UPDATE_SINGLE);
 		}
 	}
-	
+
 }

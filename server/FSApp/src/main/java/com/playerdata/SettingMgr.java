@@ -118,6 +118,10 @@ public class SettingMgr implements PlayerEventListener {
 		settingDataHolder.get().setLastRenameTimeInMill(Calendar.getInstance().getTimeInMillis());
 		settingDataHolder.update(m_Player);
 	}
+	
+	public long getLastChangeNameTime(){
+		return settingDataHolder.get().getLastRenameTimeInMill();
+	}
 
 	public List<String> getHeadBoxByTypeList(int type) {
 		List<HeadTypeList> ownHeadBox = settingDataHolder.get().getOwnHeadBox();

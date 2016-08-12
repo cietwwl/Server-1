@@ -1,7 +1,9 @@
 package com.playerdata.activity.rateType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ActivityRateTypeCfg {
@@ -24,6 +26,32 @@ public class ActivityRateTypeCfg {
 	
 	private int levelLimit;
 	
+	/**
+	 * 多倍的副本类型和产出类型组合，类型_产出类型#产出类型,类型_产出类型
+	 */
+	private String copytypeAndespecialitemidEnum;
+	
+	private Map<Integer, List<Integer>> copyTypeMap = new HashMap<Integer, List<Integer>>();
+	
+	
+	
+	public Map<Integer, List<Integer>> getCopyTypeMap() {
+		return copyTypeMap;
+	}
+
+	public void setCopyTypeMap(Map<Integer, List<Integer>> copyTypeMap) {
+		this.copyTypeMap = copyTypeMap;
+	}
+
+	public String getCopytypeAndespecialitemidEnum() {
+		return copytypeAndespecialitemidEnum;
+	}
+
+	public void setCopytypeAndespecialitemidEnum(
+			String copytypeAndespecialitemidEnum) {
+		this.copytypeAndespecialitemidEnum = copytypeAndespecialitemidEnum;
+	}
+
 	public List<ActivityRateTypeStartAndEndHourHelper> getStartAndEnd() {
 		return startAndEnd;
 	}

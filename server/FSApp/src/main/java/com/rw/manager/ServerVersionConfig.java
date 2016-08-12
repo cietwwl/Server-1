@@ -1,7 +1,6 @@
 package com.rw.manager;
 
 import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.netty.ServerConfig;
 
 public class ServerVersionConfig {
 	private String version;

@@ -1,7 +1,9 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
+import com.playerdata.teambattle.data.UserTeamBattleDAO;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
@@ -15,8 +17,10 @@ import com.rw.dataaccess.processor.SevenDayGifCreator;
 import com.rw.dataaccess.processor.SignCreator;
 import com.rw.dataaccess.processor.StoreCreator;
 import com.rw.dataaccess.processor.UnendingWarCreator;
+import com.rw.dataaccess.processor.UserGFightDataCreator;
 import com.rw.dataaccess.processor.UserGameDataProcessor;
 import com.rw.dataaccess.processor.UserHeroCreator;
+import com.rw.dataaccess.processor.UserTeamBattleDataCreator;
 import com.rw.dataaccess.processor.VipCreator;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataCreator;
@@ -79,7 +83,9 @@ public enum DataKVType {
 	GROUP_SECRE_ENEMY(24, GroupSecretMatchEnemyDataDAO.class, GroupSecretMatchEnemyDataCreator.class),
 	GROUP_SECRE_DEFEND_RECORD(25, GroupSecretDefendRecordDataDAO.class, GroupSecretDefendRecordDataCreator.class),
 	// 私聊记录数据
-	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class);
+	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class),
+	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
+	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

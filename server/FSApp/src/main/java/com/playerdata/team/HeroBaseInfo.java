@@ -1,5 +1,7 @@
 package com.playerdata.team;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /*
@@ -7,12 +9,14 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * @date 2016年4月15日 下午5:57:19
  * @Description 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 public class HeroBaseInfo {
 	private int level;// 等级
 	private String quality;// 品质
 	private int star;// 星级
 	private String tmpId;// 模版Id
+	private int pos;// 站位
 
 	public int getLevel() {
 		return level;
@@ -44,5 +48,13 @@ public class HeroBaseInfo {
 
 	public void setTmpId(String tmpId) {
 		this.tmpId = tmpId;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
 	}
 }

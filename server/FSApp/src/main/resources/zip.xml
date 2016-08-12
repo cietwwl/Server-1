@@ -21,7 +21,6 @@
             <excludes>
             	<exclude>server.properties</exclude>
             	<exclude>config.properties</exclude>
-            	<exclude>switch.properties</exclude>
             	<exclude>applicationContext4DaoTest.xml</exclude>
             	<exclude>zip.xml</exclude>
             </excludes>	

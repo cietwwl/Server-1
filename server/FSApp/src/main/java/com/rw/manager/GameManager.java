@@ -26,11 +26,14 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.gm.task.gmCommand.GmCommandManager;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
-import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.WorshipMgr;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
@@ -99,7 +102,6 @@ public class GameManager {
 		ServerSwitch.initLogic();
 
 		/**** 服务器全启数据 ******/
-		GlobalDataMgr.init();
 		// 初始化 日志服务初始化
 		LogService.getInstance().init();
 
@@ -136,7 +138,7 @@ public class GameManager {
 		GameLog.debug("排行排序用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
-
+		ActivityRankTypeMgr.getInstance().creatMap();//排行榜的活动奖励的配置表初始化
 		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
@@ -147,7 +149,15 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
+		
+		//GM的初始化
+		GmCommandManager.loadCommandClass();
 
+
+		//帮派副本奖励分发数据初始化
+		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
+		
+		WorshipMgr.getInstance().getByWorshipedInfo();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 

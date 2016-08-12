@@ -20,6 +20,8 @@ public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
 		return cfgCacheMap;
 	}	
 	
+
+
 	public List<TaskCfg> getInitList(){
 		List<TaskCfg> allarr = super.getAllCfg();
 		List<TaskCfg> list = new ArrayList<TaskCfg>();

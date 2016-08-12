@@ -1,0 +1,11 @@
+public ${fieldType} ${fieldName}
+{
+	get
+	{
+		return (${fieldType})beanEncoder.Get(this,"${fieldName}");
+	}
+	set
+	{
+		beanEncoder.Set(this,"${fieldName}",value);
+	}
+}

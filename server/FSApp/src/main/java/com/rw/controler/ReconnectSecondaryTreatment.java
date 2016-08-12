@@ -38,12 +38,24 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
 			return;
 		}
-		// 如果不符合5分钟以内
-		if (!UserChannelMgr.clearAndCheckReconnect(userId)) {
+		Long disconnectTime = UserChannelMgr.getDisconnectTime(userId);
+		if (disconnectTime == null) {
+			if (UserChannelMgr.get(userId) != null) {
+				// 在线情况不处理
+				ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
+			} else {
+				// 不在线&
+				ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
+			}
+			return;
+		}
+		if ((System.currentTimeMillis() - disconnectTime) > UserChannelMgr.RECONNECT_TIME) {
 			ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
 			return;
 		}
-		UserChannelMgr.bindUserID(userId, ctx);
+		if (!UserChannelMgr.bindUserID(userId, ctx)) {
+			return;
+		}
 		UserChannelMgr.onBSBegin(userId);
 		try {
 			List<SyncVersion> versionList = reconnectRequest.getVersionListList();

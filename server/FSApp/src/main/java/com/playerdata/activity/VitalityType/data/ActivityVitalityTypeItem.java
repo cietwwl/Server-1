@@ -16,6 +16,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
@@ -58,16 +60,39 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
+	@CombineSave
+	private long redPointLastTime;	
+	
+	public long getRedPointLastTime() {
+		return redPointLastTime;
+	}
+
+	public void setRedPointLastTime(long redPointLastTime) {
+		this.redPointLastTime = redPointLastTime;
+	}
+	
+	@CombineSave
+	private boolean isTouchRedPoint;	
+
+	public boolean isTouchRedPoint() {
+		return isTouchRedPoint;
+	}
+
+	public void setTouchRedPoint(boolean isTouchRedPoint) {
+		this.isTouchRedPoint = isTouchRedPoint;
+	}
+	
 	public void reset(ActivityVitalityCfg cfg,ActivityVitalityTypeEnum eNum){
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum));
-		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum);
+		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday() ,eNum));
+		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday() ,eNum);
 		if(boxlist != null){
 			setSubBoxItemList(boxlist);
 		}
 		lastTime = System.currentTimeMillis();
 		activeCount = 0;
+		isTouchRedPoint = false;
 	}
 
 	public String getVersion() {

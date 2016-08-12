@@ -104,6 +104,19 @@ public class EmailUtils {
 		EmailData emailData = createEmailData(cfgId, attachment, args);
 		return sendEmail(userId, emailData);
 	}
+	
+	/**
+	 * 发送邮件(自己构造邮件文字内容)
+	 * @param userId 收件人
+	 * @param cfgId 配置表ＩＤ
+	 * @param attachment 附件
+	 * @param content 邮件内容
+	 * @return
+	 */
+	public static boolean sendEmail(String userId, String cfgId, String attachment, String content) {
+		EmailData emailData = createEmailData(cfgId, attachment, content);
+		return sendEmail(userId, emailData);
+	}
 
 	public static boolean sendEmail(String userId, String cfgId, String attachment, long sendTime) {
 		EmailData data = createEmailData(cfgId, attachment,new ArrayList<String>());
@@ -119,6 +132,7 @@ public class EmailUtils {
 	public static EmailData createEmailData(String cfgId, String attachment,List<String> args) {
 		EmailData emailData = new EmailData();
 		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(cfgId);
+		if(cfg == null) return emailData;
 		if (!StringUtils.isEmpty(attachment)) {
 			emailData.setEmailAttachment(attachment);
 		} else {
@@ -134,6 +148,19 @@ public class EmailUtils {
 		emailData.setDeadlineTime(cfg.getDeadlineTime());
 		emailData.setCfgid(cfg.getId()+"");
 		emailData.replaceContent(args);
+		return emailData;
+	}
+	
+	/**
+	 * 自己构造邮件文字内容
+	 * @param cfgId
+	 * @param attachment
+	 * @param content
+	 * @return
+	 */
+	public static EmailData createEmailData(String cfgId, String attachment, String content) {
+		EmailData emailData = createEmailData(cfgId, attachment, new ArrayList<String>());
+		emailData.setContent(content);
 		return emailData;
 	}
 

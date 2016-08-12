@@ -49,7 +49,7 @@ public class FettersBM {
 
 	/** 子条件类型 */
 	public static enum SubConditionType {
-		HERO_QUALITY(1, "英雄品质"), HERO_STAR(2, "英雄星数"), HERO_LEVEL(3, "英雄等级"), HERO_FIGHTING(4, "英雄战力");
+		QUALITY(1, "英雄品质"), STAR(2, "英雄星数"), LEVEL(3, "英雄等级"), FIGHTING(4, "英雄战力");
 
 		public final int type;// 类型
 		public final String desc;// 描述
@@ -57,6 +57,15 @@ public class FettersBM {
 		private SubConditionType(int type, String desc) {
 			this.type = type;
 			this.desc = desc;
+		}
+		
+		public static SubConditionType getEnum(int type){
+			for (SubConditionType s : SubConditionType.values()) {
+				if(s.type == type){
+					return s;
+				}
+			}
+			return null;
 		}
 	}
 

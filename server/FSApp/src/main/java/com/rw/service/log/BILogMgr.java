@@ -61,6 +61,8 @@ import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.task.DailyActivityCfgDAO;
+import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class BILogMgr {
@@ -134,7 +136,7 @@ public class BILogMgr {
 	public void logZoneReg(Player player) {
 		logPlayer(eBILogType.ZoneReg, player, null);
 		logPlayer(eBILogType.RoleCreated, player, null);
-		logZoneLogin(player);
+//		logZoneLogin(player);
 	}
 
 	public void logZoneLogin(Player player) {
@@ -309,6 +311,9 @@ public class BILogMgr {
 		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
 			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
 			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else if(StringUtils.equals(activityCode.toString(), BIActivityCode.DAILY_TASK.toString())){
+			DailyActivityCfg cfg = DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(severBegin));
+			moreInfo.put("activityCode", "" + cfg.getBICode());
 		}else{
 			moreInfo.put("activityCode", "" + activityCode.getCode());
 		}
@@ -334,6 +339,9 @@ public class BILogMgr {
 		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
 			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
 			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else if(StringUtils.equals(activityCode.toString(), BIActivityCode.DAILY_TASK.toString())){
+			DailyActivityCfg cfg = DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(severBegin));
+			moreInfo.put("activityCode", "" + cfg.getBICode());
 		}else{
 			moreInfo.put("activityCode", "" + activityCode.getCode());
 		}

@@ -1,0 +1,8 @@
+key,mark,id,name,unlockLv,enterCount,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
+20001,,20001,第一章  西岐沙漠,3,2,5000,168,420,"1~240,2~210,3~180,4~160,5~140,6~120,7~100,8~90,9~80,10~70",4200,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map012,195501,195506,"806512,806513"
+20002,,20002,第二章  九龙迷踪,4,2,5000,168,480,"1~360,2~320,3~280,4~250,5~220,6~190,7~170,8~150,9~130,10~110",4800,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map013,195601,195606,"806513,806514"
+20003,,20003,第三章  九龙岛,5,2,5000,168,540,"1~480,2~430,3~380,4~340,5~300,6~270,7~240,8~210,9~180,10~160",5400,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map005,195701,195706,"806514,806515"
+20004,,20004,第四章  四圣法阵,6,2,5000,168,600,"1~600,2~540,3~480,4~430,5~380,6~340,7~300,8~270,9~240,10~210",6000,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map006,195801,195806,"806515,806516"
+20005,,20005,第五章  北海雪原,7,2,5000,168,660,"1~720,2~640,3~570,4~510,5~450,6~400,7~360,8~320,9~280,10~250",6600,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map007,195901,195906,"806516,806517"
+20006,,20006,第六章  北海之战,8,2,5000,168,720,"1~840,2~750,3~670,4~600,5~540,6~480,7~430,8~380,9~340,10~300",7200,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map008,196001,196006,"806518,806519"
+20007,,20007,第七章  重返昆仑,9,2,5000,168,780,"1~960,2~860,3~770,4~690,5~620,6~550,7~490,8~440,9~390,10~350",7800,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map009,196101,196106,"806519,806520"

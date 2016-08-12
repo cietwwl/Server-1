@@ -46,6 +46,8 @@ public class UserGameData implements TableUserOtherIF {
 	private int strenCoin;// 秘境强化石;
 	private int peakArenaCoin;// 巅峰竞技场货币
 	private int arenaCoin; // 职业竞技场货币
+	private int wakenPiece;//觉醒碎片
+	private int wakenKey;//觉醒钥匙
 
 	private long carrerChangeTime;// 角色变换的时间
 	private volatile long lastWorshipTime;
@@ -278,6 +280,22 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.lastWorshipTime = lastWorshipTime;
+	}
+
+	public int getWakenPiece() {
+		return wakenPiece;
+	}
+
+	public void setWakenPiece(int wakenPiece) {
+		this.wakenPiece = wakenPiece;
+	}
+
+	public int getWakenKey() {
+		return wakenKey;
+	}
+
+	public void setWakenKey(int wakenKey) {
+		this.wakenKey = wakenKey;
 	}
 
 }

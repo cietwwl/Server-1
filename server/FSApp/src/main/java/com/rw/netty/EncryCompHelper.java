@@ -8,6 +8,7 @@ import java.nio.ByteOrder;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.rw.manager.ServerSwitch;
 import com.rwbase.gameworld.GameWorldExecutor;
 
 import io.netty.buffer.ByteBuf;
@@ -17,14 +18,13 @@ public class EncryCompHelper {
 	private static final int XOR_INT_MASK = 0xAAAAAAAA;//= 0xAAaaAAaa;
 	private static final int minCompPackSize = 1024;
 	
+	
+	
 	public static void printDebugInfo(Object x){
-        String info = String.valueOf(x);
-		System.out.println(info);
-//		if (GameWorldAttribute.isOpen(GameWorldAttributeType.PRINT_MSG_COMPRESS)){
-//	        String info = String.valueOf(x);
-//			System.out.println(info);
-//			DevelopLogger.info(info+GameWorldExecutor.LINE_SEPARATOR);
-//		}
+		if (ServerSwitch.isPrintEncode()) {
+			String info = String.valueOf(x);
+			System.out.println(info);
+		}
 	}
 	
 	public static int GetOrderInt(ByteBuf in){

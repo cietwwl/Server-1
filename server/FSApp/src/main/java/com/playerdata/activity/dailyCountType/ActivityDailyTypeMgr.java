@@ -9,6 +9,12 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
@@ -18,7 +24,7 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.rw.fsutil.util.DateUtils;
 
-public class ActivityDailyTypeMgr {
+public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityDailyTypeMgr instance = new ActivityDailyTypeMgr();
 
@@ -52,21 +58,25 @@ public class ActivityDailyTypeMgr {
 			return;
 		}
 		for (ActivityDailyTypeItem targetItem : item) {
-			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
 	}
+	
+	
+	
 	private void checkClose(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityDailyTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
-			if (isClose(activityDailyCountTypeItem)) {
+			if (isClose(activityDailyCountTypeItem)&&!activityDailyCountTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
 				activityDailyCountTypeItem.setClosed(true);
+				activityDailyCountTypeItem.setTouchRedPoint(true);
 				dataHolder.updateItem(player, activityDailyCountTypeItem);
 			}
 		}
@@ -280,6 +290,26 @@ public class ActivityDailyTypeMgr {
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
 
+	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityDailyTypeItemHolder activityCountTypeItemHolder = new ActivityDailyTypeItemHolder();
+		ActivityDailyTypeEnum dailyEnum = ActivityDailyTypeEnum.getById(eNum.getCfgId());
+		if(dailyEnum == null){
+			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityDailyTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId());
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}
+		
 	}
 
 }

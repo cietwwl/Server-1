@@ -16,9 +16,10 @@ public class DefendHeroBaseInfoSynData {
 	private final int level;// 等级
 	private final boolean isMainRole;// 是否是主角
 	private final boolean isDie;// 是否死亡
+	private final int pos;// 站位
 	private final HeroLeftInfoSynData heroLeftInfo;// 剩余的血量能量信息
 
-	public DefendHeroBaseInfoSynData(String id, String headImageId, String qualityId, int starLevel, int level, boolean isMainRole, boolean isDie, HeroLeftInfoSynData heroLeftInfo) {
+	public DefendHeroBaseInfoSynData(String id, String headImageId, String qualityId, int starLevel, int level, boolean isMainRole, boolean isDie, int pos, HeroLeftInfoSynData heroLeftInfo) {
 		this.id = id;
 		this.headImageId = headImageId;
 		this.qualityId = qualityId;
@@ -26,6 +27,7 @@ public class DefendHeroBaseInfoSynData {
 		this.level = level;
 		this.isMainRole = isMainRole;
 		this.isDie = isDie;
+		this.pos = pos;
 		this.heroLeftInfo = heroLeftInfo;
 	}
 
@@ -55,6 +57,10 @@ public class DefendHeroBaseInfoSynData {
 
 	public boolean isDie() {
 		return isDie;
+	}
+
+	public int getPos() {
+		return pos;
 	}
 
 	public HeroLeftInfoSynData getHeroLeftInfo() {

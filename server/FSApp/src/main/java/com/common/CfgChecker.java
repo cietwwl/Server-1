@@ -3,6 +3,7 @@ package com.common;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.bm.group.GroupBM;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.fixEquip.cfg.FixEquipCfgChecker;

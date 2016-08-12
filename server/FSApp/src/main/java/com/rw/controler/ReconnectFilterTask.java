@@ -1,7 +1,6 @@
 package com.rw.controler;
 
 import io.netty.channel.ChannelHandlerContext;
-
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -10,12 +9,10 @@ import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.ReConnectRequest;
 import com.rwproto.ReConnectionProtos.ReConnectResponse;
 import com.rwproto.ReConnectionProtos.ReConnectResultType;
 import com.rwproto.RequestProtos.Request;
-import com.rwproto.ResponseProtos.Response;
 
 public class ReconnectFilterTask implements Runnable {
 
@@ -65,8 +62,9 @@ public class ReconnectFilterTask implements Runnable {
 			reLoginGame(responseBuilder);
 			return;
 		}
-		// 如果不符合5分钟以内
-		if (!UserChannelMgr.checkReconnect(user.getUserId())) {
+
+		Long disconnectTime = UserChannelMgr.getDisconnectTime(userId);
+		if (disconnectTime != null && (System.currentTimeMillis() - disconnectTime) > UserChannelMgr.RECONNECT_TIME) {
 			reLoginGame(responseBuilder);
 			return;
 		}

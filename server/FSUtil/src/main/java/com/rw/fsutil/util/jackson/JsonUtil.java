@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.CollectionType;
 import org.codehaus.jackson.map.type.MapType;
+import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -111,6 +112,23 @@ public class JsonUtil {
 		return null;
 	}
 	
+	public static <K, T> Map<String, Object> readJson2Map(String value, JavaType keyType, JavaType Object) {
+		if (value != null && !value.trim().equals("")) {
+			try {
+				MapType constructMapType = MAPPER.getTypeFactory().constructMapType(Map.class, keyType , Object);
+				Map<String, Object> maps = MAPPER.readValue(value,constructMapType);
+				return maps;
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
 	public static <T> Map<String, T> readToMap(String value, Class<T> Object) {
 		if (value != null && !value.trim().equals("")) {
 			try {				
@@ -142,5 +160,15 @@ public class JsonUtil {
 			e.printStackTrace();
 		}
 		return sw.toString();
+	}
+	
+	/**
+	 * 
+	 * 获取ObjectMapper的TypeFactory
+	 * 
+	 * @return
+	 */
+	public static TypeFactory getTypeFactory() {
+		return MAPPER.getTypeFactory();
 	}
 }

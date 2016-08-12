@@ -150,6 +150,9 @@ public class GroupMemberHelper {
 		// 角色是否有帮派数据
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
+		if(baseData == null){
+			return;
+		}
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
 			return;

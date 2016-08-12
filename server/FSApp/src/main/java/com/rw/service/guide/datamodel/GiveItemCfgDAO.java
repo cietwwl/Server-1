@@ -1,7 +1,9 @@
 package com.rw.service.guide.datamodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -13,24 +15,29 @@ public class GiveItemCfgDAO extends CfgCsvDao<GiveItemCfg> {
 		return SpringContextUtil.getBean(GiveItemCfgDAO.class);
 	}
 
-	private HashMap<Integer,GiveItemCfg> autoSentMap;
+	private HashMap<Integer,List<GiveItemCfg>> autoSentMap;
 	
 	@Override
 	public Map<String, GiveItemCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Guidance/GiveItemCfg.csv",GiveItemCfg.class);
-		autoSentMap = new HashMap<Integer, GiveItemCfg>();
+		autoSentMap = new HashMap<Integer, List<GiveItemCfg>>();
 		Collection<GiveItemCfg> vals = cfgCacheMap.values();
 		for (GiveItemCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 			int autoSentLevel = cfg.getAutoSentLevel();
 			if (autoSentLevel > 0){
-				autoSentMap.put(autoSentLevel, cfg);
+				List<GiveItemCfg> old = autoSentMap.get(autoSentLevel);
+				if (old == null){
+					old = new ArrayList<GiveItemCfg>();
+					autoSentMap.put(autoSentLevel, old);
+				}
+				old.add(cfg);
 			}
 		}
 		return cfgCacheMap;
 	}
 	
-	public GiveItemCfg getAutoSentCfg(int level){
+	public List<GiveItemCfg> getAutoSentCfg(int level){
 		return autoSentMap.get(level);
 	}
 }

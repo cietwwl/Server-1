@@ -33,4 +33,10 @@ public class DropMissingCfg extends BaseConfig {
 		return minQualityLevel <= quality && quality <= maxQualityLevel;
 	}
 
+	public int checkQualityRange(int quality){
+		if (!isQualityInRange(quality)){
+			quality = maxQualityLevel;
+		}
+		return quality;
+	}
 }

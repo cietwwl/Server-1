@@ -1,10 +1,19 @@
 package com.rw.service.fashion;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.datamodel.generalPrivilegeProperties;
+import com.rw.service.Privilege.datamodel.generalPrivilegePropertiesHelper;
+import com.rwproto.ErrorService.ErrorType;
+import com.rwproto.FashionServiceProtos.FashionEventType;
 import com.rwproto.FashionServiceProtos.FashionRequest;
+import com.rwproto.FashionServiceProtos.FashionResponse.Builder;
+import com.rwproto.PrivilegeProtos.GeneralPrivilegeNames;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -17,7 +26,25 @@ public class FashionService implements FsService{
 		FashionRequest req;
 		try {
 			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
-			switch (req.getEventType()) {
+			FashionEventType eventType = req.getEventType();
+			if (eventType == FashionEventType.buy || eventType == FashionEventType.renew){
+				IPrivilegeManager privilegeMgr = player.getPrivilegeMgr();
+				GeneralPrivilegeNames privilege = GeneralPrivilegeNames.isAllowBuyFashion;
+				boolean isOpen = privilegeMgr.getBoolPrivilege(privilege);
+				if (!isOpen){
+					Builder resp = fashionHandler.getResponse(req);
+					resp.setError(ErrorType.NOT_ENOUGH_VIP);
+					
+					generalPrivilegePropertiesHelper tiphelper = generalPrivilegePropertiesHelper.getInstance();
+					generalPrivilegeProperties cfg = tiphelper.getByPrivilegeName(privilege);
+					String tip = cfg.getEnableTip();
+					if (StringUtils.isNotBlank(tip)){
+						resp.setTips(tip);
+					}
+					return resp.build().toByteString();
+				}
+			}
+			switch (eventType) {
 			case buy:
 				result = fashionHandler.buyFash(player,req);
 				break;

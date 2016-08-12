@@ -1,0 +1,58 @@
+package com.rwbase.common.timer.core;
+
+import java.io.Serializable;
+import java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * A {@link Map}-backed {@link Set}.
+ */
+public final class MapBackedSet<E> extends AbstractSet<E> implements
+		Serializable {
+
+	
+	private static final long serialVersionUID = -1873594747620026914L;
+	private final Map<E, Boolean> map;
+	
+	private static final Boolean _PRESETN = Boolean.TRUE;
+
+	/**
+	 * Creates a new instance which wraps the specified {@code map}.
+	 */
+	public MapBackedSet(Map<E, Boolean> map) {
+		this.map = map;
+	}
+
+	@Override
+	public int size() {
+		return map.size();
+	}
+
+	@Override
+	public boolean contains(Object o) {
+		return map.containsKey(o);
+	}
+
+	@Override
+	public boolean add(E o) {
+		return map.put(o, _PRESETN) == null;
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		return map.remove(o) != null;
+	}
+
+	@Override
+	public void clear() {
+		map.clear();
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return map.keySet().iterator();
+	}
+}
+

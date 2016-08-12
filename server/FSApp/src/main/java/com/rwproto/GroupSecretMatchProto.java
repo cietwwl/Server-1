@@ -1613,18 +1613,26 @@ public final class GroupSecretMatchProto {
      */
     com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
 
-    // repeated string heroList = 2;
+    // repeated .BattleCommon.BattleHeroPosition heroList = 2;
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getHeroListList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getHeroListList();
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+     *
+     * <pre>
+     *请求参与战斗的英雄信息
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getHeroList(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
@@ -1632,22 +1640,23 @@ public final class GroupSecretMatchProto {
      */
     int getHeroListCount();
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    java.lang.String getHeroList(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroListOrBuilderList();
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getHeroListBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code groupSecret.AttackEnemyStartReqMsg}
@@ -1717,10 +1726,10 @@ public final class GroupSecretMatchProto {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                heroList_ = new com.google.protobuf.LazyStringArrayList();
+                heroList_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              heroList_.add(input.readBytes());
+              heroList_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1732,7 +1741,7 @@ public final class GroupSecretMatchProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          heroList_ = new com.google.protobuf.UnmodifiableLazyStringList(heroList_);
+          heroList_ = java.util.Collections.unmodifiableList(heroList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1790,22 +1799,32 @@ public final class GroupSecretMatchProto {
       return index_;
     }
 
-    // repeated string heroList = 2;
+    // repeated .BattleCommon.BattleHeroPosition heroList = 2;
     public static final int HEROLIST_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList heroList_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroList_;
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getHeroListList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroListList() {
       return heroList_;
     }
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+     *
+     * <pre>
+     *请求参与战斗的英雄信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroListOrBuilderList() {
+      return heroList_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
@@ -1815,30 +1834,30 @@ public final class GroupSecretMatchProto {
       return heroList_.size();
     }
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    public java.lang.String getHeroList(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getHeroList(int index) {
       return heroList_.get(index);
     }
     /**
-     * <code>repeated string heroList = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
      *
      * <pre>
      *请求参与战斗的英雄信息
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getHeroListBytes(int index) {
-      return heroList_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroListOrBuilder(
+        int index) {
+      return heroList_.get(index);
     }
 
     private void initFields() {
       index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-      heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      heroList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1848,6 +1867,12 @@ public final class GroupSecretMatchProto {
       if (!hasIndex()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getHeroListCount(); i++) {
+        if (!getHeroList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1860,7 +1885,7 @@ public final class GroupSecretMatchProto {
         output.writeEnum(1, index_.getNumber());
       }
       for (int i = 0; i < heroList_.size(); i++) {
-        output.writeBytes(2, heroList_.getByteString(i));
+        output.writeMessage(2, heroList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1875,14 +1900,9 @@ public final class GroupSecretMatchProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, index_.getNumber());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < heroList_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(heroList_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getHeroListList().size();
+      for (int i = 0; i < heroList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, heroList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1996,6 +2016,7 @@ public final class GroupSecretMatchProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHeroListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2006,8 +2027,12 @@ public final class GroupSecretMatchProto {
         super.clear();
         index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
         bitField0_ = (bitField0_ & ~0x00000001);
-        heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        if (heroListBuilder_ == null) {
+          heroList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          heroListBuilder_.clear();
+        }
         return this;
       }
 
@@ -2040,12 +2065,15 @@ public final class GroupSecretMatchProto {
           to_bitField0_ |= 0x00000001;
         }
         result.index_ = index_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          heroList_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              heroList_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (heroListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            heroList_ = java.util.Collections.unmodifiableList(heroList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.heroList_ = heroList_;
+        } else {
+          result.heroList_ = heroListBuilder_.build();
         }
-        result.heroList_ = heroList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2065,15 +2093,31 @@ public final class GroupSecretMatchProto {
         if (other.hasIndex()) {
           setIndex(other.getIndex());
         }
-        if (!other.heroList_.isEmpty()) {
-          if (heroList_.isEmpty()) {
-            heroList_ = other.heroList_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureHeroListIsMutable();
-            heroList_.addAll(other.heroList_);
+        if (heroListBuilder_ == null) {
+          if (!other.heroList_.isEmpty()) {
+            if (heroList_.isEmpty()) {
+              heroList_ = other.heroList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureHeroListIsMutable();
+              heroList_.addAll(other.heroList_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.heroList_.isEmpty()) {
+            if (heroListBuilder_.isEmpty()) {
+              heroListBuilder_.dispose();
+              heroListBuilder_ = null;
+              heroList_ = other.heroList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              heroListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroListFieldBuilder() : null;
+            } else {
+              heroListBuilder_.addAllMessages(other.heroList_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2083,6 +2127,12 @@ public final class GroupSecretMatchProto {
         if (!hasIndex()) {
           
           return false;
+        }
+        for (int i = 0; i < getHeroListCount(); i++) {
+          if (!getHeroList(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2158,133 +2208,316 @@ public final class GroupSecretMatchProto {
         return this;
       }
 
-      // repeated string heroList = 2;
-      private com.google.protobuf.LazyStringList heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition heroList = 2;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroList_ =
+        java.util.Collections.emptyList();
       private void ensureHeroListIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          heroList_ = new com.google.protobuf.LazyStringArrayList(heroList_);
+          heroList_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(heroList_);
           bitField0_ |= 0x00000002;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> heroListBuilder_;
+
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getHeroListList() {
-        return java.util.Collections.unmodifiableList(heroList_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroListList() {
+        if (heroListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroList_);
+        } else {
+          return heroListBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
       public int getHeroListCount() {
-        return heroList_.size();
+        if (heroListBuilder_ == null) {
+          return heroList_.size();
+        } else {
+          return heroListBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
-      public java.lang.String getHeroList(int index) {
-        return heroList_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getHeroList(int index) {
+        if (heroListBuilder_ == null) {
+          return heroList_.get(index);
+        } else {
+          return heroListBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string heroList = 2;</code>
-       *
-       * <pre>
-       *请求参与战斗的英雄信息
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getHeroListBytes(int index) {
-        return heroList_.getByteString(index);
-      }
-      /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
       public Builder setHeroList(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroListIsMutable();
-        heroList_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.set(index, value);
+          onChanged();
+        } else {
+          heroListBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public Builder setHeroList(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public Builder addHeroList(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.add(value);
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
       public Builder addHeroList(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroListIsMutable();
-        heroList_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.add(index, value);
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public Builder addHeroList(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public Builder addHeroList(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
       public Builder addAllHeroList(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureHeroListIsMutable();
-        super.addAll(values, heroList_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          super.addAll(values, heroList_);
+          onChanged();
+        } else {
+          heroListBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
       public Builder clearHeroList() {
-        heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
+        if (heroListBuilder_ == null) {
+          heroList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          heroListBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string heroList = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
        *
        * <pre>
        *请求参与战斗的英雄信息
        * </pre>
        */
-      public Builder addHeroListBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroListIsMutable();
-        heroList_.add(value);
-        onChanged();
+      public Builder removeHeroList(int index) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.remove(index);
+          onChanged();
+        } else {
+          heroListBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getHeroListBuilder(
+          int index) {
+        return getHeroListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroListOrBuilder(
+          int index) {
+        if (heroListBuilder_ == null) {
+          return heroList_.get(index);  } else {
+          return heroListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getHeroListOrBuilderList() {
+        if (heroListBuilder_ != null) {
+          return heroListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroList_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroListBuilder() {
+        return getHeroListFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroListBuilder(
+          int index) {
+        return getHeroListFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroList = 2;</code>
+       *
+       * <pre>
+       *请求参与战斗的英雄信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getHeroListBuilderList() {
+        return getHeroListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getHeroListFieldBuilder() {
+        if (heroListBuilder_ == null) {
+          heroListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  heroList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          heroList_ = null;
+        }
+        return heroListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyStartReqMsg)
@@ -6778,34 +7011,35 @@ public final class GroupSecretMatchProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\026GroupSecretMatch.proto\022\013groupSecret\032\021G" +
-      "roupSecret.proto\"@\n\014HeroLeftInfo\022\n\n\002id\030\001" +
-      " \002(\t\022\020\n\010leftLife\030\002 \002(\005\022\022\n\nleftEnergy\030\003 \002" +
-      "(\005\"#\n\025SearchingSecretRspMsg\022\n\n\002id\030\001 \002(\t\"" +
-      "X\n\026AttackEnemyStartReqMsg\022,\n\005index\030\001 \002(\016" +
-      "2\035.groupSecret.GroupSecretIndex\022\020\n\010heroL" +
-      "ist\030\002 \003(\t\"*\n\026AttackEnemyStartRspMsg\022\020\n\010a" +
-      "rmyInfo\030\001 \002(\t\"\235\001\n\024AttackEnemyEndReqMsg\022," +
-      "\n\005index\030\001 \002(\0162\035.groupSecret.GroupSecretI" +
-      "ndex\022)\n\006myLeft\030\002 \003(\0132\031.groupSecret.HeroL",
-      "eftInfo\022,\n\tenemyLeft\030\003 \003(\0132\031.groupSecret" +
-      ".HeroLeftInfo\"\325\001\n\034GroupSecretMatchCommon" +
-      "ReqMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret.Ma" +
-      "tchRequestType\022\017\n\007version\030\002 \001(\t\022;\n\016attac" +
-      "kStartReq\030\003 \001(\0132#.groupSecret.AttackEnem" +
-      "yStartReqMsg\0227\n\014attackEndReq\030\004 \001(\0132!.gro" +
-      "upSecret.AttackEnemyEndReqMsg\"\353\001\n\034GroupS" +
-      "ecretMatchCommonRspMsg\022.\n\007reqType\030\001 \002(\0162" +
-      "\035.groupSecret.MatchRequestType\022\021\n\tisSucc" +
-      "ess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022;\n\017searchingRs",
-      "pMsg\030\004 \001(\0132\".groupSecret.SearchingSecret" +
-      "RspMsg\022;\n\016attackStartRsp\030\005 \001(\0132#.groupSe" +
-      "cret.AttackEnemyStartRspMsg*[\n\020MatchSecr" +
-      "etState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022\022" +
-      "\n\016IN_ROB_PROTECT\020\003\022\024\n\020IN_MAX_ROB_COUNT\020\004" +
-      "*e\n\020MatchRequestType\022\023\n\017SEARCHING_ENEMY\020" +
-      "\001\022\026\n\022ATTACK_ENEMY_START\020\002\022\024\n\020ATTACK_ENEM" +
-      "Y_END\020\003\022\016\n\nGET_REWARD\020\004B$\n\013com.rwprotoB\025" +
-      "GroupSecretMatchProto"
+      "roupSecret.proto\032\022BattleCommon.proto\"@\n\014" +
+      "HeroLeftInfo\022\n\n\002id\030\001 \002(\t\022\020\n\010leftLife\030\002 \002" +
+      "(\005\022\022\n\nleftEnergy\030\003 \002(\005\"#\n\025SearchingSecre" +
+      "tRspMsg\022\n\n\002id\030\001 \002(\t\"z\n\026AttackEnemyStartR" +
+      "eqMsg\022,\n\005index\030\001 \002(\0162\035.groupSecret.Group" +
+      "SecretIndex\0222\n\010heroList\030\002 \003(\0132 .BattleCo" +
+      "mmon.BattleHeroPosition\"*\n\026AttackEnemySt" +
+      "artRspMsg\022\020\n\010armyInfo\030\001 \002(\t\"\235\001\n\024AttackEn" +
+      "emyEndReqMsg\022,\n\005index\030\001 \002(\0162\035.groupSecre",
+      "t.GroupSecretIndex\022)\n\006myLeft\030\002 \003(\0132\031.gro" +
+      "upSecret.HeroLeftInfo\022,\n\tenemyLeft\030\003 \003(\013" +
+      "2\031.groupSecret.HeroLeftInfo\"\325\001\n\034GroupSec" +
+      "retMatchCommonReqMsg\022.\n\007reqType\030\001 \002(\0162\035." +
+      "groupSecret.MatchRequestType\022\017\n\007version\030" +
+      "\002 \001(\t\022;\n\016attackStartReq\030\003 \001(\0132#.groupSec" +
+      "ret.AttackEnemyStartReqMsg\0227\n\014attackEndR" +
+      "eq\030\004 \001(\0132!.groupSecret.AttackEnemyEndReq" +
+      "Msg\"\353\001\n\034GroupSecretMatchCommonRspMsg\022.\n\007" +
+      "reqType\030\001 \002(\0162\035.groupSecret.MatchRequest",
+      "Type\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022" +
+      ";\n\017searchingRspMsg\030\004 \001(\0132\".groupSecret.S" +
+      "earchingSecretRspMsg\022;\n\016attackStartRsp\030\005" +
+      " \001(\0132#.groupSecret.AttackEnemyStartRspMs" +
+      "g*[\n\020MatchSecretState\022\016\n\nNON_BATTLE\020\001\022\r\n" +
+      "\tIN_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT\020\003\022\024\n\020IN_M" +
+      "AX_ROB_COUNT\020\004*e\n\020MatchRequestType\022\023\n\017SE" +
+      "ARCHING_ENEMY\020\001\022\026\n\022ATTACK_ENEMY_START\020\002\022" +
+      "\024\n\020ATTACK_ENEMY_END\020\003\022\016\n\nGET_REWARD\020\004B$\n" +
+      "\013com.rwprotoB\025GroupSecretMatchProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6861,6 +7095,7 @@ public final class GroupSecretMatchProto {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.rwproto.GroupSecretProto.getDescriptor(),
+          com.rwproto.BattleCommon.getDescriptor(),
         }, assigner);
   }
 

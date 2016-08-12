@@ -40,9 +40,6 @@ public class UserMagicSecretData {
 	@CombineSave
 	private String currentDungeonID = null; // 正在打的副本
 	
-	@CombineSave
-	private long lastResetTime = 0l;
-	
 	public UserMagicSecretData(String userId) {
 		this.userId = userId; 
 		this.secretArmy = "";
@@ -106,10 +103,6 @@ public class UserMagicSecretData {
 	public void setRecentScoreTime(long recentScoreTime) {
 		this.recentScoreTime = recentScoreTime;
 	}
-	
-	public long getLastResetTime(){
-		return lastResetTime;
-	}
 
 	public int getMaxStageID() {
 		return maxStageID;
@@ -130,6 +123,5 @@ public class UserMagicSecretData {
 	public void saveDailyScoreData(){
 		historyScore += todayScore;
 		todayScore = 0;
-		lastResetTime = System.currentTimeMillis();
 	}
 }

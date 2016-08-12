@@ -77,8 +77,8 @@ public class DailyActivityHandler {
 		}
 		
 		
-		BIActivityCode activitycode =  BILogTemplateHelper.getByDailyTaskId(taskId);
-		BILogMgr.getInstance().logActivityBegin(player, null, activitycode,0,0);
+//		BIActivityCode activitycode =  BILogTemplateHelper.getByDailyTaskId(taskId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
 		
 		// 从任务列表中删除该任务
 		if(activityMgr.RemoveTaskById(taskId))
@@ -93,7 +93,7 @@ public class DailyActivityHandler {
 			
 			List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
 			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
-			BILogMgr.getInstance().logActivityEnd(player, null, activitycode, 0, true, 0, rewardInfoActivity, 0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
 			
 		}
 		else

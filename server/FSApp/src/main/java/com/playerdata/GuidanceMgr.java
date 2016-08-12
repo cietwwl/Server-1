@@ -1,5 +1,7 @@
 package com.playerdata;
 
+import java.util.List;
+
 import com.common.RefParam;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.common.stream.IStream;
@@ -24,10 +26,12 @@ public class GuidanceMgr implements PlayerEventListener, IStreamListner<Integer>
 
 	@Override
 	public void onChange(Integer newLevel) {
-		GiveItemCfg cfg = GiveItemCfgDAO.getInstance().getAutoSentCfg(newLevel);
-		if (cfg != null){
+		List<GiveItemCfg> cfgLst = GiveItemCfgDAO.getInstance().getAutoSentCfg(newLevel);
+		if (cfgLst != null && cfgLst.size() > 0){
 			RefParam<String> outTip = new RefParam<String>();
-			NewGuideService.giveItem(cfg, player, outTip);
+			for (GiveItemCfg giveItemCfg : cfgLst) {
+				NewGuideService.giveItem(giveItemCfg, player, outTip);
+			}
 		}
 	}
 	

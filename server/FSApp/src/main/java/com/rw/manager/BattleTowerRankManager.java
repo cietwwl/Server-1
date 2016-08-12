@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.playerdata.FriendMgr;
 import com.playerdata.Player;
+import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTowerRank;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerRankDao;
 import com.rwbase.dao.battletower.pojo.readonly.TableBattleTowerRankIF;
@@ -41,14 +42,21 @@ public class BattleTowerRankManager {
 		List<TableBattleTowerRankIF> list = new ArrayList<TableBattleTowerRankIF>(size);
 
 		for (int i = 0; i < size; i++) {
-			TableBattleTowerRank tableBattleTowerRank = TableBattleTowerRankDao.getRankByKey(friendList.get(i).getUserId());
+			FriendInfo friendInfo = friendList.get(i);
+			TableBattleTowerRank tableBattleTowerRank = TableBattleTowerRankDao.getRankByKey(friendInfo.getUserId());
 			if (tableBattleTowerRank != null) {
+				BattleTowerRoleInfo roleInfo = tableBattleTowerRank.getRoleInfo();
+				roleInfo.setHeadFrame(friendInfo.getHeadbox());
+				roleInfo.setHeadIcon(friendInfo.getHeadImage());
 				list.add(tableBattleTowerRank);
 			}
 		}
 
 		TableBattleTowerRank myBattleTowerRank = TableBattleTowerRankDao.getRankByKey(player.getUserId());
 		if (myBattleTowerRank != null) {
+			BattleTowerRoleInfo roleInfo = myBattleTowerRank.getRoleInfo();
+			roleInfo.setHeadFrame(player.getHeadFrame());
+			roleInfo.setHeadIcon(player.getHeadImage());
 			list.add(myBattleTowerRank);
 		}
 

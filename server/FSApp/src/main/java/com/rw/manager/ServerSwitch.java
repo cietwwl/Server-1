@@ -1,6 +1,5 @@
 package com.rw.manager;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.springframework.core.io.ClassPathResource;
@@ -9,6 +8,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.rw.fsutil.dao.cache.CacheLoggerSwitch;
 import com.rw.service.gm.GMHandler;
 
 /*
@@ -21,6 +21,8 @@ public class ServerSwitch {
 	private static boolean gmSwitch;// 打开GM
 	private static boolean giftCodeOpen = true;// 是否开启兑换码
 	private static boolean checkCfg=false;
+	private static boolean printEncode =  false;
+	private static boolean openCacheLog = true;
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -31,6 +33,7 @@ public class ServerSwitch {
 			// 兑换码开启
 			giftCodeOpen = props.getProperty("giftCodeOpen").equalsIgnoreCase("true");
 			checkCfg = props.getProperty("checkCfg").equalsIgnoreCase("true");
+			openCacheLog = Boolean.parseBoolean(props.getProperty("openCacheLog"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -44,6 +47,7 @@ public class ServerSwitch {
 		}
 
 		GMHandler.getInstance().setActive(gmSwitch);
+		CacheLoggerSwitch.getInstance().setCacheLoggerSwitch(openCacheLog);
 	}
 
 	public static boolean isGiftCodeOpen() {
@@ -51,5 +55,9 @@ public class ServerSwitch {
 	}
 	public static boolean isCheckCfg() {
 		return checkCfg;
+	}
+
+	public static boolean isPrintEncode() {
+		return printEncode;
 	}
 }

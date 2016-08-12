@@ -21,6 +21,22 @@ import com.rwbase.dao.item.pojo.ItemBaseCfg;
 public class GmUtils {
 
 	
+	public static boolean parseBoolean(Map<String, Object> args, String argsName){
+		Object object = args.get(argsName);
+		boolean result = false;
+		if(object == null){
+			return result;
+		}else{
+			
+			try {
+				result = Boolean.parseBoolean(object.toString());
+			} catch (Exception ex) {
+				result = false;
+			}
+			return result;
+		}
+	}
+	
 	public static String parseString(Map<String, Object> args, String argsName){
 		Object object = args.get(argsName);
 		if(object == null){

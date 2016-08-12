@@ -112,6 +112,13 @@ public interface GroupBaseDataIF {
 	 * @return
 	 */
 	public long getDismissTime();
+	
+	/**
+	 * 获取帮派令牌数量
+	 * 
+	 * @return
+	 */
+	public int getToken();
 
 	/**
 	 * 获取所有研发的技能

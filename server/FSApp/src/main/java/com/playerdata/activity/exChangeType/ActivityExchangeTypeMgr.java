@@ -10,17 +10,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 
 
 
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
+import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -30,24 +30,16 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
-import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
-import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
-import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.copypve.CopyType;
 
 
-public class ActivityExchangeTypeMgr {
+public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
-	private final static int MAKEUPEMAIL = 10055;
 	private Map<Integer, Integer> idAndNumMap =new HashMap<Integer, Integer>();
 
 	public static ActivityExchangeTypeMgr getInstance() {
@@ -131,13 +123,13 @@ public class ActivityExchangeTypeMgr {
 	private void checkOtherDay(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem targetItem : itemlist) {	
+		for (ActivityExchangeTypeItem targetItem : itemlist) {
 			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getConfig(targetItem.getCfgId());
 			if(targetCfg == null){
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}
-			if(DateUtils.getDayDistance(targetItem.getLasttime(), System.currentTimeMillis())>0){
+			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLasttime())){
 				targetItem.setLasttime(System.currentTimeMillis());
 				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
 				for(ActivityExchangeTypeSubItem subitem: subitemlist){
@@ -145,8 +137,9 @@ public class ActivityExchangeTypeMgr {
 						subitem.setTime(0);
 					}
 				}
+				dataHolder.updateItem(player, targetItem);
 			}
-			dataHolder.updateItem(player, targetItem);
+			
 		}
 	}
 	
@@ -287,7 +280,7 @@ public class ActivityExchangeTypeMgr {
 						return idAndNumMap;
 					}
 					if(random.nextInt(10000)<=numAndProbability[1]){
-						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
 						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				
@@ -328,4 +321,34 @@ public class ActivityExchangeTypeMgr {
 		}
 		return false;
 	}
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityExchangeTypeItemHolder activityCountTypeItemHolder = new ActivityExchangeTypeItemHolder();
+		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(eNum.getCfgId());
+		if(exchangeEnum == null){
+			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityExchangeTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),exchangeEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);			
+		}
+		
+		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
+		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
+			if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
+				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
+					continue;
+				}
+				dataItem.getHistoryRedPoint().add(subitem.getCfgId());
+			}
+		}		
+		activityCountTypeItemHolder.updateItem(player, dataItem);
+	}
+
 }

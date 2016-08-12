@@ -18,7 +18,7 @@ public class DailyTimeCondition implements DailyStartCondition, DailyFinishCondi
 	private final int endHour;
 	private final int endMinute;
 
-	public DailyTimeCondition(String text) {
+	public DailyTimeCondition(String text){
 		// 把原来的代码拷过来
 		String[] timeArrayFinish = text.split("_");
 		this.startHour = Integer.parseInt(timeArrayFinish[0].split(":")[0]);

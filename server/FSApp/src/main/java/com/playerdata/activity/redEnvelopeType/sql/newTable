@@ -1,0 +1,11 @@
+CREATE TABLE `activity_redenvelope_item` (
+`id`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`userId`  varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`extention`  varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+PRIMARY KEY (`id`),
+INDEX `userId` USING BTREE (`extention`(255))
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+ROW_FORMAT=Compact
+;

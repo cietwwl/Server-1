@@ -44,7 +44,7 @@ class MSConditionJudger {
 		MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(chapterID));
 		int userLevel = player.getLevel();
 		if(userLevel < mcCfg.getLevelLimit()){
-			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeUserLevel, 角色等级[%s]没有达到章节[%s]要求[%s]", userLevel, chapterID, mcCfg.getLevelLimit()), null);
+			//GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeUserLevel, 角色等级[%s]没有达到章节[%s]要求[%s]", userLevel, chapterID, mcCfg.getLevelLimit()), null);
 			return false;
 		}
 		return true;

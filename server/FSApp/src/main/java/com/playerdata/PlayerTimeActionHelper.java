@@ -3,14 +3,19 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
@@ -94,6 +99,8 @@ public class PlayerTimeActionHelper {
 				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -207,6 +214,14 @@ public class PlayerTimeActionHelper {
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
+				//个人帮派副本数据重置
+				player.getUserGroupCopyRecordMgr().resetDataInNewDay();
+				player.getUserGroupAttributeDataMgr().resetAllotGroupRewardCount();
+			}
+		});
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
 				PeakArenaBM.getInstance().resetDataInNewDay(player);
 			}
 		});
@@ -232,6 +247,23 @@ public class PlayerTimeActionHelper {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				UserTeamBattleDataMgr.getInstance().dailyReset(player);
+			}
+		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				ActivityCountTypeMgr.getInstance().checkActivity(player);
+			}
+		});
+		
 
 		return onNewDay5ClockTimeAction;
 	}

@@ -18,6 +18,8 @@ public class DailyActivityCfg {
 	private int maxVip; // 最大vip等级
 	private String mapId;// 开启关卡
 	private int taskInitNum;// 任务初始化数量
+	
+	private int BICode;//对应的日志code
 
 	public int getTaskType() {
 		return taskType;
@@ -155,4 +157,9 @@ public class DailyActivityCfg {
 		this.taskInitNum = taskInitNum;
 	}
 
+	public int getBICode() {
+		return BICode;
+	}
+
+	
 }

@@ -138,8 +138,12 @@ public class UserGroupSecretBaseDataMgr {
 			userGroupSecretBaseData.setMatchTimes(matchTimes + 1);
 		}
 
-		userGroupSecretBaseData.setKeyCount(userGroupSecretBaseData.getKeyCount() + keyCount);
-		userGroupSecretBaseData.setReceiveKeyCount(userGroupSecretBaseData.getReceiveKeyCount() + keyCount);
+		int allKey = userGroupSecretBaseData.getKeyCount() + keyCount;
+		userGroupSecretBaseData.setKeyCount(allKey < 0 ? 0 : allKey);
+
+		if (keyCount > 0) {
+			userGroupSecretBaseData.setReceiveKeyCount(userGroupSecretBaseData.getReceiveKeyCount() + keyCount);
+		}
 		update(userId);
 
 		// 同步数据到前端

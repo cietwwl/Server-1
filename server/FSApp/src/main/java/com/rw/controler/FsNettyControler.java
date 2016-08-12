@@ -1,5 +1,6 @@
 package com.rw.controler;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Map;
@@ -108,8 +109,8 @@ public class FsNettyControler {
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
 
-	public void sendResponse(RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
-		sendResponse(null, header, resultContent, 200, ctx);
+	public ChannelFuture sendResponse(RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
+		return sendResponse(null, header, resultContent, 200, ctx);
 	}
 
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
@@ -133,9 +134,9 @@ public class FsNettyControler {
 	 * @param Cmd
 	 * @param pBuffer
 	 */
-	public void sendAyncResponse(String userId, ChannelHandlerContext ctx, Command Cmd, ByteString pBuffer) {
+	public ChannelFuture sendAyncResponse(String userId, ChannelHandlerContext ctx, Command Cmd, ByteString pBuffer) {
 		if (ctx == null) {
-			return;
+			return null;
 		}
 		Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
 		if (pBuffer != null) {
@@ -144,17 +145,17 @@ public class FsNettyControler {
 			builder.setSerializedContent(ByteString.EMPTY);
 		}
 		if (!GameUtil.checkMsgSize(builder, userId)) {
-			return;
+			return null;
 		}
 		Response response = builder.build();
-		ctx.channel().writeAndFlush(response);
+		return ctx.channel().writeAndFlush(response);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
+	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
 		if (!sendMsg && !saveMsg) {
-			return;
+			return null;
 		}
 		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
 		if (resultContent != null) {
@@ -164,14 +165,17 @@ public class FsNettyControler {
 		}
 		Response result = builder.build();
 		if (!GameUtil.checkMsgSize(result)) {
-			return;
+			return null;
 		}
 		if (saveMsg) {
 			addResponse(userId, result);
 		}
 		if (sendMsg) {
-			ctx.channel().writeAndFlush(result);
+			ChannelFuture future = ctx.channel().writeAndFlush(result);
 			GameLog.debug("##发送消息" + "  " + result.getHeader().getCommand().toString() + "  Size:" + result.getSerializedContent().size());
+			return future;
+		}else{
+			return null;
 		}
 	}
 

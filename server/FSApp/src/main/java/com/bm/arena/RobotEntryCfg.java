@@ -1,8 +1,13 @@
 package com.bm.arena;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
+
+import org.springframework.util.StringUtils;
 
 public class RobotEntryCfg {
 
@@ -38,6 +43,13 @@ public class RobotEntryCfg {
 	private final int[] heroThirdSkillLevel; // 佣兵第三个技能等级
 	private final int[] heroFourthSkillLevel;// 佣兵第四个技能等级
 	private final int[] heroFifthSkillLevel; // 佣兵第五个技能等级
+	// 增加的机器人数据
+	private final int[] fixEquipLevel;// 神器的等级
+	private final int[] fixEquipQuality;// 神器的品质
+	private final int[] fixEquipStar;// 神器的星数
+	private final List<int[]> taoistLevel;// 道术的等级
+	private final Map<String, int[]> heroFetters;// 羁绊属性的
+	private final int extraAttrId;// 额外的属性Id
 
 	public RobotEntryCfg(int ranking, RobotCfg cfg) {
 		this.ranking = ranking;
@@ -72,6 +84,48 @@ public class RobotEntryCfg {
 		this.heroThirdSkillLevel = parseIntArray(cfg.getHeroThirdSkillLevel()); // 佣兵第三个技能等级
 		this.heroFourthSkillLevel = parseIntArray(cfg.getHeroFourthSkillLevel());// 佣兵第四个技能等级
 		this.heroFifthSkillLevel = parseIntArray(cfg.getHeroFifthSkillLevel()); // 佣兵第五个技能等级
+		// 增加的机器人数据
+		this.fixEquipLevel = parseIntArray(cfg.getFixEquipLevel());
+		this.fixEquipQuality = parseIntArray(cfg.getFixEquipQuality());
+		this.fixEquipStar = parseIntArray(cfg.getFixEquipStar());
+		this.extraAttrId = cfg.getExtraAttrId();
+
+		// 道术
+		String taoistLevelStr = cfg.getTaoistLevel();
+		if (!StringUtils.isEmpty(taoistLevelStr)) {
+			String[] arr = taoistLevelStr.split(",");
+			int len = arr.length;
+
+			List<int[]> list = new ArrayList<int[]>(len);
+			for (int i = 0; i < len; i++) {
+				list.add(parseIntArray(arr[i]));
+			}
+
+			this.taoistLevel = Collections.unmodifiableList(list);
+		} else {
+			this.taoistLevel = Collections.EMPTY_LIST;
+		}
+
+		// 羁绊信息
+		String heroFettersStr = cfg.getHeroFetters();
+		if (!StringUtils.isEmpty(heroFettersStr)) {
+			String[] arr = heroFettersStr.split(";");
+			int len = arr.length;
+
+			Map<String, int[]> map = new HashMap<String, int[]>(len);
+			for (int i = 0; i < len; i++) {
+				String[] temp = arr[i].split(":");
+				if (temp.length < 2) {
+					continue;
+				}
+
+				map.put(temp[0], parseIntArray(temp[1]));
+			}
+
+			this.heroFetters = Collections.unmodifiableMap(map);
+		} else {
+			this.heroFetters = Collections.EMPTY_MAP;
+		}
 	}
 
 	private int[] parseIntArray(String text) {
@@ -212,14 +266,15 @@ public class RobotEntryCfg {
 	public int[] getHeroLevel() {
 		return heroLevel;
 	}
+
 	public List<Integer> getHeroLevel(int maxLevel) {
 		List<Integer> levelList = new ArrayList<Integer>();
 		for (int levelTmp : heroLevel) {
-			if(levelTmp <= maxLevel){
+			if (levelTmp <= maxLevel) {
 				levelList.add(levelTmp);
 			}
-		}		
-		
+		}
+
 		return levelList;
 	}
 
@@ -271,4 +326,27 @@ public class RobotEntryCfg {
 		return heroFifthSkillLevel;
 	}
 
+	public int[] getFixEquipLevel() {
+		return fixEquipLevel;
+	}
+
+	public int[] getFixEquipQuality() {
+		return fixEquipQuality;
+	}
+
+	public int[] getFixEquipStar() {
+		return fixEquipStar;
+	}
+
+	public List<int[]> getTaoistLevel() {
+		return taoistLevel;
+	}
+
+	public Map<String, int[]> getHeroFetters() {
+		return heroFetters;
+	}
+
+	public int getExtraAttrId() {
+		return extraAttrId;
+	}
 }

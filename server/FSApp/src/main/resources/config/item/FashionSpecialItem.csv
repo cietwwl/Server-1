@@ -1,0 +1,12 @@
+Key,Remarks,id,name,consumeType,quality,icon,atlas,enchantExp,stackNum,description,sellPrice,composeItemID,composeNeedNum,composeCostCoin,attrDesc,femaleIcon
+900001,,900001,恶魔翅膀,3,8,Equipment/fashion_600020,Icon,,1,这是邪恶力量的象征！,,,,,恶魔翅膀,Equipment/fashion_600020
+900002,,900002,斗星,3,8,Equipment/fasion_nanxizhuang,Icon,,1,改良水手服样式的套装，青春气息十足,,,,,斗星,Equipment/fasion_nvxizhuang
+900003,,900003,光辉礼服,3,8,Equipment/fashion_500030,Icon,,1,华丽的贵族礼服，高贵优雅,,,,,光辉礼服,Equipment/fashion_500031
+900004,,900004,熊猫仙,3,8,Equipment/fashion_501002,Icon,,1,为了修炼仙法一直背着卷轴的熊猫，小心会咬人,,,,,熊猫仙,Equipment/fashion_501002
+900005,,900005,魅影蝠袍,3,8,Equipment/fashion_500040,Icon,,1,传说中穿上可化身恶魔的礼服。,,,,,魅影蝠袍,Equipment/fashion_500041
+900006,,900006,海浪,3,8,Equipment/fashion_500050,Icon,,1,炎炎夏日，去海边拥抱浪花吧！,,,,,海浪,Equipment/fashion_500051
+900007,,900007,钢铁之翼,3,8,Equipment/fashion_600030,Icon,,1,由钢铁城特制的合金制成。,,,,,钢铁之翼,Equipment/fashion_600030
+900008,,900008,粉色之恋,3,8,Equipment/fashion_600040,Icon,,1,萌萌哒的粉红，妹子的最爱~,,,,,粉色之恋,Equipment/fashion_600040
+900009,,900009,小狐仙,3,8,Equipment/fashion_501001,Icon,,1,昆仑山上偷偷溜下来的小狐狸,,,,,小狐仙,Equipment/fashion_501001
+900010,,900010,幽蓝异梦,3,4,Equipment/fashion_600050,Icon,,1,据说是梦境中精灵留下的翅膀,,,,,幽蓝异梦,Equipment/fashion_600050
+900011,,900011,炽焰火翼,3,4,Equipment/fashion_600060,Icon,,1,经历了三味真火的洗礼！,,,,,炽焰火翼,Equipment/fashion_600060

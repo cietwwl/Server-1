@@ -15,6 +15,8 @@ import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.PlatformNoticeBaseDataResponse;
 import com.rw.service.http.platformResponse.WhiteListBaseDataResponse;
 import com.rw.service.platformService.PlatformService;
+import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
+import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteListDataHolder;
 
 public class GmWhiteListSwitch implements IGmTask{
 
@@ -38,6 +40,15 @@ public class GmWhiteListSwitch implements IGmTask{
 		for (String accountId : whiteList) {
 			accountList.add(accountId);
 		}
+		
+		for (String accountId : accountList) {
+			TablePlatformWhiteListDataHolder holder = new TablePlatformWhiteListDataHolder(accountId);
+			TablePlatformWhiteList tablePlatformWhiteList = holder.getTablePlatformWhiteList();
+			tablePlatformWhiteList.setAccountId(accountId);
+			tablePlatformWhiteList.setClose(blnClose);
+			holder.saveItem(tablePlatformWhiteList);
+		}
+		
 		whiteListBaseDataResponse.setAccountList(accountList);
 		whiteListBaseDataResponse.setProcess("close");
 		

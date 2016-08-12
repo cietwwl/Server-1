@@ -190,6 +190,7 @@ public class GroupSecretData {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public int getVersion() {
 		return version.get();
 	}

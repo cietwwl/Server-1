@@ -13,6 +13,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
@@ -28,6 +29,7 @@ import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
+import com.rwbase.dao.magicweapon.MagicExpCfgDAO;
 import com.rwproto.ItemBagProtos.BuyItemInfo;
 import com.rwproto.ItemBagProtos.ConsumeTypeDef;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
@@ -269,6 +271,11 @@ public class ItemBagHandler {
 		player.getItemBagMgr().useItemByCfgId(mateId, needCount);
 		player.getUserGameDataMgr().addCoin(-cfg.getCost());
 		player.getItemBagMgr().addItem(cfg.getId(), composeCount);
+
+		// 检查一下是不是宝石
+		if (ItemCfgHelper.getItemType(mateId) == EItemTypeDef.Gem) {
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
+		}
 
 		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		// response.setEventType(EItemBagEventType.ItemBag_Compose);
@@ -551,7 +558,8 @@ public class ItemBagHandler {
 
 		do {// do-while-break 模拟goto
 			final ItemBagMgr bagMgr = player.getItemBagMgr();
-			final ItemData item = bagMgr.findBySlotId(useItemInfo.getDbId());
+			String dbId = useItemInfo.getDbId();
+			final ItemData item = bagMgr.findBySlotId(dbId);
 			if (item == null) {
 				response.setRspInfo(fillResponseInfo(false, "找不到物品！"));
 				break;
@@ -603,6 +611,11 @@ public class ItemBagHandler {
 			}
 
 			if (itemType == EItemTypeDef.Magic) {
+				if ("1".equals(item.getExtendAttr(EItemAttributeType.Magic_State_VALUE))) {
+					response.setRspInfo(fillResponseInfo(false, "装备身上的法宝不能分解！"));
+					break;
+				}
+
 				final MagicCfg cfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelIdStr);
 				if (cfg == null) {
 					response.setRspInfo(fillResponseInfo(false, "找不到法宝配置！"));
@@ -620,6 +633,28 @@ public class ItemBagHandler {
 				} catch (Exception ex) {
 					response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
 					break;
+				}
+
+				String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
+				int lvl = -1;
+				try {
+					lvl = Integer.parseInt(lvlStr);
+					if (lvl < 0) {
+						// 无法获取法宝等级！
+						break;
+					}
+				} catch (Exception ex) {
+					// 无法获取法宝等级！
+					break;
+				}
+
+				if (lvl > 1) {
+					final Pair<Integer, Integer> lvlCurPair = MagicExpCfgDAO.getInstance().getExpLst(lvl - 1);
+					if (lvlCurPair == null) {
+						// 无法获取法宝等级对应的满经验值！
+						break;
+					}
+					totalExp = totalExp + lvlCurPair.getT2();
 				}
 
 				final float coeff = cfg.getCoefficient();
@@ -645,7 +680,7 @@ public class ItemBagHandler {
 				final int useCount = 1;
 
 				// 移除物品
-				if (!bagMgr.useItemByCfgId(modelId, useCount)) {
+				if (!bagMgr.useItemBySlotId(dbId, useCount)) {
 					response.setRspInfo(fillResponseInfo(false, "无法使用法宝！"));
 					GameLog.error("背包", "法宝", "使用法宝失败！");
 					break;
@@ -667,6 +702,10 @@ public class ItemBagHandler {
 				}
 
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
+
+				// 法宝分解通知法宝神器羁绊模块
+				player.getMe_FetterMgr().notifyMagicChange(player);
+
 				break;
 			}
 

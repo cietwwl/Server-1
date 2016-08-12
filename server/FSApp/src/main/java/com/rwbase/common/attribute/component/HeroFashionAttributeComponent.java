@@ -3,6 +3,8 @@ package com.rwbase.common.attribute.component;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.bm.arena.ArenaRobotDataMgr;
+import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.common.attribute.AttributeComponentEnum;
@@ -23,8 +25,17 @@ public class HeroFashionAttributeComponent extends AbstractAttributeCalc {
 			return null;
 		}
 
-		Map<Integer, AttributeItem> attributeMap = player.getFashionMgr().getAttributeMap();
-		if (attributeMap.isEmpty()) {
+		Map<Integer, AttributeItem> attributeMap = null;
+		if (!player.isRobot()) {
+			attributeMap = player.getFashionMgr().getAttributeMap();
+		} else {
+			int[] fashionIdArr = ArenaRobotDataMgr.getMgr().getFashionIdArr(player.getUserId());
+			if (fashionIdArr != null) {
+				attributeMap = FashionMgr.getAttrMap(fashionIdArr, player.getCareer(), 0);
+			}
+		}
+
+		if (attributeMap == null || attributeMap.isEmpty()) {
 			// GameLog.error("计算英雄时装属性", player.getUserId(), "时装模块计算出来的属性是空的");
 			return null;
 		}

@@ -33,6 +33,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 		List<CopyInfoCfg> cfgList = CopyInfoCfgDAO.getInstance().getAllCfg();
 		// 角色第一次初始化
 		List<CopyData> copyList = pTableCopyData.getCopyList();
+		boolean save = false;
 		for (CopyInfoCfgIF cfg : cfgList) {
 			// 调整bAdd位置
 			boolean bAdd = true;
@@ -50,9 +51,12 @@ public class CopyDataMgr implements CopyDataMgrIF {
 				data.setInfoId(cfg.getId());
 				data.setPassMap(getCelestialDegreeMap());
 				copyList.add(data);
+				save = true;
 			}
 		}
-		this.save();
+		if (save) {
+			this.save();
+		}
 	}
 
 	public boolean save() {
@@ -121,8 +125,10 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	}
 
 	/*
-	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList = pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy
-	 * : copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } } return data; }
+	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList =
+	 * pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy :
+	 * copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } }
+	 * return data; }
 	 */
 
 	private CopyData getByInfoWithId(int infoId) {

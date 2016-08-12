@@ -7,6 +7,7 @@ package com.rwbase.dao.groupsecret.pojo.cfg;
  */
 public class GroupSecretResourceCfg {
 	private int id;// 秘境的Id
+	private String name;// 秘境的名字
 	private int resType;// 秘境的类型
 	private int needTime;// 产出需要的时间（分钟）
 	private int reward;// 奖励的物品Id
@@ -55,5 +56,9 @@ public class GroupSecretResourceCfg {
 
 	public int getLevelGroupId() {
 		return levelGroupId;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

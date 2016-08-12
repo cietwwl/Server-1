@@ -73,6 +73,38 @@ public class ComGiftMgr {
 		return isadd;
 	}
 	
+	/**
+	 * 传入id_number_day,id_number_day格式的奖励
+	 * @param player
+	 * @param tagInfo
+	 * @param emailid
+	 * @param mark
+	 * @return
+	 */
+	public boolean addtagoffathionInfoTOEmail(Player player, String tagInfo  ,String emailid ,String mark){
+		boolean isadd = false;			
+		StringBuffer newTmp  = new StringBuffer();
+		String[] tmpstr = tagInfo.split(",");
+		int length = tmpstr.length;
+		for(String str : tmpstr){
+			String[] tmpStrPing = str.split("_");
+			StringBuffer newTmpSingel = new StringBuffer();
+//			if(StringUtils.equals("900006", tmpStrPing[0])&&player.getUserGameDataMgr().){
+//				
+//			}
+			newTmpSingel.append(tmpStrPing[0]).append(tmpStrPing[2]).append("_").append(tmpStrPing[1]);
+			newTmp.append(newTmpSingel.toString());
+			length--;
+			if(length>0){
+				newTmp.append(",");
+			}			
+		}
+		
+		String sb = makeTagInfoToMailStr(newTmp.toString());			
+		isadd = addRewardToEmail(player,sb,emailid,mark);
+		return isadd;
+	}
+	
 	
 	private boolean addRewardToEmail(Player player,String rewardStr,String emailid ,String mark){
 		boolean isadd = false;

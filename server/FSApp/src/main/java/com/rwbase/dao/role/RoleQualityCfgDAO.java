@@ -59,8 +59,8 @@ public class RoleQualityCfgDAO extends CfgCsvDao<RoleQualityCfg> {
 		return null;
 	}
 
-	public List<Integer> getEquipList(String id) {
-		List<Integer> list = new ArrayList<Integer>(6);
+	public ArrayList<Integer> getEquipList(String id) {
+		ArrayList<Integer> list = new ArrayList<Integer>(6);
 		RoleQualityCfg cfg = getConfig(id);
 		if (cfg == null) {
 			return list;
@@ -80,7 +80,7 @@ public class RoleQualityCfgDAO extends CfgCsvDao<RoleQualityCfg> {
 	 * @param excludePositions 排除位置列表
 	 * @return
 	 */
-	public List<Integer> getEquipList(String id,int[] excludePositions) {
+	public ArrayList<Integer> getEquipList(String id,int[] excludePositions) {
 		if (excludePositions == null || excludePositions.length <=0)
 			return getEquipList(id);
 		

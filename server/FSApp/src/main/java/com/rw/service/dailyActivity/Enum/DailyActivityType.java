@@ -99,7 +99,60 @@ public class DailyActivityType
 	public static final   int VIPMONTHCARD = 22;
 	
 	
+	//-------------------------------新增日常任务类型---by Alex--------------------------------------------//
 	
+	/**
+	 * 帮派捐献 
+	 */
+	public static final int GROUP_DONATE = 23;
+	/**
+	 * 宝石合成
+	 */
+	public static final int JEWEREY_COMPOSE = 24;
+			
+	/**
+	 * 挑战封神台 
+	 */
+	public static final int CHALLEGE_BATTLETOWER = 25;
 	
+	/**
+	 * 法宝强化 
+	 */
+	public static final int MAGIC_STRENGTH = 26;
+	
+	/**
+	 * 赠送好友体力 
+	 */
+	public static final int DONATE_FRIEND_POWER = 27;
+	
+	/**
+	 * 神器强化
+	 */
+	public static final int FIXEQUIP_STRENGTH = 28;
+	
+	/**
+	 * 神器进化 
+	 */
+	public static final int FIXEQUIP_UPGRADE = 29;
+	
+	/**
+	 * 道术修炼 
+	 */
+	public static final int TAOIST_STRENGTH = 30;
+	
+	/**
+	 * 帮派秘境探索 
+	 */
+	public static final int GROUPSECRET_EXPLORE = 31;
+	
+	/**
+	 * 帮派秘境掠夺 
+	 */
+	public static final int GROUPSERCET_BATTLE = 32;
+	
+	/**
+	 * 巅峰竞技场战斗
+	 */
+	public static final int PEAKARENA_BATTLE = 33;
 	
 }

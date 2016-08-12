@@ -3,6 +3,7 @@ package com.rwbase.dao.hero.pojo;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /**
@@ -20,6 +21,7 @@ public class RoleBaseInfo implements RoleBaseInfoIF{
 	private String id;    //英雄uuid
 	
 	private int careerType;//职业
+	@IgnoreEncodeField
 	private String templateId;//英雄模板Id，佣兵属性配置id
 	private int modeId;//英雄模型Id
 	private int level;//等级

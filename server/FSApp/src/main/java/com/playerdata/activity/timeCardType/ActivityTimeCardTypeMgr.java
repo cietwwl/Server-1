@@ -41,15 +41,15 @@ public class ActivityTimeCardTypeMgr {
 		long logintime = dataItem.getActivityLoginTime();
 		int dayDistance = DateUtils.getDayDistance(logintime,
 				System.currentTimeMillis());
+		dataItem.setActivityLoginTime(System.currentTimeMillis());
 		if (dayDistance > 0) {
 			for (ActivityTimeCardTypeSubItem sub : monthCardList) {
 				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub
 						.getDayLeft() - dayDistance) : 0;
 				sub.setDayLeft(dayless);
-			}
-		}
-		dataItem.setActivityLoginTime(System.currentTimeMillis());
-		activityTimecardHolder.updateItem(player, dataItem);
+			}			
+			activityTimecardHolder.updateItem(player, dataItem);			
+		}		
 	}
 
 	private void checkNewOpen(Player player) {

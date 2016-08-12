@@ -32,6 +32,10 @@ public class DateUtils {
 		return getCurrent().get(Calendar.HOUR_OF_DAY);
 	}
 
+	public static int getCurMinuteOfHour(){
+		return getCurrent().get(Calendar.MINUTE);
+	}
+	
 	private static final long DAY_MILLIS = TimeUnit.DAYS.toMillis(1);// 1天的毫秒数
 
 	public static String getDateStr(Date date) {
@@ -95,12 +99,31 @@ public class DateUtils {
 	public static SimpleDateFormat getDateFormat() {
 		return new SimpleDateFormat("yyyy-MM-dd");
 	}
-
+	
+	/**玩家的5点刷新方法;从player类移过来0.0发现左了无用功*/
+	public static boolean isNewDayHour(int hour,long lastResetTime){
+		return getCurrentHour() >= hour && dayChanged(lastResetTime);
+	}
+	
+	/**传入时间，返回小时，问下同事是否有重复的*/
+	public static int getinHour(long lastTime){
+		Calendar calendar = getCalendar();
+		calendar.setTimeInMillis(lastTime);
+		int tmp = calendar.get(Calendar.HOUR_OF_DAY);
+		return tmp;		
+	}
+	
+	
+	
+	
+	
 	public static boolean dayChanged(long timeStmp) {
 		Calendar currentDay = getCalendar(timeStmp);
+		long now = System.currentTimeMillis();
+		int change= (int)(now - timeStmp);
 		return dayChanged(currentDay);
 	}
-
+	
 	public static boolean dayChanged(Calendar dayFlag) {
 		Calendar currentDay = Calendar.getInstance();
 		int year = currentDay.get(Calendar.YEAR);
@@ -119,6 +142,27 @@ public class DateUtils {
 		return false;
 	}
 
+	
+	
+	/**以5点为界限，距离开始时间的间隔天数；需靠考虑策划填表习惯*/
+	public static int getDayLimitHour(int hour,long earlyTime){
+		if(getinHour(earlyTime)<hour){
+			if(getCurrentHour() >= hour){
+				return getDayDistance(earlyTime, System.currentTimeMillis())+1;
+			}else{
+				int tmp = getDayDistance(earlyTime, System.currentTimeMillis());
+				return tmp < 0? 0:tmp;
+			}
+		}else{
+			if(getCurrentHour() >= hour){
+				return getDayDistance(earlyTime, System.currentTimeMillis());
+			}else{
+				int tmp = getDayDistance(earlyTime, System.currentTimeMillis()) -1;
+				return tmp < 0? 0:tmp;
+			}
+		}		
+	}
+	
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
 		return isTheSameDayOfWeekAndHour(dayOfWeek, 0);
 	}
@@ -243,19 +287,13 @@ public class DateUtils {
 	}
 
 	/**
-	 * 相隔的天数
+	 * 相隔的天数,因为都设置为了0的时分秒，所以是相对意义上的
 	 * 
 	 * @param earyDay
 	 * @param lateDay
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
-		int distance =(int) (getHourDistance(earyDay, lateDay)/24);
-		
-		return distance;
-	}
-	
-	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
 		Calendar c2 = Calendar.getInstance();
@@ -263,6 +301,42 @@ public class DateUtils {
 
 		setDayZeroTime(c1);
 		setDayZeroTime(c2);
+
+		long timeInMillis = c1.getTimeInMillis();
+		long timeInMillis2 = c2.getTimeInMillis();
+
+		long distanceTime = Math.abs(timeInMillis2 - timeInMillis);
+		int distance = (int) (distanceTime / (24* 60 * 60 * 1000));		
+		return distance;
+	}
+	
+	
+//	/**相对意义上的间隔日期*/
+//	public static int getRelativelyDayDistance(long earlyTime , long lateTime){
+//		Calendar earlyDay = getCalendar(earlyTime);
+//		Calendar lateDay = getCalendar(lateTime);
+//		
+//		int dayOfearly = earlyDay.get(Calendar.DAY_OF_YEAR);
+//		int dayOflate = lateDay.get(Calendar.DAY_OF_YEAR);
+//		
+//		return dayOflate - dayOfearly;
+//	}
+	
+	
+	/**
+	 * 相隔的绝对小时数
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
+	public static int getAbsoluteHourDistance(long earyDay, long lateDay) {
+		Calendar c1 = Calendar.getInstance();
+		c1.setTimeInMillis(earyDay);
+		Calendar c2 = Calendar.getInstance();
+		c2.setTimeInMillis(lateDay);
+
+		
 
 		long timeInMillis = c1.getTimeInMillis();
 		long timeInMillis2 = c2.getTimeInMillis();
@@ -329,6 +403,18 @@ public class DateUtils {
 		setDayZeroTime(c);
 		return c.getTimeInMillis();
 	}
+	
+	/**
+	 * 获取时间的0点
+	 * @param time
+	 * @return
+	 */
+	public static Calendar getDayZeroCalendar(long time){
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(time);
+		setDayZeroTime(c);
+		return c;
+	}
 
 	/***
 	 * 获取时间指定格式字符串
@@ -343,6 +429,37 @@ public class DateUtils {
 		instance.setTimeInMillis(time);
 		return simpleDateFormat.format(instance.getTime());
 	}
+	
+	/**
+	 * 判断两个时间是否在同一天
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	public static boolean isSameDay(long time1, long time2){
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTimeInMillis(time1);
+		c2.setTimeInMillis(time2);
+		int year1 = c1.get(Calendar.YEAR);
+		int year2 = c2.get(Calendar.YEAR);
+		int day1 = c1.get(Calendar.DAY_OF_YEAR);
+		int day2 = c2.get(Calendar.DAY_OF_YEAR);
+		if(year1 != year2){
+			return false;
+		}
+		if(day1 != day2){
+			return false;
+		}
+		return true;
+	}
+	
+	public static String timeToCountDown(long time) {
+		int hour = (int) (time / (60 * 60 * 1000));
+		int minute = (int) ((time - hour * 60 * 60 * 1000) / (60 * 1000));
+		int second = (int) ((time - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000);
+		return hour + ":" + minute + ":" + second;
+	}
 
 	public static void main(String[] args) throws ParseException {
 		// System.out.println(new Date(getHour(System.currentTimeMillis(),
@@ -353,5 +470,6 @@ public class DateUtils {
 		// long time = sdf.parse("2015-12-11 4:00:01").getTime();
 		//
 		// System.err.println(isResetTime(5, 0, 0, time));
+		
 	}
 }
