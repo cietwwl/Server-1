@@ -70,6 +70,9 @@ public class GroupCopyMgr {
 	 */
 	public GroupCopyMapRecord getRandomOpenChater(Client client){
 		List<GroupCopyMapRecord> list = getAllOnGoingChaters(client);
+		if(list.isEmpty()){
+			return null;
+		}
 		int size = list.size();
 		int index = RandomUtil.getRandonIndexWithoutProb(size);
 		return list.get(index);

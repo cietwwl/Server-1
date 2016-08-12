@@ -22,6 +22,7 @@ public class ClassInfo {
 		clazz = clazzP;
 		Field[] fields = clazzP.getDeclaredFields();
 		for (Field fieldTmp : fields) {
+			fieldTmp.setAccessible(true);
 			clientFiledList.add(new FieldInfo(fieldTmp));
 		}
 		

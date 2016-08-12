@@ -276,7 +276,7 @@ public class GroupCopyHandler {
 			
 			GroupCopyMonsterData.Builder gmd = GroupCopyMonsterData.newBuilder();
 			for (GroupCopyMonsterSynStruct m : m_Data) {
-				String clientData = JsonUtil.writeValue(m);
+				String clientData = DataSynHelper.ToJson(m);
 				gmd.addMonsterData(clientData);
 			}
 			
