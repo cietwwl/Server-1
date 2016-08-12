@@ -29,8 +29,8 @@ public class UserEventStrengthenMagicVitalityHandler implements IUserEventHandle
 			public void doAction(Player player, Object params) {
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.StrengthenMagicVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
-				if(subCfg!=null&&isLevelEnough){
+				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
+				if(subCfg!=null&&isLevelEnoughAndOpen){
 					ActivityVitalityItemHolder activityVitalityItemHolder = ActivityVitalityItemHolder.getInstance();
 					ActivityVitalityTypeItem activityVitalityTypeItem = activityVitalityItemHolder.getItem(player.getUserId(), ActivityVitalityTypeEnum.Vitality);
 					ActivityVitalityTypeSubItem activityVitalityTypeSubItem = activityVitalityTypeItem.getByType(subCfg.getType());
@@ -38,8 +38,7 @@ public class UserEventStrengthenMagicVitalityHandler implements IUserEventHandle
 					if(activityVitalityTypeSubItem.getCount() > 0){
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.StrengthenMagicVitality,subCfg, add);
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.Vitality,subCfg, add);
 					}
 				}
 			@Override

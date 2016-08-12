@@ -35,7 +35,7 @@ public class UserEventWarfareDifficultyTwoVitalityTwoHandler implements IUserEve
 			public void doAction(Player player, Object params) {
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.VitalityTwo,ActivityVitalityTypeEnum.WarfareDifficultyTwoVitalityTwo.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
+				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
 				int[] ints = (int[])params;
 				if(ints == null){
 					return;
@@ -46,7 +46,7 @@ public class UserEventWarfareDifficultyTwoVitalityTwoHandler implements IUserEve
 				if(ints[0] != levelId){
 					return;
 				}
-				if(subCfg!=null&&isLevelEnough){		
+				if(subCfg!=null&&isLevelEnoughAndOpen){		
 					ActivityVitalityItemHolder activityVitalityItemHolder = ActivityVitalityItemHolder.getInstance();
 					ActivityVitalityTypeItem activityVitalityTypeItem = activityVitalityItemHolder.getItem(player.getUserId(), ActivityVitalityTypeEnum.VitalityTwo);
 					ActivityVitalityTypeSubItem activityVitalityTypeSubItem = activityVitalityTypeItem.getByType(subCfg.getType());
@@ -54,8 +54,7 @@ public class UserEventWarfareDifficultyTwoVitalityTwoHandler implements IUserEve
 					if(activityVitalityTypeSubItem.getCount() > 0){
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
-					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitalityTwo,subCfg, add);
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.VitalityTwo,subCfg, add);
 					}
 				}
 			@Override

@@ -193,41 +193,42 @@ public class ActivityCollector implements RedPointCollector{
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
-			if (!ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
-				if(!activityVitalityTypeItem.isTouchRedPoint()){
-					activityList.add(activityVitalityTypeItem.getId());
+			if (ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
+				continue;				
+			}
+			if(!activityVitalityTypeItem.isTouchRedPoint()){
+				activityList.add(activityVitalityTypeItem.getId());
+				continue;
+			}
+			
+			List<ActivityVitalityTypeSubItem> vitalitySubItemList = activityVitalityTypeItem.getSubItemList();
+			for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+				if (subItemCfg == null) {
 					continue;
 				}
-				
-				List<ActivityVitalityTypeSubItem> vitalitySubItemList = activityVitalityTypeItem.getSubItemList();
-				for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
-					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if (subItemCfg == null) {
-						continue;
-					}
-					if (subItem.getCount() >= subItemCfg.getCount()
-							&& !subItem.isTaken()) {
-						activityList.add(activityVitalityTypeItem.getId());
-						break;
-					}
+				if (subItem.getCount() >= subItemCfg.getCount()
+						&& !subItem.isTaken()) {
+					activityList.add(activityVitalityTypeItem.getId());
+					break;
 				}
-				ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);
-				List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
-				for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
-					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if(cfg.isCanGetReward()){
-						break;
-					}					
-					if (subItemCfg == null) {
-						continue;
-					}
-					if (subItem.getCount() >= subItemCfg.getActiveCount()&& !subItem.isTaken()) {
-						activityList.add(activityVitalityTypeItem.getCfgId());
-						break;
-					}
-				}
-				
 			}
+			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+			List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
+			for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+				if(cfg.isCanGetReward()){
+					break;
+				}					
+				if (subItemCfg == null) {
+					continue;
+				}
+				if (subItem.getCount() >= subItemCfg.getActiveCount()&& !subItem.isTaken()) {
+					activityList.add(activityVitalityTypeItem.getCfgId());
+					break;
+				}
+			}
+			
 		}
 
 		//------------------------------

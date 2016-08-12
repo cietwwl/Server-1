@@ -12,9 +12,18 @@ import java.util.Map;
 
 
 
+
+
+
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -69,29 +78,29 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		return cfg;
 	}
 	
-	public ActivityRedEnvelopeTypeItem newItem(Player player, ActivityRedEnvelopeTypeEnum typeEnum){
-		
-		String cfgId = typeEnum.getCfgId();
-		ActivityRedEnvelopeTypeCfg cfgById = getCfgById(cfgId );
+	public ActivityRedEnvelopeTypeItem newItem(Player player, ActivityRedEnvelopeTypeCfg cfgById){
 		if(cfgById!=null){
 			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
-			item.setCfgId(cfgId);
+			item.setCfgId(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
 			item.setLastTime(System.currentTimeMillis());
 			int day = ActivityTypeHelper.getDayBy5Am(cfgById.getStartTime());
 			item.setDay(day);
-			item.setSubItemList(ActivityRedEnvelopeTypeCfgDAO.getInstance().getSubList());
+			item.setSubItemList(ActivityRedEnvelopeTypeCfgDAO.getInstance().getSubList(cfgById));
 			return item;
 		}else{
 			return null;
 		}
 	}
 
-	public List<ActivityRedEnvelopeTypeSubItem> getSubList() {
+	public List<ActivityRedEnvelopeTypeSubItem> getSubList(ActivityRedEnvelopeTypeCfg cfg) {
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
 		for(ActivityRedEnvelopeTypeSubCfg subCfg : ActivityRedEnvelopeTypeSubCfgDAO.getInstance().getAllCfg()){
+			if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
+				continue;
+			}
 			ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
 			subItem.setCfgId(subCfg.getId());
 			subItem.setDay(subCfg.getDay());	
@@ -102,6 +111,23 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		return subItemList;
 	}
 
-	
+	public ActivityRedEnvelopeTypeCfg getCfgByItemOfVersion(ActivityRedEnvelopeTypeItem item){
+		List<ActivityRedEnvelopeTypeCfg> allCfg = getAllCfg();
+		List<ActivityRedEnvelopeTypeCfg> cfgOfOpen = new ArrayList<ActivityRedEnvelopeTypeCfg>();
+		for(ActivityRedEnvelopeTypeCfg cfg : allCfg){
+			if(!StringUtils.equals(item.getCfgId(), cfg.getId())&&ActivityRedEnvelopeTypeMgr.getInstance().isOpen(cfg)){
+				cfgOfOpen.add(cfg);
+			}			
+		}
+		if(cfgOfOpen.size() > 1){
+			GameLog.error(LogModule.ComActivityRedEnvelope, null, "多个同时激活的cfg",null);
+			return null;
+		}else if(cfgOfOpen.size() == 1){
+			return cfgOfOpen.get(0);
+					
+		}
+		
+		return null;
+	}
 
 }
