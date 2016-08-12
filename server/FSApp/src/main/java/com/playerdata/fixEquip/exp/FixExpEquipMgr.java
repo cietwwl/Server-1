@@ -252,7 +252,7 @@ public class FixExpEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixExpEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())) {
+		if (isOpen(player, dataItem)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在");
@@ -278,6 +278,26 @@ public class FixExpEquipMgr {
 		}
 		return consumeType;
 	}
+	
+	public boolean isOpen(Player player, FixExpEquipDataItem dataItem){
+		boolean isOpen = false;
+		
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())){
+			
+			eConsumeTypeDef consumeType = getConsumeType(dataItem);
+			
+			if(consumeType == eConsumeTypeDef.Exp4FixEquip_4){
+				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_4,player.getLevel());
+			}else if(consumeType == eConsumeTypeDef.Exp4FixEquip_5){
+				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_5,player.getLevel());			
+			}
+		}
+		
+		
+		
+		return isOpen;
+	}
+
 
 	private FixEquipResult doLevelUp(Player player, FixExpEquipDataItem dataItem, ExpLevelUpReqParams reqParams) {
 
@@ -294,7 +314,8 @@ public class FixExpEquipMgr {
 			int totalExp = selectItems2Exp(consumeType, selectItemList);
 			int nextQualityNeedExp = getNextQualityNeedExp(dataItem);
 			int curExp = dataItem.getExp();
-			totalExp = totalExp+curExp < nextQualityNeedExp?totalExp:(nextQualityNeedExp-curExp);
+			int upExp = totalExp+curExp < nextQualityNeedExp?totalExp:(nextQualityNeedExp-curExp);
+			int leftExp = totalExp - upExp;
 
 			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int totalCost = totalExp * equipCfg.getCostPerExp();
@@ -316,7 +337,8 @@ public class FixExpEquipMgr {
 			}
 
 			if (result.isSuccess()) {
-				iterateLevelUp(dataItem, totalExp);
+				iterateLevelUp(dataItem, upExp);
+				dataItem.setStoredExp(leftExp);
 				fixExpEquipDataItemHolder.updateItem(player, dataItem);
 			}
 		}
@@ -339,6 +361,7 @@ public class FixExpEquipMgr {
 		return expNeed;
 	}
 
+	
 	private void iterateLevelUp(FixExpEquipDataItem dataItem, int totalExp) {
 
 		int curLevel = dataItem.getLevel();
@@ -443,11 +466,19 @@ public class FixExpEquipMgr {
 
 		if (result.isSuccess()) {
 			dataItem.setQuality(curQuality + 1);
+			doStoredExpLevelUP(dataItem);
 			fixExpEquipDataItemHolder.updateItem(player, dataItem);
 		}
 
 		return result;
 
+	}
+
+	private void doStoredExpLevelUP(FixExpEquipDataItem dataItem){
+		int storedExp = dataItem.getStoredExp();
+		if(storedExp > 0 ){
+			iterateLevelUp( dataItem, storedExp );
+		}
 	}
 
 	public FixEquipResult starUp(Player player, String ownerId, String itemId) {

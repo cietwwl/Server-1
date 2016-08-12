@@ -43,6 +43,8 @@ public enum eOpenLevelType {
 	USE_EXP_ITEM(44), // 使用经验丹
 	FIX_EQUIP(53), // 神装
 	FIX_EQUIP_STAR(54), // 神装觉醒
+	FIX_Exp_EQUIP_4(55), // 左下神装开放等级
+	FIX_Exp_EQUIP_5(56), // 右下神装开放等级
 	;
 
 	private int order;
