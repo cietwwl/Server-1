@@ -31,6 +31,6 @@ public class ActivityDailyRechargeTypeService implements FsService {
 		} catch (Exception e) {
 			GameLog.error(LogModule.ComActivityDailyRecharge, player.getUserId(), "出现了Exception异常", e);
 		}
-		return byteString;	
+		return byteString;
 	}
 }

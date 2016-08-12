@@ -19,9 +19,9 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class ActivityDailyRechargeTypeItem implements  IMapItem {
 
 	@Id
-	private String id;		//cfgId_version_userId
+	private String id;		//cfgId_userId
 	
-	private String userId;// 对应的角色Id
+	private String userId;	//对应的角色Id
 	
 	@CombineSave
 	private String cfgId;	//活动的id

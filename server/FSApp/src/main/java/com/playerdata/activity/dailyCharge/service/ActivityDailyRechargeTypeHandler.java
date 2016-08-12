@@ -3,10 +3,9 @@ package com.playerdata.activity.dailyCharge.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfg;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.rwproto.ActivityDailyRechargeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityDailyRechargeProto.ActivityCommonRspMsg;
 
@@ -27,12 +26,9 @@ public class ActivityDailyRechargeTypeHandler {
 		boolean success = false;
 		String tips = "没找到对应的活动";
 		if(cfg!=null){
-			ActivityExChangeTypeEnum countType = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
-			if(countType != null){
-				ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, countType, subItemId);
-				success = result.isSuccess();
-				tips = result.getReason()+"";
-			}
+			ActivityComResult result = ActivityDailyRechargeTypeMgr.getInstance().takeGift(player, activityId, subItemId);
+			success = result.isSuccess();
+			tips = result.getReason();
 		}
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);

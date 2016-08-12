@@ -21,6 +21,14 @@ public final class ActivityDailyRechargeProto {
      * </pre>
      */
     TAKE_GIFT(0, 1),
+    /**
+     * <code>SET_VIEW_STATE = 2;</code>
+     *
+     * <pre>
+     *去掉未查看的红点
+     * </pre>
+     */
+    SET_VIEW_STATE(1, 2),
     ;
 
     /**
@@ -31,6 +39,14 @@ public final class ActivityDailyRechargeProto {
      * </pre>
      */
     public static final int TAKE_GIFT_VALUE = 1;
+    /**
+     * <code>SET_VIEW_STATE = 2;</code>
+     *
+     * <pre>
+     *去掉未查看的红点
+     * </pre>
+     */
+    public static final int SET_VIEW_STATE_VALUE = 2;
 
 
     public final int getNumber() { return value; }
@@ -38,6 +54,7 @@ public final class ActivityDailyRechargeProto {
     public static RequestType valueOf(int value) {
       switch (value) {
         case 1: return TAKE_GIFT;
+        case 2: return SET_VIEW_STATE;
         default: return null;
       }
     }
@@ -1738,8 +1755,9 @@ public final class ActivityDailyRechargeProto {
       "Id\030\003 \001(\t\"n\n\024ActivityCommonRspMsg\0223\n\007reqT" +
       "ype\030\001 \002(\0162\".activityDailyRecharge.Reques" +
       "tType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t" +
-      "*\034\n\013RequestType\022\r\n\tTAKE_GIFT\020\001B)\n\013com.rw" +
-      "protoB\032ActivityDailyRechargeProto"
+      "*0\n\013RequestType\022\r\n\tTAKE_GIFT\020\001\022\022\n\016SET_VI" +
+      "EW_STATE\020\002B)\n\013com.rwprotoB\032ActivityDaily" +
+      "RechargeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

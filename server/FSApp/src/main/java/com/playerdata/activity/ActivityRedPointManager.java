@@ -7,6 +7,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -63,7 +64,9 @@ public class ActivityRedPointManager {
 			ActivityRankTypeMgr.getInstance().updateRedPoint(player, str);
 		} else if (tmp < 90000 && tmp > 80000) {
 			ActivityDailyDiscountTypeMgr.getInstance().updateRedPoint(player,str);
-		}else{
+		} else if (tmp < 12000 && tmp > 11000) {
+			ActivityDailyRechargeTypeMgr.getInstance().updateRedPoint(player, str);
+		} else{
 			GameLog.error(LogModule.RedPoint, player.getUserId(), "传来的id异常"+str, null);
 			return issucce;
 		}

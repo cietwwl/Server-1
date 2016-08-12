@@ -1,9 +1,9 @@
 package com.playerdata.activity.dailyCharge;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfg;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
@@ -14,7 +14,7 @@ import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
  */
 public class ActivityDetector {
 	
-	private Map<Integer, Integer> activityMap = new HashMap<Integer, Integer>();
+	private Map<String, ActivityDailyChargeCfg> activityMap = new ConcurrentHashMap<String, ActivityDailyChargeCfg>();
 	
 	private static ActivityDetector instance = new ActivityDetector();
 	
@@ -23,7 +23,7 @@ public class ActivityDetector {
 	}
 	
 	public void detectActive(){
-		Map<Integer, Integer> currentMap = new HashMap<Integer, Integer>();
+		Map<String, ActivityDailyChargeCfg> currentMap = new ConcurrentHashMap<String, ActivityDailyChargeCfg>();
 		List<ActivityDailyChargeCfg> chargeCfgs = ActivityDailyChargeCfgDAO.getInstance().getAllCfg();
 		if(null == chargeCfgs || chargeCfgs.isEmpty()) {
 			activityMap = currentMap;
@@ -31,14 +31,18 @@ public class ActivityDetector {
 		}
 		for(ActivityDailyChargeCfg cfg : chargeCfgs){
 			if(isActive(cfg)){
-				currentMap.put(cfg.getId(), cfg.getId());
+				currentMap.put(String.valueOf(cfg.getId()), cfg);
 			}
 		}
 		activityMap = currentMap;
  	}
 	
-	public ArrayList<Integer> getCurrentActivity(){
-		return new ArrayList<Integer>(activityMap.values());
+	public List<ActivityDailyChargeCfg> getAllDailyActivity(){
+		return new ArrayList<ActivityDailyChargeCfg>(activityMap.values());
+	}
+	
+	public boolean containsActivity(String cfgId){
+		return activityMap.containsKey(cfgId);
 	}
 	
 	/**
@@ -46,7 +50,7 @@ public class ActivityDetector {
 	 * @param cfg
 	 * @return
 	 */
-	private boolean isActive(ActivityDailyChargeCfg cfg){
+	public boolean isActive(ActivityDailyChargeCfg cfg){
 		if (null != cfg) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
@@ -54,5 +58,13 @@ public class ActivityDetector {
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
+	}
+	
+	/**
+	 * 获取活动当前第几天
+	 * @return
+	 */
+	public int getCurrentDay(ActivityDailyChargeCfg cfg){
+		return 1;
 	}
 }
