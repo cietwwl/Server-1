@@ -30,10 +30,10 @@ public class worShipHandler {
 	 * @param client
 	 * @return
 	 */
-	public boolean ArenaWorship(Client client, String message) {
+	public boolean ArenaWorship(Client client, int  num) {
 		WorshipRequest.Builder req = WorshipRequest.newBuilder();
 		req.setRequestType(EWorshipRequestType.WORSHIP);
-		req.setWorshipCareer(ECareer.SwordsMan.getValue());//永远的行者者者者者者者者者者者者者者者者者
+		req.setWorshipCareer(num);//永远的行者者者者者者者者者者者者者者者者者
 		
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_Worship, req.build().toByteString(), new MsgReciver() {
@@ -56,8 +56,8 @@ public class worShipHandler {
 
 					EWorshipResultType result = rsp.getResultType();
 					if (result == EWorshipResultType.FAIL) {
-						RobotLog.fail("WorshipHandler[send] 服务器处理消息失败 " + result);
-						return false;
+						RobotLog.info("WorshipHandler[send] 服务器处理消息失败 ，一天只可膜拜一次");
+						return true;
 					}
 
 				} catch (InvalidProtocolBufferException e) {
@@ -86,7 +86,9 @@ public class worShipHandler {
 		}
 		public int getValue(){
 			return this.type;
-		}		
+		}
+		
+		
 	}
 }
 
