@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.common.Action;
 import com.log.GameLog;
@@ -77,6 +78,19 @@ public class InlayMgr extends IDataMgr {
 	public boolean XieXia(int modelId) {
 		boolean stripSuccess = false;
 
+		List<InlayItem> itemList = inlayItemHolder.getItemList();
+		if(itemList.size() == 0){
+			return false;
+		}
+		TreeMap<Integer, Integer> slotMap = new TreeMap<Integer, Integer>();
+		for (InlayItem inlayItem : itemList) {
+			slotMap.put(inlayItem.getSlotId(), inlayItem.getModelId());
+		}
+		Map.Entry<Integer, Integer> entry = slotMap.lastEntry();
+		if(!InlayItemHelper.isOpen(m_pOwner.getModelId(), entry.getKey(), m_pOwner.getLevel())){
+			modelId = entry.getValue();
+		}
+		
 		String ownerId = m_pOwner.getUUId();
 		InlayItem targetItem = inlayItemHolder.getItem(ownerId, modelId);
 		if (targetItem != null) {
@@ -85,7 +99,6 @@ public class InlayMgr extends IDataMgr {
 				m_pPlayer.getItemBagMgr().addItem(modelId, 1);
 			}
 		}
-
 		//
 		// if(stripSuccess)
 		// {
