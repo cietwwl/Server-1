@@ -11,6 +11,7 @@ import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
@@ -109,6 +110,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
 
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
 	
@@ -434,9 +437,10 @@ public class MapItemStoreFactory {
 		return activityVitalityItemCache;
 	}
 	
+	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
+		return activityDailyRechargeItemCache;
+	}
 	
-	
-
 	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
 		return activityRedEnvelopeTypeItemCache;
 	}
