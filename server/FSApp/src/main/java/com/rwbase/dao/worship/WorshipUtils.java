@@ -91,7 +91,7 @@ public class WorshipUtils {
 		return worshipItem;
 	}
 
-	private static Comparator<WorshipItem> comparator = new Comparator<WorshipItem>() {
+	public static Comparator<WorshipItem> comparator = new Comparator<WorshipItem>() {
 
 		@Override
 		public int compare(WorshipItem o1, WorshipItem o2) {

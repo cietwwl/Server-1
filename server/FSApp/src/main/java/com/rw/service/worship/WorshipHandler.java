@@ -1,6 +1,7 @@
 package com.rw.service.worship;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
@@ -47,13 +48,8 @@ private static WorshipHandler instance = new WorshipHandler();
 			return response.build().toByteString();
 		}
 		String reward = cfg.getRewardStr();
-		WorshipItemData rewardData = WorshipUtils.getWorshipDataFromStr(reward);
-//		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
-//		if(rewardData != null && !StringUtils.isEmpty(rewardData.getItemId())){
-//			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();
-//		}else{
-//			GameLog.debug("");
-//		}
+		WorshipItemData rewardData = cfg.getRewardData();
+
 		//设置膜拜时间
 		player.getUserGameDataMgr().setLastWorshipTime(System.currentTimeMillis());
 		player.getItemBagMgr().addItemByPrizeStr(reward);
@@ -88,8 +84,6 @@ private static WorshipHandler instance = new WorshipHandler();
 		for (int i = 0; i < num; i++) {//修改为20个上限
 			response.addWorshipList(worshipList.get(i));
 		}
-//		response.addAllWorshipList();
 		player.SendMsg(Command.MSG_Worship, response.build().toByteString());
-		System.out.println("puch worship list, list size:" + num);
 	}
 }

@@ -19,6 +19,7 @@ import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
 import com.rw.fsutil.log.SqlLog;
@@ -43,7 +44,9 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null);
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), 
+				new DataKVSactter<T>(classInfo, template), 
+				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 		this.type = null;
 	}
 
@@ -67,7 +70,8 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), classInfo.getClass().getName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null);
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(),classInfo.getClass().getName(), cacheSize, cacheSize,
+				getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 	}
 
 	/**

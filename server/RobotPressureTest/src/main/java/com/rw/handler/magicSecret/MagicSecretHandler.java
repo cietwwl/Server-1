@@ -60,8 +60,17 @@ public class MagicSecretHandler {
 
 	public boolean checkMagicSecretStatus(Client client) {
 		Map<String, MagicChapterInfo> magiChapterInfolist = client.getMagicChapterInfoHolder().getList();
+		if(magiChapterInfolist.size() <= 0){
+			RobotLog.fail("MagicSecretHandler[send]乾坤幻境未开启，没有乾坤幻境数据");
+			return true;
+		}
 		String chapterId = client.getMagicSecretHolder().getChapterId();
-		MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(chapterId);
+		MagicChapterInfo magiChapterInfo;
+		if(chapterId == null){
+			magiChapterInfo = magiChapterInfolist.values().iterator().next();
+		}else{
+			magiChapterInfo = magiChapterInfolist.get(chapterId);
+		}
 		List<ItemInfo> canOpenBoxes = magiChapterInfo.getCanOpenBoxes();
 		String dungeonId = getDungeonId(client);
 		if (canOpenBoxes != null && canOpenBoxes.size() >= 2 && canOpenBoxes.get(0).getItemNum() == 1) {

@@ -1,9 +1,11 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 import com.bm.rank.RankType;
@@ -29,6 +31,7 @@ import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 public class WorshipMgr {
+	public static final int MAX_RECORD_COUNT = 50;//数据库保存记录的上限
 	private static WorshipMgr _instance = new WorshipMgr();
 	
 	public static WorshipMgr getInstance(){
@@ -40,7 +43,7 @@ public class WorshipMgr {
 
 	
 	/**重新排行，第一名排行数据改变*/
-	public void changeFirstRanking(RankType rankingType){
+	public synchronized void changeFirstRanking(RankType rankingType){
 		ECareer career;
 		switch(rankingType){
 			case WARRIOR_ARENA_DAILY:
@@ -62,14 +65,10 @@ public class WorshipMgr {
 		if(career == ECareer.None){
 			return;
 		}
+		
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
-			tableWorship = new TableWorship();
-			tableWorship.setCareer(career.getValue());
-		}
 		sendWorshipReward(career);
-		tableWorship.setWorshipItemList(new ArrayList<WorshipItem>());
-		tableWorship.setWorshippersList(new ArrayList<String>());
+		tableWorship.clear();
 		worshipDao.update(tableWorship);
 		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
 	}
@@ -100,23 +99,18 @@ public class WorshipMgr {
 	}
 	
 	/**添加膜拜者*/
-	public void addWorshippers(ECareer career, Player player, WorshipItemData rewardData){
+	public synchronized void addWorshippers(ECareer career, Player player, WorshipItemData rewardData){
 		if(career == null || career == ECareer.None || player == null){
 			return;
 		}
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
-			tableWorship = new TableWorship();
-			tableWorship.setCareer(career.getValue());
+		List<WorshipItem> list = tableWorship.getWorshipItemList();
+		if(list.size() >= MAX_RECORD_COUNT){
+			Collections.sort(list, WorshipUtils.comparator);
+			tableWorship.remove(list.get(list.size() - 1));
 		}
-		int curSize = tableWorship.getWorshipItemList().size();
-		if(curSize >= 50){
-			return;
-		}
-		tableWorship.getWorshippersList().add(player.getUserId());
-		tableWorship.getWorshipItemList().add(WorshipUtils.playerInfoToWorshipItem(player, rewardData));
+		tableWorship.add(WorshipUtils.playerInfoToWorshipItem(player, rewardData));
 		worshipDao.update(tableWorship);
-		System.out.println("add worshipper,before size: " +curSize+", current worshipper num :" + tableWorship.getWorshipItemList().size());
 	}
 	
 	/**获取膜拜者列表*/
@@ -158,16 +152,17 @@ public class WorshipMgr {
 	/**推送被膜拜者*/
 	public void pushByWorshiped(Player player){
 		if(player != null){
-			player.SendMsg(Command.MSG_Worship, getByWorshipedInfo());
 			player.SendMsg(Command.MSG_Worship, getWorshipState(player));
 		}
 	}
 	
 	private ByteString getWorshipState(Player player) {
+		List<WorshipInfo> list = getByWorshipedList();
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(EWorshipRequestType.WORSHIP_STATE);
 		response.setResultType(EWorshipResultType.SUCCESS);
 		response.setCanWorship(isWorship(player));
+		response.addAllByWorshippedList(list);
 		return response.build().toByteString();
 	}
 
