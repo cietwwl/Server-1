@@ -27,6 +27,8 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FixNormEquipMgr {
 
@@ -153,6 +155,25 @@ public class FixNormEquipMgr {
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipStarAttr(ownerId, itemList).values());
 		return attrItemList;
 	}
+	
+	public List<String> levelUpList(Player player, String heroId) {
+		
+		List<String> levelUpList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(heroId);
+		for (FixNormEquipDataItem dataItem : itemList) {
+			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+			int curLevel = dataItem.getLevel();
+			FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+			int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+			FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+			if(result.isSuccess()){
+				levelUpList.add(dataItem.getId());
+			}
+		}
+		
+		
+		return levelUpList;
+	}
 
 	public List<String> qualityUpList(Player player, String ownerId) {
 
@@ -247,7 +268,9 @@ public class FixNormEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} else if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
 			int nextLevel = dataItem.getLevel() + 1;
@@ -365,7 +388,9 @@ public class FixNormEquipMgr {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
 			int curStar = dataItem.getStar();
@@ -460,4 +485,6 @@ public class FixNormEquipMgr {
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
 		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
 	}
+
+	
 }

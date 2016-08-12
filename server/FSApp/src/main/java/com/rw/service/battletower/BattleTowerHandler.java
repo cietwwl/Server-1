@@ -198,7 +198,7 @@ public class BattleTowerHandler {
 			friendInfoMsg.setHeadIcon(beforeFriendInfo.getHeadIcon());
 			friendInfoMsg.setLevel(beforeFriendInfo.getLevel());
 			friendInfoMsg.setName(beforeFriendInfo.getName());
-			friendInfoMsg.setFloorGap(beforeFriendInfo.getFloor() - curFloor);
+			friendInfoMsg.setFloorGap(beforeFriendInfo.getFloor() - highestFloor);
 			rsp.setOverFriendInfoMsg(friendInfoMsg);
 		}
 

@@ -43,6 +43,11 @@ public class AssistantMgr {
 		checkList.add(new AssistantHeroUpgradeStarCheck());
 		checkList.add(new AssistantHeroLevelUpCheck());
 		checkList.add(new AssistantUpdateSkillCheck());
+		checkList.add(new AssistantCheckTaoist());
+		
+		checkList.add(new AssistantCheckFixEquipAdvance());
+		checkList.add(new AssistantCheckFixEquipStarUp());
+		
 		return true;
 	}
 
@@ -56,6 +61,8 @@ public class AssistantMgr {
 				AssistantCfg cfgById = AssistantCfgDao.getInstance().getCfgById(assistantEvent);
 				if (cfgById != null) {
 					activeEventList.add(cfgById);
+					String extraParam = iAssistantCheck.getExtraParam();
+					assistantData.putParam(assistantEvent, extraParam);
 				}
 			}
 		}

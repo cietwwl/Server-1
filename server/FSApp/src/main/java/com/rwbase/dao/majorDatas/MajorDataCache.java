@@ -60,30 +60,23 @@ public class MajorDataCache {
 	}
 
 	public void updateGold(MajorData data) {
-		update("update majordata set gold=? where id=?", data.getGold(), data.getId());
+		int[] values = new int[]{data.getGold(), data.getGiftGold(), data.getChargeGold()};
+		update("update majordata set gold=?, giftGold=?, chargeGold=? where id=?", values, data.getId());
 	}
-
-	public void updateGiftGold(MajorData data) {
-		update("update majordata set giftGold=? where id=?", data.getGiftGold(), data.getId());
-	}
-
-	public void updateChargeGold(MajorData data) {
-		update("update majordata set chargeGold=? where id=?", data.getChargeGold(), data.getId());
-	}
-
-	private void update(String sql, int value, String userId) {
-		new MajorUpdateTask(sql, value, userId).run();
+	
+	private void update(String sql, int[] values, String userId){
+		new MajorUpdateTask(sql, values, userId).run();
 	}
 
 	class MajorUpdateTask implements Runnable {
 
 		private final String sql;
-		private final int value; // 这里最好是long或者Object
+		private final int[] values;// 这里最好是long或者Object
 		private final String userId;
 
-		public MajorUpdateTask(String sql, int value, String userId) {
+		public MajorUpdateTask(String sql, int[] values, String userId) {
 			this.sql = sql;
-			this.value = value;
+			this.values = values;
 			this.userId = userId;
 		}
 
@@ -94,8 +87,12 @@ public class MajorDataCache {
 
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setInt(1, value);
-						ps.setString(2, userId);
+						int index = 1;
+						for (int val : values) {
+							ps.setInt(index, val);
+							index++;
+						}
+						ps.setString(index, userId);
 					}
 				});
 			} catch (Exception e) {

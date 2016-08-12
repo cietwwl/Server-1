@@ -110,7 +110,7 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 			return;
 		int openLevel = newValue;
 		TaoistMagicCfgHelper cfgHelper = TaoistMagicCfgHelper.getInstance();
-		Iterable<TaoistMagicCfg> openList = cfgHelper.getOpenList(openLevel);
+		Iterable<TaoistMagicCfg> openList = cfgHelper.getOpenListBelowLevel(openLevel);
 		if (openList == null)
 			return;
 
