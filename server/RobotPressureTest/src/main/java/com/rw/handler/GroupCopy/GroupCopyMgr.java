@@ -29,11 +29,8 @@ public class GroupCopyMgr {
 		//同步地图关卡数据
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 
-		//获取所有还没有开放的副本 发送开放请求
-		List<GroupCopyMapRecord> list = getAllNotOpenChaters(client);
-		for (GroupCopyMapRecord record : list) {
-			GroupCopyHandler.getInstance().openLevel(client, record.getChaterID(), RequestType.OPEN_COPY);
-		}
+		
+		
 		GroupCopyHandler handler = GroupCopyHandler.getInstance();
 		GroupCopyMapRecord record = getRandomOpenChater(client);
 		if(record == null){
@@ -41,9 +38,9 @@ public class GroupCopyMgr {
 			return true;
 		}
 		
-		handler.clientApplyDropData(client, record.getChaterID());
-		
-		handler.clientApplyServerRank(client, record.getCurLevelID());
+//		handler.clientApplyDropData(client, record.getChaterID());
+//		
+//		handler.clientApplyServerRank(client, record.getCurLevelID());
 		
 		
 		handler.try2EnterBattle(client, record.getCurLevelID());
