@@ -119,9 +119,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send] 失败", e);
 					return false;
@@ -153,9 +158,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]changeTeam 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]changeTeam 失败", e);
 					return false;
@@ -263,9 +273,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]fight 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]fight 失败", e);
 					return false;
@@ -302,9 +317,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]getReward 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]getReward 失败", e);
 					return false;
@@ -347,9 +367,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]openBox 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]openBox 失败", e);
 					return false;
@@ -386,9 +411,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]giveUpBox 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]giveUpBox 失败", e);
 					return false;
@@ -431,9 +461,14 @@ public class MagicSecretHandler {
 					}
 					msResultType result = rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
-						return false;
-					}
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("MagicSecretHandler[send]exchangeBuff 失败", e);
 					return false;
@@ -482,8 +517,13 @@ public class MagicSecretHandler {
 						return true;
 					}
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
-						return false;
+								if (result.equals(msResultType.DATA_ERROR)) {
+									RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+									return false;
+								} else {
+									RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+									return true;
+								}
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
