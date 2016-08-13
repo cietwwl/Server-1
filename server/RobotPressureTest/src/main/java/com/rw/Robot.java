@@ -1133,6 +1133,7 @@ public class Robot {
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
 		if(list.isEmpty()){
+			RobotLog.info("发现角色无已开启帮派副本，执行开启请求!");
 			//增加一下帮派经验
 			addGroupExp();
 			addGroupSpplis();
@@ -1191,16 +1192,16 @@ public class Robot {
 		return GroupCopyMgr.getInstance().donateCopy(client);
 	}
 	
-	public void applyDistRewardLog(){
-		GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
+	public boolean applyDistRewardLog(){
+		return GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
 	}
 	
-	public void applyGroupDamageRank(){
-		GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
+	public boolean applyGroupDamageRank(){
+		return GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
 	}
 	
-	public void applyAllRewardApplyInfo(){
-		GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
+	public boolean applyAllRewardApplyInfo(){
+		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
 	
 }
