@@ -766,6 +766,11 @@ public class UserGameDataMgr {
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
 	}
+	
+	public void setMapAnimationState(MapAnimationState animationState){
+		userGameDataHolder.get().setMapAnimationState(animationState);
+		userGameDataHolder.update(player);
+	}
 
 	/**
 	 * 扣除某种货币

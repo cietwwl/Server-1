@@ -46,15 +46,20 @@ public class SynDataListHolder<T extends SynItem> {
 			}
 
 		} catch (Exception ex) {
-			throw (new RuntimeException("SynDataListHolder[Syn] error " + this.getClass(), ex));
+//			throw (new RuntimeException("SynDataListHolder[Syn] error " + this.getClass(), ex));
+			ex.printStackTrace();
 		}
 	}
 
 	private void updateList(List<SynData> synDataList) {
 		List<T> itemListTmp = new ArrayList<T>();
+		try{
 		for (SynData synData : synDataList) {
 			T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData());
 			itemListTmp.add(item);
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 		m_SynItemList = itemListTmp;
 	}

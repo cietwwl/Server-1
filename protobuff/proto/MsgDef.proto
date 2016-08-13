@@ -102,6 +102,7 @@ enum Command {
 	MSG_GROUP_FIGHT_ONLINE=205;//在线帮战
 	MSG_RED_POINT_SERVICE = 206;//红点扩展点击传送
 	MSG_TEAM_BATTLE = 207;
+	MSG_ONE_KEY_REWARD = 208;	//一键领取奖励
 	
 	
 	MSG_FEEDBACK = 995;//客服功能

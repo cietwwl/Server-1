@@ -70,12 +70,17 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public void deleteApply(DropInfo dropInfo, ApplyInfo applyInfo) {
-		applyData.remove(applyInfo);
-		if(dropInfo.getCount() == 0){
+		if(applyInfo != null){
+			applyData.remove(applyInfo);
+		}
+		int left = dropInfo.getCount() - 1;
+		if(left <= 0){
 			dropInfoList.remove(dropInfo);
 		}else{
-			dropInfo.setCount(dropInfo.getCount() - 1);
+			dropInfo.setCount(left);
 		}
 	}
+
+
 	
 }

@@ -19,11 +19,26 @@ public class DataSynHelper {
 		}
 		ClassInfo classInfo = classInfoMap.get(clazz);	
 
-		return (T)classInfo.FromJson(jsonData);
+		return (T)classInfo.fromJson(jsonData);
+		
+	}
+	
+	public static String ToJson(Object target) throws Exception{
+		Class<? extends Object> clazz = target.getClass();
+		
+		if(!classInfoMap.containsKey(clazz)){        
+			ClassInfo classInfoTmp = new ClassInfo(clazz);
+			classInfoMap.put(clazz, classInfoTmp);
+		}
+		ClassInfo classInfo = classInfoMap.get(clazz);	
+
+		
+		return classInfo.toJson(target);
 		
 	}
 	public static void main(String[] args) {
 		ClassInfo classInfoTmp = new ClassInfo(ArmyInfo.class);
+		
 	}
 	
 }
