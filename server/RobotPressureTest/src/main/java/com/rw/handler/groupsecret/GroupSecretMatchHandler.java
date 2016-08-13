@@ -57,7 +57,12 @@ public class GroupSecretMatchHandler {
 		AttackEnemyStartReqMsg.Builder msg = AttackEnemyStartReqMsg.newBuilder();
 		msg.setIndex(GroupSecretIndex.MAIN);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
+		if(userHerosDataHolder.getTableUserHero() == null){
+			RobotLog.fail("groupattack.start.获取的自己英雄数据失败");
+			return false;
+		}
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
+		
 		int mainRoleIndex = 0;
 		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 			String heroId = (String) iterator.next();
@@ -84,6 +89,10 @@ public class GroupSecretMatchHandler {
 		AttackEnemyEndReqMsg.Builder msg = AttackEnemyEndReqMsg.newBuilder();
 		msg.setIndex(GroupSecretIndex.MAIN);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
+		if(userHerosDataHolder.getTableUserHero() == null){
+			RobotLog.fail("groupattack.end.获取的自己英雄数据失败");
+			return false;
+		}
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		int mainRoleIndex = 0;
 		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
