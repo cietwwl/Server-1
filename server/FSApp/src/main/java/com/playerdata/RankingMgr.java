@@ -320,13 +320,8 @@ public class RankingMgr {
 					if (!oldKey.equals(key)) {
 						currentChampoin = key;
 						oldChampion = oldKey;
-						RankingLevelData extendedAttribute = lastChampion.getExtendedAttribute();
-						WorshipMgr.getInstance().sendFailEmail(ECareer.valueOf(extendedAttribute.getJob()), extendedAttribute.getUserId());
 					}
 				}
-				
-				//发送膜拜邮件
-				WorshipMgr.getInstance().sendSuccessEmail(ECareer.valueOf(levelData.getJob()), levelData.getUserId());
 			}
 
 			
