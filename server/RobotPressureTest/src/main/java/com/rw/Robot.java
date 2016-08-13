@@ -381,6 +381,10 @@ public class Robot {
 		return sendSuccess;
 	}
 
+	public boolean addGroupCopyFight(int count){
+		return GmHandler.instance().send(client, "* setgbf "+ count);
+	}
+	
 	public boolean addPower(int power) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addPower " + power);
 		return sendSuccess;
