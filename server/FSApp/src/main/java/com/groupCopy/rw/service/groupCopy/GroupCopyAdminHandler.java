@@ -68,7 +68,7 @@ public class GroupCopyAdminHandler {
 		boolean success = false;
 		GroupCopyResult openResult;
 		String mapId = openReqMsg.getMapId();
-		commonRsp.setIsSuccess(success);
+		
 		if(group!=null){
 			//检查是不是管理员
 			GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(player.getUserId(), false);
@@ -96,6 +96,7 @@ public class GroupCopyAdminHandler {
 			}
 			openResult = group.getGroupCopyMgr().openMap(player, mapId );
 			success = openResult.isSuccess();
+			
 			if(success){
 				// 扣除帮派物资
 				supplies -= cfg.getOpenCost();
@@ -105,6 +106,7 @@ public class GroupCopyAdminHandler {
 				commonRsp.setTipMsg("开启失败");
 			}
 		}	
+		commonRsp.setIsSuccess(success);
 		return commonRsp.build().toByteString();
 	}
 
