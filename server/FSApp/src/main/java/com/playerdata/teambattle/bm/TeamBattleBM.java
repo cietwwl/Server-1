@@ -36,6 +36,7 @@ import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
 import com.playerdata.teambattle.dataException.JoinTeamException;
+import com.playerdata.teambattle.dataException.NoTeamException;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
@@ -171,6 +172,11 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
 		}
+		if(TBTeamItemHolder.getInstance().isItemCountMax(hardID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("战斗过于火爆，请您试试快速加入");
+			return;
+		}
 		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
@@ -182,7 +188,7 @@ public class TeamBattleBM {
 		teamItem.setHardID(hardID);
 		teamItem.setLeaderID(player.getUserId());
 		teamItem.addMember(tMem);
-		TBTeamItemHolder.getInstance().addNewTeam(teamItem);
+		TBTeamItemMgr.getInstance().addNewTeam(teamItem);
 		utbData.setTeamID(teamID);
 		utbData.setMemPos("");
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
@@ -231,18 +237,14 @@ public class TeamBattleBM {
 				}
 			}
 		}
-		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(player.getUserId(), hardID);
-		if(canJionTeam == null) {
-			createTeam(player, tbRsp, hardID);
-			return;
-		}
 		try {
-			TBTeamItemMgr.getInstance().joinTeam(player, canJionTeam);
-			canJionTeam.setSelecting(false);
+			TBTeamItemMgr.getInstance().quickJionTeam(player, hardID);
 			tbRsp.setRstType(TBResultType.SUCCESS);
+		} catch (NoTeamException e) {
+			createTeam(player, tbRsp, hardID);
 		} catch (JoinTeamException e) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg(e.getMessage());
+			tbRsp.setTipMsg("战斗过于火爆，请您待会再来");
 		}
 	}
 
@@ -603,6 +605,7 @@ public class TeamBattleBM {
 			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
+				TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
 			}
 			UserTeamBattleDataHolder.getInstance().update(player, utbData);
 			UserTeamBattleDataHolder.getInstance().synData(player);
