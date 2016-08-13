@@ -1244,7 +1244,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
