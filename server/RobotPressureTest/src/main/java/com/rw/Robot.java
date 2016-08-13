@@ -37,6 +37,7 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
+import com.rw.handler.groupsecret.SecretUserInfoSynData;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.itembag.ItemData;
@@ -1153,10 +1154,14 @@ public class Robot {
 	}
 	
 	private void checkEnoughSecretKeyCount() {
-		if(client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount() < 21){
-			addSecretKeycount();
+		SecretUserInfoSynData userInfoData = client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData();
+		if(userInfoData != null){
+			if(userInfoData.getKeyCount() < 21){
+				addSecretKeycount();
+			}
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
 		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
+		
 		
 	}
 	
