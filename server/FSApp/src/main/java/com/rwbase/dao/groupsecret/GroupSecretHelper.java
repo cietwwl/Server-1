@@ -368,7 +368,7 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretDataSynData parseGroupSecretData2Msg(GroupSecretData data, String userId, int level) {
+	public static GroupSecretDataSynData parseGroupSecretData2Msg(int mainPos, GroupSecretData data, String userId, int level) {
 		long now = System.currentTimeMillis();
 		int secretCfgId = data.getSecretId();// 秘境的模版Id
 		GroupSecretResourceCfg groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
@@ -396,25 +396,38 @@ public class GroupSecretHelper {
 		int getRes = 0;
 		int getGE = 0;
 		int getGS = 0;
+		int robTimes = 0;
+		int robRes = 0;
+		int robGE = 0;
+		int robGS = 0;
 		int dropDiamond = 0;
 		int index = -1;
 		if (myDefendInfo != null) {
-			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
-			dropDiamond = myDefendInfo.getDropDiamond();
-			if (changeTeamTime > 0) {
-				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-				int fighting = myDefendInfo.getFighting();
-				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
-				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
-				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
-			}
+//			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+//			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+//			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+//			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+//			dropDiamond = myDefendInfo.getDropDiamond();
+//			if (changeTeamTime > 0) {
+//				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+//				int fighting = myDefendInfo.getFighting();
+//				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+//				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+//				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+//			}
+			getRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
+			getGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
+			getGS = levelGetResTemplate.getTotalGroupSupply() - myDefendInfo.getRobGS();
 			index = myDefendInfo.getIndex();
+			robTimes = data.getRobTimes();
+			robRes = myDefendInfo.getRobRes();
+			robGE = myDefendInfo.getRobGE();
+			robGS = myDefendInfo.getRobGS();
 		}
 
 		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());
+		base.setMainPos(mainPos);
+		base.setRoboInfo(robTimes, robRes, robGE, robGS);
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 

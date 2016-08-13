@@ -1,6 +1,7 @@
 package com.rw.service.groupsecret;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -110,9 +111,13 @@ public class GroupSecretHandler {
 		List<SecretBaseInfoSynData> baseInfoList = new ArrayList<SecretBaseInfoSynData>();
 
 		// 检查密境列表
-		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
-		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
-			String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(defendSecretIdList.get(i));
+//		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
+		Map<Integer, String> defendSecretMap = userGroupSecretData.getDefendSecretIdMap();
+//		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
+		for (Iterator<Map.Entry<Integer, String>> itr = defendSecretMap.entrySet().iterator(); itr.hasNext();) {
+//			String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(defendSecretIdList.get(i));
+			Map.Entry<Integer, String> entry = itr.next();
+			String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(entry.getValue());
 			UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(idArr[0]);
 			if (userCreateGroupSecretData == null) {
 				continue;
@@ -123,7 +128,8 @@ public class GroupSecretHandler {
 				continue;
 			}
 
-			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId, level);
+//			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId, level);
+			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(entry.getKey(), data, userId, level);
 			if (synData == null) {
 				continue;
 			}
@@ -161,6 +167,7 @@ public class GroupSecretHandler {
 		GroupSecretCommonRspMsg.Builder rsp = GroupSecretCommonRspMsg.newBuilder();
 		rsp.setReqType(RequestType.CREATE_GROUP_SECRET);
 
+		int mainPos = req.getMainPos();
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
 		if (openLevel != -1) {
@@ -200,10 +207,16 @@ public class GroupSecretHandler {
 
 		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
-		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+		if(!userGroupSecretBaseData.isPosEmpty(mainPos)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "该位置已经有防守队伍！");
+			return rsp.build().toByteString();
+		}
+//		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+		Map<Integer, String> defendSecretIdMap = userGroupSecretBaseData.getDefendSecretIdMap();// 当前的秘境列表
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
 		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
-		if (defendSecretIdList.size() >= intPrivilege) {
+//		if (defendSecretIdList.size() >= intPrivilege) {
+		if(defendSecretIdMap.size() >= intPrivilege || intPrivilege < mainPos) {
 			GroupSecretHelper.fillRspInfo(rsp, false, String.format("您当前只能创建%s个秘境", intPrivilege));
 			return rsp.build().toByteString();
 		}
@@ -315,13 +328,13 @@ public class GroupSecretHandler {
 
 		// 更新目前防守的秘境列表
 		String generateCacheSecretId = GroupSecretHelper.generateCacheSecretId(userId, secretData.getId());
-		baseDataMgr.addDefendSecretId(userId, generateCacheSecretId);
+		baseDataMgr.addDefendSecretId(userId, generateCacheSecretId, mainPos);
 
 		// 增加阵容
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, generateCacheSecretId,
 			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
-		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId, level);
+		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(mainPos, secretData, userId, level);
 		SecretBaseInfoSynData base = synData.getBase();
 		if (base != null) {
 			player.getBaseHolder().addData(player, base);
@@ -442,18 +455,25 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-		int proRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-		int proGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-		int proGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+//		long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+//		int proRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+//		int proGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+//		int proGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+//		int dropDiamond = myDefendInfo.getDropDiamond();
+//		if (changeTeamTime > 0) {
+//			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+//			int fighting = myDefendInfo.getFighting();
+//			proRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+//			proGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+//			proGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+//		}
+		
+		// 2016-08-12 By PERRY，新需求是直接使用模板的产出数量 BEGIN >>>>>>>>>>
+		int proRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
+		int proGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
+		int proGS = levelGetResTemplate.getTotalGroupSupply() - myDefendInfo.getRobGS();
 		int dropDiamond = myDefendInfo.getDropDiamond();
-		if (changeTeamTime > 0) {
-			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-			int fighting = myDefendInfo.getFighting();
-			proRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
-			proGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
-			proGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
-		}
+		// 2016-08-12 END <<<<<<<<<
 
 		// 增加帮派经验物资
 		boolean hasGroupAdd = false;
@@ -703,18 +723,23 @@ public class GroupSecretHandler {
 			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能超过5个人");
 			return rsp.build().toByteString();
 		}
-
-		// 计算资源产出
-		int proRes = myDefendInfo.getProRes();
-		int proGS = myDefendInfo.getProGS();
-		int proGE = myDefendInfo.getProGE();
-		// 上次更换阵容时间
-		long proTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(now - myDefendInfo.getChangeTeamTime());
-
-		proRes += (int) (myDefendInfo.getFighting() * levelGetResTemplate.getProductRatio() * proTimeMinutes);
-		proGE += (int) (levelGetResTemplate.getGroupExpRatio() * proTimeMinutes);
-		proGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * proTimeMinutes);
-
+//
+//		// 计算资源产出
+//		int proRes = myDefendInfo.getProRes();
+//		int proGS = myDefendInfo.getProGS();
+//		int proGE = myDefendInfo.getProGE();
+//		// 上次更换阵容时间
+//		long proTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(now - myDefendInfo.getChangeTeamTime());
+//
+//		proRes += (int) (myDefendInfo.getFighting() * levelGetResTemplate.getProductRatio() * proTimeMinutes);
+//		proGE += (int) (levelGetResTemplate.getGroupExpRatio() * proTimeMinutes);
+//		proGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * proTimeMinutes);
+//
+		// 2016-08-12 By PERRY 新需求：产出不会随着防守战队的变化而变化 BEGIN >>>>>>>>>>
+		int proRes = 0;
+		int proGE = 0;
+		int proGS = 0;
+		// 2016-08-12 END <<<<<<<<<<
 		// 可以去更新阵容了
 		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, teamIdList);
 		// 更新使用的阵容
@@ -970,6 +995,12 @@ public class GroupSecretHandler {
 			GroupSecretHelper.fillRspInfo(rsp, false, "秘境已经完成，请领取奖励");
 			return rsp.build().toByteString();
 		}
+		
+		long joinLimitMillis = TimeUnit.MINUTES.toMillis(cfg.getJoinLimitTime());
+		if (now - createTime > joinLimitMillis) {
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("创建时间已经超过%d分钟，不能邀请！", cfg.getJoinLimitTime()));
+			return rsp.build().toByteString();
+		}
 
 		List<String> inviteList = req.getMemberIdList();
 		if (inviteList.isEmpty()) {
@@ -1060,10 +1091,12 @@ public class GroupSecretHandler {
 
 		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
-		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+//		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+		Map<Integer, String> defendSecretIdMap = userGroupSecretBaseData.getDefendSecretIdMap();// 当前的秘境列表
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
 		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
-		if (defendSecretIdList.size() >= intPrivilege) {
+//		if (defendSecretIdList.size() >= intPrivilege) {
+		if (defendSecretIdMap.size() >= intPrivilege) {
 			GroupSecretHelper.fillRspInfo(rsp, false, String.format("探索秘境已达上限", intPrivilege));
 			return rsp.build().toByteString();
 		}
@@ -1131,13 +1164,20 @@ public class GroupSecretHandler {
 			GroupSecretHelper.fillRspInfo(rsp, false, String.format("秘境剩余不到%s分钟，不能驻守", uniqueCfg.getMinAssistTime()));
 			return rsp.build().toByteString();
 		}
+		
+		long joinLimitMillis = TimeUnit.MINUTES.toMillis(cfg.getJoinLimitTime());
+		if (now - createTime > joinLimitMillis) {
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("创建时间已经超过%d分钟，不能邀请！", cfg.getJoinLimitTime()));
+			return rsp.build().toByteString();
+		}
 
 		// 检查某个矿点上有没有人驻守
 		int index = req.getIndex().getNumber();
 		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
 		if (defendUserInfoData != null) {
 			// 同步数据到前台
-			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+//			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(0, groupSecretData, userId, player.getLevel());
 			if (synMsg != null) {
 				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
 				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
@@ -1213,6 +1253,22 @@ public class GroupSecretHandler {
 		int dropId = GroupSecretLevelGetResCfgDAO.getCfgDAO().getDropIdBasedOnJoinTime(cfg.getLevelGroupId(), level, (int) TimeUnit.MILLISECONDS.toMinutes(leftTimeMillis));
 		int diamondDropNum = GroupSecretDiamondDropCfgDAO.getCfgDAO().getDiamondDropNum(dropId);
 
+		UserGroupSecretBaseData baseData = baseDataMgr.get(userId);
+		int intP = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
+		int mainPos = -1;
+		for (int i = 0; i < intP; i++) {
+			int pos = i + 1;
+			if (baseData.isPosEmpty(pos)) {
+				mainPos = pos; // mainPos从1开始
+				break;
+			}
+		}
+		
+		if(mainPos == -1) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "找不到合适的防守位置");
+			return rsp.build().toByteString();
+		}
+		
 		// 防守的信息
 		DefendUserInfoData userInfoData = new DefendUserInfoData();
 		userInfoData.setDefTime(now);
@@ -1226,7 +1282,8 @@ public class GroupSecretHandler {
 		// 增加秘境防守阵容
 		if (!mgr.addDefendTeamInfo(createUserId, id, index, userInfoData)) {
 			// 同步数据到前台
-			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+//			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(0, groupSecretData, userId, player.getLevel());
 			if (synMsg != null) {
 				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
 				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
@@ -1242,9 +1299,9 @@ public class GroupSecretHandler {
 			EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroIdList));
 
 		// 更新目前防守的秘境列表
-		baseDataMgr.addDefendSecretId(userId, reqId);
+		baseDataMgr.addDefendSecretId(userId, reqId, mainPos);
 
-		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, level);
+		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(mainPos, groupSecretData, userId, level);
 		SecretBaseInfoSynData base = synData.getBase();
 		if (base != null) {
 			player.getBaseHolder().addData(player, base);
@@ -1383,7 +1440,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+		GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(0, groupSecretData, userId, player.getLevel());
 		if (synMsg != null) {
 			player.getBaseHolder().updateSingleData(player, synMsg.getBase());
 			player.getTeamHolder().updateSingleData(player, synMsg.getTeam());

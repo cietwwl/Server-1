@@ -63,7 +63,6 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -195,6 +194,9 @@ public class GMHandler {
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
 		funcCallBackMap.put("adddist", "addDistCount");
+		
+		funcCallBackMap.put("speedupscecret", "speedUpSecret");
+		funcCallBackMap.put("finishsecret", "finishSecret");
 	}
 
 	public boolean isActive() {
@@ -1349,6 +1351,40 @@ public class GMHandler {
 			return false;
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
+		return true;
+	}
+	
+	public boolean speedUpSecret(String[] arrCommandContents, Player player) {
+		String targetUserId;
+		if(arrCommandContents != null && arrCommandContents.length > 0) {
+			targetUserId = arrCommandContents[0];
+		} else {
+			targetUserId = player.getUserId();
+		}
+		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(targetUserId);
+		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+			if (System.currentTimeMillis() - tempData.getCreateTime() > 1800000) {
+				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+			}
+		}
+		return true;
+	}
+	
+	public boolean finishSecret(String[] arrCommandContents, Player player) {
+		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
+		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+//			if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
+//				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+//			}
+			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
+			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+			long suppose = tempData.getCreateTime() + millis;
+			if(suppose > System.currentTimeMillis()) {
+				tempData.setCreateTime(tempData.getCreateTime() - (suppose - System.currentTimeMillis()));
+			}
+		}
 		return true;
 	}
 }
