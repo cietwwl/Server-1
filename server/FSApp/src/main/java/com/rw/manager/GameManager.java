@@ -152,6 +152,9 @@ public class GameManager {
 		
 		//GM的初始化
 		GmCommandManager.loadCommandClass();
+		
+		//ServerStatus的初始化
+		ServerStatusMgr.init();
 
 
 		//帮派副本奖励分发数据初始化

@@ -1,20 +1,5 @@
 package com.rw.netty;
 
-import java.net.InetSocketAddress;
-
-import org.apache.log4j.PropertyConfigurator;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.log.GameLog;
-import com.playerdata.GambleMgr;
-import com.rw.manager.DataCacheInitialization;
-import com.rw.manager.GameManager;
-import com.rw.manager.ServerSwitch;
-import com.rw.service.gamble.GambleTest;
-import com.rwbase.common.attribute.AttributeBM;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.RequestProtos.Request;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -27,6 +12,20 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
+
+import java.net.InetSocketAddress;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.log.GameLog;
+import com.playerdata.GambleMgr;
+import com.rw.manager.DataCacheInitialization;
+import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.RequestProtos.Request;
 
 public class Server {
 	public static final boolean isDebug = true;
@@ -55,7 +54,10 @@ public class Server {
 		try {
 			// 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();
-
+			
+			// 时效任务初始化
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
@@ -63,9 +65,6 @@ public class Server {
 			GambleMgr.resetWhenStart();
 			//GambleTest.Test();
 
-			// 时效任务初始化
-			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
-			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.option(ChannelOption.TCP_NODELAY, true);

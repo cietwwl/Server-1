@@ -19,6 +19,7 @@ import com.gm.task.GmDeleteBag;
 import com.gm.task.GmDeleteGameNotice;
 import com.gm.task.GmEditCloseTips;
 import com.gm.task.GmEditGameNotice;
+import com.gm.task.GmEditGmNotice;
 import com.gm.task.GmEditPlatformNotice;
 import com.gm.task.GmEmailAll;
 import com.gm.task.GmEmailSingleCheck;
@@ -44,7 +45,12 @@ import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
 import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
+import com.gm.task.GmQueryGmNotice;
+import com.gm.task.GmQueryGroupInfo;
+import com.gm.task.GmQueryPlayerRanking;
+import com.gm.task.GmQueryGroupRankingInfo;
 import com.gm.task.GmReloadCfg;
+import com.gm.task.GmRemoveGmNotice;
 import com.gm.task.GmResponsePlayerQuestion;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
@@ -59,6 +65,7 @@ import com.gm.task.GmViewEmailList;
 import com.gm.task.GmViewEquipments;
 import com.gm.task.GmViewFriends;
 import com.gm.task.GmViewGameNotice;
+import com.gm.task.GmViewGroupMember;
 import com.gm.task.GmViewPlatformNotice;
 import com.gm.task.GmWhiteListModify;
 import com.gm.task.GmWhiteListSwitch;
@@ -109,6 +116,9 @@ public class GmHandler {
 		taskMap.put(20005, new GmEditGameNotice());
 		taskMap.put(20006, new GmViewGameNotice());
 		taskMap.put(20007, new GmDeleteGameNotice());
+		taskMap.put(20008, new GmEditGmNotice());
+		taskMap.put(20009, new GmQueryGmNotice());
+		taskMap.put(20010,  new GmRemoveGmNotice());
 		taskMap.put(20014, new GmEmailWhiteList());
 		taskMap.put(20015, new GmEmailAll());
 		taskMap.put(20016, new GmEmailSingleSend());
@@ -139,7 +149,10 @@ public class GmHandler {
 		taskMap.put(20059, new GmFindHeroSkillList());
 		taskMap.put(20060, new GmFindHeroEquipList());
 		taskMap.put(20061, new GmFindHeroNormalAndExpEquipList());
-		
+		taskMap.put(20071, new GmQueryPlayerRanking());
+		taskMap.put(20072, new GmQueryGroupRankingInfo());
+		taskMap.put(20073, new GmQueryGroupInfo());
+		taskMap.put(20074, new GmViewGroupMember());
 		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
