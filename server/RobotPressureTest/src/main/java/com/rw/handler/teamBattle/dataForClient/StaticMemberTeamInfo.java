@@ -2,10 +2,8 @@ package com.rw.handler.teamBattle.dataForClient;
 
 import java.util.Map;
 
-import com.playerdata.army.simple.ArmyInfoSimple;
-import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.handler.groupFight.armySimple.ArmyInfoSimple;
 
-@SynClass
 public class StaticMemberTeamInfo {
 	
 	private String userID;

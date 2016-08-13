@@ -3,6 +3,7 @@ package com.rw.dataSyn;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rw.common.RobotLog;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.SynData;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -26,7 +27,7 @@ public class SynDataListHolder<T extends SynItem> {
 		try {
 			List<SynData> synDataList = msgDataSyn.getSynDataList();
 			eSynOpType opType = msgDataSyn.getSynOpType();
-
+			
 			switch (opType) {
 			case UPDATE_LIST:
 				updateList(synDataList);
@@ -45,8 +46,8 @@ public class SynDataListHolder<T extends SynItem> {
 				break;
 			}
 
-		} catch (Exception ex) {
-//			throw (new RuntimeException("SynDataListHolder[Syn] error " + this.getClass(), ex));
+		} catch (Throwable ex) {
+			RobotLog.fail(ex.getMessage(),ex );
 			ex.printStackTrace();
 		}
 	}
