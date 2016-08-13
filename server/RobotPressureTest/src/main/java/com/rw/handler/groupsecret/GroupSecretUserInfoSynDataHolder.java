@@ -26,7 +26,7 @@ public class GroupSecretUserInfoSynDataHolder {
 	}
 	
 	public SecretUserInfoSynData getUserInfoSynData(){
-		if(defanceList.isEmpty()||defanceList == null){
+		if(defanceList == null||defanceList.isEmpty()){
 			return null;
 		}
 		return defanceList.get(0);
