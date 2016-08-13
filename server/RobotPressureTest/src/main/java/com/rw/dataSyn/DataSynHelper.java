@@ -24,6 +24,7 @@ public class DataSynHelper {
 	}
 	public static void main(String[] args) {
 		ClassInfo classInfoTmp = new ClassInfo(ArmyInfo.class);
+		
 	}
 	
 }

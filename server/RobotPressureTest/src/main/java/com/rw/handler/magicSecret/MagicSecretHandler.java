@@ -55,7 +55,7 @@ public class MagicSecretHandler {
 	public boolean playMagicSecret(Client client) {
 		boolean result = changeTeam(client);
 		if (!result) {
-			RobotLog.fail("战斗前的设置队伍反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]战斗前的设置队伍反馈结果=" + result);
 			return result;
 		}
 
@@ -66,36 +66,36 @@ public class MagicSecretHandler {
 		RobotLog.info("------------------------------"+dungeonId);
 		result = fight(client, dungeonId);
 		if (!result) {
-			RobotLog.fail("战斗申请反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]战斗申请反馈结果=" + result);
 			return result;
 		}
 		result = getReward(client);
 		if (!result) {
-			RobotLog.fail("领取前的生成奖励反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
 			return result;
 		}
 		result = openBox(client);
 		if (!result) {
-			RobotLog.fail("领取道具反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]领取道具反馈结果=" + result);
 			return result;
 		}
 		RobotLog.info("------------------------------"+dungeonId);
 		String[] split = dungeonId.split("_");
 		if(Integer.parseInt(split[0]) % 100 == STAGE_COUNT_EACH_CHATPER){
-			RobotLog.info("乾坤幻境操作成功=" + result);
+			RobotLog.info("MagicSecretHandler[send]乾坤幻境操作成功=" + result);
 			return result;
 		}
 		result = giveUpBox(client);
 		if (!result) {
-			RobotLog.fail("放弃道具反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]放弃道具反馈结果=" + result);
 			return result;
 		}
 		result = exchangeBuff(client);
 		if (!result) {
-			RobotLog.fail("兑换buff反馈结果=" + result);
+			RobotLog.fail("MagicSecretHandler[send]兑换buff反馈结果=" + result);
 			return result;
 		}
-		RobotLog.info("乾坤幻境操作成功=" + result);
+		RobotLog.info("MagicSecretHandler[send]乾坤幻境操作成功=" + result);
 		return result;
 	}
 

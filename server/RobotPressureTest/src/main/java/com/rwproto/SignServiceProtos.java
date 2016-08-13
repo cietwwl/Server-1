@@ -21,6 +21,14 @@ public final class SignServiceProtos {
      * <code>SIGNDATA_BACK = 2;</code>
      */
     SIGNDATA_BACK(1, 2),
+    /**
+     * <code>SIGN_REWARD = 3;</code>
+     *
+     * <pre>
+     *领取签到次数的签到奖励
+     * </pre>
+     */
+    SIGN_REWARD(2, 3),
     ;
 
     /**
@@ -31,6 +39,14 @@ public final class SignServiceProtos {
      * <code>SIGNDATA_BACK = 2;</code>
      */
     public static final int SIGNDATA_BACK_VALUE = 2;
+    /**
+     * <code>SIGN_REWARD = 3;</code>
+     *
+     * <pre>
+     *领取签到次数的签到奖励
+     * </pre>
+     */
+    public static final int SIGN_REWARD_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -39,6 +55,7 @@ public final class SignServiceProtos {
       switch (value) {
         case 1: return SIGN;
         case 2: return SIGNDATA_BACK;
+        case 3: return SIGN_REWARD;
         default: return null;
       }
     }
@@ -143,6 +160,14 @@ public final class SignServiceProtos {
      * </pre>
      */
     FAIL(5, 6),
+    /**
+     * <code>SIGN_REWARD_SUCCESS = 7;</code>
+     *
+     * <pre>
+     *签到累计奖励领取成功
+     * </pre>
+     */
+    SIGN_REWARD_SUCCESS(6, 7),
     ;
 
     /**
@@ -193,6 +218,14 @@ public final class SignServiceProtos {
      * </pre>
      */
     public static final int FAIL_VALUE = 6;
+    /**
+     * <code>SIGN_REWARD_SUCCESS = 7;</code>
+     *
+     * <pre>
+     *签到累计奖励领取成功
+     * </pre>
+     */
+    public static final int SIGN_REWARD_SUCCESS_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -205,6 +238,7 @@ public final class SignServiceProtos {
         case 4: return NEED_REFRESH;
         case 5: return NULL;
         case 6: return FAIL;
+        case 7: return SIGN_REWARD_SUCCESS;
         default: return null;
       }
     }
@@ -1060,6 +1094,69 @@ public final class SignServiceProtos {
      */
     com.google.protobuf.ByteString
         getTagSignDataBytes(int index);
+
+    // optional int32 signNum = 8;
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    boolean hasSignNum();
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    int getSignNum();
+
+    // optional string currentSignRewardId = 9;
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    boolean hasCurrentSignRewardId();
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    java.lang.String getCurrentSignRewardId();
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getCurrentSignRewardIdBytes();
+
+    // optional int32 requireSignNum = 10;
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    boolean hasRequireSignNum();
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    int getRequireSignNum();
   }
   /**
    * Protobuf type {@code MsgSignResponse}
@@ -1160,6 +1257,21 @@ public final class SignServiceProtos {
                 mutable_bitField0_ |= 0x00000040;
               }
               tagSignData_.add(input.readBytes());
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              signNum_ = input.readInt32();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000080;
+              currentSignRewardId_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000100;
+              requireSignNum_ = input.readInt32();
               break;
             }
           }
@@ -1426,6 +1538,109 @@ public final class SignServiceProtos {
       return tagSignData_.getByteString(index);
     }
 
+    // optional int32 signNum = 8;
+    public static final int SIGNNUM_FIELD_NUMBER = 8;
+    private int signNum_;
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    public boolean hasSignNum() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    public int getSignNum() {
+      return signNum_;
+    }
+
+    // optional string currentSignRewardId = 9;
+    public static final int CURRENTSIGNREWARDID_FIELD_NUMBER = 9;
+    private java.lang.Object currentSignRewardId_;
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public boolean hasCurrentSignRewardId() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public java.lang.String getCurrentSignRewardId() {
+      java.lang.Object ref = currentSignRewardId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          currentSignRewardId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCurrentSignRewardIdBytes() {
+      java.lang.Object ref = currentSignRewardId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentSignRewardId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 requireSignNum = 10;
+    public static final int REQUIRESIGNNUM_FIELD_NUMBER = 10;
+    private int requireSignNum_;
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    public boolean hasRequireSignNum() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    public int getRequireSignNum() {
+      return requireSignNum_;
+    }
+
     private void initFields() {
       resultype_ = com.rwproto.SignServiceProtos.EResultType.SUCCESS;
       requestType_ = com.rwproto.SignServiceProtos.ERequestType.SIGN;
@@ -1434,6 +1649,9 @@ public final class SignServiceProtos {
       month_ = 0;
       resultMsg_ = "";
       tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      signNum_ = 0;
+      currentSignRewardId_ = "";
+      requireSignNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1471,6 +1689,15 @@ public final class SignServiceProtos {
       }
       for (int i = 0; i < tagSignData_.size(); i++) {
         output.writeBytes(7, tagSignData_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(8, signNum_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(9, getCurrentSignRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(10, requireSignNum_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1513,6 +1740,18 @@ public final class SignServiceProtos {
         }
         size += dataSize;
         size += 1 * getTagSignDataList().size();
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, signNum_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getCurrentSignRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, requireSignNum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1644,6 +1883,12 @@ public final class SignServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
+        signNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        currentSignRewardId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        requireSignNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -1702,6 +1947,18 @@ public final class SignServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.tagSignData_ = tagSignData_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.signNum_ = signNum_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.currentSignRewardId_ = currentSignRewardId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.requireSignNum_ = requireSignNum_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1747,6 +2004,17 @@ public final class SignServiceProtos {
             tagSignData_.addAll(other.tagSignData_);
           }
           onChanged();
+        }
+        if (other.hasSignNum()) {
+          setSignNum(other.getSignNum());
+        }
+        if (other.hasCurrentSignRewardId()) {
+          bitField0_ |= 0x00000100;
+          currentSignRewardId_ = other.currentSignRewardId_;
+          onChanged();
+        }
+        if (other.hasRequireSignNum()) {
+          setRequireSignNum(other.getRequireSignNum());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2257,6 +2525,202 @@ public final class SignServiceProtos {
         return this;
       }
 
+      // optional int32 signNum = 8;
+      private int signNum_ ;
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public boolean hasSignNum() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public int getSignNum() {
+        return signNum_;
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public Builder setSignNum(int value) {
+        bitField0_ |= 0x00000080;
+        signNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public Builder clearSignNum() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        signNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string currentSignRewardId = 9;
+      private java.lang.Object currentSignRewardId_ = "";
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public boolean hasCurrentSignRewardId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public java.lang.String getCurrentSignRewardId() {
+        java.lang.Object ref = currentSignRewardId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          currentSignRewardId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getCurrentSignRewardIdBytes() {
+        java.lang.Object ref = currentSignRewardId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          currentSignRewardId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder setCurrentSignRewardId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        currentSignRewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder clearCurrentSignRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        currentSignRewardId_ = getDefaultInstance().getCurrentSignRewardId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder setCurrentSignRewardIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        currentSignRewardId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 requireSignNum = 10;
+      private int requireSignNum_ ;
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public boolean hasRequireSignNum() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public int getRequireSignNum() {
+        return requireSignNum_;
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public Builder setRequireSignNum(int value) {
+        bitField0_ |= 0x00000200;
+        requireSignNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public Builder clearRequireSignNum() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        requireSignNum_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgSignResponse)
     }
 
@@ -2289,16 +2753,19 @@ public final class SignServiceProtos {
     java.lang.String[] descriptorData = {
       "\n\021SignService.proto\"D\n\016MsgSignRequest\022\"\n" +
       "\013requestType\030\001 \002(\0162\r.ERequestType\022\016\n\006sig" +
-      "nId\030\002 \001(\t\"\260\001\n\017MsgSignResponse\022\037\n\tresulty" +
+      "nId\030\002 \001(\t\"\366\001\n\017MsgSignResponse\022\037\n\tresulty" +
       "pe\030\001 \002(\0162\014.EResultType\022\"\n\013requestType\030\002 " +
       "\001(\0162\r.ERequestType\022\023\n\013reSignCount\030\003 \001(\005\022" +
       "\014\n\004year\030\004 \001(\005\022\r\n\005month\030\005 \001(\005\022\021\n\tresultMs" +
-      "g\030\006 \001(\t\022\023\n\013tagSignData\030\007 \003(\t*+\n\014ERequest" +
-      "Type\022\010\n\004SIGN\020\001\022\021\n\rSIGNDATA_BACK\020\002*g\n\013ERe" +
-      "sultType\022\013\n\007SUCCESS\020\001\022\026\n\022NOT_ENOUGH_DIAM" +
-      "OND\020\002\022\r\n\tINIT_DATA\020\003\022\020\n\014NEED_REFRESH\020\004\022\010",
-      "\n\004NULL\020\005\022\010\n\004FAIL\020\006B \n\013com.rwprotoB\021SignS" +
-      "erviceProtos"
+      "g\030\006 \001(\t\022\023\n\013tagSignData\030\007 \003(\t\022\017\n\007signNum\030" +
+      "\010 \001(\005\022\033\n\023currentSignRewardId\030\t \001(\t\022\026\n\016re" +
+      "quireSignNum\030\n \001(\005*<\n\014ERequestType\022\010\n\004SI" +
+      "GN\020\001\022\021\n\rSIGNDATA_BACK\020\002\022\017\n\013SIGN_REWARD\020\003",
+      "*\200\001\n\013EResultType\022\013\n\007SUCCESS\020\001\022\026\n\022NOT_ENO" +
+      "UGH_DIAMOND\020\002\022\r\n\tINIT_DATA\020\003\022\020\n\014NEED_REF" +
+      "RESH\020\004\022\010\n\004NULL\020\005\022\010\n\004FAIL\020\006\022\027\n\023SIGN_REWAR" +
+      "D_SUCCESS\020\007B \n\013com.rwprotoB\021SignServiceP" +
+      "rotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2316,7 +2783,7 @@ public final class SignServiceProtos {
           internal_static_MsgSignResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgSignResponse_descriptor,
-              new java.lang.String[] { "Resultype", "RequestType", "ReSignCount", "Year", "Month", "ResultMsg", "TagSignData", });
+              new java.lang.String[] { "Resultype", "RequestType", "ReSignCount", "Year", "Month", "ResultMsg", "TagSignData", "SignNum", "CurrentSignRewardId", "RequireSignNum", });
           return null;
         }
       };

@@ -9,17 +9,19 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.chat.attach.AttachItemFactory;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
-import com.rw.handler.sign.SignHandler;
+import com.rwproto.BattleCommon.BattleHeroPosition;
+import com.rwproto.ChatServiceProtos.ChatAttachItem;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
+import com.rwproto.ChatServiceProtos.eAttachItemType;
+import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
-import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
+import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
-import com.rwproto.GroupSecretProto.GroupSecretIndex;
 import com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg;
-import com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg;
 import com.rwproto.GroupSecretProto.RequestType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
@@ -35,50 +37,69 @@ public class GroupSecretHandler {
 
 	/**
 	 * 探索
+	 * 
 	 * @param client
 	 */
 	public boolean createGroupSecret(Client client) {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
-		msg.setSecretCfgId(1);
+		msg.setSecretCfgId(3);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
-		
+
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		GroupSecretTeamDataHolder groupSecretTeamDataHolder = client.getGroupSecretTeamDataHolder();
 		GroupSecretTeamData data = groupSecretTeamDataHolder.getData();
 		List<String> defendHeroList = data.getDefendHeroList();
-		for (int i = 0; i < 5; i++) {
+		if (defendHeroList == null) {
+			defendHeroList = new ArrayList<String>();
+		}
+		List<String> heroPosList = new ArrayList<String>();
+		int mainRoleIndex = -1;
+		for (int i = 0; i < 1; i++) {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 				String heroId = (String) iterator.next();
-				if(heroId == client.getUserId()){
+				if (heroId.equals(client.getUserId())) {
+					if (heroPosList.contains(heroId)) {
+						continue;
+					}
+					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+					pos.setHeroId(heroId);
+					pos.setPos(0);
+					msg.addTeamHeroId(pos);
+					mainRoleIndex = i;
+					heroPosList.add(heroId);
 					continue;
 				}
+
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
-					msg.addTeamHeroId(heroId);
-					iterator.remove();
+					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+					pos.setHeroId(heroId);
+					pos.setPos(mainRoleIndex == -1 ? i++ : i);
+					msg.addTeamHeroId(pos);
+					defendHeroList.add(heroId);
+					break;
 				}
 			}
 		}
-		msg.addTeamHeroId(client.getUserId());
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
 	}
-	
-	public boolean inviteMemberDefend(Client client){
+
+	public boolean inviteMemberDefend(Client client) {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.INVITE_MEMBER_DEFEND);
 		GroupNormalMemberHolder normalMemberHolder = client.getNormalMemberHolder();
 		Random r = new Random();
 		String randomMemberId = normalMemberHolder.getRandomMemberId(r, false);
-		InviteGroupMemberDefendReqMsg.Builder msg =InviteGroupMemberDefendReqMsg.newBuilder();
+		InviteGroupMemberDefendReqMsg.Builder msg = InviteGroupMemberDefendReqMsg.newBuilder();
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 		String defendSecretId = groupSecretBaseInfoSynDataHolder.getDefendSecretId();
-		if(defendSecretId == null){
+		if (defendSecretId == null) {
 			RobotLog.fail("你当前没有秘境，邀请秘境失败");
 			return false;
 		}
-		if(randomMemberId == null){
+		if (randomMemberId == null) {
 			RobotLog.fail("当前帮派没有成员，邀请秘境失败");
 			return false;
 		}
@@ -86,36 +107,26 @@ public class GroupSecretHandler {
 		msg.addMemberId(randomMemberId);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "发送邀请"));
 	}
-	
-	public boolean acceptMemberDefend(Client client){
-		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
-		req.setReqType(RequestType.JOIN_SECRET_DEFEND);
-		GroupSecretInviteDataHolder groupSecretInviteDataHolder = client.getGroupSecretInviteDataHolder();
-		List<ChatMessageData> list = groupSecretInviteDataHolder.getList();
-		if(list == null || list.size()<=0){
+
+	public boolean acceptMemberDefend(Client client) {
+		List<ChatMessageData> list = client.getChatData().getMsgList(eChatType.CHAT_TREASURE);
+		if (list == null || list.isEmpty()) {
 			RobotLog.fail("当前没有秘境邀请，接受失败");
 			return false;
 		}
-		ChatMessageData chatMessageData = list.get(0);
-		String treasureId = chatMessageData.getTreasureId();
-		JoinSecretDefendReqMsg.Builder msg = JoinSecretDefendReqMsg.newBuilder();
-		msg.setId(treasureId);
-		msg.setIndex(GroupSecretIndex.MAIN);
-		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
-		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
-		List<String> battleHeroList = new ArrayList<String>();
-		for (int i = 0; i < 5; i++) {
-			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
-				String heroId = (String) iterator.next();
-				battleHeroList.add(heroId);
-				iterator.remove();
-			}
+
+		ChatMessageData chatMessageData = list.get(new Random().nextInt(list.size()));
+		List<ChatAttachItem> attachItemList = chatMessageData.getAttachItemList();
+		if (attachItemList == null || attachItemList.isEmpty()) {
+			RobotLog.fail("当前没有秘境邀请，接受失败");
+			return false;
 		}
-		msg.addAllHeroId(battleHeroList);
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "接受邀请"));
+
+		ChatAttachItem chatAttachItem = attachItemList.get(0);
+		return AttachItemFactory.getInstance().attachHandler(eAttachItemType.valueOf(chatAttachItem.getType()), client, chatAttachItem.getId(), chatAttachItem.getExtraInfo());
 	}
 
-	private class GroupSecretReceier extends PrintMsgReciver {
+	public static class GroupSecretReceier extends PrintMsgReciver {
 
 		public GroupSecretReceier(Command command, String functionName, String protoType) {
 			super(command, functionName, protoType);
@@ -133,12 +144,11 @@ public class GroupSecretHandler {
 					return true;
 				} else {
 					String tips = resp.getTipMsg();
-					if(resp.getReqType() == RequestType.CREATE_GROUP_SECRET){
-						if (tips.indexOf("您当前只能创建") != -1 && tips.indexOf("个秘境") != -1) {
-							return true;
-						}
+					if (tips.indexOf("当前只能创建") != -1) {
+						RobotLog.fail(parseFunctionDesc() + "失败:" + tips);
+						return true;
 					}
-					throw new Exception(resp.getTipMsg());
+					RobotLog.fail(parseFunctionDesc() + "失败:" + tips + "  client.accountId =" + client.getAccountId());
 				}
 			} catch (Exception ex) {
 				RobotLog.fail(parseFunctionDesc() + "失败", ex);
@@ -149,5 +159,33 @@ public class GroupSecretHandler {
 		private String parseFunctionDesc() {
 			return functionName + "[" + protoType + "] ";
 		}
+	}
+
+	public void getGroupSecretReward(Client client) {
+
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
+		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
+		if (defendSecretIdList == null) {
+			return;
+		}
+		for (int i = 0; i < defendSecretIdList.size(); i++) {
+			if (!defendSecretIdList.get(i).isFinish()) {
+				continue;
+			}
+			GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
+			req.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
+			GetGroupSecretRewardReqMsg.Builder msg = GetGroupSecretRewardReqMsg.newBuilder();
+			msg.setId(defendSecretIdList.get(i).getId());
+			req.setGetRewardReqMsg(msg);
+			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "领取奖励"));
+
+		}
+	}
+
+	public void openMainView(Client client) {
+		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
+		req.setReqType(RequestType.OPEN_MAIN_VIEW);
+		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "打开界面"));
+
 	}
 }

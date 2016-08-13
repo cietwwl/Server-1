@@ -2,27 +2,32 @@ package com.rw;
 
 import java.util.Random;
 
-import com.rw.handler.copy.CopyType;
-
 public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("sgn0845");
+//		 Robot robot = loginRobot("12312");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpallen"+random.nextInt(2000));
+		 Robot robot = createRobot("tmpallen"+ 112);
 		 if(robot == null){
 		 }else{
-			 boolean issucc =false;
-			 
-			 issucc=robot.testFixEquip(1,0,1,6);
-			 System.out.println("@@@@@@@@@@@test" + issucc);			 
+			 //boolean issucc = robot.startTBCreateTeam();
+			 robot.upgrade(33);
+			 robot.addGold(9999);
+			 robot.addCoin(9999);
+			 robot.addHero(1);
+			 robot.addHero(1);
+			 robot.createGroup("tmpallen112");
+			 boolean issucc = robot.attackEnemyGroupSecret();
+			 //robot.addHero(5);
+//			 robot.createGroup("xiaofei338");
+			 System.out.println("@@@@@@@@@@@test：" + issucc);
 		 }
 		 
 		 
@@ -295,7 +300,7 @@ public class Test {
 		
 	
 	// 登录
-	private static Robot loginRobot(String accountId) {
+	public static Robot loginRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
 		robot.loginPlatform();
 		robot.loginGame();

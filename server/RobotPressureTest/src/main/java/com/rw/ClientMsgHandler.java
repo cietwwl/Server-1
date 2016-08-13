@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.rw.common.MsgLog;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
 import com.rwproto.DataSynProtos.eSynType;
@@ -130,8 +130,14 @@ public abstract class ClientMsgHandler {
 					case FRESHER_ATIVITY_DATA:
 						getClient().getFresherActivityHolder().syn(msgDataSyn);
 						break;
+					case SECRETAREA_BASE_INFO:
+						getClient().getGroupSecretBaseInfoSynDataHolder().syn(msgDataSyn);
+						break;
 					case SECRETAREA_TEAM_INFO:
 						getClient().getGroupSecretTeamDataHolder().syn(msgDataSyn);
+						break;
+					case SECRETAREA_USER_INFO:
+						getClient().getGroupSecretUserInfoSynDataHolder().syn(msgDataSyn);
 						break;
 					case USER_HEROS:
 						getClient().getUserHerosDataHolder().syn(msgDataSyn);
@@ -157,9 +163,48 @@ public abstract class ClientMsgHandler {
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
 						break;
+					case GFightOnlinePersonalData:
+						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
+						break;
+					case GFightOnlineResourceData:
+						getClient().getGFightOnlineResourceHolder().syn(msgDataSyn);
+						break;
+					case GFightOnlineGroupData:
+						getClient().getGFightOnlineGroupHolder().syn(msgDataSyn);
+						break;
+					case TEAM_BATTLE_TEAM:
+						getClient().getTBTeamItemHolder().syn(msgDataSyn);
+						break;
+					case USER_TEAM_BATTLE:
+						getClient().getUserTeamBattleDataHolder().syn(msgDataSyn);
+						break;
+			//--------------------------帮派副本数据-------------------------------//			
+					case GROUP_COPY_LEVEL:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_COPY_REWARD:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_COPY_MAP:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
+					case GROUP_ITEM_DROP_APPLY:
+						getClient().getGroupCopyHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
+			}
+		}
+	}
+
+	public void receiveRsp(Response resp) {
+		if (Command.MSG_CHAT == resp.getHeader().getCommand()) {
+			try {
+				MsgChatResponse rsp = MsgChatResponse.parseFrom(resp.getSerializedContent());
 			} catch (InvalidProtocolBufferException e) {
 				e.printStackTrace();
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
@@ -205,18 +250,18 @@ public abstract class ClientMsgHandler {
 		final long sendTime = System.currentTimeMillis();
 		try {
 			final Channel channel = ChannelServer.getInstance().getChannel(client);
-			if(channel == null){
-				RobotLog.testException("channel is null:"+client.getAccountId(), new NullPointerException());
+			if (channel == null) {
+				RobotLog.testException("channel is null:" + client.getAccountId(), new NullPointerException());
 				return false;
 			}
 			client.setCommandInfo(new CommandInfo(command, seqId));
-//			StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-//			StringBuilder sb = new StringBuilder();
-//			sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
-//			for (int i = 0; i < trace.length; i++) {
-//				sb.append("      ").append(trace[i].toString()).append("\r\n");
-//			}
-//			RobotLog.testInfo(sb.toString());
+			// StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+			// StringBuilder sb = new StringBuilder();
+			// sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
+			// for (int i = 0; i < trace.length; i++) {
+			// sb.append("      ").append(trace[i].toString()).append("\r\n");
+			// }
+			// RobotLog.testInfo(sb.toString());
 			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
 
 			ChannelFuture f = channel.writeAndFlush(request);
@@ -256,13 +301,13 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
 			success = false;
 		} else {
 
 			ResponseHeader headerTmp = rsp.getHeader();
 			if (headerTmp == null) {
-				RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
+				RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
 				success = false;
 			} else {
 				Command commandTmp = headerTmp.getCommand();

@@ -104,8 +104,7 @@ public class CopyHandler {
 					}
 					
 					EResultType result = rsp.getEResultType();
-					RobotLog.fail("CopyHandler[send] battleItemsBack 服务器处理消息结果 "
-							+ result + "|userId:" + client.getUserId());
+//					RobotLog.fail("CopyHandler[send] battleItemsBack 服务器处理消息结果 "+ result + "|userId:" + client.getUserId());
 					if (result != EResultType.ITEM_BACK && result != EResultType.NOT_ENOUGH_TIMES) {
 						RobotLog.fail("CopyHandler[send] 服务器处理战前申请消息失败 " + result);
 						return false;
@@ -155,8 +154,7 @@ public class CopyHandler {
 							}
 
 							EResultType result = rsp.getEResultType();
-							RobotLog.fail("CopyHandler[send] battleClear 服务器处理消息结果 "
-									+ result + "|userId:" + client.getUserId());
+//							RobotLog.fail("CopyHandler[send] battleClear 服务器处理消息结果 "	+ result + "|userId:" + client.getUserId());
 							if (result != EResultType.BATTLE_CLEAR
 									&& result != EResultType.NOT_ENOUGH_TIMES) {
 								RobotLog.fail("CopyHandler[send] 服务器处理申请战斗结束消息失败 "

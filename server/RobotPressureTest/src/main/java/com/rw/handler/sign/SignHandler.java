@@ -1,5 +1,6 @@
 package com.rw.handler.sign;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
@@ -33,6 +34,12 @@ public class SignHandler {
 		}
 	}
 	
+	public boolean processSignReward(Client client){
+		MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
+		request.setRequestType(ERequestType.SIGN_REWARD);
+		return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到领奖励"));
+	}
+	
 	private boolean processRequestSign(Client client){
 		SignDataHolder signDataHolder = client.getSignDataHolder();
 		List<String> signDataList = signDataHolder.getSignDataList();
@@ -49,10 +56,14 @@ public class SignHandler {
 				maxSignId = signId;
 			}
 		}
-		MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
-		request.setRequestType(ERequestType.SIGN);
-		request.setSignId(maxSignId);
-		return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
+		int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		if (maxDay < currentDay) {
+			MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
+			request.setRequestType(ERequestType.SIGN);
+			request.setSignId(maxSignId);
+			client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
+		}
+		return processSignReward(client);
 	}
 	
 	public void initSignData(Client client, List<String> signDataList, int year, int month, int reSignCount){
@@ -92,13 +103,19 @@ public class SignHandler {
 				case NEED_REFRESH:
 					initSignData(client, resp.getTagSignDataList(), resp.getYear(), resp.getMonth(), resp.getReSignCount());
 					break;
-				case NOT_ENOUGH_DIAMOND:
-					throw new Exception("砖石不足");
+				
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
 					return true;
+				case SIGN_REWARD_SUCCESS:
+					RobotLog.info(parseFunctionDesc() + "成功");
+					return true;
+				case NOT_ENOUGH_DIAMOND:
+					RobotLog.fail("砖石不足");
+					return true;
 				case FAIL:
-					throw new Exception(resp.getResultMsg());
+					RobotLog.fail(resp.getResultMsg());
+					return true;
 				default:
 					throw new Exception("出现了未知的状况");
 				}

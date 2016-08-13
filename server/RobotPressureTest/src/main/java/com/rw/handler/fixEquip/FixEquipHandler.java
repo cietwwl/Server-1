@@ -90,8 +90,8 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已经达到最高级") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("已经达到最高级") != -1){
+							RobotLog.info("fixequipHandler[send.levelUp]装备已最高，直接返回true");
 							return true;
 						}
 							
@@ -200,12 +200,12 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("已经达到最品质") != -1){
+							RobotLog.info("fixequipHandler[send.doQualityup]装备已最高，直接返回true");
 							return true;
 						}
-						if(rsp.getTipMsg().indexOf("等级不够") > 0){
-							RobotLog.info("人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
+						if(rsp.getTipMsg().indexOf("等级不够") != -1){
+							RobotLog.info("fixequipHandler[send.doQualityup]人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixequipHandler[send.doQualityup]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
@@ -243,6 +243,7 @@ public class FixEquipHandler {
 		req.setEquipId(tmp);
 		
 		
+		
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_FIX_EQUIP, req.build().toByteString(), new MsgReciver() {
 			
 			public Command getCmd() {
@@ -261,11 +262,11 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已达最高星级") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("已达最高星级")!= -1){
+							RobotLog.info("fixequipHandler[send.doStarUp]装备已最高，直接返回true");
 							return true;
 						}
-						RobotLog.fail("fixequipHandler[send.doStarUp]服务器处理获取列表消息失败 !" + rsp.getTipMsg());
+						RobotLog.fail("fixequipHandler[send.doStarUp]服务器处理获取列表消息失败 !" + rsp.getTipMsg() );
 						return false;
 					}
 					
@@ -318,10 +319,14 @@ public class FixEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已是最低等级") > 0){
-							RobotLog.info("装备已最低，直接返回true");
+						if(rsp.getTipMsg().indexOf("已是最低等级") != -1){
+							RobotLog.info("fixequipHandler[send.doStarDown]装备已最低，直接返回true");
 							return true;
 						}
+						if(rsp.getTipMsg().indexOf("已达最高") != -1){
+							return true;
+						}
+						
 						RobotLog.fail("fixequipHandler[send.doStarDown] 服务器处理获取列表消息失败 !" + rsp.getTipMsg());
 						return false;
 					}

@@ -88,8 +88,8 @@ public class FixExpEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已是最低") > 0){
-							RobotLog.info("装备已最低，直接返回true");
+						if(rsp.getTipMsg().indexOf("已是最低") != -1){
+							RobotLog.info("fixExpequipHandler[send.doStarDown] 装备已最低，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doStarDown] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
@@ -147,8 +147,8 @@ public class FixExpEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已达最高") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("已达最高")!= -1){
+							RobotLog.info("fixExpequipHandler[send.doStarUp] 装备已最高，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doStarUp] 服务器处理获取列表消息失败 " + rsp.getTipMsg());
@@ -204,12 +204,12 @@ public class FixExpEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("已经达到最品质") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("已经达到最品质") != -1){
+							RobotLog.info("fixExpequipHandler[send.doQualityUp]装备已最高，直接返回true");
 							return true;
 						}
-						if(rsp.getTipMsg().indexOf("等级不够") > 0){
-							RobotLog.info("人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
+						if(rsp.getTipMsg().indexOf("等级不够") != -1){
+							RobotLog.info("fixExpequipHandler[send.doQualityUp]人物达到顶级，装备无法再强化导致等级不足进化，直接返回true");
 							return true;
 						}
 						RobotLog.fail("fixExpequipHandler[send.doQualityUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
@@ -278,11 +278,14 @@ public class FixExpEquipHandler {
 
 					boolean result = rsp.getIsSuccess();
 					if (result == false) {
-						if(rsp.getTipMsg().indexOf("不能超过英雄等级") > 0){
-							RobotLog.info("装备已最高，直接返回true");
+						if(rsp.getTipMsg().indexOf("不能超过英雄等级") != -1){
+							RobotLog.info("fixExpequipHandler[send.doLevelUp] 装备已最高，直接返回true");
 							return true;
 						}
-						
+						if(rsp.getTipMsg().indexOf("已达最高") != -1){
+							
+							return true;
+						}
 						RobotLog.fail("fixExpequipHandler[send.doLevelUp] 服务器处理获取列表消息失败 " +  rsp.getTipMsg());
 						return false;
 					}

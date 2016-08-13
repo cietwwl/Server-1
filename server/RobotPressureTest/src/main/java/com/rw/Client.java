@@ -6,9 +6,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
+import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
+import com.rw.handler.chat.data.ChatData;
 import com.rw.handler.copy.CopyHolder;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
@@ -23,9 +25,12 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
+import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
+import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
 import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
-import com.rw.handler.groupsecret.GroupSecretInviteDataHolder;
 import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
+import com.rw.handler.groupsecret.GroupSecretUserInfoSynDataHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
@@ -36,6 +41,8 @@ import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
+import com.rw.handler.teamBattle.data.TBTeamItemHolder;
+import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
 
 /*
  * 角色信息
@@ -68,6 +75,11 @@ public class Client {
 	private GroupBaseDataHolder groupBaseDataHolder = new GroupBaseDataHolder();
 	private GroupDataVersion groupVersion = new GroupDataVersion();
 	private GroupRequestCacheData groupCacheData = new GroupRequestCacheData();
+	
+	//帮派副本数据
+	private GroupCopyDataHolder groupCopyHolder = new GroupCopyDataHolder();
+	
+	
 	// 封神台的数据
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
@@ -93,18 +105,29 @@ public class Client {
 	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
 	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
 	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
-	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
+	private GroupSecretUserInfoSynDataHolder groupSecretUserInfoSynDataHolder = new GroupSecretUserInfoSynDataHolder();
+	
+	// private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
 	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
 
+	// 在线帮战
+	private UserGFightOnlineHolder ugfHolder = UserGFightOnlineHolder.getInstance();
+	private GFightOnlineResourceHolder gfResHolder = GFightOnlineResourceHolder.getInstance();
+	private GFightOnlineGroupHolder gfGroupHolder = GFightOnlineGroupHolder.getInstance();
+
+	// 组队战
+	private TBTeamItemHolder tbTeamItemHolder = TBTeamItemHolder.getInstance();
+	private UserTeamBattleDataHolder utbDataHolder = UserTeamBattleDataHolder.getInstance();
+
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
-	
+
 	private CopyHolder copyHolder = new CopyHolder();
-	
+
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
-	
+
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 
 	// last seqId
@@ -112,6 +135,9 @@ public class Client {
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
 
 	private AtomicBoolean closeFlat = new AtomicBoolean();
+
+	// 聊天数据缓存
+	private ChatData chatData = new ChatData();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -216,22 +242,22 @@ public class Client {
 		for (ServerInfo serverInfo : serverList) {
 			boolean blnAdd = true;
 			for (ServerInfo si : serverList) {
-				if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+				if (si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()) {
 					si.setHasRole(serverInfo.isHasRole());
 					blnAdd = false;
 					break;
 				}
 			}
-			if(blnAdd){
+			if (blnAdd) {
 				this.serverList.add(serverInfo);
 			}
 		}
 		this.serverList = serverList;
 	}
-	
-	public void addServerInfo(ServerInfo serverInfo){
+
+	public void addServerInfo(ServerInfo serverInfo) {
 		for (ServerInfo si : serverList) {
-			if(si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()){
+			if (si.getServerIP() == serverInfo.getServerIP() && si.getServerPort() == serverInfo.getServerPort() && si.getZoneId() == serverInfo.getZoneId()) {
 				return;
 			}
 		}
@@ -268,6 +294,10 @@ public class Client {
 
 	public BattleTowerData getBattleTowerData() {
 		return battleTowerData;
+	}
+
+	public GroupCopyDataHolder getGroupCopyHolder() {
+		return groupCopyHolder;
 	}
 
 	public FresherActivityHolder getFresherActivityHolder() {
@@ -341,10 +371,7 @@ public class Client {
 	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
 		return magicChapterInfoHolder;
 	}
-	
-	
-	
-	
+
 	public void setUserGameDataHolder(UserGameDataHolder userGameDataHolder) {
 		this.userGameDataHolder = userGameDataHolder;
 	}
@@ -356,8 +383,6 @@ public class Client {
 	public CopyHolder getCopyHolder() {
 		return copyHolder;
 	}
-
-
 
 	public void setMagicChapterInfoHolder(MagicChapterInfoHolder magicChapterInfoHolder) {
 		this.magicChapterInfoHolder = magicChapterInfoHolder;
@@ -374,10 +399,14 @@ public class Client {
 	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
 		return groupSecretBaseInfoSynDataHolder;
 	}
-
-	public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
-		return groupSecretInviteDataHolder;
+	
+	public GroupSecretUserInfoSynDataHolder getGroupSecretUserInfoSynDataHolder(){
+		return groupSecretUserInfoSynDataHolder;
 	}
+	
+	// public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
+	// return groupSecretInviteDataHolder;
+	// }
 
 	public MajorDataholder getMajorDataholder() {
 		return majorDataholder;
@@ -407,4 +436,27 @@ public class Client {
 		this.taoistDataHolder = taoistDataHolder;
 	}
 
+	public UserGFightOnlineHolder getUserGFightOnlineHolder() {
+		return ugfHolder;
+	}
+
+	public GFightOnlineResourceHolder getGFightOnlineResourceHolder() {
+		return gfResHolder;
+	}
+
+	public GFightOnlineGroupHolder getGFightOnlineGroupHolder() {
+		return gfGroupHolder;
+	}
+
+	public TBTeamItemHolder getTBTeamItemHolder() {
+		return tbTeamItemHolder;
+	}
+
+	public UserTeamBattleDataHolder getUserTeamBattleDataHolder() {
+		return utbDataHolder;
+	}
+
+	public ChatData getChatData() {
+		return chatData;
+	}
 }
