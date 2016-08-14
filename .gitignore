@@ -3,6 +3,7 @@ server/FSApp/target/
 server/RemoteSystemsTempFiles/
 server/FSApp/log/
 server/FSPlatform/log/
+server/RobotPressureTest/log/
 server/FSPlatform/tmp/
 server/FSPlatform/.settings/
 
@@ -67,6 +68,7 @@ Thumbs.db
 /server/FSApp/datalogs/20160318/*.log
 /server/FSApp/datalogs/20160319/*.log
 /server/FSApp/datalogs/methodtrace/*.log
+/server/RobotPressureTest/log/*.log
 datalogs
 /server/FSApp/src/main/resources/config.properties
 /server/FSApp/src/main/resources/server.properties
