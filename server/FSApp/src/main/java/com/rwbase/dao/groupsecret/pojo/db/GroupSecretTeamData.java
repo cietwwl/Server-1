@@ -192,7 +192,7 @@ public class GroupSecretTeamData {
 			if (heroLeftInfoSynData == null) {
 //				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
 				AttrData totalData = hero.getAttrMgr().getTotalAttrData();
-				int maxLife = totalData.getLife();
+				int maxLife = (int)totalData.getLife();
 				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
 					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModeId());
 					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;

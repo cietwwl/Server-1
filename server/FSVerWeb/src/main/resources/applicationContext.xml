@@ -1,32 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<beans xmlns="http://www.springframework.org/schema/beans"  
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" 
-    default-init-method="init">  
-  
-  
-  <bean
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-init-method="init">
+
+
+	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:config.properties</value>
+				<value>classpath:path.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="false" />
 	</bean>
+	<bean id="springContextUtil" class="com.fy.SpringContextUtil" />
 
+	<!-- controller for actions -->
+	<bean id="verService" class="com.fy.VerService">
+		<property name="versionMgr" ref="versionMgr"></property>
+	</bean>
+
+
+	<bean id="versionMgr" class="com.fy.version.VersionMgr">
+		<property name="versionDao" ref="versionDao"></property>
+	</bean>
+
+	<bean id="versionDao" class="com.fy.version.VersionDao">
+		<property name="verDirPath" value="${verDirPath}"></property>
+	</bean>
+
+	<bean id="luaService" class="com.fy.LuaService">
+	    <property name="luaMgr" ref="luaMgr"></property>
+	</bean>
+
+	<bean id="addressInfo" class="com.fy.address.AddressInfo">
+		<property name="loginServerDomain" value="${loginServerDomain}"></property>
+		<property name="cdnDomain" value="${cdnDomain}"></property>
+		<property name="cdnBackUpDomain" value="${cdnBackUpDomain}"></property>
+	</bean>
+
+	<bean id="luaDao" class="com.fy.lua.LuaDao">
+		<property name="luaDirPath" value="${luaDirPath}"></property>
+	</bean>
+
+	<bean id="luaMgr" class="com.fy.lua.LuaMgr">
+	</bean>
 	
-    <!-- controller for actions -->
-    <bean id="verService" class="com.fy.VerService" >
-    	<property name="versionMgr" ref="versionMgr"></property>
-    </bean>
-    
-    
-    <bean id="versionMgr" class="com.fy.version.VersionMgr" >
-    	<property name="versionDao" ref="versionDao"></property>
-    </bean>
-    
-    <bean id="versionDao" class="com.fy.version.VersionDao">
-    	<property name="verDirPath" value="${verDirPath}"></property>
-    </bean>
+	<bean id="Timer" class="com.fy.timer.Timer">
+	</bean>
 </beans>  

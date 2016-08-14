@@ -1,9 +1,7 @@
 package com.playerdata.teambattle.data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,7 +9,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.bm.TeamBattleConst;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
@@ -30,7 +27,7 @@ public class TBTeamItem implements IMapItem{
 	private String hardID;
 	
 	@CombineSave
-	private final List<TeamMember> members;
+	private List<TeamMember> members;
 	
 	@CombineSave
 	private String leaderID;
@@ -41,17 +38,13 @@ public class TBTeamItem implements IMapItem{
 	@NonSave
 	private List<StaticMemberTeamInfo> teamMembers = new ArrayList<StaticMemberTeamInfo>();
 	
-	@NonSave
-	@IgnoreSynField
-	private boolean isSelecting = false;
-
-	public TBTeamItem(){
-		this.members = new CopyOnWriteArrayList<TeamMember>();
-	}
-	
 	@Override
 	public String getId() {
 		return teamID;
+	}
+	
+	public TBTeamItem(){
+		members = new ArrayList<TeamMember>();
 	}
 	
 	public String getTeamID() {
@@ -78,37 +71,34 @@ public class TBTeamItem implements IMapItem{
 		this.leaderID = leaderID;
 	}
 	
-	public List<TeamMember> getMembers(){
-		return Collections.unmodifiableList(members);
+	public synchronized List<TeamMember> getMembers(){
+		return new ArrayList<TeamMember>(members);
 	}
 	
-	public TeamMember findMember(String userID){
+	public synchronized TeamMember findMember(String userID){
 		for(TeamMember mem : members){
 			if(StringUtils.equals(mem.getUserID(), userID)) return mem;
 		}
 		return null;
 	}
 	
-	public StaticMemberTeamInfo findTeamMember(String userID){
-		for(StaticMemberTeamInfo mem : teamMembers){
-			if(StringUtils.equals(mem.getUserID(), userID)) return mem;
-		}
-		return null;
+	public synchronized boolean needRefreshTeamMembers(){
+		return teamMembers == null || teamMembers.isEmpty();
 	}
 	
 	public synchronized boolean isFull(){
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return true;
-		if(members.size() == TeamBattleConst.TEAM_MAX_MEMBER - 1) return isSelecting;
 		return false;
 	}
 	
-	public synchronized boolean addMember(TeamMember member){
+	public boolean addMember(TeamMember member){
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return false;
 		members.add(member);
+		teamMembers = null;
 		return true;
 	}
 	
-	public synchronized boolean removeMember(TeamMember member){
+	public boolean removeMember(TeamMember member){
 		boolean result = members.remove(member);
 		if(result){
 			StaticMemberTeamInfo staticMem = findTeamMember(member.getUserID());
@@ -121,7 +111,7 @@ public class TBTeamItem implements IMapItem{
 		return result;
 	}
 	
-	public void changeLeaderAfterFinish(String userID){
+	public synchronized void changeLeaderAfterFinish(String userID){
 		if(StringUtils.equals(userID, leaderID) && members.size() >= 2){
 			TeamMember member = findMember(userID);
 			if(null == member) return;
@@ -150,14 +140,6 @@ public class TBTeamItem implements IMapItem{
 	public void setTeamMembers(List<StaticMemberTeamInfo> teamMembers) {
 		this.teamMembers = teamMembers;
 	}
-
-	public boolean isSelecting() {
-		return isSelecting;
-	}
-
-	public void setSelecting(boolean isSelecting) {
-		this.isSelecting = isSelecting;
-	}
 	
 	public boolean removeAble(){
 		if(members.size() == 0) return true;
@@ -168,5 +150,13 @@ public class TBTeamItem implements IMapItem{
 			if(member.getState().equals(TBMemberState.Ready)) return false;
 		}
 		return true;
+	}
+	
+	private StaticMemberTeamInfo findTeamMember(String userID){
+		if(null == teamMembers) return null;
+		for(StaticMemberTeamInfo mem : teamMembers){
+			if(StringUtils.equals(mem.getUserID(), userID)) return mem;
+		}
+		return null;
 	}
 }

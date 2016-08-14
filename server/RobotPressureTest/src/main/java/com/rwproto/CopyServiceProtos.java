@@ -85,6 +85,22 @@ public final class CopyServiceProtos {
      * </pre>
      */
     Map_Animation(8, 9),
+    /**
+     * <code>GET_COPY_BOX = 10;</code>
+     *
+     * <pre>
+     *领取关卡宝箱。客户端发送参数：MapGiftRequest：地图id,关卡id
+     * </pre>
+     */
+    GET_COPY_BOX(9, 10),
+    /**
+     * <code>GET_GOD_BOX = 11;</code>
+     *
+     * <pre>
+     *领取天尊锦囊，客户端发送参数：GodGiftRequest: 地图id
+     * </pre>
+     */
+    GET_GOD_BOX(10, 11),
     ;
 
     /**
@@ -159,6 +175,22 @@ public final class CopyServiceProtos {
      * </pre>
      */
     public static final int Map_Animation_VALUE = 9;
+    /**
+     * <code>GET_COPY_BOX = 10;</code>
+     *
+     * <pre>
+     *领取关卡宝箱。客户端发送参数：MapGiftRequest：地图id,关卡id
+     * </pre>
+     */
+    public static final int GET_COPY_BOX_VALUE = 10;
+    /**
+     * <code>GET_GOD_BOX = 11;</code>
+     *
+     * <pre>
+     *领取天尊锦囊，客户端发送参数：GodGiftRequest: 地图id
+     * </pre>
+     */
+    public static final int GET_GOD_BOX_VALUE = 11;
 
 
     public final int getNumber() { return value; }
@@ -174,6 +206,8 @@ public final class CopyServiceProtos {
         case 7: return GM_SETLEVEL;
         case 8: return GET_GIFT;
         case 9: return Map_Animation;
+        case 10: return GET_COPY_BOX;
+        case 11: return GET_GOD_BOX;
         default: return null;
       }
     }
@@ -742,6 +776,32 @@ public final class CopyServiceProtos {
      * </pre>
      */
     com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder getMapAnimaOrBuilder();
+
+    // optional .GodGiftRequest godGift = 6;
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    boolean hasGodGift();
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.GodGiftRequest getGodGift();
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder getGodGiftOrBuilder();
   }
   /**
    * Protobuf type {@code MsgCopyRequest}
@@ -847,6 +907,19 @@ public final class CopyServiceProtos {
                 mapAnima_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              com.rwproto.CopyServiceProtos.GodGiftRequest.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = godGift_.toBuilder();
+              }
+              godGift_ = input.readMessage(com.rwproto.CopyServiceProtos.GodGiftRequest.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(godGift_);
+                godGift_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -1031,12 +1104,47 @@ public final class CopyServiceProtos {
       return mapAnima_;
     }
 
+    // optional .GodGiftRequest godGift = 6;
+    public static final int GODGIFT_FIELD_NUMBER = 6;
+    private com.rwproto.CopyServiceProtos.GodGiftRequest godGift_;
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    public boolean hasGodGift() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.GodGiftRequest getGodGift() {
+      return godGift_;
+    }
+    /**
+     * <code>optional .GodGiftRequest godGift = 6;</code>
+     *
+     * <pre>
+     *请求领取天尊锦囊
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder getGodGiftOrBuilder() {
+      return godGift_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
       levelId_ = 0;
       tagBattleData_ = com.rwproto.CopyServiceProtos.TagBattleData.getDefaultInstance();
       mapGiftRequest_ = com.rwproto.CopyServiceProtos.MapGiftRequest.getDefaultInstance();
       mapAnima_ = com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
+      godGift_ = com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1065,6 +1173,12 @@ public final class CopyServiceProtos {
           return false;
         }
       }
+      if (hasGodGift()) {
+        if (!getGodGift().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1086,6 +1200,9 @@ public final class CopyServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, mapAnima_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, godGift_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1115,6 +1232,10 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, mapAnima_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, godGift_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1227,6 +1348,7 @@ public final class CopyServiceProtos {
           getTagBattleDataFieldBuilder();
           getMapGiftRequestFieldBuilder();
           getMapAnimaFieldBuilder();
+          getGodGiftFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1257,6 +1379,12 @@ public final class CopyServiceProtos {
           mapAnimaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (godGiftBuilder_ == null) {
+          godGift_ = com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance();
+        } else {
+          godGiftBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1317,6 +1445,14 @@ public final class CopyServiceProtos {
         } else {
           result.mapAnima_ = mapAnimaBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (godGiftBuilder_ == null) {
+          result.godGift_ = godGift_;
+        } else {
+          result.godGift_ = godGiftBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1348,6 +1484,9 @@ public final class CopyServiceProtos {
         if (other.hasMapAnima()) {
           mergeMapAnima(other.getMapAnima());
         }
+        if (other.hasGodGift()) {
+          mergeGodGift(other.getGodGift());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1371,6 +1510,12 @@ public final class CopyServiceProtos {
         }
         if (hasMapAnima()) {
           if (!getMapAnima().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGodGift()) {
+          if (!getGodGift().isInitialized()) {
             
             return false;
           }
@@ -1939,6 +2084,159 @@ public final class CopyServiceProtos {
           mapAnima_ = null;
         }
         return mapAnimaBuilder_;
+      }
+
+      // optional .GodGiftRequest godGift = 6;
+      private com.rwproto.CopyServiceProtos.GodGiftRequest godGift_ = com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.GodGiftRequest, com.rwproto.CopyServiceProtos.GodGiftRequest.Builder, com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder> godGiftBuilder_;
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public boolean hasGodGift() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.GodGiftRequest getGodGift() {
+        if (godGiftBuilder_ == null) {
+          return godGift_;
+        } else {
+          return godGiftBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public Builder setGodGift(com.rwproto.CopyServiceProtos.GodGiftRequest value) {
+        if (godGiftBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          godGift_ = value;
+          onChanged();
+        } else {
+          godGiftBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public Builder setGodGift(
+          com.rwproto.CopyServiceProtos.GodGiftRequest.Builder builderForValue) {
+        if (godGiftBuilder_ == null) {
+          godGift_ = builderForValue.build();
+          onChanged();
+        } else {
+          godGiftBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public Builder mergeGodGift(com.rwproto.CopyServiceProtos.GodGiftRequest value) {
+        if (godGiftBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              godGift_ != com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance()) {
+            godGift_ =
+              com.rwproto.CopyServiceProtos.GodGiftRequest.newBuilder(godGift_).mergeFrom(value).buildPartial();
+          } else {
+            godGift_ = value;
+          }
+          onChanged();
+        } else {
+          godGiftBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public Builder clearGodGift() {
+        if (godGiftBuilder_ == null) {
+          godGift_ = com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance();
+          onChanged();
+        } else {
+          godGiftBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.GodGiftRequest.Builder getGodGiftBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getGodGiftFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder getGodGiftOrBuilder() {
+        if (godGiftBuilder_ != null) {
+          return godGiftBuilder_.getMessageOrBuilder();
+        } else {
+          return godGift_;
+        }
+      }
+      /**
+       * <code>optional .GodGiftRequest godGift = 6;</code>
+       *
+       * <pre>
+       *请求领取天尊锦囊
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.GodGiftRequest, com.rwproto.CopyServiceProtos.GodGiftRequest.Builder, com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder> 
+          getGodGiftFieldBuilder() {
+        if (godGiftBuilder_ == null) {
+          godGiftBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.CopyServiceProtos.GodGiftRequest, com.rwproto.CopyServiceProtos.GodGiftRequest.Builder, com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder>(
+                  godGift_,
+                  getParentForChildren(),
+                  isClean());
+          godGift_ = null;
+        }
+        return godGiftBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgCopyRequest)
@@ -9797,6 +10095,410 @@ public final class CopyServiceProtos {
     // @@protoc_insertion_point(class_scope:FortuneResult)
   }
 
+  public interface GodGiftRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 mapID = 1;
+    /**
+     * <code>required int32 mapID = 1;</code>
+     */
+    boolean hasMapID();
+    /**
+     * <code>required int32 mapID = 1;</code>
+     */
+    int getMapID();
+  }
+  /**
+   * Protobuf type {@code GodGiftRequest}
+   */
+  public static final class GodGiftRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements GodGiftRequestOrBuilder {
+    // Use GodGiftRequest.newBuilder() to construct.
+    private GodGiftRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GodGiftRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GodGiftRequest defaultInstance;
+    public static GodGiftRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GodGiftRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GodGiftRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              mapID_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_GodGiftRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_GodGiftRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.GodGiftRequest.class, com.rwproto.CopyServiceProtos.GodGiftRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GodGiftRequest> PARSER =
+        new com.google.protobuf.AbstractParser<GodGiftRequest>() {
+      public GodGiftRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GodGiftRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GodGiftRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 mapID = 1;
+    public static final int MAPID_FIELD_NUMBER = 1;
+    private int mapID_;
+    /**
+     * <code>required int32 mapID = 1;</code>
+     */
+    public boolean hasMapID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 mapID = 1;</code>
+     */
+    public int getMapID() {
+      return mapID_;
+    }
+
+    private void initFields() {
+      mapID_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMapID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, mapID_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, mapID_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.GodGiftRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.GodGiftRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GodGiftRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.GodGiftRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_GodGiftRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_GodGiftRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.GodGiftRequest.class, com.rwproto.CopyServiceProtos.GodGiftRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.GodGiftRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        mapID_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_GodGiftRequest_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.GodGiftRequest getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.GodGiftRequest build() {
+        com.rwproto.CopyServiceProtos.GodGiftRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.GodGiftRequest buildPartial() {
+        com.rwproto.CopyServiceProtos.GodGiftRequest result = new com.rwproto.CopyServiceProtos.GodGiftRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.mapID_ = mapID_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.GodGiftRequest) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.GodGiftRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.GodGiftRequest other) {
+        if (other == com.rwproto.CopyServiceProtos.GodGiftRequest.getDefaultInstance()) return this;
+        if (other.hasMapID()) {
+          setMapID(other.getMapID());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMapID()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.GodGiftRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.GodGiftRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 mapID = 1;
+      private int mapID_ ;
+      /**
+       * <code>required int32 mapID = 1;</code>
+       */
+      public boolean hasMapID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 mapID = 1;</code>
+       */
+      public int getMapID() {
+        return mapID_;
+      }
+      /**
+       * <code>required int32 mapID = 1;</code>
+       */
+      public Builder setMapID(int value) {
+        bitField0_ |= 0x00000001;
+        mapID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 mapID = 1;</code>
+       */
+      public Builder clearMapID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        mapID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GodGiftRequest)
+    }
+
+    static {
+      defaultInstance = new GodGiftRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GodGiftRequest)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgCopyRequest_descriptor;
   private static
@@ -9837,6 +10539,11 @@ public final class CopyServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_FortuneResult_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GodGiftRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GodGiftRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9846,52 +10553,54 @@ public final class CopyServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021CopyService.proto\"\273\001\n\016MsgCopyRequest\022\"" +
+      "\n\021CopyService.proto\"\335\001\n\016MsgCopyRequest\022\"" +
       "\n\013requestType\030\001 \002(\0162\r.ERequestType\022\017\n\007le" +
       "velId\030\002 \001(\005\022%\n\rtagBattleData\030\003 \001(\0132\016.Tag" +
       "BattleData\022\'\n\016mapGiftRequest\030\004 \001(\0132\017.Map" +
       "GiftRequest\022$\n\010mapAnima\030\005 \001(\0132\022.MapAnima" +
-      "tionState\"\354\002\n\017MsgCopyResponse\022!\n\013eResult" +
-      "Type\030\001 \001(\0162\014.EResultType\022\"\n\013requestType\030" +
-      "\002 \001(\0162\r.ERequestType\0229\n\027tagBattleClearin" +
-      "gResult\030\003 \001(\0132\030.TagBattleClearingResult\022" +
-      "\017\n\007levelId\030\004 \001(\005\022\022\n\nclearCount\030\005 \001(\005\022\'\n\020",
-      "tagSweepInfoList\030\006 \003(\0132\r.TagSweepInfo\022\024\n" +
-      "\014tagMapRecord\030\007 \003(\t\022\032\n\022tagCopyLevelRecor" +
-      "d\030\010 \003(\t\022\023\n\013tagItemList\030\t \003(\t\022\021\n\tcopyCoun" +
-      "t\030\n \001(\005\022\023\n\013unendingWar\030\013 \001(\005\022\032\n\022eSpecial" +
-      "ItemIdList\030\014 \001(\t\"m\n\021MapAnimationState\022\023\n" +
-      "\013normalMapId\030\001 \002(\005\022\027\n\017normalAnimState\030\002 " +
-      "\002(\005\022\022\n\neliteMapId\030\003 \002(\005\022\026\n\016eliteAnimStat" +
-      "e\030\004 \002(\005\"2\n\014TagSweepInfo\022\r\n\005times\030\001 \002(\005\022\023" +
-      "\n\013tagItemList\030\002 \003(\t\".\n\016MapGiftRequest\022\r\n" +
-      "\005mapId\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\344\001\n\rTagBattl",
-      "eData\022\032\n\022battleClearingTime\030\001 \002(\005\022\017\n\007lev" +
-      "elId\030\002 \002(\005\022\016\n\006heroId\030\003 \003(\t\022\021\n\tstarLevel\030" +
-      "\004 \001(\005\022$\n\014battleStatus\030\005 \001(\0162\016.EBattleSta" +
-      "tus\022\021\n\tfightTime\030\006 \001(\005\022#\n\013fightResult\030\007 " +
-      "\001(\0162\016.EBattleStatus\022%\n\rfortuneResult\030\010 \001" +
-      "(\0132\016.FortuneResult\"B\n\027TagBattleClearingR" +
-      "esult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rtagCopyRecord" +
-      "\030\002 \001(\t\"\205\001\n\rFortuneResult\022\025\n\rgainGoldCoun" +
-      "t\030\001 \001(\005\022\027\n\017gainGoldPercent\030\002 \001(\002\022\021\n\ttota" +
-      "lHurt\030\003 \001(\005\022\030\n\020killMonsterCount\030\004 \001(\005\022\027\n",
-      "\017deductGoldCount\030\005 \001(\005*\312\001\n\014ERequestType\022" +
-      "\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SWEEP_LEVEL_D" +
-      "IAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHEC" +
-      "KPOINT_INFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BA" +
-      "TTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GE" +
-      "T_GIFT\020\010\022\021\n\rMap_Animation\020\t*:\n\rEBattleSt" +
-      "atus\022\007\n\003WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n" +
-      "\004FAIL\020\004*\230\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PUR" +
-      "CHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOU" +
-      "GH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_O",
-      "PEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOU" +
-      "GH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022" +
-      "\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\r" +
-      "SWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016\022\013\n" +
-      "\007Success\020\017B \n\013com.rwprotoB\021CopyServicePr" +
-      "otos"
+      "tionState\022 \n\007godGift\030\006 \001(\0132\017.GodGiftRequ" +
+      "est\"\354\002\n\017MsgCopyResponse\022!\n\013eResultType\030\001" +
+      " \001(\0162\014.EResultType\022\"\n\013requestType\030\002 \001(\0162" +
+      "\r.ERequestType\0229\n\027tagBattleClearingResul" +
+      "t\030\003 \001(\0132\030.TagBattleClearingResult\022\017\n\007lev",
+      "elId\030\004 \001(\005\022\022\n\nclearCount\030\005 \001(\005\022\'\n\020tagSwe" +
+      "epInfoList\030\006 \003(\0132\r.TagSweepInfo\022\024\n\014tagMa" +
+      "pRecord\030\007 \003(\t\022\032\n\022tagCopyLevelRecord\030\010 \003(" +
+      "\t\022\023\n\013tagItemList\030\t \003(\t\022\021\n\tcopyCount\030\n \001(" +
+      "\005\022\023\n\013unendingWar\030\013 \001(\005\022\032\n\022eSpecialItemId" +
+      "List\030\014 \001(\t\"m\n\021MapAnimationState\022\023\n\013norma" +
+      "lMapId\030\001 \002(\005\022\027\n\017normalAnimState\030\002 \002(\005\022\022\n" +
+      "\neliteMapId\030\003 \002(\005\022\026\n\016eliteAnimState\030\004 \002(" +
+      "\005\"2\n\014TagSweepInfo\022\r\n\005times\030\001 \002(\005\022\023\n\013tagI" +
+      "temList\030\002 \003(\t\".\n\016MapGiftRequest\022\r\n\005mapId",
+      "\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\344\001\n\rTagBattleData\022" +
+      "\032\n\022battleClearingTime\030\001 \002(\005\022\017\n\007levelId\030\002" +
+      " \002(\005\022\016\n\006heroId\030\003 \003(\t\022\021\n\tstarLevel\030\004 \001(\005\022" +
+      "$\n\014battleStatus\030\005 \001(\0162\016.EBattleStatus\022\021\n" +
+      "\tfightTime\030\006 \001(\005\022#\n\013fightResult\030\007 \001(\0162\016." +
+      "EBattleStatus\022%\n\rfortuneResult\030\010 \001(\0132\016.F" +
+      "ortuneResult\"B\n\027TagBattleClearingResult\022" +
+      "\020\n\010upHeroId\030\001 \003(\t\022\025\n\rtagCopyRecord\030\002 \001(\t" +
+      "\"\205\001\n\rFortuneResult\022\025\n\rgainGoldCount\030\001 \001(" +
+      "\005\022\027\n\017gainGoldPercent\030\002 \001(\002\022\021\n\ttotalHurt\030",
+      "\003 \001(\005\022\030\n\020killMonsterCount\030\004 \001(\005\022\027\n\017deduc" +
+      "tGoldCount\030\005 \001(\005\"\037\n\016GodGiftRequest\022\r\n\005ma" +
+      "pID\030\001 \002(\005*\355\001\n\014ERequestType\022\026\n\022SWEEP_LEVE" +
+      "L_TICKET\020\001\022\027\n\023SWEEP_LEVEL_DIAMOND\020\002\022\r\n\tB" +
+      "UY_LEVEL\020\003\022\034\n\030GET_USER_CHECKPOINT_INFO\020\004" +
+      "\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BATTLE_ITEMS_BA" +
+      "CK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GET_GIFT\020\010\022\021\n\rM" +
+      "ap_Animation\020\t\022\020\n\014GET_COPY_BOX\020\n\022\017\n\013GET_" +
+      "GOD_BOX\020\013*:\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010T" +
+      "IMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\230\002\n\013EResul",
+      "tType\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n" +
+      "\007LOW_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020\004\022\021\n\rNO" +
+      "T_ENOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUG" +
+      "H_TICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022\014\n\010INIT" +
+      "_MAP\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022" +
+      "\021\n\rGM_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n" +
+      "\020GET_GIFT_SUCCESS\020\016\022\013\n\007Success\020\017B \n\013com." +
+      "rwprotoB\021CopyServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9903,7 +10612,7 @@ public final class CopyServiceProtos {
           internal_static_MsgCopyRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgCopyRequest_descriptor,
-              new java.lang.String[] { "RequestType", "LevelId", "TagBattleData", "MapGiftRequest", "MapAnima", });
+              new java.lang.String[] { "RequestType", "LevelId", "TagBattleData", "MapGiftRequest", "MapAnima", "GodGift", });
           internal_static_MsgCopyResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgCopyResponse_fieldAccessorTable = new
@@ -9946,6 +10655,12 @@ public final class CopyServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FortuneResult_descriptor,
               new java.lang.String[] { "GainGoldCount", "GainGoldPercent", "TotalHurt", "KillMonsterCount", "DeductGoldCount", });
+          internal_static_GodGiftRequest_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_GodGiftRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GodGiftRequest_descriptor,
+              new java.lang.String[] { "MapID", });
           return null;
         }
       };

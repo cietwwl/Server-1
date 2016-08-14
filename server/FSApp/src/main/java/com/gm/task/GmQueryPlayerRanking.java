@@ -49,18 +49,14 @@ public class GmQueryPlayerRanking implements IGmTask {
 			case SWORDMAN_ARENA:
 			case MAGICAN_ARENA:
 			case PRIEST_ARENA:
-				processCarrerRank(rankType, response);
-				break;
+			case LEVEL_ALL:
 			case FIGHTING_ALL:
-				processFightAll(rankType, response);
-				break;
 			case TEAM_FIGHTING:
-				processTeamFighting(rankType, response);
+				processCommonRank(rankType, response);
 				break;
 			case MAGIC_SECRET_SCORE_RANK:
 				processMagicSecretScoreRank(rankType, response);
 				break;
-
 			default:
 				break;
 			}
@@ -69,8 +65,8 @@ public class GmQueryPlayerRanking implements IGmTask {
 		}
 		return response;
 	}
-
-	private void processCarrerRank(RankType rankType, GmResponse response) {
+	
+	private void processCommonRank(RankType rankType, GmResponse response){
 		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		for (RankInfo rankInfo : rankList) {
 
@@ -78,44 +74,6 @@ public class GmQueryPlayerRanking implements IGmTask {
 			String userId = rankInfo.getHeroUUID();
 			String userName = rankInfo.getHeroName();
 			int value = rankInfo.getRankingLevel();
-
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("rank", rank);
-			map.put("roleId", userId);
-			map.put("roleName", userName);
-			map.put("value", value);
-
-			response.addResult(map);
-		}
-	}
-
-	private void processFightAll(RankType rankType, GmResponse response) {
-		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
-		for (RankInfo rankInfo : rankList) {
-
-			int rank = rankInfo.getRankingLevel();
-			String userId = rankInfo.getHeroUUID();
-			String userName = rankInfo.getHeroName();
-			int value = rankInfo.getFightingAll();
-
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("rank", rank);
-			map.put("roleId", userId);
-			map.put("roleName", userName);
-			map.put("value", value);
-
-			response.addResult(map);
-		}
-	}
-
-	private void processTeamFighting(RankType rankType, GmResponse response) {
-		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
-		for (RankInfo rankInfo : rankList) {
-
-			int rank = rankInfo.getRankingLevel();
-			String userId = rankInfo.getHeroUUID();
-			String userName = rankInfo.getHeroName();
-			int value = rankInfo.getFightingTeam();
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("rank", rank);
