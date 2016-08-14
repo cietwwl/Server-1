@@ -156,7 +156,7 @@ public class TimerManager {
 					public void run() {
 						TBTeamItemMgr.getInstance().dailyReset();
 					}
-				});
+				});				
 			}
 		}, 5);
 

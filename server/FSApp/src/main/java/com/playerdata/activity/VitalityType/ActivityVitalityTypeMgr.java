@@ -89,7 +89,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		long startTime = vitalityCfg.getStartTime();
 		long endTime = vitalityCfg.getEndTime();
 		long currentTime = System.currentTimeMillis();
-		return currentTime < endTime && currentTime > startTime;
+		return currentTime < endTime && currentTime >= startTime;
 	}
 	
 	private void checkCfgVersion(Player player) {

@@ -97,7 +97,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			long startTime = activityExchangeTypeCfg.getChangeStartTime();
 			long endTime = activityExchangeTypeCfg.getChangeEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}

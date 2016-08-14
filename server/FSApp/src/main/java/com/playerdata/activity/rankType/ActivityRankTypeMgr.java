@@ -84,7 +84,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		long endTime = activityRankTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
 		
-		return currentTime < endTime && currentTime > startTime;
+		return currentTime < endTime && currentTime >= startTime;
 	}
 
 	private void checkCfgVersion(Player player) {

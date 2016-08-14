@@ -75,7 +75,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		long startTime = cfg.getStartTime();
 		long endTime = cfg.getEndTime();
 		long currentTime = System.currentTimeMillis();
-		return currentTime < endTime && currentTime > startTime;
+		return currentTime < endTime && currentTime >= startTime;
 	}
 	
 	private void checkCfgVersion(Player player) {

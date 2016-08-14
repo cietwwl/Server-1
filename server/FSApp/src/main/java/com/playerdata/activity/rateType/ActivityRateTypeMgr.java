@@ -104,15 +104,14 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		long startTime = ActivityRateTypeCfg.getStartTime();
 		long endTime = ActivityRateTypeCfg.getEndTime();
 		long currentTime = System.currentTimeMillis();
-		isopen = currentTime < endTime && currentTime > startTime ? true
+		isopen = currentTime < endTime && currentTime >= startTime ? true
 				: false;
 
 		if (isopen) {
 			int hour = DateUtils.getCurrentHour();
 			for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg
 					.getStartAndEnd()) {
-				isopen = hour >= timebyhour.getStarthour()
-						&& hour < timebyhour.getEndhour() ? true : false;
+				isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
 				if (isopen) {
 					break;
 				}

@@ -71,7 +71,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			long startTime = activityCountTypeCfg.getStartTime();
 			long endTime = activityCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}	
