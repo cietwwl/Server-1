@@ -21,6 +21,7 @@ import com.playerdata.PlayerMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
+import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.pojo.ChatAttachmentSaveData;
 import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
@@ -34,7 +35,6 @@ import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef;
-import com.rwproto.MsgDef.Command;
 
 // 聊天缓存
 
@@ -73,9 +73,9 @@ public class ChatBM {
 				return;
 			}
 
-//			List<ChatInfo> list = ChatBM.getInstance().getWorldList();
+			// List<ChatInfo> list = ChatBM.getInstance().getWorldList();
 			List<ChatInfo> list;
-			synchronized(worldMessageList) {
+			synchronized (worldMessageList) {
 				list = new ArrayList<ChatInfo>(worldMessageList);
 				worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
 			}
@@ -100,7 +100,7 @@ public class ChatBM {
 				// msgChatResponse.setOnLogin(false);
 				for (int i = 0; i < size; i++) {
 					ChatInfo chatInfo = list.get(i);
-//					ChatMessageData chatMsg = chatInfo.getMessage().build();
+					// ChatMessageData chatMsg = chatInfo.getMessage().build();
 					ChatMessageData chatMsg = chatInfo.getMessage();
 					String userId = chatMsg.getSendMessageUserInfo().getUserId();
 					if (userId == null || userId.isEmpty()) {
@@ -125,7 +125,7 @@ public class ChatBM {
 				player.setLastWorldChatId(messageId.get());// 缓存版本号
 			}
 		}
-		
+
 		private void sendInteractiveChatTo(ChatInteractiveSendData chat, List<Player> players) {
 			MsgChatResponse msg = chat.getMsg();
 			MessageUserInfo sender;
@@ -139,7 +139,7 @@ public class ChatBM {
 			}
 			String senderUserId = sender.getUserId();
 			for (Player player : players) {
-				if(player.getUserId().equals(senderUserId)) {
+				if (player.getUserId().equals(senderUserId)) {
 					continue;
 				}
 				if (!FriendUtils.isBlack(player, senderUserId)) {
@@ -151,7 +151,7 @@ public class ChatBM {
 				}
 			}
 		}
-		
+
 		private void sendCacheInteractiveChat() {
 			// 發送互動的消息
 			if (interactiveMessageList.isEmpty()) {
@@ -166,14 +166,14 @@ public class ChatBM {
 			List<ChatInteractiveSendData> sendToWorld = new ArrayList<ChatInteractiveSendData>();
 			for (int i = 0; i < size; i++) {
 				ChatInteractiveSendData temp = list.get(i);
-				if(temp.isSendToWorld()) {
+				if (temp.isSendToWorld()) {
 					sendToWorld.add(temp);
 					continue;
 				} else {
 					List<Player> targetPlayers = new ArrayList<Player>(temp.getTargetUserIds().size());
-					for(String playerId : temp.getTargetUserIds()) {
+					for (String playerId : temp.getTargetUserIds()) {
 						Player tempPlayer = PlayerMgr.getInstance().find(playerId);
-						if(tempPlayer == null) {
+						if (tempPlayer == null) {
 							continue;
 						}
 						targetPlayers.add(tempPlayer);
@@ -188,7 +188,7 @@ public class ChatBM {
 				}
 			}
 		}
-		
+
 		@Override
 		public void run() {
 			try {
@@ -213,7 +213,7 @@ public class ChatBM {
 	 * 
 	 * @param data
 	 */
-//	public synchronized int updateWroldList(ChatMessageData.Builder data) {
+	// public synchronized int updateWroldList(ChatMessageData.Builder data) {
 	public int updateWroldList(ChatMessageData.Builder data) {
 		// 2016-08-03 by PerryChen，改為同步塊
 		synchronized (worldMessageList) {
@@ -229,9 +229,9 @@ public class ChatBM {
 	}
 
 	// 2016-08-03 by PerryChen 注釋掉這個方法，改為到chatRun裡面去獲取
-//	public synchronized List<ChatInfo> getWorldList() {
-//		return new ArrayList<ChatInfo>(worldMessageList);
-//	}
+	// public synchronized List<ChatInfo> getWorldList() {
+	// return new ArrayList<ChatInfo>(worldMessageList);
+	// }
 
 	/**
 	 * 获取当前的消息版本
@@ -278,7 +278,7 @@ public class ChatBM {
 	 * @param userId
 	 * @param updateMap
 	 */
-//	public void updatePrivateChatState(String userId, Map<Integer, ChatMessageData> updateMap) {
+	// public void updatePrivateChatState(String userId, Map<Integer, ChatMessageData> updateMap) {
 	public void updatePrivateChatState(String userId, List<ChatMessageData> updates) {
 		if (updates == null || updates.isEmpty()) {
 			return;
@@ -287,15 +287,15 @@ public class ChatBM {
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat chat = dao.get(userId);
 
-//		for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
-//			ChatMessageSaveData saveData = parseMsgData2SaveData(userId, e.getValue());
-//			if (saveData == null) {
-//				continue;
-//			}
-//
-//			saveData.setRead(true);
-//			chat.updatePrivateChatMessageState(e.getKey(), saveData);
-//		}
+		// for (Entry<Integer, ChatMessageData> e : updateMap.entrySet()) {
+		// ChatMessageSaveData saveData = parseMsgData2SaveData(userId, e.getValue());
+		// if (saveData == null) {
+		// continue;
+		// }
+		//
+		// saveData.setRead(true);
+		// chat.updatePrivateChatMessageState(e.getKey(), saveData);
+		// }
 		for (ChatMessageData e : updates) {
 			chat.updatePrivateChatMessageState(e);
 		}
@@ -346,7 +346,7 @@ public class ChatBM {
 
 		dao.update(userId);
 	}
-	
+
 	public void addInteractiveChat(String userId, ChatInteractiveType type, ChatMessageData msgData) {
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat privateChat = dao.get(userId);
@@ -399,12 +399,12 @@ public class ChatBM {
 
 		return msgList;
 	}
-	
+
 	public List<ChatMessageSaveData> getPrivateChatListSaveData(String userId) {
 		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
 		return dao.getPrivateChatMessageList();
 	}
-	
+
 	/**
 	 * 获取ownerUserId的私聊聊表中，与targetUserId相关联的私聊记录
 	 * 
@@ -418,7 +418,7 @@ public class ChatBM {
 		if (privateChatSaveDataList.isEmpty()) {
 			return Collections.emptyList();
 		}
-//		System.out.println(privateChatSaveDataList);
+		// System.out.println(privateChatSaveDataList);
 		List<ChatMessageData> resultList = new ArrayList<ChatMessageData>();
 		boolean add;
 		for (ChatMessageSaveData cmsd : privateChatSaveDataList) {
@@ -461,7 +461,7 @@ public class ChatBM {
 
 		return msgList;
 	}
-	
+
 	public Map<ChatInteractiveType, List<ChatMessageData>> getInteractiveChatList(String userId) {
 		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
 		Map<ChatInteractiveType, List<ChatMessageSaveData>> map = dao.getInteractiveChatMsg();
@@ -495,9 +495,9 @@ public class ChatBM {
 		// 发送的人
 		MessageUserInfo sendInfo = parseSaveUserData2MsgData(saveData.getSendInfo());
 		// 修改于2016-07-18 20:43 现在允许没有sender BEGIN >>>>
-//		if (sendInfo == null) {
-//			return null;
-//		}
+		// if (sendInfo == null) {
+		// return null;
+		// }
 		// 2016-07-18 20:43 <<<< END
 
 		ChatMessageData.Builder messageData = ChatMessageData.newBuilder();
@@ -531,7 +531,7 @@ public class ChatBM {
 			messageData.setTreasureDefNum(saveData.getInviteNum());
 			messageData.setTreasureType(saveData.getSecCfgId());
 		}
-		
+
 		List<ChatAttachmentSaveData> attachments = saveData.getAttachments();
 		if (attachments.size() > 0) {
 			for (ChatAttachmentSaveData attach : attachments) {
@@ -585,7 +585,7 @@ public class ChatBM {
 			userInfo.setCareerType(info.getCareerType());
 			userInfo.setGender(info.getGender());
 			userInfo.setVipLv(info.getVipLv());
-			if(info.getFashionTemplateId() > 0) {
+			if (info.getFashionTemplateId() > 0) {
 				userInfo.setFashionTemplateId(info.getFashionTemplateId());
 			}
 			return userInfo.build();
@@ -606,7 +606,7 @@ public class ChatBM {
 		}
 
 		ChatMessageSaveData saveData = new ChatMessageSaveData();
-		
+
 		if (chatMsgData.hasSendMessageUserInfo() && !chatMsgData.getSendMessageUserInfo().getUserId().equals(userId)) {
 			// sender的userId与userId相等，表示我是发送者，所以保存数据的时候不需要保存sender的信息
 			ChatUserInfo sendInfo = parseMsgUserData2SaveData(chatMsgData.getSendMessageUserInfo());
@@ -648,7 +648,7 @@ public class ChatBM {
 		if (chatMsgData.hasTreasureType()) {
 			saveData.setSecCfgId(chatMsgData.getTreasureType());
 		}
-		
+
 		if (chatMsgData.getAttachItemCount() > 0) {
 			List<ChatAttachmentSaveData> list = new ArrayList<ChatAttachmentSaveData>(chatMsgData.getAttachItemCount());
 			for (ChatAttachItem attachment : chatMsgData.getAttachItemList()) {
@@ -674,14 +674,14 @@ public class ChatBM {
 		}
 
 		ChatUserInfo userInfo = new ChatUserInfo();
-//		if (info.hasFamilyId()) {
-//			userInfo.setGroupId(info.getFamilyId());
-//		}
+		// if (info.hasFamilyId()) {
+		// userInfo.setGroupId(info.getFamilyId());
+		// }
 
-//		if (info.hasFamilyName()) {
-//			userInfo.setGroupName(info.getFamilyName());
-//		}
-		
+		// if (info.hasFamilyName()) {
+		// userInfo.setGroupName(info.getFamilyName());
+		// }
+
 		if (info.hasGroupId()) {
 			userInfo.setGroupId(info.getGroupId());
 		}
@@ -709,13 +709,13 @@ public class ChatBM {
 		if (info.hasUserName()) {
 			userInfo.setUserName(info.getUserName());
 		}
-		
+
 		if (info.hasVipLv()) {
 			// 設置VIP等級
 			userInfo.setVipLv(info.getVipLv());
 		}
-		
-		if(info.hasFashionTemplateId()) {
+
+		if (info.hasFashionTemplateId()) {
 			// 設置時裝模板id
 			userInfo.setFashionTemplateId(info.getFashionTemplateId());
 		}
@@ -734,7 +734,7 @@ public class ChatBM {
 		chat.clearAllTreasureChatMessage();
 		dao.update(userId);
 	}
-	
+
 	/**
 	 * 
 	 * 更新當前私聊的目標id
@@ -742,12 +742,12 @@ public class ChatBM {
 	 * @param userId
 	 */
 	public void updateCurrentTargetUserIdOfPrivateChat(String userId, String targetUserId) {
-//		System.out.println("設置私聊對象id~~~userId=" + userId + ", targetUserId=" + targetUserId);
+		// System.out.println("設置私聊對象id~~~userId=" + userId + ", targetUserId=" + targetUserId);
 		TableUserPrivateChatDao dao = TableUserPrivateChatDao.getDao();
 		UserPrivateChat chat = dao.get(userId);
 		chat.setCurrentTargetUserIdOfPrivateChat(targetUserId);
 	}
-	
+
 	/**
 	 * 
 	 * 獲取當前私聊目標
@@ -760,7 +760,7 @@ public class ChatBM {
 		UserPrivateChat chat = dao.get(userId);
 		return chat.getCurrentTargetUserIdOfPrivateChat();
 	}
-	
+
 	/**
 	 * 
 	 * 更新最後一次發送私聊時間
@@ -773,7 +773,7 @@ public class ChatBM {
 		UserPrivateChat chat = dao.get(userId);
 		chat.setLastSentPrivateChatTime(timeMillis);
 	}
-	
+
 	/**
 	 * 
 	 * 獲取最後一次發送私聊的時間
@@ -786,8 +786,7 @@ public class ChatBM {
 		UserPrivateChat chat = dao.get(userId);
 		return chat.getLastSentPrivateChatTime();
 	}
-	
-	
+
 	/**
 	 * 
 	 * 向全世界發送一條互動信息
@@ -801,7 +800,7 @@ public class ChatBM {
 	public void sendInteractiveMsgToWorld(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
 		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, _EMPTY_LIST, true);
 	}
-	
+
 	/**
 	 * 
 	 * 向某人發送一條互動信息
@@ -816,7 +815,7 @@ public class ChatBM {
 	public void sendInteractiveMsgToSomeone(Player sender, String targetUserId, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo) {
 		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, Collections.singletonList(targetUserId), false);
 	}
-	
+
 	/**
 	 * 
 	 * 向指定的一群人發送一條互動信息
@@ -830,7 +829,7 @@ public class ChatBM {
 	public void sendInteractiveMsg(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds) {
 		this.sendInteractiveMsgInternal(sender, interactiveType, displayMsg, id, extraInfo, targetUserIds, false);
 	}
-	
+
 	/**
 	 * 
 	 * @param sender
@@ -842,27 +841,31 @@ public class ChatBM {
 	 * @param sendToWorld 是否發送到世界
 	 */
 	private void sendInteractiveMsgInternal(Player sender, ChatInteractiveType interactiveType, String displayMsg, String id, String extraInfo, List<String> targetUserIds, boolean sendToWorld) {
-		displayMsg = displayMsg.concat(_ATTACHMENT_IDENTIFIER); // 客戶端以#為附件表標識符，所以需要在消息的最後添加#
+		displayMsg = filterDirtyWord(displayMsg).concat(_ATTACHMENT_IDENTIFIER); // 客戶端以#為附件表標識符，所以需要在消息的最後添加#
 		MessageUserInfo.Builder userInfoBuilder = ChatHandler.getInstance().createMessageUserInfoBuilder(sender, true);
 		ChatMessageData.Builder messageBuilder = ChatMessageData.newBuilder();
 		messageBuilder.setMessage(displayMsg);
 		messageBuilder.addAttachItem(ChatHandler.getInstance().createChatAttachItemProto(interactiveType.attachItemType.getNumber(), id, extraInfo));
 		messageBuilder.setSendMessageUserInfo(userInfoBuilder.build());
 		messageBuilder.setTime(System.currentTimeMillis());
-		
+
 		MsgChatResponse.Builder respBuilder = MsgChatResponse.newBuilder();
 		respBuilder.setChatResultType(eChatResultType.SUCCESS);
 		respBuilder.setChatType(interactiveType.chatType);
 		respBuilder.addListMessage(messageBuilder);
-		
+
 		MsgChatResponse resp = respBuilder.build();
-		
+
 		targetUserIds.remove(sender.getUserId());
-		
+
 		synchronized (interactiveMessageList) {
 			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
-		
-//		sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); // 2016-08-04 暫時不用發送給自己
+
+		// sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); // 2016-08-04 暫時不用發送給自己
+	}
+
+	public String filterDirtyWord(String content) {
+		return CharFilterFactory.getCharFilter().replaceDiryWords(content, "**", true, true);
 	}
 }

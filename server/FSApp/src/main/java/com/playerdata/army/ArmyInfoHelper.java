@@ -1,10 +1,10 @@
 package com.playerdata.army;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -12,11 +12,12 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
-import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.Skill;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 
 public class ArmyInfoHelper {
 
@@ -81,6 +82,16 @@ public class ArmyInfoHelper {
 		}else{
 			armyInfo.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
+		FashionUsed.Builder fashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		if(fashion != null) {
+			ArmyFashion armyFs = new ArmyFashion();
+			armyFs.setPetId(fashion.getPetId());
+			armyFs.setSuitId(fashion.getSuitId());
+			armyFs.setWingId(fashion.getWingId());
+			armyFs.setCareer(player.getCareer());
+			armyFs.setGender(player.getSex());
+			armyInfo.setArmyFashion(armyFs);
+		}
 		List<ArmyHero> heroList = getArmyHeros(player, heroIdList);
 		armyInfo.setHeroList(heroList);
 		return armyInfo;
@@ -129,16 +140,47 @@ public class ArmyInfoHelper {
 	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
+	
+	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList, List<CurAttrData> attrDataList)
+	{
+		ArmyInfo armyInfo = buildMonsterArmy(monsterIdList);
+		setCurAttrData(armyInfo, attrDataList);
+		return armyInfo;		
+	}
 
-	public CurArmyAttrData fromJsonToCurArmy(String json){
-		
-		try {
-			return (CurArmyAttrData) ClientDataSynMgr.fromClientJson2Data(CurArmyAttrData.class, json);
-		} catch (Exception e) {
-			GameLog.error(LogModule.Util, "ArmyInfoHelper[fromJsonToCurArmy]", "json parse error,json:"+json, e);
-		}
-		return null;
-		
+
+	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList)
+	{
+		ArmyInfo army = new ArmyInfo ();	
+
+		for(String monsterId : monsterIdList){
+			ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
+			army.addHero(armyHero);
+		}	
+
+		return army;
 	}
 	
+	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList){
+		
+		Map<String,ArmyHero> heroDic = new HashMap<String,ArmyHero>();
+	
+		ArmyHero player = armyInfo.getPlayer();
+		if(player!=null){
+			heroDic.put(player.getRoleBaseInfo().getId(),player);
+		}
+		
+		for(ArmyHero hero : armyInfo.getHeroList()){
+			heroDic.put(hero.getRoleBaseInfo().getId(),hero);
+		}
+		
+		for(CurAttrData attrData : attrDataList){
+			String attrDataId = attrData.getId();
+			if(heroDic.containsKey(attrDataId)){
+				heroDic.get(attrDataId).setCurAttrData(attrData);
+			}
+		}
+		
+	} 
+
 }

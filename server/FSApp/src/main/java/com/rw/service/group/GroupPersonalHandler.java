@@ -18,7 +18,6 @@ import com.bm.rank.group.GroupSimpleExtAttribute;
 import com.bm.rank.group.base.GroupBaseRankExtAttribute;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
-import com.playerdata.DailyActivityMgr;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
@@ -426,13 +425,13 @@ public class GroupPersonalHandler {
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-					GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
+				GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
 
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
 		} else {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-					GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
+				GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
 
 			// 记录一个日志
 			GroupLog log = new GroupLog();
@@ -728,10 +727,10 @@ public class GroupPersonalHandler {
 		// 更新帮派排行榜属性
 		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 		UserEventMgr.getInstance().factionDonateVitality(player, 1);
-		
-		//通知日常任务
+
+		// 通知日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUP_DONATE, 1);
-		
+
 		// 设置回应消息
 		GroupDonateRspMsg.Builder rsp = GroupDonateRspMsg.newBuilder();
 		rsp.setLeftDonateTimes(perDayDonateTimes - memberData.getDonateTimes());
@@ -998,6 +997,7 @@ public class GroupPersonalHandler {
 		} else if (recommentType == GroupRecommentType.RANDOM_RECOMMENT) {// 随机推荐
 			List<String> hasGroupIdList = new ArrayList<String>();
 			int middleRecommentSize = recommendSize / 2;// 推荐数量的中间值
+			List<GroupSimpleInfo> simpleInfoList = new ArrayList<GroupSimpleInfo>(recommendSize);// 推荐的列表
 			// 创建时间最短推荐
 			Ranking ranking = RankingFactory.getRanking(RankType.GROUP_CREATE_TIME_RANK);
 			if (ranking != null) {
@@ -1007,7 +1007,7 @@ public class GroupPersonalHandler {
 				List<Integer> indexArr = GroupUtils.getShuffleIndexList(size);
 
 				for (int i = 0; i < size; i++) {
-					if (rsp.getGroupSimpleInfoCount() >= middleRecommentSize) {
+					if (simpleInfoList.size() >= recommendSize) {
 						break;
 					}
 
@@ -1040,62 +1040,66 @@ public class GroupPersonalHandler {
 						continue;
 					}
 
-					rsp.addGroupSimpleInfo(groupSimpleInfo);
+					simpleInfoList.add(groupSimpleInfo.build());
 					hasGroupIdList.add(key);
 				}
 			}
 
 			// 人数最少的推荐
-			Ranking ranking0 = RankingFactory.getRanking(RankType.GROUP_MEMBER_NUM_RANK);
-			if (ranking0 != null) {
-				// 帮主成员离线多久之后不推荐
-				List entryList = ranking0.getReadOnlyRankingEntries();
-				// 打乱索引的
-				int size = entryList.size();
-				List<Integer> indexArr = GroupUtils.getShuffleIndexList(size);
+			if (simpleInfoList.size() < recommendSize) {
+				Ranking ranking0 = RankingFactory.getRanking(RankType.GROUP_MEMBER_NUM_RANK);
+				if (ranking0 != null) {
+					// 帮主成员离线多久之后不推荐
+					List entryList = ranking0.getReadOnlyRankingEntries();
+					// 打乱索引的
+					int size = entryList.size();
+					List<Integer> indexArr = GroupUtils.getShuffleIndexList(size);
 
-				for (int i = 0; i < size; i++) {
-					if (rsp.getGroupSimpleInfoCount() >= recommendSize) {
-						break;
+					for (int i = 0; i < size; i++) {
+						if (simpleInfoList.size() >= recommendSize) {
+							break;
+						}
+
+						MomentRankingEntry rankEntry = (MomentRankingEntry) entryList.get(indexArr.get(i));
+						RankingEntry entry = rankEntry.getEntry();
+
+						GroupSimpleExtAttribute gsea = (GroupSimpleExtAttribute) entry.getExtendedAttribute();
+						if (gsea == null) {
+							continue;
+						}
+						// 检查是否已经申请该帮派
+						String key = gsea.getGroupId();
+						// if (baseData.hasApplyGroup(key)) {
+						// continue;
+						// }
+						long leaderLogoutTime = gsea.getLeaderLogoutTime();
+						// 当前离线时间不是0（表离线）或者离线超过指定的时间
+						if (leaderLogoutTime > 0 && (now - leaderLogoutTime) >= logoutTimeNoneRecomment) {
+							continue;
+						}
+
+						// 防止推荐到相同的帮派
+						if (hasGroupIdList.contains(key)) {
+							continue;
+						}
+
+						// 获取帮派的数据
+						Group group = GroupBM.get(key);
+						if (group == null) {
+							continue;
+						}
+
+						GroupSimpleInfo.Builder groupSimpleInfo = fillGroupSimpleInfo(group, baseRanking == null ? -1 : baseRanking.getRanking(key));
+						if (groupSimpleInfo == null) {
+							continue;
+						}
+
+						simpleInfoList.add(groupSimpleInfo.build());
 					}
-
-					MomentRankingEntry rankEntry = (MomentRankingEntry) entryList.get(indexArr.get(i));
-					RankingEntry entry = rankEntry.getEntry();
-
-					GroupSimpleExtAttribute gsea = (GroupSimpleExtAttribute) entry.getExtendedAttribute();
-					if (gsea == null) {
-						continue;
-					}
-					// 检查是否已经申请该帮派
-					String key = gsea.getGroupId();
-					// if (baseData.hasApplyGroup(key)) {
-					// continue;
-					// }
-					long leaderLogoutTime = gsea.getLeaderLogoutTime();
-					// 当前离线时间不是0（表离线）或者离线超过指定的时间
-					if (leaderLogoutTime > 0 && (now - leaderLogoutTime) >= logoutTimeNoneRecomment) {
-						continue;
-					}
-
-					// 防止推荐到相同的帮派
-					if (hasGroupIdList.contains(key)) {
-						continue;
-					}
-
-					// 获取帮派的数据
-					Group group = GroupBM.get(key);
-					if (group == null) {
-						continue;
-					}
-
-					GroupSimpleInfo.Builder groupSimpleInfo = fillGroupSimpleInfo(group, baseRanking == null ? -1 : baseRanking.getRanking(key));
-					if (groupSimpleInfo == null) {
-						continue;
-					}
-
-					rsp.addGroupSimpleInfo(groupSimpleInfo);
 				}
 			}
+
+			rsp.addAllGroupSimpleInfo(simpleInfoList);
 		} else {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您请求的推荐类型不存在");
 		}

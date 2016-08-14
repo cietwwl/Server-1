@@ -8,10 +8,10 @@ Key,Remarks,id,name,icon,atlas,description
 7,,7,个人贡献,Item/ect_BangGong,Common,可兑换帮派商店货物
 8,,8,幻境古币,Item/ect_JianYin,Common,可兑换幻境商店中的货物
 9,,9,巅峰战币,Item/ect_DianFengJingJiChang,Common,可兑换巅峰竞技场商店中的货物
-10,,10,铜钥匙,Item/ect_ShiLianTa_09,Copy,可在试练塔抽取铜宝匣
-11,,11,银钥匙,Item/ect_ShiLianTa_06,Copy,可在试练塔抽取银宝匣
-12,,12,金钥匙,Item/ect_ShiLianTa_03,Copy,可在试练塔抽取金宝匣
+10,,10,铜钥匙,Item/ect_ShiLianTa_09,Copy,可在封神台抽取铜宝匣
+11,,11,银钥匙,Item/ect_ShiLianTa_06,Copy,可在封神台抽取银宝匣
+12,,12,金钥匙,Item/ect_ShiLianTa_03,Copy,可在封神台抽取金宝匣
 13,,13,探道笺,Item/icon_GongHuiYueKa,Common,强化神器的资源
-14,,14,驱魔积分,Item/ect_QuMoJiFen,Common,组队获得的积分
+14,,14,驱魔币,Item/ect_QuMoJiFen,Common,可用于心魔录的道具兑换
 15,,15,觉醒碎片,Item/ect_DianFengJingJiChang,Common,可用于兑换神器觉醒材料
 16,,16,觉醒钥匙,Item/ect_ShiLianTa_03,Common,可用于打开觉醒宝箱

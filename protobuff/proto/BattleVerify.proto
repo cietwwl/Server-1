@@ -1,0 +1,26 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "BattleVerifyProto";
+package BattleVerifyProto;
+
+
+enum RequestType{
+	Copy = 1;
+}
+
+message CopyReqMsg{
+	required string copyId = 1;//副本id
+	required string code = 2;  //校验密码
+}
+
+message BattleVerifyComReqMsg{
+	required RequestType reqType = 1;//
+	optional CopyReqMsg copyReqMsg=2;//
+}
+
+message BattleVerifyComRspMsg{
+	required RequestType reqType = 1;
+	required bool isSuccess = 2;
+	optional string tipMsg = 3;
+
+}
