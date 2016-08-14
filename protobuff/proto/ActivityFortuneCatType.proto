@@ -13,8 +13,8 @@ enum RequestType{
 }
 
 message ActivityCommonReqMsg{
-	required RequestType reqType = 1;	//请求功能协议类型
-	optional bool pushing = 2; 			//是否推送
+	required RequestType reqType = 1;//请求功能协议类型
+
 }
 
 
