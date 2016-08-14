@@ -38,6 +38,19 @@ public class UserDataHolder {// 战斗数据
 			GameLog.error("UserDataHolder", "UserDataHolder#update()", "find user fail:" + userId);
 		}
 	}
+	
+	public boolean updateDBDirect(Player player) {
+		User user = get();
+		boolean updateToDB = userDataDao.updateToDB(user);
+		if (updateToDB) {
+			if (user != null) {
+				ClientDataSynMgr.updateData(player, user, synType, eSynOpType.UPDATE_SINGLE);
+			} else {
+				GameLog.error("UserDataHolder", "UserDataHolder#update()", "find user fail:" + userId);
+			}
+		}
+		return updateToDB;
+	}
 
 	public void flush() {
 	}

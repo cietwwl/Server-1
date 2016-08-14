@@ -207,13 +207,14 @@ public class DataRdbDao<T> {
 	}
 
 	@Deprecated
-	public void updateToDB(T t) {
+	public boolean updateToDB(T t) {
 		try {
 			Field idField = classInfo.getIdField();
 			String id = String.valueOf(idField.get(t));
-			this.commonJdbc.updateToDB(id, t);
+			return this.commonJdbc.updateToDB(id, t);
 		} catch (Throwable e) {
 			SqlLog.error(e);
+			return false;
 		}
 	}
 
