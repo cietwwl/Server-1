@@ -2,6 +2,7 @@ package com.rwbase.dao.friend;
 
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +15,8 @@ import com.rwbase.dao.friend.readonly.TableFriendIF;
 import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendVo;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "mt_table_friend")
@@ -25,7 +28,10 @@ public class TableFriend implements TableFriendIF {
 	private ConcurrentHashMap<String, FriendItem> requestList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendItem> blackList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendGiveState> friendGiveList = new ConcurrentHashMap<String, FriendGiveState>();
+	/**主动搜索到的机器人，可能会很多个，但第一个会自动送体力给用户*/
 	private ConcurrentHashMap<String, FriendItem> reCommandfriendList = new ConcurrentHashMap<String, FriendItem>();
+	/**被动让系统推过来的机器人，可能有多个，是否自动送体根据表格来*/
+	private OpenLevelTiggerServiceItem openLevelTiggerServiceItem = new OpenLevelTiggerServiceItem();
 
 	public String getUserId() {
 		return userId;
@@ -174,4 +180,13 @@ public class TableFriend implements TableFriendIF {
 	public boolean removeFromFriendList(String userId) {
 		return this.friendList.remove(userId) != null;
 	}
+
+	public OpenLevelTiggerServiceItem getOpenLevelTiggerServiceItem() {
+		return openLevelTiggerServiceItem;
+	}
+
+	public void setOpenLevelTiggerServiceItem(
+			OpenLevelTiggerServiceItem openLevelTiggerServiceItem) {
+		this.openLevelTiggerServiceItem = openLevelTiggerServiceItem;
+	}	
 }

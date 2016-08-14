@@ -77,6 +77,8 @@ import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceMgr;
+import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceRegeditInfo;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.PowerInfo;
@@ -159,12 +161,15 @@ public class Player implements PlayerIF {
 
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
+	
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 
 	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
 
 	private ZoneLoginInfo zoneLoginInfo;
+	
+	private OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
 	private volatile long groupRankRecommentCacheTime;// 帮派排行榜推荐的时间
@@ -419,8 +424,10 @@ public class Player implements PlayerIF {
 					PowerInfoDataHolder.synPowerInfo(player);
 					// 登录推送所有的羁绊属性
 					HeroFettersDataHolder.synAll(player);
-
+					//登陆检查通用活动的所有相关，包括根据新配置表创建新纪录；用新版本表刷新老纪录；给老纪录未领奖用户补发奖励以及关闭红点
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
+//					OpenLevelTiggerServiceMgr.getInstance().regeditByLogin(player);//数据不分开处理前，初始化会在好友处处理；策划给出大量相似引导需求后需剥离开后并在此注册
+					
 					m_AssistantMgr.synData();
 
 					// 推送帮派秘境基础数据
@@ -771,6 +778,17 @@ public class Player implements PlayerIF {
 
 	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
 		this.zoneLoginInfo = zoneLoginInfo;
+	}
+
+	
+	
+	public OpenLevelTiggerServiceRegeditInfo getOpenLevelTiggerServiceRegeditInfo() {
+		return openLevelTiggerServiceRegeditInfo;
+	}
+
+	public void setOpenLevelTiggerServiceRegeditInfo(
+			OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo) {
+		this.openLevelTiggerServiceRegeditInfo = openLevelTiggerServiceRegeditInfo;
 	}
 
 	// by franky 升级通知，响应时可以通过sample方法获取旧的等级

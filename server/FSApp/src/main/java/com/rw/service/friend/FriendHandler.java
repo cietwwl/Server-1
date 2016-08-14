@@ -260,20 +260,15 @@ public class FriendHandler {
 		return resultList;
 	}
 
-	private List<FriendInfo> reCommandRobot(Player player,TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
+	public List<FriendInfo> reCommandRobot(Player player,TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
 		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(1);
 		List<FriendInfo> resultListTmp = erecommandFriends(player,tableFriend,rankType,isLimitRobot);
 		for(FriendInfo info : resultListTmp){
 			if(PlayerMgr.getInstance().find(info.getUserId()).isRobot()){				
 				resultList.add(info);
-//				FriendItem friendItem = FriendItem.newInstance(otherUserId);
-//				tableFriend.setReCommandfriendList();
 				break;
 			}
 		}
-//		if(resultList.isEmpty()){
-//			return reCommandRobot(player, tableFriend,rankType);
-//		}
 		return resultList;
 	}
 

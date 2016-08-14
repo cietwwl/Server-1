@@ -237,6 +237,9 @@ public class RoleExtPropertyFactory {
 	}
 
 	public static List<PlayerExtPropertyData<RoleExtProperty>> create(List<InsertRoleExtDataWrap<RoleExtProperty>> insertData) {
+		if(insertData == null){
+			return Collections.EMPTY_LIST;
+		}
 		int size = insertData.size();
 		ArrayList<PlayerExtPropertyData<RoleExtProperty>> result = new ArrayList<PlayerExtPropertyData<RoleExtProperty>>(size);
 		for (int i = 0; i < size; i++) {

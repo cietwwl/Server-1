@@ -27,9 +27,11 @@ import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
+import com.rw.dataaccess.attachment.creator.OpenLevelTiggerServiceCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
 
@@ -47,6 +49,7 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
 	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
 	FRESHER_ACTIVITY(15, FresherActivityBigItem.class, FresherActivityCreator.class),
+//	OPENLEVEL_TIGGERSERVICE(19,OpenLevelTiggerServiceItem.class,OpenLevelTiggerServiceCreator.class),//暂时将等级开放推送的辅助数据存在各功能模块
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;
