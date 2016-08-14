@@ -3,6 +3,7 @@ package com.fy;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * This class saves a map of spring-bean ids to their corresponding interfaces. <br/>
@@ -20,7 +21,7 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param context
      * @throws BeansException
      */
-    public void setApplicationContext(ApplicationContext context) {
+    public void setApplicationContext(ApplicationContext context) {    	
         applicationContext = context;
     }
 
@@ -37,6 +38,9 @@ public class SpringContextUtil implements ApplicationContextAware {
         return (T) applicationContext.getBean(name);
     }
 
-
+    @SuppressWarnings("unchecked")
+	public static <T> T getBean(Class<?> name) {
+		return (T) applicationContext.getBean(name);
+	}
 	
 }
