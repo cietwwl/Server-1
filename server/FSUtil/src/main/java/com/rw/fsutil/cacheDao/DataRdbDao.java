@@ -1,10 +1,13 @@
 package com.rw.fsutil.cacheDao;
 
 import java.lang.reflect.Field;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassHelper;
@@ -249,4 +252,18 @@ public class DataRdbDao<T> {
 		return commonJdbc.getTableName();
 	}
 
+	
+	public boolean executeSql(String sql, final String value, final String userId){
+		int result = this.jdbcTemplate.update(sql, new PreparedStatementSetter(){
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				// TODO Auto-generated method stub
+				ps.setString(1, value);
+				ps.setString(2, userId);
+			}
+			
+		});
+		return result > 0;
+	}
 }

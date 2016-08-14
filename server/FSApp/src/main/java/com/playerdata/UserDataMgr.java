@@ -62,7 +62,7 @@ public class UserDataMgr implements PlayerEventListener{
 				return false;
 			}
 			user.setUserName(nick);
-			if(userDataHolder.updateDBDirect(player)){
+			if(userDataHolder.updateUserName(player, nick)){
 				user.setUserName(nick);
 				return true;
 			}else{
