@@ -1,6 +1,7 @@
 package com.rw.dataSyn;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.rw.common.RobotLog;
@@ -67,20 +68,26 @@ public class SynDataListHolder<T extends SynItem> {
 
 	private void updateSingle(SynData synData) {
 		T newT = DataSynHelper.ToObject(itemClazz, synData.getJsonData());
-		T oldT = getById(newT.getId());
-		m_SynItemList.remove(oldT);
-		m_SynItemList.add(newT);
+		update(newT);
 	}
 
-	private T getById(String id) {
-		T target = null;
-
-		for (T item : m_SynItemList) {
-			if (id.equals(item.getId())) {
-				return item;
+	private void update(T newItem) {
+		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+			T tempItem = (T) iterator.next();
+			if(tempItem.getId().equals(newItem.getId())){
+				iterator.remove();
 			}
 		}
-		return target;
+		m_SynItemList.add(newItem);
+	}
+	
+	private void remove(String Id){
+		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+			T tempItem = (T) iterator.next();
+			if(tempItem.getId().equals(Id)){
+				iterator.remove();
+			}
+		}
 	}
 
 	private void addSingle(SynData synData) {
@@ -89,8 +96,7 @@ public class SynDataListHolder<T extends SynItem> {
 	}
 
 	private void removeSingle(SynData synData) {
-		T oldT = getById(synData.getId());
-		m_SynItemList.remove(oldT);
+		remove(synData.getId());
 	}
 
 }
