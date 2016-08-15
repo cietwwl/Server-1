@@ -191,6 +191,8 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
+		funcCallBackMap.put("shutdown", "shutdownServer");
+		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
@@ -1244,7 +1246,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
@@ -1331,6 +1333,11 @@ public class GMHandler {
 		return true;
 	}
 	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
+		return true;
+	}
+
 	public boolean addDistCount(String[] str, Player player){
 		int count = Integer.parseInt(str[0]);
 		if(count <= 0){

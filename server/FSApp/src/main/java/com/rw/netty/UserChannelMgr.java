@@ -1,5 +1,6 @@
 package com.rw.netty;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
@@ -28,28 +29,31 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rwproto.MsgDef.Command;
 
 public class UserChannelMgr {
 
-	private static final AttributeKey<SessionInfo> USER_ID;
+	private static final AttributeKey<UserSession> USER_ID;
+	private static final AttributeKey<SessionInfo> SESSION_INFO;
 	private static final AttributeKey<SynDataInReqMgr> SYN_DATA;
 	public static final long RECONNECT_TIME;
-	private static final SessionInfo CLOSE_SESSION;
+	private static final UserSession CLOSE_SESSION;
 	private static ConcurrentHashMap<String, ChannelHandlerContext> userChannelMap;
 	private static ConcurrentHashMap<String, Long> disconnectMap;
 	private static AtomicLong seesionIdGenerator;
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
+		SESSION_INFO = AttributeKey.valueOf("session");
 		SYN_DATA = AttributeKey.valueOf("syn_data");
 		RECONNECT_TIME = TimeUnit.MINUTES.toMillis(5);
-		CLOSE_SESSION = new SessionInfo("close", 0);
+		CLOSE_SESSION = new UserSession("close", 0);
 		userChannelMap = new ConcurrentHashMap<String, ChannelHandlerContext>();
 		disconnectMap = new ConcurrentHashMap<String, Long>();
 		seesionIdGenerator = new AtomicLong();
 	}
 
-	private static void logger(SessionInfo oldSession) {
+	private static void logger(UserSession oldSession) {
 		if (oldSession == CLOSE_SESSION) {
 			GameLog.info("UserChannelMgr", "#bindUserID", "bingding fail:session closed");
 		} else if (oldSession != null) {
@@ -57,48 +61,107 @@ public class UserChannelMgr {
 		}
 	}
 
-	public static boolean bindUserID(String userId, ChannelHandlerContext ctx) {
+	public static boolean bindUserID(String userId, ChannelHandlerContext ctx, boolean recordLogin) {
 		if (ctx == null || !StringUtils.isNotBlank(userId)) {
 			return false;
 		}
 		GameLog.info("UserChannelMgr", "#bindUserID", "bingding connection:" + userId + "," + ctx);
-		Attribute<SessionInfo> attrSession = ctx.channel().attr(USER_ID);
-		SessionInfo oldSession = attrSession.get();
+		Attribute<UserSession> attrSession = ctx.channel().attr(USER_ID);
+		UserSession oldSession = attrSession.get();
 		if (oldSession != null) {
 			logger(oldSession);
 			return false;
 		}
-		SessionInfo newSession = new SessionInfo(userId, seesionIdGenerator.incrementAndGet());
+		UserSession newSession = new UserSession(userId, seesionIdGenerator.incrementAndGet());
 		oldSession = attrSession.setIfAbsent(newSession);
 		if (oldSession != null) {
 			logger(oldSession);
 			return false;
 		}
 		ChannelHandlerContext old = userChannelMap.put(userId, ctx);
-//		if (old != null) {
-//			// TODO 通过消息通知
-//			old.close();
-//		}
+		// if (old != null) {
+		// // TODO 通过消息通知
+		// old.close();
+		// }
 		if (ctx.channel().attr(USER_ID) == CLOSE_SESSION) {
 			userChannelMap.remove(userId, ctx);
 			return false;
 		}
-		//这里缺少多线程保护，会导致已经断线的人时间被清空，后果是无法直接在游戏内重连
-		if (disconnectMap.remove(userId) == null) {
+		// 这里缺少多线程保护，会导致已经断线的人时间被清空，后果是无法直接在游戏内重连
+		if (disconnectMap.remove(userId) == null && recordLogin) {
 			BILogMgr.getInstance().logZoneLogin(userId);
 		}
 		return true;
 	}
 
 	public static String getUserId(ChannelHandlerContext ctx) {
-		Attribute<SessionInfo> userIdAttr = ctx.channel().attr(USER_ID);
-		SessionInfo session = userIdAttr.get();
+		Attribute<UserSession> userIdAttr = ctx.channel().attr(USER_ID);
+		UserSession session = userIdAttr.get();
 		return session == null ? null : session.getUserId();
 	}
 
-	public static SessionInfo getSession(ChannelHandlerContext ctx) {
-		Attribute<SessionInfo> userIdAttr = ctx.channel().attr(USER_ID);
+	public static UserSession getUserSession(ChannelHandlerContext ctx) {
+		Attribute<UserSession> userIdAttr = ctx.channel().attr(USER_ID);
 		return userIdAttr.get();
+	}
+
+	public static SessionInfo getSession(ChannelHandlerContext ctx) {
+		return ctx.channel().attr(SESSION_INFO).get();
+	}
+
+	public static String getCtxInfo(ChannelHandlerContext ctx){
+		return getCtxInfo(ctx, true);
+	}
+	
+	public static String getCtxInfo(ChannelHandlerContext ctx, boolean addLastCommand) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			Channel channel = ctx.channel();
+			UserSession userSession = channel.attr(USER_ID).get();
+			if (userSession != null) {
+				sb.append('[').append(userSession.getUserId()).append(',').append(userSession.getSessionId()).append(']');
+			} else {
+				sb.append("[not binding]");
+			}
+			SessionInfo info = channel.attr(SESSION_INFO).get();
+			if (info != null) {
+				long current = System.currentTimeMillis();
+				sb.append('(');
+				if (addLastCommand) {
+					sb.append(info.getLastCommand()).append(',');
+				}
+				sb.append((current - info.getCreateMillis()) / 1000).append(',');
+				sb.append((current - info.getLastRecvMsgMillis()) / 1000).append(')');
+			}
+			return sb.toString();
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return "[exception]";
+		}
+	}
+
+	public static void createSession(ChannelHandlerContext ctx) {
+		Attribute<SessionInfo> attSession = ctx.channel().attr(SESSION_INFO);
+		SessionInfo sessionInfo = ctx.channel().attr(SESSION_INFO).get();
+		if (sessionInfo != null) {
+			GameLog.error("updateSessionInfo", ctx.channel().remoteAddress().toString(), "session already create!");
+		} else {
+			sessionInfo = new SessionInfo();
+			if (attSession.setIfAbsent(sessionInfo) != null) {
+				GameLog.error("updateSessionInfo", ctx.channel().remoteAddress().toString(), "multi thread create session!");
+			}
+		}
+
+	}
+
+	public static void updateSessionInfo(ChannelHandlerContext ctx, long lastRecvMsgMillis, Command command) {
+		SessionInfo sessionInfo = ctx.channel().attr(SESSION_INFO).get();
+		if (sessionInfo == null) {
+			GameLog.error("updateSessionInfo", ctx.channel().remoteAddress().toString(), "not set session info");
+		} else {
+			sessionInfo.setLastCommand(command);
+			sessionInfo.setLastRecvMsgMillis(lastRecvMsgMillis);
+		}
 	}
 
 	/**
@@ -108,7 +171,7 @@ public class UserChannelMgr {
 	 * @return
 	 */
 	public static long getCurrentSessionId(String userId) {
-		return getSessionId(userChannelMap.get(userId));
+		return getUserSessionId(userChannelMap.get(userId));
 	}
 
 	/**
@@ -117,12 +180,12 @@ public class UserChannelMgr {
 	 * @param userId
 	 * @return
 	 */
-	public static long getSessionId(ChannelHandlerContext ctx) {
+	public static long getUserSessionId(ChannelHandlerContext ctx) {
 		if (ctx == null) {
 			return -1;
 		}
-		Attribute<SessionInfo> attrSession = ctx.channel().attr(USER_ID);
-		SessionInfo oldSession = attrSession.get();
+		Attribute<UserSession> attrSession = ctx.channel().attr(USER_ID);
+		UserSession oldSession = attrSession.get();
 		if (oldSession == null) {
 			return -1;
 		}
@@ -194,9 +257,9 @@ public class UserChannelMgr {
 	 * @param ctx
 	 */
 	public static void closeSession(ChannelHandlerContext ctx) {
-		Attribute<SessionInfo> userIdAttr = ctx.channel().attr(USER_ID);
+		Attribute<UserSession> userIdAttr = ctx.channel().attr(USER_ID);
 		for (;;) {
-			SessionInfo oldSession = userIdAttr.get();
+			UserSession oldSession = userIdAttr.get();
 			if (oldSession == CLOSE_SESSION) {
 				break;
 			}
@@ -220,12 +283,6 @@ public class UserChannelMgr {
 			return userChannelMap.get(userId);
 		}
 		return null;
-	}
-
-	public static String getCtxInfo(ChannelHandlerContext ctx) {
-		Attribute<SessionInfo> userIdAttr = ctx.channel().attr(USER_ID);
-		SessionInfo oldSession = userIdAttr.get();
-		return oldSession == null ? "[not binding]" : oldSession.toString();
 	}
 
 	/**
@@ -307,23 +364,7 @@ public class UserChannelMgr {
 		return userChannelMap.keySet();
 	}
 
-	/**
-	 * 检查玩家是否重连
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	public static boolean clearAndCheckReconnect(String userId) {
-		Long time = disconnectMap.remove(userId);
-		return time != null && (System.currentTimeMillis() - time) < RECONNECT_TIME;
-	}
-
-	public static boolean checkReconnect(String userId) {
-		Long time = disconnectMap.get(userId);
-		return time != null && (System.currentTimeMillis() - time) < RECONNECT_TIME;
-	}
-
-	public static Long getDisconnectTime(String userId){
+	public static Long getDisconnectTime(String userId) {
 		return disconnectMap.get(userId);
 	}
 

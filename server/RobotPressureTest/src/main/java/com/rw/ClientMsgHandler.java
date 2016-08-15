@@ -8,6 +8,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.common.MsgReciver;
@@ -89,6 +91,8 @@ public abstract class ClientMsgHandler {
 				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
+//					RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= " + synType.getNumber() + " i =" + i);
+//					i++;
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -194,8 +198,9 @@ public abstract class ClientMsgHandler {
 					default:
 					}
 				}
-			} catch (InvalidProtocolBufferException e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
+				RobotLog.fail("!!!!!!!!!!!!!!!!!!!!!------------------------------------------------", e);
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
 		}
