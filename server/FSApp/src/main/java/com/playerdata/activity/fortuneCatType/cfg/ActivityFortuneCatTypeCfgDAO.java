@@ -81,6 +81,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 			item.setNum(subCfg.getNum());
 			item.setCost(subCfg.getCost()+"");
 			item.setVip(subCfg.getVip());
+			item.setGetGold(0);
 			subItemList.add(item);
 		}
 		return subItemList;		

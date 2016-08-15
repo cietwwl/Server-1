@@ -33,6 +33,7 @@ public class FortuneCatCollector implements RedPointCollector{
 				continue;
 			}
 			int times = item.getTimes();
+			times++;
 			List<ActivityFortuneCatTypeSubItem> subItemList = item.getSubItemList();
 			ActivityFortuneCatTypeSubItem sub = null;
 			for(ActivityFortuneCatTypeSubItem subItem : subItemList){
