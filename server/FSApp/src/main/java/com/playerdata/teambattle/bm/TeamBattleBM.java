@@ -388,9 +388,9 @@ public class TeamBattleBM {
 			return;
 		}
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-		if(null == teamItem || !StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+		if(null == teamItem){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("权限不足，队长才能邀请");
+			tbRsp.setTipMsg("队伍数据有误");
 			return;
 		}
 		if(teamItem.isFull()){
@@ -401,7 +401,7 @@ public class TeamBattleBM {
 		ServerCommonData scData = ServerCommonDataHolder.getInstance().get();
 		if(null == scData){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("组队怪物信息有误");
+			tbRsp.setTipMsg("副本信息有误");
 			return;
 		}
 		String enimyID = scData.getTeamBattleEnimyMap().get(teamItem.getHardID());
