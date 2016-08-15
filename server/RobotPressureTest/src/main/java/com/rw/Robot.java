@@ -381,11 +381,8 @@ public class Robot {
 	/**神器操作需要涉及的材料，创建角色是单独调用*/
 	public boolean addFixEquip(){
 		
-		long start = System.currentTimeMillis();
 		boolean sendSuccess = GmHandler.instance().send(client, "* addfixequipitem " + 1);
 		
-		long end = System.currentTimeMillis();
-		System.out.println("~~~~~~~~~~~~~" + (end - start));
 		return sendSuccess;
 		
 //		checkItemEnough(806511);// 普通进化材料
