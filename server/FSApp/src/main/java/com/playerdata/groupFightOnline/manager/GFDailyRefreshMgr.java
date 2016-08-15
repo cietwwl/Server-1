@@ -1,4 +1,4 @@
-package com.playerdata.teambattle.manager;
+package com.playerdata.groupFightOnline.manager;
 
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -7,16 +7,16 @@ import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-public class TBDailyRefreshMgr implements IGameTimerTask{
+public class GFDailyRefreshMgr implements IGameTimerTask{
 
 	@Override
 	public String getName() {
-		return "组队战的每日刷新";
+		return "帮战的每日刷新";
 	}
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		TBTeamItemMgr.getInstance().dailyReset(timeSignal.getAssumeExecuteTime());
+		GFightOnlineResourceMgr.getInstance().dispatchDailyReward(timeSignal.getAssumeExecuteTime());
 		return "";
 	}
 
