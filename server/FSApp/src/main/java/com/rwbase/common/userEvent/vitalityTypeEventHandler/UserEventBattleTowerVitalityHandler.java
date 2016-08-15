@@ -40,7 +40,6 @@ public class UserEventBattleTowerVitalityHandler implements IUserEventHandler{
 					}
 					
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.BattleTowerVitality,subCfg, add);
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
 			@Override

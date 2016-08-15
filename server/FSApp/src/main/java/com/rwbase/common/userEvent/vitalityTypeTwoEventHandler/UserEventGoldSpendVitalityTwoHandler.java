@@ -31,7 +31,6 @@ public class UserEventGoldSpendVitalityTwoHandler  implements IUserEventHandler{
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
 				if(subCfg!= null&&isLevelEnough){
 					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.GoldSpendingVitalityTwo,subCfg, Integer.parseInt(params.toString()));
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-消费开启",null);
 					}
 				}
 			@Override
