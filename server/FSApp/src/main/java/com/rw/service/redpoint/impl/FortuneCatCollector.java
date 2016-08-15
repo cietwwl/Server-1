@@ -42,7 +42,7 @@ public class FortuneCatCollector implements RedPointCollector{
 					break;
 				}
 			}
-			if(sub != null&&player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost())){
+			if(sub != null&&player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost())&&player.getVip()>=sub.getVip()){
 				activityList.add(item.getCfgId());
 				break;
 			}			
