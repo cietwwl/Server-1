@@ -821,9 +821,9 @@ public final class ActivityFortuneCatTypeProto {
     com.google.protobuf.ByteString
         getTipMsgBytes();
 
-    // optional string getGold = 4;
+    // optional int32 getGold = 4;
     /**
-     * <code>optional string getGold = 4;</code>
+     * <code>optional int32 getGold = 4;</code>
      *
      * <pre>
      *反馈获得的钻石
@@ -831,22 +831,13 @@ public final class ActivityFortuneCatTypeProto {
      */
     boolean hasGetGold();
     /**
-     * <code>optional string getGold = 4;</code>
+     * <code>optional int32 getGold = 4;</code>
      *
      * <pre>
      *反馈获得的钻石
      * </pre>
      */
-    java.lang.String getGetGold();
-    /**
-     * <code>optional string getGold = 4;</code>
-     *
-     * <pre>
-     *反馈获得的钻石
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getGetGoldBytes();
+    int getGetGold();
   }
   /**
    * Protobuf type {@code fortuneCatType.ActivityCommonRspMsg}
@@ -920,9 +911,9 @@ public final class ActivityFortuneCatTypeProto {
               tipMsg_ = input.readBytes();
               break;
             }
-            case 34: {
+            case 32: {
               bitField0_ |= 0x00000008;
-              getGold_ = input.readBytes();
+              getGold_ = input.readInt32();
               break;
             }
           }
@@ -1068,11 +1059,11 @@ public final class ActivityFortuneCatTypeProto {
       }
     }
 
-    // optional string getGold = 4;
+    // optional int32 getGold = 4;
     public static final int GETGOLD_FIELD_NUMBER = 4;
-    private java.lang.Object getGold_;
+    private int getGold_;
     /**
-     * <code>optional string getGold = 4;</code>
+     * <code>optional int32 getGold = 4;</code>
      *
      * <pre>
      *反馈获得的钻石
@@ -1082,52 +1073,21 @@ public final class ActivityFortuneCatTypeProto {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string getGold = 4;</code>
+     * <code>optional int32 getGold = 4;</code>
      *
      * <pre>
      *反馈获得的钻石
      * </pre>
      */
-    public java.lang.String getGetGold() {
-      java.lang.Object ref = getGold_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          getGold_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string getGold = 4;</code>
-     *
-     * <pre>
-     *反馈获得的钻石
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getGetGoldBytes() {
-      java.lang.Object ref = getGold_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        getGold_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getGetGold() {
+      return getGold_;
     }
 
     private void initFields() {
       reqType_ = com.rwproto.ActivityFortuneCatTypeProto.RequestType.GET_GOLD;
       isSuccess_ = false;
       tipMsg_ = "";
-      getGold_ = "";
+      getGold_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1159,7 +1119,7 @@ public final class ActivityFortuneCatTypeProto {
         output.writeBytes(3, getTipMsgBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getGetGoldBytes());
+        output.writeInt32(4, getGold_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1184,7 +1144,7 @@ public final class ActivityFortuneCatTypeProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getGetGoldBytes());
+          .computeInt32Size(4, getGold_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1308,7 +1268,7 @@ public final class ActivityFortuneCatTypeProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        getGold_ = "";
+        getGold_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -1382,9 +1342,7 @@ public final class ActivityFortuneCatTypeProto {
           onChanged();
         }
         if (other.hasGetGold()) {
-          bitField0_ |= 0x00000008;
-          getGold_ = other.getGold_;
-          onChanged();
+          setGetGold(other.getGetGold());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1620,10 +1578,10 @@ public final class ActivityFortuneCatTypeProto {
         return this;
       }
 
-      // optional string getGold = 4;
-      private java.lang.Object getGold_ = "";
+      // optional int32 getGold = 4;
+      private int getGold_ ;
       /**
-       * <code>optional string getGold = 4;</code>
+       * <code>optional int32 getGold = 4;</code>
        *
        * <pre>
        *反馈获得的钻石
@@ -1633,62 +1591,30 @@ public final class ActivityFortuneCatTypeProto {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string getGold = 4;</code>
+       * <code>optional int32 getGold = 4;</code>
        *
        * <pre>
        *反馈获得的钻石
        * </pre>
        */
-      public java.lang.String getGetGold() {
-        java.lang.Object ref = getGold_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          getGold_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getGetGold() {
+        return getGold_;
       }
       /**
-       * <code>optional string getGold = 4;</code>
+       * <code>optional int32 getGold = 4;</code>
        *
        * <pre>
        *反馈获得的钻石
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getGetGoldBytes() {
-        java.lang.Object ref = getGold_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          getGold_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string getGold = 4;</code>
-       *
-       * <pre>
-       *反馈获得的钻石
-       * </pre>
-       */
-      public Builder setGetGold(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
+      public Builder setGetGold(int value) {
+        bitField0_ |= 0x00000008;
         getGold_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string getGold = 4;</code>
+       * <code>optional int32 getGold = 4;</code>
        *
        * <pre>
        *反馈获得的钻石
@@ -1696,24 +1622,7 @@ public final class ActivityFortuneCatTypeProto {
        */
       public Builder clearGetGold() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        getGold_ = getDefaultInstance().getGetGold();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string getGold = 4;</code>
-       *
-       * <pre>
-       *反馈获得的钻石
-       * </pre>
-       */
-      public Builder setGetGoldBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        getGold_ = value;
+        getGold_ = 0;
         onChanged();
         return this;
       }
@@ -1754,7 +1663,7 @@ public final class ActivityFortuneCatTypeProto {
       "uid\030\002 \001(\t\"x\n\024ActivityCommonRspMsg\022,\n\007req" +
       "Type\030\001 \002(\0162\033.fortuneCatType.RequestType\022" +
       "\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022\017\n\007ge" +
-      "tGold\030\004 \001(\t*2\n\013RequestType\022\014\n\010GET_GOLD\020\001" +
+      "tGold\030\004 \001(\005*2\n\013RequestType\022\014\n\010GET_GOLD\020\001" +
       "\022\025\n\021VIEW_OTHER_PLAYER\020\002B*\n\013com.rwprotoB\033" +
       "ActivityFortuneCatTypeProto"
     };
