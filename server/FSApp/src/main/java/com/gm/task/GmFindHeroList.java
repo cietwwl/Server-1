@@ -16,6 +16,7 @@ import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
@@ -70,7 +71,7 @@ public class GmFindHeroList implements IGmTask{
 			if(cfg != null){
 				quality = cfg.getQualityName();
 			}
-			EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(),eBattlePositionType.Normal_VALUE,"copy");
+			EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(),eBattlePositionType.Normal_VALUE,EmBattlePositionKey.posCopy.getKey());
 			List<EmbattleHeroPosition> posList = posInfo.getPos();
 			boolean isfight = false;
 			for(int i = 0 ; i < posList.size() ;i ++){
