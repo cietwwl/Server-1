@@ -195,6 +195,7 @@ public class GroupCopyMgr {
 				if(groupID.equals("")){
 					return result;
 				}
+				
 				GroupCopyDistIDManager.getInstance().addGroupID(groupID);
 				final String roleName = player.getUserName();
 				final boolean inExtralTime = mapRecord.getRewardTime() >= System.currentTimeMillis();
@@ -241,8 +242,8 @@ public class GroupCopyMgr {
 		}
 		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 		if(damage <= 0){
-			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
-					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp(), null);
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本["+level+"]战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
+					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp()+",请检查关卡内是否存在加血技能的怪物！！！", null);
 		}
 		return damage;
 	}
@@ -258,20 +259,19 @@ public class GroupCopyMgr {
 			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-		
+		//发放帮派经验
 		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
+		
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
-		ItemDropAndApplyTemplate dropApplyRecord = null;
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
-			dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
+			ItemDropAndApplyTemplate dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
 			dropApplyRecord.addDropItem(d.getCount());
-			dropHolder.updateItem(player, dropAndApplyRecord);
-			dropApplyRecord = null;
 		}
+		dropHolder.updateItem(player, dropAndApplyRecord);
 		
 		mapRecordHolder.updateItem(player, mapRecord);
 	}
@@ -393,6 +393,22 @@ public class GroupCopyMgr {
 				rspMsg.setTipMsg("服务器繁忙！");
 				return rspMsg;
 			}
+			//检查当前关卡是否已经通关
+			if(lvData.getProgress().getProgress() == 1.0){
+				rspMsg.setTipMsg("当前关卡已通关！");
+				return rspMsg;
+			}
+			
+			
+			//检查一下当前的关卡是否为章节的当前关卡
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(levelCfg.getChaterID());
+			if(!mapRecord.getCurLevelID().equals(level)){
+				rspMsg.setTipMsg("当前关卡已通关！");
+				return rspMsg;
+						
+			}
+			
 			int status = lvData.getStatus();
 			boolean enter = false;
 			long curTime = System.currentTimeMillis();
@@ -600,7 +616,12 @@ public class GroupCopyMgr {
 			result.setTipMsg("找不到对应章节id为"+chaterID+"的掉落记录！");
 			return result;
 		}
-		
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getConfig(chaterID);
+		if(!mapCfg.getWarPriceList().contains(itemID)){
+			result.setSuccess(false);
+			result.setTipMsg("找不到对应章节id为"+itemID+"的掉落道具！");
+			return result;
+		}
 		//检查是否有旧的申请记录,如果有，要去掉
 		clearBeforeApplyRecord(player, record);
 		if(apply){
@@ -625,7 +646,7 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	private void clearBeforeApplyRecord(Player player, CopyItemDropAndApplyRecord record){
-		
+		List<Integer> List = new ArrayList<Integer>();
 		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
@@ -700,15 +721,12 @@ public class GroupCopyMgr {
 						continue;
 					}
 					
-					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, drop, apply, groupName);
+					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if(sendMail){
 						send = true;
 //						System.err.println("发放道具成功：" + template.getItemID());
 						template.deleteApply(drop, apply);
 						
-						DistRewRecordItem item = new DistRewRecordItem(template.getItemID(), apply.getRoleName(), time, getDistStr(apply));
-						//添加分配记录
-						rewardRecordHolder.addDistRecord(item);
 					}
 					
 					applyInfo.clear();
@@ -723,7 +741,23 @@ public class GroupCopyMgr {
 		}
 	}
 
-	
+	/**
+	 * 发送帮派奖励邮件
+	 * @param itemID 奖励道具ID
+	 * @param apply 收件人
+	 * @param groupName 帮派名
+	 * @param sendTime 发送时间
+	 * @return
+	 */
+	public boolean sendGroupPriceMailAndRecord(int itemID, ApplyInfo apply, String groupName, long sendTime){
+		boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(itemID, apply, groupName);
+		if(sendMail){
+			DistRewRecordItem item = new DistRewRecordItem(itemID, apply.getRoleName(), sendTime, getDistStr(apply));
+			//添加分配记录
+			rewardRecordHolder.addDistRecord(item);
+		}
+		return sendMail;
+	}
 	
 	/**
 	 * 获取分配字符串
@@ -939,7 +973,9 @@ public class GroupCopyMgr {
 		GroupCopyResult result = GroupCopyResult.newResult();
 		try {
 			//先找到章节的奖励
-			ItemDropAndApplyTemplate template = dropHolder.getItemApplyDataByID(mapID, itemID);
+			CopyItemDropAndApplyRecord record = dropHolder.getItemByID(mapID);
+			
+			ItemDropAndApplyTemplate template = record.getDaMap().get(String.valueOf(itemID));
 			
 			//检查是否还有可以奖励的道具
 			
@@ -947,7 +983,11 @@ public class GroupCopyMgr {
 			tempList.addAll(template.getDropInfoList());
 			Collections.sort(tempList, DROPCOMPARATOR);;
 			DropInfo dropInfo = tempList.get(0);
-			
+			if(dropInfo == null){
+				result.setSuccess(false);
+				result.setTipMsg("道具数量不足");
+				return result;
+			}
 			GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(role.getUserId(), false);
 			if(memberData.getReceiveTime() > dropInfo.getTime()){
 				result.setSuccess(false);
@@ -956,13 +996,19 @@ public class GroupCopyMgr {
 			}
 			
 			//可分配，则修改记录
-			ApplyInfo applyInfo = getRoleApplyInfo(role.getUserId(), template.getApplyData());
-			if(applyInfo != null){
-				template.deleteApplyData(applyInfo);
-			}
-			applyInfo = new ApplyInfo(role.getUserId(), role.getUserName(), System.currentTimeMillis());
+			ApplyInfo oldData = getRoleApplyInfo(role.getUserId(), template.getApplyData());
+//			if(oldData != null){
+//				template.deleteApplyData(oldData);
+//			}
+			ApplyInfo applyInfo = new ApplyInfo(role.getUserId(), role.getUserName(), System.currentTimeMillis());
 			applyInfo.setDistRoleName(distRoleName);
-			template.addApplyRole(applyInfo);
+//			template.addApplyRole(applyInfo);//这里不再加回去，策划改为实时发送邮件
+			boolean send = sendGroupPriceMailAndRecord(itemID, applyInfo, group.getGroupBaseDataMgr().getGroupData().getGroupName(), System.currentTimeMillis());
+			if(send){
+				template.deleteApply(dropInfo, oldData);
+				dropHolder.updateItem(role, record);
+			}
+			
 			result.setSuccess(true);
 		} catch (Exception e) {
 			e.printStackTrace();

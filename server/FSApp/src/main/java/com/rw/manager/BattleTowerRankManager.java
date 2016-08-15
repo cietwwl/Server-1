@@ -54,6 +54,9 @@ public class BattleTowerRankManager {
 
 		TableBattleTowerRank myBattleTowerRank = TableBattleTowerRankDao.getRankByKey(player.getUserId());
 		if (myBattleTowerRank != null) {
+			BattleTowerRoleInfo roleInfo = myBattleTowerRank.getRoleInfo();
+			roleInfo.setHeadFrame(player.getHeadFrame());
+			roleInfo.setHeadIcon(player.getHeadImage());
 			list.add(myBattleTowerRank);
 		}
 

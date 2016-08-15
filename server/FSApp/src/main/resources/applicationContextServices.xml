@@ -48,7 +48,6 @@
 			    <entry key="MSG_FRIEND" value-ref="friendService" />
 			    <entry key="MSG_SIGN" value-ref="signService" />
 			    <entry key="MSG_VIP" value-ref="vipService" />
-			    <entry key="MSG_HOT_POINT" value-ref="hotPointService" />
 			    <entry key="MSG_SETTING" value-ref="settingService" />
 			    <entry key="MSG_OtherRoleAttr" value-ref="otherRoleAttrService" />
 			    <entry key="MSG_TOWER" value-ref="towerService" />
@@ -106,6 +105,7 @@
      			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
      			
      			<entry key="MSG_TEAM_BATTLE" value-ref="teamBattleService" />
+     			<entry key="MSG_ONE_KEY_REWARD" value-ref="oneKeyService" />
      			
 			</map>
 		</property>
@@ -137,7 +137,6 @@
 	<bean id="friendService" class="com.rw.service.friend.FriendService"  />
 	<bean id="signService" class="com.rw.service.sign.SignService"  />
 	<bean id="vipService" class="com.rw.service.vip.VipService"  />
-	<bean id="hotPointService" class="com.rw.service.hotPoint.HotPointService"  />
 	<bean id="settingService" class="com.rw.service.setting.SettingService"  />
 	<bean id="otherRoleAttrService" class="com.rw.service.role.OtherRoleAttrService"  />
 	<bean id="storeService" class="com.rw.service.store.StoreService"  />
@@ -187,7 +186,7 @@
 	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
 	
 	<bean id="teamBattleService" class = "com.playerdata.teambattle.service.TeamBattleService" />
-	
+	<bean id="oneKeyService" class = "com.rw.service.task.OneKeyService" />
 	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	
 </beans>  

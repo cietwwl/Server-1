@@ -50,6 +50,9 @@ public class HeroFixEquipChecker implements RedPointCollector {
 
 	}
 
+	/*
+	 * 觉醒列表
+	 */
 	private void checkStarUp(Map<RedPointType, List<String>> map, Player player, HeroMgr heroMgr, List<String> heroIdList, Set<String> heroIdSet) {
 		List<String> starUPList = new ArrayList<String>();
 		for (String id : heroIdList) {
@@ -71,6 +74,9 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		}
 	}
 
+	/*
+	 * 进阶品质列表
+	 */
 	private void checkQualityUP(Map<RedPointType, List<String>> map,Player player, HeroMgr heroMgr, List<String> heroIdList, Set<String> heroIdSet) {
 		
 		List<String> qualityUpList = new ArrayList<String>();

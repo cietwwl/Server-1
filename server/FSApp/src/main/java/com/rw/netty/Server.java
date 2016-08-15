@@ -1,18 +1,5 @@
 package com.rw.netty;
 
-import java.net.InetSocketAddress;
-
-import org.apache.log4j.PropertyConfigurator;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.log.GameLog;
-import com.playerdata.GambleMgr;
-import com.rw.manager.GameManager;
-import com.rw.manager.ServerSwitch;
-import com.rwbase.common.attribute.AttributeBM;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.RequestProtos.Request;
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -26,6 +13,20 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
+import java.net.InetSocketAddress;
+
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.log.GameLog;
+import com.playerdata.GambleMgr;
+import com.rw.manager.DataCacheInitialization;
+import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.RequestProtos.Request;
+
 public class Server {
 	public static final boolean isDebug = true;
 
@@ -33,8 +34,9 @@ public class Server {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		GameWorldFactory.init(64, 16);
+		DataCacheInitialization.init();
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-		System.setProperty("io.netty.recycler.maxCapacity.default", "1024");
+		System.setProperty("io.netty.recycler.maxCapacity.default", "512");
 		GameManager.initServerProperties();
 		System.out.println("start init...");
 		ServerSwitch.initProperty();
@@ -73,7 +75,7 @@ public class Server {
 			serverBootstrap.childHandler(new ChannelInitializer<Channel>() {
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
-					ch.pipeline().addLast("idle", new IdleStateHandler(0, 0, 180));
+					ch.pipeline().addLast("idle", new IdleStateHandler(90, 0, 160));
 					ch.pipeline().addLast("frameDecoder", new FrameDecoder());
 					// 构造函数传递要解码成的类型
 					ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(Request.getDefaultInstance()));

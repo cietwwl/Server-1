@@ -202,11 +202,16 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if(StringUtils.isNotBlank(utbData.getTeamID())){
+		if (utbData.getFinishedHards().contains(hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			return;
+		}
+		if (StringUtils.isNotBlank(utbData.getTeamID())) {
 			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-			if(teamItem != null){
+			if (teamItem != null) {
 				TeamMember member = teamItem.findMember(player.getUserId());
-				if(member != null && member.getState().equals(TBMemberState.HalfFinish)){
+				if (member != null && member.getState().equals(TBMemberState.HalfFinish)) {
 					tbRsp.setRstType(TBResultType.DATA_ERROR);
 					tbRsp.setTipMsg("请您先完成当前的副本");
 					return;
@@ -253,6 +258,11 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData.getFinishedHards().contains(hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			return;
+		}
 		if(StringUtils.isNotBlank(utbData.getTeamID())){
 			//获取的是玩家可能已经存在的队伍
 			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
@@ -451,14 +461,14 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null != utbData && utbData.getFinishedLoops().contains(battleTime)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复攻击已通过的关卡");
+			return;
+		}
 		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("组队数据异常");
-			return;
-		}
-		if(utbData.getFinishedLoops().contains(battleTime)){
-			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不能重复攻击已通过的关卡");
 			return;
 		}
 		if(battleTime - 1 > 0 && !utbData.getFinishedLoops().contains(battleTime - 1)){
@@ -507,14 +517,14 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null != utbData && utbData.getFinishedLoops().contains(loopID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复结算已通过的关卡");
+			return;
+		}
 		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("组队数据异常");
-			return;
-		}
-		if(utbData.getFinishedLoops().contains(loopID)){
-			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不能重复结算已通过的关卡");
 			return;
 		}
 		if(battleTime - 1 > 0 && !utbData.getFinishedLoops().contains(battleTime - 1)){

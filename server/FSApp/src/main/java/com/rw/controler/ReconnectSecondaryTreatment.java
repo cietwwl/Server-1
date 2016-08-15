@@ -39,22 +39,32 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		Long disconnectTime = UserChannelMgr.getDisconnectTime(userId);
+		ChannelHandlerContext oldCtx = null;
 		if (disconnectTime == null) {
-			if (UserChannelMgr.get(userId) != null) {
+			oldCtx = UserChannelMgr.get(userId);
+			if (oldCtx != null) {
 				// 在线情况不处理
-				ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
+				if (oldCtx == ctx) {
+					GameLog.error("reconnect", userId, "repeat reconnect:"+userId);
+					ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
+					return;
+				}
 			} else {
-				// 不在线&
+				// 不在线disconnectTime == null && oldCtx == null
 				ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
+				return;
 			}
-			return;
 		}
-		if ((System.currentTimeMillis() - disconnectTime) > UserChannelMgr.RECONNECT_TIME) {
+		if (oldCtx == null && (System.currentTimeMillis() - disconnectTime) > UserChannelMgr.RECONNECT_TIME) {
 			ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
 			return;
 		}
-		if (!UserChannelMgr.bindUserID(userId, ctx)) {
+		if (!UserChannelMgr.bindUserID(userId, ctx, false)) {
 			return;
+		}
+		if (oldCtx != null) {
+			oldCtx.close();
+			GameLog.error("reconnect", userId, "remove old session:" + UserChannelMgr.getCtxInfo(oldCtx));
 		}
 		UserChannelMgr.onBSBegin(userId);
 		try {

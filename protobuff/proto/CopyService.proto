@@ -12,6 +12,7 @@ enum ERequestType	//请求
 	BATTLE_ITEMS_BACK = 6; 			//战斗物品结算
 	GM_SETLEVEL = 7;				//GM设定关卡命令
 	GET_GIFT = 8;				//领取宝箱
+	Map_Animation = 9;		//副本动画
 }
 
 enum EBattleStatus	//战斗状态
@@ -38,6 +39,7 @@ enum EResultType	//结果
 	GM_SETSUCCESS = 12;		//GM命令成功
 	SWEEP_SUCCESS = 13;//
 	GET_GIFT_SUCCESS = 14;
+	Success = 15;			//普通成功
 }
 
 message MsgCopyRequest
@@ -46,6 +48,7 @@ message MsgCopyRequest
     optional int32 levelId = 2;							//关卡ID
     optional TagBattleData tagBattleData = 3;				//副本战斗结算数据块
 	optional MapGiftRequest mapGiftRequest = 4;				//副本宝箱	
+	optional MapAnimationState mapAnima = 5;				//副本章节动画
 }
 
 message MsgCopyResponse
@@ -62,6 +65,13 @@ message MsgCopyResponse
 	optional int32 copyCount = 10;										//剩余次数
 	optional int32 unendingWar = 11;									//战绩点 
 	optional string eSpecialItemIdList = 12; 							//战前所获得的经验货币结果返回，以"eSpecialItemId.power.getvalue,num"的形式记录下"类型,值"
+}
+
+message MapAnimationState{
+	required int32 normalMapId = 1;			//副本id
+	required int32 normalAnimState = 2;		//1:已经播放开启动画； 2：已经播放关闭动画
+	required int32 eliteMapId = 3;			//精英id
+	required int32 eliteAnimState = 4;		//精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
 }
 
 message TagSweepInfo	//扫荡结果数据类

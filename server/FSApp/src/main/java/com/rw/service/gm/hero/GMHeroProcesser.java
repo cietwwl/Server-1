@@ -36,35 +36,7 @@ public class GMHeroProcesser {
 		final int maxLevel = GMHeroBase.gmGetMaxLevel();
 				
 		final int maxQuality = GMHeroBase.gmGetMaxQuality();
-		if(career== 5){
-			gmChangeCareer(player, 1);
-			bringitMainHeroSimple(player, maxLevel, maxQuality);
-			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
-				
-				@Override
-				public void run(Player player) {
-					player.setVip(15);
-					player.getUserGameDataMgr().addCoin(1999999999);
-					player.getUserGameDataMgr().addGold(1999999999);
-					Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
-					int num = 0;
-					for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy.entrySet().iterator(); iterator.hasNext();) {
-						if(num >4){
-							break;
-						}
-						Entry<String, RoleCfg> entry = iterator.next();
-						RoleCfg roleCfg = entry.getValue();
-						String templateId = roleCfg.getRoleId();
-						GMHeroBase.gmAddHero(entry.getKey(), player);
-						Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
-						GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);	
-						num++;
-					}
-				}
-			});
-			
-			return;
-		}
+		
 		
 		gmChangeCareer(player, career);
 		
@@ -115,6 +87,38 @@ public class GMHeroProcesser {
 		});
 		
 	}
+	
+	/**非异步的增加英雄命令,一次加一个*/
+	public static void processTeamBringitSigle(String[] arrCommandContents, Player player){
+		// 添加英雄
+		final int maxLevel = GMHeroBase.gmGetMaxLevel();
+
+		Map<String, RoleCfg> allRoleCfgCopy = RoleCfgDAO
+				.getInstance().getAllRoleCfgCopy();
+//		long begin = System.currentTimeMillis();
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~begin");
+		for (Iterator<Entry<String, RoleCfg>> iterator = allRoleCfgCopy
+				.entrySet().iterator(); iterator.hasNext();) {
+			
+			Entry<String, RoleCfg> entry = iterator.next();
+			RoleCfg roleCfg = entry.getValue();
+			String templateId = roleCfg.getRoleId();
+			if(player.getHeroMgr().getHeroByTemplateId(templateId) != null){
+				continue;
+			}			
+			GMHeroBase.gmAddHero(entry.getKey(), player);
+			Hero hero = player.getHeroMgr()
+					.getHeroByTemplateId(templateId);
+			GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+//			System.out.println("~~~~~~~~~~~~~~~~~~~~~~add");
+			break;
+		}
+//		long end = System.currentTimeMillis();
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~end        time =" + (end - begin));
+		
+		return;
+	}
+	
 
 	private static void gmChangeCareer(Player player, int career) {
 		boolean blnChangeCareer = false;

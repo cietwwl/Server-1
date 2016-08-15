@@ -9,11 +9,16 @@ import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.arena.TableArenaDataDAO;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ArenaScoreCollector implements RedPointCollector {
 
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.ARENA, player.getLevel())) {
+			return;
+		}
 		TableArenaData arenaData = TableArenaDataDAO.getInstance().get(player.getUserId());
 		if (arenaData == null) {
 			return;

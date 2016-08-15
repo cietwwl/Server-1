@@ -162,7 +162,11 @@ public class PlatformHandler {
 		
 		// 设置角色信息
 		client.setLastServerId(lastZone.getZoneId());
-		
+		ServerInfo serverInfo = new ServerInfo();
+		serverInfo.setZoneId(lastZone.getZoneId());
+		serverInfo.setServerIP(serverIp);
+		serverInfo.setServerPort(port);
+		client.addServerInfo(serverInfo);
 		
 		RobotLog.info("PlatformHandler[execute] 验证或者创建成功, accoutId:"+accountId+" password:"+password+" lastZondId:"+lastZone.getZoneId() +" address:"+serverIp+":"+port);
 	

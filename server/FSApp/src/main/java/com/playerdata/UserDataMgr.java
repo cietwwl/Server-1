@@ -53,11 +53,23 @@ public class UserDataMgr implements PlayerEventListener{
 		}
 	}
 	
-	public void setUserName(String nick) {
+	public boolean setUserName(String nick) {
+		
 		if (StringUtils.isNotBlank(nick)) {
-			userDataHolder.get().setUserName(nick);
-			userDataHolder.update(player);
+			User user = userDataHolder.get();
+			String oldName = user.getUserName();
+			if(oldName.equals(nick)){
+				return false;
+			}
+			user.setUserName(nick);
+			if(userDataHolder.updateUserName(player, nick)){
+				user.setUserName(nick);
+				return true;
+			}else{
+				user.setUserName(oldName);
+			}
 		}
+		return false;
 	}	
 
 	public void setSex(int sex) {

@@ -13,5 +13,13 @@ public class PlotProgressDAO extends DataKVDao<UserPlotProgress> {
 		}
 		return instance;
 	}
-	
+
+	/**
+	 * 获取更新周期间隔(单位：秒)
+	 * 
+	 * @return
+	 */
+	protected int getUpdatedSeconds() {
+		return 600;
+	}
 }

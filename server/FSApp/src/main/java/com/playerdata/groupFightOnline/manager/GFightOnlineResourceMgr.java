@@ -55,8 +55,10 @@ public class GFightOnlineResourceMgr {
 	 */
 	public void clearVictoryGroup(int resourceID){
 		GFightOnlineResourceData resData = GFightOnlineResourceHolder.getInstance().get(resourceID);
-		resData.clearCurrentLoopData();
-		GFightOnlineResourceHolder.getInstance().update(resData);
+		if(null != resData && StringUtils.isNotBlank(resData.getOwnerGroupID())){
+			resData.clearCurrentLoopData();
+			GFightOnlineResourceHolder.getInstance().update(resData);
+		}
 	}
 	
 	public void synData(Player player){

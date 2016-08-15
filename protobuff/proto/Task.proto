@@ -32,3 +32,26 @@ message TaskResponse {
 	repeated tagTask task = 5;
 	optional int32 id = 6;
 }
+
+enum OneKeyRewardType{
+	EMAIL = 1;	//一键提取邮件
+	TASK = 2;	//一键领取任务奖励
+	DAILY = 3;	//一键领取日常奖励
+	BATTLE_SCORE = 4;	//一键领取竞技场积分奖励
+}
+
+enum OneKeyResultType{
+	OneKey_SUCCESS = 1;
+	DATA_ERROR = 2;	//数据异常
+	NO_REWARD = 3;	//没有可以领取的项
+	TYPE_ERROR = 4;	//类型错误
+}
+
+message OneKeyGetRewardRequest{
+	required OneKeyRewardType oneKeyType = 1;
+}
+
+message OneKeyGetRewardResponse{
+	required OneKeyResultType result = 1;
+	repeated string rewardItems = 2;
+}

@@ -19,7 +19,6 @@ import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.HeroMgr;
-import com.playerdata.HotPointMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -50,14 +49,15 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
+import com.rwbase.dao.arena.TableArenaRecordDAO;
 import com.rwbase.dao.arena.pojo.ArenaCost;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.arena.pojo.HurtValueRecord;
 import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.arena.pojo.TableArenaRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
@@ -289,9 +289,9 @@ public class ArenaHandler {
 	public ByteString getArenaRecordInfo(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		TableArenaDataDAO arenaDAO = TableArenaDataDAO.getInstance();
 		String userId = player.getUserId();
-		TableArenaData arenaTable = arenaDAO.get(userId);
+		TableArenaRecordDAO arenaRecordDAO = TableArenaRecordDAO.getInstance();
+		TableArenaRecord arenaTable = arenaRecordDAO.get(userId);
 		if (arenaTable == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 		} else {
@@ -518,7 +518,6 @@ public class ArenaHandler {
 					}
 				}
 				TableArenaDataDAO.getInstance().update(enemyArenaData);
-				HotPointMgr.changeHotPointState(enemyUserId, EHotPointType.Arena, true);
 			}
 
 			ListRankingEntry<String, ArenaExtAttribute> newEntry = ranking.getRankingEntry(userId);
@@ -564,7 +563,7 @@ public class ArenaHandler {
 				m_MyArenaData.setMaxPlace(newPlace);
 			}
 			m_MyArenaData.setWinCount(m_MyArenaData.getWinCount() + 1);
-			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
+			ArenaBM.getInstance().addRecord(userId, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
 			recordForEnemy.setHurtList(enemyHurtList);
@@ -583,7 +582,7 @@ public class ArenaHandler {
 			recordForEnemy.setLevel(m_MyArenaData.getLevel());
 			recordForEnemy.setTime(currentTime);
 			recordForEnemy.setChallenge(0);
-			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
+			ArenaBM.getInstance().addRecord(enemyUserId, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
 			m_MyArenaData.setLastFightTime(System.currentTimeMillis());

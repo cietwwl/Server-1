@@ -173,7 +173,7 @@ public class PlayerLoginTask implements PlayerTask {
 		});
 
 		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
-		UserChannelMgr.bindUserID(userId, ctx);
+		UserChannelMgr.bindUserID(userId, ctx, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		player.onLogin();
 		if (StringUtils.isBlank(player.getUserName())) {
@@ -186,7 +186,7 @@ public class PlayerLoginTask implements PlayerTask {
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
-		BILogMgr.getInstance().logZoneLogin(player);
+//		BILogMgr.getInstance().logZoneLogin(player);
 		
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);

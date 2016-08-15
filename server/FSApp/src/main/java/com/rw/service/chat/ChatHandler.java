@@ -20,7 +20,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
-import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.chat.pojo.ChatMessageSaveData;
 import com.rwbase.dao.chat.pojo.ChatUserInfo;
@@ -92,7 +91,7 @@ public class ChatHandler {
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
 		return messageUserInfoBuilder;
 	}
-	
+
 	public ChatAttachItem createChatAttachItemProto(int type, String id, String extraInfo) {
 		if (id == null) {
 			id = "";
@@ -121,7 +120,7 @@ public class ChatHandler {
 			newBuilder.clearReceiveMessageUserInfo();
 		}
 
-		String chatContent = filterDirtyWord(clientData.getMessage());
+		String chatContent = ChatBM.getInstance().filterDirtyWord(clientData.getMessage());
 		newBuilder.setMessage(chatContent);
 		newBuilder.setTime(System.currentTimeMillis());
 		return newBuilder;
@@ -330,11 +329,11 @@ public class ChatHandler {
 			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
 			return msgChatResponseBuilder.build().toByteString();
 		}
-		
+
 		// 2016-08-03 聊天間隔判斷 BEGIN >>>>>>
 		long lastSentTime = ChatBM.getInstance().getLastSentPrivateChatTime(sendUserId);
 		long currentTimemillis = System.currentTimeMillis();
-		if(currentTimemillis - lastSentTime < CHAT_DELAY_TIME_MILLIS_PRIVATE) {
+		if (currentTimemillis - lastSentTime < CHAT_DELAY_TIME_MILLIS_PRIVATE) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "发言太快");
 			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
 			return msgChatResponseBuilder.build().toByteString();
@@ -393,7 +392,7 @@ public class ChatHandler {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
-			// System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+//			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 				data.setIsRead(true);
@@ -567,12 +566,15 @@ public class ChatHandler {
 			}
 		}
 		ChatBM.getInstance().updatePrivateChatState(player.getUserId(), unReadList);
+		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
 		return msgChatResponse.build().toByteString();
 	}
 
 	public ByteString setCurrentTargetOfPrivateChat(Player player, MsgChatRequestPrivateChats request) {
 		String targetUserId = request.getUserId();
 		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
+//		System.out.println("player set current target of private chat, player id : " + player.getUserId() + ", target : " + targetUserId);
+		ChatBM.getInstance().setAllChatsReadOfTarget(player.getUserId(), targetUserId);
 		return ByteString.EMPTY;
 	}
 
@@ -683,16 +685,19 @@ public class ChatHandler {
 				// 有可能是我發給別人的
 				userInfo = chatMsgData.getReceiveInfo();
 			}
-			String tempUserId = userInfo.getUserId();
-			if (!tempUserId.equals(userId)) {
-				userInfos.put(tempUserId, userInfo.getUserName());
-				if (!chatMsgData.isRead()) {
-					Integer count = unReadCountMap.get(tempUserId);
-					if (count == null) {
-						count = 0;
+
+			if (userInfo != null) {
+				String tempUserId = userInfo.getUserId();
+				if (!tempUserId.equals(userId)) {
+					userInfos.put(tempUserId, userInfo.getUserName());
+					if (!chatMsgData.isRead()) {
+						Integer count = unReadCountMap.get(tempUserId);
+						if (count == null) {
+							count = 0;
+						}
+						count++;
+						unReadCountMap.put(tempUserId, count);
 					}
-					count++;
-					unReadCountMap.put(tempUserId, count);
 				}
 			}
 		}
@@ -712,6 +717,8 @@ public class ChatHandler {
 			msgChatResponse.addUsersOfPrivateChannel(builder.build());
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+		
+		instance.updateCurrentTargetUserIdOfPrivateChat(userId, "");
 
 		// instance.updatePrivateChatState(userId, unReadList);
 	}
@@ -729,7 +736,7 @@ public class ChatHandler {
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 	}
-	
+
 	private void sendInteractiveChat(Player player) {
 		Map<ChatInteractiveType, List<ChatMessageData>> map = ChatBM.getInstance().getInteractiveChatList(player.getUserId());
 		for (Iterator<Map.Entry<ChatInteractiveType, List<ChatMessageData>>> itr = map.entrySet().iterator(); itr.hasNext();) {
@@ -741,9 +748,5 @@ public class ChatHandler {
 			msgChatResponse.addAllListMessage(entry.getValue());
 			player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 		}
-	}
-
-	private String filterDirtyWord(String content) {
-		return CharFilterFactory.getCharFilter().replaceDiryWords(content, "**", true, true);
 	}
 }
