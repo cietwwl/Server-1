@@ -250,19 +250,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
 					String emaiId = null;
-					String tmpfathionReward =null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
 							emaiId = subCfg.getEmailId();
-							tmpfathionReward = subCfg.getFashionReward();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
-						if(tmpfathionReward != null){
-							targetItem.setFashionReward(tmpfathionReward);
-						}
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);
@@ -305,7 +300,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			if(!isOpen(cfg)){
 				continue;
 			}
-			if(StringUtils.equals(sendMap.get(cfg.getEnumId()).getVersion(), cfg.getVersion())){
+			if(!StringUtils.equals(sendMap.get(cfg.getEnumId()).getVersion(), cfg.getVersion())){
 				SendRewardRecord record = new SendRewardRecord();
 				record.setId(cfg.getId());
 				record.setVersion(cfg.getVersion());

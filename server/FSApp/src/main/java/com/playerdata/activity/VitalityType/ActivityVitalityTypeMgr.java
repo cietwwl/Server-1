@@ -61,7 +61,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 				// 活动未开启
 				continue;
 			}
-			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(activityVitalityCfg.getEnumId());
+			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(activityVitalityCfg.getEnumID());
 			if (acVitalityTypeEnum == null) {
 				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityVitalityCfg.getId());
 				continue;
@@ -98,10 +98,9 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
 		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItemOfVersion(activityVitalityTypeItem);	
 		if(cfg == null ){
-			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
-		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumId());
+		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
 		if(cfgenum == null){
 			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
@@ -240,10 +239,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		ActivityVitalityCfg vitalityCfg = null;
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		for(ActivityVitalityCfg cfg: cfgList){
-			if(StringUtils.equals(eNum.getCfgId(), cfg.getId())&&isOpen(cfg)){
-				vitalityCfg = cfg;
-				break;
+			if(!StringUtils.equals(eNum.getCfgId(), cfg.getEnumID())){
+				continue;				
 			}			
+			if(!isOpen(cfg)){
+				continue;
+			}			
+			vitalityCfg = cfg;
+			break;
 		}		
 		if(vitalityCfg == null){
 			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
@@ -385,7 +388,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		if(cfg == null ){
 			return;
 		}
-		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumId());//cfg
+		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());//cfg
 		if(vitalityEnum == null){
 			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

@@ -97,8 +97,8 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.cfgId = cfg.getId();
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday() ,cfg));
-		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday() ,cfg);
+		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg));
+		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg);
 		if(boxlist != null){
 			setSubBoxItemList(boxlist);
 		}

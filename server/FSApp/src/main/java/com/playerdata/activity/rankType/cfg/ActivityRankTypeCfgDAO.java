@@ -130,7 +130,18 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 					cfgIsOpen = cfg;
 				}
 			}			
-		}		
+		}
+		for(ActivityRankTypeCfg cfg : cfgListByEnumId){//所有未开启的
+			if(cfg.getStartTime() > now ){
+				if(cfgIsOpen == null){
+					cfgIsOpen = cfg;
+					continue;					
+				}
+				if(cfgIsOpen.getEndTime() > cfg.getEndTime()){
+					cfgIsOpen = cfg;
+				}
+			}			
+		}
 		return cfgIsOpen;
 	}
 
