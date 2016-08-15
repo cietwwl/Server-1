@@ -15,15 +15,16 @@ public class SynDataListHolder<T extends SynItem> {
 
 	private List<T> m_SynItemList = new ArrayList<T>();
 
-	public List<T> getItemList() {
-		return m_SynItemList;
+	public synchronized List<T> getItemList() {
+		List<T> copyList = new ArrayList<T>(m_SynItemList);
+		return copyList;
 	}
 
 	public SynDataListHolder(Class<T> clazz) {
 		itemClazz = clazz;
 	}
 
-	public void Syn(MsgDataSyn msgDataSyn) {
+	public synchronized void Syn(MsgDataSyn msgDataSyn) {
 
 		try {
 			List<SynData> synDataList = msgDataSyn.getSynDataList();
@@ -53,7 +54,7 @@ public class SynDataListHolder<T extends SynItem> {
 		}
 	}
 
-	private void updateList(List<SynData> synDataList) {
+	private  void updateList(List<SynData> synDataList) {
 		List<T> itemListTmp = new ArrayList<T>();
 		try{
 		for (SynData synData : synDataList) {
