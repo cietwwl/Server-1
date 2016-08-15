@@ -3,8 +3,10 @@ package com.rwbase.dao.user;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
@@ -53,6 +55,8 @@ public class UserGameData implements TableUserOtherIF {
 	private volatile long lastWorshipTime;
 
 	private UserGameExtendInfo extendInfo;
+	@JsonIgnore
+	private MapAnimationState mapAnimationState;
 
 	public int getExpCoin() {
 		return expCoin;
@@ -298,4 +302,11 @@ public class UserGameData implements TableUserOtherIF {
 		this.wakenKey = wakenKey;
 	}
 
+	public MapAnimationState getMapAnimationState() {
+		return mapAnimationState;
+	}
+
+	public void setMapAnimationState(MapAnimationState mapAnimationState) {
+		this.mapAnimationState = mapAnimationState;
+	}
 }

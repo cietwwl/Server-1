@@ -54,10 +54,7 @@ public class Server {
 		try {
 			// 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();
-			
-			// 时效任务初始化
-			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
-			
+
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
@@ -65,6 +62,10 @@ public class Server {
 			GambleMgr.resetWhenStart();
 			//GambleTest.Test();
 
+			// 时效任务初始化
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
+			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
@@ -74,7 +75,7 @@ public class Server {
 			serverBootstrap.childHandler(new ChannelInitializer<Channel>() {
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
-					ch.pipeline().addLast("idle", new IdleStateHandler(0, 0, 180));
+					ch.pipeline().addLast("idle", new IdleStateHandler(90, 0, 160));
 					ch.pipeline().addLast("frameDecoder", new FrameDecoder());
 					// 构造函数传递要解码成的类型
 					ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(Request.getDefaultInstance()));

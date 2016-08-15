@@ -27,6 +27,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -88,7 +89,7 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-
+		
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
@@ -189,8 +190,12 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
-		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("shutdown", "shutdownServer");
 		
+		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
+		
+		funcCallBackMap.put("adddist", "addDistCount");
 	}
 
 	public boolean isActive() {
@@ -516,6 +521,25 @@ public class GMHandler {
 		//
 		return false;
 	}
+	
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			
+			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+			baseDataMgr.updateBuyKeyData(player, addNum);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	public boolean addWakenPiece(String[] arrCommandContents, Player player){
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -1221,7 +1245,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
@@ -1305,6 +1329,24 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
+		return true;
+	}
+
+	public boolean addDistCount(String[] str, Player player){
+		int count = Integer.parseInt(str[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		}
 		return true;
 	}
 	

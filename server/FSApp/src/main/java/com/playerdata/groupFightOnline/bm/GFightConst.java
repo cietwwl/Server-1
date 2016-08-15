@@ -19,4 +19,6 @@ public class GFightConst {
 	final public static String GF_BID_AUTHORITY_ID = "21";	//竞标权限表的id
 	
 	final public static int DAILY_REFRESH_HOUR = 5;		//每日刷新时间
+	
+	final public static int GROUP_BID_RANK_COUNT = 20;	//帮派竞标排行的个数
 }

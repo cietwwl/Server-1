@@ -29,12 +29,23 @@ public class DropAndApplyRecordHolder {
 	
 	public void checkAndInitData(){
 		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
-		CopyItemDropAndApplyRecord record = null;
+		List<CopyItemDropAndApplyRecord> addList = null;
 		for (GroupCopyMapCfg cfg : list) {
-			record = getItemByID(cfg.getId());
+			CopyItemDropAndApplyRecord record = getItemByID(cfg.getId());
 			if(record == null){
 				record = new CopyItemDropAndApplyRecord(cfg.getId(), groupId);
-				getItemStore().addItem(record);
+				if(addList == null){
+					addList = new ArrayList<CopyItemDropAndApplyRecord>();
+				}
+				addList.add(record);
+			}
+		}
+		
+		if(addList != null){
+			try {
+				getItemStore().addItem(addList);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -66,13 +77,14 @@ public class DropAndApplyRecordHolder {
 		}
 	}
 	
+	
 	public CopyItemDropAndApplyRecord getItemByID(String chaterID){
 		return getItemStore().getItem(getRecordID(chaterID));
 	}
 	
 	public ItemDropAndApplyTemplate getItemApplyDataByID(String chaterID, int itemID){
 		CopyItemDropAndApplyRecord item = getItemStore().getItem((getRecordID(chaterID)));
-		return item.getDaMap().get(String.valueOf(itemID));
+		return item.get(String.valueOf(itemID));
 	}
 	
 	
