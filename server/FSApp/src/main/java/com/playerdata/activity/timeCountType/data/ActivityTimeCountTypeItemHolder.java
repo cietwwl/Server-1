@@ -46,6 +46,10 @@ public class ActivityTimeCountTypeItemHolder{
 	
 	public void updateItem(Player player, ActivityTimeCountTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
+		if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//			removeItem(player, item);
+			return;
+		}
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
