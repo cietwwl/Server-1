@@ -252,7 +252,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 
 	public boolean isLevelEnough(Player player,ActivityDailyDiscountTypeCfg cfg) {
 		if(cfg == null){
-			GameLog.error("activityDailyDisCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyDisCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
 		}
 		if(player.getLevel() < cfg.getLevelLimit()){

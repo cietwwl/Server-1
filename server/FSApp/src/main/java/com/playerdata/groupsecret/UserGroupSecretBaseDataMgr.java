@@ -54,13 +54,14 @@ public class UserGroupSecretBaseDataMgr {
 	 * @param userId
 	 * @param id
 	 */
-	public void addDefendSecretId(String userId, String id) {
+	public void addDefendSecretId(String userId, String secretId, int mainPos) {
 		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
 		if (userGroupSecretBaseData == null) {
 			return;
 		}
 
-		userGroupSecretBaseData.addDefendSecretId(id);
+//		userGroupSecretBaseData.addDefendSecretId(secretId);
+		userGroupSecretBaseData.addDefendSecretId(mainPos, secretId);
 		update(userId);
 	}
 

@@ -153,6 +153,13 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 		this._createTime = System.currentTimeMillis();
 		this.attr.setHeroId(this.id);
 		this.initFromCfg(heroCfg, setName);
+		this.initAttrCalc(owner.getUserId());
+	}
+	
+	private void initAttrCalc(String userId) {
+		if (this._calc == null) {
+			this._calc = AttributeBM.getAttributeCalculator(userId, this.id);
+		}
 	}
 	
 	private void getDataFromCfg(RoleCfg heroCfg) {
@@ -215,7 +222,7 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 		if (_firstInited.compareAndSet(false, true)) {
 			this.attr.setHeroId(id); // 从db读出来的时候，attr的id有可能未初始化
 			FSHeroThirdPartyDataMgr.getInstance().notifyFirstInit(player, this); // 其他模块都加载完之后，然后计算属性
-			this._calc = AttributeBM.getAttributeCalculator(player.getUserId(), this.id);
+			this.initAttrCalc(player.getUserId());
 			this.calculateAttrsInternal(player, false);
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.dao.battletower.pojo.RewardInfo;
 
 /*
@@ -80,6 +81,18 @@ public class Utils {
 		return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	
+	/**
+	 * 
+	 * 计算万分比
+	 * 
+	 * @param value
+	 * @param ratio
+	 * @return
+	 */
+	public static int calculateTenThousandRatio(int value, int ratio) {
+		return value * ratio / AttributeConst.DIVISION;
+	}
+
 	public static String computeQualityId(int modeId, int quality) {
 		return modeId + "_" + quality;
 	}
