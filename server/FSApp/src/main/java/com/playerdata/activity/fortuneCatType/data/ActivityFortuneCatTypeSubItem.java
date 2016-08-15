@@ -16,6 +16,18 @@ public class ActivityFortuneCatTypeSubItem {
 	
 	private int num;
 	
+	private int vip ;
+	
+	
+	
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
+	}
+
 	public String getCfgId() {
 		return cfgId;
 	}

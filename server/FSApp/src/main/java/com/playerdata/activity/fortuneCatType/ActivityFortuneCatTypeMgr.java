@@ -30,8 +30,11 @@ import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfg;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -40,6 +43,8 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 
 
 public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
+	
+	private static Random r = new Random();
 
 	private static ActivityFortuneCatTypeMgr instance = new ActivityFortuneCatTypeMgr();
 
@@ -47,9 +52,9 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		return instance;
 	}
 
-//	public void synCountTypeData(Player player) {
-//		ActivityExchangeTypeItemHolder.getInstance().synAllData(player);
-//	}
+	public void synFortuneCatTypeData(Player player) {
+		ActivityFortuneCatTypeItemHolder.getInstance().synAllData(player);
+	}
 	
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
@@ -138,93 +143,90 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}		
 	}
 	
-//	
-//	public boolean isLevelEnough(Player player,ActivityExchangeTypeCfg cfg){
-//		boolean iscan = false;
-//		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
-//		return iscan;
-//		
-//	}
+	public ActivityComResult getGold(Player player) {
+		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
+		ActivityFortuneCatTypeItem item = dataHolder.getItem(player.getUserId());
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		if(item == null){
+			result.setReason("活动数据异常，活动未开启");
+			return result;
+		}
+		ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if(cfg == null){
+			result.setReason("活动配置异常，");
+			return result;		
+		}
+		if(!isLevelEnough(player, cfg)){
+			result.setReason("等级不足，");
+			return result;		
+		}
+		List<ActivityFortuneCatTypeSubItem>  subItemList = item.getSubItemList();
+		int times = item.getTimes()+ 1;
+		ActivityFortuneCatTypeSubItem sub = null;
+		for(ActivityFortuneCatTypeSubItem subItem : subItemList){
+			if(times == subItem.getNum()&&subItem.getGetGold() == null){
+				sub = subItem;
+				break;
+			}
+		}
+		if(sub == null){
+			result.setReason("摇奖数据异常，");
+			return result;			
+		}
+		ActivityFortuneCatTypeSubCfg subCfg = ActivityFortuneCatTypeSubCfgDAO.getInstance().getCfgById(sub.getCfgId());
+		if(subCfg == null){
+			result.setReason("子活动配置异常，");
+			return result;		
+		}		
+		if(player.getVip() < sub.getVip()){
+			result.setReason("vip不足，");
+			return result;	
+		}
+		if(player.getUserGameDataMgr().getGold() < Integer.parseInt(sub.getCost())){
+			result.setReason("钻石不足，");
+			return result;	
+		}
+		int length = subCfg.getMax() - subCfg.getCost();//实际获得区间
+		if(length < 1){
+			result.setReason(" 获得钻石数异常，");
+			return result;				
+		}
+		int getGold = r.nextInt(length);
+		player.getUserGameDataMgr().addGold(getGold);
+		sub.setGetGold((getGold + subCfg.getCost())+"");//写入的为额外获得+摇奖押金
+		item.setTimes(times);
+		dataHolder.updateItem(player, item);
+		result.setSuccess(true);
+		result.setReason("");		
+		return result;
+	}
+	
+	public boolean isLevelEnough(Player player,ActivityFortuneCatTypeCfg cfg){
+		boolean iscan = false;
+		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
+		return iscan;		
+	}
 	
 	
-	
-	
-//	public ActivityComResult takeGift(Player player,
-//			ActivityExChangeTypeEnum countType, String subItemId) {
-//		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-//
-//		ActivityExchangeTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
-//		ActivityComResult result = ActivityComResult.newInstance(false);
-//
-//		// 未激活
-//		if (dataItem == null) {
-//			result.setReason("活动尚未开启");
-//
-//		} else {
-//			ActivityExchangeTypeSubItem targetItem = null;
-//
-//			List<ActivityExchangeTypeSubItem> subItemList = dataItem.getSubItemList();
-//			for (ActivityExchangeTypeSubItem itemTmp : subItemList) {
-//				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
-//					targetItem = itemTmp;
-//					break;
-//				}
-//			}
-//			
-//			if(targetItem == null){
-//				result.setReason("找不到子活动类型的数据");
-//				return result;
-//			}
-//			
-//			if (isCanTaken(player,targetItem,true)) {
-//				takeGift(player, targetItem);
-//				result.setSuccess(true);
-//				dataHolder.updateItem(player, dataItem);
-//			}else{
-//				result.setSuccess(false);
-//				result.setReason("不满足兑换条件");
-//			}
-//
-//		}
-//
-//		return result;
-//	}
-	
-	
-	
-	
-
 	@Override
 	public void updateRedPoint(Player player, String eNum) {
-//		ActivityExchangeTypeItemHolder activityCountTypeItemHolder = new ActivityExchangeTypeItemHolder();
-//		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(eNum);
-//		if(cfg == null ){
-//			return;
-//		}
-//		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
-//		if(exchangeEnum == null){
-//			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
-//			return;
-//		}
-//		ActivityExchangeTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),exchangeEnum);
-//		if(dataItem == null){
-//			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
-//			return;
-//		}
-//		if(!dataItem.isTouchRedPoint()){
-//			dataItem.setTouchRedPoint(true);			
-//		}
-//		
-//		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
-//		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
-//			if(ActivityFortuneCatTypeMgr.getInstance().isCanTaken(player, subitem,false)){
-//				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
-//					continue;
-//				}
-//				dataItem.getHistoryRedPoint().add(subitem.getCfgId());
-//			}
-//		}		
-//		activityCountTypeItemHolder.updateItem(player, dataItem);
+		ActivityFortuneCatTypeItemHolder activityFortuneCatTypeItemHolder = new ActivityFortuneCatTypeItemHolder();
+		ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		
+		ActivityFortuneCatTypeItem dataItem = activityFortuneCatTypeItemHolder.getItem(player.getUserId());
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityFortuneCat, player.getUserId(), "无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);			
+		}
+		activityFortuneCatTypeItemHolder.updateItem(player, dataItem);
 	}
+
+	
 
 }

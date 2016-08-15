@@ -50,6 +50,12 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
@@ -325,8 +331,40 @@ public class ActivityCollector implements RedPointCollector{
 			if(!redEnvelopeItem.isTouchRedPoint()){
 				activityList.add(redEnvelopeItem.getCfgId());
 				continue;
+			}	
+		}
+//      ----------------------------------
+		ActivityFortuneCatTypeItemHolder fortuneCatHolder = ActivityFortuneCatTypeItemHolder.getInstance();
+		List<ActivityFortuneCatTypeItem> fortuneCatItemList = fortuneCatHolder.getItemList(player.getUserId());
+		for(ActivityFortuneCatTypeItem item : fortuneCatItemList){
+			ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+			if(cfg == null){
+				continue;
+			}
+			if(!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)){
+				continue;
+			}
+			if(!item.isTouchRedPoint()){
+				activityList.add(item.getCfgId());
+				continue;
+			}
+			int times = item.getTimes();
+			List<ActivityFortuneCatTypeSubItem> subItemList = item.getSubItemList();
+			ActivityFortuneCatTypeSubItem sub = null;
+			for(ActivityFortuneCatTypeSubItem subItem : subItemList){
+				if(times == subItem.getNum()&&subItem.getGetGold() == null){
+					sub = subItem;
+					break;
+				}
+			}
+			if(sub != null&&player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost())){
+				activityList.add(item.getCfgId());
+				break;
 			}			
-		}		
+		}
+		
+		
+		
 		
 		
 //		if (!activityList.isEmpty()) {

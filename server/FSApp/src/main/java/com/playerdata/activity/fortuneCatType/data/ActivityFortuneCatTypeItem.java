@@ -46,7 +46,8 @@ public class ActivityFortuneCatTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;
 	
-	
+	@CombineSave
+	private int times ;
 	
 	
 
@@ -78,6 +79,17 @@ public class ActivityFortuneCatTypeItem implements  IMapItem {
 		this.version = targetCfg.getVersion();
 		subItemList = list;
 		isTouchRedPoint = false;
+		this.times = 0;
+	}
+
+	
+	
+	public int getTimes() {
+		return times;
+	}
+
+	public void setTimes(int times) {
+		this.times = times;
 	}
 
 	public String getVersion() {

@@ -29,7 +29,7 @@ public class ActivityFortuneCatTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityExchangeType;
+	final private eSynType synType = eSynType.ActivityFortuneCatType;
 	
 	
 	/*

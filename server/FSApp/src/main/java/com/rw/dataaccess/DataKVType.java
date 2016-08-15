@@ -86,6 +86,8 @@ public enum DataKVType {
 	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class),
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class);
+	//招财猫最近记录
+//	ACTIVITY_FORTUNECAT(29,);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
