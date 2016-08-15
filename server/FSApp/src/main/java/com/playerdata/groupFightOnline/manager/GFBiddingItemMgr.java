@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.group.GroupBM;
+import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFightHelper;
 import com.playerdata.groupFightOnline.cfg.GFightBiddingCfg;
 import com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO;
@@ -11,6 +12,8 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
+import com.playerdata.groupFightOnline.enums.GFResourceState;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -75,5 +78,28 @@ public class GFBiddingItemMgr {
 			EmailUtils.sendEmail(bidItem.getUserID(), String.valueOf(bidCfg.getFailEmailID()), null,
 					String.format(failContent, groupName, resCfg.getResName(), bidCfg.getCostCount()));
 		}
+	}
+	
+	/**
+	 * 个人离开帮派或者帮派解散时，删除个人的压标数据，并返还压标资源
+	 * @param player
+	 * @return
+	 */
+	public boolean removeAllPersonalBid(Player player){
+		for(GFightOnlineResourceCfg resCfg : GFightOnlineResourceCfgDAO.getInstance().getAllCfg()){
+			GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(resCfg.getResID());
+			if(resData == null || GFResourceState.FIGHT.equals(resData.getState())) continue;	
+			GFBiddingItem item = GFBiddingItemHolder.getInstance().getItem(player, resCfg.getResID());
+			if(item != null){
+				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(item.getRateID()));
+				if(null != bidCfg){
+					for(ItemInfo bidCostItem : bidCfg.getBidCost()){
+						player.getItemBagMgr().addItem(bidCostItem.getItemID(), bidCostItem.getItemNum());
+						GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

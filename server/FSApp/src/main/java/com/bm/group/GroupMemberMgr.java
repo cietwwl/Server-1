@@ -534,7 +534,7 @@ public class GroupMemberMgr {
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		// 通知修改了个人贡献值
-		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution, item.getDayContribution());
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, item.getContribution(), item.getDayContribution());
 	}
 
 	/**

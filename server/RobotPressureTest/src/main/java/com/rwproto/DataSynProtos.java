@@ -21,7 +21,7 @@ public final class DataSynProtos {
      * <code>UPDATE_LIST = 1;</code>
      *
      * <pre>
-     *更新一组数据
+     *更新一组数据，原数据删除
      * </pre>
      */
     UPDATE_LIST(0, 1),
@@ -57,13 +57,21 @@ public final class DataSynProtos {
      * </pre>
      */
     UPDATE_FIELD(4, 5),
+    /**
+     * <code>UPDATE_PART_LIST = 6;</code>
+     *
+     * <pre>
+     *更新部分数据列表，不在列表中的不更新
+     * </pre>
+     */
+    UPDATE_PART_LIST(5, 6),
     ;
 
     /**
      * <code>UPDATE_LIST = 1;</code>
      *
      * <pre>
-     *更新一组数据
+     *更新一组数据，原数据删除
      * </pre>
      */
     public static final int UPDATE_LIST_VALUE = 1;
@@ -99,6 +107,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int UPDATE_FIELD_VALUE = 5;
+    /**
+     * <code>UPDATE_PART_LIST = 6;</code>
+     *
+     * <pre>
+     *更新部分数据列表，不在列表中的不更新
+     * </pre>
+     */
+    public static final int UPDATE_PART_LIST_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -110,6 +126,7 @@ public final class DataSynProtos {
         case 3: return ADD_SINGLE;
         case 4: return REMOVE_SINGLE;
         case 5: return UPDATE_FIELD;
+        case 6: return UPDATE_PART_LIST;
         default: return null;
       }
     }
@@ -183,13 +200,13 @@ public final class DataSynProtos {
      */
     COPY_MAP_RECORD(1, 2),
     /**
-     * <code>SECRETAREA_INFO = 3;</code>
+     * <code>SECRETAREA_BASE_INFO = 3;</code>
      *
      * <pre>
-     *帮派秘境-秘境信息
+     *帮派秘境-秘境基础信息
      * </pre>
      */
-    SECRETAREA_INFO(2, 3),
+    SECRETAREA_BASE_INFO(2, 3),
     /**
      * <code>SECRETAREA_DEF_RECORD = 4;</code>
      *
@@ -207,13 +224,13 @@ public final class DataSynProtos {
      */
     SECRETAREA_USER_INFO(4, 5),
     /**
-     * <code>SECRETAREA_BATTLE_INFO = 6;</code>
+     * <code>SECRETAREA_DEFEND_TEAM_INFO = 6;</code>
      *
      * <pre>
-     *帮派秘境-用户信息
+     *帮派秘境-秘境的防守信息
      * </pre>
      */
-    SECRETAREA_BATTLE_INFO(5, 6),
+    SECRETAREA_DEFEND_TEAM_INFO(5, 6),
     /**
      * <code>SECRETAREA_USER_RECORD = 7;</code>
      *
@@ -447,29 +464,29 @@ public final class DataSynProtos {
      */
     UserGroupAttributeData(34, 35),
     /**
-     * <code>GroupCopyLevel = 36;</code>
+     * <code>GROUP_COPY_LEVEL = 36;</code>
      *
      * <pre>
      *帮派关卡记录
      * </pre>
      */
-    GroupCopyLevel(35, 36),
+    GROUP_COPY_LEVEL(35, 36),
     /**
-     * <code>GroupCopyMap = 37;</code>
+     * <code>GROUP_COPY_MAP = 37;</code>
      *
      * <pre>
      *帮派地图记录
      * </pre>
      */
-    GroupCopyMap(36, 37),
+    GROUP_COPY_MAP(36, 37),
     /**
-     * <code>GroupCopyReward = 38;</code>
+     * <code>GROUP_COPY_REWARD = 38;</code>
      *
      * <pre>
      *帮派奖励分配记录
      * </pre>
      */
-    GroupCopyReward(37, 38),
+    GROUP_COPY_REWARD(37, 38),
     /**
      * <code>GroupApplyMemberData = 39;</code>
      *
@@ -559,13 +576,61 @@ public final class DataSynProtos {
      */
     GroupSecretData(48, 49),
     /**
+     * <code>MagicSecretData = 50;</code>
+     *
+     * <pre>
+     *法宝秘境数据
+     * </pre>
+     */
+    MagicSecretData(49, 50),
+    /**
+     * <code>MagicChapterData = 51;</code>
+     *
+     * <pre>
+     *法宝秘境章节数据
+     * </pre>
+     */
+    MagicChapterData(50, 51),
+    /**
+     * <code>SECRETAREA_TEAM_INFO = 52;</code>
+     *
+     * <pre>
+     *帮派秘境的阵容信息
+     * </pre>
+     */
+    SECRETAREA_TEAM_INFO(51, 52),
+    /**
+     * <code>USE_GROUP_COPY_DATA = 53;</code>
+     *
+     * <pre>
+     *帮派副本个人数据
+     * </pre>
+     */
+    USE_GROUP_COPY_DATA(52, 53),
+    /**
+     * <code>GROUP_COPY_SERVER_RANK = 54;</code>
+     *
+     * <pre>
+     *帮派副本前10排行数据
+     * </pre>
+     */
+    GROUP_COPY_SERVER_RANK(53, 54),
+    /**
+     * <code>GROUP_ITEM_DROP_APPLY = 55;</code>
+     *
+     * <pre>
+     *帮派副本掉落
+     * </pre>
+     */
+    GROUP_ITEM_DROP_APPLY(54, 55),
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
      *活动从60-79
      * </pre>
      */
-    ActivityCountType(49, 60),
+    ActivityCountType(55, 60),
     /**
      * <code>ActivityTimeCardType = 61;</code>
      *
@@ -573,7 +638,7 @@ public final class DataSynProtos {
      *月卡
      * </pre>
      */
-    ActivityTimeCardType(50, 61),
+    ActivityTimeCardType(56, 61),
     /**
      * <code>ActivityRateType = 62;</code>
      *
@@ -581,7 +646,7 @@ public final class DataSynProtos {
      *活动，奖励翻倍类型
      * </pre>
      */
-    ActivityRateType(51, 62),
+    ActivityRateType(57, 62),
     /**
      * <code>ActivityDateType = 63;</code>
      *
@@ -589,23 +654,23 @@ public final class DataSynProtos {
      *活动，日期类型
      * </pre>
      */
-    ActivityDateType(52, 63),
+    ActivityDateType(58, 63),
     /**
      * <code>ActivityTimeSaleType = 64;</code>
      *
      * <pre>
-     *活动，限时折扣
+     *活动
      * </pre>
      */
-    ActivityTimeSaleType(53, 64),
+    ActivityTimeSaleType(59, 64),
     /**
      * <code>ActivityDateSaleType = 65;</code>
      *
      * <pre>
-     *活动，每日折扣
+     *活动
      * </pre>
      */
-    ActivityDateSaleType(54, 65),
+    ActivityDateSaleType(60, 65),
     /**
      * <code>ActivityRankType = 66;</code>
      *
@@ -613,7 +678,7 @@ public final class DataSynProtos {
      *活动，排行榜
      * </pre>
      */
-    ActivityRankType(55, 66),
+    ActivityRankType(61, 66),
     /**
      * <code>ActivityExchangeType = 67;</code>
      *
@@ -621,7 +686,7 @@ public final class DataSynProtos {
      *活动，兑换
      * </pre>
      */
-    ActivityExchangeType(56, 67),
+    ActivityExchangeType(62, 67),
     /**
      * <code>ActivityTimeCountType = 68;</code>
      *
@@ -629,7 +694,7 @@ public final class DataSynProtos {
      *活动，在线奖励
      * </pre>
      */
-    ActivityTimeCountType(57, 68),
+    ActivityTimeCountType(63, 68),
     /**
      * <code>ActivityDailyType = 69;</code>
      *
@@ -637,7 +702,143 @@ public final class DataSynProtos {
      *活动，每日福利
      * </pre>
      */
-    ActivityDailyType(58, 69),
+    ActivityDailyType(64, 69),
+    /**
+     * <code>ActivityVitalityType = 70;</code>
+     *
+     * <pre>
+     *活动，活跃度
+     * </pre>
+     */
+    ActivityVitalityType(65, 70),
+    /**
+     * <code>ActivityDailyDiscountType = 71;</code>
+     *
+     * <pre>
+     *活动，每日折扣
+     * </pre>
+     */
+    ActivityDailyDiscountType(66, 71),
+    /**
+     * <code>ActivityVipDiscountType = 72;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    ActivityVipDiscountType(67, 72),
+    /**
+     * <code>ActivityRedEnvelopeType = 73;</code>
+     *
+     * <pre>
+     *活动，开服红包
+     * </pre>
+     */
+    ActivityRedEnvelopeType(68, 73),
+    /**
+     * <code>QuestionList = 80;</code>
+     *
+     * <pre>
+     *反馈问题列表	
+     * </pre>
+     */
+    QuestionList(69, 80),
+    /**
+     * <code>GFBiddingData = 81;</code>
+     *
+     * <pre>
+     *在线帮战个人压标数据
+     * </pre>
+     */
+    GFBiddingData(70, 81),
+    /**
+     * <code>GFDefendArmyData = 82;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍信息
+     * </pre>
+     */
+    GFDefendArmyData(71, 82),
+    /**
+     * <code>GFightOnlineGroupData = 83;</code>
+     *
+     * <pre>
+     *在线帮战帮派信息
+     * </pre>
+     */
+    GFightOnlineGroupData(72, 83),
+    /**
+     * <code>GFightOnlinePersonalData = 84;</code>
+     *
+     * <pre>
+     *在线帮战个人信息
+     * </pre>
+     */
+    GFightOnlinePersonalData(73, 84),
+    /**
+     * <code>GFightOnlineResourceData = 85;</code>
+     *
+     * <pre>
+     *在线帮战资源点信息
+     * </pre>
+     */
+    GFightOnlineResourceData(74, 85),
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    MajorData(75, 86),
+    /**
+     * <code>GFightSimpleLeader = 87;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍简要信息
+     * </pre>
+     */
+    GFightSimpleLeader(76, 87),
+    /**
+     * <code>GFightFinalReward = 88;</code>
+     *
+     * <pre>
+     *在线帮战最终的奖励
+     * </pre>
+     */
+    GFightFinalReward(77, 88),
+    /**
+     * <code>EmbattleInfo = 89;</code>
+     *
+     * <pre>
+     *阵容站位
+     * </pre>
+     */
+    EmbattleInfo(78, 89),
+    /**
+     * <code>MAGICEQUIP_FETTER = 90;</code>
+     *
+     * <pre>
+     *法宝神器羁绊
+     * </pre>
+     */
+    MAGICEQUIP_FETTER(79, 90),
+    /**
+     * <code>USER_TEAM_BATTLE = 91;</code>
+     *
+     * <pre>
+     *组队战斗，玩家信息
+     * </pre>
+     */
+    USER_TEAM_BATTLE(80, 91),
+    /**
+     * <code>TEAM_BATTLE_TEAM = 92;</code>
+     *
+     * <pre>
+     *组队战斗，队伍信息
+     * </pre>
+     */
+    TEAM_BATTLE_TEAM(81, 92),
     ;
 
     /**
@@ -657,13 +858,13 @@ public final class DataSynProtos {
      */
     public static final int COPY_MAP_RECORD_VALUE = 2;
     /**
-     * <code>SECRETAREA_INFO = 3;</code>
+     * <code>SECRETAREA_BASE_INFO = 3;</code>
      *
      * <pre>
-     *帮派秘境-秘境信息
+     *帮派秘境-秘境基础信息
      * </pre>
      */
-    public static final int SECRETAREA_INFO_VALUE = 3;
+    public static final int SECRETAREA_BASE_INFO_VALUE = 3;
     /**
      * <code>SECRETAREA_DEF_RECORD = 4;</code>
      *
@@ -681,13 +882,13 @@ public final class DataSynProtos {
      */
     public static final int SECRETAREA_USER_INFO_VALUE = 5;
     /**
-     * <code>SECRETAREA_BATTLE_INFO = 6;</code>
+     * <code>SECRETAREA_DEFEND_TEAM_INFO = 6;</code>
      *
      * <pre>
-     *帮派秘境-用户信息
+     *帮派秘境-秘境的防守信息
      * </pre>
      */
-    public static final int SECRETAREA_BATTLE_INFO_VALUE = 6;
+    public static final int SECRETAREA_DEFEND_TEAM_INFO_VALUE = 6;
     /**
      * <code>SECRETAREA_USER_RECORD = 7;</code>
      *
@@ -921,29 +1122,29 @@ public final class DataSynProtos {
      */
     public static final int UserGroupAttributeData_VALUE = 35;
     /**
-     * <code>GroupCopyLevel = 36;</code>
+     * <code>GROUP_COPY_LEVEL = 36;</code>
      *
      * <pre>
      *帮派关卡记录
      * </pre>
      */
-    public static final int GroupCopyLevel_VALUE = 36;
+    public static final int GROUP_COPY_LEVEL_VALUE = 36;
     /**
-     * <code>GroupCopyMap = 37;</code>
+     * <code>GROUP_COPY_MAP = 37;</code>
      *
      * <pre>
      *帮派地图记录
      * </pre>
      */
-    public static final int GroupCopyMap_VALUE = 37;
+    public static final int GROUP_COPY_MAP_VALUE = 37;
     /**
-     * <code>GroupCopyReward = 38;</code>
+     * <code>GROUP_COPY_REWARD = 38;</code>
      *
      * <pre>
      *帮派奖励分配记录
      * </pre>
      */
-    public static final int GroupCopyReward_VALUE = 38;
+    public static final int GROUP_COPY_REWARD_VALUE = 38;
     /**
      * <code>GroupApplyMemberData = 39;</code>
      *
@@ -1033,6 +1234,54 @@ public final class DataSynProtos {
      */
     public static final int GroupSecretData_VALUE = 49;
     /**
+     * <code>MagicSecretData = 50;</code>
+     *
+     * <pre>
+     *法宝秘境数据
+     * </pre>
+     */
+    public static final int MagicSecretData_VALUE = 50;
+    /**
+     * <code>MagicChapterData = 51;</code>
+     *
+     * <pre>
+     *法宝秘境章节数据
+     * </pre>
+     */
+    public static final int MagicChapterData_VALUE = 51;
+    /**
+     * <code>SECRETAREA_TEAM_INFO = 52;</code>
+     *
+     * <pre>
+     *帮派秘境的阵容信息
+     * </pre>
+     */
+    public static final int SECRETAREA_TEAM_INFO_VALUE = 52;
+    /**
+     * <code>USE_GROUP_COPY_DATA = 53;</code>
+     *
+     * <pre>
+     *帮派副本个人数据
+     * </pre>
+     */
+    public static final int USE_GROUP_COPY_DATA_VALUE = 53;
+    /**
+     * <code>GROUP_COPY_SERVER_RANK = 54;</code>
+     *
+     * <pre>
+     *帮派副本前10排行数据
+     * </pre>
+     */
+    public static final int GROUP_COPY_SERVER_RANK_VALUE = 54;
+    /**
+     * <code>GROUP_ITEM_DROP_APPLY = 55;</code>
+     *
+     * <pre>
+     *帮派副本掉落
+     * </pre>
+     */
+    public static final int GROUP_ITEM_DROP_APPLY_VALUE = 55;
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
@@ -1068,7 +1317,7 @@ public final class DataSynProtos {
      * <code>ActivityTimeSaleType = 64;</code>
      *
      * <pre>
-     *活动，限时折扣
+     *活动
      * </pre>
      */
     public static final int ActivityTimeSaleType_VALUE = 64;
@@ -1076,7 +1325,7 @@ public final class DataSynProtos {
      * <code>ActivityDateSaleType = 65;</code>
      *
      * <pre>
-     *活动，每日折扣
+     *活动
      * </pre>
      */
     public static final int ActivityDateSaleType_VALUE = 65;
@@ -1112,6 +1361,142 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityDailyType_VALUE = 69;
+    /**
+     * <code>ActivityVitalityType = 70;</code>
+     *
+     * <pre>
+     *活动，活跃度
+     * </pre>
+     */
+    public static final int ActivityVitalityType_VALUE = 70;
+    /**
+     * <code>ActivityDailyDiscountType = 71;</code>
+     *
+     * <pre>
+     *活动，每日折扣
+     * </pre>
+     */
+    public static final int ActivityDailyDiscountType_VALUE = 71;
+    /**
+     * <code>ActivityVipDiscountType = 72;</code>
+     *
+     * <pre>
+     *活动，七日vip折扣
+     * </pre>
+     */
+    public static final int ActivityVipDiscountType_VALUE = 72;
+    /**
+     * <code>ActivityRedEnvelopeType = 73;</code>
+     *
+     * <pre>
+     *活动，开服红包
+     * </pre>
+     */
+    public static final int ActivityRedEnvelopeType_VALUE = 73;
+    /**
+     * <code>QuestionList = 80;</code>
+     *
+     * <pre>
+     *反馈问题列表	
+     * </pre>
+     */
+    public static final int QuestionList_VALUE = 80;
+    /**
+     * <code>GFBiddingData = 81;</code>
+     *
+     * <pre>
+     *在线帮战个人压标数据
+     * </pre>
+     */
+    public static final int GFBiddingData_VALUE = 81;
+    /**
+     * <code>GFDefendArmyData = 82;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍信息
+     * </pre>
+     */
+    public static final int GFDefendArmyData_VALUE = 82;
+    /**
+     * <code>GFightOnlineGroupData = 83;</code>
+     *
+     * <pre>
+     *在线帮战帮派信息
+     * </pre>
+     */
+    public static final int GFightOnlineGroupData_VALUE = 83;
+    /**
+     * <code>GFightOnlinePersonalData = 84;</code>
+     *
+     * <pre>
+     *在线帮战个人信息
+     * </pre>
+     */
+    public static final int GFightOnlinePersonalData_VALUE = 84;
+    /**
+     * <code>GFightOnlineResourceData = 85;</code>
+     *
+     * <pre>
+     *在线帮战资源点信息
+     * </pre>
+     */
+    public static final int GFightOnlineResourceData_VALUE = 85;
+    /**
+     * <code>MajorData = 86;</code>
+     *
+     * <pre>
+     *关键数据
+     * </pre>
+     */
+    public static final int MajorData_VALUE = 86;
+    /**
+     * <code>GFightSimpleLeader = 87;</code>
+     *
+     * <pre>
+     *在线帮战防守队伍简要信息
+     * </pre>
+     */
+    public static final int GFightSimpleLeader_VALUE = 87;
+    /**
+     * <code>GFightFinalReward = 88;</code>
+     *
+     * <pre>
+     *在线帮战最终的奖励
+     * </pre>
+     */
+    public static final int GFightFinalReward_VALUE = 88;
+    /**
+     * <code>EmbattleInfo = 89;</code>
+     *
+     * <pre>
+     *阵容站位
+     * </pre>
+     */
+    public static final int EmbattleInfo_VALUE = 89;
+    /**
+     * <code>MAGICEQUIP_FETTER = 90;</code>
+     *
+     * <pre>
+     *法宝神器羁绊
+     * </pre>
+     */
+    public static final int MAGICEQUIP_FETTER_VALUE = 90;
+    /**
+     * <code>USER_TEAM_BATTLE = 91;</code>
+     *
+     * <pre>
+     *组队战斗，玩家信息
+     * </pre>
+     */
+    public static final int USER_TEAM_BATTLE_VALUE = 91;
+    /**
+     * <code>TEAM_BATTLE_TEAM = 92;</code>
+     *
+     * <pre>
+     *组队战斗，队伍信息
+     * </pre>
+     */
+    public static final int TEAM_BATTLE_TEAM_VALUE = 92;
 
 
     public final int getNumber() { return value; }
@@ -1120,10 +1505,10 @@ public final class DataSynProtos {
       switch (value) {
         case 1: return COPY_LEVEL_RECORD;
         case 2: return COPY_MAP_RECORD;
-        case 3: return SECRETAREA_INFO;
+        case 3: return SECRETAREA_BASE_INFO;
         case 4: return SECRETAREA_DEF_RECORD;
         case 5: return SECRETAREA_USER_INFO;
-        case 6: return SECRETAREA_BATTLE_INFO;
+        case 6: return SECRETAREA_DEFEND_TEAM_INFO;
         case 7: return SECRETAREA_USER_RECORD;
         case 8: return FASHION_ITEM;
         case 9: return EQUIP_ITEM;
@@ -1153,9 +1538,9 @@ public final class DataSynProtos {
         case 33: return GroupMemberData;
         case 34: return GroupLog;
         case 35: return UserGroupAttributeData;
-        case 36: return GroupCopyLevel;
-        case 37: return GroupCopyMap;
-        case 38: return GroupCopyReward;
+        case 36: return GROUP_COPY_LEVEL;
+        case 37: return GROUP_COPY_MAP;
+        case 38: return GROUP_COPY_REWARD;
         case 39: return GroupApplyMemberData;
         case 40: return GroupResearchSkill;
         case 41: return GroupStudySkill;
@@ -1167,6 +1552,12 @@ public final class DataSynProtos {
         case 47: return FIX_EXP_EQUIP;
         case 48: return UserGroupSecretData;
         case 49: return GroupSecretData;
+        case 50: return MagicSecretData;
+        case 51: return MagicChapterData;
+        case 52: return SECRETAREA_TEAM_INFO;
+        case 53: return USE_GROUP_COPY_DATA;
+        case 54: return GROUP_COPY_SERVER_RANK;
+        case 55: return GROUP_ITEM_DROP_APPLY;
         case 60: return ActivityCountType;
         case 61: return ActivityTimeCardType;
         case 62: return ActivityRateType;
@@ -1177,6 +1568,23 @@ public final class DataSynProtos {
         case 67: return ActivityExchangeType;
         case 68: return ActivityTimeCountType;
         case 69: return ActivityDailyType;
+        case 70: return ActivityVitalityType;
+        case 71: return ActivityDailyDiscountType;
+        case 72: return ActivityVipDiscountType;
+        case 73: return ActivityRedEnvelopeType;
+        case 80: return QuestionList;
+        case 81: return GFBiddingData;
+        case 82: return GFDefendArmyData;
+        case 83: return GFightOnlineGroupData;
+        case 84: return GFightOnlinePersonalData;
+        case 85: return GFightOnlineResourceData;
+        case 86: return MajorData;
+        case 87: return GFightSimpleLeader;
+        case 88: return GFightFinalReward;
+        case 89: return EmbattleInfo;
+        case 90: return MAGICEQUIP_FETTER;
+        case 91: return USER_TEAM_BATTLE;
+        case 92: return TEAM_BATTLE_TEAM;
         default: return null;
       }
     }
@@ -3950,6 +4358,33 @@ public final class DataSynProtos {
      * </pre>
      */
     int getVersion();
+
+    // optional string groupId = 5;
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    boolean hasGroupId();
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    java.lang.String getGroupId();
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getGroupIdBytes();
   }
   /**
    * Protobuf type {@code DataSyn.MsgDataSyn}
@@ -4035,6 +4470,11 @@ public final class DataSynProtos {
             case 32: {
               bitField0_ |= 0x00000004;
               version_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              groupId_ = input.readBytes();
               break;
             }
           }
@@ -4208,11 +4648,67 @@ public final class DataSynProtos {
       return version_;
     }
 
+    // optional string groupId = 5;
+    public static final int GROUPID_FIELD_NUMBER = 5;
+    private java.lang.Object groupId_;
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    public boolean hasGroupId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    public java.lang.String getGroupId() {
+      java.lang.Object ref = groupId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          groupId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string groupId = 5;</code>
+     *
+     * <pre>
+     *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getGroupIdBytes() {
+      java.lang.Object ref = groupId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        groupId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       synType_ = com.rwproto.DataSynProtos.eSynType.COPY_LEVEL_RECORD;
       synOpType_ = com.rwproto.DataSynProtos.eSynOpType.UPDATE_LIST;
       synData_ = java.util.Collections.emptyList();
       version_ = 0;
+      groupId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4248,6 +4744,9 @@ public final class DataSynProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(4, version_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, getGroupIdBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4272,6 +4771,10 @@ public final class DataSynProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, version_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getGroupIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4402,6 +4905,8 @@ public final class DataSynProtos {
         }
         version_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        groupId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -4451,6 +4956,10 @@ public final class DataSynProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.version_ = version_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.groupId_ = groupId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4501,6 +5010,11 @@ public final class DataSynProtos {
         }
         if (other.hasVersion()) {
           setVersion(other.getVersion());
+        }
+        if (other.hasGroupId()) {
+          bitField0_ |= 0x00000010;
+          groupId_ = other.groupId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5004,6 +5518,104 @@ public final class DataSynProtos {
         return this;
       }
 
+      // optional string groupId = 5;
+      private java.lang.Object groupId_ = "";
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public boolean hasGroupId() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public java.lang.String getGroupId() {
+        java.lang.Object ref = groupId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getGroupIdBytes() {
+        java.lang.Object ref = groupId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          groupId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public Builder setGroupId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        groupId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public Builder clearGroupId() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        groupId_ = getDefaultInstance().getGroupId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupId = 5;</code>
+       *
+       * <pre>
+       *有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+       * </pre>
+       */
+      public Builder setGroupIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        groupId_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:DataSyn.MsgDataSyn)
     }
 
@@ -5055,44 +5667,60 @@ public final class DataSynProtos {
       "aSyn\"E\n\016DataSynVersion\022\"\n\007synType\030\001 \002(\0162" +
       "\021.DataSyn.eSynType\022\017\n\007version\030\002 \002(\005\"=\n\021M" +
       "sgDataSynVersion\022(\n\007version\030\001 \003(\0132\027.Data" +
-      "Syn.DataSynVersion\"\214\001\n\nMsgDataSyn\022\"\n\007syn" +
+      "Syn.DataSynVersion\"\235\001\n\nMsgDataSyn\022\"\n\007syn" +
       "Type\030\001 \002(\0162\021.DataSyn.eSynType\022&\n\tsynOpTy" +
       "pe\030\002 \001(\0162\023.DataSyn.eSynOpType\022!\n\007SynData" +
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
-      "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
-      "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\276\t\n\010eSynType\022\025\n" +
-      "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
-      "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
-      "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
-      "ECRETAREA_BATTLE_INFO\020\006\022\032\n\026SECRETAREA_US" +
-      "ER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_I" +
-      "TEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n" +
-      "\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n",
-      "\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAM" +
-      "E_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BA" +
-      "G\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve" +
-      "_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_D" +
-      "ata\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SE" +
-      "TTING_DATA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEV" +
-      "EN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r" +
-      "\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroup" +
-      "BaseData\020 \022\023\n\017GroupMemberData\020!\022\014\n\010Group" +
-      "Log\020\"\022\032\n\026UserGroupAttributeData\020#\022\022\n\016Gro",
-      "upCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017Group" +
-      "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
-      "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
-      "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022USER_" +
-      "TMP_GAME_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\022\n\016FIX" +
-      "_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023User" +
-      "GroupSecretData\0200\022\023\n\017GroupSecretData\0201\022\025" +
-      "\n\021ActivityCountType\020<\022\030\n\024ActivityTimeCar" +
-      "dType\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activit" +
-      "yDateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n",
-      "\024ActivityDateSaleType\020A\022\024\n\020ActivityRankT" +
-      "ype\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activ" +
-      "ityTimeCountType\020D\022\025\n\021ActivityDailyType\020" +
-      "EB\034\n\013com.rwprotoB\rDataSynProtos"
+      "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
+      "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
+      "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\373\r\n\010eSynType\022\025\n\021" +
+      "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
+      "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
+      "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
+      "\037\n\033SECRETAREA_DEFEND_TEAM_INFO\020\006\022\032\n\026SECR" +
+      "ETAREA_USER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016" +
+      "\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_",
+      "ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_" +
+      "ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n" +
+      "\016USER_GAME_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSE" +
+      "R_ITEM_BAG\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild" +
+      "\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016" +
+      "\n\nStore_Data\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DAT" +
+      "A\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GUILD_USER_INFO" +
+      "\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY" +
+      "_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037" +
+      "\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020!",
+      "\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeData" +
+      "\020#\022\024\n\020GROUP_COPY_LEVEL\020$\022\022\n\016GROUP_COPY_M" +
+      "AP\020%\022\025\n\021GROUP_COPY_REWARD\020&\022\030\n\024GroupAppl" +
+      "yMemberData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n" +
+      "\017GroupStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_" +
+      "INFO\020+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_F" +
+      "ETTERS\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_" +
+      "EQUIP\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017Grou" +
+      "pSecretData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020Ma" +
+      "gicChapterData\0203\022\030\n\024SECRETAREA_TEAM_INFO",
+      "\0204\022\027\n\023USE_GROUP_COPY_DATA\0205\022\032\n\026GROUP_COP" +
+      "Y_SERVER_RANK\0206\022\031\n\025GROUP_ITEM_DROP_APPLY" +
+      "\0207\022\025\n\021ActivityCountType\020<\022\030\n\024ActivityTim" +
+      "eCardType\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Act" +
+      "ivityDateType\020?\022\030\n\024ActivityTimeSaleType\020" +
+      "@\022\030\n\024ActivityDateSaleType\020A\022\024\n\020ActivityR" +
+      "ankType\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025A" +
+      "ctivityTimeCountType\020D\022\025\n\021ActivityDailyT" +
+      "ype\020E\022\030\n\024ActivityVitalityType\020F\022\035\n\031Activ" +
+      "ityDailyDiscountType\020G\022\033\n\027ActivityVipDis",
+      "countType\020H\022\033\n\027ActivityRedEnvelopeType\020I" +
+      "\022\020\n\014QuestionList\020P\022\021\n\rGFBiddingData\020Q\022\024\n" +
+      "\020GFDefendArmyData\020R\022\031\n\025GFightOnlineGroup" +
+      "Data\020S\022\034\n\030GFightOnlinePersonalData\020T\022\034\n\030" +
+      "GFightOnlineResourceData\020U\022\r\n\tMajorData\020" +
+      "V\022\026\n\022GFightSimpleLeader\020W\022\025\n\021GFightFinal" +
+      "Reward\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICEQUIP" +
+      "_FETTER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020TEAM_" +
+      "BATTLE_TEAM\020\\B\034\n\013com.rwprotoB\rDataSynPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5128,7 +5756,7 @@ public final class DataSynProtos {
           internal_static_DataSyn_MsgDataSyn_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DataSyn_MsgDataSyn_descriptor,
-              new java.lang.String[] { "SynType", "SynOpType", "SynData", "Version", });
+              new java.lang.String[] { "SynType", "SynOpType", "SynData", "Version", "GroupId", });
           return null;
         }
       };

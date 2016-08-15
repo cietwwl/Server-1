@@ -6,11 +6,11 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 
-public class AssistantHeroUpgradeStarCheck implements IAssistantCheck{
+public class AssistantHeroUpgradeStarCheck extends DefaultAssistantChecker {
 
 	@Override
 	public AssistantEventID doCheck(Player player) {
-		
+		super.doCheck(player);
 		if(hasHeroToUpgradeStar(player)){
 			return AssistantEventID.HeroAdvance;
 		}

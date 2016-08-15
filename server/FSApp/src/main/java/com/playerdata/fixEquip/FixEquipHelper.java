@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
+import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO;
@@ -31,6 +32,10 @@ import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
+import com.rwbase.common.enu.eConsumeTypeDef;
+import com.rwbase.dao.item.pojo.ConsumeCfg;
+import com.rwbase.dao.item.pojo.ItemData;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 public class FixEquipHelper {
 
@@ -167,6 +172,31 @@ public class FixEquipHelper {
 		}
 		return result;
 
+	}
+	
+	/**
+	 * 返回背包中可以用于神器升级的物品
+	 * @param player
+	 * @return
+	 */
+	public static HashMap<eConsumeTypeDef,List<ItemData>> getFixConsumeItemMap(Player player) {
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		List<ItemData> lst = itemBagMgr.getItemListByType(EItemTypeDef.Consume);
+		HashMap<eConsumeTypeDef, List<ItemData>> result = new HashMap<eConsumeTypeDef, List<ItemData>>(eConsumeTypeDef.values().length);
+		for (ItemData itemData : lst) {
+			ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(itemData.getModelId());
+			if (cfg != null) {
+				eConsumeTypeDef cty = eConsumeTypeDef.getDef(cfg.getConsumeType());
+				if (cty != null && (cty == eConsumeTypeDef.Exp4FixEquip_4 || cty == eConsumeTypeDef.Exp4FixEquip_5)) {
+					List<ItemData> old = result.get(cty);
+					if (old == null) {
+						old = new ArrayList<ItemData>();
+					}
+					old.add(itemData);
+				}
+			}
+		}
+		return result;
 	}
 
 	public static boolean isItemEnough(Player player, Map<Integer, Integer> itemCostMap) {

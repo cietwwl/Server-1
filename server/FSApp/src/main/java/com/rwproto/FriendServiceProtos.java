@@ -6529,6 +6529,24 @@ public final class FriendServiceProtos {
      */
     com.google.protobuf.ByteString
         getGroupNameBytes();
+
+    // optional int32 fighting = 14;
+    /**
+     * <code>optional int32 fighting = 14;</code>
+     *
+     * <pre>
+     *战力
+     * </pre>
+     */
+    boolean hasFighting();
+    /**
+     * <code>optional int32 fighting = 14;</code>
+     *
+     * <pre>
+     *战力
+     * </pre>
+     */
+    int getFighting();
   }
   /**
    * Protobuf type {@code FriendInfo}
@@ -6644,6 +6662,11 @@ public final class FriendServiceProtos {
             case 106: {
               bitField0_ |= 0x00001000;
               groupName_ = input.readBytes();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              fighting_ = input.readInt32();
               break;
             }
           }
@@ -7246,6 +7269,30 @@ public final class FriendServiceProtos {
       }
     }
 
+    // optional int32 fighting = 14;
+    public static final int FIGHTING_FIELD_NUMBER = 14;
+    private int fighting_;
+    /**
+     * <code>optional int32 fighting = 14;</code>
+     *
+     * <pre>
+     *战力
+     * </pre>
+     */
+    public boolean hasFighting() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int32 fighting = 14;</code>
+     *
+     * <pre>
+     *战力
+     * </pre>
+     */
+    public int getFighting() {
+      return fighting_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -7260,6 +7307,7 @@ public final class FriendServiceProtos {
       headbox_ = "";
       groupId_ = "";
       groupName_ = "";
+      fighting_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7344,6 +7392,9 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeBytes(13, getGroupNameBytes());
       }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, fighting_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -7404,6 +7455,10 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(13, getGroupNameBytes());
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, fighting_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7547,6 +7602,8 @@ public final class FriendServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         groupName_ = "";
         bitField0_ = (bitField0_ & ~0x00001000);
+        fighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -7627,6 +7684,10 @@ public final class FriendServiceProtos {
           to_bitField0_ |= 0x00001000;
         }
         result.groupName_ = groupName_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.fighting_ = fighting_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7697,6 +7758,9 @@ public final class FriendServiceProtos {
           bitField0_ |= 0x00001000;
           groupName_ = other.groupName_;
           onChanged();
+        }
+        if (other.hasFighting()) {
+          setFighting(other.getFighting());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8786,6 +8850,55 @@ public final class FriendServiceProtos {
         return this;
       }
 
+      // optional int32 fighting = 14;
+      private int fighting_ ;
+      /**
+       * <code>optional int32 fighting = 14;</code>
+       *
+       * <pre>
+       *战力
+       * </pre>
+       */
+      public boolean hasFighting() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 fighting = 14;</code>
+       *
+       * <pre>
+       *战力
+       * </pre>
+       */
+      public int getFighting() {
+        return fighting_;
+      }
+      /**
+       * <code>optional int32 fighting = 14;</code>
+       *
+       * <pre>
+       *战力
+       * </pre>
+       */
+      public Builder setFighting(int value) {
+        bitField0_ |= 0x00002000;
+        fighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fighting = 14;</code>
+       *
+       * <pre>
+       *战力
+       * </pre>
+       */
+      public Builder clearFighting() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        fighting_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:FriendInfo)
     }
 
@@ -8839,26 +8952,27 @@ public final class FriendServiceProtos {
       "ist\022\037\n\nfriendList\030\001 \003(\0132\013.FriendInfo\022 \n\013" +
       "requestList\030\002 \003(\0132\013.FriendInfo\022\036\n\tblackL" +
       "ist\030\003 \003(\0132\013.FriendInfo\022\"\n\rrecommandList\030" +
-      "\004 \003(\0132\013.FriendInfo\"\376\001\n\nFriendInfo\022\016\n\006use" +
+      "\004 \003(\0132\013.FriendInfo\"\220\002\n\nFriendInfo\022\016\n\006use" +
       "rId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\021\n\theadImage" +
       "\030\003 \002(\t\022\016\n\006career\030\004 \002(\005\022\024\n\014lastLoginTip\030\005" +
       " \002(\t\022\025\n\rlastLoginTime\030\006 \002(\002\022\r\n\005level\030\007 \002" +
       "(\005\022\021\n\tunionName\030\010 \002(\t\022\021\n\tgiveState\030\t \001(\010" +
       "\022\024\n\014receiveState\030\n \001(\010\022\017\n\007headbox\030\013 \001(\t\022" +
-      "\017\n\007groupId\030\014 \001(\t\022\021\n\tgroupName\030\r \001(\t*\221\003\n\022",
-      "EFriendRequestType\022\010\n\004NONE\020\000\022\017\n\013FRIEND_L" +
-      "IST\020\001\022\016\n\nBLACK_LIST\020\002\022\020\n\014REQUEST_LIST\020\003\022" +
-      "\021\n\rSEARCH_FRIEND\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRE" +
-      "CEIVE_POWER\020\006\022\022\n\016GIVE_POWER_ALL\020\007\022\025\n\021REC" +
-      "EIVE_POWER_ALL\020\010\022\026\n\022REQUEST_ADD_FRIEND\020\t" +
-      "\022\021\n\rREMOVE_FRIEND\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014RE" +
-      "MOVE_BLACK\020\014\022\026\n\022CONSENT_ADD_FRIEND\020\r\022\026\n\022" +
-      "REFUSED_ADD_FRIEND\020\016\022\032\n\026CONSENT_ADD_FRIE" +
-      "ND_ALL\020\017\022\032\n\026REFUSED_ADD_FRIEND_ALL\020\020\022\014\n\010" +
-      "ALL_LIST\020\021\022\033\n\027REQUEST_ADD_MUTI_FRIEND\020\022*",
-      "G\n\021EFriendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAI" +
-      "L\020\001\022\n\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com." +
-      "rwprotoB\023FriendServiceProtos"
+      "\017\n\007groupId\030\014 \001(\t\022\021\n\tgroupName\030\r \001(\t\022\020\n\010f",
+      "ighting\030\016 \001(\005*\221\003\n\022EFriendRequestType\022\010\n\004" +
+      "NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLACK_LIST\020\002\022" +
+      "\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRIEND\020\004\022\016\n\n" +
+      "GIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006\022\022\n\016GIVE_" +
+      "POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_ALL\020\010\022\026\n\022RE" +
+      "QUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FRIEND\020\n\022\r\n" +
+      "\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022\026\n\022CONSEN" +
+      "T_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_FRIEND\020\016\022\032" +
+      "\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026REFUSED_AD" +
+      "D_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021\022\033\n\027REQUEST_",
+      "ADD_MUTI_FRIEND\020\022*G\n\021EFriendResultType\022\013" +
+      "\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n\n\006FAIL_2\020\002\022\017\n\013SUC" +
+      "CESS_MSG\020\003B\"\n\013com.rwprotoB\023FriendService" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8888,7 +9002,7 @@ public final class FriendServiceProtos {
           internal_static_FriendInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FriendInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", "Headbox", "GroupId", "GroupName", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", "Headbox", "GroupId", "GroupName", "Fighting", });
           return null;
         }
       };

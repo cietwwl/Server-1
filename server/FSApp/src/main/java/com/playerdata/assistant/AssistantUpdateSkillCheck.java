@@ -6,12 +6,12 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 
-public class AssistantUpdateSkillCheck implements IAssistantCheck{
+public class AssistantUpdateSkillCheck extends DefaultAssistantChecker {
 
 	
 	@Override
 	public AssistantEventID doCheck(Player player) {
-		
+		super.doCheck(player);
 		if(check(player)){
 			return AssistantEventID.UpdateSkill;
 		}

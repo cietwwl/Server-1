@@ -77,6 +77,14 @@ public final class CopyServiceProtos {
      * </pre>
      */
     GET_GIFT(7, 8),
+    /**
+     * <code>Map_Animation = 9;</code>
+     *
+     * <pre>
+     *副本动画
+     * </pre>
+     */
+    Map_Animation(8, 9),
     ;
 
     /**
@@ -143,6 +151,14 @@ public final class CopyServiceProtos {
      * </pre>
      */
     public static final int GET_GIFT_VALUE = 8;
+    /**
+     * <code>Map_Animation = 9;</code>
+     *
+     * <pre>
+     *副本动画
+     * </pre>
+     */
+    public static final int Map_Animation_VALUE = 9;
 
 
     public final int getNumber() { return value; }
@@ -157,6 +173,7 @@ public final class CopyServiceProtos {
         case 6: return BATTLE_ITEMS_BACK;
         case 7: return GM_SETLEVEL;
         case 8: return GET_GIFT;
+        case 9: return Map_Animation;
         default: return null;
       }
     }
@@ -420,6 +437,14 @@ public final class CopyServiceProtos {
      * <code>GET_GIFT_SUCCESS = 14;</code>
      */
     GET_GIFT_SUCCESS(13, 14),
+    /**
+     * <code>Success = 15;</code>
+     *
+     * <pre>
+     *普通成功
+     * </pre>
+     */
+    Success(14, 15),
     ;
 
     /**
@@ -529,6 +554,14 @@ public final class CopyServiceProtos {
      * <code>GET_GIFT_SUCCESS = 14;</code>
      */
     public static final int GET_GIFT_SUCCESS_VALUE = 14;
+    /**
+     * <code>Success = 15;</code>
+     *
+     * <pre>
+     *普通成功
+     * </pre>
+     */
+    public static final int Success_VALUE = 15;
 
 
     public final int getNumber() { return value; }
@@ -549,6 +582,7 @@ public final class CopyServiceProtos {
         case 12: return GM_SETSUCCESS;
         case 13: return SWEEP_SUCCESS;
         case 14: return GET_GIFT_SUCCESS;
+        case 15: return Success;
         default: return null;
       }
     }
@@ -682,6 +716,32 @@ public final class CopyServiceProtos {
      * </pre>
      */
     com.rwproto.CopyServiceProtos.MapGiftRequestOrBuilder getMapGiftRequestOrBuilder();
+
+    // optional .MapAnimationState mapAnima = 5;
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    boolean hasMapAnima();
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.MapAnimationState getMapAnima();
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder getMapAnimaOrBuilder();
   }
   /**
    * Protobuf type {@code MsgCopyRequest}
@@ -774,6 +834,19 @@ public final class CopyServiceProtos {
                 mapGiftRequest_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.CopyServiceProtos.MapAnimationState.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = mapAnima_.toBuilder();
+              }
+              mapAnima_ = input.readMessage(com.rwproto.CopyServiceProtos.MapAnimationState.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(mapAnima_);
+                mapAnima_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -924,11 +997,46 @@ public final class CopyServiceProtos {
       return mapGiftRequest_;
     }
 
+    // optional .MapAnimationState mapAnima = 5;
+    public static final int MAPANIMA_FIELD_NUMBER = 5;
+    private com.rwproto.CopyServiceProtos.MapAnimationState mapAnima_;
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    public boolean hasMapAnima() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.MapAnimationState getMapAnima() {
+      return mapAnima_;
+    }
+    /**
+     * <code>optional .MapAnimationState mapAnima = 5;</code>
+     *
+     * <pre>
+     *副本章节动画
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder getMapAnimaOrBuilder() {
+      return mapAnima_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
       levelId_ = 0;
       tagBattleData_ = com.rwproto.CopyServiceProtos.TagBattleData.getDefaultInstance();
       mapGiftRequest_ = com.rwproto.CopyServiceProtos.MapGiftRequest.getDefaultInstance();
+      mapAnima_ = com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -951,6 +1059,12 @@ public final class CopyServiceProtos {
           return false;
         }
       }
+      if (hasMapAnima()) {
+        if (!getMapAnima().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -969,6 +1083,9 @@ public final class CopyServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, mapGiftRequest_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, mapAnima_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -994,6 +1111,10 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, mapGiftRequest_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, mapAnima_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1105,6 +1226,7 @@ public final class CopyServiceProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getTagBattleDataFieldBuilder();
           getMapGiftRequestFieldBuilder();
+          getMapAnimaFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1129,6 +1251,12 @@ public final class CopyServiceProtos {
           mapGiftRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (mapAnimaBuilder_ == null) {
+          mapAnima_ = com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
+        } else {
+          mapAnimaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1181,6 +1309,14 @@ public final class CopyServiceProtos {
         } else {
           result.mapGiftRequest_ = mapGiftRequestBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (mapAnimaBuilder_ == null) {
+          result.mapAnima_ = mapAnima_;
+        } else {
+          result.mapAnima_ = mapAnimaBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1209,6 +1345,9 @@ public final class CopyServiceProtos {
         if (other.hasMapGiftRequest()) {
           mergeMapGiftRequest(other.getMapGiftRequest());
         }
+        if (other.hasMapAnima()) {
+          mergeMapAnima(other.getMapAnima());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1226,6 +1365,12 @@ public final class CopyServiceProtos {
         }
         if (hasMapGiftRequest()) {
           if (!getMapGiftRequest().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasMapAnima()) {
+          if (!getMapAnima().isInitialized()) {
             
             return false;
           }
@@ -1641,6 +1786,159 @@ public final class CopyServiceProtos {
           mapGiftRequest_ = null;
         }
         return mapGiftRequestBuilder_;
+      }
+
+      // optional .MapAnimationState mapAnima = 5;
+      private com.rwproto.CopyServiceProtos.MapAnimationState mapAnima_ = com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.MapAnimationState, com.rwproto.CopyServiceProtos.MapAnimationState.Builder, com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder> mapAnimaBuilder_;
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public boolean hasMapAnima() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.MapAnimationState getMapAnima() {
+        if (mapAnimaBuilder_ == null) {
+          return mapAnima_;
+        } else {
+          return mapAnimaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public Builder setMapAnima(com.rwproto.CopyServiceProtos.MapAnimationState value) {
+        if (mapAnimaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          mapAnima_ = value;
+          onChanged();
+        } else {
+          mapAnimaBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public Builder setMapAnima(
+          com.rwproto.CopyServiceProtos.MapAnimationState.Builder builderForValue) {
+        if (mapAnimaBuilder_ == null) {
+          mapAnima_ = builderForValue.build();
+          onChanged();
+        } else {
+          mapAnimaBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public Builder mergeMapAnima(com.rwproto.CopyServiceProtos.MapAnimationState value) {
+        if (mapAnimaBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              mapAnima_ != com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance()) {
+            mapAnima_ =
+              com.rwproto.CopyServiceProtos.MapAnimationState.newBuilder(mapAnima_).mergeFrom(value).buildPartial();
+          } else {
+            mapAnima_ = value;
+          }
+          onChanged();
+        } else {
+          mapAnimaBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public Builder clearMapAnima() {
+        if (mapAnimaBuilder_ == null) {
+          mapAnima_ = com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
+          onChanged();
+        } else {
+          mapAnimaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.MapAnimationState.Builder getMapAnimaBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getMapAnimaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder getMapAnimaOrBuilder() {
+        if (mapAnimaBuilder_ != null) {
+          return mapAnimaBuilder_.getMessageOrBuilder();
+        } else {
+          return mapAnima_;
+        }
+      }
+      /**
+       * <code>optional .MapAnimationState mapAnima = 5;</code>
+       *
+       * <pre>
+       *副本章节动画
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.MapAnimationState, com.rwproto.CopyServiceProtos.MapAnimationState.Builder, com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder> 
+          getMapAnimaFieldBuilder() {
+        if (mapAnimaBuilder_ == null) {
+          mapAnimaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.CopyServiceProtos.MapAnimationState, com.rwproto.CopyServiceProtos.MapAnimationState.Builder, com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder>(
+                  mapAnima_,
+                  getParentForChildren(),
+                  isClean());
+          mapAnima_ = null;
+        }
+        return mapAnimaBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgCopyRequest)
@@ -4364,6 +4662,805 @@ public final class CopyServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:MsgCopyResponse)
+  }
+
+  public interface MapAnimationStateOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 normalMapId = 1;
+    /**
+     * <code>required int32 normalMapId = 1;</code>
+     *
+     * <pre>
+     *副本id
+     * </pre>
+     */
+    boolean hasNormalMapId();
+    /**
+     * <code>required int32 normalMapId = 1;</code>
+     *
+     * <pre>
+     *副本id
+     * </pre>
+     */
+    int getNormalMapId();
+
+    // required int32 normalAnimState = 2;
+    /**
+     * <code>required int32 normalAnimState = 2;</code>
+     *
+     * <pre>
+     *1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    boolean hasNormalAnimState();
+    /**
+     * <code>required int32 normalAnimState = 2;</code>
+     *
+     * <pre>
+     *1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    int getNormalAnimState();
+
+    // required int32 eliteMapId = 3;
+    /**
+     * <code>required int32 eliteMapId = 3;</code>
+     *
+     * <pre>
+     *精英id
+     * </pre>
+     */
+    boolean hasEliteMapId();
+    /**
+     * <code>required int32 eliteMapId = 3;</code>
+     *
+     * <pre>
+     *精英id
+     * </pre>
+     */
+    int getEliteMapId();
+
+    // required int32 eliteAnimState = 4;
+    /**
+     * <code>required int32 eliteAnimState = 4;</code>
+     *
+     * <pre>
+     *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    boolean hasEliteAnimState();
+    /**
+     * <code>required int32 eliteAnimState = 4;</code>
+     *
+     * <pre>
+     *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    int getEliteAnimState();
+  }
+  /**
+   * Protobuf type {@code MapAnimationState}
+   */
+  public static final class MapAnimationState extends
+      com.google.protobuf.GeneratedMessage
+      implements MapAnimationStateOrBuilder {
+    // Use MapAnimationState.newBuilder() to construct.
+    private MapAnimationState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MapAnimationState(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MapAnimationState defaultInstance;
+    public static MapAnimationState getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MapAnimationState getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MapAnimationState(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              normalMapId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              normalAnimState_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              eliteMapId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              eliteAnimState_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_MapAnimationState_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_MapAnimationState_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.MapAnimationState.class, com.rwproto.CopyServiceProtos.MapAnimationState.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MapAnimationState> PARSER =
+        new com.google.protobuf.AbstractParser<MapAnimationState>() {
+      public MapAnimationState parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MapAnimationState(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MapAnimationState> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 normalMapId = 1;
+    public static final int NORMALMAPID_FIELD_NUMBER = 1;
+    private int normalMapId_;
+    /**
+     * <code>required int32 normalMapId = 1;</code>
+     *
+     * <pre>
+     *副本id
+     * </pre>
+     */
+    public boolean hasNormalMapId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 normalMapId = 1;</code>
+     *
+     * <pre>
+     *副本id
+     * </pre>
+     */
+    public int getNormalMapId() {
+      return normalMapId_;
+    }
+
+    // required int32 normalAnimState = 2;
+    public static final int NORMALANIMSTATE_FIELD_NUMBER = 2;
+    private int normalAnimState_;
+    /**
+     * <code>required int32 normalAnimState = 2;</code>
+     *
+     * <pre>
+     *1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    public boolean hasNormalAnimState() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 normalAnimState = 2;</code>
+     *
+     * <pre>
+     *1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    public int getNormalAnimState() {
+      return normalAnimState_;
+    }
+
+    // required int32 eliteMapId = 3;
+    public static final int ELITEMAPID_FIELD_NUMBER = 3;
+    private int eliteMapId_;
+    /**
+     * <code>required int32 eliteMapId = 3;</code>
+     *
+     * <pre>
+     *精英id
+     * </pre>
+     */
+    public boolean hasEliteMapId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 eliteMapId = 3;</code>
+     *
+     * <pre>
+     *精英id
+     * </pre>
+     */
+    public int getEliteMapId() {
+      return eliteMapId_;
+    }
+
+    // required int32 eliteAnimState = 4;
+    public static final int ELITEANIMSTATE_FIELD_NUMBER = 4;
+    private int eliteAnimState_;
+    /**
+     * <code>required int32 eliteAnimState = 4;</code>
+     *
+     * <pre>
+     *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    public boolean hasEliteAnimState() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 eliteAnimState = 4;</code>
+     *
+     * <pre>
+     *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+     * </pre>
+     */
+    public int getEliteAnimState() {
+      return eliteAnimState_;
+    }
+
+    private void initFields() {
+      normalMapId_ = 0;
+      normalAnimState_ = 0;
+      eliteMapId_ = 0;
+      eliteAnimState_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasNormalMapId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNormalAnimState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEliteMapId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEliteAnimState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, normalMapId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, normalAnimState_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, eliteMapId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, eliteAnimState_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, normalMapId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, normalAnimState_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, eliteMapId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, eliteAnimState_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MapAnimationState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.MapAnimationState prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MapAnimationState}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.MapAnimationStateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_MapAnimationState_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_MapAnimationState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.MapAnimationState.class, com.rwproto.CopyServiceProtos.MapAnimationState.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.MapAnimationState.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        normalMapId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        normalAnimState_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        eliteMapId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        eliteAnimState_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_MapAnimationState_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.MapAnimationState getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.MapAnimationState build() {
+        com.rwproto.CopyServiceProtos.MapAnimationState result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.MapAnimationState buildPartial() {
+        com.rwproto.CopyServiceProtos.MapAnimationState result = new com.rwproto.CopyServiceProtos.MapAnimationState(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.normalMapId_ = normalMapId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.normalAnimState_ = normalAnimState_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.eliteMapId_ = eliteMapId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.eliteAnimState_ = eliteAnimState_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.MapAnimationState) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.MapAnimationState)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.MapAnimationState other) {
+        if (other == com.rwproto.CopyServiceProtos.MapAnimationState.getDefaultInstance()) return this;
+        if (other.hasNormalMapId()) {
+          setNormalMapId(other.getNormalMapId());
+        }
+        if (other.hasNormalAnimState()) {
+          setNormalAnimState(other.getNormalAnimState());
+        }
+        if (other.hasEliteMapId()) {
+          setEliteMapId(other.getEliteMapId());
+        }
+        if (other.hasEliteAnimState()) {
+          setEliteAnimState(other.getEliteAnimState());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNormalMapId()) {
+          
+          return false;
+        }
+        if (!hasNormalAnimState()) {
+          
+          return false;
+        }
+        if (!hasEliteMapId()) {
+          
+          return false;
+        }
+        if (!hasEliteAnimState()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.MapAnimationState parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.MapAnimationState) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 normalMapId = 1;
+      private int normalMapId_ ;
+      /**
+       * <code>required int32 normalMapId = 1;</code>
+       *
+       * <pre>
+       *副本id
+       * </pre>
+       */
+      public boolean hasNormalMapId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 normalMapId = 1;</code>
+       *
+       * <pre>
+       *副本id
+       * </pre>
+       */
+      public int getNormalMapId() {
+        return normalMapId_;
+      }
+      /**
+       * <code>required int32 normalMapId = 1;</code>
+       *
+       * <pre>
+       *副本id
+       * </pre>
+       */
+      public Builder setNormalMapId(int value) {
+        bitField0_ |= 0x00000001;
+        normalMapId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 normalMapId = 1;</code>
+       *
+       * <pre>
+       *副本id
+       * </pre>
+       */
+      public Builder clearNormalMapId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        normalMapId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 normalAnimState = 2;
+      private int normalAnimState_ ;
+      /**
+       * <code>required int32 normalAnimState = 2;</code>
+       *
+       * <pre>
+       *1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public boolean hasNormalAnimState() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 normalAnimState = 2;</code>
+       *
+       * <pre>
+       *1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public int getNormalAnimState() {
+        return normalAnimState_;
+      }
+      /**
+       * <code>required int32 normalAnimState = 2;</code>
+       *
+       * <pre>
+       *1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public Builder setNormalAnimState(int value) {
+        bitField0_ |= 0x00000002;
+        normalAnimState_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 normalAnimState = 2;</code>
+       *
+       * <pre>
+       *1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public Builder clearNormalAnimState() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        normalAnimState_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 eliteMapId = 3;
+      private int eliteMapId_ ;
+      /**
+       * <code>required int32 eliteMapId = 3;</code>
+       *
+       * <pre>
+       *精英id
+       * </pre>
+       */
+      public boolean hasEliteMapId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 eliteMapId = 3;</code>
+       *
+       * <pre>
+       *精英id
+       * </pre>
+       */
+      public int getEliteMapId() {
+        return eliteMapId_;
+      }
+      /**
+       * <code>required int32 eliteMapId = 3;</code>
+       *
+       * <pre>
+       *精英id
+       * </pre>
+       */
+      public Builder setEliteMapId(int value) {
+        bitField0_ |= 0x00000004;
+        eliteMapId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 eliteMapId = 3;</code>
+       *
+       * <pre>
+       *精英id
+       * </pre>
+       */
+      public Builder clearEliteMapId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        eliteMapId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 eliteAnimState = 4;
+      private int eliteAnimState_ ;
+      /**
+       * <code>required int32 eliteAnimState = 4;</code>
+       *
+       * <pre>
+       *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public boolean hasEliteAnimState() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 eliteAnimState = 4;</code>
+       *
+       * <pre>
+       *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public int getEliteAnimState() {
+        return eliteAnimState_;
+      }
+      /**
+       * <code>required int32 eliteAnimState = 4;</code>
+       *
+       * <pre>
+       *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public Builder setEliteAnimState(int value) {
+        bitField0_ |= 0x00000008;
+        eliteAnimState_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 eliteAnimState = 4;</code>
+       *
+       * <pre>
+       *精英副本动画状态,1:已经播放开启动画； 2：已经播放关闭动画
+       * </pre>
+       */
+      public Builder clearEliteAnimState() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        eliteAnimState_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MapAnimationState)
+    }
+
+    static {
+      defaultInstance = new MapAnimationState(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MapAnimationState)
   }
 
   public interface TagSweepInfoOrBuilder
@@ -8711,6 +9808,11 @@ public final class CopyServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_MsgCopyResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MapAnimationState_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MapAnimationState_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_TagSweepInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -8744,47 +9846,52 @@ public final class CopyServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021CopyService.proto\"\225\001\n\016MsgCopyRequest\022\"" +
+      "\n\021CopyService.proto\"\273\001\n\016MsgCopyRequest\022\"" +
       "\n\013requestType\030\001 \002(\0162\r.ERequestType\022\017\n\007le" +
       "velId\030\002 \001(\005\022%\n\rtagBattleData\030\003 \001(\0132\016.Tag" +
       "BattleData\022\'\n\016mapGiftRequest\030\004 \001(\0132\017.Map" +
-      "GiftRequest\"\354\002\n\017MsgCopyResponse\022!\n\013eResu" +
-      "ltType\030\001 \001(\0162\014.EResultType\022\"\n\013requestTyp" +
-      "e\030\002 \001(\0162\r.ERequestType\0229\n\027tagBattleClear" +
-      "ingResult\030\003 \001(\0132\030.TagBattleClearingResul" +
-      "t\022\017\n\007levelId\030\004 \001(\005\022\022\n\nclearCount\030\005 \001(\005\022\'" +
-      "\n\020tagSweepInfoList\030\006 \003(\0132\r.TagSweepInfo\022",
-      "\024\n\014tagMapRecord\030\007 \003(\t\022\032\n\022tagCopyLevelRec" +
-      "ord\030\010 \003(\t\022\023\n\013tagItemList\030\t \003(\t\022\021\n\tcopyCo" +
-      "unt\030\n \001(\005\022\023\n\013unendingWar\030\013 \001(\005\022\032\n\022eSpeci" +
-      "alItemIdList\030\014 \001(\t\"2\n\014TagSweepInfo\022\r\n\005ti" +
-      "mes\030\001 \002(\005\022\023\n\013tagItemList\030\002 \003(\t\".\n\016MapGif" +
-      "tRequest\022\r\n\005mapId\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\344" +
-      "\001\n\rTagBattleData\022\032\n\022battleClearingTime\030\001" +
-      " \002(\005\022\017\n\007levelId\030\002 \002(\005\022\016\n\006heroId\030\003 \003(\t\022\021\n" +
-      "\tstarLevel\030\004 \001(\005\022$\n\014battleStatus\030\005 \001(\0162\016" +
-      ".EBattleStatus\022\021\n\tfightTime\030\006 \001(\005\022#\n\013fig",
-      "htResult\030\007 \001(\0162\016.EBattleStatus\022%\n\rfortun" +
-      "eResult\030\010 \001(\0132\016.FortuneResult\"B\n\027TagBatt" +
-      "leClearingResult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rta" +
-      "gCopyRecord\030\002 \001(\t\"\205\001\n\rFortuneResult\022\025\n\rg" +
-      "ainGoldCount\030\001 \001(\005\022\027\n\017gainGoldPercent\030\002 " +
-      "\001(\002\022\021\n\ttotalHurt\030\003 \001(\005\022\030\n\020killMonsterCou" +
-      "nt\030\004 \001(\005\022\027\n\017deductGoldCount\030\005 \001(\005*\267\001\n\014ER" +
-      "equestType\022\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SW" +
-      "EEP_LEVEL_DIAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GE" +
-      "T_USER_CHECKPOINT_INFO\020\004\022\023\n\017BATTLE_CLEAR",
-      "ING\020\005\022\025\n\021BATTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLE" +
-      "VEL\020\007\022\014\n\010GET_GIFT\020\010*:\n\rEBattleStatus\022\007\n\003" +
-      "WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*" +
-      "\213\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SU" +
-      "CCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMO" +
-      "ND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n" +
-      "\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES" +
-      "\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTL" +
-      "E_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\rSWEEP_SU" +
-      "CCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016B \n\013com.rwp",
-      "rotoB\021CopyServiceProtos"
+      "GiftRequest\022$\n\010mapAnima\030\005 \001(\0132\022.MapAnima" +
+      "tionState\"\354\002\n\017MsgCopyResponse\022!\n\013eResult" +
+      "Type\030\001 \001(\0162\014.EResultType\022\"\n\013requestType\030" +
+      "\002 \001(\0162\r.ERequestType\0229\n\027tagBattleClearin" +
+      "gResult\030\003 \001(\0132\030.TagBattleClearingResult\022" +
+      "\017\n\007levelId\030\004 \001(\005\022\022\n\nclearCount\030\005 \001(\005\022\'\n\020",
+      "tagSweepInfoList\030\006 \003(\0132\r.TagSweepInfo\022\024\n" +
+      "\014tagMapRecord\030\007 \003(\t\022\032\n\022tagCopyLevelRecor" +
+      "d\030\010 \003(\t\022\023\n\013tagItemList\030\t \003(\t\022\021\n\tcopyCoun" +
+      "t\030\n \001(\005\022\023\n\013unendingWar\030\013 \001(\005\022\032\n\022eSpecial" +
+      "ItemIdList\030\014 \001(\t\"m\n\021MapAnimationState\022\023\n" +
+      "\013normalMapId\030\001 \002(\005\022\027\n\017normalAnimState\030\002 " +
+      "\002(\005\022\022\n\neliteMapId\030\003 \002(\005\022\026\n\016eliteAnimStat" +
+      "e\030\004 \002(\005\"2\n\014TagSweepInfo\022\r\n\005times\030\001 \002(\005\022\023" +
+      "\n\013tagItemList\030\002 \003(\t\".\n\016MapGiftRequest\022\r\n" +
+      "\005mapId\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\344\001\n\rTagBattl",
+      "eData\022\032\n\022battleClearingTime\030\001 \002(\005\022\017\n\007lev" +
+      "elId\030\002 \002(\005\022\016\n\006heroId\030\003 \003(\t\022\021\n\tstarLevel\030" +
+      "\004 \001(\005\022$\n\014battleStatus\030\005 \001(\0162\016.EBattleSta" +
+      "tus\022\021\n\tfightTime\030\006 \001(\005\022#\n\013fightResult\030\007 " +
+      "\001(\0162\016.EBattleStatus\022%\n\rfortuneResult\030\010 \001" +
+      "(\0132\016.FortuneResult\"B\n\027TagBattleClearingR" +
+      "esult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rtagCopyRecord" +
+      "\030\002 \001(\t\"\205\001\n\rFortuneResult\022\025\n\rgainGoldCoun" +
+      "t\030\001 \001(\005\022\027\n\017gainGoldPercent\030\002 \001(\002\022\021\n\ttota" +
+      "lHurt\030\003 \001(\005\022\030\n\020killMonsterCount\030\004 \001(\005\022\027\n",
+      "\017deductGoldCount\030\005 \001(\005*\312\001\n\014ERequestType\022" +
+      "\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SWEEP_LEVEL_D" +
+      "IAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHEC" +
+      "KPOINT_INFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BA" +
+      "TTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GE" +
+      "T_GIFT\020\010\022\021\n\rMap_Animation\020\t*:\n\rEBattleSt" +
+      "atus\022\007\n\003WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n" +
+      "\004FAIL\020\004*\230\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PUR" +
+      "CHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOU" +
+      "GH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_O",
+      "PEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOU" +
+      "GH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022" +
+      "\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\r" +
+      "SWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016\022\013\n" +
+      "\007Success\020\017B \n\013com.rwprotoB\021CopyServicePr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8796,39 +9903,45 @@ public final class CopyServiceProtos {
           internal_static_MsgCopyRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgCopyRequest_descriptor,
-              new java.lang.String[] { "RequestType", "LevelId", "TagBattleData", "MapGiftRequest", });
+              new java.lang.String[] { "RequestType", "LevelId", "TagBattleData", "MapGiftRequest", "MapAnima", });
           internal_static_MsgCopyResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgCopyResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgCopyResponse_descriptor,
               new java.lang.String[] { "EResultType", "RequestType", "TagBattleClearingResult", "LevelId", "ClearCount", "TagSweepInfoList", "TagMapRecord", "TagCopyLevelRecord", "TagItemList", "CopyCount", "UnendingWar", "ESpecialItemIdList", });
-          internal_static_TagSweepInfo_descriptor =
+          internal_static_MapAnimationState_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_MapAnimationState_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MapAnimationState_descriptor,
+              new java.lang.String[] { "NormalMapId", "NormalAnimState", "EliteMapId", "EliteAnimState", });
+          internal_static_TagSweepInfo_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_TagSweepInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagSweepInfo_descriptor,
               new java.lang.String[] { "Times", "TagItemList", });
           internal_static_MapGiftRequest_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_MapGiftRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MapGiftRequest_descriptor,
               new java.lang.String[] { "MapId", "Index", });
           internal_static_TagBattleData_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_TagBattleData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagBattleData_descriptor,
               new java.lang.String[] { "BattleClearingTime", "LevelId", "HeroId", "StarLevel", "BattleStatus", "FightTime", "FightResult", "FortuneResult", });
           internal_static_TagBattleClearingResult_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_TagBattleClearingResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagBattleClearingResult_descriptor,
               new java.lang.String[] { "UpHeroId", "TagCopyRecord", });
           internal_static_FortuneResult_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_FortuneResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FortuneResult_descriptor,

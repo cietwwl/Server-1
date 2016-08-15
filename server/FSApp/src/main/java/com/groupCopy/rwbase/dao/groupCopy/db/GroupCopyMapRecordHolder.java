@@ -36,14 +36,27 @@ public class GroupCopyMapRecordHolder{
 
 	public void checkAndInitData() {
 		List<GroupCopyMapCfg> list = GroupCopyMapCfgDao.getInstance().getAllCfg();
-		GroupCopyMapRecord record;
+		
+		List<GroupCopyMapRecord> addList = null; 
+		
 		for (GroupCopyMapCfg cfg : list) {
-			 record = getItemByID(cfg.getId());
+			 GroupCopyMapRecord record = getItemByID(cfg.getId());
 			 if(record == null){
 				 record = createRecord(cfg.getId());
-				 MapItemStore<GroupCopyMapRecord> store = getItemStore();
-				 store.addItem(record);
+				 if(addList == null){
+					 addList = new ArrayList<GroupCopyMapRecord>();
+				 }
+				 addList.add(record);
 			 }
+		}
+		
+		if(addList != null){
+			try {
+				getItemStore().addItem(addList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

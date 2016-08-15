@@ -175,7 +175,7 @@ public class UserGameDataMgr {
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		if (marjorData.getCoin() + nValue >= 0) {
 			marjorData.setCoin(marjorData.getCoin() + nValue);
-			majorDataHolder.update(player);
+			majorDataHolder.addCoin(player, marjorData);
 
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
@@ -273,7 +273,7 @@ public class UserGameDataMgr {
 		}
 
 		if (result == 0) {
-			majorDataHolder.update(player);
+			majorDataHolder.addGold(player, marjorData);
 		}
 		return result;
 	}
@@ -294,7 +294,7 @@ public class UserGameDataMgr {
 		}
 
 		if (result == 0) {
-			majorDataHolder.update(player);
+			majorDataHolder.addGold(player, marjorData);
 		}
 
 		return result;
@@ -443,7 +443,7 @@ public class UserGameDataMgr {
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		marjorData.setChargeGold(marjorData.getChargeGold() + addNum);
 		marjorData.updateGold();
-		majorDataHolder.update(player);
+		majorDataHolder.addChargeGold(player, marjorData);
 	}
 
 	public int getRookieFlag() {
@@ -765,6 +765,11 @@ public class UserGameDataMgr {
 
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
+	}
+	
+	public void setMapAnimationState(MapAnimationState animationState){
+		userGameDataHolder.get().setMapAnimationState(animationState);
+		userGameDataHolder.update(player);
 	}
 
 	/**

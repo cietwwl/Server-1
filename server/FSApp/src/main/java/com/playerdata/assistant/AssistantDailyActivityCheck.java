@@ -10,11 +10,11 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.dao.task.pojo.DailyActivityData;
 
-public class AssistantDailyActivityCheck implements IAssistantCheck {
+public class AssistantDailyActivityCheck extends DefaultAssistantChecker {
 
 	@Override
 	public AssistantEventID doCheck(Player player) {
-
+		super.doCheck(player);
 		if (check(player)) {
 			return AssistantEventID.DailyQuest;
 		}

@@ -11,9 +11,7 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.ApplyInfo;
-import com.groupCopy.rwbase.dao.groupCopy.db.DropInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
-import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -79,14 +77,12 @@ public class GroupCopyMailHelper {
 	
 	/**
 	 * 发送帮派定时奖励邮件
-	 * @param template
-	 * @param dropInfo
+	 * @param itemID
 	 * @param applyInfo
 	 * @param groupName TODO
 	 */
-	public boolean checkAndSendMail(ItemDropAndApplyTemplate template,
-			DropInfo dropInfo, ApplyInfo applyInfo, String groupName) {
-		String mailReward = template.getItemID() + "~" + 1;
+	public boolean checkAndSendMail(int itemID, ApplyInfo applyInfo, String groupName) {
+		String mailReward = itemID + "~" + 1;
 		
 		GroupCopyMailCfg mailCfg = GroupCopyMailCfgDao.getInstance().getConfig();
 		EmailData emailData = EmailUtils.createEmailData(mailCfg.getPersonMailID(), mailReward, new ArrayList<String>());

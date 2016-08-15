@@ -172,6 +172,262 @@ public final class TaskProtos {
     // @@protoc_insertion_point(enum_scope:eTaskResultType)
   }
 
+  /**
+   * Protobuf enum {@code OneKeyRewardType}
+   */
+  public enum OneKeyRewardType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>EMAIL = 1;</code>
+     *
+     * <pre>
+     *一键提取邮件
+     * </pre>
+     */
+    EMAIL(0, 1),
+    /**
+     * <code>TASK = 2;</code>
+     *
+     * <pre>
+     *一键领取任务奖励
+     * </pre>
+     */
+    TASK(1, 2),
+    /**
+     * <code>DAILY = 3;</code>
+     *
+     * <pre>
+     *一键领取日常奖励
+     * </pre>
+     */
+    DAILY(2, 3),
+    /**
+     * <code>BATTLE_SCORE = 4;</code>
+     *
+     * <pre>
+     *一键领取竞技场积分奖励
+     * </pre>
+     */
+    BATTLE_SCORE(3, 4),
+    ;
+
+    /**
+     * <code>EMAIL = 1;</code>
+     *
+     * <pre>
+     *一键提取邮件
+     * </pre>
+     */
+    public static final int EMAIL_VALUE = 1;
+    /**
+     * <code>TASK = 2;</code>
+     *
+     * <pre>
+     *一键领取任务奖励
+     * </pre>
+     */
+    public static final int TASK_VALUE = 2;
+    /**
+     * <code>DAILY = 3;</code>
+     *
+     * <pre>
+     *一键领取日常奖励
+     * </pre>
+     */
+    public static final int DAILY_VALUE = 3;
+    /**
+     * <code>BATTLE_SCORE = 4;</code>
+     *
+     * <pre>
+     *一键领取竞技场积分奖励
+     * </pre>
+     */
+    public static final int BATTLE_SCORE_VALUE = 4;
+
+
+    public final int getNumber() { return value; }
+
+    public static OneKeyRewardType valueOf(int value) {
+      switch (value) {
+        case 1: return EMAIL;
+        case 2: return TASK;
+        case 3: return DAILY;
+        case 4: return BATTLE_SCORE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<OneKeyRewardType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<OneKeyRewardType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<OneKeyRewardType>() {
+            public OneKeyRewardType findValueByNumber(int number) {
+              return OneKeyRewardType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.TaskProtos.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final OneKeyRewardType[] VALUES = values();
+
+    public static OneKeyRewardType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private OneKeyRewardType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:OneKeyRewardType)
+  }
+
+  /**
+   * Protobuf enum {@code OneKeyResultType}
+   */
+  public enum OneKeyResultType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>OneKey_SUCCESS = 1;</code>
+     */
+    OneKey_SUCCESS(0, 1),
+    /**
+     * <code>DATA_ERROR = 2;</code>
+     *
+     * <pre>
+     *数据异常
+     * </pre>
+     */
+    DATA_ERROR(1, 2),
+    /**
+     * <code>NO_REWARD = 3;</code>
+     *
+     * <pre>
+     *没有可以领取的项
+     * </pre>
+     */
+    NO_REWARD(2, 3),
+    /**
+     * <code>TYPE_ERROR = 4;</code>
+     *
+     * <pre>
+     *类型错误
+     * </pre>
+     */
+    TYPE_ERROR(3, 4),
+    ;
+
+    /**
+     * <code>OneKey_SUCCESS = 1;</code>
+     */
+    public static final int OneKey_SUCCESS_VALUE = 1;
+    /**
+     * <code>DATA_ERROR = 2;</code>
+     *
+     * <pre>
+     *数据异常
+     * </pre>
+     */
+    public static final int DATA_ERROR_VALUE = 2;
+    /**
+     * <code>NO_REWARD = 3;</code>
+     *
+     * <pre>
+     *没有可以领取的项
+     * </pre>
+     */
+    public static final int NO_REWARD_VALUE = 3;
+    /**
+     * <code>TYPE_ERROR = 4;</code>
+     *
+     * <pre>
+     *类型错误
+     * </pre>
+     */
+    public static final int TYPE_ERROR_VALUE = 4;
+
+
+    public final int getNumber() { return value; }
+
+    public static OneKeyResultType valueOf(int value) {
+      switch (value) {
+        case 1: return OneKey_SUCCESS;
+        case 2: return DATA_ERROR;
+        case 3: return NO_REWARD;
+        case 4: return TYPE_ERROR;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<OneKeyResultType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<OneKeyResultType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<OneKeyResultType>() {
+            public OneKeyResultType findValueByNumber(int number) {
+              return OneKeyResultType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.TaskProtos.getDescriptor().getEnumTypes().get(3);
+    }
+
+    private static final OneKeyResultType[] VALUES = values();
+
+    public static OneKeyResultType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private OneKeyResultType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:OneKeyResultType)
+  }
+
   public interface tagTaskOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -2480,6 +2736,1017 @@ public final class TaskProtos {
     // @@protoc_insertion_point(class_scope:TaskResponse)
   }
 
+  public interface OneKeyGetRewardRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .OneKeyRewardType oneKeyType = 1;
+    /**
+     * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+     */
+    boolean hasOneKeyType();
+    /**
+     * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+     */
+    com.rwproto.TaskProtos.OneKeyRewardType getOneKeyType();
+  }
+  /**
+   * Protobuf type {@code OneKeyGetRewardRequest}
+   */
+  public static final class OneKeyGetRewardRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements OneKeyGetRewardRequestOrBuilder {
+    // Use OneKeyGetRewardRequest.newBuilder() to construct.
+    private OneKeyGetRewardRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private OneKeyGetRewardRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final OneKeyGetRewardRequest defaultInstance;
+    public static OneKeyGetRewardRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public OneKeyGetRewardRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private OneKeyGetRewardRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.TaskProtos.OneKeyRewardType value = com.rwproto.TaskProtos.OneKeyRewardType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                oneKeyType_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.TaskProtos.OneKeyGetRewardRequest.class, com.rwproto.TaskProtos.OneKeyGetRewardRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<OneKeyGetRewardRequest> PARSER =
+        new com.google.protobuf.AbstractParser<OneKeyGetRewardRequest>() {
+      public OneKeyGetRewardRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new OneKeyGetRewardRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<OneKeyGetRewardRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .OneKeyRewardType oneKeyType = 1;
+    public static final int ONEKEYTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.TaskProtos.OneKeyRewardType oneKeyType_;
+    /**
+     * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+     */
+    public boolean hasOneKeyType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+     */
+    public com.rwproto.TaskProtos.OneKeyRewardType getOneKeyType() {
+      return oneKeyType_;
+    }
+
+    private void initFields() {
+      oneKeyType_ = com.rwproto.TaskProtos.OneKeyRewardType.EMAIL;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasOneKeyType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, oneKeyType_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, oneKeyType_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.TaskProtos.OneKeyGetRewardRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code OneKeyGetRewardRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.TaskProtos.OneKeyGetRewardRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.TaskProtos.OneKeyGetRewardRequest.class, com.rwproto.TaskProtos.OneKeyGetRewardRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.TaskProtos.OneKeyGetRewardRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        oneKeyType_ = com.rwproto.TaskProtos.OneKeyRewardType.EMAIL;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardRequest_descriptor;
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardRequest getDefaultInstanceForType() {
+        return com.rwproto.TaskProtos.OneKeyGetRewardRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardRequest build() {
+        com.rwproto.TaskProtos.OneKeyGetRewardRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardRequest buildPartial() {
+        com.rwproto.TaskProtos.OneKeyGetRewardRequest result = new com.rwproto.TaskProtos.OneKeyGetRewardRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.oneKeyType_ = oneKeyType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.TaskProtos.OneKeyGetRewardRequest) {
+          return mergeFrom((com.rwproto.TaskProtos.OneKeyGetRewardRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.TaskProtos.OneKeyGetRewardRequest other) {
+        if (other == com.rwproto.TaskProtos.OneKeyGetRewardRequest.getDefaultInstance()) return this;
+        if (other.hasOneKeyType()) {
+          setOneKeyType(other.getOneKeyType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasOneKeyType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.TaskProtos.OneKeyGetRewardRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.TaskProtos.OneKeyGetRewardRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .OneKeyRewardType oneKeyType = 1;
+      private com.rwproto.TaskProtos.OneKeyRewardType oneKeyType_ = com.rwproto.TaskProtos.OneKeyRewardType.EMAIL;
+      /**
+       * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+       */
+      public boolean hasOneKeyType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+       */
+      public com.rwproto.TaskProtos.OneKeyRewardType getOneKeyType() {
+        return oneKeyType_;
+      }
+      /**
+       * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+       */
+      public Builder setOneKeyType(com.rwproto.TaskProtos.OneKeyRewardType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        oneKeyType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .OneKeyRewardType oneKeyType = 1;</code>
+       */
+      public Builder clearOneKeyType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        oneKeyType_ = com.rwproto.TaskProtos.OneKeyRewardType.EMAIL;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:OneKeyGetRewardRequest)
+    }
+
+    static {
+      defaultInstance = new OneKeyGetRewardRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:OneKeyGetRewardRequest)
+  }
+
+  public interface OneKeyGetRewardResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .OneKeyResultType result = 1;
+    /**
+     * <code>required .OneKeyResultType result = 1;</code>
+     */
+    boolean hasResult();
+    /**
+     * <code>required .OneKeyResultType result = 1;</code>
+     */
+    com.rwproto.TaskProtos.OneKeyResultType getResult();
+
+    // repeated string rewardItems = 2;
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    java.util.List<java.lang.String>
+    getRewardItemsList();
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    int getRewardItemsCount();
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    java.lang.String getRewardItems(int index);
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getRewardItemsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code OneKeyGetRewardResponse}
+   */
+  public static final class OneKeyGetRewardResponse extends
+      com.google.protobuf.GeneratedMessage
+      implements OneKeyGetRewardResponseOrBuilder {
+    // Use OneKeyGetRewardResponse.newBuilder() to construct.
+    private OneKeyGetRewardResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private OneKeyGetRewardResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final OneKeyGetRewardResponse defaultInstance;
+    public static OneKeyGetRewardResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public OneKeyGetRewardResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private OneKeyGetRewardResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.TaskProtos.OneKeyResultType value = com.rwproto.TaskProtos.OneKeyResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                result_ = value;
+              }
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                rewardItems_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              rewardItems_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          rewardItems_ = new com.google.protobuf.UnmodifiableLazyStringList(rewardItems_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.TaskProtos.OneKeyGetRewardResponse.class, com.rwproto.TaskProtos.OneKeyGetRewardResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<OneKeyGetRewardResponse> PARSER =
+        new com.google.protobuf.AbstractParser<OneKeyGetRewardResponse>() {
+      public OneKeyGetRewardResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new OneKeyGetRewardResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<OneKeyGetRewardResponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .OneKeyResultType result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private com.rwproto.TaskProtos.OneKeyResultType result_;
+    /**
+     * <code>required .OneKeyResultType result = 1;</code>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .OneKeyResultType result = 1;</code>
+     */
+    public com.rwproto.TaskProtos.OneKeyResultType getResult() {
+      return result_;
+    }
+
+    // repeated string rewardItems = 2;
+    public static final int REWARDITEMS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList rewardItems_;
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    public java.util.List<java.lang.String>
+        getRewardItemsList() {
+      return rewardItems_;
+    }
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    public int getRewardItemsCount() {
+      return rewardItems_.size();
+    }
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    public java.lang.String getRewardItems(int index) {
+      return rewardItems_.get(index);
+    }
+    /**
+     * <code>repeated string rewardItems = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRewardItemsBytes(int index) {
+      return rewardItems_.getByteString(index);
+    }
+
+    private void initFields() {
+      result_ = com.rwproto.TaskProtos.OneKeyResultType.OneKey_SUCCESS;
+      rewardItems_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResult()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, result_.getNumber());
+      }
+      for (int i = 0; i < rewardItems_.size(); i++) {
+        output.writeBytes(2, rewardItems_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, result_.getNumber());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < rewardItems_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(rewardItems_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getRewardItemsList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TaskProtos.OneKeyGetRewardResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.TaskProtos.OneKeyGetRewardResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code OneKeyGetRewardResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.TaskProtos.OneKeyGetRewardResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.TaskProtos.OneKeyGetRewardResponse.class, com.rwproto.TaskProtos.OneKeyGetRewardResponse.Builder.class);
+      }
+
+      // Construct using com.rwproto.TaskProtos.OneKeyGetRewardResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = com.rwproto.TaskProtos.OneKeyResultType.OneKey_SUCCESS;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        rewardItems_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.TaskProtos.internal_static_OneKeyGetRewardResponse_descriptor;
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardResponse getDefaultInstanceForType() {
+        return com.rwproto.TaskProtos.OneKeyGetRewardResponse.getDefaultInstance();
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardResponse build() {
+        com.rwproto.TaskProtos.OneKeyGetRewardResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.TaskProtos.OneKeyGetRewardResponse buildPartial() {
+        com.rwproto.TaskProtos.OneKeyGetRewardResponse result = new com.rwproto.TaskProtos.OneKeyGetRewardResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          rewardItems_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              rewardItems_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.rewardItems_ = rewardItems_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.TaskProtos.OneKeyGetRewardResponse) {
+          return mergeFrom((com.rwproto.TaskProtos.OneKeyGetRewardResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.TaskProtos.OneKeyGetRewardResponse other) {
+        if (other == com.rwproto.TaskProtos.OneKeyGetRewardResponse.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
+        if (!other.rewardItems_.isEmpty()) {
+          if (rewardItems_.isEmpty()) {
+            rewardItems_ = other.rewardItems_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureRewardItemsIsMutable();
+            rewardItems_.addAll(other.rewardItems_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResult()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.TaskProtos.OneKeyGetRewardResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.TaskProtos.OneKeyGetRewardResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .OneKeyResultType result = 1;
+      private com.rwproto.TaskProtos.OneKeyResultType result_ = com.rwproto.TaskProtos.OneKeyResultType.OneKey_SUCCESS;
+      /**
+       * <code>required .OneKeyResultType result = 1;</code>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .OneKeyResultType result = 1;</code>
+       */
+      public com.rwproto.TaskProtos.OneKeyResultType getResult() {
+        return result_;
+      }
+      /**
+       * <code>required .OneKeyResultType result = 1;</code>
+       */
+      public Builder setResult(com.rwproto.TaskProtos.OneKeyResultType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .OneKeyResultType result = 1;</code>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = com.rwproto.TaskProtos.OneKeyResultType.OneKey_SUCCESS;
+        onChanged();
+        return this;
+      }
+
+      // repeated string rewardItems = 2;
+      private com.google.protobuf.LazyStringList rewardItems_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureRewardItemsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          rewardItems_ = new com.google.protobuf.LazyStringArrayList(rewardItems_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public java.util.List<java.lang.String>
+          getRewardItemsList() {
+        return java.util.Collections.unmodifiableList(rewardItems_);
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public int getRewardItemsCount() {
+        return rewardItems_.size();
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public java.lang.String getRewardItems(int index) {
+        return rewardItems_.get(index);
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRewardItemsBytes(int index) {
+        return rewardItems_.getByteString(index);
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public Builder setRewardItems(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardItemsIsMutable();
+        rewardItems_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public Builder addRewardItems(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardItemsIsMutable();
+        rewardItems_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public Builder addAllRewardItems(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureRewardItemsIsMutable();
+        super.addAll(values, rewardItems_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public Builder clearRewardItems() {
+        rewardItems_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardItems = 2;</code>
+       */
+      public Builder addRewardItemsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardItemsIsMutable();
+        rewardItems_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:OneKeyGetRewardResponse)
+    }
+
+    static {
+      defaultInstance = new OneKeyGetRewardResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:OneKeyGetRewardResponse)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_tagTask_descriptor;
   private static
@@ -2495,6 +3762,16 @@ public final class TaskProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TaskResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_OneKeyGetRewardRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_OneKeyGetRewardRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_OneKeyGetRewardResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_OneKeyGetRewardResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2512,10 +3789,18 @@ public final class TaskProtos {
       "se\022\'\n\014responseType\030\001 \001(\0162\021.eTaskRequestT" +
       "ype\022$\n\nreslutType\030\002 \001(\0162\020.eTaskResultTyp" +
       "e\022\023\n\013reslutValue\030\003 \001(\t\022\026\n\004task\030\005 \003(\0132\010.t" +
-      "agTask\022\n\n\002id\030\006 \001(\005*/\n\020eTaskRequestType\022\r" +
-      "\n\tGetReward\020\001\022\014\n\010SyncTask\020\002*(\n\017eTaskResu",
-      "ltType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001B\031\n\013com.rwp" +
-      "rotoB\nTaskProtos"
+      "agTask\022\n\n\002id\030\006 \001(\005\"?\n\026OneKeyGetRewardReq" +
+      "uest\022%\n\noneKeyType\030\001 \002(\0162\021.OneKeyRewardT",
+      "ype\"Q\n\027OneKeyGetRewardResponse\022!\n\006result" +
+      "\030\001 \002(\0162\021.OneKeyResultType\022\023\n\013rewardItems" +
+      "\030\002 \003(\t*/\n\020eTaskRequestType\022\r\n\tGetReward\020" +
+      "\001\022\014\n\010SyncTask\020\002*(\n\017eTaskResultType\022\013\n\007SU" +
+      "CCESS\020\000\022\010\n\004FAIL\020\001*D\n\020OneKeyRewardType\022\t\n" +
+      "\005EMAIL\020\001\022\010\n\004TASK\020\002\022\t\n\005DAILY\020\003\022\020\n\014BATTLE_" +
+      "SCORE\020\004*U\n\020OneKeyResultType\022\022\n\016OneKey_SU" +
+      "CCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\r\n\tNO_REWARD\020\003\022\016" +
+      "\n\nTYPE_ERROR\020\004B\031\n\013com.rwprotoB\nTaskProto" +
+      "s"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2540,6 +3825,18 @@ public final class TaskProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TaskResponse_descriptor,
               new java.lang.String[] { "ResponseType", "ReslutType", "ReslutValue", "Task", "Id", });
+          internal_static_OneKeyGetRewardRequest_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_OneKeyGetRewardRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_OneKeyGetRewardRequest_descriptor,
+              new java.lang.String[] { "OneKeyType", });
+          internal_static_OneKeyGetRewardResponse_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_OneKeyGetRewardResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_OneKeyGetRewardResponse_descriptor,
+              new java.lang.String[] { "Result", "RewardItems", });
           return null;
         }
       };

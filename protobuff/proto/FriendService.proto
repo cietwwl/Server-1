@@ -70,4 +70,5 @@ message FriendInfo{
 	optional string headbox = 11;//玩家头像框
 	optional string groupId = 12; //帮派ID
 	optional string groupName = 13; //帮派名字
+	optional int32 fighting = 14;	//战力
 }

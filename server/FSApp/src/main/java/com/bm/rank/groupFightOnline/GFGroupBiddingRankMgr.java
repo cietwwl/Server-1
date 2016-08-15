@@ -3,9 +3,12 @@ package com.bm.rank.groupFightOnline;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.group.GroupBM;
 import com.bm.rank.RankType;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rw.fsutil.common.EnumerateList;
@@ -53,10 +56,11 @@ public class GFGroupBiddingRankMgr {
 			GFGroupBiddingComparable bidComparable = entry.getComparable();
 			if(bidComparable.getResourceID() != resourceID) continue;
 			GFGroupBiddingItem bidItem = entry.getExtendedAttribute();
-			if(bidItem.getGroupID().equals(groupID)) target = bidItem;
+			if(StringUtils.equals(bidItem.getGroupID(), groupID)) target = bidItem;
 			itemList.add(bidItem);
 		}
-		int indx = itemList.indexOf(target);
+		int indx = -1;
+		if(null != target) indx = itemList.indexOf(target);
 		return indx >= 0 ? indx + 1 : -1;
 	}
 
@@ -75,6 +79,27 @@ public class GFGroupBiddingRankMgr {
 				bidItem.setGroupName(group.getGroupBaseDataMgr().getGroupData().getGroupName());
 			}
 			itemList.add(bidItem);
+			if(itemList.size() > GFightConst.GROUP_BID_RANK_COUNT) break;
+		}
+		return itemList;
+	}
+	
+	public static List<GFGroupBiddingItem> getGFGroupBidRankList(int resourceID, int maxSize) {
+		List<GFGroupBiddingItem> itemList = new ArrayList<GFGroupBiddingItem>();
+		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem>> it = ranking.getEntriesEnumeration();
+		for (; it.hasMoreElements();) {
+			MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = it.nextElement();
+			GFGroupBiddingComparable bidComparable = entry.getComparable();
+			if(bidComparable.getResourceID() != resourceID) continue;
+			GFGroupBiddingItem bidItem = entry.getExtendedAttribute();
+			bidItem.setTotalBidding(bidComparable.getTotalBid());
+			Group group = GroupBM.get(bidItem.getGroupID());
+			if(group != null){
+				bidItem.setGroupName(group.getGroupBaseDataMgr().getGroupData().getGroupName());
+			}
+			itemList.add(bidItem);
+			if(itemList.size() >= maxSize) break;
 		}
 		return itemList;
 	}

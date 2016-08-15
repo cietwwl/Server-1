@@ -264,8 +264,8 @@ public class GFightPrepareBM {
 	 */
 	private void giveBackToken(int resourceID){
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
-		if(groupBidRank.size() <= 4) return;
-		for(int i = 4; i < groupBidRank.size(); i++){
+		if(groupBidRank.size() <= GFightConst.IN_FIGHT_MAX_GROUP) return;
+		for(int i = GFightConst.IN_FIGHT_MAX_GROUP; i < groupBidRank.size(); i++){
 			GFGroupBiddingItem gBidItem = groupBidRank.get(i);
 			Group group = GroupBM.get(gBidItem.getGroupID());
 			if(group == null) continue;

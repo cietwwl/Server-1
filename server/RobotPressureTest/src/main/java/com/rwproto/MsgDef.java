@@ -568,13 +568,93 @@ public final class MsgDef {
      */
     MSG_ACTIVITY_DAILY_TYPE(75, 180),
     /**
+     * <code>MSG_ACTIVITY_VITALITY_TYPE = 181;</code>
+     *
+     * <pre>
+     *通用活动活跃度
+     * </pre>
+     */
+    MSG_ACTIVITY_VITALITY_TYPE(76, 181),
+    /**
+     * <code>MSG_ACTIVITY_EXCHANGE_TYPE = 182;</code>
+     *
+     * <pre>
+     *通用活动兑换币
+     * </pre>
+     */
+    MSG_ACTIVITY_EXCHANGE_TYPE(77, 182),
+    /**
+     * <code>MSG_ACTIVITY_DailyDiscount_TYPE = 183;</code>
+     *
+     * <pre>
+     *通用活动每日折扣
+     * </pre>
+     */
+    MSG_ACTIVITY_DailyDiscount_TYPE(78, 183),
+    /**
+     * <code>MSG_ACTIVITY_VipDiscount_TYPE = 184;</code>
+     *
+     * <pre>
+     *通用活动七日VIp折扣
+     * </pre>
+     */
+    MSG_ACTIVITY_VipDiscount_TYPE(79, 184),
+    /**
+     * <code>MSG_ACTIVITY_RedEnvelope_TYPE = 185;</code>
+     *
+     * <pre>
+     *通用活动开服红包
+     * </pre>
+     */
+    MSG_ACTIVITY_RedEnvelope_TYPE(80, 185),
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 186;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    MSG_GROUP_COPY_ADMIN(81, 186),
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 187;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    MSG_GROUP_COPY_BATTLE(82, 187),
+    /**
+     * <code>MSG_GROUP_COPY_CMD = 188;</code>
+     *
+     * <pre>
+     *帮派副本协议
+     * </pre>
+     */
+    MSG_GROUP_COPY_CMD(83, 188),
+    /**
+     * <code>MSG_CHAT_REQUEST_PRIVATE_CHATS = 189;</code>
+     *
+     * <pre>
+     * 聊天：请求私聊列表
+     * </pre>
+     */
+    MSG_CHAT_REQUEST_PRIVATE_CHATS(84, 189),
+    /**
+     * <code>MSG_CHAT_SET_CURRENT_TARGET = 190;</code>
+     *
+     * <pre>
+     * 聊天：客戶端通知服務器當前的私聊面板的聊天目標
+     * </pre>
+     */
+    MSG_CHAT_SET_CURRENT_TARGET(85, 190),
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
      *道术系统
      * </pre>
      */
-    MSG_TAOIST(76, 200),
+    MSG_TAOIST(86, 200),
     /**
      * <code>MSG_FIX_EQUIP = 201;</code>
      *
@@ -582,7 +662,7 @@ public final class MsgDef {
      *专属装备
      * </pre>
      */
-    MSG_FIX_EQUIP(77, 201),
+    MSG_FIX_EQUIP(87, 201),
     /**
      * <code>MSG_GROUP_SECRET = 202;</code>
      *
@@ -590,7 +670,51 @@ public final class MsgDef {
      *帮派秘境
      * </pre>
      */
-    MSG_GROUP_SECRET(78, 202),
+    MSG_GROUP_SECRET(88, 202),
+    /**
+     * <code>MSG_MAGIC_SECRET = 203;</code>
+     *
+     * <pre>
+     *法宝秘境
+     * </pre>
+     */
+    MSG_MAGIC_SECRET(89, 203),
+    /**
+     * <code>MSG_GROUP_SECRET_MATCH = 204;</code>
+     *
+     * <pre>
+     *帮派秘境探索
+     * </pre>
+     */
+    MSG_GROUP_SECRET_MATCH(90, 204),
+    /**
+     * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
+     *
+     * <pre>
+     *在线帮战
+     * </pre>
+     */
+    MSG_GROUP_FIGHT_ONLINE(91, 205),
+    /**
+     * <code>MSG_RED_POINT_SERVICE = 206;</code>
+     *
+     * <pre>
+     *红点扩展点击传送
+     * </pre>
+     */
+    MSG_RED_POINT_SERVICE(92, 206),
+    /**
+     * <code>MSG_TEAM_BATTLE = 207;</code>
+     */
+    MSG_TEAM_BATTLE(93, 207),
+    /**
+     * <code>MSG_FEEDBACK = 995;</code>
+     *
+     * <pre>
+     *客服功能
+     * </pre>
+     */
+    MSG_FEEDBACK(94, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -598,7 +722,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(79, 996),
+    MSG_SDK_VERIFY(95, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -606,7 +730,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(80, 997),
+    MSG_NUMERIC_ANALYSIS(96, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -614,7 +738,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(81, 998),
+    MSG_PLATFORMGS(97, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -622,7 +746,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(82, 999),
+    MSG_GAMEPRESS(98, 999),
     ;
 
     /**
@@ -1180,6 +1304,86 @@ public final class MsgDef {
      */
     public static final int MSG_ACTIVITY_DAILY_TYPE_VALUE = 180;
     /**
+     * <code>MSG_ACTIVITY_VITALITY_TYPE = 181;</code>
+     *
+     * <pre>
+     *通用活动活跃度
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_VITALITY_TYPE_VALUE = 181;
+    /**
+     * <code>MSG_ACTIVITY_EXCHANGE_TYPE = 182;</code>
+     *
+     * <pre>
+     *通用活动兑换币
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_EXCHANGE_TYPE_VALUE = 182;
+    /**
+     * <code>MSG_ACTIVITY_DailyDiscount_TYPE = 183;</code>
+     *
+     * <pre>
+     *通用活动每日折扣
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_DailyDiscount_TYPE_VALUE = 183;
+    /**
+     * <code>MSG_ACTIVITY_VipDiscount_TYPE = 184;</code>
+     *
+     * <pre>
+     *通用活动七日VIp折扣
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_VipDiscount_TYPE_VALUE = 184;
+    /**
+     * <code>MSG_ACTIVITY_RedEnvelope_TYPE = 185;</code>
+     *
+     * <pre>
+     *通用活动开服红包
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_RedEnvelope_TYPE_VALUE = 185;
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 186;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_ADMIN_VALUE = 186;
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 187;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_BATTLE_VALUE = 187;
+    /**
+     * <code>MSG_GROUP_COPY_CMD = 188;</code>
+     *
+     * <pre>
+     *帮派副本协议
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_CMD_VALUE = 188;
+    /**
+     * <code>MSG_CHAT_REQUEST_PRIVATE_CHATS = 189;</code>
+     *
+     * <pre>
+     * 聊天：请求私聊列表
+     * </pre>
+     */
+    public static final int MSG_CHAT_REQUEST_PRIVATE_CHATS_VALUE = 189;
+    /**
+     * <code>MSG_CHAT_SET_CURRENT_TARGET = 190;</code>
+     *
+     * <pre>
+     * 聊天：客戶端通知服務器當前的私聊面板的聊天目標
+     * </pre>
+     */
+    public static final int MSG_CHAT_SET_CURRENT_TARGET_VALUE = 190;
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
@@ -1203,6 +1407,50 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_GROUP_SECRET_VALUE = 202;
+    /**
+     * <code>MSG_MAGIC_SECRET = 203;</code>
+     *
+     * <pre>
+     *法宝秘境
+     * </pre>
+     */
+    public static final int MSG_MAGIC_SECRET_VALUE = 203;
+    /**
+     * <code>MSG_GROUP_SECRET_MATCH = 204;</code>
+     *
+     * <pre>
+     *帮派秘境探索
+     * </pre>
+     */
+    public static final int MSG_GROUP_SECRET_MATCH_VALUE = 204;
+    /**
+     * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
+     *
+     * <pre>
+     *在线帮战
+     * </pre>
+     */
+    public static final int MSG_GROUP_FIGHT_ONLINE_VALUE = 205;
+    /**
+     * <code>MSG_RED_POINT_SERVICE = 206;</code>
+     *
+     * <pre>
+     *红点扩展点击传送
+     * </pre>
+     */
+    public static final int MSG_RED_POINT_SERVICE_VALUE = 206;
+    /**
+     * <code>MSG_TEAM_BATTLE = 207;</code>
+     */
+    public static final int MSG_TEAM_BATTLE_VALUE = 207;
+    /**
+     * <code>MSG_FEEDBACK = 995;</code>
+     *
+     * <pre>
+     *客服功能
+     * </pre>
+     */
+    public static final int MSG_FEEDBACK_VALUE = 995;
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -1317,9 +1565,25 @@ public final class MsgDef {
         case 178: return MSG_ACTIVITY_RANKTYPE;
         case 179: return MSG_ACTIVITY_TIME_COUNT_TYPE;
         case 180: return MSG_ACTIVITY_DAILY_TYPE;
+        case 181: return MSG_ACTIVITY_VITALITY_TYPE;
+        case 182: return MSG_ACTIVITY_EXCHANGE_TYPE;
+        case 183: return MSG_ACTIVITY_DailyDiscount_TYPE;
+        case 184: return MSG_ACTIVITY_VipDiscount_TYPE;
+        case 185: return MSG_ACTIVITY_RedEnvelope_TYPE;
+        case 186: return MSG_GROUP_COPY_ADMIN;
+        case 187: return MSG_GROUP_COPY_BATTLE;
+        case 188: return MSG_GROUP_COPY_CMD;
+        case 189: return MSG_CHAT_REQUEST_PRIVATE_CHATS;
+        case 190: return MSG_CHAT_SET_CURRENT_TARGET;
         case 200: return MSG_TAOIST;
         case 201: return MSG_FIX_EQUIP;
         case 202: return MSG_GROUP_SECRET;
+        case 203: return MSG_MAGIC_SECRET;
+        case 204: return MSG_GROUP_SECRET_MATCH;
+        case 205: return MSG_GROUP_FIGHT_ONLINE;
+        case 206: return MSG_RED_POINT_SERVICE;
+        case 207: return MSG_TEAM_BATTLE;
+        case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
@@ -1384,7 +1648,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\207\r\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\344\020\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1422,11 +1686,23 @@ public final class MsgDef {
       "YPE\020\257\001\022\022\n\rMSG_PRIVILEGE\020\260\001\022\032\n\025MSG_ACTIVI" +
       "TY_DATETYPE\020\261\001\022\032\n\025MSG_ACTIVITY_RANKTYPE\020" +
       "\262\001\022!\n\034MSG_ACTIVITY_TIME_COUNT_TYPE\020\263\001\022\034\n" +
-      "\027MSG_ACTIVITY_DAILY_TYPE\020\264\001\022\017\n\nMSG_TAOIS" +
-      "T\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SE",
-      "CRET\020\312\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUME" +
-      "RIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\r" +
-      "MSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "\027MSG_ACTIVITY_DAILY_TYPE\020\264\001\022\037\n\032MSG_ACTIV" +
+      "ITY_VITALITY_TYPE\020\265\001\022\037\n\032MSG_ACTIVITY_EXC",
+      "HANGE_TYPE\020\266\001\022$\n\037MSG_ACTIVITY_DailyDisco" +
+      "unt_TYPE\020\267\001\022\"\n\035MSG_ACTIVITY_VipDiscount_" +
+      "TYPE\020\270\001\022\"\n\035MSG_ACTIVITY_RedEnvelope_TYPE" +
+      "\020\271\001\022\031\n\024MSG_GROUP_COPY_ADMIN\020\272\001\022\032\n\025MSG_GR" +
+      "OUP_COPY_BATTLE\020\273\001\022\027\n\022MSG_GROUP_COPY_CMD" +
+      "\020\274\001\022#\n\036MSG_CHAT_REQUEST_PRIVATE_CHATS\020\275\001" +
+      "\022 \n\033MSG_CHAT_SET_CURRENT_TARGET\020\276\001\022\017\n\nMS" +
+      "G_TAOIST\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_G" +
+      "ROUP_SECRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\033\n" +
+      "\026MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_",
+      "FIGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE" +
+      "\020\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\021\n\014MSG_FEEDBAC" +
+      "K\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC" +
+      "_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG" +
+      "_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

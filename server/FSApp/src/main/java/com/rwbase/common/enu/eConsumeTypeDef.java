@@ -25,8 +25,9 @@ public enum eConsumeTypeDef {
 
 	public static eConsumeTypeDef getDef(int value) {
 		eConsumeTypeDef eAttr = null;
-		for (int i = 0; i < eConsumeTypeDef.values().length; i++) {
-			eAttr = eConsumeTypeDef.values()[i];
+		eConsumeTypeDef[] values = eConsumeTypeDef.values();
+		for (int i = 0; i < values.length; i++) {
+			eAttr = values[i];
 			if (eAttr.getOrder() == value) {
 				break;
 			}

@@ -54,7 +54,7 @@ public class GameWorldExecutor implements GameWorld {
 						PlayerTaskListener listener = listeners.get(i);
 						listener.notifyTaskCompleted(player);
 					} catch (Throwable t) {
-						GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
+						GameWorldExecutor.this.logger.error("listener notification raised an exception:"+key, t);
 					}
 				}
 			}

@@ -17,6 +17,7 @@ public class FriendItem implements FriendItemIF {
 	private String unionName;
 	private long lastLoginTime;
 	private String headFrame;
+	private int fighting;
 
 	public static FriendItem newInstance(String userId) {
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -49,6 +50,7 @@ public class FriendItem implements FriendItemIF {
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		//TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
+		newItem.setFighting(player.getHeroMgr().getFightingAll());
 		return newItem;
 	}
 
@@ -115,4 +117,13 @@ public class FriendItem implements FriendItemIF {
 	public void setHeadFrame(String headFrame) {
 		this.headFrame = headFrame;
 	}
+
+	public int getFighting() {
+		return fighting;
+	}
+
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
+
 }

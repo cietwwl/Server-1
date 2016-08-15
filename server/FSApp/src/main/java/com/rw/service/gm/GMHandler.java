@@ -27,6 +27,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -62,6 +63,7 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -88,7 +90,7 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-
+		
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
@@ -190,7 +192,9 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
+		funcCallBackMap.put("adddist", "addDistCount");
 	}
 
 	public boolean isActive() {
@@ -516,6 +520,25 @@ public class GMHandler {
 		//
 		return false;
 	}
+	
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			
+			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+			baseDataMgr.updateBuyKeyData(player, addNum);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	public boolean addWakenPiece(String[] arrCommandContents, Player player){
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -1305,6 +1328,19 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addDistCount(String[] str, Player player){
+		int count = Integer.parseInt(str[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		}
 		return true;
 	}
 	

@@ -29,6 +29,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 
 	private HashMap<Integer, List<TaoistMagicCfg>> openMap;
 	private Map<Integer, List<TaoistMagicCfg>> tagTaoistMap;// 分类
+	private int[] openLevelPointList;
 
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
@@ -92,9 +93,36 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 
 		this.tagTaoistMap = Collections.unmodifiableMap(tagTaoistMap);
 
+		Set<Integer> openKeys = openMap.keySet();
+		ArrayList<Integer> tmp = new ArrayList<Integer>();
+		for (Integer entry : openKeys) {
+			tmp.add(entry);
+		}
+		Collections.sort(tmp);
+		int[] openLevelList = new int[openKeys.size()];
+		for (int i = 0; i < tmp.size(); i++) {
+			openLevelList[i] = tmp.get(i);
+		}
+		
+		openLevelPointList = openLevelList;
+		
 		return cfgCacheMap;
 	}
 
+	public Iterable<TaoistMagicCfg> getOpenListBelowLevel(int openLevel) {
+		ArrayList<TaoistMagicCfg> result = new ArrayList<TaoistMagicCfg>();
+		for (int i = 0; i < openLevelPointList.length; i++) {
+			int key = openLevelPointList[i];
+			if (openLevel >= key) {
+				List<TaoistMagicCfg> lst = openMap.get(key);
+				if (lst != null && lst.size() > 0) {
+					result.addAll(lst);
+				}
+			}
+		}
+		return result;
+	}
+	
 	public Iterable<TaoistMagicCfg> getOpenList(int openLevel) {
 		List<TaoistMagicCfg> lst = openMap.get(openLevel);
 		if (lst != null && lst.size() <= 0)

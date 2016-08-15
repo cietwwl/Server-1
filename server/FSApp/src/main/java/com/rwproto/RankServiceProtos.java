@@ -9826,6 +9826,24 @@ public final class RankServiceProtos {
      * </pre>
      */
     int getMagicAttackType();
+
+    // required int32 magicLevel = 4;
+    /**
+     * <code>required int32 magicLevel = 4;</code>
+     *
+     * <pre>
+     *法宝等级
+     * </pre>
+     */
+    boolean hasMagicLevel();
+    /**
+     * <code>required int32 magicLevel = 4;</code>
+     *
+     * <pre>
+     *法宝等级
+     * </pre>
+     */
+    int getMagicLevel();
   }
   /**
    * Protobuf type {@code RankingMagicData}
@@ -9891,6 +9909,11 @@ public final class RankServiceProtos {
             case 24: {
               bitField0_ |= 0x00000004;
               magicAttackType_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              magicLevel_ = input.readInt32();
               break;
             }
           }
@@ -10036,10 +10059,35 @@ public final class RankServiceProtos {
       return magicAttackType_;
     }
 
+    // required int32 magicLevel = 4;
+    public static final int MAGICLEVEL_FIELD_NUMBER = 4;
+    private int magicLevel_;
+    /**
+     * <code>required int32 magicLevel = 4;</code>
+     *
+     * <pre>
+     *法宝等级
+     * </pre>
+     */
+    public boolean hasMagicLevel() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 magicLevel = 4;</code>
+     *
+     * <pre>
+     *法宝等级
+     * </pre>
+     */
+    public int getMagicLevel() {
+      return magicLevel_;
+    }
+
     private void initFields() {
       magicImage_ = "";
       magicQuality_ = 0;
       magicAttackType_ = 0;
+      magicLevel_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10058,6 +10106,10 @@ public final class RankServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasMagicLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -10073,6 +10125,9 @@ public final class RankServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, magicAttackType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, magicLevel_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10094,6 +10149,10 @@ public final class RankServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, magicAttackType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, magicLevel_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10217,6 +10276,8 @@ public final class RankServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         magicAttackType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        magicLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -10257,6 +10318,10 @@ public final class RankServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.magicAttackType_ = magicAttackType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.magicLevel_ = magicLevel_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10284,6 +10349,9 @@ public final class RankServiceProtos {
         if (other.hasMagicAttackType()) {
           setMagicAttackType(other.getMagicAttackType());
         }
+        if (other.hasMagicLevel()) {
+          setMagicLevel(other.getMagicLevel());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -10298,6 +10366,10 @@ public final class RankServiceProtos {
           return false;
         }
         if (!hasMagicAttackType()) {
+          
+          return false;
+        }
+        if (!hasMagicLevel()) {
           
           return false;
         }
@@ -10519,6 +10591,55 @@ public final class RankServiceProtos {
         return this;
       }
 
+      // required int32 magicLevel = 4;
+      private int magicLevel_ ;
+      /**
+       * <code>required int32 magicLevel = 4;</code>
+       *
+       * <pre>
+       *法宝等级
+       * </pre>
+       */
+      public boolean hasMagicLevel() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 magicLevel = 4;</code>
+       *
+       * <pre>
+       *法宝等级
+       * </pre>
+       */
+      public int getMagicLevel() {
+        return magicLevel_;
+      }
+      /**
+       * <code>required int32 magicLevel = 4;</code>
+       *
+       * <pre>
+       *法宝等级
+       * </pre>
+       */
+      public Builder setMagicLevel(int value) {
+        bitField0_ |= 0x00000008;
+        magicLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 magicLevel = 4;</code>
+       *
+       * <pre>
+       *法宝等级
+       * </pre>
+       */
+      public Builder clearMagicLevel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        magicLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RankingMagicData)
     }
 
@@ -10603,14 +10724,14 @@ public final class RankServiceProtos {
       "roList\030\002 \003(\0132\020.RankingHeroData\"f\n\017Rankin" +
       "gHeroData\022\016\n\006heroId\030\001 \002(\t\022\r\n\005level\030\002 \002(\005" +
       "\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022\020\n\010" +
-      "heroHead\030\005 \002(\t\"U\n\020RankingMagicData\022\022\n\nma",
+      "heroHead\030\005 \002(\t\"i\n\020RankingMagicData\022\022\n\nma",
       "gicImage\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022\027\n\017" +
-      "magicAttackType\030\003 \002(\005*q\n\020ERankRequestTyp" +
-      "e\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022\023\n\017" +
-      "RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004\022\020" +
-      "\n\014RANK_MY_INFO\020\005*-\n\017ERankResultType\022\013\n\007S" +
-      "UCCESS\020\000\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021" +
-      "RankServiceProtos"
+      "magicAttackType\030\003 \002(\005\022\022\n\nmagicLevel\030\004 \002(" +
+      "\005*q\n\020ERankRequestType\022\r\n\tRANK_LIST\020\001\022\022\n\016" +
+      "RANK_HERO_INFO\020\002\022\023\n\017RANK_LIST_PART1\020\003\022\023\n" +
+      "\017RANK_LIST_PART2\020\004\022\020\n\014RANK_MY_INFO\020\005*-\n\017" +
+      "ERankResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT_LEVE" +
+      "L\020\001B \n\013com.rwprotoB\021RankServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10658,7 +10779,7 @@ public final class RankServiceProtos {
           internal_static_RankingMagicData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingMagicData_descriptor,
-              new java.lang.String[] { "MagicImage", "MagicQuality", "MagicAttackType", });
+              new java.lang.String[] { "MagicImage", "MagicQuality", "MagicAttackType", "MagicLevel", });
           return null;
         }
       };
