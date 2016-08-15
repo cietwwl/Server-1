@@ -8,7 +8,9 @@ import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.TeamBattleProto.TBRequestType;
+import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
+import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
 /**
  * 组队副本的分发
@@ -76,8 +78,12 @@ public class TeamBattleService implements FsService {
 			}
 		} catch (InvalidProtocolBufferException e) {
 			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
+			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
+			result = tbRsp.build().toByteString();
 		} catch (Exception e) {
 			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
+			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
+			result = tbRsp.build().toByteString();
 		} finally {
 			return result;
 		}

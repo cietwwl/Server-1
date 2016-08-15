@@ -23,5 +23,5 @@ message ActivityCommonRspMsg{
 	required RequestType reqType = 1;//回应的功能协议类型
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
-
+	optional string getGold = 4;//反馈获得的钻石
 }
