@@ -105,7 +105,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		if (angleArrayData.getCurFloorState() == -1) {// 还不能打开界面
+		if (angleArrayData.getCurFloorState() == FloorState.UN_Join.value) {// 还不能打开界面
 			return;
 		}
 
@@ -170,7 +170,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		if (angleData.getCurFloorState() == -1) {
+		if (angleData.getCurFloorState() == FloorState.UN_Join.value) {
 			checkAndResetMatchData(player, angleData);
 		}
 
@@ -181,7 +181,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 		angleData.resetHeroChange();// 重置角色血量记录
 		angleData.setCurFloor(0);
-		angleData.setCurFloorState(FloorState.UN_PASS.ordinal());// 设置为未攻打状态
+		angleData.setCurFloorState(FloorState.UN_Battle.value);// 设置为未攻打状态
 		saveAngleArrayData();
 
 		// 更新万仙阵的层信息
@@ -226,7 +226,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
 				angelArrayTeamInfo = AngleArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
-					matchCfg.getRobotId());
+						matchCfg.getRobotId());
 				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
 				isNewRobot = true;
 			}
@@ -247,7 +247,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				}
 
 				GameLog.info("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，己方等级[%s]，己方匹配战力区间战力是[%s,%s]，匹配到的玩家Id是[%s]，匹配阵容战力是[%s]，名字[%s]，来源于[%s]", floor, level, minFighting, maxFighting, uuid,
-					teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
+						teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
 			} else {
 				GameLog.error("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，匹配不到玩家阵容", floor));
 			}
@@ -360,14 +360,12 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			firstReward.append(TowerFirstAwardCfgDAO.getInstance().GetGooldListStr(String.valueOf(floor + 1)));
 		}
 
-//		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player, CopyType.COPY_TYPE_TOWER, 3);
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, CopyType.COPY_TYPE_TOWER);		
+		// int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player, CopyType.COPY_TYPE_TOWER, 3);
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, CopyType.COPY_TYPE_TOWER);
 		int multipleBraveCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.BraveCoin.getValue());
 		int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
 		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
-		
-		
-		
+
 		TowerAwardCfg awardCfg = TowerAwardCfgDAO.getLevelTowerCfgByFloor(angleArrayData.getResetLevel(), floor);
 		if (awardCfg != null) {
 			// 过关奖励
@@ -377,7 +375,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold * multipleCoin).append(",");
 			}
 			if (towerCoin > 0) {
-				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin*multipleBraveCoin).append(",");
+				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin * multipleBraveCoin).append(",");
 
 			}
 

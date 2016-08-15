@@ -95,6 +95,7 @@ public class GroupCopyMapBL {
 			currentHp += progress.getCurrentHp();
 		}
 		double p = Utils.div((totalHp - currentHp), totalHp, 5);
+		p = p > 1.0 ? 1 : p;
 		//检查一下当前章节副本关卡id
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		lvRecord = levelRecordHolder.getByLevel(levelId);
