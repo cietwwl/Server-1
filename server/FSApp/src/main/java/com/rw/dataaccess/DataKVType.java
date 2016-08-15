@@ -1,9 +1,11 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatRecordDAO;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.playerdata.teambattle.data.UserTeamBattleDAO;
+import com.rw.dataaccess.processor.ActivityFortuneCatRecordCreator;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
@@ -87,7 +89,7 @@ public enum DataKVType {
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class);
 	//招财猫最近记录
-//	ACTIVITY_FORTUNECAT(29,);
+//	ACTIVITY_FORTUNECAT(29,ActivityFortuneCatRecordDAO.class,ActivityFortuneCatRecordCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

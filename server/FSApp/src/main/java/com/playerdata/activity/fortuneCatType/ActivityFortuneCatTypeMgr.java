@@ -202,6 +202,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		result.setSuccess(true);
 		result.setReason("");
 		rsp.setGetGold(tmpGold);
+		
 		return result;
 	}
 	
