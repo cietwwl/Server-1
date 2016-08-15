@@ -29,7 +29,7 @@ public class ActivityFortuneCatTypeHandler {
 		boolean success = false;
 		String tips = null;
 		
-		ActivityComResult result = ActivityFortuneCatTypeMgr.getInstance().getGold(player);
+		ActivityComResult result = ActivityFortuneCatTypeMgr.getInstance().getGold(player,response);
 		success = result.isSuccess();
 		tips = result.getReason()+"";
 		

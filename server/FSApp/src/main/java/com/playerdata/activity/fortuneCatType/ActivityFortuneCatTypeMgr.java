@@ -40,6 +40,8 @@ import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg;
+import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 
 
 public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
@@ -143,7 +145,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}		
 	}
 	
-	public ActivityComResult getGold(Player player) {
+	public ActivityComResult getGold(Player player,Builder rsp) {
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
 		ActivityFortuneCatTypeItem item = dataHolder.getItem(player.getUserId());
 		ActivityComResult result = ActivityComResult.newInstance(false);
@@ -193,11 +195,13 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}
 		int getGold = r.nextInt(length);
 		player.getUserGameDataMgr().addGold(getGold);
-		sub.setGetGold((getGold + subCfg.getCost())+"");//写入的为额外获得+摇奖押金
+		String tmpGold = getGold + subCfg.getCost()+"";
+		sub.setGetGold(tmpGold);//写入的为额外获得+摇奖押金
 		item.setTimes(times);
 		dataHolder.updateItem(player, item);
 		result.setSuccess(true);
-		result.setReason("");		
+		result.setReason("");
+		rsp.setGetGold(tmpGold);
 		return result;
 	}
 	
@@ -226,6 +230,8 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}
 		activityFortuneCatTypeItemHolder.updateItem(player, dataItem);
 	}
+
+
 
 	
 
