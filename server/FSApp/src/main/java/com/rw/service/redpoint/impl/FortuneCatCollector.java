@@ -48,8 +48,9 @@ public class FortuneCatCollector implements RedPointCollector{
 		}
 		
 		
-		
+		if (!activityList.isEmpty()) {
 		map.put(RedPointType.FORTUNE_CAT, activityList);
+		}
 	}
 
 	
