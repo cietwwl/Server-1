@@ -45,9 +45,6 @@ public class ArenaRankCfgDAO extends CfgCsvDao<ArenaRankCfg> {
 		}
 
 		this.rankingRewardCountMap = rankingRewardCountMap;
-		for (int i = 0; i < 100; i++) {
-			System.out.println("名次：" + i + ",奖励数：" + getRankRewardCount(i));
-		}
 		this.allRankIds = Collections.unmodifiableList(rankEntity);
 		this.entityMap = entityMap;
 		return cfgCacheMap;

@@ -34,4 +34,10 @@ public interface IGameTimerTaskSubmitInfo {
 	 * @return
 	 */
 	public TimeUnit getTimeUnitOfInterval();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDayTask();
 }
