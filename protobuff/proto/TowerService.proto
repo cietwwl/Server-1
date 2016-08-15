@@ -102,4 +102,5 @@ message MsgTowerResponse{
 	optional string awardListStr =5;//奖品数据700001_1,70002_3
 	optional int32 towerID =6;//塔层
 	optional string armyInfo=7; //秘境信息
+	optional string tipMsg = 8;//提示消息
 }

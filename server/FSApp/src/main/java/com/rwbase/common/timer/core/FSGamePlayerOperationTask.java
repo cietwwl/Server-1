@@ -87,7 +87,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 				subTask._players = allPlayers;
 			}
 			// 提交一个毫秒时效任务，多线程执行，尽量不影响其他operator的执行
-			FSGameTimeSignal signal = FSGameTimerMgr.getTimerInstance().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS);
+			FSGameTimeSignal signal = FSGameTimerMgr.getTimerInstance().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS, false);
 			list.add(signal);
 		}
 		return list;
@@ -202,7 +202,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 			this._executing.getAndSet(false);
 			this._players = null;
 			if(_needRecordData) {
-				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfTask(_operatorType, System.currentTimeMillis());
+				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfPlayerTask(_operatorType, System.currentTimeMillis());
 			}
 			return "DONE";
 		}

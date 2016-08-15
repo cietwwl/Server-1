@@ -305,7 +305,7 @@ public class Robot {
 	public void checkItemEnough(int modelId) {
 		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
 		if (itemData == null || itemData.getCount() < 50) {
-			gainItem(modelId, 999);
+			gainItem(modelId, 9999);
 		}
 	}
 
@@ -1005,17 +1005,9 @@ public class Robot {
 	public boolean acceptMemberDefend() {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
-
-	/**
-	 * 
-	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
-	 * @param heronumber 英雄位置，0为玩家，1234依次为英雄
-	 * @param expequipId 装备位置普通装备0123；特殊装备01；
-	 * @param servicetype 操作类型；普通装备支持15234；特殊装备支持6789
-	 * @return
-	 */
-	public boolean testFixEquip(int type, int heronumber, int expequipId, int servicetype) {
-
+	
+	/**神器操作需要涉及的材料，创建角色是单独调用*/
+	public void addFixEquip(){
 		upgrade(50);
 		addCoin(9999999);
 		addGold(88888);
@@ -1077,6 +1069,23 @@ public class Robot {
 		checkItemEnough(806510);// 下右格经验材料
 		checkItemEnough(806551);// ←升级别材料
 		checkItemEnough(806552);// 右升级
+		
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
+	 * @param heronumber 英雄位置，0为玩家，1234依次为英雄
+	 * @param expequipId 装备位置普通装备0123；特殊装备01；
+	 * @param servicetype 操作类型；普通装备支持15234；特殊装备支持6789
+	 * @return
+	 */
+	public boolean testFixEquip(int type, int heronumber, int expequipId, int servicetype) {
+
+		
 
 		boolean issuc = false;
 		if (type == 0) {
