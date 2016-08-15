@@ -47,7 +47,13 @@ public enum GameWorldKey {
 
 	MAGICAN_ARENA(GmGetRankList.RankInfoType.MAGICAN_ARENA.name()),
 
-	GROUP(GmGetRankList.RankInfoType.GROUP.name());
+	GROUP(GmGetRankList.RankInfoType.GROUP.name()),
+	
+	/**
+	 * 時效任務保存的數據
+	 */
+	TIMER_DATA("TIMER_DATA"),
+	;
 
 	GameWorldKey(String name) {
 		this.name = name;
