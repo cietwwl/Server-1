@@ -199,6 +199,10 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 			return result;				
 		}
 		int getGold = r.nextInt(length);
+		int wavepeak = (subCfg.getMax() + subCfg.getMin())/2;//波峰x值
+		int wavewidth = (subCfg.getMax() - subCfg.getMin())/6;//波长/6
+		getGold = (int)ActivityFortuneCatHelper.normalDistribution(wavepeak, wavewidth);//获得彩票中的奖
+		getGold  = getGold - subCfg.getCost();//扣去买彩票的钱
 		player.getUserGameDataMgr().addGold(getGold);
 		int tmpGold = getGold + subCfg.getCost();
 		sub.setGetGold(tmpGold);//写入的为额外获得+摇奖押金
