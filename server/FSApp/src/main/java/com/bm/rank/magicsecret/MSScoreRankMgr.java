@@ -78,7 +78,7 @@ public class MSScoreRankMgr {
 	/**
 	 * 发放法宝秘境每日排行奖励
 	 */
-	public static void dispatchMSDailyReward() {
+	public static void dispatchMSDailyReward(long exeTime) {
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(null != scdData) lastRefreshTime = scdData.getMsLastRefreshTime();
@@ -107,7 +107,7 @@ public class MSScoreRankMgr {
 			}
 			
 			if(null != scdData) {
-				scdData.setMsLastRefreshTime(System.currentTimeMillis());
+				scdData.setMsLastRefreshTime(exeTime);
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		} catch (Exception ex) {
