@@ -1,17 +1,16 @@
 package com.rw.trace;
 
 import java.util.HashMap;
-import java.util.Map;
-
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import com.rw.fsutil.dao.cache.trace.ChangedRecord;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rwbase.dao.item.pojo.ItemData;
 
 public class ItemDataParser implements DataValueParser<ItemData> {
 
-	private JsonValueWriter valueWriter = JsonValueWriter.getInstance();
+	private JsonValueWriter writer = JsonValueWriter.getInstance();
 
 	@Override
 	public ItemData copy(ItemData entity) {
@@ -20,23 +19,48 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 		newData.setId(entity.getId());
 		newData.setModelId(entity.getModelId());
 		newData.setUserId(entity.getUserId());
-		HashMap<Integer, String> map = entity.getAllExtendAttr();
-		HashMap<Integer, String> newMap = new HashMap<Integer, String>(map.size());
-		for (Map.Entry<Integer, String> entry : map.entrySet()) {
-			newMap.put(entry.getKey(), entry.getValue());
-		}
-		newData.setExtendAttr(newMap);
+		newData.setAllExtendAttr(writer.copyObject(entity.getAllExtendAttr()));
 		return newData;
 	}
 
 	@Override
-	public Map<String, ChangedRecord> compareDiff(ItemData entity1, ItemData entity2) {
-		HashMap<String, ChangedRecord> map = null;
-		map = valueWriter.write(map, "count", entity1.getCount(), entity2.getCount());
-		map = valueWriter.write(map, "modelId", entity1.getModelId(), entity2.getModelId());
-		map = valueWriter.write(map, "id", entity1.getId(), entity2.getId());
-		map = valueWriter.write(map, "userId", entity1.getUserId(), entity2.getUserId());
-		map = valueWriter.write(map, "allExtendAttr", entity1.getAllExtendAttr(), entity2.getAllExtendAttr());
+	public JSONObject recordAndUpdate(ItemData entity1, ItemData entity2) {
+		JSONObject map = null;
+		int count1 = entity1.getCount();
+		int count2 = entity2.getCount();
+		if (count1 != count2) {
+			entity1.setCount(count2);
+			map = writer.write(map, "count", count2);
+		}
+		int modelId1 = entity1.getModelId();
+		int modelId2 = entity2.getModelId();
+		if (modelId1 != modelId2) {
+			entity1.setCount(modelId2);
+			map = writer.write(map, "modelId", modelId2);
+		}
+		String id1 = entity1.getId();
+		String id2 = entity2.getId();
+		if (!StringUtils.equals(id1, id2)) {
+			entity1.setId(id2);
+			map = writer.write(map, "id", id2);
+		}
+		String userId1 = entity1.getUserId();
+		String userId2 = entity2.getUserId();
+		if (!StringUtils.equals(userId1, userId2)) {
+			entity1.setUserId(userId2);
+			map = writer.write(map, "userId", userId2);
+		}
+
+		HashMap<Integer, String> allExtendAttr1 = entity1.getAllExtendAttr();
+		HashMap<Integer, String> allExtendAttr2 = entity2.getAllExtendAttr();
+		Pair<HashMap<Integer, String>, JSONObject> pair = writer.checkObject(map, "allExtendAttr", allExtendAttr1, allExtendAttr2);
+		if (pair != null) {
+			allExtendAttr1 = pair.getT1();
+			entity1.setAllExtendAttr(allExtendAttr1);
+			map = pair.getT2();
+		} else {
+			map = writer.compareSetDiff(map, "allExtendAttr", allExtendAttr1, allExtendAttr2);
+		}
 		return map;
 	}
 
@@ -47,14 +71,11 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 		json.put("modelId", entity.getModelId());
 		json.put("id", entity.getId());
 		json.put("userId", entity.getUserId());
-		HashMap<Integer, String> allExtendAttr = entity.getAllExtendAttr();
-		if (allExtendAttr != null && !allExtendAttr.isEmpty()) {
-			JSONObject allExtendAttrJson = new JSONObject();
-			for (Map.Entry<Integer, String> entry : allExtendAttr.entrySet()) {
-				allExtendAttrJson.put(valueWriter.getIntString(entry.getKey()), entry.getValue());
-			}
+		Object allExtendAttrJson = writer.toJSON(entity.getAllExtendAttr());
+		if (allExtendAttrJson != null) {
 			json.put("allExtendAttr", allExtendAttrJson);
 		}
 		return json;
 	}
+
 }
