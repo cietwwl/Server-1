@@ -83,6 +83,7 @@
 			     <entry key="MSG_ACTIVITY_VITALITY_TYPE" value-ref="activityVitalityTypeService" />
 			     <entry key="MSG_ACTIVITY_DailyDiscount_TYPE" value-ref="activityDailyDiscountTypeService" />
 			     <entry key="MSG_ACTIVITY_RedEnvelope_TYPE" value-ref="activityRedEnvelopeTypeService" />
+			     <entry key="MSG_ACTIVITY_FORTUNECAT_TYPE" value-ref="activityFortuneCatTypeService" />
 			     
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
@@ -167,6 +168,7 @@
 	<bean id="activityDailyDiscountTypeService" class="com.playerdata.activity.dailyDiscountType.service.ActivityDailyDiscountTypeService"  />
 	<bean id="activityRedEnvelopeTypeService" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
 	
+	<bean id="activityFortuneCatTypeService" class="com.playerdata.activity.fortuneCatType.service.ActivityFortuneCatTypeService"  />
 	
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />

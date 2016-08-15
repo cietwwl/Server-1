@@ -65,6 +65,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());
 			item.setSubItemList(newSubItemList(cfg));
+			item.setTimes(0);
 			return item;
 		}else{
 			return null;
