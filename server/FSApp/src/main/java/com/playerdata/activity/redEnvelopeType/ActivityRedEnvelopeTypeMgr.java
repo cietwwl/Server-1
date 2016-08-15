@@ -166,7 +166,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			}						
 			long endTime = cfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime > endTime;			
+			return currentTime >= endTime;//此活动的特殊两个时间段导致中间的时间段也需要用=号附加判断
 		}
 		return false;
 	}
