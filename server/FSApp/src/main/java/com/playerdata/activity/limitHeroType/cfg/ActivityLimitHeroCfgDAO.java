@@ -6,6 +6,10 @@ import java.util.Map;
 
 
 
+
+
+import com.playerdata.Player;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -39,36 +43,26 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	}		
 	
 	
-//	/**
-//	 * 
-//	 * @param player
-//	 * @param countTypeEnum
-//	 * @param subdaysNum  无数据记录的玩家根据第几天开始参与活跃之王来生成数据
-//	 * @return
-//	 */
-//	public ActivityVitalityTypeItem newItem(Player player,ActivityLimitHeroCfg cfgById){
-//		if(cfgById!=null){
-//			int day = ActivityLimitHeroCfgDAO.getInstance().getday(cfgById) ;
-//			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
-//			String itemId = ActivityVitalityTypeHelper.getItemId(player.getUserId(), ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
-//			item.setId(itemId);
-//			item.setEnumId(cfgById.getEnumID());
-//			item.setCfgId(cfgById.getId());
-//			item.setUserId(player.getUserId());
-//			item.setVersion(cfgById.getVersion());
-//			item.setActiveCount(0);
-//			item.setSubItemList(newItemList(day,cfgById));
-//			List<ActivityVitalityTypeSubBoxItem> boxlist = newBoxItemList(day,cfgById);
-//			if(boxlist != null&&!boxlist.isEmpty()){
-//				item.setSubBoxItemList(boxlist);
-//			}
-//			item.setLastTime(System.currentTimeMillis());
-//			item.setCanGetReward(cfgById.isCanGetReward());
-//			return item;
-//		}else{
-//			return null;
-//		}		
-//	}
+	/**
+	 * 
+	 * @param player
+	 * @param countTypeEnum
+	 * @param subdaysNum  无数据记录的玩家根据第几天开始参与活跃之王来生成数据
+	 * @return
+	 */
+	public ActivityLimitHeroTypeItem newItem(Player player,ActivityLimitHeroCfg cfg){
+		if(cfg!=null){
+			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();	
+			item.setId(player.getUserId());
+			item.setCfgId(cfg.getId());
+			item.setUserId(player.getUserId());
+			item.setVersion(cfg.getVersion());
+			item.setLastSingleTime(0);
+			return item;
+		}else{
+			return null;
+		}		
+	}
 //	
 //
 //
