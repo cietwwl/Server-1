@@ -60,7 +60,12 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		}
 	}
 
-	
+	public boolean isLevelEnough(Player player,ActivityRateTypeCfg cfg){
+		boolean iscan = false;
+		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
+		return iscan;
+		
+	}
 
 
 
