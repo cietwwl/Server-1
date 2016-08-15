@@ -337,6 +337,14 @@ public final class TaskProtos {
      * </pre>
      */
     TYPE_ERROR(3, 4),
+    /**
+     * <code>LEVEL_LIMIT = 5;</code>
+     *
+     * <pre>
+     *等级不够
+     * </pre>
+     */
+    LEVEL_LIMIT(4, 5),
     ;
 
     /**
@@ -367,6 +375,14 @@ public final class TaskProtos {
      * </pre>
      */
     public static final int TYPE_ERROR_VALUE = 4;
+    /**
+     * <code>LEVEL_LIMIT = 5;</code>
+     *
+     * <pre>
+     *等级不够
+     * </pre>
+     */
+    public static final int LEVEL_LIMIT_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -377,6 +393,7 @@ public final class TaskProtos {
         case 2: return DATA_ERROR;
         case 3: return NO_REWARD;
         case 4: return TYPE_ERROR;
+        case 5: return LEVEL_LIMIT;
         default: return null;
       }
     }
@@ -3797,10 +3814,10 @@ public final class TaskProtos {
       "\001\022\014\n\010SyncTask\020\002*(\n\017eTaskResultType\022\013\n\007SU" +
       "CCESS\020\000\022\010\n\004FAIL\020\001*D\n\020OneKeyRewardType\022\t\n" +
       "\005EMAIL\020\001\022\010\n\004TASK\020\002\022\t\n\005DAILY\020\003\022\020\n\014BATTLE_" +
-      "SCORE\020\004*U\n\020OneKeyResultType\022\022\n\016OneKey_SU" +
+      "SCORE\020\004*f\n\020OneKeyResultType\022\022\n\016OneKey_SU" +
       "CCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\r\n\tNO_REWARD\020\003\022\016" +
-      "\n\nTYPE_ERROR\020\004B\031\n\013com.rwprotoB\nTaskProto" +
-      "s"
+      "\n\nTYPE_ERROR\020\004\022\017\n\013LEVEL_LIMIT\020\005B\031\n\013com.r" +
+      "wprotoB\nTaskProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
