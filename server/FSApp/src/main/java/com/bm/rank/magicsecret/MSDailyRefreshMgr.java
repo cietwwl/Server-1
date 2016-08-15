@@ -1,4 +1,4 @@
-package com.playerdata.teambattle.manager;
+package com.bm.rank.magicsecret;
 
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -7,16 +7,16 @@ import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-public class TBDailyRefreshMgr implements IGameTimerTask{
+public class MSDailyRefreshMgr implements IGameTimerTask{
 
 	@Override
 	public String getName() {
-		return "组队战的每日刷新";
+		return "乾坤幻境每日排名奖励";
 	}
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		TBTeamItemMgr.getInstance().dailyReset(timeSignal.getAssumeExecuteTime());
+		MSScoreRankMgr.dispatchMSDailyReward(timeSignal.getAssumeExecuteTime());
 		return "";
 	}
 
