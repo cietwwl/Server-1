@@ -352,7 +352,7 @@ public class ActivityCollector implements RedPointCollector{
 			List<ActivityFortuneCatTypeSubItem> subItemList = item.getSubItemList();
 			ActivityFortuneCatTypeSubItem sub = null;
 			for(ActivityFortuneCatTypeSubItem subItem : subItemList){
-				if(times == subItem.getNum()&&subItem.getGetGold() == null){
+				if(times == subItem.getNum()&&subItem.getGetGold() == 0){
 					sub = subItem;
 					break;
 				}

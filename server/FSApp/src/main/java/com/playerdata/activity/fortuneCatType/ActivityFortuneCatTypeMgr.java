@@ -166,7 +166,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		int times = item.getTimes()+ 1;
 		ActivityFortuneCatTypeSubItem sub = null;
 		for(ActivityFortuneCatTypeSubItem subItem : subItemList){
-			if(times == subItem.getNum()&&subItem.getGetGold() == null){
+			if(times == subItem.getNum()&&subItem.getGetGold() == 0){
 				sub = subItem;
 				break;
 			}
@@ -195,7 +195,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}
 		int getGold = r.nextInt(length);
 		player.getUserGameDataMgr().addGold(getGold);
-		String tmpGold = getGold + subCfg.getCost()+"";
+		int tmpGold = getGold + subCfg.getCost();
 		sub.setGetGold(tmpGold);//写入的为额外获得+摇奖押金
 		item.setTimes(times);
 		dataHolder.updateItem(player, item);

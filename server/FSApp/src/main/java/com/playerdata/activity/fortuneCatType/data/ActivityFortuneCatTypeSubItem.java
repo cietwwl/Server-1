@@ -10,7 +10,7 @@ public class ActivityFortuneCatTypeSubItem {
 	
 	private String cfgId;
 	
-	private String getGold;
+	private int getGold;
 	
 	private String cost;
 	
@@ -36,11 +36,13 @@ public class ActivityFortuneCatTypeSubItem {
 		this.cfgId = cfgId;
 	}
 
-	public String getGetGold() {
+
+
+	public int getGetGold() {
 		return getGold;
 	}
 
-	public void setGetGold(String getGold) {
+	public void setGetGold(int getGold) {
 		this.getGold = getGold;
 	}
 
