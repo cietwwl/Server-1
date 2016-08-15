@@ -30,6 +30,9 @@ public class ServerCommonData {
 	@CombineSave
 	private long gfLastRefreshTime = 0;		//帮战上次刷新时间
 	
+	@CombineSave
+	private HashMap<Integer, String> activityFortuneCatRecord = new HashMap<Integer, String>();	//记录最近的三个摇奖
+	
 	public String getId() {
 		return id;
 	}
@@ -77,4 +80,17 @@ public class ServerCommonData {
 			teamBattleEnimyMap.put(cfg.getId(), cfg.getListOfHero()[index]);
 		}
 	}
+
+	public HashMap<Integer, String> getActivityFortuneCatRecord() {
+		return activityFortuneCatRecord;
+	}
+
+	public void setActivityFortuneCatRecord(
+			HashMap<Integer, String> activityFortuneCatRecord) {
+		this.activityFortuneCatRecord = activityFortuneCatRecord;
+	}
+	
+	
+	
+	
 }

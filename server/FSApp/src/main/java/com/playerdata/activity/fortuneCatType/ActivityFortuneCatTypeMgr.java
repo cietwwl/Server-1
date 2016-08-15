@@ -8,6 +8,8 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -202,10 +204,44 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		result.setSuccess(true);
 		result.setReason("");
 		rsp.setGetGold(tmpGold);
-		
+		String tmp = player.getUserId() + "_" + tmpGold;
+		reFreshRecord(tmp);		
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param tmp   保存三条  {666,uid+gold        667,uid+gold      668,uid+gold}格式的摇奖数据
+	 */
+	private void reFreshRecord(String tmp) {
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(scdData == null){
+			return;
+		}
+		Map<Integer, String> map = scdData.getActivityFortuneCatRecord();
+		if(map.size() < 3){
+			map.put(map.size(), tmp);
+			ServerCommonDataHolder.getInstance().update(scdData);
+			return;
+		}
+		int num = 0;
+		int i = 0;
+		for(Map.Entry<Integer, String> entry : map.entrySet()){
+			if(i == 0){
+				num = entry.getKey();
+				i++;
+				continue;
+			}
+			if(entry.getKey()< num){
+				num = entry.getKey();
+			}
+			i++;
+		}
+		map.remove(num);
+		map.put(num+3, tmp);
+		ServerCommonDataHolder.getInstance().update(scdData);		
+	}
+
 	public boolean isLevelEnough(Player player,ActivityFortuneCatTypeCfg cfg){
 		boolean iscan = false;
 		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
