@@ -199,7 +199,7 @@ public class GameManager {
 	}
 
 	private static void initServerPerformanceConfig() {
-		Resource rs = new ClassPathResource("serverParam.properties");
+		Resource rs = new ClassPathResource("serverparam.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			int playerCapacity = Integer.parseInt(props.getProperty("playerCapacity"));

@@ -1250,6 +1250,108 @@ public final class GroupCommonProto {
   }
 
   /**
+   * Protobuf enum {@code groupproto.GroupDonateType}
+   *
+   * <pre>
+   *捐献类型
+   * </pre>
+   */
+  public enum GroupDonateType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>MONEY_DONATE = 1;</code>
+     *
+     * <pre>
+     *货币捐献
+     * </pre>
+     */
+    MONEY_DONATE(0, 1),
+    /**
+     * <code>TOKEN_DONATE = 2;</code>
+     *
+     * <pre>
+     *令牌捐献
+     * </pre>
+     */
+    TOKEN_DONATE(1, 2),
+    ;
+
+    /**
+     * <code>MONEY_DONATE = 1;</code>
+     *
+     * <pre>
+     *货币捐献
+     * </pre>
+     */
+    public static final int MONEY_DONATE_VALUE = 1;
+    /**
+     * <code>TOKEN_DONATE = 2;</code>
+     *
+     * <pre>
+     *令牌捐献
+     * </pre>
+     */
+    public static final int TOKEN_DONATE_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static GroupDonateType valueOf(int value) {
+      switch (value) {
+        case 1: return MONEY_DONATE;
+        case 2: return TOKEN_DONATE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GroupDonateType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<GroupDonateType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GroupDonateType>() {
+            public GroupDonateType findValueByNumber(int number) {
+              return GroupDonateType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GroupCommonProto.getDescriptor().getEnumTypes().get(7);
+    }
+
+    private static final GroupDonateType[] VALUES = values();
+
+    public static GroupDonateType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private GroupDonateType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:groupproto.GroupDonateType)
+  }
+
+  /**
    * Protobuf enum {@code groupproto.RequestType}
    *
    * <pre>
@@ -1751,7 +1853,7 @@ public final class GroupCommonProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GroupCommonProto.getDescriptor().getEnumTypes().get(7);
+      return com.rwproto.GroupCommonProto.getDescriptor().getEnumTypes().get(8);
     }
 
     private static final RequestType[] VALUES = values();
@@ -1812,26 +1914,28 @@ public final class GroupCommonProto {
       "JOIN_GROUP_DUPLICATE\020\020\022\025\n\021JOIN_GROUP_BAT" +
       "TLE\020\021\022\025\n\021MODIFY_GROUP_NAME\020\022\022\025\n\021DISMISS_" +
       "THE_GROUP\020\023\022\034\n\030CANCEL_DISMISS_THE_GROUP\020" +
-      "\024*\365\005\n\013RequestType\022\025\n\021CREATE_GROUP_TYPE\020\001" +
-      "\022\027\n\023GET_GROUP_INFO_TYPE\020\002\022\034\n\030GET_GROUP_R" +
-      "ANK_INFO_TYPE\020\003\022\034\n\030MODIFY_ANNOUNCEMENT_T",
-      "YPE\020\004\022\032\n\026MODIFY_GROUP_NAME_TYPE\020\005\022\026\n\022GRO" +
-      "UP_SETTING_TYPE\020\006\022\023\n\017FIND_GROUP_TYPE\020\007\022\031" +
-      "\n\025APPLY_JOIN_GROUP_TYPE\020\010\022\035\n\031GROUP_MEMBE" +
-      "R_RECEIVE_TYPE\020\t\022\026\n\022NOMINATE_POST_TYPE\020\n" +
-      "\022\030\n\024CANCEL_NOMINATE_TYPE\020\013\022\031\n\025OPEN_DONAT" +
-      "E_VIEW_TYPE\020\014\022\025\n\021GROUP_DONATE_TYPE\020\r\022\035\n\031" +
-      "TRANSFER_LEADER_POST_TYPE\020\016\022\034\n\030GROUP_EMA" +
-      "IL_FOR_ALL_TYPE\020\017\022\035\n\031RESEARCH_GROUP_SKIL" +
-      "L_TYPE\020\020\022\032\n\026STUDY_GROUP_SKILL_TYPE\020\021\022\031\n\025" +
-      "THE_LOG_OF_GROUP_TYPE\020\022\022\023\n\017QUIT_GROUP_TY",
-      "PE\020\023\022\024\n\020KICK_MEMBER_TYPE\020\024\022\032\n\026DISMISS_TH" +
-      "E_GROUP_TYPE\020\025\022!\n\035CANCEL_DISMISS_THE_GRO" +
-      "UP_TYPE\020\026\022\030\n\024GROUP_RECOMMENT_TYPE\020\027\022\036\n\032G" +
-      "ET_APPLY_MEMBER_LIST_TYPE\020\030\022\031\n\025CHECK_GRO" +
-      "UP_DATA_TYPE\020\031\022!\n\035OPEN_RESEARCH_SKILL_VI" +
-      "EW_TYPE\020\032\022\036\n\032OPEN_STUDY_SKILL_VIEW_TYPE\020" +
-      "\033B\037\n\013com.rwprotoB\020GroupCommonProto"
+      "\024*5\n\017GroupDonateType\022\020\n\014MONEY_DONATE\020\001\022\020" +
+      "\n\014TOKEN_DONATE\020\002*\365\005\n\013RequestType\022\025\n\021CREA" +
+      "TE_GROUP_TYPE\020\001\022\027\n\023GET_GROUP_INFO_TYPE\020\002",
+      "\022\034\n\030GET_GROUP_RANK_INFO_TYPE\020\003\022\034\n\030MODIFY" +
+      "_ANNOUNCEMENT_TYPE\020\004\022\032\n\026MODIFY_GROUP_NAM" +
+      "E_TYPE\020\005\022\026\n\022GROUP_SETTING_TYPE\020\006\022\023\n\017FIND" +
+      "_GROUP_TYPE\020\007\022\031\n\025APPLY_JOIN_GROUP_TYPE\020\010" +
+      "\022\035\n\031GROUP_MEMBER_RECEIVE_TYPE\020\t\022\026\n\022NOMIN" +
+      "ATE_POST_TYPE\020\n\022\030\n\024CANCEL_NOMINATE_TYPE\020" +
+      "\013\022\031\n\025OPEN_DONATE_VIEW_TYPE\020\014\022\025\n\021GROUP_DO" +
+      "NATE_TYPE\020\r\022\035\n\031TRANSFER_LEADER_POST_TYPE" +
+      "\020\016\022\034\n\030GROUP_EMAIL_FOR_ALL_TYPE\020\017\022\035\n\031RESE" +
+      "ARCH_GROUP_SKILL_TYPE\020\020\022\032\n\026STUDY_GROUP_S",
+      "KILL_TYPE\020\021\022\031\n\025THE_LOG_OF_GROUP_TYPE\020\022\022\023" +
+      "\n\017QUIT_GROUP_TYPE\020\023\022\024\n\020KICK_MEMBER_TYPE\020" +
+      "\024\022\032\n\026DISMISS_THE_GROUP_TYPE\020\025\022!\n\035CANCEL_" +
+      "DISMISS_THE_GROUP_TYPE\020\026\022\030\n\024GROUP_RECOMM" +
+      "ENT_TYPE\020\027\022\036\n\032GET_APPLY_MEMBER_LIST_TYPE" +
+      "\020\030\022\031\n\025CHECK_GROUP_DATA_TYPE\020\031\022!\n\035OPEN_RE" +
+      "SEARCH_SKILL_VIEW_TYPE\020\032\022\036\n\032OPEN_STUDY_S" +
+      "KILL_VIEW_TYPE\020\033B\037\n\013com.rwprotoB\020GroupCo" +
+      "mmonProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

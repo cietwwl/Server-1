@@ -59,6 +59,17 @@ public class ItembagHolder {
 		return target;
 	}
 
+	public int getItemCountByModelId(int modelId) {
+		int count = 0;
+		List<ItemData> itemList = new ArrayList<ItemData>(itemDataMap.values());
+		for (ItemData itemData : itemList) {
+			if (itemData.getModelId() == modelId) {
+				count += itemData.getCount();
+			}
+		}
+		return count;
+	}
+
 	public List<ItemData> getItemDataByModelId(int modelId) {
 		List<ItemData> data = new ArrayList<ItemData>();
 		List<ItemData> itemList = new ArrayList<ItemData>(itemDataMap.values());

@@ -193,6 +193,8 @@ public class GMHandler {
 		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
+		
+		funcCallBackMap.put("adddist", "addDistCount");
 	}
 
 	public boolean isActive() {
@@ -1242,7 +1244,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
@@ -1326,6 +1328,19 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addDistCount(String[] str, Player player){
+		int count = Integer.parseInt(str[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		}
 		return true;
 	}
 	

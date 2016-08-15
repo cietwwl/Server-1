@@ -164,6 +164,7 @@ public class RankingUtilEntity {
 		magicData.setMagicImage(cfg.getIcon());
 		magicData.setMagicQuality(cfg.getQuality());
 		magicData.setMagicAttackType(cfg.getAttackType());
+		magicData.setMagicLevel(arenaData.getMagicLevel());
 		rankingTeamData.addAllHeroList(listHeros);
 		rankingTeamData.setMagicData(magicData.build());
 		ArrayList<RankingTeamData> result = new ArrayList<RankingTeamData>(1);
