@@ -191,6 +191,8 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
+		funcCallBackMap.put("shutdown", "shutdownServer");
+		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
@@ -1331,6 +1333,11 @@ public class GMHandler {
 		return true;
 	}
 	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
+		return true;
+	}
+
 	public boolean addDistCount(String[] str, Player player){
 		int count = Integer.parseInt(str[0]);
 		if(count <= 0){

@@ -18,8 +18,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.common.DetectionTool;
 import com.log.GameLog;
 import com.rw.fsutil.shutdown.IShutdownHandler;
+import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.timer.IGameTimerDelegate;
 import com.rwbase.common.timer.IGameTimerTask;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.GameWorldKey;
 
 /**
  * 
@@ -45,10 +48,10 @@ public class FSGameTimer implements IShutdownHandler {
 	private static final int _MAX_TICKS_PER_WHEEL = (int) Math.pow(2, 30); // 最大的轮数量
 	private static final String _MODULE_NAME_FOR_LOG = FSGameTimer.class.getSimpleName(); // Log需要用到的模块名字
 	
-	private static final int _MAX_HOUR_OF_DAY; // hourOfDay的最大值
-	private static final int _MIN_HOUR_OF_DAY; // hourOfDay的最小值
-	private static final int _MAX_MINUTE; // Minute的最大值
-	private static final int _MIN_MINUTE; // Minute的最小值
+	public static final int MAX_HOUR_OF_DAY; // hourOfDay的最大值
+	public static final int MIN_HOUR_OF_DAY; // hourOfDay的最小值
+	public static final int MAX_MINUTE; // Minute的最大值
+	public static final int MIN_MINUTE; // Minute的最小值
 	
 	private final int _corePoolSize; // 时效任务线程池的size
 	private final ExecutorService _scheduledThreadPool; // 时效任务线程池
@@ -69,19 +72,19 @@ public class FSGameTimer implements IShutdownHandler {
 	
 	static {
 		Calendar c = Calendar.getInstance();
-		_MAX_HOUR_OF_DAY = c.getActualMaximum(Calendar.HOUR_OF_DAY);
-		_MIN_HOUR_OF_DAY = c.getActualMinimum(Calendar.HOUR_OF_DAY);
-		_MAX_MINUTE = c.getActualMaximum(Calendar.MINUTE);
-		_MIN_MINUTE = c.getActualMinimum(Calendar.MINUTE);
+		MAX_HOUR_OF_DAY = c.getActualMaximum(Calendar.HOUR_OF_DAY);
+		MIN_HOUR_OF_DAY = c.getActualMinimum(Calendar.HOUR_OF_DAY);
+		MAX_MINUTE = c.getActualMaximum(Calendar.MINUTE);
+		MIN_MINUTE = c.getActualMinimum(Calendar.MINUTE);
 	}
 	
 	private static void logInfo(String module, String id, String message) {
-//		GameLog.info(_MODULE_NAME_FOR_LOG, id, msg);
-		StringBuilder logContent = new StringBuilder();
-		logContent.append(module).append("|")
-					.append(id).append("|")
-					.append(message).append("|");
-		System.out.println(logContent.toString());
+		GameLog.info(_MODULE_NAME_FOR_LOG, id, message);
+//		StringBuilder logContent = new StringBuilder();
+//		logContent.append(module).append("|")
+//					.append(id).append("|")
+//					.append(message).append("|");
+//		System.out.println(logContent.toString());
 	}
 	
 	private static Set<FSGameTimeSignal>[] createWheel(int ticksPerWheel) {
@@ -246,6 +249,10 @@ public class FSGameTimer implements IShutdownHandler {
 	@Override
 	public void notifyShutdown() {
 		this.stop();
+		FSGameTimerSaveData.getInstance().setServerShutdownTime(System.currentTimeMillis());
+		String attribute = JsonUtil.writeValue(FSGameTimerSaveData.getInstance());
+		System.out.println(GameWorldKey.TIMER_DATA + "=" + attribute);
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.TIMER_DATA, attribute);
 	}
 	
 	public void start() {
@@ -348,11 +355,11 @@ public class FSGameTimer implements IShutdownHandler {
 	}
 	
 	FSGameTimeSignal newDayTimeSignal(IGameTimerTask task, int hourOfDay, int minutes) {
-		if (hourOfDay < _MIN_HOUR_OF_DAY || hourOfDay > _MAX_HOUR_OF_DAY) {
-			throw new IllegalArgumentException(String.format("hour的值需要在%d~%d之间", _MIN_HOUR_OF_DAY, _MAX_HOUR_OF_DAY));
+		if (hourOfDay < MIN_HOUR_OF_DAY || hourOfDay > MAX_HOUR_OF_DAY) {
+			throw new IllegalArgumentException(String.format("hour的值需要在%d~%d之间", MIN_HOUR_OF_DAY, MAX_HOUR_OF_DAY));
 		}
-		if (minutes < _MIN_MINUTE || minutes > _MAX_MINUTE) {
-			throw new IllegalArgumentException(String.format("minute的值需要在%d~%d之间", _MIN_MINUTE, _MAX_MINUTE));
+		if (minutes < MIN_MINUTE || minutes > MAX_MINUTE) {
+			throw new IllegalArgumentException(String.format("minute的值需要在%d~%d之间", MIN_MINUTE, MAX_MINUTE));
 		}
 		Calendar comingTime = Calendar.getInstance();
 		comingTime.set(Calendar.SECOND, 0);
