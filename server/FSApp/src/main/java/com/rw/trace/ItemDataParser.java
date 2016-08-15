@@ -15,9 +15,9 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 	@Override
 	public ItemData copy(ItemData entity) {
 		ItemData newData = new ItemData();
-		newData.setCount(entity.getCount());
 		newData.setId(entity.getId());
 		newData.setModelId(entity.getModelId());
+		newData.setCount(entity.getCount());
 		newData.setUserId(entity.getUserId());
 		newData.setAllExtendAttr(writer.copyObject(entity.getAllExtendAttr()));
 		return newData;
@@ -26,6 +26,12 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 	@Override
 	public JSONObject recordAndUpdate(ItemData entity1, ItemData entity2) {
 		JSONObject map = null;
+		String id1 = entity1.getId();
+		String id2 = entity2.getId();
+		if (!StringUtils.equals(id1, id2)) {
+			entity1.setId(id2);
+			map = writer.write(map, "id", id2);
+		}
 		int count1 = entity1.getCount();
 		int count2 = entity2.getCount();
 		if (count1 != count2) {
@@ -37,12 +43,6 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 		if (modelId1 != modelId2) {
 			entity1.setCount(modelId2);
 			map = writer.write(map, "modelId", modelId2);
-		}
-		String id1 = entity1.getId();
-		String id2 = entity2.getId();
-		if (!StringUtils.equals(id1, id2)) {
-			entity1.setId(id2);
-			map = writer.write(map, "id", id2);
 		}
 		String userId1 = entity1.getUserId();
 		String userId2 = entity2.getUserId();
@@ -67,9 +67,9 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 	@Override
 	public JSONObject toJson(ItemData entity) {
 		JSONObject json = new JSONObject(8);
-		json.put("count", entity.getCount());
-		json.put("modelId", entity.getModelId());
 		json.put("id", entity.getId());
+		json.put("modelId", entity.getModelId());
+		json.put("count", entity.getCount());
 		json.put("userId", entity.getUserId());
 		Object allExtendAttrJson = writer.toJSON(entity.getAllExtendAttr());
 		if (allExtendAttrJson != null) {
