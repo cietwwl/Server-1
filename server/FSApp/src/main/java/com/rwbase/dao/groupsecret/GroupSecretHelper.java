@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.groupSecret.GroupSecretBM;
 import com.common.HPCUtil;
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -402,6 +403,7 @@ public class GroupSecretHelper {
 		int robGS = 0;
 		int dropDiamond = 0;
 		int index = -1;
+		int incPct = 0;
 		if (myDefendInfo != null) {
 //			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
 //			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
@@ -415,6 +417,8 @@ public class GroupSecretHelper {
 //				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
 //				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
 //			}
+			incPct = levelGetResTemplate.getRewardIncPct(data.getDefendMap().size());
+			dropDiamond = myDefendInfo.getDropDiamond();
 			getRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
 			getGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
 			getGS = levelGetResTemplate.getTotalGroupSupply() - myDefendInfo.getRobGS();
@@ -423,6 +427,16 @@ public class GroupSecretHelper {
 			robRes = myDefendInfo.getRobRes();
 			robGE = myDefendInfo.getRobGE();
 			robGS = myDefendInfo.getRobGS();
+		} else {
+			incPct = levelGetResTemplate.getRewardIncPct(data.getDefendMap().size() + 1);
+			getRes = levelGetResTemplate.getTotalProduct();
+			getGE = levelGetResTemplate.getTotalGroupExp();
+			getGS = levelGetResTemplate.getTotalGroupSupply();
+		}
+		if(incPct > 0) {
+			getRes += Utils.calculateTenThousandRatio(getRes, incPct);
+			getGE += Utils.calculateTenThousandRatio(getGE, incPct);
+			getGS += Utils.calculateTenThousandRatio(getGS, incPct);
 		}
 
 		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());

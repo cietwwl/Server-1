@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.common.Utils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
@@ -12,7 +13,6 @@ import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretMatchEnemyDataHolder;
@@ -137,9 +137,9 @@ public class GroupSecretMatchEnemyDataMgr {
 			} else {
 				temp = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(levelTmp.getLevelGroupId(), PlayerMgr.getInstance().find(elementUserId).getLevel());
 			}
-			int robRes = temp.getTotalProduct() * levelTmp.getRobRatio() / AttributeConst.DIVISION;
-			int robGE = temp.getTotalGroupExp() * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
-			int robGS = temp.getTotalGroupSupply() * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
+			int robRes = Utils.calculateTenThousandRatio(temp.getTotalProduct(), levelTmp.getRobRatio());
+			int robGE = Utils.calculateTenThousandRatio(temp.getTotalGroupExp(), levelTmp.getRobGERatio());
+			int robGS = Utils.calculateTenThousandRatio(temp.getTotalGroupSupply(), levelTmp.getRobGSRatio());
 			// 2016-08-13 END <<<<<<<<<<<
 
 			int index = nextElement.getIndex();

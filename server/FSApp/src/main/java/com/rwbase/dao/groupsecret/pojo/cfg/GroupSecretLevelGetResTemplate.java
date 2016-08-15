@@ -2,7 +2,9 @@ package com.rwbase.dao.groupsecret.pojo.cfg;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
@@ -38,6 +40,7 @@ public class GroupSecretLevelGetResTemplate {
 	private final int totalGroupSupply; // 帮派物资产出总量
 	private final int totalGroupExp; // 帮派经验产出总量
 	private final List<GroupSecretLevelGetResTemplate.Drop> dropIdBasedOnJoinTimeList;// 掉落宝石方案对应的加入时间剩余
+	private final Map<Integer, Integer> rewardIncPct; // 奖励加成
 
 	public GroupSecretLevelGetResTemplate(GroupSecretLevelGetResCfg cfg) {
 		this.level = cfg.getLevel();
@@ -47,6 +50,7 @@ public class GroupSecretLevelGetResTemplate {
 		this.robGSRatio = cfg.getRobGSRatio();
 		this.robGERatio = cfg.getRobGERatio();
 		this.robRatio = cfg.getRobRatio();
+		this.rewardIncPct = new HashMap<Integer, Integer>();
 
 		try {
 			String dropIdBasedOnJoinTime = cfg.getDropIdBasedOnJoinTime();
@@ -70,6 +74,9 @@ public class GroupSecretLevelGetResTemplate {
 			this.totalProduct = cfg.getTotalProduct();
 			this.totalGroupSupply = cfg.getTotalGroupSupply();
 			this.totalGroupExp = cfg.getTotalGroupExp();
+			this.rewardIncPct.put(1, 0);
+			this.rewardIncPct.put(2, 750);
+			this.rewardIncPct.put(3, 1500);
 		} catch (Exception e) {
 			GameLog.error("解析秘境资源表", "GroupSecretResourceTemplate", "解析过程中把产出权重，物资权重，贡献权重，加入时间对应掉落方案中的某一个出现了异常");
 			throw new ExceptionInInitializerError(e);
@@ -130,5 +137,9 @@ public class GroupSecretLevelGetResTemplate {
 
 	public List<Drop> getDropIdBasedOnJoinTimeList() {
 		return dropIdBasedOnJoinTimeList;
+	}
+	
+	public int getRewardIncPct(int count) {
+		return rewardIncPct.get(count);
 	}
 }
