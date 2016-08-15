@@ -44,24 +44,6 @@ public class ActivityRedPointManager {
 	 */
 	private boolean redPoint(Player player,String str) {
 		boolean issucce = false;
-//		if(target.getType()==ActivityTypeEnum.ActivityCountType){
-//			ActivityCountTypeMgr.getInstance().updateRedPoint(player,target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityDailyType){
-//			ActivityDailyTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityRateType){
-//			ActivityRateTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityTimeCountType){
-//			//在线礼包目前不需要记录玩家点击历史
-//		}else if(target.getType()==ActivityTypeEnum.ActivityVitalyType){
-//			ActivityVitalityTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityExchangeType){
-//			ActivityExchangeTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityRankType){
-//			ActivityRankTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityDailyDiscountType){
-//			ActivityDailyDiscountTypeMgr.getInstance().updateRedPoint(player, target);
-//		}else if(target.getType()==ActivityTypeEnum.ActivityRedEnvelope){
-//			ActivityRedEnvelopeTypeMgr.getInstance().updateRedPoint(player, target);
 		int tmp = Integer.parseInt(str);
 		if (tmp < 10000 && tmp > 0) {
 			ActivityCountTypeMgr.getInstance().updateRedPoint(player, str);
