@@ -2,10 +2,12 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -16,14 +18,15 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * 2016年6月12日 下午4:54:00
  */
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemDropAndApplyTemplate {
 
 	int itemID;
 	
-	private List<DropInfo> dropInfoList = new LinkedList<DropInfo>();
+	private List<DropInfo> dropInfoList = new CopyOnWriteArrayList<DropInfo>();
 	
 	//申请的角色列表<key=roleID,value=applyTime>
-	private List<ApplyInfo> applyData = new LinkedList<ApplyInfo>();
+	private List<ApplyInfo> applyData = new CopyOnWriteArrayList<ApplyInfo>();
 	
 	
 	public ItemDropAndApplyTemplate() {
@@ -46,7 +49,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<DropInfo> getDropInfoList() {
-		return Collections.unmodifiableList(dropInfoList);
+		return dropInfoList;
 	}
 
 	public void setDropInfoList(List<DropInfo> dropInfoList) {
@@ -54,7 +57,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<ApplyInfo> getApplyData() {
-		return Collections.unmodifiableList(applyData);
+		return applyData;
 	}
 
 	public void setApplyData(List<ApplyInfo> applyData) {
@@ -70,12 +73,33 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public void deleteApply(DropInfo dropInfo, ApplyInfo applyInfo) {
-		applyData.remove(applyInfo);
-		if(dropInfo.getCount() == 0){
+		if(applyInfo != null){
+			applyData.remove(applyInfo);
+		}
+		int left = dropInfo.getCount() - 1;
+		if(left <= 0){
 			dropInfoList.remove(dropInfo);
 		}else{
-			dropInfo.setCount(dropInfo.getCount() - 1);
+			dropInfo.setCount(left);
 		}
 	}
+
+	public boolean noDropItem() {
+		return dropInfoList.isEmpty();
+	}
+
+	
+	/**
+	 * 获取最早一个物品的掉落时间
+	 * @return
+	 */
+	public long firstDropTime() {
+		if(dropInfoList.isEmpty()){
+			return 0;
+		}
+		return dropInfoList.get(0).getTime();
+	}
+
+
 	
 }

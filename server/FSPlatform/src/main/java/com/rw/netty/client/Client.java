@@ -59,6 +59,9 @@ public class Client  implements Runnable{
 	private void initClient(){
 		
 		try {
+			if(channel != null){
+				channel.close();
+			}
 //			EventLoopGroup group = new NioEventLoopGroup();
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(group).channel(NioSocketChannel.class);

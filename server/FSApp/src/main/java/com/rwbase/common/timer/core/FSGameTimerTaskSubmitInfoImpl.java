@@ -23,11 +23,13 @@ public class FSGameTimerTaskSubmitInfoImpl implements IGameTimerTaskSubmitInfo {
 	private IGameTimerTask _task;
 	private int _delay;
 	private TimeUnit _unit;
+	private boolean _isDayTask;
 	
 	FSGameTimerTaskSubmitInfoImpl(IGameTimerTask pTask, int pDelay, TimeUnit pUnit) {
 		this._task = pTask;
 		this._delay = pDelay;
 		this._unit = pUnit;
+		this._isDayTask = false;
 	}
 	
 	public IGameTimerTask getTask() {
@@ -52,5 +54,9 @@ public class FSGameTimerTaskSubmitInfoImpl implements IGameTimerTaskSubmitInfo {
 
 	public void setUnit(TimeUnit pUnit) {
 		this._unit = pUnit;
+	}
+	
+	public boolean isDayTask() {
+		return _isDayTask;
 	}
 }

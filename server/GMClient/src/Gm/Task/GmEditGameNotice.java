@@ -30,8 +30,8 @@ public class GmEditGameNotice extends AGMHandler{
 				+ "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"
 				+ "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"
 				+ "一二三四五六七八九十一二三四五六七八九十");
-		args.put("startTime", 1458144000);
-		args.put("endTime", 1458748800);
+		args.put("startTime", 1470976332);
+		args.put("endTime", 1471976332);
 
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

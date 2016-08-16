@@ -9,9 +9,10 @@ import com.bm.login.AccoutBM;
 import com.common.GameUtil;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.rw.fsutil.dao.cache.SimpleCache;
-import com.rw.netty.SessionInfo;
+import com.rw.netty.UserSession;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FsService;
 import com.rw.service.login.game.GameLoginHandler;
@@ -34,9 +35,13 @@ public class FsNettyControler {
 	private Map<Command, FsService> commandMap;
 
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
+		long current = System.currentTimeMillis();
 		RequestHeader header = exRequest.getHeader();
 		final Command command = header.getCommand();
-		GameLog.debug("@@接收消息" + "  " + exRequest.getHeader().getCommand().toString());
+		//更新消息接收时间
+		UserChannelMgr.updateSessionInfo(ctx, current, command);
+//		GameLog.debug("msg:" + command);
+		FSTraceLogger.logger("submit("+command+","+header.getSeqID()+")" + UserChannelMgr.getCtxInfo(ctx, false));
 		if (command == Command.MSG_LOGIN_GAME) {
 			doGameLogin(exRequest, ctx);
 		} else if (command == Command.MSG_RECONNECT) {
@@ -44,7 +49,7 @@ public class FsNettyControler {
 		} else if (command == Command.MSG_PLATFORMGS) {
 			doPlatformGSMsg(exRequest, ctx);
 		} else {
-			SessionInfo session = UserChannelMgr.getSession(ctx);
+			UserSession session = UserChannelMgr.getUserSession(ctx);
 			if (session == null) {
 				return;
 			}
@@ -52,7 +57,6 @@ public class FsNettyControler {
 			if (command == Command.MSG_HeartBeat) {
 				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new HeartBeatTask(session, exRequest));
 			} else {
-				System.err.println("提交任务：" + command + "," + header.getSeqID());
 				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new GameLogicTask(session, exRequest));
 			}
 		}
@@ -118,7 +122,7 @@ public class FsNettyControler {
 			return;
 		}
 		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-		if (ctx != null && sessionId != UserChannelMgr.getSessionId(ctx)) {
+		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 			ctx = null;
 		}
 		sendResponse(userId, header, resultContent, 200, ctx);

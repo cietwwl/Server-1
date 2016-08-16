@@ -1,15 +1,18 @@
 package com.groupCopy.rw.service.groupCopy;
 
-import org.springframework.util.StringUtils;
-
-import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
-import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
+import com.log.GameLog;
+import com.log.LogModule;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GroupCommonProto.GroupPost;
 import com.rwproto.GroupCopyAdminProto.ApplyRewardInfo;
 import com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg;
 import com.rwproto.GroupCopyAdminProto.ChoseDistRewardData;
@@ -19,16 +22,6 @@ import com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg;
 import com.rwproto.GroupCopyAdminProto.MemberDamageInfo;
 import com.rwproto.GroupCopyAdminProto.RequestType;
-import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
-import com.rw.fsutil.util.StringUtil;
-import com.rwbase.dao.group.pojo.Group;
-import com.rwbase.dao.group.pojo.db.GroupBaseData;
-import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
-import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
-import com.rwproto.GroupCommonProto.GroupPost;
 
 /*
  * @author HC
@@ -86,20 +79,27 @@ public class GroupCopyAdminHandler {
 				GameLog.error(LogModule.GroupCopy, "GroupCopyAdminHandler[open]", "角色尝试开启帮派副本，物资不足，开启消耗["+cfg.getOpenCost()
 						+ "],目前物资："+ supplies, null);
 				commonRsp.setTipMsg("帮派物资不足");
+				return commonRsp.build().toByteString();
+			}
+			//检查一下帮派的等级是否可以开放
+			int groupLevel = group.getGroupBaseDataMgr().getGroupData().getGroupLevel();
+			if(cfg.getUnLockLv() > groupLevel){
+				commonRsp.setTipMsg("帮派升级到Lv"+cfg.getUnLockLv()+"解锁");
+				return commonRsp.build().toByteString();
+			}
+			openResult = group.getGroupCopyMgr().openMap(player, mapId );
+			success = openResult.isSuccess();
+			
+			if(success){
+				// 扣除帮派物资
+				supplies -= cfg.getOpenCost();
+				group.getGroupBaseDataMgr().setGroupSupplier(supplies);
+				group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 			}else{
-				openResult = group.getGroupCopyMgr().openMap(player, mapId );
-				success = openResult.isSuccess();
-				if(success){
-					// 扣除帮派物资
-					supplies -= cfg.getOpenCost();
-					group.getGroupBaseDataMgr().setGroupSupplier(supplies);
-					group.getGroupBaseDataMgr().updateAndSynGroupData(player);
-				}else{
-					commonRsp.setTipMsg("开启失败");
-				}
+				commonRsp.setTipMsg("开启失败");
 			}
 		}	
-		commonRsp.setIsSuccess(success);		
+		commonRsp.setIsSuccess(success);
 		return commonRsp.build().toByteString();
 	}
 
@@ -205,8 +205,6 @@ public class GroupCopyAdminHandler {
 			GroupMemberDataIF memberData = memberMgr.getMemberData(player.getUserId(), false);
 			if(memberData.getPost() != GroupPost.LEADER_VALUE && memberData.getPost() != GroupPost.ASSISTANT_LEADER_VALUE){
 				commonRsp.setTipMsg("您不是帮派管理员，无此操作权限！");
-			}else if(memberData.getAllotRewardCount() <= 0){
-				commonRsp.setTipMsg("今天已没有手动分配次数");
 			}else{
 				//可以分配，进行获取数据
 				ChaterDamageReqMsg msgData = reqMsg.getDamageReqMsg();

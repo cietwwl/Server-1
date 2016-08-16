@@ -79,5 +79,20 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 		return target;
 		
 	}
-
+	/*
+	 * 根据星级获取一系列cfg，用于获得对应的材料列表，方便gm命令添加
+	 */
+	public List<FixNormEquipStarCfg> getByStar(int star){
+		List<FixNormEquipStarCfg>  cfgList = new ArrayList<FixNormEquipStarCfg>();
+		List<FixNormEquipStarCfg> allCfg = getAllCfg();
+		for(FixNormEquipStarCfg cfg : allCfg){
+			if(cfg.getStar() == star){
+				cfgList.add(cfg);
+			}
+		}
+		return cfgList;
+		
+	}
+	
+	
 }

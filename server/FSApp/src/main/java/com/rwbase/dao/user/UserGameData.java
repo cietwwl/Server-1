@@ -3,8 +3,10 @@ package com.rwbase.dao.user;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -58,6 +60,8 @@ public class UserGameData implements TableUserOtherIF {
 	private int starAll; // 英雄的总星星数量
 
 	private UserGameExtendInfo extendInfo;
+	@JsonIgnore
+	private MapAnimationState mapAnimationState;
 
 	public int getExpCoin() {
 		return expCoin;
@@ -336,4 +340,13 @@ public class UserGameData implements TableUserOtherIF {
 	public void increaseStarAll(int value) {
 		this.starAll += value;
 	}
+
+	public MapAnimationState getMapAnimationState() {
+		return mapAnimationState;
+	}
+
+	public void setMapAnimationState(MapAnimationState mapAnimationState) {
+		this.mapAnimationState = mapAnimationState;
+	}
+	
 }

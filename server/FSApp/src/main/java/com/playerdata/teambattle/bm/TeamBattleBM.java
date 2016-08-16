@@ -202,11 +202,16 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if(StringUtils.isNotBlank(utbData.getTeamID())){
+		if (utbData.getFinishedHards().contains(hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			return;
+		}
+		if (StringUtils.isNotBlank(utbData.getTeamID())) {
 			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-			if(teamItem != null){
+			if (teamItem != null) {
 				TeamMember member = teamItem.findMember(player.getUserId());
-				if(member != null && member.getState().equals(TBMemberState.HalfFinish)){
+				if (member != null && member.getState().equals(TBMemberState.HalfFinish)) {
 					tbRsp.setRstType(TBResultType.DATA_ERROR);
 					tbRsp.setTipMsg("请您先完成当前的副本");
 					return;
@@ -253,6 +258,11 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData.getFinishedHards().contains(hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			return;
+		}
 		if(StringUtils.isNotBlank(utbData.getTeamID())){
 			//获取的是玩家可能已经存在的队伍
 			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
@@ -378,9 +388,9 @@ public class TeamBattleBM {
 			return;
 		}
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-		if(null == teamItem || !StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+		if(null == teamItem){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("权限不足，队长才能邀请");
+			tbRsp.setTipMsg("队伍数据有误");
 			return;
 		}
 		if(teamItem.isFull()){
@@ -391,7 +401,7 @@ public class TeamBattleBM {
 		ServerCommonData scData = ServerCommonDataHolder.getInstance().get();
 		if(null == scData){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("组队怪物信息有误");
+			tbRsp.setTipMsg("副本信息有误");
 			return;
 		}
 		String enimyID = scData.getTeamBattleEnimyMap().get(teamItem.getHardID());

@@ -92,6 +92,7 @@ public class DataKVDao<T> {
 	public boolean update(T t) {
 		String id = getId(t);
 		if (!StringUtils.isNotBlank(id)) {
+			System.err.println("更新对象没有设置主键："+classInfo.getTableName()+","+classInfo.getClazz());
 			return false;
 		}
 		try {

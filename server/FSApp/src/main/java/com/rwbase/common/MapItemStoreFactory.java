@@ -48,7 +48,6 @@ import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
-import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
@@ -118,8 +117,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
 	
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
-
-	private static MapItemStoreCache<MajorData> majorDataCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -237,8 +234,6 @@ public class MapItemStoreFactory {
 		register(groupFightRewardItemCache = new MapItemStoreCache<GFFinalRewardItem>(GFFinalRewardItem.class, "rewardOwner", heroCapacity));
 		
 		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
-		
-		register(majorDataCache = new MapItemStoreCache<MajorData>(MajorData.class, "ownerId", heroCapacity, false));
 		
 		register(heroItemCache = new MapItemStoreCache<FSHero>(FSHero.class, "other", "user_id", heroCapacity, false));
 
@@ -526,15 +521,6 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<TBTeamItem> getTBTeamItemCache() {
 		return teamBattleItemCache;
 	}
-
-	/**
-	 * 获取重要数据缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<MajorData> getMajorDataCache() {
-		return majorDataCache;
-	}
 	
 	/**
 	 * 
@@ -555,7 +541,7 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<FSHero> getMainHeroDataCache() {
 		return mainHeroItemCache;
 	}
-
+	
 	public static MapItemStoreCache<MagicEquipFetterRecord> getMagicEquipFetterCache() {
 		return magicEquipFetterCache;
 	}

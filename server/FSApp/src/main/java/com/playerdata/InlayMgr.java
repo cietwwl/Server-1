@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.common.IHeroAction;
 import com.log.GameLog;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
@@ -147,6 +149,20 @@ public class InlayMgr /*extends IDataMgr*/ {
 	public boolean XieXia(Player player, String heroId, int modelId) {
 		boolean stripSuccess = false;
 
+		Hero m_pOwner = FSHeroMgr.getInstance().getHeroById(player, heroId);
+		List<InlayItem> itemList = inlayItemHolder.getItemList(heroId);
+		if(itemList.size() == 0){
+			return false;
+		}
+		TreeMap<Integer, Integer> slotMap = new TreeMap<Integer, Integer>();
+		for (InlayItem inlayItem : itemList) {
+			slotMap.put(inlayItem.getSlotId(), inlayItem.getModelId());
+		}
+		Map.Entry<Integer, Integer> entry = slotMap.lastEntry();
+		if(!InlayItemHelper.isOpen(m_pOwner.getModeId(), entry.getKey(), m_pOwner.getLevel())){
+			modelId = entry.getValue();
+		}
+		
 		InlayItem targetItem = inlayItemHolder.getItem(heroId, modelId);
 		if (targetItem != null) {
 			stripSuccess = inlayItemHolder.removeItem(player, targetItem);
@@ -154,7 +170,6 @@ public class InlayMgr /*extends IDataMgr*/ {
 				player.getItemBagMgr().addItem(modelId, 1);
 			}
 		}
-
 		//
 		// if(stripSuccess)
 		// {
