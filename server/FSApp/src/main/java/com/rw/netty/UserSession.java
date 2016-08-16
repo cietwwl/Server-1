@@ -1,11 +1,12 @@
 package com.rw.netty;
 
-public class SessionInfo {
+
+public class UserSession {
 
 	private final String userId; // 玩家ID
 	private final long sessionId; // session唯一ID
 
-	public SessionInfo(String userId, long sessionId) {
+	public UserSession(String userId, long sessionId) {
 		this.userId = userId;
 		this.sessionId = sessionId;
 	}
