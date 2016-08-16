@@ -8,9 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -20,7 +18,6 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ReConnectionProtos.SyncVersion;
 
@@ -277,6 +274,13 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityDailyDiscountType);
 		
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				MagicSecretMgr.getInstance().synUserMSData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
 		
 		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -285,14 +289,6 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
-		
-		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {				
-				MagicSecretMgr.getInstance().synUserMSData(player);
-			}
-		}));
-		orderList.add(eSynType.MagicSecretData);
 		
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -303,11 +299,6 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityVitalityType);
 		
-		
-		
-		
-		
-
 		notInVersionControlList.add(notInVersionControlP);
 		
 		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {
