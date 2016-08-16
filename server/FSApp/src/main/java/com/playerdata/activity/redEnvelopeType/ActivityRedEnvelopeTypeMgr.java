@@ -89,7 +89,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO
 				.getInstance().getCfgByItemOfVersion(activityVitalityTypeItem);
 		if (cfg == null) {
-			dataHolder.removeItem(player, activityVitalityTypeItem);
 			return;
 		}
 		

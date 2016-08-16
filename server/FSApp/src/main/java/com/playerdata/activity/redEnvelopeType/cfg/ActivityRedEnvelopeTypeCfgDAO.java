@@ -117,14 +117,13 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		for(ActivityRedEnvelopeTypeCfg cfg : allCfg){
 			if(!StringUtils.equals(item.getCfgId(), cfg.getId())&&ActivityRedEnvelopeTypeMgr.getInstance().isOpen(cfg)){
 				cfgOfOpen.add(cfg);
-			}			
+			}
 		}
 		if(cfgOfOpen.size() > 1){
 			GameLog.error(LogModule.ComActivityRedEnvelope, null, "多个同时激活的cfg",null);
 			return null;
 		}else if(cfgOfOpen.size() == 1){
-			return cfgOfOpen.get(0);
-					
+			return cfgOfOpen.get(0);		
 		}
 		
 		return null;
