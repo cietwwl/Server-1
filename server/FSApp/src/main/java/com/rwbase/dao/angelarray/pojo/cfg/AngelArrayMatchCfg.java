@@ -1,11 +1,11 @@
-package com.rwbase.dao.anglearray.pojo.cfg;
+package com.rwbase.dao.angelarray.pojo.cfg;
 
 /*
  * @author HC
  * @date 2015年11月13日 下午2:52:37
  * @Description 万仙阵匹配规则
  */
-public class AngleArrayMatchCfg {
+public class AngelArrayMatchCfg {
 	private int uniqueId;// 单挑数据的唯一标识
 	private int level;// 匹配段的最低等级
 	private int maxLevel;// 匹配段位的最高等级（包含）

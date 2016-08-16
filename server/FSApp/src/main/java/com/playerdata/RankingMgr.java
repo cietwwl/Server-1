@@ -10,7 +10,7 @@ import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankType;
 import com.bm.rank.RankingEntityCopyer;
-import com.bm.rank.anglearray.AngleArrayComparable;
+import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.arena.ArenaRankingComparable;
 import com.bm.rank.arena.ArenaSettleComparable;
@@ -122,7 +122,7 @@ public class RankingMgr {
 
 		int allSize = list.size();// 几个竞技场排行榜的数据
 
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		int rankingSize = ranking.size();
 
 		if (allSize <= rankingSize) {
@@ -143,9 +143,9 @@ public class RankingMgr {
 			}
 
 			String key = listRankingEntry.getKey();
-			RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(key);
+			RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(key);
 			if (rankingEntry == null) {
-				AngleArrayComparable comparable = new AngleArrayComparable();
+				AngelArrayComparable comparable = new AngelArrayComparable();
 				comparable.setLevel(arenaExtAttr.getLevel());
 				comparable.setFighting(arenaExtAttr.getFightingTeam());
 

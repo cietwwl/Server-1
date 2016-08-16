@@ -1,18 +1,18 @@
-package com.bm.rank.anglearray;
+package com.bm.rank.angelarray;
 
-import com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao;
+import com.rwbase.dao.angelarray.pojo.cfg.dao.AngelArrayMatchCfgCsvDao;
 
 /*
  * @author HC
  * @date 2016年3月18日 下午4:05:01
  * @Description 万仙阵比较器
  */
-public class AngleArrayComparable implements Comparable<AngleArrayComparable> {
+public class AngelArrayComparable implements Comparable<AngelArrayComparable> {
 	private int level;// 等级
 	private int fighting;// 战斗力
 
 	@Override
-	public int compareTo(AngleArrayComparable o) {
+	public int compareTo(AngelArrayComparable o) {
 		int result = compareLevel(level, o.level);
 		if (result != 0) {
 			return result;
@@ -36,7 +36,7 @@ public class AngleArrayComparable implements Comparable<AngleArrayComparable> {
 	 * @return
 	 */
 	private int compareLevel(int firstLevel, int secondLevel) {
-		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
+		AngelArrayMatchCfgCsvDao cfgDAO = AngelArrayMatchCfgCsvDao.getCfgDAO();
 		int firstLevelLimit = cfgDAO.getLevelLimit(firstLevel);
 		int secondLevelLimit = cfgDAO.getLevelLimit(secondLevel);
 

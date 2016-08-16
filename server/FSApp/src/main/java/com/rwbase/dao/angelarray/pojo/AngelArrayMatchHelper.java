@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo;
+package com.rwbase.dao.angelarray.pojo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.bm.arena.ArenaBM;
 import com.bm.rank.RankType;
-import com.bm.rank.anglearray.AngleArrayComparable;
+import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
@@ -30,8 +30,8 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.ECareer;
-import com.rwbase.dao.anglearray.AngelArrayConst;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
+import com.rwbase.dao.angelarray.AngelArrayConst;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -42,7 +42,7 @@ import com.rwbase.dao.role.pojo.RoleCfg;
  * @date 2015年11月13日 下午3:47:37
  * @Description 万仙阵匹配的处理
  */
-public final class AngleArrayMatchHelper {
+public final class AngelArrayMatchHelper {
 
 	private static final Comparator<MatchUserInfo> COMPARATOR = new Comparator<MatchUserInfo>() {
 
@@ -98,11 +98,11 @@ public final class AngleArrayMatchHelper {
 
 		// 如果没有匹配到任何人
 		TeamInfo finalTeamInfo = null;
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
 		String ranResult = null;
 
 		// 排行榜
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (!matchUserInfo.isEmpty()) {
 			// 对随机到的人进行一次优先级排序
 			ArrayList<MatchUserInfo> list = new ArrayList<MatchUserInfo>(matchUserInfo.values());
@@ -124,7 +124,7 @@ public final class AngleArrayMatchHelper {
 				double pro = AngelArrayConst.ARENA_RANK_INDEX_RATE / (i + 1);
 
 				// TODO HC 竞技场上次打的时间
-				RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(matchUserId);
+				RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(matchUserId);
 				int dayDistance = AngelArrayConst.DEFAULT_LOGOUT_DAYS;
 				if (rankingEntry != null) {
 					AngelArrayTeamInfoAttribute extendedAttribute = rankingEntry.getExtendedAttribute();
@@ -268,7 +268,7 @@ public final class AngleArrayMatchHelper {
 			matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
 			ranking.subimitUpdatedTask(matchRankingEntry);
 		} else {// 如果没有就添加到排行榜
-			AngleArrayComparable comparable = new AngleArrayComparable();
+			AngelArrayComparable comparable = new AngelArrayComparable();
 			comparable.setFighting(matchFighting);
 			comparable.setLevel(finalTeamInfo.getLevel());
 
@@ -343,21 +343,21 @@ public final class AngleArrayMatchHelper {
 			RankType rankType) {
 		Map<String, MatchUserInfo> matchUserInfo = new HashMap<String, MatchUserInfo>(AngelArrayConst.MIN_MATCH_SIZE);
 
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
 		if (ranking == null) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("排行榜类型[%s]万仙阵阵容的排行榜是Null", rankType));
 			return matchUserInfo;
 		}
 
-		AngleArrayComparable minValue = new AngleArrayComparable();
+		AngelArrayComparable minValue = new AngelArrayComparable();
 		minValue.setLevel(level);
 		minValue.setFighting(minFighting);
 
-		AngleArrayComparable maxValue = new AngleArrayComparable();
+		AngelArrayComparable maxValue = new AngelArrayComparable();
 		maxValue.setLevel(maxLevel);
 		maxValue.setFighting(maxFighting);
 
-		SegmentList<? extends MomentRankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute>> segmentList = ranking.getSegmentList(minValue, maxValue);
+		SegmentList<? extends MomentRankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute>> segmentList = ranking.getSegmentList(minValue, maxValue);
 		int refSize = segmentList.getRefSize();
 		if (refSize <= 0) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中截取到任何数据", minFighting, maxFighting, rankType));
@@ -365,7 +365,7 @@ public final class AngleArrayMatchHelper {
 		}
 
 		for (int i = 0; i < refSize; i++) {
-			MomentRankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> momentRankingEntry = segmentList.get(i);
+			MomentRankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> momentRankingEntry = segmentList.get(i);
 			if (momentRankingEntry == null) {
 				continue;
 			}

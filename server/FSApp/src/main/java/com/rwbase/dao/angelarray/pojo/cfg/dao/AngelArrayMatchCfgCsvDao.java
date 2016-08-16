@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo.cfg.dao;
+package com.rwbase.dao.angelarray.pojo.cfg.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,17 +12,17 @@ import java.util.TreeMap;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.anglearray.pojo.cfg.AngleArrayMatchCfg;
+import com.rwbase.dao.angelarray.pojo.cfg.AngelArrayMatchCfg;
 
 /*
  * @author HC
  * @date 2015年11月13日 下午2:56:49
  * @Description 万仙阵匹配规则数据Dao，不允许外部构造和继承。必须使用本类中的静态方法
  */
-public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
+public class AngelArrayMatchCfgCsvDao extends CfgCsvDao<AngelArrayMatchCfg> {
 	// 内部使用的类实例，坚决不开给外部使用
-	public static AngleArrayMatchCfgCsvDao getCfgDAO() {
-		return SpringContextUtil.getBean(AngleArrayMatchCfgCsvDao.class);
+	public static AngelArrayMatchCfgCsvDao getCfgDAO() {
+		return SpringContextUtil.getBean(AngelArrayMatchCfgCsvDao.class);
 	}
 
 	/**
@@ -32,20 +32,20 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 	/** 匹配的等级分段<最低等级,最高等级> */
 	private TreeMap<Integer, Integer> levelMap;// 等级配置
 
-	private AngleArrayMatchCfgCsvDao() {
+	private AngelArrayMatchCfgCsvDao() {
 	}
 
 	@Override
-	public Map<String, AngleArrayMatchCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("tower/Match.csv", AngleArrayMatchCfg.class);
+	public Map<String, AngelArrayMatchCfg> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("tower/Match.csv", AngelArrayMatchCfg.class);
 
 		if (cfgCacheMap != null) {
 			List<Integer> uniqueIdList = new ArrayList<Integer>(cfgCacheMap.size());
 
 			TreeMap<Integer, Map<Integer, Integer>> matchMap = new TreeMap<Integer, Map<Integer, Integer>>();// 初始化
 			TreeMap<Integer, Integer> levelMap = new TreeMap<Integer, Integer>();// 初始化
-			for (Entry<String, AngleArrayMatchCfg> e : cfgCacheMap.entrySet()) {
-				AngleArrayMatchCfg cfg = e.getValue();// Value
+			for (Entry<String, AngelArrayMatchCfg> e : cfgCacheMap.entrySet()) {
+				AngelArrayMatchCfg cfg = e.getValue();// Value
 
 				int minLevel = cfg.getLevel();
 				Map<Integer, Integer> map = matchMap.get(minLevel);
@@ -81,7 +81,7 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 	 * @param floor
 	 * @return
 	 */
-	public AngleArrayMatchCfg getMatchCfg(int level, int floor) {
+	public AngelArrayMatchCfg getMatchCfg(int level, int floor) {
 		if (matchMap == null) {
 			return null;
 		}
@@ -101,7 +101,7 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 			return null;
 		}
 
-		return (AngleArrayMatchCfg) this.getCfgById(uniqueId.toString());
+		return (AngelArrayMatchCfg) this.getCfgById(uniqueId.toString());
 	}
 
 	/**
