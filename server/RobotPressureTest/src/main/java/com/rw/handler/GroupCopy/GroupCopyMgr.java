@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import com.rw.Client;
 import com.rw.common.RobotLog;
 import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
+import com.rw.handler.chat.GmHandler;
 import com.rw.mutiTest.MutiTestAccount;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
@@ -34,7 +35,15 @@ public class GroupCopyMgr {
 			RobotLog.info("当前机器人没有可进入的帮派副本");
 			return true;
 		}
-		
+		//检查角色进入副本次数
+		int count = client.getGroupCopyUserData().getLeftFightCount(record.getChaterID());
+		if(count <= 0){
+			RobotLog.info("发现角色进入关卡次数为0，准备为角色添加进入帮派副本关卡次数");
+			boolean send = GmHandler.instance().send(client, "* setgbf "+ 100);
+			if(send){
+				GroupCopyHandler.getInstance().applyCopyInfo(client);
+			}
+		}
 //		handler.clientApplyDropData(client, record.getChaterID());
 //		
 //		handler.clientApplyServerRank(client, record.getCurLevelID());

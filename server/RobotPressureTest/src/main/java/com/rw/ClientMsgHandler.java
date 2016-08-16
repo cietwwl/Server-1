@@ -195,6 +195,9 @@ public abstract class ClientMsgHandler {
 					case GROUP_ITEM_DROP_APPLY:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
+					case USE_GROUP_COPY_DATA:
+						getClient().getGroupCopyUserData().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
