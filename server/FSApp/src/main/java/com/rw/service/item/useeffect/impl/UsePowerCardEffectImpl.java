@@ -14,6 +14,7 @@ import com.rw.service.item.ItemBagHandler;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
@@ -55,13 +56,22 @@ public class UsePowerCardEffectImpl implements IItemUseEffect {
 
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {
+
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
 				Integer value = e.getValue();
 				if (key < eSpecialItemId.eSpecial_End.getValue()) {
 					itemBagMgr.addItem(key, -value * useCount);
 				} else {
-					useItemList.add(new UseItem(itemBagMgr.getFirstItemByModelId(modelId).getId(), value * useCount));
+					ItemData item = modelFirstItemDataMap.get(modelId);
+					if (item == null) {
+						GameLog.error("使用体力卡道具", "使用模版Id：" + modelId, "在背包中找不到要使用的物品");
+						rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
+						return rsp.build().toByteString();
+					}
+					useItemList.add(new UseItem(item.getId(), value * useCount));
 				}
 			}
 		}

@@ -10,9 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -44,17 +44,11 @@ public final class ActivityCountTypeCfgDAO extends
 		}
 		HashMap<String, List<ActivityCountTypeCfg>> enumIdCfgMapping_ = new HashMap<String, List<ActivityCountTypeCfg>>();
 		for (ActivityCountTypeCfg typeCfg : cfgCacheMap.values()) {
-			String enumId = typeCfg.getEnumId();
-			List<ActivityCountTypeCfg> list = enumIdCfgMapping_.get(enumId);
-			if (list == null) {
-				list = new ArrayList<ActivityCountTypeCfg>();
-				enumIdCfgMapping_.put(enumId, list);
-			}
-			list.add(typeCfg);
+			ActivityTypeHelper.add(typeCfg,typeCfg.getEnumId(), enumIdCfgMapping_);
 		}
 		this.enumIdCfgMapping = enumIdCfgMapping_;
 		return cfgCacheMap;
-	}
+	}	
 
 	public void parseTime(ActivityCountTypeCfg cfgItem) {
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem
@@ -66,35 +60,34 @@ public final class ActivityCountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);
 	}
 
-	/**
-	 * 
-	 * @param player
-	 * @param countTypeEnum
-	 * @param subdaysNum
-	 *            每日重置类型的活动,第几天
-	 * @return
-	 */
-	public ActivityCountTypeItem newItem(Player player,
-			ActivityCountTypeEnum countTypeEnum,
-			ActivityCountTypeCfg activityCountTypeCfg) {
-		if (activityCountTypeCfg != null) {
-			ActivityCountTypeItem item = new ActivityCountTypeItem();
-			String itemId = ActivityCountTypeHelper.getItemId(
-					player.getUserId(), countTypeEnum);
-			item.setId(itemId);
-			item.setCfgId(activityCountTypeCfg.getId());
-			item.setEnumId(activityCountTypeCfg.getEnumId());
-			item.setUserId(player.getUserId());
-			item.setVersion(activityCountTypeCfg.getVersion());
-			item.setSubItemList(newItemList(player, activityCountTypeCfg));
-			return item;
-		} else {
-			return null;
-		}
-	}
+//	/**
+//	 * 
+//	 * @param player
+//	 * @param countTypeEnum
+//	 * @param subdaysNum
+//	 *            每日重置类型的活动,第几天
+//	 * @return
+//	 */
+//	public ActivityCountTypeItem newItem(Player player,
+//			ActivityCountTypeEnum countTypeEnum,
+//			ActivityCountTypeCfg activityCountTypeCfg) {
+//		if (activityCountTypeCfg != null) {
+//			ActivityCountTypeItem item = new ActivityCountTypeItem();
+//			String itemId = ActivityCountTypeHelper.getItemId(
+//					player.getUserId(), countTypeEnum);
+//			item.setId(itemId);
+//			item.setCfgId(activityCountTypeCfg.getId());
+//			item.setEnumId(activityCountTypeCfg.getEnumId());
+//			item.setUserId(player.getUserId());
+//			item.setVersion(activityCountTypeCfg.getVersion());
+//			item.setSubItemList(newItemList(player, activityCountTypeCfg));
+//			return item;
+//		} else {
+//			return null;
+//		}
+//	}
 
-	public List<ActivityCountTypeSubItem> newItemList(Player player,
-			ActivityCountTypeCfg activityCountTypeCfg) {
+	public List<ActivityCountTypeSubItem> newItemList(ActivityCountTypeCfg activityCountTypeCfg) {
 		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO
 				.getInstance().getByParentCfgId(activityCountTypeCfg.getId());

@@ -113,11 +113,13 @@ enum eSynType	//数据同步类型
 	MAGICEQUIP_FETTER = 90; //法宝神器羁绊
 	USER_TEAM_BATTLE = 91;	//组队战斗，玩家信息
 	TEAM_BATTLE_TEAM = 92;	//组队战斗，队伍信息
+	
 	WB_DATA = 93;		//世界boss数据
 	WB_USER_DATA = 94;  //世界boss个人数据
 	RANDOM_BOSS_DATA = 95;//随机boss数据
 	WB_RANK_DATA = 96;//世界boss排行数据
 	GC_PREPARE_POSITION = 97;	//帮派争霸赛，备战区的位置信息同步
+	FIGHTING_GROWTH_DATA = 98; // 战力提升数据
 }
 
 message MsgDataSynList
