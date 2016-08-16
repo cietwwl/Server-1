@@ -1,11 +1,11 @@
-package com.playerdata.groupcompetition.prepare;
+package com.playerdata.groupcompetition.syn;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class WaitingQueue<T> {
+public class WaitingQueue<T extends Comparable<T>> {
 	
 	private ConcurrentSkipListSet<T> cSet;
 	
@@ -33,5 +33,9 @@ public class WaitingQueue<T> {
 			result.add(element);
 		}
 		return result;
+	}
+	
+	public void clear(){
+		cSet.clear();
 	}
 }
