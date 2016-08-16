@@ -167,6 +167,7 @@ public class Player implements PlayerIF {
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
 	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
+	private volatile long lastTeamChatCahceTime;// 上次发送组队聊天时间
 
 	private TimeAction oneSecondTimeAction;// 秒时效
 
@@ -613,18 +614,18 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void NotifyCommonMsg(ErrorType error,ECommonMsgTypeDef msgShowType, String message){
+	public void NotifyCommonMsg(ErrorType error, ECommonMsgTypeDef msgShowType, String message) {
 		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();
 		response.setType(msgShowType.getValue());
 		response.setError(error);
 		response.setMessage(message);
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
-	
-	public void NotifyFunctionNotOpen(String message){
-		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN,ECommonMsgTypeDef.MsgTips,message);
+
+	public void NotifyFunctionNotOpen(String message) {
+		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN, ECommonMsgTypeDef.MsgTips, message);
 	}
-	
+
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
 		if (StringUtils.isBlank(message)) {
 			return;
@@ -1029,7 +1030,7 @@ public class Player implements PlayerIF {
 	}
 
 	public int getLevel() {
-		// return  getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		// return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
 		if (level == 0) {
 			level = getMainRoleHero().getLevel();
 		}
@@ -1426,8 +1427,7 @@ public class Player implements PlayerIF {
 	 * 
 	 * @param heroModelId
 	 * @param fettersData
-	 * @param canSyn
-	 *            是否可以同步数据
+	 * @param canSyn 是否可以同步数据
 	 */
 	public void addOrUpdateHeroFetters(int heroModelId, SynFettersData fettersData, boolean canSyn) {
 		if (fettersData == null) {
@@ -1495,5 +1495,23 @@ public class Player implements PlayerIF {
 	 */
 	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
 		return teamHolder;
+	}
+
+	/**
+	 * 获取上次发送组队信息的时间
+	 * 
+	 * @return
+	 */
+	public long getLastTeamChatCahceTime() {
+		return lastTeamChatCahceTime;
+	}
+
+	/**
+	 * 设置上次发送组队信息的缓存时间
+	 * 
+	 * @param lastTeamChatCahceTime
+	 */
+	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
+		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
 	}
 }
