@@ -8,6 +8,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
 import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -52,6 +53,10 @@ public class MagicChapterInfoHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
+	public void updateItemWithoutSyn(Player player, MagicChapterInfo item){
+		getItemStore(player.getUserId()).updateItem(item);
+	}
+	
 	public void updateItem(Player player, String chapterID){
 		MagicChapterInfo item = getItem(player.getUserId(), chapterID);
 		getItemStore(player.getUserId()).updateItem(item);
@@ -77,6 +82,8 @@ public class MagicChapterInfoHolder{
 	 * @param chapterID
 	 */
 	public void initMagicChapterInfo(Player player, String chapterID){
+		MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(chapterID);
+		if(mcCfg == null) return;
 		MagicChapterInfo mcInfo = getItem(player.getUserId(), chapterID);
 		if(mcInfo == null) {
 			mcInfo = new MagicChapterInfo();
@@ -87,7 +94,7 @@ public class MagicChapterInfoHolder{
 			mcInfo.setUserId(player.getUserId());
 			addItem(player, mcInfo);
 			startNewChapter(player, chapterID);
-			updateItem(player, mcInfo);
+			updateItemWithoutSyn(player, mcInfo);
 		}
 	}
 	
@@ -99,7 +106,7 @@ public class MagicChapterInfoHolder{
 		for(MagicChapterInfo mcInfo : getItemList(player)){
 			mcInfo.resetData();
 			startNewChapter(player, mcInfo.getChapterId());
-			updateItem(player, mcInfo);
+			updateItemWithoutSyn(player, mcInfo);
 		}
 		return true;
 	}
@@ -120,7 +127,16 @@ public class MagicChapterInfoHolder{
 	}
 	
 	public void synAllData(Player player){
-		List<MagicChapterInfo> itemList = getItemList(player);			
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return;
+		int maxChapter = umsData.getMaxStageID()/100;
+		List<MagicChapterInfo> itemList = getItemList(player);
+		for(MagicChapterInfo mcInfo : itemList){
+			if(Integer.valueOf(mcInfo.getChapterId()) != maxChapter) {
+				mcInfo.getSelectableDungeons().clear();
+				mcInfo.getUnselectedBuff().clear();
+			}
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

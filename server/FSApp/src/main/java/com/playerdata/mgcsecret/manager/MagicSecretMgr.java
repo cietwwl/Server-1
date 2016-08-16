@@ -496,12 +496,12 @@ public class MagicSecretMgr {
 		return (int)(history * SCORE_COEFFICIENT) + today;
 	}
 	
-	public void synMagicChapterData(Player player) {
-		MagicChapterInfoHolder.getInstance().synAllData(player);
-	}
-	
 	public void synUserMSData(Player player) {
 		UserMagicSecretHolder.getInstance().syn(player);
+	}
+	
+	public void synMagicChapterData(Player player) {
+		MagicChapterInfoHolder.getInstance().synAllData(player);
 	}
 	
 	/**
