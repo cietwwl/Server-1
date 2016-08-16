@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.EquipHelper;
@@ -29,9 +28,9 @@ import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
@@ -225,7 +224,8 @@ public class RobotManager {
 		if (lv > roleLevel) {
 			lv = roleLevel;
 		}
-		hero.SetHeroLevel(lv);
+//		hero.SetHeroLevel(lv);
+		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
 		heroList.add(hero);
 	}
 
@@ -235,8 +235,10 @@ public class RobotManager {
 		if (startLevel == 0) {
 			System.out.println();
 		}
-		hero.setStarLevel(startLevel);
-		hero.setQualityId(getQualityId(hero, quality));
+//		hero.setStarLevel(startLevel);
+//		hero.setQualityId(getQualityId(hero, quality));
+		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
+		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
 	}
 
 	private static String getQualityId(Hero hero, int quality) {
@@ -576,15 +578,11 @@ public class RobotManager {
 
 			Player player = new Player(userId, false, playerCfg);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-//			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
-			mainRoleHero.SetHeroLevel(level);
 			// 品质
-//			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
-//			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
-//			roleBaseInfoMgr.setLevel(level);
-			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
-			mainRoleHero.SetHeroLevel(level);
+//			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
+			player.SetLevel(level);
 			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);

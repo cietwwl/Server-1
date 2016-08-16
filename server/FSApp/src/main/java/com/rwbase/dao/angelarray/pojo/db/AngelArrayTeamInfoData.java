@@ -21,7 +21,7 @@ public class AngelArrayTeamInfoData implements IMapItem {
 	private String userId;// 这个记录是属于那个玩家的
 	private int minFighting;// 战斗力区间下限
 	private int maxFighting;// 战斗力区间上限
-	private int teamGroupId = 1;// 单纯只是为了约束所有的数据都能用一个MapItemStore加载
+	private String teamGroupId = "1";// 单纯只是为了约束所有的数据都能用一个MapItemStore加载
 	@CombineSave(Column = "teamInfo")
 	private TeamInfo teamInfo;// 角色的阵容信息
 	private int minFloor;// 最低可以随机出来的范围
@@ -52,11 +52,11 @@ public class AngelArrayTeamInfoData implements IMapItem {
 		this.maxFighting = maxFighting;
 	}
 
-	public int getTeamGroupId() {
+	public String getTeamGroupId() {
 		return teamGroupId;
 	}
 
-	public void setTeamGroupId(int teamGroupId) {
+	public void setTeamGroupId(String teamGroupId) {
 		this.teamGroupId = teamGroupId;
 	}
 

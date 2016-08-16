@@ -1,11 +1,8 @@
 package com.rwbase.dao.skill.pojo;
 
-import java.util.List;
+public interface SkillIF {
 
-
-public interface SkillIF  {
-
-	public String getId() ;
+	public String getId();
 
 	public int getLevel();
 
@@ -13,11 +10,11 @@ public interface SkillIF  {
 
 	public float getSkillRate();
 
-	public int getExtraDamage() ;
+	public int getExtraDamage();
 
-	public List<Integer> getBuffId() ;
+	// public List<Integer> getBuffId() ;
 
-	public String getOwnerId() ;
+	public String getOwnerId();
 
 	public String getSkillId();
 
