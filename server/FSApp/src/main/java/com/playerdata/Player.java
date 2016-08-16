@@ -43,6 +43,8 @@ import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.PeakArena.PeakArenaBM;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
@@ -590,6 +592,15 @@ public class Player implements PlayerIF {
 		getAssistantMgr().doCheck();
 		if (this.tempAttribute.checkAndResetRedPoint()) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
+		}
+		
+		{//检查巅峰竞技场
+			Player player = this;
+			PeakArenaBM peakBM = PeakArenaBM.getInstance();
+			TablePeakArenaData arenaData = peakBM.getOrAddPeakArenaData(player);
+			if (arenaData != null){
+				peakBM.addPeakArenaCoin(player, arenaData, peakBM.getPlace(player), System.currentTimeMillis());
+			}
 		}
 	}
 
