@@ -2,7 +2,6 @@ package com.rw.handler.groupFight.armySimple;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.handler.battle.army.CurAttrData;
 
 
@@ -12,7 +11,6 @@ import com.rw.handler.battle.army.CurAttrData;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@SynClass
 public class ArmyHeroSimple {
 	
 	private String id;    //英雄uuid	

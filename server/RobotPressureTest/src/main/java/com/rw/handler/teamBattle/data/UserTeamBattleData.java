@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.dataSyn.SynItem;
 
-@SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserTeamBattleData implements SynItem{
 
