@@ -28,6 +28,7 @@ import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
+import com.rwbase.dao.magicweapon.MagicExpCfgDAO;
 import com.rwproto.ItemBagProtos.BuyItemInfo;
 import com.rwproto.ItemBagProtos.ConsumeTypeDef;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
@@ -620,6 +621,28 @@ public class ItemBagHandler {
 				} catch (Exception ex) {
 					response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
 					break;
+				}
+				
+				String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
+				int lvl = -1;
+				try{
+					lvl = Integer.parseInt(lvlStr);
+					if (lvl<0) {
+						//无法获取法宝等级！
+						break;
+					}
+				}catch(Exception ex){
+					//无法获取法宝等级！
+					break;
+				}
+				
+				if (lvl>1){
+					final Pair<Integer, Integer> lvlCurPair = MagicExpCfgDAO.getInstance().getExpLst(lvl-1);
+					if (lvlCurPair == null){
+						//无法获取法宝等级对应的满经验值！
+						break;
+					}
+					totalExp = totalExp + lvlCurPair.getT2();
 				}
 
 				final float coeff = cfg.getCoefficient();
