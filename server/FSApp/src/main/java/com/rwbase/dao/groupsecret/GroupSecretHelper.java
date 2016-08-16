@@ -33,6 +33,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMemberAdditionCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
@@ -337,7 +338,7 @@ public class GroupSecretHelper {
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-			enemyData.getAllRobGSValue(), enemyData.getGroupId());
+			enemyData.getAllRobGSValue(), 0, enemyData.getGroupId());
 
 		// if (beat) {// 如果已经打败了
 		// return new GroupSecretDataSynData(baseInfo, null);
@@ -404,6 +405,8 @@ public class GroupSecretHelper {
 		int dropDiamond = 0;
 		int index = -1;
 		int incPct = 0;
+		int defendSize = data.getDefendSize();
+		int displayPct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(defendSize);
 		if (myDefendInfo != null) {
 //			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
 //			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
@@ -417,7 +420,8 @@ public class GroupSecretHelper {
 //				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
 //				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
 //			}
-			incPct = levelGetResTemplate.getRewardIncPct(data.getDefendMap().size());
+			// 有防守数据，表示我已经在这里
+			incPct = displayPct;
 			dropDiamond = myDefendInfo.getDropDiamond();
 			getRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
 			getGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
@@ -428,7 +432,8 @@ public class GroupSecretHelper {
 			robGE = myDefendInfo.getRobGE();
 			robGS = myDefendInfo.getRobGS();
 		} else {
-			incPct = levelGetResTemplate.getRewardIncPct(data.getDefendMap().size() + 1);
+			// 没有防守Info，表示我是将要加入的数据
+			incPct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(defendSize + 1);
 			getRes = levelGetResTemplate.getTotalProduct();
 			getGE = levelGetResTemplate.getTotalGroupExp();
 			getGS = levelGetResTemplate.getTotalGroupSupply();
@@ -439,7 +444,7 @@ public class GroupSecretHelper {
 			getGS += Utils.calculateTenThousandRatio(getGS, incPct);
 		}
 
-		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, displayPct, data.getGroupId());
 		base.setMainPos(mainPos);
 		base.setRoboInfo(robTimes, robRes, robGE, robGS);
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));

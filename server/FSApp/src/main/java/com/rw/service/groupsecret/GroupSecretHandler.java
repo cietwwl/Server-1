@@ -13,6 +13,7 @@ import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
+import com.common.Utils;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
@@ -33,10 +34,12 @@ import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretMemberAdditionCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMemberAdditionCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
@@ -469,10 +472,16 @@ public class GroupSecretHandler {
 //		}
 		
 		// 2016-08-12 By PERRY，新需求是直接使用模板的产出数量 BEGIN >>>>>>>>>>
+		int pct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(groupSecretData.getDefendSize());
 		int proRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
 		int proGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
 		int proGS = levelGetResTemplate.getTotalGroupSupply() - myDefendInfo.getRobGS();
 		int dropDiamond = myDefendInfo.getDropDiamond();
+		if (pct > 0) {
+			proRes += Utils.calculateTenThousandRatio(proRes, pct);
+			proGE += Utils.calculateTenThousandRatio(proGE, pct);
+			proGS += Utils.calculateTenThousandRatio(proGS, pct);
+		}
 		// 2016-08-12 END <<<<<<<<<
 
 		// 增加帮派经验物资
@@ -515,7 +524,7 @@ public class GroupSecretHandler {
 		EmbattleInfoMgr.getMgr().removeEmbattleInfo(player, eBattlePositionType.GroupSecretPos_VALUE, getRewardSecretId);
 
 		// 通知客户端删除
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0, ""));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null, 0));
 
 		rsp.setIsSuccess(true);
@@ -1437,6 +1446,12 @@ public class GroupSecretHandler {
 		long leftTimeMillis = needTimeMillis - passTimeMillis;
 		if (leftTimeMillis < minAssistTimeMillis) {
 			GroupSecretHelper.fillRspInfo(rsp, false, String.format("秘境剩余不到%s分钟，不能驻守", uniqueCfg.getMinAssistTime()));
+			return rsp.build().toByteString();
+		}
+		
+		long joinLimit = TimeUnit.MINUTES.toMillis(cfg.getJoinLimitTime());
+		if(passTimeMillis > joinLimit) {
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("秘境创建时间已经超过%d分钟，不能驻守", cfg.getJoinLimitTime()));
 			return rsp.build().toByteString();
 		}
 

@@ -28,8 +28,10 @@ public class SecretBaseInfoSynData {
 	private int robGS; // 被掠夺的帮派资源
 	@SuppressWarnings("unused")
 	private int robTimes; // 被掠夺的次数
+	@SuppressWarnings("unused")
+	private int additionPct; // 奖励加成的比例
 
-	public SecretBaseInfoSynData(String id, int cfgId, boolean isFinish, long creatTime, int myIndex, int dropDiamond, int getRes, int getGE, int getGS, String groupId) {
+	public SecretBaseInfoSynData(String id, int cfgId, boolean isFinish, long creatTime, int myIndex, int dropDiamond, int getRes, int getGE, int getGS, int pAdditionPct,  String groupId) {
 		this.id = id;
 		this.cfgId = cfgId;
 		this.isFinish = isFinish;
@@ -39,6 +41,7 @@ public class SecretBaseInfoSynData {
 		this.getRes = getRes;
 		this.getGE = getGE;
 		this.getGS = getGS;
+		this.additionPct = pAdditionPct;
 		this.groupId = groupId;
 	}
 	
