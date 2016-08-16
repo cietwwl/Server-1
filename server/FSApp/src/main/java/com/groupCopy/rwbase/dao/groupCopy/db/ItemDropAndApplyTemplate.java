@@ -1,10 +1,6 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
