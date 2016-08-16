@@ -44,10 +44,10 @@ import com.rwbase.dao.role.pojo.RoleCfg;
  */
 public final class AngleArrayMatchHelper {
 
-	private static final Comparator<String> COMPARATOR = new Comparator<String>() {
+	private static final Comparator<MatchUserInfo> COMPARATOR = new Comparator<MatchUserInfo>() {
 
 		@Override
-		public int compare(String o1, String o2) {
+		public int compare(MatchUserInfo o1, MatchUserInfo o2) {
 			int rankIndex1 = getArenaRankIndex(o1);
 			int rankIndex2 = getArenaRankIndex(o2);
 			if (rankIndex1 == rankIndex2) {
@@ -80,15 +80,15 @@ public final class AngleArrayMatchHelper {
 	 * @return
 	 */
 	public static AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList,
-		int robotId) {
+			int robotId) {
 		// 第一步等级匹配 && 第二步战力匹配
-		List<String> matchUsetIdList = getMatchUsetIdList(userId, level, maxLevel, minFighting, maxFighting, enemyIdList, hasUserIdList, RankType.ANGEL_TEAM_INFO_RANK);
+		Map<String, MatchUserInfo> matchUserInfo = getMatchUserInfo(userId, level, maxLevel, minFighting, maxFighting, enemyIdList, hasUserIdList, RankType.ANGEL_TEAM_INFO_RANK);
 
 		// 检查是否达到了最低保底数量，没有就通过战力榜去匹配到20个
-		int matchSize = matchUsetIdList.size();
+		int matchSize = matchUserInfo.size();
 		int needFightingRankCount = AngelArrayConst.MIN_MATCH_SIZE - matchSize;
 		if (needFightingRankCount > 0) {
-			getFightingRankMatch(userId, needFightingRankCount, minFighting, maxFighting, matchUsetIdList, enemyIdList, hasUserIdList);
+			getFightingRankMatch(userId, needFightingRankCount, minFighting, maxFighting, matchUserInfo, enemyIdList, hasUserIdList);
 		}
 
 		// 检查下限
@@ -103,17 +103,23 @@ public final class AngleArrayMatchHelper {
 
 		// 排行榜
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
-		if (!matchUsetIdList.isEmpty()) {
+		if (!matchUserInfo.isEmpty()) {
 			// 对随机到的人进行一次优先级排序
-			Collections.sort(matchUsetIdList, COMPARATOR);
+			ArrayList<MatchUserInfo> list = new ArrayList<MatchUserInfo>(matchUserInfo.values());
+			Collections.sort(list, COMPARATOR);
 			// 第三步找出来的人进行排名权重
 			// 第四步竞技活跃权重
 
 			long now = System.currentTimeMillis();
 			// 登陆时间
 			Map<String, Integer> proMap = new HashMap<String, Integer>();
-			for (int i = 0, size = matchUsetIdList.size(); i < size; i++) {
-				String matchUserId = matchUsetIdList.get(i);
+			for (int i = 0, size = list.size(); i < size; i++) {
+				MatchUserInfo matchUser = list.get(i);
+				if (matchUser == null) {
+					continue;
+				}
+
+				String matchUserId = matchUser.getUserId();
 
 				double pro = AngelArrayConst.ARENA_RANK_INDEX_RATE / (i + 1);
 
@@ -270,7 +276,7 @@ public final class AngleArrayMatchHelper {
 		}
 
 		GameLog.info("万仙阵匹配的数据", userId, String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting,
-			(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+				(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
 
 		AngelArrayTeamInfoData angelArrayTeamInfoData = new AngelArrayTeamInfoData();
 		int saveMinFighting = (int) (matchFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
@@ -328,12 +334,14 @@ public final class AngleArrayMatchHelper {
 	 * @param enemyIdList 已经匹配到的数据
 	 * @return
 	 */
-	private static List<String> getMatchUsetIdList(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, RankType rankType) {
-		List<String> userIdList = new ArrayList<String>();
+	private static Map<String, MatchUserInfo> getMatchUserInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList,
+			RankType rankType) {
+		Map<String, MatchUserInfo> matchUserInfo = new HashMap<String, MatchUserInfo>(AngelArrayConst.MIN_MATCH_SIZE);
+
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
 		if (ranking == null) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("排行榜类型[%s]万仙阵阵容的排行榜是Null", rankType));
-			return userIdList;
+			return matchUserInfo;
 		}
 
 		AngleArrayComparable minValue = new AngleArrayComparable();
@@ -348,7 +356,7 @@ public final class AngleArrayMatchHelper {
 		int refSize = segmentList.getRefSize();
 		if (refSize <= 0) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中截取到任何数据", minFighting, maxFighting, rankType));
-			return userIdList;
+			return matchUserInfo;
 		}
 
 		for (int i = 0; i < refSize; i++) {
@@ -359,21 +367,22 @@ public final class AngleArrayMatchHelper {
 
 			AngelArrayTeamInfoAttribute extendedAttribute = momentRankingEntry.getExtendedAttribute();
 			String id = extendedAttribute.getUserId();
-			if (enemyIdList.contains(id) || userIdList.contains(id) || hasUserIdList.contains(id)) {
+			if (enemyIdList.contains(id) || matchUserInfo.containsKey(id) || hasUserIdList.contains(id)) {
 				continue;
 			}
 
-			userIdList.add(id);
+			TeamInfo teamInfo = extendedAttribute.getTeamInfo();
+			matchUserInfo.put(id, new MatchUserInfo(id, teamInfo == null ? -1 : teamInfo.getCareer()));
 
-			if (userIdList.size() >= AngelArrayConst.MAX_MATCH_SIZE) {
+			if (matchUserInfo.size() >= AngelArrayConst.MAX_MATCH_SIZE) {
 				break;
 			}
 		}
 
-		if (userIdList.isEmpty()) {
+		if (matchUserInfo.isEmpty()) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中匹配到任何玩家数据", minFighting, maxFighting, rankType));
 		}
-		return userIdList;
+		return matchUserInfo;
 	}
 
 	/**
@@ -384,7 +393,8 @@ public final class AngleArrayMatchHelper {
 	 * @param hasMatchList 已经匹配到的数据
 	 * @return
 	 */
-	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, List<String> hasMatchList, List<String> enemyIdList, List<String> hasUserIdList) {
+	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, Map<String, MatchUserInfo> matchUserInfo, List<String> enemyIdList,
+			List<String> hasUserIdList) {
 		Ranking<FightingComparable, RankingLevelData> rank = RankingFactory.getRanking(RankType.FIGHTING_ALL_DAILY);
 		if (rank == null) {
 			GameLog.error("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "获取不到对应某个排行榜的数据");
@@ -420,11 +430,11 @@ public final class AngleArrayMatchHelper {
 			}
 
 			String id = rankingLevelData.getUserId();
-			if (enemyIdList.contains(id) || hasMatchList.contains(id) || hasUserIdList.contains(id)) {
+			if (enemyIdList.contains(id) || matchUserInfo.containsKey(id) || hasUserIdList.contains(id)) {
 				continue;
 			}
 
-			hasMatchList.add(id);
+			matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
 			matchCount++;
 			nonPerson = false;
 
@@ -454,11 +464,11 @@ public final class AngleArrayMatchHelper {
 				}
 
 				String id = rankingLevelData.getUserId();
-				if (enemyIdList.contains(id) || hasMatchList.contains(id) || hasUserIdList.contains(id)) {
+				if (enemyIdList.contains(id) || matchUserInfo.containsKey(id) || hasUserIdList.contains(id)) {
 					continue;
 				}
 
-				hasMatchList.add(id);
+				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
 				offCount--;
 				nonPerson = false;
 
@@ -490,11 +500,11 @@ public final class AngleArrayMatchHelper {
 				}
 
 				String id = rankingLevelData.getUserId();
-				if (enemyIdList.contains(id) || hasMatchList.contains(id) || hasUserIdList.contains(id)) {
+				if (enemyIdList.contains(id) || matchUserInfo.containsKey(id) || hasUserIdList.contains(id)) {
 					continue;
 				}
 
-				hasMatchList.add(id);
+				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
 				offCount--;
 				nonPerson = false;
 
@@ -518,13 +528,18 @@ public final class AngleArrayMatchHelper {
 	 * @param userId
 	 * @return
 	 */
-	private static int getArenaRankIndex(String userId) {
-		PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
-		if (player == null) {
-			return -1;
+	private static int getArenaRankIndex(MatchUserInfo userInfo) {
+		String userId = userInfo.getUserId();
+		int career = userInfo.getCareer();
+		if (career == -1) {
+			PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+			if (player == null) {
+				return -1;
+			}
+
+			career = player.getMainRoleHero().getCareer();
 		}
 
-		int career = player.getMainRoleHero().getCareer();
 		ECareer careerType = ECareer.valueOf(career);
 		int rankType;
 		switch (careerType) {
@@ -555,5 +570,23 @@ public final class AngleArrayMatchHelper {
 		}
 
 		return ranking.getRanking(userId);
+	}
+}
+
+class MatchUserInfo {
+	private final String userId;
+	private final int career;
+
+	public MatchUserInfo(String userId, int career) {
+		this.userId = userId;
+		this.career = career;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public int getCareer() {
+		return career;
 	}
 }
