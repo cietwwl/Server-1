@@ -71,7 +71,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day,cfgById));
 			List<ActivityVitalityTypeSubBoxItem> boxlist = newBoxItemList(day,cfgById);
-			if(boxlist != null&&boxlist.isEmpty()){
+			if(boxlist != null&&!boxlist.isEmpty()){
 				item.setSubBoxItemList(boxlist);
 			}
 			item.setLastTime(System.currentTimeMillis());

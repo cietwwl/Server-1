@@ -99,7 +99,7 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		version = cfg.getVersion();
 		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg));
 		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg);
-		if(boxlist != null){
+		if(boxlist != null&&!boxlist.isEmpty()){
 			setSubBoxItemList(boxlist);
 		}
 		lastTime = System.currentTimeMillis();
