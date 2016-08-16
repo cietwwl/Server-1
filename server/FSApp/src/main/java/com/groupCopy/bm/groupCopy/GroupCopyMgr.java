@@ -69,7 +69,6 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
 import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
-import com.sun.tools.javac.code.Types.MapVisitor;
 
 /**
  * 
