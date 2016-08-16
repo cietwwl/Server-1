@@ -3,6 +3,7 @@ package com.playerdata.groupcompetition.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 
@@ -106,5 +107,15 @@ public class GroupCompetitionHandler {
 		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
 		msRsp.setRstType(msMgr.giveBuff(player, msgMSRequest.getChapterId()));
 		return msRsp.build().toByteString();
+	}
+
+	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ByteString informPreparePosition(Player player, CommonReqMsg request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -6,6 +6,10 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.GroupCompetitionProto.CommonReqMsg;
+import com.rwproto.GroupCompetitionProto.CommonRspMsg;
+import com.rwproto.GroupCompetitionProto.GCRequestType;
+import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msRequestType;
@@ -17,72 +21,47 @@ import com.rwproto.RequestProtos.Request;
  * @author AkenWang
  *
  */
-public class GroupCompetitionService implements FsService<CommonReqMsg, ResultType> {
+public class GroupCompetitionService implements FsService<CommonReqMsg, GCRequestType> {
 
 	private GroupCompetitionHandler mHandler = GroupCompetitionHandler.getInstance();
 
 	@Override
-	public ByteString doTask(MagicSecretReqMsg request, Player player) {
+	public ByteString doTask(CommonReqMsg request, Player player) {
 		ByteString result = null;
 		try {
-			msRequestType msType = request.getReqType();
-			switch (msType) {
-			case GET_MS_RANK:
-				result = mHandler.getMSRankData(player, request);
+			GCRequestType gcType = request.getReqType();
+			switch (gcType) {
+			case EnterPrepareArea:
+				result = mHandler.enterPrepareArea(player, request);
 				break;
-			case ENTER_MS_FIGHT:
-				result = mHandler.enterMSFight(player, request);
+			case LeavePrepareArea:
+				result = mHandler.enterPrepareArea(player, request);
 				break;
-			case GET_MS_SINGLE_REWARD:
-				result = mHandler.getMSSingleReward(player, request);
-				break;
-			case GET_MS_SWEEP_REWARD:
-				result = mHandler.getMSSweepReward(player, request);
-				break;
-			case EXCHANGE_BUFF:
-				result = mHandler.exchangeBuff(player, request);
-				break;
-			case OPEN_REWARD_BOX:
-				result = mHandler.openRewardBox(player, request);
-				break;
-			case CHANGE_ARMY:
-				result = mHandler.changeMSArmy(player, request);
-				break;
-			case GET_SCORE_REWARD:
-				result = mHandler.getScoreReward(player, request);
-				break;
-			case GET_SELF_MS_RANK:
-				result = mHandler.getSelfMSRank(player, request);
-				break;
-			case GIVE_UP_REWARD_BOX:
-				result = mHandler.giveUpRewardBox(player, request);
-				break;	
-			case GIVE_UP_BUFF:
-				result = mHandler.giveUpBuff(player, request);
+			case InformPreparePosition:
+				result = mHandler.informPreparePosition(player, request);
 				break;
 			default:
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
+				GameLog.error(LogModule.GroupCompetition, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
 		} catch (Exception e) {
-			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
-			MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-			msRsp.setReqType(request.getReqType());
-			msRsp.setRstType(msResultType.DATA_ERROR);
-			result = msRsp.build().toByteString();
+			GameLog.error(LogModule.GroupCompetition, player.getUserId(), "出现了Exception异常", e);
+			CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			result = gcRsp.build().toByteString();
 		}
 		return result;
 	}
 
 	@Override
-	public MagicSecretReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
+	public CommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
 		// TODO Auto-generated method stub
-		MagicSecretReqMsg msgMSRequest = MagicSecretReqMsg.parseFrom(request.getBody().getSerializedContent());
+		CommonReqMsg msgMSRequest = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 		return msgMSRequest;
 	}
 
 	@Override
-	public msRequestType getMsgType(MagicSecretReqMsg request) {
+	public GCRequestType getMsgType(CommonReqMsg request) {
 		// TODO Auto-generated method stub
 		return request.getReqType();
 	}
