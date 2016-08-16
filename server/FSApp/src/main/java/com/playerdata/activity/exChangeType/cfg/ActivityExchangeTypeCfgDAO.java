@@ -89,6 +89,7 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
 			String itemId = ActivityExChangeTypeHelper.getItemId(player.getUserId(), ActivityExChangeTypeEnum.getById(cfgById.getEnumId()));
 			item.setId(itemId);
+			item.setEnumId(cfgById.getEnumId());
 			item.setCfgId(cfgById.getId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
