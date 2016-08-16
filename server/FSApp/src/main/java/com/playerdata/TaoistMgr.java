@@ -36,9 +36,9 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		this.player = player;
-		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
-		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
-		onEffectChange(record);
+//		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+//		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+//		onEffectChange(record);
 	}
 
 	private boolean hasSubscribeLevel = false;
