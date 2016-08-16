@@ -112,6 +112,8 @@ enum Command {
 	MSG_RANDOM_BOSS = 214;     //随机boss
 	MSG_WORLD_BOSS = 215;      //世界boss
 	
+	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
+	
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
