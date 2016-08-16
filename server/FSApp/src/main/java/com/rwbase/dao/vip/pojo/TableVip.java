@@ -12,7 +12,6 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.enu.EPrivilegeDef;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "mt_table_vip")
 @SynClass
 public class TableVip {
 	@Id
