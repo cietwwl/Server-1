@@ -260,7 +260,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		//发放帮派经验
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
