@@ -10,4 +10,13 @@ public class QuestionTips {
 	
 	public static String FEEDBACK_SERVICE_CLOSE_TIPS = "反馈服务尚未开启！";
 	
+	public static String CAN_NOT_REPORT_SELF = "不能举报自己";
+	
+	public static String REPORT_FAIL = "举报失败";
+	
+	public static String REPORT_SUCCESS = "举报成功";
+	
+	public static String REPORT_OVERTIME = "举报者一天举报次数超出了10次";
+	
+	public static String REPORT_ALREADY = "一个被举报者同一条内容一天只能被举报一次";
 }

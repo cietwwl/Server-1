@@ -118,7 +118,7 @@ public class GmHandler {
 		taskMap.put(20007, new GmDeleteGameNotice());
 		taskMap.put(20008, new GmEditGmNotice());
 		taskMap.put(20009, new GmQueryGmNotice());
-		taskMap.put(20010,  new GmRemoveGmNotice());
+		taskMap.put(20010, new GmRemoveGmNotice());
 		taskMap.put(20014, new GmEmailWhiteList());
 		taskMap.put(20015, new GmEmailAll());
 		taskMap.put(20016, new GmEmailSingleSend());

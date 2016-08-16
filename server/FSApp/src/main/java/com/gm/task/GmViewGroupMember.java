@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
+import com.bm.rank.RankType;
+import com.bm.rank.fightingAll.FightingComparable;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
@@ -13,9 +15,13 @@ import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.GroupCommonProto.GroupPost;
 
 public class GmViewGroupMember implements IGmTask{
@@ -73,8 +79,7 @@ public class GmViewGroupMember implements IGmTask{
 				String roleId = groupMemberDataIF.getUserId();
 				String roleName = groupMemberDataIF.getName();
 				int lv = groupMemberDataIF.getLevel();
-				PlayerIF tempPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(roleId);
-				int fight = tempPlayer.getHeroMgr().getFightingAll();
+				int fight = groupMemberDataIF.getFighting();
 				int contribution = groupMemberDataIF.getContribution();
 				long lastDonateTime = groupMemberDataIF.getLastDonateTime()/1000;
 				String postDesc = GroupPostInfo.getPostDesc(groupMemberDataIF.getPost());

@@ -17,6 +17,7 @@ public class QuestionListDataHolder {
 	private final String userId;
 	private List<QueryListResponse> questionList = new ArrayList<QueryListResponse>();
 	private boolean blnInit = true;
+	private long reportPlayerTime;
 	
 	public QuestionListDataHolder(String userId){
 		this.userId = userId;

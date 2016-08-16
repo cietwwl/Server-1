@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.chat.ChatBM;
 import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
+import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -183,10 +184,10 @@ public final class GroupBM {
 		if (cacheGroupDataMap.putIfAbsent(newGroupId, group) != null) {
 			return null;
 		}
-
+		HeroMgr heroMgr = player.getHeroMgr();
 		// 放入成员
 		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
-				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(), GroupCopyLevelBL.MAX_ALLOT_COUNT);
+				player.getCareer(), GroupPost.LEADER_VALUE, heroMgr.getFightingAll(), now, now, false, player.getHeadFrame(), GroupCopyLevelBL.MAX_ALLOT_COUNT);
 
 		
 		return group;

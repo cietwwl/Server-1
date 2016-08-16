@@ -90,6 +90,64 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param player
+	 * @param targetUserId
+	 * @param feedBackContent
+	 * @param reportChannel	举报频道 1:世界 2:帮派 3:附近 4:私聊
+	 * @param channel	1 聊天举报 	2外挂举报
+	 * @param type
+	 * @return
+	 */
+	public String reportOtherPlayer(Player player, String targetUserId, String content, int reportChannel, String channel, int type){
+		if(!ServerSwitch.isGiftCodeOpen()){
+			return QuestionTips.FEEDBACK_SERVICE_CLOSE_TIPS;
+		}
+		if(player.getUserId() == targetUserId){
+			return QuestionTips.CAN_NOT_REPORT_SELF;
+		}
+		String userId = player.getUserId();
+		Player targetPlayer = PlayerMgr.getInstance().find(targetUserId);
+		Map<String, Object> contentMap = new HashMap<String, Object>();
+		contentMap.put("channel", channel);
+		contentMap.put("type", type);
+		contentMap.put("reportChannel", reportChannel);
+		contentMap.put("byReportAccount", targetPlayer.getUserDataMgr().getAccount());
+		contentMap.put("byReportId", targetUserId);
+		contentMap.put("byReportName", targetPlayer.getUserName());
+		contentMap.put("byReportVip", targetPlayer.getVip());
+		contentMap.put("byReportPhone", "");
+		contentMap.put("byReportRoleLev", targetPlayer.getLevel());
+		contentMap.put("reportId", userId);
+		contentMap.put("reportName", player.getUserName());
+		contentMap.put("reportVip", player.getVip());
+		contentMap.put("reportTime", System.currentTimeMillis()/1000);
+		contentMap.put("reportContent", content);
+		contentMap.put("iSequenceNum", ServerStatusMgr.getiSequenceNum());
+		
+		QuestionSubmitResponse response = PlayerQuestionService.getInstance().submitRequestSync(contentMap, 25002, userId, false, QuestionSubmitResponse.class);
+		
+		return getReportResponseMsg(response);
+	}
+	
+	private String getReportResponseMsg(QuestionSubmitResponse response){
+		if(response ==null){
+			return QuestionTips.REPORT_FAIL;
+		}
+		
+		switch (response.getType()) {
+		case 0:
+			return QuestionTips.REPORT_SUCCESS;
+		case 1:
+			return QuestionTips.REPORT_OVERTIME;
+		case 2:
+			return QuestionTips.REPORT_ALREADY;
+		default:
+			return QuestionTips.REPORT_FAIL;
+		}
+	}
+	
 	
 	public void processResponse(List objs, int opType){
 		QuestionOpType questionOpType = QuestionOpType.getByOpType(opType);

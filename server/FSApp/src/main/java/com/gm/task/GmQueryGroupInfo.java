@@ -2,6 +2,7 @@ package com.gm.task;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.bm.group.GroupBM;
@@ -20,6 +21,7 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 public class GmQueryGroupInfo implements IGmTask{
 
@@ -49,6 +51,7 @@ public class GmQueryGroupInfo implements IGmTask{
 			int maxMemberSize = levelTemplate.getMaxMemberLimit();
 			String groupNum = groupMemberSize + "/"+maxMemberSize;
 			String groupNotice = groupData.getAnnouncement();
+			long teamFight = getGroupFight(memberMgr);
 			
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			int rankIndex = GroupRankHelper.getGroupRankIndex(groupId);
@@ -57,7 +60,7 @@ public class GmQueryGroupInfo implements IGmTask{
 			map.put("lev", groupLv);
 			map.put("exp", groupExp);
 			map.put("teamEquip", supplies);
-			map.put("teamFight", 0);
+			map.put("teamFight", teamFight);
 			map.put("teamNum", groupNum);
 			map.put("teamNotice", groupNotice);
 			map.put("teamTown", groupResourceName);
@@ -83,5 +86,14 @@ public class GmQueryGroupInfo implements IGmTask{
 		}
 		return "";
 		
+	}
+	
+	private long getGroupFight(GroupMemberMgr memberMgr){
+		List<? extends GroupMemberDataIF> memberSortList = memberMgr.getMemberSortList(null);
+		long totalFight = 0;
+		for (GroupMemberDataIF groupMemberDataIF : memberSortList) {
+			totalFight += groupMemberDataIF.getFighting();
+		}
+		return totalFight;
 	}
 }
