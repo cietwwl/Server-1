@@ -33,10 +33,10 @@ import com.rwbase.dao.angelarray.pojo.db.AngelArrayEnemyInfoData;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayFloorData;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayFloorDataHolder;
 import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
-import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.tower.TowerAwardCfg;
@@ -194,7 +194,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param userId
 	 * @param level
 	 * @param fighting
-	 * @param floor
+	 * @param floor 以前的逻辑有潜规则，存储的时候，所有的层都是按照数据或者列表的下标作为层数，所以第一层就是0
 	 * @param needClearEnemy
 	 */
 	public void updateAngleArrayFloorData(String userId, int level, int fighting, int floor, boolean needClearEnemy) {
@@ -208,13 +208,12 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		// 计算出来当前要生成多少层的数据，这个做法主要是用来兼容如果某一关出现错误，可以随时补漏
 		int group = floor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 当前组Id
 		int size = group * AngelArrayConst.TOWER_UPDATE_NUM;
-		// int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
 
 		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
 		List<String> hasUserIdList = holder.getAllUserIdList();
 
 		for (; floor < size; floor++) {
-			AngelArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor);
+			AngelArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor + 1);
 			if (matchCfg == null) {
 				continue;
 			}
@@ -222,7 +221,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int minFighting = (int) (fighting * matchCfg.getMinFightingRatio());
 			int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
 
-			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, allEnemyIdList);
+			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, floor + 1, allEnemyIdList);
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
 				angelArrayTeamInfo = AngelArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,

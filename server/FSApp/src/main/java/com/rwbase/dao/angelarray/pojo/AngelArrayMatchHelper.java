@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.bm.arena.ArenaBM;
+import com.bm.arena.RobotCfgDAO;
+import com.bm.arena.RobotEntryCfg;
 import com.bm.rank.RankType;
 import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.fightingAll.FightingComparable;
@@ -101,6 +103,7 @@ public final class AngelArrayMatchHelper {
 		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
 		String ranResult = null;
 
+		boolean isRobot = true;// 是否是随机出来的机器人
 		// 排行榜
 		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (!matchUserInfo.isEmpty()) {
@@ -142,121 +145,124 @@ public final class AngelArrayMatchHelper {
 
 			Weight<String> weight = new Weight<String>(proMap);
 			ranResult = weight.getRanResult();
-			if (ranResult == null) {
-				GameLog.error("万仙阵匹配", userId, String.format("等级下限[%s]，上[%s]，战力下[%s]，上[%s]，没能根据活跃度随机到人", level, maxLevel, minFighting, maxFighting));
-				return null;
-			}
+			if (ranResult != null) {
+				enemyIdList.add(ranResult);// 增加一个新的成员Id
 
-			enemyIdList.add(ranResult);// 增加一个新的成员Id
+				// 查找到阵容信息
+				matchRankingEntry = ranking.getRankingEntry(ranResult);
+				TeamInfo teamInfo = null;
+				if (matchRankingEntry != null) {// 如果没有就找竞技场
+					teamInfo = matchRankingEntry.getExtendedAttribute().getTeamInfo();
+				}
 
-			// 查找到阵容信息
-			matchRankingEntry = ranking.getRankingEntry(ranResult);
-			TeamInfo teamInfo = null;
-			if (matchRankingEntry != null) {// 如果没有就找竞技场
-				teamInfo = matchRankingEntry.getExtendedAttribute().getTeamInfo();
-			}
+				boolean hasTeam = false;
+				String groupName = "";
+				String headId = "";
+				String playerName = "";
+				int career = 0;
 
-			boolean hasTeam = false;
-			String groupName = "";
-			String headId = "";
-			String playerName = "";
-			int career = 0;
-
-			int teamFighting = 0;
-			List<Integer> heroModelIdList = new ArrayList<Integer>();
-			PlayerIF readOnlyPlayer = null;
-			if (teamInfo == null) {// 阵容信息为空
-				TableArenaData arenaData = ArenaBM.getInstance().getArenaData(ranResult);
-				readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
-				if (arenaData != null) {
-					// 先找攻击阵容<模版Id>
-					List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
-					if (atkHeroList != null && !atkHeroList.isEmpty() && readOnlyPlayer != null) {
-						if (atkHeroList.contains(ranResult)) {
-							atkHeroList.remove(ranResult);
-						}
-						teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(readOnlyPlayer, atkHeroList, heroModelIdList);
-						hasTeam = true;
-					} else {
-						// 再找防守阵容
-						List<String> heroIdList = arenaData.getHeroIdList();// 防守阵容信息
-						if (heroIdList != null && !heroIdList.isEmpty() && readOnlyPlayer != null) {
+				int teamFighting = 0;
+				List<Integer> heroModelIdList = new ArrayList<Integer>();
+				PlayerIF readOnlyPlayer = null;
+				if (teamInfo == null) {// 阵容信息为空
+					TableArenaData arenaData = ArenaBM.getInstance().getArenaData(ranResult);
+					readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
+					if (arenaData != null) {
+						// 先找攻击阵容<模版Id>
+						List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
+						if (atkHeroList != null && !atkHeroList.isEmpty() && readOnlyPlayer != null) {
 							if (atkHeroList.contains(ranResult)) {
 								atkHeroList.remove(ranResult);
 							}
-							teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByUUIDList(readOnlyPlayer, heroIdList, heroModelIdList);
+							teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(readOnlyPlayer, atkHeroList, heroModelIdList);
 							hasTeam = true;
-						}
-					}
-				}
-
-				if (readOnlyPlayer != null) {// 从角色身上取阵容
-					if (!hasTeam) {
-						HeroMgrIF heroMgr = readOnlyPlayer.getHeroMgr();
-
-						int mainRoleModelId = readOnlyPlayer.getModelId();
-
-						heroModelIdList.add(mainRoleModelId);
-						teamFighting += readOnlyPlayer.getMainRoleHero().getFighting();
-
-						List<? extends HeroIF> maxFightingHeros = heroMgr.getMaxFightingHeros();
-						for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
-							HeroIF hero = maxFightingHeros.get(i);
-							if (hero == null) {
-								continue;
-							}
-
-							int modelId = hero.getModelId();
-							if (mainRoleModelId == modelId) {
-								continue;
-							}
-
-							teamFighting += hero.getFighting();
-							if (!heroModelIdList.contains(modelId)) {
-								heroModelIdList.add(modelId);
+						} else {
+							// 再找防守阵容
+							List<String> heroIdList = arenaData.getHeroIdList();// 防守阵容信息
+							if (heroIdList != null && !heroIdList.isEmpty() && readOnlyPlayer != null) {
+								if (atkHeroList.contains(ranResult)) {
+									atkHeroList.remove(ranResult);
+								}
+								teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByUUIDList(readOnlyPlayer, heroIdList, heroModelIdList);
+								hasTeam = true;
 							}
 						}
 					}
 
-					groupName = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName();
-					headId = readOnlyPlayer.getHeadImage();
-					playerName = readOnlyPlayer.getUserName();
-					career = readOnlyPlayer.getMainRoleHero().getCareer();
+					if (readOnlyPlayer != null) {// 从角色身上取阵容
+						if (!hasTeam) {
+							HeroMgrIF heroMgr = readOnlyPlayer.getHeroMgr();
+
+							int mainRoleModelId = readOnlyPlayer.getModelId();
+
+							heroModelIdList.add(mainRoleModelId);
+							teamFighting += readOnlyPlayer.getMainRoleHero().getFighting();
+
+							List<? extends HeroIF> maxFightingHeros = heroMgr.getMaxFightingHeros();
+							for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
+								HeroIF hero = maxFightingHeros.get(i);
+								if (hero == null) {
+									continue;
+								}
+
+								int modelId = hero.getModelId();
+								if (mainRoleModelId == modelId) {
+									continue;
+								}
+
+								teamFighting += hero.getFighting();
+								if (!heroModelIdList.contains(modelId)) {
+									heroModelIdList.add(modelId);
+								}
+							}
+						}
+
+						groupName = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName();
+						headId = readOnlyPlayer.getHeadImage();
+						playerName = readOnlyPlayer.getUserName();
+						career = readOnlyPlayer.getMainRoleHero().getCareer();
+
+						hasTeam = true;
+					}
+				} else {
+					teamFighting = teamInfo.getTeamFighting();
+					heroModelIdList = getHeroModelIdList(teamInfo.getHero());
 
 					hasTeam = true;
+					groupName = teamInfo.getGroupName();
+					headId = teamInfo.getHeadId();
+					playerName = teamInfo.getName();
+					career = teamInfo.getCareer();
 				}
-			} else {
-				teamFighting = teamInfo.getTeamFighting();
-				heroModelIdList = getHeroModelIdList(teamInfo.getHero());
 
-				hasTeam = true;
-				groupName = teamInfo.getGroupName();
-				headId = teamInfo.getHeadId();
-				playerName = teamInfo.getName();
-				career = teamInfo.getCareer();
-			}
+				boolean fit = false;
+				if (teamFighting >= lowFighting && teamFighting <= highFighting) {
+					fit = true;
+				}
 
-			boolean fit = false;
-			if (teamFighting >= lowFighting && teamFighting <= highFighting) {
-				fit = true;
-			}
-
-			if (fit) {// 正好满足条件
-				if (teamInfo != null) {
-					finalTeamInfo = teamInfo;
+				if (fit) {// 正好满足条件
+					if (teamInfo != null) {
+						finalTeamInfo = teamInfo;
+						isRobot = false;
+					} else {
+						if (!hasTeam) {
+							finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+						} else {
+							finalTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+							isRobot = false;
+						}
+					}
 				} else {
 					if (!hasTeam) {
 						finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 					} else {
-						finalTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+						finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
+						isRobot = false;
 					}
 				}
 			} else {
-				if (!hasTeam) {
-					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
-				} else {
-					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
-				}
+				finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+				ranResult = finalTeamInfo.getUuid();
 			}
 		} else {
 			finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
@@ -291,6 +297,14 @@ public final class AngelArrayMatchHelper {
 		angelArrayTeamInfoData.setMaxFighting(saveMaxFighting);
 		angelArrayTeamInfoData.setTeamInfo(finalTeamInfo);
 		angelArrayTeamInfoData.setUserId(ranResult);
+
+		if (isRobot) {
+			RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getRobotCfg(String.valueOf(robotId));
+			if (angelRobotCfg != null) {
+				angelArrayTeamInfoData.setMinFloor(angelRobotCfg.getMinLimitValue());
+				angelArrayTeamInfoData.setMaxFloor(angelRobotCfg.getMaxLimitValue());
+			}
+		}
 
 		// 增加已经产生的Id，防止重复
 		hasUserIdList.add(ranResult);
