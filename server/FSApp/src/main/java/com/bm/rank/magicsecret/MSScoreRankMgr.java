@@ -1,6 +1,7 @@
 package com.bm.rank.magicsecret;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.bm.rank.RankType;
@@ -20,7 +21,6 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.Email.EmailUtils;
 
 public class MSScoreRankMgr {
-	private static boolean IS_FIRST_CALL_DISPATCH = true;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static int addOrUpdateMSScoreRank(Player player, UserMagicSecretData msInfo) {
@@ -76,11 +76,14 @@ public class MSScoreRankMgr {
 	 * 发放法宝秘境每日排行奖励
 	 */
 	public static void dispatchMSDailyReward() {
-		if(IS_FIRST_CALL_DISPATCH){
-			// 防止服务器启动的时候立即调用
-			IS_FIRST_CALL_DISPATCH = false;
-			return;
-		}
+		Calendar cal = Calendar.getInstance();
+		long currentTime = cal.getTimeInMillis();
+		cal.set(Calendar.HOUR, 5);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		long todayFive = cal.getTimeInMillis();
+		if(currentTime - todayFive < 0 || currentTime - todayFive > 5 * 60 * 60) return;
+		
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);

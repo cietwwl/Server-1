@@ -280,6 +280,13 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityDailyDiscountType);
 		
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				MagicSecretMgr.getInstance().synUserMSData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
 		
 		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -288,14 +295,6 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
-		
-		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {				
-				MagicSecretMgr.getInstance().synUserMSData(player);
-			}
-		}));
-		orderList.add(eSynType.MagicSecretData);
 		
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
