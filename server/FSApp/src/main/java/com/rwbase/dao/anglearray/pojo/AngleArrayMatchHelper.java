@@ -242,7 +242,6 @@ public final class AngleArrayMatchHelper {
 			}
 
 			if (fit) {// 正好满足条件
-				System.err.println("阵容等都属于正合适-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0" + ranResult);
 				if (teamInfo != null) {
 					finalTeamInfo = teamInfo;
 				} else {
