@@ -114,8 +114,7 @@ public class PlayerCreateTask implements Runnable {
 		GameOperationFactory.getCreatedOperation().execute(param);
 		
 		//临时做法
-		DropRecord record = new DropRecord();
-		record.setUserId(userId);
+		DropRecord record = new DropRecord(userId);
 		DropRecordDAO.getInstance().update(record);
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
