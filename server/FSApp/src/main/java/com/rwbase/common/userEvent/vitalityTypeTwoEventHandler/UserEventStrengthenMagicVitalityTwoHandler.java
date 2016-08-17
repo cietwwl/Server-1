@@ -39,7 +39,6 @@ public class UserEventStrengthenMagicVitalityTwoHandler implements IUserEventHan
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
 					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.StrengthenMagicVitalityTwo,subCfg, Integer.parseInt(params.toString()));
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
 			@Override

@@ -29,7 +29,6 @@ public class UserEventUseSilverKeyVitalityHandler implements IUserEventHandler{
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!=null&&isLevelEnough){
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.UseSilverKeyVitality,subCfg, Integer.parseInt(params.toString()));
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
 			@Override
