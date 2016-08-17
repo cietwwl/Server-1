@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import com.common.IHeroAction;
 import com.log.GameLog;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.readonly.PlayerIF;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
@@ -654,7 +655,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 	 * @param heroId
 	 * @return
 	 */
-	public List<String> getInlayGemList(Player player, String heroId) {
+	public List<String> getInlayGemList(PlayerIF player, String heroId) {
 		List<InlayItem> itemList = inlayItemHolder.getItemList(heroId);
 
 		int gemSize = itemList.size();

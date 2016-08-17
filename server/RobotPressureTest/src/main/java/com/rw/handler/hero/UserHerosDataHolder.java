@@ -19,9 +19,7 @@ public class UserHerosDataHolder {
 	
 	public void syn(MsgDataSyn msgDataSyn) {		
 		listHolder.Syn(msgDataSyn);
-		
 		List<TableUserHero> itemList = listHolder.getItemList();
-		
 		this.tableUserHero = itemList.get(0);
 		}
 	

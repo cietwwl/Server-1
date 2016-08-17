@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rwbase.common.timer.FSPlayerMinuteTaskType;
 import com.rwbase.common.timer.FSPlayerDailyTaskType;
+import com.rwbase.common.timer.FSPlayerMinuteTaskType;
 import com.rwbase.common.timer.IPlayerGatherer;
 import com.rwbase.common.timer.IPlayerOperable;
 
@@ -23,7 +23,7 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private static FSGamePlayerOperationTaskMgr _instance = new FSGamePlayerOperationTaskMgr(); // 單例
 	
-	private static IPlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather(); // 所有玩家的收集器
+//	private static IPlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather(); // 所有玩家的收集器
 	private static IPlayerGatherer _onlinePlayerGatherer = new FSGameOnlinePlayerGather(); // 在線玩家收集器
 	
 	public static FSGamePlayerOperationTaskMgr getInstance() {
@@ -73,7 +73,7 @@ public class FSGamePlayerOperationTaskMgr {
 		int key = calculateKey(hourOfDay, minute);
 		FSGamePlayerOperationDailyTask dailyTask = _dailyTaskInstanceMap.get(key);
 		if (dailyTask == null) {
-			dailyTask = new FSGamePlayerOperationDailyTask(hourOfDay, minute, _allPlayerGatherer, true);
+			dailyTask = new FSGamePlayerOperationDailyTask(hourOfDay, minute, new FSGameAllPlayerGather(), true);
 			if (submit) {
 				FSGameTimerMgr.getInstance().submitDayTask(dailyTask, hourOfDay, minute);
 			}
@@ -179,18 +179,10 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private static class FSGameAllPlayerGather implements IPlayerGatherer {
 
-		private List<Player> _list;
-		
 		@Override
 		public List<Player> gatherPlayers() {
 			Map<String, Player> map = PlayerMgr.getInstance().getAllPlayer();
-			if(_list == null) {
-				_list = new ArrayList<Player>(map.values());
-			} else {
-				_list.clear();
-				_list.addAll(map.values());
-			}
-			return _list;
+			return new ArrayList<Player>(map.values());
 		}
 		
 	}

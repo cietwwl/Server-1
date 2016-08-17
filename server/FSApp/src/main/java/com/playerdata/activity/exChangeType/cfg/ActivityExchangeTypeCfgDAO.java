@@ -6,9 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
@@ -16,6 +21,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -50,20 +56,41 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		cfg.setChangeEndTime(changeEndTime);		
 	}		
 	
-	public ActivityExchangeTypeCfg getConfig(String id){
-		ActivityExchangeTypeCfg cfg = getCfgById(id);
-		return cfg;
+	public ActivityExchangeTypeCfg getCfgListByItem(ActivityExchangeTypeItem item){
+		String id = item.getCfgId();
+		String enumId  = item.getEnumId();
+		List<ActivityExchangeTypeCfg> cfgListByItem = new ArrayList<ActivityExchangeTypeCfg>();
+		List<ActivityExchangeTypeCfg> cfgList = getAllCfg();
+		for (ActivityExchangeTypeCfg cfg : cfgList) {
+			if (StringUtils.equals(enumId, cfg.getEnumId())	&& !StringUtils.equals(id, cfg.getId())
+					&& ActivityExchangeTypeMgr.getInstance().isOpen(cfg)) {
+				cfgListByItem.add(cfg);
+			}
+		}
+		if(cfgListByItem.size() > 1){
+			GameLog.error(LogModule.ComActivityExchange, null, "发现了两个以上开放的活动,活动枚举为="+ enumId, null);
+			return null;
+		}
+		if(cfgListByItem.size() == 1){
+			return cfgListByItem.get(0);
+		}
+		
+		return null;
 	}
 	
-	public ActivityExchangeTypeItem newItem(Player player, ActivityExChangeTypeEnum activityExChangeTypeEnum){
-		
-		String cfgId = activityExChangeTypeEnum.getCfgId();
-		ActivityExchangeTypeCfg cfgById = getCfgById(cfgId );
+	
+	
+	
+	
+	
+	
+	public ActivityExchangeTypeItem newItem(Player player, ActivityExchangeTypeCfg cfgById){
 		if(cfgById!=null){			
 			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
-			String itemId = ActivityExChangeTypeHelper.getItemId(player.getUserId(), activityExChangeTypeEnum);
+			String itemId = ActivityExChangeTypeHelper.getItemId(player.getUserId(), ActivityExChangeTypeEnum.getById(cfgById.getEnumId()));
 			item.setId(itemId);
-			item.setCfgId(cfgId);
+			item.setEnumId(cfgById.getEnumId());
+			item.setCfgId(cfgById.getId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
 			item.setSubItemList(newItemList(player, cfgById));

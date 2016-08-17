@@ -74,6 +74,7 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 	}
 	
 	public void resetByVersion(ActivityRedEnvelopeTypeCfg cfg,List<ActivityRedEnvelopeTypeSubItem> subItemList,int day){
+		this.cfgId = cfg.getId();
 		closed = false;
 		lastTime = System.currentTimeMillis();
 		version = cfg.getVersion();
