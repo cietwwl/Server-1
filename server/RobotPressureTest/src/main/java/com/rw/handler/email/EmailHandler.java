@@ -83,7 +83,9 @@ public class EmailHandler {
 
 	private void openAllEmail(Client client, List<EmailInfo> emailList) {
 		for (EmailInfo emailInfo : emailList) {
-			openEmail(client, emailInfo.getEmailId());
+			if (!emailInfo.getIsChecked()) {
+				openEmail(client, emailInfo.getEmailId());
+			}
 		}
 		
 	}
