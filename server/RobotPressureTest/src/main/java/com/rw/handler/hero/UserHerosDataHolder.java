@@ -21,8 +21,7 @@ public class UserHerosDataHolder {
 		listHolder.Syn(msgDataSyn);
 		List<TableUserHero> itemList = listHolder.getItemList();
 		this.tableUserHero = itemList.get(0);
-		RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~userherodataholder.size = " + this.tableUserHero.getHeroIds().size());
-	}
+		}
 	
 	public TableUserHero getTableUserHero(){
 		return this.tableUserHero;

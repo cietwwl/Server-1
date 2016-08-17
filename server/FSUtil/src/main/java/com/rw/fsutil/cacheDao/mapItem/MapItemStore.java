@@ -33,8 +33,12 @@ public class MapItemStore<T extends IMapItem> {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
-		this.itemMap = new ConcurrentHashMap<String, T>();
-		this.updatedMap = new ConcurrentHashMap<String, Boolean>();
+		int size = itemList.size();
+		if (size < 8) {
+			size = 8;
+		}
+		this.itemMap = new ConcurrentHashMap<String, T>(size, 0.9f, 4);
+		this.updatedMap = new ConcurrentHashMap<String, Boolean>(8, 1.0f, 4);
 		for (T tmpItem : itemList) {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}

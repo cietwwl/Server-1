@@ -6,7 +6,9 @@ import com.playerdata.GambleMgr;
 import com.playerdata.SignMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
@@ -84,4 +86,12 @@ public interface PlayerIF {
 	public String getHeadImage();
 
 	public String getHeadFrame();
+
+	public String getUserId();
+
+	public boolean isRobot();
+
+	public ITaoistMgr getTaoistMgr();
+
+	public SynFettersData getHeroFettersByModelId(int modelId);
 }

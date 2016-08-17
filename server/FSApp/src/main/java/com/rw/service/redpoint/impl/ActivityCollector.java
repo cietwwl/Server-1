@@ -139,6 +139,9 @@ public class ActivityCollector implements RedPointCollector{
 				// 活动未开启
 				continue;
 			}
+			if(!ActivityRateTypeMgr.getInstance().isLevelEnough(player, cfg)){
+				continue;
+			}
 			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 			if (typeEnum == null) {
 				// 枚举没有配置
@@ -239,6 +242,10 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityExchangeTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
+			if(!ActivityExchangeTypeMgr.getInstance().isLevelEnough(player, cfg)){
+				continue;
+			}
+			
 			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;

@@ -2,6 +2,7 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -25,7 +26,7 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 	
 	/** 当前地图的掉落物品及对应的申请列表<key=itemID,value=掉落记录> */
 	@CombineSave
-	private Map<String, ItemDropAndApplyTemplate> daMap = new HashMap<String, ItemDropAndApplyTemplate>();
+	private Map<String, ItemDropAndApplyTemplate> daMap = new ConcurrentHashMap<String, ItemDropAndApplyTemplate>();
 
 	public CopyItemDropAndApplyRecord(String id, String groupId) {
 		this.id = groupId+"_"+id;
@@ -68,19 +69,27 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 		this.daMap = daMap;
 	}
 
+	/**
+	 * 返回一个unmodifiableMap，避免外部操作,如果要修改，要返回在内部进行修改
+	 * @return
+	 */
 	public Map<String, ItemDropAndApplyTemplate> getDaMap() {
 		return daMap;
 	}
 
 	
-	public void setDaMap(HashMap<String, ItemDropAndApplyTemplate> daMap) {
-		this.daMap = daMap;
+	public void setDaMap(HashMap<String, ItemDropAndApplyTemplate> map) {
+		this.daMap.putAll(map);
 	}
 
-	public synchronized ItemDropAndApplyTemplate getDropApplyRecord(String key) {
+	public ItemDropAndApplyTemplate getDropApplyRecord(String key) {
 		if(!daMap.containsKey(key)){
 			daMap.put(key, new ItemDropAndApplyTemplate(Integer.parseInt(key)));
 		}
+		return daMap.get(key);
+	}
+
+	public ItemDropAndApplyTemplate get(String key) {
 		return daMap.get(key);
 	}
 	

@@ -28,6 +28,7 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -162,6 +163,15 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			dataHolder.updateItem(player, item);			
 		}		
 	}
+	public boolean isLevelEnough(Player player,ActivityExchangeTypeCfg cfg){
+		boolean iscan = false;
+		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
+		return iscan;
+		
+	}
+	
+	
+	
 	
 	public ActivityComResult takeGift(Player player,
 			ActivityExChangeTypeEnum countType, String subItemId) {
