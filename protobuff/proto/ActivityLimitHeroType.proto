@@ -1,0 +1,45 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityLimitHeroTypeProto";
+
+package limitHeroType;
+
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional GambleType gambleType = 2; //抽卡类型
+	optional int32 boxCfgId = 3;//箱子id
+}
+
+enum RequestType{
+	GAMBLE = 1;//抽卡
+	GET_REWARDS = 2;//领取箱子奖励
+	VIEW_RANK=3;//查看刷新排行榜
+}
+
+enum GambleType
+{
+	SINGLE = 0;
+	TEN = 1;
+}
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	repeated RankRecord record = 4;//反馈其它人的记录
+	repeated GamebleReward gamebleReward = 5;
+}
+
+message RankRecord
+{
+     required int32 number = 1;//排名
+	 required string uid = 2;//玩家id,弹窗用
+	 required string name = 3;//玩家名字列表用
+	 required int32 getIntegral =4;//玩家获得的积分
+}
+
+message GamebleReward{
+	required string rewardId = 1;
+	required int32 rewardNum = 2;
+}

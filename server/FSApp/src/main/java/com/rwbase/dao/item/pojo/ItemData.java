@@ -92,7 +92,7 @@ public class ItemData implements IMapItem, ItemDataIF {
 		}
 	}
 
-	public void setExtendAttr(HashMap<Integer, String> m_ExtendAttr) {
+	public void setAllExtendAttr(HashMap<Integer, String> m_ExtendAttr) {
 		synchronized (this) {
 			this.allExtendAttr = new HashMap<Integer, String>(m_ExtendAttr);
 		}

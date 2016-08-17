@@ -67,6 +67,7 @@ public class OneKeyService implements FsService {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
 		}else{
@@ -85,6 +86,7 @@ public class OneKeyService implements FsService {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
 		}else{
@@ -103,6 +105,7 @@ public class OneKeyService implements FsService {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
 		}else{
@@ -121,6 +124,7 @@ public class OneKeyService implements FsService {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
 		}else{

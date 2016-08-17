@@ -1,10 +1,15 @@
 package com.rw.dataSyn;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +42,7 @@ public class ClassInfo {
 		try{
 			target = clazz.newInstance();
 			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact	
-			
+
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
 				fieldJson = tableData.get(fieldName);

@@ -4,6 +4,13 @@ package com.rwbase.dao.hero.pojo;
 public interface RoleBaseInfoIF {
 
 	/**
+	 * 
+	 * 获取职业
+	 * 
+	 * @return
+	 */
+	public int getCareer();
+	/**
 	 * 获取佣兵ID
 	 * @return
 	 */

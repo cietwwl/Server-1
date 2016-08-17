@@ -1,6 +1,10 @@
 package com.common;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,6 +16,8 @@ import java.util.TreeMap;
 
 import org.springframework.util.StringUtils;
 
+import com.rw.dataaccess.PlayerCoreCreation;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -51,7 +57,8 @@ public class HPCUtil {
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
 	 * @param value
-	 * @param expectLength 预期的位数
+	 * @param expectLength
+	 *            预期的位数
 	 * @return
 	 */
 	public static String fillZero(long value, int expectLength) {
@@ -61,9 +68,11 @@ public class HPCUtil {
 	/**
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
-	 * @param sb 补0后的String填充到此StringBuilder中
+	 * @param sb
+	 *            补0后的String填充到此StringBuilder中
 	 * @param value
-	 * @param expectLength 预期的位数
+	 * @param expectLength
+	 *            预期的位数
 	 * @return
 	 */
 	public static String fillZero(StringBuilder sb, long value, int expectLength) {
@@ -330,4 +339,78 @@ public class HPCUtil {
 
 		return list;
 	}
+
+	/**
+	 * 获取指定路径下，指定类型集合
+	 * 
+	 * @param cls
+	 * @param packagePath
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
+	public static <T> List<Class<? extends T>> getAllAssignedClass(Class<T> cls, String packagePath) throws ClassNotFoundException {
+		List<Class<? extends T>> classes = new ArrayList<Class<? extends T>>();
+		String path = packagePath.replace(".", "/");
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		URL url = classLoader.getResource(path);
+		List<Class<?>> list = getClass(new File(url.getFile()), packagePath);
+		for (Class<?> c : list) {
+			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
+				classes.add((Class<? extends T>) c);
+			}
+		}
+		return classes;
+	}
+
+	private static List<Class<?>> getClass(File dir, String pk) throws ClassNotFoundException {
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+		if (!dir.exists()) {
+			return classes;
+		}
+		for (File f : dir.listFiles()) {
+			if (f.isDirectory()) {
+				classes.addAll(getClass(f, pk + "." + f.getName()));
+			}
+			String name = f.getName();
+			if (name.endsWith(".class")) {
+				classes.add(Class.forName(pk + "." + name.substring(0, name.length() - 6)));
+			}
+		}
+		return classes;
+	}
+
+	/**
+	 * 获取接口泛型参数
+	 * 
+	 * @param clz
+	 * @return
+	 */
+	public static Class<?> getInterfacesGeneric(Class<?> clz, Class<?>... expectOneOfImplements) {
+		Class<?>[] interfaceClass = clz.getInterfaces();
+		int index = -1;
+		int expectLength = expectOneOfImplements.length;
+		for (int i = 0; i < interfaceClass.length; i++) {
+			Class<?> implClass = interfaceClass[i];
+			for (int j = 0; j < expectLength; j++) {
+				if (expectOneOfImplements[j] == implClass) {
+					index = i;
+					break;
+				}
+			}
+			if (index > 0) {
+				break;
+			}
+		}
+		if (index == -1) {
+			throw new IllegalArgumentException("缺少实现DataExtensionCreator or PlayerCoreCreation接口：" + clz);
+		}
+		Type[] typeArray = clz.getGenericInterfaces();
+		Type type = typeArray[index];
+		if (!(type instanceof ParameterizedType)) {
+			throw new IllegalArgumentException("缺少实现接口的泛型参数：" + clz);
+		}
+		ParameterizedType paramType = (ParameterizedType) type;
+		return (Class<?>) paramType.getActualTypeArguments()[0];
+	}
+
 }

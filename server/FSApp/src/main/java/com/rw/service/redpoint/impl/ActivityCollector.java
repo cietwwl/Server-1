@@ -202,11 +202,11 @@ public class ActivityCollector implements RedPointCollector{
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
-			if (ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
+			if (!ActivityVitalityTypeMgr.getInstance().isHasCfg(activityVitalityTypeItem)) {
 				continue;				
 			}
 			if(!activityVitalityTypeItem.isTouchRedPoint()){
-				activityList.add(activityVitalityTypeItem.getId());
+				activityList.add(activityVitalityTypeItem.getCfgId());
 				continue;
 			}
 			
@@ -218,7 +218,7 @@ public class ActivityCollector implements RedPointCollector{
 				}
 				if (subItem.getCount() >= subItemCfg.getCount()
 						&& !subItem.isTaken()) {
-					activityList.add(activityVitalityTypeItem.getId());
+					activityList.add(activityVitalityTypeItem.getCfgId());
 					break;
 				}
 			}

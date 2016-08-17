@@ -1,16 +1,18 @@
 package com.rw.fsutil.dao.cache;
 
 public class DuplicatedKeyException extends Exception{
-
-	public DuplicatedKeyException(){
-		super("重复主键异常");
-	}
 	
+	private static final long serialVersionUID = -5993088953266824924L;
+
 	public DuplicatedKeyException(String msg){
-		super("重复主键异常："+msg);
+		super("duplicate key:"+msg);
 	}
 	
 	public DuplicatedKeyException(String msg,Throwable t){
-		super("重复主键异常："+msg,t);
+		super("duplicate key:"+msg,t);
+	}
+	
+	public DuplicatedKeyException(Throwable t){
+		super(t);
 	}
 }

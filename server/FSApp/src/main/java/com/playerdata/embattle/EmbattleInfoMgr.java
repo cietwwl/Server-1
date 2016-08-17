@@ -35,7 +35,7 @@ public class EmbattleInfoMgr {
 	 * 
 	 * @param player
 	 * @param type
-	 * @param recordKey
+	 * @param recordKey   1-4为规范的从其他对应功能获得key值得，5之后为fisher随便写的，比如'copy'
 	 * @return
 	 */
 	public synchronized EmbattlePositionInfo getEmbattlePositionInfo(String userId, int type, String recordKey) {

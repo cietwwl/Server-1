@@ -102,7 +102,7 @@ public class TaskItemHolder {
 		item.setId(buildId(item));
 		item.setUserId(userId);
 		boolean addSuccess = getItemStore().addItem(item);
-		if (addSuccess) {
+		if (addSuccess && doSyn) {
 			// taskIdMap.put(item.getTaskId(), item);
 			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.ADD_SINGLE);
 		}

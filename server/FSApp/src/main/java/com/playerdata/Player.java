@@ -20,7 +20,6 @@ import com.common.Action;
 import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
-import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.log.GameLog;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
@@ -30,6 +29,7 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -420,27 +420,30 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void onLogin() {
+	public ByteString onLogin() {
 		String userId = getUserId();
+		ByteString synData = null;
 		UserChannelMgr.onBSBegin(userId);
-		notifyLogin();
-		initDataVersionControl();
 		try {
+			notifyLogin();
+			initDataVersionControl();
 			dataSynVersionHolder.synAll(this);
+			GroupMemberHelper.onPlayerLogin(this);
+			ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
+			// TODO HC 登录之后检查一下万仙阵的数据
+			getTowerMgr().checkAndResetMatchData(this);
+			// 当角色登录的时候，更新下登录的时间
+			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+			// 角色登录检查秘境数据是否可以重置
+			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
+			// 测试：时效任务的角色登录
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
 		} finally {
-			UserChannelMgr.onBSEnd(userId);
+			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}
 
-		GroupMemberHelper.onPlayerLogin(this);
-		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
-		// TODO HC 登录之后检查一下万仙阵的数据
-		getTowerMgr().checkAndResetMatchData(this);
-		// 当角色登录的时候，更新下登录的时间
-		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
-		// 角色登录检查秘境数据是否可以重置
-		UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
-		// 测试：时效任务的角色登录
-		com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
+		
+		return synData;
 	}
 
 	public void notifyMainRoleCreation() {

@@ -7,8 +7,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
+import com.bm.groupCopy.GroupCopyMailHelper;
 import com.gm.activity.RankingActivity;
-import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;

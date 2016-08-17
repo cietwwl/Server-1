@@ -26,6 +26,7 @@ import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.ResponseProtos.ResponseHeader;
+import com.rwproto.ResponseProtos.ResponseHeader.Builder;
 
 public class FsNettyControler {
 
@@ -109,6 +110,9 @@ public class FsNettyControler {
 		sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
 	}
 
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
+		sendResponse(userId, header, resultContent, 200, ctx, synData);
+	}
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
@@ -117,7 +121,11 @@ public class FsNettyControler {
 		return sendResponse(null, header, resultContent, 200, ctx);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId ) {
+		sendResponse(userId, header, resultContent, sessionId, null);
+	}
+	
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
 		if (userId == null) {
 			return;
 		}
@@ -125,7 +133,7 @@ public class FsNettyControler {
 		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 			ctx = null;
 		}
-		sendResponse(userId, header, resultContent, 200, ctx);
+		sendResponse(userId, header, resultContent, 200, ctx,synData);
 	}
 
 	/**
@@ -156,12 +164,19 @@ public class FsNettyControler {
 	}
 
 	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
+		return sendResponse(userId, header, resultContent, statusCode, ctx, null);
+	}
+
+	
+	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
 		if (!sendMsg && !saveMsg) {
 			return null;
 		}
-		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
+		ResponseHeader responseHeader = getResponseHeader(header, header.getCommand(), statusCode, synData);
+		
+		Response.Builder builder = Response.newBuilder().setHeader(responseHeader);
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);
 		} else {
@@ -183,14 +198,18 @@ public class FsNettyControler {
 		}
 	}
 
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {
-		return getResponseHeader(header, command, 200);
-	}
+//	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {
+//		return getResponseHeader(header, command, 200);
+//	}
 
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode) {
+	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode,ByteString synData) {
 		String token = header.getToken();
 		int seqId = header.getSeqID();
-		return ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode).build();
+		Builder headerBuilder = ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode);
+		if(synData!=null){
+			headerBuilder.setSynData(synData);
+		}
+		return headerBuilder.build();
 	}
 
 	public FsService getSerivice(Command command) {

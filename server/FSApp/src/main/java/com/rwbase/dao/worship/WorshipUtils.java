@@ -56,6 +56,7 @@ public class WorshipUtils {
 		worshipInfo.setSex(rankInfo.getSex());
 		worshipInfo.setCareerLevel(rankInfo.getCareerLevel());
 		worshipInfo.setImageId(rankInfo.getUserHead());
+		worshipInfo.setHeadFrame(rankInfo.getHeadbox());
 		worshipInfo.setFightingAll(rankInfo.getFightingAll());
 		worshipInfo.setLevel(rankInfo.getLevel());
 		// worshipInfo.setModelId(rankInfo.getModelId());
@@ -90,7 +91,7 @@ public class WorshipUtils {
 		return worshipItem;
 	}
 
-	private static Comparator<WorshipItem> comparator = new Comparator<WorshipItem>() {
+	public static Comparator<WorshipItem> comparator = new Comparator<WorshipItem>() {
 
 		@Override
 		public int compare(WorshipItem o1, WorshipItem o2) {

@@ -134,7 +134,7 @@ public class RedLogger {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String path = "E:\\workspace_release\\server\\server\\FSApp\\datalogs\\20160809";
+		String path = "E:\\workspace_release\\server\\server\\FSApp\\datalogs\\20160810";
 		readLogger(path);
 	}
 }

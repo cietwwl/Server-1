@@ -51,6 +51,8 @@ public class GameLogicTask implements PlayerTask {
 		long sessionId = session.getSessionId();
 		Command command = header.getCommand();
 		long executeTime = System.currentTimeMillis();
+		
+		ByteString synData = null;//同步数据
 		try {
 			FSTraceLogger.logger("run(" + (executeTime - submitTime)+"," + command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
 			// plyaer为null不敢做过滤
@@ -86,14 +88,15 @@ public class GameLogicTask implements PlayerTask {
 				FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
-				UserChannelMgr.onBSEnd(userId);
+				synData = UserChannelMgr.getDataOnBSEnd(userId);
+//				UserChannelMgr.synDataOnBSEnd(userId);
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);
 			nettyControler.sendErrorResponse(userId, request.getHeader(), 500);
 			return;
 		}
-		nettyControler.sendResponse(userId, header, resultContent, sessionId);
+		nettyControler.sendResponse(userId, header, resultContent, sessionId, synData);
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);

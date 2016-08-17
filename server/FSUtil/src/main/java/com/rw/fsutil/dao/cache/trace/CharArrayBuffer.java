@@ -2,6 +2,11 @@ package com.rw.fsutil.dao.cache.trace;
 
 import java.util.Arrays;
 
+/**
+ * 字符缓冲区
+ * @author Jamaz
+ *
+ */
 public class CharArrayBuffer {
 
 	private char[] value;
@@ -14,6 +19,7 @@ public class CharArrayBuffer {
 		this.value = new char[initCapacity];
 		this.maxCapacity = capacity;
 	}
+
 
 	public CharArrayBuffer append(String str) {
 		if (str == null)

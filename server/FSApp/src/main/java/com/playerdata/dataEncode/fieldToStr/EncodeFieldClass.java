@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.playerdata.dataEncode.ClassInfo4Encode;
 import com.playerdata.dataEncode.IFieldToStr;
+import com.playerdata.dataEncode.Node.NodeMaper;
 
 public class EncodeFieldClass implements IFieldToStr{
 	
@@ -11,9 +12,9 @@ public class EncodeFieldClass implements IFieldToStr{
 	
 	private ClassInfo4Encode classInfo;
 	
-	public EncodeFieldClass(Field fieldP){
+	public EncodeFieldClass(Field fieldP,NodeMaper nodeMaper){
 		field = fieldP;
-		classInfo = new ClassInfo4Encode(field.getType());
+		classInfo = new ClassInfo4Encode(field.getType(),nodeMaper);
 		
 	}
 

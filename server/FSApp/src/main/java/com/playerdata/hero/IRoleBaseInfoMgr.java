@@ -1,10 +1,10 @@
 package com.playerdata.hero;
 
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 public interface IRoleBaseInfoMgr {
 	
-	public RoleBaseInfo getBaseInfo();
+	public RoleBaseInfoIF getBaseInfo();
 
 	public void setQualityId(String qualityId);
 	
