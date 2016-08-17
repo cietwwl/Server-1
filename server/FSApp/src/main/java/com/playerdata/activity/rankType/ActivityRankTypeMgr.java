@@ -108,6 +108,10 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
 		for (ActivityRankTypeItem activityRankTypeItem : itemList) {//每种活动
+			ActivityRankTypeCfg cfgById = ActivityRankTypeCfgDAO.getInstance().getCfgById(activityRankTypeItem.getCfgId());
+			if(cfgById == null){
+				continue;
+			}
 			if(!isClose(activityRankTypeItem)){
 				continue;			
 			}
