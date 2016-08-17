@@ -16,6 +16,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.activity.dailyCharge.ActivityDetector;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupcompetition.syn.DataAutoSynMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleHandler;
@@ -58,7 +59,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				try{
-					PlayerMgr.getInstance().secondFunc4AllPlayer();
+					DataAutoSynMgr.getInstance().synDataAuto();
 				}catch(Exception ex){
 					
 				}

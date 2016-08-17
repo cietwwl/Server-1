@@ -5,9 +5,9 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class PositionInfo {
 
-	private volatile float px;
+	private float px;
 	
-	private volatile float py;
+	private float py;
 
 	public float getPx() {
 		return px;

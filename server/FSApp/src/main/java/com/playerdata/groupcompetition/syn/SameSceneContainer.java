@@ -39,32 +39,41 @@ public class SameSceneContainer {
 		return InstanceHolder.instance;
 	}
 
+	/**
+	 * 将玩家添加到某个场景(或者更新)
+	 * @param sceneId
+	 * @param userId
+	 * @param value
+	 * @return
+	 */
 	public boolean putUserToScene(long sceneId, String userId, Object value){
+		ConcurrentHashMap<String, Object> scene;
 		readLock.lock();
 		try {
-			ConcurrentHashMap<String, Object> scene = container.get(sceneId);
-			if(null == scene){
-				return false;
-			}
-			DataAutoSynMgr.getInstance().addWaitScene(sceneId);
-			return null == scene.put(userId, value);
+			scene = container.get(sceneId);
 		} finally {
 			readLock.unlock();
 		}
+		if(null == scene){
+			return false;
+		}
+		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
+		return null == scene.put(userId, value);
 	}
 	
 	public void removeUserFromScene(long sceneId, String userId){
+		ConcurrentHashMap<String, Object> scene;
 		readLock.lock();
 		try {
-			ConcurrentHashMap<String, Object> scene = container.get(sceneId);
-			if(null == scene){
-				return;
-			}
-			scene.remove(userId);
-			DataAutoSynMgr.getInstance().addWaitScene(sceneId);
+			scene = container.get(sceneId);
 		} finally {
 			readLock.unlock();
 		}
+		if(null == scene){
+			return;
+		}
+		scene.remove(userId);
+		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
 	}
 	
 	public long createNewScene(eSynType type){

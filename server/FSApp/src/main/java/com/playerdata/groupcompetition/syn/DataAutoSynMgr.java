@@ -36,7 +36,8 @@ public class DataAutoSynMgr {
 	 */
 	public void synDataAuto(){
 		int synCount = 0;
-		while(synCount < SYN_COUNT_ONCE){
+		int loopCount = 0;
+		while(synCount < SYN_COUNT_ONCE && loopCount++ < SYN_COUNT_ONCE){
 			Long sceneId = waitSynScene.pollElement();
 			if(null == sceneId){
 				return;
@@ -54,7 +55,10 @@ public class DataAutoSynMgr {
 			while(entryIterator.hasNext()){
 				Entry<String, Object> entry = entryIterator.next();
 				Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
-				if(null == player) entryIterator.remove();
+				if(null == player){
+					SameSceneContainer.getInstance().removeUserFromScene(sceneId, entry.getKey());
+					continue;
+				}
 				synCount++;
 				ClientDataSynMgr.synData(player, synStr, synType, eSynOpType.UPDATE_SINGLE);
 			}

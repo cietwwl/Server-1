@@ -10,10 +10,6 @@ import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
-import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
-import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
-import com.rwproto.MagicSecretProto.msRequestType;
-import com.rwproto.MagicSecretProto.msResultType;
 import com.rwproto.RequestProtos.Request;
 
 /**
@@ -35,7 +31,7 @@ public class GroupCompetitionService implements FsService<CommonReqMsg, GCReques
 				result = mHandler.enterPrepareArea(player, request);
 				break;
 			case LeavePrepareArea:
-				result = mHandler.enterPrepareArea(player, request);
+				result = mHandler.leavePrepareArea(player, request);
 				break;
 			case InformPreparePosition:
 				result = mHandler.informPreparePosition(player, request);
@@ -56,8 +52,8 @@ public class GroupCompetitionService implements FsService<CommonReqMsg, GCReques
 	@Override
 	public CommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
 		// TODO Auto-generated method stub
-		CommonReqMsg msgMSRequest = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
-		return msgMSRequest;
+		CommonReqMsg msgRequest = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return msgRequest;
 	}
 
 	@Override
