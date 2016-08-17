@@ -40,6 +40,7 @@ import com.playerdata.activity.limitHeroType.gamble.TenGamble;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
+import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.role.MainMsgHandler;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
@@ -289,6 +290,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		int type = getType(dataItem,planCfg,commonReq,isFree,guatanteeTimes);
 		Gamble handler = ActivityLimitGambleMap.get(type);
 		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes);
+		System.out.println("map~~~~~~~~~~~~~~~ = " + map);
 		dataHolder.updateItem(player, dataItem);
 		doDropList(player,response,map);		
 		result.setSuccess(true);
@@ -387,11 +389,18 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(cfgList.get(0).getItemID());
 		if(cfgList.size() == 1&&cfg != null){
 			//从某个指定的道具组里随机一个，比如蓝装，绿装，紫装
-			String id = DropMissingLogic.getInstance().searchMissingItem(player, cfg);		
+			String id = DropMissingLogic.getInstance().searchMissingItem(player, cfg);	
 			
-//			if(id == null){
-//				System.out.println("~~~~~~~~~~!!!!!!!!!!!!!" + id);
-//			}
+			if (id == null){
+				planList.remove(planList.get(groupId));
+				if(planList.isEmpty()){
+					return null;
+				}
+				return getGambleRewards(player,planList);
+			}
+			
+			
+
 			return strbuild.append(id).append("~").append(1).toString();
 		}
 		
