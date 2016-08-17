@@ -260,6 +260,42 @@ public class ClientDataSynMgr {
 	}
 	
 	/**
+	 * 给多用户同步同一个数据
+	 * @param players
+	 * @param serverData
+	 * @param synType
+	 * @param msgDataSyn
+	 */
+	private static void sendMsgMutiple(List<Player> players, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
+		if(null == players) return;
+		for(Player player : players){
+			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
+			sendMsg(player, serverData, synType, msgDataSyn);
+		}
+	}
+	
+	/**
+	 * 给多用户同步同一个数据
+	 * 
+	 * @param List<Player> 给多用户同步同一个数据
+	 * @param serverData 要同步的数据
+	 * @param synType <b><i>同步数据模块类型</i></b> {@link eSynType} 例如，同步背包模块的道具数据----->类型就是{@link eSynType#USER_ITEM_BAG}
+	 * @param synOpType <b><i>数据类型</i></b> {@link eSynOpType} 例如同步了一个道具的数据，----->类型就是{@link eSynOpType#UPDATE_SINGLE}
+	 */
+	public static void synDataMutiple(List<Player> players, Object serverData, eSynType synType, eSynOpType synOpType) {
+		try {
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			SynData.Builder synData = transferToClientData(serverData);
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			sendMsgMutiple(players, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), "synDataMutiple", "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
+	
+	/**
 	 * 将客户端的json字符串转为服务器对象
 	 * @param clazz
 	 * @param json
@@ -270,5 +306,4 @@ public class ClientDataSynMgr {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(clazz);
 		return serverClassInfo.fromJson(json);
 	}
-	
 }

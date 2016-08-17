@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.playerdata.Player;
 import com.playerdata.groupcompetition.syn.SameSceneContainer;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.GroupCompetitionProto.AreaPosition;
+import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
+import com.rwproto.GroupCompetitionProto.GCResultType;
 
 public class PrepareAreaMgr {
 	
@@ -18,7 +25,41 @@ public class PrepareAreaMgr {
 		return instance;
 	}
 	
-	
+	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
+		informPreparePosition(player, gcRsp, position);
+	}
+
+	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
+		String groupId = GroupHelper.getGroupId(player);
+		if(StringUtils.isBlank(groupId)){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			return;
+		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			return;
+		}
+		PositionInfo pInfo = new PositionInfo();
+		pInfo.setPx(position.getX());
+		pInfo.setPy(position.getX());
+		SameSceneContainer.getInstance().putUserToScene(groupScene.get(groupId), player.getUserId(), pInfo);
+		gcRsp.setRstType(GCResultType.SUCCESS);
+		gcRsp.setRstType(GCResultType.SUCCESS);
+	}
+
+	public void leavePrepareArea(Player player, Builder gcRsp) {
+		String groupId = GroupHelper.getGroupId(player);
+		if(StringUtils.isBlank(groupId)){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			return;
+		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			return;
+		}
+		SameSceneContainer.getInstance().removeUserFromScene(groupScene.get(groupId), player.getUserId());
+		gcRsp.setRstType(GCResultType.SUCCESS);
+	}
 	
 	/**
 	 * 备战阶段开始

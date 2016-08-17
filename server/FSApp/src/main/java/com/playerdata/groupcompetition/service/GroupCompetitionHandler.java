@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 
@@ -21,19 +22,19 @@ public class GroupCompetitionHandler {
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
-		
+		PrepareAreaMgr.getInstance().enterPrepareArea(player, gcRsp, request.getPosition());
 		return gcRsp.build().toByteString();
 	}
 
 	public ByteString informPreparePosition(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
-		
+		PrepareAreaMgr.getInstance().informPreparePosition(player, gcRsp, request.getPosition());
 		return gcRsp.build().toByteString();
 	}
 
 	public ByteString leavePrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
-		
+		PrepareAreaMgr.getInstance().leavePrepareArea(player, gcRsp);
 		return gcRsp.build().toByteString();
 	}
 }
