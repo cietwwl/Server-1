@@ -1,7 +1,10 @@
 package com.rwbase.dao.fightinggrowth.pojo;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 
 public class FSUserFightingGrowthTitleCfg {
 
@@ -17,6 +20,7 @@ public class FSUserFightingGrowthTitleCfg {
 	private boolean isFirst; // 是否第一个title
 	private Map<Integer, Integer> _itemRequiredMap; // 通过itemRequired解析过来的{key=道具的cfgId，value=需求的数量}
 	private Map<Integer, Integer> _itemRewardMap; // 通过rewards解析过来的{key=道具的cfgId，value=需求的数量}
+	private List<PrivilegeDescItem> _privItems;	//掉落特权的描述类 
 	
 	public void setItemRequiredMap(Map<Integer, Integer> map) {
 		this._itemRequiredMap = Collections.unmodifiableMap(map);
@@ -24,6 +28,14 @@ public class FSUserFightingGrowthTitleCfg {
 	
 	public void setItemRewardMap(Map<Integer, Integer> map) {
 		this._itemRewardMap = Collections.unmodifiableMap(map);
+	}
+	
+	public void setPrivilegeDescItem(List<PrivilegeDescItem> privItems){
+		this._privItems = privItems;
+	}
+	
+	public List<PrivilegeDescItem> getPrivilegeDescItem(){
+		return this._privItems;
 	}
 	
 	public String getKey() {

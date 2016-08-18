@@ -2,6 +2,7 @@ package com.playerdata.fightinggrowth;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.StringUtils;
@@ -10,6 +11,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.Email.EmailUtils;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
 
@@ -138,5 +140,17 @@ public class FSuserFightingGrowthMgr {
 		}
 		Pair<String, Boolean> result = Pair.Create(tips, success);
 		return result;
+	}
+	
+	public List<PrivilegeDescItem> getPrivilegeDescItem(Player player){
+		String privId = getCurrentTitle(player);
+		if(org.apache.commons.lang3.StringUtils.isBlank(privId)){
+			return null;
+		}
+		FSUserFightingGrowthTitleCfg cfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getCfgById(privId);
+		if(null == cfg) {
+			return null;
+		}
+		return cfg.getPrivilegeDescItem();
 	}
 }

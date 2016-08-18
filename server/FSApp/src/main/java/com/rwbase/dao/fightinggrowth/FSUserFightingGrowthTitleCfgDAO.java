@@ -1,15 +1,18 @@
 package com.rwbase.dao.fightinggrowth;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
 
 public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGrowthTitleCfg> {
@@ -60,6 +63,7 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 					throw new RuntimeException("fightingGrowth/FightingGrowthTitle.csv，多于一个isFirst为true！");
 				}
 			}
+			temp.setPrivilegeDescItem(parseStringToPrivilege(temp.getPrivilege()));
 		}
 		return this.cfgCacheMap;
 	}
@@ -84,5 +88,21 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 	 */
 	public FSUserFightingGrowthTitleCfg getNextFightingGrowthTitleCfgSafely(String currentKey) {
 		return this.getFightingGrowthTitle(currentKey, true);
+	}
+	
+	private List<PrivilegeDescItem> parseStringToPrivilege(String desc){
+		List<PrivilegeDescItem> itemList = new ArrayList<PrivilegeDescItem>();
+		if(StringUtils.isBlank(desc)) return itemList;
+		String[] privStrArr = desc.split("|");
+		for(String singleDesc : privStrArr){
+			String[] descStrArr = singleDesc.split("_");
+			if(descStrArr.length < 3) continue;
+			PrivilegeDescItem item = new PrivilegeDescItem();
+			item.setItemID(Integer.parseInt(descStrArr[0]));
+			item.setValue(Float.parseFloat(descStrArr[1]));
+			item.setPersent(StringUtils.equals(descStrArr[2], "0"));
+			itemList.add(item);
+		}
+		return itemList;
 	}
 }
