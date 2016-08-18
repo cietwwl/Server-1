@@ -7,6 +7,7 @@ public class ActivityExchangeTypeCfg {
 
 	private String id;
 	
+	private String enumId;
 	
 	private long dropStartTime;
 
@@ -26,7 +27,15 @@ public class ActivityExchangeTypeCfg {
 	
 	private String version;
 
-	private int levelLimit;
+	private int levelLimit;	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
 
 	public void setId(String id) {
 		this.id = id;

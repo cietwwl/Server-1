@@ -11,6 +11,8 @@ import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 public class GFResourceInfo {
 	private int resourceID;	//资源点ID
 	
+	private boolean ownerBidAble = false;
+	
 	private GFGroupBiddingItem groupInfo;		//占有公会简要信息
 	
 	/**
@@ -45,5 +47,13 @@ public class GFResourceInfo {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	public boolean isOwnerBidAble() {
+		return ownerBidAble;
+	}
+
+	public void setOwnerBidAble(boolean ownerBidAble) {
+		this.ownerBidAble = ownerBidAble;
 	}
 }

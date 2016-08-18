@@ -10,6 +10,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -46,6 +47,7 @@ public class PlayerLoginTask implements PlayerTask {
 	private final GameLoginRequest request;
 	private final RequestHeader header;
 	private final boolean savePlot;
+	private final long submitTime;
 
 	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request) {
 		this(ctx, header, request, true);
@@ -56,10 +58,19 @@ public class PlayerLoginTask implements PlayerTask {
 		this.header = header;
 		this.request = request;
 		this.savePlot = savePlot;
+		this.submitTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void run(Player player) {
+		if(!this.ctx.channel().isActive()){
+			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:"+UserChannelMgr.getCtxInfo(ctx));
+			return;
+		}
+		int seqID = header.getSeqID();
+		long executeTime = System.currentTimeMillis();
+		FSTraceLogger.logger("run(" + (executeTime - submitTime)+"," + "LOGIN" + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
+		
 		GameLoginResponse.Builder response = GameLoginResponse.newBuilder();
 		if (player == null) {
 			response.setError("服务器繁忙，请稍后再次尝试登录。");
@@ -196,6 +207,8 @@ public class PlayerLoginTask implements PlayerTask {
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
 		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx);
+		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ "LOGIN" + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
+
 	}
 	
 

@@ -24,7 +24,7 @@ public class DropRecordParser implements DataValueParser<DropRecord> {
 		JSONObject json = new JSONObject(4);
 		json.put("userId", entity.getUserId());
 		JSONObject firstDropMapJson = new JSONObject();
-		for (Map.Entry<Integer, String> entry : entity.getFirstDropMap().entrySet()) {
+		for (Map.Entry<Integer, Integer> entry : entity.getFirstDropMap().entrySet()) {
 			firstDropMapJson.put(String.valueOf(entry.getKey()), entry.getValue());
 		}
 		json.put("firstDropMap", firstDropMapJson);
