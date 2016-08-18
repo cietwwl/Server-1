@@ -2,9 +2,6 @@ package com.rw.handler.teamBattle.dataForClient;
 
 import java.util.List;
 
-import com.playerdata.dataSyn.annotation.SynClass;
-
-@SynClass
 public class TBArmyHerosInfo {
 	
 	private String magicID;

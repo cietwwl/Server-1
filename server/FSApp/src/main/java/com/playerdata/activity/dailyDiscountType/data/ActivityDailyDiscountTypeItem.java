@@ -51,6 +51,17 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;	
 	
+	@CombineSave
+	private String enumId;	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -131,11 +142,13 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 	}
 
 	public void reset(ActivityDailyDiscountTypeCfg targetCfg) {
+		
 		this.closed = false;
 		this.lastTime = System.currentTimeMillis();
+		this.cfgId = targetCfg.getId();
 		this.version = targetCfg.getVersion();
 		this.subItemList = ActivityDailyDiscountTypeCfgDAO.getInstance().newSubItemList(
-						ActivityDailyDiscountTypeEnum.getById(targetCfg.getId()));
+						targetCfg);
 		isTouchRedPoint = false;
 	}
 }

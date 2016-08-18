@@ -37,8 +37,20 @@ public class ActivityCountTypeCfg {
 	
 	private int levelLimit;
 	
-
+	private String enumId;
 	
+	
+	
+
+
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public int getLevelLimit() {
 		return levelLimit;
 	}

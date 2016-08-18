@@ -1,6 +1,7 @@
 package com.rw;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -10,6 +11,7 @@ import com.rw.common.RobotLog;
 import com.rw.handler.DailyActivity.DailyActivityHandler;
 import com.rw.handler.GroupCopy.GroupCopyHandler;
 import com.rw.handler.GroupCopy.GroupCopyMgr;
+import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
 import com.rw.handler.activity.ActivityCountHandler;
 import com.rw.handler.activity.daily.ActivityDailyCountHandler;
 import com.rw.handler.battle.PVEHandler;
@@ -37,6 +39,7 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
+import com.rw.handler.groupsecret.SecretUserInfoSynData;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.itembag.ItemData;
@@ -54,6 +57,7 @@ import com.rw.handler.task.TaskHandler;
 import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
+import com.rwproto.GroupCopyAdminProto.RequestType;
 
 /*
  * 机器人入口
@@ -154,7 +158,7 @@ public class Robot {
 		}
 		client.closeConnect();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -167,7 +171,12 @@ public class Robot {
 		} catch (Exception e) {
 			RobotLog.fail("loginGame error", e);
 		}
-
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		return createSuccess;
 	}
 
@@ -301,10 +310,12 @@ public class Robot {
 	public void checkItemEnough(int modelId) {
 		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
 		if (itemData == null || itemData.getCount() < 50) {
-			gainItem(modelId, 999);
+			gainItem(modelId, 9999);
 		}
 	}
-
+	
+	
+	
 	/**
 	 * 穿装备
 	 * 
@@ -371,12 +382,87 @@ public class Robot {
 	public boolean receivePower(String friendUserId) {
 		return FriendHandler.instance().receivePowerOne(client, friendUserId);
 	}
-
+	
+	/**神器操作需要涉及的材料，创建角色是单独调用*/
+	public boolean addFixEquip(){
+		
+		boolean sendSuccess = GmHandler.instance().send(client, "* addfixequipitem " + 1);
+		
+		return sendSuccess;
+		
+//		checkItemEnough(806511);// 普通进化材料
+//		checkItemEnough(806512);
+//		checkItemEnough(806513);
+//		checkItemEnough(806514);
+//		checkItemEnough(806515);
+//		checkItemEnough(806516);
+//		checkItemEnough(806517);
+//		checkItemEnough(806518);
+//		checkItemEnough(806519);
+//		checkItemEnough(806520);
+//		checkItemEnough(806521);
+//		checkItemEnough(806522);
+//		checkItemEnough(806523);
+//		checkItemEnough(806524);
+//		checkItemEnough(806525);
+//		checkItemEnough(806526);
+//		checkItemEnough(806527);
+//		checkItemEnough(806528);
+//		
+//		checkItemEnough(806551);// 特殊←进阶别材料
+//		checkItemEnough(806552);// 特殊右进阶		
+//
+//		checkItemEnough(806553);// 升星材料
+//		checkItemEnough(806554);// 升星材料
+//		checkItemEnough(806555);// 升星材料
+//		checkItemEnough(806556);// 升星材料
+//		checkItemEnough(806557);// 升星材料
+//		checkItemEnough(806558);// 升星材料
+//		checkItemEnough(806559);// 升星材料
+//		checkItemEnough(806560);// 升星材料
+//		checkItemEnough(806561);// 升星材料
+//		checkItemEnough(806562);// 升星材料
+//		checkItemEnough(806563);// 升星材料
+//		checkItemEnough(806564);// 升星材料
+//		checkItemEnough(806565);// 升星材料
+//		checkItemEnough(806566);// 升星材料
+//		checkItemEnough(806567);// 升星材料
+//		checkItemEnough(806568);// 升星材料
+//		checkItemEnough(806569);// 升星材料
+//		checkItemEnough(806570);// 升星材料
+//		checkItemEnough(806571);// 升星材料
+//		checkItemEnough(806572);// 升星材料
+//		checkItemEnough(806573);// 升星材料
+//		checkItemEnough(806574);// 升星材料
+//		checkItemEnough(806575);// 升星材料
+//		checkItemEnough(806576);// 升星材料
+//		checkItemEnough(806577);// 升星材料
+//		checkItemEnough(806578);// 升星材料
+//		checkItemEnough(806579);// 升星材料
+//		checkItemEnough(806580);// 升星材料
+//		checkItemEnough(806581);// 升星材料
+//		checkItemEnough(806582);// 升星材料
+//		checkItemEnough(806583);// 升星材料
+//		checkItemEnough(806584);// 升星材料
+//		checkItemEnough(806585);// 升星材料
+//		checkItemEnough(806586);// 升星材料
+////
+//		checkItemEnough(806505);// 下←格经验材料
+//		checkItemEnough(806510);// 下右格经验材料
+		
+//		return true;
+		
+	}
+	
 	public boolean addCoin(int coin) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addCoin " + coin);
 		return sendSuccess;
 	}
 
+	public boolean addGroupCopyFight(int count){
+		return GmHandler.instance().send(client, "* setgbf "+ count);
+	}
+	
 	public boolean addPower(int power) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addPower " + power);
 		return sendSuccess;
@@ -458,10 +544,15 @@ public class Robot {
 	 * @return
 	 */
 	public boolean addGroupExp() {
-		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 100000");
+		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 1000000");
 		return sendSuccess;
 	}
 
+	
+	public boolean addGroupSpplis(){
+		return GmHandler.instance().send(client, "* setgp 1000000");
+	}
+	
 	public boolean getFinishTaskReward() {
 		return TaskHandler.instance().getReward(client);
 	}
@@ -992,7 +1083,12 @@ public class Robot {
 	public boolean acceptMemberDefend() {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
-
+	
+	
+	
+	
+	
+	
 	/**
 	 * 
 	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
@@ -1003,67 +1099,7 @@ public class Robot {
 	 */
 	public boolean testFixEquip(int type, int heronumber, int expequipId, int servicetype) {
 
-		upgrade(50);
-		addCoin(9999999);
-		addGold(88888);
-		checkItemEnough(806511);// 进化材料
-		checkItemEnough(806512);
-		checkItemEnough(806513);
-		checkItemEnough(806514);
-		checkItemEnough(806515);
-		checkItemEnough(806516);
-		checkItemEnough(806517);
-		checkItemEnough(806518);
-		checkItemEnough(806519);
-		checkItemEnough(806520);
-		checkItemEnough(806521);
-		checkItemEnough(806522);
-		checkItemEnough(806523);
-		checkItemEnough(806524);
-		checkItemEnough(806525);
-		checkItemEnough(806526);
-		checkItemEnough(806527);
-		checkItemEnough(806528);
-
-		checkItemEnough(806553);// 升星材料
-		checkItemEnough(806554);// 升星材料
-		checkItemEnough(806555);// 升星材料
-		checkItemEnough(806556);// 升星材料
-		checkItemEnough(806557);// 升星材料
-		checkItemEnough(806558);// 升星材料
-		checkItemEnough(806559);// 升星材料
-		checkItemEnough(806560);// 升星材料
-		checkItemEnough(806561);// 升星材料
-		checkItemEnough(806562);// 升星材料
-		checkItemEnough(806563);// 升星材料
-		checkItemEnough(806564);// 升星材料
-		checkItemEnough(806565);// 升星材料
-		checkItemEnough(806566);// 升星材料
-		checkItemEnough(806567);// 升星材料
-		checkItemEnough(806568);// 升星材料
-		checkItemEnough(806569);// 升星材料
-		checkItemEnough(806570);// 升星材料
-		checkItemEnough(806571);// 升星材料
-		checkItemEnough(806572);// 升星材料
-		checkItemEnough(806573);// 升星材料
-		checkItemEnough(806574);// 升星材料
-		checkItemEnough(806575);// 升星材料
-		checkItemEnough(806576);// 升星材料
-		checkItemEnough(806577);// 升星材料
-		checkItemEnough(806578);// 升星材料
-		checkItemEnough(806579);// 升星材料
-		checkItemEnough(806580);// 升星材料
-		checkItemEnough(806581);// 升星材料
-		checkItemEnough(806582);// 升星材料
-		checkItemEnough(806583);// 升星材料
-		checkItemEnough(806584);// 升星材料
-		checkItemEnough(806585);// 升星材料
-		checkItemEnough(806586);// 升星材料
-
-		checkItemEnough(806505);// 下←格经验材料
-		checkItemEnough(806510);// 下右格经验材料
-		checkItemEnough(806551);// ←升级别材料
-		checkItemEnough(806552);// 右升级
+		
 
 		boolean issuc = false;
 		if (type == 0) {
@@ -1117,6 +1153,17 @@ public class Robot {
 	 * @return
 	 */
 	public boolean playerGroupCopy(){
+		GroupCopyHandler.getInstance().applyCopyInfo(client);
+		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
+		if(list.isEmpty()){
+			RobotLog.info("发现角色无已开启帮派副本，执行开启请求!");
+			//增加一下帮派经验
+			addGroupExp();
+			addGroupSpplis();
+			for (GroupCopyMapRecord record : list) {
+				GroupCopyHandler.getInstance().openLevel(client, record.getChaterID(), RequestType.OPEN_COPY);
+			}
+		}
 		return GroupCopyMgr.getInstance().playGroupCopy(client);
 	}
 	
@@ -1153,10 +1200,14 @@ public class Robot {
 	}
 	
 	private void checkEnoughSecretKeyCount() {
-		if(client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount() < 21){
-			addSecretKeycount();
+		SecretUserInfoSynData userInfoData = client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData();
+		if(userInfoData != null){
+			if(userInfoData.getKeyCount() < 21){
+				addSecretKeycount();
+			}
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
 		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
+		
 		
 	}
 	
@@ -1164,16 +1215,16 @@ public class Robot {
 		return GroupCopyMgr.getInstance().donateCopy(client);
 	}
 	
-	public void applyDistRewardLog(){
-		GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
+	public boolean applyDistRewardLog(){
+		return GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
 	}
 	
-	public void applyGroupDamageRank(){
-		GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
+	public boolean applyGroupDamageRank(){
+		return GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
 	}
 	
-	public void applyAllRewardApplyInfo(){
-		GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
+	public boolean applyAllRewardApplyInfo(){
+		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
 	
 }

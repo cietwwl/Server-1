@@ -8,6 +8,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.common.MsgReciver;
@@ -89,6 +91,8 @@ public abstract class ClientMsgHandler {
 				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
+//					RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= " + synType.getNumber() + " i =" + i);
+//					i++;
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -191,11 +195,15 @@ public abstract class ClientMsgHandler {
 					case GROUP_ITEM_DROP_APPLY:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
+					case USE_GROUP_COPY_DATA:
+						getClient().getGroupCopyUserData().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
-			} catch (InvalidProtocolBufferException e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
+				RobotLog.fail("!!!!!!!!!!!!!!!!!!!!!------------------------------------------------", e);
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
 		}
@@ -278,6 +286,7 @@ public abstract class ClientMsgHandler {
 					}
 				}
 			});
+			Thread.sleep(300);
 			f.get(10, TimeUnit.SECONDS);
 			if (!f.isSuccess()) {
 				return true;
@@ -301,7 +310,7 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
 			success = false;
 		} else {
 

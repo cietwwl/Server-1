@@ -44,6 +44,21 @@ public class ActivityRankTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;	
 	
+	@CombineSave
+	private String enumId;
+	
+	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -137,6 +152,7 @@ public class ActivityRankTypeItem implements  IMapItem {
 
 
 	public void reset(ActivityRankTypeCfg targetCfg) {
+		this.cfgId = targetCfg.getId();
 		this.taken = false;
 		this.closed = false;
 		this.version = targetCfg.getVersion();

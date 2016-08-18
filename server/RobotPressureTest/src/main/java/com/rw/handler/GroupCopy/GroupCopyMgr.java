@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.common.Utils;
 import com.rw.Client;
 import com.rw.common.RobotLog;
 import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
+import com.rw.handler.chat.GmHandler;
 import com.rw.mutiTest.MutiTestAccount;
-import com.rwbase.common.RandomUtil;
-import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 
@@ -29,21 +27,26 @@ public class GroupCopyMgr {
 		//同步地图关卡数据
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 
-		//获取所有还没有开放的副本 发送开放请求
-		List<GroupCopyMapRecord> list = getAllNotOpenChaters(client);
-		for (GroupCopyMapRecord record : list) {
-			GroupCopyHandler.getInstance().openLevel(client, record.getChaterID(), RequestType.OPEN_COPY);
-		}
+		
+		
 		GroupCopyHandler handler = GroupCopyHandler.getInstance();
 		GroupCopyMapRecord record = getRandomOpenChater(client);
 		if(record == null){
 			RobotLog.info("当前机器人没有可进入的帮派副本");
 			return true;
 		}
-		
-		handler.clientApplyDropData(client, record.getChaterID());
-		
-		handler.clientApplyServerRank(client, record.getCurLevelID());
+		//检查角色进入副本次数
+		int count = client.getGroupCopyUserData().getLeftFightCount(record.getChaterID());
+		if(count <= 0){
+			RobotLog.info("发现角色进入关卡次数为0，准备为角色添加进入帮派副本关卡次数");
+			boolean send = GmHandler.instance().send(client, "* setgbf "+ 100);
+			if(send){
+				GroupCopyHandler.getInstance().applyCopyInfo(client);
+			}
+		}
+//		handler.clientApplyDropData(client, record.getChaterID());
+//		
+//		handler.clientApplyServerRank(client, record.getCurLevelID());
 		
 		
 		handler.try2EnterBattle(client, record.getCurLevelID());
@@ -74,7 +77,7 @@ public class GroupCopyMgr {
 			return null;
 		}
 		int size = list.size();
-		int index = RandomUtil.getRandonIndexWithoutProb(size);
+		int index = (int)(Math.random() * size);
 		return list.get(index);
 	}
 	

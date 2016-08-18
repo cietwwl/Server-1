@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.rw.common.RobotLog;
 import com.rw.dataSyn.json.FieldInfo;
 
 public class ClassInfo {
@@ -46,8 +47,7 @@ public class ClassInfo {
 			}
 			
 		}catch(Exception e){
-			
-			System.out.println("ClassInfo4Client[FromJson] erro, fieldName:"+fieldName+" fieldJson:"+fieldJson);
+			RobotLog.fail("classinfo~~~~~~~~~~~~~~~~~~~~~~,fieldname"+ fieldName + "  json ="+ fieldJson);
 			e.printStackTrace();
 			
 		}

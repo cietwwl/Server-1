@@ -79,7 +79,6 @@ public class GFightFinalBM {
 			handleFailGroup(groupRankList.get(i));
 		//清除本次循环中的数据，以便于开始下个循环
 		clearCurrentLoopData(resourceID);
-		
 	}
 	
 	/**
@@ -187,7 +186,7 @@ public class GFightFinalBM {
 		//设置下一个资源点占有者的可竞标状态
 		List<GFightOnlineResourceCfg> resCfg = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 		int size = resCfg.size();
-		int nextResourceID = (currentResourceID + 1)%size;
+		int nextResourceID = (currentResourceID + 1)%size == 0 ? size : (currentResourceID + 1)%size;
 		GFightOnlineResourceData nextResData = GFightOnlineResourceHolder.getInstance().get(nextResourceID);
 		if(nextResData != null){
 			nextResData.setOwnerBidAble(true);

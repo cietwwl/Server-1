@@ -16,7 +16,6 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -43,6 +42,7 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -95,6 +95,7 @@ public class GMHandler {
 		funcCallBackMap.put("addcoin", "addCoin");
 		funcCallBackMap.put("addgold", "addGold");
 		funcCallBackMap.put("addhero", "addHero");
+		funcCallBackMap.put("addfixequipitem", "addFixEquipItem");
 		funcCallBackMap.put("clrbag", "clrBag");
 		funcCallBackMap.put("setlevel", "setLevel");
 		funcCallBackMap.put("ranksort", "rankSort");
@@ -190,6 +191,8 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
+		funcCallBackMap.put("shutdown", "shutdownServer");
+		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
@@ -220,7 +223,7 @@ public class GMHandler {
 	
 	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group == null){
 			return false;
 		}
@@ -506,6 +509,22 @@ public class GMHandler {
 		return false;
 	}
 
+	public boolean addFixEquipItem(String[] arrCommandContents,Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			GMAddFixEquip.addStarUp(player);
+			GMAddFixEquip.addexp(player);
+			GMAddFixEquip.addqualityUp(player);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addCoin(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -1246,7 +1265,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
@@ -1333,13 +1352,18 @@ public class GMHandler {
 		return true;
 	}
 	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
+		return true;
+	}
+
 	public boolean addDistCount(String[] str, Player player){
 		int count = Integer.parseInt(str[0]);
 		if(count <= 0){
 			return false;
 		}
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
 		}

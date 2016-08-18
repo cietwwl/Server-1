@@ -438,7 +438,12 @@ public class MagicSecretHandler {
 		if (magiChapterInfolist.size() > 0) {
 			MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(chapterId);
 			req.setChapterId(magiChapterInfo.getChapterId());
-			req.setBuffId(magiChapterInfo.getUnselectedBuff().get(0) + "");
+			List<Integer> selectedBuff = magiChapterInfo.getSelectedBuff();
+			if (selectedBuff != null && selectedBuff.size() > 0) {
+				req.setBuffId(magiChapterInfo.getUnselectedBuff().get(0) + "");
+			} else {
+				req.setBuffId("1");
+			}
 		} else {
 			req.setChapterId(client.getMagicSecretHolder().getChapterId());
 			req.setBuffId("1");

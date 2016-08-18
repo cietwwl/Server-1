@@ -163,12 +163,19 @@ public class FixNormEquipMgr {
 		for (FixNormEquipDataItem dataItem : itemList) {
 			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int curLevel = dataItem.getLevel();
-			FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
-			int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
-			FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
-			if(result.isSuccess()){
-				levelUpList.add(dataItem.getId());
+			
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), dataItem.getQuality());
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(curLevel < nextQualityLevel){				
+				
+				FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+				int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+				FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+				if(result.isSuccess()){
+					levelUpList.add(dataItem.getId());
+				}
 			}
+			
 		}
 		
 		
@@ -213,7 +220,7 @@ public class FixNormEquipMgr {
 
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
-		int toLevel = getToLevel(player, ownerId, dataItem);
+		int toLevel = getToLevel(player, dataItem);
 		int curLevel = dataItem.getLevel();
 
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
@@ -229,7 +236,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private int getToLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
+	private int getToLevel(Player player, FixNormEquipDataItem dataItem) {
 
 		int quality = dataItem.getQuality();
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
