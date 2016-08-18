@@ -77,12 +77,15 @@ public class TBTeamItemMgr{
 			if(utbMemData.getSelfTeamInfo() == null){
 				Player player = PlayerMgr.getInstance().find(member.getUserID());
 				if(player == null) continue;
-				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros();
+//				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros();
+				List<Hero> heros = player.getHeroMgr().getMaxFightingHeros(player);
 				List<String> heroIDs = new ArrayList<String>();
 				Map<String, Integer> heroPosMap = new HashMap<String, Integer>();
 				for(int i = 1; i < heros.size(); i++){
-					heroIDs.add(heros.get(i).getHeroData().getId());
-					heroPosMap.put(heros.get(i).getHeroData().getId(), i);
+//					heroIDs.add(heros.get(i).getHeroData().getId());
+//					heroPosMap.put(heros.get(i).getHeroData().getId(), i);
+					heroIDs.add(heros.get(i).getId());
+					heroPosMap.put(heros.get(i).getId(), i);
 				}
 				StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
 				teamInfo.setUserID(member.getUserID());
@@ -95,11 +98,13 @@ public class TBTeamItemMgr{
 		teamItem.setTeamMembers(memTeams);
 	}
 	
-	public synchronized TBTeamItem getOneCanJionTeam(String hardID){
+	public synchronized TBTeamItem getOneCanJionTeam(String userID, String hardID){
 		List<TBTeamItem> jionAble = new ArrayList<TBTeamItem>();
 		Enumeration<TBTeamItem> itemEnum = TBTeamItemHolder.getInstance().getItemStore(hardID).getEnum();
 		while(itemEnum.hasMoreElements()){
 			TBTeamItem item = itemEnum.nextElement();
+			//不能加入自己已经打过的队伍
+			if(null != item.findMember(userID)) continue;
 			if(item.isCanFreeJion() && !item.isSelecting() && !item.isFull()){
 				jionAble.add(item);
 			}

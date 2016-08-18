@@ -8,8 +8,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.common.MsgReciver;
@@ -283,7 +281,7 @@ public abstract class ClientMsgHandler {
 						if (cost > 1000) {
 							RobotLog.testError("send cost:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",cost=" + cost);
 						}
-					}
+					} 
 				}
 			});
 			Thread.sleep(300);
@@ -298,7 +296,8 @@ public abstract class ClientMsgHandler {
 				success = true;
 			}
 		} catch (Exception e) {
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+			long cost = System.currentTimeMillis() - sendTime;
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId+",cost="+cost, e);
 			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
 			success = false;
 		}

@@ -2,6 +2,9 @@ package com.rw.handler.teamBattle.dataForClient;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TBArmyHerosInfo {
 	
 	private String magicID;
