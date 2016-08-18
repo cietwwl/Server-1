@@ -59,7 +59,8 @@ public class DataAutoSynMgr {
 				continue;
 			}
 			//用来同步数据的结构
-			SameSceneSynObject synObject = new SameSceneSynObject();
+			SameSceneSynData synObject = new SameSceneSynData();
+			synObject.setId(String.valueOf(sceneId));
 			synObject.setSynData(synData);
 			List<Player> players = new ArrayList<Player>();
 			Iterator<Entry<String, Object>> entryIterator = synData.entrySet().iterator();

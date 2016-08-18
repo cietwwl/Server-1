@@ -5,7 +5,9 @@ import java.util.Map;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
-public class SameSceneSynObject {
+public class SameSceneSynData {
+	
+	private String Id;
 	
 	private Map<String, Object> synData;
 
@@ -15,5 +17,13 @@ public class SameSceneSynObject {
 
 	public void setSynData(Map<String, Object> synData) {
 		this.synData = synData;
+	}
+
+	public String getId() {
+		return Id;
+	}
+
+	public void setId(String id) {
+		Id = id;
 	}
 }
