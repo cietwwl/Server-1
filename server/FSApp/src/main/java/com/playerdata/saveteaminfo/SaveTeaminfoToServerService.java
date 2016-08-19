@@ -6,6 +6,8 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.BattleCommon.BattleCommonReqMsg;
+import com.rwproto.BattleCommon.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -23,12 +25,12 @@ public class SaveTeaminfoToServerService implements FsService {
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
 		try {
-			
-//			MagicSecretReqMsg msgMSRequest = MagicSecretReqMsg.parseFrom(request.getBody().getSerializedContent());
-//			msRequestType msType = msgMSRequest.getReqType();
+			BattleCommonReqMsg msgMSRequest = BattleCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+			RequestType msType = msgMSRequest.getReqType();
+
 			switch (msType) {
-			case GET_MS_RANK:
-				result = mHandler.getMSRankData(player, msgMSRequest);
+			case Updata:
+				result = mHandler.putTeamInfoToServer(player, msgMSRequest);
 				break;
 			
 			default:

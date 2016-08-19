@@ -1,10 +1,18 @@
 package com.playerdata.saveteaminfo;
 
+import java.util.List;
+
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
-import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
-import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositonHelper;
+import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
+import com.rwproto.BattleCommon.BattleCommonReqMsg;
+import com.rwproto.BattleCommon.BattleCommonRspMsg;
+import com.rwproto.BattleCommon.BattleHeroPosition;
+import com.rwproto.BattleCommon.eBattlePositionType;
+
+
 
 public class SaveTeaminfoToServerHandler {
 
@@ -20,91 +28,21 @@ public class SaveTeaminfoToServerHandler {
 		return instance;
 	}
 
-	public ByteString getMSRankData(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
+	public ByteString putTeamInfoToServer(Player player, BattleCommonReqMsg msgMSRequest) {
+		BattleCommonRspMsg.Builder msRsp = BattleCommonRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.getMSRankData(player, msRsp);
-		return msRsp.build().toByteString();
-	}
+		msRsp.setIsSuccess(true);
+		eBattlePositionType  type = msgMSRequest.getPositionType();
+		String str = msgMSRequest.getRecordkey();
+		List<BattleHeroPosition> positionList = msgMSRequest.getBattleHeroPositionList();
+		
+		// 存储到阵容中
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player,type.getNumber(), str,
+		EmbattlePositonHelper.parseMsgHeroPos2Memery(positionList));
 
-	public ByteString enterMSFight(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.enterMSFight(player, msRsp, msgMSRequest.getDungeonId());
+		
+		
+		
 		return msRsp.build().toByteString();
-	}
-
-	public ByteString getMSSingleReward(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.getSingleReward(player, msRsp, msgMSRequest.getDungeonId(), msgMSRequest.getFinishState());
-		return msRsp.build().toByteString();
-	}
-	
-	public ByteString getMSSweepReward(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.getMSSweepReward(player, msRsp, msgMSRequest.getChapterId());
-		return msRsp.build().toByteString();
-	}
-
-	public ByteString openRewardBox(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.openRewardBox(player, msRsp, msgMSRequest.getChapterId(), msgMSRequest.getRwdBox());
-		return msRsp.build().toByteString();
-	}
-
-	public ByteString exchangeBuff(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msRsp.setRstType(msMgr.exchangeBuff(player, msgMSRequest.getChapterId(), msgMSRequest.getBuffId()));
-		return msRsp.build().toByteString();
-	}
-	
-	public ByteString changeMSArmy(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msRsp.setRstType(msMgr.changeMSArmy(player, msgMSRequest.getArmyInfo()));
-		return msRsp.build().toByteString();
-	}
-	
-	public ByteString getScoreReward(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.getScoreReward(player, msRsp, msgMSRequest.getScoreRewardID());
-		return msRsp.build().toByteString();
-	}
-	
-	public ByteString getSelfMSRank(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msMgr.getSelfMSRank(player, msRsp);
-		return msRsp.build().toByteString();
-	}
-	
-	public ByteString giveUpRewardBox(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msRsp.setRstType(msMgr.giveUpRewardBox(player, msgMSRequest.getChapterId()));
-		return msRsp.build().toByteString();
-	}
-
-	public ByteString giveUpBuff(Player player, MagicSecretReqMsg msgMSRequest) {
-		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
-		msRsp.setReqType(msgMSRequest.getReqType());
-		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
-		msRsp.setRstType(msMgr.giveBuff(player, msgMSRequest.getChapterId()));
-		return msRsp.build().toByteString();
-	}
+	}	
 }

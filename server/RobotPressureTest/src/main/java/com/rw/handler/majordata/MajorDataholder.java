@@ -31,7 +31,7 @@ public class MajorDataholder {
 	}
 	
 	public boolean CheckEnoughCoin(){
-		if(majordata.getCoin() > 1000000){
+		if(majordata.getCoin() > 99999999){
 			return true;
 		}else{
 			return false;
@@ -39,7 +39,7 @@ public class MajorDataholder {
 	}
 	
 	public boolean CheckEnoughGold(){
-		if(majordata.getGold() > 1000){
+		if(majordata.getGold() > 9999999){
 			return true;
 		}else{
 			return false;
