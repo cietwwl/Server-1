@@ -71,19 +71,10 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	public boolean init(Hero pOwner) {
 		return true;
 	}
-
-//	@Deprecated
-//	public void regChangeCallBack(Action callBack) {
-//		equipItemHolder.regChangeCallBack(callBack);
-//	}
 	
 	public void regDataChangeCallback(IHeroAction callback) {
 		equipItemHolder.regDataChangeCallback(callback);
 	}
-
-	// public AttrData getTotalEquipAttrData() {
-	// return equipItemHolder.toAttrData();
-	// }
 	
 	/**
 	 * 装备附灵
@@ -185,39 +176,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		}
 		return totalExp;
 	}
-
-//	/**
-//	 * 一键附灵
-//	 * 
-//	 * @param slot
-//	 * @return 0-成功，-1:没有装备；-2：钻石不够
-//	 */
-//	public int EquipOneKeyAttach(int slot) {
-//		String ownerId = m_pOwner.getUUId();
-//		EquipItem equipItem = equipItemHolder.getItem(ownerId, slot);
-//		if (equipItem == null) {
-//			return -1;
-//		}
-//
-//		int attachExp = equipItem.getExp();
-//		int attachLevel = equipItem.getLevel();
-//		EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(attachLevel);
-//		int tempExp = -attachExp;
-//		while (pEquipAttachCfg != null) { // 循环升级
-//			if (pEquipAttachCfg.getNextId() == 0) {
-//				break;
-//			}
-//			tempExp += pEquipAttachCfg.getNeedExp();
-//			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
-//		}
-//		if (m_pPlayer.getUserGameDataMgr().addGold(-(int) Math.ceil(0.6 * tempExp)) == -1) {
-//			return -2;
-//		}
-//		equipItem.setLevel(pEquipAttachCfg.getId());
-//		equipItem.setExp(0);
-//		equipItemHolder.updateItem(m_pPlayer, equipItem);
-//		return 0;
-//	}
 	
 	/**
 	 * 一键附灵
@@ -250,49 +208,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		equipItemHolder.updateItem(player, heroId, equipItem);
 		return EQUIP_ATTACH_SUCCESS;
 	}
-
-//	/**
-//	 * 穿法宝
-//	 * 
-//	 * @param slotId
-//	 * @param ordinal
-//	 */
-//	public boolean wearEquip(String slotId, int equipIndex) {
-//
-//		ItemData item = m_pPlayer.getItemBagMgr().findBySlotId(slotId);
-//		if (item == null) {
-//			return false;
-//		}
-//		// TODO HC @modify 注意：这里的代码一定要看清楚用意然后再做修改
-//		item = new ItemData(item);// 简单clone一个对象
-//		int equipId = item.getModelId();
-//		EItemTypeDef eItemType = ItemCfgHelper.getItemType(equipId);
-//		if (eItemType == EItemTypeDef.HeroEquip) {
-//			// 新装备
-//			ItemData equipItemData = new ItemData();
-//			equipItemData.setCount(1);
-//			equipItemData.setModelId(item.getModelId());
-//
-//			boolean isOpen = false;
-//			if (m_pOwner.getRoleType() == eRoleType.Player) {
-//				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, m_pPlayer.getLevel());
-//			} else {
-//				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, m_pPlayer.getLevel());
-//			}
-//			if (!isOpen) {
-//				m_pPlayer.NotifyCommonMsg(ErrorType.NOT_ENOUGH_LEVEL);
-//				return false;
-//			}
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
-//			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-//			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
-//
-//			m_pPlayer.getItemBagMgr().useItemByCfgId(equipId, 1);
-//			equipItemHolder.wearEquip(m_pPlayer, equipIndex, equipItemData);
-//		}
-//		return true;
-//	}
 	
 	/**
 	 * 穿法宝
@@ -339,24 +254,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		}
 		return true;
 	}
-
-//	/**
-//	 * 穿装备
-//	 * 
-//	 * @param bagSlot
-//	 * @param nEquipSlotId
-//	 * @throws CloneNotSupportedException
-//	 */
-//	public boolean WearEquip(int equipIndex) {
-//		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
-//		int equipId = equips.get(equipIndex);
-//		List<ItemData> itemList = m_pPlayer.getItemBagMgr().getItemListByCfgId(equipId);
-//		if (itemList == null || itemList.isEmpty()) {
-//			return false;
-//		}
-//		ItemData item = itemList.get(0);
-//		return wearEquip(item.getId(), equipIndex);
-//	}
 	
 	/**
 	 * 穿装备
@@ -377,26 +274,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		ItemData item = itemList.get(0);
 		return wearEquip(player, heroId, item.getId(), equipIndex);
 	}
-
-//	public boolean canWearEquip() {
-//		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
-//
-//		for (Integer equipId : equips) {
-//			HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getConfig(equipId);
-//			if (hasEquip(equipId) || cfg.getLevel() > m_pOwner.getLevel()) {
-//				continue;
-//			}
-//
-//			List<ItemData> itemList = m_pPlayer.getItemBagMgr().getItemListByCfgId(equipId);
-//			if (itemList != null && itemList.size() > 0) {
-//				return true;
-//			}
-//			if (EquipHandler.checkCompose(m_pPlayer, equipId) == 1) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 	
 	public boolean canWearEquip(Player player, String heroId) {
 		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
@@ -418,26 +295,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		}
 		return false;
 	}
-
-//	private boolean hasEquip(int modelid) {
-//		List<EquipItem> equipList = getEquipList();
-//		for (EquipItem equipItem : equipList) {
-//			if (equipItem.getModelId() == modelid) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-	
-//	private boolean hasEquip(int modelid) {
-//		List<EquipItem> equipList = getEquipList();
-//		for (EquipItem equipItem : equipList) {
-//			if (equipItem.getModelId() == modelid) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 	
 	private boolean hasEquip(String heroId, int modelid) {
 		List<EquipItem> equipList = getEquipList(heroId);
@@ -459,34 +316,14 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	public boolean load(String heroId) {
 		return true;
 	}
-
-//	public void syncAllEquip(int version) {
-//		equipItemHolder.synAllData(m_pPlayer, version);
-//	}
 	
 	public void syncAllEquip(Player player, String heroId, int version) {
 		equipItemHolder.synAllData(player, heroId, version);
 	}
-
-//	public int getEquipCount() {
-//		return getEquipList().size();
-//	}
 	
 	public int getEquipCount(String heroId) {
 		return getEquipList(heroId).size();
 	}
-
-//	public List<EquipItem> getEquipList() {
-//		List<EquipItem> equipList = new ArrayList<EquipItem>();
-//		List<EquipItem> itemList = equipItemHolder.getItemList();
-//		for (EquipItem equipItem : itemList) {
-//			if (equipItem.getType() == EItemTypeDef.HeroEquip) {
-//				equipList.add(equipItem);
-//			}
-//		}
-//
-//		return itemList;
-//	}
 	
 	public List<EquipItem> getEquipList(String heroId) {
 		List<EquipItem> equipList = new ArrayList<EquipItem>();
@@ -499,18 +336,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 
 		return itemList;
 	}
-
-//	/**
-//	 * 清除所有装备
-//	 * 
-//	 * @return
-//	 */
-//	public void subAllEquip() {
-//		List<EquipItem> equipList = getEquipList();
-//		for (EquipItem equipItem : equipList) {
-//			equipItemHolder.removeItem(m_pPlayer, equipItem);
-//		}
-//	}
 	
 	/**
 	 * 
@@ -523,31 +348,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			equipItemHolder.removeItem(player, heroId, equipItem);
 		}
 	}
-
-//	public void EquipAdvance(String nextId, final boolean isSubEquip) {
-//		String preQualityId = m_pOwner.getQualityId();
-//		m_pOwner.setQualityId(nextId);
-//		// 任务
-//		m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Quality);
-//		boolean subEquip = isSubEquip;
-//		if (!subEquip) {
-//			// 转职检测有装备有没有变更，没有则不变，有则吃掉装备
-//			List<Integer> preequips = RoleQualityCfgDAO.getInstance().getEquipList(preQualityId);
-//			List<Integer> curequips = RoleQualityCfgDAO.getInstance().getEquipList(nextId);
-//			for (int i = 0; i < preequips.size(); i++) {
-//				// System.out.print(preequips.get(i) + "," + curequips.get(i));
-//				if (!preequips.get(i).equals(curequips.get(i))) {
-//					subEquip = true;
-//					break;
-//				}
-//			}
-//		}
-//		if (subEquip) {
-//			// 吃掉装备
-//			sendBackAttachMaterial(getEquipList());
-//			subAllEquip();
-//		}
-//	}
 	
 	/**
 	 * 
@@ -581,19 +381,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			subAllEquip(player, heroId);
 		}
 	}
-
-//	/**
-//	 * 转职返回装备和附灵材料
-//	 */
-//	public void changeEquip() {
-//		List<EquipItem> equipList = getEquipList();
-//		for (EquipItem equipItem : equipList) {
-//			ItemData equipItemData = EquipItemHelper.toEquipItemData(equipItem);
-//			m_pPlayer.getItemBagMgr().addItem(equipItemData.getModelId(), 1);
-//		}
-//		sendBackAttachMaterial(equipList);
-//		subAllEquip();
-//	}
 	
 	/**
 	 * 
@@ -609,56 +396,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		sendBackAttachMaterial(player, equipList);
 		subAllEquip(player, heroId);
 	}
-
-//	/**
-//	 * 装备返回附灵材料 背包添加
-//	 */
-//	private void sendBackAttachMaterial(List<EquipItem> equipList) {
-//		// caro:策划要求暂时全部返回
-//		int totalExp = 0;
-//		for (EquipItem equipItem : equipList) {
-//			EItemTypeDef eItemType = equipItem.getType();
-//			if (eItemType != EItemTypeDef.HeroEquip) {
-//				continue;
-//			}
-//			totalExp += equipItem.getExp();
-//			EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipItem.getLevel());
-//			while (pEquipAttachCfg != null && pEquipAttachCfg.getPreId() != 0) {
-//				pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getPreId());
-//				totalExp += pEquipAttachCfg.getNeedExp();
-//			}
-//		}
-//
-//		int backId = 804001;
-//		ItemBaseCfg itemcfg = ItemCfgHelper.GetConfig(backId);
-//		if (itemcfg != null) {
-//			int backNum = itemcfg.getEnchantExp() == 0 ? totalExp : (int) (totalExp / itemcfg.getEnchantExp());
-//			m_pPlayer.getItemBagMgr().addItem(backId, backNum);
-//		}
-//		// //= PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.HERO_STRENGTH_RETURNE);
-//		// String[] levelList = strData.split(",");
-//		// for (EquipItem equipItem : equipList) {
-//		//
-//		// EItemTypeDef eItemType = equipItem.getType();
-//		// if (eItemType != EItemTypeDef.HeroEquip) {
-//		// continue;
-//		// }
-//		// int attachlevel = equipItem.getLevel();
-//		// EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(attachlevel);
-//		// if (pEquipAttachCfg == null)
-//		// continue;
-//		// int startLevel = pEquipAttachCfg.getStarLevel();
-//		// if (startLevel > 0 && startLevel < levelList.length) {
-//		// String itemStr = levelList[startLevel - 1];
-//		// String[] itemListStr = itemStr.split("_");
-//		// if (startLevel == Integer.valueOf(itemListStr[0])) {
-//		// int templateId = Integer.valueOf(itemListStr[1]);
-//		// int num = Integer.valueOf(itemListStr[2]);
-//		// m_pPlayer.getItemBagMgr().addItem(templateId, num);
-//		// }
-//		// }
-//		// }
-//	}
 	
 	/**
 	 * 
@@ -688,22 +425,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			player.getItemBagMgr().addItem(backId, backNum);
 		}
 	}
-
-//	/**
-//	 * 添加装备到机器人身上
-//	 * 
-//	 * @param equipList 穿戴装备的列表
-//	 */
-//	public void addRobotEquip(List<ItemData> equipList) {
-//		for (int i = 0, size = equipList.size(); i < size; i++) {
-//			ItemData itemData = equipList.get(i);
-//			int templateId = itemData.getModelId();
-//			HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getConfig(templateId);
-//			int equipType = cfg.getEquipType();
-//			int index = equipIndex.get(equipType);
-//			equipItemHolder.addRobotEquip(index, itemData);
-//		}
-//	}
 	
 	/**
 	 * 添加装备到机器人身上
@@ -721,38 +442,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 			equipItemHolder.addRobotEquip(heroId, index, itemData);
 		}
 	}
-
-//	/**
-//	 * gm命令修改附灵等级 只限gm指令调用
-//	 * 
-//	 * @param slot
-//	 * @param level
-//	 */
-//	public void gmEquipAttach(int slot, int level) {
-//		String ownerId = m_pOwner.getUUId();
-//		EquipItem equipItem = equipItemHolder.getItem(ownerId, slot);
-//		if (equipItem == null) {
-//			return;
-//		}
-//		HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipItem.getModelId()));
-//		if (heroEquipCfg.getEnchantLimit() == 0) {
-//			return;
-//		}
-//		int attachLevel = equipItem.getLevel();
-//		EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(attachLevel);
-//		while (pEquipAttachCfg != null) { // 循环升级
-//			if (pEquipAttachCfg.getNextId() == 0) {
-//				break;
-//			}
-//			if (pEquipAttachCfg.getStarLevel() == level) {
-//				break;
-//			}
-//			pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(pEquipAttachCfg.getNextId());
-//			equipItem.setLevel(pEquipAttachCfg.getId());
-//		}
-//		equipItem.setExp(0);
-//		equipItemHolder.updateItem(m_pPlayer, equipItem);
-//	}
 	
 	/**
 	 * gm命令修改附灵等级 只限gm指令调用
@@ -786,35 +475,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		equipItem.setExp(0);
 		equipItemHolder.updateItem(player, heroId, equipItem);
 	}
-
-//	/**
-//	 * gm命令穿装备
-//	 * 
-//	 * @param slotId
-//	 * @param equipIndex
-//	 * @param limited
-//	 * @return
-//	 */
-//	public boolean gmEquip(int equipIndex) {
-//		// TODO HC @modify 注意：这里的代码一定要看清楚用意然后再做修改
-//		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
-//		int equipId = equips.get(equipIndex);
-//		EItemTypeDef eItemType = ItemCfgHelper.getItemType(equipId);
-//		if (eItemType == EItemTypeDef.HeroEquip) {
-//			// 新装备
-//			ItemData equipItemData = new ItemData();
-//			equipItemData.setCount(1);
-//			equipItemData.setModelId(equipId);
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
-//			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-//			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
-//
-//			m_pPlayer.getItemBagMgr().useItemByCfgId(equipId, 1);
-//			equipItemHolder.wearEquip(m_pPlayer, equipIndex, equipItemData);
-//		}
-//		return true;
-//	}
 	
 	/**
 	 * gm命令穿装备
@@ -845,37 +505,6 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		}
 		return true;
 	}
-
-//	/**
-//	 * 作弊指令增加穿满装备
-//	 * 
-//	 * @param hero
-//	 * @return
-//	 */
-//	public void orderHeroWearEquip(Hero hero) {
-//		String qualityId = hero.getQualityId();
-//		List<Integer> equipList = RoleQualityCfgDAO.getInstance().getEquipList(qualityId);
-//		if (equipList.isEmpty()) {
-//			return;
-//		}
-//
-//		for (int i = 0, size = equipList.size(); i < size; i++) {
-//			int equipId = equipList.get(i);
-//			if (hasEquip(equipId)) {
-//				continue;
-//			}
-//
-//			// 新装备
-//			ItemData equipItemData = new ItemData();
-//			equipItemData.setCount(1);
-//			equipItemData.setModelId(equipId);
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
-//			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-//			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
-//			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
-//			equipItemHolder.wearEquip(m_pPlayer, i, equipItemData);
-//		}
-//	}
 	
 	/**
 	 * 作弊指令增加穿满装备
