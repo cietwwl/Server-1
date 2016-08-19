@@ -12,7 +12,8 @@ enum RequestType{
 message BattleCommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
 	required eBattlePositionType  positionType = 2; //阵容类型
-	repeated BattleHeroPosition battleHeroPosition=3;//阵容信息
+	required string recordkey =3;//阵容子类型
+	repeated BattleHeroPosition battleHeroPosition=4;//阵容信息
 }
 
 
