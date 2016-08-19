@@ -148,6 +148,11 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if (utbData.getFinishedHards().contains(hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			return;
+		}
 		if(StringUtils.isNotBlank(utbData.getTeamID())){
 			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 			if(teamItem != null){
@@ -572,6 +577,7 @@ public class TeamBattleBM {
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
+			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
 			}

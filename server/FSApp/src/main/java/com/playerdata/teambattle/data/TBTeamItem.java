@@ -29,7 +29,11 @@ public class TBTeamItem implements IMapItem{
 	private String hardID;
 	
 	@CombineSave
-	private List<TeamMember> members = new ArrayList<TeamMember>();
+	private final List<TeamMember> members;
+	
+	public TBTeamItem(){
+		this.members = new ArrayList<TeamMember>();
+	}
 	
 	@CombineSave
 	private String leaderID;

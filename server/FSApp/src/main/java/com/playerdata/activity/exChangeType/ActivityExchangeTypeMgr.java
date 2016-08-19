@@ -16,11 +16,9 @@ import com.playerdata.activity.ActivityComResult;
 
 
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -30,6 +28,7 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -55,6 +54,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		checkNewOpen(player);
 		checkCfgVersion(player);
 		checkOtherDay(player);
+		checkClose(player);
 	}
 
 	private void checkNewOpen(Player player) {
@@ -66,14 +66,14 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 				// 活动未开启
 				continue;
 			}
-			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(activityExchangeTypeCfg.getId());
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(activityExchangeTypeCfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "配置表开启，但找不到枚举", null);
 				continue;
 			}
 			ActivityExchangeTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {						
-				targetItem = ActivityExchangeTypeCfgDAO.getInstance().newItem(player, activityExChangeTypeEnum);// 生成新开启活动的数据
+				targetItem = ActivityExchangeTypeCfgDAO.getInstance().newItem(player, activityExchangeTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {					
 					continue;
 				}
@@ -98,7 +98,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			long startTime = activityExchangeTypeCfg.getChangeStartTime();
 			long endTime = activityExchangeTypeCfg.getChangeEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}
@@ -107,7 +107,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityExchangeTypeItem targetItem : itemList) {			
-			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getConfig(targetItem.getCfgId());
+			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgListByItem(targetItem);
 			if(targetCfg == null){
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
@@ -124,7 +124,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
 		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
 		for (ActivityExchangeTypeItem targetItem : itemlist) {
-			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getConfig(targetItem.getCfgId());
+			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
 			if(targetCfg == null){
 				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
@@ -142,6 +142,35 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			
 		}
 	}
+	
+	private void checkClose(Player player){
+		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		for(ActivityExchangeTypeItem item : itemList){
+			if(item.isClosed()){
+				continue;			
+			}
+			ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+			if(cfg == null){
+				GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
+				continue;
+			}
+			if(isOpen(cfg)){
+				continue;
+			}
+			item.setClosed(true);
+			item.setTouchRedPoint(true);
+			dataHolder.updateItem(player, item);			
+		}		
+	}
+	public boolean isLevelEnough(Player player,ActivityExchangeTypeCfg cfg){
+		boolean iscan = false;
+		iscan = player.getLevel() >= cfg.getLevelLimit() ? true : false;	
+		return iscan;
+		
+	}
+	
+	
 	
 	
 	public ActivityComResult takeGift(Player player,
@@ -323,9 +352,13 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityExchangeTypeItemHolder activityCountTypeItemHolder = new ActivityExchangeTypeItemHolder();
-		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(eNum.getCfgId());
+		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 		if(exchangeEnum == null){
 			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

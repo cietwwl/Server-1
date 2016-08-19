@@ -286,6 +286,7 @@ public abstract class ClientMsgHandler {
 					}
 				}
 			});
+			Thread.sleep(300);
 			f.get(10, TimeUnit.SECONDS);
 			if (!f.isSuccess()) {
 				return true;

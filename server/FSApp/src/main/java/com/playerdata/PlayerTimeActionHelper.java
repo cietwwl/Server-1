@@ -89,20 +89,6 @@ public class PlayerTimeActionHelper {
 				player.getTowerMgr().checkAndResetMatchData(player);
 			}
 		});
-		onNewHourTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {
-				// 每个小时都检查一下活动的开启关闭状态
-				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
-			}
-		});
 		return onNewHourTimeAction;
 
 	}

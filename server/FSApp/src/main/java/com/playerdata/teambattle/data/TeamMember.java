@@ -1,10 +1,13 @@
 package com.playerdata.teambattle.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.enums.TBMemberState;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamMember {
 	
 	private String userID;

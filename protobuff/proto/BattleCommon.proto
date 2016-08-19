@@ -3,6 +3,27 @@ option java_package = "com.rwproto";
 option java_outer_classname = "BattleCommon";
 package BattleCommon;
 
+enum RequestType{
+
+	Updata = 1;//更新
+
+}
+
+message BattleCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	required eBattlePositionType  positionType = 2; //阵容类型
+	repeated BattleHeroPosition battleHeroPosition=3;//阵容信息
+}
+
+
+message BattleCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+}
+
+
+
+
 enum ePlayerType {
 	MAINPLAYER = 0; //主角
 	HIRE       = 1; //佣兵
