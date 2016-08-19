@@ -18,7 +18,8 @@ public class AssistantHeroUpgradeStarCheck extends DefaultAssistantChecker {
 	}
 	
 	private boolean hasHeroToUpgradeStar(Player player){
-		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = player.getHeroMgr().getHerosEnumeration(player);
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
 			if (hero.canUpgradeStar() == 0) {

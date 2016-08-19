@@ -24,10 +24,10 @@ public class PrintServerState {
 				public void run() {
 					w.append("===================================\n");
 					w.append("===================================\n");
-					Map<Class<?>, Integer> map = DataCacheFactory.getCacheStat();
+					Map<String, Integer> map = DataCacheFactory.getCacheStat();
 					int count = 0;
-					for (Map.Entry<Class<?>, Integer> entry : map.entrySet()) {
-						w.append("{").append(entry.getKey().getSimpleName()).append("=").append(String.valueOf(entry.getValue())).append("} ");
+					for (Map.Entry<String, Integer> entry : map.entrySet()) {
+						w.append("{").append(entry.getKey()).append("=").append(String.valueOf(entry.getValue())).append("} ");
 						if (++count % 5 == 0) {
 							w.append("\n");
 						}

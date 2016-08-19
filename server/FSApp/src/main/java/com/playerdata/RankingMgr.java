@@ -391,8 +391,10 @@ public class RankingMgr {
 			toData.setUserName(p.getUserName());
 			toData.setLevel(p.getLevel());
 			toData.setExp(p.getExp());
-			toData.setFightingAll(p.getHeroMgr().getFightingAll());
-			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+//			toData.setFightingAll(p.getHeroMgr().getFightingAll());
+//			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			toData.setFightingAll(p.getHeroMgr().getFightingAll(p));
+			toData.setFightingTeam(p.getHeroMgr().getFightingTeam(p));
 			toData.setUserHead(p.getHeadImage());
 			toData.setHeadbox(p.getHeadFrame());
 			toData.setModelId(p.getModelId());
@@ -452,8 +454,10 @@ public class RankingMgr {
 			toData.setUserName(p.getUserName());
 			toData.setLevel(p.getLevel());
 			toData.setExp(p.getExp());
-			toData.setFightingAll(p.getHeroMgr().getFightingAll());
-			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+//			toData.setFightingAll(p.getHeroMgr().getFightingAll());
+//			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			toData.setFightingAll(p.getHeroMgr().getFightingAll(p));
+			toData.setFightingTeam(p.getHeroMgr().getFightingTeam(p));
 			toData.setUserHead(p.getHeadImage());
 			toData.setHeadbox(p.getHeadFrame());
 			toData.setModelId(RankingUtils.getModelId(levelData));
@@ -516,8 +520,10 @@ public class RankingMgr {
 	 * @param player
 	 */
 	public void onHeroFightingChanged(Player player) {
-		int teamFighting = player.getHeroMgr().getFightingTeam();
-		int fighting = player.getHeroMgr().getFightingAll();
+//		int teamFighting = player.getHeroMgr().getFightingTeam();
+//		int fighting = player.getHeroMgr().getFightingAll();
+		int teamFighting = player.getHeroMgr().getFightingTeam(player);
+		int fighting = player.getHeroMgr().getFightingAll(player);
 		String userId = player.getUserId();
 		boolean teamFightingChanged = checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL);
 		boolean allFightingChanged = checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL);
@@ -546,7 +552,8 @@ public class RankingMgr {
 			List<String> list = teamData.getHeros();
 			for (int j = list.size(); --j >= 0;) {
 				String id = list.get(j);
-				Hero hero = heroMgr.getHeroById(id);
+//				Hero hero = heroMgr.getHeroById(id);
+				Hero hero = heroMgr.getHeroById(player, id);
 				if (hero == null) {
 					continue;
 				}

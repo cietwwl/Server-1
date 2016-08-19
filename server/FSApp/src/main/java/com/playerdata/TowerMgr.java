@@ -143,7 +143,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 
 		if (totalFighting == -1) {
-			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
+//			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
+			List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, comparator);
 
 			// 要看一下总共要获取多少个佣兵的战力
 			int maxSize = AngelArrayConst.MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
@@ -426,7 +427,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int num = Integer.valueOf(goodList[1]);
 			EItemTypeDef eItemType = ItemCfgHelper.getItemType(templateId);
 			if (eItemType == EItemTypeDef.HeroItem) {// 是添加英雄物品
-				player.getHeroMgr().addHero(String.valueOf(templateId));
+//				player.getHeroMgr().addHero(String.valueOf(templateId));
+				player.getHeroMgr().addHero(player, String.valueOf(templateId));
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);

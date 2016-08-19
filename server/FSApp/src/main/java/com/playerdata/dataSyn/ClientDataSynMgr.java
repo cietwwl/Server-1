@@ -144,6 +144,22 @@ public class ClientDataSynMgr {
 			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
+	
+	public static void synDataFiled(Player player, Object serverData, eSynType synType, eSynOpType synOpType, List<String> fieldNameList) {
+		try {
+			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
+			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
+
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			msgDataSyn.setVersion(newVersion);
+			sendMsg(player, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
 
 	public static void synDataFiled(Player player, Object serverData, eSynType synType, List<String> fieldNameList) {
 		eSynOpType synOpType = eSynOpType.UPDATE_FIELD;

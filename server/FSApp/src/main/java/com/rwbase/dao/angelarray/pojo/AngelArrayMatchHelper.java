@@ -19,9 +19,9 @@ import com.bm.robot.RobotHeroBuilder;
 import com.bm.robot.RobotHeroBuilder.BuildRoleInfo;
 import com.common.Weight;
 import com.log.GameLog;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.HeroIF;
-import com.playerdata.readonly.HeroMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.HeroInfo;
 import com.playerdata.team.TeamInfo;
@@ -191,21 +191,21 @@ public final class AngelArrayMatchHelper {
 
 					if (readOnlyPlayer != null) {// 从角色身上取阵容
 						if (!hasTeam) {
-							HeroMgrIF heroMgr = readOnlyPlayer.getHeroMgr();
+							HeroMgr heroMgr = readOnlyPlayer.getHeroMgr();
 
 							int mainRoleModelId = readOnlyPlayer.getModelId();
 
 							heroModelIdList.add(mainRoleModelId);
 							teamFighting += readOnlyPlayer.getMainRoleHero().getFighting();
 
-							List<? extends HeroIF> maxFightingHeros = heroMgr.getMaxFightingHeros();
+							List<Hero> maxFightingHeros = heroMgr.getMaxFightingHeros(readOnlyPlayer);
 							for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
-								HeroIF hero = maxFightingHeros.get(i);
+								Hero hero = maxFightingHeros.get(i);
 								if (hero == null) {
 									continue;
 								}
 
-								int modelId = hero.getModelId();
+								int modelId = hero.getModeId();
 								if (mainRoleModelId == modelId) {
 									continue;
 								}
