@@ -373,7 +373,8 @@ public class GroupSecretMatchHandler {
 		for (int i = 0, size = teamHeroList.size(); i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroList.get(i);
 			String heroId = heroPos.getHeroId();
-			Hero hero = player.getHeroMgr().getHeroById(heroId);
+//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "英雄状态错误");
 				return rsp.build().toByteString();

@@ -327,7 +327,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param player
 	 */
 	private void notifyGroupSkillAttrData(Player player) {
-		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration(player);
 		while (herosEnumeration.hasMoreElements()) {
 			Hero hero = herosEnumeration.nextElement();
 			if (hero == null) {

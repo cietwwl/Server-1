@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
@@ -231,7 +231,8 @@ public class GroupSecretMatchEnemyDataMgr {
 			}
 
 			String heroId = leftInfo.getId();
-			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+//			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				continue;
 			}
@@ -241,7 +242,8 @@ public class GroupSecretMatchEnemyDataMgr {
 			int pos = heroInfoData.getPos();
 			HeroLeftInfoSynData left = heroInfoData.getLeft();
 			if (left == null) {
-				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+//				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+				AttrData totalData = hero.getAttrMgr().getTotalAttrData();
 				enemyData.updateHeroLeftInfo(index, heroId, new HeroInfoData(pos, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy())));
 			} else {
 				enemyData.updateHeroLeftInfo(index, heroId,

@@ -752,7 +752,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
 		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
-		friendItem.setFighting(player.getHeroMgr().getFightingAll());
+		friendItem.setFighting(player.getHeroMgr().getFightingAll(player));
 	}
 
 	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {

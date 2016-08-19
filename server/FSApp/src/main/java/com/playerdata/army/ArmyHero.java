@@ -5,6 +5,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.skill.pojo.Skill;
@@ -23,7 +24,8 @@ public class ArmyHero {
 	private CurAttrData curAttrData;
 	private AttrData attrData;
 	private List<Skill> skillList;
-	private RoleBaseInfo roleBaseInfo;
+//	private RoleBaseInfo roleBaseInfo;
+	private RoleBaseInfoImpl roleBaseInfo;
 	private boolean isPlayer = false;
 	private int fighting;// 佣兵战斗力
 	private int position;// 英雄的站位
@@ -32,7 +34,7 @@ public class ArmyHero {
 	}
 
 	public ArmyHero(RoleBaseInfo roleBaseInfoP, AttrData attrDataP, List<Skill> skillListP) {
-		this.roleBaseInfo = roleBaseInfoP;
+		this.roleBaseInfo = new RoleBaseInfoImpl(roleBaseInfoP);
 		this.attrData = attrDataP;
 		this.skillList = skillListP;
 	}
@@ -49,7 +51,7 @@ public class ArmyHero {
 		return roleBaseInfo;
 	}
 
-	public void setRoleBaseInfo(RoleBaseInfo roleBaseInfo) {
+	public void setRoleBaseInfo(RoleBaseInfoImpl roleBaseInfo) {
 		this.roleBaseInfo = roleBaseInfo;
 	}
 
