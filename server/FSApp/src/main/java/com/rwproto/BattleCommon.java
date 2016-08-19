@@ -462,6 +462,70 @@ public final class BattleCommon {
      * </pre>
      */
     GroupFightPos(3, 4),
+    /**
+     * <code>Normal = 5;</code>
+     *
+     * <pre>
+     *剧情
+     * </pre>
+     */
+    Normal(4, 5),
+    /**
+     * <code>EliteCopy = 6;</code>
+     *
+     * <pre>
+     *精英
+     * </pre>
+     */
+    EliteCopy(5, 6),
+    /**
+     * <code>Jbzd = 7;</code>
+     *
+     * <pre>
+     *聚宝之地
+     * </pre>
+     */
+    Jbzd(6, 7),
+    /**
+     * <code>Lxsg = 8;</code>
+     *
+     * <pre>
+     *炼息山谷
+     * </pre>
+     */
+    Lxsg(7, 8),
+    /**
+     * <code>Schj = 9;</code>
+     *
+     * <pre>
+     *生存幻境
+     * </pre>
+     */
+    Schj(8, 9),
+    /**
+     * <code>MagicSecret = 10;</code>
+     *
+     * <pre>
+     *乾坤幻境
+     * </pre>
+     */
+    MagicSecret(9, 10),
+    /**
+     * <code>Tower = 11;</code>
+     *
+     * <pre>
+     *万仙阵
+     * </pre>
+     */
+    Tower(10, 11),
+    /**
+     * <code>TowerBattle = 12;</code>
+     *
+     * <pre>
+     *封神台
+     * </pre>
+     */
+    TowerBattle(11, 12),
     ;
 
     /**
@@ -496,6 +560,70 @@ public final class BattleCommon {
      * </pre>
      */
     public static final int GroupFightPos_VALUE = 4;
+    /**
+     * <code>Normal = 5;</code>
+     *
+     * <pre>
+     *剧情
+     * </pre>
+     */
+    public static final int Normal_VALUE = 5;
+    /**
+     * <code>EliteCopy = 6;</code>
+     *
+     * <pre>
+     *精英
+     * </pre>
+     */
+    public static final int EliteCopy_VALUE = 6;
+    /**
+     * <code>Jbzd = 7;</code>
+     *
+     * <pre>
+     *聚宝之地
+     * </pre>
+     */
+    public static final int Jbzd_VALUE = 7;
+    /**
+     * <code>Lxsg = 8;</code>
+     *
+     * <pre>
+     *炼息山谷
+     * </pre>
+     */
+    public static final int Lxsg_VALUE = 8;
+    /**
+     * <code>Schj = 9;</code>
+     *
+     * <pre>
+     *生存幻境
+     * </pre>
+     */
+    public static final int Schj_VALUE = 9;
+    /**
+     * <code>MagicSecret = 10;</code>
+     *
+     * <pre>
+     *乾坤幻境
+     * </pre>
+     */
+    public static final int MagicSecret_VALUE = 10;
+    /**
+     * <code>Tower = 11;</code>
+     *
+     * <pre>
+     *万仙阵
+     * </pre>
+     */
+    public static final int Tower_VALUE = 11;
+    /**
+     * <code>TowerBattle = 12;</code>
+     *
+     * <pre>
+     *封神台
+     * </pre>
+     */
+    public static final int TowerBattle_VALUE = 12;
 
 
     public final int getNumber() { return value; }
@@ -506,6 +634,14 @@ public final class BattleCommon {
         case 2: return PeakArenaPos;
         case 3: return ArenaPos;
         case 4: return GroupFightPos;
+        case 5: return Normal;
+        case 6: return EliteCopy;
+        case 7: return Jbzd;
+        case 8: return Lxsg;
+        case 9: return Schj;
+        case 10: return MagicSecret;
+        case 11: return Tower;
+        case 12: return TowerBattle;
         default: return null;
       }
     }
@@ -3091,10 +3227,13 @@ public final class BattleCommon {
       "\022\026\n\022MONSTER_LARGE_BOSS\020\004\022\021\n\rINVISIBLE_NP" +
       "C\020\005\022\021\n\rSUMMON_NORMAL\020\006\022\021\n\rSUMMON_ANIMAL\020" +
       "\007\022\017\n\013HIRE_ASSIST\020\010*+\n\013ePlayerCamp\022\006\n\002Me\020" +
-      "\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\\\n\023eBattlePositi" +
-      "onType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakArenaP" +
-      "os\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004B\033\n" +
-      "\013com.rwprotoB\014BattleCommon"
+      "\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\302\001\n\023eBattlePosit" +
+      "ionType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakArena" +
+      "Pos\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004\022\n" +
+      "\n\006Normal\020\005\022\r\n\tEliteCopy\020\006\022\010\n\004Jbzd\020\007\022\010\n\004L" +
+      "xsg\020\010\022\010\n\004Schj\020\t\022\017\n\013MagicSecret\020\n\022\t\n\005Towe",
+      "r\020\013\022\017\n\013TowerBattle\020\014B\033\n\013com.rwprotoB\014Bat" +
+      "tleCommon"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

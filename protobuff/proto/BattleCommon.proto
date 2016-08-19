@@ -49,6 +49,17 @@ enum eBattlePositionType{
 	PeakArenaPos = 2;//巅峰竞技场
 	ArenaPos = 3;//竞技场
 	GroupFightPos = 4;//帮战
+	Normal = 5;//剧情
+	EliteCopy = 6;//精英
+	Jbzd = 7;//聚宝之地
+	Lxsg = 8;//炼息山谷
+	Schj = 9;//生存幻境
+	MagicSecret = 10;//乾坤幻境
+	Tower = 11;//万仙阵
+	TowerBattle = 12;//封神台
+	
+
+
 }
 
 //阵容上的英雄站位信息
