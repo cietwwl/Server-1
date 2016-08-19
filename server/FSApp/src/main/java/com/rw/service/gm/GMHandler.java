@@ -688,7 +688,7 @@ public class GMHandler {
 		}
 		String newLevel = arrCommandContents[0];
 		if (player != null) {
-			player.SetLevel(Integer.parseInt(newLevel));
+			player.setLevelByGM(Integer.parseInt(newLevel));
 			return true;
 		}
 		return false;
