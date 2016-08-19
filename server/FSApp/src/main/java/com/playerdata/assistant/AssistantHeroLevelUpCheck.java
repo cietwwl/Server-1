@@ -23,7 +23,8 @@ public class AssistantHeroLevelUpCheck extends DefaultAssistantChecker {
 	}
 	
 	private boolean check(Player player){
-		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = player.getHeroMgr().getHerosEnumeration(player);
 		List<Integer> materialId =new ArrayList<Integer>();
 		materialId.add(803001);//经验丹id
 		materialId.add(803002);//经验丹id

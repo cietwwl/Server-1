@@ -66,7 +66,8 @@ public class MagicEquipFetterMgr {
 	 */
 	private void checkAndAddEquipFetter(Player player) {
 		
-		List<Hero> list = player.getHeroMgr().getAllHeros(null);
+//		List<Hero> list = player.getHeroMgr().getAllHeros(null);
+		List<Hero> list = player.getHeroMgr().getAllHeros(player, null);
 		for (Hero hero : list) {
 			
 			checkOrAddTargetHeroEquipFetter(player, hero, false);
@@ -127,7 +128,7 @@ public class MagicEquipFetterMgr {
 		}
 		
 		
-		holder.checkFixEquipFetterRecord(tempCfg, hero.getModelId());
+		holder.checkFixEquipFetterRecord(tempCfg, hero.getModeId());
 
 		if(syn){
 			holder.synAllData(player, 0);

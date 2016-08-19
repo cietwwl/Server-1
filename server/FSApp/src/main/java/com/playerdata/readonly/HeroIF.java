@@ -12,21 +12,21 @@ import com.rwbase.dao.role.pojo.RoleCfg;
  * @author Jamaz
  *
  */
-public interface HeroIF {
+public interface HeroIF extends RoleBaseInfoIF {
 
-	/**
-	 * 获取Hero实体
-	 * 
-	 * @return
-	 */
-	public RoleBaseInfoIF getHeroData();
+//	/**
+//	 * 获取Hero实体
+//	 * 
+//	 * @return
+//	 */
+//	public RoleBaseInfoIF getHeroData();
 
-	/**
-	 * 获取佣兵等级
-	 * 
-	 * @return
-	 */
-	public int GetHeroLevel();
+//	/**
+//	 * 获取佣兵等级
+//	 * 
+//	 * @return
+//	 */
+//	public int GetHeroLevel();
 
 	/**
 	 * 获取佣兵品质
@@ -42,35 +42,14 @@ public interface HeroIF {
 	 */
 	public int getFighting();
 
-	/**
-	 * 获取等级
-	 * 
-	 * @return
-	 */
-	public int getLevel();
-
 	public int getCareer();
-
-	/**
-	 * 模型id
-	 * 
-	 * @return
-	 */
-	public int getModelId();
-
-	/**
-	 * templateId
-	 * 
-	 * @return
-	 */
-	public String getTemplateId();
-
-	/**
-	 * 品质id
-	 * 
-	 * @return
-	 */
-	public String getQualityId();
+//
+//	/**
+//	 * 模型id
+//	 * 
+//	 * @return
+//	 */
+//	public int getModelId();
 
 	public RoleCfg getHeroCfg();
 
