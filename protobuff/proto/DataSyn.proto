@@ -112,6 +112,8 @@ enum eSynType	//数据同步类型
 	MAGICEQUIP_FETTER = 90; //法宝神器羁绊
 	USER_TEAM_BATTLE = 91;	//组队战斗，玩家信息
 	TEAM_BATTLE_TEAM = 92;	//组队战斗，队伍信息
+
+	TeamPositionInfo = 95;	//保存布阵信息
 }
 
 message MsgDataSynList

@@ -85,6 +85,14 @@ public final class CopyServiceProtos {
      * </pre>
      */
     Map_Animation(8, 9),
+    /**
+     * <code>SaveTeamInfo = 10;</code>
+     *
+     * <pre>
+     *保存队伍信息
+     * </pre>
+     */
+    SaveTeamInfo(9, 10),
     ;
 
     /**
@@ -159,6 +167,14 @@ public final class CopyServiceProtos {
      * </pre>
      */
     public static final int Map_Animation_VALUE = 9;
+    /**
+     * <code>SaveTeamInfo = 10;</code>
+     *
+     * <pre>
+     *保存队伍信息
+     * </pre>
+     */
+    public static final int SaveTeamInfo_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -174,6 +190,7 @@ public final class CopyServiceProtos {
         case 7: return GM_SETLEVEL;
         case 8: return GET_GIFT;
         case 9: return Map_Animation;
+        case 10: return SaveTeamInfo;
         default: return null;
       }
     }
@@ -9797,6 +9814,1823 @@ public final class CopyServiceProtos {
     // @@protoc_insertion_point(class_scope:FortuneResult)
   }
 
+  public interface MsgSaveTeamInfoRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .ERequestType requestType = 1;
+    /**
+     * <code>required .ERequestType requestType = 1;</code>
+     *
+     * <pre>
+     *请求类型
+     * </pre>
+     */
+    boolean hasRequestType();
+    /**
+     * <code>required .ERequestType requestType = 1;</code>
+     *
+     * <pre>
+     *请求类型
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.ERequestType getRequestType();
+
+    // required .TeamInfoData teamInfo = 2;
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    boolean hasTeamInfo();
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.TeamInfoData getTeamInfo();
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder getTeamInfoOrBuilder();
+  }
+  /**
+   * Protobuf type {@code MsgSaveTeamInfoRequest}
+   *
+   * <pre>
+   *请求保存布阵数据
+   * </pre>
+   */
+  public static final class MsgSaveTeamInfoRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements MsgSaveTeamInfoRequestOrBuilder {
+    // Use MsgSaveTeamInfoRequest.newBuilder() to construct.
+    private MsgSaveTeamInfoRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MsgSaveTeamInfoRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MsgSaveTeamInfoRequest defaultInstance;
+    public static MsgSaveTeamInfoRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MsgSaveTeamInfoRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MsgSaveTeamInfoRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.CopyServiceProtos.ERequestType value = com.rwproto.CopyServiceProtos.ERequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                requestType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              com.rwproto.CopyServiceProtos.TeamInfoData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = teamInfo_.toBuilder();
+              }
+              teamInfo_ = input.readMessage(com.rwproto.CopyServiceProtos.TeamInfoData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(teamInfo_);
+                teamInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.class, com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MsgSaveTeamInfoRequest> PARSER =
+        new com.google.protobuf.AbstractParser<MsgSaveTeamInfoRequest>() {
+      public MsgSaveTeamInfoRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MsgSaveTeamInfoRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MsgSaveTeamInfoRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .ERequestType requestType = 1;
+    public static final int REQUESTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.CopyServiceProtos.ERequestType requestType_;
+    /**
+     * <code>required .ERequestType requestType = 1;</code>
+     *
+     * <pre>
+     *请求类型
+     * </pre>
+     */
+    public boolean hasRequestType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .ERequestType requestType = 1;</code>
+     *
+     * <pre>
+     *请求类型
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.ERequestType getRequestType() {
+      return requestType_;
+    }
+
+    // required .TeamInfoData teamInfo = 2;
+    public static final int TEAMINFO_FIELD_NUMBER = 2;
+    private com.rwproto.CopyServiceProtos.TeamInfoData teamInfo_;
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    public boolean hasTeamInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.TeamInfoData getTeamInfo() {
+      return teamInfo_;
+    }
+    /**
+     * <code>required .TeamInfoData teamInfo = 2;</code>
+     *
+     * <pre>
+     *布阵数据
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder getTeamInfoOrBuilder() {
+      return teamInfo_;
+    }
+
+    private void initFields() {
+      requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
+      teamInfo_ = com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasRequestType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTeamInfo()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getTeamInfo().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, teamInfo_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, teamInfo_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MsgSaveTeamInfoRequest}
+     *
+     * <pre>
+     *请求保存布阵数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.class, com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTeamInfoFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance();
+        } else {
+          teamInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoRequest_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest build() {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest buildPartial() {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest result = new com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.requestType_ = requestType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (teamInfoBuilder_ == null) {
+          result.teamInfo_ = teamInfo_;
+        } else {
+          result.teamInfo_ = teamInfoBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest other) {
+        if (other == com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest.getDefaultInstance()) return this;
+        if (other.hasRequestType()) {
+          setRequestType(other.getRequestType());
+        }
+        if (other.hasTeamInfo()) {
+          mergeTeamInfo(other.getTeamInfo());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasRequestType()) {
+          
+          return false;
+        }
+        if (!hasTeamInfo()) {
+          
+          return false;
+        }
+        if (!getTeamInfo().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.MsgSaveTeamInfoRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .ERequestType requestType = 1;
+      private com.rwproto.CopyServiceProtos.ERequestType requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
+      /**
+       * <code>required .ERequestType requestType = 1;</code>
+       *
+       * <pre>
+       *请求类型
+       * </pre>
+       */
+      public boolean hasRequestType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .ERequestType requestType = 1;</code>
+       *
+       * <pre>
+       *请求类型
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.ERequestType getRequestType() {
+        return requestType_;
+      }
+      /**
+       * <code>required .ERequestType requestType = 1;</code>
+       *
+       * <pre>
+       *请求类型
+       * </pre>
+       */
+      public Builder setRequestType(com.rwproto.CopyServiceProtos.ERequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        requestType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .ERequestType requestType = 1;</code>
+       *
+       * <pre>
+       *请求类型
+       * </pre>
+       */
+      public Builder clearRequestType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        requestType_ = com.rwproto.CopyServiceProtos.ERequestType.SWEEP_LEVEL_TICKET;
+        onChanged();
+        return this;
+      }
+
+      // required .TeamInfoData teamInfo = 2;
+      private com.rwproto.CopyServiceProtos.TeamInfoData teamInfo_ = com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.TeamInfoData, com.rwproto.CopyServiceProtos.TeamInfoData.Builder, com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder> teamInfoBuilder_;
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public boolean hasTeamInfo() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.TeamInfoData getTeamInfo() {
+        if (teamInfoBuilder_ == null) {
+          return teamInfo_;
+        } else {
+          return teamInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public Builder setTeamInfo(com.rwproto.CopyServiceProtos.TeamInfoData value) {
+        if (teamInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          teamInfo_ = value;
+          onChanged();
+        } else {
+          teamInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public Builder setTeamInfo(
+          com.rwproto.CopyServiceProtos.TeamInfoData.Builder builderForValue) {
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          teamInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public Builder mergeTeamInfo(com.rwproto.CopyServiceProtos.TeamInfoData value) {
+        if (teamInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              teamInfo_ != com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance()) {
+            teamInfo_ =
+              com.rwproto.CopyServiceProtos.TeamInfoData.newBuilder(teamInfo_).mergeFrom(value).buildPartial();
+          } else {
+            teamInfo_ = value;
+          }
+          onChanged();
+        } else {
+          teamInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public Builder clearTeamInfo() {
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance();
+          onChanged();
+        } else {
+          teamInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.TeamInfoData.Builder getTeamInfoBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getTeamInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder getTeamInfoOrBuilder() {
+        if (teamInfoBuilder_ != null) {
+          return teamInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return teamInfo_;
+        }
+      }
+      /**
+       * <code>required .TeamInfoData teamInfo = 2;</code>
+       *
+       * <pre>
+       *布阵数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.TeamInfoData, com.rwproto.CopyServiceProtos.TeamInfoData.Builder, com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder> 
+          getTeamInfoFieldBuilder() {
+        if (teamInfoBuilder_ == null) {
+          teamInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.CopyServiceProtos.TeamInfoData, com.rwproto.CopyServiceProtos.TeamInfoData.Builder, com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder>(
+                  teamInfo_,
+                  getParentForChildren(),
+                  isClean());
+          teamInfo_ = null;
+        }
+        return teamInfoBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MsgSaveTeamInfoRequest)
+    }
+
+    static {
+      defaultInstance = new MsgSaveTeamInfoRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MsgSaveTeamInfoRequest)
+  }
+
+  public interface MsgSaveTeamInfoResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .EResultType resultType = 1;
+    /**
+     * <code>optional .EResultType resultType = 1;</code>
+     *
+     * <pre>
+     *处理结果
+     * </pre>
+     */
+    boolean hasResultType();
+    /**
+     * <code>optional .EResultType resultType = 1;</code>
+     *
+     * <pre>
+     *处理结果
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.EResultType getResultType();
+  }
+  /**
+   * Protobuf type {@code MsgSaveTeamInfoResponse}
+   *
+   * <pre>
+   *回应保存布阵数据处理结果
+   * </pre>
+   */
+  public static final class MsgSaveTeamInfoResponse extends
+      com.google.protobuf.GeneratedMessage
+      implements MsgSaveTeamInfoResponseOrBuilder {
+    // Use MsgSaveTeamInfoResponse.newBuilder() to construct.
+    private MsgSaveTeamInfoResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MsgSaveTeamInfoResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MsgSaveTeamInfoResponse defaultInstance;
+    public static MsgSaveTeamInfoResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MsgSaveTeamInfoResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MsgSaveTeamInfoResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.CopyServiceProtos.EResultType value = com.rwproto.CopyServiceProtos.EResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                resultType_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.class, com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MsgSaveTeamInfoResponse> PARSER =
+        new com.google.protobuf.AbstractParser<MsgSaveTeamInfoResponse>() {
+      public MsgSaveTeamInfoResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MsgSaveTeamInfoResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MsgSaveTeamInfoResponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional .EResultType resultType = 1;
+    public static final int RESULTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.CopyServiceProtos.EResultType resultType_;
+    /**
+     * <code>optional .EResultType resultType = 1;</code>
+     *
+     * <pre>
+     *处理结果
+     * </pre>
+     */
+    public boolean hasResultType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .EResultType resultType = 1;</code>
+     *
+     * <pre>
+     *处理结果
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.EResultType getResultType() {
+      return resultType_;
+    }
+
+    private void initFields() {
+      resultType_ = com.rwproto.CopyServiceProtos.EResultType.NONE;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, resultType_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, resultType_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MsgSaveTeamInfoResponse}
+     *
+     * <pre>
+     *回应保存布阵数据处理结果
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.class, com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        resultType_ = com.rwproto.CopyServiceProtos.EResultType.NONE;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_MsgSaveTeamInfoResponse_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse build() {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse buildPartial() {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse result = new com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.resultType_ = resultType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse other) {
+        if (other == com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse.getDefaultInstance()) return this;
+        if (other.hasResultType()) {
+          setResultType(other.getResultType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.MsgSaveTeamInfoResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .EResultType resultType = 1;
+      private com.rwproto.CopyServiceProtos.EResultType resultType_ = com.rwproto.CopyServiceProtos.EResultType.NONE;
+      /**
+       * <code>optional .EResultType resultType = 1;</code>
+       *
+       * <pre>
+       *处理结果
+       * </pre>
+       */
+      public boolean hasResultType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .EResultType resultType = 1;</code>
+       *
+       * <pre>
+       *处理结果
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.EResultType getResultType() {
+        return resultType_;
+      }
+      /**
+       * <code>optional .EResultType resultType = 1;</code>
+       *
+       * <pre>
+       *处理结果
+       * </pre>
+       */
+      public Builder setResultType(com.rwproto.CopyServiceProtos.EResultType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        resultType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .EResultType resultType = 1;</code>
+       *
+       * <pre>
+       *处理结果
+       * </pre>
+       */
+      public Builder clearResultType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        resultType_ = com.rwproto.CopyServiceProtos.EResultType.NONE;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MsgSaveTeamInfoResponse)
+    }
+
+    static {
+      defaultInstance = new MsgSaveTeamInfoResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MsgSaveTeamInfoResponse)
+  }
+
+  public interface TeamInfoDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string key = 1;
+    /**
+     * <code>required string key = 1;</code>
+     */
+    boolean hasKey();
+    /**
+     * <code>required string key = 1;</code>
+     */
+    java.lang.String getKey();
+    /**
+     * <code>required string key = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getKeyBytes();
+
+    // required string value = 2;
+    /**
+     * <code>required string value = 2;</code>
+     */
+    boolean hasValue();
+    /**
+     * <code>required string value = 2;</code>
+     */
+    java.lang.String getValue();
+    /**
+     * <code>required string value = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getValueBytes();
+  }
+  /**
+   * Protobuf type {@code TeamInfoData}
+   *
+   * <pre>
+   *布阵数据结构
+   * </pre>
+   */
+  public static final class TeamInfoData extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamInfoDataOrBuilder {
+    // Use TeamInfoData.newBuilder() to construct.
+    private TeamInfoData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamInfoData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamInfoData defaultInstance;
+    public static TeamInfoData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamInfoData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamInfoData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              key_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              value_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_TeamInfoData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_TeamInfoData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.TeamInfoData.class, com.rwproto.CopyServiceProtos.TeamInfoData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamInfoData> PARSER =
+        new com.google.protobuf.AbstractParser<TeamInfoData>() {
+      public TeamInfoData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamInfoData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamInfoData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string key = 1;
+    public static final int KEY_FIELD_NUMBER = 1;
+    private java.lang.Object key_;
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public boolean hasKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public java.lang.String getKey() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          key_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getKeyBytes() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        key_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string value = 2;
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private java.lang.Object value_;
+    /**
+     * <code>required string value = 2;</code>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string value = 2;</code>
+     */
+    public java.lang.String getValue() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          value_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string value = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getValueBytes() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        value_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      key_ = "";
+      value_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasValue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getValueBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getValueBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.TeamInfoData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.TeamInfoData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code TeamInfoData}
+     *
+     * <pre>
+     *布阵数据结构
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.TeamInfoDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_TeamInfoData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_TeamInfoData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.TeamInfoData.class, com.rwproto.CopyServiceProtos.TeamInfoData.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.TeamInfoData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        key_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        value_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_TeamInfoData_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.TeamInfoData getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.TeamInfoData build() {
+        com.rwproto.CopyServiceProtos.TeamInfoData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.TeamInfoData buildPartial() {
+        com.rwproto.CopyServiceProtos.TeamInfoData result = new com.rwproto.CopyServiceProtos.TeamInfoData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.value_ = value_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.TeamInfoData) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.TeamInfoData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.TeamInfoData other) {
+        if (other == com.rwproto.CopyServiceProtos.TeamInfoData.getDefaultInstance()) return this;
+        if (other.hasKey()) {
+          bitField0_ |= 0x00000001;
+          key_ = other.key_;
+          onChanged();
+        }
+        if (other.hasValue()) {
+          bitField0_ |= 0x00000002;
+          value_ = other.value_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKey()) {
+          
+          return false;
+        }
+        if (!hasValue()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.TeamInfoData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.TeamInfoData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string key = 1;
+      private java.lang.Object key_ = "";
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public java.lang.String getKey() {
+        java.lang.Object ref = key_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          key_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getKeyBytes() {
+        java.lang.Object ref = key_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          key_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder setKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder setKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string value = 2;
+      private java.lang.Object value_ = "";
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public java.lang.String getValue() {
+        java.lang.Object ref = value_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          value_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getValueBytes() {
+        java.lang.Object ref = value_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          value_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public Builder setValue(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        value_ = getDefaultInstance().getValue();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string value = 2;</code>
+       */
+      public Builder setValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:TeamInfoData)
+    }
+
+    static {
+      defaultInstance = new TeamInfoData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:TeamInfoData)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgCopyRequest_descriptor;
   private static
@@ -9837,6 +11671,21 @@ public final class CopyServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_FortuneResult_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MsgSaveTeamInfoRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MsgSaveTeamInfoRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MsgSaveTeamInfoResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MsgSaveTeamInfoResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_TeamInfoData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_TeamInfoData_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9876,22 +11725,27 @@ public final class CopyServiceProtos {
       "\030\002 \001(\t\"\205\001\n\rFortuneResult\022\025\n\rgainGoldCoun" +
       "t\030\001 \001(\005\022\027\n\017gainGoldPercent\030\002 \001(\002\022\021\n\ttota" +
       "lHurt\030\003 \001(\005\022\030\n\020killMonsterCount\030\004 \001(\005\022\027\n",
-      "\017deductGoldCount\030\005 \001(\005*\312\001\n\014ERequestType\022" +
+      "\017deductGoldCount\030\005 \001(\005\"]\n\026MsgSaveTeamInf" +
+      "oRequest\022\"\n\013requestType\030\001 \002(\0162\r.ERequest" +
+      "Type\022\037\n\010teamInfo\030\002 \002(\0132\r.TeamInfoData\";\n" +
+      "\027MsgSaveTeamInfoResponse\022 \n\nresultType\030\001" +
+      " \001(\0162\014.EResultType\"*\n\014TeamInfoData\022\013\n\003ke" +
+      "y\030\001 \002(\t\022\r\n\005value\030\002 \002(\t*\334\001\n\014ERequestType\022" +
       "\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SWEEP_LEVEL_D" +
       "IAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHEC" +
       "KPOINT_INFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BA" +
-      "TTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GE" +
-      "T_GIFT\020\010\022\021\n\rMap_Animation\020\t*:\n\rEBattleSt" +
-      "atus\022\007\n\003WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n" +
-      "\004FAIL\020\004*\230\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PUR" +
-      "CHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOU" +
-      "GH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_O",
-      "PEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOU" +
-      "GH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022" +
-      "\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\r" +
-      "SWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016\022\013\n" +
-      "\007Success\020\017B \n\013com.rwprotoB\021CopyServicePr" +
-      "otos"
+      "TTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GE",
+      "T_GIFT\020\010\022\021\n\rMap_Animation\020\t\022\020\n\014SaveTeamI" +
+      "nfo\020\n*:\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010TIMES" +
+      "_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\230\002\n\013EResultTyp" +
+      "e\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n\007LOW" +
+      "_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020\004\022\021\n\rNOT_EN" +
+      "OUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUGH_TI" +
+      "CKET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022\014\n\010INIT_MAP" +
+      "\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\rG" +
+      "M_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GET" +
+      "_GIFT_SUCCESS\020\016\022\013\n\007Success\020\017B \n\013com.rwpr",
+      "otoB\021CopyServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9946,6 +11800,24 @@ public final class CopyServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FortuneResult_descriptor,
               new java.lang.String[] { "GainGoldCount", "GainGoldPercent", "TotalHurt", "KillMonsterCount", "DeductGoldCount", });
+          internal_static_MsgSaveTeamInfoRequest_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_MsgSaveTeamInfoRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MsgSaveTeamInfoRequest_descriptor,
+              new java.lang.String[] { "RequestType", "TeamInfo", });
+          internal_static_MsgSaveTeamInfoResponse_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_MsgSaveTeamInfoResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MsgSaveTeamInfoResponse_descriptor,
+              new java.lang.String[] { "ResultType", });
+          internal_static_TeamInfoData_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_TeamInfoData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_TeamInfoData_descriptor,
+              new java.lang.String[] { "Key", "Value", });
           return null;
         }
       };
