@@ -49,7 +49,6 @@ public class MutiTestTeamBattle {
 						while (true) {
 							Thread.sleep(span);
 							long start = System.currentTimeMillis();
-							//robot.startTBCreateTeam();
 							boolean success = robot.startTBFight();
 							tmpLog.info("组队战测试结果:" + success);
 							long cost = System.currentTimeMillis() - start;
@@ -96,7 +95,7 @@ public class MutiTestTeamBattle {
 				public void run() {
 					try {
 						String accountId = preName + index;
-						Robot robotTmp = loginRobot(accountId);
+						Robot robotTmp = createRobot(accountId);
 						if (robotTmp != null) {
 							robotList.add(robotTmp);
 						}
