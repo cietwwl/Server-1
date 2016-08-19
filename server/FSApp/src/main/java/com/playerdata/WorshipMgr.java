@@ -13,6 +13,7 @@ import com.rw.service.Email.EmailUtils;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.worship.WorshipHandler;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.worship.CfgWorshipRewardHelper;
 import com.rwbase.dao.worship.TableWorship;
@@ -87,32 +88,13 @@ public class WorshipMgr {
 			return;
 		}
 		String reward = cfg.getRewardStr();
-		
-		EmailUtils.sendEmail(info.getUserId(), "10019", reward);
+		EmailData emailData = EmailUtils.createEmailData("10019", reward, new ArrayList<String>());
+		String content = String.format(emailData.getContent(), size);
+		emailData.setContent(content);
+		EmailUtils.sendEmail(info.getUserId(), emailData);
 	}
 	
-	/**发送成为第一名邮件*/
-	public void sendSuccessEmail(ECareer career, String userId){
-		if(successEmailMap.size() == 0){
-			successEmailMap.put(ECareer.Warrior, "10011");
-			successEmailMap.put(ECareer.SwordsMan, "10012");
-			successEmailMap.put(ECareer.Magican, "10013");
-			successEmailMap.put(ECareer.Priest, "10014");
-		}
-		EmailUtils.sendEmail(userId, successEmailMap.get(career));
-	}
-	
-	/**发送失去第一名邮件*/
-	public void sendFailEmail(ECareer career, String userId){
-		if(failEmailMap.size() == 0){
-			failEmailMap.put(ECareer.Warrior, "10015");
-			failEmailMap.put(ECareer.SwordsMan, "10016");
-			failEmailMap.put(ECareer.Magican, "10017");
-			failEmailMap.put(ECareer.Priest, "10018");
-		}
-		EmailUtils.sendEmail(userId, failEmailMap.get(career));
-	}
-	
+
 	/**是否可以膜拜*/
 	public boolean isWorship(Player player){
 		return DateUtils.isResetTime(5, 0, 0, player.getUserGameDataMgr().getLastWorshipTime());

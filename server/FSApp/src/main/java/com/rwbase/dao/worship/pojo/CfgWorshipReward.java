@@ -18,8 +18,8 @@ public class CfgWorshipReward {
 		if(str.length < 2){
 			throw new InitializationError("格式化膜拜配置表时发现配置["+key+"]的人数格式不正确:"+ round);
 		}
-		upper = Integer.parseInt(str[0].toString().trim());
-		lowwer = Integer.parseInt(str[1].toString().trim());
+		lowwer = Integer.parseInt(str[0].toString().trim());
+		upper = Integer.parseInt(str[1].toString().trim());
 	}
 	
 	
