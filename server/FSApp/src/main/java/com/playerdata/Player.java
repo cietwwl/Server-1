@@ -812,6 +812,46 @@ public class Player implements PlayerIF {
 			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
 		}
 	}
+	
+	public void setLevelByGM(int newLevel) {
+		if(newLevel <= 0){
+			return;
+		}
+		// 最高等级
+		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
+			return;
+		}
+		int currentLevel = getLevel();
+
+		onLevelChangeByGm(currentLevel, newLevel);
+		getFriendMgr().onPlayerChange(this);
+
+		// 通知一下监听的人，修改对应数据
+		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+		if (observer != null) {
+			observer.playerChangeLevel(this);
+		}
+
+		levelNotification.fire(newLevel);
+
+	}
+	
+	private void onLevelChangeByGm(int currentLevel, int newLevel) {
+		// 有升级
+		
+		if (currentLevel < newLevel) {
+			onLevelChange(currentLevel, newLevel);
+		}else{
+			Hero mainRoleHero = getMainRoleHero();
+			int fightbeforelevelup = getHeroMgr().getFightingTeam();
+			mainRoleHero.SetHeroLevel(newLevel);
+			userDataMgr.setLevel(newLevel);
+			mainRoleHero.save();
+			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
+			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
+		}
+
+	}
 
 	public void onCareerChange(int career, int sex) {
 		try {
