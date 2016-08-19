@@ -41,18 +41,19 @@ private static WorshipHandler instance = new WorshipHandler();
 			response.setResultType(EWorshipResultType.FAIL);
 			return response.build().toByteString();
 		}
-		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg(WORSHIPPERS_KEY);
+		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg();
 		if(cfg == null){
 			response.setResultType(EWorshipResultType.FAIL);
 			return response.build().toByteString();
 		}
-		String reward = cfg.getRewardType() + "~" + cfg.getRewardCount();
-		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
-		if(rewardData != null && !StringUtils.isEmpty(rewardData.getItemId())){
-			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();
-		}else{
-			GameLog.debug("");
-		}
+		String reward = cfg.getRewardStr();
+		WorshipItemData rewardData = WorshipUtils.getWorshipDataFromStr(reward);
+//		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
+//		if(rewardData != null && !StringUtils.isEmpty(rewardData.getItemId())){
+//			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();
+//		}else{
+//			GameLog.debug("");
+//		}
 		//设置膜拜时间
 		player.getUserGameDataMgr().setLastWorshipTime(System.currentTimeMillis());
 		player.getItemBagMgr().addItemByPrizeStr(reward);

@@ -138,8 +138,8 @@
 	<bean class="com.rw.service.Privilege.datamodel.storePrivilegeHelper"  init-method="init" />
 	<bean class="com.rw.service.Privilege.datamodel.storePrivilegePropertiesHelper"  init-method="init" />
 	
-	<bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" />
-	<bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" />
+	<!-- <bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" /> -->
+	<!-- <bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" /> -->
 	<bean class="com.rwbase.dao.worship.CfgWorshipRewardHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupDonateCfgDAO" init-method="init" />

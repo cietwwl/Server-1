@@ -32,6 +32,19 @@ public class WorshipUtils {
 		List<CfgWorshipRandomReward> list = CfgWorshipRandomRewardHelper.getInstance().getWorshipRewardCfg(scheme, weightGroup);
 		return WorshipUtils.getRandomRewardData(list);
 	}
+	
+	/**
+	 * 根据奖励字符串获取奖励数据
+	 * @param rewardStr
+	 * @return
+	 */
+	public static WorshipItemData getWorshipDataFromStr(String rewardStr){
+		WorshipItemData data = new WorshipItemData();
+		String[] str = rewardStr.split("~");
+		data.setItemId(str[0].toString().trim());
+		data.setCount(Integer.parseInt(str[1]));
+		return data;
+	}
 
 	/** 直接获取奖励数据 */
 	public static WorshipItemData getRandomRewardData(List<CfgWorshipRandomReward> list) {

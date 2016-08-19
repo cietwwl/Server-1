@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
@@ -27,11 +28,9 @@ import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 public class WorshipMgr {
-	private static WorshipMgr _instance;
+	private static WorshipMgr _instance = new WorshipMgr();
+	
 	public static WorshipMgr getInstance(){
-		if(_instance == null){
-			_instance = new WorshipMgr();
-		}
 		return _instance;
 	}
 	
@@ -82,20 +81,13 @@ public class WorshipMgr {
 		if(info == null){
 			return;
 		}
-		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg(WorshipHandler.BY_WORSHIPPERS_KEY);
+		int size = getWorshipList(career).size();
+		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getByWorshipRewardCfgByCount(size);
 		if(cfg == null){
 			return;
 		}
-		String reward = "";
-		int size = getWorshipList(career).size();
-		if(size > 0){
-			reward = cfg.getRewardType() + "~" + cfg.getRewardCount() * size;
-		}
+		String reward = cfg.getRewardStr();
 		
-		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
-		if(rewardData != null){
-			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();			
-		}
 		EmailUtils.sendEmail(info.getUserId(), "10019", reward);
 	}
 	
