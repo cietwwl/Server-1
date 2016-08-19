@@ -13,7 +13,6 @@ enum ERequestType	//请求
 	GM_SETLEVEL = 7;				//GM设定关卡命令
 	GET_GIFT = 8;					//领取宝箱
 	Map_Animation = 9;				//副本动画
-	SaveTeamInfo = 10;				//保存队伍信息
 }
 
 enum EBattleStatus	//战斗状态
@@ -112,19 +111,4 @@ message FortuneResult //聚宝之地结算数据
 	optional int32 deductGoldCount = 5; //被吸取的金币
 }
 
-//请求保存布阵数据
-message MsgSaveTeamInfoRequest{
-	required ERequestType requestType = 1;				//请求类型
-	required TeamInfoData teamInfo = 2;					//布阵数据
-}
 
-//回应保存布阵数据处理结果
-message MsgSaveTeamInfoResponse{
-	optional EResultType resultType = 1;				//处理结果
-}
-
-//布阵数据结构
-message TeamInfoData{
-	required string key = 1;
-	required string value = 2;
-}
