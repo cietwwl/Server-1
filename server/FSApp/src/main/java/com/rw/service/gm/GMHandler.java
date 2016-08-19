@@ -16,7 +16,6 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -221,7 +220,7 @@ public class GMHandler {
 	
 	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group == null){
 			return false;
 		}
@@ -1361,7 +1360,7 @@ public class GMHandler {
 			return false;
 		}
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
 		}

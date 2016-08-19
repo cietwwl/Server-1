@@ -132,7 +132,7 @@ public class ActivityTimeCountTypeMgr {
 			long startTime = activityTimeCountTypeCfg.getStartTime();
 			long endTime = activityTimeCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}

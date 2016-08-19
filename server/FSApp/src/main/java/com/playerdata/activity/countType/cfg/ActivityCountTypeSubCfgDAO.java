@@ -34,9 +34,9 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 	public List<ActivityCountTypeSubCfg> getByParentCfgId(String parentCfgId){
 		List<ActivityCountTypeSubCfg> targetList = new ArrayList<ActivityCountTypeSubCfg>();
 		List<ActivityCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
-				targetList.add(tmpItem);
+		for (ActivityCountTypeSubCfg subCfg : allCfg) {
+			if(StringUtils.equals(subCfg.getParentCfg(), parentCfgId)){
+				targetList.add(subCfg);
 			}
 		}
 		return targetList;				

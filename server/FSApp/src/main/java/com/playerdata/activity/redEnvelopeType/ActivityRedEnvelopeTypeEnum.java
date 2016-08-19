@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 
 public enum ActivityRedEnvelopeTypeEnum {
-	redEnvelope("501");
+	redEnvelope("40001");
 	
 	private String cfgId;
 	private ActivityRedEnvelopeTypeEnum(String cfgId){

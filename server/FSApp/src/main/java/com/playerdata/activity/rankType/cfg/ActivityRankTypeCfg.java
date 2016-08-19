@@ -23,8 +23,16 @@ public class ActivityRankTypeCfg {
 	
 	private int rewardNum;
 	
+	private String enumId;	
 	
-	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public int getRewardNum() {
 		return rewardNum;
 	}
