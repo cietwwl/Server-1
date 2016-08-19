@@ -39,7 +39,7 @@ public class MajorDataholder {
 	}
 	
 	public boolean CheckEnoughGold(){
-		if(majordata.getGold() > 9999999){
+		if(majordata.getGold() > 10000000){
 			return true;
 		}else{
 			return false;
