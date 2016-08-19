@@ -36,7 +36,7 @@ public class GMAddFixEquip {
 	public static void addqualityUp(Player player) {
 		player.getItemBagMgr().addItem(806551, 9999);//护符进阶
 		player.getItemBagMgr().addItem(806552, 9999);//魂器进阶
-		List<FixNormEquipQualityCfg> cfgList = FixNormEquipQualityCfgDAO.getInstance().getByPlanId(10001);
+		List<FixNormEquipQualityCfg> cfgList = FixNormEquipQualityCfgDAO.getInstance().getGmByPlanId(10001+"");
 		for(FixNormEquipQualityCfg cfg : cfgList){
 			for(Map.Entry<Integer, Integer> entry: cfg.getItemsNeed().entrySet()){
 				player.getItemBagMgr().addItem(entry.getKey(), 9999);//普通材料进阶
