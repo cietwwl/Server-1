@@ -27,7 +27,7 @@ public class InlayItemHolder {
 
 	// private final Hero pOwner;
 	
-	public InlayItemHolder() {
+	protected InlayItemHolder() {
 		
 	}
 

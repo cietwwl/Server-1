@@ -130,8 +130,8 @@ public class FSHeroThirdPartyDataMgr {
 	
 	void notifySave(FSHero hero, boolean immediately) {
 		String heroId = hero.getId();
-		_inlayMgr.save(heroId);
 		_equipMgr.save(heroId);
+		_inlayMgr.save(heroId);
 		if (immediately) {
 			_skillMgr.flush(heroId);
 		} else {

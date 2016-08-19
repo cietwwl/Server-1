@@ -516,7 +516,6 @@ public class EquipHandler {
 		if (player.getUserId().equals(roleId)) {
 			return player.getMainRoleHero().getEquipMgr();
 		}
-//		Hero pHero = player.getHeroMgr().getHeroById(roleId);
 		Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 		if (pHero != null) {
 			return pHero.getEquipMgr();
