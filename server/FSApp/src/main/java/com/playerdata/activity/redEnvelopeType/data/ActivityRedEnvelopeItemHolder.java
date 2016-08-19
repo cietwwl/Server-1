@@ -2,11 +2,15 @@ package com.playerdata.activity.redEnvelopeType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -90,7 +94,15 @@ public class ActivityRedEnvelopeItemHolder{
 
 	
 	public void synAllData(Player player){
-		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());		
+		Iterator<ActivityRedEnvelopeTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem)it.next();
+			if(ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
