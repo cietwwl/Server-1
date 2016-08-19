@@ -716,13 +716,13 @@ public final class MsgDef {
      */
     MSG_ONE_KEY_REWARD(94, 208),
     /**
-     * <code>MSG_SAVETEAMINFO_TO_SERVER = 209;</code>
+     * <code>MSG_BATTLE_COMMON = 209;</code>
      *
      * <pre>
      *保存客户端阵容到服务器
      * </pre>
      */
-    MSG_SAVETEAMINFO_TO_SERVER(95, 209),
+    MSG_BATTLE_COMMON(95, 209),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1468,13 +1468,13 @@ public final class MsgDef {
      */
     public static final int MSG_ONE_KEY_REWARD_VALUE = 208;
     /**
-     * <code>MSG_SAVETEAMINFO_TO_SERVER = 209;</code>
+     * <code>MSG_BATTLE_COMMON = 209;</code>
      *
      * <pre>
      *保存客户端阵容到服务器
      * </pre>
      */
-    public static final int MSG_SAVETEAMINFO_TO_SERVER_VALUE = 209;
+    public static final int MSG_BATTLE_COMMON_VALUE = 209;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1616,7 +1616,7 @@ public final class MsgDef {
         case 206: return MSG_RED_POINT_SERVICE;
         case 207: return MSG_TEAM_BATTLE;
         case 208: return MSG_ONE_KEY_REWARD;
-        case 209: return MSG_SAVETEAMINFO_TO_SERVER;
+        case 209: return MSG_BATTLE_COMMON;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1682,7 +1682,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\236\021\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\225\021\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1734,11 +1734,11 @@ public final class MsgDef {
       "\026MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_",
       "FIGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE" +
       "\020\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY" +
-      "_REWARD\020\320\001\022\037\n\032MSG_SAVETEAMINFO_TO_SERVER" +
-      "\020\321\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY" +
-      "\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PL" +
-      "ATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.r" +
-      "wprotoB\006MsgDef"
+      "_REWARD\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022\021\n\014MS" +
+      "G_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MS" +
+      "G_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020" +
+      "\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006M" +
+      "sgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
