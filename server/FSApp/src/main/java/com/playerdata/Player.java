@@ -843,7 +843,7 @@ public class Player implements PlayerIF {
 			onLevelChange(currentLevel, newLevel);
 		}else{
 			Hero mainRoleHero = getMainRoleHero();
-			int fightbeforelevelup = getHeroMgr().getFightingTeam();
+			int fightbeforelevelup = getHeroMgr().getFightingTeam(this);
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
 			mainRoleHero.save();
