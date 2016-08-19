@@ -1,7 +1,5 @@
 package com.playerdata;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +32,7 @@ import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -99,6 +98,8 @@ import com.rwproto.ResponseProtos;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.ResponseProtos.ResponseHeader;
 
+import io.netty.channel.ChannelHandlerContext;
+
 /**
  * 玩家类
  *
@@ -114,7 +115,7 @@ public class Player implements PlayerIF {
 	private UserGameDataMgr userGameDataMgr;
 
 	private ItemBagMgr itemBagMgr = new ItemBagMgr();
-	private HeroMgr m_HeroMgr = new HeroMgr();
+	private HeroMgr m_HeroMgr = FSHeroMgr.getInstance();
 	private CopyRecordMgr m_CopyRecordMgr = new CopyRecordMgr();
 	private MagicMgr magicMgr = new MagicMgr();
 	private FriendMgr m_friendMgr = new FriendMgr();
@@ -333,7 +334,7 @@ public class Player implements PlayerIF {
 			@Override
 			public void doAction() {
 				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
-				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				Enumeration<? extends Hero> heros = m_HeroMgr.getHerosEnumeration(Player.this);
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
 				}
@@ -344,8 +345,8 @@ public class Player implements PlayerIF {
 
 			@Override
 			public void doAction() {
-
-				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				
+				Enumeration<? extends Hero> heros = m_HeroMgr.getHerosEnumeration(Player.this);
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
 				}
@@ -355,14 +356,14 @@ public class Player implements PlayerIF {
 		m_FashionMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
-				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Player.this.getMainRoleHero().getAttrMgr().reCal();
 			}
 		});
 
 		taoistMgr.getEff().subscribe(new IStreamListner<Map<Integer, AttributeItem>>() {
 			@Override
 			public void onChange(Map<Integer, AttributeItem> newValue) {
-				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				Enumeration<? extends Hero> heros = m_HeroMgr.getHerosEnumeration(Player.this);
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
 				}
@@ -447,7 +448,7 @@ public class Player implements PlayerIF {
 	}
 
 	public Hero getMainRoleHero() {
-		return m_HeroMgr.getMainRoleHero();
+		return m_HeroMgr.getMainRoleHero(this);
 	}
 
 	//
@@ -769,7 +770,7 @@ public class Player implements PlayerIF {
 	private void onLevelChange(int currentLevel, int newLevel) {
 		// 有升级
 		if (currentLevel < newLevel) {
-			int fightbeforelevelup = getHeroMgr().getFightingTeam();
+			int fightbeforelevelup = getHeroMgr().getFightingTeam(this);
 			Hero mainRoleHero = getMainRoleHero();
 			// 要先添加体力。再升级
 			int addpower = 0;
@@ -786,7 +787,7 @@ public class Player implements PlayerIF {
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
-			getMainRoleHero().getSkillMgr().activeSkill(newLevel, quality);
+			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
 				// 职业进阶
 				// RoleHandler.getInstance().careerAdvance(this, preLevel);
@@ -811,6 +812,46 @@ public class Player implements PlayerIF {
 			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
 		}
 	}
+	
+	public void setLevelByGM(int newLevel) {
+		if(newLevel <= 0){
+			return;
+		}
+		// 最高等级
+		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
+			return;
+		}
+		int currentLevel = getLevel();
+
+		onLevelChangeByGm(currentLevel, newLevel);
+		getFriendMgr().onPlayerChange(this);
+
+		// 通知一下监听的人，修改对应数据
+		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+		if (observer != null) {
+			observer.playerChangeLevel(this);
+		}
+
+		levelNotification.fire(newLevel);
+
+	}
+	
+	private void onLevelChangeByGm(int currentLevel, int newLevel) {
+		// 有升级
+		
+		if (currentLevel < newLevel) {
+			onLevelChange(currentLevel, newLevel);
+		}else{
+			Hero mainRoleHero = getMainRoleHero();
+			int fightbeforelevelup = getHeroMgr().getFightingTeam(this);
+			mainRoleHero.SetHeroLevel(newLevel);
+			userDataMgr.setLevel(newLevel);
+			mainRoleHero.save();
+			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
+			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
+		}
+
+	}
 
 	public void onCareerChange(int career, int sex) {
 		try {
@@ -824,10 +865,10 @@ public class Player implements PlayerIF {
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
 			// 改技能Id
-			getMainRoleHero().getSkillMgr().changeSkill(cfg);
+			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
 			String newQuality = cfg.getQualityId().split("_")[0] + "_" + getMainRoleHero().getQualityId().split("_")[1];
-			getMainRoleHero().getEquipMgr().EquipAdvance(newQuality, false);
+			getMainRoleHero().getEquipMgr().EquipAdvance(this, this.getMainRoleHero().getUUId(), newQuality, false);
 			setStarLevel(cfg.getStarLevel());
 
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
@@ -961,15 +1002,18 @@ public class Player implements PlayerIF {
 
 	public int getStarLevel() {
 		// return 0;
-		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getStarLevel();
+//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getStarLevel();
+		return getMainRoleHero().getStarLevel();
 	}
 
 	public int getLevel() {
-		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		return getMainRoleHero().getLevel();
 	}
 
 	public long getExp() {
-		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getExp();
+//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getExp();
+		return getMainRoleHero().getExp();
 	}
 
 	public String getUserName() {
@@ -989,7 +1033,8 @@ public class Player implements PlayerIF {
 	}
 
 	public String getTemplateId() {
-		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getTemplateId();
+//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getTemplateId();
+		return getMainRoleHero().getTemplateId();
 
 	}
 
@@ -1037,7 +1082,8 @@ public class Player implements PlayerIF {
 	}
 
 	public int getModelId() {
-		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getModeId();
+//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getModeId();
+		return getMainRoleHero().getModeId();
 	}
 
 	public DailyActivityMgr getDailyActivityMgr() {
@@ -1366,7 +1412,7 @@ public class Player implements PlayerIF {
 			HeroFettersDataHolder.syn(this, heroModelId);
 
 			// 重新计算属性
-			Hero hero = getHeroMgr().getHeroByModerId(heroModelId);
+			Hero hero = getHeroMgr().getHeroByModerId(this, heroModelId);
 			if (hero != null) {
 				AttrMgr attrMgr = hero.getAttrMgr();
 				if (attrMgr != null) {
@@ -1380,14 +1426,14 @@ public class Player implements PlayerIF {
 	 * 检查所有英雄的羁绊
 	 */
 	private void checkAllHeroFetters() {
-		Enumeration<Hero> herosEnumeration = getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> herosEnumeration = getHeroMgr().getHerosEnumeration(this);
 		while (herosEnumeration.hasMoreElements()) {
 			Hero hero = herosEnumeration.nextElement();
 			if (hero == null) {
 				continue;
 			}
 
-			FettersBM.checkOrUpdateHeroFetters(this, hero.getModelId(), false);
+			FettersBM.checkOrUpdateHeroFetters(this, hero.getModeId(), false);
 		}
 	}
 

@@ -87,7 +87,8 @@ public class PlayerFreshHelper {
 			String[] initHeroArr = uniqueCfg.getInitHeroArr();
 			if (initHeroArr != null) {
 				for (int i = 0, len0 = initHeroArr.length; i < len0; i++) {
-					player.getHeroMgr().addHero(initHeroArr[i]);
+//					player.getHeroMgr().addHero(initHeroArr[i]);
+					player.getHeroMgr().addHero(player, initHeroArr[i]);
 				}
 			}
 		}

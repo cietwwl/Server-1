@@ -298,8 +298,9 @@ public abstract class ClientMsgHandler {
 				success = true;
 			}
 		} catch (Exception e) {
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
-			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+			long cost = System.currentTimeMillis() - sendTime;
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId+",cost="+cost, e);
+			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId+",cost="+cost, e);
 			success = false;
 		}
 		return success;

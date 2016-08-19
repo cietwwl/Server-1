@@ -9,6 +9,87 @@ public final class BattleCommon {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
+   * Protobuf enum {@code BattleCommon.RequestType}
+   */
+  public enum RequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>Updata = 1;</code>
+     *
+     * <pre>
+     *更新
+     * </pre>
+     */
+    Updata(0, 1),
+    ;
+
+    /**
+     * <code>Updata = 1;</code>
+     *
+     * <pre>
+     *更新
+     * </pre>
+     */
+    public static final int Updata_VALUE = 1;
+
+
+    public final int getNumber() { return value; }
+
+    public static RequestType valueOf(int value) {
+      switch (value) {
+        case 1: return Updata;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+            public RequestType findValueByNumber(int number) {
+              return RequestType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final RequestType[] VALUES = values();
+
+    public static RequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private RequestType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:BattleCommon.RequestType)
+  }
+
+  /**
    * Protobuf enum {@code BattleCommon.ePlayerType}
    */
   public enum ePlayerType
@@ -200,7 +281,7 @@ public final class BattleCommon {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(0);
+      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final ePlayerType[] VALUES = values();
@@ -315,7 +396,7 @@ public final class BattleCommon {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(1);
+      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final ePlayerCamp[] VALUES = values();
@@ -381,6 +462,70 @@ public final class BattleCommon {
      * </pre>
      */
     GroupFightPos(3, 4),
+    /**
+     * <code>Normal = 5;</code>
+     *
+     * <pre>
+     *剧情
+     * </pre>
+     */
+    Normal(4, 5),
+    /**
+     * <code>EliteCopy = 6;</code>
+     *
+     * <pre>
+     *精英
+     * </pre>
+     */
+    EliteCopy(5, 6),
+    /**
+     * <code>Jbzd = 7;</code>
+     *
+     * <pre>
+     *聚宝之地
+     * </pre>
+     */
+    Jbzd(6, 7),
+    /**
+     * <code>Lxsg = 8;</code>
+     *
+     * <pre>
+     *炼息山谷
+     * </pre>
+     */
+    Lxsg(7, 8),
+    /**
+     * <code>Schj = 9;</code>
+     *
+     * <pre>
+     *生存幻境
+     * </pre>
+     */
+    Schj(8, 9),
+    /**
+     * <code>MagicSecret = 10;</code>
+     *
+     * <pre>
+     *乾坤幻境
+     * </pre>
+     */
+    MagicSecret(9, 10),
+    /**
+     * <code>Tower = 11;</code>
+     *
+     * <pre>
+     *万仙阵
+     * </pre>
+     */
+    Tower(10, 11),
+    /**
+     * <code>TowerBattle = 12;</code>
+     *
+     * <pre>
+     *封神台
+     * </pre>
+     */
+    TowerBattle(11, 12),
     ;
 
     /**
@@ -415,6 +560,70 @@ public final class BattleCommon {
      * </pre>
      */
     public static final int GroupFightPos_VALUE = 4;
+    /**
+     * <code>Normal = 5;</code>
+     *
+     * <pre>
+     *剧情
+     * </pre>
+     */
+    public static final int Normal_VALUE = 5;
+    /**
+     * <code>EliteCopy = 6;</code>
+     *
+     * <pre>
+     *精英
+     * </pre>
+     */
+    public static final int EliteCopy_VALUE = 6;
+    /**
+     * <code>Jbzd = 7;</code>
+     *
+     * <pre>
+     *聚宝之地
+     * </pre>
+     */
+    public static final int Jbzd_VALUE = 7;
+    /**
+     * <code>Lxsg = 8;</code>
+     *
+     * <pre>
+     *炼息山谷
+     * </pre>
+     */
+    public static final int Lxsg_VALUE = 8;
+    /**
+     * <code>Schj = 9;</code>
+     *
+     * <pre>
+     *生存幻境
+     * </pre>
+     */
+    public static final int Schj_VALUE = 9;
+    /**
+     * <code>MagicSecret = 10;</code>
+     *
+     * <pre>
+     *乾坤幻境
+     * </pre>
+     */
+    public static final int MagicSecret_VALUE = 10;
+    /**
+     * <code>Tower = 11;</code>
+     *
+     * <pre>
+     *万仙阵
+     * </pre>
+     */
+    public static final int Tower_VALUE = 11;
+    /**
+     * <code>TowerBattle = 12;</code>
+     *
+     * <pre>
+     *封神台
+     * </pre>
+     */
+    public static final int TowerBattle_VALUE = 12;
 
 
     public final int getNumber() { return value; }
@@ -425,6 +634,14 @@ public final class BattleCommon {
         case 2: return PeakArenaPos;
         case 3: return ArenaPos;
         case 4: return GroupFightPos;
+        case 5: return Normal;
+        case 6: return EliteCopy;
+        case 7: return Jbzd;
+        case 8: return Lxsg;
+        case 9: return Schj;
+        case 10: return MagicSecret;
+        case 11: return Tower;
+        case 12: return TowerBattle;
         default: return null;
       }
     }
@@ -451,7 +668,7 @@ public final class BattleCommon {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(2);
+      return com.rwproto.BattleCommon.getDescriptor().getEnumTypes().get(3);
     }
 
     private static final eBattlePositionType[] VALUES = values();
@@ -474,6 +691,1845 @@ public final class BattleCommon {
     }
 
     // @@protoc_insertion_point(enum_scope:BattleCommon.eBattlePositionType)
+  }
+
+  public interface BattleCommonReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .BattleCommon.RequestType reqType = 1;
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    com.rwproto.BattleCommon.RequestType getReqType();
+
+    // required .BattleCommon.eBattlePositionType positionType = 2;
+    /**
+     * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+     *
+     * <pre>
+     *阵容类型
+     * </pre>
+     */
+    boolean hasPositionType();
+    /**
+     * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+     *
+     * <pre>
+     *阵容类型
+     * </pre>
+     */
+    com.rwproto.BattleCommon.eBattlePositionType getPositionType();
+
+    // required string recordkey = 3;
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    boolean hasRecordkey();
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    java.lang.String getRecordkey();
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getRecordkeyBytes();
+
+    // repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getBattleHeroPositionList();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getBattleHeroPosition(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    int getBattleHeroPositionCount();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getBattleHeroPositionOrBuilderList();
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getBattleHeroPositionOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code BattleCommon.BattleCommonReqMsg}
+   */
+  public static final class BattleCommonReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements BattleCommonReqMsgOrBuilder {
+    // Use BattleCommonReqMsg.newBuilder() to construct.
+    private BattleCommonReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BattleCommonReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BattleCommonReqMsg defaultInstance;
+    public static BattleCommonReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BattleCommonReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BattleCommonReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.BattleCommon.RequestType value = com.rwproto.BattleCommon.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.BattleCommon.eBattlePositionType value = com.rwproto.BattleCommon.eBattlePositionType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                positionType_ = value;
+              }
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              recordkey_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                battleHeroPosition_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              battleHeroPosition_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          battleHeroPosition_ = java.util.Collections.unmodifiableList(battleHeroPosition_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleCommon.BattleCommonReqMsg.class, com.rwproto.BattleCommon.BattleCommonReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BattleCommonReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<BattleCommonReqMsg>() {
+      public BattleCommonReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BattleCommonReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BattleCommonReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .BattleCommon.RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.BattleCommon.RequestType reqType_;
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required .BattleCommon.eBattlePositionType positionType = 2;
+    public static final int POSITIONTYPE_FIELD_NUMBER = 2;
+    private com.rwproto.BattleCommon.eBattlePositionType positionType_;
+    /**
+     * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+     *
+     * <pre>
+     *阵容类型
+     * </pre>
+     */
+    public boolean hasPositionType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+     *
+     * <pre>
+     *阵容类型
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.eBattlePositionType getPositionType() {
+      return positionType_;
+    }
+
+    // required string recordkey = 3;
+    public static final int RECORDKEY_FIELD_NUMBER = 3;
+    private java.lang.Object recordkey_;
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    public boolean hasRecordkey() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    public java.lang.String getRecordkey() {
+      java.lang.Object ref = recordkey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          recordkey_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string recordkey = 3;</code>
+     *
+     * <pre>
+     *阵容子类型
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRecordkeyBytes() {
+      java.lang.Object ref = recordkey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        recordkey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;
+    public static final int BATTLEHEROPOSITION_FIELD_NUMBER = 4;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> battleHeroPosition_;
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getBattleHeroPositionList() {
+      return battleHeroPosition_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getBattleHeroPositionOrBuilderList() {
+      return battleHeroPosition_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    public int getBattleHeroPositionCount() {
+      return battleHeroPosition_.size();
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.BattleHeroPosition getBattleHeroPosition(int index) {
+      return battleHeroPosition_.get(index);
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+     *
+     * <pre>
+     *阵容信息
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getBattleHeroPositionOrBuilder(
+        int index) {
+      return battleHeroPosition_.get(index);
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+      positionType_ = com.rwproto.BattleCommon.eBattlePositionType.GroupSecretPos;
+      recordkey_ = "";
+      battleHeroPosition_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPositionType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRecordkey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getBattleHeroPositionCount(); i++) {
+        if (!getBattleHeroPosition(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, positionType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getRecordkeyBytes());
+      }
+      for (int i = 0; i < battleHeroPosition_.size(); i++) {
+        output.writeMessage(4, battleHeroPosition_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, positionType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getRecordkeyBytes());
+      }
+      for (int i = 0; i < battleHeroPosition_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, battleHeroPosition_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleCommon.BattleCommonReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleCommon.BattleCommonReqMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleCommon.BattleCommonReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleCommon.BattleCommonReqMsg.class, com.rwproto.BattleCommon.BattleCommonReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleCommon.BattleCommonReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getBattleHeroPositionFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        positionType_ = com.rwproto.BattleCommon.eBattlePositionType.GroupSecretPos;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        recordkey_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (battleHeroPositionBuilder_ == null) {
+          battleHeroPosition_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          battleHeroPositionBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonReqMsg_descriptor;
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonReqMsg getDefaultInstanceForType() {
+        return com.rwproto.BattleCommon.BattleCommonReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonReqMsg build() {
+        com.rwproto.BattleCommon.BattleCommonReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonReqMsg buildPartial() {
+        com.rwproto.BattleCommon.BattleCommonReqMsg result = new com.rwproto.BattleCommon.BattleCommonReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.positionType_ = positionType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.recordkey_ = recordkey_;
+        if (battleHeroPositionBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            battleHeroPosition_ = java.util.Collections.unmodifiableList(battleHeroPosition_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.battleHeroPosition_ = battleHeroPosition_;
+        } else {
+          result.battleHeroPosition_ = battleHeroPositionBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleCommon.BattleCommonReqMsg) {
+          return mergeFrom((com.rwproto.BattleCommon.BattleCommonReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleCommon.BattleCommonReqMsg other) {
+        if (other == com.rwproto.BattleCommon.BattleCommonReqMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasPositionType()) {
+          setPositionType(other.getPositionType());
+        }
+        if (other.hasRecordkey()) {
+          bitField0_ |= 0x00000004;
+          recordkey_ = other.recordkey_;
+          onChanged();
+        }
+        if (battleHeroPositionBuilder_ == null) {
+          if (!other.battleHeroPosition_.isEmpty()) {
+            if (battleHeroPosition_.isEmpty()) {
+              battleHeroPosition_ = other.battleHeroPosition_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureBattleHeroPositionIsMutable();
+              battleHeroPosition_.addAll(other.battleHeroPosition_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.battleHeroPosition_.isEmpty()) {
+            if (battleHeroPositionBuilder_.isEmpty()) {
+              battleHeroPositionBuilder_.dispose();
+              battleHeroPositionBuilder_ = null;
+              battleHeroPosition_ = other.battleHeroPosition_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              battleHeroPositionBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBattleHeroPositionFieldBuilder() : null;
+            } else {
+              battleHeroPositionBuilder_.addAllMessages(other.battleHeroPosition_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasPositionType()) {
+          
+          return false;
+        }
+        if (!hasRecordkey()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getBattleHeroPositionCount(); i++) {
+          if (!getBattleHeroPosition(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleCommon.BattleCommonReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleCommon.BattleCommonReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .BattleCommon.RequestType reqType = 1;
+      private com.rwproto.BattleCommon.RequestType reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.BattleCommon.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+        onChanged();
+        return this;
+      }
+
+      // required .BattleCommon.eBattlePositionType positionType = 2;
+      private com.rwproto.BattleCommon.eBattlePositionType positionType_ = com.rwproto.BattleCommon.eBattlePositionType.GroupSecretPos;
+      /**
+       * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+       *
+       * <pre>
+       *阵容类型
+       * </pre>
+       */
+      public boolean hasPositionType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+       *
+       * <pre>
+       *阵容类型
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.eBattlePositionType getPositionType() {
+        return positionType_;
+      }
+      /**
+       * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+       *
+       * <pre>
+       *阵容类型
+       * </pre>
+       */
+      public Builder setPositionType(com.rwproto.BattleCommon.eBattlePositionType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        positionType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .BattleCommon.eBattlePositionType positionType = 2;</code>
+       *
+       * <pre>
+       *阵容类型
+       * </pre>
+       */
+      public Builder clearPositionType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        positionType_ = com.rwproto.BattleCommon.eBattlePositionType.GroupSecretPos;
+        onChanged();
+        return this;
+      }
+
+      // required string recordkey = 3;
+      private java.lang.Object recordkey_ = "";
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public boolean hasRecordkey() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public java.lang.String getRecordkey() {
+        java.lang.Object ref = recordkey_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          recordkey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getRecordkeyBytes() {
+        java.lang.Object ref = recordkey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          recordkey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public Builder setRecordkey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        recordkey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public Builder clearRecordkey() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        recordkey_ = getDefaultInstance().getRecordkey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string recordkey = 3;</code>
+       *
+       * <pre>
+       *阵容子类型
+       * </pre>
+       */
+      public Builder setRecordkeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        recordkey_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> battleHeroPosition_ =
+        java.util.Collections.emptyList();
+      private void ensureBattleHeroPositionIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          battleHeroPosition_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(battleHeroPosition_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> battleHeroPositionBuilder_;
+
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getBattleHeroPositionList() {
+        if (battleHeroPositionBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(battleHeroPosition_);
+        } else {
+          return battleHeroPositionBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public int getBattleHeroPositionCount() {
+        if (battleHeroPositionBuilder_ == null) {
+          return battleHeroPosition_.size();
+        } else {
+          return battleHeroPositionBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition getBattleHeroPosition(int index) {
+        if (battleHeroPositionBuilder_ == null) {
+          return battleHeroPosition_.get(index);
+        } else {
+          return battleHeroPositionBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder setBattleHeroPosition(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (battleHeroPositionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.set(index, value);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder setBattleHeroPosition(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (battleHeroPositionBuilder_ == null) {
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder addBattleHeroPosition(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (battleHeroPositionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.add(value);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder addBattleHeroPosition(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (battleHeroPositionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.add(index, value);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder addBattleHeroPosition(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (battleHeroPositionBuilder_ == null) {
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.add(builderForValue.build());
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder addBattleHeroPosition(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (battleHeroPositionBuilder_ == null) {
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder addAllBattleHeroPosition(
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (battleHeroPositionBuilder_ == null) {
+          ensureBattleHeroPositionIsMutable();
+          super.addAll(values, battleHeroPosition_);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder clearBattleHeroPosition() {
+        if (battleHeroPositionBuilder_ == null) {
+          battleHeroPosition_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public Builder removeBattleHeroPosition(int index) {
+        if (battleHeroPositionBuilder_ == null) {
+          ensureBattleHeroPositionIsMutable();
+          battleHeroPosition_.remove(index);
+          onChanged();
+        } else {
+          battleHeroPositionBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getBattleHeroPositionBuilder(
+          int index) {
+        return getBattleHeroPositionFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getBattleHeroPositionOrBuilder(
+          int index) {
+        if (battleHeroPositionBuilder_ == null) {
+          return battleHeroPosition_.get(index);  } else {
+          return battleHeroPositionBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getBattleHeroPositionOrBuilderList() {
+        if (battleHeroPositionBuilder_ != null) {
+          return battleHeroPositionBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(battleHeroPosition_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addBattleHeroPositionBuilder() {
+        return getBattleHeroPositionFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addBattleHeroPositionBuilder(
+          int index) {
+        return getBattleHeroPositionFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition battleHeroPosition = 4;</code>
+       *
+       * <pre>
+       *阵容信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getBattleHeroPositionBuilderList() {
+        return getBattleHeroPositionFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getBattleHeroPositionFieldBuilder() {
+        if (battleHeroPositionBuilder_ == null) {
+          battleHeroPositionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  battleHeroPosition_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          battleHeroPosition_ = null;
+        }
+        return battleHeroPositionBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleCommon.BattleCommonReqMsg)
+    }
+
+    static {
+      defaultInstance = new BattleCommonReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleCommon.BattleCommonReqMsg)
+  }
+
+  public interface BattleCommonRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .BattleCommon.RequestType reqType = 1;
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    com.rwproto.BattleCommon.RequestType getReqType();
+
+    // required bool isSuccess = 2;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean hasIsSuccess();
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean getIsSuccess();
+  }
+  /**
+   * Protobuf type {@code BattleCommon.BattleCommonRspMsg}
+   */
+  public static final class BattleCommonRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements BattleCommonRspMsgOrBuilder {
+    // Use BattleCommonRspMsg.newBuilder() to construct.
+    private BattleCommonRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BattleCommonRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BattleCommonRspMsg defaultInstance;
+    public static BattleCommonRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BattleCommonRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BattleCommonRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.BattleCommon.RequestType value = com.rwproto.BattleCommon.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              isSuccess_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleCommon.BattleCommonRspMsg.class, com.rwproto.BattleCommon.BattleCommonRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BattleCommonRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<BattleCommonRspMsg>() {
+      public BattleCommonRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BattleCommonRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BattleCommonRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .BattleCommon.RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.BattleCommon.RequestType reqType_;
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .BattleCommon.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    public com.rwproto.BattleCommon.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required bool isSuccess = 2;
+    public static final int ISSUCCESS_FIELD_NUMBER = 2;
+    private boolean isSuccess_;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    public boolean hasIsSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    public boolean getIsSuccess() {
+      return isSuccess_;
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+      isSuccess_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, isSuccess_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, isSuccess_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleCommon.BattleCommonRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleCommon.BattleCommonRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleCommon.BattleCommonRspMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleCommon.BattleCommonRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleCommon.BattleCommonRspMsg.class, com.rwproto.BattleCommon.BattleCommonRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleCommon.BattleCommonRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        isSuccess_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleCommon.internal_static_BattleCommon_BattleCommonRspMsg_descriptor;
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonRspMsg getDefaultInstanceForType() {
+        return com.rwproto.BattleCommon.BattleCommonRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonRspMsg build() {
+        com.rwproto.BattleCommon.BattleCommonRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleCommon.BattleCommonRspMsg buildPartial() {
+        com.rwproto.BattleCommon.BattleCommonRspMsg result = new com.rwproto.BattleCommon.BattleCommonRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isSuccess_ = isSuccess_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleCommon.BattleCommonRspMsg) {
+          return mergeFrom((com.rwproto.BattleCommon.BattleCommonRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleCommon.BattleCommonRspMsg other) {
+        if (other == com.rwproto.BattleCommon.BattleCommonRspMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasIsSuccess()) {
+          setIsSuccess(other.getIsSuccess());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasIsSuccess()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleCommon.BattleCommonRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleCommon.BattleCommonRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .BattleCommon.RequestType reqType = 1;
+      private com.rwproto.BattleCommon.RequestType reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.BattleCommon.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .BattleCommon.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.BattleCommon.RequestType.Updata;
+        onChanged();
+        return this;
+      }
+
+      // required bool isSuccess = 2;
+      private boolean isSuccess_ ;
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public boolean hasIsSuccess() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public boolean getIsSuccess() {
+        return isSuccess_;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder setIsSuccess(boolean value) {
+        bitField0_ |= 0x00000002;
+        isSuccess_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder clearIsSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isSuccess_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleCommon.BattleCommonRspMsg)
+    }
+
+    static {
+      defaultInstance = new BattleCommonRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleCommon.BattleCommonRspMsg)
   }
 
   public interface BattleHeroPositionOrBuilder
@@ -1133,6 +3189,16 @@ public final class BattleCommon {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleCommon_BattleCommonReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleCommon_BattleCommonReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleCommon_BattleCommonRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleCommon_BattleCommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_BattleCommon_BattleHeroPosition_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -1146,25 +3212,48 @@ public final class BattleCommon {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022BattleCommon.proto\022\014BattleCommon\"1\n\022Ba" +
-      "ttleHeroPosition\022\016\n\006heroId\030\001 \002(\t\022\013\n\003pos\030" +
-      "\002 \002(\005*\255\001\n\013ePlayerType\022\016\n\nMAINPLAYER\020\000\022\010\n" +
-      "\004HIRE\020\001\022\013\n\007MONSTER\020\002\022\025\n\021MONSTER_TINY_BOS" +
-      "S\020\003\022\026\n\022MONSTER_LARGE_BOSS\020\004\022\021\n\rINVISIBLE" +
-      "_NPC\020\005\022\021\n\rSUMMON_NORMAL\020\006\022\021\n\rSUMMON_ANIM" +
-      "AL\020\007\022\017\n\013HIRE_ASSIST\020\010*+\n\013ePlayerCamp\022\006\n\002" +
-      "Me\020\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\\\n\023eBattlePos" +
-      "itionType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakAre" +
-      "naPos\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004",
-      "B\033\n\013com.rwprotoB\014BattleCommon"
+      "\n\022BattleCommon.proto\022\014BattleCommon\"\312\001\n\022B" +
+      "attleCommonReqMsg\022*\n\007reqType\030\001 \002(\0162\031.Bat" +
+      "tleCommon.RequestType\0227\n\014positionType\030\002 " +
+      "\002(\0162!.BattleCommon.eBattlePositionType\022\021" +
+      "\n\trecordkey\030\003 \002(\t\022<\n\022battleHeroPosition\030" +
+      "\004 \003(\0132 .BattleCommon.BattleHeroPosition\"" +
+      "S\n\022BattleCommonRspMsg\022*\n\007reqType\030\001 \002(\0162\031" +
+      ".BattleCommon.RequestType\022\021\n\tisSuccess\030\002" +
+      " \002(\010\"1\n\022BattleHeroPosition\022\016\n\006heroId\030\001 \002" +
+      "(\t\022\013\n\003pos\030\002 \002(\005*\031\n\013RequestType\022\n\n\006Updata",
+      "\020\001*\255\001\n\013ePlayerType\022\016\n\nMAINPLAYER\020\000\022\010\n\004HI" +
+      "RE\020\001\022\013\n\007MONSTER\020\002\022\025\n\021MONSTER_TINY_BOSS\020\003" +
+      "\022\026\n\022MONSTER_LARGE_BOSS\020\004\022\021\n\rINVISIBLE_NP" +
+      "C\020\005\022\021\n\rSUMMON_NORMAL\020\006\022\021\n\rSUMMON_ANIMAL\020" +
+      "\007\022\017\n\013HIRE_ASSIST\020\010*+\n\013ePlayerCamp\022\006\n\002Me\020" +
+      "\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\302\001\n\023eBattlePosit" +
+      "ionType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakArena" +
+      "Pos\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004\022\n" +
+      "\n\006Normal\020\005\022\r\n\tEliteCopy\020\006\022\010\n\004Jbzd\020\007\022\010\n\004L" +
+      "xsg\020\010\022\010\n\004Schj\020\t\022\017\n\013MagicSecret\020\n\022\t\n\005Towe",
+      "r\020\013\022\017\n\013TowerBattle\020\014B\033\n\013com.rwprotoB\014Bat" +
+      "tleCommon"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_BattleCommon_BattleHeroPosition_descriptor =
+          internal_static_BattleCommon_BattleCommonReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_BattleCommon_BattleCommonReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleCommon_BattleCommonReqMsg_descriptor,
+              new java.lang.String[] { "ReqType", "PositionType", "Recordkey", "BattleHeroPosition", });
+          internal_static_BattleCommon_BattleCommonRspMsg_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_BattleCommon_BattleCommonRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleCommon_BattleCommonRspMsg_descriptor,
+              new java.lang.String[] { "ReqType", "IsSuccess", });
+          internal_static_BattleCommon_BattleHeroPosition_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_BattleCommon_BattleHeroPosition_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BattleCommon_BattleHeroPosition_descriptor,

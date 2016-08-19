@@ -2,9 +2,13 @@ package com.playerdata.activity.dailyCountType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -89,7 +93,15 @@ public class ActivityDailyTypeItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());	
+		Iterator<ActivityDailyTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityDailyTypeItem item = (ActivityDailyTypeItem)it.next();
+			if(ActivityDailyTypeCfgDAO.getInstance().getCfgById(item.getCfgid()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
