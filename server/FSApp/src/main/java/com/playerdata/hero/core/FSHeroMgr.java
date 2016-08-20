@@ -53,7 +53,7 @@ public class FSHeroMgr implements HeroMgr {
 		return list;
 	}
 	
-	private FSHero addHeroInternal(Player player, eRoleType heroType, RoleCfg cfg, String uuid) {
+	private FSHero createAndAddHeroToItemStore(Player player, eRoleType heroType, RoleCfg cfg, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
 		if (heroType == eRoleType.Hero) {
 			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getTableUser().getUserId());
@@ -63,6 +63,39 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero hero = new FSHero(player, heroType, cfg, uuid);
 		mapItemStore.addItem(hero);
 		FSHeroThirdPartyDataMgr.getInstance().afterHeroInitAndAddedToCache(player, hero, cfg);
+		return hero;
+	}
+	
+	private FSHero addHeroInternal(Player player, String templateId) {
+		boolean isTemplateId = templateId.indexOf("_") != -1;// 是否是模版Id
+		String modelId = "";
+		if (isTemplateId) {
+			String[] strList = templateId.split("_");
+			modelId = strList[0];
+		} else {
+			modelId = templateId;
+		}
+
+		RoleCfgDAO instance = RoleCfgDAO.getInstance();
+		RoleCfg heroCfg = isTemplateId ? instance.getConfig(templateId) : instance.getCfgByModeID(modelId);
+		if (heroCfg == null) {
+			System.err.println("出现了没有的英雄模版Id：" + modelId + ",完整模版是：" + templateId);
+			return null;
+		}
+
+		Hero heroByModerId = this.getHeroByModerId(player, Integer.parseInt(modelId));
+		if (heroByModerId != null) {
+			player.getItemBagMgr().addItem(heroCfg.getSoulStoneId(), heroCfg.getTransform());
+			updateHeroIdToClient(player, modelId);
+			return null;
+		}
+
+		String roleUUId = UUID.randomUUID().toString();
+		FSHero hero = this.createAndAddHeroToItemStore(player, eRoleType.Hero, heroCfg, roleUUId);
+
+		FSHeroHolder.getInstance().syncUserHeros(player, this.getHeroIdList(player));
+		hero.syn(-1);
+		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
 		return hero;
 	}
 
@@ -81,21 +114,6 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public void regAttrChangeCallBack() {
 		// TODO 新的HeroMgr不需要这个方法
-	}
-	
-	public Hero getMainHero(Player player) {
-		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(player.getUserId());
-		while(itr.hasMoreElements()) {
-			FSHero hero = itr.nextElement();
-			if(hero.getRoleType() == eRoleType.Player) {
-				return hero;
-			}
-		}
-		return null;
-	}
-	
-	public boolean isMainHero(Hero hero) {
-		return hero.getRoleType() == eRoleType.Player;
 	}
 	
 	/** 发送添加佣兵后 更新操作信息 **/
@@ -182,55 +200,13 @@ public class FSHeroMgr implements HeroMgr {
 		return mapItemStore.getItem(uuid);
 	}
 	
-	/**
-	 * 
-	 * 添加主英雄
-	 * 
-	 * @param playerP
-	 * @param heroCfg
-	 * @return
-	 */
-	public Hero addMainHero(Player playerP, RoleCfg heroCfg) {
-		FSHero hero = this.addHeroInternal(playerP, eRoleType.Player, heroCfg, playerP.getUserId());
-		return hero;
-	}
-	
 	public Hero addHeroWhenCreatUser(Player player, String templateId) {
-		boolean isTemplateId = templateId.indexOf("_") != -1;// 是否是模版Id
-		String modelId = "";
-		if (isTemplateId) {
-			String[] strList = templateId.split("_");
-			modelId = strList[0];
-		} else {
-			modelId = templateId;
-		}
-
-		RoleCfgDAO instance = RoleCfgDAO.getInstance();
-		RoleCfg heroCfg = isTemplateId ? instance.getConfig(templateId) : instance.getCfgByModeID(modelId);
-		if (heroCfg == null) {
-			System.err.println("出现了没有的英雄模版Id：" + modelId + ",完整模版是：" + templateId);
-			return null;
-		}
-
-		Hero heroByModerId = this.getHeroByModerId(player, Integer.parseInt(modelId));
-		if (heroByModerId != null) {
-			player.getItemBagMgr().addItem(heroCfg.getSoulStoneId(), heroCfg.getTransform());
-			updateHeroIdToClient(player, modelId);
-			return null;
-		}
-
-		String roleUUId = UUID.randomUUID().toString();
-		FSHero hero = this.addHeroInternal(player, eRoleType.Hero, heroCfg, roleUUId);
-
-		FSHeroHolder.getInstance().syncUserHeros(player, this.getHeroIdList(player));
-		hero.syn(-1);
-		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
-		return hero;
+		return this.addHeroInternal(player, templateId);
 	}
 	
 	@Override
 	public Hero addHero(Player player, String templateId) {
-		Hero hero = addHeroWhenCreatUser(player, templateId);
+		Hero hero = addHeroInternal(player, templateId);
 		// 任务
 		if(hero != null) {
 			TaskItemMgr taskMgr = player.getTaskMgr();
@@ -324,7 +300,7 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public Hero addMainRoleHero(Player playerP, RoleCfg playerCfg) {
 		String userId = playerP.getUserId();
-		FSHero hero = this.addHeroInternal(playerP, eRoleType.Player, playerCfg, userId);
+		FSHero hero = this.createAndAddHeroToItemStore(playerP, eRoleType.Player, playerCfg, userId);
 		return hero;
 	}
 	
