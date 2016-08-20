@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.util.TypeUtils;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
@@ -322,14 +323,9 @@ public class TestTrace {
 			Type[] types = parameterizedType.getActualTypeArguments();
 			for (int i = 0; i < types.length; i++) {
 				Type type = types[i];
-				Class<?> typeClass = null;
-				try {
-					typeClass = Class.forName(type.getTypeName());
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+				Class<?> typeClass = TypeUtils.getClass(type);
 				if (typeClass == null) {
-					System.err.println("解析属性泛型参数出错:" + field + "," + type.getTypeName());
+					System.err.println("解析属性泛型参数出错:" + field + "," + type.toString());
 					return field.getType().getSimpleName();
 				}
 				String para = type.toString().substring(types[i].toString().lastIndexOf(".") + 1);
