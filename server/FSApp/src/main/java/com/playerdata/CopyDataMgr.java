@@ -233,44 +233,6 @@ public class CopyDataMgr implements CopyDataMgrIF {
 		return map;
 	}
 
-	// 首次通关奖励
-	public List<ItemInfoIF> checkFirstPrize(int copyType, String levelId) {
-		CopyLevelCfg levelCfg = getCopyLevelCfgByLevelID(levelId);
-		if (levelCfg == null)
-			return null;
-		CopyInfoCfg infoCfg = getCopyInfoCfgByDegreeID(levelCfg.getDegreeID());
-		if (infoCfg == null)
-			return null;
-		CopyData data = getByInfoWithId(infoCfg.getId());
-		if (data == null)
-			return null;
-		Enumeration<String> keys = data.getPassMapKeysEnumeration();
-		if (keys == null) {
-			data.setPassMap(getCelestialDegreeMap());
-		}
-		int passValue = data.getPassMap(levelCfg.getDegreeID());
-		if (passValue == 0) {
-			String[] arrPrizes = levelCfg.getFirstPrize().split(",");
-			String[] arrItem;
-			List<ItemInfoIF> addList = new ArrayList<ItemInfoIF>();
-			ItemInfo item;
-			int itemId, itemCount;
-			for (int i = 0; i < arrPrizes.length; i++) {
-				arrItem = arrPrizes[i].split("~");
-				itemId = Integer.valueOf(arrItem[0]);
-				itemCount = Integer.valueOf(arrItem[1]);
-				player.getItemBagMgr().addItem(itemId, itemCount);
-				item = new ItemInfo();
-				item.setItemID(itemId);
-				item.setItemNum(itemCount);
-				addList.add(item);
-			}
-			data.addPassMap(levelCfg.getDegreeID(), 1);
-			return addList;
-		}
-		return null;
-	}
-
 	public CopyInfoCfg getCopyInfoCfgByLevelID(String levelId) {
 		CopyLevelCfg levelCfg = getCopyLevelCfgByLevelID(levelId);
 		if (levelCfg == null)

@@ -1,13 +1,17 @@
 package com.rw.fsutil.dao.cache;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.rw.fsutil.dao.cache.record.RecordEvent;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
+import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
+import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.common.DBThreadPoolMgr;
 
@@ -18,22 +22,45 @@ public class DataCacheFactory {
 
 	private static HashMap<String, Object> ignoreConvertorMap = new HashMap<String, Object>();
 
-	private static HashMap<Class<?>,DataValueParser<?>> parserMap = new  HashMap<Class<?>,DataValueParser<?>>();
-	
-	public static void init(List<String> list, Map<Class<?>, DataValueParser<?>> parser) {
+	private static HashMap<Class<?>, DataValueParser<?>> parserMap = new HashMap<Class<?>, DataValueParser<?>>();
+	private static HashMap<Class<?>, List<DataChangedVisitor<DataChangedEvent<?>>>> dataChangedVisitor = new HashMap<Class<?>, List<DataChangedVisitor<DataChangedEvent<?>>>>();
+
+	public static void init(List<String> list, Map<Class<?>, DataValueParser<?>> parser, List<Pair<Class<?>, Class<? extends DataChangedVisitor<DataChangedEvent<?>>>>> dataChangeListeners) {
 		Object PRESENT = new Object();
 		for (int i = list.size(); --i >= 0;) {
 			ignoreConvertorMap.put(list.get(i), PRESENT);
 		}
 		parserMap.putAll(parser);
+		HashMap<Class<?>, List<Class<? extends DataChangedVisitor<DataChangedEvent<?>>>>> map = new HashMap<Class<?>, List<Class<? extends DataChangedVisitor<DataChangedEvent<?>>>>>();
+		for (Pair<Class<?>, Class<? extends DataChangedVisitor<DataChangedEvent<?>>>> pair : dataChangeListeners) {
+			Class<?> type = pair.getT1();
+			Class<? extends DataChangedVisitor<DataChangedEvent<?>>> changeClass = pair.getT2();
+			List<Class<? extends DataChangedVisitor<DataChangedEvent<?>>>> typeList = map.get(type);
+			if (typeList == null) {
+				typeList = new ArrayList<Class<? extends DataChangedVisitor<DataChangedEvent<?>>>>();
+				map.put(type, typeList);
+			} else if (typeList.contains(changeClass)) {
+				throw new ExceptionInInitializerError("duplicate class:" + changeClass);
+			}
+			typeList.add(changeClass);
+			List<DataChangedVisitor<DataChangedEvent<?>>> visitorList = dataChangedVisitor.get(type);
+			if (visitorList == null) {
+				visitorList = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>();
+				dataChangedVisitor.put(type, visitorList);
+			}
+			try {
+				visitorList.add(changeClass.newInstance());
+			} catch (Exception e) {
+				throw new ExceptionInInitializerError(e);
+			}
+		}
 	}
-	
-	public static <T> DataValueParser<T> getParser(Class<T> clazz){
+
+	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, 
-			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ? extends RecordEvent<?>> jsonConverter) {
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
 		DataCache oldCache = cacheMap.get(clazz);
 		if (oldCache != null) {
 			System.err.println("DataCache名字重复1：" + clazz);
@@ -42,7 +69,26 @@ public class DataCacheFactory {
 		if (ignoreConvertorMap.containsKey(clazz.getName())) {
 			jsonConverter = null;
 		}
-		DataCache<K, V> cache = new DataCache<K, V>(clazz, initialCapacity, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler, jsonConverter);
+		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = dataChangedVisitor.get(clazz);
+		if (listenerList != null) {
+			boolean reBuild = false;
+			for (DataChangedVisitor<?> listener : listenerList) {
+				if (!listenerType.isAssignableFrom(listener.getClass())) {
+					System.err.println("DataChangedVisitor type error:" + listener.getClass());
+					reBuild = true;
+				}
+			}
+			listenerList = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>(listenerList);
+			if (reBuild) {
+				for (Iterator<DataChangedVisitor<DataChangedEvent<?>>> it = listenerList.iterator(); it.hasNext();) {
+					DataChangedVisitor<DataChangedEvent<?>> next = it.next();
+					if (next.getClass() != listenerType) {
+						it.remove();
+					}
+				}
+			}
+		}
+		DataCache<K, V> cache = new DataCache<K, V>(clazz, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler, jsonConverter, listenerList);
 		oldCache = cacheMap.putIfAbsent(clazz, cache);
 		if (oldCache == null) {
 			return cache;
@@ -53,11 +99,11 @@ public class DataCacheFactory {
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
-		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, null);
+		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
 	}
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, CacheJsonConverter<K, V, ? extends RecordEvent<?>> jsonConverter) {
-		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter);
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
 	}
 
 	public static Map<Class<?>, Integer> getCacheStat() {

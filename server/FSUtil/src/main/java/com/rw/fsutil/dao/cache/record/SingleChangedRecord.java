@@ -1,35 +1,36 @@
 package com.rw.fsutil.dao.cache.record;
 
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.dao.cache.CacheFactory;
 import com.rw.fsutil.dao.cache.trace.CharArrayBuffer;
 
-public class MapItemRecord implements DataLoggerRecord {
+public class SingleChangedRecord implements DataLoggerRecord {
 
 	private static final String LINE_SEPARATOR;
 	private static JsonComparator jsonComparator;
-	private final Map<String, JSONObject> jsonMap;
 	private final Object key;
+	private final JSONObject json;
 
 	static {
 		LINE_SEPARATOR = CacheFactory.LINE_SEPARATOR;
 		jsonComparator = new JsonComparator();
 	}
 
-	public MapItemRecord(Object key, Map<String, JSONObject> lastInfo) {
-		this.jsonMap = lastInfo;
+	public SingleChangedRecord(Object key, JSONObject json) {
 		this.key = key;
+		this.json = json;
 	}
 
 	@Override
 	public void write(CharArrayBuffer sb) {
-		String keyString = (key == null) ? "null" : key.toString();
-		for (JSONObject json : jsonMap.values()) {
-			JSONObject temp = jsonComparator.filter(json, keyString);
+		if (json != null) {
+			String keyString = (key == null) ? "null" : key.toString();
+			// 删除空列表，可以抽取公共方法
+			JSONObject json = jsonComparator.filter(this.json, keyString);
 			sb.append(LINE_SEPARATOR);
-			sb.append(temp.toJSONString());
+			sb.append(json.toJSONString());
+		} else {
+			sb.append("parse null");
 		}
 	}
 

@@ -10,7 +10,7 @@ public class DataValueParserMap {
 	private static HashMap<Class<?>, DataValueParser<?>> map = new HashMap<Class<?>, DataValueParser<?>>();
 	private static HashSet<Class<?>> primitiveClasses = new HashSet<Class<?>>();
 	
-	public DataValueParserMap(){
+	static{
 		primitiveClasses.add(boolean.class);
         primitiveClasses.add(Boolean.class);
 
