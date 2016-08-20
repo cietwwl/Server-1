@@ -197,7 +197,8 @@
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
 	
-	
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO"  init-method="init" />
 	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
