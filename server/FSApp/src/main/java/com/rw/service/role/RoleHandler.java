@@ -82,7 +82,7 @@ public class RoleHandler {
 			boolean changeCareer = career != player.getCareer();
 			if (changeCareer) {
 				player.SetCareer(career);
-				player.getMainRoleHero().getEquipMgr().changeEquip();
+				player.getMainRoleHero().getEquipMgr().changeEquip(player, player.getMainRoleHero().getUUId());
 			}
 			if (sex != player.getSex()) {
 				player.getUserDataMgr().setSex(player.getSex() == 0 ? 1 : 0);

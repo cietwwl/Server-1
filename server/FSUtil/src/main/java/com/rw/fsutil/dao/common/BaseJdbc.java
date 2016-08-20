@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -268,7 +269,14 @@ public abstract class BaseJdbc<T> {
 				continue;
 			}
 			boolean isId = field.isAnnotationPresent(Id.class);
-			String columnName = field.getName();
+//			String columnName = field.getName();
+			// modify by CHEN.P @ 2016-07-13 BEGIN
+			String columnName;
+			Column column = field.getAnnotation(Column.class);
+			if(column == null || (columnName = column.name()) == null || columnName.length() == 0) {
+				columnName = field.getName();
+			}
+			// END
 			// 区分insert与update语句
 			addSplit(fieldNames).append(columnName);
 			addSplit(placeholders).append("?");

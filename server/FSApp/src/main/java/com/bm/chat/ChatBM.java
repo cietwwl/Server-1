@@ -407,6 +407,27 @@ public class ChatBM {
 	}
 
 	/**
+	 * 
+	 * 把所有该玩家发送的消息设置为已读
+	 * 
+	 * @param targetUserId
+	 */
+	public void setAllChatsReadOfTarget(String userId, String targetUserId) {
+		UserPrivateChat dao = TableUserPrivateChatDao.getDao().get(userId);
+		List<ChatMessageSaveData> list = dao.getPrivateChatsReceived();
+		int setCount = 0;
+		for (ChatMessageSaveData s : list) {
+			if (!s.isRead() && targetUserId.equals(s.getSenderUserId())) {
+				s.setRead(true);
+				setCount++;
+			}
+		}
+		if (setCount > 0) {
+			TableUserPrivateChatDao.getDao().update(userId);
+		}
+	}
+
+	/**
 	 * 获取ownerUserId的私聊聊表中，与targetUserId相关联的私聊记录
 	 * 
 	 * @param ownerUserId

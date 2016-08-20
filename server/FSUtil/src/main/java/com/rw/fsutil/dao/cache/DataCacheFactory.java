@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
 import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
@@ -18,7 +17,7 @@ import com.rw.fsutil.dao.common.DBThreadPoolMgr;
 @SuppressWarnings("rawtypes")
 public class DataCacheFactory {
 
-	private static ConcurrentHashMap<Class<?>, DataCache<?, ?>> cacheMap = new ConcurrentHashMap<Class<?>, DataCache<?, ?>>();
+	private static ConcurrentHashMap<Pair<Class, String>, DataCache<?, ?>> cacheMap = new ConcurrentHashMap<Pair<Class, String>, DataCache<?, ?>>();
 
 	private static HashMap<String, Object> ignoreConvertorMap = new HashMap<String, Object>();
 
@@ -59,16 +58,22 @@ public class DataCacheFactory {
 	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
+//<<<<<<< HEAD
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
-		DataCache oldCache = cacheMap.get(clazz);
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz,String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		if (name == null || name.isEmpty()) {
+			throw new ExceptionInInitializerError("cache name is empty:" + name);
+		}
+		Pair<Class, String> key = Pair.<Class, String>Create(clazz, name);
+		DataCache oldCache = cacheMap.get(key);
 		if (oldCache != null) {
-			System.err.println("DataCache名字重复1：" + clazz);
+			System.err.println("fatal error DataCache duplicate name1:" + clazz);
 			return oldCache;
 		}
 		if (ignoreConvertorMap.containsKey(clazz.getName())) {
 			jsonConverter = null;
 		}
+
 		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = dataChangedVisitor.get(clazz);
 		if (listenerList != null) {
 			boolean reBuild = false;
@@ -89,28 +94,30 @@ public class DataCacheFactory {
 			}
 		}
 		DataCache<K, V> cache = new DataCache<K, V>(clazz, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler, jsonConverter, listenerList);
-		oldCache = cacheMap.putIfAbsent(clazz, cache);
+		oldCache = cacheMap.putIfAbsent(key, cache);
 		if (oldCache == null) {
 			return cache;
 		} else {
-			System.err.println("DataCache名字重复2：" + clazz);
+			System.err.println("fatal error DataCache duplicate name1:" + clazz);
 			return oldCache;
 		}
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
-		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
+		return createDataDache(clazz,clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
-		return createDataDache(clazz, initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
+		return createDataDache(clazz,clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
 	}
 
-	public static Map<Class<?>, Integer> getCacheStat() {
-		HashMap<Class<?>, Integer> map = new HashMap<Class<?>, Integer>();
-		for (Map.Entry<Class<?>, DataCache<?, ?>> entry : cacheMap.entrySet()) {
+
+	public static Map<String, Integer> getCacheStat() {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for (Map.Entry<Pair<Class, String>, DataCache<?, ?>> entry : cacheMap.entrySet()) {
 			DataCache cache = entry.getValue();
-			map.put(entry.getKey(), cache.getMaxCapacity() - cache.size());
+			// TODO 可能出现名字重复的情况
+			map.put(entry.getKey().getT2(), cache.getMaxCapacity() - cache.size());
 		}
 		return map;
 	}

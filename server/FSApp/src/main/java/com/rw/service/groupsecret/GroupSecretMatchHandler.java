@@ -373,7 +373,8 @@ public class GroupSecretMatchHandler {
 		for (int i = 0, size = teamHeroList.size(); i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroList.get(i);
 			String heroId = heroPos.getHeroId();
-			Hero hero = player.getHeroMgr().getHeroById(heroId);
+//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "英雄状态错误");
 				return rsp.build().toByteString();
@@ -499,7 +500,7 @@ public class GroupSecretMatchHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, id, EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroList));
 
 		rsp.setIsSuccess(true);
-		// rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
+		 rsp.setTipMsg("");
 		rsp.setAttackStartRsp(endRsp);
 		return rsp.build().toByteString();
 	}

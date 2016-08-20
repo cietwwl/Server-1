@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import com.bm.arena.ArenaRobotDataMgr;
 import com.bm.rank.RankType;
-import com.bm.rank.anglearray.AngleArrayComparable;
+import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
 import com.common.RefInt;
 import com.log.GameLog;
@@ -16,6 +16,7 @@ import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyMagic;
@@ -23,8 +24,8 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.fixEquip.FixEquipHelper;
-import com.playerdata.readonly.HeroIF;
-import com.playerdata.readonly.HeroMgrIF;
+import com.playerdata.hero.core.RoleBaseInfoImpl;
+import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.EquipInfo;
 import com.playerdata.team.FashionInfo;
@@ -39,19 +40,19 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.equipment.EquipItemIF;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
+import com.rwbase.dao.skill.pojo.SkillIF;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
@@ -68,13 +69,13 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p 角色信息
 	 */
 	public static void updateRankingEntry(Player p, TeamInfoCallback call) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
 
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			return;
 		}
@@ -94,24 +95,24 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 */
 	public static void updateRankingEntryWhenPlayerLevelChange(Player p) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
 
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			return;
 		}
 
-		AngleArrayComparable comparable = rankingEntry.getComparable();
+		AngelArrayComparable comparable = rankingEntry.getComparable();
 		int level = p.getLevel();
 		if (level <= comparable.getLevel()) {
 			return;
 		}
 
-		comparable = new AngleArrayComparable();
+		comparable = new AngelArrayComparable();
 		comparable.setFighting(comparable.getFighting());
 		comparable.setLevel(level);
 
@@ -138,7 +139,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param fighting
 	 */
 	public static void checkAndUpdateTeamInfo(Player p, List<Integer> heroModelList, int fighting) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
@@ -146,8 +147,8 @@ public class AngelArrayTeamInfoHelper {
 		// 阵容中的战力
 		int oldFighting = 0;
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
-		AngleArrayComparable comparable = null;
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		AngelArrayComparable comparable = null;
 		if (rankingEntry != null) {
 			comparable = rankingEntry.getComparable();
 			oldFighting = comparable.getFighting();
@@ -157,7 +158,7 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		comparable = new AngleArrayComparable();
+		comparable = new AngelArrayComparable();
 		comparable.setFighting(fighting);
 		comparable.setLevel(p.getLevel());
 
@@ -229,18 +230,20 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-		HeroMgrIF heroMgr = p.getHeroMgr();
+//		HeroMgrIF heroMgr = p.getHeroMgr();
+		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
 			String uuid = teamHeroList.get(i);
-			HeroIF hero = heroMgr.getHeroById(uuid);
+//			HeroIF hero = heroMgr.getHeroById(uuid);
+			Hero hero = heroMgr.getHeroById(p, uuid);
 			if (hero == null) {
 				GameLog.error("AngelArrayTeamInfoHelper", p.getUserName(), "get hero by uuid fail:" + uuid);
 				continue;
 			}
 			fighting += hero.getFighting();
 
-			int modelId = hero.getModelId();
+			int modelId = hero.getModeId();
 			if (!heroModelList.contains(modelId)) {
 				heroModelList.add(modelId);
 			}
@@ -267,15 +270,17 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-		HeroMgrIF heroMgr = p.getHeroMgr();
+//		HeroMgrIF heroMgr = p.getHeroMgr();
+		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
-			HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
+//			HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
+			Hero hero = heroMgr.getHeroById(p, teamHeroList.get(i));
 			if (hero == null) {
 				continue;
 			}
 
-			int heroModelId = hero.getModelId();
+			int heroModelId = hero.getModeId();
 			if (heroModelId == mainRoleModelId) {
 				continue;
 			}
@@ -316,7 +321,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param teamHeroList 包含了主角在内的攻击英雄的ModelId
 	 * @return
 	 */
-	public static TeamInfo parsePlayer2TeamInfo(Player p, List<Integer> teamHeroList) {
+	public static TeamInfo parsePlayer2TeamInfo(PlayerIF p, List<Integer> teamHeroList) {
 		TeamInfo teamInfo = new TeamInfo();
 		// 主角的基础信息
 		teamInfo.setCareer(p.getCareer());
@@ -350,7 +355,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 * @return
 	 */
-	private static Map<Integer, Integer> changeTaoistInfo(Player p) {
+	private static Map<Integer, Integer> changeTaoistInfo(PlayerIF p) {
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		if (!p.isRobot()) {
 			Iterable<Entry<Integer, Integer>> allTaoist = p.getTaoistMgr().getAllTaoist();
@@ -375,7 +380,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 * @return
 	 */
-	private static FashionInfo changeFashionInfo(Player p) {
+	private static FashionInfo changeFashionInfo(PlayerIF p) {
 		FashionInfo fashionInfo = new FashionInfo();
 		if (!p.isRobot()) {
 			FashionUsedIF fashionUsed = p.getFashionMgr().getFashionUsed();
@@ -403,7 +408,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 * @return
 	 */
-	private static int changeExtraAttrId(Player p) {
+	private static int changeExtraAttrId(PlayerIF p) {
 		if (!p.isRobot()) {
 			return -1;
 		}
@@ -417,7 +422,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 * @param teamInfo
 	 */
-	private static void changeGroupInfo(Player p, TeamInfo teamInfo) {
+	private static void changeGroupInfo(PlayerIF p, TeamInfo teamInfo) {
 		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		if (userGroupAttributeData != null) {
 			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
@@ -446,8 +451,8 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 * @return
 	 */
-	private static ArmyMagic changeMagicInfo(Player p) {
-		ItemData magic = p.getMagic();
+	private static ArmyMagic changeMagicInfo(PlayerIF p) {
+		ItemDataIF magic = p.getMagic();
 		ArmyMagic magicInfo = new ArmyMagic();
 		if (magic != null) {
 			magicInfo.setModelId(magic.getModelId());
@@ -465,7 +470,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param fighting
 	 * @return
 	 */
-	private static List<HeroInfo> changeHeroInfo(Player p, List<Integer> teamHeroList, RefInt fighting) {
+	private static List<HeroInfo> changeHeroInfo(PlayerIF p, List<Integer> teamHeroList, RefInt fighting) {
 		// 获取竞技场的阵容
 		EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(p.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE));// 竞技场的攻击阵容
 
@@ -477,7 +482,8 @@ public class AngelArrayTeamInfoHelper {
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>(heroSize);
 		for (int i = 0; i < heroSize; i++) {
 			int heroModelId = teamHeroList.get(i);
-			Hero hero = heroMgr.getHeroByModerId(heroModelId);
+//			Hero hero = heroMgr.getHeroByModerId(heroModelId);
+			Hero hero = heroMgr.getHeroByModerId(p, heroModelId);
 			if (hero == null) {
 				continue;
 			}
@@ -508,8 +514,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param hero
 	 * @return
 	 */
-	private static HeroInfo buildHeroInfo(Player p, Hero hero)
-	{
+	private static HeroInfo buildHeroInfo(PlayerIF p, Hero hero) {
 		HeroInfo heroInfo = new HeroInfo();
 		// 基础属性
 		heroInfo.setBaseInfo(changeHeroBaseInfo(hero));
@@ -519,7 +524,7 @@ public class AngelArrayTeamInfoHelper {
 			heroInfo.setEquip(equipList);
 		}
 		// 宝石
-		heroInfo.setGem(hero.getInlayMgr().getInlayGemList());
+		heroInfo.setGem(hero.getInlayMgr().getInlayGemList(p, hero.getId()));
 		// 技能
 		List<SkillInfo> skillList = changeHeroSkillList(hero);
 		if (skillList != null) {
@@ -565,13 +570,13 @@ public class AngelArrayTeamInfoHelper {
 	private static List<EquipInfo> changeHeroEquipList(Hero hero) {
 		List<EquipInfo> equipInfoList = null;
 
-		List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
+		List<EquipItem> equipList = hero.getEquipMgr().getEquipList(hero.getUUId());
 		if (equipList != null && !equipList.isEmpty()) {
 			int size = equipList.size();
 
 			equipInfoList = new ArrayList<EquipInfo>(size);
 			for (int j = 0; j < size; j++) {
-				EquipItem equipItem = equipList.get(j);
+				EquipItemIF equipItem = equipList.get(j);
 				if (equipItem == null) {
 					continue;
 				}
@@ -596,13 +601,13 @@ public class AngelArrayTeamInfoHelper {
 	private static List<SkillInfo> changeHeroSkillList(Hero hero) {
 		List<SkillInfo> skillInfoList = null;
 
-		List<Skill> skillList = hero.getSkillMgr().getSkillList();
+		List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 		if (skillList != null && !skillList.isEmpty()) {
 			int size = skillList.size();
 
 			skillInfoList = new ArrayList<SkillInfo>(size);
 			for (int j = 0; j < size; j++) {
-				Skill skill = skillList.get(j);
+				SkillIF skill = skillList.get(j);
 				if (skill == null) {
 					continue;
 				}
@@ -625,9 +630,9 @@ public class AngelArrayTeamInfoHelper {
 	 * @param hero
 	 * @return
 	 */
-	private static Map<Integer, SynConditionData> changeHeroFetters(Player player, Hero hero) {
+	private static Map<Integer, SynConditionData> changeHeroFetters(PlayerIF player, Hero hero) {
 		if (!player.isRobot()) {
-			SynFettersData fettersData = player.getHeroFettersByModelId(hero.getModelId());
+			SynFettersData fettersData = player.getHeroFettersByModelId(hero.getModeId());
 			if (fettersData == null) {
 				return null;
 			}
@@ -635,7 +640,7 @@ public class AngelArrayTeamInfoHelper {
 			return fettersData.getOpenList();
 		}
 
-		return ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModelId());
+		return ArenaRobotDataMgr.getMgr().getHeroFettersInfo(player.getUserId(), hero.getModeId());
 	}
 
 	/**
@@ -645,7 +650,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param hero
 	 * @return
 	 */
-	private static List<HeroFixEquipInfo> changeHeroFixEquip(Player player, Hero hero) {
+	private static List<HeroFixEquipInfo> changeHeroFixEquip(PlayerIF player, Hero hero) {
 		List<HeroFixEquipInfo> fixInfoList = new ArrayList<HeroFixEquipInfo>();
 
 		if (!player.isRobot()) {
@@ -663,7 +668,7 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		String userId = player.getUserId();
-		int heroModelId = hero.getModelId();
+		int heroModelId = hero.getModeId();
 
 		ArenaRobotDataMgr mgr = ArenaRobotDataMgr.getMgr();
 		List<HeroFixEquipInfo> fixExpList = FixEquipHelper.parseFixExpEquip2SimpleList(mgr.getFixExpEquipList(userId, heroModelId));
@@ -731,6 +736,29 @@ public class AngelArrayTeamInfoHelper {
 		armyInfo.setPlayerHeadImage(teamInfo.getHeadId());
 		armyInfo.setGuildName(teamInfo.getGroupName());
 
+		// 把时装也加上
+		FashionInfo fashion = teamInfo.getFashion();
+		ArmyHero player = armyInfo.getPlayer();
+		if (player != null) {
+			if (fashion != null) {
+				if (fashion.getSuit() > 0 || fashion.getWing() > 0 || fashion.getPet() > 0) {
+					ArmyFashion armyFashion = new ArmyFashion();
+					armyFashion.setCareer(teamInfo.getCareer());
+					RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(player.getRoleBaseInfo().getTemplateId());
+
+					if (roleCfg != null) {
+						armyFashion.setGender(roleCfg.getSex());
+					}
+
+					armyFashion.setSuitId(fashion.getSuit());
+					armyFashion.setWingId(fashion.getWing());
+					armyFashion.setPetId(fashion.getPet());
+
+					armyInfo.setArmyFashion(armyFashion);
+				}
+			}
+		}
+
 		return armyInfo;
 	}
 
@@ -749,7 +777,7 @@ public class AngelArrayTeamInfoHelper {
 		String tmpId = baseInfo.getTmpId();
 		RoleCfg roleCfg = cfgDAO.getCfgById(tmpId);
 
-		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
+		RoleBaseInfoImpl roleBaseInfo = new RoleBaseInfoImpl();
 		roleBaseInfo.setId(tmpId);
 		roleBaseInfo.setLevel(baseInfo.getLevel());
 		roleBaseInfo.setQualityId(baseInfo.getQuality());
@@ -814,7 +842,7 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
 		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-			heroAttrData));
+				heroAttrData));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 

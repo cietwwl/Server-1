@@ -47,8 +47,16 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
+		this(entityClazz, entityClazz.getName(), searchFieldP, itemBagCount, datasourceName, writeDirect);
+	}
+	
+	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, boolean writeDirect) {
+		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", writeDirect);
+	}
+
+	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
+		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);

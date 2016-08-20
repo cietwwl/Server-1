@@ -12,7 +12,6 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
@@ -24,12 +23,8 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.rw.fsutil.util.DateUtils;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
@@ -66,14 +61,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 				// 活动未开启
 				continue;
 			}
-			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(activityVitalityCfg.getId());
+			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(activityVitalityCfg.getEnumID());
 			if (acVitalityTypeEnum == null) {
 				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityVitalityCfg.getId());
 				continue;
 			}
 			ActivityVitalityTypeItem targetItem = dataHolder.getItem(player.getUserId(), acVitalityTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
-				targetItem = ActivityVitalityCfgDAO.getInstance().newItem(player, acVitalityTypeEnum);// 生成新开启活动的数据
+				targetItem = ActivityVitalityCfgDAO.getInstance().newItem(player, activityVitalityCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityVitalityCfg.getId());
 					continue;
@@ -90,22 +85,28 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		}
 	}
 	
+	public boolean isOpen(ActivityVitalityCfg vitalityCfg) {
+		long startTime = vitalityCfg.getStartTime();
+		long endTime = vitalityCfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime < endTime && currentTime >= startTime;
+	}
+	
 	private void checkCfgVersion(Player player) {
 	ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
 	List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
-		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);		
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItemOfVersion(activityVitalityTypeItem);	
 		if(cfg == null ){
-			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
-		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
+		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
 		if(cfgenum == null){
 			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
 		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
-			activityVitalityTypeItem.reset(cfg,cfgenum);
+			activityVitalityTypeItem.reset(cfg);
 			dataHolder.updateItem(player, activityVitalityTypeItem);
 		}		
 	}	
@@ -116,10 +117,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
 		
 		for(ActivityVitalityTypeItem activityVitalityTypeItem: item){
-			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getCfgId() )){
+			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getEnumId() )){
 				continue;
 			}
-			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);
+			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
 			if(cfg == null ){
 				continue;
 			}
@@ -130,7 +131,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			if (ActivityTypeHelper.isNewDayHourOfActivity(5,activityVitalityTypeItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-				activityVitalityTypeItem.reset(cfg,cfgenum);
+				activityVitalityTypeItem.reset(cfg);
 				dataHolder.updateItem(player, activityVitalityTypeItem);
 			}		
 		}			
@@ -148,6 +149,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.setClosed(true);
+				
 				dataHolder.updateItem(player, activityVitalityTypeItem);
 			}
 		}
@@ -158,16 +160,11 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 
 	
 
-	public boolean isOpen(ActivityVitalityCfg vitalityCfg) {
-		long startTime = vitalityCfg.getStartTime();
-		long endTime = vitalityCfg.getEndTime();
-		long currentTime = System.currentTimeMillis();
-		return currentTime < endTime && currentTime > startTime;
-	}
+	
 //	
 	public boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
 		if (activityVitalityTypeItem != null) {
-			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);			
+			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());	
 			if(cfg == null){
 				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
 				return false;
@@ -181,7 +178,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
 		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
+			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				GameLog.error(LogModule.ComActivityVitality, null,
 						"通用活动找不到配置文件", null);
@@ -201,7 +198,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void sendEmailIfBoxGiftNotTaken(Player player,ActivityVitalityTypeItem Item) {		
-		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(Item);
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(Item.getCfgId());
 		if(cfg == null){
 			GameLog.error(LogModule.ComActivityVitality, null,"通用活动找不到配置文件", null);
 			return;
@@ -213,7 +210,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		
 		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = Item.getSubBoxItemList();		
 		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
-			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getById(subItem.getCfgId());
+			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				GameLog.error(LogModule.ComActivityVitality, null,
 						"通用活动找不到配置文件", null);
@@ -242,10 +239,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		ActivityVitalityCfg vitalityCfg = null;
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		for(ActivityVitalityCfg cfg: cfgList){
-			if(StringUtils.equals(eNum.getCfgId(), cfg.getId())){
-				vitalityCfg = cfg;
-				break;
+			if(!StringUtils.equals(eNum.getCfgId(), cfg.getEnumID())){
+				continue;				
 			}			
+			if(!isOpen(cfg)){
+				continue;
+			}			
+			vitalityCfg = cfg;
+			break;
 		}		
 		if(vitalityCfg == null){
 			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
@@ -259,24 +260,34 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	public void addCount(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityVitalityTypeEnum.Vitality);		
-		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
-		
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),countType);		
+		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, subCfg, dataItem);			
 		addVitalitycount(dataItem,subItem,subCfg,countadd);
 		subItem.setCount(subItem.getCount() + countadd);
 		dataHolder.updateItem(player, dataItem);
 	}
 	
-	public void addCountTwo(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
-		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		
-		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityVitalityTypeEnum.VitalityTwo);		
-		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnumTwo(player, countType, dataItem);	
-		
-		addVitalitycount(dataItem,subItem,subCfg,countadd);
-		subItem.setCount(subItem.getCount() + countadd);
-		dataHolder.updateItem(player, dataItem);
+	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalitySubCfg subCfg,ActivityVitalityTypeItem dataItem){		
+		ActivityVitalityTypeSubItem subItem = null;
+		if(subCfg == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
+			return subItem;
+		}		
+		if(dataItem != null){
+			List<ActivityVitalityTypeSubItem> sublist = dataItem.getSubItemList();
+			for(ActivityVitalityTypeSubItem subitem : sublist){
+				if(StringUtils.equals(subCfg.getId(), subitem.getCfgId())){				
+					subItem = subitem;
+					break;
+				}
+			}			
+		}		
+		if(subItem == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
+		}		
+		return   subItem;
 	}
+
 	/**增加活跃度*/
     private void addVitalitycount(ActivityVitalityTypeItem dataItem, ActivityVitalityTypeSubItem subItem,
     		ActivityVitalitySubCfg subCfg,int countadd) {
@@ -284,72 +295,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			dataItem.setActiveCount(dataItem.getActiveCount() + subCfg.getActiveCount());
 		}   	
 	}
-
-	
-	private ActivityVitalityTypeSubItem getbyVitalityTypeEnumTwo(Player player,
-			ActivityVitalityTypeEnum countType,
-			ActivityVitalityTypeItem dataItem) {
-		ActivityVitalityTypeSubItem subItem = null;
-		ActivityVitalitySubCfg cfg = null;
-		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		for(ActivityVitalitySubCfg subcfg :subcfglist){						
-			if(StringUtils.equals(subcfg.getType(), countType.getCfgId())){
-			cfg = subcfg;
-			break;
-			}
-		}
-		if(cfg == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
-			return subItem;
-		}
-		if(dataItem != null){
-			List<ActivityVitalityTypeSubItem> sublist = dataItem.getSubItemList();
-			for(ActivityVitalityTypeSubItem subitem : sublist){
-				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
-					subItem = subitem;
-					break;
-				}
-			}			
-		}		
-		return subItem;
-	}
-
-	
-	//	
-	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalityTypeEnum typeEnum,ActivityVitalityTypeItem dataItem){		
-		ActivityVitalityTypeSubItem subItem = null;
-		ActivityVitalitySubCfg cfg = null;
-		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		for(ActivityVitalitySubCfg subcfg :subcfglist){
-			if (ActivityVitalityCfgDAO.getInstance().getday() != subcfg.getDay()) {
-				continue;
-			}			
-			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){
-			cfg = subcfg;
-			break;
-			}
-		}
-		if(cfg == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
-			return subItem;
-		}
-		
-		if(dataItem != null){
-			List<ActivityVitalityTypeSubItem> sublist = dataItem.getSubItemList();
-			for(ActivityVitalityTypeSubItem subitem : sublist){
-				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
-					subItem = subitem;
-					break;
-				}
-			}			
-		}
-		
-		if(subItem == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
-		}		
-		return   subItem;
-	}
-	
 	
 	public ActivityComResult takeGift(Player player, String subItemId) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
@@ -370,7 +315,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 
 		if (dataItem == null) {
 			result.setReason("活动尚未开启");
-
 		} else {			
 			if(item.isTaken()){
 				result.setReason("已经领取");	
@@ -438,9 +382,13 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityVitalityItemHolder activityCountTypeItemHolder = new ActivityVitalityItemHolder();
-		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(eNum.getCfgId());
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());//cfg
 		if(vitalityEnum == null){
 			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
@@ -453,14 +401,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		if(!dataItem.isTouchRedPoint()){
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
-		}
-		
+		}		
 	}
-
-
-
-
-	
-	
-
 }

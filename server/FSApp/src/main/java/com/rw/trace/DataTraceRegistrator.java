@@ -14,8 +14,8 @@ import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.user.UserGameData;
 
 /**
- * 
- * @author Administrator
+ * DataTrace注册器
+ * @author Jamaz
  *
  */
 public enum DataTraceRegistrator {
@@ -27,7 +27,6 @@ public enum DataTraceRegistrator {
 	FixNormEquipDataItem(FixNormEquipDataItem.class),
 	InlayItem(InlayItem.class),
 	MajorData(MajorData.class),
-	RoleBaseInfo(RoleBaseInfo.class),
 	Skill(Skill.class),
 	TableCopyData(TableCopyData.class),
 	TableUserHero(TableUserHero.class),

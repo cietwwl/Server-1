@@ -16,7 +16,6 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -27,6 +26,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -42,6 +42,7 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -49,7 +50,7 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -88,12 +89,13 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-
+		
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
 		funcCallBackMap.put("addgold", "addGold");
 		funcCallBackMap.put("addhero", "addHero");
+		funcCallBackMap.put("addfixequipitem", "addFixEquipItem");
 		funcCallBackMap.put("clrbag", "clrBag");
 		funcCallBackMap.put("setlevel", "setLevel");
 		funcCallBackMap.put("ranksort", "rankSort");
@@ -189,8 +191,12 @@ public class GMHandler {
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
 		
-		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("shutdown", "shutdownServer");
 		
+		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
+		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
+		
+		funcCallBackMap.put("adddist", "addDistCount");
 	}
 
 	public boolean isActive() {
@@ -214,7 +220,7 @@ public class GMHandler {
 	
 	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group == null){
 			return false;
 		}
@@ -494,12 +500,29 @@ public class GMHandler {
 		}
 		String heroId = arrCommandContents[0];
 		if (player != null) {
-			player.getHeroMgr().addHero(heroId);
+//			player.getHeroMgr().addHero(heroId);
+			player.getHeroMgr().addHero(player, heroId);
 			return true;
 		}
 		return false;
 	}
 
+	public boolean addFixEquipItem(String[] arrCommandContents,Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			GMAddFixEquip.addStarUp(player);
+			GMAddFixEquip.addexp(player);
+			GMAddFixEquip.addqualityUp(player);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addCoin(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -516,6 +539,25 @@ public class GMHandler {
 		//
 		return false;
 	}
+	
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			
+			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+			baseDataMgr.updateBuyKeyData(player, addNum);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	public boolean addWakenPiece(String[] arrCommandContents, Player player){
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -647,7 +689,7 @@ public class GMHandler {
 		}
 		String newLevel = arrCommandContents[0];
 		if (player != null) {
-			player.SetLevel(Integer.parseInt(newLevel));
+			player.setLevelByGM(Integer.parseInt(newLevel));
 			return true;
 		}
 		return false;
@@ -720,7 +762,8 @@ public class GMHandler {
 		if (arrCommandContents.length == 1) {
 			long addExp = Long.parseLong(arrCommandContents[0]);
 			if (player != null) {
-				player.getHeroMgr().AddAllHeroExp(addExp);
+//				player.getHeroMgr().AddAllHeroExp(addExp);
+				player.getHeroMgr().AddAllHeroExp(player, addExp);
 				return true;
 			}
 			return false;
@@ -729,7 +772,8 @@ public class GMHandler {
 		int heroId = Integer.parseInt(arrCommandContents[0]);
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
-			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+//			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
 			return true;
 		}
 		return false;
@@ -1006,7 +1050,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
@@ -1051,14 +1096,15 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
 			return false;
 		}
 
-		hero.getEquipMgr().orderHeroWearEquip(hero);
+		hero.getEquipMgr().orderHeroWearEquip(player, hero);
 		return true;
 	}
 
@@ -1074,7 +1120,7 @@ public class GMHandler {
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("wx")) {
 			TowerMgr towerMgr = player.getTowerMgr();
-			TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+			TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 			if (angleArrayData == null) {
 				return false;
 			}
@@ -1221,7 +1267,7 @@ public class GMHandler {
 			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
 			fUserChannelMap.setAccessible(false);
 			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.SessionInfo sessionInfo = com.rw.netty.UserChannelMgr.getSession(ctx);
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
 			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
 			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
@@ -1305,6 +1351,24 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean shutdownServer(String[] arrCommandContents, Player player) {
+		com.rw.manager.GameManager.shutdown();
+		return true;
+	}
+
+	public boolean addDistCount(String[] str, Player player){
+		int count = Integer.parseInt(str[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
+		if(group != null){
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		}
 		return true;
 	}
 	

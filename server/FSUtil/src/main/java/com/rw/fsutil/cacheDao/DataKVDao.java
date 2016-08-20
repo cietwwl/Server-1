@@ -68,7 +68,7 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(),classInfo.getClass().getName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 	}
 
 	/**
@@ -93,6 +93,7 @@ public class DataKVDao<T> {
 	public boolean update(T t) {
 		String id = getId(t);
 		if (!StringUtils.isNotBlank(id)) {
+			System.err.println("更新对象没有设置主键："+classInfo.getTableName()+","+classInfo.getClazz());
 			return false;
 		}
 		try {

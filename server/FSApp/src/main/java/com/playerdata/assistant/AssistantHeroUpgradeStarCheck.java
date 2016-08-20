@@ -6,11 +6,11 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 
-public class AssistantHeroUpgradeStarCheck implements IAssistantCheck{
+public class AssistantHeroUpgradeStarCheck extends DefaultAssistantChecker {
 
 	@Override
 	public AssistantEventID doCheck(Player player) {
-		
+		super.doCheck(player);
 		if(hasHeroToUpgradeStar(player)){
 			return AssistantEventID.HeroAdvance;
 		}
@@ -18,7 +18,8 @@ public class AssistantHeroUpgradeStarCheck implements IAssistantCheck{
 	}
 	
 	private boolean hasHeroToUpgradeStar(Player player){
-		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = player.getHeroMgr().getHerosEnumeration(player);
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
 			if (hero.canUpgradeStar() == 0) {

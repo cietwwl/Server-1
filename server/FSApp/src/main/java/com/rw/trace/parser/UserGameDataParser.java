@@ -43,6 +43,8 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         newData_.setWakenKey(entity.getWakenKey());
         newData_.setCarrerChangeTime(entity.getCarrerChangeTime());
         newData_.setLastWorshipTime(entity.getLastWorshipTime());
+        newData_.setFightingAll(entity.getFightingAll());
+        newData_.setStarAll(entity.getStarAll());
         return newData_;
     }
 
@@ -223,6 +225,18 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
             entity1.setLastWorshipTime(lastWorshipTime2);
             jsonMap = writer.write(jsonMap, "lastWorshipTime", lastWorshipTime2);
         }
+        int fightingAll1 = entity1.getFightingAll();
+        int fightingAll2 = entity2.getFightingAll();
+        if (fightingAll1 != fightingAll2) {
+            entity1.setFightingAll(fightingAll2);
+            jsonMap = writer.write(jsonMap, "fightingAll", fightingAll2);
+        }
+        int starAll1 = entity1.getStarAll();
+        int starAll2 = entity2.getStarAll();
+        if (starAll1 != starAll2) {
+            entity1.setStarAll(starAll2);
+            jsonMap = writer.write(jsonMap, "starAll", starAll2);
+        }
         UserGameExtendInfo extendInfo1 = entity1.getExtendInfo();
         UserGameExtendInfo extendInfo2 = entity2.getExtendInfo();
         Pair<UserGameExtendInfo, JSONObject> extendInfoPair = writer.checkObject(jsonMap, "extendInfo", extendInfo1, extendInfo2);
@@ -239,7 +253,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
 
     @Override
     public JSONObject toJson(UserGameData entity) {
-        JSONObject json = new JSONObject(30);
+        JSONObject json = new JSONObject(32);
         json.put("userId", entity.getUserId());
         json.put("version", entity.getVersion());
         json.put("iphone", entity.isIphone());
@@ -269,6 +283,8 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         json.put("wakenKey", entity.getWakenKey());
         json.put("carrerChangeTime", entity.getCarrerChangeTime());
         json.put("lastWorshipTime", entity.getLastWorshipTime());
+        json.put("fightingAll", entity.getFightingAll());
+        json.put("starAll", entity.getStarAll());
         return json;
     }
 

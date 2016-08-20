@@ -31,9 +31,9 @@ public class DropRecordParser implements DataValueParser<DropRecord> {
             entity1.setUserId(userId2);
             jsonMap = writer.write(jsonMap, "userId", userId2);
         }
-        ConcurrentHashMap<Integer, String> firstDropMap1 = entity1.getFirstDropMap();
-        ConcurrentHashMap<Integer, String> firstDropMap2 = entity2.getFirstDropMap();
-        Pair<ConcurrentHashMap<Integer, String>, JSONObject> firstDropMapPair = writer.checkObject(jsonMap, "firstDropMap", firstDropMap1, firstDropMap2);
+        ConcurrentHashMap<Integer, Integer> firstDropMap1 = entity1.getFirstDropMap();
+        ConcurrentHashMap<Integer, Integer> firstDropMap2 = entity2.getFirstDropMap();
+        Pair<ConcurrentHashMap<Integer, Integer>, JSONObject> firstDropMapPair = writer.checkObject(jsonMap, "firstDropMap", firstDropMap1, firstDropMap2);
         if (firstDropMapPair != null) {
             firstDropMap1 = firstDropMapPair.getT1();
             entity1.setFirstDropMap(firstDropMap1);

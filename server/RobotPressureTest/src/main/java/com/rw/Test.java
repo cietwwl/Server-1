@@ -6,37 +6,49 @@ public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
 	/** 所有运行起来的客户端 */
-	private static final Random random = new Random();
+	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		// Robot robot = loginRobot("hclovehf0009");
-		// for (int i = 0; i < 50; i++) {
-		// robot.magicForge();
-		// robot.equipAttach();
-		// }
-
-//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
-//		 if(robot == null){
-//		 }else{
-//			 boolean issucc =false;
-//			 
-//			 issucc=robot.testDailyActivity();
-//			 
-//			 
-//			 System.out.println("@@@@@@@@@@@" + issucc + System.currentTimeMillis());
-//			 
-//		 }
+//		 Robot robot = loginRobot("12312");
+//		 robot.addCoin(10000000);
+//		 robot.addGold(1000000);
+//		 robot.playerMagicSecret();
+//		 robot.testTaoist();
+//		 System.out.println(robot.testCopyJbzd(1));
+		 Robot robot = createRobot("tmpallen"+ 112);
+		 if(robot == null){
+		 }else{
+			 //boolean issucc = robot.startTBCreateTeam();
+			 robot.upgrade(33);
+			 robot.addGold(9999);
+			 robot.addCoin(9999);
+			 robot.addHero(1);
+			 robot.addHero(1);
+			 robot.createGroup("tmpallen112");
+			 boolean issucc = robot.attackEnemyGroupSecret();
+			 //robot.addHero(5);
+//			 robot.createGroup("xiaofei338");
+			 System.out.println("@@@@@@@@@@@test：" + issucc);
+		 }
 		 
 		 
 		//5-27新增部分
-//		 robot.testWorShip();//膜拜
+//		 robot.testWorShip(3);//膜拜
 //		 robot.testMainService();//主服务，买体力
 //		 robot.testDailyActivity();
-		 
-		 
-		 
-		 
-		 
-		 
+//		 robot.testCopyWarfare();//无尽战火
+//		 robot.testCopyTower();//万仙阵胜利一次
+//		 robot.clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);//清楚该类副本的cd
+//		 robot.testCopyJbzd(1);//聚宝之地,参数1战斗1次,战斗胜利返回true，参数2战斗1后清cd再打一次，两次都胜利才返回true
+//		 robot.testCopyLxsg();//炼息山谷两次
+//		 robot.testCopyschj();//生存幻境 2次
+//		 robot.testActivityCountTakeGift();//通用活动一领取所有奖励
+//		 robot.testActivityDailyCountTakeGift();//通用活动二领取所有奖励
+//		 robot.testDailyGiftTake();//七日礼包
+//		 robot.testFrshActAchieveRewardGiftTake();//封神之路
+//		 robot.testPeakArena();//巅峰竞技场；改级别，获取战斗对象，生成战斗数据，获得战斗最终结果；在获取对象和生成数据之间都有额外的sys打印结果。默认为挑战三个敌人的第一个，默认申请胜利结果
+//		 robot.testFixEquip(-1, -1, 1, 9);//神器。
+//		 robot.testTaoist(110014);//道术
+//		 robot.testMagicSecret(2);//乾坤幻境
 		 
 		 
 		// long start = System.currentTimeMillis();
@@ -171,7 +183,7 @@ public class Test {
 
 	public static void testUpgarate() {
 		Robot robot = loginRobot("testallen22");
-		robot.upgrade(10);
+		robot.upgrade(50);
 	}
 
 	// 获取所有邮件的附件
@@ -230,7 +242,7 @@ public class Test {
 
 		Robot robot = loginRobot("testallen22");
 		robot.gamble();
-
+		
 	}
 
 	// 抽卡
@@ -288,7 +300,7 @@ public class Test {
 		
 	
 	// 登录
-	private static Robot loginRobot(String accountId) {
+	public static Robot loginRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
 		robot.loginPlatform();
 		robot.loginGame();

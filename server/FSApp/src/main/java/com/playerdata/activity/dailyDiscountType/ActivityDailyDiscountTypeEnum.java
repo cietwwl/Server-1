@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityDailyDiscountTypeEnum{
 
-	DailyDiscount("1101");//超值欢乐购	
+	DailyDiscount("80001");//超值欢乐购	
 	
 	private String cfgId;
 	private ActivityDailyDiscountTypeEnum(String cfgId){

@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyBattleProto;
-import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
@@ -46,15 +48,24 @@ public class GroupCopyBattleHandler {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIGHT_BEGIN);	
 	
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
-			GroupCopyResult result = group.getGroupCopyMgr().beginFight(player, req.getLevel());
-			success = result.isSuccess();
-			if(success){
-				commonRsp.setMData((GroupCopyMonsterData.Builder) result.getItem());
+			String levelID = req.getLevel();
+			int groupLevel = group.getGroupBaseDataMgr().getGroupData().getGroupLevel();
+			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getConfig(levelID);
+			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(levelCfg.getChaterID());
+			if(mapCfg.getUnLockLv() > groupLevel){
+				commonRsp.setTipMsg("帮派等级不足，无法进入战斗！");
+			}else{
+				GroupCopyResult result = group.getGroupCopyMgr().beginFight(player, levelID);
+				
+				success = result.isSuccess();
+				if(success){
+					commonRsp.setMData((GroupCopyMonsterData.Builder) result.getItem());
+				}
+				commonRsp.setTipMsg(result.getTipMsg());
 			}
-			commonRsp.setTipMsg(result.getTipMsg());
 		}	
 
 		commonRsp.setIsSuccess(success);
@@ -86,7 +97,7 @@ public class GroupCopyBattleHandler {
 		}
 		
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		
 		boolean success = false;
 		if(group!=null){
@@ -117,10 +128,12 @@ public class GroupCopyBattleHandler {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.ENTER_APPLY);
 		String level = req.getLevel();
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		commonRsp.setIsSuccess(false);
 		if(group!=null){
 			group.getGroupCopyMgr().applyEnterCopy(player, level,commonRsp);
+		}else{
+			commonRsp.setTipMsg("角色不存在帮派");
 		}
 		return commonRsp.build().toByteString();
 	}
@@ -141,7 +154,7 @@ public class GroupCopyBattleHandler {
 		
 		
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, null, null);

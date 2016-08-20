@@ -36,6 +36,17 @@ public class ActivityRateTypeItem implements IMapItem {
 	@CombineSave
 	private long redPointLastTime;	
 	
+	@CombineSave
+	private String enumId;	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -106,7 +117,7 @@ public class ActivityRateTypeItem implements IMapItem {
 	public void reset(ActivityRateTypeCfg activityRateTypeCfg) {
 		this.version = activityRateTypeCfg.getVersion();
 		isTouchRedPoint = false;
-		
+		cfgId = activityRateTypeCfg.getId();
 	}
 
 }

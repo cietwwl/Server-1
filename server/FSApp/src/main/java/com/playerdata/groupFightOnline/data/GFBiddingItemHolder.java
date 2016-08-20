@@ -74,6 +74,17 @@ public class GFBiddingItemHolder {
 	}
 	
 	/**
+	 *  移除个人的某一个资源点的压标信息
+	 * @param userId
+	 * @param resourceID
+	 * @return
+	 */
+	public boolean removeItem(Player player, int resourceID){
+		String itemID = player.getUserId() + "_" + resourceID;
+		return getItemStore(resourceID).removeItem(itemID);
+	}
+	
+	/**
 	 * 更新个人的压标信息
 	 * @param player
 	 * @param item

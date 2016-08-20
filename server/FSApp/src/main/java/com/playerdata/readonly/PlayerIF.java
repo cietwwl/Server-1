@@ -3,10 +3,14 @@ package com.playerdata.readonly;
 import com.playerdata.AttrMgr;
 import com.playerdata.EmailMgr;
 import com.playerdata.GambleMgr;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.SignMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
@@ -20,7 +24,8 @@ public interface PlayerIF {
 
 	public ItemBagMgrIF getItemBagMgr();
 
-	public HeroMgrIF getHeroMgr();
+//	public HeroMgrIF getHeroMgr();
+	public HeroMgr getHeroMgr();
 
 	public CopyRecordMgrIF getCopyRecordMgr();
 
@@ -66,7 +71,7 @@ public interface PlayerIF {
 
 	public String getTemplateId();
 
-	public HeroIF getMainRoleHero();
+	public Hero getMainRoleHero();
 
 	/**
 	 * 获取法宝数据
@@ -84,4 +89,12 @@ public interface PlayerIF {
 	public String getHeadImage();
 
 	public String getHeadFrame();
+
+	public String getUserId();
+
+	public boolean isRobot();
+
+	public ITaoistMgr getTaoistMgr();
+
+	public SynFettersData getHeroFettersByModelId(int modelId);
 }

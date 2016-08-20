@@ -19,4 +19,13 @@ public class TableUserPrivateChatDao extends DataKVDao<UserPrivateChat> {
 	public static TableUserPrivateChatDao getDao() {
 		return instance;
 	}
+	
+	/**
+	 * 获取更新周期间隔(单位：秒)
+	 * 
+	 * @return
+	 */
+	protected int getUpdatedSeconds() {
+		return 600;
+	}
 }

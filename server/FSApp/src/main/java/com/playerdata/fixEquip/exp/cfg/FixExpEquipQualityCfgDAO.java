@@ -77,8 +77,12 @@ public final class FixExpEquipQualityCfgDAO extends CfgCsvDao<FixExpEquipQuality
 				}
 			}
 		}
-		return target;
-		
+		return target;		
 	}
+	
+	
+	
+	
+	
 
 }

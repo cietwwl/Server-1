@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Action;
+import com.common.IHeroAction;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipHelper;
@@ -27,10 +27,21 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FixNormEquipMgr {
-
-	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	
+//	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = FixNormEquipDataItemHolder.getInstance();
+	
+	private static final FixNormEquipMgr _INSTANCE = new FixNormEquipMgr();
+	
+	public static final FixNormEquipMgr getInstance() {
+		return _INSTANCE;
+	}
+	
+	protected FixNormEquipMgr() {}
 
 	final private Comparator<FixNormEquipDataItem> comparator = new Comparator<FixNormEquipDataItem>() {
 
@@ -43,13 +54,13 @@ public class FixNormEquipMgr {
 
 	public boolean initIfNeed(Player player, Hero hero) {
 		if (!isInited(player, hero)) {
-			newHeroInit(player, hero.getUUId(), hero.getModelId());
+			newHeroInit(player, hero.getUUId(), hero.getModeId());
 
 		}
 		return true;
 	}
-
-	private boolean isInited(Player player, Hero hero) {
+	
+	private boolean isInited(Player player, Hero hero){
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
@@ -89,7 +100,7 @@ public class FixNormEquipMgr {
 	public boolean onCarrerChange(Player player) {
 
 		Hero mainRoleHero = player.getMainRoleHero();
-		int newModelId = mainRoleHero.getModelId();
+		int newModelId = mainRoleHero.getModeId();
 		String ownerId = player.getUserId();
 
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
@@ -127,14 +138,15 @@ public class FixNormEquipMgr {
 		}
 		return target;
 	}
-
-	public void regChangeCallBack(Action callBack) {
-		fixNormEquipDataItemHolder.regChangeCallBack(callBack);
+	
+	public void regDataChangeCallback(IHeroAction callback) {
+		fixNormEquipDataItemHolder.regDataChangeCallback(callback);
 	}
 
 	public void synAllData(Player player, Hero hero) {
 		fixNormEquipDataItemHolder.synAllData(player, hero);
 	}
+	
 
 	public List<AttributeItem> levelToAttrItems(String ownerId) {
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
@@ -152,6 +164,32 @@ public class FixNormEquipMgr {
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipStarAttr(ownerId, itemList).values());
 		return attrItemList;
+	}
+	
+	public List<String> levelUpList(Player player, String heroId) {
+		
+		List<String> levelUpList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(heroId);
+		for (FixNormEquipDataItem dataItem : itemList) {
+			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+			int curLevel = dataItem.getLevel();
+			
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), dataItem.getQuality());
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(curLevel < nextQualityLevel){				
+				
+				FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+				int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+				FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+				if(result.isSuccess()){
+					levelUpList.add(dataItem.getId());
+				}
+			}
+			
+		}
+		
+		
+		return levelUpList;
 	}
 
 	public List<String> qualityUpList(Player player, String ownerId) {
@@ -192,7 +230,7 @@ public class FixNormEquipMgr {
 
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
-		int toLevel = getToLevel(player, ownerId, dataItem);
+		int toLevel = getToLevel(player, dataItem);
 		int curLevel = dataItem.getLevel();
 
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
@@ -208,7 +246,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private int getToLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
+	private int getToLevel(Player player, FixNormEquipDataItem dataItem) {
 
 		int quality = dataItem.getQuality();
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
@@ -247,7 +285,9 @@ public class FixNormEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} else if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
 			int nextLevel = dataItem.getLevel() + 1;
@@ -365,7 +405,9 @@ public class FixNormEquipMgr {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (dataItem == null) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player.getLevel())) {
+			result.setReason("未到功能开放等级");
+		} if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
 			int curStar = dataItem.getStar();
@@ -460,4 +502,6 @@ public class FixNormEquipMgr {
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
 		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
 	}
+
+	
 }
