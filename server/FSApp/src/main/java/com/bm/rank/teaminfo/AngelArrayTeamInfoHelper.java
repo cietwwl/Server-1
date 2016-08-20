@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import com.bm.arena.ArenaRobotDataMgr;
 import com.bm.rank.RankType;
-import com.bm.rank.anglearray.AngleArrayComparable;
+import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
 import com.common.RefInt;
 import com.log.GameLog;
@@ -25,7 +25,6 @@ import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.hero.core.RoleBaseInfoImpl;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.EquipInfo;
@@ -70,13 +69,13 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p 角色信息
 	 */
 	public static void updateRankingEntry(Player p, TeamInfoCallback call) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
 
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			return;
 		}
@@ -96,24 +95,24 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 */
 	public static void updateRankingEntryWhenPlayerLevelChange(Player p) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
 
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			return;
 		}
 
-		AngleArrayComparable comparable = rankingEntry.getComparable();
+		AngelArrayComparable comparable = rankingEntry.getComparable();
 		int level = p.getLevel();
 		if (level <= comparable.getLevel()) {
 			return;
 		}
 
-		comparable = new AngleArrayComparable();
+		comparable = new AngelArrayComparable();
 		comparable.setFighting(comparable.getFighting());
 		comparable.setLevel(level);
 
@@ -140,7 +139,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param fighting
 	 */
 	public static void checkAndUpdateTeamInfo(Player p, List<Integer> heroModelList, int fighting) {
-		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (ranking == null) {
 			return;
 		}
@@ -148,8 +147,8 @@ public class AngelArrayTeamInfoHelper {
 		// 阵容中的战力
 		int oldFighting = 0;
 		String userId = p.getUserId();
-		RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
-		AngleArrayComparable comparable = null;
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		AngelArrayComparable comparable = null;
 		if (rankingEntry != null) {
 			comparable = rankingEntry.getComparable();
 			oldFighting = comparable.getFighting();
@@ -159,7 +158,7 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		comparable = new AngleArrayComparable();
+		comparable = new AngelArrayComparable();
 		comparable.setFighting(fighting);
 		comparable.setLevel(p.getLevel());
 

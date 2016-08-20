@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo.db;
+package com.rwbase.dao.angelarray.pojo.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import com.rwbase.dao.tower.pojo.TowerHeroChange;
  * @Description 万仙阵个人数据
  */
 @Table(name = "angel_array_data")
-public class TableAngleArrayData {
+public class TableAngelArrayData {
 	@Id
 	private String userId;// 角色Id
 	private int maxFloor = -1;// 历史最高层
@@ -33,11 +33,11 @@ public class TableAngleArrayData {
 	@SaveAsJson
 	private Map<String, TowerHeroChange> heroChangeMap;// 玩家血量变化记录
 
-	public TableAngleArrayData() {
+	public TableAngelArrayData() {
 		this.heroChangeMap = new HashMap<String, TowerHeroChange>();
 	}
 
-	public TableAngleArrayData(String userId) {
+	public TableAngelArrayData(String userId) {
 		this();
 		this.userId = userId;
 	}

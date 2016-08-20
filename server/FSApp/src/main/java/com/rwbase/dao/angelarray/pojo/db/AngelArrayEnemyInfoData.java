@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo.db;
+package com.rwbase.dao.angelarray.pojo.db;
 
 import java.util.HashMap;
 import java.util.Map;

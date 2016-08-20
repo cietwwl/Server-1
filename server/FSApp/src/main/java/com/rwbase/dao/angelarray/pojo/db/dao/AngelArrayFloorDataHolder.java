@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo.db.dao;
+package com.rwbase.dao.angelarray.pojo.db.dao;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -8,7 +8,7 @@ import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayFloorData;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayFloorData;
 
 /*
  * @author HC

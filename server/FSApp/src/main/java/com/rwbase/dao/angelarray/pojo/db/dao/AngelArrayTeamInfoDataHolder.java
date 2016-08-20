@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray.pojo.db.dao;
+package com.rwbase.dao.angelarray.pojo.db.dao;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 
 /*
  * @author HC
@@ -44,13 +44,27 @@ public class AngelArrayTeamInfoDataHolder {
 	 * @param hasEnemyList 要过滤掉那些不刷出来
 	 * @return
 	 */
-	public synchronized AngelArrayTeamInfoData getAngelArrayTeamInfo(int minFighting, int maxFighting, List<String> hasEnemyList) {
+	public synchronized AngelArrayTeamInfoData getAngelArrayTeamInfo(int minFighting, int maxFighting, int floor, List<String> hasEnemyList) {
 		Enumeration<AngelArrayTeamInfoData> infoMap = getMapItemStore().getEnum();
 
 		AngelArrayTeamInfoData teamInfo = null;
 		while (infoMap.hasMoreElements()) {
 			AngelArrayTeamInfoData nextElement = infoMap.nextElement();
 			if (nextElement == null) {
+				continue;
+			}
+
+			int minFloor = nextElement.getMinFloor();// 随机时机器人可以出现的最低层
+			int maxFloor = nextElement.getMaxFloor();// 随机时机器人可以出现的最高层
+			if (minFloor <= 0 && maxFloor > 0 && floor > maxFloor) {// 随机小层是<=0，意思是不限制出现的低层
+				continue;
+			}
+
+			if (maxFloor <= 0 && floor < minFloor) {// 随机上层是<=0，意思是不限制出现的高层
+				continue;
+			}
+
+			if (floor < minFloor || (maxFloor > 0 && floor > maxFloor)) {// 完美避开区间，直接没了任何意义
 				continue;
 			}
 

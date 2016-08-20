@@ -1,4 +1,4 @@
-package com.rwbase.dao.anglearray;
+package com.rwbase.dao.angelarray;
 
 /*
  * @author HC

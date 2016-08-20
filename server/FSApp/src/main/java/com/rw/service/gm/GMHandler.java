@@ -50,7 +50,7 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -1120,7 +1120,7 @@ public class GMHandler {
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("wx")) {
 			TowerMgr towerMgr = player.getTowerMgr();
-			TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+			TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 			if (angleArrayData == null) {
 				return false;
 			}
