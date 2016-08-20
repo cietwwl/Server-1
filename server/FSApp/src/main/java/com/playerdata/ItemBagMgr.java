@@ -703,7 +703,23 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		// 超出叠加上限的道具列表
 		if (!modelIdList.isEmpty()) {
-			sendEmail(userId, ITEM_BAG_FULL_EMAIL_ID);
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0, size = modelIdList.size(); i < size; i++) {
+				ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelIdList.get(i));
+				if (cfg == null) {
+					continue;
+				}
+
+				sb.append(cfg.getName());
+				if (i < size - 1) {
+					sb.append(",");
+				}
+			}
+
+			Object[] param = new Object[1];
+			param[0] = sb.toString();
+
+			sendEmail(userId, ITEM_BAG_FULL_EMAIL_ID, param);
 		}
 
 		// 某类型物品超出规定的上限
@@ -724,8 +740,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			}
 
 			Object[] param = new Object[1];
-			String s = sb.toString();
-			param[0] = s;
+			param[0] = sb.toString();
 
 			sendEmail(userId, MAGIC_FULL_EMAIL_ID, param);
 		}
