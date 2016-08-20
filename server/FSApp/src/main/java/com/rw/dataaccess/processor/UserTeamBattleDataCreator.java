@@ -9,6 +9,7 @@ public class UserTeamBattleDataCreator implements DataExtensionCreator<UserTeamB
 	public UserTeamBattleData create(String userId) {
 		UserTeamBattleData utbData = new UserTeamBattleData();
 		utbData.setId(userId);
+		utbData.dailyReset();
 		return utbData;
 	}
 

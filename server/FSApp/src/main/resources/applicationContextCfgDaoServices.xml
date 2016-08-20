@@ -253,6 +253,7 @@
 	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TBBuyCostCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
