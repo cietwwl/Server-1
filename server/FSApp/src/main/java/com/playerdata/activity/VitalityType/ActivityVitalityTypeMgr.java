@@ -249,7 +249,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			break;
 		}		
 		if(vitalityCfg == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
 		}
 		if(player.getLevel() < vitalityCfg.getLevelLimit()){
