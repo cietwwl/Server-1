@@ -84,11 +84,12 @@ private static WorshipHandler instance = new WorshipHandler();
 		response.setResultType(EWorshipResultType.SUCCESS);
 		response.setWorshipCareer(career);
 		List<WorshipInfo> worshipList = WorshipMgr.getInstance().getWorshipList(ECareer.valueOf(career));
-		int num = WorshipUtils.UpperWorshipNum > worshipList.size() ? worshipList.size() : WorshipUtils.UpperWorshipNum;
+		int num = Math.min(WorshipUtils.UpperWorshipNum, worshipList.size());
 		for (int i = 0; i < num; i++) {//修改为20个上限
 			response.addWorshipList(worshipList.get(i));
 		}
 //		response.addAllWorshipList();
 		player.SendMsg(Command.MSG_Worship, response.build().toByteString());
+		System.out.println("puch worship list, list size:" + num);
 	}
 }
