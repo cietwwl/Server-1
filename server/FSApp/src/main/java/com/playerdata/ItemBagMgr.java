@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.util.StringUtils;
+
 import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.readonly.ItemBagMgrIF;
@@ -706,7 +708,26 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		// 某类型物品超出规定的上限
 		if (!typeDefList.isEmpty()) {
-			sendEmail(userId, MAGIC_FULL_EMAIL_ID);
+			ItemBagCapacityCfgDAO cfgDAO = ItemBagCapacityCfgDAO.getCfgDAO();
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0, size = typeDefList.size(); i < size; i++) {
+				String name = cfgDAO.getItemBagName(typeDefList.get(i));
+
+				if (StringUtils.isEmpty(name)) {
+					continue;
+				}
+
+				sb.append(name);
+				if (i < size - 1) {
+					sb.append(",");
+				}
+			}
+
+			Object[] param = new Object[1];
+			String s = sb.toString();
+			param[0] = s;
+
+			sendEmail(userId, MAGIC_FULL_EMAIL_ID, param);
 		}
 	}
 
