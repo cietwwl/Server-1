@@ -19,10 +19,11 @@ public class AssistantEquipCheck extends DefaultAssistantChecker {
 	}
 	
 	private boolean check(Player player){
-		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = player.getHeroMgr().getHerosEnumeration(player);
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
-			if(hero.getEquipMgr().canWearEquip()){
+			if(hero.getEquipMgr().canWearEquip(player, hero.getUUId())){
 				return true;
 			}
 		}

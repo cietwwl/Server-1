@@ -43,7 +43,7 @@ public class HeroMagicEquipFetterAttriComponent extends AbstractAttributeCalc{
 			return null;
 		}
 
-		MagicEquipFetterParam param = new MagicEquipFetterParam(player.getUserId(), hero.getModelId());
+		MagicEquipFetterParam param = new MagicEquipFetterParam(player.getUserId(), hero.getModeId());
 		
 		
 		return calc.calc(param);

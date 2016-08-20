@@ -716,13 +716,21 @@ public final class MsgDef {
      */
     MSG_ONE_KEY_REWARD(94, 208),
     /**
+     * <code>MSG_BATTLE_COMMON = 209;</code>
+     *
+     * <pre>
+     *保存客户端阵容到服务器
+     * </pre>
+     */
+    MSG_BATTLE_COMMON(95, 209),
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(95, 995),
+    MSG_FEEDBACK(96, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -730,7 +738,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(96, 996),
+    MSG_SDK_VERIFY(97, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -738,7 +746,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(97, 997),
+    MSG_NUMERIC_ANALYSIS(98, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -746,7 +754,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(98, 998),
+    MSG_PLATFORMGS(99, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -754,7 +762,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(99, 999),
+    MSG_GAMEPRESS(100, 999),
     ;
 
     /**
@@ -1460,6 +1468,14 @@ public final class MsgDef {
      */
     public static final int MSG_ONE_KEY_REWARD_VALUE = 208;
     /**
+     * <code>MSG_BATTLE_COMMON = 209;</code>
+     *
+     * <pre>
+     *保存客户端阵容到服务器
+     * </pre>
+     */
+    public static final int MSG_BATTLE_COMMON_VALUE = 209;
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
@@ -1600,6 +1616,7 @@ public final class MsgDef {
         case 206: return MSG_RED_POINT_SERVICE;
         case 207: return MSG_TEAM_BATTLE;
         case 208: return MSG_ONE_KEY_REWARD;
+        case 209: return MSG_BATTLE_COMMON;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1665,7 +1682,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\375\020\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\225\021\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1717,10 +1734,11 @@ public final class MsgDef {
       "\026MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_",
       "FIGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE" +
       "\020\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY" +
-      "_REWARD\020\320\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK" +
-      "_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n" +
-      "\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025" +
-      "\n\013com.rwprotoB\006MsgDef"
+      "_REWARD\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022\021\n\014MS" +
+      "G_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MS" +
+      "G_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020" +
+      "\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006M" +
+      "sgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

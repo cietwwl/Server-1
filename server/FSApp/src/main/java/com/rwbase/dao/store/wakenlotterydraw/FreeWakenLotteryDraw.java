@@ -24,9 +24,6 @@ public class FreeWakenLotteryDraw implements IWakenLotteryDraw{
 		// TODO Auto-generated method stub
 		ArrayList<Integer> planList = cfg.getFreeRewardPlanList();
 		WakenLotteryResult result = WakenLotteryProcesser.getInstantce().processLottery(planList);
-		ConcurrentHashMap<Integer,StoreData> storeDataMap = holder.get().getStoreDataMap();
-		StoreData storeData = storeDataMap.get(eStoreType.Waken.getOrder());
-		storeData.setDrawTime(storeData.getDrawTime() + 1);
 		return result.getRewardMap();
 	}
 

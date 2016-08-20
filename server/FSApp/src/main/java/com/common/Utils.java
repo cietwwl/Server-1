@@ -92,4 +92,8 @@ public class Utils {
 	public static int calculateTenThousandRatio(int value, int ratio) {
 		return value * ratio / AttributeConst.DIVISION;
 	}
+
+	public static String computeQualityId(int modeId, int quality) {
+		return modeId + "_" + quality;
+	}
 }

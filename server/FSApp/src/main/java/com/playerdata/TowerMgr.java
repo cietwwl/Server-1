@@ -24,19 +24,19 @@ import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.anglearray.AngelArrayConst;
-import com.rwbase.dao.anglearray.AngelArrayUtils;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
-import com.rwbase.dao.anglearray.pojo.cfg.AngleArrayMatchCfg;
-import com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayEnemyInfoData;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayFloorData;
-import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayFloorDataHolder;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayDataDao;
+import com.rwbase.dao.angelarray.AngelArrayConst;
+import com.rwbase.dao.angelarray.AngelArrayUtils;
+import com.rwbase.dao.angelarray.pojo.AngelArrayMatchHelper;
+import com.rwbase.dao.angelarray.pojo.cfg.AngelArrayMatchCfg;
+import com.rwbase.dao.angelarray.pojo.cfg.dao.AngelArrayMatchCfgCsvDao;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayEnemyInfoData;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayFloorData;
+import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayFloorDataHolder;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.tower.TowerAwardCfg;
@@ -71,7 +71,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 	};
 
-	private AngleArrayDataDao angleArrayDao = AngleArrayDataDao.getDao();
+	private AngelArrayDataDao angleArrayDao = AngelArrayDataDao.getDao();
 	private AngelArrayFloorDataHolder angelArrayFloorDataHolder;// 万仙阵层数信息的Holder
 	private AngelArrayEnemyInfoDataHolder angelArrayEnemyInfoDataHolder;// 万仙阵敌人血量变化信息记录
 	private String userId;
@@ -87,7 +87,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * 
 	 * @return
 	 */
-	public TableAngleArrayData getAngleArrayData() {
+	public TableAngelArrayData getAngleArrayData() {
 		return angleArrayDao.getAngleArrayDataByKey(userId);
 	}
 
@@ -100,7 +100,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	public void checkAndResetMatchData(Player player) {
 		// TODO HC 临时放这里检测一下数据是否创建成功
 		notifyPlayerLogin(player);
-		TableAngleArrayData angleArrayData = getAngleArrayData();
+		TableAngelArrayData angleArrayData = getAngleArrayData();
 		if (angleArrayData == null) {
 			return;
 		}
@@ -119,7 +119,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param player
 	 * @param angleArrayData
 	 */
-	private void checkAndResetMatchData(Player player, TableAngleArrayData angleArrayData) {
+	private void checkAndResetMatchData(Player player, TableAngelArrayData angleArrayData) {
 		if (!DateUtils.isResetTime(AngelArrayConst.RESET_TIME, 0, 0, angleArrayData.getResetTime())) {// 不需要重置
 			return;
 		}
@@ -143,7 +143,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 
 		if (totalFighting == -1) {
-			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
+//			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
+			List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, comparator);
 
 			// 要看一下总共要获取多少个佣兵的战力
 			int maxSize = AngelArrayConst.MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
@@ -165,7 +166,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param isInit
 	 */
 	public void resetAngleArrayData(Player player, boolean isInit) {
-		TableAngleArrayData angleData = getAngleArrayData();
+		TableAngelArrayData angleData = getAngleArrayData();
 		if (angleData == null) {
 			return;
 		}
@@ -194,7 +195,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param userId
 	 * @param level
 	 * @param fighting
-	 * @param floor
+	 * @param floor 以前的逻辑有潜规则，存储的时候，所有的层都是按照数据或者列表的下标作为层数，所以第一层就是0
 	 * @param needClearEnemy
 	 */
 	public void updateAngleArrayFloorData(String userId, int level, int fighting, int floor, boolean needClearEnemy) {
@@ -204,17 +205,16 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 
 		List<String> allEnemyIdList = angelArrayFloorDataHolder.getEnemyUserIdList();
-		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
+		AngelArrayMatchCfgCsvDao cfgDAO = AngelArrayMatchCfgCsvDao.getCfgDAO();
 		// 计算出来当前要生成多少层的数据，这个做法主要是用来兼容如果某一关出现错误，可以随时补漏
 		int group = floor / AngelArrayConst.TOWER_UPDATE_NUM + 1;// 当前组Id
 		int size = group * AngelArrayConst.TOWER_UPDATE_NUM;
-		// int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
 
 		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
 		List<String> hasUserIdList = holder.getAllUserIdList();
 
 		for (; floor < size; floor++) {
-			AngleArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor);
+			AngelArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor + 1);
 			if (matchCfg == null) {
 				continue;
 			}
@@ -222,10 +222,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int minFighting = (int) (fighting * matchCfg.getMinFightingRatio());
 			int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
 
-			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, allEnemyIdList);
+			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, floor + 1, allEnemyIdList);
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
-				angelArrayTeamInfo = AngleArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
+				angelArrayTeamInfo = AngelArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
 						matchCfg.getRobotId());
 				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
 				isNewRobot = true;
@@ -267,7 +267,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		TableAngleArrayData angleData = getAngleArrayData();
+		TableAngelArrayData angleData = getAngleArrayData();
 		if (angleData == null) {
 			return;
 		}
@@ -332,7 +332,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * 5点重置数据
 	 */
 	public void resetDataInNewDay() {
-		TableAngleArrayData angleArrayData = getAngleArrayData();
+		TableAngelArrayData angleArrayData = getAngleArrayData();
 		if (angleArrayData == null) {
 			return;
 		}
@@ -348,7 +348,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @return
 	 */
 	public String getAwardByFloor(Player player, int floor) {
-		TableAngleArrayData angleArrayData = getAngleArrayData();
+		TableAngelArrayData angleArrayData = getAngleArrayData();
 		if (angleArrayData == null) {
 			return "";
 		}
@@ -427,7 +427,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int num = Integer.valueOf(goodList[1]);
 			EItemTypeDef eItemType = ItemCfgHelper.getItemType(templateId);
 			if (eItemType == EItemTypeDef.HeroItem) {// 是添加英雄物品
-				player.getHeroMgr().addHero(String.valueOf(templateId));
+//				player.getHeroMgr().addHero(String.valueOf(templateId));
+				player.getHeroMgr().addHero(player, String.valueOf(templateId));
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);
@@ -530,7 +531,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 		// 创建万仙阵数据
 		String userId = player.getUserId();
-		TableAngleArrayData angleData = new TableAngleArrayData(userId);
+		TableAngelArrayData angleData = new TableAngelArrayData(userId);
 		angleArrayDao.addOrUpdateAngleArrayData(angleData);
 	}
 
@@ -538,9 +539,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	public void notifyPlayerLogin(Player player) {
 		// 检测万仙阵数据
 		String userId = player.getUserId();
-		TableAngleArrayData angleData = angleArrayDao.getAngleArrayDataByKey(userId);
+		TableAngelArrayData angleData = angleArrayDao.getAngleArrayDataByKey(userId);
 		if (angleData == null) {
-			angleData = new TableAngleArrayData(userId);
+			angleData = new TableAngelArrayData(userId);
 			angleArrayDao.addOrUpdateAngleArrayData(angleData);
 		}
 	}

@@ -2,8 +2,11 @@ package com.rw.handler.teamBattle.dataForClient;
 
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.handler.groupFight.armySimple.ArmyInfoSimple;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StaticMemberTeamInfo {
 	
 	private String userID;
