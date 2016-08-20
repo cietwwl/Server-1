@@ -19,6 +19,16 @@ public class ActivityDailyDiscountTypeCfg {
 	private int levelLimit;
 	
 	private int refreshTime;
+	
+	private String enumId;	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
 
 	public String getId() {
 		return id;

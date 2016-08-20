@@ -22,7 +22,7 @@ import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 
 public class TimerManager {
@@ -80,6 +80,7 @@ public class TimerManager {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
 				// 帮派副本定时发奖
 				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				ActivityRankTypeMgr.getInstance().changeMap();
 			}
 		}, HOUR);
 

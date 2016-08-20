@@ -44,9 +44,21 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;
 	
+	@CombineSave
+	private String enumId;
 	
 	
 	
+	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -67,6 +79,7 @@ public class ActivityCountTypeItem implements  IMapItem {
 	}
 
 	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
+		cfgId = cfg.getId();
 		closed = false;
 		count=0;
 		version = cfg.getVersion();

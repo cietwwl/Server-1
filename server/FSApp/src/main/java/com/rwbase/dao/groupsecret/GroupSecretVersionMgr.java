@@ -1,6 +1,7 @@
 package com.rwbase.dao.groupsecret;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,9 +51,13 @@ public class GroupSecretVersionMgr {
 		List<SecretTeamInfoSynData> teamInfoList = new ArrayList<SecretTeamInfoSynData>();
 
 		// 检查密境列表
-		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
-		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
-			String id = defendSecretIdList.get(i);
+//		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
+//		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
+		Map<Integer, String> defendSecretIdMap = userGroupSecretData.getDefendSecretIdMap();
+		for(Iterator<Map.Entry<Integer, String>> itr = defendSecretIdMap.entrySet().iterator();itr.hasNext();) {
+//			String id = defendSecretIdList.get(i);
+			Map.Entry<Integer, String> entry = itr.next();
+			String id = entry.getValue();
 			String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(id);
 			UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(idArr[0]);
 			if (userCreateGroupSecretData == null) {
@@ -69,7 +74,7 @@ public class GroupSecretVersionMgr {
 				continue;
 			}
 
-			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId, level);
+			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(entry.getKey(), data, userId, level);
 			if (synData == null) {
 				continue;
 			}

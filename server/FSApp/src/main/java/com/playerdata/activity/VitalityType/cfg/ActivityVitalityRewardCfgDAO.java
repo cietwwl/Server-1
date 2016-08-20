@@ -22,17 +22,17 @@ public class ActivityVitalityRewardCfgDAO extends CfgCsvDao<ActivityVitalityRewa
 		return cfgCacheMap;
 	}
 	
-	/**根据传入的id来查找激活的子活动*/
-	public ActivityVitalityRewardCfg getById(String subId){
-		ActivityVitalityRewardCfg target = new ActivityVitalityRewardCfg();
-		List<ActivityVitalityRewardCfg> allCfg = getAllCfg();
-		for (ActivityVitalityRewardCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getId(), subId)){
-				target = cfg;
-				break;
-			}
-		}
-		return target;		
-	}
-	
+//	/**根据传入的id来查找激活的子活动*/
+//	public ActivityVitalityRewardCfg getById(String subId){
+//		ActivityVitalityRewardCfg target = new ActivityVitalityRewardCfg();
+//		List<ActivityVitalityRewardCfg> allCfg = getAllCfg();
+//		for (ActivityVitalityRewardCfg cfg : allCfg) {
+//			if(StringUtils.equals(cfg.getId(), subId)){
+//				target = cfg;
+//				break;
+//			}
+//		}
+//		return target;		
+//	}
+//	
 }

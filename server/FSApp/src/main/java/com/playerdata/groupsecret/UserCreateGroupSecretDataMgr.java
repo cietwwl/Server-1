@@ -130,9 +130,9 @@ public class UserCreateGroupSecretDataMgr {
 			changeList = defendUserInfoData.changeDefendHeroList(defendHeroList);
 			defendUserInfoData.setChangeTeamTime(changeTime);
 			defendUserInfoData.setFighting(fighting);
-			defendUserInfoData.setProRes(proRes);
-			defendUserInfoData.setProGS(proGS);
-			defendUserInfoData.setProGE(proGE);
+//			defendUserInfoData.setProRes(proRes);
+//			defendUserInfoData.setProGS(proGS);
+//			defendUserInfoData.setProGE(proGE);
 		}
 
 		groupSecretData.updateVersion();

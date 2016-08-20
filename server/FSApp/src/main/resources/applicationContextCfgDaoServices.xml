@@ -159,7 +159,7 @@
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="init" />
 
-	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
+	<bean class="com.rwbase.dao.angelarray.pojo.cfg.dao.AngelArrayMatchCfgCsvDao"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
@@ -242,6 +242,7 @@
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMemberAdditionCfgDAO"  init-method="init" />
 	
 	<!-- 在线帮战 -->
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
@@ -254,6 +255,7 @@
 	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TBBuyCostCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->

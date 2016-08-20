@@ -5,6 +5,8 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.rwproto.ActivityExchangeTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityExchangeTypeProto.ActivityCommonRspMsg;
 
@@ -21,16 +23,20 @@ public class ActivityExchangeTypeHandler {
 		response.setReqType(commonReq.getReqType());
 		String activityId = commonReq.getActivityId();
 		String subItemId =  commonReq.getSubItemId();
-	
-		ActivityExChangeTypeEnum countType = ActivityExChangeTypeEnum.getById(activityId);
-		
+		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(activityId);		
 		boolean success = false;
 		String tips = "没找到对应的活动";
 		
-		if(countType!=null){
-			ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, countType, subItemId);
-			success = result.isSuccess();
-			tips = result.getReason()+"";
+		
+		
+		if(cfg!=null){
+			ActivityExChangeTypeEnum countType = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
+			if(countType != null){
+				ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, countType, subItemId);
+				success = result.isSuccess();
+				tips = result.getReason()+"";
+			}
+			
 		}
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);

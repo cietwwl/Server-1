@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeHelper;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
@@ -57,13 +62,6 @@ public final class ActivityRateTypeCfgDAO extends
 			map.put(Integer.parseInt(copytypeOrEspecial[0]), especialList);			
 		}
 		cfgTmp.setCopyTypeMap(map);
-//		for(Map.Entry<Integer, List<Integer>> entry:map.entrySet()){
-//			StringBuffer str = new StringBuffer();
-//			for(Integer especial : entry.getValue()){
-//				str.append(especial).append("#");
-//			}
-//			System.out.println(entry.getKey() + " value =" + str);
-//		}
 	}
 
 	private void parseTimeByHour(ActivityRateTypeCfg cfgTmp) {
@@ -102,16 +100,14 @@ public final class ActivityRateTypeCfgDAO extends
 
 
 	public ActivityRateTypeItem newItem(Player player,
-			ActivityRateTypeEnum typeEnum) {
-
-		String cfgId = typeEnum.getCfgId();
-		ActivityRateTypeCfg cfgById = getCfgById(cfgId);
+			ActivityRateTypeCfg cfgById) {
 		if (cfgById != null) {
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
 			String itemId = ActivityRateTypeHelper.getItemId(
-					player.getUserId(), typeEnum);
+					player.getUserId(), ActivityRateTypeEnum.getById(cfgById.getEnumId()));
 			item.setId(itemId);
-			item.setCfgId(cfgId);
+			item.setCfgId(cfgById.getId());
+			item.setEnumId(cfgById.getEnumId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
 			item.setMultiple(cfgById.getMultiple());
@@ -120,6 +116,34 @@ public final class ActivityRateTypeCfgDAO extends
 			return null;
 		}
 
+	}
+	
+	/**
+	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
+	 */
+	public ActivityRateTypeCfg getCfgByEnumId(ActivityRateTypeItem item) {
+		List<ActivityRateTypeCfg> cfgList = getAllCfg();
+		List<ActivityRateTypeCfg> cfgListByEnumID = new ArrayList<ActivityRateTypeCfg>();
+		for(ActivityRateTypeCfg cfg : cfgList){
+			if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getCfgId(), cfg.getId())){
+				cfgListByEnumID.add(cfg);				
+			}			
+		}
+		
+		List<ActivityRateTypeCfg> cfgListIsOpen = new ArrayList<ActivityRateTypeCfg>();
+		for(ActivityRateTypeCfg cfg : cfgListByEnumID){
+			if(ActivityRateTypeMgr.getInstance().isOpen(cfg)){
+				cfgListIsOpen.add(cfg);
+			}			
+		}
+		
+		if(cfgListIsOpen.size() > 1){
+			GameLog.error(LogModule.ComActivityRate, null, "发现了两个以上开放的活动,活动枚举为="+ item.getCfgId(), null);
+			return null;
+		}else if(cfgListIsOpen.size() == 1){
+			return cfgListIsOpen.get(0);
+		}		
+		return null;
 	}
 
 }

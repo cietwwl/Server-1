@@ -64,7 +64,8 @@ class ArmySimpleInfoHelper {
 		for (String heroId : heroIdList) {
 			if(StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0")) heroList.add(ArmyHeroSimple.newBlankInstance());
 			else{
-				Hero heroTmp = heroMgr.getHeroById(heroId);
+//				Hero heroTmp = heroMgr.getHeroById(heroId);
+				Hero heroTmp = heroMgr.getHeroById(player, heroId);
 				ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
 				heroList.add(armyHero);
 			}

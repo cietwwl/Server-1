@@ -50,7 +50,7 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
+import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -197,6 +197,9 @@ public class GMHandler {
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
 		
 		funcCallBackMap.put("adddist", "addDistCount");
+		
+		funcCallBackMap.put("speedupscecret", "speedUpSecret");
+		funcCallBackMap.put("finishsecret", "finishSecret");
 	}
 
 	public boolean isActive() {
@@ -500,7 +503,8 @@ public class GMHandler {
 		}
 		String heroId = arrCommandContents[0];
 		if (player != null) {
-			player.getHeroMgr().addHero(heroId);
+//			player.getHeroMgr().addHero(heroId);
+			player.getHeroMgr().addHero(player, heroId);
 			return true;
 		}
 		return false;
@@ -688,7 +692,7 @@ public class GMHandler {
 		}
 		String newLevel = arrCommandContents[0];
 		if (player != null) {
-			player.SetLevel(Integer.parseInt(newLevel));
+			player.setLevelByGM(Integer.parseInt(newLevel));
 			return true;
 		}
 		return false;
@@ -761,7 +765,8 @@ public class GMHandler {
 		if (arrCommandContents.length == 1) {
 			long addExp = Long.parseLong(arrCommandContents[0]);
 			if (player != null) {
-				player.getHeroMgr().AddAllHeroExp(addExp);
+//				player.getHeroMgr().AddAllHeroExp(addExp);
+				player.getHeroMgr().AddAllHeroExp(player, addExp);
 				return true;
 			}
 			return false;
@@ -770,7 +775,8 @@ public class GMHandler {
 		int heroId = Integer.parseInt(arrCommandContents[0]);
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
-			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+//			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
 			return true;
 		}
 		return false;
@@ -1047,7 +1053,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
@@ -1092,14 +1099,15 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
 		if (hero == null) {
 			return false;
 		}
 
-		hero.getEquipMgr().orderHeroWearEquip(hero);
+		hero.getEquipMgr().orderHeroWearEquip(player, hero);
 		return true;
 	}
 
@@ -1115,7 +1123,7 @@ public class GMHandler {
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("wx")) {
 			TowerMgr towerMgr = player.getTowerMgr();
-			TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+			TableAngelArrayData angleArrayData = towerMgr.getAngleArrayData();
 			if (angleArrayData == null) {
 				return false;
 			}
@@ -1372,6 +1380,40 @@ public class GMHandler {
 			return false;
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
+		return true;
+	}
+	
+	public boolean speedUpSecret(String[] arrCommandContents, Player player) {
+		String targetUserId;
+		if(arrCommandContents != null && arrCommandContents.length > 0) {
+			targetUserId = arrCommandContents[0];
+		} else {
+			targetUserId = player.getUserId();
+		}
+		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(targetUserId);
+		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+			if (System.currentTimeMillis() - tempData.getCreateTime() > 1800000) {
+				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+			}
+		}
+		return true;
+	}
+	
+	public boolean finishSecret(String[] arrCommandContents, Player player) {
+		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
+		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+//			if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
+//				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+//			}
+			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
+			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+			long suppose = tempData.getCreateTime() + millis;
+			if(suppose > System.currentTimeMillis()) {
+				tempData.setCreateTime(tempData.getCreateTime() - (suppose - System.currentTimeMillis()));
+			}
+		}
 		return true;
 	}
 }
