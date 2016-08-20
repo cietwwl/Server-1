@@ -12,7 +12,8 @@ enum RequestType{
 message BattleCommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
 	required eBattlePositionType  positionType = 2; //阵容类型
-	repeated BattleHeroPosition battleHeroPosition=3;//阵容信息
+	required string recordkey =3;//阵容子类型
+	repeated BattleHeroPosition battleHeroPosition=4;//阵容信息
 }
 
 
@@ -48,6 +49,19 @@ enum eBattlePositionType{
 	PeakArenaPos = 2;//巅峰竞技场
 	ArenaPos = 3;//竞技场
 	GroupFightPos = 4;//帮战
+	Normal = 5;//剧情
+	EliteCopy = 6;//精英
+	Jbzd = 7;//聚宝之地
+	Lxsg = 8;//炼息山谷
+	Schj = 9;//生存幻境
+	MagicSecret = 10;//乾坤幻境
+	Tower = 11;//万仙阵
+	TowerBattle = 12;//封神台
+	TeamBattle = 13;//心魔录，组队战
+	GroupCopy= 14;//帮派副本
+	
+
+
 }
 
 //阵容上的英雄站位信息

@@ -48,7 +48,7 @@ public class FixNormEquipAttributeComponent extends AbstractAttributeCalc {
 			}
 		} else {
 			String userId = player.getUserId();
-			List<FixNormEquipDataItem> fixNormEquipList = ArenaRobotDataMgr.getMgr().getFixNormEquipList(userId, hero.getModelId());
+			List<FixNormEquipDataItem> fixNormEquipList = ArenaRobotDataMgr.getMgr().getFixNormEquipList(userId, hero.getModeId());
 			if (fixNormEquipList != null && !fixNormEquipList.isEmpty()) {
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipLevelAttr(userId, fixNormEquipList).values()));
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipLevelAttr(userId, fixNormEquipList).values()));

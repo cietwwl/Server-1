@@ -46,7 +46,7 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 		
 		for (String planId : planIdList) {
 			parentCfgLevelMap.put(planId, getByPlanId(planId));
-		}
+	}
 	}
 	
 	private void parseNeedItems(FixNormEquipQualityCfg tmpCfg) {		
@@ -84,7 +84,7 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 		
 	}
 	/**机器人用1个模板来获得一系列cfg,进而获得材料列表，方便gm命令添加*/
-	public List<FixNormEquipQualityCfg> getByPlanId(int parentCfgId){
+	public List<FixNormEquipQualityCfg> getGmByPlanId(String parentCfgId){
 		List<FixNormEquipQualityCfg>  allCfg = parentCfgLevelMap.get(parentCfgId);
 		if(allCfg == null){
 			allCfg = new ArrayList<FixNormEquipQualityCfg>();
