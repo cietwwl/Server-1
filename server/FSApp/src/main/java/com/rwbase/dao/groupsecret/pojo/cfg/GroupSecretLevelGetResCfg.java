@@ -13,9 +13,12 @@ public class GroupSecretLevelGetResCfg {
 	private int robGSRatio;// 掠夺帮派物资的权重
 	private int robGERatio;// 掠夺帮派经验的权重
 	private int robRatio;// 掠夺资源的权重
-	private String productRatio;// 每分钟产出资源的权重
-	private String groupSupplyRatio;// 每分钟帮派物资的产出权重
-	private String groupExpRatio;// 每分钟帮派经验的产出权重
+//	private String productRatio;// 每分钟产出资源的权重
+//	private String groupSupplyRatio;// 每分钟帮派物资的产出权重
+//	private String groupExpRatio;// 每分钟帮派经验的产出权重
+	private int totalProduct; // 资源产出总量
+	private int totalGroupSupply; // 帮派物资产出总量
+	private int totalGroupExp; // 帮派经验产出总量
 	private String dropIdBasedOnJoinTime;// 基于驻守剩余的时间对应的掉落宝石的方案
 
 	public int getLevel() {
@@ -46,16 +49,28 @@ public class GroupSecretLevelGetResCfg {
 		return robRatio;
 	}
 
-	public String getProductRatio() {
-		return productRatio;
+//	public String getProductRatio() {
+//		return productRatio;
+//	}
+//
+//	public String getGroupSupplyRatio() {
+//		return groupSupplyRatio;
+//	}
+//
+//	public String getGroupExpRatio() {
+//		return groupExpRatio;
+//	}
+	
+	public int getTotalProduct() {
+		return totalProduct;
 	}
-
-	public String getGroupSupplyRatio() {
-		return groupSupplyRatio;
+	
+	public int getTotalGroupSupply() {
+		return totalGroupSupply;
 	}
-
-	public String getGroupExpRatio() {
-		return groupExpRatio;
+	
+	public int getTotalGroupExp() {
+		return totalGroupExp;
 	}
 
 	public String getDropIdBasedOnJoinTime() {

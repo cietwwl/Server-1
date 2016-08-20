@@ -275,7 +275,7 @@ public class GroupSecretMatchHelper {
 
 		long createTime = attr.getCreateTime();
 		long createPassTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getFromCreate2RobNeedTime());
-		if (now - createTime < createPassTimeMillis) {// 没有超过从创建到可以被搜索掠夺的时间点
+		if (now - createTime > createPassTimeMillis) {// 没有超过从创建到可以被搜索掠夺的时间点
 			return false;
 		}
 
