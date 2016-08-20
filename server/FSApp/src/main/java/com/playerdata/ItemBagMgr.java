@@ -3,6 +3,7 @@ package com.playerdata;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,13 @@ import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.readonly.ItemBagMgrIF;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.email.EmailData;
+import com.rwbase.dao.item.ItemBagCapacityCfgDAO;
 import com.rwbase.dao.item.ItemBagHolder;
 import com.rwbase.dao.item.exception.ItemCountNotEnoughException;
 import com.rwbase.dao.item.exception.ItemNotExistException;
@@ -32,6 +39,9 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @date 2015-08-06
  */
 public class ItemBagMgr implements ItemBagMgrIF {
+	private static final String ITEM_BAG_FULL_EMAIL_ID = "10068";// 背包物品叠加到了上限的邮件提示
+	private static final String MAGIC_FULL_EMAIL_ID = "10069";// 法宝满了的邮件提示
+
 	private Player player;
 	/**
 	 * 消耗物品规则的比较器
@@ -665,22 +675,38 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		List<ItemData> newItemList = new ArrayList<ItemData>();
 		List<ItemData> updateItemList = new ArrayList<ItemData>();
+		// 叠加上限超出
+		List<Integer> modelIdList = new ArrayList<Integer>();
+		// 背包容量超出
+		List<EItemTypeDef> typeDefList = new ArrayList<EItemTypeDef>();
 
 		// 使用物品
 		if (useItemList != null && !useItemList.isEmpty()) {
-			updateItem(updateItemWrap(useItemList), newItemList, updateItemList);
+			useItem(updateItemWrap(useItemList), newItemList, updateItemList, modelIdList, typeDefList);
 		}
 
 		// 增加新的物品
 		if (addItemList != null && !addItemList.isEmpty()) {
-			addItem(nonRepeatAddMap(addItemList), newItemList, updateItemList);
+			addItem(nonRepeatAddMap(addItemList), newItemList, updateItemList, modelIdList, typeDefList);
 		}
 
 		// 更新背包
+		String userId = player.getUserId();
 		try {
 			holder.updateItemBgData(player, newItemList, updateItemList);
 		} catch (DuplicatedKeyException e) {
-			GameLog.error("背包模块", player.getUserId(), String.format("添加物品出现了重复的Key"));
+			GameLog.error("背包模块", userId, String.format("添加物品出现了重复的Key"));
+			return;
+		}
+
+		// 超出叠加上限的道具列表
+		if (!modelIdList.isEmpty()) {
+			sendEmail(userId, ITEM_BAG_FULL_EMAIL_ID);
+		}
+
+		// 某类型物品超出规定的上限
+		if (!typeDefList.isEmpty()) {
+			sendEmail(userId, MAGIC_FULL_EMAIL_ID);
 		}
 	}
 
@@ -754,7 +780,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param updateItemList
 	 * @return
 	 */
-	private void updateItem(HashMap<String, Integer> updateItemMap, List<ItemData> addItemList, List<ItemData> updateItemList) {
+	private void useItem(HashMap<String, Integer> updateItemMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
 		// 转换成Update
 		for (Entry<String, Integer> e : updateItemMap.entrySet()) {
 			String slotId = e.getKey();
@@ -849,16 +875,16 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param addMap
 	 * @param addItemList
 	 * @param updateItemList
-	 * @throws ItemNotExistException
 	 */
-	private void addItem(HashMap<Integer, Integer> addMap, List<ItemData> addItemList, List<ItemData> updateItemList) throws ItemNotExistException {
-		int offSize = 0;
+	private void addItem(HashMap<Integer, Integer> addMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
+		EnumMap<EItemTypeDef, Integer> offSizeMap = new EnumMap<EItemTypeDef, Integer>(EItemTypeDef.class);// 叠加物品的数量
 		// 增加数据
 		for (Entry<Integer, Integer> e : addMap.entrySet()) {
 			int modelId = e.getKey();
 			ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
 			if (cfg == null) {
-				throw new ItemNotExistException(String.format("%s的道具模版找不到", modelId));
+				GameLog.error("背包模块添加物品", "new", String.format("%s的modelId找不到对应的配置", modelId));
+				continue;
 			}
 
 			int addCount = e.getValue();// 增加数量
@@ -866,55 +892,74 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int stackNum = cfg.getStackNum();
 			if (stackNum > 1) {// 叠加
 				List<ItemData> itemList = holder.getItemDataByCfgId(modelId);
-				if (itemList.isEmpty()) {// 空的
-					return;
-				}
+				if (!itemList.isEmpty()) {// 空的
+					// 排序
+					Collections.sort(itemList, comparator);
 
-				// 排序
-				Collections.sort(itemList, comparator);
+					// 开始处理
+					// 选中数量最少的一组道具
+					ItemData minItem = itemList.get(0);
 
-				// 开始处理
-				// 选中数量最少的一组道具
-				ItemData minItem = itemList.get(0);
-
-				int itemCount = minItem.getCount();
-				int leftCount = stackNum - itemCount;// 剩余的空间
-				if (leftCount > 0) {
-					int offAddCount = addCount > leftCount ? leftCount : addCount;// 实际增加多少
-					minItem.setCount(itemCount + offAddCount);
-					updateItemList.add(minItem);
-				} else {
-					offSize++;
-
-					int count = addCount >= stackNum ? stackNum : addCount;
-					ItemData newItemData = holder.newItemData(modelId, count);
-					int capacity = getCapacityByType(newItemData.getType());
-					if (capacity <= 0) {
-						addItemList.add(newItemData);
-					} else {
-						int hasSize = getItemListByType(newItemData.getType()).size() + offSize;
-						if (hasSize <= capacity) {
-							addItemList.add(newItemData);
+					int itemCount = minItem.getCount();
+					int leftCount = stackNum - itemCount;// 剩余的空间
+					if (leftCount > 0) {
+						if (addCount >= leftCount) {
+							addCount = leftCount;
+							modelIdList.add(minItem.getModelId());// 把超出叠加上限的添加出来
 						}
+						minItem.setCount(itemCount + addCount);
+						updateItemList.add(minItem);
+					} else {
+						modelIdList.add(minItem.getModelId());// 把超出叠加上限的添加出来
 					}
+				} else {
+					if (addCount >= stackNum) {
+						addCount = stackNum;
+						modelIdList.add(modelId);// 把超出叠加上限的添加出来
+					}
+
+					addItem(modelId, addCount, addItemList, offSizeMap, typeDefList);
 				}
 			} else {
 				for (int i = 0; i < addCount; i++) {
-					offSize++;
-
-					ItemData newItemData = holder.newItemData(modelId, 1);
-					int capacity = getCapacityByType(newItemData.getType());
-					if (capacity <= 0) {
-						addItemList.add(newItemData);
-					} else {
-						int hasSize = getItemListByType(newItemData.getType()).size() + offSize;
-						if (hasSize <= capacity) {
-							addItemList.add(newItemData);
-						}
-					}
+					addItem(modelId, 1, addItemList, offSizeMap, typeDefList);
 				}
 			}
 		}
+	}
+
+	/**
+	 * 增加道具，并且要验证下偏移的数量
+	 * 
+	 * @param modelId
+	 * @param count
+	 * @param addItemList
+	 * @param offSizeMap
+	 * 
+	 * @return 是否打到了某类型物品的叠加上限
+	 */
+	private boolean addItem(int modelId, int count, List<ItemData> addItemList, EnumMap<EItemTypeDef, Integer> offSizeMap, List<EItemTypeDef> typeDefList) {
+		ItemData newItemData = holder.newItemData(modelId, count);
+		EItemTypeDef type = newItemData.getType();
+		int capacity = getCapacityByType(type);
+		if (capacity <= 0) {
+			addItemList.add(newItemData);
+		} else {
+			Integer hasValue = offSizeMap.get(type);
+			int offSize = hasValue == null ? 0 : hasValue;
+			int hasSize = getItemListByType(type).size() + offSize;
+			if (hasSize < capacity) {
+				addItemList.add(newItemData);
+				offSizeMap.put(type, offSize++);
+			} else {
+				if (!typeDefList.contains(type)) {
+					typeDefList.add(type);
+				}
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -924,10 +969,48 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return
 	 */
 	private int getCapacityByType(EItemTypeDef type) {
-		if (type == EItemTypeDef.Magic) {
-			return 100;
+		return ItemBagCapacityCfgDAO.getCfgDAO().getItemBagCapacity(type);
+	}
+
+	/**
+	 * 提供一个方法获取背包中某类型的物品是否已经达到了上限
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public boolean checkItemCapacityIsFull(EItemTypeDef type) {
+		int capacity = getCapacityByType(type);
+		if (capacity <= 0) {
+			return false;
 		}
 
-		return 0;
+		return getItemListByType(type).size() < capacity;
+	}
+
+	/**
+	 * 发送邮件
+	 * 
+	 * @param userId
+	 * @param emailId
+	 * @param param 拼接到内容的参数
+	 */
+	private void sendEmail(String userId, String emailId, Object... param) {
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(emailId);
+		if (emailCfg == null) {
+			return;
+		}
+		// 邮件内容
+		EmailData emailData = new EmailData();
+		emailData.setTitle(emailCfg.getTitle());
+		String content = emailCfg.getContent();
+		if (param != null && param.length > 0) {
+			content = String.format(content, param);
+		}
+		emailData.setContent(content);
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
+		emailData.setSender(emailCfg.getSender());
+		// 发送邮件
+		EmailUtils.sendEmail(userId, emailData);
 	}
 }
