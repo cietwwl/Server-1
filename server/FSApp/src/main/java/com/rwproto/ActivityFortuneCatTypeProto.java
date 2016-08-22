@@ -126,33 +126,6 @@ public final class ActivityFortuneCatTypeProto {
      * </pre>
      */
     com.rwproto.ActivityFortuneCatTypeProto.RequestType getReqType();
-
-    // optional string uid = 2;
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    boolean hasUid();
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    java.lang.String getUid();
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getUidBytes();
   }
   /**
    * Protobuf type {@code fortuneCatType.ActivityCommonReqMsg}
@@ -214,11 +187,6 @@ public final class ActivityFortuneCatTypeProto {
                 bitField0_ |= 0x00000001;
                 reqType_ = value;
               }
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              uid_ = input.readBytes();
               break;
             }
           }
@@ -285,64 +253,8 @@ public final class ActivityFortuneCatTypeProto {
       return reqType_;
     }
 
-    // optional string uid = 2;
-    public static final int UID_FIELD_NUMBER = 2;
-    private java.lang.Object uid_;
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    public boolean hasUid() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    public java.lang.String getUid() {
-      java.lang.Object ref = uid_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          uid_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string uid = 2;</code>
-     *
-     * <pre>
-     *查看的玩家id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getUidBytes() {
-      java.lang.Object ref = uid_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        uid_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private void initFields() {
       reqType_ = com.rwproto.ActivityFortuneCatTypeProto.RequestType.GET_GOLD;
-      uid_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -363,9 +275,6 @@ public final class ActivityFortuneCatTypeProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, reqType_.getNumber());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getUidBytes());
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -378,10 +287,6 @@ public final class ActivityFortuneCatTypeProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, reqType_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getUidBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -501,8 +406,6 @@ public final class ActivityFortuneCatTypeProto {
         super.clear();
         reqType_ = com.rwproto.ActivityFortuneCatTypeProto.RequestType.GET_GOLD;
         bitField0_ = (bitField0_ & ~0x00000001);
-        uid_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -535,10 +438,6 @@ public final class ActivityFortuneCatTypeProto {
           to_bitField0_ |= 0x00000001;
         }
         result.reqType_ = reqType_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.uid_ = uid_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -557,11 +456,6 @@ public final class ActivityFortuneCatTypeProto {
         if (other == com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonReqMsg.getDefaultInstance()) return this;
         if (other.hasReqType()) {
           setReqType(other.getReqType());
-        }
-        if (other.hasUid()) {
-          bitField0_ |= 0x00000002;
-          uid_ = other.uid_;
-          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -642,104 +536,6 @@ public final class ActivityFortuneCatTypeProto {
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
         reqType_ = com.rwproto.ActivityFortuneCatTypeProto.RequestType.GET_GOLD;
-        onChanged();
-        return this;
-      }
-
-      // optional string uid = 2;
-      private java.lang.Object uid_ = "";
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public boolean hasUid() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public java.lang.String getUid() {
-        java.lang.Object ref = uid_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          uid_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getUidBytes() {
-        java.lang.Object ref = uid_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          uid_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public Builder setUid(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        uid_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public Builder clearUid() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        uid_ = getDefaultInstance().getUid();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string uid = 2;</code>
-       *
-       * <pre>
-       *查看的玩家id
-       * </pre>
-       */
-      public Builder setUidBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        uid_ = value;
         onChanged();
         return this;
       }
@@ -838,6 +634,33 @@ public final class ActivityFortuneCatTypeProto {
      * </pre>
      */
     int getGetGold();
+
+    // optional string getRecord = 5;
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    boolean hasGetRecord();
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    java.lang.String getGetRecord();
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getGetRecordBytes();
   }
   /**
    * Protobuf type {@code fortuneCatType.ActivityCommonRspMsg}
@@ -914,6 +737,11 @@ public final class ActivityFortuneCatTypeProto {
             case 32: {
               bitField0_ |= 0x00000008;
               getGold_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              getRecord_ = input.readBytes();
               break;
             }
           }
@@ -1083,11 +911,67 @@ public final class ActivityFortuneCatTypeProto {
       return getGold_;
     }
 
+    // optional string getRecord = 5;
+    public static final int GETRECORD_FIELD_NUMBER = 5;
+    private java.lang.Object getRecord_;
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    public boolean hasGetRecord() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    public java.lang.String getGetRecord() {
+      java.lang.Object ref = getRecord_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          getRecord_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getGetRecordBytes() {
+      java.lang.Object ref = getRecord_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        getRecord_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.ActivityFortuneCatTypeProto.RequestType.GET_GOLD;
       isSuccess_ = false;
       tipMsg_ = "";
       getGold_ = 0;
+      getRecord_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1121,6 +1005,9 @@ public final class ActivityFortuneCatTypeProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, getGold_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getGetRecordBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1145,6 +1032,10 @@ public final class ActivityFortuneCatTypeProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, getGold_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getGetRecordBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1270,6 +1161,8 @@ public final class ActivityFortuneCatTypeProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         getGold_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        getRecord_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1314,6 +1207,10 @@ public final class ActivityFortuneCatTypeProto {
           to_bitField0_ |= 0x00000008;
         }
         result.getGold_ = getGold_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.getRecord_ = getRecord_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1343,6 +1240,11 @@ public final class ActivityFortuneCatTypeProto {
         }
         if (other.hasGetGold()) {
           setGetGold(other.getGetGold());
+        }
+        if (other.hasGetRecord()) {
+          bitField0_ |= 0x00000010;
+          getRecord_ = other.getRecord_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1627,6 +1529,104 @@ public final class ActivityFortuneCatTypeProto {
         return this;
       }
 
+      // optional string getRecord = 5;
+      private java.lang.Object getRecord_ = "";
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public boolean hasGetRecord() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public java.lang.String getGetRecord() {
+        java.lang.Object ref = getRecord_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          getRecord_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getGetRecordBytes() {
+        java.lang.Object ref = getRecord_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          getRecord_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder setGetRecord(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        getRecord_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder clearGetRecord() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        getRecord_ = getDefaultInstance().getGetRecord();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder setGetRecordBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        getRecord_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:fortuneCatType.ActivityCommonRspMsg)
     }
 
@@ -1658,14 +1658,14 @@ public final class ActivityFortuneCatTypeProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\034ActivityFortuneCatType.proto\022\016fortuneC" +
-      "atType\"Q\n\024ActivityCommonReqMsg\022,\n\007reqTyp" +
-      "e\030\001 \002(\0162\033.fortuneCatType.RequestType\022\013\n\003" +
-      "uid\030\002 \001(\t\"x\n\024ActivityCommonRspMsg\022,\n\007req" +
-      "Type\030\001 \002(\0162\033.fortuneCatType.RequestType\022" +
-      "\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022\017\n\007ge" +
-      "tGold\030\004 \001(\005*2\n\013RequestType\022\014\n\010GET_GOLD\020\001" +
-      "\022\025\n\021VIEW_OTHER_PLAYER\020\002B*\n\013com.rwprotoB\033" +
-      "ActivityFortuneCatTypeProto"
+      "atType\"D\n\024ActivityCommonReqMsg\022,\n\007reqTyp" +
+      "e\030\001 \002(\0162\033.fortuneCatType.RequestType\"\213\001\n" +
+      "\024ActivityCommonRspMsg\022,\n\007reqType\030\001 \002(\0162\033" +
+      ".fortuneCatType.RequestType\022\021\n\tisSuccess" +
+      "\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022\017\n\007getGold\030\004 \001(\005\022" +
+      "\021\n\tgetRecord\030\005 \001(\t*2\n\013RequestType\022\014\n\010GET" +
+      "_GOLD\020\001\022\025\n\021VIEW_OTHER_PLAYER\020\002B*\n\013com.rw" +
+      "protoB\033ActivityFortuneCatTypeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1677,13 +1677,13 @@ public final class ActivityFortuneCatTypeProto {
           internal_static_fortuneCatType_ActivityCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_fortuneCatType_ActivityCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Uid", });
+              new java.lang.String[] { "ReqType", });
           internal_static_fortuneCatType_ActivityCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_fortuneCatType_ActivityCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_fortuneCatType_ActivityCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "GetGold", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "GetGold", "GetRecord", });
           return null;
         }
       };
