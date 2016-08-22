@@ -59,7 +59,7 @@ public class FSGetBasicMaxFightingFunc implements IFunction<Player, Integer> {
 			list = Collections.emptyList();
 		}
 		AttrData data = _formula.convertOne(list, false);
-		return FightingCalculator.calFighting(mainHero.getTemplateId(), 0, 0, "", data) * cfg.getExpectedHeroCount();
+		return FightingCalculator.calOnlyAttributeFighting(player.getTemplateId(), data) * cfg.getExpectedHeroCount();
 	}
 
 }

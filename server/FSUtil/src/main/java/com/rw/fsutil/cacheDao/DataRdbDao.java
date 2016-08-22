@@ -17,6 +17,8 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.log.SqlLog;
@@ -46,7 +48,9 @@ public class DataRdbDao<T> {
 			classInfo = new ClassInfo(clazz);
 			commonJdbc = new CommonSingleTable<T>(jdbcTemplate, classInfo);
 			int cacheSize = getCacheSize();
-			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), loader);
+			DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
+			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, 
+					getUpdatedSeconds(), loader,parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}

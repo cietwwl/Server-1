@@ -1,10 +1,12 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.rwbase.common.IFunction;
-import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fighting.FashionFightingCfgDAO;
-import com.rwbase.dao.fighting.pojo.FashionFightingCfg;
+import com.rwproto.FashionServiceProtos.FashionType;
 
 public class FSGetFashionCurrentFightingFunc implements IFunction<Player, Integer> {
 	
@@ -22,12 +24,38 @@ public class FSGetFashionCurrentFightingFunc implements IFunction<Player, Intege
 
 	@Override
 	public Integer apply(Player player) {
-		FashionUsedIF usedFashion = player.getFashionMgr().getFashionUsed();
-		if (usedFashion != null && usedFashion.getSuitId() > 0) {
-			FashionFightingCfg fashionFightingCfg = _fashionFightingCfgDAO.getCfgById(String.valueOf(player.getLevel()));
-			return fashionFightingCfg.getFightingOfSuit() + fashionFightingCfg.getFightingOfWing() + fashionFightingCfg.getFightingOfPet();
+		List<FashionItem> allFashions = player.getFashionMgr().getOwnedFashions();
+		int fighting = 0;
+		if (allFashions.size() > 0) {
+			int suitCount = 0;
+			int wingCount = 0;
+			int petCount = 0;
+			FashionItem temp;
+			for(int i = 0, size = allFashions.size(); i < size; i++) {
+				temp = allFashions.get(i);
+				switch(temp.getType()) {
+				case FashionType.Suit_VALUE:
+					suitCount++;
+					break;
+				case FashionType.Pet_VALUE:
+					suitCount++;
+					break;
+				case FashionType.Wing_VALUE:
+					wingCount++;
+					break;
+				}
+			}
+			if(suitCount > 0) {
+				fighting += _fashionFightingCfgDAO.getCfgById(String.valueOf(suitCount)).getFightingOfSuit();
+			}
+			if(wingCount > 0) {
+				fighting += _fashionFightingCfgDAO.getCfgById(String.valueOf(wingCount)).getFightingOfWing();
+			}
+			if(petCount > 0) {
+				fighting += _fashionFightingCfgDAO.getCfgById(String.valueOf(suitCount)).getFightingOfPet();
+			}
 		}
-		return 0;
+		return fighting;
 	}
 
 }

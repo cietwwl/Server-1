@@ -3,6 +3,7 @@ package com.playerdata.fightinggrowth.fightingfunc;
 import java.util.List;
 
 import com.playerdata.Hero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.GroupSkillFightingCfgDAO;
@@ -27,7 +28,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 	public Integer apply(Hero hero) {
 		if (GroupHelper.hasGroup(hero.getOwnerUserId())) {
 			int fighting = 0;
-			List<GroupSkillItem> groupSkillItemList = hero.getPlayer().getUserGroupAttributeDataMgr().getUserGroupAttributeData().getSkillItemList();
+			List<GroupSkillItem> groupSkillItemList = FSHeroMgr.getInstance().getOwnerOfHero(hero).getUserGroupAttributeDataMgr().getUserGroupAttributeData().getSkillItemList();
 			if (groupSkillItemList.size() > 0) {
 				GroupSkillItem groupSkillItem;
 				OneToOneTypeFightingCfg fightingCfg;
