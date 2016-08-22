@@ -1,4 +1,4 @@
-package com.playerdata.groupcompetition.syn;
+package com.playerdata.groupcompetition.prepare;
 
 import java.util.Map;
 
@@ -9,13 +9,13 @@ public class SameSceneSynData {
 	
 	private String Id;
 	
-	private Map<String, Object> synData;
+	private Map<String, PositionInfo> synData;
 
-	public Map<String, Object> getSynData() {
+	public Map<String, PositionInfo> getSynData() {
 		return synData;
 	}
 
-	public void setSynData(Map<String, Object> synData) {
+	public void setSynData(Map<String, PositionInfo> synData) {
 		this.synData = synData;
 	}
 

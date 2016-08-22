@@ -6,20 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.rwproto.DataSynProtos.eSynType;
-
 public class SameSceneContainer {
 	
 	/**
 	 * <场景id, <角色id, 存储信息>>
 	 */
-	private HashMap<Long, ConcurrentHashMap<String, Object>> container;
-	/**
-	 * 每个场景用不同的同步结构
-	 */
-	private HashMap<Long, eSynType> synTypeMap;
-	
-	
+	private HashMap<Long, ConcurrentHashMap<String, ? extends ISameSceneData>> container;
 	private Lock readLock;
 	private Lock writeLock;
 	
@@ -28,7 +20,7 @@ public class SameSceneContainer {
 		ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 		readLock = rwLock.readLock();
 		writeLock = rwLock.writeLock();
-		container = new HashMap<Long, ConcurrentHashMap<String, Object>>();
+		container = new HashMap<Long, ConcurrentHashMap<String, ? extends ISameSceneData>>();
 	}
 	
 	private static class InstanceHolder{
@@ -46,11 +38,12 @@ public class SameSceneContainer {
 	 * @param value
 	 * @return
 	 */
-	public boolean putUserToScene(long sceneId, String userId, Object value){
-		ConcurrentHashMap<String, Object> scene;
+	@SuppressWarnings("unchecked")
+	public <T extends ISameSceneData> boolean putUserToScene(long sceneId, String userId, T value){
+		ConcurrentHashMap<String, T> scene;
 		readLock.lock();
 		try {
-			scene = container.get(sceneId);
+			scene = (ConcurrentHashMap<String, T>) container.get(sceneId);
 		} finally {
 			readLock.unlock();
 		}
@@ -62,7 +55,7 @@ public class SameSceneContainer {
 	}
 	
 	public void removeUserFromScene(long sceneId, String userId){
-		ConcurrentHashMap<String, Object> scene;
+		ConcurrentHashMap<String, ? extends ISameSceneData> scene;
 		readLock.lock();
 		try {
 			scene = container.get(sceneId);
@@ -76,13 +69,12 @@ public class SameSceneContainer {
 		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
 	}
 	
-	public long createNewScene(eSynType type){
+	public long createNewScene(){
 		writeLock.lock();
 		try {
 			long newSceneId = System.nanoTime();
-			ConcurrentHashMap<String, Object> scene = new ConcurrentHashMap<String, Object>();
+			ConcurrentHashMap<String, ISameSceneData> scene = new ConcurrentHashMap<String, ISameSceneData>();
 			container.put(newSceneId, scene);
-			synTypeMap.put(newSceneId, type);
 			return newSceneId;
 		} finally {
 			writeLock.unlock();
@@ -93,32 +85,35 @@ public class SameSceneContainer {
 		writeLock.lock();
 		try {
 			container.remove(sceneId);
-			synTypeMap.remove(sceneId);
 		} finally {
 			writeLock.unlock();
 		}
 	}
 	
-	public Map<String, Object> getSceneMembers(long sceneId){
+	@SuppressWarnings("unchecked")
+	public <T extends ISameSceneData> Map<String, T> getSceneMembers(long sceneId){
 		readLock.lock();
 		try {
-			ConcurrentHashMap<String, Object> scene = container.get(sceneId);
-			if(null == scene) return new HashMap<String, Object>();
-			return new HashMap<String, Object>(scene);
+			ConcurrentHashMap<String, T> scene = (ConcurrentHashMap<String, T>) container.get(sceneId);
+			if(null == scene) return new HashMap<String, T>();
+			return new HashMap<String, T>(scene);
 		} finally {
 			readLock.unlock();
 		}
 	}
-	
+
 	/**
-	 * 获取同步数据类型
+	 * 通过查找其中一个元素（确定元素的类型）
 	 * @param sceneId
 	 * @return
 	 */
-	public eSynType getSceneSynType(long sceneId){
+	public ISameSceneData checkType(long sceneId){
 		readLock.lock();
 		try {
-			return synTypeMap.get(sceneId);
+			ConcurrentHashMap<String, ? extends ISameSceneData> scene = container.get(sceneId);
+			if(null == scene || scene.isEmpty()) return null;
+			ISameSceneData oneValue = scene.values().iterator().next();
+			return oneValue;
 		} finally {
 			readLock.unlock();
 		}

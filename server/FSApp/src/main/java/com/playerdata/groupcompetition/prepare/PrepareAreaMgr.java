@@ -8,15 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.syn.SameSceneContainer;
-import com.rw.service.group.helper.GroupHelper;
-import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 
 public class PrepareAreaMgr {
 	
-	private final eSynType synType = eSynType.GC_PREPARE_POSITION;
 	private HashMap<String, Long> groupScene;
 	
 	private static PrepareAreaMgr instance = new PrepareAreaMgr();
@@ -30,7 +27,8 @@ public class PrepareAreaMgr {
 	}
 
 	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
-		String groupId = GroupHelper.getGroupId(player);
+		//String groupId = GroupHelper.getGroupId(player);
+		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			return;
@@ -40,15 +38,15 @@ public class PrepareAreaMgr {
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
-		pInfo.setPx(position.getX());
-		pInfo.setPy(position.getX());
+		pInfo.setPx(position.getX() > 0.01f ? position.getX() : 0.01f);
+		pInfo.setPy(position.getY() > 0.01f ? position.getY() : 0.01f);
 		SameSceneContainer.getInstance().putUserToScene(groupScene.get(groupId), player.getUserId(), pInfo);
-		gcRsp.setRstType(GCResultType.SUCCESS);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 
 	public void leavePrepareArea(Player player, Builder gcRsp) {
-		String groupId = GroupHelper.getGroupId(player);
+		//String groupId = GroupHelper.getGroupId(player);
+		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			return;
@@ -67,13 +65,14 @@ public class PrepareAreaMgr {
 	 */
 	public void prepareStart(){
 		List<String> prepareGroups = getPrepareGroups();
+		prepareGroups.add("9899");
 		if(null == prepareGroups || prepareGroups.isEmpty()){
 			return;
 		}
 		groupScene = new HashMap<String, Long>();
 		//为每个帮派生成一个准备区
 		for(String groupId : prepareGroups){
-			long sceneId = SameSceneContainer.getInstance().createNewScene(synType);
+			long sceneId = SameSceneContainer.getInstance().createNewScene();
 			groupScene.put(groupId, sceneId);
 		}
 	}

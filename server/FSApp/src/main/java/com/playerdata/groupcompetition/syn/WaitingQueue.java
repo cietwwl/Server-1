@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-public class WaitingQueue<T extends Comparable<T>> {
+class WaitingQueue<T extends Comparable<T>> {
 	
 	private ConcurrentSkipListSet<T> cSet;
 	
