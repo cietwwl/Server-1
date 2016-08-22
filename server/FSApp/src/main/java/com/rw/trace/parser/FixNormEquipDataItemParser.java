@@ -1,9 +1,9 @@
 package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.alibaba.fastjson.JSONObject;
-import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 
 public class FixNormEquipDataItemParser implements DataValueParser<FixNormEquipDataItem> {
 
@@ -11,15 +11,15 @@ public class FixNormEquipDataItemParser implements DataValueParser<FixNormEquipD
 
     @Override
     public FixNormEquipDataItem copy(FixNormEquipDataItem entity) {
-        FixNormEquipDataItem newData_ = new FixNormEquipDataItem();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setCfgId(entity.getCfgId());
-        newData_.setLevel(entity.getLevel());
-        newData_.setQuality(entity.getQuality());
-        newData_.setStar(entity.getStar());
-        newData_.setSlot(entity.getSlot());
-        return newData_;
+        FixNormEquipDataItem fixNormEquipDataItemCopy = new FixNormEquipDataItem();
+        fixNormEquipDataItemCopy.setId(entity.getId());
+        fixNormEquipDataItemCopy.setOwnerId(entity.getOwnerId());
+        fixNormEquipDataItemCopy.setCfgId(entity.getCfgId());
+        fixNormEquipDataItemCopy.setLevel(entity.getLevel());
+        fixNormEquipDataItemCopy.setQuality(entity.getQuality());
+        fixNormEquipDataItemCopy.setStar(entity.getStar());
+        fixNormEquipDataItemCopy.setSlot(entity.getSlot());
+        return fixNormEquipDataItemCopy;
     }
 
     @Override
@@ -68,6 +68,32 @@ public class FixNormEquipDataItemParser implements DataValueParser<FixNormEquipD
             jsonMap = writer.write(jsonMap, "slot", slot2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(FixNormEquipDataItem entity1, FixNormEquipDataItem entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getCfgId(), entity2.getCfgId())) {
+            return true;
+        }
+        if (entity1.getLevel() != entity2.getLevel()) {
+            return true;
+        }
+        if (entity1.getQuality() != entity2.getQuality()) {
+            return true;
+        }
+        if (entity1.getStar() != entity2.getStar()) {
+            return true;
+        }
+        if (entity1.getSlot() != entity2.getSlot()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

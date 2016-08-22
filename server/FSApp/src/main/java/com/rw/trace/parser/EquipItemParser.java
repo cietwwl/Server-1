@@ -1,10 +1,10 @@
 package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rwbase.dao.equipment.EquipItem;
-import com.alibaba.fastjson.JSONObject;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.alibaba.fastjson.JSONObject;
 
 public class EquipItemParser implements DataValueParser<EquipItem> {
 
@@ -12,14 +12,14 @@ public class EquipItemParser implements DataValueParser<EquipItem> {
 
     @Override
     public EquipItem copy(EquipItem entity) {
-        EquipItem newData_ = new EquipItem();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setEquipIndex(entity.getEquipIndex());
-        newData_.setModelId(entity.getModelId());
-        newData_.setLevel(entity.getLevel());
-        newData_.setExp(entity.getExp());
-        return newData_;
+        EquipItem equipItemCopy = new EquipItem();
+        equipItemCopy.setId(entity.getId());
+        equipItemCopy.setOwnerId(entity.getOwnerId());
+        equipItemCopy.setEquipIndex(entity.getEquipIndex());
+        equipItemCopy.setModelId(entity.getModelId());
+        equipItemCopy.setLevel(entity.getLevel());
+        equipItemCopy.setExp(entity.getExp());
+        return equipItemCopy;
     }
 
     @Override
@@ -68,6 +68,32 @@ public class EquipItemParser implements DataValueParser<EquipItem> {
             jsonMap = writer.write(jsonMap, "exp", exp2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(EquipItem entity1, EquipItem entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (entity1.getEquipIndex() != entity2.getEquipIndex()) {
+            return true;
+        }
+        if (entity1.getType() != entity2.getType()) {
+            return true;
+        }
+        if (entity1.getModelId() != entity2.getModelId()) {
+            return true;
+        }
+        if (entity1.getLevel() != entity2.getLevel()) {
+            return true;
+        }
+        if (entity1.getExp() != entity2.getExp()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

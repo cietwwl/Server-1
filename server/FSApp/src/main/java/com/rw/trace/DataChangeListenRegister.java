@@ -27,7 +27,8 @@ import com.rwbase.dao.user.UserGameData;
  */
 public enum DataChangeListenRegister {
 
-	ITEM_DATA(ItemData.class, ItemDataListener.class), USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
+	ITEM_DATA(ItemData.class, ItemDataListener.class), 
+	USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
 
 	;
 	private DataChangeListenRegister(Class<?> traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {

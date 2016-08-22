@@ -12,16 +12,16 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 
 	@Override
 	public void notifyDataChanged(MapItemChangedEvent<ItemData> event) {
-		List<ItemData> addList = event.getAddList();
+		List<Pair<String, ItemData>> addList = event.getAddList();
 		if (addList != null) {
-			for (ItemData data : addList) {
-				System.out.println("新增道具：" + data.getModelId() + "," + data.getCount());
+			for (Pair<String, ItemData> data : addList) {
+				System.out.println("新增道具：" + data.getT2().getModelId() + "," + data.getT2().getCount());
 			}
 		}
-		List<ItemData> delList = event.getRemoveList();
+		List<Pair<String, ItemData>> delList = event.getRemoveList();
 		if (delList != null) {
-			for (ItemData data : delList) {
-				System.out.println("删除道具：" + data.getModelId() + "," + data.getCount());
+			for (Pair<String, ItemData> data : delList) {
+				System.out.println("删除道具：" + data.getT2().getModelId() + "," + data.getT2().getCount());
 			}
 		}
 		Map<String, Pair<ItemData, ItemData>> changedMap = event.getChangedMap();
@@ -37,4 +37,5 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			}
 		}
 	}
+
 }

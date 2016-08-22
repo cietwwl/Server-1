@@ -390,7 +390,32 @@ public class JsonValueWriter {
 	}
 
 	public static void main(String[] args) {
+		// HashMap<String, List> map = new HashMap<String, List>();
+		// ArrayList<String> list = new ArrayList<String>();
+		// list.add("1");
+		// map.put("1", list);
+		//
+		// HashMap<String, List> map2 = new HashMap<String, List>();
+		// ArrayList<String> list2 = new ArrayList<String>();
+		// list2.add("1");
+		// list2.add("2");
+		// map2.put("1", list2);
+		// System.out.println(new JsonValueWriter().compareSetDiff(null, "set",
+		// map, map2));
+		// System.out.println(map);
+		// System.out.println(map2);
+		HashMap<String, Map> map = new HashMap<String, Map>();
+		HashMap<String, String> map1 = new HashMap<String, String>();
+		map1.put("1", "1");
+		map.put("a", map1);
 
+		HashMap<String, Map> map_ = new HashMap<String, Map>();
+		HashMap<String, String> map2 = new HashMap<String, String>();
+		map2.put("1", "2");
+		map_.put("a", map2);
+		System.out.println(new JsonValueWriter().compareSetDiff(null, "set", map, map_));
+		System.out.println(map);
+		System.out.println(map_);
 	}
 
 	public JSONObject compareSetDiff(JSONObject recordMap, String keyName, Map<?, ?> lastRecord_, Map<?, ?> newRecord_) {
@@ -486,8 +511,11 @@ public class JsonValueWriter {
 				}
 
 				if (newValue instanceof Map) {
-					JSONObject diff = compareSetDiff(null, keyName, (Map) oldValue, (Map) newValue);
-					map = putIntoJson(map, key, diff);
+					map = compareSetDiff(map, String.valueOf(key), (Map<?, ?>) oldValue, (Map<?, ?>) newValue);
+					continue;
+				}
+				if (newValue instanceof List) {
+					map = compareSetDiff(map, String.valueOf(key), (List<?>) oldValue, (List<?>) newValue);
 					continue;
 				}
 
@@ -508,6 +536,12 @@ public class JsonValueWriter {
 		}
 		// 不需要检查删除
 		if (oldLen == newLen && !removed) {
+			if (map != null) {
+				if (recordMap == null) {
+					recordMap = new JSONObject();
+				}
+				recordMap.put(keyName, map);
+			}
 			return recordMap;
 		}
 		for (Iterator<Map.Entry<Object, Object>> it = newRecord.entrySet().iterator(); it.hasNext();) {
@@ -578,5 +612,75 @@ public class JsonValueWriter {
 			return b == null;
 		}
 		return a.equals(b);
+	}
+
+	public boolean hasChanged(List<?> list1, List<?> list2) {
+		int size = list1.size();
+		if (size != list2.size()) {
+			return true;
+		}
+		List<Object> oldList = (List<Object>) list1;
+		List<Object> newList = (List<Object>) list2;
+		for (int i = 0; i < size; i++) {
+			Object oldValue = oldList.get(i);
+			Object newValue = newList.get(i);
+			if (hasChanged(oldValue, newValue)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasChanged(Map<?, ?> map1, Map<?, ?> map2) {
+		if (map1.size() != map2.size()) {
+			return true;
+		}
+		Map<Object, Object> oldMap = (Map<Object, Object>) map1;
+		Map<Object, Object> newMap = (Map<Object, Object>) map2;
+		for (Map.Entry<Object, Object> entry : oldMap.entrySet()) {
+			Object key = entry.getKey();
+			Object oldValue = entry.getValue();
+			Object newValue = newMap.get(key);
+			if (hasChanged(oldValue, newValue)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasChanged(Object oldValue, Object newValue) {
+		if (oldValue == null) {
+			if (newValue != null) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (newValue == null) {
+			return true;
+		}
+		Class<?> oldValueClass = oldValue.getClass();
+		Class<?> newValueClass = newValue.getClass();
+		// 先判断类型是否一致
+		if (oldValueClass != newValueClass) {
+			return true;
+		}
+		if (DataValueParserMap.isPrimityType(newValueClass)) {
+			return !oldValue.equals(newValue);
+		}
+		if (newValue instanceof Map) {
+			return hasChanged((Map<?, ?>) oldValue, (Map<?, ?>) newValue);
+		}
+		if (newValue instanceof List) {
+			return hasChanged((List<?>) oldValue, (List<?>) newValue);
+		}
+		DataValueParser parser = DataValueParserMap.getParser(newValueClass);
+		if (parser == null) {
+			// 找不到解析类默认有变化,交由外层判断
+			return true;
+		}
+		if (parser.hasChanged(oldValue, newValue)) {
+			return true;
+		}
+		return false;
 	}
 }

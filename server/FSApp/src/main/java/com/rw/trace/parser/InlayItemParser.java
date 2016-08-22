@@ -2,8 +2,8 @@ package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.alibaba.fastjson.JSONObject;
 import com.rwbase.dao.inlay.InlayItem;
+import com.alibaba.fastjson.JSONObject;
 
 public class InlayItemParser implements DataValueParser<InlayItem> {
 
@@ -11,12 +11,12 @@ public class InlayItemParser implements DataValueParser<InlayItem> {
 
     @Override
     public InlayItem copy(InlayItem entity) {
-        InlayItem newData_ = new InlayItem();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setSlotId(entity.getSlotId());
-        newData_.setModelId(entity.getModelId());
-        return newData_;
+        InlayItem inlayItemCopy = new InlayItem();
+        inlayItemCopy.setId(entity.getId());
+        inlayItemCopy.setOwnerId(entity.getOwnerId());
+        inlayItemCopy.setSlotId(entity.getSlotId());
+        inlayItemCopy.setModelId(entity.getModelId());
+        return inlayItemCopy;
     }
 
     @Override
@@ -47,6 +47,23 @@ public class InlayItemParser implements DataValueParser<InlayItem> {
             jsonMap = writer.write(jsonMap, "modelId", modelId2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(InlayItem entity1, InlayItem entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (entity1.getSlotId() != entity2.getSlotId()) {
+            return true;
+        }
+        if (entity1.getModelId() != entity2.getModelId()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

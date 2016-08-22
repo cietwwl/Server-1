@@ -1,11 +1,11 @@
 package com.rw.trace.parser;
 
-import java.util.List;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import com.rwbase.dao.copypve.pojo.CopyData;
-import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
+import com.rwbase.dao.copypve.pojo.CopyData;
+import java.util.List;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.common.Pair;
 import com.alibaba.fastjson.JSONObject;
 
 public class TableCopyDataParser implements DataValueParser<TableCopyData> {
@@ -14,10 +14,10 @@ public class TableCopyDataParser implements DataValueParser<TableCopyData> {
 
     @Override
     public TableCopyData copy(TableCopyData entity) {
-        TableCopyData newData_ = new TableCopyData();
-        newData_.setUserId(entity.getUserId());
-        newData_.setCopyList(writer.copyObject(entity.getCopyList()));
-        return newData_;
+        TableCopyData tableCopyDataCopy = new TableCopyData();
+        tableCopyDataCopy.setUserId(entity.getUserId());
+        tableCopyDataCopy.setCopyList(writer.copyObject(entity.getCopyList()));
+        return tableCopyDataCopy;
     }
 
     @Override
@@ -41,6 +41,17 @@ public class TableCopyDataParser implements DataValueParser<TableCopyData> {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(TableCopyData entity1, TableCopyData entity2) {
+        if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
+            return true;
+        }
+        if (!writer.hasChanged(entity1.getCopyList(), entity2.getCopyList())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

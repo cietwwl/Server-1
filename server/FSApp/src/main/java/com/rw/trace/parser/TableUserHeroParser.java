@@ -1,10 +1,10 @@
 package com.rw.trace.parser;
 
-import java.util.List;
-import com.rw.fsutil.common.Pair;
-import com.rwbase.dao.hero.pojo.TableUserHero;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import java.util.List;
+import com.rwbase.dao.hero.pojo.TableUserHero;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.common.Pair;
 import com.alibaba.fastjson.JSONObject;
 
 public class TableUserHeroParser implements DataValueParser<TableUserHero> {
@@ -13,10 +13,10 @@ public class TableUserHeroParser implements DataValueParser<TableUserHero> {
 
     @Override
     public TableUserHero copy(TableUserHero entity) {
-        TableUserHero newData_ = new TableUserHero();
-        newData_.setUserId(entity.getUserId());
-        newData_.setHeroIds(writer.copyObject(entity.getHeroIds()));
-        return newData_;
+        TableUserHero tableUserHeroCopy = new TableUserHero();
+        tableUserHeroCopy.setUserId(entity.getUserId());
+        tableUserHeroCopy.setHeroIds(writer.copyObject(entity.getHeroIds()));
+        return tableUserHeroCopy;
     }
 
     @Override
@@ -40,6 +40,17 @@ public class TableUserHeroParser implements DataValueParser<TableUserHero> {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(TableUserHero entity1, TableUserHero entity2) {
+        if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
+            return true;
+        }
+        if (!writer.hasChanged(entity1.getHeroIds(), entity2.getHeroIds())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

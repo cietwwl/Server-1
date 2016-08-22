@@ -1,11 +1,11 @@
 package com.rw.trace.parser;
 
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.alibaba.fastjson.JSONObject;
+import com.rw.fsutil.common.Pair;
 import java.util.HashMap;
+import com.alibaba.fastjson.JSONObject;
 
 public class ItemDataParser implements DataValueParser<ItemData> {
 
@@ -13,13 +13,13 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 
     @Override
     public ItemData copy(ItemData entity) {
-        ItemData newData_ = new ItemData();
-        newData_.setId(entity.getId());
-        newData_.setModelId(entity.getModelId());
-        newData_.setCount(entity.getCount());
-        newData_.setUserId(entity.getUserId());
-        newData_.setAllExtendAttr(writer.copyObject(entity.getAllExtendAttr()));
-        return newData_;
+        ItemData itemDataCopy = new ItemData();
+        itemDataCopy.setId(entity.getId());
+        itemDataCopy.setModelId(entity.getModelId());
+        itemDataCopy.setCount(entity.getCount());
+        itemDataCopy.setUserId(entity.getUserId());
+        itemDataCopy.setAllExtendAttr(writer.copyObject(entity.getAllExtendAttr()));
+        return itemDataCopy;
     }
 
     @Override
@@ -61,6 +61,26 @@ public class ItemDataParser implements DataValueParser<ItemData> {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(ItemData entity1, ItemData entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (entity1.getModelId() != entity2.getModelId()) {
+            return true;
+        }
+        if (entity1.getCount() != entity2.getCount()) {
+            return true;
+        }
+        if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
+            return true;
+        }
+        if (!writer.hasChanged(entity1.getAllExtendAttr(), entity2.getAllExtendAttr())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

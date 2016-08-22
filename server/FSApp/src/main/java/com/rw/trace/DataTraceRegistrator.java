@@ -2,6 +2,7 @@ package com.rw.trace;
 
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.dropitem.DropRecord;
 import com.rwbase.dao.equipment.EquipItem;
@@ -30,7 +31,8 @@ public enum DataTraceRegistrator {
 	Skill(Skill.class),
 	TableCopyData(TableCopyData.class),
 	TableUserHero(TableUserHero.class),
-	UserGameData(UserGameData.class)
+	UserGameData(UserGameData.class),
+//	ARENA(TableArenaData.class),
 	
 	;
 

@@ -2,8 +2,8 @@ package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.alibaba.fastjson.JSONObject;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
+import com.alibaba.fastjson.JSONObject;
 
 public class MajorDataParser implements DataValueParser<MajorData> {
 
@@ -11,14 +11,14 @@ public class MajorDataParser implements DataValueParser<MajorData> {
 
     @Override
     public MajorData copy(MajorData entity) {
-        MajorData newData_ = new MajorData();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setCoin(entity.getCoin());
-        newData_.setGold(entity.getGold());
-        newData_.setGiftGold(entity.getGiftGold());
-        newData_.setChargeGold(entity.getChargeGold());
-        return newData_;
+        MajorData majorDataCopy = new MajorData();
+        majorDataCopy.setId(entity.getId());
+        majorDataCopy.setOwnerId(entity.getOwnerId());
+        majorDataCopy.setCoin(entity.getCoin());
+        majorDataCopy.setGold(entity.getGold());
+        majorDataCopy.setGiftGold(entity.getGiftGold());
+        majorDataCopy.setChargeGold(entity.getChargeGold());
+        return majorDataCopy;
     }
 
     @Override
@@ -61,6 +61,29 @@ public class MajorDataParser implements DataValueParser<MajorData> {
             jsonMap = writer.write(jsonMap, "chargeGold", chargeGold2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(MajorData entity1, MajorData entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (entity1.getCoin() != entity2.getCoin()) {
+            return true;
+        }
+        if (entity1.getGold() != entity2.getGold()) {
+            return true;
+        }
+        if (entity1.getGiftGold() != entity2.getGiftGold()) {
+            return true;
+        }
+        if (entity1.getChargeGold() != entity2.getChargeGold()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

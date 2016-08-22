@@ -2,8 +2,8 @@ package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.alibaba.fastjson.JSONObject;
 import com.rwbase.dao.skill.pojo.Skill;
+import com.alibaba.fastjson.JSONObject;
 
 public class SkillParser implements DataValueParser<Skill> {
 
@@ -11,13 +11,13 @@ public class SkillParser implements DataValueParser<Skill> {
 
     @Override
     public Skill copy(Skill entity) {
-        Skill newData_ = new Skill();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setSkillId(entity.getSkillId());
-        newData_.setLevel(entity.getLevel());
-        newData_.setOrder(entity.getOrder());
-        return newData_;
+        Skill skillCopy = new Skill();
+        skillCopy.setId(entity.getId());
+        skillCopy.setOwnerId(entity.getOwnerId());
+        skillCopy.setSkillId(entity.getSkillId());
+        skillCopy.setLevel(entity.getLevel());
+        skillCopy.setOrder(entity.getOrder());
+        return skillCopy;
     }
 
     @Override
@@ -54,6 +54,26 @@ public class SkillParser implements DataValueParser<Skill> {
             jsonMap = writer.write(jsonMap, "order", order2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(Skill entity1, Skill entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getSkillId(), entity2.getSkillId())) {
+            return true;
+        }
+        if (entity1.getLevel() != entity2.getLevel()) {
+            return true;
+        }
+        if (entity1.getOrder() != entity2.getOrder()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

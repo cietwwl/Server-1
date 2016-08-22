@@ -11,10 +11,10 @@ public class ItemInfoParser implements DataValueParser<ItemInfo> {
 
     @Override
     public ItemInfo copy(ItemInfo entity) {
-        ItemInfo newData_ = new ItemInfo();
-        newData_.setItemID(entity.getItemID());
-        newData_.setItemNum(entity.getItemNum());
-        return newData_;
+        ItemInfo itemInfoCopy = new ItemInfo();
+        itemInfoCopy.setItemID(entity.getItemID());
+        itemInfoCopy.setItemNum(entity.getItemNum());
+        return itemInfoCopy;
     }
 
     @Override
@@ -33,6 +33,17 @@ public class ItemInfoParser implements DataValueParser<ItemInfo> {
             jsonMap = writer.write(jsonMap, "itemNum", itemNum2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(ItemInfo entity1, ItemInfo entity2) {
+        if (entity1.getItemID() != entity2.getItemID()) {
+            return true;
+        }
+        if (entity1.getItemNum() != entity2.getItemNum()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
