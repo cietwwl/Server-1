@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.groupSecret.GroupSecretBM;
 import com.common.HPCUtil;
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -32,6 +33,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMemberAdditionCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
@@ -343,7 +345,7 @@ public class GroupSecretHelper {
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-			enemyData.getAllRobGSValue(), enemyData.getGroupId());
+			enemyData.getAllRobGSValue(), 0, enemyData.getGroupId());
 
 		// if (beat) {// 如果已经打败了
 		// return new GroupSecretDataSynData(baseInfo, null);
@@ -375,7 +377,7 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretDataSynData parseGroupSecretData2Msg(GroupSecretData data, String userId, int level) {
+	public static GroupSecretDataSynData parseGroupSecretData2Msg(int mainPos, GroupSecretData data, String userId, int level) {
 		long now = System.currentTimeMillis();
 		int secretCfgId = data.getSecretId();// 秘境的模版Id
 		GroupSecretResourceCfg groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
@@ -403,25 +405,55 @@ public class GroupSecretHelper {
 		int getRes = 0;
 		int getGE = 0;
 		int getGS = 0;
+		int robTimes = 0;
+		int robRes = 0;
+		int robGE = 0;
+		int robGS = 0;
 		int dropDiamond = 0;
 		int index = -1;
+		int incPct = 0;
+		int defendSize = data.getDefendSize();
+		int displayPct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(defendSize);
 		if (myDefendInfo != null) {
-			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+//			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+//			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+//			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+//			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+//			dropDiamond = myDefendInfo.getDropDiamond();
+//			if (changeTeamTime > 0) {
+//				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+//				int fighting = myDefendInfo.getFighting();
+//				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+//				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+//				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+//			}
+			// 有防守数据，表示我已经在这里
+			incPct = displayPct;
 			dropDiamond = myDefendInfo.getDropDiamond();
-			if (changeTeamTime > 0) {
-				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-				int fighting = myDefendInfo.getFighting();
-				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
-				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
-				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
-			}
+			getRes = levelGetResTemplate.getTotalProduct() - myDefendInfo.getRobRes();
+			getGE = levelGetResTemplate.getTotalGroupExp() - myDefendInfo.getRobGE();
+			getGS = levelGetResTemplate.getTotalGroupSupply() - myDefendInfo.getRobGS();
 			index = myDefendInfo.getIndex();
+			robTimes = data.getRobTimes();
+			robRes = myDefendInfo.getRobRes();
+			robGE = myDefendInfo.getRobGE();
+			robGS = myDefendInfo.getRobGS();
+		} else {
+			// 没有防守Info，表示我是将要加入的数据
+			incPct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(defendSize + 1);
+			getRes = levelGetResTemplate.getTotalProduct();
+			getGE = levelGetResTemplate.getTotalGroupExp();
+			getGS = levelGetResTemplate.getTotalGroupSupply();
+		}
+		if(incPct > 0) {
+			getRes += Utils.calculateTenThousandRatio(getRes, incPct);
+			getGE += Utils.calculateTenThousandRatio(getGE, incPct);
+			getGS += Utils.calculateTenThousandRatio(getGS, incPct);
 		}
 
-		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, displayPct, data.getGroupId());
+		base.setMainPos(mainPos);
+		base.setRoboInfo(robTimes, robRes, robGE, robGS);
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 

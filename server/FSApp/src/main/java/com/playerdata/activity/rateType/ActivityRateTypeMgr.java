@@ -145,7 +145,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				.getCfgById(ActivityRateTypeItem.getCfgId());
 		if(cfgById == null){
 			GameLog.error(LogModule.ComActivityRate, null, "通用活动找不到配置文件", null);
-			return true;
+			return false;
 		}
 		
 		long endTime = cfgById.getEndTime();

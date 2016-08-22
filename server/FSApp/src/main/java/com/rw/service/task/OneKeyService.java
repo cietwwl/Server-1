@@ -47,6 +47,12 @@ public class OneKeyService implements FsService {
 			}
 		}catch(InvalidProtocolBufferException e){
 			e.printStackTrace();
+			OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
+			resp.setResult(OneKeyResultType.DATA_ERROR);
+		}catch(Exception e){
+			e.printStackTrace();
+			OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
+			resp.setResult(OneKeyResultType.DATA_ERROR);
 		}
 		return result;
 	}
