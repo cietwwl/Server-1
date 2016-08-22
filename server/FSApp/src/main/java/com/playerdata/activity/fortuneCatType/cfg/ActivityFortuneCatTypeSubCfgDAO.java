@@ -33,14 +33,14 @@ public final class ActivityFortuneCatTypeSubCfgDAO extends CfgCsvDao<ActivityFor
 	}
 
 
-//	public List<ActivityFortuneCatTypeSubCfg> getCfgListByParentId(ActivityDailyDiscountTypeEnum countTypeEnum) {
-//		List<ActivityFortuneCatTypeSubCfg> subCfgList = getAllCfg();
-//		List<ActivityFortuneCatTypeSubCfg> subCfgListByEnumID = new ArrayList<ActivityFortuneCatTypeSubCfg>();
-//		for(ActivityFortuneCatTypeSubCfg subCfg :subCfgList){
-//			if(StringUtils.equals(subCfg.getParentId(), countTypeEnum.getCfgId())){
-//				subCfgListByEnumID.add(subCfg);
-//			}			
-//		}		
-//		return subCfgListByEnumID;
-//	}
+	public List<ActivityFortuneCatTypeSubCfg> getCfgListByParentId(String cfgId) {
+		List<ActivityFortuneCatTypeSubCfg> subCfgList = getAllCfg();
+		List<ActivityFortuneCatTypeSubCfg> subCfgListByCfgId = new ArrayList<ActivityFortuneCatTypeSubCfg>();
+		for(ActivityFortuneCatTypeSubCfg subCfg :subCfgList){
+			if(StringUtils.equals(subCfg.getParentid(), cfgId)){
+				subCfgListByCfgId.add(subCfg);
+			}			
+		}		
+		return subCfgListByCfgId;
+	}
 }

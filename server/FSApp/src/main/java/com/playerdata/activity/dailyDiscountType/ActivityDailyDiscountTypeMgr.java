@@ -108,7 +108,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
 			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgByItem(targetItem);
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 				return;
 			}			
 			
@@ -252,7 +251,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 
 	public boolean isLevelEnough(Player player,ActivityDailyDiscountTypeCfg cfg) {
 		if(cfg == null){
-			GameLog.error("activityDailyDisCountTypeMgr", "list", "配置文件总表错误" );
+//			GameLog.error("activityDailyDisCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
 		}
 		if(player.getLevel() < cfg.getLevelLimit()){
