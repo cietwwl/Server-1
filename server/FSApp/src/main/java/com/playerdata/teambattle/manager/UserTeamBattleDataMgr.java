@@ -79,7 +79,7 @@ public class UserTeamBattleDataMgr {
 		int totalTimes = teamCfg.getTimes();
 		for(int i = 1; i <= thInfo.getBuyTimes(); i++){
 			String buyId = hardID + "_" + i;
-			TBBuyCostCfg buyCfg = TBBuyCostCfgDAO.getInstance().getCfgById(hardID + "_" + buyId);
+			TBBuyCostCfg buyCfg = TBBuyCostCfgDAO.getInstance().getCfgById(buyId);
 			if(null == buyCfg) continue;
 			totalTimes += buyCfg.getNumbers();
 		}
