@@ -11,7 +11,7 @@ public class SameSceneContainer {
 	/**
 	 * <场景id, <角色id, 存储信息>>
 	 */
-	private HashMap<Long, ConcurrentHashMap<String, ? extends ISameSceneData>> container;
+	private HashMap<Long, ConcurrentHashMap<String, ? extends SameSceneDataBaseIF>> container;
 	private Lock readLock;
 	private Lock writeLock;
 	
@@ -20,7 +20,7 @@ public class SameSceneContainer {
 		ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
 		readLock = rwLock.readLock();
 		writeLock = rwLock.writeLock();
-		container = new HashMap<Long, ConcurrentHashMap<String, ? extends ISameSceneData>>();
+		container = new HashMap<Long, ConcurrentHashMap<String, ? extends SameSceneDataBaseIF>>();
 	}
 	
 	private static class InstanceHolder{
@@ -39,7 +39,7 @@ public class SameSceneContainer {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends ISameSceneData> boolean putUserToScene(long sceneId, String userId, T value){
+	public <T extends SameSceneDataBaseIF> boolean putUserToScene(long sceneId, String userId, T value){
 		ConcurrentHashMap<String, T> scene;
 		readLock.lock();
 		try {
@@ -55,7 +55,7 @@ public class SameSceneContainer {
 	}
 	
 	public void removeUserFromScene(long sceneId, String userId){
-		ConcurrentHashMap<String, ? extends ISameSceneData> scene;
+		ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene;
 		readLock.lock();
 		try {
 			scene = container.get(sceneId);
@@ -73,7 +73,7 @@ public class SameSceneContainer {
 		writeLock.lock();
 		try {
 			long newSceneId = System.nanoTime();
-			ConcurrentHashMap<String, ISameSceneData> scene = new ConcurrentHashMap<String, ISameSceneData>();
+			ConcurrentHashMap<String, SameSceneDataBaseIF> scene = new ConcurrentHashMap<String, SameSceneDataBaseIF>();
 			container.put(newSceneId, scene);
 			return newSceneId;
 		} finally {
@@ -91,7 +91,7 @@ public class SameSceneContainer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends ISameSceneData> Map<String, T> getSceneMembers(long sceneId){
+	public <T extends SameSceneDataBaseIF> Map<String, T> getSceneMembers(long sceneId){
 		readLock.lock();
 		try {
 			ConcurrentHashMap<String, T> scene = (ConcurrentHashMap<String, T>) container.get(sceneId);
@@ -107,12 +107,12 @@ public class SameSceneContainer {
 	 * @param sceneId
 	 * @return
 	 */
-	public ISameSceneData checkType(long sceneId){
+	public SameSceneDataBaseIF checkType(long sceneId){
 		readLock.lock();
 		try {
-			ConcurrentHashMap<String, ? extends ISameSceneData> scene = container.get(sceneId);
+			ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene = container.get(sceneId);
 			if(null == scene || scene.isEmpty()) return null;
-			ISameSceneData oneValue = scene.values().iterator().next();
+			SameSceneDataBaseIF oneValue = scene.values().iterator().next();
 			return oneValue;
 		} finally {
 			readLock.unlock();
