@@ -2,30 +2,30 @@ package com.bm.rank.groupCompetition;
 
 import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GCompKillExtension extends RankingJacksonExtension<GCompKillComparable, GFOnlineKillItem>{
+public class GCompKillExtension extends RankingJacksonExtension<GCompKillComparable, GCompKillItem>{
 
 	public GCompKillExtension() {
-		super(GCompKillComparable.class, GFOnlineKillItem.class);
+		super(GCompKillComparable.class, GCompKillItem.class);
 	}
 
 	@Override
-	public void notifyEntryEvicted(RankingEntry<GCompKillComparable, GFOnlineKillItem> entry) {
+	public void notifyEntryEvicted(RankingEntry<GCompKillComparable, GCompKillItem> entry) {
 	}
 
 	@Override
-	public <P> GFOnlineKillItem newEntryExtension(String key, P param) {
-		if(param instanceof GFOnlineKillItem){
-			return (GFOnlineKillItem)param;
+	public <P> GCompKillItem newEntryExtension(String key, P param) {
+		if(param instanceof GCompKillItem){
+			return (GCompKillItem)param;
 		}
 		Player player = (Player)param;
-		GFOnlineKillItem toData = new GFOnlineKillItem();
+		GCompKillItem toData = new GCompKillItem();
 		toData.setUserId(player.getUserId());
 		toData.setUserName(player.getUserName());
-		toData.setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
+		toData.setHeadImage(player.getHeadImage());
 		return toData;
 	}
 }

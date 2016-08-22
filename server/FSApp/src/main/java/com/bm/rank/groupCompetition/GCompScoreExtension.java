@@ -2,31 +2,30 @@ package com.bm.rank.groupCompetition;
 
 import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.dataForRank.GFOnlineHurtItem;
-import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GCompScoreExtension extends RankingJacksonExtension<GCompScoreComparable, GFOnlineHurtItem>{
+public class GCompScoreExtension extends RankingJacksonExtension<GCompScoreComparable, GCompScoreItem>{
 
 	public GCompScoreExtension() {
-		super(GCompScoreComparable.class, GFOnlineHurtItem.class);
+		super(GCompScoreComparable.class, GCompScoreItem.class);
 	}
 
 	@Override
-	public void notifyEntryEvicted(RankingEntry<GCompScoreComparable, GFOnlineHurtItem> entry) {
+	public void notifyEntryEvicted(RankingEntry<GCompScoreComparable, GCompScoreItem> entry) {
 	}
 
 	@Override
-	public <P> GFOnlineHurtItem newEntryExtension(String key, P param) {
-		if(param instanceof MSScoreDataItem){
-			return (GFOnlineHurtItem)param;
+	public <P> GCompScoreItem newEntryExtension(String key, P param) {
+		if(param instanceof GCompScoreItem){
+			return (GCompScoreItem)param;
 		}
 		Player player = (Player)param;
-		GFOnlineHurtItem toData = new GFOnlineHurtItem();
+		GCompScoreItem toData = new GCompScoreItem();
 		toData.setUserId(player.getUserId());
-		toData.setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
 		toData.setUserName(player.getUserName());
+		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
+		toData.setHeadImage(player.getHeadImage());
 		return toData;
 	}
 }

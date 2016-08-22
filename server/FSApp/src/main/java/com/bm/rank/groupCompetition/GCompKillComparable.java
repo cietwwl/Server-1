@@ -1,46 +1,34 @@
 package com.bm.rank.groupCompetition;
 
 public class GCompKillComparable implements Comparable<GCompKillComparable> {
-	private int resourceID; 	//资源点
-	private int totalKill; 	//杀敌数
-	private long lastKillTime;	//上次杀敌时间
+	private int totalKill; 	//总的杀敌数
+	private long lastRecordTime;	//上次创造纪录的时间
 	
 	public GCompKillComparable(){
 		
 	}
 	
-	public GCompKillComparable(int resourceID, int totalKill, long lastKillTime){
-		this.resourceID = resourceID;
+	public GCompKillComparable(int totalKill, long lastRecordTime){
 		this.totalKill = totalKill;
-		this.lastKillTime = lastKillTime;
+		this.lastRecordTime = lastRecordTime;
 	}
 
-	public int getResourceID(){
-		return this.resourceID;
-	}
-	
 	public int getTotalKill(){
 		return this.totalKill;
 	}
 
 	@Override
 	public int compareTo(GCompKillComparable o) {
-		if(resourceID < o.resourceID){
-			return 1;
-		}
-		if(resourceID > o.resourceID){
-			return -1;
-		}
 		if(totalKill > o.totalKill){
 			return 1;
 		}
 		if(totalKill < o.totalKill){
 			return -1;
 		}
-		if(lastKillTime > o.lastKillTime){
+		if(lastRecordTime > o.lastRecordTime){
 			return 1;
 		}
-		if(lastKillTime < o.lastKillTime){
+		if(lastRecordTime < o.lastRecordTime){
 			return -1;
 		}
 		return 0;

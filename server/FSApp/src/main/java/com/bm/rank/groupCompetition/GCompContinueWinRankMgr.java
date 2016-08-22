@@ -14,25 +14,25 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GCompScoreRankMgr {
+public class GCompContinueWinRankMgr {
 	
 	public static int MAX_RANK_COUNT = 50;
 	
-	public static int addOrUpdateContinueWinRank(Player player, int currentScore) {
-		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
+	public static int addOrUpdateContinueWinRank(Player player, int currentContinueWin) {
+		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
 		if (ranking == null) {
 			return -1;
 		}
 		// 比较数据
-		GCompScoreComparable comparable = new GCompScoreComparable(currentScore, System.currentTimeMillis());
+		GCompContinueWinComparable comparable = new GCompContinueWinComparable(currentContinueWin, System.currentTimeMillis());
 		String userID = player.getUserId();
-		RankingEntry<GCompScoreComparable, GCompScoreItem> rankingEntry = ranking.getRankingEntry(userID);
+		RankingEntry<GCompContinueWinComparable, GCompContinueWinItem> rankingEntry = ranking.getRankingEntry(userID);
 		if (rankingEntry == null) {
 			// 加入榜
 			ranking.addOrUpdateRankingEntry(userID, comparable, player);
 		} else {
-			int oldScore = rankingEntry.getComparable().getTotalScore();
-			if(oldScore >= currentScore){
+			int oldMax = rankingEntry.getComparable().getContinueWin();
+			if(oldMax >= currentContinueWin){
 				return -2;
 			}
 			// 更新榜
@@ -48,29 +48,29 @@ public class GCompScoreRankMgr {
 	 * @return
 	 */
 	public static int getRankIndex(String userID) {
-		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
+		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
 		if (ranking == null) {
 			return -1;
 		}
 		return ranking.getRanking(userID);
 	}
 
-	public static List<GCompScoreItem> getContinueWinRankList() {
-		List<GCompScoreItem> itemList = new ArrayList<GCompScoreItem>();
-		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<GCompScoreComparable, GCompScoreItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
+	public static List<GCompContinueWinItem> getContinueWinRankList() {
+		List<GCompContinueWinItem> itemList = new ArrayList<GCompContinueWinItem>();
+		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
+		EnumerateList<? extends MomentRankingEntry<GCompContinueWinComparable, GCompContinueWinItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
 		for (; it.hasMoreElements();) {
-			MomentRankingEntry<GCompScoreComparable, GCompScoreItem> entry = it.nextElement();
-			GCompScoreComparable scoreComparable = entry.getComparable();
-			GCompScoreItem scoreItem = entry.getExtendedAttribute();
-			scoreItem.setTotalScore(scoreComparable.getTotalScore());
-			itemList.add(scoreItem);
+			MomentRankingEntry<GCompContinueWinComparable, GCompContinueWinItem> entry = it.nextElement();
+			GCompContinueWinComparable continueWinComparable = entry.getComparable();
+			GCompContinueWinItem winItem = entry.getExtendedAttribute();
+			winItem.setContinueWin(continueWinComparable.getContinueWin());
+			itemList.add(winItem);
 		}
 		return itemList;
 	}
 	
 	public static void clearRank(){
-		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
+		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
 		ranking.clear();
 	}
 	
@@ -79,10 +79,10 @@ public class GCompScoreRankMgr {
 	 * 例如：名字的修改，帮派名字的修改，头像框的修改
 	 * @param player
 	 */
-	public static void updateContinueWinRankInfo(Player player){
+	public static void updateContinueWinRankBaseInfo(Player player){
 		//TODO 这里可能需要从排行榜中删除(如果玩家过程中没有了帮派)
-		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
-		RankingEntry<GCompScoreComparable, GCompScoreItem> entry = ranking.getRankingEntry(player.getUserId());
+		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
+		RankingEntry<GCompContinueWinComparable, GCompContinueWinItem> entry = ranking.getRankingEntry(player.getUserId());
 		if (entry != null) {
 			String groupName = GroupHelper.getGroupName(player.getUserId());
 			if(StringUtils.isBlank(groupName)){
