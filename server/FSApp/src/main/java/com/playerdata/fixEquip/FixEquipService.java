@@ -60,6 +60,7 @@ public class FixEquipService implements FsService {
 			}
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			GameLog.error(LogModule.FixEquip, player.getUserId(), "出现了Exception异常", e);
 		}
 		return byteString;
