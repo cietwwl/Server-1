@@ -1,4 +1,4 @@
-package com.playerdata.groupcompetition.syn;
+package com.playerdata.dataSyn.sameSceneSyn;
 
 import java.util.ArrayList;
 import java.util.HashMap;

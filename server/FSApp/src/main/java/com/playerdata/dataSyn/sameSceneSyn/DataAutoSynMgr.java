@@ -1,4 +1,4 @@
-package com.playerdata.groupcompetition.syn;
+package com.playerdata.dataSyn.sameSceneSyn;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.holder.PrepareAreaDataHolder;
 import com.playerdata.groupcompetition.prepare.PositionInfo;
+import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.prepare.SameSceneSynData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -58,7 +58,7 @@ public class DataAutoSynMgr {
 				continue;
 			}
 			if(oneValue instanceof PositionInfo){				
-				synCount += synData(sceneId, PrepareAreaDataHolder.synType, new SameSceneSynData());
+				synCount += synData(sceneId, PrepareAreaMgr.synType, new SameSceneSynData());
 			}
 		}
 	}
