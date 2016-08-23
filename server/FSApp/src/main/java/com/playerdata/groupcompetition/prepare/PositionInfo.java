@@ -2,7 +2,7 @@ package com.playerdata.groupcompetition.prepare;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupcompetition.syn.SameSceneDataBaseIF;
+import com.playerdata.dataSyn.sameSceneSyn.SameSceneDataBaseIF;
 
 @SynClass
 public class PositionInfo implements SameSceneDataBaseIF{

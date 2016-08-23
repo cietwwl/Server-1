@@ -1,4 +1,4 @@
-package com.playerdata.groupcompetition.syn;
+package com.playerdata.dataSyn.sameSceneSyn;
 
 
 public interface SameSceneDataBaseIF {

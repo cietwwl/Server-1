@@ -3,8 +3,8 @@ package com.playerdata.groupcompetition.prepare;
 import java.util.Map;
 
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupcompetition.syn.SameSceneDataBaseIF;
-import com.playerdata.groupcompetition.syn.SameSceneSynDataIF;
+import com.playerdata.dataSyn.sameSceneSyn.SameSceneDataBaseIF;
+import com.playerdata.dataSyn.sameSceneSyn.SameSceneSynDataIF;
 
 @SynClass
 public class SameSceneSynData implements SameSceneSynDataIF{

@@ -8,8 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.groupcompetition.syn.SameSceneContainer;
+import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.rw.service.fashion.FashionHandle;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
@@ -18,6 +20,7 @@ import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
 
 public class PrepareAreaMgr {
 	
+	public static eSynType synType = eSynType.GC_PREPARE_POSITION;
 	private HashMap<String, Long> groupScene;
 	
 	private static PrepareAreaMgr instance = new PrepareAreaMgr();
@@ -26,6 +29,12 @@ public class PrepareAreaMgr {
 		return instance;
 	}
 	
+	/**
+	 * 加入备战区
+	 * @param player
+	 * @param gcRsp
+	 * @param position
+	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
 		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
@@ -47,6 +56,12 @@ public class PrepareAreaMgr {
 		informPreparePosition(player, gcRsp, position);
 	}
 
+	/**
+	 * 变更自己在备战区的位置
+	 * @param player
+	 * @param gcRsp
+	 * @param position
+	 */
 	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
 		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
@@ -67,6 +82,11 @@ public class PrepareAreaMgr {
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 
+	/**
+	 * 离开备战区
+	 * @param player
+	 * @param gcRsp
+	 */
 	public void leavePrepareArea(Player player, Builder gcRsp) {
 		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
@@ -84,6 +104,12 @@ public class PrepareAreaMgr {
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	
+	/**
+	 * 前端请求缺失的同屏玩家详细信息
+	 * @param player
+	 * @param gcRsp
+	 * @param idList
+	 */
 	public void applyUsersBaseInfo(Player player, Builder gcRsp, List<String> idList) {
 		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
@@ -102,6 +128,21 @@ public class PrepareAreaMgr {
 			gcRsp.addAllPlayers(allBaseInfo);
 		}
 		gcRsp.setRstType(GCResultType.SUCCESS);
+	}
+	
+	/**
+	 * 把玩家从备战区，移除
+	 * @param userId
+	 */
+	public void leavePrepareArea(String userId) {
+		String groupId = GroupHelper.getUserGroupId(userId);
+		if(StringUtils.isBlank(groupId)){
+			return;
+		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			return;
+		}
+		SameSceneContainer.getInstance().removeUserFromScene(groupScene.get(groupId), userId);
 	}
 	
 	/**
@@ -137,10 +178,19 @@ public class PrepareAreaMgr {
 		groupScene = null;
 	}
 	
+	/*
+	 * 获取有备战资格的帮派
+	 */
 	public List<String> getPrepareGroups(){
 		return new ArrayList<String>();
 	}
 	
+	/**
+	 * 获取指定玩家的详细信息
+	 * （用于前端显示人物）
+	 * @param idList
+	 * @return
+	 */
 	private ArrayList<PlayerBaseInfo> getAllPlayer(List<String> idList){
 		ArrayList<PlayerBaseInfo> result = new ArrayList<PlayerBaseInfo>();
 		if(null == idList || idList.isEmpty()){
