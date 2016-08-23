@@ -22,24 +22,24 @@ public class FashionHandler {
 	public boolean processBuyFashion(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
-		request.setFashionId(10002);
-		request.setBuyRenewPlanId("10002_2");
+		request.setFashionId(900002);
+		request.setBuyRenewPlanId("900002_2");
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买时装"));
 	}
 	
 	public boolean processBuyWing(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
-		request.setFashionId(10007);
-		request.setBuyRenewPlanId("10007_1");
+		request.setFashionId(900007);
+		request.setBuyRenewPlanId("900007_1");
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买翅膀"));
 	}
 	
 	public boolean processBuyPet(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
-		request.setFashionId(10004);
-		request.setBuyRenewPlanId("10004_1");
+		request.setFashionId(900004);
+		request.setBuyRenewPlanId("900004_1");
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买宠物"));
 	}
 	
