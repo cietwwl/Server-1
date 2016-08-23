@@ -10,6 +10,16 @@ public class PrivilegeDescItem {
 	
 	private boolean isAllIDHave = false;	//是否对所有的id号都有效
 
+	public PrivilegeDescItem(){ }
+	
+	public PrivilegeDescItem(int itemID, float value){
+		this.itemID = itemID;
+		this.value = value;
+		if(itemID <= 0){
+			isAllIDHave = true;
+		}
+	}
+	
 	public int getItemID() {
 		return itemID;
 	}

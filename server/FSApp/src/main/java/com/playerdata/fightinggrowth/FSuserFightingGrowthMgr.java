@@ -163,7 +163,7 @@ public class FSuserFightingGrowthMgr {
 		return result;
 	}
 	
-	public List<PrivilegeDescItem> getPrivilegeDescItem(Player player){
+	public List<? extends PrivilegeDescItem> getPrivilegeDescItem(Player player){
 		String privId = getCurrentTitleId(player);
 		if(org.apache.commons.lang3.StringUtils.isBlank(privId)){
 			return null;

@@ -228,20 +228,25 @@ public class DropItemManager {
 				//int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
 				int multipleItem = ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
 				
-				PrivilegeDescItem privDescItem = new PrivilegeDescItem();
-				privDescItem.setValue(multipleItem);
-				privDescItem.setAllIDHave(true);
-				List<PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
-				privList.add(privDescItem);
-				ArrayList<ItemInfo> privDropItemInfoList = new ArrayList<ItemInfo>();
-				for(ItemInfo iteminfo : dropItemInfoList){
-					ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, privList);
-					privDropItemInfoList.add(ItemPrivilegeFactory.getItemInfo(newItemIF));
-					// iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
+				List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+				if(multipleItem >= 0.001f || multipleItem <= -0.001f){
+					PrivilegeDescItem privDescItem = new PrivilegeDescItem(0, multipleItem);
+					totalPriv.add(privDescItem);
 				}
-				dropItemInfoList = privDropItemInfoList;
+				List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+				if(null != privList && !privList.isEmpty()) {
+					totalPriv.addAll(privList);
+				}
+				if(!totalPriv.isEmpty()){
+					ArrayList<ItemInfo> privDropItemInfoList = new ArrayList<ItemInfo>();
+					for(ItemInfo iteminfo : dropItemInfoList){
+						ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+						privDropItemInfoList.add(ItemPrivilegeFactory.getItemInfo(newItemIF));
+						// iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
+					}
+					dropItemInfoList = privDropItemInfoList;
+				}
 				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
-				int tmp = dropItemInfoList.size();
 				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
 			}
 				
