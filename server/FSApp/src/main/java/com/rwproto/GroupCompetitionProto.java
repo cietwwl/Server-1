@@ -1289,32 +1289,32 @@ public final class GroupCompetitionProto {
      */
     com.rwproto.GroupCompetitionProto.GCResultType getRstType();
 
-    // required string rstTip = 2;
+    // optional string tipMsg = 2;
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
-    boolean hasRstTip();
+    boolean hasTipMsg();
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
-    java.lang.String getRstTip();
+    java.lang.String getTipMsg();
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
     com.google.protobuf.ByteString
-        getRstTipBytes();
+        getTipMsgBytes();
 
     // repeated .groupCompetition.PlayerBaseInfo players = 3;
     /**
@@ -1425,7 +1425,7 @@ public final class GroupCompetitionProto {
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              rstTip_ = input.readBytes();
+              tipMsg_ = input.readBytes();
               break;
             }
             case 26: {
@@ -1503,28 +1503,28 @@ public final class GroupCompetitionProto {
       return rstType_;
     }
 
-    // required string rstTip = 2;
-    public static final int RSTTIP_FIELD_NUMBER = 2;
-    private java.lang.Object rstTip_;
+    // optional string tipMsg = 2;
+    public static final int TIPMSG_FIELD_NUMBER = 2;
+    private java.lang.Object tipMsg_;
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
-    public boolean hasRstTip() {
+    public boolean hasTipMsg() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
-    public java.lang.String getRstTip() {
-      java.lang.Object ref = rstTip_;
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -1532,26 +1532,26 @@ public final class GroupCompetitionProto {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          rstTip_ = s;
+          tipMsg_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string rstTip = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
      *
      * <pre>
-     *信息提示
+     *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getRstTipBytes() {
-      java.lang.Object ref = rstTip_;
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        rstTip_ = b;
+        tipMsg_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -1616,7 +1616,7 @@ public final class GroupCompetitionProto {
 
     private void initFields() {
       rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
-      rstTip_ = "";
+      tipMsg_ = "";
       players_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -1625,10 +1625,6 @@ public final class GroupCompetitionProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRstType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRstTip()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1649,7 +1645,7 @@ public final class GroupCompetitionProto {
         output.writeEnum(1, rstType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getRstTipBytes());
+        output.writeBytes(2, getTipMsgBytes());
       }
       for (int i = 0; i < players_.size(); i++) {
         output.writeMessage(3, players_.get(i));
@@ -1669,7 +1665,7 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getRstTipBytes());
+          .computeBytesSize(2, getTipMsgBytes());
       }
       for (int i = 0; i < players_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -1794,7 +1790,7 @@ public final class GroupCompetitionProto {
         super.clear();
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
-        rstTip_ = "";
+        tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         if (playersBuilder_ == null) {
           players_ = java.util.Collections.emptyList();
@@ -1837,7 +1833,7 @@ public final class GroupCompetitionProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.rstTip_ = rstTip_;
+        result.tipMsg_ = tipMsg_;
         if (playersBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004)) {
             players_ = java.util.Collections.unmodifiableList(players_);
@@ -1866,9 +1862,9 @@ public final class GroupCompetitionProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
-        if (other.hasRstTip()) {
+        if (other.hasTipMsg()) {
           bitField0_ |= 0x00000002;
-          rstTip_ = other.rstTip_;
+          tipMsg_ = other.tipMsg_;
           onChanged();
         }
         if (playersBuilder_ == null) {
@@ -1903,10 +1899,6 @@ public final class GroupCompetitionProto {
 
       public final boolean isInitialized() {
         if (!hasRstType()) {
-          
-          return false;
-        }
-        if (!hasRstTip()) {
           
           return false;
         }
@@ -1990,100 +1982,100 @@ public final class GroupCompetitionProto {
         return this;
       }
 
-      // required string rstTip = 2;
-      private java.lang.Object rstTip_ = "";
+      // optional string tipMsg = 2;
+      private java.lang.Object tipMsg_ = "";
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
-      public boolean hasRstTip() {
+      public boolean hasTipMsg() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
-      public java.lang.String getRstTip() {
-        java.lang.Object ref = rstTip_;
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          rstTip_ = s;
+          tipMsg_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getRstTipBytes() {
-        java.lang.Object ref = rstTip_;
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          rstTip_ = b;
+          tipMsg_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
-      public Builder setRstTip(
+      public Builder setTipMsg(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        rstTip_ = value;
+        tipMsg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
-      public Builder clearRstTip() {
+      public Builder clearTipMsg() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        rstTip_ = getDefaultInstance().getRstTip();
+        tipMsg_ = getDefaultInstance().getTipMsg();
         onChanged();
         return this;
       }
       /**
-       * <code>required string rstTip = 2;</code>
+       * <code>optional string tipMsg = 2;</code>
        *
        * <pre>
-       *信息提示
+       *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
-      public Builder setRstTipBytes(
+      public Builder setTipMsgBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        rstTip_ = value;
+        tipMsg_ = value;
         onChanged();
         return this;
       }
@@ -12208,8 +12200,8 @@ public final class GroupCompetitionProto {
       "RequestType\0220\n\010position\030\002 \001(\0132\036.groupCom" +
       "petition.AreaPosition\022\025\n\rplayersIdList\030\003" +
       " \003(\t\"\202\001\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036" +
-      ".groupCompetition.GCResultType\022\016\n\006rstTip" +
-      "\030\002 \002(\t\0221\n\007players\030\003 \003(\0132 .groupCompetiti" +
+      ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
+      "\030\002 \001(\t\0221\n\007players\030\003 \003(\0132 .groupCompetiti" +
       "on.PlayerBaseInfo\"$\n\014AreaPosition\022\t\n\001x\030\001" +
       " \002(\002\022\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackInfo\022\014",
       "\n\004test\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025\n\rper" +
@@ -12263,7 +12255,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "RstTip", "Players", });
+              new java.lang.String[] { "RstType", "TipMsg", "Players", });
           internal_static_groupCompetition_AreaPosition_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_groupCompetition_AreaPosition_fieldAccessorTable = new
