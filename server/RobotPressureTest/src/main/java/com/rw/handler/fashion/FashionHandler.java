@@ -46,21 +46,21 @@ public class FashionHandler {
 	public boolean processWearFashion(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
-		request.setFashionId(10002);
+		request.setFashionId(900002);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿时装"));
 	}
 	
 	public boolean processWearWing(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
-		request.setFashionId(10007);
+		request.setFashionId(900007);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿翅膀"));
 	}
 	
 	public boolean processWearPet(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
-		request.setFashionId(10004);
+		request.setFashionId(900004);
 		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
 	}
 	
