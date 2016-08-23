@@ -40,6 +40,26 @@ public class ActivityFortuneCatTypeHandler {
 		response.setTipMsg(tips);
 		return response.build().toByteString();
 	}
+
+	public ByteString getRecord(Player player, ActivityCommonReqMsg commonReq) {
+		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+	
+		
+		boolean success = false;
+		String tips = null;
+		
+		ActivityComResult result = ActivityFortuneCatTypeMgr.getInstance().getRecord(player,response);
+		success = result.isSuccess();
+		tips = result.getReason()+"";
+		
+		
+
+		
+		response.setIsSuccess(success);
+		response.setTipMsg(tips);
+		return response.build().toByteString();
+	}
 	
 
 

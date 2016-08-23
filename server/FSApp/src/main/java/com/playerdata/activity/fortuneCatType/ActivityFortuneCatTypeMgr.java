@@ -38,6 +38,7 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -204,8 +205,24 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		result.setSuccess(true);
 		result.setReason("");
 		rsp.setGetGold(tmpGold);
-		String tmp = player.getUserId() + "_" + tmpGold;
-		reFreshRecord(tmp);		
+		reFreshRecord(player,tmpGold);		
+		return result;
+	}
+	
+	public ActivityComResult getRecord(Player player, Builder response) {
+		ActivityComResult result = ActivityComResult.newInstance(true);
+		result.setReason("");
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(scdData == null){
+			result.setSuccess(false);
+			return result;
+		}
+		Map<Integer, ActivityFortuneCatRecord> map = scdData.getActivityFortuneCatRecord();
+		String clientData = ClientDataSynMgr.toClientData(map);
+		if (StringUtils.isNotBlank(clientData)) {
+			response.setGetRecord(clientData);
+		}
+		response.setGetRecord("");
 		return result;
 	}
 	
@@ -213,20 +230,28 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 	 * 
 	 * @param tmp   保存三条  {666,uid+gold        667,uid+gold      668,uid+gold}格式的摇奖数据
 	 */
-	private void reFreshRecord(String tmp) {
+	private void reFreshRecord(Player player,int getGold) {
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(scdData == null){
 			return;
 		}
-		Map<Integer, String> map = scdData.getActivityFortuneCatRecord();
+		Map<Integer, ActivityFortuneCatRecord> map = scdData.getActivityFortuneCatRecord();
+		ActivityFortuneCatRecord record = new ActivityFortuneCatRecord();
+		
+		record.setPlayerName(player.getUserName());
+		record.setUid(player.getUserId());
+		record.setGetGold(getGold);
+		
+		
 		if(map.size() < 3){
-			map.put(map.size(), tmp);
+			record.setId(map.size());
+			map.put(map.size(), record);
 			ServerCommonDataHolder.getInstance().update(scdData);
 			return;
 		}
 		int num = 0;
 		int i = 0;
-		for(Map.Entry<Integer, String> entry : map.entrySet()){
+		for(Map.Entry<Integer, ActivityFortuneCatRecord> entry : map.entrySet()){
 			if(i == 0){
 				num = entry.getKey();
 				i++;
@@ -238,7 +263,8 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 			i++;
 		}
 		map.remove(num);
-		map.put(num+3, tmp);
+		record.setId(num+3);
+		map.put(num+3, record);
 		ServerCommonDataHolder.getInstance().update(scdData);		
 	}
 
@@ -267,6 +293,8 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 		}
 		activityFortuneCatTypeItemHolder.updateItem(player, dataItem);
 	}
+
+	
 
 
 

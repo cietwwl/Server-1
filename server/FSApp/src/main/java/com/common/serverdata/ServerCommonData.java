@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatRecord;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -31,7 +32,7 @@ public class ServerCommonData {
 	private long gfLastRefreshTime = 0;		//帮战上次刷新时间
 	
 	@CombineSave
-	private HashMap<Integer, String> activityFortuneCatRecord = new HashMap<Integer, String>();	//记录最近的三个摇奖
+	private HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord = new HashMap<Integer, ActivityFortuneCatRecord>();	//记录最近的三个摇奖
 	
 	public String getId() {
 		return id;
@@ -81,14 +82,16 @@ public class ServerCommonData {
 		}
 	}
 
-	public HashMap<Integer, String> getActivityFortuneCatRecord() {
+	public HashMap<Integer, ActivityFortuneCatRecord> getActivityFortuneCatRecord() {
 		return activityFortuneCatRecord;
 	}
 
 	public void setActivityFortuneCatRecord(
-			HashMap<Integer, String> activityFortuneCatRecord) {
+			HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord) {
 		this.activityFortuneCatRecord = activityFortuneCatRecord;
 	}
+
+	
 	
 	
 	

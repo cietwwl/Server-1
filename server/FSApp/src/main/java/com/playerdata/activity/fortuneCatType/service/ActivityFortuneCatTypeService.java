@@ -28,7 +28,7 @@ public class ActivityFortuneCatTypeService implements FsService {
 				byteString = handler.getGold(player, commonReq);
 				break;
 			case VIEW_OTHER_PLAYER:
-			
+				byteString = handler.getRecord(player, commonReq);
 				break;
 			default:
 				GameLog.error(LogModule.ComActivityFortuneCat, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
