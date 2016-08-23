@@ -72,13 +72,13 @@ public class DropRecordParser implements DataValueParser<DropRecord> {
         if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getFirstDropMap(), entity2.getFirstDropMap())) {
+        if (writer.hasChanged(entity1.getFirstDropMap(), entity2.getFirstDropMap())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getDropMissTimesMap(), entity2.getDropMissTimesMap())) {
+        if (writer.hasChanged(entity1.getDropMissTimesMap(), entity2.getDropMissTimesMap())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getPretreatMap(), entity2.getPretreatMap())) {
+        if (writer.hasChanged(entity1.getPretreatMap(), entity2.getPretreatMap())) {
             return true;
         }
         return false;

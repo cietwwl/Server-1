@@ -48,7 +48,7 @@ public class TableCopyDataParser implements DataValueParser<TableCopyData> {
         if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getCopyList(), entity2.getCopyList())) {
+        if (writer.hasChanged(entity1.getCopyList(), entity2.getCopyList())) {
             return true;
         }
         return false;

@@ -47,7 +47,7 @@ public class TableUserHeroParser implements DataValueParser<TableUserHero> {
         if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getHeroIds(), entity2.getHeroIds())) {
+        if (writer.hasChanged(entity1.getHeroIds(), entity2.getHeroIds())) {
             return true;
         }
         return false;

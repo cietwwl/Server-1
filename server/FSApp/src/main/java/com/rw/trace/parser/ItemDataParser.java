@@ -77,7 +77,7 @@ public class ItemDataParser implements DataValueParser<ItemData> {
         if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getAllExtendAttr(), entity2.getAllExtendAttr())) {
+        if (writer.hasChanged(entity1.getAllExtendAttr(), entity2.getAllExtendAttr())) {
             return true;
         }
         return false;

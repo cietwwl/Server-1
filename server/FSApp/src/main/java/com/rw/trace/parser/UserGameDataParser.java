@@ -346,7 +346,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         if (entity1.getStarAll() != entity2.getStarAll()) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
+        if (writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
             return true;
         }
         return false;

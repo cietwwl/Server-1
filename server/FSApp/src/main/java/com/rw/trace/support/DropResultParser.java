@@ -66,10 +66,10 @@ public class DropResultParser implements DataValueParser<DropResult> {
 
     @Override
     public boolean hasChanged(DropResult entity1, DropResult entity2) {
-        if (!writer.hasChanged(entity1.getItemInfos(), entity2.getItemInfos())) {
+        if (writer.hasChanged(entity1.getItemInfos(), entity2.getItemInfos())) {
             return true;
         }
-        if (!writer.hasChanged(entity1.getDropRuleMap(), entity2.getDropRuleMap())) {
+        if (writer.hasChanged(entity1.getDropRuleMap(), entity2.getDropRuleMap())) {
             return true;
         }
         if (entity1.getCreateTimeMillis() != entity2.getCreateTimeMillis()) {

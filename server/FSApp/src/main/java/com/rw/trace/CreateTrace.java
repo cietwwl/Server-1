@@ -225,7 +225,7 @@ public class CreateTrace {
 	}
 
 	private static StringBuilder writeHasChanged(StringBuilder sb, String firstName, String secondName) {
-		indent2(sb).append("if (!").append(WRITER).append(".hasChanged(").append(firstName).append(", ").append(secondName).append(")) {").append(ENTER);
+		indent2(sb).append("if (").append(WRITER).append(".hasChanged(").append(firstName).append(", ").append(secondName).append(")) {").append(ENTER);
 		return sb;
 	}
 
