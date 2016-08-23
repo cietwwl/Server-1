@@ -31,12 +31,12 @@ public class PrepareAreaMgr {
 		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("请先加入帮派");
+			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("场景未开启");
+			gcRsp.setTipMsg("场景未开启");
 			return;
 		}
 		List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(groupScene.get(groupId));
@@ -52,19 +52,18 @@ public class PrepareAreaMgr {
 		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("请先加入帮派");
+			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("场景未开启");
+			gcRsp.setTipMsg("场景未开启");
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
 		pInfo.setPx(position.getX() > 0.01f ? position.getX() : 0.01f);
 		pInfo.setPy(position.getY() > 0.01f ? position.getY() : 0.01f);
 		SameSceneContainer.getInstance().putUserToScene(groupScene.get(groupId), player.getUserId(), pInfo);
-		gcRsp.setRstTip("成功");
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 
@@ -73,16 +72,15 @@ public class PrepareAreaMgr {
 		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("没有帮派");
+			gcRsp.setTipMsg("没有帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("场景未开启");
+			gcRsp.setTipMsg("场景未开启");
 			return;
 		}
 		SameSceneContainer.getInstance().removeUserFromScene(groupScene.get(groupId), player.getUserId());
-		gcRsp.setRstTip("成功");
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	
@@ -91,19 +89,18 @@ public class PrepareAreaMgr {
 		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("请先加入帮派");
+			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setRstTip("场景未开启");
+			gcRsp.setTipMsg("场景未开启");
 			return;
 		}
 		List<PlayerBaseInfo> allBaseInfo = getAllPlayer(idList);
 		if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 			gcRsp.addAllPlayers(allBaseInfo);
 		}
-		gcRsp.setRstTip("成功");
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	
