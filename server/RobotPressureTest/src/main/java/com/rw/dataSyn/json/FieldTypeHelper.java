@@ -33,15 +33,15 @@ public class FieldTypeHelper {
 
 	public static Object ToPrimitiveValue(Class<?> type, String value){
 		
-		if(type == int.class){			
+		if(type == int.class || type == Integer.class){			
 			return Integer.valueOf(value);
-		}else if(type == float.class){			
+		}else if(type == float.class || type == Float.class){			
 			return Float.valueOf(value);			
-		}else if(type == boolean.class){
+		}else if(type == boolean.class || type == Boolean.class){
 			return Boolean.valueOf(value);			
-		}else if(type == double.class){
+		}else if(type == double.class || type == Double.class){
 			return Double.valueOf(value);			
-		}else if(type == long.class){
+		}else if(type == long.class || type == Long.class){
 			return Long.valueOf(value);
 		}
 		return null;
