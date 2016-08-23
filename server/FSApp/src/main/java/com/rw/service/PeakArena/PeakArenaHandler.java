@@ -314,12 +314,10 @@ public class PeakArenaHandler {
 			team.setMagicId(teamInfo.getMagicId());
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
-			String teamKey = ""+teamInfo.getTeamId();
+			String teamKey = "" + teamInfo.getTeamId();
 			List<BattleHeroPosition> heroPosList = teamInfo.getHeroPositionsList();
-			//TODO 保存站位信息
-			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, 
-					eBattlePositionType.PeakArenaPos_VALUE,teamKey,
-				EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+			// TODO 保存站位信息
+			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.PeakArenaPos_VALUE, teamKey, EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 		}
 		TablePeakArenaDataDAO.getInstance().update(peakData);
 		response.setArenaData(getPeakArenaData(peakData, player));
@@ -366,14 +364,14 @@ public class PeakArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
-		if (closeCfg.isCloseTime()){
+		if (closeCfg.isCloseTime()) {
 			return sendFailRespon(player, response, closeCfg.getCloseTimeTip());
 		}
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
 		}
-		
+
 		String enemyId = request.getUserId();
 		ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry = PeakArenaBM.getInstance().getEnemyEntry(enemyId);
 		if (enemyEntry == null) {
@@ -565,16 +563,16 @@ public class PeakArenaHandler {
 					enemyUser.getTempAttribute().setRecordChanged(true);
 				}
 			}
-			
-			//通知角色日常任务 by Alex
+
+			// 通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
 
 			response.setCdTime(computeCdTime(playerArenaData));
 			response.setChallengeCount(playerArenaData.getChallengeCount());
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
-			
+
 			pushMainViewData(player);
-			
+
 			return response.build().toByteString();
 		} finally {
 			// TODO 同宇超商量不对挑战者加锁
@@ -589,7 +587,7 @@ public class PeakArenaHandler {
 	private void pushMainViewData(Player player) {
 		MsgArenaRequest.Builder req = MsgArenaRequest.newBuilder();
 		req.setArenaType(eArenaType.GET_DATA);
-		ByteString data = getPeakArenaData(req.build(),player);
+		ByteString data = getPeakArenaData(req.build(), player);
 		player.SendMsg(MsgDef.Command.MSG_PEAK_ARENA, data);
 	}
 
@@ -693,7 +691,7 @@ public class PeakArenaHandler {
 		builder.setId(skill.getId());
 		builder.setOwnerId(skill.getOwnerId());
 		builder.setSkillId(skill.getSkillId());
-		builder.addAllBuffId(skill.getBuffId());
+		// builder.addAllBuffId(skill.getBuffId());
 		builder.setOrder(skill.getOrder());
 		builder.setSkillRate(skill.getSkillRate());
 		builder.setExtraDamage(skill.getExtraDamage());
@@ -728,7 +726,7 @@ public class PeakArenaHandler {
 
 		PlayerIF role = PlayerMgr.getInstance().getReadOnlyPlayer(arenaData.getUserId());
 
-//		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getHeroData().getId());
+		// List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getHeroData().getId());
 		List<TagSkillData> skills = role.getSkillMgr().getSkillProtoList(role.getMainRoleHero().getId());
 		for (TagSkillData skill : skills) {
 			data.addRoleSkill(skill);
@@ -748,9 +746,9 @@ public class PeakArenaHandler {
 			ItemData selectedMagic = null;
 			// 如果背包找不到法宝，可能是法宝被分解了！这时自动切换为玩家的法宝
 			selectedMagic = bagMgr.findBySlotId(magicId);
-			if (selectedMagic != null){
+			if (selectedMagic != null) {
 				EItemTypeDef ty = ItemCfgHelper.getItemType(selectedMagic.getModelId());
-				if (ty != EItemTypeDef.Magic){
+				if (ty != EItemTypeDef.Magic) {
 					selectedMagic = null;
 				}
 			}
@@ -766,12 +764,11 @@ public class PeakArenaHandler {
 				GameLog.error("巅峰竞技场", userId, "找不到法宝,ID=" + magicId);
 			}
 
-			//TODO 获取站位信息
-			EmbattlePositionInfo heroPositionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, 
-					eBattlePositionType.PeakArenaPos_VALUE, ""+team.getTeamId());
-			if (heroPositionInfo != null){
+			// TODO 获取站位信息
+			EmbattlePositionInfo heroPositionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.PeakArenaPos_VALUE, "" + team.getTeamId());
+			if (heroPositionInfo != null) {
 				List<EmbattleHeroPosition> lst = heroPositionInfo.getPos();
-				if (lst.size() > 0){
+				if (lst.size() > 0) {
 					for (EmbattleHeroPosition embattleHeroPosition : lst) {
 						BattleHeroPosition.Builder hposProto = BattleHeroPosition.newBuilder();
 						hposProto.setHeroId(embattleHeroPosition.getId());
@@ -780,7 +777,7 @@ public class PeakArenaHandler {
 					}
 				}
 			}
-			
+
 			List<String> heroIdList = team.getHeros();
 			if (heroIdList != null)
 				heroIdList.remove(arenaData.getUserId());
@@ -790,18 +787,18 @@ public class PeakArenaHandler {
 			int posIndex = 0;
 			for (ArmyHero hero : armyList) {
 				int position = 0;
-				if (heroPositionInfo != null){
-					//TODO 写入站位，可能找不到，这时返回0，需要兼容旧数据
+				if (heroPositionInfo != null) {
+					// TODO 写入站位，可能找不到，这时返回0，需要兼容旧数据
 					position = heroPositionInfo.getHeroPos(hero.getRoleBaseInfo().getId());
 				}
-				
-				if (position == 0){
+
+				if (position == 0) {
 					position = getNextPosition(usedPos);
 				}
 				usedPos[posIndex] = position;
 				posIndex++;
 				hero.setPosition(position);
-				teamBuilder.addHeros(getHeroData(hero,i));
+				teamBuilder.addHeros(getHeroData(hero, i));
 			}
 			teamBuilder.setPlayer(teamMainRole);
 			teamBuilder.addAllHeroIds(heroIdList);
@@ -814,24 +811,24 @@ public class PeakArenaHandler {
 		}
 		return data.build();
 	}
-	
-	public int getNextPosition(int[] usedPosition){
+
+	public int getNextPosition(int[] usedPosition) {
 		int maxPosValue = 0;
-		for (int tmpIndex = 0; tmpIndex < usedPosition.length;++tmpIndex){
-			if (usedPosition[tmpIndex] > maxPosValue){
+		for (int tmpIndex = 0; tmpIndex < usedPosition.length; ++tmpIndex) {
+			if (usedPosition[tmpIndex] > maxPosValue) {
 				maxPosValue = usedPosition[tmpIndex];
 			}
 		}
 		int newPos;
-		for (newPos = 1; newPos<=maxPosValue;++newPos){
+		for (newPos = 1; newPos <= maxPosValue; ++newPos) {
 			boolean isContained = false;
-			for(int j = 0; j<usedPosition.length;++j){
-				if (newPos == usedPosition[j]){
+			for (int j = 0; j < usedPosition.length; ++j) {
+				if (newPos == usedPosition[j]) {
 					isContained = true;
 					break;
 				}
 			}
-			if (!isContained){
+			if (!isContained) {
 				break;
 			}
 		}

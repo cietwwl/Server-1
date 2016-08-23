@@ -33,32 +33,33 @@ import com.rwproto.SkillServiceProtos.SkillResponse;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 //public class SkillMgr extends IDataMgr implements SkillMgrIF {
-public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
+public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 
 	public static final int MAX_SKILL_COUNT = 10;// 最大技能点数量
 	public static final int DIE_SKILL_LEVEL = -2;
-	
+
 	private static final SkillMgr _INSTANCE = new SkillMgr();
-	
+
 	public static final SkillMgr getInstance() {
 		return _INSTANCE;
 	}
-	
-	protected SkillMgr() {}
 
-//	private SkillItemHolder skillItemHolder;
+	protected SkillMgr() {
+	}
+
+	// private SkillItemHolder skillItemHolder;
 	private final SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
 
 	public void init(Hero pRole) {
-//		initPlayer(pRole);
-//		String ownerId = pRole.getUUId();
-//		skillItemHolder = new SkillItemHolder(ownerId);
+		// initPlayer(pRole);
+		// String ownerId = pRole.getUUId();
+		// skillItemHolder = new SkillItemHolder(ownerId);
 	}
-	
+
 	public void regDataChangeCallback(IHeroAction callback) {
 		skillItemHolder.regDataChangeCallback(callback);
 	}
-	
+
 	@Override
 	public boolean load(String heroId) {
 		return false;
@@ -78,7 +79,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	public List<Skill> getSkillList(String heroId) {
 		return skillItemHolder.getItemList(heroId);
 	}
-	
+
 	public boolean canUpgradeSkill(Player player, String heroId) {
 		List<Skill> list = getSkillList(heroId);
 		for (Skill skill : list) {
@@ -88,7 +89,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		}
 		return false;
 	}
-	
+
 	private boolean canUpgradeSkill(Player player, String heroId, Skill skill, boolean showError) {
 		Hero hero = FSHeroMgr.getInstance().getHeroById(player, heroId);
 		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SKILL_OPEN, player.getLevel())) {
@@ -141,32 +142,6 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		return true;
 	}
 
-//	public boolean updateSkill(String skillId, int addLevel) {
-//		Skill skill = null;
-//		List<Skill> skillList = skillItemHolder.getItemList();
-//		for (Skill current : skillList) {
-//			if (current.getSkillId().equals(skillId)) {
-//				skill = current;
-//				break;
-//			}
-//		}
-//		if (skill == null) {
-//			return false;
-//		}
-//		int level = skill.getLevel() + addLevel;
-//		StringTokenizer token = new StringTokenizer(skillId, "_");
-//		String newSkillId = token.nextToken() + "_" + level;
-//		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
-//		if (newSkillCfg == null) {
-//			return false;
-//		}
-//		skill.setLevel(level);
-//		skill.setSkillId(newSkillId);
-//		updateMoreInfo(skill, null);
-//		skillItemHolder.updateItem(m_pPlayer, skill);
-//		return true;
-//	}
-	
 	public boolean updateSkill(Player player, String heroId, String skillId, int addLevel) {
 		Skill skill = null;
 		List<Skill> skillList = skillItemHolder.getItemList(heroId);
@@ -182,7 +157,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		int level = skill.getLevel() + addLevel;
 		StringTokenizer token = new StringTokenizer(skillId, "_");
 		String newSkillId = token.nextToken() + "_" + level;
-//		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
+		// SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
 		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(newSkillId); // PERRY 2016-08-19，上面的本意应该是要获取下个技能
 		if (newSkillCfg == null) {
 			return false;
@@ -227,7 +202,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		response.setRecoverSkillPoints(max - count);
 		return response;
 	}
-	
+
 	/**
 	 * 激活佣兵技能
 	 * 
@@ -241,15 +216,9 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(player, heroId, skill, null);
-				// if (maxOrder < skill.getOrder()) {
-				// maxOrder = skill.getOrder();
-				// }
 			}
 		}
 		skillItemHolder.synAllData(player, heroId, -1);
-		// if (maxOrder > 0) {
-		// openSkillOnClient(maxOrder);
-		// }
 	}
 
 	/**
@@ -267,7 +236,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		}
 		return cfg.getRoleLevel() <= heroLevel && cfg.getRoleQuality() <= heroQuality;
 	}
-	
+
 	/**
 	 * 改变技能id
 	 * 
@@ -275,11 +244,6 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	 * @param cfg
 	 */
 	public void changeSkill(Player player, String heroId, RoleCfg cfg) {
-		// List<Skill> skillList = skillItemHolder.getItemList();
-		// if (skillList.isEmpty()) {
-		// initSkill(cfg);
-		// return;
-		// }
 		List<Skill> cfgList = RoleCfgDAO.getInstance().getSkill(cfg.getRoleId());
 		for (int i = cfgList.size() - 1; i >= 0; --i) {
 			Skill newSkill = cfgList.get(i);
@@ -299,18 +263,8 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 
 		// 检查所有的技能
 		updateMoreInfo(player, heroId, null, skillItemHolder.getItemList(heroId));
-
-		// for (int i = 0; i < skillList.size(); i++) {
-		// Skill pSkill = skillList.get(i);
-		// String oldId = cfgList.get(pSkill.getOrder()).getSkillId();
-		// String newId = oldId.split("_")[0] + "_" + pSkill.getSkillId().split("_")[1];
-		// pSkill.setSkillId(newId);
-		// updateMoreInfo(pSkill, null);
-		// skillItemHolder.updateItem(m_pPlayer, pSkill);
-		// System.out.println("skillchangeformplayerCareerChange:skillorder=" + pSkill.getOrder() + "oldSkillId=" + oldId + ",newid=" + newId);
-		// }
 	}
-	
+
 	/**
 	 * get 初始化技能
 	 * 
@@ -321,50 +275,50 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		skillItemHolder.addItem(player, m_pOwner.getId(), battleSkillList);
 	}
 
-//	/**
-//	 * 更新技能其它信息
-//	 * 
-//	 * @param pSkill
-//	 */
-//	private void updateMoreInfo(Skill pSkill, List<Skill> skillList) {
-//		if (pSkill != null) {
-//			if (pSkill.getLevel() <= 0) {
-//				return;
-//			}
-//
-//			String skillId = pSkill.getSkillId();
-//			SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
-//			if (pSkillCfg == null) {
-//				if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
-//					if (m_pPlayer != null) {
-//						m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
-//					}
-//				}
-//				return;
-//			}
-//		}
-//
-//		List<Skill> itemList = skillItemHolder.getItemList();
-//
-//		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
-//
-//		// StringBuilder sb = new StringBuilder();
-//		for (int i = 0, size = itemList.size(); i < size; i++) {
-//			Skill skill = itemList.get(i);
-//			if (skill == null) {
-//				continue;
-//			}
-//
-//			skillItemHolder.updateItem(m_pPlayer, skill);
-//
-//			// sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
-//			// skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-//			// skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
-//		}
-//
-//		// GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
-//	}
-	
+	// /**
+	// * 更新技能其它信息
+	// *
+	// * @param pSkill
+	// */
+	// private void updateMoreInfo(Skill pSkill, List<Skill> skillList) {
+	// if (pSkill != null) {
+	// if (pSkill.getLevel() <= 0) {
+	// return;
+	// }
+	//
+	// String skillId = pSkill.getSkillId();
+	// SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
+	// if (pSkillCfg == null) {
+	// if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
+	// if (m_pPlayer != null) {
+	// m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
+	// }
+	// }
+	// return;
+	// }
+	// }
+	//
+	// List<Skill> itemList = skillItemHolder.getItemList();
+	//
+	// SkillHelper.checkAllSkill(itemList);// 检查所有的技能
+	//
+	// // StringBuilder sb = new StringBuilder();
+	// for (int i = 0, size = itemList.size(); i < size; i++) {
+	// Skill skill = itemList.get(i);
+	// if (skill == null) {
+	// continue;
+	// }
+	//
+	// skillItemHolder.updateItem(m_pPlayer, skill);
+	//
+	// // sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
+	// // skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
+	// // skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
+	// }
+	//
+	// // GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
+	// }
+
 	/**
 	 * 更新技能其它信息
 	 * 
@@ -416,7 +370,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		reshSkillPoint(player);
 		skillItemHolder.synAllData(player, heroId, version);
 	}
-	
+
 	/**
 	 * 
 	 * 获取英雄技能列表的proto表示
@@ -438,7 +392,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	public List<TagSkillData> getSkillProtoList(List<Skill> skillLIst) {
 		return SkillHelper.getSkillProtoList(skillLIst);
 	}
-	
+
 	/**
 	 * 
 	 * 玩家购买技能点
@@ -462,7 +416,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 
 		return;
 	}
-	
+
 	/**
 	 * 
 	 * 获取上次增加技能点到当前的时间之间所能增加的技能点数量
@@ -485,7 +439,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * 预估能够时间恢复技能点
 	 * 
@@ -498,7 +452,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		long recoverSpanTime = getCoolTime(player);
 		return timeSpan > recoverSpanTime;
 	}
-	
+
 	/**
 	 * 重算技能点（技能点数量，技能点时间）
 	 */
@@ -519,7 +473,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		}
 		player.getUserGameDataMgr().setSkillPointCount(total);
 	}
-	
+
 	/**
 	 * 获取技能表
 	 * 
@@ -533,7 +487,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		skillTable.setUserId(heroId);
 		return skillTable;
 	}
-	
+
 	/**
 	 * 根据order获取技能
 	 * 
@@ -543,7 +497,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	public Skill getSkill(String heroId, int order) {
 		return skillItemHolder.getByOrder(heroId, order);
 	}
-	
+
 	/**
 	 * 
 	 * 获取技能点冷却的剩余时间
@@ -560,7 +514,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		cooltime = cooltime * 1000L;
 		return cooltime > 0 ? cooltime : 0;
 	}
-	
+
 	/**
 	 * gm 修改技能
 	 * 
@@ -571,7 +525,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 		updateMoreInfo(player, heroId, skill, null);
 		skillItemHolder.updateItem(player, heroId, skill);
 	}
-	
+
 	/**
 	 * 
 	 * 获取玩家能拥有的最大技能数量
@@ -582,7 +536,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	public int getMaxSkillCount(Player player) {
 		return player.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillThreshold);
 	}
-	
+
 	/**
 	 * 检查英雄的技能数据，主要是想做数据普攻的数据兼容，以及能从配置表中读取的数据，就不存储到数据库
 	 * 

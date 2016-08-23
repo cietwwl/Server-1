@@ -1,7 +1,10 @@
 package com.rwbase.dao.skill.pojo;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import com.common.HPCUtil;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeType;
@@ -40,7 +43,7 @@ public class SkillCfg {
 	private int roleQuality;// 佣兵要判断此条件
 	private int roleLevel;// 主角仅此条件
 	private String skillEffectId;
-	private String skillEffectId2;
+	// private String skillEffectId2;
 	public String icon; // 图标名...
 	public String atlas; // 图集名...
 	private int extraDamage;// 额外伤害。。。
@@ -49,11 +52,15 @@ public class SkillCfg {
 	private String buffId;
 	private String floatTip;
 	private String selfBuffId;
+	private String listenerIds;// 监听的Id列表
+	private String optIds;// 操作的Id列表
 
 	private String attrData;// 增加的固定值属性
 	private String precentAttrData;// 增加的百分比属性
 	private Map<Integer, Integer> attrDataMap;// 增加固定值属性
 	private Map<Integer, Integer> precentAttrDataMap;// 增加的百分比属性
+	private List<String> listenerIdList;// 监听Id的列表
+	private List<Integer> optIdList;// 操作的Id列表
 
 	public SkillCfg() {
 	}
@@ -242,17 +249,18 @@ public class SkillCfg {
 		return skillEffectId;
 	}
 
-	public void setSkillEffectId(String skillEffectId) {
-		this.skillEffectId = skillEffectId;
-	}
-
-	public String getSkillEffectId2() {
-		return skillEffectId2;
-	}
-
-	public void setSkillEffectId2(String skillEffectId2) {
-		this.skillEffectId2 = skillEffectId2;
-	}
+	//
+	// public void setSkillEffectId(String skillEffectId) {
+	// this.skillEffectId = skillEffectId;
+	// }
+	//
+	// public String getSkillEffectId2() {
+	// return skillEffectId2;
+	// }
+	//
+	// public void setSkillEffectId2(String skillEffectId2) {
+	// this.skillEffectId2 = skillEffectId2;
+	// }
 
 	public int getProperty() {
 		return property;
@@ -391,6 +399,24 @@ public class SkillCfg {
 	}
 
 	/**
+	 * 监听的Id列表
+	 * 
+	 * @return
+	 */
+	public List<String> getListenerIdList() {
+		return listenerIdList;
+	}
+
+	/**
+	 * 获取操作Id列表
+	 * 
+	 * @return
+	 */
+	public List<Integer> getOptIdList() {
+		return optIdList;
+	}
+
+	/**
 	 * 初始化解析属性
 	 */
 	public void initData() {
@@ -398,5 +424,19 @@ public class SkillCfg {
 		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("SkillCfg", attrData);
 		// ===============================增加的百分比属性
 		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("SkillCfg", precentAttrData);
+		// ===============================监听的Id列表
+		List<String> list = HPCUtil.parseStr2List(this.listenerIds, "|");
+		if (list == null || list.isEmpty()) {
+			this.listenerIdList = Collections.emptyList();
+		} else {
+			this.listenerIdList = Collections.unmodifiableList(list);
+		}
+		// ===============================操作的Id列表
+		List<Integer> intList = HPCUtil.parseIntegerList(this.optIds, "|");
+		if (intList == null || intList.isEmpty()) {
+			this.optIdList = Collections.emptyList();
+		} else {
+			this.optIdList = Collections.unmodifiableList(intList);
+		}
 	}
 }

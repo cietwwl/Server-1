@@ -8,10 +8,14 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.playerdata.SkillMgr;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
+import com.rwbase.dao.skill.SkillListenOptCfgDAO;
+import com.rwbase.dao.skill.optlisten.OptResult;
+import com.rwbase.dao.skill.optlisten.SkillListenOptUtils;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class SkillHelper {
@@ -36,9 +40,9 @@ public class SkillHelper {
 			tagSkill.setOrder(skill.getOrder());
 			tagSkill.setExtraDamage(skill.getExtraDamage());
 			tagSkill.setSkillRate(skill.getSkillRate());
-			for (Integer buff : skill.getBuffId()) {
-				tagSkill.addBuffId(buff);
-			}
+			// for (Integer buff : skill.getBuffId()) {
+			// tagSkill.addBuffId(buff);
+			// }
 
 			list.add(tagSkill.build());
 		}
@@ -80,6 +84,55 @@ public class SkillHelper {
 	}
 
 	/**
+	 * 初始化生成技能的数据
+	 * 
+	 * @param commonSkillList
+	 * @param attackSkillId
+	 * @param dieSkillId
+	 * @return
+	 */
+	public static List<Skill> getSkillList(List<String> commonSkillList, String attackSkillId, String dieSkillId) {
+		int commonSkillSize = commonSkillList.size();
+		List<Skill> skillList = new ArrayList<Skill>(commonSkillSize + 2);
+
+		// 普通技能
+		for (int i = 0; i < commonSkillSize; i++) {
+			String skillId = commonSkillList.get(i);
+
+			if (StringUtils.isEmpty(skillId)) {
+				continue;
+			}
+
+			Skill pSkill = new Skill();
+			pSkill.setSkillId(skillId);
+			pSkill.setOrder(i);
+			if (i == 0) {
+				pSkill.setLevel(1);
+			} else if (i == commonSkillSize - 1) {
+				pSkill.setLevel(-1);
+			}
+		}
+
+		if (StringUtils.isNotBlank(dieSkillId)) {
+			Skill pSkill = new Skill();
+			pSkill.setSkillId(dieSkillId);
+			pSkill.setOrder(5);
+			pSkill.setLevel(-2);// 死亡技能等级设为-2
+			skillList.add(pSkill);
+		}
+
+		if (StringUtils.isNotBlank(attackSkillId)) {
+			Skill pSkill = new Skill();
+			pSkill.setSkillId(attackSkillId);
+			pSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
+			pSkill.setLevel(1);
+			skillList.add(pSkill);
+		}
+
+		return skillList;
+	}
+
+	/**
 	 * 重置掉技能伤害，技能对敌Buff和SelfBuff，技能额外附加伤害，以及附加百分比
 	 * 
 	 * @param skillList
@@ -98,8 +151,6 @@ public class SkillHelper {
 				return;
 			}
 
-			skillInfo.getBuffId().clear();
-			skillInfo.getSelfBuffId().clear();
 			skillInfo.setExtraDamage(0);
 			skillInfo.setSkillRate(0);
 
@@ -183,9 +234,16 @@ public class SkillHelper {
 		}
 
 		SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
+		SkillCfg cfg = cfgDAO.getCfg(updateSkillId);
+		if (cfg == null) {
+			return;
+		}
 
-		List<Integer> buffList = new ArrayList<Integer>();
-		List<Integer> selfBuffList = new ArrayList<Integer>();
+		List<String> cfgListenerIds = cfg.getListenerIdList();// 默认的监听Id列表
+
+		List<String> listenerIdList = new ArrayList<String>(cfgListenerIds);
+
+		SkillListenOptCfgDAO listenCfgDAO = SkillListenOptCfgDAO.getCfgDAO();
 
 		// 相互影响的伤害值
 		for (int i = skillList.size() - 1; i >= 0; --i) {
@@ -195,60 +253,99 @@ public class SkillHelper {
 			}
 
 			String skillId = skillInfo.getSkillId();
-			SkillCfg cfg = cfgDAO.getCfg(skillId);
+			cfg = cfgDAO.getCfg(skillId);
 			if (cfg == null) {
 				continue;
 			}
 
-			List<Integer> buffs = checkBuffer(updateSkillId, cfg.getBuffId(), buffList);
-			if (buffs != null && !buffs.isEmpty()) {
-				buffList.addAll(buffs);
+			List<Integer> optIdList = cfg.getOptIdList();
+			if (optIdList == null || optIdList.isEmpty()) {
+				continue;
 			}
 
-			List<Integer> selfBuffs = checkBuffer(updateSkillId, cfg.getSelfBuffId(), selfBuffList);
-			if (selfBuffs != null && !selfBuffs.isEmpty()) {
-				selfBuffList.addAll(selfBuffs);
-			}
-		}
-
-		skill.setBuffId(buffList);
-		skill.setSelfBuffId(selfBuffList);
-	}
-
-	/**
-	 * 检查被影响到的Buff列表
-	 * 
-	 * @param updateSkillId
-	 * @param buffIdStr
-	 * @param hasBuff
-	 * @return
-	 */
-	private static List<Integer> checkBuffer(String updateSkillId, String buffIdStr, List<Integer> hasBuff) {
-		if (StringUtils.isEmpty(buffIdStr)) {
-			return null;
-		}
-
-		String[] split = buffIdStr.split(";");
-
-		List<Integer> buffList = new ArrayList<Integer>();
-
-		for (int i = 0, len = split.length; i < len; i++) {
-			String[] split1 = split[0].split("_");
-
-			if (!updateSkillId.startsWith(split1[0])) {
-				return null;
-			}
-
-			for (int j = 1, buffLen = split1.length; j < buffLen; j++) {
-				int buffId = Integer.parseInt(split1[j]);
-				if (buffId <= 0 || hasBuff.contains(buffId)) {
+			for (int j = 0, optSize = optIdList.size(); j < optSize; j++) {
+				int optId = optIdList.get(j).intValue();
+				SkillListenOptTemplate tmp = listenCfgDAO.getSkillListenOptTemplate(optId);
+				if (tmp == null) {
 					continue;
 				}
 
-				buffList.add(buffId);
+				int optType = tmp.getOptType();
+				OptResult optResult = SkillListenOptUtils.getInstance().getOptResult(optType, updateSkillId, listenerIdList, tmp);
+				if (optResult == null) {
+					continue;
+				}
+
+				optResultHandler(optResult, listenerIdList);
 			}
 		}
 
-		return buffList;
+		skill.setListenerIds(listenerIdList);
 	}
+
+	/**
+	 * 更新结果的处理
+	 * 
+	 * @param optResult
+	 * @param listenerIdList
+	 */
+	private static void optResultHandler(OptResult optResult, List<String> listenerIdList) {
+		// 检查要新加的
+		List<String> addIdList = optResult.getAddIdList();
+		if (addIdList != null && !addIdList.isEmpty()) {
+			for (int i = 0, size = addIdList.size(); i < size; i++) {
+				String addId = addIdList.get(i);
+				if (!listenerIdList.contains(addId)) {
+					listenerIdList.add(addId);
+				}
+			}
+		}
+
+		// 检查要删除的
+		List<String> deleteIdList = optResult.getDeleteIdList();
+		if (deleteIdList != null && !deleteIdList.isEmpty()) {
+			for (int i = 0, size = deleteIdList.size(); i < size; i++) {
+				String deleteId = deleteIdList.get(i);
+				if (listenerIdList.contains(deleteId)) {
+					listenerIdList.remove(deleteId);
+				}
+			}
+		}
+	}
+	// /**
+	// * 检查被影响到的Buff列表
+	// *
+	// * @param updateSkillId
+	// * @param buffIdStr
+	// * @param hasBuff
+	// * @return
+	// */
+	// private static List<Integer> checkBuffer(String updateSkillId, String buffIdStr, List<Integer> hasBuff) {
+	// if (StringUtils.isEmpty(buffIdStr)) {
+	// return null;
+	// }
+	//
+	// String[] split = buffIdStr.split(";");
+	//
+	// List<Integer> buffList = new ArrayList<Integer>();
+	//
+	// for (int i = 0, len = split.length; i < len; i++) {
+	// String[] split1 = split[0].split("_");
+	//
+	// if (!updateSkillId.startsWith(split1[0])) {
+	// return null;
+	// }
+	//
+	// for (int j = 1, buffLen = split1.length; j < buffLen; j++) {
+	// int buffId = Integer.parseInt(split1[j]);
+	// if (buffId <= 0 || hasBuff.contains(buffId)) {
+	// continue;
+	// }
+	//
+	// buffList.add(buffId);
+	// }
+	// }
+	//
+	// return buffList;
+	// }
 }

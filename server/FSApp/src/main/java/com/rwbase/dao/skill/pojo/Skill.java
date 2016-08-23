@@ -29,9 +29,13 @@ public class Skill implements IMapItem, SkillIF {
 	@CombineSave
 	private int order;// 第几个技能
 	// /////////////////////////////////////可以用配置表中的配置获取到这些数据，不记录在数据库
-	@Transient
-	@NonSave
-	private List<Integer> buffId = new ArrayList<Integer>();
+	// @Transient
+	// @NonSave
+	// private List<Integer> buffId = new ArrayList<Integer>();
+	// @Transient
+	// @NonSave
+	// private List<Integer> selfBuffId = new ArrayList<Integer>();
+
 	@Transient
 	@NonSave
 	private float skillRate;
@@ -42,11 +46,10 @@ public class Skill implements IMapItem, SkillIF {
 	@NonSave
 	private int skillDamage;
 	@Transient
-	@NonSave
-	private List<Integer> selfBuffId = new ArrayList<Integer>();
+	private List<String> listenerIds;// 监听的Id
 
 	public Skill() {
-		super();
+		listenerIds = new ArrayList<String>();
 	}
 
 	public String getId() {
@@ -89,13 +92,13 @@ public class Skill implements IMapItem, SkillIF {
 		this.extraDamage = extraDamage;
 	}
 
-	public List<Integer> getBuffId() {
-		return buffId;
-	}
-
-	public void setBuffId(List<Integer> buffId) {
-		this.buffId = buffId;
-	}
+	// public List<Integer> getBuffId() {
+	// return buffId;
+	// }
+	//
+	// public void setBuffId(List<Integer> buffId) {
+	// this.buffId = buffId;
+	// }
 
 	public String getOwnerId() {
 		return ownerId;
@@ -121,12 +124,19 @@ public class Skill implements IMapItem, SkillIF {
 		this.skillDamage = skillDamage;
 	}
 
-	public List<Integer> getSelfBuffId() {
-		return selfBuffId;
+	public List<String> getListenerIds() {
+		return listenerIds;
 	}
 
-	public void setSelfBuffId(List<Integer> selfBuffId) {
-		this.selfBuffId = selfBuffId;
+	public void setListenerIds(List<String> listenerIds) {
+		this.listenerIds = listenerIds;
 	}
 
+	// public List<Integer> getSelfBuffId() {
+	// return selfBuffId;
+	// }
+	//
+	// public void setSelfBuffId(List<Integer> selfBuffId) {
+	// this.selfBuffId = selfBuffId;
+	// }
 }
