@@ -1,6 +1,8 @@
 package com.playerdata.groupcompetition.syn;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
@@ -97,6 +99,20 @@ public class SameSceneContainer {
 			ConcurrentHashMap<String, T> scene = (ConcurrentHashMap<String, T>) container.get(sceneId);
 			if(null == scene) return new HashMap<String, T>();
 			return new HashMap<String, T>(scene);
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
+	/*
+	 * 获取某个场景里所有的玩家id
+	 */
+	public List<String> getAllSceneUser(long sceneId){
+		readLock.lock();
+		try {
+			ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene = container.get(sceneId);
+			if(null == scene) return new ArrayList<String>();
+			return new ArrayList<String>(scene.keySet());
 		} finally {
 			readLock.unlock();
 		}
