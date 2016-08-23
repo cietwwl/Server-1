@@ -30,13 +30,12 @@ public class CreateTrace {
 	private static final String ENTER = "\r\n";// use windows
 	private static final String FORMAT = "    ";
 	private static final String PUBLIC = "public ";
-	private static final char SP = ' ';
-	private static final String NEW_ENTITY = "newData_";
 	private static final String OLD = "entity";
 	private static final String JSON = "JSONObject";
 	private static final String WRITER = "writer";
 	private static final String FILE_PATH = "src/main/java/";
 	private static final String MAP = "jsonMap";
+	private static final char SP = ' ';
 	public static final String PARSER_PATH = "com.rw.trace.parser";
 	private static final String SUPPORT_PATH = "com.rw.trace.support";
 

@@ -125,7 +125,7 @@ public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<
 					removeList = new ArrayList<Pair<String, T>>();
 				}
 				removeList.add(Pair.Create(entryKey, entry.getValue()));
-			} else if (oldValue == null || !parser.hasChanged(oldValue, newValue)) {
+			} else if (oldValue == null || parser.hasChanged(oldValue, newValue)) {
 				// 此处不做比较
 				otherMap.put(entryKey, Pair.Create(oldValue, newValue));
 			}
