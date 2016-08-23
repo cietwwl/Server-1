@@ -635,32 +635,50 @@ public final class ActivityFortuneCatTypeProto {
      */
     int getGetGold();
 
-    // optional string getRecord = 5;
+    // repeated .fortuneCatType.getRecord getRecord = 5;
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    boolean hasGetRecord();
+    java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord> 
+        getGetRecordList();
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    java.lang.String getGetRecord();
+    com.rwproto.ActivityFortuneCatTypeProto.getRecord getGetRecord(int index);
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getGetRecordBytes();
+    int getGetRecordCount();
+    /**
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder> 
+        getGetRecordOrBuilderList();
+    /**
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder getGetRecordOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code fortuneCatType.ActivityCommonRspMsg}
@@ -740,8 +758,11 @@ public final class ActivityFortuneCatTypeProto {
               break;
             }
             case 42: {
-              bitField0_ |= 0x00000010;
-              getRecord_ = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                getRecord_ = new java.util.ArrayList<com.rwproto.ActivityFortuneCatTypeProto.getRecord>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              getRecord_.add(input.readMessage(com.rwproto.ActivityFortuneCatTypeProto.getRecord.PARSER, extensionRegistry));
               break;
             }
           }
@@ -752,6 +773,9 @@ public final class ActivityFortuneCatTypeProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          getRecord_ = java.util.Collections.unmodifiableList(getRecord_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -911,59 +935,60 @@ public final class ActivityFortuneCatTypeProto {
       return getGold_;
     }
 
-    // optional string getRecord = 5;
+    // repeated .fortuneCatType.getRecord getRecord = 5;
     public static final int GETRECORD_FIELD_NUMBER = 5;
-    private java.lang.Object getRecord_;
+    private java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord> getRecord_;
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    public boolean hasGetRecord() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+    public java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord> getGetRecordList() {
+      return getRecord_;
     }
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    public java.lang.String getGetRecord() {
-      java.lang.Object ref = getRecord_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          getRecord_ = s;
-        }
-        return s;
-      }
+    public java.util.List<? extends com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder> 
+        getGetRecordOrBuilderList() {
+      return getRecord_;
     }
     /**
-     * <code>optional string getRecord = 5;</code>
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
      *
      * <pre>
      *反馈其它人的记录
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getGetRecordBytes() {
-      java.lang.Object ref = getRecord_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        getRecord_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getGetRecordCount() {
+      return getRecord_.size();
+    }
+    /**
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    public com.rwproto.ActivityFortuneCatTypeProto.getRecord getGetRecord(int index) {
+      return getRecord_.get(index);
+    }
+    /**
+     * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+     *
+     * <pre>
+     *反馈其它人的记录
+     * </pre>
+     */
+    public com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder getGetRecordOrBuilder(
+        int index) {
+      return getRecord_.get(index);
     }
 
     private void initFields() {
@@ -971,7 +996,7 @@ public final class ActivityFortuneCatTypeProto {
       isSuccess_ = false;
       tipMsg_ = "";
       getGold_ = 0;
-      getRecord_ = "";
+      getRecord_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1005,8 +1030,8 @@ public final class ActivityFortuneCatTypeProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, getGold_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getGetRecordBytes());
+      for (int i = 0; i < getRecord_.size(); i++) {
+        output.writeMessage(5, getRecord_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1033,9 +1058,9 @@ public final class ActivityFortuneCatTypeProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, getGold_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      for (int i = 0; i < getRecord_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getGetRecordBytes());
+          .computeMessageSize(5, getRecord_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1145,6 +1170,7 @@ public final class ActivityFortuneCatTypeProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getGetRecordFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1161,8 +1187,12 @@ public final class ActivityFortuneCatTypeProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         getGold_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        getRecord_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
+        if (getRecordBuilder_ == null) {
+          getRecord_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          getRecordBuilder_.clear();
+        }
         return this;
       }
 
@@ -1207,10 +1237,15 @@ public final class ActivityFortuneCatTypeProto {
           to_bitField0_ |= 0x00000008;
         }
         result.getGold_ = getGold_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
+        if (getRecordBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            getRecord_ = java.util.Collections.unmodifiableList(getRecord_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.getRecord_ = getRecord_;
+        } else {
+          result.getRecord_ = getRecordBuilder_.build();
         }
-        result.getRecord_ = getRecord_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1241,10 +1276,31 @@ public final class ActivityFortuneCatTypeProto {
         if (other.hasGetGold()) {
           setGetGold(other.getGetGold());
         }
-        if (other.hasGetRecord()) {
-          bitField0_ |= 0x00000010;
-          getRecord_ = other.getRecord_;
-          onChanged();
+        if (getRecordBuilder_ == null) {
+          if (!other.getRecord_.isEmpty()) {
+            if (getRecord_.isEmpty()) {
+              getRecord_ = other.getRecord_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureGetRecordIsMutable();
+              getRecord_.addAll(other.getRecord_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.getRecord_.isEmpty()) {
+            if (getRecordBuilder_.isEmpty()) {
+              getRecordBuilder_.dispose();
+              getRecordBuilder_ = null;
+              getRecord_ = other.getRecord_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              getRecordBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getGetRecordFieldBuilder() : null;
+            } else {
+              getRecordBuilder_.addAllMessages(other.getRecord_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1529,102 +1585,316 @@ public final class ActivityFortuneCatTypeProto {
         return this;
       }
 
-      // optional string getRecord = 5;
-      private java.lang.Object getRecord_ = "";
-      /**
-       * <code>optional string getRecord = 5;</code>
-       *
-       * <pre>
-       *反馈其它人的记录
-       * </pre>
-       */
-      public boolean hasGetRecord() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+      // repeated .fortuneCatType.getRecord getRecord = 5;
+      private java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord> getRecord_ =
+        java.util.Collections.emptyList();
+      private void ensureGetRecordIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          getRecord_ = new java.util.ArrayList<com.rwproto.ActivityFortuneCatTypeProto.getRecord>(getRecord_);
+          bitField0_ |= 0x00000010;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ActivityFortuneCatTypeProto.getRecord, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder, com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder> getRecordBuilder_;
+
       /**
-       * <code>optional string getRecord = 5;</code>
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
        *
        * <pre>
        *反馈其它人的记录
        * </pre>
        */
-      public java.lang.String getGetRecord() {
-        java.lang.Object ref = getRecord_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          getRecord_ = s;
-          return s;
+      public java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord> getGetRecordList() {
+        if (getRecordBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(getRecord_);
         } else {
-          return (java.lang.String) ref;
+          return getRecordBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional string getRecord = 5;</code>
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
        *
        * <pre>
        *反馈其它人的记录
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getGetRecordBytes() {
-        java.lang.Object ref = getRecord_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          getRecord_ = b;
-          return b;
+      public int getGetRecordCount() {
+        if (getRecordBuilder_ == null) {
+          return getRecord_.size();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          return getRecordBuilder_.getCount();
         }
       }
       /**
-       * <code>optional string getRecord = 5;</code>
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord getGetRecord(int index) {
+        if (getRecordBuilder_ == null) {
+          return getRecord_.get(index);
+        } else {
+          return getRecordBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
        *
        * <pre>
        *反馈其它人的记录
        * </pre>
        */
       public Builder setGetRecord(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        getRecord_ = value;
-        onChanged();
+          int index, com.rwproto.ActivityFortuneCatTypeProto.getRecord value) {
+        if (getRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGetRecordIsMutable();
+          getRecord_.set(index, value);
+          onChanged();
+        } else {
+          getRecordBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>optional string getRecord = 5;</code>
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder setGetRecord(
+          int index, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder builderForValue) {
+        if (getRecordBuilder_ == null) {
+          ensureGetRecordIsMutable();
+          getRecord_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          getRecordBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder addGetRecord(com.rwproto.ActivityFortuneCatTypeProto.getRecord value) {
+        if (getRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGetRecordIsMutable();
+          getRecord_.add(value);
+          onChanged();
+        } else {
+          getRecordBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder addGetRecord(
+          int index, com.rwproto.ActivityFortuneCatTypeProto.getRecord value) {
+        if (getRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGetRecordIsMutable();
+          getRecord_.add(index, value);
+          onChanged();
+        } else {
+          getRecordBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder addGetRecord(
+          com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder builderForValue) {
+        if (getRecordBuilder_ == null) {
+          ensureGetRecordIsMutable();
+          getRecord_.add(builderForValue.build());
+          onChanged();
+        } else {
+          getRecordBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder addGetRecord(
+          int index, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder builderForValue) {
+        if (getRecordBuilder_ == null) {
+          ensureGetRecordIsMutable();
+          getRecord_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          getRecordBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public Builder addAllGetRecord(
+          java.lang.Iterable<? extends com.rwproto.ActivityFortuneCatTypeProto.getRecord> values) {
+        if (getRecordBuilder_ == null) {
+          ensureGetRecordIsMutable();
+          super.addAll(values, getRecord_);
+          onChanged();
+        } else {
+          getRecordBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
        *
        * <pre>
        *反馈其它人的记录
        * </pre>
        */
       public Builder clearGetRecord() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        getRecord_ = getDefaultInstance().getGetRecord();
-        onChanged();
+        if (getRecordBuilder_ == null) {
+          getRecord_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          getRecordBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>optional string getRecord = 5;</code>
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
        *
        * <pre>
        *反馈其它人的记录
        * </pre>
        */
-      public Builder setGetRecordBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        getRecord_ = value;
-        onChanged();
+      public Builder removeGetRecord(int index) {
+        if (getRecordBuilder_ == null) {
+          ensureGetRecordIsMutable();
+          getRecord_.remove(index);
+          onChanged();
+        } else {
+          getRecordBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder getGetRecordBuilder(
+          int index) {
+        return getGetRecordFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder getGetRecordOrBuilder(
+          int index) {
+        if (getRecordBuilder_ == null) {
+          return getRecord_.get(index);  } else {
+          return getRecordBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder> 
+           getGetRecordOrBuilderList() {
+        if (getRecordBuilder_ != null) {
+          return getRecordBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(getRecord_);
+        }
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder addGetRecordBuilder() {
+        return getGetRecordFieldBuilder().addBuilder(
+            com.rwproto.ActivityFortuneCatTypeProto.getRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder addGetRecordBuilder(
+          int index) {
+        return getGetRecordFieldBuilder().addBuilder(
+            index, com.rwproto.ActivityFortuneCatTypeProto.getRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .fortuneCatType.getRecord getRecord = 5;</code>
+       *
+       * <pre>
+       *反馈其它人的记录
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder> 
+           getGetRecordBuilderList() {
+        return getGetRecordFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ActivityFortuneCatTypeProto.getRecord, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder, com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder> 
+          getGetRecordFieldBuilder() {
+        if (getRecordBuilder_ == null) {
+          getRecordBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ActivityFortuneCatTypeProto.getRecord, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder, com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder>(
+                  getRecord_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          getRecord_ = null;
+        }
+        return getRecordBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:fortuneCatType.ActivityCommonRspMsg)
@@ -1638,6 +1908,864 @@ public final class ActivityFortuneCatTypeProto {
     // @@protoc_insertion_point(class_scope:fortuneCatType.ActivityCommonRspMsg)
   }
 
+  public interface getRecordOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 id = 1;
+    /**
+     * <code>optional int32 id = 1;</code>
+     *
+     * <pre>
+     *递增，服务器总摇奖数
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>optional int32 id = 1;</code>
+     *
+     * <pre>
+     *递增，服务器总摇奖数
+     * </pre>
+     */
+    int getId();
+
+    // optional int32 uid = 2;
+    /**
+     * <code>optional int32 uid = 2;</code>
+     *
+     * <pre>
+     *玩家id,弹窗用
+     * </pre>
+     */
+    boolean hasUid();
+    /**
+     * <code>optional int32 uid = 2;</code>
+     *
+     * <pre>
+     *玩家id,弹窗用
+     * </pre>
+     */
+    int getUid();
+
+    // optional string name = 3;
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // optional int32 getGold = 4;
+    /**
+     * <code>optional int32 getGold = 4;</code>
+     *
+     * <pre>
+     *玩家获得的钻石
+     * </pre>
+     */
+    boolean hasGetGold();
+    /**
+     * <code>optional int32 getGold = 4;</code>
+     *
+     * <pre>
+     *玩家获得的钻石
+     * </pre>
+     */
+    int getGetGold();
+  }
+  /**
+   * Protobuf type {@code fortuneCatType.getRecord}
+   */
+  public static final class getRecord extends
+      com.google.protobuf.GeneratedMessage
+      implements getRecordOrBuilder {
+    // Use getRecord.newBuilder() to construct.
+    private getRecord(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private getRecord(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final getRecord defaultInstance;
+    public static getRecord getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public getRecord getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private getRecord(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              uid_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              name_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              getGold_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ActivityFortuneCatTypeProto.internal_static_fortuneCatType_getRecord_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ActivityFortuneCatTypeProto.internal_static_fortuneCatType_getRecord_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ActivityFortuneCatTypeProto.getRecord.class, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<getRecord> PARSER =
+        new com.google.protobuf.AbstractParser<getRecord>() {
+      public getRecord parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new getRecord(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<getRecord> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>optional int32 id = 1;</code>
+     *
+     * <pre>
+     *递增，服务器总摇奖数
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 id = 1;</code>
+     *
+     * <pre>
+     *递增，服务器总摇奖数
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    // optional int32 uid = 2;
+    public static final int UID_FIELD_NUMBER = 2;
+    private int uid_;
+    /**
+     * <code>optional int32 uid = 2;</code>
+     *
+     * <pre>
+     *玩家id,弹窗用
+     * </pre>
+     */
+    public boolean hasUid() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 uid = 2;</code>
+     *
+     * <pre>
+     *玩家id,弹窗用
+     * </pre>
+     */
+    public int getUid() {
+      return uid_;
+    }
+
+    // optional string name = 3;
+    public static final int NAME_FIELD_NUMBER = 3;
+    private java.lang.Object name_;
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string name = 3;</code>
+     *
+     * <pre>
+     *玩家名字列表用
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 getGold = 4;
+    public static final int GETGOLD_FIELD_NUMBER = 4;
+    private int getGold_;
+    /**
+     * <code>optional int32 getGold = 4;</code>
+     *
+     * <pre>
+     *玩家获得的钻石
+     * </pre>
+     */
+    public boolean hasGetGold() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 getGold = 4;</code>
+     *
+     * <pre>
+     *玩家获得的钻石
+     * </pre>
+     */
+    public int getGetGold() {
+      return getGold_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+      uid_ = 0;
+      name_ = "";
+      getGold_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, uid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, getGold_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, uid_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, getGold_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ActivityFortuneCatTypeProto.getRecord parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ActivityFortuneCatTypeProto.getRecord prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code fortuneCatType.getRecord}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ActivityFortuneCatTypeProto.getRecordOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ActivityFortuneCatTypeProto.internal_static_fortuneCatType_getRecord_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ActivityFortuneCatTypeProto.internal_static_fortuneCatType_getRecord_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ActivityFortuneCatTypeProto.getRecord.class, com.rwproto.ActivityFortuneCatTypeProto.getRecord.Builder.class);
+      }
+
+      // Construct using com.rwproto.ActivityFortuneCatTypeProto.getRecord.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        getGold_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ActivityFortuneCatTypeProto.internal_static_fortuneCatType_getRecord_descriptor;
+      }
+
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord getDefaultInstanceForType() {
+        return com.rwproto.ActivityFortuneCatTypeProto.getRecord.getDefaultInstance();
+      }
+
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord build() {
+        com.rwproto.ActivityFortuneCatTypeProto.getRecord result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ActivityFortuneCatTypeProto.getRecord buildPartial() {
+        com.rwproto.ActivityFortuneCatTypeProto.getRecord result = new com.rwproto.ActivityFortuneCatTypeProto.getRecord(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.uid_ = uid_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.getGold_ = getGold_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ActivityFortuneCatTypeProto.getRecord) {
+          return mergeFrom((com.rwproto.ActivityFortuneCatTypeProto.getRecord)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ActivityFortuneCatTypeProto.getRecord other) {
+        if (other == com.rwproto.ActivityFortuneCatTypeProto.getRecord.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        if (other.hasUid()) {
+          setUid(other.getUid());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000004;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasGetGold()) {
+          setGetGold(other.getGetGold());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ActivityFortuneCatTypeProto.getRecord parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ActivityFortuneCatTypeProto.getRecord) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 1;</code>
+       *
+       * <pre>
+       *递增，服务器总摇奖数
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       *
+       * <pre>
+       *递增，服务器总摇奖数
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       *
+       * <pre>
+       *递增，服务器总摇奖数
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 id = 1;</code>
+       *
+       * <pre>
+       *递增，服务器总摇奖数
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 uid = 2;
+      private int uid_ ;
+      /**
+       * <code>optional int32 uid = 2;</code>
+       *
+       * <pre>
+       *玩家id,弹窗用
+       * </pre>
+       */
+      public boolean hasUid() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 uid = 2;</code>
+       *
+       * <pre>
+       *玩家id,弹窗用
+       * </pre>
+       */
+      public int getUid() {
+        return uid_;
+      }
+      /**
+       * <code>optional int32 uid = 2;</code>
+       *
+       * <pre>
+       *玩家id,弹窗用
+       * </pre>
+       */
+      public Builder setUid(int value) {
+        bitField0_ |= 0x00000002;
+        uid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 uid = 2;</code>
+       *
+       * <pre>
+       *玩家id,弹窗用
+       * </pre>
+       */
+      public Builder clearUid() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        uid_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string name = 3;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 3;</code>
+       *
+       * <pre>
+       *玩家名字列表用
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 getGold = 4;
+      private int getGold_ ;
+      /**
+       * <code>optional int32 getGold = 4;</code>
+       *
+       * <pre>
+       *玩家获得的钻石
+       * </pre>
+       */
+      public boolean hasGetGold() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 getGold = 4;</code>
+       *
+       * <pre>
+       *玩家获得的钻石
+       * </pre>
+       */
+      public int getGetGold() {
+        return getGold_;
+      }
+      /**
+       * <code>optional int32 getGold = 4;</code>
+       *
+       * <pre>
+       *玩家获得的钻石
+       * </pre>
+       */
+      public Builder setGetGold(int value) {
+        bitField0_ |= 0x00000008;
+        getGold_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 getGold = 4;</code>
+       *
+       * <pre>
+       *玩家获得的钻石
+       * </pre>
+       */
+      public Builder clearGetGold() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        getGold_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:fortuneCatType.getRecord)
+    }
+
+    static {
+      defaultInstance = new getRecord(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:fortuneCatType.getRecord)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_fortuneCatType_ActivityCommonReqMsg_descriptor;
   private static
@@ -1648,6 +2776,11 @@ public final class ActivityFortuneCatTypeProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_fortuneCatType_ActivityCommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_fortuneCatType_getRecord_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_fortuneCatType_getRecord_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1659,13 +2792,16 @@ public final class ActivityFortuneCatTypeProto {
     java.lang.String[] descriptorData = {
       "\n\034ActivityFortuneCatType.proto\022\016fortuneC" +
       "atType\"D\n\024ActivityCommonReqMsg\022,\n\007reqTyp" +
-      "e\030\001 \002(\0162\033.fortuneCatType.RequestType\"\213\001\n" +
+      "e\030\001 \002(\0162\033.fortuneCatType.RequestType\"\246\001\n" +
       "\024ActivityCommonRspMsg\022,\n\007reqType\030\001 \002(\0162\033" +
       ".fortuneCatType.RequestType\022\021\n\tisSuccess" +
       "\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022\017\n\007getGold\030\004 \001(\005\022" +
-      "\021\n\tgetRecord\030\005 \001(\t*2\n\013RequestType\022\014\n\010GET" +
-      "_GOLD\020\001\022\025\n\021VIEW_OTHER_PLAYER\020\002B*\n\013com.rw" +
-      "protoB\033ActivityFortuneCatTypeProto"
+      ",\n\tgetRecord\030\005 \003(\0132\031.fortuneCatType.getR" +
+      "ecord\"C\n\tgetRecord\022\n\n\002id\030\001 \001(\005\022\013\n\003uid\030\002 " +
+      "\001(\005\022\014\n\004name\030\003 \001(\t\022\017\n\007getGold\030\004 \001(\005*2\n\013Re" +
+      "questType\022\014\n\010GET_GOLD\020\001\022\025\n\021VIEW_OTHER_PL",
+      "AYER\020\002B*\n\013com.rwprotoB\033ActivityFortuneCa" +
+      "tTypeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1684,6 +2820,12 @@ public final class ActivityFortuneCatTypeProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_fortuneCatType_ActivityCommonRspMsg_descriptor,
               new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "GetGold", "GetRecord", });
+          internal_static_fortuneCatType_getRecord_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_fortuneCatType_getRecord_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_fortuneCatType_getRecord_descriptor,
+              new java.lang.String[] { "Id", "Uid", "Name", "GetGold", });
           return null;
         }
       };
