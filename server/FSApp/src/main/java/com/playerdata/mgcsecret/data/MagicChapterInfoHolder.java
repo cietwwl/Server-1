@@ -38,7 +38,7 @@ public class MagicChapterInfoHolder{
 		List<MagicChapterInfo> chapterList = new ArrayList<MagicChapterInfo>();
 		// 这里需要判断一下角色的等级，如果玩家等级未达到开放
 		if(!MagicSecretMgr.getInstance().judgeUserLevel(player, Integer.valueOf(MagicSecretMgr.CHAPTER_INIT_ID))) return chapterList;
-		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID);
+		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID, false);
 		Enumeration<MagicChapterInfo> mapEnum = getItemStore(player.getUserId()).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			MagicChapterInfo item = (MagicChapterInfo) mapEnum.nextElement();
@@ -80,7 +80,7 @@ public class MagicChapterInfoHolder{
 	 * @param player
 	 * @param chapterID
 	 */
-	public void initMagicChapterInfo(Player player, String chapterID){
+	public void initMagicChapterInfo(Player player, String chapterID, boolean isSyn){
 		MagicChapterInfo mcInfo = getItem(player.getUserId(), chapterID);
 		if(mcInfo == null) {
 			mcInfo = new MagicChapterInfo();
@@ -93,7 +93,8 @@ public class MagicChapterInfoHolder{
 			mcInfo.setUserId(player.getUserId());
 			addItem(player, mcInfo);
 			startNewChapter(player, chapterID);
-			updateItemWithoutSyn(player, mcInfo);
+			if(isSyn) updateItem(player, mcInfo);
+			else updateItemWithoutSyn(player, mcInfo);
 		}
 	}
 	
@@ -129,9 +130,13 @@ public class MagicChapterInfoHolder{
 		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
 		if(umsData == null) return;
 		int maxChapter = umsData.getMaxStageID()/100;
+		int maxStage = umsData.getMaxStageID()%100;
 		List<MagicChapterInfo> itemList = getItemList(player);
 		for(MagicChapterInfo mcInfo : itemList){
-			if(Integer.valueOf(mcInfo.getChapterId()) != maxChapter) {
+			if(Integer.valueOf(mcInfo.getChapterId()) < maxChapter) {
+				mcInfo.getSelectableDungeons().clear();
+				mcInfo.getUnselectedBuff().clear();
+			}else if(Integer.valueOf(mcInfo.getChapterId()) == maxChapter && maxStage == MagicSecretMgr.STAGE_COUNT_EACH_CHATPER){
 				mcInfo.getSelectableDungeons().clear();
 				mcInfo.getUnselectedBuff().clear();
 			}
