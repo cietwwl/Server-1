@@ -93,7 +93,7 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 	private List<PrivilegeDescItem> parseStringToPrivilege(String desc){
 		List<PrivilegeDescItem> itemList = new ArrayList<PrivilegeDescItem>();
 		if(StringUtils.isBlank(desc)) return itemList;
-		String[] privStrArr = desc.split("|");
+		String[] privStrArr = desc.split("\\|");
 		for(String singleDesc : privStrArr){
 			String[] descStrArr = singleDesc.split("_");
 			if(descStrArr.length < 3) continue;

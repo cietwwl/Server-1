@@ -77,12 +77,27 @@ public class FSuserFightingGrowthMgr {
 	 * @param player
 	 * @return
 	 */
-	public String getCurrentTitle(Player player) {
+	public String getCurrentTitleName(Player player) {
 		FSUserFightingGrowthData data = this._holder.getUserFightingGrowthData(player);
 		if (StringUtils.isEmpty(data.getCurrentTitleKey())) {
 			return "";
 		}
 		return FSUserFightingGrowthTitleCfgDAO.getInstance().getCfgById(data.getCurrentTitleKey()).getFightingTitle();
+	}
+	
+	/**
+	 * 
+	 * 获取玩家当前的称号
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public String getCurrentTitleId(Player player) {
+		FSUserFightingGrowthData data = this._holder.getUserFightingGrowthData(player);
+		if (StringUtils.isEmpty(data.getCurrentTitleKey())) {
+			return "";
+		}
+		return data.getCurrentTitleKey();
 	}
 	
 	/**
@@ -149,7 +164,7 @@ public class FSuserFightingGrowthMgr {
 	}
 	
 	public List<PrivilegeDescItem> getPrivilegeDescItem(Player player){
-		String privId = getCurrentTitle(player);
+		String privId = getCurrentTitleId(player);
 		if(org.apache.commons.lang3.StringUtils.isBlank(privId)){
 			return null;
 		}

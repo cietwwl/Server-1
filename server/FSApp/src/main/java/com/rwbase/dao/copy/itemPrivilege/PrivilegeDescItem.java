@@ -16,6 +16,9 @@ public class PrivilegeDescItem {
 
 	public void setItemID(int itemID) {
 		this.itemID = itemID;
+		if(itemID <= 0){
+			isAllIDHave = true;
+		}
 	}
 
 	public float getValue() {

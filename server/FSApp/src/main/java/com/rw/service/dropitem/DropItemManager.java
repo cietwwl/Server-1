@@ -245,7 +245,6 @@ public class DropItemManager {
 				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
 			}
 				
-			
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
 				record.putPretreatDropList(copyId, new DropResult(result, adjustmentMap, firstDrop));
@@ -256,11 +255,6 @@ public class DropItemManager {
 		} catch (Throwable t) {
 			GameLog.error(t);
 		}
-		
-		
-		
-		
-		
 		
 		return dropItemInfoList;
 	}
