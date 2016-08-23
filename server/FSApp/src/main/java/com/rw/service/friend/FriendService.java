@@ -47,6 +47,9 @@ public class FriendService implements FsService{
 				case REQUEST_ADD_FRIEND:
 					result = friendHandler.requestAddFriend(friendRequest, pPlayer);
 					break;
+//				case REQUEST_ADD_FRIEND_LIST:
+//					result = friendHandler.requestAddFriendList(friendRequest, pPlayer);
+//					break;					
 				case REMOVE_FRIEND:
 					result = friendHandler.removeFriend(friendRequest, pPlayer);
 					break;
