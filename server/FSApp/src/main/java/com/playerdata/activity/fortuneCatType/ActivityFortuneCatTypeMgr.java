@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,6 +45,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg;
+import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 
 
@@ -218,11 +220,17 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 			return result;
 		}
 		Map<Integer, ActivityFortuneCatRecord> map = scdData.getActivityFortuneCatRecord();
-		String clientData = ClientDataSynMgr.toClientData(map);
-		if (StringUtils.isNotBlank(clientData)) {
-			response.setGetRecord(clientData);
+		for(Map.Entry<Integer, ActivityFortuneCatRecord> Entry : map.entrySet()){
+			ActivityFortuneCatRecord entry = Entry.getValue();
+			getRecord.Builder record = getRecord.newBuilder();
+			record.setId(entry.getId());
+			record.setUid(entry.getUid());
+			record.setName(entry.getPlayerName());
+			record.setGetGold(entry.getGetGold());
+			response.addGetRecord(record);
 		}
-		response.setGetRecord("");
+		
+		
 		return result;
 	}
 	
