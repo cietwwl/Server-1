@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.killRank;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -6,7 +6,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GCompScoreItem {
+public class GCompKillItem {
 	
 	private String userId;
 	
@@ -14,7 +14,7 @@ public class GCompScoreItem {
 	
 	private String headImage;	//头像
 	
-	private int totalScore;	//总伤害值
+	private int totalKill;	//总伤害值
 	
 	private String groupName;
 
@@ -42,12 +42,12 @@ public class GCompScoreItem {
 		this.headImage = headImage;
 	}
 
-	public int getTotalScore() {
-		return totalScore;
+	public int getTotalKill() {
+		return totalKill;
 	}
 
-	public void setTotalScore(int totalScore) {
-		this.totalScore = totalScore;
+	public void setTotalKill(int totalKill) {
+		this.totalKill = totalKill;
 	}
 
 	public String getGroupName() {

@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.winRank;
 
 
 public class GCompContinueWinComparable implements Comparable<GCompContinueWinComparable> {

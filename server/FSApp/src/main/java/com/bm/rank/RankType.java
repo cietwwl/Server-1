@@ -8,9 +8,10 @@ import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
-import com.bm.rank.groupCompetition.GCompContinueWinExtension;
-import com.bm.rank.groupCompetition.GCompKillExtension;
-import com.bm.rank.groupCompetition.GCompScoreExtension;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingExtension;
+import com.bm.rank.groupCompetition.killRank.GCompKillExtension;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreExtension;
+import com.bm.rank.groupCompetition.winRank.GCompContinueWinExtension;
 import com.bm.rank.groupFightOnline.GFGroupBiddingExtension;
 import com.bm.rank.groupFightOnline.GFOnlineHurtExtension;
 import com.bm.rank.groupFightOnline.GFOnlineKillExtension;
@@ -59,7 +60,8 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	//帮派争霸赛排行榜
 	GCOMP_CONTINUE_WIN_RANK(30, 1000, "帮派争霸赛最高连胜排行榜", 1, GCompContinueWinExtension.class),
 	GCOMP_KILL_RANK(31, 1000, "帮派争霸赛杀敌排行榜", 1, GCompKillExtension.class),
-	GCOMP_SCORE_RANK(32, 1000, "帮派争霸赛最得分排行榜", 1, GCompScoreExtension.class);
+	GCOMP_SCORE_RANK(32, 1000, "帮派争霸赛最得分排行榜", 1, GCompScoreExtension.class),
+	GROUP_FIGHTING_RANK(33, 200, "帮派战力排行榜", 1, GCompFightingExtension.class);
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);

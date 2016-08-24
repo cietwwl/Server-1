@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.killRank;
 
 public class GCompKillComparable implements Comparable<GCompKillComparable> {
 	private int totalKill; 	//总的杀敌数

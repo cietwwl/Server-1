@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.scoreRank;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -6,15 +6,15 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GCompContinueWinItem {
-
+public class GCompScoreItem {
+	
 	private String userId;
 	
 	private String userName;
 	
 	private String headImage;	//头像
 	
-	private int continueWin;	//最高连胜次数
+	private int totalScore;	//总伤害值
 	
 	private String groupName;
 
@@ -42,12 +42,12 @@ public class GCompContinueWinItem {
 		this.headImage = headImage;
 	}
 
-	public int getContinueWin() {
-		return continueWin;
+	public int getTotalScore() {
+		return totalScore;
 	}
 
-	public void setContinueWin(int continueWin) {
-		this.continueWin = continueWin;
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
 	}
 
 	public String getGroupName() {

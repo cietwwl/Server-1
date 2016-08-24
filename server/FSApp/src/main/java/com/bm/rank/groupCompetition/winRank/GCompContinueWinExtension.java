@@ -1,6 +1,7 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.winRank;
 
 import com.bm.rank.RankingJacksonExtension;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreComparable;
 import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;

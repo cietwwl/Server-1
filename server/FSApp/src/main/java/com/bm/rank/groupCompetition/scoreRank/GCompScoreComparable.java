@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.scoreRank;
 
 
 public class GCompScoreComparable implements Comparable<GCompScoreComparable> {

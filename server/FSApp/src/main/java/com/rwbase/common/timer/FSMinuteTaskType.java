@@ -1,10 +1,12 @@
 package com.rwbase.common.timer;
 
+import com.bm.rank.groupCompetition.groupRank.GroupFightRankRefreshMgr;
 import com.rwbase.common.timer.core.FSGameTimerDataSaver;
 
 public enum FSMinuteTaskType {
 
 	TIMER_DATA_SAVE_TASK(FSGameTimerDataSaver.class, 1, false),
+	GROUP_FIGHT_RANK_REFRESH(GroupFightRankRefreshMgr.class, 15, false),
 	//DEMO(com.rwbase.common.timer.test.FSGameMinuteTaskDemo.class, 1, false),
 	;
 	private Class<? extends IGameTimerTask> _classOfTask; // 實例化的class

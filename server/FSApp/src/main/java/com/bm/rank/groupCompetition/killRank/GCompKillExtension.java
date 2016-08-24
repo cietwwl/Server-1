@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.killRank;
 
 import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;

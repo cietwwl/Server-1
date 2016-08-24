@@ -1,4 +1,4 @@
-package com.bm.rank.groupCompetition;
+package com.bm.rank.groupCompetition.winRank;
 
 import java.util.ArrayList;
 import java.util.List;
