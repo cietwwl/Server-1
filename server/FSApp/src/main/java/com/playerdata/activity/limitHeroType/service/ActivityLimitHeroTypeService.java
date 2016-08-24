@@ -5,24 +5,30 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.ActivityRedEnvelopeTypeProto.*;
+import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
+import com.rwproto.ActivityLimitHeroTypeProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 public class ActivityLimitHeroTypeService implements FsService{
 
 	@Override
 	public ByteString doTask(Request request, Player player) {
-		ActivityLimitHeroTypeHandler activityRedEnvelopeTypeHandler = ActivityLimitHeroTypeHandler.getInstance();
+		ActivityLimitHeroTypeHandler activityLimitHeroHandler = ActivityLimitHeroTypeHandler.getInstance();
 		ByteString byteString = null;
 		try {
 			ActivityCommonReqMsg commonReq = ActivityCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 
 			RequestType reqType = commonReq.getReqType();
 			switch (reqType) {
-			case TAKE_GIFT:
-				byteString = activityRedEnvelopeTypeHandler.takeGift(player, commonReq);
+			case GAMBLE:
+				byteString = activityLimitHeroHandler.gamble(player, commonReq);
 				break;
-
+			case GET_REWARDS:
+				byteString = activityLimitHeroHandler.getRewards(player, commonReq);
+				break;
+			case VIEW_RANK:
+				
+				break;
 			default:
 				GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "接受到一个unknow的消息", null);
 				break;

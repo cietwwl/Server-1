@@ -11,6 +11,7 @@ import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -101,7 +102,7 @@ public class ActivityLimitHeroTypeItemHolder{
 		Iterator<ActivityLimitHeroTypeItem> it = itemList.iterator();
 		while(it.hasNext()){
 			ActivityLimitHeroTypeItem item = (ActivityLimitHeroTypeItem)it.next();
-			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+			if(ActivityLimitHeroCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
 //				removeItem(player, item);
 				it.remove();
 			}
