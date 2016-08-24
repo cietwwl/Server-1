@@ -19,6 +19,10 @@ public class ActivityLimitHeroTypeMgr {
 		return instance;
 	}
 	
+	public void synCountTypeData(Player player) {
+		ActivityLimitHeroTypeItemHolder.getInstance().synAllData(player);
+	}
+	
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
@@ -72,7 +76,6 @@ public class ActivityLimitHeroTypeMgr {
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
-		
 	}
 
 	private void checkClose(Player player) {
@@ -90,7 +93,8 @@ public class ActivityLimitHeroTypeMgr {
 			if(isOpen(cfg)){
 				continue;
 			}
-			checkRankRewards(player,item);
+			checkRankRewards(player,item);//邮件派发排行奖励
+			//补发sendmail;
 			item.setClosed(true);
 			item.setTouchRedPoint(true);
 			dataHolder.updateItem(player, item);			
@@ -101,5 +105,11 @@ public class ActivityLimitHeroTypeMgr {
 		// TODO Auto-generated method stub
 		
 	}	
+	
+	
+	
+	
+	
+	
 	
 }
