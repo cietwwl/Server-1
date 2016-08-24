@@ -582,10 +582,10 @@ public class RobotManager {
 			// 品质
 //			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
 			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
-			player.SetLevel(level);
 			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);
+			player.SetLevel(level);
 
 			PlayerMgr.getInstance().putToMap(player);
 			// 更改装备
