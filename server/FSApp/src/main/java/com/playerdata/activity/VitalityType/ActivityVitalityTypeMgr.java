@@ -145,18 +145,27 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
+			if(!isHasCfg(activityVitalityTypeItem)){
+				continue;
+			}			
 			if (isClose(activityVitalityTypeItem)&&!activityVitalityTypeItem.isClosed()) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-				activityVitalityTypeItem.setClosed(true);
-				
+				activityVitalityTypeItem.setClosed(true);				
 				dataHolder.updateItem(player, activityVitalityTypeItem);
 			}
 		}
 	}
 	
 	
-	
+	public boolean isHasCfg(ActivityVitalityTypeItem activityVitalityTypeItem){
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());	
+		if(cfg == null){
+			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
+			return false;
+		}
+		return true;
+	}
 
 	
 
@@ -166,7 +175,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		if (activityVitalityTypeItem != null) {
 			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());	
 			if(cfg == null){
-				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
 				return false;
 			}						
 			long endTime = cfg.getEndTime();

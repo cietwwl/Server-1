@@ -14,17 +14,20 @@ public class Test {
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpallen"+ 112);
+		 Robot robot = createRobot("tmpcllen"+ 112);
 		 if(robot == null){
 		 }else{
 			 //boolean issucc = robot.startTBCreateTeam();
 			 robot.upgrade(33);
-			 robot.addGold(9999);
-			 robot.addCoin(9999);
-			 robot.addHero(1);
-			 robot.addHero(1);
-			 robot.createGroup("tmpallen112");
-			 boolean issucc = robot.attackEnemyGroupSecret();
+			 robot.checkEnoughMoney();
+			 robot.addFixEquip();
+//			 robot.addGold(9999);
+//			 robot.addCoin(9999);
+//			 robot.addHero(1);
+//			 robot.addHero(1);
+//			 robot.createGroup("tmpallen112");
+//			 boolean issucc = robot.attackEnemyGroupSecret();
+			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
 			 //robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
 			 System.out.println("@@@@@@@@@@@test：" + issucc);

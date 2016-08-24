@@ -56,6 +56,7 @@ public class WorshipUtils {
 		worshipInfo.setSex(rankInfo.getSex());
 		worshipInfo.setCareerLevel(rankInfo.getCareerLevel());
 		worshipInfo.setImageId(rankInfo.getUserHead());
+		worshipInfo.setHeadFrame(rankInfo.getHeadbox());
 		worshipInfo.setFightingAll(rankInfo.getFightingAll());
 		worshipInfo.setLevel(rankInfo.getLevel());
 		// worshipInfo.setModelId(rankInfo.getModelId());
