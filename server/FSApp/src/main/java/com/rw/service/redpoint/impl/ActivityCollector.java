@@ -334,34 +334,7 @@ public class ActivityCollector implements RedPointCollector{
 			}	
 		}
 //      ----------------------------------
-		ActivityFortuneCatTypeItemHolder fortuneCatHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		List<ActivityFortuneCatTypeItem> fortuneCatItemList = fortuneCatHolder.getItemList(player.getUserId());
-		for(ActivityFortuneCatTypeItem item : fortuneCatItemList){
-			ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
-			if(cfg == null){
-				continue;
-			}
-			if(!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)){
-				continue;
-			}
-			if(!item.isTouchRedPoint()){
-				activityList.add(item.getCfgId());
-				continue;
-			}
-			int times = item.getTimes();
-			List<ActivityFortuneCatTypeSubItem> subItemList = item.getSubItemList();
-			ActivityFortuneCatTypeSubItem sub = null;
-			for(ActivityFortuneCatTypeSubItem subItem : subItemList){
-				if(times == subItem.getNum()&&subItem.getGetGold() == 0){
-					sub = subItem;
-					break;
-				}
-			}
-			if(sub != null&&player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost())){
-				activityList.add(item.getCfgId());
-				break;
-			}			
-		}
+		
 		
 		
 		
