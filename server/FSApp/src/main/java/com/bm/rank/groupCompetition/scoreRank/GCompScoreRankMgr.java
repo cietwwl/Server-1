@@ -18,7 +18,7 @@ public class GCompScoreRankMgr {
 	
 	public static int MAX_RANK_COUNT = 50;
 	
-	public static int addOrUpdateContinueWinRank(Player player, int currentScore) {
+	public static int addOrUpdateScoreRank(Player player, int currentScore) {
 		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
 		if (ranking == null) {
 			return -1;
@@ -55,7 +55,7 @@ public class GCompScoreRankMgr {
 		return ranking.getRanking(userID);
 	}
 
-	public static List<GCompScoreItem> getContinueWinRankList() {
+	public static List<GCompScoreItem> getScoreRankList() {
 		List<GCompScoreItem> itemList = new ArrayList<GCompScoreItem>();
 		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
 		EnumerateList<? extends MomentRankingEntry<GCompScoreComparable, GCompScoreItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
@@ -79,7 +79,7 @@ public class GCompScoreRankMgr {
 	 * 例如：名字的修改，帮派名字的修改，头像框的修改
 	 * @param player
 	 */
-	public static void updateContinueWinRankInfo(Player player){
+	public static void updateScoreRankInfo(Player player){
 		//TODO 这里可能需要从排行榜中删除(如果玩家过程中没有了帮派)
 		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
 		RankingEntry<GCompScoreComparable, GCompScoreItem> entry = ranking.getRankingEntry(player.getUserId());
@@ -94,5 +94,15 @@ public class GCompScoreRankMgr {
 			entry.getExtendedAttribute().setGroupName(GroupHelper.getGroupName(player.getUserId()));
 			ranking.subimitUpdatedTask(entry);
 		}
+	}
+	
+	/**
+	 * 阶段结束的时候，保存排行榜数据，并清空排行榜
+	 * @return
+	 */
+	public static List<GCompScoreItem> stageEnd(){
+		List<GCompScoreItem> needKeepRank = getScoreRankList();
+		clearRank();
+		return needKeepRank;
 	}
 }
