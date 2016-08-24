@@ -16,6 +16,7 @@ public class pvePrivilege extends AbstractConfigChargeSource<PvePrivilegeNames> 
   private int expResetCnt; //炼气山谷可重置次数
   private int survivalTimeDec; //生存幻境挑战cd减少x秒
   private int survivalResetCnt; // 生存幻境可重置次数
+  private int teamBattleTimes;// 心魔组队
 
 
 	@Override
