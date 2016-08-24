@@ -382,7 +382,8 @@ public class MagicHandler {
 				break;
 			}
 
-			int uplevel = magicCfg.getUplevel();
+			//需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
+			int uplevel = magicCfg.getUplevel() - 1;
 			if (uplevel <= 0) {
 				// 这个法宝不能进阶
 				uplevel = playerLevel;
@@ -433,6 +434,10 @@ public class MagicHandler {
 
 			// magic.level <= magic.upLevel and magic.exp < magic.upFullExp
 			result = fullExp - curExp;
+			//需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
+			if (magicCfg.getUplevel() <= playerLevel+1){
+				maxUpLevel.value = magicCfg.getUplevel();
+			}
 			break;
 		} while (true);
 
@@ -779,7 +784,7 @@ public class MagicHandler {
 				break;
 			}
 
-			int uplevel = magicCfg.getUplevel();
+			final int uplevel = magicCfg.getUplevel();
 			if (uplevel <= 0) {
 				fillResponseInfo(response, false, "这个法宝不能进阶！");
 				break;
@@ -813,13 +818,16 @@ public class MagicHandler {
 				fillResponseInfo(response, false, "无法获取法宝经验值！");
 				break;
 			}
-
+			
+			//需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
+			/*
 			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel);
 			final Integer upExp = lvlUpPair.getT1();
 			if (curExp < upExp) {
 				fillResponseInfo(response, false, "法宝经验未满！");
 				break;
 			}
+			*/
 
 			// 检查消耗的货币
 			final int cost = magicCfg.getUpMagicCost();

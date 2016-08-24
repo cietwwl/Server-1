@@ -1,9 +1,12 @@
 package com.rwbase.common.timer.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -11,10 +14,11 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.log.GameLog;
 import com.playerdata.Player;
+import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.IPlayerGatherer;
 import com.rwbase.common.timer.IPlayerOperable;
-import com.rwbase.common.timer.IGameTimerTask;
 
 /**
  * 
@@ -25,30 +29,87 @@ import com.rwbase.common.timer.IGameTimerTask;
  */
 public class FSGamePlayerOperationTask implements IGameTimerTask {
 
-	private String _uuid; // 时效任务的uuid，用于作为标识
-	private String _name; // 时效任务的名字
-	private final List<FSGameDailySubTask> _operationList; // 本时效任务的玩家操作行为
-	private final IPlayerGatherer _defaultPlayerGatherer; // 默认的角色收集器
+	private String _uuid; // 時效任務的uuid，用于作为标识
+	private String _name; // 時效任務的名字
+	private boolean _needRecordData; // 本任務的所有子任務是否需要保存最後一次執行的時間
+	protected final Map<Integer, FSGamePlayerOperationSubTask> operationList; // 本时效任务的玩家操作行为
+	protected final IPlayerGatherer defaultPlayerGatherer; // 默认的角色收集器
 	
-	FSGamePlayerOperationTask(IPlayerGatherer playerGatherer) {
+	FSGamePlayerOperationTask(IPlayerGatherer playerGatherer, boolean needRecordData) {
 		this._uuid = java.util.UUID.randomUUID().toString();
 		this._name = this.getClass().getSimpleName() + "@" + _uuid;
-		this._operationList = new ArrayList<FSGameDailySubTask>();
-		this._defaultPlayerGatherer = playerGatherer;
+		this.operationList = new HashMap<Integer, FSGamePlayerOperationSubTask>();
+		this.defaultPlayerGatherer = playerGatherer;
+		this._needRecordData = needRecordData;
 	}
 	
 	void notifyPlayerLogin(Player player) {
 		// 处理角色登录事件
-		for (FSGameDailySubTask task : _operationList) {
+		for (FSGamePlayerOperationSubTask task : operationList.values()) {
 			task.playerLogin(player);
 		}
 	}
 	
-	void addOperator(IPlayerOperable operator) {
-		// 添加一个PlayerOperable到列表当中
-		synchronized(_operationList) {
-			this._operationList.add(new FSGameDailySubTask(operator));
+	void addOperator(int operatorType, IPlayerOperable operator) {
+		if (operator == null) {
+			throw new NullPointerException("operator不能為null！類型：" + operatorType);
 		}
+		// 添加一個PlayerOperable到列表當中
+		synchronized(operationList) {
+			FSGamePlayerOperationSubTask pre = this.operationList.put(operatorType, new FSGamePlayerOperationSubTask(operator, operatorType, this._needRecordData));
+			if(pre != null) {
+				throw new RuntimeException("重複的operatorType：" + operatorType + "，上一個實例是：" + pre._operator + "，當前實例是：" + operator);
+			}
+		}
+	}
+	
+	IPlayerOperable removeOperator(int operatorType) {
+		// 從列表中移除一個IplayerOperator
+		synchronized (operationList) {
+			FSGamePlayerOperationSubTask target = this.operationList.remove(operatorType);
+			if (target != null) {
+				return target._operator;
+			} else {
+				return null;
+			}
+		}
+	}
+	
+	protected final List<FSGameTimeSignal> execute(Collection<FSGamePlayerOperationSubTask> taskList) {
+		if (this.operationList.isEmpty()) {
+			return Collections.emptyList();
+		}
+		List<FSGameTimeSignal> list = new ArrayList<FSGameTimeSignal>(operationList.size());
+		List<Player> allPlayers = this.defaultPlayerGatherer.gatherPlayers();
+		List<Player> allPlayersRO = Collections.unmodifiableList(allPlayers);
+		List<FSGameTimeSignal> tasksUsingAllPlayers = new ArrayList<FSGameTimeSignal>();
+		FSGamePlayerOperationSubTask subTask;
+		for (Iterator<FSGamePlayerOperationSubTask> itr = taskList.iterator(); itr.hasNext();) {
+			subTask = itr.next();
+			boolean usingAll = false;
+			if (subTask._operator instanceof IPlayerGatherer) {
+				// 如果operator同时是IPlayerGatherer的实例，则按照他的规则来获取player
+				subTask._players = ((IPlayerGatherer) subTask._operator).gatherPlayers();
+			} else {
+				subTask._players = allPlayersRO;
+				usingAll = true;
+			}
+			// 提交一个毫秒时效任务，多线程执行，尽量不影响其他operator的执行
+			FSGameTimeSignal signal = FSGameTimerMgr.getTimerInstance().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS, false);
+			list.add(signal);
+			if (usingAll) {
+				tasksUsingAllPlayers.add(signal);
+			}
+		}
+		if (tasksUsingAllPlayers.size() > 0) {
+			AllPlayerMonitorTask monitor = new AllPlayerMonitorTask();
+			monitor._monitorList = tasksUsingAllPlayers;
+			monitor._monitorPlayers = allPlayers;
+			FSGameTimerMgr.getTimerInstance().newTimeSignal(monitor, 0, TimeUnit.MILLISECONDS, false);
+		} else {
+			allPlayers.clear();
+		}
+		return list;
 	}
 	
 	@Override
@@ -58,20 +119,8 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		synchronized (_operationList) {
-			List<Player> allPlayers = Collections.unmodifiableList(this._defaultPlayerGatherer.gatherPlayers());
-			FSGameDailySubTask subTask;
-			for (int i = _operationList.size(); i-- > 0;) {
-				subTask = _operationList.get(i);
-				if (subTask._operator instanceof IPlayerGatherer) {
-					// 如果operator同时是IPlayerGatherer的实例，则按照他的规则来获取player
-					subTask._players = ((IPlayerGatherer) subTask._operator).gatherPlayers();
-				} else {
-					subTask._players = allPlayers;
-				}
-				// 提交一个毫秒时效任务，多线程执行，尽量不影响其他operator的执行
-				FSGameTimerMgr.getInstance().getTimer().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS);
-			}
+		synchronized (operationList) {
+			this.execute(operationList.values());
 		}
 		return "DONE";
 	}
@@ -94,10 +143,10 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 
 	@Override
 	public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
-		return null;
+		return Collections.emptyList();
 	}
 	
-	private static class FSGameDailySubTask implements IGameTimerTask {
+	protected static class FSGamePlayerOperationSubTask implements IGameTimerTask {
 		
 		private IPlayerOperable _operator;
 		private List<Player> _players;
@@ -106,20 +155,28 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		private long _lastExecuteTime; // 上一次执行的时间
 		private final AtomicBoolean _executing = new AtomicBoolean(); // 是否正在执行中
 		private final List<String> _lastExecutePlayers; // 上一次被操作的player信息
+		private final boolean _needRecordData;
+		private int _operatorType;
 		
-		public FSGameDailySubTask(IPlayerOperable pOperator) {
+		public FSGamePlayerOperationSubTask(IPlayerOperable pOperator, int operatorType, boolean pNeedRecordData) {
 			this._operator = pOperator;
 			this._name = this.getClass().getSimpleName() + " for " + _operator;
 			this._lastExecutePlayers = new ArrayList<String>();
 			this._tempPlayers = new ConcurrentLinkedQueue<Player>();
+			this._needRecordData = pNeedRecordData;
+			this._operatorType = operatorType;
 		}
 		
 		private void executeSingle(Player player) {
 			if (player.isRobot()) {
 				return;
 			}
-			this._operator.operate(player);
-			this._lastExecutePlayers.add(player.getUserId());
+			try {
+				this._operator.operate(player);
+				this._lastExecutePlayers.add(player.getUserId());
+			} catch (Exception e) {
+				GameLog.error("FSGamePlayerOperationSubTask", "executeSingle", "执行出现错误！playerId：" + player.getUserId() + ", operator=" + _operator.getClass());
+			}
 		}
 		
 		void playerLogin(Player player) {
@@ -130,6 +187,14 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 					this._operator.operate(player);
 				}
 			}
+		}
+		
+		protected IPlayerOperable getOperator() {
+			return _operator;
+		}
+		
+		protected int getOperatorType() {
+			return _operatorType;
 		}
 
 		@Override
@@ -159,6 +224,9 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 			this._lastExecuteTime = System.currentTimeMillis();
 			this._executing.getAndSet(false);
 			this._players = null;
+			if(_needRecordData) {
+				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfPlayerTask(_operatorType, System.currentTimeMillis());
+			}
 			return "DONE";
 		}
 
@@ -183,5 +251,57 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		}
 		
 	}
+	
+	protected static class AllPlayerMonitorTask implements IGameTimerTask {
+		
+		private List<FSGameTimeSignal> _monitorList;
+		private List<Player> _monitorPlayers;
 
+		@Override
+		public String getName() {
+			return "AllPlayerMonitorTask@" + this.hashCode();
+		}
+
+		@Override
+		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+			if (_monitorList != null && _monitorList.size() > 0) {
+				while (_monitorList.size() > 0) {
+					for (Iterator<FSGameTimeSignal> itr = _monitorList.iterator(); itr.hasNext();) {
+						if (itr.next().isDone()) {
+							itr.remove();
+						}
+					}
+					if (Thread.currentThread().isInterrupted()) {
+						Thread.currentThread().interrupt();
+						break;
+					}
+				}
+				GameLog.info("FSGamePlayerOperationTask", "onTimeSignal", "清理monitorPlayers！清理前的size=" + _monitorPlayers.size());
+				_monitorPlayers.clear();
+			}
+			return "DONE";
+		}
+
+		@Override
+		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
+			
+		}
+
+		@Override
+		public void rejected(RejectedExecutionException e) {
+			
+		}
+
+		@Override
+		public boolean isContinue() {
+			return false;
+		}
+
+		@Override
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
+			return null;
+		}
+		
+	}
+	
 }

@@ -79,5 +79,9 @@ public interface TableUserOtherIF {
 	public int getExpCoin();
 
 	public int getStrenCoin();
+	
+	public int getFightingAll();
+	
+	public int getStarAll();
 
 }

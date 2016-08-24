@@ -9,7 +9,6 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
-import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{

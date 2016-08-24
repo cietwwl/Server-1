@@ -50,6 +50,7 @@ public class ClientDataSynMgr {
 	 */
 	public static void synDataList(Player player, List<?> serverDataList, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
+			
 			player.getDataSynVersionHolder().addVersion(synType);
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			for (Object serverData : serverDataList) {
@@ -84,6 +85,7 @@ public class ClientDataSynMgr {
 	 */
 	public static void synDataGroupList(Player player, String groupId, List<?> serverDataList, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
+			
 			player.getDataSynVersionHolder().addVersion(synType);
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			for (Object serverData : serverDataList) {
@@ -130,8 +132,25 @@ public class ClientDataSynMgr {
 	 */
 	public static void synData(Player player, Object serverData, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
+			
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			SynData.Builder synData = transferToClientData(serverData);
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			msgDataSyn.setVersion(newVersion);
+			sendMsg(player, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
+	
+	public static void synDataFiled(Player player, Object serverData, eSynType synType, eSynOpType synOpType, List<String> fieldNameList) {
+		try {
+			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
+			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
+
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -145,6 +164,7 @@ public class ClientDataSynMgr {
 	public static void synDataFiled(Player player, Object serverData, eSynType synType, List<String> fieldNameList) {
 		eSynOpType synOpType = eSynOpType.UPDATE_FIELD;
 		try {
+		
 			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
 			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
 

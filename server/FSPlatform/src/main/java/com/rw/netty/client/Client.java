@@ -59,6 +59,9 @@ public class Client  implements Runnable{
 	private void initClient(){
 		
 		try {
+			if(channel != null){
+				channel.close();
+			}
 //			EventLoopGroup group = new NioEventLoopGroup();
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(group).channel(NioSocketChannel.class);
@@ -182,6 +185,9 @@ public class Client  implements Runnable{
 				if (gsMsg != null) {
 					if (channel == null || !channel.isActive()) {
 						Connect(gsMsg.getHost(), gsMsg.getPort());
+						if(channel == null){
+							return;
+						}
 					}
 					String currentAddress = channel.remoteAddress().toString();
 					if ((currentAddress.indexOf(gsMsg.getHost()) == -1 && currentAddress.indexOf(gsMsg.getPort()) == -1) || !channel.isOpen()) {

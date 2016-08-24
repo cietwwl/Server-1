@@ -10,8 +10,6 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
-import sun.applet.resources.MsgAppletViewer;
-
 import com.bm.group.GroupBM;
 import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
 import com.groupCopy.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
@@ -262,7 +260,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		//发放帮派经验
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
@@ -618,9 +616,14 @@ public class GroupCopyMgr {
 			result.setTipMsg("找不到对应章节id为"+chaterID+"的掉落记录！");
 			return result;
 		}
-		
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getConfig(chaterID);
+		if(!mapCfg.getWarPriceList().contains(itemID)){
+			result.setSuccess(false);
+			result.setTipMsg("找不到对应章节id为"+itemID+"的掉落道具！");
+			return result;
+		}
 		//检查是否有旧的申请记录,如果有，要去掉
-		clearBeforeApplyRecord(player, record);
+		clearBeforeApplyRecord(player.getUserId(), record);
 		if(apply){
 			ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
 			ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
@@ -638,13 +641,11 @@ public class GroupCopyMgr {
 
 	/**
 	 * 清除角色之前的申请记录
-	 * @param player
+	 * @param userID
 	 * @param record
 	 * @return
 	 */
-	private void clearBeforeApplyRecord(Player player, CopyItemDropAndApplyRecord record){
-		
-		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
+	private void clearBeforeApplyRecord(String userID, CopyItemDropAndApplyRecord record){
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
 		ItemDropAndApplyTemplate target = null;
@@ -652,7 +653,7 @@ public class GroupCopyMgr {
 		for (Iterator<ItemDropAndApplyTemplate> itr = map.values().iterator(); itr.hasNext();) {
 			ItemDropAndApplyTemplate entry = itr.next();
 			for (ApplyInfo i : entry.getApplyData()) {
-				if(i.getRoleID().equals(player.getUserId())){
+				if(i.getRoleID().equals(userID)){
 					beforeApply = i;
 					break;
 				}
@@ -718,15 +719,12 @@ public class GroupCopyMgr {
 						continue;
 					}
 					
-					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, drop, apply, groupName);
+					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if(sendMail){
 						send = true;
 //						System.err.println("发放道具成功：" + template.getItemID());
 						template.deleteApply(drop, apply);
 						
-						DistRewRecordItem item = new DistRewRecordItem(template.getItemID(), apply.getRoleName(), time, getDistStr(apply));
-						//添加分配记录
-						rewardRecordHolder.addDistRecord(item);
 					}
 					
 					applyInfo.clear();
@@ -741,7 +739,23 @@ public class GroupCopyMgr {
 		}
 	}
 
-	
+	/**
+	 * 发送帮派奖励邮件
+	 * @param itemID 奖励道具ID
+	 * @param apply 收件人
+	 * @param groupName 帮派名
+	 * @param sendTime 发送时间
+	 * @return
+	 */
+	public boolean sendGroupPriceMailAndRecord(int itemID, ApplyInfo apply, String groupName, long sendTime){
+		boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(itemID, apply, groupName);
+		if(sendMail){
+			DistRewRecordItem item = new DistRewRecordItem(itemID, apply.getRoleName(), sendTime, getDistStr(apply));
+			//添加分配记录
+			rewardRecordHolder.addDistRecord(item);
+		}
+		return sendMail;
+	}
 	
 	/**
 	 * 获取分配字符串
@@ -825,7 +839,7 @@ public class GroupCopyMgr {
 			chaterData = ChaterItemData.newBuilder();
 			chaterData.setChaterID(record.getChaterID());
 			for (ItemDropAndApplyTemplate datemplate : record.getDaMap().values()) {
-				if(!datemplate.getDropInfoList().isEmpty()){
+				if(!datemplate.noDropItem()){
 					ApplyItemData.Builder data = ApplyItemData.newBuilder();
 					data.setItemID(datemplate.getItemID());
 					data.setApplyCount(datemplate.getApplyData().size());
@@ -864,7 +878,7 @@ public class GroupCopyMgr {
 				result.setTipMsg("无此物品数据!");
 				return result;
 			}
-			long dropTime = template.getDropInfoList().get(0).getTime();
+			long dropTime = template.firstDropTime();
 			List<MemberInfo.Builder> applyList = new ArrayList<MemberInfo.Builder>();
 			List<MemberInfo.Builder> unApplyList = new ArrayList<MemberInfo.Builder>();
 			List<ApplyInfo> applyData = template.getApplyData();
@@ -957,7 +971,9 @@ public class GroupCopyMgr {
 		GroupCopyResult result = GroupCopyResult.newResult();
 		try {
 			//先找到章节的奖励
-			ItemDropAndApplyTemplate template = dropHolder.getItemApplyDataByID(mapID, itemID);
+			CopyItemDropAndApplyRecord record = dropHolder.getItemByID(mapID);
+			
+			ItemDropAndApplyTemplate template = record.getDaMap().get(String.valueOf(itemID));
 			
 			//检查是否还有可以奖励的道具
 			
@@ -965,7 +981,11 @@ public class GroupCopyMgr {
 			tempList.addAll(template.getDropInfoList());
 			Collections.sort(tempList, DROPCOMPARATOR);;
 			DropInfo dropInfo = tempList.get(0);
-			
+			if(dropInfo == null){
+				result.setSuccess(false);
+				result.setTipMsg("道具数量不足");
+				return result;
+			}
 			GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(role.getUserId(), false);
 			if(memberData.getReceiveTime() > dropInfo.getTime()){
 				result.setSuccess(false);
@@ -974,19 +994,62 @@ public class GroupCopyMgr {
 			}
 			
 			//可分配，则修改记录
-			ApplyInfo applyInfo = getRoleApplyInfo(role.getUserId(), template.getApplyData());
-			if(applyInfo != null){
-				template.deleteApplyData(applyInfo);
-			}
-			applyInfo = new ApplyInfo(role.getUserId(), role.getUserName(), System.currentTimeMillis());
+			ApplyInfo oldData = getRoleApplyInfo(role.getUserId(), template.getApplyData());
+//			if(oldData != null){
+//				template.deleteApplyData(oldData);
+//			}
+			ApplyInfo applyInfo = new ApplyInfo(role.getUserId(), role.getUserName(), System.currentTimeMillis());
 			applyInfo.setDistRoleName(distRoleName);
-			template.addApplyRole(applyInfo);
+//			template.addApplyRole(applyInfo);//这里不再加回去，策划改为实时发送邮件
+			boolean send = sendGroupPriceMailAndRecord(itemID, applyInfo, group.getGroupBaseDataMgr().getGroupData().getGroupName(), System.currentTimeMillis());
+			if(send){
+				template.deleteApply(dropInfo, oldData);
+				dropHolder.updateItem(role, record);
+			}
+			
 			result.setSuccess(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.setSuccess(false);
 		}
 		return result;
+	}
+
+	
+	/**
+	 * 角色离开帮派(包括主动和被动)
+	 * @param kickMemberId
+	 */
+	public void nofityCreateRoleLeaveTask(final String kickMemberId) {
+		//避免影响客户端响应消息，这里使用异步操作
+		
+		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+			
+			@Override
+			public void run() {
+				//clear role apply war price data
+				List<CopyItemDropAndApplyRecord> daList = dropHolder.getItemList();
+				List<ApplyInfo> tempData = new ArrayList<ApplyInfo>();
+				for (CopyItemDropAndApplyRecord record : daList) {
+					Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
+					boolean remove = false;
+					for (ItemDropAndApplyTemplate item : map.values()) {
+						tempData.clear();
+						tempData.addAll(item.getApplyData());
+						for (ApplyInfo d : tempData) {
+							if(d.getRoleID().equals(kickMemberId)){
+								remove = item.deleteApplyData(d);
+							}
+						}
+					}
+					if(remove){
+						dropHolder.updateItem(null, record);
+					}
+				}
+				
+				
+			}
+		});
 	}
 	
 }

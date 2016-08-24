@@ -3,9 +3,12 @@ package com.rwbase.dao.user;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
@@ -51,8 +54,14 @@ public class UserGameData implements TableUserOtherIF {
 
 	private long carrerChangeTime;// 角色变换的时间
 	private volatile long lastWorshipTime;
+	@IgnoreSynField
+	private int fightingAll; // 总战斗力
+	@IgnoreSynField
+	private int starAll; // 英雄的总星星数量
 
 	private UserGameExtendInfo extendInfo;
+	@JsonIgnore
+	private MapAnimationState mapAnimationState;
 
 	public int getExpCoin() {
 		return expCoin;
@@ -298,4 +307,46 @@ public class UserGameData implements TableUserOtherIF {
 		this.wakenKey = wakenKey;
 	}
 
+	public int getFightingAll() {
+		return fightingAll;
+	}
+	
+	public void notifySingleFightingChange(int newValue, int preValue) {
+		this.fightingAll -= preValue;
+		this.fightingAll += newValue;
+	}
+	
+	public void setFightingAll(int pFightingAll) {
+		this.fightingAll = pFightingAll;
+	}
+	
+	public void increaseFightingAll(int value) {
+		this.fightingAll += value;
+	}
+	
+	public int getStarAll() {
+		return starAll;
+	}
+	
+	public void notifySingleStarChange(int nowStar, int preStar) {
+		this.starAll -= preStar;
+		this.starAll += nowStar;
+	}
+	
+	public void setStarAll(int pStarAll) {
+		this.starAll = pStarAll;
+	}
+	
+	public void increaseStarAll(int value) {
+		this.starAll += value;
+	}
+
+	public MapAnimationState getMapAnimationState() {
+		return mapAnimationState;
+	}
+
+	public void setMapAnimationState(MapAnimationState mapAnimationState) {
+		this.mapAnimationState = mapAnimationState;
+	}
+	
 }

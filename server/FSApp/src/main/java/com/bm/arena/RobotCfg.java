@@ -43,6 +43,7 @@ public class RobotCfg {
 	private String taoistLevel;// 道术的等级
 	private String heroFetters;// 羁绊的等级
 	private int extraAttrId;// 额外增加的属性Id
+	private String limitValue;// 限定范围的值
 
 	public String getRanking() {
 		return ranking;
@@ -330,5 +331,9 @@ public class RobotCfg {
 
 	public int getExtraAttrId() {
 		return extraAttrId;
+	}
+
+	public String getLimitValue() {
+		return limitValue;
 	}
 }

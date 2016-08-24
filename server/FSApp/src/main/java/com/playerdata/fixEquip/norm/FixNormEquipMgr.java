@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import com.common.Action;
+import com.common.IHeroAction;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipHelper;
@@ -31,8 +31,17 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FixNormEquipMgr {
-
-	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	
+//	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = FixNormEquipDataItemHolder.getInstance();
+	
+	private static final FixNormEquipMgr _INSTANCE = new FixNormEquipMgr();
+	
+	public static final FixNormEquipMgr getInstance() {
+		return _INSTANCE;
+	}
+	
+	protected FixNormEquipMgr() {}
 
 	final private Comparator<FixNormEquipDataItem> comparator = new Comparator<FixNormEquipDataItem>() {
 
@@ -45,13 +54,13 @@ public class FixNormEquipMgr {
 
 	public boolean initIfNeed(Player player, Hero hero) {
 		if (!isInited(player, hero)) {
-			newHeroInit(player, hero.getUUId(), hero.getModelId());
+			newHeroInit(player, hero.getUUId(), hero.getModeId());
 
 		}
 		return true;
 	}
-
-	private boolean isInited(Player player, Hero hero) {
+	
+	private boolean isInited(Player player, Hero hero){
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
 		return !itemList.isEmpty();
 	}
@@ -91,7 +100,7 @@ public class FixNormEquipMgr {
 	public boolean onCarrerChange(Player player) {
 
 		Hero mainRoleHero = player.getMainRoleHero();
-		int newModelId = mainRoleHero.getModelId();
+		int newModelId = mainRoleHero.getModeId();
 		String ownerId = player.getUserId();
 
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
@@ -129,14 +138,15 @@ public class FixNormEquipMgr {
 		}
 		return target;
 	}
-
-	public void regChangeCallBack(Action callBack) {
-		fixNormEquipDataItemHolder.regChangeCallBack(callBack);
+	
+	public void regDataChangeCallback(IHeroAction callback) {
+		fixNormEquipDataItemHolder.regDataChangeCallback(callback);
 	}
 
 	public void synAllData(Player player, Hero hero) {
 		fixNormEquipDataItemHolder.synAllData(player, hero);
 	}
+	
 
 	public List<AttributeItem> levelToAttrItems(String ownerId) {
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
@@ -163,12 +173,19 @@ public class FixNormEquipMgr {
 		for (FixNormEquipDataItem dataItem : itemList) {
 			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int curLevel = dataItem.getLevel();
-			FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
-			int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
-			FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
-			if(result.isSuccess()){
-				levelUpList.add(dataItem.getId());
+			
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), dataItem.getQuality());
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(curLevel < nextQualityLevel){				
+				
+				FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+				int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+				FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+				if(result.isSuccess()){
+					levelUpList.add(dataItem.getId());
+				}
 			}
+			
 		}
 		
 		
@@ -213,7 +230,7 @@ public class FixNormEquipMgr {
 
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
-		int toLevel = getToLevel(player, ownerId, dataItem);
+		int toLevel = getToLevel(player, dataItem);
 		int curLevel = dataItem.getLevel();
 
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
@@ -229,7 +246,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private int getToLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
+	private int getToLevel(Player player, FixNormEquipDataItem dataItem) {
 
 		int quality = dataItem.getQuality();
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());

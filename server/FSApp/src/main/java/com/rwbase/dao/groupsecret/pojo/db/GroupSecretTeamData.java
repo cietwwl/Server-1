@@ -181,7 +181,8 @@ public class GroupSecretTeamData {
 			}
 
 			String heroId = leftInfo.getId();
-			Hero hero = player.getHeroMgr().getHeroById(heroId);
+//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				continue;
 			}
@@ -189,17 +190,18 @@ public class GroupSecretTeamData {
 			HeroLeftInfoSynData heroLeftInfoSynData = useHeroMap.get(heroId);
 			int leftLife = leftInfo.getLeftLife();
 			if (heroLeftInfoSynData == null) {
-				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+//				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+				AttrData totalData = hero.getAttrMgr().getTotalAttrData();
 				int maxLife = totalData.getLife();
 				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
-					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModelId());
+					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModeId());
 					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;
 				}
 				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, totalData.getEnergy()));
 			} else {
 				int maxLife = heroLeftInfoSynData.getMaxLife();
 				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
-					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModelId());
+					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModeId());
 					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;
 				}
 				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, heroLeftInfoSynData.getMaxEnergy()));

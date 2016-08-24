@@ -1,6 +1,8 @@
 package com.rw.controler;
 
 import io.netty.channel.ChannelHandlerContext;
+
+import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -69,7 +71,7 @@ public class ReconnectFilterTask implements Runnable {
 			return;
 		}
 		// 真正处理逻辑
-		System.err.println("提交重连");
+		FSTraceLogger.logger("reconnect("+request.getHeader().getSeqID()+")" + UserChannelMgr.getCtxInfo(ctx, false));
 		GameWorldFactory.getGameWorld().asyncExecute(userId, new ReconnectSecondaryTreatment(request, ctx, reconnectRequest, userId));
 	}
 

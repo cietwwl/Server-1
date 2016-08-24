@@ -105,6 +105,8 @@
      			<entry key="MSG_RED_POINT_SERVICE" value-ref="redpointService" />
      			
      			<entry key="MSG_TEAM_BATTLE" value-ref="teamBattleService" />
+     			<entry key="MSG_ONE_KEY_REWARD" value-ref="oneKeyService" />
+     			<entry key="MSG_BATTLE_COMMON" value-ref="saveTeaminfoToServerService" />
      			
 			</map>
 		</property>
@@ -185,7 +187,7 @@
 	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
 	
 	<bean id="teamBattleService" class = "com.playerdata.teambattle.service.TeamBattleService" />
-	
+	<bean id="oneKeyService" class = "com.rw.service.task.OneKeyService" />
 	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
-	
+	<bean id="saveTeaminfoToServerService" class="com.playerdata.saveteaminfo.SaveTeaminfoToServerService"/>
 </beans>  

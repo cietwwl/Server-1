@@ -1137,7 +1137,8 @@ public class BattleTowerHandler {
 				BattleTowerHeroInfo heroInfo = new BattleTowerHeroInfo();
 
 				if (heroInfoMsg.hasHeroUUID()) {
-					Hero hero = playerHeroMgr.getHeroById(heroInfoMsg.getHeroUUID());
+//					Hero hero = playerHeroMgr.getHeroById(heroInfoMsg.getHeroUUID());
+					Hero hero = playerHeroMgr.getHeroById(player, heroInfoMsg.getHeroUUID());
 					if (hero != null) {
 						RoleQualityCfg qualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
 						heroInfo.setHeroId(heroInfoMsg.getHeroId());

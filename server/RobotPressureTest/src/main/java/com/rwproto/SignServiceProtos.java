@@ -21,6 +21,14 @@ public final class SignServiceProtos {
      * <code>SIGNDATA_BACK = 2;</code>
      */
     SIGNDATA_BACK(1, 2),
+    /**
+     * <code>SIGN_REWARD = 3;</code>
+     *
+     * <pre>
+     *领取签到次数的签到奖励
+     * </pre>
+     */
+    SIGN_REWARD(2, 3),
     ;
 
     /**
@@ -31,6 +39,14 @@ public final class SignServiceProtos {
      * <code>SIGNDATA_BACK = 2;</code>
      */
     public static final int SIGNDATA_BACK_VALUE = 2;
+    /**
+     * <code>SIGN_REWARD = 3;</code>
+     *
+     * <pre>
+     *领取签到次数的签到奖励
+     * </pre>
+     */
+    public static final int SIGN_REWARD_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -39,6 +55,7 @@ public final class SignServiceProtos {
       switch (value) {
         case 1: return SIGN;
         case 2: return SIGNDATA_BACK;
+        case 3: return SIGN_REWARD;
         default: return null;
       }
     }
@@ -135,6 +152,22 @@ public final class SignServiceProtos {
      * </pre>
      */
     NULL(4, 5),
+    /**
+     * <code>FAIL = 6;</code>
+     *
+     * <pre>
+     *失败
+     * </pre>
+     */
+    FAIL(5, 6),
+    /**
+     * <code>SIGN_REWARD_SUCCESS = 7;</code>
+     *
+     * <pre>
+     *签到累计奖励领取成功
+     * </pre>
+     */
+    SIGN_REWARD_SUCCESS(6, 7),
     ;
 
     /**
@@ -177,6 +210,22 @@ public final class SignServiceProtos {
      * </pre>
      */
     public static final int NULL_VALUE = 5;
+    /**
+     * <code>FAIL = 6;</code>
+     *
+     * <pre>
+     *失败
+     * </pre>
+     */
+    public static final int FAIL_VALUE = 6;
+    /**
+     * <code>SIGN_REWARD_SUCCESS = 7;</code>
+     *
+     * <pre>
+     *签到累计奖励领取成功
+     * </pre>
+     */
+    public static final int SIGN_REWARD_SUCCESS_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -188,6 +237,8 @@ public final class SignServiceProtos {
         case 3: return INIT_DATA;
         case 4: return NEED_REFRESH;
         case 5: return NULL;
+        case 6: return FAIL;
+        case 7: return SIGN_REWARD_SUCCESS;
         default: return null;
       }
     }
@@ -981,9 +1032,36 @@ public final class SignServiceProtos {
      */
     int getMonth();
 
-    // repeated string tagSignData = 6;
+    // optional string resultMsg = 6;
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    boolean hasResultMsg();
+    /**
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    java.lang.String getResultMsg();
+    /**
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getResultMsgBytes();
+
+    // repeated string tagSignData = 7;
+    /**
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -992,7 +1070,7 @@ public final class SignServiceProtos {
     java.util.List<java.lang.String>
     getTagSignDataList();
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1000,7 +1078,7 @@ public final class SignServiceProtos {
      */
     int getTagSignDataCount();
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1008,7 +1086,7 @@ public final class SignServiceProtos {
      */
     java.lang.String getTagSignData(int index);
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1016,6 +1094,69 @@ public final class SignServiceProtos {
      */
     com.google.protobuf.ByteString
         getTagSignDataBytes(int index);
+
+    // optional int32 signNum = 8;
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    boolean hasSignNum();
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    int getSignNum();
+
+    // optional string currentSignRewardId = 9;
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    boolean hasCurrentSignRewardId();
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    java.lang.String getCurrentSignRewardId();
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getCurrentSignRewardIdBytes();
+
+    // optional int32 requireSignNum = 10;
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    boolean hasRequireSignNum();
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    int getRequireSignNum();
   }
   /**
    * Protobuf type {@code MsgSignResponse}
@@ -1106,11 +1247,31 @@ public final class SignServiceProtos {
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              bitField0_ |= 0x00000020;
+              resultMsg_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 tagSignData_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000040;
               }
               tagSignData_.add(input.readBytes());
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              signNum_ = input.readInt32();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000080;
+              currentSignRewardId_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000100;
+              requireSignNum_ = input.readInt32();
               break;
             }
           }
@@ -1121,7 +1282,7 @@ public final class SignServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           tagSignData_ = new com.google.protobuf.UnmodifiableLazyStringList(tagSignData_);
         }
         this.unknownFields = unknownFields.build();
@@ -1276,11 +1437,66 @@ public final class SignServiceProtos {
       return month_;
     }
 
-    // repeated string tagSignData = 6;
-    public static final int TAGSIGNDATA_FIELD_NUMBER = 6;
+    // optional string resultMsg = 6;
+    public static final int RESULTMSG_FIELD_NUMBER = 6;
+    private java.lang.Object resultMsg_;
+    /**
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    public boolean hasResultMsg() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    public java.lang.String getResultMsg() {
+      java.lang.Object ref = resultMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          resultMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string resultMsg = 6;</code>
+     *
+     * <pre>
+     *返回消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getResultMsgBytes() {
+      java.lang.Object ref = resultMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        resultMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated string tagSignData = 7;
+    public static final int TAGSIGNDATA_FIELD_NUMBER = 7;
     private com.google.protobuf.LazyStringList tagSignData_;
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1291,7 +1507,7 @@ public final class SignServiceProtos {
       return tagSignData_;
     }
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1301,7 +1517,7 @@ public final class SignServiceProtos {
       return tagSignData_.size();
     }
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1311,7 +1527,7 @@ public final class SignServiceProtos {
       return tagSignData_.get(index);
     }
     /**
-     * <code>repeated string tagSignData = 6;</code>
+     * <code>repeated string tagSignData = 7;</code>
      *
      * <pre>
      *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1322,13 +1538,120 @@ public final class SignServiceProtos {
       return tagSignData_.getByteString(index);
     }
 
+    // optional int32 signNum = 8;
+    public static final int SIGNNUM_FIELD_NUMBER = 8;
+    private int signNum_;
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    public boolean hasSignNum() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 signNum = 8;</code>
+     *
+     * <pre>
+     *累计签到次数
+     * </pre>
+     */
+    public int getSignNum() {
+      return signNum_;
+    }
+
+    // optional string currentSignRewardId = 9;
+    public static final int CURRENTSIGNREWARDID_FIELD_NUMBER = 9;
+    private java.lang.Object currentSignRewardId_;
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public boolean hasCurrentSignRewardId() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public java.lang.String getCurrentSignRewardId() {
+      java.lang.Object ref = currentSignRewardId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          currentSignRewardId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string currentSignRewardId = 9;</code>
+     *
+     * <pre>
+     *当前签到次数奖励的id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCurrentSignRewardIdBytes() {
+      java.lang.Object ref = currentSignRewardId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentSignRewardId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 requireSignNum = 10;
+    public static final int REQUIRESIGNNUM_FIELD_NUMBER = 10;
+    private int requireSignNum_;
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    public boolean hasRequireSignNum() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 requireSignNum = 10;</code>
+     *
+     * <pre>
+     *达到领奖所需的签到次数
+     * </pre>
+     */
+    public int getRequireSignNum() {
+      return requireSignNum_;
+    }
+
     private void initFields() {
       resultype_ = com.rwproto.SignServiceProtos.EResultType.SUCCESS;
       requestType_ = com.rwproto.SignServiceProtos.ERequestType.SIGN;
       reSignCount_ = 0;
       year_ = 0;
       month_ = 0;
+      resultMsg_ = "";
       tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      signNum_ = 0;
+      currentSignRewardId_ = "";
+      requireSignNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1361,8 +1684,20 @@ public final class SignServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(5, month_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getResultMsgBytes());
+      }
       for (int i = 0; i < tagSignData_.size(); i++) {
-        output.writeBytes(6, tagSignData_.getByteString(i));
+        output.writeBytes(7, tagSignData_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(8, signNum_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(9, getCurrentSignRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(10, requireSignNum_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1393,6 +1728,10 @@ public final class SignServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, month_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getResultMsgBytes());
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < tagSignData_.size(); i++) {
@@ -1401,6 +1740,18 @@ public final class SignServiceProtos {
         }
         size += dataSize;
         size += 1 * getTagSignDataList().size();
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, signNum_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getCurrentSignRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, requireSignNum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1528,8 +1879,16 @@ public final class SignServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         month_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
-        tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        resultMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        signNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        currentSignRewardId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        requireSignNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -1578,12 +1937,28 @@ public final class SignServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.month_ = month_;
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.resultMsg_ = resultMsg_;
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
           tagSignData_ = new com.google.protobuf.UnmodifiableLazyStringList(
               tagSignData_);
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.tagSignData_ = tagSignData_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.signNum_ = signNum_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.currentSignRewardId_ = currentSignRewardId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.requireSignNum_ = requireSignNum_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1615,15 +1990,31 @@ public final class SignServiceProtos {
         if (other.hasMonth()) {
           setMonth(other.getMonth());
         }
+        if (other.hasResultMsg()) {
+          bitField0_ |= 0x00000020;
+          resultMsg_ = other.resultMsg_;
+          onChanged();
+        }
         if (!other.tagSignData_.isEmpty()) {
           if (tagSignData_.isEmpty()) {
             tagSignData_ = other.tagSignData_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           } else {
             ensureTagSignDataIsMutable();
             tagSignData_.addAll(other.tagSignData_);
           }
           onChanged();
+        }
+        if (other.hasSignNum()) {
+          setSignNum(other.getSignNum());
+        }
+        if (other.hasCurrentSignRewardId()) {
+          bitField0_ |= 0x00000100;
+          currentSignRewardId_ = other.currentSignRewardId_;
+          onChanged();
+        }
+        if (other.hasRequireSignNum()) {
+          setRequireSignNum(other.getRequireSignNum());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1907,16 +2298,114 @@ public final class SignServiceProtos {
         return this;
       }
 
-      // repeated string tagSignData = 6;
+      // optional string resultMsg = 6;
+      private java.lang.Object resultMsg_ = "";
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public boolean hasResultMsg() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public java.lang.String getResultMsg() {
+        java.lang.Object ref = resultMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          resultMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getResultMsgBytes() {
+        java.lang.Object ref = resultMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          resultMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public Builder setResultMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        resultMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public Builder clearResultMsg() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        resultMsg_ = getDefaultInstance().getResultMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultMsg = 6;</code>
+       *
+       * <pre>
+       *返回消息
+       * </pre>
+       */
+      public Builder setResultMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        resultMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string tagSignData = 7;
       private com.google.protobuf.LazyStringList tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureTagSignDataIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           tagSignData_ = new com.google.protobuf.LazyStringArrayList(tagSignData_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1927,7 +2416,7 @@ public final class SignServiceProtos {
         return java.util.Collections.unmodifiableList(tagSignData_);
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1937,7 +2426,7 @@ public final class SignServiceProtos {
         return tagSignData_.size();
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1947,7 +2436,7 @@ public final class SignServiceProtos {
         return tagSignData_.get(index);
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1958,7 +2447,7 @@ public final class SignServiceProtos {
         return tagSignData_.getByteString(index);
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1975,7 +2464,7 @@ public final class SignServiceProtos {
         return this;
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -1992,7 +2481,7 @@ public final class SignServiceProtos {
         return this;
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -2006,7 +2495,7 @@ public final class SignServiceProtos {
         return this;
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -2014,12 +2503,12 @@ public final class SignServiceProtos {
        */
       public Builder clearTagSignData() {
         tagSignData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string tagSignData = 6;</code>
+       * <code>repeated string tagSignData = 7;</code>
        *
        * <pre>
        *签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
@@ -2032,6 +2521,202 @@ public final class SignServiceProtos {
   }
   ensureTagSignDataIsMutable();
         tagSignData_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional int32 signNum = 8;
+      private int signNum_ ;
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public boolean hasSignNum() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public int getSignNum() {
+        return signNum_;
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public Builder setSignNum(int value) {
+        bitField0_ |= 0x00000080;
+        signNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 signNum = 8;</code>
+       *
+       * <pre>
+       *累计签到次数
+       * </pre>
+       */
+      public Builder clearSignNum() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        signNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string currentSignRewardId = 9;
+      private java.lang.Object currentSignRewardId_ = "";
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public boolean hasCurrentSignRewardId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public java.lang.String getCurrentSignRewardId() {
+        java.lang.Object ref = currentSignRewardId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          currentSignRewardId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getCurrentSignRewardIdBytes() {
+        java.lang.Object ref = currentSignRewardId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          currentSignRewardId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder setCurrentSignRewardId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        currentSignRewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder clearCurrentSignRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        currentSignRewardId_ = getDefaultInstance().getCurrentSignRewardId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string currentSignRewardId = 9;</code>
+       *
+       * <pre>
+       *当前签到次数奖励的id
+       * </pre>
+       */
+      public Builder setCurrentSignRewardIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        currentSignRewardId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 requireSignNum = 10;
+      private int requireSignNum_ ;
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public boolean hasRequireSignNum() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public int getRequireSignNum() {
+        return requireSignNum_;
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public Builder setRequireSignNum(int value) {
+        bitField0_ |= 0x00000200;
+        requireSignNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 requireSignNum = 10;</code>
+       *
+       * <pre>
+       *达到领奖所需的签到次数
+       * </pre>
+       */
+      public Builder clearRequireSignNum() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        requireSignNum_ = 0;
         onChanged();
         return this;
       }
@@ -2068,15 +2753,19 @@ public final class SignServiceProtos {
     java.lang.String[] descriptorData = {
       "\n\021SignService.proto\"D\n\016MsgSignRequest\022\"\n" +
       "\013requestType\030\001 \002(\0162\r.ERequestType\022\016\n\006sig" +
-      "nId\030\002 \001(\t\"\235\001\n\017MsgSignResponse\022\037\n\tresulty" +
+      "nId\030\002 \001(\t\"\366\001\n\017MsgSignResponse\022\037\n\tresulty" +
       "pe\030\001 \002(\0162\014.EResultType\022\"\n\013requestType\030\002 " +
       "\001(\0162\r.ERequestType\022\023\n\013reSignCount\030\003 \001(\005\022" +
-      "\014\n\004year\030\004 \001(\005\022\r\n\005month\030\005 \001(\005\022\023\n\013tagSignD" +
-      "ata\030\006 \003(\t*+\n\014ERequestType\022\010\n\004SIGN\020\001\022\021\n\rS" +
-      "IGNDATA_BACK\020\002*]\n\013EResultType\022\013\n\007SUCCESS" +
-      "\020\001\022\026\n\022NOT_ENOUGH_DIAMOND\020\002\022\r\n\tINIT_DATA\020" +
-      "\003\022\020\n\014NEED_REFRESH\020\004\022\010\n\004NULL\020\005B \n\013com.rwp",
-      "rotoB\021SignServiceProtos"
+      "\014\n\004year\030\004 \001(\005\022\r\n\005month\030\005 \001(\005\022\021\n\tresultMs" +
+      "g\030\006 \001(\t\022\023\n\013tagSignData\030\007 \003(\t\022\017\n\007signNum\030" +
+      "\010 \001(\005\022\033\n\023currentSignRewardId\030\t \001(\t\022\026\n\016re" +
+      "quireSignNum\030\n \001(\005*<\n\014ERequestType\022\010\n\004SI" +
+      "GN\020\001\022\021\n\rSIGNDATA_BACK\020\002\022\017\n\013SIGN_REWARD\020\003",
+      "*\200\001\n\013EResultType\022\013\n\007SUCCESS\020\001\022\026\n\022NOT_ENO" +
+      "UGH_DIAMOND\020\002\022\r\n\tINIT_DATA\020\003\022\020\n\014NEED_REF" +
+      "RESH\020\004\022\010\n\004NULL\020\005\022\010\n\004FAIL\020\006\022\027\n\023SIGN_REWAR" +
+      "D_SUCCESS\020\007B \n\013com.rwprotoB\021SignServiceP" +
+      "rotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2094,7 +2783,7 @@ public final class SignServiceProtos {
           internal_static_MsgSignResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgSignResponse_descriptor,
-              new java.lang.String[] { "Resultype", "RequestType", "ReSignCount", "Year", "Month", "TagSignData", });
+              new java.lang.String[] { "Resultype", "RequestType", "ReSignCount", "Year", "Month", "ResultMsg", "TagSignData", "SignNum", "CurrentSignRewardId", "RequireSignNum", });
           return null;
         }
       };
