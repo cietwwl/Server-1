@@ -35,7 +35,6 @@ public class CopyLevelRecord implements IMapItem, CopyLevelRecordIF {
 		return this.id;
 	}
 	
-
 	public void setId(String id) {
 		this.id = id;
 	}

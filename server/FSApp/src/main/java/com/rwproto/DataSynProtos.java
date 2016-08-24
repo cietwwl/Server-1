@@ -744,13 +744,21 @@ public final class DataSynProtos {
      */
     ActivityFortuneCatType(69, 74),
     /**
+     * <code>ActivityLimitHeroType = 75;</code>
+     *
+     * <pre>
+     *活动，限时神将
+     * </pre>
+     */
+    ActivityLimitHeroType(70, 75),
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
      *反馈问题列表	
      * </pre>
      */
-    QuestionList(70, 80),
+    QuestionList(71, 80),
     /**
      * <code>GFBiddingData = 81;</code>
      *
@@ -758,7 +766,7 @@ public final class DataSynProtos {
      *在线帮战个人压标数据
      * </pre>
      */
-    GFBiddingData(71, 81),
+    GFBiddingData(72, 81),
     /**
      * <code>GFDefendArmyData = 82;</code>
      *
@@ -766,7 +774,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍信息
      * </pre>
      */
-    GFDefendArmyData(72, 82),
+    GFDefendArmyData(73, 82),
     /**
      * <code>GFightOnlineGroupData = 83;</code>
      *
@@ -774,7 +782,7 @@ public final class DataSynProtos {
      *在线帮战帮派信息
      * </pre>
      */
-    GFightOnlineGroupData(73, 83),
+    GFightOnlineGroupData(74, 83),
     /**
      * <code>GFightOnlinePersonalData = 84;</code>
      *
@@ -782,7 +790,7 @@ public final class DataSynProtos {
      *在线帮战个人信息
      * </pre>
      */
-    GFightOnlinePersonalData(74, 84),
+    GFightOnlinePersonalData(75, 84),
     /**
      * <code>GFightOnlineResourceData = 85;</code>
      *
@@ -790,7 +798,7 @@ public final class DataSynProtos {
      *在线帮战资源点信息
      * </pre>
      */
-    GFightOnlineResourceData(75, 85),
+    GFightOnlineResourceData(76, 85),
     /**
      * <code>MajorData = 86;</code>
      *
@@ -798,7 +806,7 @@ public final class DataSynProtos {
      *关键数据
      * </pre>
      */
-    MajorData(76, 86),
+    MajorData(77, 86),
     /**
      * <code>GFightSimpleLeader = 87;</code>
      *
@@ -806,7 +814,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍简要信息
      * </pre>
      */
-    GFightSimpleLeader(77, 87),
+    GFightSimpleLeader(78, 87),
     /**
      * <code>GFightFinalReward = 88;</code>
      *
@@ -814,7 +822,7 @@ public final class DataSynProtos {
      *在线帮战最终的奖励
      * </pre>
      */
-    GFightFinalReward(78, 88),
+    GFightFinalReward(79, 88),
     /**
      * <code>EmbattleInfo = 89;</code>
      *
@@ -822,7 +830,7 @@ public final class DataSynProtos {
      *阵容站位
      * </pre>
      */
-    EmbattleInfo(79, 89),
+    EmbattleInfo(80, 89),
     /**
      * <code>MAGICEQUIP_FETTER = 90;</code>
      *
@@ -830,7 +838,7 @@ public final class DataSynProtos {
      *法宝神器羁绊
      * </pre>
      */
-    MAGICEQUIP_FETTER(80, 90),
+    MAGICEQUIP_FETTER(81, 90),
     /**
      * <code>USER_TEAM_BATTLE = 91;</code>
      *
@@ -838,7 +846,7 @@ public final class DataSynProtos {
      *组队战斗，玩家信息
      * </pre>
      */
-    USER_TEAM_BATTLE(81, 91),
+    USER_TEAM_BATTLE(82, 91),
     /**
      * <code>TEAM_BATTLE_TEAM = 92;</code>
      *
@@ -846,7 +854,7 @@ public final class DataSynProtos {
      *组队战斗，队伍信息
      * </pre>
      */
-    TEAM_BATTLE_TEAM(82, 92),
+    TEAM_BATTLE_TEAM(83, 92),
     ;
 
     /**
@@ -1410,6 +1418,14 @@ public final class DataSynProtos {
      */
     public static final int ActivityFortuneCatType_VALUE = 74;
     /**
+     * <code>ActivityLimitHeroType = 75;</code>
+     *
+     * <pre>
+     *活动，限时神将
+     * </pre>
+     */
+    public static final int ActivityLimitHeroType_VALUE = 75;
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
@@ -1589,6 +1605,7 @@ public final class DataSynProtos {
         case 72: return ActivityVipDiscountType;
         case 73: return ActivityRedEnvelopeType;
         case 74: return ActivityFortuneCatType;
+        case 75: return ActivityLimitHeroType;
         case 80: return QuestionList;
         case 81: return GFBiddingData;
         case 82: return GFDefendArmyData;
@@ -5691,7 +5708,7 @@ public final class DataSynProtos {
       "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
       "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
       "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\227\016\n\010eSynType\022\025\n\021" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\262\016\n\010eSynType\022\025\n\021" +
       "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
       "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
       "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
@@ -5729,15 +5746,16 @@ public final class DataSynProtos {
       "ype\020E\022\030\n\024ActivityVitalityType\020F\022\035\n\031Activ" +
       "ityDailyDiscountType\020G\022\033\n\027ActivityVipDis",
       "countType\020H\022\033\n\027ActivityRedEnvelopeType\020I" +
-      "\022\032\n\026ActivityFortuneCatType\020J\022\020\n\014Question" +
-      "List\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GFDefendArm" +
-      "yData\020R\022\031\n\025GFightOnlineGroupData\020S\022\034\n\030GF" +
-      "ightOnlinePersonalData\020T\022\034\n\030GFightOnline" +
-      "ResourceData\020U\022\r\n\tMajorData\020V\022\026\n\022GFightS" +
-      "impleLeader\020W\022\025\n\021GFightFinalReward\020X\022\020\n\014" +
-      "EmbattleInfo\020Y\022\025\n\021MAGICEQUIP_FETTER\020Z\022\024\n" +
-      "\020USER_TEAM_BATTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020" +
-      "\\B\034\n\013com.rwprotoB\rDataSynProtos"
+      "\022\032\n\026ActivityFortuneCatType\020J\022\031\n\025Activity" +
+      "LimitHeroType\020K\022\020\n\014QuestionList\020P\022\021\n\rGFB" +
+      "iddingData\020Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GF" +
+      "ightOnlineGroupData\020S\022\034\n\030GFightOnlinePer" +
+      "sonalData\020T\022\034\n\030GFightOnlineResourceData\020" +
+      "U\022\r\n\tMajorData\020V\022\026\n\022GFightSimpleLeader\020W" +
+      "\022\025\n\021GFightFinalReward\020X\022\020\n\014EmbattleInfo\020" +
+      "Y\022\025\n\021MAGICEQUIP_FETTER\020Z\022\024\n\020USER_TEAM_BA" +
+      "TTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\B\034\n\013com.rwpr",
+      "otoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
