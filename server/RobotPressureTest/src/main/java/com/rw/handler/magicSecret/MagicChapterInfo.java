@@ -3,7 +3,6 @@ package com.rw.handler.magicSecret;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.dataSyn.SynItem;
@@ -13,29 +12,25 @@ public class MagicChapterInfo implements  SynItem {
 
 	private String id;	//数据库主键
 	
-
 	private String chapterId;  //章节id
 	
 	private String userId;// 对应的角色Id
 	
-
+	private List<ItemInfo> canOpenBoxes = new ArrayList<ItemInfo>();  //可以打开的箱子(对应箱子ID和数量)
 	
 	private List<Integer> finishedStages = new ArrayList<Integer>();  //完成的关卡
 	
-
 	private int selectedDungeonIndex = -1;  //对应的是，selectableDungeons数组中的下标（-1表示未选中）
 	
 	private List<MSDungeonInfo> selectableDungeons = new ArrayList<MSDungeonInfo>(); //可挑选的关卡
-
+	
 	private List<Integer> selectedBuff = new ArrayList<Integer>(); //已选择的Buff
-
+	
 	private List<Integer> unselectedBuff = new ArrayList<Integer>(); //可选择的buff
 	
-
 	private int starCount; //星星数量
 	
 	private String version;
-
 
 	
 	public String getId() {
@@ -62,6 +57,14 @@ public class MagicChapterInfo implements  SynItem {
 		this.userId = userId;
 	}
 
+	public List<ItemInfo> getCanOpenBoxes() {
+		return canOpenBoxes;
+	}
+
+	public void setCanOpenBoxes(List<ItemInfo> canOpenBoxes) {
+		this.canOpenBoxes = canOpenBoxes;
+	}
+
 	public List<Integer> getFinishedStages() {
 		return finishedStages;
 	}
@@ -78,7 +81,13 @@ public class MagicChapterInfo implements  SynItem {
 		this.selectedDungeonIndex = selectedDungeonIndex;
 	}
 
+	public List<MSDungeonInfo> getSelectableDungeons() {
+		return selectableDungeons;
+	}
 
+	public void setSelectableDungeons(List<MSDungeonInfo> selectableDungeons) {
+		this.selectableDungeons = selectableDungeons;
+	}
 
 	public List<Integer> getSelectedBuff() {
 		return selectedBuff;
@@ -110,13 +119,5 @@ public class MagicChapterInfo implements  SynItem {
 
 	public void setVersion(String version) {
 		this.version = version;
-	}
-
-	public List<MSDungeonInfo> getSelectableDungeons() {
-		return selectableDungeons;
-	}
-
-	public void setSelectableDungeons(List<MSDungeonInfo> selectableDungeons) {
-		this.selectableDungeons = selectableDungeons;
 	}
 }

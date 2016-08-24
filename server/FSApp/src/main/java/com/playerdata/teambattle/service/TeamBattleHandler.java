@@ -120,4 +120,11 @@ public class TeamBattleHandler {
 		tbBM.saveMemPosition(player, tbRsp, msgTBRequest.getMemPos());
 		return tbRsp.build().toByteString();
 	}
+
+	public ByteString buyBattleTimes(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.buyBattleTimes(player, tbRsp, msgTBRequest.getHardID());
+		return tbRsp.build().toByteString();
+	}
 }

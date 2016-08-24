@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
-import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
 import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
@@ -15,9 +14,7 @@ import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
-import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleHandler;
@@ -25,7 +22,7 @@ import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 
 public class TimerManager {
@@ -83,6 +80,7 @@ public class TimerManager {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
 				// 帮派副本定时发奖
 				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				ActivityRankTypeMgr.getInstance().changeMap();
 			}
 		}, HOUR);
 
@@ -132,28 +130,7 @@ public class TimerManager {
 
 					@Override
 					public void run() {
-						MSScoreRankMgr.dispatchMSDailyReward();
-					}
-				});
-				heavyWeightsExecturos.execute(new Runnable() {
-
-					@Override
-					public void run() {
 						GroupBM.checkOrAllGroupDayLimit();
-					}
-				});
-				heavyWeightsExecturos.execute(new Runnable() {
-
-					@Override
-					public void run() {
-						GFightOnlineResourceMgr.getInstance().dispatchDailyReward();
-					}
-				});
-				heavyWeightsExecturos.execute(new Runnable() {
-
-					@Override
-					public void run() {
-						TBTeamItemMgr.getInstance().dailyReset();
 					}
 				});
 			}

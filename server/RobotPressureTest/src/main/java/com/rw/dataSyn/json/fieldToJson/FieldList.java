@@ -18,9 +18,11 @@ public class FieldList implements IFieldToJson{
 	
 	private FieldType genericType;
 	
+	private Class<?> genericClass;
+	
 	public FieldList(Field fieldP){
 		field = fieldP;
-		Class<?> genericClass = FieldTypeHelper.getGenericClass(fieldP);
+		genericClass = FieldTypeHelper.getGenericClass(fieldP);
 		genericType = FieldTypeHelper.getFieldType(genericClass);
 		if(genericType ==  FieldType.Class){
 			genericClassInfo = new ClassInfo(genericClass);
@@ -92,10 +94,10 @@ public class FieldList implements IFieldToJson{
 					valueTmp = genericClassInfo.fromJson(jsonTmp);
 					break;
 				case Enum:
-					valueTmp = FieldTypeHelper.toEnumValue(field.getType(), jsonTmp);
+					valueTmp = FieldTypeHelper.toEnumValue(genericClass, jsonTmp);
 					break;
 				case Primitive:
-					valueTmp = FieldTypeHelper.ToPrimitiveValue(field.getType(), jsonTmp);
+					valueTmp = FieldTypeHelper.ToPrimitiveValue(genericClass, jsonTmp);
 					break;
 				case String:
 					valueTmp = jsonTmp;

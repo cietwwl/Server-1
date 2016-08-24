@@ -1,6 +1,8 @@
 package com.rwbase.dao.email;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Id;
@@ -34,5 +36,9 @@ public class TableEmail {
 	
 	public void addEmail(EmailItem email){
 		this.emailList.put(email.getEmailId(), email);
-	}	
+	}
+	
+	public List<EmailItem> getEmailArrayList(){
+		return new ArrayList<EmailItem>(emailList.values());
+	}
 }

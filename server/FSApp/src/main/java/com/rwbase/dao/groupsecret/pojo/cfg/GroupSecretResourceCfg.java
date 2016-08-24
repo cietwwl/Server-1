@@ -13,6 +13,7 @@ public class GroupSecretResourceCfg {
 	private int reward;// 奖励的物品Id
 	private int robCount;// 可以掠夺的次数
 	private int protectTime;// 保护的时间（分钟）
+	private int joinLimitTime; // 创建多久之后不能加入
 	private int robProtectTime;// 被掠夺之后的保护时间（分钟）
 	private int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
 	private int robNeedKeyNum;// 掠夺需要消耗的钥石数量
@@ -60,5 +61,9 @@ public class GroupSecretResourceCfg {
 
 	public String getName() {
 		return name;
+	}
+	
+	public int getJoinLimitTime() {
+		return joinLimitTime;
 	}
 }

@@ -53,7 +53,31 @@ public class MagicSecretHandler {
 	}
 
 	public boolean playMagicSecret(Client client) {
-		boolean result = changeTeam(client);
+		
+		return checkMagicSecretStatus(client);
+	}
+	
+	public boolean checkMagicSecretStatus(Client client){
+		Map<String, MagicChapterInfo> magiChapterInfolist = client.getMagicChapterInfoHolder().getList();
+		String chapterId = client.getMagicSecretHolder().getChapterId();
+		MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(chapterId);
+		List<ItemInfo> canOpenBoxes = magiChapterInfo.getCanOpenBoxes();
+		String dungeonId = getDungeonId(client);
+		if(canOpenBoxes != null && canOpenBoxes.size() >= 2 && canOpenBoxes.get(0).getItemNum() == 1){
+			return openBoxHandler(client, dungeonId);
+			
+		}
+		List<Integer> unselectedBuff = magiChapterInfo.getUnselectedBuff();
+		if(unselectedBuff != null && unselectedBuff.size()>0 && magiChapterInfo.getStarCount() > 0){
+			return exchangeBuffHandler(client);
+		}
+		
+		return dekaronMagicSecret(client);
+	}
+	
+	private boolean dekaronMagicSecret(Client client){
+		boolean result;
+		result = changeTeam(client);
 		if (!result) {
 			RobotLog.fail("MagicSecretHandler[send]战斗前的设置队伍反馈结果=" + result);
 			return result;
@@ -74,12 +98,16 @@ public class MagicSecretHandler {
 			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
 			return result;
 		}
+		return openBoxHandler(client, dungeonId);
+	}
+	
+	private boolean openBoxHandler(Client client, String dungeonId){
+		boolean result;
 		result = openBox(client);
 		if (!result) {
 			RobotLog.fail("MagicSecretHandler[send]领取道具反馈结果=" + result);
 			return result;
 		}
-		RobotLog.info("------------------------------"+dungeonId);
 		String[] split = dungeonId.split("_");
 		if(Integer.parseInt(split[0]) % 100 == STAGE_COUNT_EACH_CHATPER){
 			RobotLog.info("MagicSecretHandler[send]乾坤幻境操作成功=" + result);
@@ -90,9 +118,20 @@ public class MagicSecretHandler {
 			RobotLog.fail("MagicSecretHandler[send]放弃道具反馈结果=" + result);
 			return result;
 		}
-		result = exchangeBuff(client);
+		
+		return exchangeBuffHandler(client);
+	}
+	
+	private boolean exchangeBuffHandler(Client client){
+		
+		boolean result = exchangeBuff(client);
 		if (!result) {
 			RobotLog.fail("MagicSecretHandler[send]兑换buff反馈结果=" + result);
+			return result;
+		}
+		result = giveUpBuff(client);
+		if (!result) {
+			RobotLog.fail("MagicSecretHandler[send]放弃BUFF反馈结果=" + result);
 			return result;
 		}
 		RobotLog.info("MagicSecretHandler[send]乾坤幻境操作成功=" + result);
@@ -384,6 +423,50 @@ public class MagicSecretHandler {
 		});
 		return success;
 	}
+	
+	private boolean giveUpBuff(Client client) {
+		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();
+		req.setReqType(msRequestType.GIVE_UP_BUFF);
+		MagicSecretHolder magicSecretHolder = client.getMagicSecretHolder();
+		UserMagicSecretData userMagicSecretData = magicSecretHolder.getList().get(client.getUserId());
+		int stageId = userMagicSecretData.getMaxStageID();
+		String chapter = String.valueOf(stageId / 100);
+		req.setChapterId(chapter);
+
+		boolean success = client.getMsgHandler().sendMsg(Command.MSG_MAGIC_SECRET, req.build().toByteString(), new MsgReciver() {
+			@Override
+			public Command getCmd() {
+				return Command.MSG_MAGIC_SECRET;
+			}
+
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString serializedContent = response.getSerializedContent();
+				try {
+					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
+					if (rsp == null) {
+						RobotLog.fail("MagicSecretHandler[send]giveUpBox 转换响应消息为null");
+						return false;
+					}
+					msResultType result = rsp.getRstType();
+					if (!result.equals(msResultType.SUCCESS)) {
+						if (result.equals(msResultType.DATA_ERROR)) {
+							RobotLog.fail("MagicSecretHandler[send]giveUpBuff 服务器处理消息失败 " + result);
+							return false;
+						} else {
+							RobotLog.fail("MagicSecretHandler[send]giveUpBuff 服务器处理消息失败 " + result);
+							return true;
+						}
+			}
+				} catch (InvalidProtocolBufferException e) {
+					RobotLog.fail("MagicSecretHandler[send]giveUpBuff 失败", e);
+					return false;
+				}
+				return true;
+			}
+		});
+		return success;
+	}
 
 	private boolean giveUpBox(Client client) {
 		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();
@@ -438,8 +521,8 @@ public class MagicSecretHandler {
 		if (magiChapterInfolist.size() > 0) {
 			MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(chapterId);
 			req.setChapterId(magiChapterInfo.getChapterId());
-			List<Integer> selectedBuff = magiChapterInfo.getSelectedBuff();
-			if (selectedBuff != null && selectedBuff.size() > 0) {
+			List<Integer> unselectedBuff = magiChapterInfo.getUnselectedBuff();
+			if (unselectedBuff != null && unselectedBuff.size() > 0) {
 				req.setBuffId(magiChapterInfo.getUnselectedBuff().get(0) + "");
 			} else {
 				req.setBuffId("1");

@@ -12,12 +12,14 @@ import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaRankCfgDAO;
 import com.bm.arena.ArenaRankEntity;
+import com.bm.arena.ArenaScore;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
@@ -29,7 +31,6 @@ import com.playerdata.army.ArmyMagic;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -49,11 +50,13 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
+import com.rwbase.dao.arena.TableArenaRecordDAO;
 import com.rwbase.dao.arena.pojo.ArenaCost;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.arena.pojo.HurtValueRecord;
 import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.arena.pojo.TableArenaRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.skill.pojo.Skill;
@@ -79,6 +82,7 @@ import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
+import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class ArenaHandler {
 
@@ -244,7 +248,8 @@ public class ArenaHandler {
 			List<String> heroIds = new ArrayList<String>(size);
 			for (int i = size; --i >= 0;) {
 				String uuid = heroPosList.get(i).getHeroId();
-				if (heroMgr.getHeroById(uuid) != null) {
+//				if (heroMgr.getHeroById(uuid) != null) {
+				if (heroMgr.getHeroById(player, uuid) != null) {
 					heroIds.add(uuid);
 				}
 			}
@@ -287,9 +292,9 @@ public class ArenaHandler {
 	public ByteString getArenaRecordInfo(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		TableArenaDataDAO arenaDAO = TableArenaDataDAO.getInstance();
 		String userId = player.getUserId();
-		TableArenaData arenaTable = arenaDAO.get(userId);
+		TableArenaRecordDAO arenaRecordDAO = TableArenaRecordDAO.getInstance();
+		TableArenaRecord arenaTable = arenaRecordDAO.get(userId);
 		if (arenaTable == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 		} else {
@@ -561,7 +566,7 @@ public class ArenaHandler {
 				m_MyArenaData.setMaxPlace(newPlace);
 			}
 			m_MyArenaData.setWinCount(m_MyArenaData.getWinCount() + 1);
-			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
+			ArenaBM.getInstance().addRecord(userId, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
 			recordForEnemy.setHurtList(enemyHurtList);
@@ -580,7 +585,7 @@ public class ArenaHandler {
 			recordForEnemy.setLevel(m_MyArenaData.getLevel());
 			recordForEnemy.setTime(currentTime);
 			recordForEnemy.setChallenge(0);
-			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
+			ArenaBM.getInstance().addRecord(enemyUserId, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
 			m_MyArenaData.setLastFightTime(System.currentTimeMillis());
@@ -774,7 +779,8 @@ public class ArenaHandler {
 		ArrayList<String> heroImages = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			String heroId = heroIds.get(i);
-			HeroIF hero = player.getHeroMgr().getHeroById(heroId);
+//			HeroIF hero = player.getHeroMgr().getHeroById(heroId);
+			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero != null) {
 				heroImages.add(hero.getHeroCfg().getImageId());
 			}
@@ -990,6 +996,56 @@ public class ArenaHandler {
 		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return fillArenaScore(arenaData, response);
+	}
+	
+	/**
+	 * 获取积分奖励
+	 * 
+	 * @param request
+	 * @param player
+	 * @return
+	 */
+	public OneKeyResultType getAllScoreReward(Player player, HashMap<Integer, Integer> rewardMap) {
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(player.getUserId());
+		if (arenaData == null) {
+			return OneKeyResultType.DATA_ERROR;
+		}
+		List<Integer> scoreRewardKeys = ArenaScoreCfgDAO.getInstance().getKeys();
+		if(null == scoreRewardKeys || scoreRewardKeys.isEmpty()){
+			return OneKeyResultType.NO_REWARD;
+		}
+		boolean isGet = false;
+		for(Integer id : scoreRewardKeys){
+			List<Integer> rewardList = arenaData.getRewardList();
+			if (rewardList.contains(id)) {
+				//已经领取过
+				continue;
+			}
+			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
+			int score = arenaData.getScore();
+			if (template.getSocre() > score) {
+				//积分不够
+				continue;
+			}
+			rewardList.add(id);
+			Map<Integer, Integer> rewards = template.getRewards();
+			ItemBagMgr itemBagMgr = player.getItemBagMgr();
+			for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
+				itemBagMgr.addItem(entry.getKey(), entry.getValue());
+				Integer haveCount = rewardMap.get(entry.getKey());
+				if(null == haveCount) haveCount = entry.getValue();
+				else haveCount += entry.getValue();
+				rewardMap.put(entry.getKey(), haveCount);
+			}
+			isGet = true;
+			//日志
+			List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+		}
+		if(isGet) return OneKeyResultType.OneKey_SUCCESS;
+		else return OneKeyResultType.NO_REWARD;
 	}
 
 	private ByteString fillArenaScore(TableArenaData arenaData, MsgArenaResponse.Builder response) {

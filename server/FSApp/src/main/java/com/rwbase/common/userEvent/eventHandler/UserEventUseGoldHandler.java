@@ -27,8 +27,8 @@ public class UserEventUseGoldHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GoldSpending.getCfgId()));
-				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgListByEnumId(ActivityCountTypeEnum.GoldSpending.getCfgId()));
+				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgListByEnumId(ActivityCountTypeEnum.Login.getCfgId()));
 				if(isBetweendays&&isLevelEnough){					
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GoldSpending,Integer.parseInt(params.toString()));	
 					}

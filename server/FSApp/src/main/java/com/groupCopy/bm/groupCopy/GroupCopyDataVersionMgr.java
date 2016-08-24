@@ -3,9 +3,6 @@ package com.groupCopy.bm.groupCopy;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.group.GroupBM;
-import com.groupCopy.bm.GroupHelper;
-import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
-import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.Group;
@@ -16,7 +13,7 @@ public class GroupCopyDataVersionMgr {
 	public static void synAllDataByVersion(final Player player, String versionJson) {
 		
 		if(StringUtils.isNotBlank(versionJson)){
-			String groupId = GroupHelper.getGroupId(player);    
+			String groupId = com.rw.service.group.helper.GroupHelper.getGroupId(player);    
 
 			Group group = GroupBM.get(groupId);
 			if(group!=null){				

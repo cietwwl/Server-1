@@ -10,6 +10,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.teambattle.cfg.TeamCfg;
+import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
@@ -37,13 +39,13 @@ public class UserTeamBattleData {
 	private List<Integer> finishedLoops = new ArrayList<Integer>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
 	
 	@CombineSave
-	private List<String> finishedHards = new ArrayList<String>();	//已经完成的章节
+	private HashMap<String, TeamHardInfo> finishedHardMap = new HashMap<String, TeamHardInfo>();	//章节完成的情况
 	
 	@CombineSave
 	@IgnoreSynField
 	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
 	
-	@CombineSave
+	@NonSave
 	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
 	
 	@NonSave
@@ -105,15 +107,15 @@ public class UserTeamBattleData {
 	public void setTbGold(int tbGold) {
 		this.tbGold = tbGold;
 	}
-
-	public List<String> getFinishedHards() {
-		return finishedHards;
-	}
-
-	public void setFinishedHards(List<String> finishedHards) {
-		this.finishedHards = finishedHards;
-	}
 	
+	public HashMap<String, TeamHardInfo> getFinishedHardMap() {
+		return finishedHardMap;
+	}
+
+	public void setFinishedHardMap(HashMap<String, TeamHardInfo> finishedHardMap) {
+		this.finishedHardMap = finishedHardMap;
+	}
+
 	public boolean isSynTeam() {
 		return isSynTeam;
 	}
@@ -138,7 +140,14 @@ public class UserTeamBattleData {
 	public void dailyReset(){
 		enimyMap = null;
 		finishedLoops.clear();
-		finishedHards.clear();
+		finishedHardMap.clear();
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		for(TeamCfg cfg : teamCfgs){
+			TeamHardInfo hardInfo = new TeamHardInfo();
+			hardInfo.setHardID(cfg.getId());
+			hardInfo.setBuyTimes(0);
+			hardInfo.setFinishTimes(0);
+		}
 		teamID = null;
 	}
 }

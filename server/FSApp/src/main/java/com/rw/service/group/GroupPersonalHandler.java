@@ -415,7 +415,8 @@ public class GroupPersonalHandler {
 		}
 
 		// 战力之和
-		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		int fighting = player.getMainRoleHero().getFighting();
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);

@@ -260,7 +260,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		//发放帮派经验
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
@@ -623,7 +623,7 @@ public class GroupCopyMgr {
 			return result;
 		}
 		//检查是否有旧的申请记录,如果有，要去掉
-		clearBeforeApplyRecord(player, record);
+		clearBeforeApplyRecord(player.getUserId(), record);
 		if(apply){
 			ItemDropAndApplyTemplate applyTemplate = record.getDropApplyRecord(itemID);
 			ApplyInfo info = new ApplyInfo(player.getUserId(), player.getUserName(), System.currentTimeMillis());
@@ -641,13 +641,11 @@ public class GroupCopyMgr {
 
 	/**
 	 * 清除角色之前的申请记录
-	 * @param player
+	 * @param userID
 	 * @param record
 	 * @return
 	 */
-	private void clearBeforeApplyRecord(Player player, CopyItemDropAndApplyRecord record){
-		List<Integer> List = new ArrayList<Integer>();
-		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
+	private void clearBeforeApplyRecord(String userID, CopyItemDropAndApplyRecord record){
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
 		ItemDropAndApplyTemplate target = null;
@@ -655,7 +653,7 @@ public class GroupCopyMgr {
 		for (Iterator<ItemDropAndApplyTemplate> itr = map.values().iterator(); itr.hasNext();) {
 			ItemDropAndApplyTemplate entry = itr.next();
 			for (ApplyInfo i : entry.getApplyData()) {
-				if(i.getRoleID().equals(player.getUserId())){
+				if(i.getRoleID().equals(userID)){
 					beforeApply = i;
 					break;
 				}
@@ -841,7 +839,7 @@ public class GroupCopyMgr {
 			chaterData = ChaterItemData.newBuilder();
 			chaterData.setChaterID(record.getChaterID());
 			for (ItemDropAndApplyTemplate datemplate : record.getDaMap().values()) {
-				if(!datemplate.getDropInfoList().isEmpty()){
+				if(!datemplate.noDropItem()){
 					ApplyItemData.Builder data = ApplyItemData.newBuilder();
 					data.setItemID(datemplate.getItemID());
 					data.setApplyCount(datemplate.getApplyData().size());
@@ -880,7 +878,7 @@ public class GroupCopyMgr {
 				result.setTipMsg("无此物品数据!");
 				return result;
 			}
-			long dropTime = template.getDropInfoList().get(0).getTime();
+			long dropTime = template.firstDropTime();
 			List<MemberInfo.Builder> applyList = new ArrayList<MemberInfo.Builder>();
 			List<MemberInfo.Builder> unApplyList = new ArrayList<MemberInfo.Builder>();
 			List<ApplyInfo> applyData = template.getApplyData();
@@ -1015,6 +1013,43 @@ public class GroupCopyMgr {
 			result.setSuccess(false);
 		}
 		return result;
+	}
+
+	
+	/**
+	 * 角色离开帮派(包括主动和被动)
+	 * @param kickMemberId
+	 */
+	public void nofityCreateRoleLeaveTask(final String kickMemberId) {
+		//避免影响客户端响应消息，这里使用异步操作
+		
+		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+			
+			@Override
+			public void run() {
+				//clear role apply war price data
+				List<CopyItemDropAndApplyRecord> daList = dropHolder.getItemList();
+				List<ApplyInfo> tempData = new ArrayList<ApplyInfo>();
+				for (CopyItemDropAndApplyRecord record : daList) {
+					Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
+					boolean remove = false;
+					for (ItemDropAndApplyTemplate item : map.values()) {
+						tempData.clear();
+						tempData.addAll(item.getApplyData());
+						for (ApplyInfo d : tempData) {
+							if(d.getRoleID().equals(kickMemberId)){
+								remove = item.deleteApplyData(d);
+							}
+						}
+					}
+					if(remove){
+						dropHolder.updateItem(null, record);
+					}
+				}
+				
+				
+			}
+		});
 	}
 	
 }
