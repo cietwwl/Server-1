@@ -58,7 +58,7 @@ public class SynDataListHolder<T extends SynItem> {
 		List<T> itemListTmp = new ArrayList<T>();
 		try{
 		for (SynData synData : synDataList) {
-			T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData());
+			T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData().toString());
 			itemListTmp.add(item);
 		}
 		}catch(Exception ex){
