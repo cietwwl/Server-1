@@ -45,6 +45,7 @@ CHANGE_INFO_SUCCEED,,CHANGE_INFO_SUCCEED,变更成功
 62,,62,关闭
 63,,63,领取成功
 VIP_DESC,,VIP_DESC,累计充值[1]钻石即可享受该级特权。包含[2]等级所有特权。
+VIP_DESC_ONE,,VIP_DESC_ONE,累计充值[1]钻石即可享受该级特权。
 CHOOSE_FULIN_MATERIAL,,CHOOSE_FULIN_MATERIAL,请选择附灵材料
 FULIN_LEVEL_UPMAX,,FULIN_LEVEL_UPMAX,已附灵至顶级
 WHITE_EQUIP_CANNOT_FULIN,,WHITE_EQUIP_CANNOT_FULIN,白色品质装备不能附灵
@@ -85,7 +86,7 @@ SECRET_INTRODUCE,,SECRET_INTRODUCE,"1，在帮派秘境，你可以选择探索�
 14，每当自己的秘境被攻击，都能根据防守战斗场次数获得一定的秘境钥石。通过这种方式每天最多能获得20块秘境钥石"
 SECRET_INTRODUCE_TITLE,,SECRET_INTRODUCE_TITLE,远古文明开创了这个不为人知的地下秘境，无尽的虚空入口犹如宇宙中的繁星，有人认为早在盘古开天之前，秘境世界就已经存在。当这些沉寂了亿万年的宝藏重见天日，探索者们惊奇地发现，远古人们的黄金与砖石依然历久弥新，一尘不染。但与黄金一样永恒不变的，是人的贪婪。
 SECRET_RECORD_CONTENT,,SECRET_RECORD_CONTENT,你的队伍抵御了敌人{1}波攻击，为你赢得了秘境钥石的奖励
-WORSHIP_REWARD_TIME,,WORSHIP_REWARD_TIME,每天上午5点发放奖励至邮箱
+WORSHIP_REWARD_TIME,,WORSHIP_REWARD_TIME,每天晚上9点发放奖励至邮箱
 WORSHIP_POWER_SPILL,,WORSHIP_POWER_SPILL,你的体力已达到上限，是否继续领取奖励
 64,,64,花费[1]钻石，变更性别。是否继续？
 65,,65,花费[1]钻石，变更职业。变更后返还已穿装备。是否继续？
@@ -286,4 +287,14 @@ TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英�
 9.玩家进入队伍后若未成功挑战，可随时退出组队
 10.自己完成战斗后，每有1名其他队友完成战斗，可获得额外奖励，奖励通过邮件发放"
 TeamBattleMail,,,自己完成战斗后，每有1名其他队友完成战斗，可额外获得{0}奖励（邮件发放）
-TeamBattleScore,,,完成当前战斗可获得{0}积分
+TeamBattleScore,,,完成当前战斗可获得{0}驱魔币
+TeamBattleOpenBuyTips,,,{0}开启购买心魔录功能，充值可提升VIP等级
+TeamBattleBuyTips,,,今日心魔录购买次数已用完，提升VIP等级可以增加购买次数
+TeamBattleTips,,,今日心魔录购买次数已用完，大神，您已经无法再增加购买次数
+GroupCopyOpenTips,,GroupCopyOpenTips,帮主、副帮主可开启
+GroupCopyNoPriceItemTips,,GroupCopyNoPriceItemTips,没有可分配的战利品
+PeakArenaNotOpenTip,,PeakArenaNotOpenTip,每天{0}~{1}期间无法进行巅峰竞技场对战
+DecomposeMagicTip,,DecomposeMagicTip,该法宝经过强化，是否分解？
+DecomposeQualityTip,,DecomposeQualityTip,是否分解{0}[-]品质道具？
+FixEquipLvLimit1,,,16级解锁护符强化
+FixEquipLvLimit2,,,36级解锁魂器强化
