@@ -5,27 +5,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
-
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
-import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -35,9 +34,14 @@ public abstract class BaseJdbc<T> {
 	protected final ClassInfo classInfoPojo;
 	protected final JdbcTemplate template;
 	protected final CommonRowMapper<T> rowMapper;
+	private PlatformTransactionManager tm;
+	private DefaultTransactionDefinition df;
 
 	public BaseJdbc(JdbcTemplate templateP, ClassInfo classInfoPojo) {
 		this.template = templateP;
+		tm = new DataSourceTransactionManager(template.getDataSource());
+		df = new DefaultTransactionDefinition();
+		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
 		this.classInfoPojo = classInfoPojo;
 		String tableName = classInfoPojo.getTableName();
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
@@ -132,6 +136,37 @@ public abstract class BaseJdbc<T> {
 	}
 
 	/**
+	 * 执行多个指定id的delete操作，要么全部成功，返回true，要么全部失败，返回false
+	 * 
+	 * @param sql
+	 * @param idList
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean forceDelete(String sql, final List<String> idList) throws Exception {
+		TransactionStatus ts = tm.getTransaction(df);
+		try {
+			int[] result = batchDelete(sql, idList);
+			if (result == null) {
+				tm.rollback(ts);
+				return false;
+			}
+			for (int i = result.length; --i >= 0;) {
+				if (result[i] <= 0) {
+					tm.rollback(ts);
+					return false;
+				}
+			}
+			tm.commit(ts);
+			return true;
+		} catch (Exception e) {
+			tm.rollback(ts);
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
 	 * <pre>
 	 * 执行多个指定id的delete操作，返回实际在数据库删除成功的id列表
 	 * 抛出异常表示全部删除失败
@@ -144,6 +179,26 @@ public abstract class BaseJdbc<T> {
 	 */
 	protected List<String> delete(String sql, final List<String> idList) throws Exception {
 		final int size = idList.size();
+		try {
+			int[] result = batchDelete(sql, idList);
+			if (result != null) {
+				ArrayList<String> resultList = new ArrayList<String>(size);
+				for (int i = 0; i < result.length; i++) {
+					if (result[i] > 0) {
+						resultList.add(idList.get(i));
+					}
+				}
+				return resultList;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private int[] batchDelete(String sql, final List<String> idList) throws Exception {
 		int[] result = this.template.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
 			@Override
@@ -157,15 +212,49 @@ public abstract class BaseJdbc<T> {
 				return idList.size();
 			}
 		});
-		ArrayList<String> resultList = new ArrayList<String>(size);
-		for (int i = 0; i < result.length; i++) {
-			if (result[i] > 0) {
-				resultList.add(idList.get(i));
-			}
-		}
-		return resultList;
+		return result;
 	}
 
+	/**
+	 * <pre>
+	 * 执行批量添加和删除操作，要么全部成功，要么全部失败
+	 * </pre>
+	 * 
+	 * @param addSql
+	 *            执行添加的sql语句
+	 * @param addList
+	 *            添加列表
+	 * @param delSql
+	 *            执行删除的sql语句
+	 * @param delList
+	 *            删除列表
+	 * @return
+	 */
+	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) {
+		TransactionStatus ts = tm.getTransaction(df);
+		try {
+			insert(addSql, addList);
+			int[] result = batchDelete(delSql, delList);
+			if (result != null) {
+				for (int i = result.length; --i >= 0;) {
+					if (result[i] <= 0) {
+						tm.rollback(ts);
+						return false;
+					}
+				}
+				tm.commit(ts);
+				return true;
+			} else {
+				tm.rollback(ts);
+				return false;
+			}
+		} catch (Exception e) {
+			tm.rollback(ts);
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * <pre>
 	 * 更新多条记录，忽略数据库中是否真的更新成功
@@ -269,11 +358,11 @@ public abstract class BaseJdbc<T> {
 				continue;
 			}
 			boolean isId = field.isAnnotationPresent(Id.class);
-//			String columnName = field.getName();
+			// String columnName = field.getName();
 			// modify by CHEN.P @ 2016-07-13 BEGIN
 			String columnName;
 			Column column = field.getAnnotation(Column.class);
-			if(column == null || (columnName = column.name()) == null || columnName.length() == 0) {
+			if (column == null || (columnName = column.name()) == null || columnName.length() == 0) {
 				columnName = field.getName();
 			}
 			// END
