@@ -126,7 +126,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-				boolean hasGroup = StringUtils.isNotBlank(groupData.getGroupId());
+				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}
