@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -9,7 +9,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.playerdata.groupcompetition.util.ChampionGroupData;
-import com.rw.fsutil.util.jackson.JsonUtil;
 
 /**
  * 
@@ -22,35 +21,23 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
 class GroupCompetitionSaveData {
 	
-	private static final GroupCompetitionSaveData _INSTANCE = new GroupCompetitionSaveData();
-	
 	@JsonProperty("1")
 	private int _heldTimes; // 已经举办的次数
 	@JsonProperty("2")
 	private long _lastHeldTimeMillis; // 最后一次举办的时间
 	@JsonProperty("3")
-	private GCCurrentData _currentData; // 当前的赛事的保存数据
+	private GCompCurrentData _currentData; // 当前的赛事的保存数据
 	@JsonProperty("4")
 	private List<ChampionGroupData> _championGroups; // 历届冠军
+	@JsonProperty("5")
+	private int _againstIdRecord = 0;
 	
-	static void initDataFromDB(String attribute) {
-		GroupCompetitionSaveData data = JsonUtil.readValue(attribute, GroupCompetitionSaveData.class);
-		Field[] allFields = GroupCompetitionSaveData.class.getDeclaredFields();
-		Field tempField;
-		for (int i = 0, size = allFields.length; i < size; i++) {
-			tempField = allFields[i];
-			if (tempField.isAnnotationPresent(JsonProperty.class)) {
-				try {
-					tempField.set(_INSTANCE, tempField.get(data));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	public static final GroupCompetitionSaveData getInstance() {
-		return _INSTANCE;
+	public static GroupCompetitionSaveData createEmpty() {
+		GroupCompetitionSaveData data = new GroupCompetitionSaveData();
+		data._heldTimes = 0;
+		data._lastHeldTimeMillis = 0;
+		data._championGroups = new ArrayList<ChampionGroupData>();
+		return data;
 	}
 	
 	/**
@@ -88,5 +75,35 @@ class GroupCompetitionSaveData {
 	 */
 	public long getLastHeldTimeMillis() {
 		return _lastHeldTimeMillis;
+	}
+	
+	/**
+	 * 
+	 * @param data
+	 */
+	public void setCurrentData(GCompCurrentData data) {
+		this._currentData = data;
+	}
+	
+	/**
+	 * 
+	 * 获取当前比赛的数据记录
+	 * 
+	 * @return
+	 */
+	public GCompCurrentData getCurrentData() {
+		return _currentData;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getAgainstIdRecord() {
+		return _againstIdRecord;
+	}
+	
+	public void setAgainstIdRecord(int pId) {
+		this._againstIdRecord = pId;
 	}
 }

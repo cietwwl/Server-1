@@ -6,20 +6,22 @@ import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
 /**
  * 
- * 帮派争霸休整阶段
+ * 过渡的空白阶段
  * 
  * @author CHEN.P
  *
  */
-public class GCRestStage implements IGCStage {
+public class GCompEmptyStage implements IGCStage {
 
-	public GCRestStage(GroupCompetitionStageCfg cfg) {
-
+	private long _stageEndTime;
+	
+	public GCompEmptyStage(GroupCompetitionStageCfg cfg) {
+		
 	}
 	
 	@Override
 	public GCompStageType getStageType() {
-		return GCompStageType.REST;
+		return GCompStageType.EMPTY;
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public class GCRestStage implements IGCStage {
 
 	@Override
 	public long getStageEndTime() {
-		return 0;
+		return _stageEndTime;
 	}
 
 }

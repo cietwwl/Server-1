@@ -1,0 +1,126 @@
+package com.playerdata.groupcompetition;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
+
+import com.playerdata.groupcompetition.data.IGCStage;
+import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
+import com.playerdata.groupcompetition.util.GCompStageType;
+import com.playerdata.groupcompetition.util.GCompStartType;
+import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rwbase.common.timer.IGameTimerTask;
+import com.rwbase.common.timer.core.FSGameTimeSignal;
+import com.rwbase.common.timer.core.FSGameTimerMgr;
+import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
+
+/**
+ * 
+ * 帮派争霸阶段控制器，负责切换不同的阶段
+ * 
+ * @author CHEN.P
+ *
+ */
+public class GCompStageController implements IGameTimerTask {
+
+	private List<IGCStage> _stageQueueOrigin = new ArrayList<IGCStage>(); // 原生的阶段队列
+	private LinkedList<IGCStage> _stageQueue = new LinkedList<IGCStage>(); // 阶段队列
+	private IGCStage _currentStage = null; // 当前的阶段
+	
+	public GCompStageController(List<IGCStage> stageQueueOrigin, List<IGCStage> stageQueue) {
+		this._stageQueueOrigin.addAll(stageQueueOrigin);
+		this._stageQueue.addAll(stageQueue);
+	}
+	
+	/**
+	 * 
+	 * 第一阶段开始的时间
+	 * 
+	 * @param firstStageStartTime
+	 */
+	public void start(long firstStageStartTime) {
+		createTimerTask(firstStageStartTime);
+		GCompBaseInfoMgr.getInstance().update(firstStageStartTime);
+	}
+	
+	private void createTimerTask(long deadline) {
+		// 开始一个时效任务
+		long delay = System.currentTimeMillis() - deadline;
+		int second = (int) TimeUnit.MILLISECONDS.toSeconds(delay);
+		long millis = TimeUnit.SECONDS.toMillis(second);
+		if (delay - millis > 500) {
+			second++;
+		}
+		FSGameTimerMgr.getInstance().submitSecondTask(this, second);
+	}
+	
+	private void notifyCurrentStageEnd() {
+		// 通知当前阶段结束
+		if (_currentStage != null) {
+			System.out.println("阶段结束：" + _currentStage);
+			_currentStage.onStageEnd();
+		}
+	}
+	
+	private void startNewRound() {
+		// 开始新的一轮
+		this._stageQueue.clear();
+		this._stageQueue.addAll(_stageQueueOrigin);
+		this.start(GCompUtil.calculateGroupCompetitionStartTime(GCompStartType.NUTRAL_TIME_OFFSET, 0));
+	}
+	
+	private void moveToNextStage() {
+		if(_stageQueue.isEmpty()) {
+			// 没有下一个了
+			this.startNewRound();
+			return;
+		}
+		// 移到下一个阶段
+		IGCStage pre = _currentStage;
+		IGCStage next = _stageQueue.removeFirst();
+		next.onStageStart(pre);
+		_currentStage = pre;
+		long endTime = _currentStage.getStageEndTime();
+		createTimerTask(endTime);
+		GCompStageType currentStageType = _currentStage.getStageType();
+		GCompBaseInfoMgr.getInstance().update(currentStageType);
+		if(currentStageType == GCompStageType.SELECTION) {
+			GroupCompetitionMgr.getInstance().updateLaseHeldTime(System.currentTimeMillis());
+		}
+	}
+
+	@Override
+	public String getName() {
+		return "CompetitionStageController";
+	}
+
+	@Override
+	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+		notifyCurrentStageEnd();
+		moveToNextStage();
+		return "SUCCESS";
+	}
+
+	@Override
+	public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
+		
+	}
+
+	@Override
+	public void rejected(RejectedExecutionException e) {
+		
+	}
+
+	@Override
+	public boolean isContinue() {
+		return false;
+	}
+
+	@Override
+	public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
+		return Collections.emptyList();
+	}
+}

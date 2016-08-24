@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.playerdata.groupcompetition.cfg.GCCommonCfgDAO;
 import com.playerdata.groupcompetition.data.IGCStage;
+import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
@@ -42,6 +43,11 @@ public class GCSelectionStage implements IGCStage {
 		currentDateTime.set(Calendar.MINUTE, timeInfo.getT2());
 		currentDateTime.set(Calendar.SECOND, 0);
 		return currentDateTime.getTimeInMillis();
+	}
+	
+	@Override
+	public GCompStageType getStageType() {
+		return GCompStageType.SELECTION;
 	}
 	
 	@Override
