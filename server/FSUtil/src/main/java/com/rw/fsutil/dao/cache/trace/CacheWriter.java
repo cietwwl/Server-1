@@ -2,6 +2,11 @@ package com.rw.fsutil.dao.cache.trace;
 
 public interface CacheWriter {
 
-	public void convert(LoggerEvent event,CharArrayBuffer charBuffer);
-	
+	/**
+	 * 把Logger事件写入CharArrayBuffer
+	 * @param event
+	 * @param charBuffer
+	 */
+	public void writeToBuffer(LoggerEvent event, CharArrayBuffer charBuffer);
+
 }
