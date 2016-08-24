@@ -2,6 +2,8 @@ package com.rwbase.dao.worship.pojo;
 
 import org.junit.runners.model.InitializationError;
 
+import com.rwbase.dao.worship.WorshipUtils;
+
 public class CfgWorshipReward {
 	private String key;
 	private int rewardType;
@@ -13,6 +15,8 @@ public class CfgWorshipReward {
 	
 	private int lowwer;//下限
 	
+	private WorshipItemData rewardData;
+	
 	public void format() throws InitializationError{
 		String[] str = round.split("~");
 		if(str.length < 2){
@@ -20,6 +24,8 @@ public class CfgWorshipReward {
 		}
 		lowwer = Integer.parseInt(str[0].toString().trim());
 		upper = Integer.parseInt(str[1].toString().trim());
+		round = null;
+		rewardData = WorshipUtils.getWorshipDataFromStr(rewardStr);
 	}
 	
 	
@@ -43,6 +49,11 @@ public class CfgWorshipReward {
 	}
 	public int getLowwer() {
 		return lowwer;
+	}
+
+
+	public WorshipItemData getRewardData() {
+		return rewardData;
 	}
 
 	

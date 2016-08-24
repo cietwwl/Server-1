@@ -27,7 +27,6 @@ import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.gm.task.gmCommand.GmCommandManager;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -55,6 +54,7 @@ import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
+import com.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.gameworld.GameWorldFactory;
 
