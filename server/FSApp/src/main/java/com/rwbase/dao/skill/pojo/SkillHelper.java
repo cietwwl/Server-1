@@ -234,12 +234,8 @@ public class SkillHelper {
 		}
 
 		SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
-		SkillCfg cfg = cfgDAO.getCfg(updateSkillId);
-		if (cfg == null) {
-			return;
-		}
 
-		List<String> cfgListenerIds = cfg.getListenerIdList();// 默认的监听Id列表
+		List<String> cfgListenerIds = skillCfg.getListenerIdList();// 默认的监听Id列表
 
 		List<String> listenerIdList = new ArrayList<String>(cfgListenerIds);
 
@@ -253,7 +249,7 @@ public class SkillHelper {
 			}
 
 			String skillId = skillInfo.getSkillId();
-			cfg = cfgDAO.getCfg(skillId);
+			SkillCfg cfg = cfgDAO.getCfg(skillId);
 			if (cfg == null) {
 				continue;
 			}
@@ -280,7 +276,7 @@ public class SkillHelper {
 			}
 		}
 
-		skill.setListenerIds(listenerIdList);
+		skill.setSkillListeners(listenerIdList);
 	}
 
 	/**

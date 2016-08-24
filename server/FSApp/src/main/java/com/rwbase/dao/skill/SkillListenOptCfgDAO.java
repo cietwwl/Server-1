@@ -27,7 +27,7 @@ public class SkillListenOptCfgDAO extends CfgCsvDao<SkillListenOptCfg> {
 
 	@Override
 	protected Map<String, SkillListenOptCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("", SkillListenOptCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("skillCfg/SkillListenOpt.csv", SkillListenOptCfg.class);
 
 		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
 			Map<Integer, SkillListenOptTemplate> skillListenMap = new HashMap<Integer, SkillListenOptTemplate>();

@@ -46,10 +46,10 @@ public class Skill implements IMapItem, SkillIF {
 	@NonSave
 	private int skillDamage;
 	@Transient
-	private List<String> listenerIds;// 监听的Id
+	private List<String> skillListeners;// 监听的Id
 
 	public Skill() {
-		listenerIds = new ArrayList<String>();
+		skillListeners = new ArrayList<String>();
 	}
 
 	public String getId() {
@@ -124,12 +124,12 @@ public class Skill implements IMapItem, SkillIF {
 		this.skillDamage = skillDamage;
 	}
 
-	public List<String> getListenerIds() {
-		return listenerIds;
+	public List<String> getSkillListeners() {
+		return skillListeners;
 	}
 
-	public void setListenerIds(List<String> listenerIds) {
-		this.listenerIds = listenerIds;
+	public void setSkillListeners(List<String> skillListeners) {
+		this.skillListeners = skillListeners;
 	}
 
 	// public List<Integer> getSelfBuffId() {

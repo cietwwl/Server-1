@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.common.HPCUtil;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
@@ -425,18 +427,30 @@ public class SkillCfg {
 		// ===============================增加的百分比属性
 		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("SkillCfg", precentAttrData);
 		// ===============================监听的Id列表
-		List<String> list = HPCUtil.parseStr2List(this.listenerIds, "|");
-		if (list == null || list.isEmpty()) {
-			this.listenerIdList = Collections.emptyList();
+		if (skillId.equals("10100200_1")) {
+			System.err.println(this.listenerIds);
+		}
+
+		if (!StringUtils.isEmpty(listenerIds)) {
+			List<String> list = HPCUtil.parseStr2List(this.listenerIds, "|");
+			if (list == null || list.isEmpty()) {
+				this.listenerIdList = Collections.emptyList();
+			} else {
+				this.listenerIdList = Collections.unmodifiableList(list);
+			}
 		} else {
-			this.listenerIdList = Collections.unmodifiableList(list);
+			this.listenerIdList = Collections.emptyList();
 		}
 		// ===============================操作的Id列表
-		List<Integer> intList = HPCUtil.parseIntegerList(this.optIds, "|");
-		if (intList == null || intList.isEmpty()) {
-			this.optIdList = Collections.emptyList();
+		if (!StringUtils.isEmpty(optIds)) {
+			List<Integer> intList = HPCUtil.parseIntegerList(this.optIds, "|");
+			if (intList == null || intList.isEmpty()) {
+				this.optIdList = Collections.emptyList();
+			} else {
+				this.optIdList = Collections.unmodifiableList(intList);
+			}
 		} else {
-			this.optIdList = Collections.unmodifiableList(intList);
+			this.optIdList = Collections.emptyList();
 		}
 	}
 }
