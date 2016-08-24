@@ -8,6 +8,11 @@ import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rwbase.dao.item.pojo.ItemData;
 
+/**
+ * {@link MapItemChangedListener}示例文件
+ * @author Jamaz
+ *
+ */
 public class ItemDataListener implements MapItemChangedListener<ItemData> {
 
 	@Override

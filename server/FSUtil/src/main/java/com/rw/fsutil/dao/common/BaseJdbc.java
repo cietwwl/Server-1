@@ -6,11 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -21,11 +25,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.ItemNotExistException;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
@@ -70,23 +76,27 @@ public abstract class BaseJdbc<T> {
 			T t = list.get(i);
 			fieldValues.add(extractAttributes(t, false));
 		}
-		this.template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+		try {
+			this.template.batchUpdate(sql, new BatchPreparedStatementSetter() {
 
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				List<Object> sqlContext = fieldValues.get(i);
-				int index = 0;
-				for (Object param : sqlContext) {
-					index++;
-					ps.setObject(index, param);
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					List<Object> sqlContext = fieldValues.get(i);
+					int index = 0;
+					for (Object param : sqlContext) {
+						index++;
+						ps.setObject(index, param);
+					}
 				}
-			}
 
-			@Override
-			public int getBatchSize() {
-				return size;
-			}
-		});
+				@Override
+				public int getBatchSize() {
+					return size;
+				}
+			});
+		} catch (DuplicateKeyException e) {
+			throw new DuplicatedKeyException(e);
+		}
 	}
 
 	/**
@@ -115,6 +125,8 @@ public abstract class BaseJdbc<T> {
 				}
 			}, keyHolder);
 			return result > 0;
+		} catch (DuplicateKeyException e) {
+			throw new DuplicatedKeyException(e);
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
@@ -144,26 +156,28 @@ public abstract class BaseJdbc<T> {
 	 * @throws Exception
 	 */
 	protected boolean forceDelete(String sql, final List<String> idList) throws Exception {
+		String recordNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
 			int[] result = batchDelete(sql, idList);
-			if (result == null) {
-				tm.rollback(ts);
-				return false;
-			}
 			for (int i = result.length; --i >= 0;) {
 				if (result[i] <= 0) {
 					tm.rollback(ts);
-					return false;
+					recordNotExist = "item not exist:" + idList.get(i);
+					break;
 				}
 			}
-			tm.commit(ts);
-			return true;
+			// 全部成功
+			if (recordNotExist == null) {
+				tm.commit(ts);
+				return true;
+			}
 		} catch (Exception e) {
-			tm.rollback(ts);
 			e.printStackTrace();
+			tm.rollback(ts);
 			return false;
 		}
+		throw new ItemNotExistException(recordNotExist);
 	}
 
 	/**
@@ -181,20 +195,16 @@ public abstract class BaseJdbc<T> {
 		final int size = idList.size();
 		try {
 			int[] result = batchDelete(sql, idList);
-			if (result != null) {
-				ArrayList<String> resultList = new ArrayList<String>(size);
-				for (int i = 0; i < result.length; i++) {
-					if (result[i] > 0) {
-						resultList.add(idList.get(i));
-					}
+			ArrayList<String> resultList = new ArrayList<String>(size);
+			for (int i = 0; i < result.length; i++) {
+				if (result[i] > 0) {
+					resultList.add(idList.get(i));
 				}
-				return resultList;
-			} else {
-				return null;
 			}
+			return resultList;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return Collections.emptyList();
 		}
 	}
 
@@ -212,7 +222,13 @@ public abstract class BaseJdbc<T> {
 				return idList.size();
 			}
 		});
-		return result;
+		// 按语义不会出现null，多加个判断保证不受JDBC or Spring影响
+		if (result == null) {
+			System.err.println("batch update return null:" + sql + "," + idList);
+			return new int[] { idList.size() };
+		} else {
+			return result;
+		}
 	}
 
 	/**
@@ -230,31 +246,34 @@ public abstract class BaseJdbc<T> {
 	 *            删除列表
 	 * @return
 	 */
-	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) {
+	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) throws DuplicatedKeyException, ItemNotExistException {
+		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
 			insert(addSql, addList);
 			int[] result = batchDelete(delSql, delList);
-			if (result != null) {
-				for (int i = result.length; --i >= 0;) {
-					if (result[i] <= 0) {
-						tm.rollback(ts);
-						return false;
-					}
+			for (int i = result.length; --i >= 0;) {
+				if (result[i] <= 0) {
+					tm.rollback(ts);
+					itemNotExist = "item not exist:" + delList.get(i);
+					break;
 				}
+			}
+			if (itemNotExist == null) {
 				tm.commit(ts);
 				return true;
-			} else {
-				tm.rollback(ts);
-				return false;
 			}
-		} catch (Exception e) {
+		} catch (DuplicatedKeyException e) {
 			tm.rollback(ts);
+			throw e;
+		} catch (Exception e) {
 			e.printStackTrace();
+			tm.rollback(ts);
 			return false;
 		}
+		throw new ItemNotExistException(itemNotExist);
 	}
-	
+
 	/**
 	 * <pre>
 	 * 更新多条记录，忽略数据库中是否真的更新成功

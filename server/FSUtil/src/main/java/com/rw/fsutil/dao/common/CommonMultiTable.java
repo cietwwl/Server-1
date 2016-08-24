@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.ItemNotExistException;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 
@@ -76,7 +77,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		return super.delete(sql, idList);
 	}
 	
-	public boolean insertAndDelete(String searchId, final List<T> addList,List<String> delList){
+	public boolean insertAndDelete(String searchId, List<T> addList,List<String> delList) throws DuplicatedKeyException, ItemNotExistException{
 		String insertSql = getString(insertSqlArray, searchId);
 		String deleteSql = getString(delectSqlArray, searchId);
 		return super.insertAndDelete(insertSql, addList, deleteSql, delList);
