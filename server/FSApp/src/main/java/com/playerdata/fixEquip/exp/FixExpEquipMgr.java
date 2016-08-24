@@ -274,7 +274,7 @@ public class FixExpEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixExpEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (isOpen(player, dataItem)) {
+		if (!isOpen(player, dataItem)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在");
