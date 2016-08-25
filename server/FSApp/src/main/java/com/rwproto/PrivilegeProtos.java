@@ -897,6 +897,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     getSweepTicketNum(2, 3),
+    /**
+     * <code>isAllowReport = 4;</code>
+     *
+     * <pre>
+     *开启举报玩家
+     * </pre>
+     */
+    isAllowReport(3, 4),
     ;
 
     /**
@@ -923,6 +931,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     public static final int getSweepTicketNum_VALUE = 3;
+    /**
+     * <code>isAllowReport = 4;</code>
+     *
+     * <pre>
+     *开启举报玩家
+     * </pre>
+     */
+    public static final int isAllowReport_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -932,6 +948,7 @@ public final class PrivilegeProtos {
         case 1: return buyPowerCount;
         case 2: return useCoinTransCount;
         case 3: return getSweepTicketNum;
+        case 4: return isAllowReport;
         default: return null;
       }
     }
@@ -5736,15 +5753,16 @@ public final class PrivilegeProtos {
       "nt\020\004\022\031\n\025bmstoreFreeRefreshCnt\020\005*c\n\022CopyP" +
       "rivilegeNames\022\021\n\rcopyRewardAdd\020\001\022\023\n\017isAl" +
       "lowTenSweep\020\002\022\022\n\016eliteRewardAdd\020\003\022\021\n\reli" +
-      "teResetCnt\020\004*V\n\023LoginPrivilegeNames\022\021\n\rb" +
+      "teResetCnt\020\004*i\n\023LoginPrivilegeNames\022\021\n\rb" +
       "uyPowerCount\020\001\022\025\n\021useCoinTransCount\020\002\022\025\n" +
-      "\021getSweepTicketNum\020\003*g\n\022HeroPrivilegeNam" +
-      "es\022\022\n\016skillThreshold\020\001\022\030\n\024isAllowBuySkil" +
-      "lPoint\020\002\022\020\n\014skillTimeDec\020\003\022\021\n\risAllowAtt" +
-      "ach\020\004*i\n\025GeneralPrivilegeNames\022\017\n\013battle" +
-      "Speed\020\001\022\025\n\021isAllowBuyFashion\020\002\022\022\n\016isAllo",
-      "wSoulBox\020\003\022\024\n\020isAllowReplenish\020\004B\036\n\013com." +
-      "rwprotoB\017PrivilegeProtos"
+      "\021getSweepTicketNum\020\003\022\021\n\risAllowReport\020\004*" +
+      "g\n\022HeroPrivilegeNames\022\022\n\016skillThreshold\020" +
+      "\001\022\030\n\024isAllowBuySkillPoint\020\002\022\020\n\014skillTime" +
+      "Dec\020\003\022\021\n\risAllowAttach\020\004*i\n\025GeneralPrivi" +
+      "legeNames\022\017\n\013battleSpeed\020\001\022\025\n\021isAllowBuy",
+      "Fashion\020\002\022\022\n\016isAllowSoulBox\020\003\022\024\n\020isAllow" +
+      "Replenish\020\004B\036\n\013com.rwprotoB\017PrivilegePro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -13,6 +13,7 @@ import com.gm.customer.QuestionType;
 import com.gm.customer.data.QuestionListDataHolder;
 import com.gm.customer.response.QueryListResponse;
 import com.gm.customer.response.QuestionSubmitResponse;
+import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
@@ -96,8 +97,8 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 	 * @param targetUserId
 	 * @param feedBackContent
 	 * @param reportChannel	举报频道 1:世界 2:帮派 3:附近 4:私聊
-	 * @param channel	1 聊天举报 	2外挂举报
-	 * @param type
+	 * @param channel	
+	 * @param type 1 聊天举报 	2外挂举报
 	 * @return
 	 */
 	public String reportOtherPlayer(Player player, String targetUserId, String content, int reportChannel, String channel, int type){
@@ -107,6 +108,11 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		if(player.getUserId() == targetUserId){
 			return QuestionTips.CAN_NOT_REPORT_SELF;
 		}
+		
+		if(System.currentTimeMillis() - questionListDataHolder.getReportPlayerTime() < 10*1000){
+			return QuestionTips.REPORT_TOO_MUCH;
+		}
+		questionListDataHolder.setReportPlayerTime(System.currentTimeMillis());
 		String userId = player.getUserId();
 		Player targetPlayer = PlayerMgr.getInstance().find(targetUserId);
 		Map<String, Object> contentMap = new HashMap<String, Object>();
@@ -126,9 +132,10 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		contentMap.put("reportContent", content);
 		contentMap.put("iSequenceNum", ServerStatusMgr.getiSequenceNum());
 		
-		QuestionSubmitResponse response = PlayerQuestionService.getInstance().submitRequestSync(contentMap, 25002, userId, false, QuestionSubmitResponse.class);
+		PlayerQuestionService.getInstance().submitRequest(contentMap, 25002, userId, false, QuestionSubmitResponse.class);
 		
-		return getReportResponseMsg(response);
+		return QuestionTips.REPORT_SUCCESS;
+//		return getReportResponseMsg(response);
 	}
 	
 	private String getReportResponseMsg(QuestionSubmitResponse response){
@@ -159,6 +166,10 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 			if (objs.size() > 0) {
 				processSubmitQuestionResult(objs.get(0));
 			}
+			break;
+		case Feedback_Player:
+			String reportResponseMsg = getReportResponseMsg((QuestionSubmitResponse)objs.get(0));
+			GameLog.error("report player", this.mPlayer.getUserId(), reportResponseMsg);
 			break;
 		default:
 			break;

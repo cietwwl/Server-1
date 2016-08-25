@@ -105,4 +105,12 @@ public class QuestionListDataHolder {
 	public void setBlnInit(boolean blnInit) {
 		this.blnInit = blnInit;
 	}
+
+	public long getReportPlayerTime() {
+		return reportPlayerTime;
+	}
+
+	public void setReportPlayerTime(long reportPlayerTime) {
+		this.reportPlayerTime = reportPlayerTime;
+	}
 }

@@ -19,4 +19,6 @@ public class QuestionTips {
 	public static String REPORT_OVERTIME = "举报者一天举报次数超出了10次";
 	
 	public static String REPORT_ALREADY = "一个被举报者同一条内容一天只能被举报一次";
+	
+	public static String REPORT_TOO_MUCH = "举报得太频密了";
 }
