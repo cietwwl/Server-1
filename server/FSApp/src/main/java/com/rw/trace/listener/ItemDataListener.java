@@ -14,19 +14,21 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 
 	@Override
 	public void notifyDataChanged(MapItemChangedEvent<ItemData> event) {
-		List<ItemData> addList = event.getAddList();
+		List<Pair<String,ItemData>> addList = event.getAddList();
 		
 		StringBuilder sbAdd = new StringBuilder();
 		StringBuilder sbDel = new StringBuilder();
 		
 		if (addList != null) {
-			for (ItemData data : addList) {
+			for (Pair<String, ItemData> pair : addList) {
+				ItemData data = pair.getT2();
 				sbAdd.append(data.getModelId()).append(":").append(data.getCount()).append("&");
 			}
 		}
-		List<ItemData> delList = event.getRemoveList();
+		List<Pair<String, ItemData>> delList = event.getRemoveList();
 		if (delList != null) {
-			for (ItemData data : delList) {
+			for (Pair<String, ItemData> pair : delList) {
+				ItemData data = pair.getT2();
 				sbDel.append(data.getModelId()).append(":").append(data.getCount()).append("&");
 			}
 		}
