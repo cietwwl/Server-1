@@ -182,9 +182,9 @@
 	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 	<bean id="gfightOnlineService" class="com.playerdata.groupFightOnline.service.GFightOnlineService"/>
 	
-	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopy.GroupCopyAdminService"  />
-	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
-	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
+	<bean id="groupCopyAdminService" class="com.rw.service.groupCopy.GroupCopyAdminService"  />
+	<bean id="groupCopyBattleService" class="com.rw.service.groupCopy.GroupCopyBattleService" />
+	<bean id="groupCopyCmdService" class="com.rw.service.groupCopy.GroupCopyCmdService" />
 	
 	<bean id="teamBattleService" class = "com.playerdata.teambattle.service.TeamBattleService" />
 	<bean id="oneKeyService" class = "com.rw.service.task.OneKeyService" />

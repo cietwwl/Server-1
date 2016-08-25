@@ -6,6 +6,6 @@ public interface TableSkillIF {
 	
 	public String getUserId();
 	
-	public List<Skill> getSkillList();
+	public List<SkillItem> getSkillList();
 	
 }
