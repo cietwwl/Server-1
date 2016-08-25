@@ -23,6 +23,9 @@ public class DataEncodeHelper {
 		for (String keytmp : keyList) {
 			String value = map.get(keytmp);
 			if(StringUtils.isNotBlank(value)){
+				if(keytmp.toLowerCase().contains("add_cure")){
+					System.out.println("tt");
+				}
 				sb.append(keytmp).append("-").append(value);	
 				if(count!=keyList.size()){
 					sb.append("|");

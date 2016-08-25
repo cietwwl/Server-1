@@ -2,16 +2,14 @@ package com.rw.trace;
 
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
-import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.dropitem.DropRecord;
 import com.rwbase.dao.equipment.EquipItem;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.TableUserHero;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.UserGameData;
 
 /**
@@ -28,7 +26,7 @@ public enum DataTraceRegistrator {
 	FixNormEquipDataItem(FixNormEquipDataItem.class),
 	InlayItem(InlayItem.class),
 	MajorData(MajorData.class),
-	Skill(Skill.class),
+	Skill(SkillItem.class),
 	TableCopyData(TableCopyData.class),
 	TableUserHero(TableUserHero.class),
 	UserGameData(UserGameData.class),
