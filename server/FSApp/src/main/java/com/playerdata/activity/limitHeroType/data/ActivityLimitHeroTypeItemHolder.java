@@ -54,6 +54,11 @@ public class ActivityLimitHeroTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
+	public void synData(Player player, ActivityLimitHeroTypeItem item){
+		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	
 	public ActivityLimitHeroTypeItem getItem(String userId){		
 		return getItemStore(userId).getItem(userId);
 	}

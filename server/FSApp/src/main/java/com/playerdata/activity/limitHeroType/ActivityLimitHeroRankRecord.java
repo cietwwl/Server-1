@@ -1,26 +1,28 @@
 package com.playerdata.activity.limitHeroType;
 
 public class ActivityLimitHeroRankRecord {
-	private int id ;
 	private int integral;
 	private String uid;
 	private String playerName;
-	private long regditTime;
+	private long regditTime;//存于数据库，不发给客户端
+	private String version;//存于数据库，不发给客户端
 	
 	
 	
+	
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
 	public long getRegditTime() {
 		return regditTime;
 	}
 	public void setRegditTime(long regditTime) {
 		this.regditTime = regditTime;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}	
+	
 	
 	public int getIntegral() {
 		return integral;

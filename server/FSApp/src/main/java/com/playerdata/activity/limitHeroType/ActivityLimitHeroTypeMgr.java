@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -191,7 +192,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result =  gambleTen(player,response);
 		}		
 		return result;
-	}	
+	}
 		
 	private ActivityComResult gambleTen(Player player, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(false);
@@ -251,7 +252,15 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result.setReason("数据异常");
 			return result;			
 		}
-		if(player.getUserGameDataMgr().getGold() < cfg.getSinglecost()){
+		
+		int spendNeed = cfg.getSinglecost();
+		long now = System.currentTimeMillis();
+		long lastTime = dataItem.getLastSingleTime();
+		if((now - lastTime) > cfg.getFreecd()* 1000){
+			spendNeed = 0;
+			dataItem.setLastSingleTime(now);
+		}		
+		if(player.getUserGameDataMgr().getGold() < spendNeed){
 			result.setReason("钻石不足");
 			return result;
 		}
@@ -268,7 +277,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		dropList.add(data.build());
 		response.addAllGamebleReward(dropList);
 		
-		player.getUserGameDataMgr().addGold(-cfg.getSinglecost());
+		player.getUserGameDataMgr().addGold(-spendNeed);
 		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
 		dataHolder.updateItem(player, dataItem);
 		result.setSuccess(true);
@@ -287,28 +296,55 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		if(scdData == null){
 			return;
 		}
-		Map<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();
+		TreeMap<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();		
+		reFreshRankByVersion(map,cfg);			
+		boolean isHas = false;
+		for(Map.Entry<Integer, ActivityLimitHeroRankRecord> entry : map.entrySet()){
+			if(StringUtils.equals(entry.getValue().getUid(), player.getUserId())){
+				entry.getValue().setIntegral(dataItem.getIntegral());
+				entry.getValue().setRegditTime(System.currentTimeMillis());
+				isHas = true;
+				break;
+			}
+		}
+		/**有记录，刷新下*/
+		if(isHas){
+			compare(map);		
+			ServerCommonDataHolder.getInstance().update(scdData);
+			return;
+		}
+		
+		
 		ActivityLimitHeroRankRecord record = new ActivityLimitHeroRankRecord();
 		record.setIntegral(dataItem.getIntegral());
 		record.setPlayerName(player.getUserName());
 		record.setUid(player.getUserId());
 		record.setRegditTime(System.currentTimeMillis());
+		record.setVersion(cfg.getVersion());
 		
-		if(map.size() < cfg.getRankNumer()){			
-			record.setId(map.size());
+		
+		/**没记录，但不用抢*/
+		if(map.size() < cfg.getRankNumer()){
 			map.put(map.size(), record);
 			ServerCommonDataHolder.getInstance().update(scdData);
+			compare(map);
 			return;
 		}
-		ActivityLimitHeroRankRecord recordTmp = map.get(map.size() - 1);
+		/**抢*/
+		ActivityLimitHeroRankRecord recordTmp = map.lastEntry().getValue();		
 		if(record.getIntegral() <= recordTmp.getIntegral()){
+			//**没抢过
 			return;
 		}
 		
 		map.remove(map.size() -1);
-		record.setId(map.size());
 		map.put(map.size(), record);		
-		
+		compare(map);
+		ServerCommonDataHolder.getInstance().update(scdData);
+	}
+	
+	/**降序排序，相同积分时先到先上*/
+	private void compare(Map<Integer, ActivityLimitHeroRankRecord> map) {
 		List<Map.Entry<Integer, ActivityLimitHeroRankRecord>> list = new ArrayList<Map.Entry<Integer,ActivityLimitHeroRankRecord>>(map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<Integer, ActivityLimitHeroRankRecord>>() {
 			@Override
@@ -316,20 +352,45 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 					Entry<Integer, ActivityLimitHeroRankRecord> o2) {
 				// TODO Auto-generated method stub
 				if(o1.getValue().getIntegral()>o2.getValue().getIntegral()){
-					return 1;
+					return -1;
 				}else if(o1.getValue().getIntegral()==o2.getValue().getIntegral()){
 					if(o1.getValue().getRegditTime() < o2.getValue().getRegditTime()){
-						return 1;
+						return -1;
 					}					
-					return -1;					
+					return 1;					
 				}else{
-					return -1;
+					return 1;
 				}
 			}
-		});
-		ServerCommonDataHolder.getInstance().update(scdData);
+		});		
+		
+		
 	}
-	
+
+	/**
+	 * 
+	 * @param map  活动换版本时清空数据
+	 * @param cfg
+	 */
+	private void reFreshRankByVersion(
+			Map<Integer, ActivityLimitHeroRankRecord> map,
+			ActivityLimitHeroCfg cfg) {
+		for(Map.Entry<Integer, ActivityLimitHeroRankRecord> entry: map.entrySet()){		
+			if(!StringUtils.equals(entry.getValue().getVersion(), cfg.getVersion())){
+				map.clear();
+				return;
+			}
+		}
+		
+	}
+
+	/**
+	 * 
+	 * @param player
+	 * @param commonReq  排行榜数据在此处推给客户端；同时触发一次holder推送免费时间
+	 * @param response   要保证发过去的每条记录里的number数据时对应的排名，就必须确保插入更新时都有做排序操作
+	 * @return
+	 */
 	public ActivityComResult viewRank(Player player,
 			ActivityCommonReqMsg commonReq, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(false);
@@ -348,16 +409,22 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result.setReason("排行榜是空的");
 			return result;
 		}
+		int num = 0;
 		for(Map.Entry<Integer, ActivityLimitHeroRankRecord> entry : map.entrySet()){
 			RankRecord.Builder record = RankRecord.newBuilder();
-			record.setNumber(entry.getKey());
+			record.setNumber(num);
 			record.setName(entry.getValue().getPlayerName());
 			record.setGetIntegral(entry.getValue().getIntegral());
 			record.setUid(entry.getValue().getUid());			
 			response.addRecord(record.build());
+			num ++;
 		}
 		result.setSuccess(true);
-		result.setReason("成功获得");		
+		result.setReason("成功获得");
+		
+		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
+		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		dataHolder.synData(player, dataItem);
 		return result;
 	}
 	
