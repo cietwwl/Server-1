@@ -5,11 +5,14 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
@@ -60,59 +63,44 @@ public class ActivityCountTypeMgr {
 				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
 				if(countTypeEnum != null){
 					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
-					if(targetItem != null){
-						if(targetItem.isClosed()){
-							dataHolder.removeitem(player, countTypeEnum);
-							
-						}
-					}
 					
 					if(targetItem == null){
 						targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);//生成新开启活动的数据
 						if(targetItem!=null){
 							dataHolder.addItem(player, targetItem);
 						}
-					}
-				}
-				
-				
+					}else{
+						if(!StringUtils.equals(targetItem.getVersion(), activityCountTypeCfg.getVersion())){							 
+							targetItem.reset(activityCountTypeCfg,ActivityCountTypeCfgDAO.getInstance().newItemList(player, activityCountTypeCfg));
+							dataHolder.updateItem(player, targetItem);	
+							}
+						}
+					}					
+				}				
 			}
 		}
-	}
+	
 	private void checkClose(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {//每种活动
 			if(isClose(activityCountTypeItem)){
-				List<ActivityCountTypeSubItem>  list = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId()).getSubItemList();
-				for(ActivityCountTypeSubItem subitem : list){//配置表里的每种奖励
-					if(subitem.getCount() > activityCountTypeItem.getCount()){
-						continue;
-					}else{
-						Boolean ismakeup = true;
-						for(ActivityCountTypeSubItem sub :activityCountTypeItem.getTakenGiftList()){
-							if(sub.getCount() == subitem.getCount()){
-								ismakeup = false;
-								break;
-							}
-						}
-						if(ismakeup){
-							ActivityCountTypeSubItem targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(ActivityCountTypeEnum.getById(activityCountTypeItem.getCfgId()), subitem.getId());				
-							activityCountTypeItem.getTakenGiftList().add(targetItem);
-//							takeGift(player,targetItem);
-												
-							
-							boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subitem.getGift(), MAKEUPEMAIL+"");	
-							if (isAdd) {
-								targetItem.setTaken(true);
-							} else {
-								GameLog.error("通用活动关闭后未领取奖励获取邮件内容失败：" + player.getUserId() + "," );
-							}		
-							dataHolder.updateItem(player, activityCountTypeItem);//写入数据库,领取为false=邮件派发.	
-							
-						}						
-					}					
+
+				List<ActivityCountTypeSubItem>  list = activityCountTypeItem.getSubItemList();
+				for(ActivityCountTypeSubItem subItem : list){//配置表里的每种奖励
+					ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+					
+					if(!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()){
+															
+						
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"");	
+						if (isAdd) {
+							subItem.setTaken(true);
+						} else {
+							GameLog.error(LogModule.ComActivityCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败" , null);
+						}		
+					}
 				}						
 				activityCountTypeItem.setClosed(true);
 				dataHolder.updateItem(player, activityCountTypeItem);
@@ -123,16 +111,6 @@ public class ActivityCountTypeMgr {
 	}
 
 
-
-	/**传入活动类型判断此活动是否开放*/
-	public boolean checkOneActivityISOpen(Player player,ActivityCountTypeEnum countType) {
-		
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();		
-		
-		return dataHolder.getItem(player.getUserId(), countType)!=null;		
-	}
-	
-	
 	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 		
 		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
@@ -181,66 +159,20 @@ public class ActivityCountTypeMgr {
 			
 		}else{			
 			ActivityCountTypeSubItem targetItem = null;
-			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
-			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
-				if(StringUtils.equals(itemTmp.getId(), subItemId)){
+			
+			List<ActivityCountTypeSubItem> subItemList = dataItem.getSubItemList();
+			for (ActivityCountTypeSubItem itemTmp : subItemList) {
+				if(StringUtils.equals(itemTmp.getCfgId(), subItemId)){
 					targetItem = itemTmp;
 					break;
 				}
 			}
-			if(targetItem == null){
-				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);				
-				if(targetItem == null){
-					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
-				}else{
-					takenGiftList.add(targetItem);
-					takeGift(player,targetItem);
-					result.setSuccess(true);
-					dataHolder.updateItem(player, dataItem);
-				}
-			}else{
-				if(!targetItem.isTaken()){
-					takeGift(player,targetItem);			
-					result.setSuccess(true);
-					dataHolder.updateItem(player, dataItem);
-				}else{//申请已领取过的奖励
-				}
+			if(targetItem != null && !targetItem.isTaken()){
+				takeGift(player,targetItem);			
+				result.setSuccess(true);
+				dataHolder.updateItem(player, dataItem);
 			}
 			
-			
-//			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
-//			List<ActivityCountTypeSubItem> newtakenGiftList = new ArrayList<ActivityCountTypeSubItem>();
-//			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
-//				if(StringUtils.equals(itemTmp.getId(), subItemId)){
-//					newtakenGiftList.add(itemTmp);					
-//				}
-//			}
-//			if(newtakenGiftList.isEmpty())
-//				System.out.println("activity.派发奖励数据库为0，giftisempty="+ newtakenGiftList.isEmpty());
-//			if(newtakenGiftList.isEmpty()){//空数据，写入奖励
-//				newtakenGiftList = ActivityCountTypeCfgDAO.getInstance().newSubItemlist(subItemId);
-//				if(newtakenGiftList.isEmpty()){
-//					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
-//			}else{
-//				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {
-//						takenGiftList.add(itemTmp);
-//						takeGift(player,itemTmp);								
-//						dataHolder.updateItem(player, dataItem);
-//					}
-//					result.setSuccess(true);
-//				}							
-//			}else{//有数据，只队未派出的操作
-//				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {					
-//					if(!itemTmp.isTaken()){
-//						takeGift(player,itemTmp);							
-//						dataHolder.updateItem(player, dataItem);
-//					}else{
-//						System.out.println("activity.异常,万家申请已领取过的奖励" );
-//					}
-//				}
-//
-//				result.setSuccess(true);
-//			}
 			
 		}
 		
@@ -249,13 +181,10 @@ public class ActivityCountTypeMgr {
 	}
 
 	private  void takeGift(Player player,ActivityCountTypeSubItem targetItem) {
-		targetItem.setTaken(true);
-		targetItem.getCount();
-		targetItem.getGift();	
-		ComGiftMgr.getInstance().addGiftById(player,targetItem.getGift());	
-//		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getGift()),targetItem.getCount());		
-//		System.out.println("activitycounttypemgr派出了奖励 ，名字：" + targetItem.getGift());
-		//TODO: gift take logic
+		ActivityCountTypeSubCfg subCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
+		targetItem.setTaken(true);		
+		ComGiftMgr.getInstance().addGiftById(player,subCfg.getAwardGift());	
+
 	}
 	
 	

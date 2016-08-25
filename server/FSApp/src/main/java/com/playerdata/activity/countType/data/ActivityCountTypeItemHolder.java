@@ -7,7 +7,6 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -35,12 +34,7 @@ public class ActivityCountTypeItemHolder{
 		List<ActivityCountTypeItem> itemList = new ArrayList<ActivityCountTypeItem>();
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();
-			long startTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getStartTime();
-			item.setStartTime(startTime);
-			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
-			item.setEndTime(endTime);
-			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
+			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
 		}
 		
@@ -75,13 +69,13 @@ public class ActivityCountTypeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-		
-		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-		return addSuccess;
-	}
-	
+//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
+//		
+//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
+//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
+//		return addSuccess;
+//	}
+//	
 	public void synAllData(Player player){
 		List<ActivityCountTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
