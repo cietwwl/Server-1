@@ -77,7 +77,7 @@ enum LoginPrivilegeNames {
      buyPowerCount = 1; //可购买体力次数
      useCoinTransCount = 2;  //可使用点金手次数
      getSweepTicketNum = 3;  //每日领取扫荡卷张数
-	 isAllowReport = 4;  //开启举报玩家
+	 isAllowReport = 4; //开启举报玩家权限
 }
 
 enum HeroPrivilegeNames {
