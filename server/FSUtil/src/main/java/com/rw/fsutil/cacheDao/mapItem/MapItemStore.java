@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.dao.DuplicateKeyException;
+
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.ItemNotExistException;
 import com.rw.fsutil.dao.common.CommonMultiTable;
 
 public class MapItemStore<T extends IMapItem> {
@@ -33,8 +36,12 @@ public class MapItemStore<T extends IMapItem> {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
-		this.itemMap = new ConcurrentHashMap<String, T>();
-		this.updatedMap = new ConcurrentHashMap<String, Boolean>();
+		int size = itemList.size();
+		if (size < 8) {
+			size = 8;
+		}
+		this.itemMap = new ConcurrentHashMap<String, T>(size, 0.9f, 4);
+		this.updatedMap = new ConcurrentHashMap<String, Boolean>(8, 1.0f, 4);
 		for (T tmpItem : itemList) {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
@@ -56,6 +63,8 @@ public class MapItemStore<T extends IMapItem> {
 		}
 		if (updatedMap.putIfAbsent(key, PRESENT) == null) {
 			updater.submitUpdateTask(searchId);
+		} else {
+			updater.submitRecordTask(searchId);
 		}
 		return true;
 	}
@@ -75,7 +84,43 @@ public class MapItemStore<T extends IMapItem> {
 		return update(key);
 	}
 
-	public boolean addItem(List<T> itemList) throws DuplicatedKeyException {
+	/**
+	 * 更新一组数据
+	 * 
+	 * @param list
+	 */
+	public void updateItems(List<String> list) {
+		updateItems(list, true);
+	}
+
+	private void updateItems(List<String> list, boolean record) {
+		boolean hasUpdateElement = false;
+		for (int i = 0, size = list.size(); i < size; i++) {
+			String key = list.get(i);
+			if (key == null) {
+				System.err.println("update list has null element:" + this.searchId + "," + list);
+				continue;
+			}
+			T t = itemMap.get(key);
+			if (t == null) {
+				System.err.println("update element not found:" + key + "," + this.searchId);
+				continue;
+			}
+			if (updatedMap.putIfAbsent(key, PRESENT) == null) {
+				hasUpdateElement = true;
+			}
+		}
+		if (!record) {
+			return;
+		}
+		if (hasUpdateElement) {
+			updater.submitUpdateTask(searchId);
+		} else {
+			updater.submitRecordTask(searchId);
+		}
+	}
+
+	private boolean addItem(List<T> itemList, boolean record) throws DuplicatedKeyException {
 		int size = itemList.size();
 		for (int i = size; --i >= 0;) {
 			T t = itemList.get(i);
@@ -85,6 +130,8 @@ public class MapItemStore<T extends IMapItem> {
 		}
 		try {
 			commonJdbc.insert(searchId, itemList);
+		} catch (DuplicatedKeyException e) {
+			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -93,10 +140,76 @@ public class MapItemStore<T extends IMapItem> {
 			T t = itemList.get(i);
 			itemMap.put(t.getId(), t);
 		}
-		updater.submitRecordTask(searchId);
+		if (record) {
+			updater.submitRecordTask(searchId);
+		}
 		return true;
 	}
 
+	/**
+	 * <pre>
+	 * 添加一组数据
+	 * </pre>
+	 * 
+	 * @param itemList
+	 *            添加列表
+	 * @return
+	 * @throws DuplicatedKeyException
+	 */
+	public boolean addItem(List<T> itemList) throws DuplicatedKeyException {
+		return addItem(itemList, true);
+	}
+
+	/**
+	 * <pre>
+	 * 添加一组数据并更新一组数据，若添加操作失败，则不执行更新操作
+	 * </pre>
+	 * 
+	 * @param addList
+	 *            添加列表
+	 * @param updateList
+	 *            更新列表
+	 * @return
+	 * @throws DuplicatedKeyException 重复主键抛出此异常
+	 */
+	public boolean updateItems(List<T> addList, List<String> updateList) throws DuplicatedKeyException {
+		if (addItem(addList, false)) {
+			return false;
+		}
+		updateItems(updateList, false);
+		updater.submitUpdateTask(searchId);
+		return true;
+	}
+
+	/**
+	 * <pre>
+	 * 批量执行添加、删除、更新操作，其中添加和删除操作保证原子性，若失败则不会执行更新操作
+	 * </pre>
+	 * 
+	 * @param addList
+	 *            添加列表
+	 * @param delList
+	 *            删除列表
+	 * @param updateList
+	 *            更新列表
+	 * @return
+	 * @throws ItemNotExistException 	删除记录不存在抛出此异常
+	 * @throws DuplicatedKeyException 	重复主键抛出此异常
+	 */
+	public boolean updateItems(List<T> addList, List<String> delList, List<String> updateList) throws DuplicatedKeyException, ItemNotExistException {
+		if (!commonJdbc.insertAndDelete(searchId, addList, delList)) {
+			return false;
+		}
+		updateItems(updateList, true);
+		return true;
+	}
+
+	/**
+	 * 添加一个元素
+	 * 
+	 * @param item
+	 * @return
+	 */
 	public boolean addItem(T item) {
 		String key = item.getId();
 		if (itemMap.containsKey(key)) {
@@ -118,6 +231,12 @@ public class MapItemStore<T extends IMapItem> {
 		}
 	}
 
+	/**
+	 * 删除一个已有的数据，若数据不存在，返回false
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public boolean removeItem(String id) {
 		if (!itemMap.containsKey(id)) {
 			return false;
@@ -125,7 +244,6 @@ public class MapItemStore<T extends IMapItem> {
 		boolean result;
 		try {
 			result = commonJdbc.delete(searchId, id);
-			updater.submitRecordTask(searchId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -133,6 +251,7 @@ public class MapItemStore<T extends IMapItem> {
 		// 删除的情况比较复杂，由成功删除记录的线程来执行删除
 		if (result) {
 			itemMap.remove(id);
+			updater.submitRecordTask(searchId);
 			return true;
 		} else {
 			return false;
@@ -264,6 +383,6 @@ public class MapItemStore<T extends IMapItem> {
 	 * @return
 	 */
 	public List<String> getReadOnlyKeyList() {
-		return Collections.unmodifiableList(new ArrayList<String>(itemMap.keySet()));
+		return new ArrayList<String>(itemMap.keySet());
 	}
 }

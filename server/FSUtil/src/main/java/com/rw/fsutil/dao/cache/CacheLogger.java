@@ -15,7 +15,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
 
-import com.rw.fsutil.dao.cache.record.LoggerWriteEvent;
+import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 import com.rw.fsutil.dao.cache.trace.CacheWriter;
 import com.rw.fsutil.dao.cache.trace.CharArrayBuffer;
 import com.rw.fsutil.dao.cache.trace.LoggerEvent;
@@ -144,7 +144,7 @@ public class CacheLogger implements Runnable {
 				}
 				count++;
 				checkWriter(event.time);
-				cacheWriter.convert(event, charBuffer);
+				cacheWriter.writeToBuffer(event, charBuffer);
 				if (charBuffer.size() >= flushCount) {
 					writeWithCompress();
 					cacheWriter = CacheFactory.getCacheWriter();
@@ -199,7 +199,7 @@ public class CacheLogger implements Runnable {
 		}
 	}
 
-	public void executeAysnEvent(CacheLoggerPriority priority, String content, LoggerWriteEvent aysnEvent, CacheStackTrace trace) {
+	public void executeAysnEvent(CacheLoggerPriority priority, String content, DataLoggerRecord aysnEvent, CacheStackTrace trace) {
 		offer(new LoggerEvent(priority, aysnEvent, content, trace));
 	}
 

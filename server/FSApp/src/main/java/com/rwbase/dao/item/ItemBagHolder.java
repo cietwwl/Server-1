@@ -3,13 +3,15 @@ package com.rwbase.dao.item;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.service.role.MainMsgHandler;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.RecordSynchronization;
 import com.rwbase.common.enu.eActivityType;
@@ -32,11 +34,34 @@ public class ItemBagHolder implements RecordSynchronization {
 	// ItemData>();
 
 	private final String userId;
+	private AtomicLong generateId;// 生成Id
 
 	private static final eSynType type = eSynType.USER_ITEM_BAG;// 更新背包数据
 
 	public ItemBagHolder(String userId) {
 		this.userId = userId;
+		initMaxId();
+	}
+
+	/**
+	 * 解析产生的Id
+	 */
+	private void initMaxId() {
+		MapItemStore<ItemData> itemStore = getItemStore();
+		Enumeration<ItemData> enumeration = itemStore.getEnum();
+
+		int maxId = 1;
+		while (enumeration.hasMoreElements()) {
+			ItemData itemData = enumeration.nextElement();
+			String id = itemData.getId();
+			String[] arr = id.split("_");
+			int idValue = Integer.parseInt(arr[1]);
+			if (idValue > maxId) {
+				maxId = idValue;
+			}
+		}
+
+		generateId = new AtomicLong(maxId);
 	}
 
 	/**
@@ -142,6 +167,7 @@ public class ItemBagHolder implements RecordSynchronization {
 				INewItem newItem = newItemList.get(i);
 				ItemData itemData = new ItemData();
 				int templateId = newItem.getCfgId();
+
 				// 检测获取的是不是AS级的法宝
 				if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {// 检测是不是法宝
 					MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
@@ -196,7 +222,7 @@ public class ItemBagHolder implements RecordSynchronization {
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
-			ClientDataSynMgr.synDataList(player, updateItems, type, eSynOpType.UPDATE_LIST);
+			syncItemData(player, updateItems);
 		}
 	}
 
@@ -225,17 +251,21 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @return
 	 */
 	private String generateSlotId(String userId) {
-		int nSlotId = 1;
-		String id = userId + "_" + nSlotId;
-		MapItemStore<ItemData> itemDataStore = getItemStore();
-		while (nSlotId < 10000) {
-			if (itemDataStore.getItem(id) == null) {
-				return id;
-			}
+		// int nSlotId = 1;
+		// String id = userId + "_" + nSlotId;
+		// MapItemStore<ItemData> itemDataStore = getItemStore();
+		// while (nSlotId < 10000) {
+		// if (itemDataStore.getItem(id) == null) {
+		// return id;
+		// }
+		//
+		// id = userId + "_" + ++nSlotId;
+		// }
+		// return id;
 
-			id = userId + "_" + ++nSlotId;
-		}
-		return id;
+		long newId = generateId.incrementAndGet();
+		StringBuilder sb = new StringBuilder();
+		return sb.append(userId).append("_").append(newId).toString();
 	}
 
 	public void flush() {
@@ -260,9 +290,90 @@ public class ItemBagHolder implements RecordSynchronization {
 		return itemList;
 	}
 
+	/**
+	 * 增加数据
+	 * 
+	 * @param modelId
+	 * @param count
+	 * @return
+	 */
+	public ItemData newItemData(int modelId, int count) {
+		ItemData itemData = new ItemData();
+		if (itemData.init(modelId, count)) {
+			String slotId = generateSlotId(userId);
+			itemData.setId(slotId);// 设置物品Id
+			itemData.setUserId(userId);// 设置角色Id
+		}
+		return itemData;
+	}
+
+	/**
+	 * 更新背包中的改变数据
+	 * 
+	 * @param player
+	 * @param addItemList
+	 * @param updateItemList
+	 * @throws DuplicatedKeyException
+	 */
+	public void updateItemBgData(Player player, List<ItemData> addItemList, List<ItemData> updateItemList) throws DuplicatedKeyException {
+		if ((addItemList == null || addItemList.isEmpty()) && (updateItemList == null || updateItemList.isEmpty())) {
+			return;
+		}
+
+		List<ItemData> synUpdateItemList = new ArrayList<ItemData>();
+		MapItemStore<ItemData> itemStore = getItemStore();
+		if (addItemList != null && !addItemList.isEmpty()) {
+			itemStore.addItem(addItemList);// 新增加
+
+			synUpdateItemList.addAll(addItemList);// 修改的数据
+
+			// 通知法宝
+			for (int i = 0, size = addItemList.size(); i < size; i++) {
+				ItemData item = addItemList.get(i);
+				int templateId = item.getModelId();
+				// 检测获取的是不是AS级的法宝
+				if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {// 检测是不是法宝
+					MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
+					if (magicCfg != null) {// 是S，A级法宝
+						MainMsgHandler.getInstance().sendPmdFb(player, magicCfg.getName(), magicCfg.getQuality());
+					}
+				}
+			}
+		}
+
+		List<String> deleteIdList = new ArrayList<String>();
+		// 更新
+		if (updateItemList != null && !updateItemList.isEmpty()) {
+			for (int i = 0, size = updateItemList.size(); i < size; i++) {
+				ItemData itemData = updateItemList.get(i);
+				int count = itemData.getCount();
+				if (count <= 0) {
+					deleteIdList.add(itemData.getId());
+					continue;
+				}
+
+				itemStore.updateItem(itemData);
+			}
+
+			synUpdateItemList.addAll(updateItemList);
+		}
+
+		// 删除
+		if (deleteIdList != null && !deleteIdList.isEmpty()) {
+			itemStore.removeItem(deleteIdList);
+		}
+
+		// 推送数据改变
+		if (!synUpdateItemList.isEmpty()) {
+			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
+			// 推送数据到前台
+			syncItemData(player, synUpdateItemList);
+		}
+	}
+
 	@Override
 	public void synAllData(Player player, int version) {
-		// TODO Auto-generated method stub
-
 	}
 }

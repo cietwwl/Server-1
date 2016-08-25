@@ -1,8 +1,8 @@
 package com.rwbase.dao.groupsecret.pojo.db;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.persistence.Id;
 
@@ -23,8 +23,10 @@ public class UserGroupSecretBaseData {
 	private String userId;// 角色的Id
 	private int keyCount;// 当前钥石数量
 	private long lastRecoveryTime;// 上次恢复钥石的时间
+//	@IgnoreSynField
+//	private List<String> defendSecretIdList;// 驻守的秘境Id列表
 	@IgnoreSynField
-	private List<String> defendSecretIdList;// 驻守的秘境Id列表
+	private Map<Integer, String> defendSecretIdMap; // 驻守的秘境Id列表
 	private String matchSecretId;// 探索到的秘境Id
 	// =============================每天5点就要重置的数据
 	private int receiveKeyCount;// 当天领取钥石的数量
@@ -34,7 +36,8 @@ public class UserGroupSecretBaseData {
 	private long lastResetTime;// 上次重置的时间点
 
 	public UserGroupSecretBaseData() {
-		defendSecretIdList = new ArrayList<String>();
+//		defendSecretIdList = new ArrayList<String>();
+		defendSecretIdMap = new HashMap<Integer, String>();
 	}
 
 	// ////////////////////////////////////////////////逻辑Set区
@@ -62,9 +65,9 @@ public class UserGroupSecretBaseData {
 		this.matchTimes = matchTimes;
 	}
 
-	public void setDefendSecretIdList(List<String> defendSecretIdList) {
-		this.defendSecretIdList = defendSecretIdList;
-	}
+//	public void setDefendSecretIdList(List<String> defendSecretIdList) {
+//		this.defendSecretIdList = defendSecretIdList;
+//	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -103,17 +106,21 @@ public class UserGroupSecretBaseData {
 		return userId;
 	}
 
-	/**
-	 * 获取自己驻守的秘境Id
-	 * 
-	 * @return
-	 */
-	public List<String> getDefendSecretIdList() {
-		if (defendSecretIdList == null) {
-			return Collections.emptyList();
-		}
-
-		return new ArrayList<String>(defendSecretIdList);
+//	/**
+//	 * 获取自己驻守的秘境Id
+//	 * 
+//	 * @return
+//	 */
+//	public List<String> getDefendSecretIdList() {
+//		if (defendSecretIdList == null) {
+//			return Collections.emptyList();
+//		}
+//
+//		return new ArrayList<String>(defendSecretIdList);
+//	}
+	
+	public Map<Integer, String> getDefendSecretIdMap() {
+		return new HashMap<Integer, String>(defendSecretIdMap);
 	}
 
 	public long getLastResetTime() {
@@ -121,31 +128,56 @@ public class UserGroupSecretBaseData {
 	}
 
 	// ////////////////////////////////////////////////逻辑区
+//	/**
+//	 * 增加驻守的秘境Id
+//	 * 
+//	 * @param secretId
+//	 */
+//	public synchronized void addDefendSecretId(String secretId) {
+//		defendSecretIdList.add(secretId);
+//	}
+	
 	/**
-	 * 增加驻守的秘境Id
 	 * 
+	 * @param pos
 	 * @param secretId
 	 */
-	public synchronized void addDefendSecretId(String secretId) {
-		defendSecretIdList.add(secretId);
+	public synchronized void addDefendSecretId(int pos, String secretId) {
+		defendSecretIdMap.put(pos, secretId);
 	}
 
-	/**
-	 * 删除已经参与的驻守秘境
-	 * 
-	 * @param secretId
-	 */
+//	/**
+//	 * 删除已经参与的驻守秘境
+//	 * 
+//	 * @param secretId
+//	 */
+//	public synchronized void removeDefendSecretId(String secretId) {
+//		defendSecretIdList.remove(secretId);
+//	}
+
+//	/**
+//	 * 检测是否请求的秘境Id
+//	 * 
+//	 * @param secretId
+//	 * @return
+//	 */
+//	public synchronized boolean hasDefendSecretId(String secretId) {
+//		return defendSecretIdList.contains(secretId);
+//	}
+	
 	public synchronized void removeDefendSecretId(String secretId) {
-		defendSecretIdList.remove(secretId);
+		for (Iterator<Map.Entry<Integer, String>> itr = defendSecretIdMap.entrySet().iterator(); itr.hasNext();) {
+			if (itr.next().getValue().equals(secretId)) {
+				itr.remove();
+			}
+		}
 	}
-
-	/**
-	 * 检测是否请求的秘境Id
-	 * 
-	 * @param secretId
-	 * @return
-	 */
+	
 	public synchronized boolean hasDefendSecretId(String secretId) {
-		return defendSecretIdList.contains(secretId);
+		return defendSecretIdMap.containsValue(secretId);
+	}
+	
+	public synchronized boolean isPosEmpty(int pos) {
+		return !defendSecretIdMap.containsKey(pos);
 	}
 }

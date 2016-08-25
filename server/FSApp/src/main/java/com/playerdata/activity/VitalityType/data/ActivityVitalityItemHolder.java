@@ -2,11 +2,13 @@ package com.playerdata.activity.VitalityType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -98,7 +100,15 @@ public class ActivityVitalityItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());	
+		Iterator<ActivityVitalityTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem)it.next();
+			if(ActivityVitalityCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}		
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

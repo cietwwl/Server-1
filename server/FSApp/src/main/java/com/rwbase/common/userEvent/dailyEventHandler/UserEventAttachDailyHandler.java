@@ -34,7 +34,7 @@ public class UserEventAttachDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 			/**活动是否开启*/
 			boolean isBetweendays = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
-					.getInstance().getById(ActivityDailyTypeEnum.AttachDaily.getCfgId()));
+					.getInstance().getListByEnumId(ActivityDailyTypeEnum.AttachDaily.getCfgId()));
 			boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);		
 					
 			if(isBetweendays&&isLevelEnough){

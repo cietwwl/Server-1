@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.common.DetectionTool;
 import com.log.GameLog;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.shutdown.IShutdownHandler;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.timer.IGameTimerDelegate;
@@ -123,7 +124,7 @@ public class FSGameTimer implements IShutdownHandler {
 	public FSGameTimer(Properties config) {
 		boolean startDirectly = Boolean.parseBoolean(config.getProperty(CONFIT_KEY_NAME_START_DIRECTLY));
 		this._corePoolSize = Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_CORE_POOL_SIZE));
-		this._scheduledThreadPool = Executors.newFixedThreadPool(this._corePoolSize);
+		this._scheduledThreadPool = Executors.newFixedThreadPool(this._corePoolSize, new SimpleThreadFactory("FSGameTimer"));
 		this._timeIntervalBetweenTicks = Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_TIME_INTERVAL_BETWEEN_TICK));
 		int ticksPerWheel = normalizeTicksPerWheel(Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_TICKS_PER_WHEEL))); // 这个时间轮上有多少刻度（确保wheel上面的刻度是2的n次方）
 		this._totalTimeOfOneRound = _timeIntervalBetweenTicks * ticksPerWheel; // 计算扫描完这个轮所需要的总耗时
@@ -246,13 +247,16 @@ public class FSGameTimer implements IShutdownHandler {
 		}
 	}
 	
+	void saveTimerGlobalData() {
+		FSGameTimerSaveData.getInstance().setServerShutdownTime(System.currentTimeMillis());
+		String attribute = JsonUtil.writeValue(FSGameTimerSaveData.getInstance());
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.TIMER_DATA, attribute);
+	}
+	
 	@Override
 	public void notifyShutdown() {
 		this.stop();
-		FSGameTimerSaveData.getInstance().setServerShutdownTime(System.currentTimeMillis());
-		String attribute = JsonUtil.writeValue(FSGameTimerSaveData.getInstance());
-		System.out.println(GameWorldKey.TIMER_DATA + "=" + attribute);
-		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.TIMER_DATA, attribute);
+		this.saveTimerGlobalData();
 	}
 	
 	public void start() {

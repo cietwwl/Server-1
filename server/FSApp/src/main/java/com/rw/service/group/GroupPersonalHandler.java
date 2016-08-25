@@ -416,12 +416,12 @@ public class GroupPersonalHandler {
 
 		// 战力之和
 //		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
-//		int fighting = player.getMainRoleHero().getFighting();
-//		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
-//			Hero hero = maxFightingHeros.get(i);
-//			fighting += hero.getFighting();
-//		}
-		int fighting = player.getHeroMgr().getFightingAll();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
+		int fighting = player.getMainRoleHero().getFighting();
+		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
+			Hero hero = maxFightingHeros.get(i);
+			fighting += hero.getFighting();
+		}
 
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {

@@ -134,6 +134,7 @@ public class FSGameTimerMgr {
 		c.set(Calendar.HOUR_OF_DAY, pHourOfDay);
 		c.set(Calendar.MINUTE, pMinute);
 		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		long time = c.getTimeInMillis(); // 今天最近一次執行時間
 		int executeTimes = 0;
 		/*
@@ -153,12 +154,15 @@ public class FSGameTimerMgr {
 			int subDay = dayOfYearNearbyExecute - dayOfYearShutdown;
 			executeTimes = subDay;
 			if (c.getTimeInMillis() < System.currentTimeMillis()) {
+				// 如果开服当天应该执行的时间已经过了
 				executeTimes++;
 			}
 			c.add(Calendar.DATE, -subDay);
+			assumeTime = c.getTimeInMillis();
 			if (c.getTimeInMillis() < lastShutdownCalendar.getTimeInMillis()) {
+				// 如果n天前的时间比当时停服时间要早，证明n天前已经执行过了，所以不用再执行
 				executeTimes--;
-				assumeTime = c.getTimeInMillis();
+				assumeTime += TimeUnit.DAYS.toMillis(1); // 从n-1天前开始执行
 			}
 		}
 		return Pair.Create(assumeTime, executeTimes);

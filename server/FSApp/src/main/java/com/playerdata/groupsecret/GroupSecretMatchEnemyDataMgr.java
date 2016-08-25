@@ -4,21 +4,21 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
+import com.common.Utils;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
-import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretMatchEnemyDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
@@ -109,25 +109,38 @@ public class GroupSecretMatchEnemyDataMgr {
 		while (values.hasMoreElements()) {
 			DefendUserInfoData nextElement = values.nextElement();
 
-			long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
-			long changeTeamTime = nextElement.getChangeTeamTime();// 修改阵容时间
-			int proRes = nextElement.getProRes() - nextElement.getRobRes();
-			int proGE = nextElement.getProGE() - nextElement.getRobGE();
-			int proGS = nextElement.getProGS() - nextElement.getRobGS();
-
-			long createTime = groupSecretData.getCreateTime();
-			boolean isFinish = now - createTime >= needTimeMillis;
-
-			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-			int fighting = nextElement.getFighting();
-			proRes += (int) (fighting * levelTmp.getProductRatio() * minutes);
-			proGE += (int) (levelTmp.getGroupExpRatio() * minutes);
-			proGS += (int) (levelTmp.getGroupSupplyRatio() * minutes);
-
-			// 产生的资源
-			int robRes = proRes * levelTmp.getRobRatio() / AttributeConst.DIVISION;
-			int robGE = proGE * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
-			int robGS = proGS * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
+//			long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+//			long changeTeamTime = nextElement.getChangeTeamTime();// 修改阵容时间
+//			int proRes = nextElement.getProRes() - nextElement.getRobRes();
+//			int proGE = nextElement.getProGE() - nextElement.getRobGE();
+//			int proGS = nextElement.getProGS() - nextElement.getRobGS();
+//
+//			long createTime = groupSecretData.getCreateTime();
+//			boolean isFinish = now - createTime >= needTimeMillis;
+//
+//			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+//			int fighting = nextElement.getFighting();
+//			proRes += (int) (fighting * levelTmp.getProductRatio() * minutes);
+//			proGE += (int) (levelTmp.getGroupExpRatio() * minutes);
+//			proGS += (int) (levelTmp.getGroupSupplyRatio() * minutes);
+//
+//			// 产生的资源
+//			int robRes = proRes * levelTmp.getRobRatio() / AttributeConst.DIVISION;
+//			int robGE = proGE * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
+//			int robGS = proGS * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
+			
+			// 2016-08-13 By PERRY 新需求，每次课掠夺的资源都是按照固定比例 BEGIN >>>>>>>>>>
+			GroupSecretLevelGetResTemplate temp = null;
+			String elementUserId = nextElement.getUserId();
+			if(nextElement.getUserId().equals(matchUserId)) {
+				temp = levelTmp;
+			} else {
+				temp = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(levelTmp.getLevelGroupId(), PlayerMgr.getInstance().find(elementUserId).getLevel());
+			}
+			int robRes = Utils.calculateTenThousandRatio(temp.getTotalProduct(), levelTmp.getRobRatio());
+			int robGE = Utils.calculateTenThousandRatio(temp.getTotalGroupExp(), levelTmp.getRobGERatio());
+			int robGS = Utils.calculateTenThousandRatio(temp.getTotalGroupSupply(), levelTmp.getRobGSRatio());
+			// 2016-08-13 END <<<<<<<<<<<
 
 			int index = nextElement.getIndex();
 			enemyData.setRobResValue(index, robRes);
@@ -231,7 +244,8 @@ public class GroupSecretMatchEnemyDataMgr {
 			}
 
 			String heroId = leftInfo.getId();
-			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+//			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				continue;
 			}
@@ -241,7 +255,8 @@ public class GroupSecretMatchEnemyDataMgr {
 			int pos = heroInfoData.getPos();
 			HeroLeftInfoSynData left = heroInfoData.getLeft();
 			if (left == null) {
-				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+//				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+				AttrData totalData = hero.getAttrMgr().getTotalAttrData();
 				enemyData.updateHeroLeftInfo(index, heroId, new HeroInfoData(pos, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy())));
 			} else {
 				enemyData.updateHeroLeftInfo(index, heroId,
@@ -301,7 +316,7 @@ public class GroupSecretMatchEnemyDataMgr {
 	 */
 	private void removeData(Player player, String id) {
 		// 同步数据
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0, ""));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(id, null, 0));
 	}
 }

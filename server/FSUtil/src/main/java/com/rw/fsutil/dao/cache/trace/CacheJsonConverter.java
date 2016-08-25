@@ -1,7 +1,6 @@
 package com.rw.fsutil.dao.cache.trace;
 
-import com.rw.fsutil.dao.cache.record.CacheRecordEvent;
-import com.rw.fsutil.dao.cache.record.RecordEvent;
+import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 
 /**
  * <pre>
@@ -12,18 +11,44 @@ import com.rw.fsutil.dao.cache.record.RecordEvent;
  * @author Jamaz
  *
  */
-public interface CacheJsonConverter<K, V, T extends RecordEvent<?>> {
+public interface CacheJsonConverter<K, V, Copy, Event extends DataChangedEvent<?>> {
 
 	/**
-	 * <pre>
-	 * 把缓存数据解释成JSON对象
-	 * 必须与{@link #recover(String)}匹配，可以互相转换
-	 * </pre>
+	 * 解析成一个LoggerEvent对象(如果有更新)，并且更新oldRecord中被改变的属性
 	 * 
-	 * @param cacheValue
+	 * @param key
+	 * @param oldRecord
+	 * @param newRecord
 	 * @return
 	 */
-	public T parseToRecordData(K key, V cacheValue) throws Exception;
+	public DataLoggerRecord parseAndUpdate(Object key, Copy oldRecord, V newRecord, Event changedEvent);
 
-	public CacheRecordEvent parse(T oldRecord, T newRecord);
+	/**
+	 * 把指定的对象解析成一个可输出的Logger记录
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public DataLoggerRecord parse(K key, Copy value);
+
+	/**
+	 * 对数据进行拷贝，以自定义方式进行 在数据初始加载或者初始插入时
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public Copy copy(Object key, V value);
+
+	/**
+	 * 产生一个数据更新事件
+	 * 
+	 * @param key
+	 * @param oldRecord
+	 * @param newRecord
+	 * @return
+	 */
+	public Event produceChangedEvent(Object key, Copy copyRecord, V newRecord);
+
 }

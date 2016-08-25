@@ -23,12 +23,15 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.teambattle.cfg.MonsterCombinationCfg;
 import com.playerdata.teambattle.cfg.MonsterCombinationDAO;
+import com.playerdata.teambattle.cfg.TBBuyCostCfg;
+import com.playerdata.teambattle.cfg.TBBuyCostCfgDAO;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.cfg.TeamStoreCfg;
 import com.playerdata.teambattle.cfg.TeamStoreCfgDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
 import com.playerdata.teambattle.data.TBTeamItemHolder;
+import com.playerdata.teambattle.data.TeamHardInfo;
 import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
@@ -39,10 +42,14 @@ import com.playerdata.teambattle.enums.TBMemberState;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
 
@@ -159,9 +166,15 @@ public class TeamBattleBM {
 				}
 			}
 		}
+		if (!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("挑战次数不足！");
+			return;
+		}
 		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
+		tMem.setUserName(player.getUserName());
 		tMem.setState(TBMemberState.Ready);
 		String teamID = hardID + "_" + getNewTeamID();
 		TBTeamItem teamItem = new TBTeamItem();
@@ -202,9 +215,9 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if (utbData.getFinishedHards().contains(hardID)) {
+		if (!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			tbRsp.setTipMsg("挑战次数不足！");
 			return;
 		}
 		if (StringUtils.isNotBlank(utbData.getTeamID())) {
@@ -218,7 +231,7 @@ public class TeamBattleBM {
 				}
 			}
 		}
-		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(hardID);
+		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(player.getUserId(), hardID);
 		if(canJionTeam == null) {
 			createTeam(player, tbRsp, hardID);
 			return;
@@ -258,9 +271,9 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if(utbData.getFinishedHards().contains(hardID)) {
+		if(!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("你今天已经完成了该难度的副本了！");
+			tbRsp.setTipMsg("挑战次数不足！");
 			return;
 		}
 		if(StringUtils.isNotBlank(utbData.getTeamID())){
@@ -388,9 +401,9 @@ public class TeamBattleBM {
 			return;
 		}
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-		if(null == teamItem || !StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+		if(null == teamItem){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("权限不足，队长才能邀请");
+			tbRsp.setTipMsg("队伍数据有误");
 			return;
 		}
 		if(teamItem.isFull()){
@@ -401,7 +414,7 @@ public class TeamBattleBM {
 		ServerCommonData scData = ServerCommonDataHolder.getInstance().get();
 		if(null == scData){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("组队怪物信息有误");
+			tbRsp.setTipMsg("副本信息有误");
 			return;
 		}
 		String enimyID = scData.getTeamBattleEnimyMap().get(teamItem.getHardID());
@@ -549,12 +562,27 @@ public class TeamBattleBM {
 			if(battleTime >= cfgMap.size()){
 				teamMember.setState(TBMemberState.Finish);
 				teamItem.changeLeaderAfterFinish(player.getUserId());
-				utbData.getFinishedHards().add(teamItem.getHardID());
+				
+				HashMap<String, TeamHardInfo> finishedHardMap = utbData.getFinishedHardMap();
+				TeamHardInfo finishedHardInfo = finishedHardMap.get(teamItem.getHardID());
+				if(null == finishedHardInfo){
+					finishedHardInfo = new TeamHardInfo();
+					finishedHardInfo.setHardID(teamItem.getHardID());
+					finishedHardInfo.setBuyTimes(0);
+					finishedHardInfo.setFinishTimes(0);
+					finishedHardMap.put(teamItem.getHardID(), finishedHardInfo);
+				}
+				finishedHardInfo.setFinishTimes(finishedHardInfo.getFinishTimes() + 1);
 				if(cfg.getMail() != 0){
 					for(TeamMember mem : teamItem.getMembers()){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
-							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
-							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()));
+							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
+							if(null == emailCfg) {
+								GameLog.error(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 不存在id为[%s]的邮件", cfg.getMail()), null);
+								continue;
+							}
+							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()), "", String.format(emailCfg.getContent(), mem.getUserName()));
+							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()), "", String.format(emailCfg.getContent(), player.getUserName()));
 						}
 					}
 				}
@@ -572,9 +600,11 @@ public class TeamBattleBM {
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
+			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
 			}
+			UserTeamBattleDataHolder.getInstance().update(player, utbData);
 			UserTeamBattleDataHolder.getInstance().synData(player);
 		}else if(teamMember.getState().equals(TBMemberState.Fight)){
 			teamMember.setState(TBMemberState.Ready);
@@ -640,6 +670,7 @@ public class TeamBattleBM {
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
+		tMem.setUserName(player.getUserName());
 		tMem.setState(TBMemberState.Ready);
 		if(!canJionTeam.addMember(tMem)){
 			throw new JoinTeamException("加入失败");
@@ -667,6 +698,58 @@ public class TeamBattleBM {
 			return;
 		}
 		utbData.setMemPos(memPos);
+		UserTeamBattleDataHolder.getInstance().update(player, utbData);
+		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+
+	/**
+	 * 购买挑战次数
+	 * @param player
+	 * @param tbRsp
+	 * @param hardID
+	 */
+	public void buyBattleTimes(Player player, Builder tbRsp, String hardID) {
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队副本数据异常");
+			return;
+		}
+		HashMap<String, TeamHardInfo> finishedHardMap= utbData.getFinishedHardMap();
+		TeamHardInfo teamHardInfo = finishedHardMap.get(hardID);
+		if(null == teamHardInfo){
+			teamHardInfo = new TeamHardInfo();
+			teamHardInfo.setHardID(hardID);
+			teamHardInfo.setFinishTimes(0);
+			teamHardInfo.setBuyTimes(0);
+			finishedHardMap.put(hardID, teamHardInfo);
+		}
+		int buyTimes = teamHardInfo.getBuyTimes();
+		TBBuyCostCfg buyCost = TBBuyCostCfgDAO.getInstance().getCfgById(hardID + "_" + (1 + buyTimes));
+		if(null == buyCost){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("购买次数已达上限");
+			return;
+		}
+		IPrivilegeManager priMgr = player.getPrivilegeMgr();
+		int priTimes = priMgr.getIntPrivilege(PvePrivilegeNames.teamBattleTimes);
+		if(buyTimes >= priTimes){
+			tbRsp.setRstType(TBResultType.VIP_NOT_ENOUGH);
+			tbRsp.setTipMsg("VIP等级不足，请提升VIP等级");
+			return;
+		}
+		//实际不支持多个资源消耗
+		List<ItemInfo> costItems= buyCost.getBuyCost();
+		if(null != costItems){
+			for(ItemInfo item : costItems){
+				if(!player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())){
+					tbRsp.setRstType(TBResultType.DIAMOND_NOT_ENOUGH);
+					tbRsp.setTipMsg("钻石不足");
+					return;
+				}
+			}
+		}
+		teamHardInfo.setBuyTimes(teamHardInfo.getBuyTimes() + 1);
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}

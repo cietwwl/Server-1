@@ -3,6 +3,7 @@ package com.playerdata.teambattle.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,12 +25,12 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @Table(name = "tb_team_item")
 public class TBTeamItem implements IMapItem{
 	@Id
-	private String teamID;  // armyID = hardID_UUID
+	private String teamID;  // teamID = hardID_UUID
 	
 	private String hardID;
 	
 	@CombineSave
-	private List<TeamMember> members = new ArrayList<TeamMember>();
+	private final List<TeamMember> members;
 	
 	@CombineSave
 	private String leaderID;
@@ -44,6 +45,10 @@ public class TBTeamItem implements IMapItem{
 	@IgnoreSynField
 	private boolean isSelecting = false;
 
+	public TBTeamItem(){
+		this.members = new CopyOnWriteArrayList<TeamMember>();
+	}
+	
 	@Override
 	public String getId() {
 		return teamID;

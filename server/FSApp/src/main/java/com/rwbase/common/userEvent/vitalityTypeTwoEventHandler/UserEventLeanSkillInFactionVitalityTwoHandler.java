@@ -26,16 +26,15 @@ public class UserEventLeanSkillInFactionVitalityTwoHandler implements IUserEvent
 			public void doAction(Player player, Object params) {
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.VitalityTwo,ActivityVitalityTypeEnum.LearnSkillInfactionVitalityTwo.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
-				if(subCfg!=null&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.LearnSkillInfactionVitalityTwo,subCfg, Integer.parseInt(params.toString()));
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
+				if(subCfg!=null&&isLevelEnoughAndOpen){
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.VitalityTwo,subCfg, Integer.parseInt(params.toString()));
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.LearnSkillInfactionVitalityTwo.toString()).append(" error");				
-				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
+				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
 		

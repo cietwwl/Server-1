@@ -19,11 +19,14 @@ enum TBRequestType{
 	INFORM_FIGHT_RESULT = 12;	//通知战斗结果
 	SCORE_EXCHANGE = 13;	//积分兑换奖励
 	SAVE_MEMBER_POSITION = 14;	//保存成员上阵顺序
+	BUY_TIMES = 15;		//购买挑战次数
 }
 
 enum TBResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
+	DIAMOND_NOT_ENOUGH = 3;	//钻石不足
+	VIP_NOT_ENOUGH = 4;	//VIP等级不足
 }
 
 message TeamBattleReqMsg{

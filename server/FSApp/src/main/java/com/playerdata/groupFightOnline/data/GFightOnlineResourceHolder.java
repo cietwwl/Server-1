@@ -69,6 +69,7 @@ public class GFightOnlineResourceHolder {
 		GFResourceInfo resInfo = new GFResourceInfo();
 		resInfo.setResourceID(resData.getResourceID());
 		resInfo.setState(resData.getState());
+		resInfo.setOwnerBidAble(resData.isOwnerBidAble());
 		if(StringUtils.isBlank(resData.getOwnerGroupID())) return resInfo;
 		Group gp = GroupBM.get(resData.getOwnerGroupID());
 		if(gp == null) return resInfo;
@@ -84,7 +85,7 @@ public class GFightOnlineResourceHolder {
 		groupSimple.setGroupName(groupData.getGroupName());
 		groupSimple.setLeaderName(leaderName);
 		resInfo.setGroupInfo(groupSimple);
-		
+
 		return resInfo;
 	}
 
