@@ -33,23 +33,25 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 		
 		
 		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
-		
-		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
-		try {
-			boolean success  = reqGameServer(jsonContent, contentPojo);
-			String successStr = contentPojo.getCpTradeNo();
-			String result = success?successStr:"-1";	
+		if(contentPojo != null){
+			ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
+			try {
+				boolean success  = reqGameServer(jsonContent, contentPojo);
+				String successStr = contentPojo.getCpTradeNo();
+				String result = success?successStr:"-1";	
 			
 			
 			
-			PrintWriter writer = response.getWriter();
-			writer.write(result);	
-			writer.flush();
-			writer.close();			
-		} catch (Exception e) {
-			e.printStackTrace();
+				PrintWriter writer = response.getWriter();
+				writer.write(result);	
+				writer.flush();
+				writer.close();			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			ChargeLog.info("charge", "订单初始化失败", "异常申请：json为空");
 		}
-
 	}
 
 
