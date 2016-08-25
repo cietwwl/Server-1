@@ -7,7 +7,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 @SynClass
-public class RoleBaseInfoImpl implements RoleBaseInfoIF {
+public class RoleBaseInfo implements RoleBaseInfoIF {
 
 	@Id
 	private String id;
@@ -20,9 +20,9 @@ public class RoleBaseInfoImpl implements RoleBaseInfoIF {
 	private int modeId;
 	private int careerType;
 	
-	public RoleBaseInfoImpl() {}
+	public RoleBaseInfo() {}
 	
-	public RoleBaseInfoImpl(RoleBaseInfoIF target) {
+	public RoleBaseInfo(RoleBaseInfoIF target) {
 		this.id = target.getId();
 		this.templateId = target.getTemplateId();
 		this.level = target.getLevel();

@@ -24,7 +24,7 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.fixEquip.FixEquipHelper;
-import com.playerdata.hero.core.RoleBaseInfoImpl;
+import com.playerdata.hero.core.RoleBaseInfo;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.EquipInfo;
@@ -777,7 +777,7 @@ public class AngelArrayTeamInfoHelper {
 		String tmpId = baseInfo.getTmpId();
 		RoleCfg roleCfg = cfgDAO.getCfgById(tmpId);
 
-		RoleBaseInfoImpl roleBaseInfo = new RoleBaseInfoImpl();
+		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
 		roleBaseInfo.setId(tmpId);
 		roleBaseInfo.setLevel(baseInfo.getLevel());
 		roleBaseInfo.setQualityId(baseInfo.getQuality());
