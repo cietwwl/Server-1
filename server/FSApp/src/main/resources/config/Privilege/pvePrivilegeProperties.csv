@@ -1,7 +1,7 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-maxResetCount,,99,今日封神台重置次数已用完，提升到VIP14可以增加1次重置次数。,今日封神台重置次数已用完，大神，您已经无法再增加重置次数。,VIP10开启重置封神台功能，充值可提升VIP等级。
+maxResetCount,,99,今日封神台重置次数已用完，提升VIP等级可以增加重置次数。,今日封神台重置次数已用完，大神，您已经无法再增加重置次数。,VIP10开启重置封神台功能，充值可提升VIP等级。
 sweepTimeDec,,300,,,
-arrayMaxResetCnt,,99,今日万仙阵重置次数已用完，提升到VIP12可以增加1次重置次数。,今日万仙阵重置次数已用完，大神，您已经无法再增加重置次数。,VIP8开启重置万仙阵功能，充值可提升VIP等级。
+arrayMaxResetCnt,,99,今日万仙阵重置次数已用完，提升VIP等级可以增加重置次数。,今日万仙阵重置次数已用完，大神，您已经无法再增加重置次数。,VIP8开启重置万仙阵功能，充值可提升VIP等级。
 warfareRewardAdd,,,,,
 warfareResetCnt,,99,今日无尽战火重置次数已用完，提升VIP等级可以增加重置次数。,今日无尽战火重置次数已用完，大神，您已经无法再增加重置次数。,VIP8开启重置无尽战火功能，充值可提升VIP等级。
 treasureTimeDec,,300,,,
