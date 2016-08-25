@@ -1,12 +1,12 @@
 package com.rw.trace.parser;
 
-import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import java.util.concurrent.ConcurrentHashMap;
+import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.service.dropitem.DropResult;
-import com.alibaba.fastjson.JSONObject;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rwbase.dao.dropitem.DropRecord;
+import com.rw.fsutil.common.Pair;
+import com.alibaba.fastjson.JSONObject;
 
 public class DropRecordParser implements DataValueParser<DropRecord> {
 
@@ -14,12 +14,12 @@ public class DropRecordParser implements DataValueParser<DropRecord> {
 
     @Override
     public DropRecord copy(DropRecord entity) {
-        DropRecord newData_ = new DropRecord();
-        newData_.setUserId(entity.getUserId());
-        newData_.setFirstDropMap(writer.copyObject(entity.getFirstDropMap()));
-        newData_.setDropMissTimesMap(writer.copyObject(entity.getDropMissTimesMap()));
-        newData_.setPretreatMap(writer.copyObject(entity.getPretreatMap()));
-        return newData_;
+        DropRecord dropRecordCopy = new DropRecord();
+        dropRecordCopy.setUserId(entity.getUserId());
+        dropRecordCopy.setFirstDropMap(writer.copyObject(entity.getFirstDropMap()));
+        dropRecordCopy.setDropMissTimesMap(writer.copyObject(entity.getDropMissTimesMap()));
+        dropRecordCopy.setPretreatMap(writer.copyObject(entity.getPretreatMap()));
+        return dropRecordCopy;
     }
 
     @Override
@@ -65,6 +65,23 @@ public class DropRecordParser implements DataValueParser<DropRecord> {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(DropRecord entity1, DropRecord entity2) {
+        if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getFirstDropMap(), entity2.getFirstDropMap())) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getDropMissTimesMap(), entity2.getDropMissTimesMap())) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getPretreatMap(), entity2.getPretreatMap())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

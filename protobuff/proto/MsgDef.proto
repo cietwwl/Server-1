@@ -85,6 +85,8 @@ enum Command {
 	MSG_ACTIVITY_DailyDiscount_TYPE = 183;//通用活动每日折扣
 	MSG_ACTIVITY_VipDiscount_TYPE = 184;//通用活动七日VIp折扣
 	MSG_ACTIVITY_RedEnvelope_TYPE = 185;//通用活动开服红包
+	MSG_ACTIVITY_FORTUNECAT_TYPE = 210;//通用活动招财猫
+	MSG_ACTIVITY_FORTUNECAT_TYPE = 211;//通用活动限时神将
 	
 	MSG_GROUP_COPY_ADMIN = 186;//帮派副本管理
 	MSG_GROUP_COPY_BATTLE = 187;//帮派副本战斗

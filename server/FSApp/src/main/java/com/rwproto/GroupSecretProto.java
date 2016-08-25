@@ -413,6 +413,24 @@ public final class GroupSecretProto {
      */
     com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
         int index);
+
+    // optional int32 mainPos = 3;
+    /**
+     * <code>optional int32 mainPos = 3;</code>
+     *
+     * <pre>
+     * 创建的位置
+     * </pre>
+     */
+    boolean hasMainPos();
+    /**
+     * <code>optional int32 mainPos = 3;</code>
+     *
+     * <pre>
+     * 创建的位置
+     * </pre>
+     */
+    int getMainPos();
   }
   /**
    * Protobuf type {@code groupSecret.CreateGroupSecretReqMsg}
@@ -480,6 +498,11 @@ public final class GroupSecretProto {
                 mutable_bitField0_ |= 0x00000002;
               }
               teamHeroId_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              mainPos_ = input.readInt32();
               break;
             }
           }
@@ -605,9 +628,34 @@ public final class GroupSecretProto {
       return teamHeroId_.get(index);
     }
 
+    // optional int32 mainPos = 3;
+    public static final int MAINPOS_FIELD_NUMBER = 3;
+    private int mainPos_;
+    /**
+     * <code>optional int32 mainPos = 3;</code>
+     *
+     * <pre>
+     * 创建的位置
+     * </pre>
+     */
+    public boolean hasMainPos() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 mainPos = 3;</code>
+     *
+     * <pre>
+     * 创建的位置
+     * </pre>
+     */
+    public int getMainPos() {
+      return mainPos_;
+    }
+
     private void initFields() {
       secretCfgId_ = 0;
       teamHeroId_ = java.util.Collections.emptyList();
+      mainPos_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -637,6 +685,9 @@ public final class GroupSecretProto {
       for (int i = 0; i < teamHeroId_.size(); i++) {
         output.writeMessage(2, teamHeroId_.get(i));
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, mainPos_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -653,6 +704,10 @@ public final class GroupSecretProto {
       for (int i = 0; i < teamHeroId_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, teamHeroId_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, mainPos_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -783,6 +838,8 @@ public final class GroupSecretProto {
         } else {
           teamHeroIdBuilder_.clear();
         }
+        mainPos_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -824,6 +881,10 @@ public final class GroupSecretProto {
         } else {
           result.teamHeroId_ = teamHeroIdBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.mainPos_ = mainPos_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -868,6 +929,9 @@ public final class GroupSecretProto {
               teamHeroIdBuilder_.addAllMessages(other.teamHeroId_);
             }
           }
+        }
+        if (other.hasMainPos()) {
+          setMainPos(other.getMainPos());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1265,6 +1329,55 @@ public final class GroupSecretProto {
           teamHeroId_ = null;
         }
         return teamHeroIdBuilder_;
+      }
+
+      // optional int32 mainPos = 3;
+      private int mainPos_ ;
+      /**
+       * <code>optional int32 mainPos = 3;</code>
+       *
+       * <pre>
+       * 创建的位置
+       * </pre>
+       */
+      public boolean hasMainPos() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 mainPos = 3;</code>
+       *
+       * <pre>
+       * 创建的位置
+       * </pre>
+       */
+      public int getMainPos() {
+        return mainPos_;
+      }
+      /**
+       * <code>optional int32 mainPos = 3;</code>
+       *
+       * <pre>
+       * 创建的位置
+       * </pre>
+       */
+      public Builder setMainPos(int value) {
+        bitField0_ |= 0x00000004;
+        mainPos_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 mainPos = 3;</code>
+       *
+       * <pre>
+       * 创建的位置
+       * </pre>
+       */
+      public Builder clearMainPos() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        mainPos_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.CreateGroupSecretReqMsg)
@@ -11813,54 +11926,54 @@ public final class GroupSecretProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\021GroupSecret.proto\022\013groupSecret\032\022Battle" +
-      "Common.proto\"d\n\027CreateGroupSecretReqMsg\022" +
+      "Common.proto\"u\n\027CreateGroupSecretReqMsg\022" +
       "\023\n\013secretCfgId\030\001 \002(\005\0224\n\nteamHeroId\030\002 \003(\013" +
-      "2 .BattleCommon.BattleHeroPosition\"%\n\027Cr" +
-      "eateGroupSecretRspMsg\022\n\n\002id\030\001 \002(\t\"(\n\032Get" +
-      "GroupSecretRewardReqMsg\022\n\n\002id\030\001 \002(\t\"Z\n\026C" +
-      "hangeDefendTeamReqMsg\022\n\n\002id\030\001 \002(\t\0224\n\ntea" +
-      "mHeroId\030\002 \003(\0132 .BattleCommon.BattleHeroP" +
-      "osition\"N\n\035InviteGroupMemberDefendReqMsg" +
-      "\022\n\n\002id\030\001 \002(\t\022\020\n\010memberId\030\002 \003(\t\022\017\n\007messag",
-      "e\030\003 \001(\t\"\204\001\n\026JoinSecretDefendReqMsg\022\n\n\002id" +
-      "\030\001 \002(\t\022,\n\005index\030\002 \002(\0162\035.groupSecret.Grou" +
-      "pSecretIndex\0220\n\006heroId\030\003 \003(\0132 .BattleCom" +
-      "mon.BattleHeroPosition\")\n\033GetDefendRecor" +
-      "dRewardReqMsg\022\n\n\002id\030\001 \001(\005\"Q\n\033GetDefendRe" +
-      "cordRewardRspMsg\022\023\n\013defendTimes\030\001 \002(\005\022\035\n" +
-      "\025getDefendRewardKeyNum\030\002 \002(\005\"5\n\031GetInvit" +
-      "eSecretInfoReqMsg\022\n\n\002id\030\001 \002(\t\022\014\n\004time\030\002 " +
-      "\001(\003\"\'\n\031GetInviteSecretInfoRspMsg\022\n\n\002id\030\001" +
-      " \002(\t\"\236\004\n\027GroupSecretCommonReqMsg\022)\n\007reqT",
-      "ype\030\001 \002(\0162\030.groupSecret.RequestType\022\017\n\007v" +
-      "ersion\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.gro" +
-      "upSecret.CreateGroupSecretReqMsg\022@\n\017getR" +
-      "ewardReqMsg\030\004 \001(\0132\'.groupSecret.GetGroup" +
-      "SecretRewardReqMsg\022=\n\020changeTeamReqMsg\030\005" +
-      " \001(\0132#.groupSecret.ChangeDefendTeamReqMs" +
-      "g\022@\n\014inviteReqMsg\030\006 \001(\0132*.groupSecret.In" +
-      "viteGroupMemberDefendReqMsg\0227\n\njoinReqMs" +
-      "g\030\007 \001(\0132#.groupSecret.JoinSecretDefendRe" +
-      "qMsg\022G\n\025getDefendRewardReqMsg\030\010 \001(\0132(.gr",
-      "oupSecret.GetDefendRecordRewardReqMsg\022F\n" +
-      "\026inviteSecretInfoReqMsg\030\t \001(\0132&.groupSec" +
-      "ret.GetInviteSecretInfoReqMsg\"\264\002\n\027GroupS" +
-      "ecretCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.gro" +
-      "upSecret.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022" +
-      "\016\n\006tipMsg\030\003 \001(\t\022:\n\014createRspMsg\030\004 \001(\0132$." +
-      "groupSecret.CreateGroupSecretRspMsg\022G\n\025g" +
-      "etDefendRewardRspMsg\030\005 \001(\0132(.groupSecret" +
-      ".GetDefendRecordRewardRspMsg\022F\n\026inviteSe" +
-      "cretInfoRspMsg\030\006 \001(\0132&.groupSecret.GetIn",
-      "viteSecretInfoRspMsg*1\n\020GroupSecretIndex" +
-      "\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*\350\001\n\013Requ" +
-      "estType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_GR" +
-      "OUP_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD\020" +
-      "\003\022\026\n\022CHANGE_DEFEND_TEAM\020\004\022\030\n\024INVITE_MEMB" +
-      "ER_DEFEND\020\005\022\025\n\021GET_DEFEDN_REWARD\020\006\022\022\n\016BU" +
-      "Y_SECRET_KEY\020\007\022\026\n\022JOIN_SECRET_DEFEND\020\010\022\032" +
-      "\n\026GET_INVITE_SECRET_INFO\020\tB\037\n\013com.rwprot" +
-      "oB\020GroupSecretProto"
+      "2 .BattleCommon.BattleHeroPosition\022\017\n\007ma" +
+      "inPos\030\003 \001(\005\"%\n\027CreateGroupSecretRspMsg\022\n" +
+      "\n\002id\030\001 \002(\t\"(\n\032GetGroupSecretRewardReqMsg" +
+      "\022\n\n\002id\030\001 \002(\t\"Z\n\026ChangeDefendTeamReqMsg\022\n" +
+      "\n\002id\030\001 \002(\t\0224\n\nteamHeroId\030\002 \003(\0132 .BattleC" +
+      "ommon.BattleHeroPosition\"N\n\035InviteGroupM" +
+      "emberDefendReqMsg\022\n\n\002id\030\001 \002(\t\022\020\n\010memberI",
+      "d\030\002 \003(\t\022\017\n\007message\030\003 \001(\t\"\204\001\n\026JoinSecretD" +
+      "efendReqMsg\022\n\n\002id\030\001 \002(\t\022,\n\005index\030\002 \002(\0162\035" +
+      ".groupSecret.GroupSecretIndex\0220\n\006heroId\030" +
+      "\003 \003(\0132 .BattleCommon.BattleHeroPosition\"" +
+      ")\n\033GetDefendRecordRewardReqMsg\022\n\n\002id\030\001 \001" +
+      "(\005\"Q\n\033GetDefendRecordRewardRspMsg\022\023\n\013def" +
+      "endTimes\030\001 \002(\005\022\035\n\025getDefendRewardKeyNum\030" +
+      "\002 \002(\005\"5\n\031GetInviteSecretInfoReqMsg\022\n\n\002id" +
+      "\030\001 \002(\t\022\014\n\004time\030\002 \001(\003\"\'\n\031GetInviteSecretI" +
+      "nfoRspMsg\022\n\n\002id\030\001 \002(\t\"\236\004\n\027GroupSecretCom",
+      "monReqMsg\022)\n\007reqType\030\001 \002(\0162\030.groupSecret" +
+      ".RequestType\022\017\n\007version\030\002 \001(\t\022:\n\014createR" +
+      "eqMsg\030\003 \001(\0132$.groupSecret.CreateGroupSec" +
+      "retReqMsg\022@\n\017getRewardReqMsg\030\004 \001(\0132\'.gro" +
+      "upSecret.GetGroupSecretRewardReqMsg\022=\n\020c" +
+      "hangeTeamReqMsg\030\005 \001(\0132#.groupSecret.Chan" +
+      "geDefendTeamReqMsg\022@\n\014inviteReqMsg\030\006 \001(\013" +
+      "2*.groupSecret.InviteGroupMemberDefendRe" +
+      "qMsg\0227\n\njoinReqMsg\030\007 \001(\0132#.groupSecret.J" +
+      "oinSecretDefendReqMsg\022G\n\025getDefendReward",
+      "ReqMsg\030\010 \001(\0132(.groupSecret.GetDefendReco" +
+      "rdRewardReqMsg\022F\n\026inviteSecretInfoReqMsg" +
+      "\030\t \001(\0132&.groupSecret.GetInviteSecretInfo" +
+      "ReqMsg\"\264\002\n\027GroupSecretCommonRspMsg\022)\n\007re" +
+      "qType\030\001 \002(\0162\030.groupSecret.RequestType\022\021\n" +
+      "\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022:\n\014crea" +
+      "teRspMsg\030\004 \001(\0132$.groupSecret.CreateGroup" +
+      "SecretRspMsg\022G\n\025getDefendRewardRspMsg\030\005 " +
+      "\001(\0132(.groupSecret.GetDefendRecordRewardR" +
+      "spMsg\022F\n\026inviteSecretInfoRspMsg\030\006 \001(\0132&.",
+      "groupSecret.GetInviteSecretInfoRspMsg*1\n" +
+      "\020GroupSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n" +
+      "\005RIGHT\020\003*\350\001\n\013RequestType\022\022\n\016OPEN_MAIN_VI" +
+      "EW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033\n\027GET_GRO" +
+      "UP_SECRET_REWARD\020\003\022\026\n\022CHANGE_DEFEND_TEAM" +
+      "\020\004\022\030\n\024INVITE_MEMBER_DEFEND\020\005\022\025\n\021GET_DEFE" +
+      "DN_REWARD\020\006\022\022\n\016BUY_SECRET_KEY\020\007\022\026\n\022JOIN_" +
+      "SECRET_DEFEND\020\010\022\032\n\026GET_INVITE_SECRET_INF" +
+      "O\020\tB\037\n\013com.rwprotoB\020GroupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -11872,7 +11985,7 @@ public final class GroupSecretProto {
           internal_static_groupSecret_CreateGroupSecretReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_CreateGroupSecretReqMsg_descriptor,
-              new java.lang.String[] { "SecretCfgId", "TeamHeroId", });
+              new java.lang.String[] { "SecretCfgId", "TeamHeroId", "MainPos", });
           internal_static_groupSecret_CreateGroupSecretRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_groupSecret_CreateGroupSecretRspMsg_fieldAccessorTable = new

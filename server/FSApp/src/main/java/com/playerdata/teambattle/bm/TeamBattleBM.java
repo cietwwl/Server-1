@@ -578,7 +578,7 @@ public class TeamBattleBM {
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
 							if(null == emailCfg) {
-								GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 不存在id为[%s]的邮件", cfg.getMail()), null);
+								GameLog.error(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 不存在id为[%s]的邮件", cfg.getMail()), null);
 								continue;
 							}
 							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()), "", String.format(emailCfg.getContent(), mem.getUserName()));

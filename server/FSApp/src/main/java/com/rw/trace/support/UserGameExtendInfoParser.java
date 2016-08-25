@@ -1,7 +1,7 @@
 package com.rw.trace.support;
 
-import com.rwbase.dao.user.UserGameExtendInfo;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import com.rwbase.dao.user.UserGameExtendInfo;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.alibaba.fastjson.JSONObject;
 
@@ -11,10 +11,10 @@ public class UserGameExtendInfoParser implements DataValueParser<UserGameExtendI
 
     @Override
     public UserGameExtendInfo copy(UserGameExtendInfo entity) {
-        UserGameExtendInfo newData_ = new UserGameExtendInfo();
-        newData_.setSendGold(entity.getSendGold());
-        newData_.setChargedGold(entity.getChargedGold());
-        return newData_;
+        UserGameExtendInfo userGameExtendInfoCopy = new UserGameExtendInfo();
+        userGameExtendInfoCopy.setSendGold(entity.getSendGold());
+        userGameExtendInfoCopy.setChargedGold(entity.getChargedGold());
+        return userGameExtendInfoCopy;
     }
 
     @Override
@@ -33,6 +33,17 @@ public class UserGameExtendInfoParser implements DataValueParser<UserGameExtendI
             jsonMap = writer.write(jsonMap, "chargedGold", chargedGold2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(UserGameExtendInfo entity1, UserGameExtendInfo entity2) {
+        if (entity1.getSendGold() != entity2.getSendGold()) {
+            return true;
+        }
+        if (entity1.getChargedGold() != entity2.getChargedGold()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.trace.DataChangeListenRegister;
-import com.rw.trace.TestTrace;
+import com.rw.trace.CreateTrace;
 import com.rwbase.dao.chat.pojo.UserPrivateChat;
 import com.rwbase.dao.gameNotice.TableGameNotice;
 import com.rwbase.dao.group.pojo.db.GroupLogData;
@@ -32,7 +32,7 @@ public class DataCacheInitialization {
 		}
 		HashMap<Class<?>, DataValueParser<?>> map = new HashMap<Class<?>, DataValueParser<?>>();
 		try {
-			List<Class<? extends DataValueParser>> list = HPCUtil.getAllAssignedClass(DataValueParser.class, TestTrace.PARSER_PATH);
+			List<Class<? extends DataValueParser>> list = HPCUtil.getAllAssignedClass(DataValueParser.class, CreateTrace.PARSER_PATH);
 			for (Class<? extends DataValueParser> clazz : list) {
 				Class<?> type = HPCUtil.getInterfacesGeneric(clazz, DataValueParser.class);
 				map.put(type, clazz.newInstance());

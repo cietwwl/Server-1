@@ -271,7 +271,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		
 		List<TaskItem> allTask = taskItemHolder.getItemList();
 		if (null == allTask || allTask.isEmpty()) {
-			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
+			GameLog.error("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
 			return OneKeyResultType.NO_REWARD;
 		}
 		
@@ -306,7 +306,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		List<TaskItem> checkTasks = new ArrayList<TaskItem>();
 		
 		if (null == taskList || taskList.isEmpty()) {
-			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
+			GameLog.error("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
 			return OneKeyResultType.NO_REWARD;
 		}
 		for(TaskItem task : taskList){

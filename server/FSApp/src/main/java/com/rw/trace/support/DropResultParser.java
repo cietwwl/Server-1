@@ -1,14 +1,14 @@
 package com.rw.trace.support;
 
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import java.util.List;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import java.util.Map;
+import java.util.List;
 import com.rw.service.dropitem.DropResult;
-import com.alibaba.fastjson.JSONObject;
 import com.rwbase.dao.dropitem.DropAdjustmentState;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.common.Pair;
+import com.alibaba.fastjson.JSONObject;
 
 public class DropResultParser implements DataValueParser<DropResult> {
 
@@ -16,12 +16,12 @@ public class DropResultParser implements DataValueParser<DropResult> {
 
     @Override
     public DropResult copy(DropResult entity) {
-        DropResult newData_ = new DropResult();
-        newData_.setItemInfos(writer.copyObject(entity.getItemInfos()));
-        newData_.setDropRuleMap(writer.copyObject(entity.getDropRuleMap()));
-        newData_.setCreateTimeMillis(entity.getCreateTimeMillis());
-        newData_.setFirstDrop(entity.isFirstDrop());
-        return newData_;
+        DropResult dropResultCopy = new DropResult();
+        dropResultCopy.setItemInfos(writer.copyObject(entity.getItemInfos()));
+        dropResultCopy.setDropRuleMap(writer.copyObject(entity.getDropRuleMap()));
+        dropResultCopy.setCreateTimeMillis(entity.getCreateTimeMillis());
+        dropResultCopy.setFirstDrop(entity.isFirstDrop());
+        return dropResultCopy;
     }
 
     @Override
@@ -62,6 +62,23 @@ public class DropResultParser implements DataValueParser<DropResult> {
             jsonMap = writer.write(jsonMap, "firstDrop", firstDrop2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(DropResult entity1, DropResult entity2) {
+        if (writer.hasChanged(entity1.getItemInfos(), entity2.getItemInfos())) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getDropRuleMap(), entity2.getDropRuleMap())) {
+            return true;
+        }
+        if (entity1.getCreateTimeMillis() != entity2.getCreateTimeMillis()) {
+            return true;
+        }
+        if (entity1.isFirstDrop() != entity2.isFirstDrop()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

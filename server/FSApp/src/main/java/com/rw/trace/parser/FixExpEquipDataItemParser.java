@@ -1,9 +1,9 @@
 package com.rw.trace.parser;
 
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.alibaba.fastjson.JSONObject;
-import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 
 public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDataItem> {
 
@@ -11,16 +11,16 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
 
     @Override
     public FixExpEquipDataItem copy(FixExpEquipDataItem entity) {
-        FixExpEquipDataItem newData_ = new FixExpEquipDataItem();
-        newData_.setId(entity.getId());
-        newData_.setOwnerId(entity.getOwnerId());
-        newData_.setCfgId(entity.getCfgId());
-        newData_.setExp(entity.getExp());
-        newData_.setLevel(entity.getLevel());
-        newData_.setQuality(entity.getQuality());
-        newData_.setStar(entity.getStar());
-        newData_.setSlot(entity.getSlot());
-        return newData_;
+        FixExpEquipDataItem fixExpEquipDataItemCopy = new FixExpEquipDataItem();
+        fixExpEquipDataItemCopy.setId(entity.getId());
+        fixExpEquipDataItemCopy.setOwnerId(entity.getOwnerId());
+        fixExpEquipDataItemCopy.setCfgId(entity.getCfgId());
+        fixExpEquipDataItemCopy.setExp(entity.getExp());
+        fixExpEquipDataItemCopy.setLevel(entity.getLevel());
+        fixExpEquipDataItemCopy.setQuality(entity.getQuality());
+        fixExpEquipDataItemCopy.setStar(entity.getStar());
+        fixExpEquipDataItemCopy.setSlot(entity.getSlot());
+        return fixExpEquipDataItemCopy;
     }
 
     @Override
@@ -75,6 +75,35 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
             jsonMap = writer.write(jsonMap, "slot", slot2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(FixExpEquipDataItem entity1, FixExpEquipDataItem entity2) {
+        if (!writer.equals(entity1.getId(), entity2.getId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
+            return true;
+        }
+        if (!writer.equals(entity1.getCfgId(), entity2.getCfgId())) {
+            return true;
+        }
+        if (entity1.getExp() != entity2.getExp()) {
+            return true;
+        }
+        if (entity1.getLevel() != entity2.getLevel()) {
+            return true;
+        }
+        if (entity1.getQuality() != entity2.getQuality()) {
+            return true;
+        }
+        if (entity1.getStar() != entity2.getStar()) {
+            return true;
+        }
+        if (entity1.getSlot() != entity2.getSlot()) {
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class MajorDataholder {
 	}
 	
 	public boolean CheckEnoughCoin(){
-		if(majordata.getCoin() > 1000000000){
+		if(majordata.getCoin() > 99999999){
 			return true;
 		}else{
 			return false;

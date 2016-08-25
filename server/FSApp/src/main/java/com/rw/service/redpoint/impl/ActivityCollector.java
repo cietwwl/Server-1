@@ -196,7 +196,7 @@ public class ActivityCollector implements RedPointCollector{
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
-			if (ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
+			if (!ActivityVitalityTypeMgr.getInstance().isHasCfg(activityVitalityTypeItem)) {
 				continue;				
 			}
 			if(!activityVitalityTypeItem.isTouchRedPoint()){

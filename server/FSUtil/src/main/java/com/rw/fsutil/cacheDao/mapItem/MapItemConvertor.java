@@ -3,22 +3,22 @@ package com.rw.fsutil.cacheDao.mapItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
+import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.record.MapItemChangedRecord;
-import com.rw.fsutil.dao.cache.record.MapItemStoreCopy;
 import com.rw.fsutil.dao.cache.record.MapItemRecord;
+import com.rw.fsutil.dao.cache.record.MapItemStoreCopy;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
-import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 
-public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<String, MapItemStore<T>, MapItemStoreCopy<T>> {
+public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<String, MapItemStore<T>, MapItemStoreCopy<T>, MapItemChangedEvent<T>> {
 
 	private final DataValueParser<T> parser;
 
@@ -47,47 +47,17 @@ public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<
 	}
 
 	@Override
-	public DataLoggerRecord parseAndUpdate(Object key, MapItemStoreCopy<T> oldRecord, MapItemStore<T> newRecord) {
-		ArrayList<Object> addList = null;
-		ArrayList<Object> removeList = null;
-		ArrayList<Pair<Object, Object>> updateList = new ArrayList<Pair<Object, Object>>();
-		Map<String, T> newMap = newRecord.getItemMap();
+	public DataLoggerRecord parseAndUpdate(Object key, MapItemStoreCopy<T> oldRecord, MapItemStore<T> newRecord, MapItemChangedEvent<T> event) {
 		HashMap<String, T> oldMap = oldRecord.getJsonMap();
-		for (Iterator<Map.Entry<String, T>> it = oldMap.entrySet().iterator(); it.hasNext();) {
-			Map.Entry<String, T> entry = it.next();
-			String entryKey = entry.getKey();
-			T newValue = newMap.get(entryKey);
-			if (newValue == null) {
-				if (removeList == null) {
-					removeList = new ArrayList<Object>(5);
-				}
-				// 移除
-				JSONObject removeJson = parser.toJson(entry.getValue());
-				if (removeJson != null) {
-					removeList.add(removeJson);
-				} else {
-					removeList.add(JsonValueWriter.REMOVED);
-				}
-				it.remove();
-			} else {
-				// 更新
-				Object itemJson = parser.recordAndUpdate(entry.getValue(), newValue);
-				if (itemJson != null) {
-					if (updateList == null) {
-						updateList = new ArrayList<Pair<Object, Object>>();
-					}
-					updateList.add(Pair.Create((Object) entryKey, itemJson));
-				}
-			}
-		}
-		for (Map.Entry<String, T> entry : newMap.entrySet()) {
-			T entryValue = entry.getValue();
-			if (entryValue == null) {
-				continue;
-			}
-			String entryKey = entry.getKey();
-			T oldValue = oldMap.get(entryKey);
-			if (oldValue == null) {
+		List<Pair<String, T>> addEventList = event.getAddList();
+		ArrayList<Object> addList = null;
+		if (addEventList != null) {
+			int addSize = addEventList.size();
+			addList = new ArrayList<Object>(addSize);
+			for (int i = 0; i < addSize; i++) {
+				Pair<String, T> pair = addEventList.get(i);
+				String entryKey = pair.getT1();
+				T entryValue = pair.getT2();
 				T newCopy = parser.copy(entryValue);
 				if (newCopy == null) {
 					FSUtilLogger.error("copy fail:" + key + "," + entryKey + "," + parser.getClass().getSimpleName());
@@ -105,28 +75,59 @@ public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<
 				oldMap.put(entryKey, newCopy);
 			}
 		}
+		ArrayList<Object> removeList = null;
+		List<Pair<String, T>> removeEvents = event.getRemoveList();
+		if (removeEvents != null) {
+			int removeSize = removeEvents.size();
+			removeList = new ArrayList<Object>(removeSize);
+			for (int i = 0; i < removeSize; i++) {
+				Pair<String, T> removeEntry = removeEvents.get(i);
+				// 移除
+				JSONObject removeJson = parser.toJson(removeEntry.getT2());
+				if (removeJson != null) {
+					removeList.add(removeJson);
+				} else {
+					removeList.add(JsonValueWriter.REMOVED);
+				}
+				oldMap.remove(removeEntry.getT1());
+			}
+		}
+		ArrayList<Pair<Object, Object>> updateList = null;
+		Map<String, Pair<T, T>> changeMap = event.getChangedMap();
+		if (changeMap != null) {
+			updateList = new ArrayList<Pair<Object, Object>>(changeMap.size());
+			for (Map.Entry<String, Pair<T, T>> changeEntry : changeMap.entrySet()) {
+				// 更新
+				Pair<T, T> pairEntry = changeEntry.getValue();
+				Object itemJson = parser.recordAndUpdate(pairEntry.getT1(), pairEntry.getT2());
+				if (itemJson != null) {
+					updateList.add(Pair.<Object, Object> Create(changeEntry.getKey(), itemJson));
+				}
+			}
+		}
 		return new MapItemChangedRecord(key, addList, removeList, updateList);
 	}
 
 	@Override
-	public DataChangedEvent<?> produceChangedEvent(Object key, MapItemStoreCopy<T> oldRecord, MapItemStore<T> newRecord) {
+	public MapItemChangedEvent<T> produceChangedEvent(Object key, MapItemStoreCopy<T> oldRecord, MapItemStore<T> newRecord) {
 		HashMap<String, Pair<T, T>> otherMap = new HashMap<String, Pair<T, T>>();
-		ArrayList<T> addList = null;
-		ArrayList<T> removeList = null;
+		ArrayList<Pair<String, T>> addList = null;
+		ArrayList<Pair<String, T>> removeList = null;
 		Map<String, T> newMap = newRecord.getItemMap();
 		HashMap<String, T> oldMap = oldRecord.getJsonMap();
 		for (Iterator<Map.Entry<String, T>> it = oldMap.entrySet().iterator(); it.hasNext();) {
 			Map.Entry<String, T> entry = it.next();
 			String entryKey = entry.getKey();
+			T oldValue = entry.getValue();
 			T newValue = newMap.get(entryKey);
 			if (newValue == null) {
 				if (removeList == null) {
-					removeList = new ArrayList<T>();
+					removeList = new ArrayList<Pair<String, T>>();
 				}
-				removeList.add(entry.getValue());
-			} else {
+				removeList.add(Pair.Create(entryKey, entry.getValue()));
+			} else if (oldValue == null || parser.hasChanged(oldValue, newValue)) {
 				// 此处不做比较
-				otherMap.put(entryKey, Pair.Create(entry.getValue(), newValue));
+				otherMap.put(entryKey, Pair.Create(oldValue, newValue));
 			}
 		}
 		for (Map.Entry<String, T> entry : newMap.entrySet()) {
@@ -138,9 +139,9 @@ public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<
 			T oldValue = oldMap.get(entryKey);
 			if (oldValue == null) {
 				if (addList == null) {
-					addList = new ArrayList<T>();
+					addList = new ArrayList<Pair<String, T>>();
 				}
-				addList.add(entryValue);
+				addList.add(Pair.Create(entryKey, entryValue));
 			}
 		}
 		return new MapItemChangedEvent<T>(addList, removeList, otherMap);

@@ -11,12 +11,12 @@ import com.rw.fsutil.common.Pair;
  * @param <V>
  */
 public class MapItemChangedEvent<V> implements DataChangedEvent<MapItemChangedListener<V>> {
-
-	private final List<V> addList;		//新增元素的列表
-	private final List<V> removeList;	//删除元素的列表
+				//List<V>
+	private final List<Pair<String,V>> addList;		//新增元素的列表
+	private final List<Pair<String,V>> removeList;	//删除元素的列表
 	private final Map<String,Pair<V, V>> changedMap;	//可能发生改变的集合
 
-	public MapItemChangedEvent(List<V> addList, List<V> removeList, Map<String,Pair<V, V>> changedList) {
+	public MapItemChangedEvent(List<Pair<String,V>> addList, List<Pair<String,V>> removeList, Map<String,Pair<V, V>> changedList) {
 		super();
 		this.addList = addList;
 		this.removeList = removeList;
@@ -28,11 +28,11 @@ public class MapItemChangedEvent<V> implements DataChangedEvent<MapItemChangedLi
 		listener.notifyDataChanged(this);
 	}
 
-	public List<V> getAddList() {
+	public List<Pair<String,V>> getAddList() {
 		return addList;
 	}
 
-	public List<V> getRemoveList() {
+	public List<Pair<String,V>> getRemoveList() {
 		return removeList;
 	}
 

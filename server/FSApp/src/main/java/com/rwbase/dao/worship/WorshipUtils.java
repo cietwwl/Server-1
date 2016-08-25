@@ -25,64 +25,24 @@ public class WorshipUtils {
 	
 	public static final int UpperWorshipNum = 20;//发送给前端膜拜者数量
 	
-	/***/
-	public static WorshipItemData getRandomRewardData(int scheme) {
-		CfgWorshipRankdomScheme schemeCfg = CfgWorshipRankdomSchemeHelper.getInstance().getWorshipRewardCfg(scheme);
-		int weightGroup = WorshipUtils.getRandomWeightGroup(schemeCfg.getProbabilityList());
-		List<CfgWorshipRandomReward> list = CfgWorshipRandomRewardHelper.getInstance().getWorshipRewardCfg(scheme, weightGroup);
-		return WorshipUtils.getRandomRewardData(list);
+	
+	
+	/**
+	 * 根据奖励字符串获取奖励数据
+	 * @param rewardStr
+	 * @return
+	 */
+	public static WorshipItemData getWorshipDataFromStr(String rewardStr){
+		WorshipItemData data = new WorshipItemData();
+		String[] str = rewardStr.split("~");
+		data.setItemId(str[0].toString().trim());
+		data.setCount(Integer.parseInt(str[1]));
+		return data;
 	}
 
-	/** 直接获取奖励数据 */
-	public static WorshipItemData getRandomRewardData(List<CfgWorshipRandomReward> list) {
-		CfgWorshipRandomReward cfg = getRandomRewardCfg(list);
-		if (cfg == null) {
-			return null;
-		}
-		WorshipItemData rewardData = new WorshipItemData();
-		rewardData.setItemId(String.valueOf(cfg.getItemID()));
-		rewardData.setCount(new Random().nextInt(cfg.getMax()) + 1);
-		return rewardData;
-	}
 
-	/** 获取一个随机奖励配置 */
-	public static CfgWorshipRandomReward getRandomRewardCfg(List<CfgWorshipRandomReward> list) {
-		if (list == null) {
-			return null;
-		}
-		int weightTotal = 0;
-		for (CfgWorshipRandomReward cfg : list) {
-			weightTotal += cfg.getWeight();
-		}
-		int random = new Random().nextInt(weightTotal);
-		int temp = 0;
-		for (CfgWorshipRandomReward cfg : list) {
-			temp += cfg.getWeight();
-			if (random < temp) {
-				return cfg;
-			}
-		}
-		return null;
-	}
 
-	/** 获取一个随机权重组 */
-	public static int getRandomWeightGroup(String[] list) {
-		int weightTotal = 0;
-		for (String temp : list) {
-			String[] temp2 = temp.split("_");
-			weightTotal += Integer.parseInt(temp2[1]);
-		}
-		int random = new Random().nextInt(weightTotal);
-		int temp3 = 0;
-		for (String temp : list) {
-			String[] temp2 = temp.split("_");
-			temp3 += Integer.parseInt(temp2[1]);
-			if (random < temp3) {
-				return Integer.valueOf(temp2[0]);
-			}
-		}
-		return 0;
-	}
+	
 
 	/** 排行信息转换为膜拜信息 */
 	public static WorshipInfo rankInfoToWorshipInfo(RankingLevelData rankInfo) {
@@ -96,6 +56,7 @@ public class WorshipUtils {
 		worshipInfo.setSex(rankInfo.getSex());
 		worshipInfo.setCareerLevel(rankInfo.getCareerLevel());
 		worshipInfo.setImageId(rankInfo.getUserHead());
+		worshipInfo.setHeadFrame(rankInfo.getHeadbox());
 		worshipInfo.setFightingAll(rankInfo.getFightingAll());
 		worshipInfo.setLevel(rankInfo.getLevel());
 		// worshipInfo.setModelId(rankInfo.getModelId());

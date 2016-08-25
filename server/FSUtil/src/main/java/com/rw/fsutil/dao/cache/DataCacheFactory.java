@@ -58,13 +58,15 @@ public class DataCacheFactory {
 	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
-//<<<<<<< HEAD
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz,String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+	// <<<<<<< HEAD
+
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
+			Class<? extends DataChangedVisitor> listenerType) {
 		if (name == null || name.isEmpty()) {
 			throw new ExceptionInInitializerError("cache name is empty:" + name);
 		}
-		Pair<Class, String> key = Pair.<Class, String>Create(clazz, name);
+		Pair<Class, String> key = Pair.<Class, String> Create(clazz, name);
 		DataCache oldCache = cacheMap.get(key);
 		if (oldCache != null) {
 			System.err.println("fatal error DataCache duplicate name1:" + clazz);
@@ -104,13 +106,12 @@ public class DataCacheFactory {
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
-		return createDataDache(clazz,clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
+		return createDataDache(clazz, clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
 	}
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, CacheJsonConverter<K, V, ?> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
-		return createDataDache(clazz,clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		return createDataDache(clazz, clazz.getName(), initialCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
 	}
-
 
 	public static Map<String, Integer> getCacheStat() {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();

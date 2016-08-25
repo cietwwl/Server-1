@@ -25,21 +25,20 @@ import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.DataValueParserMap;
 
-public class TestTrace {
+public class CreateTrace {
 
 	private static final String ENTER = "\r\n";// use windows
 	private static final String FORMAT = "    ";
 	private static final String PUBLIC = "public ";
-	private static final String SP = " ";
-	private static final String NEW_ENTITY = "newData_";
 	private static final String OLD = "entity";
-	private static final String JSON = "JSONObject ";
+	private static final String JSON = "JSONObject";
 	private static final String WRITER = "writer";
 	private static final String FILE_PATH = "src/main/java/";
 	private static final String MAP = "jsonMap";
+	private static final char SP = ' ';
 	public static final String PARSER_PATH = "com.rw.trace.parser";
 	private static final String SUPPORT_PATH = "com.rw.trace.support";
-	
+
 	private static HashSet<String> parserSet = new HashSet<String>();
 
 	public static void main(String[] args) {
@@ -90,7 +89,7 @@ public class TestTrace {
 				getMethod = clazz.getDeclaredMethod(getMethodName);
 				setMethod = clazz.getDeclaredMethod(setMethodName, field.getType());
 			} catch (Throwable t) {
-//				t.printStackTrace();
+				// t.printStackTrace();
 			}
 			if (getMethod == null) {
 				System.out.println("找不到get方法：" + getMethodName);
@@ -126,6 +125,7 @@ public class TestTrace {
 
 		copy(clazz, fieldList, sb, importList);
 		recordAndUpdate(clazz, fieldList, sb, importList);
+		hasChanged(clazz, fieldList, sb, importList);
 		writeToJson(clazz, fieldList, sb, importList);
 		sb.append("}");
 		StringBuilder front = new StringBuilder();
@@ -151,11 +151,9 @@ public class TestTrace {
 
 	private static void writeToJson(Class<?> clazz, ArrayList<FieldInfo> fieldList, StringBuilder sb, HashSet<String> importSet) {
 		String simple = clazz.getSimpleName();
-		indent1(sb).append("@Override").append(ENTER);
-		indent1(sb).append(PUBLIC).append(JSON).append("toJson(");
-		sb.append(simple).append(SP).append(OLD).append(") {").append(ENTER);
+		writeMethodHead(sb, JSON, "toJson", 1, simple);
 		int size = fieldList.size();
-		indent2(sb).append(JSON).append("json = new JSONObject(").append(size).append(");").append(ENTER);
+		indent2(sb).append(JSON).append(SP).append("json = new JSONObject(").append(size).append(");").append(ENTER);
 		for (FieldInfo field : fieldList) {
 			Field f = field.field;
 			Class<?> fc = f.getType();
@@ -168,7 +166,7 @@ public class TestTrace {
 				sb.append(OLD).append('.').append(field.getMethodName).append("());").append(ENTER);
 				indent2(sb).append("if (").append(name).append("Json != null) {").append(ENTER);
 				indent3(sb).append("json.put(").append(field.name_).append(", ").append(name).append("Json);").append(ENTER);
-				indent2(sb).append('}').append(ENTER);
+				writeEnd2(sb);
 			}
 		}
 		indent2(sb).append("return json;").append(ENTER);
@@ -177,34 +175,64 @@ public class TestTrace {
 
 	private static void copy(Class<?> clazz, ArrayList<FieldInfo> fieldList, StringBuilder sb, HashSet<String> importSet) {
 		String simple = clazz.getSimpleName();
-		// line 1
-		indent1(sb).append("@Override").append(ENTER);
-		// line 2 method
-		indent1(sb).append(PUBLIC).append(simple).append(SP).append("copy(");
-		sb.append(simple).append(SP).append(OLD).append(") {").append(ENTER);
+		writeMethodHead(sb, simple, "copy", 1, simple);
 		// line 3
-		indent2(sb).append(simple).append(SP).append("newData_ = new ").append(simple).append("();").append(ENTER);
+		String copyName = simple.substring(0, 1).toLowerCase() + simple.substring(1, simple.length())+"Copy";
+		indent2(sb).append(simple).append(SP).append(copyName).append(" = new ").append(simple).append("();").append(ENTER);
 		for (FieldInfo fieldInfo : fieldList) {
 			String setMethodName = fieldInfo.setMethodName;
 			String getMethodName = fieldInfo.getMethodName;
 			if (DataValueParserMap.isPrimityType(fieldInfo.field.getType())) {
-				indent2(sb).append(NEW_ENTITY).append('.').append(setMethodName).append('(');
+				indent2(sb).append(copyName).append('.').append(setMethodName).append('(');
 				sb.append(OLD).append('.').append(getMethodName).append("());").append(ENTER);
 			} else if (JsonValueWriter.getInstance().isCloneable(fieldInfo.field.getType())) {
-				indent2(sb).append(NEW_ENTITY).append('.').append(setMethodName).append('(').append(WRITER).append('.');
+				indent2(sb).append(copyName).append('.').append(setMethodName).append('(').append(WRITER).append('.');
 				sb.append("copyObject(").append(OLD).append('.').append(getMethodName).append("()));").append(ENTER);
 			}
 		}
-		indent2(sb).append("return ").append(NEW_ENTITY).append(';').append(ENTER);
+		indent2(sb).append("return ").append(copyName).append(';').append(ENTER);
 		indent1(sb).append("}").append(ENTER).append(ENTER);
+	}
+
+	private static StringBuilder writeMethodHead(StringBuilder sb, String returnName, String methodName, int params, String simple) {
+		// line 1
+		indent1(sb).append("@Override").append(ENTER);
+		// line 2 method
+		indent1(sb).append(PUBLIC).append(returnName).append(SP).append(methodName).append('(');
+		for (int i = 0; i < params; i++) {
+			sb.append(simple).append(SP);
+			if (params == 1) {
+				sb.append(OLD);
+			} else {
+				sb.append(OLD).append(i + 1);
+				if (i == 0) {
+					sb.append(", ");
+				}
+			}
+		}
+		sb.append(") {").append(ENTER);
+		return sb;
+	}
+
+	private static StringBuilder writePrimitive(StringBuilder sb, String firstName, String secondName) {
+		indent2(sb).append("if (").append(firstName).append(" != ").append(secondName).append(") {").append(ENTER);
+		return sb;
+	}
+
+	private static StringBuilder writeEquals(StringBuilder sb, String firstName, String secondName) {
+		indent2(sb).append("if (!").append(WRITER).append(".equals(").append(firstName).append(", ").append(secondName).append(")) {").append(ENTER);
+		return sb;
+	}
+
+	private static StringBuilder writeHasChanged(StringBuilder sb, String firstName, String secondName) {
+		indent2(sb).append("if (").append(WRITER).append(".hasChanged(").append(firstName).append(", ").append(secondName).append(")) {").append(ENTER);
+		return sb;
 	}
 
 	private static void recordAndUpdate(Class<?> clazz, ArrayList<FieldInfo> fieldList, StringBuilder sb, HashSet<String> importSet) {
 		String simple = clazz.getSimpleName();
-		indent1(sb).append("@Override").append(ENTER);
-		indent1(sb).append(PUBLIC).append(JSON).append("recordAndUpdate(").append(simple).append(SP);
-		sb.append("entity1, ").append(simple).append(SP).append("entity2) {").append(ENTER);
-		indent2(sb).append(JSON).append(MAP).append(" = null;").append(ENTER);
+		writeMethodHead(sb, JSON, "recordAndUpdate", 2, simple);
+		indent2(sb).append(JSON).append(SP).append(MAP).append(" = null;").append(ENTER);
 		for (FieldInfo fieldInfo : fieldList) {
 			Field field = fieldInfo.field;
 			String lowFiledName = fieldInfo.name;
@@ -219,15 +247,15 @@ public class TestTrace {
 			boolean isEquals = equalsMap.contains(returnType);
 			boolean isMap = Map.class.isAssignableFrom(returnType) || List.class.isAssignableFrom(returnType) || parserSet.contains(returnType.getName());
 			if (isPrimitive) {
-				indent2(sb).append("if (").append(firstName).append(" != ").append(secondName).append(") {").append(ENTER);
+				writePrimitive(sb, firstName, secondName);
 				indent3(sb).append("entity1.").append(setMethodName).append('(').append(secondName).append(");").append(ENTER);
 				indent3(sb).append(MAP).append(" = writer.write(").append(MAP).append(", ").append(fieldInfo.name_).append(", ").append(secondName).append(");").append(ENTER);
-				indent2(sb).append('}').append(ENTER);
+				writeEnd2(sb);
 			} else if (isEquals) {
-				indent2(sb).append("if (!").append(WRITER).append(".equals(").append(firstName).append(", ").append(secondName).append(")) {").append(ENTER);
+				writeEquals(sb, firstName, secondName);
 				indent3(sb).append("entity1.").append(setMethodName).append('(').append(secondName).append(");").append(ENTER);
 				indent3(sb).append(MAP).append(" = writer.write(").append(MAP).append(", ").append(fieldInfo.name_).append(", ").append(secondName).append(");").append(ENTER);
-				indent2(sb).append('}').append(ENTER);
+				writeEnd2(sb);
 			} else if (isMap) {
 				importSet.add(Pair.class.getName());
 				String pairName = lowFiledName + "Pair";
@@ -245,6 +273,37 @@ public class TestTrace {
 		}
 
 		indent2(sb).append("return ").append(MAP).append(';').append(ENTER);
+		indent1(sb).append("}").append(ENTER).append(ENTER);
+	}
+
+	private static void hasChanged(Class<?> clazz, ArrayList<FieldInfo> fieldList, StringBuilder sb, HashSet<String> importSet) {
+		String simple = clazz.getSimpleName();
+		writeMethodHead(sb, "boolean", "hasChanged", 2, simple);
+		for (FieldInfo fieldInfo : fieldList) {
+			Field field = fieldInfo.field;
+			String getMethodName = fieldInfo.getMethodName + "()";
+			String firstGet = "entity1." + getMethodName;
+			String secondGet = "entity2." + getMethodName;
+			Class<?> returnType = field.getType();
+			boolean isPrimitive = primitiveClasses.contains(returnType) || Enum.class.isAssignableFrom(returnType);
+			boolean isEquals = equalsMap.contains(returnType);
+			boolean isMap = Map.class.isAssignableFrom(returnType) || List.class.isAssignableFrom(returnType) || parserSet.contains(returnType.getName());
+			if (isPrimitive) {
+				writePrimitive(sb, firstGet, secondGet);
+				writeReturnFalse3(sb);
+				writeEnd2(sb);
+			} else if (isEquals) {
+				writeEquals(sb, firstGet, secondGet);
+				writeReturnFalse3(sb);
+				writeEnd2(sb);
+			} else if (isMap) {
+				importSet.add(Pair.class.getName());
+				writeHasChanged(sb, firstGet, secondGet);
+				writeReturnFalse3(sb);
+				writeEnd2(sb);
+			}
+		}
+		indent2(sb).append("return false;").append(ENTER);
 		indent1(sb).append("}").append(ENTER).append(ENTER);
 	}
 
@@ -352,14 +411,12 @@ public class TestTrace {
 		return type;
 	}
 
-	private static String get(Class<?> clazz) {
-		String simple = clazz.getSimpleName();
-		String name = clazz.getName();
-		String importName = name.replace(simple, "");
-		importName = importName.substring(0, importName.length() - 1);
-		System.out.println(importName);
-		System.out.println(simple);
-		return importName;
+	private static void writeEnd2(StringBuilder sb) {
+		indent2(sb).append('}').append(ENTER);
+	}
+
+	private static void writeReturnFalse3(StringBuilder sb) {
+		indent3(sb).append("return true;").append(ENTER);
 	}
 
 	private static StringBuilder indent1(StringBuilder sb) {

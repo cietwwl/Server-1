@@ -1,10 +1,10 @@
 package com.rw.trace.parser;
 
+import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameExtendInfo;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.rwbase.dao.user.UserGameData;
+import com.rw.fsutil.common.Pair;
 import com.alibaba.fastjson.JSONObject;
 
 public class UserGameDataParser implements DataValueParser<UserGameData> {
@@ -13,39 +13,39 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
 
     @Override
     public UserGameData copy(UserGameData entity) {
-        UserGameData newData_ = new UserGameData();
-        newData_.setUserId(entity.getUserId());
-        newData_.setVersion(entity.getVersion());
-        newData_.setIphone(entity.isIphone());
-        newData_.setPower(entity.getPower());
-        newData_.setMaxPower(entity.getMaxPower());
-        newData_.setUpgradeExp(entity.getUpgradeExp());
-        newData_.setBuyPowerTimes(entity.getBuyPowerTimes());
-        newData_.setBuyCoinTimes(entity.getBuyCoinTimes());
-        newData_.setBuySkillTimes(entity.getBuySkillTimes());
-        newData_.setLastLoginTime(entity.getLastLoginTime());
-        newData_.setRookieFlag(entity.getRookieFlag());
-        newData_.setFreeChat(entity.getFreeChat());
-        newData_.setLastAddPowerTime(entity.getLastAddPowerTime());
-        newData_.setLastResetTime(entity.getLastResetTime());
-        newData_.setLastResetTime5Clock(entity.getLastResetTime5Clock());
-        newData_.setLastChangeInfoTime(entity.getLastChangeInfoTime());
-        newData_.setHeadFrame(entity.getHeadFrame());
-        newData_.setSkillPointCount(entity.getSkillPointCount());
-        newData_.setLastRecoverSkillPointTime(entity.getLastRecoverSkillPointTime());
-        newData_.setUnendingWarCoin(entity.getUnendingWarCoin());
-        newData_.setTowerCoin(entity.getTowerCoin());
-        newData_.setExpCoin(entity.getExpCoin());
-        newData_.setStrenCoin(entity.getStrenCoin());
-        newData_.setPeakArenaCoin(entity.getPeakArenaCoin());
-        newData_.setArenaCoin(entity.getArenaCoin());
-        newData_.setWakenPiece(entity.getWakenPiece());
-        newData_.setWakenKey(entity.getWakenKey());
-        newData_.setCarrerChangeTime(entity.getCarrerChangeTime());
-        newData_.setLastWorshipTime(entity.getLastWorshipTime());
-        newData_.setFightingAll(entity.getFightingAll());
-        newData_.setStarAll(entity.getStarAll());
-        return newData_;
+        UserGameData userGameDataCopy = new UserGameData();
+        userGameDataCopy.setUserId(entity.getUserId());
+        userGameDataCopy.setVersion(entity.getVersion());
+        userGameDataCopy.setIphone(entity.isIphone());
+        userGameDataCopy.setPower(entity.getPower());
+        userGameDataCopy.setMaxPower(entity.getMaxPower());
+        userGameDataCopy.setUpgradeExp(entity.getUpgradeExp());
+        userGameDataCopy.setBuyPowerTimes(entity.getBuyPowerTimes());
+        userGameDataCopy.setBuyCoinTimes(entity.getBuyCoinTimes());
+        userGameDataCopy.setBuySkillTimes(entity.getBuySkillTimes());
+        userGameDataCopy.setLastLoginTime(entity.getLastLoginTime());
+        userGameDataCopy.setRookieFlag(entity.getRookieFlag());
+        userGameDataCopy.setFreeChat(entity.getFreeChat());
+        userGameDataCopy.setLastAddPowerTime(entity.getLastAddPowerTime());
+        userGameDataCopy.setLastResetTime(entity.getLastResetTime());
+        userGameDataCopy.setLastResetTime5Clock(entity.getLastResetTime5Clock());
+        userGameDataCopy.setLastChangeInfoTime(entity.getLastChangeInfoTime());
+        userGameDataCopy.setHeadFrame(entity.getHeadFrame());
+        userGameDataCopy.setSkillPointCount(entity.getSkillPointCount());
+        userGameDataCopy.setLastRecoverSkillPointTime(entity.getLastRecoverSkillPointTime());
+        userGameDataCopy.setUnendingWarCoin(entity.getUnendingWarCoin());
+        userGameDataCopy.setTowerCoin(entity.getTowerCoin());
+        userGameDataCopy.setExpCoin(entity.getExpCoin());
+        userGameDataCopy.setStrenCoin(entity.getStrenCoin());
+        userGameDataCopy.setPeakArenaCoin(entity.getPeakArenaCoin());
+        userGameDataCopy.setArenaCoin(entity.getArenaCoin());
+        userGameDataCopy.setWakenPiece(entity.getWakenPiece());
+        userGameDataCopy.setWakenKey(entity.getWakenKey());
+        userGameDataCopy.setCarrerChangeTime(entity.getCarrerChangeTime());
+        userGameDataCopy.setLastWorshipTime(entity.getLastWorshipTime());
+        userGameDataCopy.setFightingAll(entity.getFightingAll());
+        userGameDataCopy.setStarAll(entity.getStarAll());
+        return userGameDataCopy;
     }
 
     @Override
@@ -249,6 +249,107 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(UserGameData entity1, UserGameData entity2) {
+        if (!writer.equals(entity1.getUserId(), entity2.getUserId())) {
+            return true;
+        }
+        if (entity1.getVersion() != entity2.getVersion()) {
+            return true;
+        }
+        if (entity1.isIphone() != entity2.isIphone()) {
+            return true;
+        }
+        if (entity1.getPower() != entity2.getPower()) {
+            return true;
+        }
+        if (entity1.getMaxPower() != entity2.getMaxPower()) {
+            return true;
+        }
+        if (entity1.getUpgradeExp() != entity2.getUpgradeExp()) {
+            return true;
+        }
+        if (entity1.getBuyPowerTimes() != entity2.getBuyPowerTimes()) {
+            return true;
+        }
+        if (entity1.getBuyCoinTimes() != entity2.getBuyCoinTimes()) {
+            return true;
+        }
+        if (entity1.getBuySkillTimes() != entity2.getBuySkillTimes()) {
+            return true;
+        }
+        if (entity1.getLastLoginTime() != entity2.getLastLoginTime()) {
+            return true;
+        }
+        if (entity1.getRookieFlag() != entity2.getRookieFlag()) {
+            return true;
+        }
+        if (entity1.getFreeChat() != entity2.getFreeChat()) {
+            return true;
+        }
+        if (entity1.getLastAddPowerTime() != entity2.getLastAddPowerTime()) {
+            return true;
+        }
+        if (entity1.getLastResetTime() != entity2.getLastResetTime()) {
+            return true;
+        }
+        if (entity1.getLastResetTime5Clock() != entity2.getLastResetTime5Clock()) {
+            return true;
+        }
+        if (entity1.getLastChangeInfoTime() != entity2.getLastChangeInfoTime()) {
+            return true;
+        }
+        if (!writer.equals(entity1.getHeadFrame(), entity2.getHeadFrame())) {
+            return true;
+        }
+        if (entity1.getSkillPointCount() != entity2.getSkillPointCount()) {
+            return true;
+        }
+        if (entity1.getLastRecoverSkillPointTime() != entity2.getLastRecoverSkillPointTime()) {
+            return true;
+        }
+        if (entity1.getUnendingWarCoin() != entity2.getUnendingWarCoin()) {
+            return true;
+        }
+        if (entity1.getTowerCoin() != entity2.getTowerCoin()) {
+            return true;
+        }
+        if (entity1.getExpCoin() != entity2.getExpCoin()) {
+            return true;
+        }
+        if (entity1.getStrenCoin() != entity2.getStrenCoin()) {
+            return true;
+        }
+        if (entity1.getPeakArenaCoin() != entity2.getPeakArenaCoin()) {
+            return true;
+        }
+        if (entity1.getArenaCoin() != entity2.getArenaCoin()) {
+            return true;
+        }
+        if (entity1.getWakenPiece() != entity2.getWakenPiece()) {
+            return true;
+        }
+        if (entity1.getWakenKey() != entity2.getWakenKey()) {
+            return true;
+        }
+        if (entity1.getCarrerChangeTime() != entity2.getCarrerChangeTime()) {
+            return true;
+        }
+        if (entity1.getLastWorshipTime() != entity2.getLastWorshipTime()) {
+            return true;
+        }
+        if (entity1.getFightingAll() != entity2.getFightingAll()) {
+            return true;
+        }
+        if (entity1.getStarAll() != entity2.getStarAll()) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
+            return true;
+        }
+        return false;
     }
 
     @Override

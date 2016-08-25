@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
  * <pre>
  * 数据自定义解析器
  * </pre>
+ * 
  * @author Jamaz
  *
  * @param <T>
@@ -14,6 +15,7 @@ public interface DataValueParser<T> {
 
 	/**
 	 * 对数据进行拷贝
+	 * 
 	 * @param entity
 	 * @return
 	 */
@@ -21,6 +23,7 @@ public interface DataValueParser<T> {
 
 	/**
 	 * 转换成{@link JSONObject}
+	 * 
 	 * @param entity
 	 * @return
 	 */
@@ -28,10 +31,19 @@ public interface DataValueParser<T> {
 
 	/**
 	 * 记录entity2对比entity1的变化，以JSONObject的形式返回，并且更新entity1
+	 * 
 	 * @param entity1
 	 * @param entity2
 	 * @return
 	 */
 	public JSONObject recordAndUpdate(T entity1, T entity2);
 
+	/**
+	 * 检查是否发生变化(当出现不能比较时直接返回true，交由外层自己判断)
+	 * @param entity1
+	 * @param entity2
+	 * @return
+	 */
+	public boolean hasChanged(T entity1, T entity2);
 }
+

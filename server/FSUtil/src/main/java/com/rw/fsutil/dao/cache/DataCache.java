@@ -46,11 +46,11 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final DataNotExistHandler<K, V> dataNotExistHandler;
 	private CacheLogger logger;
 	private String name;
-	private CacheJsonConverter<K, V, Object> jsonConverter;
+	private CacheJsonConverter<K, V, Object, DataChangedEvent<?>> jsonConverter;
 	private final AtomicLong generator;
 	private final ArrayList<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners;
 
-	public DataCache(Class clazz, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?> jsonConverter,
+	public DataCache(Class clazz, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
 			List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
 		this.name = clazz.getSimpleName();
 		this.capacity = maxCapacity;
@@ -71,7 +71,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		} else {
 			this.dataNotExistHandler = new DefualtDataNotExistHandler();
 		}
-		this.jsonConverter = (CacheJsonConverter<K, V, Object>) jsonConverter;
+		this.jsonConverter = (CacheJsonConverter<K, V, Object, DataChangedEvent<?>>) jsonConverter;
 		if (this.jsonConverter != null) {
 			recordMap = new ConcurrentHashMap<K, Object>();
 		} else {
@@ -319,7 +319,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
 				return;
 			}
-			CacheJsonConverter<K, V, Object> converter = DataCache.this.jsonConverter;
+			CacheJsonConverter<K, V, Object, DataChangedEvent<?>> converter = DataCache.this.jsonConverter;
 			if (converter == null) {
 				return;
 			}
@@ -350,7 +350,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 							logger.error("notify data changed exception:" + key, t);
 						}
 					}
-					DataLoggerRecord recordEvent = converter.parseAndUpdate(key, record, current);
+					DataLoggerRecord recordEvent = converter.parseAndUpdate(key, record, current, event);
 					logger.executeAysnEvent(CacheLoggerPriority.INFO, "U", recordEvent, trace);
 				} finally {
 					recordMap.remove(key);
@@ -367,7 +367,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
 				return null;
 			}
-			CacheJsonConverter<K, V, Object> converter = DataCache.this.jsonConverter;
+			CacheJsonConverter<K, V, ?, ?> converter = DataCache.this.jsonConverter;
 			if (converter == null) {
 				return null;
 			}
@@ -383,7 +383,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
 				return null;
 			}
-			CacheJsonConverter<K, V, Object> converter = DataCache.this.jsonConverter;
+			CacheJsonConverter<K, V, Object, ?> converter = DataCache.this.jsonConverter;
 			if (converter == null) {
 				return null;
 			}
@@ -630,7 +630,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 
 		@Override
-		public CacheValueEntity<V> call() throws Exception {
+		public  CacheValueEntity<V> call() throws Exception {
 			boolean duplicatedKey = false;
 			if (insertDB) {
 				try {

@@ -4,11 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 import com.rw.fsutil.dao.cache.record.SingleChangedRecord;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
-import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 
-public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleChangedEvent<T>> {
+public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleChangedEvent<T>, SignleChangedEvent<T>> {
 
 	private final DataValueParser<T> parser;
 
@@ -17,7 +16,7 @@ public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleC
 	}
 
 	@Override
-	public DataLoggerRecord parseAndUpdate(Object key, SignleChangedEvent<T> oldRecord, T newRecord) {
+	public DataLoggerRecord parseAndUpdate(Object key, SignleChangedEvent<T> oldRecord, T newRecord, SignleChangedEvent<T> event) {
 		if (oldRecord == null) {
 			return null;
 		}
@@ -52,7 +51,7 @@ public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleC
 	}
 
 	@Override
-	public DataChangedEvent<?> produceChangedEvent(Object key, SignleChangedEvent<T> oldRecord, T newRecord) {
+	public SignleChangedEvent<T> produceChangedEvent(Object key, SignleChangedEvent<T> oldRecord, T newRecord) {
 		return oldRecord;
 	}
 

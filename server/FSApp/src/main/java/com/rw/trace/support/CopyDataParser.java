@@ -11,14 +11,14 @@ public class CopyDataParser implements DataValueParser<CopyData> {
 
     @Override
     public CopyData copy(CopyData entity) {
-        CopyData newData_ = new CopyData();
-        newData_.setInfoId(entity.getInfoId());
-        newData_.setCopyType(entity.getCopyType());
-        newData_.setCopyCount(entity.getCopyCount());
-        newData_.setResetCount(entity.getResetCount());
-        newData_.setLastFreeResetTime(entity.getLastFreeResetTime());
-        newData_.setLastChallengeTime(entity.getLastChallengeTime());
-        return newData_;
+        CopyData copyDataCopy = new CopyData();
+        copyDataCopy.setInfoId(entity.getInfoId());
+        copyDataCopy.setCopyType(entity.getCopyType());
+        copyDataCopy.setCopyCount(entity.getCopyCount());
+        copyDataCopy.setResetCount(entity.getResetCount());
+        copyDataCopy.setLastFreeResetTime(entity.getLastFreeResetTime());
+        copyDataCopy.setLastChallengeTime(entity.getLastChallengeTime());
+        return copyDataCopy;
     }
 
     @Override
@@ -61,6 +61,29 @@ public class CopyDataParser implements DataValueParser<CopyData> {
             jsonMap = writer.write(jsonMap, "lastChallengeTime", lastChallengeTime2);
         }
         return jsonMap;
+    }
+
+    @Override
+    public boolean hasChanged(CopyData entity1, CopyData entity2) {
+        if (entity1.getInfoId() != entity2.getInfoId()) {
+            return true;
+        }
+        if (entity1.getCopyType() != entity2.getCopyType()) {
+            return true;
+        }
+        if (entity1.getCopyCount() != entity2.getCopyCount()) {
+            return true;
+        }
+        if (entity1.getResetCount() != entity2.getResetCount()) {
+            return true;
+        }
+        if (entity1.getLastFreeResetTime() != entity2.getLastFreeResetTime()) {
+            return true;
+        }
+        if (entity1.getLastChallengeTime() != entity2.getLastChallengeTime()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
