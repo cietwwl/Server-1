@@ -16,6 +16,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.SkillMgr;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -35,6 +36,7 @@ import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
+import com.rwbase.dao.skill.pojo.Skill;
 import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipResponse;
 import com.rwproto.EquipProtos.TagMate;
@@ -66,7 +68,7 @@ public class EquipHandler {
 		}
 		boolean canUpgrade = pEquipMgr.getEquipCount(roleId) >= 6;
 		if (canUpgrade) {
-//			Hero role = player.getHeroMgr().getHeroById(roleId);
+			// Hero role = player.getHeroMgr().getHeroById(roleId);
 			Hero role = player.getHeroMgr().getHeroById(player, roleId);
 
 			RoleQualityCfg pNextCfg = RoleQualityCfgDAO.getInstance().getNextConfig(role.getQualityId());
@@ -74,7 +76,19 @@ public class EquipHandler {
 				if (roleId.equals(player.getUserId()) && player.getCareer() == ECareer.None.ordinal() && pNextCfg.getQuality() > EHeroQuality.Green.ordinal()) {
 					player.NotifyCommonMsg("没有职业不能进下一阶！");
 				} else {
+					SkillMgr skillMgr = SkillMgr.getInstance();
+					List<SkillBaseInfo> oldSkillList = parseSkill2BaseInfoList(skillMgr.getSkillList(roleId), true);// 旧的技能列表
+
 					pEquipMgr.EquipAdvance(player, roleId, pNextCfg.getId(), true);
+
+					List<SkillBaseInfo> newSkillList = parseSkill2BaseInfoList(skillMgr.getSkillList(roleId), false);// 新的技能列表
+
+					String activeSkillId = checkActiveSkillIdList(oldSkillList, newSkillList);
+					if (!StringUtils.isEmpty(activeSkillId)) {
+						// System.err.println(String.format("激活的技能列表是：%s", activeSkillId));
+						response.setOpenSkillId(activeSkillId);
+					}
+
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
 					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
@@ -87,6 +101,60 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_EQUIP_ADVANCE);
 		}
 		return response.build().toByteString();
+	}
+
+	/**
+	 * 把技能列表转换成简单信息
+	 * 
+	 * @param skillList
+	 * @return
+	 */
+	private List<SkillBaseInfo> parseSkill2BaseInfoList(List<Skill> skillList, boolean isOld) {
+		int size = skillList.size();
+
+		List<SkillBaseInfo> baseInfoList = new ArrayList<SkillBaseInfo>(size);
+		for (int i = 0; i < size; i++) {
+			Skill skill = skillList.get(i);
+			int level = skill.getLevel();
+			if ((isOld && level > 0) || (!isOld && level <= 0)) {
+				continue;
+			}
+
+			baseInfoList.add(new SkillBaseInfo(skill.getId(), skill.getSkillId()));
+		}
+
+		return baseInfoList;
+	}
+
+	/**
+	 * 检查新旧的技能开放列表
+	 * 
+	 * @param oldSkillList
+	 * @param newSkillList
+	 * @return
+	 */
+	private String checkActiveSkillIdList(List<SkillBaseInfo> oldSkillList, List<SkillBaseInfo> newSkillList) {
+		if ((oldSkillList == null || oldSkillList.isEmpty()) || (newSkillList == null || newSkillList.isEmpty())) {
+			return null;
+		}
+
+		int size = oldSkillList.size();
+
+		for (int i = 0; i < size; i++) {
+			SkillBaseInfo oldSkill = oldSkillList.get(i);
+			String skillId = oldSkill.cfgId;
+			String oldId = oldSkill.id;
+
+			// 遍历旧的Id列表
+			for (int j = 0, newSize = newSkillList.size(); j < newSize; j++) {
+				SkillBaseInfo newSkill = newSkillList.get(j);
+				if (oldId.equals(newSkill.id)) {
+					return skillId;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -116,19 +184,19 @@ public class EquipHandler {
 
 		int result = pEquipMgr.EquipAttach(player, roleId, equipIndex, mateList);// 增加装备的附灵经验
 		switch (result) {
-//		case -1:
+		// case -1:
 		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-//		case -2:
+		// case -2:
 		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_COIN);
 			break;
-//		case 0:
+		// case 0:
 		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			response.setError(ErrorType.SUCCESS);
 			break;
-//		case -3:
+		// case -3:
 		case EquipMgr.EQUIP_ATTACH_FAIL_NO_CFG:
 			response.setError(ErrorType.CONFIG_ERROR);
 			break;
@@ -163,15 +231,15 @@ public class EquipHandler {
 
 		int result = pEquipMgr.EquipOneKeyAttach(player, roleId, equipIndex);// 一键附灵
 		switch (result) {
-//		case -1:
+		// case -1:
 		case EquipMgr.EQUIP_ATTACH_FAIL_NO_EQUIP:
 			response.setError(ErrorType.NOT_EQUIP);
 			break;
-//		case -2:
+		// case -2:
 		case EquipMgr.EQUIP_ATTACH_FAIL_NOT_ENOUGH_MONEY:
 			response.setError(ErrorType.NOT_ENOUGH_GOLD);
 			break;
-//		case 0:
+		// case 0:
 		case EquipMgr.EQUIP_ATTACH_SUCCESS:
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_Strength, 1);
 			response.setError(ErrorType.SUCCESS);
@@ -364,7 +432,7 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
-//		Hero role = player.getHeroMgr().getHeroById(roleId);
+		// Hero role = player.getHeroMgr().getHeroById(roleId);
 		Hero role = player.getHeroMgr().getHeroById(player, roleId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(role.getQualityId());
 		if (equips.isEmpty()) {
@@ -381,8 +449,8 @@ public class EquipHandler {
 		RoleType pRoleType = getRoleType(player, roleId);
 		boolean isEnoughLevel = true;
 		if (pRoleType == RoleType.Hero) {
-//			Hero pHero = player.getHeroMgr().getHeroById(roleId);
-//			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
+			// Hero pHero = player.getHeroMgr().getHeroById(roleId);
+			// isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getHeroData().getLevel();
 			Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 			isEnoughLevel = pHeroEquipCfg.getLevel() <= pHero.getLevel();
 		} else {
@@ -420,7 +488,7 @@ public class EquipHandler {
 		rsp.setEventType(EquipEventType.OneKeyWearEquip);
 
 		// 检查英雄是否有
-//		Hero hero = player.getHeroMgr().getHeroById(roleId);
+		// Hero hero = player.getHeroMgr().getHeroById(roleId);
 		Hero hero = player.getHeroMgr().getHeroById(player, roleId);
 		if (hero == null) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero", roleId));
@@ -433,13 +501,13 @@ public class EquipHandler {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero的EquipMgr", roleId));
 			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
 		}
-		//配置的装备列表
+		// 配置的装备列表
 		List<Integer> equipList = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
 		if (equipList.isEmpty()) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]，品质[%s]，没有装备列表", roleId, hero.getQualityId()));
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
-		//已装备列表
+		// 已装备列表
 		List<EquipItem> hasEquipList = equipMgr.getEquipList(roleId);
 		int size = hasEquipList.size();
 		if (size == 6) {// 装备穿满了
@@ -474,13 +542,13 @@ public class EquipHandler {
 				continue;
 			}
 
-			//还没有穿在身上
+			// 还没有穿在身上
 			HeroEquipCfg cfg = cfgDAO.getConfig(templateId);
 			if (cfg == null) {
 				continue;
 			}
 
-			//搜索背包
+			// 搜索背包
 			List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(templateId);
 			if (itemDataList == null || itemDataList.isEmpty()) {
 				continue;
@@ -543,6 +611,25 @@ public class EquipHandler {
 			rsp.setTipMsg(tipMsg);
 		}
 		return rsp.build().toByteString();
+	}
+
+	/**
+	 * 技能的变化信息
+	 * 
+	 * @author HC
+	 *
+	 */
+	private static class SkillBaseInfo {
+		private final String id;// 技能Id
+		private final String cfgId;// 技能的模版Id
+
+		// private final int level;// 等级
+
+		public SkillBaseInfo(String id, String cfgId) {
+			this.id = id;
+			this.cfgId = cfgId;
+			// this.level = level;
+		}
 	}
 }
 
