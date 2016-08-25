@@ -12,4 +12,17 @@ public class TableWorshipDAO extends DataKVDao<TableWorship> {
 	public static TableWorshipDAO getInstance(){
 		return m_instance;
 	}
+
+	@Override
+	public TableWorship get(String id) {
+		TableWorship ship = super.get(id);
+		if(ship == null){
+			ship = new TableWorship();
+			ship.setCareer(Integer.parseInt(id));
+		}
+		return ship;
+		
+	}
+	
+	
 }
