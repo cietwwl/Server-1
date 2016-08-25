@@ -1,6 +1,7 @@
 package com.playerdata.activity.limitHeroType;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
@@ -19,6 +21,8 @@ import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
+import com.rwproto.ActivityLimitHeroTypeProto.GamebleReward;
+import com.rwproto.GambleServiceProtos.GambleRewardData;
 
 public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	private static ActivityLimitHeroTypeMgr instance = new ActivityLimitHeroTypeMgr();
@@ -172,24 +176,100 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		result.setReason("");
 		if(commonReq.getGambleType() == GambleType.SINGLE){
-			gambleSingle(player,response);
+			result = gambleSingle(player,response);
 		}
 		if(commonReq.getGambleType() == GambleType.TEN){
-			gambleTen(player,response);
+			result =  gambleTen(player,response);
 		}		
 		return result;
 	}	
 		
-	private void gambleTen(Player player, Builder response) {
-		// TODO Auto-generated method stub
+	private ActivityComResult gambleTen(Player player, Builder response) {
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		result.setReason("");
+		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
+		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
+			result.setReason("数据异常");
+			return result;
+		}
+		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+		if(cfg == null){
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
+			result.setReason("数据异常");
+			return result;			
+		}
+		if(player.getUserGameDataMgr().getGold() < cfg.getTencost()){
+			result.setReason("钻石不足");
+			return result;
+		}
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		itemBagMgr.addItem(803002,10);//需要模板方案来替换
+		String str = "700007~10";//需要各种逻辑产生的一个droplist
+		itemBagMgr.addItemByPrizeStr(str);
+		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>(1);
 		
+		GamebleReward.Builder data = GamebleReward.newBuilder();
+		for(int i = 0;i< 10;i++){
+			data.setRewardId(700007);
+			data.setRewardNum(1);
+			dropList.add(data.build());
+		}		
+		response.addAllGamebleReward(dropList);
+		
+		player.getUserGameDataMgr().addGold(cfg.getTencost());
+		dataItem.setIntegral(dataItem.getIntegral() + cfg.getTenintegral());
+		dataHolder.updateItem(player, dataItem);
+		result.setSuccess(true);
+		return result;
 	}
 
-	private void gambleSingle(Player player, Builder response) {
-		// TODO Auto-generated method stub
+	private ActivityComResult gambleSingle(Player player, Builder response) {
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		result.setReason("");
+		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
+		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
+			result.setReason("数据异常");
+			return result;
+		}
+		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+		if(cfg == null){
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
+			result.setReason("数据异常");
+			return result;			
+		}
+		if(player.getUserGameDataMgr().getGold() < cfg.getSinglecost()){
+			result.setReason("钻石不足");
+			return result;
+		}
 		
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		itemBagMgr.addItem(803002,1);//需要模板方案来替换
+		String str = "700007~1";//需要各种逻辑产生的一个droplist
+		itemBagMgr.addItemByPrizeStr(str);
+		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>(1);
+		
+		GamebleReward.Builder data = GamebleReward.newBuilder();
+		data.setRewardId(700007);
+		data.setRewardNum(1);
+		dropList.add(data.build());
+		response.addAllGamebleReward(dropList);
+		
+		player.getUserGameDataMgr().addGold(cfg.getSinglecost());
+		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
+		dataHolder.updateItem(player, dataItem);
+		result.setSuccess(true);
+		return result;
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void updateRedPoint(Player player, String enumStr) {
 		ActivityLimitHeroTypeItemHolder activityLimitHeroItemHolder = new ActivityLimitHeroTypeItemHolder();
