@@ -16,7 +16,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
@@ -67,8 +67,8 @@ public class GMHeroProcesser {
 					String qualityId = getQualityId(hero, maxQuality,false);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
 					
-					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
-					for (Skill skill : skillList) {
+					List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
+					for (SkillItem skill : skillList) {
 						SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
 						String maxSkillId = GMHeroBase.gmGetMaxSkillId(cfg.getSkillId(), maxLevel);
 						GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), maxSkillId, player);
@@ -163,8 +163,8 @@ public class GMHeroProcesser {
 		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 		String qualityId = getQualityId(hero, maxQuality,false);
 		GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
-		List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
-		for (Skill skill : skillList) {
+		List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
+		for (SkillItem skill : skillList) {
 			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
 			String maxSkillId = GMHeroBase.gmGetMaxSkillId(cfg.getSkillId(), maxLevel);
 			GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), maxSkillId, player);
@@ -246,8 +246,8 @@ public class GMHeroProcesser {
 					GMHeroBase.gmEditHeroLevel(hero, heroLevel, player);
 					String qualityId = getQualityId(hero, quality, false);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
-					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
-					for (Skill skill : skillList) {
+					List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
+					for (SkillItem skill : skillList) {
 						if(skill == null){
 							continue;
 						}
@@ -320,8 +320,8 @@ public class GMHeroProcesser {
 					String qualityId = getQualityId(hero, quality, true);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
 					
-					List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
-					for (Skill skill : skillList) {
+					List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
+					for (SkillItem skill : skillList) {
 						if(skill == null){
 							continue;
 						}

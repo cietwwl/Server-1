@@ -36,7 +36,7 @@ import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipResponse;
 import com.rwproto.EquipProtos.TagMate;
@@ -109,12 +109,12 @@ public class EquipHandler {
 	 * @param skillList
 	 * @return
 	 */
-	private List<SkillBaseInfo> parseSkill2BaseInfoList(List<Skill> skillList, boolean isOld) {
+	private List<SkillBaseInfo> parseSkill2BaseInfoList(List<SkillItem> skillList, boolean isOld) {
 		int size = skillList.size();
 
 		List<SkillBaseInfo> baseInfoList = new ArrayList<SkillBaseInfo>(size);
 		for (int i = 0; i < size; i++) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			int level = skill.getLevel();
 			if ((isOld && level > 0) || (!isOld && level <= 0)) {
 				continue;

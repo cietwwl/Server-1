@@ -31,7 +31,7 @@ import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.RoleAttrData;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.AttributeCalculator;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -55,7 +55,7 @@ import com.rwbase.dao.user.pojo.LevelCfg;
  */
 @Table(name = "hero")
 @SynClass
-public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
+public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfoIF {
 	
 	@Transient
 	@IgnoreSynField
@@ -536,7 +536,7 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 	}
 	
 	@Override
-	public RoleBaseInfo getBaseInfo() {
+	public RoleBaseInfoIF getBaseInfo() {
 		return this;
 	}
 

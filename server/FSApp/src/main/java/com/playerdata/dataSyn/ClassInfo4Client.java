@@ -59,6 +59,10 @@ public class ClassInfo4Client {
 			} 
 			if(!field.isAnnotationPresent(IgnoreSynField.class)){
 				field.setAccessible(true);
+
+				if(field.getName().toLowerCase().contains("add_cure")){
+					System.out.println("tt");
+				}
 				clientFiledList.add(new FieldInfo(field));	
 			}
 		}

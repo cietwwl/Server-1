@@ -14,7 +14,7 @@ public class TableSkill { //包含主角和佣兵
 
 	@Id
 	private String userId;
-	private List<Skill> skillList = new ArrayList<Skill>();
+	private List<SkillItem> skillList = new ArrayList<SkillItem>();
 	
 	public String getUserId() {
 		return userId;
@@ -23,10 +23,10 @@ public class TableSkill { //包含主角和佣兵
 		this.userId = userId;
 	}
 	
-	public List<Skill> getSkillList() {
+	public List<SkillItem> getSkillList() {
 		return skillList;
 	}
-	public void setSkillList(List<Skill> skillList) {
+	public void setSkillList(List<SkillItem> skillList) {
 		this.skillList = skillList;
 	}
 }
