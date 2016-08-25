@@ -1,6 +1,10 @@
 package com.playerdata.activity.limitHeroType.cfg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
@@ -35,5 +39,15 @@ public class ActivityLimitHeroRankCfgDAO extends CfgCsvDao<ActivityLimitHeroRank
 			GameLog.error(LogModule.ComActivityRank, null, "范围rankrange格式错误", null);
 		}
 	}
-
+	
+	public List<ActivityLimitHeroRankCfg> getByParentCfgId(String id) {
+		List<ActivityLimitHeroRankCfg> allCfgList = getAllCfg();
+		List<ActivityLimitHeroRankCfg> subCfgList = new ArrayList<ActivityLimitHeroRankCfg>();
+		for(ActivityLimitHeroRankCfg boxCfg : allCfgList){
+			if(StringUtils.equals(id, boxCfg.getParentid())){
+				subCfgList.add(boxCfg);
+			}
+		}
+		return subCfgList;
+	}
 }

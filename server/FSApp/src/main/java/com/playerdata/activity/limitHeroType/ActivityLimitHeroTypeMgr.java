@@ -22,11 +22,17 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfgDAO;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
+import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
+import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfgDAO;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
@@ -146,7 +152,40 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private void checkRankRewards(Player player, ActivityLimitHeroTypeItem item) {
-		// TODO Auto-generated method stub
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(scdData == null){
+			return;
+		}
+		TreeMap<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();		
+		boolean isHas = false;
+		int num = 0;
+		for(Map.Entry<Integer, ActivityLimitHeroRankRecord> entry : map.entrySet()){
+			if(StringUtils.equals(entry.getValue().getUid(), player.getUserId())){
+				isHas = true;
+				num++;
+				break;
+			}
+			num ++;
+		}
+		/**有记录，刷新下*/
+		if(!isHas){
+			return;
+		}
+		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if(cfg == null){
+			return;
+		}
+		
+		List<ActivityLimitHeroRankCfg> subCfgList = ActivityLimitHeroRankCfgDAO.getInstance().getByParentCfgId(cfg.getId());
+		String tmpReward= null;
+		for(ActivityLimitHeroRankCfg subCfg:subCfgList){
+			if(num>=subCfg.getRankRanges()[0]&&num<=subCfg.getRankRanges()[1]){
+				tmpReward = subCfg.getRewards();
+				break;
+			}						
+		}
+		item.setRankRewards(tmpReward);
+		ComGiftMgr.getInstance().addtagInfoTOEmail(player, item.getRankRewards(),MAKEUPEMAIL+"" , null);
 		
 	}
 

@@ -1,5 +1,6 @@
 package com.playerdata.activity.limitHeroType.cfg;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,9 @@ public class ActivityLimitHeroBoxCfgDAO extends CfgCsvDao<ActivityLimitHeroBoxCf
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroBoxCfg.csv", ActivityLimitHeroBoxCfg.class);			
 		return cfgCacheMap;
 	}
+
+
+	
 	
 //	/**根据传入的id来查找激活的子活动*/
 //	public ActivityVitalityRewardCfg getById(String subId){
@@ -35,4 +39,8 @@ public class ActivityLimitHeroBoxCfgDAO extends CfgCsvDao<ActivityLimitHeroBoxCf
 //		return target;		
 //	}
 //	
+	
+	
+	
+	
 }
