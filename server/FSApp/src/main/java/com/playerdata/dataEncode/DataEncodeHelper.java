@@ -2,6 +2,7 @@ package com.playerdata.dataEncode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,10 +12,19 @@ import org.apache.commons.lang3.StringUtils;
 public class DataEncodeHelper {
 
 	
+	
+	private static Comparator<? super String> comparator = new Comparator<String>() {
+		
+		@Override
+		public int compare(String arg0, String arg1) {				
+			return arg0.toLowerCase().compareTo(arg1.toLowerCase());
+		}
+	};
+	
 	public static String mapToStr(Map<String,String> map){
 		Set<String> keySet = map.keySet();
 		List<String> keyList = new ArrayList<String>(keySet);
-		Collections.sort(keyList);
+		Collections.sort(keyList, comparator );
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
