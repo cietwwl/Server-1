@@ -72,7 +72,7 @@ public class GroupCopyLevelBL {
 			for (CopyMonsterInfoCfg monsterCfg : list) {
 				for (String id : monsterCfg.getEnemyList()) {
 					
-					monster = MonsterCfgDao.getInstance().getCfgById(id);
+					monster = MonsterCfgDao.getInstance().getConfig(id);
 					if(monster == null){
 						GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,找不到关卡：【" + level + "】里的怪物["+id+"]！！", null);
 						continue;
