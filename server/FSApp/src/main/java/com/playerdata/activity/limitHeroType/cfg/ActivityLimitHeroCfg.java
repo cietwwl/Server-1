@@ -35,8 +35,18 @@ public class ActivityLimitHeroCfg {
 
 	private int levelLimit;
 
+	private int rankNumer;
+	
 	
 
+
+	public int getRankNumer() {
+		return rankNumer;
+	}
+
+	public void setRankNumer(int rankNumer) {
+		this.rankNumer = rankNumer;
+	}
 
 	public String getEmailTitle() {
 		return emailTitle;

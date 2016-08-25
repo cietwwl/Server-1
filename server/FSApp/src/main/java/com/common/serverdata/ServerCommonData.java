@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroRankRecord;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -29,6 +30,12 @@ public class ServerCommonData {
 	
 	@CombineSave
 	private long gfLastRefreshTime = 0;		//帮战上次刷新时间
+	
+	
+	//临时存一下，稍后分割出去
+	@CombineSave
+	private HashMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new HashMap<Integer, ActivityLimitHeroRankRecord>();	//记录最近的三个摇奖
+		
 	
 	public String getId() {
 		return id;
@@ -68,8 +75,8 @@ public class ServerCommonData {
 
 	public void setTeamBattleEnimyMap(HashMap<String, String> teamBattleEnimyMap) {
 		this.teamBattleEnimyMap = teamBattleEnimyMap;
-	}
-
+	}	
+	
 	public void teamBattleDailyReset(){
 		teamBattleEnimyMap.clear();
 		for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
@@ -77,4 +84,15 @@ public class ServerCommonData {
 			teamBattleEnimyMap.put(cfg.getId(), cfg.getListOfHero()[index]);
 		}
 	}
+
+	public HashMap<Integer, ActivityLimitHeroRankRecord> getActivityLimitHeroRankRecord() {
+		return activityLimitHeroRankRecord;
+	}
+
+	public void setActivityLimitHeroRankRecord(
+			HashMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
+		this.activityLimitHeroRankRecord = activityLimitHeroRankRecord;
+	}
+	
+	
 }

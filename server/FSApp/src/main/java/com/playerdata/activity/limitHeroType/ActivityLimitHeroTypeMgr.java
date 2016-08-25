@@ -2,10 +2,18 @@ package com.playerdata.activity.limitHeroType;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.util.Comparators;
 
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
@@ -204,24 +212,25 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result.setReason("钻石不足");
 			return result;
 		}
+		
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		itemBagMgr.addItem(803002,10);//需要模板方案来替换
 		String str = "700007~10";//需要各种逻辑产生的一个droplist
 		itemBagMgr.addItemByPrizeStr(str);
-		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>(1);
-		
+		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>(1);		
 		GamebleReward.Builder data = GamebleReward.newBuilder();
 		for(int i = 0;i< 10;i++){
 			data.setRewardId(700007);
 			data.setRewardNum(1);
 			dropList.add(data.build());
-		}		
-		response.addAllGamebleReward(dropList);
+		}
 		
+		response.addAllGamebleReward(dropList);		
 		player.getUserGameDataMgr().addGold(cfg.getTencost());
 		dataItem.setIntegral(dataItem.getIntegral() + cfg.getTenintegral());
 		dataHolder.updateItem(player, dataItem);
 		result.setSuccess(true);
+		reFreshIntegralRank(player,dataItem,cfg);
 		return result;
 	}
 
@@ -262,14 +271,61 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
 		dataHolder.updateItem(player, dataItem);
 		result.setSuccess(true);
+		reFreshIntegralRank(player,dataItem,cfg);
 		return result;
 	}
+	
+	
+	
+	
+	
+	/**保存积分榜前xx名的玩家抽卡信息*/
+	private void reFreshIntegralRank(Player player,
+			ActivityLimitHeroTypeItem dataItem,ActivityLimitHeroCfg cfg) {
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(scdData == null){
+			return;
+		}
+		Map<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();
+		ActivityLimitHeroRankRecord record = new ActivityLimitHeroRankRecord();
+		record.setIntegral(dataItem.getIntegral());
+		record.setPlayerName(player.getUserName());
+		record.setUid(player.getUserId());
+		record.setRegditTime(System.currentTimeMillis());
+		
+		if(map.size() < cfg.getRankNumer()){			
+			record.setId(map.size());
+			map.put(map.size(), record);
+			ServerCommonDataHolder.getInstance().update(scdData);
+			return;
+		}
+		map.remove(map.size() -1);
+		record.setId(map.size());
+		map.put(map.size(), record);
+		
+		
+		
+		List<Map.Entry<Integer, ActivityLimitHeroRankRecord>> list = new ArrayList<Map.Entry<Integer,ActivityLimitHeroRankRecord>>(map.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<Integer, ActivityLimitHeroRankRecord>>() {
+			
+			@Override
+			public int compare(Entry<Integer, ActivityLimitHeroRankRecord> o1,
+					Entry<Integer, ActivityLimitHeroRankRecord> o2) {
+				// TODO Auto-generated method stub
+				if(o1.getValue().getIntegral()>o2.getValue().getIntegral()){
+					return -1;
+				}else{
+					return 1;
+				}
+			}
+		});
+		
+	}
+	
+	
+	
+	
 
-	
-	
-	
-	
-	
 	@Override
 	public void updateRedPoint(Player player, String enumStr) {
 		ActivityLimitHeroTypeItemHolder activityLimitHeroItemHolder = new ActivityLimitHeroTypeItemHolder();

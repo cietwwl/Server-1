@@ -17,7 +17,7 @@ public class ActivityLimitHeroBoxCfg {
 	//父id
 	private String parentid;
 
-
+	
 
 	public void setId(String id) {
 		this.id = id;
