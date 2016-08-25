@@ -1,6 +1,7 @@
 package com.rw.service.group;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.group.GroupDataVersionMgr;
@@ -14,45 +15,58 @@ import com.rwproto.RequestProtos.Request;
  * @date 2016年3月1日 下午3:11:43
  * @Description 
  */
-public class GroupMemberManagerService implements FsService {
+public class GroupMemberManagerService implements FsService<GroupMemberMgrCommonReqMsg, RequestType> {
 
 	@SuppressWarnings("finally")
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(GroupMemberMgrCommonReqMsg request, Player player) {
+		// TODO Auto-generated method stub
 		GroupMemberManagerHandler memberHandler = GroupMemberManagerHandler.getHandler();
 		ByteString byteString = null;
 		try {
-			GroupMemberMgrCommonReqMsg commonReq = GroupMemberMgrCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
-			RequestType reqType = commonReq.getReqType();
+			RequestType reqType = request.getReqType();
 			switch (reqType) {
 			// ==============================帮派成员管理处理===========================
 			case GET_APPLY_MEMBER_LIST_TYPE:// 获取申请列表
 				byteString = memberHandler.getApplyMemberListHandler(player);
 				break;
 			case GROUP_MEMBER_RECEIVE_TYPE:// 接受帮派成员
-				byteString = memberHandler.groupMemberReceiveHandler(player, commonReq.getGroupMemberReceiveReq());
+				byteString = memberHandler.groupMemberReceiveHandler(player, request.getGroupMemberReceiveReq());
 				break;
 			case NOMINATE_POST_TYPE:// 成员任命
-				byteString = memberHandler.groupNominatePostHandler(player, commonReq.getGroupNominatePostReq());
+				byteString = memberHandler.groupNominatePostHandler(player, request.getGroupNominatePostReq());
 				break;
 			case CANCEL_NOMINATE_TYPE:// 任命取消
-				byteString = memberHandler.cancelNominateHandler(player, commonReq.getGroupCancelNominatePostReq());
+				byteString = memberHandler.cancelNominateHandler(player, request.getGroupCancelNominatePostReq());
 				break;
 			case GROUP_EMAIL_FOR_ALL_TYPE:// 全员邮件
-				byteString = memberHandler.groupEmailForAllHandler(player, commonReq.getGroupEmailForAllReq());
+				byteString = memberHandler.groupEmailForAllHandler(player, request.getGroupEmailForAllReq());
 				break;
 			case KICK_MEMBER_TYPE:// 踢出帮派成员
-				byteString = memberHandler.kickMemberHandler(player, commonReq.getKickMemberReq());
+				byteString = memberHandler.kickMemberHandler(player, request.getKickMemberReq());
 				break;
 			default:
 				GameLog.error("帮派成员管理模块", "分发协议Service", "接收到了一个Unknown的消息，无法处理");
 				break;
 			}
-			GroupDataVersionMgr.synByVersion(player, commonReq.getVersion());
+			GroupDataVersionMgr.synByVersion(player, request.getVersion());
 		} catch (Exception e) {
 			GameLog.error("帮派模块", "分发协议Service", "出现了Exception异常", e);
 		} finally {
 			return byteString;
 		}
+	}
+
+	@Override
+	public GroupMemberMgrCommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		GroupMemberMgrCommonReqMsg commonReq = GroupMemberMgrCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return commonReq;
+	}
+
+	@Override
+	public RequestType getMsgType(GroupMemberMgrCommonReqMsg request) {
+		// TODO Auto-generated method stub
+		return request.getReqType();
 	}
 }

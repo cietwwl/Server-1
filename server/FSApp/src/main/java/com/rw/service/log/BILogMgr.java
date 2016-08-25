@@ -19,6 +19,8 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
+import com.rw.service.log.behavior.DataChangeReason;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.eLog.eBILogType;
@@ -38,6 +40,7 @@ import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
+import com.rw.service.log.template.GoldChangeLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -64,6 +67,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.MsgDef.Command;
 
 public class BILogMgr {
 	
@@ -105,6 +109,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ZoneCountChargeGold, new ZoneCountChargeGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
+		templateMap.put(eBILogType.GoldChange, new GoldChangeLogTemplate());
 
 	}
 	
@@ -489,26 +494,110 @@ public class BILogMgr {
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
+	
+	private DataChangeReason parseChangeReason(List<Object> typeList){
+		Player player = (Player)typeList.get(0);
+		Command command = (Command)typeList.get(1);
+		Object viewId = typeList.get(2);
+		Object secondType = typeList.get(3);
+		
+		String secondBehavior = GameBehaviorMgr.getInstance().getSecondBehavior(command, secondType);
+		
+		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString());
+		return reason;
+		
+	}
 
-	public void logItemChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, List<ItemData> itemList_incr, List<ItemData> itemList_decr) {
+	public void logItemChanged(List<Object> typeList, String incrInfo, String decrInfo) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if (scenceId != null) {
-			moreInfo.put("scenceId", scenceId);
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
 		}
 
-		if (type_1 != null) {
-			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
-
-		if (type_2 != null) {
-			moreInfo.put("ItemChangedEventType_2", type_2.name());
-		}
-		moreInfo.put("itemList_incr", getItemListLog(itemList_incr));
-		moreInfo.put("itemList_decr", getItemListLog(itemList_decr));
+		moreInfo.put("itemList_incr", incrInfo);
+		moreInfo.put("itemList_decr", decrInfo);
 
 		logPlayer(eBILogType.ItemChanged, player, moreInfo);
 	}
 
+	public void logCoinChanged(List<Object> typeList, int coinChanged, long coinRemain) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}
+		moreInfo.put("coinChanged", String.valueOf(coinChanged));
+		moreInfo.put("coinRemain", String.valueOf(coinRemain));
+
+		logPlayer(eBILogType.CoinChanged, player, moreInfo);
+	}
+	
+	public void logGiftGoldChanged(List<Object> typeList, int coinChanged, long coinRemain) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}
+		moreInfo.put("coinChanged", String.valueOf(coinChanged));
+		moreInfo.put("coinRemain", String.valueOf(coinRemain));
+
+		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
+	}
+	
+	public void logGoldChanged(List<Object> typeList, int coinChanged, long coinRemain){
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}
+		moreInfo.put("coinChanged", String.valueOf(coinChanged));
+		moreInfo.put("coinRemain", String.valueOf(coinRemain));
+
+		logPlayer(eBILogType.GoldChange, player, moreInfo);
+	}
+	
 	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		if (scenceId != null) {

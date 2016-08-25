@@ -11,46 +11,49 @@ import com.rwproto.MainServiceProtos.EMainServiceType;
 import com.rwproto.MainServiceProtos.MsgMainRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class MainService implements FsService {
+public class MainService implements FsService<MsgMainRequest, EMainServiceType> {
 
-	// private static MainService instance = new MainService();
 	private MainHandler mainHandler = MainHandler.getInstance();
 
-	// private MainService(){}
-	// public static MainService getInstance(){
-	// return instance;
-	// }
-	public ByteString doTask(Request request, Player pPlayer) {
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long time = 1462186979022l;
+		String format = sdf.format(new Date(time));
+		System.err.println(format);
+	}
+
+	@Override
+	public ByteString doTask(MsgMainRequest request, Player pPlayer) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			MsgMainRequest mainRequest = MsgMainRequest.parseFrom(request.getBody().getSerializedContent());
-			EMainServiceType requestType = mainRequest.getRequestType();
+			EMainServiceType requestType = request.getRequestType();
 			switch (requestType) {
 			case GET_MAIN:
-				result = mainHandler.index(mainRequest, pPlayer);
+				result = mainHandler.index(request, pPlayer);
 				break;
 			case TO_CONTINUOUS_BUY_COIN:
-				result = mainHandler.toContinuousBuyCoin(mainRequest, pPlayer);
+				result = mainHandler.toContinuousBuyCoin(request, pPlayer);
 				break;
 			case CONTINUOUS_BUY_COIN:
-				result = mainHandler.continuousBuyCoin(mainRequest, pPlayer);
+				result = mainHandler.continuousBuyCoin(request, pPlayer);
 				break;
 			case BUY_COIN:
-				result = mainHandler.buyCoin(mainRequest, pPlayer);
+				result = mainHandler.buyCoin(request, pPlayer);
 				break;
 			case TO_BUY_POWER:
-				result = mainHandler.toBuyPower(mainRequest, pPlayer);
+				result = mainHandler.toBuyPower(request, pPlayer);
 				break;
 			case BUY_POWER:
-				result = mainHandler.buyPower(mainRequest, pPlayer);
+				result = mainHandler.buyPower(request, pPlayer);
 				break;
 			case GET_POWER_INFO:
-				result = mainHandler.getPowerInfo(mainRequest, pPlayer);
+				result = mainHandler.getPowerInfo(request, pPlayer);
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -58,11 +61,17 @@ public class MainService implements FsService {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		long time = 1462186979022l;
-		String format = sdf.format(new Date(time));
-		System.err.println(format);
+	@Override
+	public MsgMainRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgMainRequest mainRequest = MsgMainRequest.parseFrom(request.getBody().getSerializedContent());
+		return mainRequest;
+	}
+
+	@Override
+	public EMainServiceType getMsgType(MsgMainRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 
 }

@@ -11,17 +11,15 @@ import com.rwproto.MainMsgProtos.MainMsgRequest;
 import com.rwproto.RequestProtos.Request;
 
 
-public class MainMsgService implements FsService {
+public class MainMsgService implements FsService<MainMsgRequest, EMsgType> {
 
-	
-	
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(MainMsgRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			MainMsgRequest req = MainMsgRequest.parseFrom(request.getBody().getSerializedContent());
 			
-			EMsgType requestType = req.getType();
+			EMsgType requestType = request.getType();
 			switch (requestType) {
 			case PmdMsg:
 		
@@ -32,14 +30,24 @@ public class MainMsgService implements FsService {
 			default:
 				break;
 			}
-			
-			//System.out.println(""+req.getId());
-		
 	
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public MainMsgRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MainMsgRequest req = MainMsgRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public EMsgType getMsgType(MainMsgRequest request) {
+		// TODO Auto-generated method stub
+		return request.getType();
 	}
 
 }
