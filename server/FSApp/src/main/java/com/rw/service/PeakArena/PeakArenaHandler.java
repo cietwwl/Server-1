@@ -48,7 +48,7 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
@@ -663,7 +663,7 @@ public class PeakArenaHandler {
 		result.setExp(baseInfo.getExp());
 		result.setTeamId(teamId);
 
-		for (Skill skill : tableHeroData.getSkillList()) {
+		for (SkillItem skill : tableHeroData.getSkillList()) {
 			result.addSkills(transfrom(skill));
 		}
 		return result.build();
@@ -681,14 +681,14 @@ public class PeakArenaHandler {
 		result.setFighting(baseInfo.getFighting());
 		result.setQualityId(baseInfo.getQualityId());
 
-		List<Skill> lst = baseInfo.getSkillMgr().getSkillList(baseInfo.getUUId());
-		for (Skill skill : lst) {
+		List<SkillItem> lst = baseInfo.getSkillMgr().getSkillList(baseInfo.getUUId());
+		for (SkillItem skill : lst) {
 			result.addSkills(transfrom(skill));
 		}
 		return result.build();
 	}
 
-	private TagSkillData transfrom(Skill skill) {
+	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
 		builder.setId(skill.getId());
 		builder.setOwnerId(skill.getOwnerId());

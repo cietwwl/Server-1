@@ -16,7 +16,7 @@ import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 
 public class ArmyInfoHelper {
@@ -27,6 +27,7 @@ public class ArmyInfoHelper {
 		ItemData magic = player.getMagic();
 
 		ArmyInfo armyInfo = build(heroIdList, player, magic);
+		
 		return armyInfo;
 	}
 	
@@ -49,6 +50,7 @@ public class ArmyInfoHelper {
 		if(setCurData){
 			setCurData(armyInfo,armyInfoSimple);
 		}
+		
 		return armyInfo;
 	}
 
@@ -131,7 +133,7 @@ public class ArmyInfoHelper {
 	private static ArmyHero getArmyHero(Hero role) {
 		if (role == null) return null;
 		SkillMgr skillMgr = role.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList(role.getUUId());
+		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
 		RoleBaseInfo baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);

@@ -34,7 +34,7 @@ import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.serverData.ServerData;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserIdCache;
 import com.rwbase.dao.zone.TableZoneInfo;
@@ -56,7 +56,7 @@ public class DataCacheInitialization {
 		map.put(InlayItem.class, new InlayItemParser());
 		map.put(MajorData.class, new MajorDataParser());
 		map.put(RoleBaseInfo.class, new RoleBaseInfoParser());
-		map.put(Skill.class, new SkillParser());
+		map.put(SkillItem.class, new SkillParser());
 		map.put(TableCopyData.class, new TableCopyDataParser());
 		map.put(TableUserHero.class, new TableUserHeroParser());
 		map.put(UserGameData.class, new UserGameDataParser());

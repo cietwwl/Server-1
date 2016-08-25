@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.dataEncode.Node.NodeMaper;
 import com.playerdata.dataEncode.fieldToStr.EncodeFieldClass;
 import com.playerdata.dataEncode.fieldToStr.EncodeFieldEnum;
 import com.playerdata.dataEncode.fieldToStr.EncodeFieldList;
@@ -25,7 +26,7 @@ public class EncodeFieldInfo {
 
 	private IFieldToStr fieldToStr;
 
-	public EncodeFieldInfo(Field field) {
+	public EncodeFieldInfo(Field field,NodeMaper nodeMaper) {
 		name = field.getName();
 		Class<?> fieldType = field.getType();
 		if (fieldType.isEnum()) {
@@ -35,11 +36,11 @@ public class EncodeFieldInfo {
 		} else if (fieldType == String.class) {
 			fieldToStr = new EncodeFieldString(field);
 		} else if (fieldType == List.class || fieldType == ArrayList.class || fieldType == LinkedList.class) {
-			fieldToStr = new EncodeFieldList(field);
+			fieldToStr = new EncodeFieldList(field,nodeMaper);
 		} else if (fieldType == Map.class || fieldType == HashMap.class || fieldType == ConcurrentHashMap.class || fieldType == LinkedHashMap.class) {
-			fieldToStr = new EncodeFieldMap(field);
+			fieldToStr = new EncodeFieldMap(field,nodeMaper);
 		} else {
-			fieldToStr = new EncodeFieldClass(field);
+			fieldToStr = new EncodeFieldClass(field,nodeMaper);
 		}
 
 	}

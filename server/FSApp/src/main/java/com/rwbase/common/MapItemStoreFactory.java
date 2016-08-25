@@ -48,7 +48,7 @@ import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
 
@@ -73,7 +73,7 @@ public class MapItemStoreFactory {
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// Skill
-	private static MapItemStoreCache<Skill> skillCache;
+	private static MapItemStoreCache<SkillItem> skillCache;
 	// TaskItem
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
@@ -176,7 +176,7 @@ public class MapItemStoreFactory {
 
 		register(magicCache = new MapItemStoreCache<Magic>(Magic.class, "id", heroCapacity));
 
-		register(skillCache = new MapItemStoreCache<Skill>(Skill.class, "ownerId", actualHeroCapacity));
+		register(skillCache = new MapItemStoreCache<SkillItem>(SkillItem.class, "ownerId", actualHeroCapacity));
 
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
@@ -334,7 +334,7 @@ public class MapItemStoreFactory {
 	 * 
 	 * @return
 	 */
-	public static MapItemStoreCache<Skill> getSkillCache() {
+	public static MapItemStoreCache<SkillItem> getSkillCache() {
 		return skillCache;
 	}
 

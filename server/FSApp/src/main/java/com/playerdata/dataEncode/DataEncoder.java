@@ -9,38 +9,29 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
+import com.playerdata.dataEncode.Node.NodeMaper;
+import com.playerdata.dataEncode.Node.NodeMaperMgr;
 import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.MD5;
 
 public class DataEncoder {
 	
-	public static Map<Class<?>, ClassInfo4Encode> classInfoMap = new ConcurrentHashMap<Class<?>, ClassInfo4Encode>();
+	private static Map<Class<?>, ClassInfo4Encode> classInfoMap = new ConcurrentHashMap<Class<?>, ClassInfo4Encode>();
 	
-	public static ClassInfo4Encode getByClass(Class<?> clazz){
-
-		ClassInfo4Encode classInfo = classInfoMap.get(clazz);
-		if(classInfo == null){
-			try {
-				classInfo = new ClassInfo4Encode(clazz);
-				classInfoMap.put(clazz, classInfo);
-			} catch (Exception e) {
-				GameLog.error(LogModule.Util, clazz.toString(), "DataEncoder[getByClass] erro:", e);
-			}
-		}
-		return classInfo;
-	}
-	
-	
-	public static boolean verify(Object target, String md5){
+	public static boolean verify(ArmyInfo target, String md5){
 		
-		return md5.equals(encode(target));
-				
+		String newMd5 = encodeArmyInfo(target);
+		return md5.equals(newMd5);
+		
+	}
+	public static String encodeArmyInfo(ArmyInfo armyInfo){
+		return encode(armyInfo, NodeMaperMgr.getInstance().getArmyInfo());
 	}
 	
-	public static String encode(Object target){
+	private static String encode(Object target,NodeMaper nodeMaper){
 		
 		Class<? extends Object> tagetClass = target.getClass();
-		ClassInfo4Encode classInfo = getByClass(tagetClass);
+		ClassInfo4Encode classInfo = getByClass(tagetClass,nodeMaper);
 		String md5ofStr=null;
 		try {
 			String strToEncode = classInfo.toStr(target).toLowerCase();
@@ -53,6 +44,22 @@ public class DataEncoder {
 		return md5ofStr;
 		
 	}
+	
+	private static ClassInfo4Encode getByClass(Class<?> clazz,NodeMaper nodeMaper){
+
+		ClassInfo4Encode classInfo = classInfoMap.get(clazz);
+		if(classInfo == null){
+			try {				
+				classInfo = new ClassInfo4Encode(clazz,nodeMaper);
+				classInfoMap.put(clazz, classInfo);
+				nodeMaper.printZero();
+			} catch (Throwable e) {
+				GameLog.error(LogModule.Util, clazz.toString(), "DataEncoder[getByClass] erro:", e);
+			}
+		}
+		return classInfo;
+	}
+	
 	
 	public static void main(String[] args) {
 		
@@ -90,7 +97,7 @@ public class DataEncoder {
 		armyinfo.setPlayer(hero);
 		armyinfo.setHeroList(heroList);
 		
-		String encode = DataEncoder.encode(armyinfo);
+		String encode = DataEncoder.encodeArmyInfo(armyinfo);
 		
 		System.out.println("md5:");
 		System.out.println(encode);

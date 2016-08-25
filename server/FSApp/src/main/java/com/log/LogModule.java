@@ -37,7 +37,8 @@ public enum LogModule {
 	RedPoint("红点"),
 	GroupCopy("帮派副本"),
 	TeamBattle("组队副本"),
-	BattleVerify("战斗校验")
+	BattleVerify("战斗校验"),
+	DataEncode("加密校验")
 	;
 	
 	private String name;

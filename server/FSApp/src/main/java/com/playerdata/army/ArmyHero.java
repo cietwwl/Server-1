@@ -8,7 +8,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 
 /**
  * 战斗用临时数据，不能持久化
@@ -23,7 +23,7 @@ public class ArmyHero {
 
 	private CurAttrData curAttrData;
 	private AttrData attrData;
-	private List<Skill> skillList;
+	private List<SkillItem> skillList;
 //	private RoleBaseInfo roleBaseInfo;
 	private RoleBaseInfoImpl roleBaseInfo;
 	private boolean isPlayer = false;
@@ -33,7 +33,7 @@ public class ArmyHero {
 	public ArmyHero() {
 	}
 
-	public ArmyHero(RoleBaseInfo roleBaseInfoP, AttrData attrDataP, List<Skill> skillListP) {
+	public ArmyHero(RoleBaseInfo roleBaseInfoP, AttrData attrDataP, List<SkillItem> skillListP) {
 		this.roleBaseInfo = new RoleBaseInfoImpl(roleBaseInfoP);
 		this.attrData = attrDataP;
 		this.skillList = skillListP;
@@ -43,7 +43,7 @@ public class ArmyHero {
 		return attrData;
 	}
 
-	public List<Skill> getSkillList() {
+	public List<SkillItem> getSkillList() {
 		return skillList;
 	}
 
@@ -67,7 +67,7 @@ public class ArmyHero {
 		this.attrData = attrData;
 	}
 
-	public void setSkillList(List<Skill> skillList) {
+	public void setSkillList(List<SkillItem> skillList) {
 		this.skillList = skillList;
 	}
 

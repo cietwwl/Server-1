@@ -49,7 +49,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
 import com.rwbase.dao.skill.pojo.SkillIF;
@@ -601,7 +601,7 @@ public class AngelArrayTeamInfoHelper {
 	private static List<SkillInfo> changeHeroSkillList(Hero hero) {
 		List<SkillInfo> skillInfoList = null;
 
-		List<Skill> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
+		List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 		if (skillList != null && !skillList.isEmpty()) {
 			int size = skillList.size();
 
@@ -793,7 +793,7 @@ public class AngelArrayTeamInfoHelper {
 
 		SkillCfgDAO skillCfgDAO = SkillCfgDAO.getInstance();
 
-		List<Skill> skillList = SkillHelper.initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
+		List<SkillItem> skillList = SkillHelper.initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
 
 		int skillSize = skillList.size();
 
@@ -812,7 +812,7 @@ public class AngelArrayTeamInfoHelper {
 			int sLevel = skillInfo.getSkillLevel();
 
 			for (int j = 0; j < skillSize; j++) {
-				Skill skill = skillList.get(i);
+				SkillItem skill = skillList.get(i);
 				if (skill == null) {
 					continue;
 				}

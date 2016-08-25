@@ -17,7 +17,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 @Table(name = "skill_item")
-public class Skill implements IMapItem, SkillIF {
+public class SkillItem implements IMapItem, SkillIF {
 
 	@Id
 	private String id;
@@ -45,7 +45,7 @@ public class Skill implements IMapItem, SkillIF {
 	@NonSave
 	private List<Integer> selfBuffId = new ArrayList<Integer>();
 
-	public Skill() {
+	public SkillItem() {
 		super();
 	}
 
