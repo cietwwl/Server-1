@@ -27,7 +27,7 @@ public class ActivityLimitHeroTypeService implements FsService{
 				byteString = activityLimitHeroHandler.getRewards(player, commonReq);
 				break;
 			case VIEW_RANK:
-				
+				byteString = activityLimitHeroHandler.viewRank(player, commonReq);
 				break;
 			default:
 				GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "接受到一个unknow的消息", null);

@@ -30,6 +30,7 @@ import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
 import com.rwproto.ActivityLimitHeroTypeProto.GamebleReward;
+import com.rwproto.ActivityLimitHeroTypeProto.RankRecord;
 import com.rwproto.GambleServiceProtos.GambleRewardData;
 
 public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
@@ -226,7 +227,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		}
 		
 		response.addAllGamebleReward(dropList);		
-		player.getUserGameDataMgr().addGold(cfg.getTencost());
+		player.getUserGameDataMgr().addGold(-cfg.getTencost());
 		dataItem.setIntegral(dataItem.getIntegral() + cfg.getTenintegral());
 		dataHolder.updateItem(player, dataItem);
 		result.setSuccess(true);
@@ -267,7 +268,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		dropList.add(data.build());
 		response.addAllGamebleReward(dropList);
 		
-		player.getUserGameDataMgr().addGold(cfg.getSinglecost());
+		player.getUserGameDataMgr().addGold(-cfg.getSinglecost());
 		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
 		dataHolder.updateItem(player, dataItem);
 		result.setSuccess(true);
@@ -299,30 +300,66 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			ServerCommonDataHolder.getInstance().update(scdData);
 			return;
 		}
+		ActivityLimitHeroRankRecord recordTmp = map.get(map.size() - 1);
+		if(record.getIntegral() <= recordTmp.getIntegral()){
+			return;
+		}
+		
 		map.remove(map.size() -1);
 		record.setId(map.size());
-		map.put(map.size(), record);
-		
-		
+		map.put(map.size(), record);		
 		
 		List<Map.Entry<Integer, ActivityLimitHeroRankRecord>> list = new ArrayList<Map.Entry<Integer,ActivityLimitHeroRankRecord>>(map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<Integer, ActivityLimitHeroRankRecord>>() {
-			
 			@Override
 			public int compare(Entry<Integer, ActivityLimitHeroRankRecord> o1,
 					Entry<Integer, ActivityLimitHeroRankRecord> o2) {
 				// TODO Auto-generated method stub
 				if(o1.getValue().getIntegral()>o2.getValue().getIntegral()){
-					return -1;
-				}else{
 					return 1;
+				}else if(o1.getValue().getIntegral()==o2.getValue().getIntegral()){
+					if(o1.getValue().getRegditTime() < o2.getValue().getRegditTime()){
+						return 1;
+					}					
+					return -1;					
+				}else{
+					return -1;
 				}
 			}
 		});
-		
+		ServerCommonDataHolder.getInstance().update(scdData);
 	}
 	
-	
+	public ActivityComResult viewRank(Player player,
+			ActivityCommonReqMsg commonReq, Builder response) {
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		result.setReason("");
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(scdData == null){
+			result.setSuccess(true);
+			response.addAllRecord(null);
+			result.setReason("排行榜是空的");
+			return result;
+		}
+		Map<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();
+		if(map.isEmpty()){
+			result.setSuccess(true);
+			response.addAllRecord(null);
+			result.setReason("排行榜是空的");
+			return result;
+		}
+		for(Map.Entry<Integer, ActivityLimitHeroRankRecord> entry : map.entrySet()){
+			RankRecord.Builder record = RankRecord.newBuilder();
+			record.setNumber(entry.getKey());
+			record.setName(entry.getValue().getPlayerName());
+			record.setGetIntegral(entry.getValue().getIntegral());
+			record.setUid(entry.getValue().getUid());			
+			response.addRecord(record.build());
+		}
+		result.setSuccess(true);
+		result.setReason("成功获得");		
+		return result;
+	}
 	
 	
 
@@ -345,4 +382,6 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		}	
 		
 	}
+
+	
 }

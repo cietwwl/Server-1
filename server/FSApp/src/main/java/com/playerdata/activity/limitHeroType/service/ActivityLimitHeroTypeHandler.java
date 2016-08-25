@@ -35,6 +35,16 @@ public class ActivityLimitHeroTypeHandler {
 		response.setTipMsg(result.getReason());
 		return response.build().toByteString();
 	}
+
+	public ByteString viewRank(Player player, ActivityCommonReqMsg commonReq) {
+		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+		
+		ActivityComResult result = ActivityLimitHeroTypeMgr.getInstance().viewRank(player,commonReq,response);
+		response.setIsSuccess(result.isSuccess());
+		response.setTipMsg(result.getReason());
+		return response.build().toByteString();
+	}
 	
 	
 
