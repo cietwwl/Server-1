@@ -4,10 +4,10 @@ import javax.persistence.Id;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 @SynClass
-public class RoleBaseInfoImpl implements RoleBaseInfo {
+public class RoleBaseInfoImpl implements RoleBaseInfoIF {
 
 	@Id
 	private String id;
@@ -22,7 +22,7 @@ public class RoleBaseInfoImpl implements RoleBaseInfo {
 	
 	public RoleBaseInfoImpl() {}
 	
-	public RoleBaseInfoImpl(RoleBaseInfo target) {
+	public RoleBaseInfoImpl(RoleBaseInfoIF target) {
 		this.id = target.getId();
 		this.templateId = target.getTemplateId();
 		this.level = target.getLevel();

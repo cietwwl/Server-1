@@ -9,7 +9,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class UserSimpleHelper {
@@ -48,7 +48,7 @@ public class UserSimpleHelper {
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
-		RoleBaseInfo baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
+		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		HeroSimple armyHero = new HeroSimple(baseInfo, totalAttrData, skillList);
 		armyHero.setFighting(role.getFighting());
 		return armyHero;

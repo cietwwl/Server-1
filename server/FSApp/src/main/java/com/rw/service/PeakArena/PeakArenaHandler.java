@@ -46,7 +46,7 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.TableSkill;
@@ -653,7 +653,7 @@ public class PeakArenaHandler {
 
 	public HeroData getHeroData(ArmyHero tableHeroData, int teamId) {
 		HeroData.Builder result = HeroData.newBuilder();
-		RoleBaseInfo baseInfo = tableHeroData.getRoleBaseInfo();
+		RoleBaseInfoIF baseInfo = tableHeroData.getRoleBaseInfo();
 		result.setHeroId(baseInfo.getId());
 		result.setTempleteId(baseInfo.getTemplateId());
 		result.setLevel(baseInfo.getLevel());

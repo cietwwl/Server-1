@@ -12,7 +12,6 @@ import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaRankCfgDAO;
 import com.bm.arena.ArenaRankEntity;
-import com.bm.arena.ArenaScore;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -58,7 +57,7 @@ import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.arena.pojo.TableArenaRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
@@ -907,7 +906,7 @@ public class ArenaHandler {
 
 	public HeroData getHeroData(ArmyHero tableHeroData) {
 		HeroData.Builder result = HeroData.newBuilder();
-		RoleBaseInfo baseInfo = tableHeroData.getRoleBaseInfo();
+		RoleBaseInfoIF baseInfo = tableHeroData.getRoleBaseInfo();
 		result.setHeroId(baseInfo.getId());
 		result.setTempleteId(baseInfo.getTemplateId());
 		result.setLevel(baseInfo.getLevel());

@@ -7,7 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.hero.core.RoleBaseInfoImpl;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
 /**
@@ -33,7 +33,7 @@ public class ArmyHero {
 	public ArmyHero() {
 	}
 
-	public ArmyHero(RoleBaseInfo roleBaseInfoP, AttrData attrDataP, List<SkillItem> skillListP) {
+	public ArmyHero(RoleBaseInfoIF roleBaseInfoP, AttrData attrDataP, List<SkillItem> skillListP) {
 		this.roleBaseInfo = new RoleBaseInfoImpl(roleBaseInfoP);
 		this.attrData = attrDataP;
 		this.skillList = skillListP;
@@ -47,7 +47,7 @@ public class ArmyHero {
 		return skillList;
 	}
 
-	public RoleBaseInfo getRoleBaseInfo() {
+	public RoleBaseInfoIF getRoleBaseInfo() {
 		return roleBaseInfo;
 	}
 

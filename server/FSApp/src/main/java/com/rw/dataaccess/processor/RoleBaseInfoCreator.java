@@ -2,12 +2,12 @@ package com.rw.dataaccess.processor;
 
 import com.rw.dataaccess.PlayerCoreCreation;
 import com.rw.dataaccess.PlayerParam;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
-public class RoleBaseInfoCreator implements PlayerCoreCreation<RoleBaseInfo>{
+public class RoleBaseInfoCreator implements PlayerCoreCreation<RoleBaseInfoIF>{
 
 	@Override
-	public RoleBaseInfo create(PlayerParam param) {
+	public RoleBaseInfoIF create(PlayerParam param) {
 //		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
 //		RoleCfg heroCfg = param.getPlayerCfg();
 //		roleBaseInfo.setId(param.getUserId());

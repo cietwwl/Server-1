@@ -4,7 +4,7 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.manager.GameManager;
 
 
-public class RoleBaseInfoDAO extends DataKVDao<RoleBaseInfo> {
+public class RoleBaseInfoDAO extends DataKVDao<RoleBaseInfoIF> {
 	private static RoleBaseInfoDAO m_instance = new RoleBaseInfoDAO();
 	private RoleBaseInfoDAO(){}
 	
@@ -12,7 +12,7 @@ public class RoleBaseInfoDAO extends DataKVDao<RoleBaseInfo> {
 		return m_instance;
 	}
 	
-	public boolean update(RoleBaseInfo t) {
+	public boolean update(RoleBaseInfoIF t) {
 		return super.update(t);
 	}
 	

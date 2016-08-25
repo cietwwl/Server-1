@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
 
@@ -18,12 +18,12 @@ public class HeroSimple {
 
 	private AttrData attrData;
 	private List<SkillItem> skillList;
-	private RoleBaseInfo roleBaseInfo;	
+	private RoleBaseInfoIF roleBaseInfo;	
 	private boolean isPlayer = false;
 	private int fighting;//佣兵战斗力
 	
 	public HeroSimple(){}
-	public HeroSimple(RoleBaseInfo roleBaseInfoP, AttrData attrDataP, List<SkillItem> skillListP){
+	public HeroSimple(RoleBaseInfoIF roleBaseInfoP, AttrData attrDataP, List<SkillItem> skillListP){
 		this.roleBaseInfo = roleBaseInfoP;
 		this.attrData = attrDataP;
 		this.skillList = skillListP;
@@ -36,10 +36,10 @@ public class HeroSimple {
 	public List<SkillItem> getSkillList() {
 		return skillList;
 	}
-	public RoleBaseInfo getRoleBaseInfo() {
+	public RoleBaseInfoIF getRoleBaseInfo() {
 		return roleBaseInfo;
 	}
-	public void setRoleBaseInfo(RoleBaseInfo roleBaseInfo) {
+	public void setRoleBaseInfo(RoleBaseInfoIF roleBaseInfo) {
 		this.roleBaseInfo = roleBaseInfo;
 	}
 	public int getFighting() {
