@@ -218,14 +218,12 @@ public class CopyHandler {
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
-		boolean isActivityDouble = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0));
-		if (dropItems != null) {
-			int multiple = isActivityDouble?2 : 1;
+			if (dropItems != null) {
 			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改
 			for (int i = 0; i < dropItems.size(); i++) {
 				ItemInfo itemInfo = dropItems.get(i);
 				int itemId = itemInfo.getItemID();
-				int itemNum = itemInfo.getItemNum() * multiple;
+				int itemNum = itemInfo.getItemNum() ;
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
