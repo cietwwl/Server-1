@@ -146,6 +146,9 @@ public class RedPointManager {
 		case HOME_WINDOW_ACTIVITY:
 			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
 			break;
+		case LIMIT_HERO:
+			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
+			break;
 		default:
 			break;
 		}		

@@ -57,6 +57,7 @@ public enum RedPointType {
     PVE_MAGIC_SECRET_SCORE_REWARD,
     TEAMBATTLE_FULL_MEMBER,
     PVE_TEAMBATTLE,
+    LIMIT_HERO,
     ;
     private RedPointType(){
     	
