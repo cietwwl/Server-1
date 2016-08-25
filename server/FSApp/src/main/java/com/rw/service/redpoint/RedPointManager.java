@@ -7,6 +7,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.RedPointMgr;
@@ -29,8 +30,8 @@ public class RedPointManager {
 	private RedPointManager() {
 		try {
 			list = new ArrayList<RedPointCollector>();
-			List<Class<RedPointCollector>> l = getAllAssignedClass(RedPointCollector.class);
-			for (Class<RedPointCollector> c : l) {
+			List<Class<? extends RedPointCollector>> l = HPCUtil.getAllAssignedClass(RedPointCollector.class,RedPointCollector.class.getPackage().getName());
+			for (Class<? extends RedPointCollector> c : l) {
 				list.add(c.newInstance());
 			}
 		} catch (Exception e) {

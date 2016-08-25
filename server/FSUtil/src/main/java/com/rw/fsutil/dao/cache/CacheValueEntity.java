@@ -1,23 +1,17 @@
 package com.rw.fsutil.dao.cache;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.rw.fsutil.dao.cache.DataCache.CacheValueState;
-import com.rw.fsutil.dao.cache.record.RecordEvent;
 
-public class CacheValueEntity<V> extends AtomicReference<RecordEvent<?>> {
-
-	private static final long serialVersionUID = 3115324049625163595L;
+public class CacheValueEntity<V> {
 
 	private volatile V value;
 	private volatile CacheValueState state;
+	private final Object record;
 
-	public CacheValueEntity(V value, CacheValueState state, RecordEvent<?> record) {
+	public CacheValueEntity(V value, CacheValueState state, Object record) {
 		this.value = value;
 		this.state = state;
-		if (record != null) {
-			super.set(record);
-		}
+		this.record = record;
 	}
 
 	public CacheValueState getState() {
@@ -26,6 +20,10 @@ public class CacheValueEntity<V> extends AtomicReference<RecordEvent<?>> {
 
 	public void setCacheValueState(CacheValueState state) {
 		this.state = state;
+	}
+
+	public Object getRecord() {
+		return record;
 	}
 
 	public V getValue() {
