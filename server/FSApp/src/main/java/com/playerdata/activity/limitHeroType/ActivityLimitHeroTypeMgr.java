@@ -2,7 +2,6 @@ package com.playerdata.activity.limitHeroType;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.util.Comparators;
 
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
@@ -22,8 +20,6 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfg;
-import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfg;
@@ -31,14 +27,11 @@ import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfgDAO;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfgDAO;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
 import com.rwproto.ActivityLimitHeroTypeProto.GamebleReward;
 import com.rwproto.ActivityLimitHeroTypeProto.RankRecord;
-import com.rwproto.GambleServiceProtos.GambleRewardData;
 
 public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	private static ActivityLimitHeroTypeMgr instance = new ActivityLimitHeroTypeMgr();
@@ -437,14 +430,12 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(scdData == null){
 			result.setSuccess(true);
-			response.addAllRecord(null);
 			result.setReason("排行榜是空的");
 			return result;
 		}
 		Map<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();
 		if(map.isEmpty()){
 			result.setSuccess(true);
-			response.addAllRecord(null);
 			result.setReason("排行榜是空的");
 			return result;
 		}
