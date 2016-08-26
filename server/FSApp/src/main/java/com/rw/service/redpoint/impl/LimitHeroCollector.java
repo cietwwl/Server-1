@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.ComGiftMgr;
+
 import com.playerdata.Player;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
