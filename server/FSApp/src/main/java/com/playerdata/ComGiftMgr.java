@@ -22,7 +22,7 @@ import com.rwbase.dao.gift.ComGiftCfgDAO;
 
 
 public class ComGiftMgr {
-	
+	private final static int MAKEUPEMAIL = 10055;
 	private static ComGiftMgr c_instance = new ComGiftMgr();
 	
 	public static ComGiftMgr getInstance() {
@@ -122,6 +122,9 @@ public class ComGiftMgr {
 	
 	private boolean addRewardToEmail(Player player,String rewardStr,String emailid ,String mark){
 		boolean isadd = false;
+		if(StringUtils.isEmpty(emailid)){
+			emailid = MAKEUPEMAIL+"";
+		}
 		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(emailid);	
 		EmailData emailData = new EmailData();
 		if(cfg != null){

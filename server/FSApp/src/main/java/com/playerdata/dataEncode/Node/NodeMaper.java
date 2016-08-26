@@ -62,6 +62,6 @@ public class NodeMaper {
 				sb.append(keyTmp).append(";");
 			}
 		}
-		System.out.println(sb.toString());
+		//System.out.println("miss encode:"+sb.toString());
 	}
 }

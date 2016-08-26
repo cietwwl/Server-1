@@ -18,13 +18,13 @@ public class FieldClass implements IFieldToJson{
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
+	public Object toJson(Object target) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
 		}		
 		
-		return classInfo.toJson(objectValue);
+		return classInfo.toJsonObject(objectValue);
 	}
 
 	@Override

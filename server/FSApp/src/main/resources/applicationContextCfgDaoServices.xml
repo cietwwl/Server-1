@@ -265,6 +265,7 @@
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
 	<bean class="com.rwbase.dao.battle.pojo.BattleCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.battleVerify.MonsterCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.store.WakenLotteryDrawCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO"  init-method="init" />

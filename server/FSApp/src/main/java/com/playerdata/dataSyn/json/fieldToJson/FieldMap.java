@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
@@ -34,38 +35,37 @@ public class FieldMap implements IFieldToJson {
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public String toJson(Object target) throws Exception {
+	@SuppressWarnings({ "unchecked"})
+	public Object toJson(Object target) throws Exception {
 		Object objectValue = field.get(target);
 		if (objectValue == null) {
 			return null;
 		}
 
-		Map<String, String> valueMap = new HashMap<String, String>();
+		JSONObject valueMap = new JSONObject();
 
 		Map<Object, Object> objectMap = (Map<Object, Object>) objectValue;
 		Set<Entry<Object, Object>> entrySet = objectMap.entrySet();
 		for (Entry<Object, Object> entry : entrySet) {
 			Object entryKey = entry.getKey();
 			Object entryValue = entry.getValue();
-			String strValue = getEntryStrValue(entryValue);
+			Object strValue = getEntryStrValue(entryValue);
 			String strKey = getEntryStrKey(entryKey);
 
-			if(StringUtils.isNotBlank(strKey) && StringUtils.isNotBlank(strValue)){
-				
+			if(StringUtils.isNotBlank(strKey) && strValue!=null){				
 				valueMap.put(strKey, strValue);
 			}
 		}
 
-		return valueMap.size()>0 ? JsonUtil.writeValue(valueMap):null;
+		return valueMap.size()>0 ? valueMap:null;
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private String getEntryStrValue(Object entryValue) throws Exception{
-		String strValue = null;
+	private Object getEntryStrValue(Object entryValue) throws Exception{
+		Object strValue = null;
 		switch (valueGenericType) {
 		case Class:
-			strValue = genericClassInfo.toJson(entryValue);
+			strValue = genericClassInfo.toJsonObject(entryValue);
 			break;
 		case Enum:
 			int enumInt = ((Enum) entryValue).ordinal();

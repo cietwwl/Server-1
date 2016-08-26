@@ -47,16 +47,15 @@ public class FieldInfo {
 		return name;
 	}
 
-	public String toJson(Object target) throws Exception {
+	public Object toJson(Object target) throws Exception {
 
-		String json = null;
+		Object json = null;
 		try {
 			json = fieldToJson.toJson(target);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), target.getClass().toString(), fieldToJson.getLogInfo(), e);
 			throw (e);
 		}
-
 		return json;
 	}
 	
