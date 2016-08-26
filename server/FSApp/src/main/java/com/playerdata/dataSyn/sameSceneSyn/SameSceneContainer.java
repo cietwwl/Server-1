@@ -53,7 +53,15 @@ public class SameSceneContainer {
 			return false;
 		}
 		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
-		return null == scene.put(userId, value);
+
+		SameSceneDataBaseIF data = scene.get(userId);
+		if(null != data){
+			value.setNewAdd(data.isNewAdd());
+			value.setRemoved(data.isRemoved());
+			// data = value;
+		}
+		scene.put(userId, value);
+		return true;
 	}
 	
 	/**

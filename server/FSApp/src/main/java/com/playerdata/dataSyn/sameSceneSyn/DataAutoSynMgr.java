@@ -100,10 +100,12 @@ public class DataAutoSynMgr {
 			entry.getValue().setNewAdd(false);
 			entry.getValue().setChanged(false);
 		}
-		if(!players.isEmpty() && !synData.isEmpty()){
+		if(!players.isEmpty() && (!synData.isEmpty() || !newAddPlayers.isEmpty() || !removedPlayers.isEmpty())){
 			//用来同步数据的结构
 			synObject.setId(String.valueOf(sceneId));
 			synObject.setSynData(synData);
+			synObject.setAddMembers(newAddPlayers);
+			synObject.setRemoveMembers(removedPlayers);
 			//多个用户同步相同的数据
 			ClientDataSynMgr.synDataMutiple(players, synObject, synType, eSynOpType.UPDATE_SINGLE);
 		}
