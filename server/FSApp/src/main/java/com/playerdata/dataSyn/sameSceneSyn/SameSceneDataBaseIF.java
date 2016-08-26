@@ -1,11 +1,35 @@
 package com.playerdata.dataSyn.sameSceneSyn;
 
+public abstract class SameSceneDataBaseIF {
 
-public interface SameSceneDataBaseIF {
-	public boolean isChanged();
-	public void setChanged(boolean changed);
-	public boolean isRemoved();
-	public void setRemoved(boolean removed);
-	public boolean isNewAdd();
-	public void setNewAdd(boolean newAdd);
+	protected boolean isChanged = true;
+
+	protected boolean isRemoved = false;
+	
+	protected boolean isNewAdd = true;
+	
+	
+	public synchronized boolean isChanged() {
+		return isChanged;
+	}
+
+	public synchronized void setChanged(boolean changed) {
+		this.isChanged = changed;
+	}
+
+	public synchronized boolean isRemoved() {
+		return this.isRemoved;
+	}
+
+	public synchronized void setRemoved(boolean removed) {
+		this.isRemoved = removed;
+	}
+
+	public synchronized boolean isNewAdd() {
+		return isNewAdd;
+	}
+
+	public synchronized void setNewAdd(boolean newAdd) {
+		this.isNewAdd = newAdd;
+	}
 }
