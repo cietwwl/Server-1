@@ -1,7 +1,5 @@
 package com.playerdata.dataEncode;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,11 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataEncode.Node.NodeMaper;
 import com.playerdata.dataEncode.Node.NodeMaperMgr;
-import com.playerdata.hero.core.RoleBaseInfo;
 import com.rwbase.common.MD5;
 
 public class DataEncoder {
@@ -38,7 +34,7 @@ public class DataEncoder {
 		try {
 			String strToEncode = classInfo.toStr(target).toLowerCase();
 			
-			System.out.println(strToEncode);
+//			System.out.println(strToEncode);
 			md5ofStr = MD5.getMD5ofStr(strToEncode).toLowerCase();
 		} catch (Exception e) {			
 			GameLog.error(LogModule.Util, tagetClass.toString(), "DataEncoder[encode] erro:", e);
@@ -117,7 +113,6 @@ public class DataEncoder {
 			if(!cTmp.equals(sTmp)){
 				System.out.println("ctemp:"+cTmp);
 				System.out.println("stemp:"+sTmp);
-				System.out.println("tt");
 			}
 		}
 		

@@ -45,9 +45,6 @@ public class ClassInfo4Encode {
 		
 		if(synClass){
 			String className = StringUtils.substringAfterLast(clazzP.getName(), ".") ;
-			if(className.contains("ArmyHero")){
-				System.out.println("tt");
-			}
 			
 			Field[] fields = clazzP.getDeclaredFields();
 			for (Field field : fields) {			
