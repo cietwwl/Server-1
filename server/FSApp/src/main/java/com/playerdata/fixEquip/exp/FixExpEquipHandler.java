@@ -25,14 +25,13 @@ public class FixExpEquipHandler {
 	public ByteString checkStoredExp(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
-		String ownerId = commonReq.getOwnerId();
 		String itemId = commonReq.getEquipId();		
 		ExpLevelUpReqParams reqParams = commonReq.getExpLevelUpReqParams();
 		
 
 		List<Hero> list = player.getHeroMgr().getAllHeros(player, null);
 		for (Hero hero : list) {			
-			hero.getFixExpEquipMgr().checkStoredExp(player, ownerId, itemId, reqParams);
+			hero.getFixExpEquipMgr().checkStoredExp(player, hero.getId(), itemId, reqParams);
 		}
 		
 		response.setIsSuccess(true);		
