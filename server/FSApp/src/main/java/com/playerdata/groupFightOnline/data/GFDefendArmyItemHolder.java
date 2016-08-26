@@ -195,6 +195,14 @@ public class GFDefendArmyItemHolder{
 		addItemList(groupID, initItems);
 	}
 	
+	public void removePersonalDefendArmy(String userID, String groupID) {
+		for(int i = 1; i <= MAX_DEFEND_ARMY_COUNT; i++){
+			String armyID = userID + "_" + i;
+			getItemStore(groupID).removeItem(armyID);
+		}
+		versionMap.get(groupID).getAndIncrement();
+	}
+	
 	private MapItemStore<GFDefendArmyItem> getItemStore(String groupID) {
 		MapItemStoreCache<GFDefendArmyItem> cache = MapItemStoreFactory.getGFDefendArmyCache();
 		return cache.getMapItemStore(groupID, GFDefendArmyItem.class);
