@@ -220,11 +220,6 @@ public class GFightOnlineGroupMgr {
 		}
 		
 		if(totalRateOnGroup > 0){
-			//用来替换邮件中的可变内容
-			List<String> tipArgs = new ArrayList<String>();
-			tipArgs.add(resCfg.getResName());
-			tipArgs.add(String.valueOf(totalRateOnGroup));
-			
 			//计算压标数量对应的奖励
 			GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById("1");
 			if(totalRateOnGroup > bidCfg.getVictoryMaxRate()) totalRateOnGroup = bidCfg.getVictoryMaxRate();
@@ -240,7 +235,9 @@ public class GFightOnlineGroupMgr {
 			//发放被压标的帮派成员奖励
 			List<? extends GroupMemberDataIF> groupMem = GroupBM.get(groupId).getGroupMemberMgr().getMemberSortList(null);
 			for(GroupMemberDataIF member : groupMem){
-				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()), GFightHelper.itemListToString(victoryReward), tipArgs);
+				String bidonContent = EmailCfgDAO.getInstance().getCfgById(String.valueOf(bidCfg.getVictoryRewardEmailId())).getContent();
+				EmailUtils.sendEmail(member.getUserId(), String.valueOf(bidCfg.getVictoryRewardEmailId()),
+						GFightHelper.itemListToString(victoryReward), String.format(bidonContent, resCfg.getResName(), totalRateOnGroup));
 			}
 		}
 	}
