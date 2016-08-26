@@ -375,8 +375,11 @@ public class FixExpEquipMgr {
 			}
 
 			if (result.isSuccess()) {
-				dataItem.setStoredExp(leftExp);
 				iterateLevelUp(dataItem, upExp);
+				if(leftExp>0){					
+					dataItem.setStoredExp(leftExp);
+					adjustExpShow(dataItem);
+				}
 				fixExpEquipDataItemHolder.updateItem(player, dataItem);
 			}
 		}
@@ -395,7 +398,24 @@ public class FixExpEquipMgr {
 			
 			dataItem.setStoredExp(leftExp);
 			iterateLevelUp(dataItem, upExp);
+			adjustExpShow(dataItem);
 			fixExpEquipDataItemHolder.updateItem(player, dataItem);
+		}
+	}
+	
+	//界面要显示经验条满的状态
+	private void adjustExpShow(FixExpEquipDataItem dataItem){
+		int storedExp = dataItem.getStoredExp();
+		if(storedExp > 0 && dataItem.getExp() == 0){
+			FixExpEquipLevelCostCfg levelCostCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), dataItem.getLevel());
+			int expNeed = levelCostCfg.getExpNeed();
+			if(storedExp >= expNeed){				
+				dataItem.setStoredExp(storedExp-expNeed);
+				dataItem.setExp(expNeed);
+			}else{
+				dataItem.setStoredExp(0);
+				dataItem.setExp(storedExp);
+			}			
 		}
 	}
 
@@ -421,7 +441,7 @@ public class FixExpEquipMgr {
 	private void iterateLevelUp(FixExpEquipDataItem dataItem, int totalExp) {
 
 		int curLevel = dataItem.getLevel();
-		while (totalExp > 0) {
+		while (totalExp >= 0) {
 			int nextLevel = curLevel + 1;
 
 			FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), curLevel);
