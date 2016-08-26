@@ -68,13 +68,17 @@ public class ActivityCountTypeMgr {
 						if(targetItem!=null){
 							dataHolder.addItem(player, targetItem);
 						}
-					}
-				}
-				
-				
+					}else{
+						if(!StringUtils.equals(targetItem.getVersion(), activityCountTypeCfg.getVersion())){							 
+							targetItem.reset(activityCountTypeCfg,ActivityCountTypeCfgDAO.getInstance().newItemList(player, activityCountTypeCfg));
+							dataHolder.updateItem(player, targetItem);	
+							}
+						}
+					}					
+				}				
 			}
 		}
-	}
+	
 	private void checkClose(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
@@ -86,7 +90,7 @@ public class ActivityCountTypeMgr {
 				for(ActivityCountTypeSubItem subItem : list){//配置表里的每种奖励
 					ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
 					
-					if(!subItem.isTaken() && subItem.getCount() >= subItemCfg.getAwardCount()){
+					if(!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()){
 															
 						
 						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"");	

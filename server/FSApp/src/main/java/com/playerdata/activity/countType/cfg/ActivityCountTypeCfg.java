@@ -29,6 +29,20 @@ public class ActivityCountTypeCfg {
 	//每天刷新
 	private boolean dateFresh = false;
 	
+	private String version;
+	
+	
+	
+
+	
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	public String getGroup() {
 		return group;
 	}

@@ -62,7 +62,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 			item.setId(itemId);
 			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());
-			
+			item.setVersion(cfgById.getVersion());
 			item.setSubItemList(newItemList(player, cfgById));
 			return item;
 		}else{
@@ -72,16 +72,15 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	}
 	
 	
-	private List<ActivityCountTypeSubItem> newItemList(Player player, ActivityCountTypeCfg activityCountTypeCfg) {
+	public List<ActivityCountTypeSubItem> newItemList(Player player, ActivityCountTypeCfg activityCountTypeCfg) {
 		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO.getInstance().getByParentCfgId(activityCountTypeCfg.getId());
 		for (ActivityCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
 			ActivityCountTypeSubItem subItem = new ActivityCountTypeSubItem();
-			subItem.setCfgId(activityCountTypeSubCfg.getId());			
+			subItem.setCfgId(activityCountTypeSubCfg.getId());	
+			subItem.setCount(activityCountTypeSubCfg.getAwardCount());
 			subItemList.add(subItem);
-		}
-
-		
+		}	
 		return subItemList;
 	}
 
