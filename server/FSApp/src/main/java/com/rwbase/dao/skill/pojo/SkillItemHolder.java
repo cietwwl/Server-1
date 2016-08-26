@@ -28,12 +28,12 @@ public class SkillItemHolder {
 	/*
 	 * 获取用户已经拥有
 	 */
-	public List<Skill> getItemList(String heroId) {
+	public List<SkillItem> getItemList(String heroId) {
 
-		List<Skill> itemList = new ArrayList<Skill>();
-		Enumeration<Skill> mapEnum = getMapItemStore(heroId).getEnum();
+		List<SkillItem> itemList = new ArrayList<SkillItem>();
+		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			Skill item = (Skill) mapEnum.nextElement();
+			SkillItem item = (SkillItem) mapEnum.nextElement();
 			itemList.add(item);
 		}
 
@@ -48,7 +48,7 @@ public class SkillItemHolder {
 	 * @param heroId
 	 * @param item
 	 */
-	public void updateItem(Player player, String heroId, Skill item) {
+	public void updateItem(Player player, String heroId, SkillItem item) {
 		getMapItemStore(heroId).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), heroId);
@@ -62,7 +62,7 @@ public class SkillItemHolder {
 	 * @param skillcfgId
 	 * @return
 	 */
-	public Skill getItem(String ownerId, String skillcfgId) {
+	public SkillItem getItem(String ownerId, String skillcfgId) {
 		String itemId = SkillHelper.getItemId(ownerId, skillcfgId);
 		return getItem(ownerId, itemId);
 	}
@@ -75,7 +75,7 @@ public class SkillItemHolder {
 	 * @param itemId
 	 * @return
 	 */
-	public Skill getItemByItemId(String heroId, String itemId) {
+	public SkillItem getItemByItemId(String heroId, String itemId) {
 		return getMapItemStore(heroId).getItem(itemId);
 	}
 	
@@ -87,11 +87,11 @@ public class SkillItemHolder {
 	 * @param order
 	 * @return
 	 */
-	public Skill getByOrder(String heroId, int order) {
-		Skill target = null;
-		Enumeration<Skill> mapEnum = getMapItemStore(heroId).getEnum();
+	public SkillItem getByOrder(String heroId, int order) {
+		SkillItem target = null;
+		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			Skill item = (Skill) mapEnum.nextElement();
+			SkillItem item = (SkillItem) mapEnum.nextElement();
 			if (item.getOrder() == order) {
 				target = item;
 				break;
@@ -110,7 +110,7 @@ public class SkillItemHolder {
 	 * @param item
 	 * @return
 	 */
-	public boolean removeItem(Player player, String heroId, Skill item) {
+	public boolean removeItem(Player player, String heroId, SkillItem item) {
 
 		boolean success = getMapItemStore(heroId).removeItem(item.getId());
 		if (success) {
@@ -130,7 +130,7 @@ public class SkillItemHolder {
 	 * @param syn
 	 * @return
 	 */
-	public boolean addItem(Player player, String heroId, Skill item, boolean syn) {
+	public boolean addItem(Player player, String heroId, SkillItem item, boolean syn) {
 		item.setOwnerId(heroId);
 		item.setId(newSkillItemId(heroId, item.getSkillId()));
 
@@ -152,9 +152,9 @@ public class SkillItemHolder {
 	 * @param heroId
 	 * @param skillList
 	 */
-	public void addItem(Player player, String heroId, List<Skill> skillList) {
+	public void addItem(Player player, String heroId, List<SkillItem> skillList) {
 		for (int i = skillList.size(); --i >= 0;) {
-			Skill item = skillList.get(i);
+			SkillItem item = skillList.get(i);
 			item.setOwnerId(heroId);
 			item.setId(newSkillItemId(heroId, item.getSkillId()));
 		}
@@ -182,7 +182,7 @@ public class SkillItemHolder {
 	 * @param version
 	 */
 	public void synAllData(Player player, String heroId, int version) {
-		List<Skill> itemList = getItemList(heroId);
+		List<SkillItem> itemList = getItemList(heroId);
 		ClientDataSynMgr.synDataList(player, itemList, skillSynType, eSynOpType.UPDATE_LIST);
 	}
 
@@ -209,8 +209,8 @@ public class SkillItemHolder {
 		}
 	}
 	
-	private MapItemStore<Skill> getMapItemStore(String heroId) {
-		MapItemStoreCache<Skill> cache = MapItemStoreFactory.getSkillCache();
-		return cache.getMapItemStore(heroId, Skill.class);
+	private MapItemStore<SkillItem> getMapItemStore(String heroId) {
+		MapItemStoreCache<SkillItem> cache = MapItemStoreFactory.getSkillCache();
+		return cache.getMapItemStore(heroId, SkillItem.class);
 	}
 }

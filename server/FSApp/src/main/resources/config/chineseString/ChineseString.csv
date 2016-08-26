@@ -298,3 +298,4 @@ DecomposeMagicTip,,DecomposeMagicTip,该法宝经过强化，是否分解？
 DecomposeQualityTip,,DecomposeQualityTip,是否分解{0}[-]品质道具？
 FixEquipLvLimit1,,,16级解锁护符强化
 FixEquipLvLimit2,,,36级解锁魂器强化
+FunctionCloseTips,,,此功能正在维护中，稍后开放

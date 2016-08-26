@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.bm.groupCopy.GroupCopyLevelBL;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
-import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
