@@ -12,7 +12,6 @@ import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaRankCfgDAO;
 import com.bm.arena.ArenaRankEntity;
-import com.bm.arena.ArenaScore;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -58,8 +57,8 @@ import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.arena.pojo.TableArenaRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.ArenaServiceProtos.ArenaHisRewardView;
@@ -882,8 +881,8 @@ public class ArenaHandler {
 		data.setMagicLevel(magic.getLevel());
 
 		data.setFighting(fighting);
-		List<Skill> skills = armyInfo.getPlayer().getSkillList();
-		for (Skill skill : skills) {
+		List<SkillItem> skills = armyInfo.getPlayer().getSkillList();
+		for (SkillItem skill : skills) {
 			data.addRoleSkill(transfrom(skill));
 		}
 		String gName = GroupHelper.getGroupName(enemyId);
@@ -893,7 +892,7 @@ public class ArenaHandler {
 		return data.build();
 	}
 
-	private TagSkillData transfrom(Skill skill) {
+	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
 		builder.setId(skill.getId());
 		builder.setOwnerId(skill.getOwnerId());
@@ -907,7 +906,7 @@ public class ArenaHandler {
 
 	public HeroData getHeroData(ArmyHero tableHeroData) {
 		HeroData.Builder result = HeroData.newBuilder();
-		RoleBaseInfo baseInfo = tableHeroData.getRoleBaseInfo();
+		RoleBaseInfoIF baseInfo = tableHeroData.getRoleBaseInfo();
 		result.setHeroId(baseInfo.getId());
 		result.setTempleteId(baseInfo.getTemplateId());
 		result.setLevel(baseInfo.getLevel());
@@ -916,7 +915,7 @@ public class ArenaHandler {
 		result.setQualityId(baseInfo.getQualityId());
 		result.setExp(baseInfo.getExp());
 
-		for (Skill skill : tableHeroData.getSkillList()) {
+		for (SkillItem skill : tableHeroData.getSkillList()) {
 			result.addSkills(transfrom(skill));
 		}
 		return result.build();

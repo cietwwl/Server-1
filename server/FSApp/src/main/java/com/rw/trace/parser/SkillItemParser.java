@@ -2,26 +2,26 @@ package com.rw.trace.parser;
 
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.alibaba.fastjson.JSONObject;
 
-public class SkillParser implements DataValueParser<Skill> {
+public class SkillItemParser implements DataValueParser<SkillItem> {
 
     private JsonValueWriter writer = JsonValueWriter.getInstance();
 
     @Override
-    public Skill copy(Skill entity) {
-        Skill skillCopy = new Skill();
-        skillCopy.setId(entity.getId());
-        skillCopy.setOwnerId(entity.getOwnerId());
-        skillCopy.setSkillId(entity.getSkillId());
-        skillCopy.setLevel(entity.getLevel());
-        skillCopy.setOrder(entity.getOrder());
-        return skillCopy;
+    public SkillItem copy(SkillItem entity) {
+        SkillItem skillItemCopy = new SkillItem();
+        skillItemCopy.setId(entity.getId());
+        skillItemCopy.setOwnerId(entity.getOwnerId());
+        skillItemCopy.setSkillId(entity.getSkillId());
+        skillItemCopy.setLevel(entity.getLevel());
+        skillItemCopy.setOrder(entity.getOrder());
+        return skillItemCopy;
     }
 
     @Override
-    public JSONObject recordAndUpdate(Skill entity1, Skill entity2) {
+    public JSONObject recordAndUpdate(SkillItem entity1, SkillItem entity2) {
         JSONObject jsonMap = null;
         String id1 = entity1.getId();
         String id2 = entity2.getId();
@@ -57,7 +57,7 @@ public class SkillParser implements DataValueParser<Skill> {
     }
 
     @Override
-    public boolean hasChanged(Skill entity1, Skill entity2) {
+    public boolean hasChanged(SkillItem entity1, SkillItem entity2) {
         if (!writer.equals(entity1.getId(), entity2.getId())) {
             return true;
         }
@@ -77,7 +77,7 @@ public class SkillParser implements DataValueParser<Skill> {
     }
 
     @Override
-    public JSONObject toJson(Skill entity) {
+    public JSONObject toJson(SkillItem entity) {
         JSONObject json = new JSONObject(5);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());

@@ -22,7 +22,7 @@ import com.playerdata.SkillMgr;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 
 public class GmFindHeroSkillList implements IGmTask{
@@ -71,7 +71,7 @@ public class GmFindHeroSkillList implements IGmTask{
 			}
 			
 			SkillMgr skillMgr = hero.getSkillMgr();
-			List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
+			List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
 			String[] names = new String[5];
 			if(skillList.size() != 5){
 				GameLog.error(LogModule.GmSender, player.getUserId(), "英雄技能数量异常,size=" + skillList.size(), null);

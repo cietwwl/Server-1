@@ -19,8 +19,8 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoDAO;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
@@ -29,8 +29,8 @@ import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
-import com.rwproto.RankServiceProtos;
 import com.rwproto.FashionServiceProtos.FashionUsed;
+import com.rwproto.RankServiceProtos;
 import com.rwproto.RankServiceProtos.RankInfo;
 import com.rwproto.RankServiceProtos.RankingHeroData;
 import com.rwproto.RankServiceProtos.RankingMagicData;
@@ -142,7 +142,7 @@ public class RankingUtilEntity {
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
 		int fighting = 0;
 		for (ArmyHero tableHeroData : armyInfo.getHeroList()) {
-			RoleBaseInfo roleBaseInfo = tableHeroData.getRoleBaseInfo();
+			RoleBaseInfoIF roleBaseInfo = tableHeroData.getRoleBaseInfo();
 			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(roleBaseInfo.getTemplateId());
 			RankingHeroData.Builder rankingHeroData = RankingHeroData.newBuilder();
 			rankingHeroData.setHeroHead(heroCfg.getBattleIcon());
@@ -179,7 +179,7 @@ public class RankingUtilEntity {
 		if (model != 0) {
 			return model;
 		}
-		RoleBaseInfo roleBaseInfo = RoleBaseInfoDAO.getInstance().get(data.getUserId());
+		RoleBaseInfoIF roleBaseInfo = RoleBaseInfoDAO.getInstance().get(data.getUserId());
 		if (roleBaseInfo != null) {
 			model = roleBaseInfo.getModeId();
 			data.setModelId(model);
@@ -199,7 +199,7 @@ public class RankingUtilEntity {
 		levelData.setFightingTeam(areanExt.getFightingTeam());
 		int modelId = areanExt.getModelId();
 		if (modelId == 0) {
-			RoleBaseInfo roleBaseInfo = RoleBaseInfoDAO.getInstance().get(userId);
+			RoleBaseInfoIF roleBaseInfo = RoleBaseInfoDAO.getInstance().get(userId);
 			if (roleBaseInfo != null) {
 				modelId = roleBaseInfo.getModeId();
 				areanExt.setModelId(modelId);
