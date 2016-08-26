@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -21,7 +20,11 @@ public class GroupCompetitionStageCfgDAO extends CfgCsvDao<GroupCompetitionStage
 		for (Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
 			GroupCompetitionStageCfg cfg = cfgCacheMap.get(keyItr.next());
 			String[] timeInfos = cfg.getStartTime().split(":");
-			cfg.setStartTimeInfo(Pair.CreateReadonly(Integer.parseInt(timeInfos[0]), Integer.parseInt(timeInfos[1])));
+			cfg.setStartTimeInfo(Integer.parseInt(timeInfos[0]), Integer.parseInt(timeInfos[1]));
+			timeInfos = cfg.getEndTime().split(":");
+			if(timeInfos.length > 0 && timeInfos[0].length() > 0) {
+				cfg.setEndTimeInfo(Integer.parseInt(timeInfos[0]), Integer.parseInt(timeInfos[1]));
+			}
 		}
 		return this.cfgCacheMap;
 	}

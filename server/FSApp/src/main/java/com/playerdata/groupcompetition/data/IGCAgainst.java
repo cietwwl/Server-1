@@ -3,7 +3,7 @@ package com.playerdata.groupcompetition.data;
 import java.util.List;
 
 import com.playerdata.groupcompetition.data.match.IGCMatcher;
-import com.playerdata.groupcompetition.util.GCEventsStatus;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
 /**
  * 
@@ -26,7 +26,7 @@ public interface IGCAgainst {
 	 * 
 	 * @param currentStatus
 	 */
-	public void setCurrentStatus(GCEventsStatus currentStatus);
+	public void setCurrentStatus(GCompEventsStatus currentStatus);
 	
 	/**
 	 * 

@@ -16,6 +16,9 @@ public class GCompCommonTask<T> implements IGameTimerTask {
 	private T _para;
 	
 	public static <T> void scheduleCommonTask(IConsumer<T> consumer, T para, long executeTime) {
+		if (consumer == null) {
+			throw new NullPointerException("consumer is null!");
+		}
 		long systemCurrentMillis = System.currentTimeMillis();
 		if (executeTime < systemCurrentMillis) {
 			throw new IllegalArgumentException("executeTime在当前时间之前！");
@@ -30,6 +33,7 @@ public class GCompCommonTask<T> implements IGameTimerTask {
 		if (sub >= 500) {
 			second++;
 		}
+		System.err.println("----------帮派争霸-一般时效任务-提交时效任务, consumer : " + consumer + ", 延迟秒数 = " + second + "----------");
 		FSGameTimerMgr.getInstance().submitSecondTask(task, (int) second);
 	}
 	

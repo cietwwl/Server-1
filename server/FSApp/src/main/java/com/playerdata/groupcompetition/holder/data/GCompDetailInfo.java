@@ -24,8 +24,12 @@ public class GCompDetailInfo {
 	
 	private static GCompGroupScore createNewGroupScoreData(String groupId) {
 		Group group = GroupBM.get(groupId);
-		GroupBaseDataIF groupBaseData = group.getGroupBaseDataMgr().getGroupData();
-		return GCompGroupScore.createNew(groupId, groupBaseData.getGroupName(), groupBaseData.getIconId());
+		if (group != null) {
+			GroupBaseDataIF groupBaseData = group.getGroupBaseDataMgr().getGroupData();
+			return GCompGroupScore.createNew(groupId, groupBaseData.getGroupName(), groupBaseData.getIconId());
+		} else {
+			return GCompGroupScore.createNew("", "", "");
+		}
 	}
 	
 	public static GCompDetailInfo createNew(int matchId, String idOfGroupA, String idOfGroupB) {
