@@ -17,22 +17,22 @@ import com.rwproto.PrivilegeProtos.GeneralPrivilegeNames;
 import com.rwproto.RequestProtos.Request;
 
 
-public class FashionService implements FsService{
+public class FashionService implements FsService<FashionRequest, FashionEventType>{
 
 	private FashionHandle fashionHandler = FashionHandle.getInstance();
-	
-	public ByteString doTask(Request request, Player player) {
+
+	@Override
+	public ByteString doTask(FashionRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
-		FashionRequest req;
 		try {
-			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
-			FashionEventType eventType = req.getEventType();
+			FashionEventType eventType = request.getEventType();
 			if (eventType == FashionEventType.buy || eventType == FashionEventType.renew){
 				IPrivilegeManager privilegeMgr = player.getPrivilegeMgr();
 				GeneralPrivilegeNames privilege = GeneralPrivilegeNames.isAllowBuyFashion;
 				boolean isOpen = privilegeMgr.getBoolPrivilege(privilege);
 				if (!isOpen){
-					Builder resp = fashionHandler.getResponse(req);
+					Builder resp = fashionHandler.getResponse(request);
 					resp.setError(ErrorType.NOT_ENOUGH_VIP);
 					
 					generalPrivilegePropertiesHelper tiphelper = generalPrivilegePropertiesHelper.getInstance();
@@ -46,28 +46,41 @@ public class FashionService implements FsService{
 			}
 			switch (eventType) {
 			case buy:
-				result = fashionHandler.buyFash(player,req);
+				result = fashionHandler.buyFash(player,request);
 				break;
 			case off:
-				result = fashionHandler.offFash(player,req);
+				result = fashionHandler.offFash(player,request);
 				break;
 			case on:
-				result = fashionHandler.onFash(player,req);
+				result = fashionHandler.onFash(player,request);
 				break;
 
 			case renew:
-				result = fashionHandler.renewFashion(player,req);
+				result = fashionHandler.renewFashion(player,request);
 				break;
 			case getFashiondata:
-				result = fashionHandler.getFashionData(player,req);
+				result = fashionHandler.getFashionData(player,request);
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public FashionRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		FashionRequest req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public FashionEventType getMsgType(FashionRequest request) {
+		// TODO Auto-generated method stub
+		return request.getEventType();
 	}
 
 }

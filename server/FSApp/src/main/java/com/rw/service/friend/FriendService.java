@@ -8,75 +8,89 @@ import com.rwproto.FriendServiceProtos.EFriendRequestType;
 import com.rwproto.FriendServiceProtos.FriendRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class FriendService implements FsService{
+public class FriendService implements FsService<FriendRequest, EFriendRequestType>{
 	private FriendHandler friendHandler = FriendHandler.getInstance();
-	
-	public ByteString doTask(Request request, Player pPlayer) {
+
+	@Override
+	public ByteString doTask(FriendRequest request, Player pPlayer) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			FriendRequest friendRequest = FriendRequest.parseFrom(request.getBody().getSerializedContent());
-			EFriendRequestType requestType = friendRequest.getRequestType();
+			EFriendRequestType requestType = request.getRequestType();
 			switch (requestType) {
 				case ALL_LIST:
-					result = friendHandler.allList(friendRequest, pPlayer);
+					result = friendHandler.allList(request, pPlayer);
 					break;
 				case FRIEND_LIST:
-					result = friendHandler.friendList(friendRequest, pPlayer);
+					result = friendHandler.friendList(request, pPlayer);
 					break;
 				case BLACK_LIST:
-					result = friendHandler.blackList(friendRequest, pPlayer);
+					result = friendHandler.blackList(request, pPlayer);
 					break;
 				case REQUEST_LIST:
-					result = friendHandler.requestList(friendRequest, pPlayer);
+					result = friendHandler.requestList(request, pPlayer);
 					break;
 				case SEARCH_FRIEND:
-					result = friendHandler.searchFriend(friendRequest, pPlayer);
+					result = friendHandler.searchFriend(request, pPlayer);
 					break;
 				case GIVE_POWER:
-					result = friendHandler.givePower(friendRequest, pPlayer);
+					result = friendHandler.givePower(request, pPlayer);
 					break;
 				case RECEIVE_POWER:
-					result = friendHandler.receivePower(friendRequest, pPlayer);
+					result = friendHandler.receivePower(request, pPlayer);
 					break;
 				case GIVE_POWER_ALL:
-					result = friendHandler.givePowerAll(friendRequest, pPlayer);
+					result = friendHandler.givePowerAll(request, pPlayer);
 					break;
 				case RECEIVE_POWER_ALL:
-					result = friendHandler.receivePowerAll(friendRequest, pPlayer);
+					result = friendHandler.receivePowerAll(request, pPlayer);
 					break;
 				case REQUEST_ADD_FRIEND:
-					result = friendHandler.requestAddFriend(friendRequest, pPlayer);
+					result = friendHandler.requestAddFriend(request, pPlayer);
 					break;
 				case REQUEST_ADD_MUTI_FRIEND:
-					result = friendHandler.requestAddFriendList(friendRequest, pPlayer);
+					result = friendHandler.requestAddFriendList(request, pPlayer);
 					break;					
 				case REMOVE_FRIEND:
-					result = friendHandler.removeFriend(friendRequest, pPlayer);
+					result = friendHandler.removeFriend(request, pPlayer);
 					break;
 				case ADD_BLACK:
-					result = friendHandler.addBlack(friendRequest, pPlayer);
+					result = friendHandler.addBlack(request, pPlayer);
 					break;
 				case REMOVE_BLACK:
-					result = friendHandler.removeBlack(friendRequest, pPlayer);
+					result = friendHandler.removeBlack(request, pPlayer);
 					break;
 				case CONSENT_ADD_FRIEND:
-					result = friendHandler.consentAddFriend(friendRequest, pPlayer);
+					result = friendHandler.consentAddFriend(request, pPlayer);
 					break;
 				case REFUSED_ADD_FRIEND:
-					result = friendHandler.refusedAddFriend(friendRequest, pPlayer);
+					result = friendHandler.refusedAddFriend(request, pPlayer);
 					break;
 				case CONSENT_ADD_FRIEND_ALL:
-					result = friendHandler.consentAddFriendAll(friendRequest, pPlayer);
+					result = friendHandler.consentAddFriendAll(request, pPlayer);
 					break;
 				case REFUSED_ADD_FRIEND_ALL:
-					result = friendHandler.refusedAddFriendAll(friendRequest, pPlayer);
+					result = friendHandler.refusedAddFriendAll(request, pPlayer);
 					break;
 				default:
 					break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public FriendRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		FriendRequest friendRequest = FriendRequest.parseFrom(request.getBody().getSerializedContent());
+		return friendRequest;
+	}
+
+	@Override
+	public EFriendRequestType getMsgType(FriendRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 }

@@ -19,43 +19,7 @@ import com.rwproto.TaskProtos.OneKeyGetRewardResponse;
 import com.rwproto.TaskProtos.OneKeyResultType;
 import com.rwproto.TaskProtos.OneKeyRewardType;
 
-public class OneKeyService implements FsService {
-
-	@Override
-	public ByteString doTask(Request request, Player player) {
-		ByteString result = null;
-		try {
-			OneKeyGetRewardRequest req = OneKeyGetRewardRequest.parseFrom(request.getBody().getSerializedContent());
-			OneKeyRewardType reqType = req.getOneKeyType();
-			switch (reqType) {
-			case DAILY:
-				result = getAllDailyReward(player);
-				break;
-			case TASK:
-				result = getAllTaskReward(player);
-				break;
-			case EMAIL:
-				result = getAllEmailReward(player);
-				break;
-			case BATTLE_SCORE:
-				result = getAllBattleScoreReward(player);
-				break;
-			default:
-				OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-				resp.setResult(OneKeyResultType.TYPE_ERROR);
-				break;
-			}
-		}catch(InvalidProtocolBufferException e){
-			e.printStackTrace();
-			OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-			resp.setResult(OneKeyResultType.DATA_ERROR);
-		}catch(Exception e){
-			e.printStackTrace();
-			OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-			resp.setResult(OneKeyResultType.DATA_ERROR);
-		}
-		return result;
-	}
+public class OneKeyService implements FsService<OneKeyGetRewardRequest, OneKeyRewardType> {
 	
 	private ByteString getAllDailyReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
@@ -127,5 +91,48 @@ public class OneKeyService implements FsService {
 			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
 		return resp.build().toByteString();
+	}
+
+	@Override
+	public ByteString doTask(OneKeyGetRewardRequest request, Player player) {
+		// TODO Auto-generated method stub
+		ByteString result = null;
+		try {
+			OneKeyRewardType reqType = request.getOneKeyType();
+			switch (reqType) {
+			case DAILY:
+				result = getAllDailyReward(player);
+				break;
+			case TASK:
+				result = getAllTaskReward(player);
+				break;
+			case EMAIL:
+				result = getAllEmailReward(player);
+				break;
+			case BATTLE_SCORE:
+				result = getAllBattleScoreReward(player);
+				break;
+			default:
+				OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
+				resp.setResult(OneKeyResultType.TYPE_ERROR);
+				break;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public OneKeyGetRewardRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		OneKeyGetRewardRequest req = OneKeyGetRewardRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public OneKeyRewardType getMsgType(OneKeyGetRewardRequest request) {
+		// TODO Auto-generated method stub
+		return request.getOneKeyType();
 	}
 }

@@ -8,30 +8,44 @@ import com.rwproto.RankServiceProtos.ERankRequestType;
 import com.rwproto.RankServiceProtos.MsgRankRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class RankingService  implements FsService{
+public class RankingService  implements FsService<MsgRankRequest, ERankRequestType>{
 	private RankingHandler rankingHandler = RankingHandler.getInstance();
-	
-	public ByteString doTask(Request request, Player pPlayer) {
+
+	@Override
+	public ByteString doTask(MsgRankRequest request, Player pPlayer) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			MsgRankRequest rankRequest = MsgRankRequest.parseFrom(request.getBody().getSerializedContent());
-			ERankRequestType requestType = rankRequest.getRequestType();
+			ERankRequestType requestType = request.getRequestType();
 			switch (requestType) {
 				case RANK_LIST:
-					result = rankingHandler.rankingList(rankRequest, pPlayer);
+					result = rankingHandler.rankingList(request, pPlayer);
 					break;
 				case RANK_HERO_INFO:
-					result = rankingHandler.rankingInfo(rankRequest, pPlayer);
+					result = rankingHandler.rankingInfo(request, pPlayer);
 					break;
 				case RANK_MY_INFO:
-					result = rankingHandler.rankingInfoSelf(rankRequest, pPlayer);
+					result = rankingHandler.rankingInfoSelf(request, pPlayer);
 					break;
 				default:
 					break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public MsgRankRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgRankRequest rankRequest = MsgRankRequest.parseFrom(request.getBody().getSerializedContent());
+		return rankRequest;
+	}
+
+	@Override
+	public ERankRequestType getMsgType(MsgRankRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 }
