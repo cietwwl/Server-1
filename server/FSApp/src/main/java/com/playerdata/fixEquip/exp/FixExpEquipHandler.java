@@ -1,5 +1,7 @@
 package com.playerdata.fixEquip.exp;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
@@ -18,6 +20,24 @@ public class FixExpEquipHandler {
 	
 	public static FixExpEquipHandler getInstance(){
 		return instance;
+	}
+	
+	public ByteString checkStoredExp(Player player, CommonReqMsg commonReq) {
+		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+		String ownerId = commonReq.getOwnerId();
+		String itemId = commonReq.getEquipId();		
+		ExpLevelUpReqParams reqParams = commonReq.getExpLevelUpReqParams();
+		
+
+		List<Hero> list = player.getHeroMgr().getAllHeros(player, null);
+		for (Hero hero : list) {			
+			hero.getFixExpEquipMgr().checkStoredExp(player, ownerId, itemId, reqParams);
+		}
+		
+		response.setIsSuccess(true);		
+
+		return response.build().toByteString();
 	}
 
 	public ByteString levelUp(Player player, CommonReqMsg commonReq) {

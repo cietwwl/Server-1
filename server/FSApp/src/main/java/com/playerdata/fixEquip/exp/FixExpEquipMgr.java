@@ -261,6 +261,17 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
+	public FixEquipResult checkStoredExp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
+		
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		for (FixExpEquipDataItem dataItem : itemList) {
+			doLevelUpByStoredExp(player, dataItem);
+		}
+		
+		FixEquipResult result = FixEquipResult.newInstance(true);
+		
+		return result;
+	}
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
 
 		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
