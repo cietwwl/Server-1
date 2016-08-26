@@ -32,16 +32,16 @@ public class GFGroupBiddingComparable implements Comparable<GFGroupBiddingCompar
 			return -1;
 		}
 		if(totalBid > o.totalBid){
-			return -1;
+			return 1;
 		}
 		if(totalBid < o.totalBid){
-			return 1;
+			return -1;
 		}
 		if(lastBidTime > o.lastBidTime){
-			return 1;
+			return -1;
 		}
 		if(lastBidTime < o.lastBidTime){
-			return -1;
+			return 1;
 		}
 		return 0;
 	}
