@@ -79,7 +79,8 @@ public class DataAutoSynMgr {
 			Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
 			if(null == player){
 				//获取的map是单独创建的，所以，这里没有用迭代的remove删除
-				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
+				//把玩家标记为离开
+				SameSceneContainer.getInstance().removeUserFromScene(sceneId, entry.getKey());
 				continue;
 			}
 			synCount++;
@@ -89,6 +90,7 @@ public class DataAutoSynMgr {
 				//元素是否被删除
 				removedPlayers.add(entry.getKey());
 				entryIterator.remove();
+				//从场景中删除
 				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
 			}else if(entry.getValue().isNewAdd()){
 				//是否新添加

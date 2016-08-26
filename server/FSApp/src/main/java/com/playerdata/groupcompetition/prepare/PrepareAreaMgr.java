@@ -36,24 +36,15 @@ public class PrepareAreaMgr {
 	 * @param position
 	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
-		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
-		if(StringUtils.isBlank(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("请先加入帮派");
-			return;
-		}
-		if(groupScene == null || !groupScene.containsKey(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("场景未开启");
-			return;
-		}
-		List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(groupScene.get(groupId));
-		List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
-		if(null != allBaseInfo && !allBaseInfo.isEmpty()){
-			gcRsp.addAllPlayers(allBaseInfo);
-		}
 		informPreparePosition(player, gcRsp, position);
+		if(gcRsp.getRstType() == GCResultType.SUCCESS){
+			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(groupScene.get(groupId));
+			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
+			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
+				gcRsp.addAllPlayers(allBaseInfo);
+			}
+		}
 	}
 
 	/**
