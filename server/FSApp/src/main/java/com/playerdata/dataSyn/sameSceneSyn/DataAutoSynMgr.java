@@ -63,7 +63,7 @@ public class DataAutoSynMgr {
 		}
 	}
 	
-	public <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
+	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
 		int synCount = 0;
 		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
@@ -112,5 +112,25 @@ public class DataAutoSynMgr {
 			ClientDataSynMgr.synDataMutiple(players, synObject, synType, eSynOpType.UPDATE_SINGLE);
 		}
 		return synCount;
+	}
+	
+	public <T extends SameSceneDataBaseIF> void synDataToOnePlayer(Player player, long sceneId, eSynType synType, SameSceneSynDataIF synObject){
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		if(null == player || null == synData || synData.isEmpty() || sceneId <= 0){
+			return;
+		}
+		Iterator<Entry<String, T>> entryIterator = synData.entrySet().iterator();
+		while(entryIterator.hasNext()){
+			Entry<String, T> entry = entryIterator.next();
+			if(entry.getValue().isRemoved()){
+				//元素是否被删除
+				entryIterator.remove();
+			}
+		}
+		//用来同步数据的结构
+		synObject.setId(String.valueOf(sceneId));
+		synObject.setSynData(synData);
+		//多个用户同步相同的数据
+		ClientDataSynMgr.synData(player, synObject, synType, eSynOpType.UPDATE_SINGLE);
 	}
 }

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
@@ -39,7 +40,9 @@ public class PrepareAreaMgr {
 		String groupId = "9899";
 		informPreparePosition(player, gcRsp, position);
 		if(gcRsp.getRstType() == GCResultType.SUCCESS){
-			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(groupScene.get(groupId));
+			long sceneId = groupScene.get(groupId);
+			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
+			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
 			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
