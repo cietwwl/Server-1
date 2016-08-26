@@ -9,7 +9,15 @@ import com.playerdata.groupcompetition.util.GCompStageType;
  * @author CHEN.P
  *
  */
-public interface IGCStage {
+public interface IGCompStage {
+	
+	/**
+	 * 
+	 * 获取配置的id
+	 * 
+	 * @return
+	 */
+	public String getStageCfgId();
 	
 	/**
 	 * 
@@ -20,7 +28,7 @@ public interface IGCStage {
 	/**
 	 * 通知此阶段开始
 	 */
-	public void onStageStart(IGCStage preStage);
+	public void onStageStart(IGCompStage preStage);
 	
 	/**
 	 * 通知此阶段结束

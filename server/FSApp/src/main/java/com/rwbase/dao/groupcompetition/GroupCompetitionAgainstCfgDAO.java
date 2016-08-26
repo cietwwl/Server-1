@@ -8,10 +8,15 @@ import java.util.Map;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionAgainstCfg;
 
 public class GroupCompetitionAgainstCfgDAO extends CfgCsvDao<GroupCompetitionAgainstCfg> {
+	
+	public static GroupCompetitionAgainstCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GroupCompetitionAgainstCfgDAO.class);
+	}
 
 	@Override
 	protected Map<String, GroupCompetitionAgainstCfg> initJsonCfg() {

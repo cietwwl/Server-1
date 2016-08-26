@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.playerdata.groupcompetition.util.GCEventsStatus;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 public class GCompEventsData {
@@ -12,7 +12,7 @@ public class GCompEventsData {
 	private GCEventsType _eventsType; // 赛事类型
 	private List<GCompAgainst> _againsts; // 对阵关系
 	private List<GCompAgainst> _againstsRO; // 对阵关系（只读）
-	private GCEventsStatus _currentStatus = GCEventsStatus.NONE; // 赛事的当前状态
+	private GCompEventsStatus _currentStatus = GCompEventsStatus.NONE; // 赛事的当前状态
 	private List<String> _winGroupIds;
 	private List<String> _winGroupIdsRO;
 	
@@ -33,11 +33,11 @@ public class GCompEventsData {
 		return _againstsRO;
 	}
 	
-	void setCurrentStatus(GCEventsStatus pStatus) {
+	void setCurrentStatus(GCompEventsStatus pStatus) {
 		this._currentStatus = pStatus;
 	}
 	
-	public GCEventsStatus getCurrentStatus() {
+	public GCompEventsStatus getCurrentStatus() {
 		return _currentStatus;
 	}
 	

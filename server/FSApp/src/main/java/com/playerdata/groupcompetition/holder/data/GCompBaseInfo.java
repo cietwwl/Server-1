@@ -2,14 +2,14 @@ package com.playerdata.groupcompetition.holder.data;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupcompetition.util.GCEventsStatus;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
 
 @SynClass
 public class GCompBaseInfo {
 
 	private boolean isStart; // 帮战是否已经开始了
-	private GCEventsStatus eventStatus = GCEventsStatus.NONE; // 当前的赛事状态
+	private GCompEventsStatus eventStatus = GCompEventsStatus.NONE; // 当前的赛事状态
 	private GCompStageType currentStageType = GCompStageType.EMPTY; // 当前的阶段状态
 	private long leftTime; // 帮战开始的剩余时间
 	@IgnoreSynField
@@ -23,11 +23,11 @@ public class GCompBaseInfo {
 		this.isStart = flag;
 	}
 	
-	public GCEventsStatus getEventStatus() {
+	public GCompEventsStatus getEventStatus() {
 		return this.eventStatus;
 	}
 	
-	public void setEventStatus(GCEventsStatus status) {
+	public void setEventStatus(GCompEventsStatus status) {
 		this.eventStatus = status;
 	}
 	

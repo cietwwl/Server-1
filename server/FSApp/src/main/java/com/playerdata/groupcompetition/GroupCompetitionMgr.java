@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.playerdata.groupcompetition.data.IGCStage;
+import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -42,6 +42,20 @@ public class GroupCompetitionMgr {
 		return instance.getTimeInMillis();
 	}
 	
+	private void startStageController(GCompStartType startType, long relativeTime) {
+		GroupCompetitionStageCfgDAO groupCompetitionStageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
+		long startTimeMillis = GCompUtil.calculateGroupCompetitionStartTime(startType, relativeTime);
+		GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(startType.sign);
+		List<Integer> stageDetail = cfg.getStageDetailList();
+		List<IGCompStage> stageList = new ArrayList<IGCompStage>();
+		for (int i = 0, size = stageDetail.size(); i < size; i++) {
+			GroupCompetitionStageCfg stageCfg = groupCompetitionStageCfgDAO.getCfgById(String.valueOf(stageDetail.get(i)));
+			stageList.add(GCompStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
+		}
+		GCompStageController controller = new GCompStageController(stageList);
+		controller.start(startTimeMillis); // controller开始
+	}
+	
 	private void checkStartGroupCompetition() {
 		GroupCompetitionSaveData data = _dataHolder.get();
 		if(data.getHeldTimes() > 0) {
@@ -49,17 +63,7 @@ public class GroupCompetitionMgr {
 			GroupCompetitionSaveData saveData = _dataHolder.get();
 		} else {
 			// 没有举办过
-			GroupCompetitionStageCfgDAO groupCompetitionStageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
-			long startTimeMillis = GCompUtil.calculateGroupCompetitionStartTime(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
-			GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCompStartType.SERVER_TIME_OFFSET.sign);
-			List<Integer> stageDetail = cfg.getStageDetailList();
-			List<IGCStage> stageList = new ArrayList<IGCStage>();
-			for (int i = 0, size = stageDetail.size(); i < size; i++) {
-				GroupCompetitionStageCfg stageCfg = groupCompetitionStageCfgDAO.getCfgById(String.valueOf(stageDetail.get(i)));
-				stageList.add(GCompStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
-			}
-			GCompStageController controller = new GCompStageController(stageList, stageList);
-			controller.start(startTimeMillis); // controller开始
+			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
 		}
 	}
 	
@@ -82,6 +86,10 @@ public class GroupCompetitionMgr {
 	 */
 	public GCEventsType getFisrtTypeOfCurrent() {
 		return _dataHolder.get().getCurrentData().getFirstEventsType();
+	}
+	
+	void allStageEndOfCurrentRound() {
+		this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
 	}
 	
 	/**
