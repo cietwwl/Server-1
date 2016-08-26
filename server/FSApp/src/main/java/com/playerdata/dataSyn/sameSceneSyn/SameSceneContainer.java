@@ -56,6 +56,11 @@ public class SameSceneContainer {
 		return null == scene.put(userId, value);
 	}
 	
+	/**
+	 * 并不是真的移除，只是加个移除的标记
+	 * @param sceneId
+	 * @param userId
+	 */
 	public void removeUserFromScene(long sceneId, String userId){
 		ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene;
 		readLock.lock();
@@ -67,8 +72,31 @@ public class SameSceneContainer {
 		if(null == scene){
 			return;
 		}
-		scene.remove(userId);
+		SameSceneDataBaseIF data = scene.get(userId);
+		if(null == data) {
+			return;
+		}
+		data.setRemoved(true);
 		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
+	}
+	
+	/**
+	 * 把玩家从场景中移除（实际的删除，但不同步数据）
+	 * @param sceneId
+	 * @param userId
+	 */
+	public void deleteUserFromScene(long sceneId, String userId){
+		ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene;
+		readLock.lock();
+		try {
+			scene = container.get(sceneId);
+		} finally {
+			readLock.unlock();
+		}
+		if(null == scene){
+			return;
+		}
+		scene.remove(userId);
 	}
 	
 	public long createNewScene(){

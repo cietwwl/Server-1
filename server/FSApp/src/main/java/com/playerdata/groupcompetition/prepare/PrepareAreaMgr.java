@@ -76,8 +76,8 @@ public class PrepareAreaMgr {
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
-		pInfo.setPx(position.getX() > 0.01f ? position.getX() : 0.01f);
-		pInfo.setPy(position.getY() > 0.01f ? position.getY() : 0.01f);
+		pInfo.setPx(position.getX());
+		pInfo.setPy(position.getY());
 		SameSceneContainer.getInstance().putUserToScene(groupScene.get(groupId), player.getUserId(), pInfo);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}

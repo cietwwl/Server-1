@@ -71,23 +71,34 @@ public class DataAutoSynMgr {
 		}
 		//统计需要同步的玩家
 		List<Player> players = new ArrayList<Player>();
+		List<String> removedPlayers = new ArrayList<String>();
+		List<String> newAddPlayers = new ArrayList<String>();
 		Iterator<Entry<String, T>> entryIterator = synData.entrySet().iterator();
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
 			Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
 			if(null == player){
 				//获取的map是单独创建的，所以，这里没有用迭代的remove删除
-				SameSceneContainer.getInstance().removeUserFromScene(sceneId, entry.getKey());
+				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
 				continue;
 			}
 			synCount++;
 			players.add(player);
-			//删除没有变动的元素，不多余同步，把元素重新置为未变动
-			if(!entry.getValue().isChanged()){
+			
+			if(entry.getValue().isRemoved()){
+				//元素是否被删除
+				removedPlayers.add(entry.getKey());
 				entryIterator.remove();
-			}else{
-				entry.getValue().setChanged(false);
+				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
+			}else if(entry.getValue().isNewAdd()){
+				//是否新添加
+				newAddPlayers.add(entry.getKey());
+			}else if(!entry.getValue().isChanged()){
+				//元素没有改变
+				entryIterator.remove();
 			}
+			entry.getValue().setNewAdd(false);
+			entry.getValue().setChanged(false);
 		}
 		if(!players.isEmpty() && !synData.isEmpty()){
 			//用来同步数据的结构
