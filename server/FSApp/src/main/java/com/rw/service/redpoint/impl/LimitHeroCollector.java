@@ -5,14 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 import com.playerdata.Player;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
 import com.rw.service.redpoint.RedPointType;
+import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
 
 public class LimitHeroCollector implements RedPointCollector{
 
@@ -33,9 +38,13 @@ public class LimitHeroCollector implements RedPointCollector{
 				activityList.add(item.getCfgId());
 				continue;
 			}
+			ActivityLimitGamblePlanCfg planCfg = ActivityLimitGamblePlanCfgDAO.getInstance().getCfgByType(GambleType.SINGLE.getNumber(), player.getLevel());
+			if(planCfg == null){
+				continue;
+			}
 			long now = System.currentTimeMillis();
 			long lastTime = item.getLastSingleTime();
-			if((now - lastTime)> cfg.getFreecd() * 1000){
+			if((now - lastTime)> planCfg.getRecoverTime() * 1000){
 				activityList.add(item.getCfgId());
 				continue;
 			}

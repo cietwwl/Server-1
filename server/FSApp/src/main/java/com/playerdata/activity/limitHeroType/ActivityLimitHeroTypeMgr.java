@@ -4,6 +4,8 @@ package com.playerdata.activity.limitHeroType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,15 +13,19 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
-import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfg;
@@ -27,6 +33,10 @@ import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfgDAO;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
+import com.playerdata.activity.limitHeroType.gamble.FreeGamble;
+import com.playerdata.activity.limitHeroType.gamble.Gamble;
+import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
+import com.playerdata.activity.limitHeroType.gamble.TenGamble;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
@@ -34,6 +44,17 @@ import com.rwproto.ActivityLimitHeroTypeProto.GamebleReward;
 import com.rwproto.ActivityLimitHeroTypeProto.RankRecord;
 
 public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
+	public final static int TYPE_FREE_GAMBLE = 0;//免费单抽
+	public final static int TYPE_SINGAL_GAMBLE = 1;//单抽
+	public final static int TYPE_TEN_GAMBLE = 2;//十连抽
+	
+	private final static HashMap<Integer, Gamble> ActivityLimitGambleMap = new HashMap<Integer, Gamble>();
+	static {
+		ActivityLimitGambleMap.put(TYPE_FREE_GAMBLE, new FreeGamble());
+		ActivityLimitGambleMap.put(TYPE_SINGAL_GAMBLE, new SingelGamble());
+		ActivityLimitGambleMap.put(TYPE_TEN_GAMBLE, new TenGamble());
+	}
+	
 	private static ActivityLimitHeroTypeMgr instance = new ActivityLimitHeroTypeMgr();
 	public static ActivityLimitHeroTypeMgr getInstance (){
 		return instance;
@@ -214,19 +235,19 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 
 	
 
-	public ActivityComResult gamble(Player player, ActivityCommonReqMsg commonReq, Builder response) {
-		ActivityComResult result = ActivityComResult.newInstance(false);
-		result.setReason("");
-		if(commonReq.getGambleType() == GambleType.SINGLE){
-			result = gambleSingle(player,response);
-		}
-		if(commonReq.getGambleType() == GambleType.TEN){
-			result =  gambleTen(player,response);
-		}		
-		return result;
-	}
+//	public ActivityComResult gamble(Player player, ActivityCommonReqMsg commonReq, Builder response) {
+//		ActivityComResult result = ActivityComResult.newInstance(false);
+//		result.setReason("");
+//		if(commonReq.getGambleType() == GambleType.SINGLE){
+//			result = gambleSingle(player,response);
+//		}
+//		if(commonReq.getGambleType() == GambleType.TEN){
+//			result =  gambleTen(player,response);
+//		}		
+//		return result;
+//	}
 	
-	private ActivityComResult gamblenew(Player player,ActivityCommonReqMsg commonReq,Builder response){
+	public ActivityComResult gamble(Player player,ActivityCommonReqMsg commonReq,Builder response){
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		result.setReason("");
 		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
@@ -238,25 +259,29 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 		if(cfg == null){
-			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置活动表", null);
 			result.setReason("数据异常");
 			return result;			
 		}
-		int spendNeed = cfg.getTencost();
-		int integral = cfg.getTenintegral();
-		if(!isEnoughGold(player,commonReq,spendNeed,integral,cfg,dataItem)){
+		ActivityLimitGamblePlanCfg planCfg = ActivityLimitGamblePlanCfgDAO.getInstance().getCfgByType(commonReq.getGambleType().getNumber(), player.getLevel());
+		if(planCfg == null){
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置抽卡方案表", null);
+			result.setReason("数据异常");
+			return result;	
+		}
+		boolean isFree = false;
+		if(!isEnoughGold(player,commonReq,planCfg,cfg,dataItem,isFree)){
 			result.setReason("钻石不足");
 			return result;
 		}
+		int guatanteeTimes = 0;
+		int type = getType(dataItem,planCfg,commonReq,isFree,guatanteeTimes);
+		Gamble handler = ActivityLimitGambleMap.get(type);
+		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes);
 		
-		List<String> rewardsList = getRewards();
-		doDropList(response,rewardsList);
-		
-		
-		
-		player.getUserGameDataMgr().addGold(-spendNeed);
-		dataItem.setIntegral(dataItem.getIntegral() + integral);
 		dataHolder.updateItem(player, dataItem);
+		
+		doDropList(player,response,map);		
 		result.setSuccess(true);
 		reFreshIntegralRank(player,dataItem,cfg);		
 		return result;
@@ -265,142 +290,236 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	
 
 
-	/**是否钻石足够；如果是免费次数，则将消耗置0*/
-	private boolean isEnoughGold(Player player, ActivityCommonReqMsg commonReq,int spendNeed,int integral,ActivityLimitHeroCfg cfg,ActivityLimitHeroTypeItem item) {
+	
+
+	/**是否钻石足够；如果是免费次数，则将消耗置0
+	 * @param isFree */
+	private boolean isEnoughGold(Player player, ActivityCommonReqMsg commonReq,ActivityLimitGamblePlanCfg planCfg,ActivityLimitHeroCfg cfg,ActivityLimitHeroTypeItem item, boolean isFree) {
+		int spendNeed = planCfg.getMoneyNum();
 		if(commonReq.getGambleType() == GambleType.SINGLE){
-			spendNeed = cfg.getSinglecost();
-			integral = cfg.getSingleintegral();
 			long now = System.currentTimeMillis();
 			long lastTime = item.getLastSingleTime();
-			if((now - lastTime) > cfg.getFreecd()* 1000){
-				spendNeed = 0;
+			if((now - lastTime) > planCfg.getRecoverTime()* 1000){
 				item.setLastSingleTime(now);
+				spendNeed = 0;
+				isFree = true;
 			}		
 			if(player.getUserGameDataMgr().getGold() < spendNeed){
 				return false;
-			}else{
+			}else{				
+				player.getUserGameDataMgr().addGold(-spendNeed);
+				item.setIntegral(item.getIntegral() + cfg.getSingleintegral());
 				return true;
 			}
 		}else if(commonReq.getGambleType() == GambleType.TEN){
-			spendNeed = cfg.getTencost();
-			if(player.getUserGameDataMgr().getGold() < cfg.getTencost()){				
+			if(player.getUserGameDataMgr().getGold() < spendNeed){				
 				return false;
-			}else{				
+			}else{
+				player.getUserGameDataMgr().addGold(-spendNeed);
+				item.setIntegral(item.getIntegral() + cfg.getTenintegral());
 				return true;
 			}			
 		}		
 		return false;		
 	}
 	
-	//获得抽取的奖励rewards
-	private List<String> getRewards() {
-		// TODO Auto-generated method stub
-		return null;
+	/**获取方案，以及触发的保底次数
+	 * @param guatanteeTimes */
+	private int getType(ActivityLimitHeroTypeItem dataItem,
+			ActivityLimitGamblePlanCfg planCfg, ActivityCommonReqMsg commonReq, boolean isFree, int guatanteeTimes) {
+		int type = TYPE_SINGAL_GAMBLE;
+		type = getBaseType(commonReq,isFree,type);		
+		//根据单十抽来判断是否触发保底
+		if(commonReq.getGambleType() == GambleType.SINGLE){			
+			for(Integer time : planCfg.getGuaranteeList()){
+				if(time == (dataItem.getGuarantee() + 1)){
+					guatanteeTimes  = 1;
+					break;
+				}
+			}
+			if(dataItem.getGuarantee()!=0 &&(dataItem.getGuarantee() + 1)%planCfg.getMaxGuarantee() == 0){
+				guatanteeTimes  = 1;
+			}
+			dataItem.setGuarantee(dataItem.getGuarantee() + 1);
+		}else if (commonReq.getGambleType() == GambleType.TEN){
+			int lastGuarantee = dataItem.getGuarantee() + planCfg.getDropItemCount();			
+			for(Integer time : planCfg.getGuaranteeList()){
+				if(lastGuarantee >= time&&dataItem.getGuarantee() < time){
+					guatanteeTimes++;
+					
+				}
+			}
+			for(int i = dataItem.getGuarantee()+1;i < lastGuarantee+1;i++){
+				if(i%planCfg.getMaxGuarantee() == 0&&dataItem.getGuarantee() != 0){
+					guatanteeTimes++;
+				}
+			}			
+		}		
+		return type;
+	}
+	/**在不计算保底的基础上简单分类*/
+	private int getBaseType(ActivityCommonReqMsg commonReq, boolean isFree,
+			int type) {
+		if(commonReq.getGambleType() == GambleType.SINGLE){
+			if(isFree){
+				type = TYPE_FREE_GAMBLE;
+			}else{
+				type = TYPE_SINGAL_GAMBLE;
+			}
+		}else if (commonReq.getGambleType() == GambleType.TEN){
+			type = TYPE_TEN_GAMBLE;
+		}
+		return type;
+	}
+
+	public String  getGambleRewards(Map<Integer, Integer> planList){
+		StringBuilder strbuild = new StringBuilder();
+		int randomGroup = HPCUtil.getRandom().nextInt(10000);
+		int groupId = getRandomGroup(planList,randomGroup);
+		List<ActivityLimitGambleDropCfg> cfgList = ActivityLimitGambleDropCfgDAO.getInstance().getActivityLimitGambleDropCfgByPoolId(groupId);
+		int sumWeight = ActivityLimitGambleDropCfgDAO.getInstance().getSumWeightByPoolId(groupId);
+		int result = HPCUtil.getRandom().nextInt(sumWeight);
+		ActivityLimitGambleDropCfg resultCfg = getRandomCfg(cfgList,result);
+		strbuild.append(resultCfg.getId()).append("~").append(resultCfg.getItemGroup());
+		return strbuild.toString();		
+	}
+ 	
+	private ActivityLimitGambleDropCfg getRandomCfg(List<ActivityLimitGambleDropCfg> list, int result) {
+		int value = 0;
+		for (ActivityLimitGambleDropCfg cfg : list) {
+			value += cfg.getWeight();
+			if (result < value) {
+				return cfg;
+			}
+		}
+		return list.size() > 0 ? list.get(0) : null;
 	}
 	
-	//加入response
-	private void doDropList(Builder response, List<String> rewardsList) {
-		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();	
-		for(int i = 0;i< rewardsList.size();i++){
+	private int getRandomGroup(Map<Integer, Integer> planList, int result) {
+		int value = 0;
+		int firstPlan = 0;
+		int i = 0;
+		for(Map.Entry<Integer, Integer> entry : planList.entrySet()){
+			if(i == 0)firstPlan = entry.getKey();
+			i++;
+			value += entry.getValue();
+			if(result < value){
+				return entry.getKey();
+			}
+		}		
+		return planList.size() > 0 ? planList.get(firstPlan) : null;
+	}
+	
+	//id~num,id2~num2格式奖励加入response和背包
+	private void doDropList(Player player,Builder response, String map) {
+		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();
+		String[] splitList = map.split(",");
+		String reward = "";
+		for(String str : splitList){
+			String[] idAndNum = str.split("~");
+			Integer modelId = Integer.parseInt(idAndNum[0]);
+			Integer count = Integer.parseInt(idAndNum[1]);
+//			player.getItemBagMgr().addItem(modelId, count);
+			
 			GamebleReward.Builder data = GamebleReward.newBuilder();
-			data.setRewardId(700007);
-			data.setRewardNum(1);
-			dropList.add(data.build());
+			data.setRewardId(modelId);
+			data.setRewardNum(count);
+			dropList.add(data.build());		
 		}
 		response.addAllGamebleReward(dropList);	
 	}
 	
-	private ActivityComResult gambleTen(Player player, Builder response) {
-		ActivityComResult result = ActivityComResult.newInstance(false);
-		result.setReason("");
-		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
-		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
-			result.setReason("数据异常");
-			return result;
-		}
-		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
-		if(cfg == null){
-			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
-			result.setReason("数据异常");
-			return result;			
-		}
-		if(player.getUserGameDataMgr().getGold() < cfg.getTencost()){
-			result.setReason("钻石不足");
-			return result;
-		}
-		
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		itemBagMgr.addItem(803002,10);//需要模板方案来替换
-		String str = "700007~10";//需要各种逻辑产生的一个droplist
-		itemBagMgr.addItemByPrizeStr(str);
-		
-		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();		
-		GamebleReward.Builder data = GamebleReward.newBuilder();
-		for(int i = 0;i< 10;i++){
-			data.setRewardId(700007);
-			data.setRewardNum(1);
-			dropList.add(data.build());
-		}
-		
-		response.addAllGamebleReward(dropList);		
-		player.getUserGameDataMgr().addGold(-cfg.getTencost());
-		dataItem.setIntegral(dataItem.getIntegral() + cfg.getTenintegral());
-		dataHolder.updateItem(player, dataItem);
-		result.setSuccess(true);
-		reFreshIntegralRank(player,dataItem,cfg);
-		return result;
-	}
+//	private ActivityComResult gambleTen(Player player, Builder response) {
+//		ActivityComResult result = ActivityComResult.newInstance(false);
+//		result.setReason("");
+//		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
+//		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
+//		if(dataItem == null){
+//			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
+//			result.setReason("数据异常");
+//			return result;
+//		}
+//		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+//		if(cfg == null){
+//			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
+//			result.setReason("数据异常");
+//			return result;			
+//		}
+//		if(player.getUserGameDataMgr().getGold() < cfg.getTencost()){
+//			result.setReason("钻石不足");
+//			return result;
+//		}
+//		
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+//		itemBagMgr.addItem(803002,10);//需要模板方案来替换
+//		String str = "700007~10";//需要各种逻辑产生的一个droplist
+//		itemBagMgr.addItemByPrizeStr(str);
+//		
+//		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();		
+//		GamebleReward.Builder data = GamebleReward.newBuilder();
+//		for(int i = 0;i< 10;i++){
+//			data.setRewardId(700007);
+//			data.setRewardNum(1);
+//			dropList.add(data.build());
+//		}
+//		
+//		response.addAllGamebleReward(dropList);		
+//		player.getUserGameDataMgr().addGold(-cfg.getTencost());
+//		dataItem.setIntegral(dataItem.getIntegral() + cfg.getTenintegral());
+//		dataHolder.updateItem(player, dataItem);
+//		result.setSuccess(true);
+//		reFreshIntegralRank(player,dataItem,cfg);
+//		return result;
+//	}
 
-	private ActivityComResult gambleSingle(Player player, Builder response) {
-		ActivityComResult result = ActivityComResult.newInstance(false);
-		result.setReason("");
-		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
-		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
-			result.setReason("数据异常");
-			return result;
-		}
-		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
-		if(cfg == null){
-			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
-			result.setReason("数据异常");
-			return result;			
-		}
-		
-		int spendNeed = cfg.getSinglecost();
-		long now = System.currentTimeMillis();
-		long lastTime = dataItem.getLastSingleTime();
-		if((now - lastTime) > cfg.getFreecd()* 1000){
-			spendNeed = 0;
-			dataItem.setLastSingleTime(now);
-		}		
-		if(player.getUserGameDataMgr().getGold() < spendNeed){
-			result.setReason("钻石不足");
-			return result;
-		}
-		
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		itemBagMgr.addItem(803002,1);//需要模板方案来替换
-		String str = "700007~1";//需要各种逻辑产生的一个droplist
-		itemBagMgr.addItemByPrizeStr(str);
-		
-		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();		
-		GamebleReward.Builder data = GamebleReward.newBuilder();
-		data.setRewardId(700007);
-		data.setRewardNum(1);
-		dropList.add(data.build());
-		response.addAllGamebleReward(dropList);
-		
-		player.getUserGameDataMgr().addGold(-spendNeed);
-		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
-		dataHolder.updateItem(player, dataItem);
-		result.setSuccess(true);
-		reFreshIntegralRank(player,dataItem,cfg);
-		return result;
-	}
+//	private ActivityComResult gambleSingle(Player player, Builder response) {
+//		ActivityComResult result = ActivityComResult.newInstance(false);
+//		result.setReason("");
+//		ActivityLimitHeroTypeItemHolder dataHolder = new ActivityLimitHeroTypeItemHolder();
+//		ActivityLimitHeroTypeItem dataItem = dataHolder.getItem(player.getUserId());
+//		if(dataItem == null){
+//			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "没有数据的用户发来了抽卡申请", null);
+//			result.setReason("数据异常");
+//			return result;
+//		}
+//		ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+//		if(cfg == null){
+//			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "有数据的用户发来了抽卡申请,没找到配置表", null);
+//			result.setReason("数据异常");
+//			return result;			
+//		}
+//		
+//		int spendNeed = cfg.getSinglecost();
+//		long now = System.currentTimeMillis();
+//		long lastTime = dataItem.getLastSingleTime();
+//		if((now - lastTime) > cfg.getFreecd()* 1000){
+//			spendNeed = 0;
+//			dataItem.setLastSingleTime(now);
+//		}		
+//		if(player.getUserGameDataMgr().getGold() < spendNeed){
+//			result.setReason("钻石不足");
+//			return result;
+//		}
+//		
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+//		itemBagMgr.addItem(803002,1);//需要模板方案来替换
+//		String str = "700007~1";//需要各种逻辑产生的一个droplist
+//		itemBagMgr.addItemByPrizeStr(str);
+//		
+//		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();		
+//		GamebleReward.Builder data = GamebleReward.newBuilder();
+//		data.setRewardId(700007);
+//		data.setRewardNum(1);
+//		dropList.add(data.build());
+//		response.addAllGamebleReward(dropList);
+//		
+//		player.getUserGameDataMgr().addGold(-spendNeed);
+//		dataItem.setIntegral(dataItem.getIntegral() + cfg.getSingleintegral());
+//		dataHolder.updateItem(player, dataItem);
+//		result.setSuccess(true);
+//		reFreshIntegralRank(player,dataItem,cfg);
+//		return result;
+//	}
 	
 	
 	

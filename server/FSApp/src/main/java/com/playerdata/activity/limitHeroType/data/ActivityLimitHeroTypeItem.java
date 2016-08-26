@@ -45,6 +45,9 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 	@CombineSave
 	private List<ActivityLimitHeroTypeSubItem> subList = new ArrayList<ActivityLimitHeroTypeSubItem>();
 	
+	@CombineSave
+	private int guarantee ;
+	
 	public void reset(ActivityLimitHeroCfg cfg,List<ActivityLimitHeroTypeSubItem> subList){
 		this.cfgId = cfg.getId();
 		this.closed = false;
@@ -54,6 +57,7 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 		this.lastSingleTime = 666;//0.0 和初始化区分
 		this.rankRewards = "";
 		this.subList = subList;
+		this.guarantee = 0;
 	}
 
 	public String getId() {
@@ -62,6 +66,15 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	
+	public int getGuarantee() {
+		return guarantee;
+	}
+
+	public void setGuarantee(int guarantee) {
+		this.guarantee = guarantee;
 	}
 
 	public String getUserId() {
