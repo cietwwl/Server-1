@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
+import com.rw.service.Privilege.datamodel.generalPrivilege;
+import com.rw.service.Privilege.datamodel.generalPrivilegeProperties;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.setting.HeadTypeList;
@@ -17,6 +21,7 @@ import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwbase.dao.setting.pojo.HeadCfg;
 import com.rwbase.dao.setting.pojo.HeadType;
 import com.rwbase.dao.setting.pojo.TableSettingData;
+import com.rwproto.PrivilegeProtos.GeneralPrivilegeNames;
 
 public class SettingMgr implements PlayerEventListener {
 
@@ -50,6 +55,7 @@ public class SettingMgr implements PlayerEventListener {
 			settingDataHolder.get().getOwnHeadBox().add(headBox);
 			TableSettingDataDAO.getInstance().update(settingData);
 		}
+		checkHeadBoxChange();
 	}
 
 	public void syn() {
@@ -112,6 +118,41 @@ public class SettingMgr implements PlayerEventListener {
 			}
 		}
 		return headBoxNameList;
+	}
+	
+	public void notifyVipUpgrade() {
+		checkHeadBoxChange();
+	}
+	
+	private void checkHeadBoxChange(){
+		String headBoxPrivilege = m_Player.getPrivilegeMgr().getStringPrivilege(GeneralPrivilegeNames.isAllowVipHeadIcon);
+		String[] split = headBoxPrivilege.split(";");
+		List<String> headSpriteId = new ArrayList<String>();
+		for (String cfgId : split) {
+			HeadBoxCfg cfg = HeadBoxCfgDAO.getInstance().getCfgById(cfgId);
+			if(cfg == null){
+				continue;
+			}
+			headSpriteId.add(cfg.getSpriteId());
+		}
+		boolean blnUpdate = false;
+		if(headSpriteId.size() > 0){
+			List<HeadTypeList> list = settingDataHolder.get().getOwnHeadBox();
+			for (HeadTypeList head : list) {
+				if (head.getType() == HeadBoxType.HEADBOX_BASE) {
+					List<String> temp = head.getDataList();
+					for (String spriteId : headSpriteId) {
+						if (!temp.contains(spriteId)) {
+							blnUpdate = true;
+							temp.add(spriteId);
+						}
+					}
+				}
+
+			}
+		}
+		if (blnUpdate)
+			settingDataHolder.update(m_Player);
 	}
 
 	public void setLastChangeName() {
