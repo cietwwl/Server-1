@@ -250,7 +250,7 @@ public abstract class BaseJdbc<T> {
 		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
-			insert(addSql, addList);
+			BaseJdbc.this.insert(addSql, addList);
 			int[] result = batchDelete(delSql, delList);
 			for (int i = result.length; --i >= 0;) {
 				if (result[i] <= 0) {
