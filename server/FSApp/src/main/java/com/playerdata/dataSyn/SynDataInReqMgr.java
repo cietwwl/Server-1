@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -59,11 +61,20 @@ public class SynDataInReqMgr {
 	}
 
 	public boolean doSyn(ChannelHandlerContext ctx, String userId) {
+		ByteString synData = getSynData(ctx, userId);
+		if(synData!=null){
+			nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
+		}
+		return true;
+	}
+	
+	public ByteString getSynData(ChannelHandlerContext ctx, String userId) {
+		ByteString syndata = null;
 		if (ctx == null) {
-			return false;
+			return syndata;
 		}
 		if (!checkInSynThread(null)) {
-			return false;
+			return syndata;
 		}
 		try {
 			// 这里临时处理，需要allen整合
@@ -72,26 +83,25 @@ public class SynDataInReqMgr {
 				UserTmpGameDataSynMgr.getInstance().synDataByFlag(player);
 			}
 			Collection<SynDataInfo> values = synDataMap.values();
-			if (values.isEmpty()) {
-				return true;
-			}
-			MsgDataSynList.Builder msgDataSynList = MsgDataSynList.newBuilder();
-			for (Object keyObject : orderList) {
-				SynDataInfo synData = synDataMap.get(keyObject);
-				if (synData != null) {
-					msgDataSynList.addMsgDataSyn(synData.getContent());
+			if (!values.isEmpty()) {
+				MsgDataSynList.Builder msgDataSynList = MsgDataSynList.newBuilder();
+				for (Object keyObject : orderList) {
+					SynDataInfo synData = synDataMap.get(keyObject);
+					if (synData != null) {
+						msgDataSynList.addMsgDataSyn(synData.getContent());
+					}
 				}
+				syndata = msgDataSynList.build().toByteString();
+				
 			}
-			nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
-			return true;
 		} catch (Exception e) {
 			GameLog.error(LogModule.COMMON.getName(), userId, "SynDataInReqMgr[doSyn] error synType:", e);
-			return false;
 		} finally {
 			orderList.clear();
 			synDataMap.clear();
 			threadId.set(0);
 		}
+		return syndata;
 	}
 
 }
