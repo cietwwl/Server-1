@@ -235,18 +235,18 @@ public class UserChannelMgr {
 		return synData.setInReq();
 	}
 
-	public static boolean synDataOnBSEnd(String userId) {
-		ChannelHandlerContext ctx = userChannelMap.get(userId);
-		if (ctx == null) {
-			return false;
-		}
-
-		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
-		if (synData == null) {
-			return false;
-		}
-		return synData.doSyn(ctx, userId);
-	}
+//	public static boolean synDataOnBSEnd(String userId) {
+//		ChannelHandlerContext ctx = userChannelMap.get(userId);
+//		if (ctx == null) {
+//			return false;
+//		}
+//
+//		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
+//		if (synData == null) {
+//			return false;
+//		}
+//		return synData.doSyn(ctx, userId);
+//	}
 	public static ByteString getDataOnBSEnd(String userId) {
 		ChannelHandlerContext ctx = userChannelMap.get(userId);
 		if (ctx == null) {

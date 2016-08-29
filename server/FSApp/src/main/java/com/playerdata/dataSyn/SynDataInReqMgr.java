@@ -59,14 +59,14 @@ public class SynDataInReqMgr {
 		}
 		return true;
 	}
-
-	public boolean doSyn(ChannelHandlerContext ctx, String userId) {
-		ByteString synData = getSynData(ctx, userId);
-		if(synData!=null){
-			nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
-		}
-		return true;
-	}
+//
+//	public boolean doSyn(ChannelHandlerContext ctx, String userId) {
+//		ByteString synData = getSynData(ctx, userId);
+//		if(synData!=null){
+//			nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
+//		}
+//		return true;
+//	}
 	
 	public ByteString getSynData(ChannelHandlerContext ctx, String userId) {
 		ByteString syndata = null;
