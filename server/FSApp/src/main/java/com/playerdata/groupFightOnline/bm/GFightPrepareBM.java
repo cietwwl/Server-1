@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.group.GroupBM;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -19,11 +20,13 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.version.GFightDataVersion;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
+import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.enums.GFArmyState;
 import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -47,7 +50,8 @@ public class GFightPrepareBM {
 	 * @param resourceID
 	 */
 	public void prepareStart(int resourceID){
-		
+		//归还没进前四帮派的令牌数
+		giveBackToken(resourceID);
 	}
 	
 //	/**
@@ -67,6 +71,14 @@ public class GFightPrepareBM {
 //		gfRsp.setRstType(GFResultType.SUCCESS);
 //	}
 
+	/**
+	 * 备战阶段个人的压标
+	 * @param player
+	 * @param gfRsp
+	 * @param resourceID
+	 * @param groupID
+	 * @param rateID
+	 */
 	public void personalBidForGroup(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, String groupID, int rateID){
 		if(!GFightConditionJudge.getInstance().isPreparePeriod(resourceID)) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
@@ -79,13 +91,11 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg("压标类型数据有误");
 			return;
 		}
-		
 		if(player.getVip() < bidCgf.getVip()){
 			gfRsp.setRstType(GFResultType.BID_VIP_UNREACH);
 			gfRsp.setTipMsg("玩家VIP等级不足");
 			return;
 		}
-		
 		String selfGroupID = GroupHelper.getUserGroupId(player.getUserId());
 		if(StringUtils.isNotBlank(selfGroupID)){
 			int selfGroupRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, selfGroupID);
@@ -95,14 +105,12 @@ public class GFightPrepareBM {
 				return;
 			}
 		}
-		
 		int targetRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, groupID);
 		if(targetRank < 1 || targetRank > GFightConst.IN_FIGHT_MAX_GROUP){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("选择压标的帮派并没有参与该资源点的备战");
 			return;
 		}
-		
 		GFBiddingItem bidItem = GFBiddingItemHolder.getInstance().getItem(player, resourceID);
 		if(bidItem != null){
 			//已经压过标
@@ -181,6 +189,7 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg("防守队伍数据不存在或者防守方已撤离");
 			return;
 		}
+		defendTeam.getSimpleArmy().setGroupName(GroupHelper.getGroupName(defendTeam.getUserID()));
 		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defendTeam));
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
@@ -225,6 +234,12 @@ public class GFightPrepareBM {
 		}
 	}
 	
+	/**
+	 * 计算两个资源数量的差
+	 * @param left
+	 * @param right
+	 * @return
+	 */
 	private List<ItemInfo> getDistanceBetweenTwo(List<ItemInfo> left, List<ItemInfo> right){
 		if(left == null || right == null || left.size() != right.size()) return null;
 		List<ItemInfo> result = new ArrayList<ItemInfo>();
@@ -236,5 +251,21 @@ public class GFightPrepareBM {
 			result.add(item);
 		}
 		return result;
+	}
+	
+	/**
+	 * 退还没进前四的帮派的令牌数量
+	 * @param resourceID
+	 */
+	private void giveBackToken(int resourceID){
+		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		if(groupBidRank.size() <= 4) return;
+		for(int i = 4; i < groupBidRank.size(); i++){
+			GFGroupBiddingItem gBidItem = groupBidRank.get(i);
+			Group group = GroupBM.get(gBidItem.getGroupID());
+			if(group == null) continue;
+			// 加回令牌数
+			group.getGroupBaseDataMgr().updateGroupDonate(null, null, 0, 0, gBidItem.getTotalBidding(), false);
+		}
 	}
 }
