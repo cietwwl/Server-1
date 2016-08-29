@@ -57,10 +57,11 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		}
 	}
 
-	public void insert(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
+	public void insert_(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
 		super.insert(sql, list);
 	}
+	
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.dao.DuplicateKeyException;
-
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.ItemNotExistException;
@@ -129,7 +127,7 @@ public class MapItemStore<T extends IMapItem> {
 			}
 		}
 		try {
-			commonJdbc.insert(searchId, itemList);
+			commonJdbc.insert_(searchId, itemList);
 		} catch (DuplicatedKeyException e) {
 			throw e;
 		} catch (Exception e) {
