@@ -41,10 +41,10 @@ public class FsNettyControler {
 		long current = System.currentTimeMillis();
 		RequestHeader header = exRequest.getHeader();
 		final Command command = header.getCommand();
-		//更新消息接收时间
+		// 更新消息接收时间
 		UserChannelMgr.updateSessionInfo(ctx, current, command);
-//		GameLog.debug("msg:" + command);
-		FSTraceLogger.logger("submit("+command+","+header.getSeqID()+")" + UserChannelMgr.getCtxInfo(ctx, false));
+		// GameLog.debug("msg:" + command);
+		FSTraceLogger.logger("submit(" + command + "," + header.getSeqID() + ")" + UserChannelMgr.getCtxInfo(ctx, false));
 		if (command == Command.MSG_LOGIN_GAME) {
 			doGameLogin(exRequest, ctx);
 		} else if (command == Command.MSG_RECONNECT) {
@@ -115,6 +115,7 @@ public class FsNettyControler {
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
 		sendResponse(userId, header, resultContent, 200, ctx, synData);
 	}
+
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
@@ -123,10 +124,10 @@ public class FsNettyControler {
 		return sendResponse(null, header, resultContent, 200, ctx);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId ) {
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
 		sendResponse(userId, header, resultContent, sessionId, null);
 	}
-	
+
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
 		if (userId == null) {
 			return;
@@ -135,7 +136,7 @@ public class FsNettyControler {
 		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 			ctx = null;
 		}
-		sendResponse(userId, header, resultContent, 200, ctx,synData);
+		sendResponse(userId, header, resultContent, 200, ctx, synData);
 	}
 
 	/**
@@ -150,6 +151,9 @@ public class FsNettyControler {
 	 */
 	public ChannelFuture sendAyncResponse(String userId, ChannelHandlerContext ctx, Command Cmd, ByteString pBuffer) {
 		if (ctx == null) {
+			return null;
+		}
+		if (!ctx.channel().isActive()) {
 			return null;
 		}
 		Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
@@ -169,7 +173,6 @@ public class FsNettyControler {
 		return sendResponse(userId, header, resultContent, statusCode, ctx, null);
 	}
 
-	
 	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
@@ -177,7 +180,7 @@ public class FsNettyControler {
 			return null;
 		}
 		ResponseHeader responseHeader = getResponseHeader(header, header.getCommand(), statusCode, synData);
-		
+
 		Response.Builder builder = Response.newBuilder().setHeader(responseHeader);
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);
@@ -195,20 +198,21 @@ public class FsNettyControler {
 			ChannelFuture future = ctx.channel().writeAndFlush(result);
 			GameLog.debug("##发送消息" + "  " + result.getHeader().getCommand().toString() + "  Size:" + result.getSerializedContent().size());
 			return future;
-		}else{
+		} else {
 			return null;
 		}
 	}
 
-//	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {
-//		return getResponseHeader(header, command, 200);
-//	}
+	// public ResponseHeader getResponseHeader(RequestHeader header, Command
+	// command) {
+	// return getResponseHeader(header, command, 200);
+	// }
 
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode,ByteString synData) {
+	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode, ByteString synData) {
 		String token = header.getToken();
 		int seqId = header.getSeqID();
 		Builder headerBuilder = ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode);
-		if(synData!=null){
+		if (synData != null) {
 			headerBuilder.setSynData(synData);
 		}
 		return headerBuilder.build();

@@ -376,27 +376,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		return resultVo;
 	}
 
-	/** 未搜索到好友，为其查找相近好友，最多10人。 */
-	public List<FriendInfo> searchNearFriend() {
-		List<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>();
-		Map<String, Player> m_PlayerList = PlayerMgr.getInstance().getAllPlayer();
-		Iterator<Player> it = m_PlayerList.values().iterator();
-		TableFriend tableFriend = getTableFriend();
-		while (resultList.size() < 10 && it.hasNext()) {
-			Player player = it.next();
-			if (Math.abs(player.getLevel() - m_pPlayer.getLevel()) <= 5 && // 等级符合
-					!tableFriend.getFriendList().containsKey(player.getUserId()) && // 不是自己好友
-					!tableFriend.getRequestList().containsKey(player.getUserId()) && // 未在请求列表
-					!tableFriend.getBlackList().containsKey(player.getUserId()) && // 未在黑名单列表
-					!player.getUserId().equals(m_pPlayer.getUserId())) {// 不是自己
-
-				FriendItem item = FriendItem.newInstance(player.getUserId());
-				resultList.add(friendItemToInfo(item));
-			}
-		}
-		return resultList;
-	}
-
 	/** 赠送体力 */
 	public FriendResultVo givePower(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
