@@ -18,6 +18,7 @@ import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -886,7 +887,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param addItemList
 	 * @return
 	 */
-	private HashMap<Integer, Integer> nonRepeatAddMap(List<INewItem> addItemList) {
+	private HashMap<Integer, Integer> nonRepeatAddMap(List<INewItem> addItemList) throws IllegalArgumentException {
 		int size = addItemList.size();
 		HashMap<Integer, Integer> addMap = new HashMap<Integer, Integer>(size);
 		for (int i = 0; i < size; i++) {
@@ -1051,5 +1052,68 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		emailData.setSender(emailCfg.getSender());
 		// 发送邮件
 		EmailUtils.sendEmail(userId, emailData);
+	}
+
+	/**
+	 * <pre>
+	 * 向背包添加物品的方法
+	 * 
+	 * <font color="ff0000"><b>注意：此方法只能针对增加物品或者货币</b></font>
+	 * 
+	 * </pre>
+	 * 
+	 * @param itemInfoList {@link ItemInfo}
+	 * 
+	 * @throws IllegalArgumentException 当传递进来ItemInfo列表中，有任何一个itemNum < 0 就会抛出参数错误异常
+	 * 
+	 * @return
+	 */
+	public boolean addItem(List<ItemInfo> itemInfoList) throws IllegalArgumentException {
+		if (itemInfoList == null || itemInfoList.isEmpty()) {
+			return true;
+		}
+
+		int size = itemInfoList.size();
+
+		// =========================解析数据
+
+		List<INewItem> newItemList = new ArrayList<INewItem>(size);
+
+		HashMap<Integer, Integer> currencyMap = new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < size; i++) {
+			ItemInfo itemInfo = itemInfoList.get(i);
+			if (itemInfo == null) {
+				continue;
+			}
+
+			int itemID = itemInfo.getItemID();
+			int itemNum = itemInfo.getItemNum();
+			if (itemNum < 0) {
+				throw new IllegalArgumentException("被传递了一个数量小于0的参数进来");
+			}
+
+			if (itemNum == 0) {
+				continue;
+			}
+
+			if (itemID < eSpecialItemId.eSpecial_End.ordinal()) {
+				Integer hasValue = currencyMap.get(itemID);
+				if (hasValue == null) {
+					currencyMap.put(itemID, itemNum);
+				} else {
+					currencyMap.put(itemID, itemNum + hasValue);
+				}
+			} else {
+				newItemList.add(new NewItem(itemID, itemNum, null));
+			}
+		}
+
+		// ==============================处理结果
+		if ((newItemList == null || newItemList.isEmpty()) && (currencyMap == null || currencyMap.isEmpty())) {
+			return false;
+		}
+
+		return useLikeBoxItem(null, newItemList, currencyMap);
 	}
 }
