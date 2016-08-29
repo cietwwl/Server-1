@@ -17,6 +17,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -62,14 +63,17 @@ import com.rw.service.log.template.ZoneCountVipSpreadLogTemplate;
 import com.rw.service.log.template.ZoneLoginLogTemplate;
 import com.rw.service.log.template.ZoneLogoutLogTemplate;
 import com.rw.service.log.template.ZoneRegLogTemplate;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.email.EmailItem;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
+import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -615,10 +619,6 @@ public class BILogMgr {
 	
 	public void logEmail(String userId, EmailItem emailData, EmailLogTemplate.EamilOpType opType) {
 		try {
-			Player player = PlayerMgr.getInstance().find(userId);
-			if (player == null) {
-				return;
-			}
 			Map<String, String> moreInfo = new HashMap<String, String>();
 			moreInfo.put("opType", opType.getId());
 			moreInfo.put("emailId", emailData.getEmailId());
@@ -639,10 +639,18 @@ public class BILogMgr {
 						int model = Integer.parseInt(split2[0]);
 						String count = split2[1];
 						sbAttachList.append(model).append(":").append(count);
-						ItemBaseCfg cfg = ItemCfgHelper.GetConfig(model);
-						String name = cfg != null ? cfg.getName() : "";
-						String desc = cfg != null ? cfg.getDescription() : "";
-						sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+						eSpecialItemId def = eSpecialItemId.getDef(model);
+						if (def == null) {
+							ItemBaseCfg cfg = ItemCfgHelper.GetConfig(model);
+							String name = cfg != null ? cfg.getName() : "";
+							String desc = cfg != null ? cfg.getDescription() : "";
+							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+						} else {
+							SpecialItemCfg cfg = SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(model));
+							String name = cfg != null ? cfg.getName() : "";
+							String desc = cfg != null ? cfg.getDescription() : "";
+							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+						}
 						index++;
 						if (index < split.length) {
 							sbAttachAttr.append("&");
@@ -655,7 +663,7 @@ public class BILogMgr {
 			moreInfo.put("attachList", sbAttachList.toString());
 			moreInfo.put("attachAttr", sbAttachAttr.toString());
 
-			logPlayer(eBILogType.Email, player, moreInfo);
+			logUserId(eBILogType.Email, userId, moreInfo);
 		} catch (Exception ex) {
 			GameLog.error("LOGSENDER", userId, "logEmail" + ex.getMessage());
 		}
@@ -681,6 +689,18 @@ public class BILogMgr {
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
 
+	}
+	
+	/**
+	 * 用于邮件日志，邮件日志不需要记录其他信息，只需要传进zoneid
+	 * @param logType
+	 * @param userId
+	 * @param moreInfo
+	 */
+	private void logUserId(eBILogType logType, String userId, Map<String, String> moreInfo){
+		ZoneLoginInfo zoneLoginInfo = new ZoneLoginInfo();
+		zoneLoginInfo.setLoginZoneId(GameManager.getZoneId());
+		log(logType, null, zoneLoginInfo, null, moreInfo);
 	}
 
 	private void log(final eBILogType logType, ZoneRegInfo zoneRegInfo, ZoneLoginInfo zoneLoginInfo, RoleGameInfo roleGameInfo, Map<String, String> moreInfo) {
