@@ -192,8 +192,8 @@ public class MapItemStore<T extends IMapItem> {
 			T t = addList.get(i);
 			itemMap.put(t.getId(), t);
 		}
-		for (int i = updateList.size(); --i >= 0;) {
-			itemMap.remove(updateList.get(i));
+		for (int i = delList.size(); --i >= 0;) {
+			itemMap.remove(delList.get(i));
 		}
 		updateItems(updateList, true);
 		return true;

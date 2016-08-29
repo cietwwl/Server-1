@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.readonly.ItemBagMgrIF;
+import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -24,7 +25,6 @@ import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.item.ItemBagCapacityCfgDAO;
 import com.rwbase.dao.item.ItemBagHolder;
 import com.rwbase.dao.item.exception.ItemCountNotEnoughException;
-import com.rwbase.dao.item.exception.ItemNotExistException;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
@@ -344,8 +344,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		} catch (IllegalArgumentException e) {
 			GameLog.error("Use like box item Handler", userId, "throws IllegalArgumentException", e);
 			return false;
-		} catch (ItemNotExistException e) {
-			GameLog.error("Use like box item Handler", userId, "throws ItemNotExistException", e);
+		} catch (DataNotExistException e) {
+			GameLog.error("Use like box item Handler", userId, "throws DataNotExistException", e);
 			return false;
 		} catch (ItemCountNotEnoughException e) {
 			GameLog.error("Use like box item Handler", userId, "throws ItemCountNotEnoughException", e);
@@ -669,7 +669,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @throws ItemNotExistException
 	 * @throws ItemCountNotEnoughException
 	 */
-	public void updateItemBag(Player player, List<IUseItem> useItemList, List<INewItem> addItemList) throws ItemNotExistException, IllegalArgumentException, ItemCountNotEnoughException {
+	public void updateItemBag(Player player, List<IUseItem> useItemList, List<INewItem> addItemList) throws DataNotExistException, IllegalArgumentException, ItemCountNotEnoughException {
 		// 没有新增也没有要更新的
 		if ((useItemList == null || useItemList.isEmpty()) && (addItemList == null || addItemList.isEmpty())) {
 			throw new IllegalArgumentException("使用物品和要新增的物品为空");
@@ -697,7 +697,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		try {
 			holder.updateItemBgData(player, newItemList, updateItemList);
 		} catch (DuplicatedKeyException e) {
-			GameLog.error("背包模块", userId, String.format("添加物品出现了重复的Key"));
+			GameLog.error("背包模块", userId, "添加物品出现了重复的Key", e);
+			return;
+		} catch (DataNotExistException e) {
+			GameLog.error("背包模块", userId, "操作的物品中有无法从数据库找到的", e);
 			return;
 		}
 
@@ -754,7 +757,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @throws ItemNotExistException
 	 * @throws ItemCountNotEnoughException
 	 */
-	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws ItemNotExistException, ItemCountNotEnoughException {
+	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws DataNotExistException, ItemCountNotEnoughException {
 		int size = useItemList.size();
 
 		HashMap<String, Integer> tempMap = new HashMap<String, Integer>(size);
@@ -769,13 +772,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			String slotId = useItem.getSlotId();
 			ItemData itemData = findBySlotId(slotId);
 			if (itemData == null) {
-				throw new ItemNotExistException("在背包中不存在要使用的道具");
+				throw new DataNotExistException("在背包中不存在要使用的道具");
 			}
 
 			int modelId = itemData.getModelId();
 			ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
 			if (cfg == null) {
-				throw new ItemNotExistException(String.format("%s的道具模版找不到", modelId));
+				throw new DataNotExistException(String.format("%s的道具模版找不到", modelId));
 			}
 
 			int itemCount = itemData.getCount();
