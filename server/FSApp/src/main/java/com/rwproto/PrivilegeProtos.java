@@ -1169,6 +1169,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     isAllowReplenish(3, 4),
+    /**
+     * <code>isAllowVipHeadIcon = 5;</code>
+     *
+     * <pre>
+     *VIP头像框
+     * </pre>
+     */
+    isAllowVipHeadIcon(4, 5),
     ;
 
     /**
@@ -1203,6 +1211,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     public static final int isAllowReplenish_VALUE = 4;
+    /**
+     * <code>isAllowVipHeadIcon = 5;</code>
+     *
+     * <pre>
+     *VIP头像框
+     * </pre>
+     */
+    public static final int isAllowVipHeadIcon_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -1213,6 +1229,7 @@ public final class PrivilegeProtos {
         case 2: return isAllowBuyFashion;
         case 3: return isAllowSoulBox;
         case 4: return isAllowReplenish;
+        case 5: return isAllowVipHeadIcon;
         default: return null;
       }
     }
@@ -5758,11 +5775,11 @@ public final class PrivilegeProtos {
       "seCoinTransCount\020\002\022\025\n\021getSweepTicketNum\020" +
       "\003*g\n\022HeroPrivilegeNames\022\022\n\016skillThreshol" +
       "d\020\001\022\030\n\024isAllowBuySkillPoint\020\002\022\020\n\014skillTi" +
-      "meDec\020\003\022\021\n\risAllowAttach\020\004*i\n\025GeneralPri" +
-      "vilegeNames\022\017\n\013battleSpeed\020\001\022\025\n\021isAllowB",
-      "uyFashion\020\002\022\022\n\016isAllowSoulBox\020\003\022\024\n\020isAll" +
-      "owReplenish\020\004B\036\n\013com.rwprotoB\017PrivilegeP" +
-      "rotos"
+      "meDec\020\003\022\021\n\risAllowAttach\020\004*\201\001\n\025GeneralPr" +
+      "ivilegeNames\022\017\n\013battleSpeed\020\001\022\025\n\021isAllow",
+      "BuyFashion\020\002\022\022\n\016isAllowSoulBox\020\003\022\024\n\020isAl" +
+      "lowReplenish\020\004\022\026\n\022isAllowVipHeadIcon\020\005B\036" +
+      "\n\013com.rwprotoB\017PrivilegeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -91,4 +91,5 @@ enum GeneralPrivilegeNames {
      isAllowBuyFashion = 2; //开启时装购买
      isAllowSoulBox = 3; //开启第三宝箱（魂匣）开启
      isAllowReplenish = 4;  //开启补签开启
+	 isAllowVipHeadIcon = 5; //VIP头像框
 }

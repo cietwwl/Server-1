@@ -268,7 +268,6 @@ public class TaskItemMgr implements TaskMgrIF {
 	 */
 	public OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap) {
 		List<TaskItem> removeList = new ArrayList<TaskItem>();
-		
 		List<TaskItem> allTask = taskItemHolder.getItemList();
 		if (null == allTask || allTask.isEmpty()) {
 			GameLog.error("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
@@ -288,7 +287,6 @@ public class TaskItemMgr implements TaskMgrIF {
 			}
 			checkTasks.add(task);
 		}
-		
 		OneKeyResultType result = getAllReward(rewardMap, removeList, checkTasks);
 		if(OneKeyResultType.NO_REWARD != result){
 			taskItemHolder.removeItem(m_pPlayer, removeList);
@@ -323,7 +321,6 @@ public class TaskItemMgr implements TaskMgrIF {
 			for (String reward : rewards) {
 				int itemId = Integer.parseInt(reward.split("_")[0]);
 				int count = Integer.parseInt(reward.split("_")[1]);
-				m_pPlayer.getItemBagMgr().addItem(itemId, count);
 				Integer haveCount = rewardMap.get(itemId);
 				if(null == haveCount) haveCount = count;
 				else haveCount += count;
@@ -337,13 +334,30 @@ public class TaskItemMgr implements TaskMgrIF {
 			}
 			TaskCfg nextCfg = TaskCfgDAO.getInstance().getCfgByPreId(task.getTaskId());
 			if (nextCfg != null) {
-				checkTasks.add(addItemTask(nextCfg, false));
+				checkTasks.add(addItemTaskNonSaveIfFinish(nextCfg));
 				hasNewLoop = true;
 			}
 		}
 		if(hasNewLoop) getAllReward(rewardMap, removeList, checkTasks);
 		return OneKeyResultType.OneKey_SUCCESS;
 	}
+	
+	/**
+	 * 添加一条新的任务，如果完成，就不添加到数据库（因为会立刻被领取并删除掉）
+	 * 用于一键领取功能
+	 * @param cfg
+	 * @return
+	 */
+	private TaskItem addItemTaskNonSaveIfFinish(TaskCfg cfg) {
+		TaskItem task = createTaskItem(cfg);
+		if (task.getDrawState() == 0) {
+			//未完成
+			taskItemHolder.addItem(m_pPlayer, task, false);
+		}
+		BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
+		return task;
+	}
+	
 
 	public boolean save() {
 		taskItemHolder.flush();
