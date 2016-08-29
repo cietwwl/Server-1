@@ -1,6 +1,5 @@
 package com.rwbase.dao.worship.pojo;
 
-import org.junit.runners.model.InitializationError;
 
 public class CfgWorshipReward {
 	private String key;
@@ -13,10 +12,10 @@ public class CfgWorshipReward {
 	
 	private int lowwer;//下限
 	
-	public void format() throws InitializationError{
+	public void format() throws RuntimeException{
 		String[] str = round.split("~");
 		if(str.length < 2){
-			throw new InitializationError("格式化膜拜配置表时发现配置["+key+"]的人数格式不正确:"+ round);
+			throw new RuntimeException("格式化膜拜配置表时发现配置["+key+"]的人数格式不正确:"+ round);
 		}
 		lowwer = Integer.parseInt(str[0].toString().trim());
 		upper = Integer.parseInt(str[1].toString().trim());
