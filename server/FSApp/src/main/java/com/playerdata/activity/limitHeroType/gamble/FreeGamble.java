@@ -20,6 +20,6 @@ public class FreeGamble implements Gamble{
 		if(guaranteeTimes != 0){
 			planList = cfg.getGuaranteePlanMap();
 		}
-		return ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(planList);		 
+		return ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,planList);		 
 	}
 }

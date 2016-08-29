@@ -61,7 +61,7 @@ public final class ActivityLimitGamblePlanCfgDAO extends CfgCsvDao<ActivityLimit
 			cfg.setLevelMax(maxLv);
 			
 			String checknum = cfg.getGuaranteeCheckNum();
-			String[] guaranteeSplit = checknum.split("|");
+			String[] guaranteeSplit = checknum.split("\\|");
 			List<Integer> tmpList = new ArrayList<Integer>();
 			int length = guaranteeSplit.length;
 			for(String str: guaranteeSplit){

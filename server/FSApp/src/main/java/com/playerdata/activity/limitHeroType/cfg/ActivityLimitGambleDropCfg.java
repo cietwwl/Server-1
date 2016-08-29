@@ -3,7 +3,7 @@ package com.playerdata.activity.limitHeroType.cfg;
 public class ActivityLimitGambleDropCfg {
 	private String id;
 	private int itemGroup;
-	private int itemID;
+	private String itemID;
 	private int slotCount;
 	private int weight;
 	
@@ -20,10 +20,11 @@ public class ActivityLimitGambleDropCfg {
 	public void setItemGroup(int itemGroup) {
 		this.itemGroup = itemGroup;
 	}
-	public int getItemID() {
+
+	public String getItemID() {
 		return itemID;
 	}
-	public void setItemID(int itemID) {
+	public void setItemID(String itemID) {
 		this.itemID = itemID;
 	}
 	public int getSlotCount() {

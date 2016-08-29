@@ -20,9 +20,9 @@ public class TenGamble implements Gamble{
 		for(int i = 0;i < gambleTime;i++){
 			String str = "";
 			if(i < guaranteeTimes){
-				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(guaranteePlanList);	
+				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,guaranteePlanList);	
 			}else{
-				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(planList);	
+				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,planList);	
 			}
 			
 			if(i == gambleTime - 1){

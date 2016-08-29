@@ -37,6 +37,10 @@ import com.playerdata.activity.limitHeroType.gamble.FreeGamble;
 import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
+import com.rw.service.gamble.datamodel.DropMissingCfg;
+import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
+import com.rw.service.gamble.datamodel.DropMissingLogic;
+import com.rw.service.role.MainMsgHandler;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
@@ -372,15 +376,23 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		return type;
 	}
 
-	public String  getGambleRewards(Map<Integer, Integer> planList){
+	public String  getGambleRewards(Player player,Map<Integer, Integer> planList){
 		StringBuilder strbuild = new StringBuilder();
 		int randomGroup = HPCUtil.getRandom().nextInt(10000);
 		int groupId = getRandomGroup(planList,randomGroup);
 		List<ActivityLimitGambleDropCfg> cfgList = ActivityLimitGambleDropCfgDAO.getInstance().getActivityLimitGambleDropCfgByPoolId(groupId);
 		int sumWeight = ActivityLimitGambleDropCfgDAO.getInstance().getSumWeightByPoolId(groupId);
 		int result = HPCUtil.getRandom().nextInt(sumWeight);
+		DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(cfgList.get(0).getItemID());
+		if(cfgList.size() == 1&&cfg != null){
+			//从某个指定的道具组里随机一个，比如蓝装，绿装，紫装
+			String id = DropMissingLogic.getInstance().searchMissingItem(player, cfg);			
+			return strbuild.append(id).append("~").append(1).toString();
+		}
+		
+		
 		ActivityLimitGambleDropCfg resultCfg = getRandomCfg(cfgList,result);
-		strbuild.append(resultCfg.getId()).append("~").append(resultCfg.getItemGroup());
+		strbuild.append(resultCfg.getItemID()).append("~").append(resultCfg.getItemGroup());
 		return strbuild.toString();		
 	}
  	
@@ -412,20 +424,31 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	
 	//id~num,id2~num2格式奖励加入response和背包
 	private void doDropList(Player player,Builder response, String map) {
-		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();
-		String[] splitList = map.split(",");
+		ArrayList<GamebleReward> dropList = new ArrayList<GamebleReward>();		
 		String reward = "";
+		if(map == null){
+			return;
+		}
+		String[] splitList = map.split(",");
 		for(String str : splitList){
 			String[] idAndNum = str.split("~");
 			Integer modelId = Integer.parseInt(idAndNum[0]);
 			Integer count = Integer.parseInt(idAndNum[1]);
 //			player.getItemBagMgr().addItem(modelId, count);
+			if(idAndNum[0].indexOf("_") != -1){//佣兵
+				player.getHeroMgr().addHero(player, idAndNum[0]);//自动转碎片
+				MainMsgHandler.getInstance().sendPmdJtYb(player, idAndNum[0]);
+			}else{
+				reward += "," + modelId + "~" + count;
+				MainMsgHandler.getInstance().sendPmdJtGoods(player, idAndNum[0]);
+			}
 			
 			GamebleReward.Builder data = GamebleReward.newBuilder();
-			data.setRewardId(modelId);
+			data.setRewardId(idAndNum[0]);
 			data.setRewardNum(count);
 			dropList.add(data.build());		
 		}
+		player.getItemBagMgr().addItemByPrizeStr(reward);
 		response.addAllGamebleReward(dropList);	
 	}
 	
