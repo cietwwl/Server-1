@@ -410,13 +410,7 @@ public class UserGameDataMgr {
 		} else {
 			result = -1;
 		}
-		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
-			// UserEventMgr.getInstance().UseGold(player, -value);
-		}
+		
 		return result;
 	}
 

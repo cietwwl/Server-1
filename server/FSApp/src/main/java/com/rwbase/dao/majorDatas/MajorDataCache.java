@@ -9,13 +9,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.rw.fsutil.cacheDao.ObjectConvertor;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.trace.listener.MajorDataListener;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 
 public class MajorDataCache {
@@ -27,7 +30,8 @@ public class MajorDataCache {
 		this.template = template;
 		// 数量需要做成配置
 		int capcity = 5000;
-		this.cache = DataCacheFactory.createDataDache(MajorData.class, capcity, capcity, 120, new MajorDataLoader());
+		DataValueParser<MajorData> parser = (DataValueParser<MajorData>) DataCacheFactory.getParser(MajorData.class);
+		this.cache = DataCacheFactory.createDataDache(MajorData.class, MajorData.class.getSimpleName(), capcity, capcity, 120, new MajorDataLoader(), null,parser == null ? null: new ObjectConvertor<MajorData>(parser), MajorDataListener.class);
 	}
 
 	public MajorData get(String userId) {
@@ -95,6 +99,7 @@ public class MajorDataCache {
 						ps.setString(index, userId);
 					}
 				});
+				cache.submitRecordTask(userId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -58,10 +58,15 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		}
 		
 		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		
+		String strAdd = "";
+		String strDel = "";
 		if (sbAdd.toString().length() > 0)
-			sbAdd.substring(0, sbAdd.lastIndexOf("&"));
+			strAdd = sbAdd.substring(0, sbAdd.lastIndexOf("&"));
 		if (sbDel.toString().length() > 0)
-			sbDel.substring(0, sbDel.lastIndexOf("&"));
-		BILogMgr.getInstance().logItemChanged(list, sbAdd.toString(), sbDel.toString());
+			strDel = sbDel.substring(0, sbDel.lastIndexOf("&"));
+		if (strAdd.length() > 0 || strDel.length() > 0) {
+			BILogMgr.getInstance().logItemChanged(list, strAdd.toString(), strDel.toString());
+		}
 	}
 }
