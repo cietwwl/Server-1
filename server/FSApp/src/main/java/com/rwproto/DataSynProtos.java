@@ -863,6 +863,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityDailyRechargeType(84, 93),
+    /**
+     * <code>CopyChapterReward = 94;</code>
+     *
+     * <pre>
+     *关卡宝箱及天尊锦囊记录
+     * </pre>
+     */
+    CopyChapterReward(85, 94),
     ;
 
     /**
@@ -1545,6 +1553,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityDailyRechargeType_VALUE = 93;
+    /**
+     * <code>CopyChapterReward = 94;</code>
+     *
+     * <pre>
+     *关卡宝箱及天尊锦囊记录
+     * </pre>
+     */
+    public static final int CopyChapterReward_VALUE = 94;
 
 
     public final int getNumber() { return value; }
@@ -1636,6 +1652,7 @@ public final class DataSynProtos {
         case 91: return USER_TEAM_BATTLE;
         case 92: return TEAM_BATTLE_TEAM;
         case 93: return ActivityDailyRechargeType;
+        case 94: return CopyChapterReward;
         default: return null;
       }
     }
@@ -5725,7 +5742,7 @@ public final class DataSynProtos {
       "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
       "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
       "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\321\016\n\010eSynType\022\025\n\021" +
+      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\350\016\n\010eSynType\022\025\n\021" +
       "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
       "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
       "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
@@ -5772,8 +5789,8 @@ public final class DataSynProtos {
       "\022\025\n\021GFightFinalReward\020X\022\020\n\014EmbattleInfo\020" +
       "Y\022\025\n\021MAGICEQUIP_FETTER\020Z\022\024\n\020USER_TEAM_BA" +
       "TTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\\022\035\n\031Activity",
-      "DailyRechargeType\020]B\034\n\013com.rwprotoB\rData" +
-      "SynProtos"
+      "DailyRechargeType\020]\022\025\n\021CopyChapterReward" +
+      "\020^B\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
