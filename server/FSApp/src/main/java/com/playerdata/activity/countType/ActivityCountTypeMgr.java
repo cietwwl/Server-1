@@ -137,6 +137,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			}
 			addItemList.add(item);
 		}
+		
 		return addItemList;
 	}
 

@@ -26,7 +26,7 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 	}
 
 	@Override
-	public  List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
+	public List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
 		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
 		
 		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
