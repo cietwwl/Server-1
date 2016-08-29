@@ -30,11 +30,12 @@ public class ActivityLimitHeroTypeService implements FsService{
 				byteString = activityLimitHeroHandler.viewRank(player, commonReq);
 				break;
 			default:
-				GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "接受到一个unknow的消息", null);
+				GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "接受到一个unknow的消息", null);
 				break;
 			}
 		} catch (Exception e) {
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "出现了exception异常", e);
+			e.printStackTrace();
+			GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "出现了exception异常", e);
 		}
 		
 		return byteString;
