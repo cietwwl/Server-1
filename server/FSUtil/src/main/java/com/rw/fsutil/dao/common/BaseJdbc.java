@@ -30,8 +30,8 @@ import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
+import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.ItemNotExistException;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
@@ -177,7 +177,7 @@ public abstract class BaseJdbc<T> {
 			tm.rollback(ts);
 			return false;
 		}
-		throw new ItemNotExistException(recordNotExist);
+		throw new DataNotExistException(recordNotExist);
 	}
 
 	/**
@@ -236,21 +236,17 @@ public abstract class BaseJdbc<T> {
 	 * 执行批量添加和删除操作，要么全部成功，要么全部失败
 	 * </pre>
 	 * 
-	 * @param addSql
-	 *            执行添加的sql语句
-	 * @param addList
-	 *            添加列表
-	 * @param delSql
-	 *            执行删除的sql语句
-	 * @param delList
-	 *            删除列表
+	 * @param addSql 执行添加的sql语句
+	 * @param addList 添加列表
+	 * @param delSql 执行删除的sql语句
+	 * @param delList 删除列表
 	 * @return
 	 */
-	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) throws DuplicatedKeyException, ItemNotExistException {
+	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) throws DuplicatedKeyException, DataNotExistException {
 		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
-			BaseJdbc.this.insert(addSql, addList);
+			insert(addSql, addList);
 			int[] result = batchDelete(delSql, delList);
 			for (int i = result.length; --i >= 0;) {
 				if (result[i] <= 0) {
@@ -271,7 +267,7 @@ public abstract class BaseJdbc<T> {
 			tm.rollback(ts);
 			return false;
 		}
-		throw new ItemNotExistException(itemNotExist);
+		throw new DataNotExistException(itemNotExist);
 	}
 
 	/**
