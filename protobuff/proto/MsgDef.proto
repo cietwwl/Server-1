@@ -84,6 +84,7 @@ enum Command {
 	MSG_ACTIVITY_EXCHANGE_TYPE = 182;//通用活动兑换币
 	MSG_ACTIVITY_DailyDiscount_TYPE = 183;//通用活动每日折扣
 	MSG_ACTIVITY_VipDiscount_TYPE = 184;//通用活动七日VIp折扣
+	MSG_ACTIVITY_RedEnvelope_TYPE = 185;//通用活动开服红包
 	
 	MSG_TAOIST = 200;//道术系统
 	MSG_FIX_EQUIP = 201;//专属装备
