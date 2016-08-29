@@ -117,6 +117,13 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg,ActivityLimitHeroCfgDAO.getInstance().newSubItemList(targetCfg));
 				dataHolder.updateItem(player, targetItem);
+				
+				ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+				if(scdData == null){
+					continue;
+				}
+				TreeMap<Integer, ActivityLimitHeroRankRecord> map = scdData.getActivityLimitHeroRankRecord();	
+				reFreshRankByVersion(map,targetCfg);				
 			}
 		}
 	}
@@ -203,7 +210,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			}						
 		}
 		item.setRankRewards(tmpReward);
-		ComGiftMgr.getInstance().addtagInfoTOEmail(player, item.getRankRewards(),MAKEUPEMAIL+"" , null);
+		ComGiftMgr.getInstance().addGiftTOEmailById(player, item.getRankRewards(),MAKEUPEMAIL+"" , cfg.getEmailTitle());
 		
 	}
 

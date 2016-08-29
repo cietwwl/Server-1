@@ -74,7 +74,7 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 			item.setVersion(cfg.getVersion());
 			item.setLastSingleTime(0);
 			item.setSubList(newSubItemList(cfg));
-			item.setIntegral(20);
+			item.setIntegral(0);
 			return item;
 		}else{
 			return null;

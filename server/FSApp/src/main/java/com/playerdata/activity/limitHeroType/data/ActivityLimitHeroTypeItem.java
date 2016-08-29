@@ -53,7 +53,7 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 		this.closed = false;
 		this.version = cfg.getVersion();
 		this.isTouchRedPoint = false;
-		this.integral  = 25;//和初始化区分，测试完变为0；
+		this.integral  = 0;//和初始化区分，测试完变为0；
 		this.lastSingleTime = 666;//0.0 和初始化区分
 		this.rankRewards = "";
 		this.subList = subList;
