@@ -1,0 +1,8 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FightGrowthProto";
+
+message UpgradeFightingTitleResponse {
+	required bool success = 1; // 是否成功
+	required string tips = 2; // 提示信息
+}
