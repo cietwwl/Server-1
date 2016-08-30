@@ -116,7 +116,6 @@ enum eSynType	//数据同步类型
 
 	ActivityDailyRechargeType = 93; //每日充值活动
 	
-	CopyChapterReward = 94;//关卡宝箱及天尊锦囊记录
 }
 
 message MsgDataSynList
