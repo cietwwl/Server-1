@@ -16,7 +16,7 @@ public class FriendCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
 		FriendMgr friendMgr = player.getFriendMgr();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FRIEND, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FRIEND, player)) {
 			return;
 		}
 		if (friendMgr.hasReceivePower()) {

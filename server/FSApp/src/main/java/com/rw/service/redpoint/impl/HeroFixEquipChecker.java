@@ -34,12 +34,12 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		List<String> heroIdList = heroMgr.getHeroIdList(player);
 
 		Set<String> heroIdSet = new HashSet<String>();
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player)){
 			
 			checkQualityUP(map, player, heroMgr, heroIdList, heroIdSet);
 		}
 		
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player)){
 			
 			checkStarUp(map, player, heroMgr, heroIdList, heroIdSet);
 		}

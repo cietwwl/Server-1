@@ -24,7 +24,7 @@ public class AssistantDailyActivityCheck extends DefaultAssistantChecker {
 	private boolean check(Player player) {
 		boolean hasTaskToDo = false;
 
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.DAILY, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.DAILY, player)){
 			
 			DailyActivityMgr dailyActivityMgr = player.getDailyActivityMgr();
 			List<DailyActivityData> allTask = dailyActivityMgr.getAllTask();

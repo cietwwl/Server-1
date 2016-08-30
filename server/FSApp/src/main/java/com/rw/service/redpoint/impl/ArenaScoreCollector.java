@@ -16,7 +16,7 @@ public class ArenaScoreCollector implements RedPointCollector {
 
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.ARENA, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.ARENA, player)) {
 			return;
 		}
 		TableArenaData arenaData = TableArenaDataDAO.getInstance().get(player.getUserId());

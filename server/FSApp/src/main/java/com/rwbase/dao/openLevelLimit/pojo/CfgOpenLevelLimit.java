@@ -1,10 +1,15 @@
 package com.rwbase.dao.openLevelLimit.pojo;
 
 public class CfgOpenLevelLimit {
-	private int type;
-	private int minLevel;
-	private int maxLevel;
-	private String des;
+	  private int type; //功能ID
+	  private int minLevel; //最小等级
+	  private int maxLevel; //最大等级
+	  private String des; //描述
+	  private int checkPointID; //开放关卡
+	
+	public int getCheckPointID() {
+		return checkPointID;
+	}
 	public int getType() {
 		return type;
 	}

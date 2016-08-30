@@ -2,6 +2,7 @@ package com.rwbase.dao.openLevelLimit;
 
 import java.util.Map;
 
+import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -18,17 +19,24 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		return cfgCacheMap;
 	}
 
-	/** 等级开放 */
-	public boolean isOpen(eOpenLevelType type, int level) {
+	/**
+	 * 某个功能是否开放
+	 * @param type 检测开放的功能类型
+	 * @param player 当前角色
+	 * @return 是否开放
+	 */
+	public boolean isOpen(eOpenLevelType type, Player player){
 		boolean result = false;
-		CfgOpenLevelLimit cfg = (CfgOpenLevelLimit) getCfgById(type.getOrderString());
+		int level = player.getLevel();
+		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
 		if (cfg != null) {
 			if (level >= cfg.getMinLevel() && level <= cfg.getMaxLevel()) {
-				result = true;
-			} else if (cfg.getMaxLevel() <= 0 || level > cfg.getMaxLevel()) {
-				return false;
-			} else {
-				result = false;
+				int checkPointID = cfg.getCheckPointID();
+				if (checkPointID > 0){
+					result = player.getCopyRecordMgr().isCopyLevelPassed(checkPointID);
+				}else{
+					result = true;
+				}
 			}
 		}
 		return result;
@@ -38,11 +46,12 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	 * 判断是否开放等级
 	 * 
 	 * @param type 检测开放的功能类型
-	 * @param level 当前角色的等级
+	 * @param player 当前角色
 	 * @return 返回开启需要的等级
 	 */
-	public int checkIsOpen(eOpenLevelType type, int level) {
-		CfgOpenLevelLimit cfg = (CfgOpenLevelLimit) getCfgById(type.getOrderString());
+	public int checkIsOpen(eOpenLevelType type, Player player) {
+		int level = player.getLevel();
+		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
 		if (cfg == null) {
 			return -1;
 		}
@@ -50,6 +59,11 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		int minLevel = cfg.getMinLevel();
 		if (level >= minLevel) {
 			return -1;
+		}
+		
+		int checkPointID = cfg.getCheckPointID();
+		if (checkPointID > 0 && !player.getCopyRecordMgr().isCopyLevelPassed(checkPointID)){
+			 return -1;
 		}
 
 		return minLevel;

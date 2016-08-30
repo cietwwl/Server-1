@@ -117,6 +117,10 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		return copyLevelRecordHolder.buyLevel(m_pPlayer, levelID);
 	}
 
+	public boolean isCopyLevelPassed(int levelID){
+		return copyLevelRecordHolder.isCopyLevelPassed(m_pPlayer, levelID);
+	}
+	
 	public CopyLevelRecordIF getLevelRecord(int levelID) {
 		return copyLevelRecordHolder.getLevelRecord(m_pPlayer, levelID);
 	}
