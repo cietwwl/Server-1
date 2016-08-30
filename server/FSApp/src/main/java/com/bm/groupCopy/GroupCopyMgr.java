@@ -105,7 +105,7 @@ public class GroupCopyMgr {
 	private static final int MAX_DONATE_COUNT = 100; 
 	
 	public GroupCopyMgr(String groupIdP) {
-		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
+		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);//这里要先初始化关卡再初始化章节地图，因为里面会做检查
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
 		rewardRecordHolder = new GroupCopyRewardDistRecordHolder(groupIdP);
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
