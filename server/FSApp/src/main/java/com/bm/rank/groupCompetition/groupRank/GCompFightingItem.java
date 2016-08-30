@@ -19,6 +19,8 @@ public class GCompFightingItem {
 	private String leaderName;
 
 	private long groupFight;
+	
+	private int lastRank;
 
 	public String getGroupId() {
 		return groupId;
@@ -66,5 +68,13 @@ public class GCompFightingItem {
 
 	public void setGroupFight(long groupFight) {
 		this.groupFight = groupFight;
+	}
+
+	public int getLastRank() {
+		return lastRank;
+	}
+
+	public void setLastRank(int lastRank) {
+		this.lastRank = lastRank;
 	}
 }

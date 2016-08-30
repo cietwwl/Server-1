@@ -42,7 +42,8 @@ public class GCompFightingRankMgr {
 			return;
 		}
 		long groupFight = getGroupFighting(group);
-		GCompFightingComparable comparable = new GCompFightingComparable(groupFight, group.getGroupBaseDataMgr().getGroupData().getGroupLevel());
+		GCompFightingComparable comparable = new GCompFightingComparable(groupFight, 
+				group.getGroupBaseDataMgr().getGroupData().getGroupLevel(), getRankIndex(groupId));
 		RankingEntry<GCompFightingComparable, GCompFightingItem> rankingEntry = ranking.getRankingEntry(groupId);
 		if (rankingEntry == null) {
 			// 加入榜
@@ -100,6 +101,7 @@ public class GCompFightingRankMgr {
 			GCompFightingComparable fightingComparable = entry.getComparable();
 			GCompFightingItem fightingItem = entry.getExtendedAttribute();
 			fightingItem.setGroupFight(fightingComparable.getGroupFight());
+			fightingItem.setLastRank(fightingComparable.getLastRank());
 			itemList.add(fightingItem);
 		}
 		return itemList;
