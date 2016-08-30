@@ -1,0 +1,6 @@
+key,comment,typeForServer,seq,fightingOrigin,fightingOriginFuncId,growthWay,gotoType
+1,,1,1,佣兵等级,,1;2;3,1
+2,,2,2,装备,,1;2;3,2
+3,,3,3,宝石等级,33,1;2;3,3
+4,,4,4,法宝等级,,1;2;3,4
+5,,5,5,神器,53,1;2;3,5

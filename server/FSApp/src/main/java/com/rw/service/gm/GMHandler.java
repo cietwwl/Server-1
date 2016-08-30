@@ -200,6 +200,9 @@ public class GMHandler {
 		
 		funcCallBackMap.put("speedupscecret", "speedUpSecret");
 		funcCallBackMap.put("finishsecret", "finishSecret");
+		
+		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
+		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 	}
 
 	public boolean isActive() {
@@ -217,6 +220,23 @@ public class GMHandler {
 			return true;
 		} catch (Exception e) {
 			GameLog.error("GM", "reload config", "reloadByClassName:" + clname + " failed", e);
+			return false;
+		}
+	}
+	
+	private boolean assumeSendRequest(Player player, com.rwproto.RequestProtos.Request request) {
+		try {
+			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
+			fUserChannelMap.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
+			fUserChannelMap.setAccessible(false);
+			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, request));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -1263,28 +1283,15 @@ public class GMHandler {
 			return false;
 		}
 		String targetUserId = arrCommandContents[0];
-		try {
-			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
-			fUserChannelMap.setAccessible(true);
-			@SuppressWarnings("unchecked")
-			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
-			fUserChannelMap.setAccessible(false);
-			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
-			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
-			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
-			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
-			headerBuilder.setUserId(player.getUserId());
-			requestBuilder.setHeader(headerBuilder.build());
-			com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
-			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
-			requestBuilder.setBody(bodyBuilder.build());
-			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 	
 	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
@@ -1415,5 +1422,29 @@ public class GMHandler {
 			}
 		}
 		return true;
+	}
+	
+	public boolean requestFightingGrowthData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_FIGHTING_GROWTH_REQUEST_UI_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestFightingGrowthUpgrade(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_FIGHTING_GROWTH_REQUEST_UPGRADE);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 }

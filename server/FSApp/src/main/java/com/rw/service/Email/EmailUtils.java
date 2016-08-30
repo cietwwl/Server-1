@@ -24,6 +24,17 @@ import com.rwbase.dao.email.TableEmailDAO;
 
 public class EmailUtils {
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+	
+	public static String createEmailAttachment(Map<Integer, Integer> itemMap) {
+		StringBuilder attachBuilder = new StringBuilder();
+		Set<Entry<Integer, Integer>> entrySet = itemMap.entrySet();
+		for (Entry<Integer, Integer> entryTmp : entrySet) {
+			attachBuilder.append(entryTmp.getKey()).append("~").append(entryTmp.getValue()).append(",");
+		}
+		
+		String attachment = StringUtils.removeEnd(attachBuilder.toString(), ",");
+		return attachment;
+	}
 
 	/**
 	 * 发送邮件
@@ -64,13 +75,7 @@ public class EmailUtils {
 	 *            物品附件
 	 * */
 	public static boolean sendEmail(String userId, String cfgId, Map<Integer,Integer> itemMap) {
-		StringBuilder attachBuilder = new StringBuilder();
-		Set<Entry<Integer, Integer>> entrySet = itemMap.entrySet();
-		for (Entry<Integer, Integer> entryTmp : entrySet) {
-			attachBuilder.append(entryTmp.getKey()).append("~").append(entryTmp.getValue()).append(",");
-		}
-		
-		String attachment = StringUtils.removeEnd(attachBuilder.toString(), ",");
+		String attachment = createEmailAttachment(itemMap);
 		
 		return sendEmail(userId, cfgId, attachment);
 	}
@@ -203,7 +208,7 @@ public class EmailUtils {
 			try {
 				item.setDeadlineTimeInMill(format.parse(emailData.getDeadlineTime()).getTime());
 			} catch (ParseException e) {
-				GameLog.error("邮件删除日期填写错误，邮件发送失败");
+				GameLog.error("EMailUtils", "setEamil", "邮件删除日期填写错误，邮件发送失败");
 			}
 		} else {
 			item.setDeadlineTimeInMill(System.currentTimeMillis() + emailData.getDelayTime() * 1000L);

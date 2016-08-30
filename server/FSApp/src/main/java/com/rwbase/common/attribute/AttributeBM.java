@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.army.ArmyMagic;
-import com.playerdata.fightgrowth.FSUserFightingGrowthTitleAttributeComponent;
+import com.playerdata.fightinggrowth.FSUserFightingGrowthTitleAttributeComponent;
 import com.playerdata.fixEquip.attr.FixExpEquipAttributeComponent;
 import com.playerdata.fixEquip.attr.FixNormEquipAttributeComponent;
 import com.playerdata.team.FashionInfo;

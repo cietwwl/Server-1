@@ -108,6 +108,9 @@
      			<entry key="MSG_ONE_KEY_REWARD" value-ref="oneKeyService" />
      			<entry key="MSG_BATTLE_COMMON" value-ref="saveTeaminfoToServerService" />
      			
+     			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UI_DATA" value-ref="userFightingGrowthService" />
+     			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -190,4 +193,5 @@
 	<bean id="oneKeyService" class = "com.rw.service.task.OneKeyService" />
 	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	<bean id="saveTeaminfoToServerService" class="com.playerdata.saveteaminfo.SaveTeaminfoToServerService"/>
+	<bean id="userFightingGrowthService" class="com.rw.service.fightinggrowth.FSUserFightingGrowthService" />
 </beans>  
