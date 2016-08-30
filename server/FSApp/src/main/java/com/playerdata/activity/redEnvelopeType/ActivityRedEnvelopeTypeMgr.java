@@ -143,7 +143,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if(cfg == null){
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "派发奖励替换文字的时候取不到cfg", null);
 			return;
 		}		
 		String reward = eSpecialItemId.Gold.getValue() +"_"+item.getGoldCount();
@@ -161,7 +160,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		if (activityVitalityTypeItem != null) {
 			ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());			
 			if(cfg == null){
-				GameLog.error("activityRedEnvelopetypemgr","" , "配置文件找不到数据奎对应的活动");
 				return false;
 			}						
 			long endTime = cfg.getEndTime();
@@ -187,7 +185,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
 		if(ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())>subItemList.size()){
 			//活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里", null);
 			return;
 		}
 		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
@@ -244,7 +241,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		}		
 		ActivityRedEnvelopeTypeItem dataItem = activityRedEnvelopeTypeItemHolder.getItem(player.getUserId());
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
