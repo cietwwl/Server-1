@@ -45,7 +45,7 @@ import com.rwbase.dao.battletower.pojo.readonly.BattleTowerHeroInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.BattleTowerRoleInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.TableBattleTowerRankIF;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
@@ -1116,7 +1116,7 @@ public class BattleTowerHandler {
 				roleInfo.setHeadFrame(playerHeadFrame);
 			}
 			Hero playerMainHero = player.getMainRoleHero();
-			RoleBaseInfo playerMainInfo = playerMainHero.getRoleBaseInfoMgr().getBaseInfo();
+			RoleBaseInfoIF playerMainInfo = playerMainHero.getRoleBaseInfoMgr().getBaseInfo();
 			roleInfo.setQualityId(playerMainInfo.getQualityId());
 
 			// 法宝

@@ -10,11 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.BeanCopyer;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
-import com.playerdata.hero.core.RoleBaseInfoImpl;
+import com.playerdata.hero.core.RoleBaseInfo;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.AttrData.Builder;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 
 public class MonsterArmyHelper {
@@ -28,13 +28,13 @@ public class MonsterArmyHelper {
 		AttrData attrData = getAttrData(monster);
 		hero.setAttrData(attrData);;
 		
-		List<Skill> skillList = getSkillList (monster);
+		List<SkillItem> skillList = getSkillList (monster);
 		if (skillList != null) {
 			hero.setSkillList(skillList);
 		}
 		
 		
-		RoleBaseInfoImpl roleBaseInfo = getRoleBaseInfo (monster);
+		RoleBaseInfo roleBaseInfo = getRoleBaseInfo (monster);
 		if (roleBaseInfo != null) {
 			hero.setRoleBaseInfo(roleBaseInfo);
 		}
@@ -52,7 +52,7 @@ public class MonsterArmyHelper {
 		return data;
 	}
 
-	private static List<Skill> getSkillList(MonsterCfg monster){
+	private static List<SkillItem> getSkillList(MonsterCfg monster){
         List<String> tempList = new ArrayList<String>();
         tempList.add(monster.getSkill01());
         tempList.add(monster.getSkill02());
@@ -64,9 +64,9 @@ public class MonsterArmyHelper {
 		
 	}
 	
-	public static List<Skill> createSkillItems (List<String> ids)
+	public static List<SkillItem> createSkillItems (List<String> ids)
 	{
-		List<Skill> skillItemList = new ArrayList<Skill> ();
+		List<SkillItem> skillItemList = new ArrayList<SkillItem> ();
 		SkillCfg skillCfg = null;
 		Map<String, List<Integer>> skillBuffs = new HashMap<String, List<Integer>> ();
 		Map<String, List<Integer>> selfBuffs = new HashMap<String, List<Integer>> ();
@@ -91,7 +91,7 @@ public class MonsterArmyHelper {
 				if (selfBuffs.containsKey (skillEffectId)) {
 					selfbuffIds.addAll (selfBuffs.get(skillEffectId));
 				}
-				Skill skillItem = newSkill(skillIdTmp, order, buffIds, skillCfg, selfbuffIds);						
+				SkillItem skillItem = newSkill(skillIdTmp, order, buffIds, skillCfg, selfbuffIds);						
 //						new Skill (skillIdTmp, skillIdTmp, skillIdTmp, 1, i, buffIds,
 //						skillCfg.skillRate, skillCfg.extraDamage, skillCfg.skillDamage, selfbuffIds);
 				skillItemList.add (skillItem);
@@ -103,8 +103,8 @@ public class MonsterArmyHelper {
 		return skillItemList;
 	}
 	
-	private static Skill newSkill(String id, int order, List<Integer> buffIds, SkillCfg skillCfg,List<Integer> selfbuffIds){
-		Skill skill = new Skill();
+	private static SkillItem newSkill(String id, int order, List<Integer> buffIds, SkillCfg skillCfg,List<Integer> selfbuffIds){
+		SkillItem skill = new SkillItem();
 		skill.setId(id);
 		skill.setOwnerId(id);
 		skill.setSkillId(id);
@@ -147,8 +147,8 @@ public class MonsterArmyHelper {
 	}
 	
 
-	private static RoleBaseInfoImpl getRoleBaseInfo(MonsterCfg monster){
-		RoleBaseInfoImpl roleInfo = new RoleBaseInfoImpl();
+	private static RoleBaseInfo getRoleBaseInfo(MonsterCfg monster){
+		RoleBaseInfo roleInfo = new RoleBaseInfo();
         BeanCopyer.copy(monster,roleInfo);
 		return roleInfo;
 	}

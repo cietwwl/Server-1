@@ -1,8 +1,8 @@
 package com.playerdata.battleVerify;
 
 import com.google.protobuf.ByteString;
-import com.monster.cfg.CopyMonsterCfg;
-import com.monster.cfg.CopyMonsterCfgDao;
+//import com.monster.cfg.CopyMonsterCfg;
+//import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataEncode.DataEncoder;
@@ -27,20 +27,20 @@ public class BattleVerifyHandler {
 		String copyId = copyReqMsg.getCopyId();
 		String md5 = copyReqMsg.getCode();
 		
-		CopyMonsterCfg config = CopyMonsterCfgDao.getInstance().getConfig(copyId);
-		ArmyInfo armyInfo = getArmyInfo(config);
+//		CopyMonsterCfg config = CopyMonsterCfgDao.getInstance().getConfig(copyId);
+//		ArmyInfo armyInfo = getArmyInfo(config);
 
-		boolean success = DataEncoder.verify(armyInfo, md5);	
-		
-		response.setIsSuccess(success);	
+//		boolean success = DataEncoder.verify(armyInfo, md5);	
+//		
+//		response.setIsSuccess(success);	
 		
 		return response.build().toByteString();
 	}
 
-	private ArmyInfo getArmyInfo(CopyMonsterCfg config) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	private ArmyInfo getArmyInfo(CopyMonsterCfg config) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 	
 	
 

@@ -108,7 +108,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
 			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgByItem(targetItem);
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 				return;
 			}			
 			

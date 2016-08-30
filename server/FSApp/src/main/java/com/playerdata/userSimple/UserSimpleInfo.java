@@ -2,8 +2,6 @@ package com.playerdata.userSimple;
 
 import java.util.List;
 
-import com.playerdata.dataSyn.ClassInfo4Client;
-import com.playerdata.dataSyn.DataSynClassInfoMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class UserSimpleInfo {
@@ -49,10 +47,5 @@ public class UserSimpleInfo {
 		return this.guildName;
 	}
 	
-	public String toJson() throws Exception{
-		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(UserSimpleInfo.class);
-		String jsonData = serverClassInfo.toJson(this);
-		return jsonData;
-	}
 	
 }

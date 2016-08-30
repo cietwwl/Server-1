@@ -131,7 +131,6 @@ public class DailyActivityHandler {
 					haveReward = true;
 					List<ItemInfo> rewardList = entity.getReward();
 					for(ItemInfo info: rewardList){
-						player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
 						Integer haveCount = rewardMap.get(info.getItemID());
 						if(null == haveCount) haveCount = info.getItemNum();
 						else haveCount += info.getItemNum();

@@ -1,27 +1,16 @@
 package com.rw.controler;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ByteString;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
-import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
-import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.login.game.LoginSynDataHelper;
@@ -36,9 +25,7 @@ import com.rwproto.GameLoginProtos.GameLoginRequest;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eGameLoginType;
 import com.rwproto.GameLoginProtos.eLoginResultType;
-import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.RequestHeader;
-import com.rwproto.ResponseProtos.ResponseHeader;
 
 public class PlayerLoginTask implements PlayerTask {
 
@@ -119,27 +106,7 @@ public class PlayerLoginTask implements PlayerTask {
 			// 断开非当前链接
 			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
-				GameLog.debug("Kick Player...,userId:" + userId);
-//				player.KickOff("你的账号在另一处登录，请重新登录");
-				GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
-				loginResponse.setResultType(eLoginResultType.SUCCESS);
-				loginResponse.setError("你的账号在另一处登录，请重新登录");
-				
-				ChannelFuture f = nettyControler.sendAyncResponse(userId, oldContext, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
-				f.addListener(new GenericFutureListener<Future<? super Void>>() {
-
-					@Override
-					public void operationComplete(Future<? super Void> future) throws Exception {
-						oldContext.executor().schedule(new Callable<Void>() {
-
-							@Override
-							public Void call() throws Exception {
-								oldContext.close();
-								return null;
-							}
-						}, 300, TimeUnit.MILLISECONDS);
-					}
-				});
+				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
 			}
 		}
 		// 检查发送版本更新
@@ -186,7 +153,7 @@ public class PlayerLoginTask implements PlayerTask {
 		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
 		UserChannelMgr.bindUserID(userId, ctx, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
-		player.onLogin();
+		ByteString loginSynData = player.onLogin();
 		if (StringUtils.isBlank(player.getUserName())) {
 			response.setResultType(eLoginResultType.NO_ROLE);
 			GameLog.debug("Create Role ...,userId:" + userId);
@@ -206,7 +173,7 @@ public class PlayerLoginTask implements PlayerTask {
 		LoginSynDataHelper.setData(player, response);
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
-		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx);
+		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
 		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ "LOGIN" + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
 
 	}

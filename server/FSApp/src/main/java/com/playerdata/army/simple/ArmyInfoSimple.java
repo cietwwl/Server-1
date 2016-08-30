@@ -7,8 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.ArmyMagic;
-import com.playerdata.dataSyn.ClassInfo4Client;
-import com.playerdata.dataSyn.DataSynClassInfoMgr;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
@@ -85,8 +84,7 @@ public class ArmyInfoSimple {
 		this.teamFighting = teamFighting;
 	}
 	public String toJson() throws Exception{
-		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(ArmyInfoSimple.class);
-		String jsonData = serverClassInfo.toJson(this);
+		String jsonData = ClientDataSynMgr.toClientData(this);
 		return jsonData;
 	}
 	

@@ -756,13 +756,21 @@ public final class MsgDef {
      */
     MSG_BATTLE_COMMON(99, 209),
     /**
+     * <code>MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    MSG_ACTIVITY_DAILY_CHARGE_TYPE(100, 212),
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(100, 995),
+    MSG_FEEDBACK(101, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -770,7 +778,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(101, 996),
+    MSG_SDK_VERIFY(102, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -778,7 +786,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(102, 997),
+    MSG_NUMERIC_ANALYSIS(103, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -786,7 +794,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(103, 998),
+    MSG_PLATFORMGS(104, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -794,7 +802,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(104, 999),
+    MSG_GAMEPRESS(105, 999),
     ;
 
     /**
@@ -1540,6 +1548,14 @@ public final class MsgDef {
      */
     public static final int MSG_BATTLE_COMMON_VALUE = 209;
     /**
+     * <code>MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_DAILY_CHARGE_TYPE_VALUE = 212;
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
@@ -1685,6 +1701,7 @@ public final class MsgDef {
         case 207: return MSG_TEAM_BATTLE;
         case 208: return MSG_ONE_KEY_REWARD;
         case 209: return MSG_BATTLE_COMMON;
+        case 212: return MSG_ACTIVITY_DAILY_CHARGE_TYPE;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1750,7 +1767,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022proto/MsgDef.proto\022\006MsgDef*\256\022\n\007Command" +
+      "\n\022proto/MsgDef.proto\022\006MsgDef*\323\022\n\007Command" +
       "\022\021\n\rMSG_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026" +
       "MSG_DO_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE" +
       "_LIST\020h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022" +
@@ -1806,11 +1823,12 @@ public final class MsgDef {
       "MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_F" +
       "IGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE\020" +
       "\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY_" +
-      "REWARD\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022\021\n\014MSG" +
-      "_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG" +
-      "_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346" +
-      "\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006Ms",
-      "gDef"
+      "REWARD\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022#\n\036MSG" +
+      "_ACTIVITY_DAILY_CHARGE_TYPE\020\324\001\022\021\n\014MSG_FE" +
+      "EDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NU" +
+      "MERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022",
+      "\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDe" +
+      "f"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

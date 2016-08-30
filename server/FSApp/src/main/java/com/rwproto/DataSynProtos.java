@@ -856,13 +856,21 @@ public final class DataSynProtos {
      */
     TEAM_BATTLE_TEAM(83, 92),
     /**
-     * <code>FIGHTING_GROWTH_DATA = 93;</code>
+     * <code>ActivityDailyRechargeType = 93;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    ActivityDailyRechargeType(84, 93),
+    /**
+     * <code>FIGHTING_GROWTH_DATA = 94;</code>
      *
      * <pre>
      * 战力提升数据
      * </pre>
      */
-    FIGHTING_GROWTH_DATA(84, 93),
+    FIGHTING_GROWTH_DATA(85, 94),
     ;
 
     /**
@@ -1538,13 +1546,21 @@ public final class DataSynProtos {
      */
     public static final int TEAM_BATTLE_TEAM_VALUE = 92;
     /**
-     * <code>FIGHTING_GROWTH_DATA = 93;</code>
+     * <code>ActivityDailyRechargeType = 93;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    public static final int ActivityDailyRechargeType_VALUE = 93;
+    /**
+     * <code>FIGHTING_GROWTH_DATA = 94;</code>
      *
      * <pre>
      * 战力提升数据
      * </pre>
      */
-    public static final int FIGHTING_GROWTH_DATA_VALUE = 93;
+    public static final int FIGHTING_GROWTH_DATA_VALUE = 94;
 
 
     public final int getNumber() { return value; }
@@ -1635,7 +1651,8 @@ public final class DataSynProtos {
         case 90: return MAGICEQUIP_FETTER;
         case 91: return USER_TEAM_BATTLE;
         case 92: return TEAM_BATTLE_TEAM;
-        case 93: return FIGHTING_GROWTH_DATA;
+        case 93: return ActivityDailyRechargeType;
+        case 94: return FIGHTING_GROWTH_DATA;
         default: return null;
       }
     }
@@ -5725,7 +5742,7 @@ public final class DataSynProtos {
       "n\030\004 \001(\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017" +
       "\n\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nAD" +
       "D_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_" +
-      "FIELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\314\016\n\010eSynTy" +
+      "FIELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\353\016\n\010eSynTy" +
       "pe\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RE" +
       "CORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECR" +
       "ETAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_I" +
@@ -5771,9 +5788,10 @@ public final class DataSynProtos {
       "eData\020U\022\r\n\tMajorData\020V\022\026\n\022GFightSimpleLe" +
       "ader\020W\022\025\n\021GFightFinalReward\020X\022\020\n\014Embattl" +
       "eInfo\020Y\022\025\n\021MAGICEQUIP_FETTER\020Z\022\024\n\020USER_T" +
-      "EAM_BATTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\\022\030\n\024FI",
-      "GHTING_GROWTH_DATA\020]B\034\n\013com.rwprotoB\rDat" +
-      "aSynProtos"
+      "EAM_BATTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\\022\035\n\031Ac",
+      "tivityDailyRechargeType\020]\022\030\n\024FIGHTING_GR" +
+      "OWTH_DATA\020^B\034\n\013com.rwprotoB\rDataSynProto" +
+      "s"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

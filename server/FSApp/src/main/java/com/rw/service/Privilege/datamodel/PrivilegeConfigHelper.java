@@ -124,4 +124,15 @@ public class PrivilegeConfigHelper {
 		BoolPropertyWriter pwriter = BoolPropertyWriter.getShareInstance();
 		return pwriter.extractVal(kv.getValue());
 	}
+	
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> String getStringPrivilege(
+			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+		PrivilegeValue kv = getPrivilegeProperty(privilegeDataSet, pname);
+		if (kv == null) {
+			return null;
+		}
+
+		StringPropertyWriter pwriter = StringPropertyWriter.getShareInstance();
+		return pwriter.extractVal(kv.getValue());
+	}
 }
