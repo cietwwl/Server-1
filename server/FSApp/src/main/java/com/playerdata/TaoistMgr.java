@@ -74,6 +74,9 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		taoistMagicEff.hold(effects);
 		if (fire) {
 			taoistMagicEff.fire(effects);
+			String uid = record.getUserId();
+			Player player = PlayerMgr.getInstance().find(uid);
+			player.getUserTmpGameDataFlag().setSynFightingAll(true);
 		}
 	}
 
