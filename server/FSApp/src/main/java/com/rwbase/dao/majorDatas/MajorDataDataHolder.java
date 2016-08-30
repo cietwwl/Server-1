@@ -13,50 +13,55 @@ import com.rwproto.DataSynProtos.eSynType;
 public class MajorDataDataHolder {
 	private final String userId;
 	private static eSynType synType = eSynType.MajorData;
-	
-	public MajorDataDataHolder(String userId){
+
+	public MajorDataDataHolder(String userId) {
 		this.userId = userId;
 		initMajorData();
 	}
-	
-	private void initMajorData(){
-		MajorData majorData = getMapItemStore().getItem(this.userId);
-		if(majorData == null){
+
+	private void initMajorData() {
+		MajorDataCache cache = MajorDataCacheFactory.getCache();
+		MajorData majorData = cache.get(userId);
+		if (majorData == null) {
 			majorData = new MajorData();
 			majorData.setId(userId);
 			majorData.setOwnerId(userId);
-			getMapItemStore().addItem(majorData);
+			cache.update(majorData);
 		}
 	}
-	
-	private MapItemStore<MajorData> getMapItemStore(){
-		MapItemStoreCache<MajorData> cache = MapItemStoreFactory.getMajorDataCache();
-		return cache.getMapItemStore(userId, MajorData.class);
+
+	public MajorData getMarjorData() {
+		return MajorDataCacheFactory.getCache().get(this.userId);
 	}
-	
-	public void updateItem(Player player, MajorData majorData){
-		getMapItemStore().updateItem(majorData);
-	}
-	
-	public MajorData getMarjorData(){
-		return getMapItemStore().getItem(this.userId);
-	}
-	
-	public void syn(Player player, int version){
+
+	public void syn(Player player, int version) {
 		MajorData marjorData = getMarjorData();
-		if(marjorData != null){
+		if (marjorData != null) {
 			ClientDataSynMgr.synData(player, marjorData, synType, eSynOpType.UPDATE_LIST);
-		}else{
+		} else {
 			GameLog.error("MajorDataDataHolder", "#syn()", "find MajorData fail:" + userId);
 		}
 	}
+
+	public void addCoin(Player player,MajorData data) {
+		MajorDataCacheFactory.getCache().updateCoin(data);
+		syn(player, data);
+	}
 	
-	public void update(Player player){
-		getMapItemStore().update(this.userId);
-		MajorData marjorData = getMarjorData();
-		if(marjorData != null){
-			ClientDataSynMgr.updateData(player, marjorData, synType, eSynOpType.UPDATE_SINGLE);
-		}else{
+	public void addGold(Player player,MajorData data){
+		MajorDataCacheFactory.getCache().updateGold(data);
+		syn(player, data);
+	}
+	
+	public void addChargeGold(Player player, MajorData data){
+		MajorDataCacheFactory.getCache().updateGold(data);
+		syn(player, data);
+	}
+	
+	private void syn(Player player, MajorData data){
+		if (data != null) {
+			ClientDataSynMgr.updateData(player, data, synType, eSynOpType.UPDATE_SINGLE);
+		} else {
 			GameLog.error("MajorDataDataHolder", "#syn()", "find MajorData fail:" + userId);
 		}
 	}

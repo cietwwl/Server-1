@@ -26,7 +26,11 @@ public class FixEquipService implements FsService {
 			CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 			
 			RequestType reqType = commonReq.getReqType();
-			switch (reqType) {	
+			switch (reqType) {
+			case Open_main_view:
+				byteString = expEquipHandler.checkStoredExp(player, commonReq);
+				break;
+			
 			case Norm_level_up:
 				byteString = normEquipHandler.levelUp(player, commonReq);
 				break;
@@ -60,6 +64,7 @@ public class FixEquipService implements FsService {
 			}
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			GameLog.error(LogModule.FixEquip, player.getUserId(), "出现了Exception异常", e);
 		}
 		return byteString;

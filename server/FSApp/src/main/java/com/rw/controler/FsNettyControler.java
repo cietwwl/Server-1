@@ -9,9 +9,10 @@ import com.bm.login.AccoutBM;
 import com.common.GameUtil;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.rw.fsutil.dao.cache.SimpleCache;
-import com.rw.netty.SessionInfo;
+import com.rw.netty.UserSession;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FsService;
 import com.rw.service.login.game.GameLoginHandler;
@@ -25,6 +26,7 @@ import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.ResponseProtos.ResponseHeader;
+import com.rwproto.ResponseProtos.ResponseHeader.Builder;
 
 public class FsNettyControler {
 
@@ -34,9 +36,13 @@ public class FsNettyControler {
 	private Map<Command, FsService> commandMap;
 
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
+		long current = System.currentTimeMillis();
 		RequestHeader header = exRequest.getHeader();
 		final Command command = header.getCommand();
-		GameLog.debug("@@接收消息" + "  " + exRequest.getHeader().getCommand().toString());
+		//更新消息接收时间
+		UserChannelMgr.updateSessionInfo(ctx, current, command);
+//		GameLog.debug("msg:" + command);
+		FSTraceLogger.logger("submit("+command+","+header.getSeqID()+")" + UserChannelMgr.getCtxInfo(ctx, false));
 		if (command == Command.MSG_LOGIN_GAME) {
 			doGameLogin(exRequest, ctx);
 		} else if (command == Command.MSG_RECONNECT) {
@@ -44,7 +50,7 @@ public class FsNettyControler {
 		} else if (command == Command.MSG_PLATFORMGS) {
 			doPlatformGSMsg(exRequest, ctx);
 		} else {
-			SessionInfo session = UserChannelMgr.getSession(ctx);
+			UserSession session = UserChannelMgr.getUserSession(ctx);
 			if (session == null) {
 				return;
 			}
@@ -52,7 +58,6 @@ public class FsNettyControler {
 			if (command == Command.MSG_HeartBeat) {
 				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new HeartBeatTask(session, exRequest));
 			} else {
-				System.err.println("提交任务：" + command + "," + header.getSeqID());
 				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new GameLogicTask(session, exRequest));
 			}
 		}
@@ -105,6 +110,9 @@ public class FsNettyControler {
 		sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
 	}
 
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
+		sendResponse(userId, header, resultContent, 200, ctx, synData);
+	}
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
@@ -113,15 +121,19 @@ public class FsNettyControler {
 		return sendResponse(null, header, resultContent, 200, ctx);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId ) {
+		sendResponse(userId, header, resultContent, sessionId, null);
+	}
+	
+	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
 		if (userId == null) {
 			return;
 		}
 		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-		if (ctx != null && sessionId != UserChannelMgr.getSessionId(ctx)) {
+		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 			ctx = null;
 		}
-		sendResponse(userId, header, resultContent, 200, ctx);
+		sendResponse(userId, header, resultContent, 200, ctx,synData);
 	}
 
 	/**
@@ -152,12 +164,19 @@ public class FsNettyControler {
 	}
 
 	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
+		return sendResponse(userId, header, resultContent, statusCode, ctx, null);
+	}
+
+	
+	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
 		if (!sendMsg && !saveMsg) {
 			return null;
 		}
-		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
+		ResponseHeader responseHeader = getResponseHeader(header, header.getCommand(), statusCode, synData);
+		
+		Response.Builder builder = Response.newBuilder().setHeader(responseHeader);
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);
 		} else {
@@ -179,14 +198,18 @@ public class FsNettyControler {
 		}
 	}
 
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {
-		return getResponseHeader(header, command, 200);
-	}
+//	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {
+//		return getResponseHeader(header, command, 200);
+//	}
 
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode) {
+	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode,ByteString synData) {
 		String token = header.getToken();
 		int seqId = header.getSeqID();
-		return ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode).build();
+		Builder headerBuilder = ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode);
+		if(synData!=null){
+			headerBuilder.setSynData(synData);
+		}
+		return headerBuilder.build();
 	}
 
 	public FsService getSerivice(Command command) {

@@ -1,6 +1,7 @@
 package com.rw.service.worship;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
@@ -41,18 +42,14 @@ private static WorshipHandler instance = new WorshipHandler();
 			response.setResultType(EWorshipResultType.FAIL);
 			return response.build().toByteString();
 		}
-		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg(WORSHIPPERS_KEY);
+		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg();
 		if(cfg == null){
 			response.setResultType(EWorshipResultType.FAIL);
 			return response.build().toByteString();
 		}
-		String reward = cfg.getRewardType() + "~" + cfg.getRewardCount();
-		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
-		if(rewardData != null && !StringUtils.isEmpty(rewardData.getItemId())){
-			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();
-		}else{
-			GameLog.debug("");
-		}
+		String reward = cfg.getRewardStr();
+		WorshipItemData rewardData = cfg.getRewardData();
+
 		//设置膜拜时间
 		player.getUserGameDataMgr().setLastWorshipTime(System.currentTimeMillis());
 		player.getItemBagMgr().addItemByPrizeStr(reward);
@@ -83,11 +80,10 @@ private static WorshipHandler instance = new WorshipHandler();
 		response.setResultType(EWorshipResultType.SUCCESS);
 		response.setWorshipCareer(career);
 		List<WorshipInfo> worshipList = WorshipMgr.getInstance().getWorshipList(ECareer.valueOf(career));
-		int num = WorshipUtils.UpperWorshipNum > worshipList.size() ? worshipList.size() : WorshipUtils.UpperWorshipNum;
+		int num = Math.min(WorshipUtils.UpperWorshipNum, worshipList.size());
 		for (int i = 0; i < num; i++) {//修改为20个上限
 			response.addWorshipList(worshipList.get(i));
 		}
-//		response.addAllWorshipList();
 		player.SendMsg(Command.MSG_Worship, response.build().toByteString());
 	}
 }

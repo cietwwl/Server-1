@@ -13,7 +13,7 @@ import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillEffectCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillEffectCfg;
 
@@ -27,7 +27,7 @@ public class FightingCalculator {
 	public static int calFighting(Hero roleP, AttrData totalAttrData) {
 		// 技能的总等级
 		int skillLevel = 0;
-		for (Skill skill : roleP.getSkillMgr().getSkillList()) {
+		for (SkillItem skill : roleP.getSkillMgr().getSkillList(roleP.getUUId())) {
 			skillLevel += skill.getLevel();
 		}
 

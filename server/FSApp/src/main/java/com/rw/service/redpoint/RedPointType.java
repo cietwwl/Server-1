@@ -54,6 +54,10 @@ public enum RedPointType {
     SECRET_RECORD_KEY,
     MAGIC_SECRET_SCORE_REWARD,
     BATTLE_TOWER_SWEEP_END,
+    PVE_MAGIC_SECRET_SCORE_REWARD,
+    TEAMBATTLE_FULL_MEMBER,
+    PVE_TEAMBATTLE,
+    FORTUNE_CAT,
     ;
     private RedPointType(){
     	

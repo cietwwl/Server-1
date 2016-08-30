@@ -1,6 +1,5 @@
 package com.rw.handler.battle.army;
 
-
 public class CurAttrData {
 
 	private String id;

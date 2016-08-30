@@ -7,8 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
@@ -26,8 +24,10 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -35,13 +35,10 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
@@ -49,6 +46,12 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
@@ -84,7 +87,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityCountTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getId());
+			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
 			if (countTypeEnum == null) {
 				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + cfg.getId());
 				continue;
@@ -107,41 +110,28 @@ public class ActivityCollector implements RedPointCollector{
 		}
 
 		//------------------------------			
-		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeCfg activityCountTypeCfg = ActivityDailyTypeMgr.getInstance().getparentCfg();		
-		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());	
+		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();		
+		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());
 		if(dailyTargetItem == null){
 			
-		}else{
-			if(activityCountTypeCfg!=null&&ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
+		}else{		
+			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
+			if(activityDailyTypeCfg != null&&ActivityDailyTypeMgr.getInstance().isOpen(activityDailyTypeCfg)){
 				if(!dailyTargetItem.isTouchRedPoint()){
-					activityList.add(activityCountTypeCfg.getId());
-				}else{
+					activityList.add(activityDailyTypeCfg.getId());
+				}else {
 					for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
 						ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
 						if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
-							activityList.add(activityCountTypeCfg.getId());
+							activityList.add(activityDailyTypeCfg.getId());
 							break;
 						}
 					}		
 				}				
-			}			
+			}
+			
 		}
 		
-		
-//		if(activityCountTypeCfg != null&&dailyTargetItem!=null){
-//			if(!dailyTargetItem.isTouchRedPoint()){
-//				activityList.add(activityCountTypeCfg.getId());
-//			}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
-//				for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
-//					ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
-//					if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
-//						activityList.add(activityCountTypeCfg.getId());
-//						break;
-//					}
-//				}		
-//			}					
-//		}
 
 		//------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();
@@ -151,7 +141,10 @@ public class ActivityCollector implements RedPointCollector{
 				// 活动未开启
 				continue;
 			}
-			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getId());
+			if(!ActivityRateTypeMgr.getInstance().isLevelEnough(player, cfg)){
+				continue;
+			}
+			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
@@ -205,41 +198,42 @@ public class ActivityCollector implements RedPointCollector{
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
-			if (!ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
-				if(!activityVitalityTypeItem.isTouchRedPoint()){
-					activityList.add(activityVitalityTypeItem.getCfgId());
+			if (!ActivityVitalityTypeMgr.getInstance().isHasCfg(activityVitalityTypeItem)) {
+				continue;				
+			}
+			if(!activityVitalityTypeItem.isTouchRedPoint()){
+				activityList.add(activityVitalityTypeItem.getCfgId());
+				continue;
+			}
+			
+			List<ActivityVitalityTypeSubItem> vitalitySubItemList = activityVitalityTypeItem.getSubItemList();
+			for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+				if (subItemCfg == null) {
 					continue;
 				}
-				
-				List<ActivityVitalityTypeSubItem> vitalitySubItemList = activityVitalityTypeItem.getSubItemList();
-				for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
-					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if (subItemCfg == null) {
-						continue;
-					}
-					if (subItem.getCount() >= subItemCfg.getCount()
-							&& !subItem.isTaken()) {
-						activityList.add(activityVitalityTypeItem.getCfgId());
-						break;
-					}
+				if (subItem.getCount() >= subItemCfg.getCount()
+						&& !subItem.isTaken()) {
+					activityList.add(activityVitalityTypeItem.getCfgId());
+					break;
 				}
-				ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);
-				List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
-				for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
-					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if(cfg.isCanGetReward()){
-						break;
-					}					
-					if (subItemCfg == null) {
-						continue;
-					}
-					if (subItem.getCount() >= subItemCfg.getActiveCount()&& !subItem.isTaken()) {
-						activityList.add(activityVitalityTypeItem.getCfgId());
-						break;
-					}
-				}
-				
 			}
+			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+			List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
+			for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+				if(cfg.isCanGetReward()){
+					break;
+				}					
+				if (subItemCfg == null) {
+					continue;
+				}
+				if (subItem.getCount() >= subItemCfg.getActiveCount()&& !subItem.isTaken()) {
+					activityList.add(activityVitalityTypeItem.getCfgId());
+					break;
+				}
+			}
+			
 		}
 
 		//------------------------------
@@ -250,7 +244,11 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityExchangeTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getId());
+			if(!ActivityExchangeTypeMgr.getInstance().isLevelEnough(player, cfg)){
+				continue;
+			}
+			
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
@@ -284,7 +282,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getId());
+			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
 			if (dailyDiscountEnum == null) {
 				continue;
 			}
@@ -295,28 +293,7 @@ public class ActivityCollector implements RedPointCollector{
 			if(!targetItem.isTouchRedPoint()){
 				activityList.add(targetItem.getCfgId());
 				continue;
-			}
-			
-			//原来的判断逻辑注释
-//			List<ActivityDailyDiscountTypeSubItem> dailyDiscountSubitemlist= targetItem.getSubItemList();
-//			for(ActivityDailyDiscountTypeSubItem subitem:dailyDiscountSubitemlist){
-//				if(isRed){
-//					break;
-//				}
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isLevelEnough(player, dailyDiscountEnum)){
-//					continue;
-//				}
-//				ActivityDailyDiscountItemCfg itemCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(subitem.getCfgId());
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isCountEnough(subitem.getCount(), itemCfg)){
-//					continue;
-//				}
-//				if(!ActivityDailyDiscountTypeMgr.getInstance().isGoldEnough(player, itemCfg)){
-//					continue;
-//				}
-//				activityList.add(cfg.getId());
-//				isRed = true;
-//				break;
-//			}			
+			}		
 		}
 //      ----------------------------------	
 		ActivityRankTypeItemHolder rankHolder = ActivityRankTypeItemHolder.getInstance();
@@ -351,7 +328,13 @@ public class ActivityCollector implements RedPointCollector{
 				activityList.add(redEnvelopeItem.getCfgId());
 				continue;
 			}			
-		}		
+		}
+		System.out.println();
+		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(dailyChargeList);
+		
+		
+		
 		
 		
 //		if (!activityList.isEmpty()) {

@@ -4,6 +4,7 @@ import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.bm.group.GroupConst;
+import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.PlayerIF;
@@ -37,11 +38,12 @@ public class GroupHelper {
 			return EMPTY_STRING;
 		}
 
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if(userGroupAttributeData == null){
+		UserGroupAttributeDataIF userGroupAttributeData = player
+				.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if (userGroupAttributeData == null) {
 			return EMPTY_STRING;
 		}
-		
+
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return EMPTY_STRING;
@@ -71,13 +73,15 @@ public class GroupHelper {
 		if (player == null) {
 			return EMPTY_STRING;
 		}
-		
-		UserGroupAttributeDataIF data = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		if(data == null){
+
+		UserGroupAttributeDataIF data = player.getUserGroupAttributeDataMgr()
+				.getUserGroupAttributeData();
+		if (data == null) {
 			return EMPTY_STRING;
 		}
 
-		return player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		return player.getUserGroupAttributeDataMgr()
+				.getUserGroupAttributeData().getGroupId();
 	}
 
 	/**
@@ -92,7 +96,8 @@ public class GroupHelper {
 			return false;
 		}
 
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = player
+				.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupId = userGroupAttributeData.getGroupId();
 		return !StringUtils.isEmpty(groupId);
 	}
@@ -104,13 +109,15 @@ public class GroupHelper {
 	 * @param groupName
 	 */
 	public static void sendJoinGroupMail(String userId, String groupName) {
-		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.JOIN_GROUP_MAIL_ID);
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(
+				GroupConst.JOIN_GROUP_MAIL_ID);
 		String newContent = String.format(emailCfg.getContent(), groupName);
 
 		EmailData emailData = new EmailData();
 		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg
+				.getDeleteType()));
 		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
 		emailData.setSender(emailCfg.getSender());
 		EmailUtils.sendEmail(userId, emailData);
@@ -123,17 +130,34 @@ public class GroupHelper {
 	 * @param groupName
 	 */
 	public static void sendQuitGroupMail(String userId, String groupName) {
-		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.KICK_GROUP_MAIL_ID);
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(
+				GroupConst.KICK_GROUP_MAIL_ID);
 
 		String newContent = String.format(emailCfg.getContent(), groupName);
 
 		EmailData emailData = new EmailData();
 		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg
+				.getDeleteType()));
 		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
 		emailData.setSender(emailCfg.getSender());
 
 		EmailUtils.sendEmail(userId, emailData);
+	}
+
+	public static String getGroupId(Player player) {
+		UserGroupAttributeDataIF userGroupAttributeData = player
+				.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = null;
+		if (userGroupAttributeData != null) {
+			groupId = userGroupAttributeData.getGroupId();
+		}
+		return groupId;
+	}
+
+	public static Group getGroup(Player player) {
+		String groupId = getGroupId(player);
+		return GroupBM.get(groupId);
 	}
 }

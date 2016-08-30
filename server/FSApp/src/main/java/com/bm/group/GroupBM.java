@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.chat.ChatBM;
-import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
+import com.bm.groupCopy.GroupCopyLevelBL;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -28,7 +28,6 @@ import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
 import com.rwbase.dao.group.pojo.db.dao.GroupLogDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
-import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCommonProto.GroupPost;
 import com.rwproto.GroupCommonProto.GroupState;

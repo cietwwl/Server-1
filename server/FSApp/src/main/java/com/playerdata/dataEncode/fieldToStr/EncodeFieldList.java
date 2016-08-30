@@ -7,6 +7,7 @@ import java.util.List;
 import com.playerdata.dataEncode.ClassInfo4Encode;
 import com.playerdata.dataEncode.DataEncodeHelper;
 import com.playerdata.dataEncode.IFieldToStr;
+import com.playerdata.dataEncode.Node.NodeMaper;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 
@@ -18,12 +19,12 @@ public class EncodeFieldList implements IFieldToStr{
 	
 	private FieldType genericType;
 	
-	public EncodeFieldList(Field fieldP){
+	public EncodeFieldList(Field fieldP, NodeMaper nodeMaper){
 		field = fieldP;
 		Class<?> genericClass = FieldTypeHelper.getGenericClass(fieldP);
 		genericType = FieldTypeHelper.getFieldType(genericClass);
 		if(genericType ==  FieldType.Class){
-			genericClassInfo = new ClassInfo4Encode(genericClass);
+			genericClassInfo = new ClassInfo4Encode(genericClass,nodeMaper);
 		}
 	}
 	

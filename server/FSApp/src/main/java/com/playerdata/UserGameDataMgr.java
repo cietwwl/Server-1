@@ -175,7 +175,7 @@ public class UserGameDataMgr {
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		if (marjorData.getCoin() + nValue >= 0) {
 			marjorData.setCoin(marjorData.getCoin() + nValue);
-			majorDataHolder.update(player);
+			majorDataHolder.addCoin(player, marjorData);
 
 			String scenceId = null;// 暂时留空
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
@@ -273,7 +273,7 @@ public class UserGameDataMgr {
 		}
 
 		if (result == 0) {
-			majorDataHolder.update(player);
+			majorDataHolder.addGold(player, marjorData);
 		}
 		return result;
 	}
@@ -294,7 +294,7 @@ public class UserGameDataMgr {
 		}
 
 		if (result == 0) {
-			majorDataHolder.update(player);
+			majorDataHolder.addGold(player, marjorData);
 		}
 
 		return result;
@@ -443,7 +443,7 @@ public class UserGameDataMgr {
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		marjorData.setChargeGold(marjorData.getChargeGold() + addNum);
 		marjorData.updateGold();
-		majorDataHolder.update(player);
+		majorDataHolder.addChargeGold(player, marjorData);
 	}
 
 	public int getRookieFlag() {
@@ -765,6 +765,68 @@ public class UserGameDataMgr {
 
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
+	}
+	
+	public int getFightingAll() {
+		return this.userGameDataHolder.get().getFightingAll();
+	}
+	
+	public void setFightingAll(int fightingAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.setFightingAll(fightingAll);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void setMapAnimationState(MapAnimationState animationState){
+		userGameDataHolder.get().setMapAnimationState(animationState);
+		userGameDataHolder.update(player);
+	}
+
+	public void notifySingleFightingChange(int newSingleValue, int preSingleValue) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleFightingChange(newSingleValue, preSingleValue);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseFightingAll(int value) {
+		this.userGameDataHolder.get().increaseFightingAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public int getStarAll() {
+		return userGameDataHolder.get().getStarAll();
+	}
+	
+	public void setStarAll(int pStarAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getStarAll();
+		gameData.setStarAll(pStarAll);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseStarAll(int value) {
+		this.userGameDataHolder.get().increaseStarAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public void notifySingleStarChange(int newStarLv, int preStarLv) {
+		if(newStarLv == preStarLv) {
+			return;
+		}
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleStarChange(newStarLv, preStarLv);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
 	}
 
 	/**

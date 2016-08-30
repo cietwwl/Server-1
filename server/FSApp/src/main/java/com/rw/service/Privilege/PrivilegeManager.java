@@ -149,6 +149,11 @@ public class PrivilegeManager
 		return result != null ? result : false;
 	}
 	
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> String getStringPrivilege(PrivilegeNameEnums pname){
+		PrivilegeProperty privilegeDataSet = getPrivilegeDataSet(pname);
+		return PrivilegeConfigHelper.getInstance().getStringPrivilege(privilegeDataSet, pname);
+	}
+	
 	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		@SuppressWarnings("rawtypes")

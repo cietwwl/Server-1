@@ -7,6 +7,7 @@ import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
@@ -87,20 +88,6 @@ public class PlayerTimeActionHelper {
 			public void doTask() {
 				// TODO　HC 每个小时都检查一下是否需要重置万仙阵的匹配数据
 				player.getTowerMgr().checkAndResetMatchData(player);
-			}
-		});
-		onNewHourTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {
-				// 每个小时都检查一下活动的开启关闭状态
-				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -253,6 +240,14 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				UserTeamBattleDataMgr.getInstance().dailyReset(player);
+			}
+		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
 			}
 		});
 		

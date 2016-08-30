@@ -525,6 +525,24 @@ public final class GambleServiceProtos {
      * </pre>
      */
     int getGamblePlanId();
+
+    // optional int32 cachePreviewListTag = 5;
+    /**
+     * <code>optional int32 cachePreviewListTag = 5;</code>
+     *
+     * <pre>
+     *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+     * </pre>
+     */
+    boolean hasCachePreviewListTag();
+    /**
+     * <code>optional int32 cachePreviewListTag = 5;</code>
+     *
+     * <pre>
+     *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+     * </pre>
+     */
+    int getCachePreviewListTag();
   }
   /**
    * Protobuf type {@code GambleRequest}
@@ -613,6 +631,11 @@ public final class GambleServiceProtos {
             case 32: {
               bitField0_ |= 0x00000008;
               gamblePlanId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              cachePreviewListTag_ = input.readInt32();
               break;
             }
           }
@@ -751,11 +774,36 @@ public final class GambleServiceProtos {
       return gamblePlanId_;
     }
 
+    // optional int32 cachePreviewListTag = 5;
+    public static final int CACHEPREVIEWLISTTAG_FIELD_NUMBER = 5;
+    private int cachePreviewListTag_;
+    /**
+     * <code>optional int32 cachePreviewListTag = 5;</code>
+     *
+     * <pre>
+     *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+     * </pre>
+     */
+    public boolean hasCachePreviewListTag() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 cachePreviewListTag = 5;</code>
+     *
+     * <pre>
+     *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+     * </pre>
+     */
+    public int getCachePreviewListTag() {
+      return cachePreviewListTag_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.GambleServiceProtos.EGambleRequestType.GAMBLE;
       gambleType_ = com.rwproto.GambleServiceProtos.EGambleType.PRIMARY;
       lotteryType_ = com.rwproto.GambleServiceProtos.ELotteryType.ONE;
       gamblePlanId_ = 0;
+      cachePreviewListTag_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -785,6 +833,9 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, gamblePlanId_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, cachePreviewListTag_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -809,6 +860,10 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, gamblePlanId_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, cachePreviewListTag_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -934,6 +989,8 @@ public final class GambleServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         gamblePlanId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        cachePreviewListTag_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -978,6 +1035,10 @@ public final class GambleServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.gamblePlanId_ = gamblePlanId_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.cachePreviewListTag_ = cachePreviewListTag_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1005,6 +1066,9 @@ public final class GambleServiceProtos {
         }
         if (other.hasGamblePlanId()) {
           setGamblePlanId(other.getGamblePlanId());
+        }
+        if (other.hasCachePreviewListTag()) {
+          setCachePreviewListTag(other.getCachePreviewListTag());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1242,6 +1306,55 @@ public final class GambleServiceProtos {
         return this;
       }
 
+      // optional int32 cachePreviewListTag = 5;
+      private int cachePreviewListTag_ ;
+      /**
+       * <code>optional int32 cachePreviewListTag = 5;</code>
+       *
+       * <pre>
+       *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+       * </pre>
+       */
+      public boolean hasCachePreviewListTag() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 cachePreviewListTag = 5;</code>
+       *
+       * <pre>
+       *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+       * </pre>
+       */
+      public int getCachePreviewListTag() {
+        return cachePreviewListTag_;
+      }
+      /**
+       * <code>optional int32 cachePreviewListTag = 5;</code>
+       *
+       * <pre>
+       *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+       * </pre>
+       */
+      public Builder setCachePreviewListTag(int value) {
+        bitField0_ |= 0x00000010;
+        cachePreviewListTag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 cachePreviewListTag = 5;</code>
+       *
+       * <pre>
+       *客户端发送空列表表示不更新预览列表，发送-1表示全部重新发送
+       * </pre>
+       */
+      public Builder clearCachePreviewListTag() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        cachePreviewListTag_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GambleRequest)
     }
 
@@ -1439,7 +1552,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     java.util.List<com.rwproto.GambleServiceProtos.DropData> 
@@ -1448,7 +1561,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     com.rwproto.GambleServiceProtos.DropData getDropHistory(int index);
@@ -1456,7 +1569,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     int getDropHistoryCount();
@@ -1464,7 +1577,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
@@ -1473,11 +1586,82 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
         int index);
+
+    // repeated .PreviewData previewDataList = 8;
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.GambleServiceProtos.PreviewData> 
+        getPreviewDataListList();
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.PreviewData getPreviewDataList(int index);
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    int getPreviewDataListCount();
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GambleServiceProtos.PreviewDataOrBuilder> 
+        getPreviewDataListOrBuilderList();
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.PreviewDataOrBuilder getPreviewDataListOrBuilder(
+        int index);
+
+    // repeated int32 guaranteenLeftCountList = 9;
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGuaranteenLeftCountListList();
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    int getGuaranteenLeftCountListCount();
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    int getGuaranteenLeftCountList(int index);
   }
   /**
    * Protobuf type {@code GambleResponse}
@@ -1596,6 +1780,35 @@ public final class GambleServiceProtos {
               dropHistory_.add(input.readMessage(com.rwproto.GambleServiceProtos.DropData.PARSER, extensionRegistry));
               break;
             }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                previewDataList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.PreviewData>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              previewDataList_.add(input.readMessage(com.rwproto.GambleServiceProtos.PreviewData.PARSER, extensionRegistry));
+              break;
+            }
+            case 72: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                guaranteenLeftCountList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              guaranteenLeftCountList_.add(input.readInt32());
+              break;
+            }
+            case 74: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100) && input.getBytesUntilLimit() > 0) {
+                guaranteenLeftCountList_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                guaranteenLeftCountList_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1612,6 +1825,12 @@ public final class GambleServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           dropHistory_ = java.util.Collections.unmodifiableList(dropHistory_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          previewDataList_ = java.util.Collections.unmodifiableList(previewDataList_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          guaranteenLeftCountList_ = java.util.Collections.unmodifiableList(guaranteenLeftCountList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1901,7 +2120,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     public java.util.List<com.rwproto.GambleServiceProtos.DropData> getDropHistoryList() {
@@ -1911,7 +2130,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
@@ -1922,7 +2141,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     public int getDropHistoryCount() {
@@ -1932,7 +2151,7 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     public com.rwproto.GambleServiceProtos.DropData getDropHistory(int index) {
@@ -1942,12 +2161,103 @@ public final class GambleServiceProtos {
      * <code>repeated .DropData dropHistory = 7;</code>
      *
      * <pre>
-     *新的钓鱼数据模型
+     *新的钓鱼数据模型（未实现）
      * </pre>
      */
     public com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
         int index) {
       return dropHistory_.get(index);
+    }
+
+    // repeated .PreviewData previewDataList = 8;
+    public static final int PREVIEWDATALIST_FIELD_NUMBER = 8;
+    private java.util.List<com.rwproto.GambleServiceProtos.PreviewData> previewDataList_;
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GambleServiceProtos.PreviewData> getPreviewDataListList() {
+      return previewDataList_;
+    }
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GambleServiceProtos.PreviewDataOrBuilder> 
+        getPreviewDataListOrBuilderList() {
+      return previewDataList_;
+    }
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    public int getPreviewDataListCount() {
+      return previewDataList_.size();
+    }
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.PreviewData getPreviewDataList(int index) {
+      return previewDataList_.get(index);
+    }
+    /**
+     * <code>repeated .PreviewData previewDataList = 8;</code>
+     *
+     * <pre>
+     *两种单抽以及魂匣的预览数据
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.PreviewDataOrBuilder getPreviewDataListOrBuilder(
+        int index) {
+      return previewDataList_.get(index);
+    }
+
+    // repeated int32 guaranteenLeftCountList = 9;
+    public static final int GUARANTEENLEFTCOUNTLIST_FIELD_NUMBER = 9;
+    private java.util.List<java.lang.Integer> guaranteenLeftCountList_;
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGuaranteenLeftCountListList() {
+      return guaranteenLeftCountList_;
+    }
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    public int getGuaranteenLeftCountListCount() {
+      return guaranteenLeftCountList_.size();
+    }
+    /**
+     * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+     * </pre>
+     */
+    public int getGuaranteenLeftCountList(int index) {
+      return guaranteenLeftCountList_.get(index);
     }
 
     private void initFields() {
@@ -1958,6 +2268,8 @@ public final class GambleServiceProtos {
       gambleData_ = com.rwproto.GambleServiceProtos.GambleData.getDefaultInstance();
       tips_ = "";
       dropHistory_ = java.util.Collections.emptyList();
+      previewDataList_ = java.util.Collections.emptyList();
+      guaranteenLeftCountList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1976,6 +2288,12 @@ public final class GambleServiceProtos {
       }
       for (int i = 0; i < getItemListCount(); i++) {
         if (!getItemList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getPreviewDataListCount(); i++) {
+        if (!getPreviewDataList(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2007,6 +2325,12 @@ public final class GambleServiceProtos {
       }
       for (int i = 0; i < dropHistory_.size(); i++) {
         output.writeMessage(7, dropHistory_.get(i));
+      }
+      for (int i = 0; i < previewDataList_.size(); i++) {
+        output.writeMessage(8, previewDataList_.get(i));
+      }
+      for (int i = 0; i < guaranteenLeftCountList_.size(); i++) {
+        output.writeInt32(9, guaranteenLeftCountList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2049,6 +2373,19 @@ public final class GambleServiceProtos {
       for (int i = 0; i < dropHistory_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, dropHistory_.get(i));
+      }
+      for (int i = 0; i < previewDataList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, previewDataList_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < guaranteenLeftCountList_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(guaranteenLeftCountList_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGuaranteenLeftCountListList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2162,6 +2499,7 @@ public final class GambleServiceProtos {
           getItemListFieldBuilder();
           getGambleDataFieldBuilder();
           getDropHistoryFieldBuilder();
+          getPreviewDataListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2200,6 +2538,14 @@ public final class GambleServiceProtos {
         } else {
           dropHistoryBuilder_.clear();
         }
+        if (previewDataListBuilder_ == null) {
+          previewDataList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          previewDataListBuilder_.clear();
+        }
+        guaranteenLeftCountList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -2276,6 +2622,20 @@ public final class GambleServiceProtos {
         } else {
           result.dropHistory_ = dropHistoryBuilder_.build();
         }
+        if (previewDataListBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            previewDataList_ = java.util.Collections.unmodifiableList(previewDataList_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.previewDataList_ = previewDataList_;
+        } else {
+          result.previewDataList_ = previewDataListBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000100) == 0x00000100)) {
+          guaranteenLeftCountList_ = java.util.Collections.unmodifiableList(guaranteenLeftCountList_);
+          bitField0_ = (bitField0_ & ~0x00000100);
+        }
+        result.guaranteenLeftCountList_ = guaranteenLeftCountList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2368,6 +2728,42 @@ public final class GambleServiceProtos {
             }
           }
         }
+        if (previewDataListBuilder_ == null) {
+          if (!other.previewDataList_.isEmpty()) {
+            if (previewDataList_.isEmpty()) {
+              previewDataList_ = other.previewDataList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensurePreviewDataListIsMutable();
+              previewDataList_.addAll(other.previewDataList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.previewDataList_.isEmpty()) {
+            if (previewDataListBuilder_.isEmpty()) {
+              previewDataListBuilder_.dispose();
+              previewDataListBuilder_ = null;
+              previewDataList_ = other.previewDataList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              previewDataListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPreviewDataListFieldBuilder() : null;
+            } else {
+              previewDataListBuilder_.addAllMessages(other.previewDataList_);
+            }
+          }
+        }
+        if (!other.guaranteenLeftCountList_.isEmpty()) {
+          if (guaranteenLeftCountList_.isEmpty()) {
+            guaranteenLeftCountList_ = other.guaranteenLeftCountList_;
+            bitField0_ = (bitField0_ & ~0x00000100);
+          } else {
+            ensureGuaranteenLeftCountListIsMutable();
+            guaranteenLeftCountList_.addAll(other.guaranteenLeftCountList_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2385,6 +2781,12 @@ public final class GambleServiceProtos {
         }
         for (int i = 0; i < getItemListCount(); i++) {
           if (!getItemList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getPreviewDataListCount(); i++) {
+          if (!getPreviewDataList(i).isInitialized()) {
             
             return false;
           }
@@ -3325,7 +3727,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public java.util.List<com.rwproto.GambleServiceProtos.DropData> getDropHistoryList() {
@@ -3339,7 +3741,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public int getDropHistoryCount() {
@@ -3353,7 +3755,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public com.rwproto.GambleServiceProtos.DropData getDropHistory(int index) {
@@ -3367,7 +3769,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder setDropHistory(
@@ -3388,7 +3790,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder setDropHistory(
@@ -3406,7 +3808,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder addDropHistory(com.rwproto.GambleServiceProtos.DropData value) {
@@ -3426,7 +3828,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder addDropHistory(
@@ -3447,7 +3849,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder addDropHistory(
@@ -3465,7 +3867,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder addDropHistory(
@@ -3483,7 +3885,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder addAllDropHistory(
@@ -3501,7 +3903,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder clearDropHistory() {
@@ -3518,7 +3920,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public Builder removeDropHistory(int index) {
@@ -3535,7 +3937,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public com.rwproto.GambleServiceProtos.DropData.Builder getDropHistoryBuilder(
@@ -3546,7 +3948,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
@@ -3560,7 +3962,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
@@ -3575,7 +3977,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public com.rwproto.GambleServiceProtos.DropData.Builder addDropHistoryBuilder() {
@@ -3586,7 +3988,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public com.rwproto.GambleServiceProtos.DropData.Builder addDropHistoryBuilder(
@@ -3598,7 +4000,7 @@ public final class GambleServiceProtos {
        * <code>repeated .DropData dropHistory = 7;</code>
        *
        * <pre>
-       *新的钓鱼数据模型
+       *新的钓鱼数据模型（未实现）
        * </pre>
        */
       public java.util.List<com.rwproto.GambleServiceProtos.DropData.Builder> 
@@ -3618,6 +4020,412 @@ public final class GambleServiceProtos {
           dropHistory_ = null;
         }
         return dropHistoryBuilder_;
+      }
+
+      // repeated .PreviewData previewDataList = 8;
+      private java.util.List<com.rwproto.GambleServiceProtos.PreviewData> previewDataList_ =
+        java.util.Collections.emptyList();
+      private void ensurePreviewDataListIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          previewDataList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.PreviewData>(previewDataList_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.PreviewData, com.rwproto.GambleServiceProtos.PreviewData.Builder, com.rwproto.GambleServiceProtos.PreviewDataOrBuilder> previewDataListBuilder_;
+
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.PreviewData> getPreviewDataListList() {
+        if (previewDataListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(previewDataList_);
+        } else {
+          return previewDataListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public int getPreviewDataListCount() {
+        if (previewDataListBuilder_ == null) {
+          return previewDataList_.size();
+        } else {
+          return previewDataListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.PreviewData getPreviewDataList(int index) {
+        if (previewDataListBuilder_ == null) {
+          return previewDataList_.get(index);
+        } else {
+          return previewDataListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder setPreviewDataList(
+          int index, com.rwproto.GambleServiceProtos.PreviewData value) {
+        if (previewDataListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePreviewDataListIsMutable();
+          previewDataList_.set(index, value);
+          onChanged();
+        } else {
+          previewDataListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder setPreviewDataList(
+          int index, com.rwproto.GambleServiceProtos.PreviewData.Builder builderForValue) {
+        if (previewDataListBuilder_ == null) {
+          ensurePreviewDataListIsMutable();
+          previewDataList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          previewDataListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder addPreviewDataList(com.rwproto.GambleServiceProtos.PreviewData value) {
+        if (previewDataListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePreviewDataListIsMutable();
+          previewDataList_.add(value);
+          onChanged();
+        } else {
+          previewDataListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder addPreviewDataList(
+          int index, com.rwproto.GambleServiceProtos.PreviewData value) {
+        if (previewDataListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePreviewDataListIsMutable();
+          previewDataList_.add(index, value);
+          onChanged();
+        } else {
+          previewDataListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder addPreviewDataList(
+          com.rwproto.GambleServiceProtos.PreviewData.Builder builderForValue) {
+        if (previewDataListBuilder_ == null) {
+          ensurePreviewDataListIsMutable();
+          previewDataList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          previewDataListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder addPreviewDataList(
+          int index, com.rwproto.GambleServiceProtos.PreviewData.Builder builderForValue) {
+        if (previewDataListBuilder_ == null) {
+          ensurePreviewDataListIsMutable();
+          previewDataList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          previewDataListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder addAllPreviewDataList(
+          java.lang.Iterable<? extends com.rwproto.GambleServiceProtos.PreviewData> values) {
+        if (previewDataListBuilder_ == null) {
+          ensurePreviewDataListIsMutable();
+          super.addAll(values, previewDataList_);
+          onChanged();
+        } else {
+          previewDataListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder clearPreviewDataList() {
+        if (previewDataListBuilder_ == null) {
+          previewDataList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          previewDataListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public Builder removePreviewDataList(int index) {
+        if (previewDataListBuilder_ == null) {
+          ensurePreviewDataListIsMutable();
+          previewDataList_.remove(index);
+          onChanged();
+        } else {
+          previewDataListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.PreviewData.Builder getPreviewDataListBuilder(
+          int index) {
+        return getPreviewDataListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.PreviewDataOrBuilder getPreviewDataListOrBuilder(
+          int index) {
+        if (previewDataListBuilder_ == null) {
+          return previewDataList_.get(index);  } else {
+          return previewDataListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GambleServiceProtos.PreviewDataOrBuilder> 
+           getPreviewDataListOrBuilderList() {
+        if (previewDataListBuilder_ != null) {
+          return previewDataListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(previewDataList_);
+        }
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.PreviewData.Builder addPreviewDataListBuilder() {
+        return getPreviewDataListFieldBuilder().addBuilder(
+            com.rwproto.GambleServiceProtos.PreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.PreviewData.Builder addPreviewDataListBuilder(
+          int index) {
+        return getPreviewDataListFieldBuilder().addBuilder(
+            index, com.rwproto.GambleServiceProtos.PreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PreviewData previewDataList = 8;</code>
+       *
+       * <pre>
+       *两种单抽以及魂匣的预览数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.PreviewData.Builder> 
+           getPreviewDataListBuilderList() {
+        return getPreviewDataListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.PreviewData, com.rwproto.GambleServiceProtos.PreviewData.Builder, com.rwproto.GambleServiceProtos.PreviewDataOrBuilder> 
+          getPreviewDataListFieldBuilder() {
+        if (previewDataListBuilder_ == null) {
+          previewDataListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GambleServiceProtos.PreviewData, com.rwproto.GambleServiceProtos.PreviewData.Builder, com.rwproto.GambleServiceProtos.PreviewDataOrBuilder>(
+                  previewDataList_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          previewDataList_ = null;
+        }
+        return previewDataListBuilder_;
+      }
+
+      // repeated int32 guaranteenLeftCountList = 9;
+      private java.util.List<java.lang.Integer> guaranteenLeftCountList_ = java.util.Collections.emptyList();
+      private void ensureGuaranteenLeftCountListIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          guaranteenLeftCountList_ = new java.util.ArrayList<java.lang.Integer>(guaranteenLeftCountList_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGuaranteenLeftCountListList() {
+        return java.util.Collections.unmodifiableList(guaranteenLeftCountList_);
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public int getGuaranteenLeftCountListCount() {
+        return guaranteenLeftCountList_.size();
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public int getGuaranteenLeftCountList(int index) {
+        return guaranteenLeftCountList_.get(index);
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public Builder setGuaranteenLeftCountList(
+          int index, int value) {
+        ensureGuaranteenLeftCountListIsMutable();
+        guaranteenLeftCountList_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public Builder addGuaranteenLeftCountList(int value) {
+        ensureGuaranteenLeftCountListIsMutable();
+        guaranteenLeftCountList_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public Builder addAllGuaranteenLeftCountList(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGuaranteenLeftCountListIsMutable();
+        super.addAll(values, guaranteenLeftCountList_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 guaranteenLeftCountList = 9;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，第一个是金币单抽，第二个是钻石单抽
+       * </pre>
+       */
+      public Builder clearGuaranteenLeftCountList() {
+        guaranteenLeftCountList_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000100);
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:GambleResponse)
@@ -3687,6 +4495,24 @@ public final class GambleServiceProtos {
      * </pre>
      */
     int getLeftTime();
+
+    // optional int32 guaranteenLeftCount = 4;
+    /**
+     * <code>optional int32 guaranteenLeftCount = 4;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，紧紧对单抽有效
+     * </pre>
+     */
+    boolean hasGuaranteenLeftCount();
+    /**
+     * <code>optional int32 guaranteenLeftCount = 4;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，紧紧对单抽有效
+     * </pre>
+     */
+    int getGuaranteenLeftCount();
   }
   /**
    * Protobuf type {@code DropData}
@@ -3752,6 +4578,11 @@ public final class GambleServiceProtos {
             case 24: {
               bitField0_ |= 0x00000004;
               leftTime_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              guaranteenLeftCount_ = input.readInt32();
               break;
             }
           }
@@ -3866,10 +4697,35 @@ public final class GambleServiceProtos {
       return leftTime_;
     }
 
+    // optional int32 guaranteenLeftCount = 4;
+    public static final int GUARANTEENLEFTCOUNT_FIELD_NUMBER = 4;
+    private int guaranteenLeftCount_;
+    /**
+     * <code>optional int32 guaranteenLeftCount = 4;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，紧紧对单抽有效
+     * </pre>
+     */
+    public boolean hasGuaranteenLeftCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 guaranteenLeftCount = 4;</code>
+     *
+     * <pre>
+     *出现保底的剩余次数，紧紧对单抽有效
+     * </pre>
+     */
+    public int getGuaranteenLeftCount() {
+      return guaranteenLeftCount_;
+    }
+
     private void initFields() {
       freeCount_ = 0;
       maxFreeCount_ = 0;
       leftTime_ = 0;
+      guaranteenLeftCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3892,6 +4748,9 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, leftTime_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, guaranteenLeftCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3912,6 +4771,10 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, leftTime_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, guaranteenLeftCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4035,6 +4898,8 @@ public final class GambleServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         leftTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        guaranteenLeftCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4075,6 +4940,10 @@ public final class GambleServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.leftTime_ = leftTime_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.guaranteenLeftCount_ = guaranteenLeftCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4099,6 +4968,9 @@ public final class GambleServiceProtos {
         }
         if (other.hasLeftTime()) {
           setLeftTime(other.getLeftTime());
+        }
+        if (other.hasGuaranteenLeftCount()) {
+          setGuaranteenLeftCount(other.getGuaranteenLeftCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4270,6 +5142,55 @@ public final class GambleServiceProtos {
       public Builder clearLeftTime() {
         bitField0_ = (bitField0_ & ~0x00000004);
         leftTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 guaranteenLeftCount = 4;
+      private int guaranteenLeftCount_ ;
+      /**
+       * <code>optional int32 guaranteenLeftCount = 4;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，紧紧对单抽有效
+       * </pre>
+       */
+      public boolean hasGuaranteenLeftCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 guaranteenLeftCount = 4;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，紧紧对单抽有效
+       * </pre>
+       */
+      public int getGuaranteenLeftCount() {
+        return guaranteenLeftCount_;
+      }
+      /**
+       * <code>optional int32 guaranteenLeftCount = 4;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，紧紧对单抽有效
+       * </pre>
+       */
+      public Builder setGuaranteenLeftCount(int value) {
+        bitField0_ |= 0x00000008;
+        guaranteenLeftCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 guaranteenLeftCount = 4;</code>
+       *
+       * <pre>
+       *出现保底的剩余次数，紧紧对单抽有效
+       * </pre>
+       */
+      public Builder clearGuaranteenLeftCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        guaranteenLeftCount_ = 0;
         onChanged();
         return this;
       }
@@ -5587,6 +6508,2232 @@ public final class GambleServiceProtos {
     // @@protoc_insertion_point(class_scope:GambleData)
   }
 
+  public interface PreviewDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .ItemPreviewData heroList = 1;
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> 
+        getHeroListList();
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.ItemPreviewData getHeroList(int index);
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    int getHeroListCount();
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+        getHeroListOrBuilderList();
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getHeroListOrBuilder(
+        int index);
+
+    // repeated .ItemPreviewData itemList = 2;
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> 
+        getItemListList();
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.ItemPreviewData getItemList(int index);
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    int getItemListCount();
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+        getItemListOrBuilderList();
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getItemListOrBuilder(
+        int index);
+
+    // required int32 dropType = 3;
+    /**
+     * <code>required int32 dropType = 3;</code>
+     *
+     * <pre>
+     *GamblePlanCfg的dropType
+     * </pre>
+     */
+    boolean hasDropType();
+    /**
+     * <code>required int32 dropType = 3;</code>
+     *
+     * <pre>
+     *GamblePlanCfg的dropType
+     * </pre>
+     */
+    int getDropType();
+
+    // required int32 minLevel = 4;
+    /**
+     * <code>required int32 minLevel = 4;</code>
+     */
+    boolean hasMinLevel();
+    /**
+     * <code>required int32 minLevel = 4;</code>
+     */
+    int getMinLevel();
+
+    // required int32 maxLevel = 5;
+    /**
+     * <code>required int32 maxLevel = 5;</code>
+     */
+    boolean hasMaxLevel();
+    /**
+     * <code>required int32 maxLevel = 5;</code>
+     */
+    int getMaxLevel();
+  }
+  /**
+   * Protobuf type {@code PreviewData}
+   */
+  public static final class PreviewData extends
+      com.google.protobuf.GeneratedMessage
+      implements PreviewDataOrBuilder {
+    // Use PreviewData.newBuilder() to construct.
+    private PreviewData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PreviewData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PreviewData defaultInstance;
+    public static PreviewData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PreviewData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PreviewData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                heroList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.ItemPreviewData>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              heroList_.add(input.readMessage(com.rwproto.GambleServiceProtos.ItemPreviewData.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                itemList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.ItemPreviewData>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              itemList_.add(input.readMessage(com.rwproto.GambleServiceProtos.ItemPreviewData.PARSER, extensionRegistry));
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000001;
+              dropType_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000002;
+              minLevel_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000004;
+              maxLevel_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          heroList_ = java.util.Collections.unmodifiableList(heroList_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          itemList_ = java.util.Collections.unmodifiableList(itemList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GambleServiceProtos.internal_static_PreviewData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GambleServiceProtos.internal_static_PreviewData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GambleServiceProtos.PreviewData.class, com.rwproto.GambleServiceProtos.PreviewData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PreviewData> PARSER =
+        new com.google.protobuf.AbstractParser<PreviewData>() {
+      public PreviewData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PreviewData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PreviewData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // repeated .ItemPreviewData heroList = 1;
+    public static final int HEROLIST_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> heroList_;
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> getHeroListList() {
+      return heroList_;
+    }
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+        getHeroListOrBuilderList() {
+      return heroList_;
+    }
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public int getHeroListCount() {
+      return heroList_.size();
+    }
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.ItemPreviewData getHeroList(int index) {
+      return heroList_.get(index);
+    }
+    /**
+     * <code>repeated .ItemPreviewData heroList = 1;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getHeroListOrBuilder(
+        int index) {
+      return heroList_.get(index);
+    }
+
+    // repeated .ItemPreviewData itemList = 2;
+    public static final int ITEMLIST_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> itemList_;
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> getItemListList() {
+      return itemList_;
+    }
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+        getItemListOrBuilderList() {
+      return itemList_;
+    }
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public int getItemListCount() {
+      return itemList_.size();
+    }
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.ItemPreviewData getItemList(int index) {
+      return itemList_.get(index);
+    }
+    /**
+     * <code>repeated .ItemPreviewData itemList = 2;</code>
+     *
+     * <pre>
+     *英雄列表
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getItemListOrBuilder(
+        int index) {
+      return itemList_.get(index);
+    }
+
+    // required int32 dropType = 3;
+    public static final int DROPTYPE_FIELD_NUMBER = 3;
+    private int dropType_;
+    /**
+     * <code>required int32 dropType = 3;</code>
+     *
+     * <pre>
+     *GamblePlanCfg的dropType
+     * </pre>
+     */
+    public boolean hasDropType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 dropType = 3;</code>
+     *
+     * <pre>
+     *GamblePlanCfg的dropType
+     * </pre>
+     */
+    public int getDropType() {
+      return dropType_;
+    }
+
+    // required int32 minLevel = 4;
+    public static final int MINLEVEL_FIELD_NUMBER = 4;
+    private int minLevel_;
+    /**
+     * <code>required int32 minLevel = 4;</code>
+     */
+    public boolean hasMinLevel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 minLevel = 4;</code>
+     */
+    public int getMinLevel() {
+      return minLevel_;
+    }
+
+    // required int32 maxLevel = 5;
+    public static final int MAXLEVEL_FIELD_NUMBER = 5;
+    private int maxLevel_;
+    /**
+     * <code>required int32 maxLevel = 5;</code>
+     */
+    public boolean hasMaxLevel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 maxLevel = 5;</code>
+     */
+    public int getMaxLevel() {
+      return maxLevel_;
+    }
+
+    private void initFields() {
+      heroList_ = java.util.Collections.emptyList();
+      itemList_ = java.util.Collections.emptyList();
+      dropType_ = 0;
+      minLevel_ = 0;
+      maxLevel_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasDropType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMinLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMaxLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getHeroListCount(); i++) {
+        if (!getHeroList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getItemListCount(); i++) {
+        if (!getItemList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < heroList_.size(); i++) {
+        output.writeMessage(1, heroList_.get(i));
+      }
+      for (int i = 0; i < itemList_.size(); i++) {
+        output.writeMessage(2, itemList_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(3, dropType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(4, minLevel_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(5, maxLevel_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < heroList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, heroList_.get(i));
+      }
+      for (int i = 0; i < itemList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, itemList_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, dropType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, minLevel_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, maxLevel_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.PreviewData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GambleServiceProtos.PreviewData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PreviewData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GambleServiceProtos.PreviewDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GambleServiceProtos.internal_static_PreviewData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GambleServiceProtos.internal_static_PreviewData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GambleServiceProtos.PreviewData.class, com.rwproto.GambleServiceProtos.PreviewData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GambleServiceProtos.PreviewData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHeroListFieldBuilder();
+          getItemListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (heroListBuilder_ == null) {
+          heroList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          heroListBuilder_.clear();
+        }
+        if (itemListBuilder_ == null) {
+          itemList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          itemListBuilder_.clear();
+        }
+        dropType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        minLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        maxLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GambleServiceProtos.internal_static_PreviewData_descriptor;
+      }
+
+      public com.rwproto.GambleServiceProtos.PreviewData getDefaultInstanceForType() {
+        return com.rwproto.GambleServiceProtos.PreviewData.getDefaultInstance();
+      }
+
+      public com.rwproto.GambleServiceProtos.PreviewData build() {
+        com.rwproto.GambleServiceProtos.PreviewData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GambleServiceProtos.PreviewData buildPartial() {
+        com.rwproto.GambleServiceProtos.PreviewData result = new com.rwproto.GambleServiceProtos.PreviewData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (heroListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            heroList_ = java.util.Collections.unmodifiableList(heroList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.heroList_ = heroList_;
+        } else {
+          result.heroList_ = heroListBuilder_.build();
+        }
+        if (itemListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            itemList_ = java.util.Collections.unmodifiableList(itemList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.itemList_ = itemList_;
+        } else {
+          result.itemList_ = itemListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.dropType_ = dropType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.minLevel_ = minLevel_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.maxLevel_ = maxLevel_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GambleServiceProtos.PreviewData) {
+          return mergeFrom((com.rwproto.GambleServiceProtos.PreviewData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GambleServiceProtos.PreviewData other) {
+        if (other == com.rwproto.GambleServiceProtos.PreviewData.getDefaultInstance()) return this;
+        if (heroListBuilder_ == null) {
+          if (!other.heroList_.isEmpty()) {
+            if (heroList_.isEmpty()) {
+              heroList_ = other.heroList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureHeroListIsMutable();
+              heroList_.addAll(other.heroList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.heroList_.isEmpty()) {
+            if (heroListBuilder_.isEmpty()) {
+              heroListBuilder_.dispose();
+              heroListBuilder_ = null;
+              heroList_ = other.heroList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              heroListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroListFieldBuilder() : null;
+            } else {
+              heroListBuilder_.addAllMessages(other.heroList_);
+            }
+          }
+        }
+        if (itemListBuilder_ == null) {
+          if (!other.itemList_.isEmpty()) {
+            if (itemList_.isEmpty()) {
+              itemList_ = other.itemList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureItemListIsMutable();
+              itemList_.addAll(other.itemList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.itemList_.isEmpty()) {
+            if (itemListBuilder_.isEmpty()) {
+              itemListBuilder_.dispose();
+              itemListBuilder_ = null;
+              itemList_ = other.itemList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              itemListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getItemListFieldBuilder() : null;
+            } else {
+              itemListBuilder_.addAllMessages(other.itemList_);
+            }
+          }
+        }
+        if (other.hasDropType()) {
+          setDropType(other.getDropType());
+        }
+        if (other.hasMinLevel()) {
+          setMinLevel(other.getMinLevel());
+        }
+        if (other.hasMaxLevel()) {
+          setMaxLevel(other.getMaxLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasDropType()) {
+          
+          return false;
+        }
+        if (!hasMinLevel()) {
+          
+          return false;
+        }
+        if (!hasMaxLevel()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getHeroListCount(); i++) {
+          if (!getHeroList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getItemListCount(); i++) {
+          if (!getItemList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GambleServiceProtos.PreviewData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GambleServiceProtos.PreviewData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .ItemPreviewData heroList = 1;
+      private java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> heroList_ =
+        java.util.Collections.emptyList();
+      private void ensureHeroListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          heroList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.ItemPreviewData>(heroList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> heroListBuilder_;
+
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> getHeroListList() {
+        if (heroListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroList_);
+        } else {
+          return heroListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public int getHeroListCount() {
+        if (heroListBuilder_ == null) {
+          return heroList_.size();
+        } else {
+          return heroListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData getHeroList(int index) {
+        if (heroListBuilder_ == null) {
+          return heroList_.get(index);
+        } else {
+          return heroListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder setHeroList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.set(index, value);
+          onChanged();
+        } else {
+          heroListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder setHeroList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addHeroList(com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.add(value);
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addHeroList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (heroListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroListIsMutable();
+          heroList_.add(index, value);
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addHeroList(
+          com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addHeroList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addAllHeroList(
+          java.lang.Iterable<? extends com.rwproto.GambleServiceProtos.ItemPreviewData> values) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          super.addAll(values, heroList_);
+          onChanged();
+        } else {
+          heroListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder clearHeroList() {
+        if (heroListBuilder_ == null) {
+          heroList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          heroListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder removeHeroList(int index) {
+        if (heroListBuilder_ == null) {
+          ensureHeroListIsMutable();
+          heroList_.remove(index);
+          onChanged();
+        } else {
+          heroListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder getHeroListBuilder(
+          int index) {
+        return getHeroListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getHeroListOrBuilder(
+          int index) {
+        if (heroListBuilder_ == null) {
+          return heroList_.get(index);  } else {
+          return heroListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+           getHeroListOrBuilderList() {
+        if (heroListBuilder_ != null) {
+          return heroListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroList_);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder addHeroListBuilder() {
+        return getHeroListFieldBuilder().addBuilder(
+            com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder addHeroListBuilder(
+          int index) {
+        return getHeroListFieldBuilder().addBuilder(
+            index, com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ItemPreviewData heroList = 1;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData.Builder> 
+           getHeroListBuilderList() {
+        return getHeroListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+          getHeroListFieldBuilder() {
+        if (heroListBuilder_ == null) {
+          heroListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder>(
+                  heroList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          heroList_ = null;
+        }
+        return heroListBuilder_;
+      }
+
+      // repeated .ItemPreviewData itemList = 2;
+      private java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> itemList_ =
+        java.util.Collections.emptyList();
+      private void ensureItemListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          itemList_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.ItemPreviewData>(itemList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> itemListBuilder_;
+
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData> getItemListList() {
+        if (itemListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(itemList_);
+        } else {
+          return itemListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public int getItemListCount() {
+        if (itemListBuilder_ == null) {
+          return itemList_.size();
+        } else {
+          return itemListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData getItemList(int index) {
+        if (itemListBuilder_ == null) {
+          return itemList_.get(index);
+        } else {
+          return itemListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder setItemList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.set(index, value);
+          onChanged();
+        } else {
+          itemListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder setItemList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addItemList(com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.add(value);
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addItemList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.add(index, value);
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addItemList(
+          com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addItemList(
+          int index, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder addAllItemList(
+          java.lang.Iterable<? extends com.rwproto.GambleServiceProtos.ItemPreviewData> values) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          super.addAll(values, itemList_);
+          onChanged();
+        } else {
+          itemListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder clearItemList() {
+        if (itemListBuilder_ == null) {
+          itemList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          itemListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public Builder removeItemList(int index) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.remove(index);
+          onChanged();
+        } else {
+          itemListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder getItemListBuilder(
+          int index) {
+        return getItemListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder getItemListOrBuilder(
+          int index) {
+        if (itemListBuilder_ == null) {
+          return itemList_.get(index);  } else {
+          return itemListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+           getItemListOrBuilderList() {
+        if (itemListBuilder_ != null) {
+          return itemListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(itemList_);
+        }
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder addItemListBuilder() {
+        return getItemListFieldBuilder().addBuilder(
+            com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.ItemPreviewData.Builder addItemListBuilder(
+          int index) {
+        return getItemListFieldBuilder().addBuilder(
+            index, com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ItemPreviewData itemList = 2;</code>
+       *
+       * <pre>
+       *英雄列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.ItemPreviewData.Builder> 
+           getItemListBuilderList() {
+        return getItemListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder> 
+          getItemListFieldBuilder() {
+        if (itemListBuilder_ == null) {
+          itemListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GambleServiceProtos.ItemPreviewData, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder, com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder>(
+                  itemList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          itemList_ = null;
+        }
+        return itemListBuilder_;
+      }
+
+      // required int32 dropType = 3;
+      private int dropType_ ;
+      /**
+       * <code>required int32 dropType = 3;</code>
+       *
+       * <pre>
+       *GamblePlanCfg的dropType
+       * </pre>
+       */
+      public boolean hasDropType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 dropType = 3;</code>
+       *
+       * <pre>
+       *GamblePlanCfg的dropType
+       * </pre>
+       */
+      public int getDropType() {
+        return dropType_;
+      }
+      /**
+       * <code>required int32 dropType = 3;</code>
+       *
+       * <pre>
+       *GamblePlanCfg的dropType
+       * </pre>
+       */
+      public Builder setDropType(int value) {
+        bitField0_ |= 0x00000004;
+        dropType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 dropType = 3;</code>
+       *
+       * <pre>
+       *GamblePlanCfg的dropType
+       * </pre>
+       */
+      public Builder clearDropType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        dropType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 minLevel = 4;
+      private int minLevel_ ;
+      /**
+       * <code>required int32 minLevel = 4;</code>
+       */
+      public boolean hasMinLevel() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 minLevel = 4;</code>
+       */
+      public int getMinLevel() {
+        return minLevel_;
+      }
+      /**
+       * <code>required int32 minLevel = 4;</code>
+       */
+      public Builder setMinLevel(int value) {
+        bitField0_ |= 0x00000008;
+        minLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 minLevel = 4;</code>
+       */
+      public Builder clearMinLevel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        minLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 maxLevel = 5;
+      private int maxLevel_ ;
+      /**
+       * <code>required int32 maxLevel = 5;</code>
+       */
+      public boolean hasMaxLevel() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 maxLevel = 5;</code>
+       */
+      public int getMaxLevel() {
+        return maxLevel_;
+      }
+      /**
+       * <code>required int32 maxLevel = 5;</code>
+       */
+      public Builder setMaxLevel(int value) {
+        bitField0_ |= 0x00000010;
+        maxLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 maxLevel = 5;</code>
+       */
+      public Builder clearMaxLevel() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        maxLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PreviewData)
+    }
+
+    static {
+      defaultInstance = new PreviewData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PreviewData)
+  }
+
+  public interface ItemPreviewDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string itemId = 1;
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    java.lang.String getItemId();
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getItemIdBytes();
+
+    // optional bool isGuaranteen = 2;
+    /**
+     * <code>optional bool isGuaranteen = 2;</code>
+     *
+     * <pre>
+     *是否属于保底组（未实现）
+     * </pre>
+     */
+    boolean hasIsGuaranteen();
+    /**
+     * <code>optional bool isGuaranteen = 2;</code>
+     *
+     * <pre>
+     *是否属于保底组（未实现）
+     * </pre>
+     */
+    boolean getIsGuaranteen();
+  }
+  /**
+   * Protobuf type {@code ItemPreviewData}
+   */
+  public static final class ItemPreviewData extends
+      com.google.protobuf.GeneratedMessage
+      implements ItemPreviewDataOrBuilder {
+    // Use ItemPreviewData.newBuilder() to construct.
+    private ItemPreviewData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ItemPreviewData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ItemPreviewData defaultInstance;
+    public static ItemPreviewData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ItemPreviewData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ItemPreviewData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              itemId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              isGuaranteen_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GambleServiceProtos.internal_static_ItemPreviewData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GambleServiceProtos.internal_static_ItemPreviewData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GambleServiceProtos.ItemPreviewData.class, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ItemPreviewData> PARSER =
+        new com.google.protobuf.AbstractParser<ItemPreviewData>() {
+      public ItemPreviewData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ItemPreviewData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ItemPreviewData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string itemId = 1;
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private java.lang.Object itemId_;
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    public java.lang.String getItemId() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          itemId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string itemId = 1;</code>
+     *
+     * <pre>
+     *英雄或者物品的ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getItemIdBytes() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        itemId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional bool isGuaranteen = 2;
+    public static final int ISGUARANTEEN_FIELD_NUMBER = 2;
+    private boolean isGuaranteen_;
+    /**
+     * <code>optional bool isGuaranteen = 2;</code>
+     *
+     * <pre>
+     *是否属于保底组（未实现）
+     * </pre>
+     */
+    public boolean hasIsGuaranteen() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bool isGuaranteen = 2;</code>
+     *
+     * <pre>
+     *是否属于保底组（未实现）
+     * </pre>
+     */
+    public boolean getIsGuaranteen() {
+      return isGuaranteen_;
+    }
+
+    private void initFields() {
+      itemId_ = "";
+      isGuaranteen_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getItemIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, isGuaranteen_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getItemIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, isGuaranteen_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.ItemPreviewData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GambleServiceProtos.ItemPreviewData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ItemPreviewData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GambleServiceProtos.ItemPreviewDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GambleServiceProtos.internal_static_ItemPreviewData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GambleServiceProtos.internal_static_ItemPreviewData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GambleServiceProtos.ItemPreviewData.class, com.rwproto.GambleServiceProtos.ItemPreviewData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GambleServiceProtos.ItemPreviewData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        isGuaranteen_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GambleServiceProtos.internal_static_ItemPreviewData_descriptor;
+      }
+
+      public com.rwproto.GambleServiceProtos.ItemPreviewData getDefaultInstanceForType() {
+        return com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance();
+      }
+
+      public com.rwproto.GambleServiceProtos.ItemPreviewData build() {
+        com.rwproto.GambleServiceProtos.ItemPreviewData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GambleServiceProtos.ItemPreviewData buildPartial() {
+        com.rwproto.GambleServiceProtos.ItemPreviewData result = new com.rwproto.GambleServiceProtos.ItemPreviewData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isGuaranteen_ = isGuaranteen_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GambleServiceProtos.ItemPreviewData) {
+          return mergeFrom((com.rwproto.GambleServiceProtos.ItemPreviewData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GambleServiceProtos.ItemPreviewData other) {
+        if (other == com.rwproto.GambleServiceProtos.ItemPreviewData.getDefaultInstance()) return this;
+        if (other.hasItemId()) {
+          bitField0_ |= 0x00000001;
+          itemId_ = other.itemId_;
+          onChanged();
+        }
+        if (other.hasIsGuaranteen()) {
+          setIsGuaranteen(other.getIsGuaranteen());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GambleServiceProtos.ItemPreviewData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GambleServiceProtos.ItemPreviewData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string itemId = 1;
+      private java.lang.Object itemId_ = "";
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public java.lang.String getItemId() {
+        java.lang.Object ref = itemId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          itemId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getItemIdBytes() {
+        java.lang.Object ref = itemId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          itemId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public Builder setItemId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = getDefaultInstance().getItemId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string itemId = 1;</code>
+       *
+       * <pre>
+       *英雄或者物品的ID
+       * </pre>
+       */
+      public Builder setItemIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool isGuaranteen = 2;
+      private boolean isGuaranteen_ ;
+      /**
+       * <code>optional bool isGuaranteen = 2;</code>
+       *
+       * <pre>
+       *是否属于保底组（未实现）
+       * </pre>
+       */
+      public boolean hasIsGuaranteen() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bool isGuaranteen = 2;</code>
+       *
+       * <pre>
+       *是否属于保底组（未实现）
+       * </pre>
+       */
+      public boolean getIsGuaranteen() {
+        return isGuaranteen_;
+      }
+      /**
+       * <code>optional bool isGuaranteen = 2;</code>
+       *
+       * <pre>
+       *是否属于保底组（未实现）
+       * </pre>
+       */
+      public Builder setIsGuaranteen(boolean value) {
+        bitField0_ |= 0x00000002;
+        isGuaranteen_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isGuaranteen = 2;</code>
+       *
+       * <pre>
+       *是否属于保底组（未实现）
+       * </pre>
+       */
+      public Builder clearIsGuaranteen() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isGuaranteen_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ItemPreviewData)
+    }
+
+    static {
+      defaultInstance = new ItemPreviewData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ItemPreviewData)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GambleRequest_descriptor;
   private static
@@ -5612,6 +8759,16 @@ public final class GambleServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GambleData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PreviewData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PreviewData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ItemPreviewData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ItemPreviewData_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5621,28 +8778,36 @@ public final class GambleServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023GambleService.proto\"\225\001\n\rGambleRequest\022" +
+      "\n\023GambleService.proto\"\262\001\n\rGambleRequest\022" +
       "(\n\013requestType\030\001 \002(\0162\023.EGambleRequestTyp" +
       "e\022 \n\ngambleType\030\002 \001(\0162\014.EGambleType\022\"\n\013l" +
       "otteryType\030\003 \001(\0162\r.ELotteryType\022\024\n\014gambl" +
-      "ePlanId\030\004 \001(\005\"\337\001\n\016GambleResponse\022&\n\nresu" +
-      "ltType\030\001 \002(\0162\022.EGambleResultType\022\037\n\007requ" +
-      "est\030\002 \001(\0132\016.GambleRequest\022#\n\010itemList\030\003 " +
-      "\003(\0132\021.GambleRewardData\022\020\n\010heroList\030\004 \003(\t" +
-      "\022\037\n\ngambleData\030\005 \001(\0132\013.GambleData\022\014\n\004tip" +
-      "s\030\006 \001(\t\022\036\n\013dropHistory\030\007 \003(\0132\t.DropData\"",
-      "E\n\010DropData\022\021\n\tfreeCount\030\001 \001(\005\022\024\n\014maxFre" +
-      "eCount\030\002 \001(\005\022\020\n\010leftTime\030\003 \001(\005\"3\n\020Gamble" +
-      "RewardData\022\016\n\006itemId\030\001 \002(\t\022\017\n\007itemNum\030\002 " +
-      "\002(\005\"K\n\nGambleData\022\023\n\013primaryTime\030\001 \001(\005\022\024" +
-      "\n\014primaryCount\030\002 \001(\005\022\022\n\nmiddleTime\030\003 \001(\005" +
-      "*A\n\022EGambleRequestType\022\n\n\006GAMBLE\020\001\022\016\n\nGA" +
-      "MBLE_GET\020\002\022\017\n\013GAMBLE_DATA\020\003**\n\021EGambleRe" +
-      "sultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*4\n\013EGamb" +
-      "leType\022\013\n\007PRIMARY\020\001\022\n\n\006MIDDLE\020\002\022\014\n\010ADVAN" +
-      "CED\020\003*)\n\014ELotteryType\022\007\n\003ONE\020\001\022\007\n\003SIX\020\002\022",
-      "\007\n\003TEN\020\003B\"\n\013com.rwprotoB\023GambleServicePr" +
-      "otos"
+      "ePlanId\030\004 \001(\005\022\033\n\023cachePreviewListTag\030\005 \001" +
+      "(\005\"\247\002\n\016GambleResponse\022&\n\nresultType\030\001 \002(" +
+      "\0162\022.EGambleResultType\022\037\n\007request\030\002 \001(\0132\016" +
+      ".GambleRequest\022#\n\010itemList\030\003 \003(\0132\021.Gambl" +
+      "eRewardData\022\020\n\010heroList\030\004 \003(\t\022\037\n\ngambleD" +
+      "ata\030\005 \001(\0132\013.GambleData\022\014\n\004tips\030\006 \001(\t\022\036\n\013",
+      "dropHistory\030\007 \003(\0132\t.DropData\022%\n\017previewD" +
+      "ataList\030\010 \003(\0132\014.PreviewData\022\037\n\027guarantee" +
+      "nLeftCountList\030\t \003(\005\"b\n\010DropData\022\021\n\tfree" +
+      "Count\030\001 \001(\005\022\024\n\014maxFreeCount\030\002 \001(\005\022\020\n\010lef" +
+      "tTime\030\003 \001(\005\022\033\n\023guaranteenLeftCount\030\004 \001(\005" +
+      "\"3\n\020GambleRewardData\022\016\n\006itemId\030\001 \002(\t\022\017\n\007" +
+      "itemNum\030\002 \002(\005\"K\n\nGambleData\022\023\n\013primaryTi" +
+      "me\030\001 \001(\005\022\024\n\014primaryCount\030\002 \001(\005\022\022\n\nmiddle" +
+      "Time\030\003 \001(\005\"\213\001\n\013PreviewData\022\"\n\010heroList\030\001" +
+      " \003(\0132\020.ItemPreviewData\022\"\n\010itemList\030\002 \003(\013",
+      "2\020.ItemPreviewData\022\020\n\010dropType\030\003 \002(\005\022\020\n\010" +
+      "minLevel\030\004 \002(\005\022\020\n\010maxLevel\030\005 \002(\005\"7\n\017Item" +
+      "PreviewData\022\016\n\006itemId\030\001 \002(\t\022\024\n\014isGuarant" +
+      "een\030\002 \001(\010*A\n\022EGambleRequestType\022\n\n\006GAMBL" +
+      "E\020\001\022\016\n\nGAMBLE_GET\020\002\022\017\n\013GAMBLE_DATA\020\003**\n\021" +
+      "EGambleResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002" +
+      "*4\n\013EGambleType\022\013\n\007PRIMARY\020\001\022\n\n\006MIDDLE\020\002" +
+      "\022\014\n\010ADVANCED\020\003*)\n\014ELotteryType\022\007\n\003ONE\020\001\022" +
+      "\007\n\003SIX\020\002\022\007\n\003TEN\020\003B\"\n\013com.rwprotoB\023Gamble" +
+      "ServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5654,19 +8819,19 @@ public final class GambleServiceProtos {
           internal_static_GambleRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleRequest_descriptor,
-              new java.lang.String[] { "RequestType", "GambleType", "LotteryType", "GamblePlanId", });
+              new java.lang.String[] { "RequestType", "GambleType", "LotteryType", "GamblePlanId", "CachePreviewListTag", });
           internal_static_GambleResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GambleResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleResponse_descriptor,
-              new java.lang.String[] { "ResultType", "Request", "ItemList", "HeroList", "GambleData", "Tips", "DropHistory", });
+              new java.lang.String[] { "ResultType", "Request", "ItemList", "HeroList", "GambleData", "Tips", "DropHistory", "PreviewDataList", "GuaranteenLeftCountList", });
           internal_static_DropData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_DropData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DropData_descriptor,
-              new java.lang.String[] { "FreeCount", "MaxFreeCount", "LeftTime", });
+              new java.lang.String[] { "FreeCount", "MaxFreeCount", "LeftTime", "GuaranteenLeftCount", });
           internal_static_GambleRewardData_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_GambleRewardData_fieldAccessorTable = new
@@ -5679,6 +8844,18 @@ public final class GambleServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleData_descriptor,
               new java.lang.String[] { "PrimaryTime", "PrimaryCount", "MiddleTime", });
+          internal_static_PreviewData_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_PreviewData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PreviewData_descriptor,
+              new java.lang.String[] { "HeroList", "ItemList", "DropType", "MinLevel", "MaxLevel", });
+          internal_static_ItemPreviewData_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_ItemPreviewData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ItemPreviewData_descriptor,
+              new java.lang.String[] { "ItemId", "IsGuaranteen", });
           return null;
         }
       };

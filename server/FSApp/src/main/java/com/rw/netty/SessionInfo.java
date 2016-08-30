@@ -1,26 +1,36 @@
 package com.rw.netty;
 
+import com.rwproto.MsgDef.Command;
+
 public class SessionInfo {
 
-	private final String userId; // 玩家ID
-	private final long sessionId; // session唯一ID
+	private Command lastCommand;
+	private volatile long lastRecvMsgMillis; // 上次接收消息的绝对时间
+	private final long createMillis;
 
-	public SessionInfo(String userId, long sessionId) {
-		this.userId = userId;
-		this.sessionId = sessionId;
+	public SessionInfo() {
+		this.createMillis = System.currentTimeMillis();
+		this.lastRecvMsgMillis = createMillis;
 	}
 
-	public String getUserId() {
-		return userId;
+	public Command getLastCommand() {
+		return lastCommand;
 	}
 
-	public long getSessionId() {
-		return sessionId;
+	public void setLastCommand(Command lastCommand) {
+		this.lastCommand = lastCommand;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + sessionId + "," + userId + "]";
+	public long getLastRecvMsgMillis() {
+		return lastRecvMsgMillis;
+	}
+
+	public void setLastRecvMsgMillis(long lastRecvMsgMillis) {
+		this.lastRecvMsgMillis = lastRecvMsgMillis;
+	}
+
+	public long getCreateMillis() {
+		return createMillis;
 	}
 
 }

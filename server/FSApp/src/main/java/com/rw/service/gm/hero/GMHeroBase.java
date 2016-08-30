@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.Hero;
-import com.playerdata.HeroMgr;
 import com.playerdata.InlayMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
@@ -19,7 +18,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -38,7 +37,8 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmAddHero(String templateId, Player player){
-		player.getHeroMgr().addHero(templateId);
+//		player.getHeroMgr().addHero(templateId);
+		player.getHeroMgr().addHero(player, templateId);
 	}
 	
 	/**
@@ -47,7 +47,8 @@ public class GMHeroBase {
 	 * @return
 	 */
 	public static List<String> gmHeroIdList(Player player){
-		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+//		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		return heroIdList;
 	}
 	
@@ -117,13 +118,13 @@ public class GMHeroBase {
 			return;
 		}
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
-		for (Skill skill : skillList) {
+		List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
+		for (SkillItem skill : skillList) {
 			if(skill.getSkillId().equals(skillId)){
 				SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(maxSkillId);
 				skill.setLevel(cfg.getLevel());
 				skill.setSkillId(maxSkillId);
-				skillMgr.gmUpgradeSkillLv(skill);
+				skillMgr.gmUpgradeSkillLv(player, hero.getUUId(), skill);
 				return;
 			}
 		}
@@ -137,7 +138,7 @@ public class GMHeroBase {
 	 */
 	public static void gmHeroEequip(Hero hero, int equipIndex, Player player){
 		try {
-			hero.getEquipMgr().gmEquip(equipIndex);
+			hero.getEquipMgr().gmEquip(player, hero.getUUId(), equipIndex);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -149,7 +150,7 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmRemoveHeroEquip(Hero hero, Player player){
-		hero.getEquipMgr().subAllEquip();
+		hero.getEquipMgr().subAllEquip(player, hero.getUUId());
 	}
 	
 	
@@ -165,7 +166,7 @@ public class GMHeroBase {
 		if(level == -1){
 			return;
 		}
-		hero.getEquipMgr().gmEquipAttach(equipIndex, level);
+		hero.getEquipMgr().gmEquipAttach(player, hero.getUUId(), equipIndex, level);
 	}
 	
 	/***
@@ -206,7 +207,7 @@ public class GMHeroBase {
 		itemData.setUserId(player.getUserId());
 		itemData.setModelId(itemId);
 		
-		inlayMgr.InlayGem(itemData);
+		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
 	}
 	
 	/**
@@ -215,7 +216,7 @@ public class GMHeroBase {
 	 * @param player
 	 */
 	public static void gmUnloadGem(Hero hero, Player player){
-		hero.getInlayMgr().XieXiaAll();
+		hero.getInlayMgr().XieXiaAll(player, hero.getUUId());
 		
 	}
 	
@@ -232,7 +233,7 @@ public class GMHeroBase {
 		itemData.setUserId(player.getUserId());
 		itemData.setModelId(itemId);
 		
-		inlayMgr.InlayGem(itemData);
+		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
 		
 	}
 	
@@ -334,8 +335,8 @@ public class GMHeroBase {
 		return cfg.getSkillId();
 	}
 	
-	public static List<Skill> gmGetHeroBaseSkillList(RoleCfg roleCfg){
-		List<Skill> list = new ArrayList<Skill>();
+	public static List<SkillItem> gmGetHeroBaseSkillList(RoleCfg roleCfg){
+		List<SkillItem> list = new ArrayList<SkillItem>();
 		list.add(parseSkill(roleCfg.getSkillId01()));
 		list.add(parseSkill(roleCfg.getSkillId02()));
 		list.add(parseSkill(roleCfg.getSkillId03()));
@@ -344,11 +345,11 @@ public class GMHeroBase {
 		return list;
 	}
 	
-	private static Skill parseSkill(String skillValue){
+	private static SkillItem parseSkill(String skillValue){
 		if(skillValue == null || skillValue.equals("")){
 			return null;
 		}
-		Skill skill = new Skill();
+		SkillItem skill = new SkillItem();
 		String[] tmpIds = skillValue.split("_");
 		skill.setSkillId(skillValue);
 		skill.setLevel(Integer.parseInt(tmpIds[1]));

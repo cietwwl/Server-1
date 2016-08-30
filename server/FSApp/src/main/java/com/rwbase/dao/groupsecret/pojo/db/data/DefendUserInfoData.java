@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 /*
  * @author HC
  * @date 2016年5月26日 下午2:43:32
  * @Description 驻守人的信息
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class DefendUserInfoData {
 	private String userId;// 驻守人的Id
 	private int index;// 驻守点
@@ -20,10 +23,12 @@ public class DefendUserInfoData {
 	private int robRes;// 可以掠夺的资源数量
 	private int robGS;// 可以掠夺的帮派物资
 	private int robGE;// 可以掠夺的帮派经验
-	// ///////////////////////////////////////////////在更换阵容前获取的资源
-	private int proRes;// 可以掠夺的资源数量
-	private int proGS;// 可以掠夺的帮派物资
-	private int proGE;// 可以掠夺的帮派经验
+	// 2016-08-12 By PERRY 新需求直接用模板的总资源，所以这里不用记录每个阵容的产出， BEGIN >>>>>>>>>>>
+//	// ///////////////////////////////////////////////在更换阵容前获取的资源
+//	private int proRes;// 可以掠夺的资源数量
+//	private int proGS;// 可以掠夺的帮派物资
+//	private int proGE;// 可以掠夺的帮派经验
+	// 2016-08-12 END <<<<<<<<<<
 	// ///////////////////////////////////////////////获取的钻石
 	private int dropDiamond;// 掉落的钻石
 
@@ -65,17 +70,17 @@ public class DefendUserInfoData {
 		this.robGE = robGE;
 	}
 
-	public void setProRes(int proRes) {
-		this.proRes = proRes;
-	}
-
-	public void setProGS(int proGS) {
-		this.proGS = proGS;
-	}
-
-	public void setProGE(int proGE) {
-		this.proGE = proGE;
-	}
+//	public void setProRes(int proRes) {
+//		this.proRes = proRes;
+//	}
+//
+//	public void setProGS(int proGS) {
+//		this.proGS = proGS;
+//	}
+//
+//	public void setProGE(int proGE) {
+//		this.proGE = proGE;
+//	}
 
 	public void setDropDiamond(int dropDiamond) {
 		this.dropDiamond = dropDiamond;
@@ -118,17 +123,17 @@ public class DefendUserInfoData {
 		return robGE;
 	}
 
-	public int getProRes() {
-		return proRes;
-	}
-
-	public int getProGS() {
-		return proGS;
-	}
-
-	public int getProGE() {
-		return proGE;
-	}
+//	public int getProRes() {
+//		return proRes;
+//	}
+//
+//	public int getProGS() {
+//		return proGS;
+//	}
+//
+//	public int getProGE() {
+//		return proGE;
+//	}
 
 	public int getDropDiamond() {
 		return dropDiamond;

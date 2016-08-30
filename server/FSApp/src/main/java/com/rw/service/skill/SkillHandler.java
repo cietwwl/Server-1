@@ -10,7 +10,7 @@ import com.playerdata.SkillMgr;
 import com.playerdata.UserGameDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.skill.SkillFeeCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillFeeCfg;
 import com.rwbase.dao.user.CfgBuySkill;
 import com.rwbase.dao.user.CfgBuySkillDAO;
@@ -43,7 +43,8 @@ public class SkillHandler {
 	}
 
 	public ByteString updateSkill(Player player, String heroId, List<SkillData> skillRequestList) {
-		Hero hero = player.getHeroMgr().getHeroById(heroId);
+//		Hero hero = player.getHeroMgr().getHeroById(heroId);
+		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		if (hero == null) {
 			return getFailResponse(player, "你还没有拥有这个英雄", SkillEventType.Skill_Upgrade);
 		}
@@ -56,15 +57,15 @@ public class SkillHandler {
 
 		SkillFeeCfgDAO skillCfgDAO = SkillFeeCfgDAO.getInstance();
 		// 先重置技能点
-		skillMgr.reshSkillPoint();
-		List<Skill> skillList = skillMgr.getSkillList();
+		skillMgr.reshSkillPoint(player);
+		List<SkillItem> skillList = skillMgr.getSkillList(heroId);
 		int totalMoney = 0;
 		int totalPoints = 0;
 		for (int i = skillRequestList.size(); --i >= 0;) {
 			SkillData skillData = skillRequestList.get(i);
 			int skillId = skillData.getSkillId();
 			int addLevel = skillData.getAdditiveLevel();
-			Skill skill = getSkill(skillList, skillId);
+			SkillItem skill = getSkill(skillList, skillId);
 			if (skill == null) {
 				GameLog.error("hero", "updateSkill", player + "获取技能失败：" + heroId + ",skillId=" + skillId);
 				return getFailResponse(player, "找不到指定技能", SkillEventType.Skill_Upgrade);
@@ -91,7 +92,7 @@ public class SkillHandler {
 			SkillData skillData = skillRequestList.get(i);
 			int skillId = skillData.getSkillId();
 			int addLevel = skillData.getAdditiveLevel();
-			Skill skill = getSkill(skillList, skillId);
+			SkillItem skill = getSkill(skillList, skillId);
 			if (skill == null) {
 				GameLog.error("hero", "updateSkill", player + "获取佣兵技能失败：" + heroId + ",skillId = " + skillId);
 				continue;
@@ -111,14 +112,14 @@ public class SkillHandler {
 				GameLog.error("hero", "updateSkill", player + "请求增加技能金币不够：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel + ",needCoin=" + totalMoney + ",coin=" + player.getUserGameDataMgr().getCoin());
 				continue;
 			}
-			if (!skillMgr.updateSkill(skill.getSkillId(), addLevel)) {
+			if (!skillMgr.updateSkill(player, heroId, skill.getSkillId(), addLevel)) {
 				GameLog.error("hero", "updateSkill", player + "升级技能失败：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel + ",skillId=" + skillId);
 				continue;
 			}
 			// 扣除金币
 			gameDataMgr.addCoin(-costCoin);
 		}
-		int max = player.getSkillMgr().getMaxSkillCount();
+		int max = player.getSkillMgr().getMaxSkillCount(player);
 		if (gameDataMgr.getLastRecoverSkillPointTime() == 0 || currentPoints == max) {
 			gameDataMgr.setLastRecoverSkillPointTime(System.currentTimeMillis());
 		}
@@ -141,10 +142,10 @@ public class SkillHandler {
 		return response.build().toByteString();
 	}
 
-	private Skill getSkill(List<Skill> skillList, int id) {
+	private SkillItem getSkill(List<SkillItem> skillList, int id) {
 		String prefix = String.valueOf(id);
 		for (int i = skillList.size(); --i >= 0;) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			if (skill.getSkillId().contains(prefix)) {
 				return skill;
 			}
@@ -209,7 +210,7 @@ public class SkillHandler {
 		}
 
 		// 技能点上限
-		player.getSkillMgr().buySkillPoint();
+		player.getSkillMgr().buySkillPoint(player);
 		return getFailResponse(player, "", SkillEventType.Buy_Skill_Point);
 	}
 
@@ -217,7 +218,8 @@ public class SkillHandler {
 		if (player.getUserId().equals(roleId)) {
 			return player.getSkillMgr();
 		}
-		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+//		Hero pHero = player.getHeroMgr().getHeroById(roleId);
+		Hero pHero = player.getHeroMgr().getHeroById(player, roleId);
 		if (pHero != null) {
 			return pHero.getSkillMgr();
 		}

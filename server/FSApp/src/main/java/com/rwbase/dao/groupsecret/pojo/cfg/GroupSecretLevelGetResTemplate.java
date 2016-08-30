@@ -31,9 +31,12 @@ public class GroupSecretLevelGetResTemplate {
 	private final int robGSRatio;// 掠夺帮派物资的权重
 	private final int robGERatio;// 掠夺帮派经验的权重
 	private final int robRatio;// 掠夺资源的权重
-	private final float productRatio;// 每分钟产出资源的权重
-	private final float groupSupplyRatio;// 每分钟帮派物资的产出权重
-	private final float groupExpRatio;// 每分钟帮派经验的产出权重
+//	private final float productRatio;// 每分钟产出资源的权重
+//	private final float groupSupplyRatio;// 每分钟帮派物资的产出权重
+//	private final float groupExpRatio;// 每分钟帮派经验的产出权重
+	private final int totalProduct; // 资源产出总量
+	private final int totalGroupSupply; // 帮派物资产出总量
+	private final int totalGroupExp; // 帮派经验产出总量
 	private final List<GroupSecretLevelGetResTemplate.Drop> dropIdBasedOnJoinTimeList;// 掉落宝石方案对应的加入时间剩余
 
 	public GroupSecretLevelGetResTemplate(GroupSecretLevelGetResCfg cfg) {
@@ -61,9 +64,12 @@ public class GroupSecretLevelGetResTemplate {
 				this.dropIdBasedOnJoinTimeList = Collections.unmodifiableList(dropIdBasedOnJoinTimeList);
 			}
 
-			this.productRatio = Float.parseFloat(cfg.getProductRatio());
-			this.groupSupplyRatio = Float.parseFloat(cfg.getGroupSupplyRatio());
-			this.groupExpRatio = Float.parseFloat(cfg.getGroupExpRatio());
+//			this.productRatio = Float.parseFloat(cfg.getProductRatio());
+//			this.groupSupplyRatio = Float.parseFloat(cfg.getGroupSupplyRatio());
+//			this.groupExpRatio = Float.parseFloat(cfg.getGroupExpRatio());
+			this.totalProduct = cfg.getTotalProduct();
+			this.totalGroupSupply = cfg.getTotalGroupSupply();
+			this.totalGroupExp = cfg.getTotalGroupExp();
 		} catch (Exception e) {
 			GameLog.error("解析秘境资源表", "GroupSecretResourceTemplate", "解析过程中把产出权重，物资权重，贡献权重，加入时间对应掉落方案中的某一个出现了异常");
 			throw new ExceptionInInitializerError(e);
@@ -98,16 +104,28 @@ public class GroupSecretLevelGetResTemplate {
 		return robRatio;
 	}
 
-	public float getProductRatio() {
-		return productRatio;
+//	public float getProductRatio() {
+//		return productRatio;
+//	}
+//
+//	public float getGroupSupplyRatio() {
+//		return groupSupplyRatio;
+//	}
+//
+//	public float getGroupExpRatio() {
+//		return groupExpRatio;
+//	}
+	
+	public int getTotalProduct() {
+		return totalProduct;
 	}
-
-	public float getGroupSupplyRatio() {
-		return groupSupplyRatio;
+	
+	public int getTotalGroupSupply() {
+		return totalGroupSupply;
 	}
-
-	public float getGroupExpRatio() {
-		return groupExpRatio;
+	
+	public int getTotalGroupExp() {
+		return totalGroupExp;
 	}
 
 	public List<Drop> getDropIdBasedOnJoinTimeList() {

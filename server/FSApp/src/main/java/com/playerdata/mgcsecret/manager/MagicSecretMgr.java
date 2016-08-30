@@ -124,6 +124,7 @@ public class MagicSecretMgr {
 		msRsp.setRstType(msResultType.SUCCESS);
 		ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
 		try {
+			enimyArmy.genVCode();
 			msRsp.setArmyInfo(enimyArmy.toJson());
 		} catch (Exception e) {
 			GameLog.error(LogModule.MagicSecret.getName(), player.getUserId(), String.format("enterMSFight, 进入副本[%s]时，enimyArmy转json异常", dungeonID), e);

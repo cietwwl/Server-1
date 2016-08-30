@@ -3,7 +3,6 @@ package com.playerdata.dataSyn;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ import javax.persistence.Id;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
@@ -58,7 +58,7 @@ public class ClassInfo4Client {
 				this.idField = field;
 			} 
 			if(!field.isAnnotationPresent(IgnoreSynField.class)){
-				field.setAccessible(true);
+				field.setAccessible(true);			
 				clientFiledList.add(new FieldInfo(field));	
 			}
 		}
@@ -73,42 +73,61 @@ public class ClassInfo4Client {
 		}
 	}
 	
-	
 	public String toJson(Object target) throws Exception{
 		
-		Map<String, String> clientData = new HashMap<String, String>();
+		JSONObject clientData = toJsonObject( target);
+		String json = null;
+		if(clientData!=null){
+			json = clientData.toJSONString();
+		}
+		
+		return json;
+	}
+	
+	public JSONObject toJsonObject(Object target) throws Exception{
+		
+		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
-			String jsonValue = fieldTmp.toJson(target);
-			if(StringUtils.isNotBlank(jsonValue)){
+			Object jsonValue = fieldTmp.toJson(target);
+			if(jsonValue!=null){
 				clientData.put(fieldTmp.getName(), jsonValue);
 			}
 		}
-		String jsonData =null;
+		
 		if(clientData.size()>0){
-			jsonData = JsonUtil.writeValue(clientData);
+			return clientData;
 		}
-		return jsonData;
+		return null;
 	}
 	
 
 	public String toJson(Object target, List<String> fieldList) throws Exception{
 		
-		Map<String, String> clientData = new HashMap<String, String>();
+		JSONObject clientData = toJsonObject( target, fieldList);
+		String json = null;
+		if(clientData!=null){
+			json = clientData.toJSONString();
+		}
+		
+		return json;
+	}
+	public JSONObject toJsonObject(Object target, List<String> fieldList) throws Exception{
+		
+		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
 			if(fieldList.contains(fieldTmp.getName())){
-				String jsonValue = fieldTmp.toJson(target);
-				if(StringUtils.isNotBlank(jsonValue)){
+				Object jsonValue = fieldTmp.toJson(target);
+				if(jsonValue!=null){
 					clientData.put(fieldTmp.getName(), jsonValue);
 				}				
 			}
 		}
-		String jsonData =null;
 		if(clientData.size()>0){
-			jsonData = JsonUtil.writeValue(clientData);
+			return clientData;
 		}
-		return jsonData;
+		return null;
 	}
 	
 	public Object fromJson(String json){	
@@ -117,7 +136,7 @@ public class ClassInfo4Client {
 		Object target = null;
 		try{
 			target = clazz.newInstance();
-			Map<String,String> tableData = JsonUtil.readToMap(json, String.class);	
+			Map<String,String> tableData = JsonUtil.readToMap(json, String.class);//map.value is an Object, not String type in fact	
 			
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
@@ -125,7 +144,6 @@ public class ClassInfo4Client {
 				if(StringUtils.isNotBlank(fieldJson)){
 					fieldInfo.fromJson(target, fieldJson);
 				}
-				
 			}
 			
 		}catch(Exception e){
@@ -134,6 +152,4 @@ public class ClassInfo4Client {
 	
 		return target;
 	}
-
-
 }

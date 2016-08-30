@@ -1,5 +1,6 @@
 package com.playerdata.readonly;
 
+import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.RoleAttrData;
 
 /*
@@ -14,4 +15,10 @@ public interface AttrMgrIF {
 	 * @return
 	 */
 	public RoleAttrData getRoleAttrData();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public AttrData getTotalAttrData();
 }

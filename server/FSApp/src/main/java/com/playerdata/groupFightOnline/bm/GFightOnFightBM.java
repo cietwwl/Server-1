@@ -325,7 +325,7 @@ public class GFightOnFightBM {
 		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
 		List<GFOnlineKillItem> killRank = GFOnlineKillRankMgr.getGFKillRankList(resourceID);
 		
-		for(int i = 0; i < 4 && i < groupBidRank.size(); i++){
+		for(int i = 0; i < GFightConst.IN_FIGHT_MAX_GROUP && i < groupBidRank.size(); i++){
 			GFGroupBiddingItem bidItem = groupBidRank.get(i);
 			
 			int killTotal = 0;

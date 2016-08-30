@@ -139,7 +139,8 @@ public class BILogMgr {
 //		logZoneLogin(player);
 	}
 
-	public void logZoneLogin(Player player) {
+	public void logZoneLogin(String userId) {
+		Player player = PlayerMgr.getInstance().find(userId);
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("result", "1");
 		logPlayer(eBILogType.ZoneLogin, player, moreInfo);

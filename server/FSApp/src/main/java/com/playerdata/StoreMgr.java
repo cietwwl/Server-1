@@ -528,6 +528,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : 0;
 
 		StoreData pStoreData = getStore(storeType);
+		if(pStoreData == null){
+			return -1;
+		}
 		boolean blnFree = false;
 		int cost = 0;
 		int refreshnum = 0;
@@ -536,7 +539,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			blnFree = false;
 			eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
 			refreshnum = pStoreData.getRefreshNum();
-			cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
+			String[] split = cfg.getRefreshCost().split("_");
+			if(refreshnum >= split.length){
+				return -3;
+			}
+			cost = Integer.parseInt(split[refreshnum]);
 			if (m_pPlayer.getReward(etype) < cost) {
 				return -2;
 			}
@@ -688,6 +695,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				data.setFreeRefreshNum(0);
 			}
 		}
+		m_pPlayer.getSettingMgr().notifyVipUpgrade();
 	}
 	
 	/**

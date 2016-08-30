@@ -118,7 +118,7 @@ public class ActivityTimeCountTypeMgr {
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
 		if(cfgById == null){
 			GameLog.error(LogModule.ComActivityTimeCount, null, "通用活动找不到配置文件", null);
-			return true;
+			return false;
 		}		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
@@ -132,7 +132,7 @@ public class ActivityTimeCountTypeMgr {
 			long startTime = activityTimeCountTypeCfg.getStartTime();
 			long endTime = activityTimeCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}
