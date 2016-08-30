@@ -57,7 +57,7 @@ public class DataAutoSynMgr {
 			if(null == oneValue){
 				continue;
 			}
-			if(oneValue instanceof PositionInfo){				
+			if(oneValue instanceof PositionInfo){
 				synCount += synData(sceneId, PrepareAreaMgr.synType, new SameSceneSynData());
 			}
 		}
@@ -71,7 +71,6 @@ public class DataAutoSynMgr {
 	 * @return
 	 */
 	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		int synCount = 0;
 		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
 			return 0;
@@ -87,22 +86,23 @@ public class DataAutoSynMgr {
 			if (null == player) {
 				//把玩家标记为离开
 				entry.getValue().setRemoved(true);
-			}else{
-				synCount++;
-				players.add(player);
 			}
+			//判断玩家的三种状态
 			if(entry.getValue().isRemoved()){
 				//元素是否被删除
 				removedPlayers.add(entry.getKey());
 				entryIterator.remove();
 				//从场景中删除
 				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
-			}else if(entry.getValue().isNewAdd()){
-				//是否新添加
-				newAddPlayers.add(entry.getKey());
-			}else if(!entry.getValue().isChanged()){
-				//元素没有改变
-				entryIterator.remove();
+			}else{
+				if(entry.getValue().isNewAdd()){
+					//是否新添加
+					newAddPlayers.add(entry.getKey());
+				}else if(!entry.getValue().isChanged()){
+					//元素没有改变
+					entryIterator.remove();
+				}
+				players.add(player);
 			}
 			entry.getValue().setNewAdd(false);
 			entry.getValue().setChanged(false);
@@ -116,7 +116,7 @@ public class DataAutoSynMgr {
 			//多个用户同步相同的数据
 			ClientDataSynMgr.synDataMutiple(players, synObject, synType, eSynOpType.UPDATE_SINGLE);
 		}
-		return synCount;
+		return players.size();
 	}
 	
 	/**
