@@ -197,8 +197,10 @@
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
 	
-	
-	
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO"  init-method="init" />
 	
 	
 	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO"  init-method="init" />

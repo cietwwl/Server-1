@@ -105,7 +105,6 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityExchangeTypeItem targetItem : itemList) {			
 			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgListByItem(targetItem);
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到配置文件", null);
 				continue;
 			}			
 			

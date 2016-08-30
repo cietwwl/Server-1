@@ -21,12 +21,14 @@ public enum LogModule {
 	ComActivityRate("通用活动_RateType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),	
 	ComActivityExchange("通用活动_ExchangeType"),
+	ComActivityDailyRecharge("通用活动_DailyRechargeType"),
 	
 	ComActivityDate("通用活动_DateType"),
 	ComActivityRank("通用活动_RankType"),
 	ComActivityVitality("通用活动_VitalityType"),
 	ComActivityDailyDisCount("通用活动_DailyDisCountType"),
 	ComActivityRedEnvelope("通用活动_RedEnvelope"),
+	ComActivityFortuneCat("通用活动_FortuneCat"),
 	
 	ComActivityLimitHero("通用活动_LimitHero"),
 	

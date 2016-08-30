@@ -143,7 +143,10 @@ public class RedPointManager {
 		boolean issucce = false;
 		RedPointType eNum = RedPointType.values()[id];
 		switch (eNum) {
-		case HOME_WINDOW_ACTIVITY:
+		case HOME_WINDOW_ACTIVITY:			
+			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
+			break;
+		case FORTUNE_CAT:
 			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
 			break;
 		case LIMIT_HERO:

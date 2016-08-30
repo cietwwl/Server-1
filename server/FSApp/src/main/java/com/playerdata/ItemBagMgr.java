@@ -14,9 +14,11 @@ import org.springframework.util.StringUtils;
 import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.readonly.ItemBagMgrIF;
+import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -24,7 +26,6 @@ import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.item.ItemBagCapacityCfgDAO;
 import com.rwbase.dao.item.ItemBagHolder;
 import com.rwbase.dao.item.exception.ItemCountNotEnoughException;
-import com.rwbase.dao.item.exception.ItemNotExistException;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
@@ -110,6 +111,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		int size = arrPrizes.length;
 		List<INewItem> newItemList = new ArrayList<INewItem>(size);
+		List<ItemInfo> items = new ArrayList<ItemInfo>();
 		for (int i = 0; i < size; i++) {
 			String[] arrItem = arrPrizes[i].split("~");
 			if (arrItem.length < 2)
@@ -118,13 +120,18 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemCount = Integer.valueOf(arrItem[1]);
 
 			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
-				addItem(itemId, itemCount);
+				ItemInfo item = new ItemInfo();
+				item.setItemID(itemId);
+				item.setItemNum(itemCount);
+				items.add(item);
 			} else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
 				newItemList.add(newItem);
 			}
 		}
-
+		if(!items.isEmpty()){
+			addItem(items);
+		}
 		// 增加新的道具
 		if (!newItemList.isEmpty()) {
 			useLikeBoxItem(null, newItemList);
@@ -344,8 +351,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		} catch (IllegalArgumentException e) {
 			GameLog.error("Use like box item Handler", userId, "throws IllegalArgumentException", e);
 			return false;
-		} catch (ItemNotExistException e) {
-			GameLog.error("Use like box item Handler", userId, "throws ItemNotExistException", e);
+		} catch (DataNotExistException e) {
+			GameLog.error("Use like box item Handler", userId, "throws DataNotExistException", e);
 			return false;
 		} catch (ItemCountNotEnoughException e) {
 			GameLog.error("Use like box item Handler", userId, "throws ItemCountNotEnoughException", e);
@@ -669,7 +676,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @throws ItemNotExistException
 	 * @throws ItemCountNotEnoughException
 	 */
-	public void updateItemBag(Player player, List<IUseItem> useItemList, List<INewItem> addItemList) throws ItemNotExistException, IllegalArgumentException, ItemCountNotEnoughException {
+	public void updateItemBag(Player player, List<IUseItem> useItemList, List<INewItem> addItemList) throws DataNotExistException, IllegalArgumentException, ItemCountNotEnoughException {
 		// 没有新增也没有要更新的
 		if ((useItemList == null || useItemList.isEmpty()) && (addItemList == null || addItemList.isEmpty())) {
 			throw new IllegalArgumentException("使用物品和要新增的物品为空");
@@ -697,7 +704,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		try {
 			holder.updateItemBgData(player, newItemList, updateItemList);
 		} catch (DuplicatedKeyException e) {
-			GameLog.error("背包模块", userId, String.format("添加物品出现了重复的Key"));
+			GameLog.error("背包模块", userId, "添加物品出现了重复的Key", e);
+			return;
+		} catch (DataNotExistException e) {
+			GameLog.error("背包模块", userId, "操作的物品中有无法从数据库找到的", e);
 			return;
 		}
 
@@ -754,7 +764,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @throws ItemNotExistException
 	 * @throws ItemCountNotEnoughException
 	 */
-	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws ItemNotExistException, ItemCountNotEnoughException {
+	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws DataNotExistException, ItemCountNotEnoughException {
 		int size = useItemList.size();
 
 		HashMap<String, Integer> tempMap = new HashMap<String, Integer>(size);
@@ -769,13 +779,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			String slotId = useItem.getSlotId();
 			ItemData itemData = findBySlotId(slotId);
 			if (itemData == null) {
-				throw new ItemNotExistException("在背包中不存在要使用的道具");
+				throw new DataNotExistException("在背包中不存在要使用的道具");
 			}
 
 			int modelId = itemData.getModelId();
 			ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
 			if (cfg == null) {
-				throw new ItemNotExistException(String.format("%s的道具模版找不到", modelId));
+				throw new DataNotExistException(String.format("%s的道具模版找不到", modelId));
 			}
 
 			int itemCount = itemData.getCount();
@@ -883,7 +893,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param addItemList
 	 * @return
 	 */
-	private HashMap<Integer, Integer> nonRepeatAddMap(List<INewItem> addItemList) {
+	private HashMap<Integer, Integer> nonRepeatAddMap(List<INewItem> addItemList) throws IllegalArgumentException {
 		int size = addItemList.size();
 		HashMap<Integer, Integer> addMap = new HashMap<Integer, Integer>(size);
 		for (int i = 0; i < size; i++) {
@@ -1048,5 +1058,68 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		emailData.setSender(emailCfg.getSender());
 		// 发送邮件
 		EmailUtils.sendEmail(userId, emailData);
+	}
+
+	/**
+	 * <pre>
+	 * 向背包添加物品的方法
+	 * 
+	 * <font color="ff0000"><b>注意：此方法只能针对增加物品或者货币</b></font>
+	 * 
+	 * </pre>
+	 * 
+	 * @param itemInfoList {@link ItemInfo}
+	 * 
+	 * @throws IllegalArgumentException 当传递进来ItemInfo列表中，有任何一个itemNum < 0 就会抛出参数错误异常
+	 * 
+	 * @return
+	 */
+	public boolean addItem(List<ItemInfo> itemInfoList) throws IllegalArgumentException {
+		if (itemInfoList == null || itemInfoList.isEmpty()) {
+			return true;
+		}
+
+		int size = itemInfoList.size();
+
+		// =========================解析数据
+
+		List<INewItem> newItemList = new ArrayList<INewItem>(size);
+
+		HashMap<Integer, Integer> currencyMap = new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < size; i++) {
+			ItemInfo itemInfo = itemInfoList.get(i);
+			if (itemInfo == null) {
+				continue;
+			}
+
+			int itemID = itemInfo.getItemID();
+			int itemNum = itemInfo.getItemNum();
+			if (itemNum < 0) {
+				throw new IllegalArgumentException("被传递了一个数量小于0的参数进来");
+			}
+
+			if (itemNum == 0) {
+				continue;
+			}
+
+			if (itemID < eSpecialItemId.eSpecial_End.ordinal()) {
+				Integer hasValue = currencyMap.get(itemID);
+				if (hasValue == null) {
+					currencyMap.put(itemID, itemNum);
+				} else {
+					currencyMap.put(itemID, itemNum + hasValue);
+				}
+			} else {
+				newItemList.add(new NewItem(itemID, itemNum, null));
+			}
+		}
+
+		// ==============================处理结果
+		if ((newItemList == null || newItemList.isEmpty()) && (currencyMap == null || currencyMap.isEmpty())) {
+			return false;
+		}
+
+		return useLikeBoxItem(null, newItemList, currencyMap);
 	}
 }
