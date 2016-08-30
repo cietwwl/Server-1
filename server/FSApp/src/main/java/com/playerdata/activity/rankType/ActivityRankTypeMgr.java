@@ -93,7 +93,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityRankTypeItem targetItem : itemList) {			
 			ActivityRankTypeCfg targetCfg = ActivityRankTypeCfgDAO.getInstance().getCfgById(targetItem);
 			if(targetCfg == null){
-				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
