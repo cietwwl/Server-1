@@ -32,6 +32,7 @@ import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -444,8 +445,10 @@ public class Player implements PlayerIF {
 			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 			// 角色登录检查秘境数据是否可以重置
 			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
-			// 测试：时效任务的角色登录
+			// 时效任务的角色登录
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
+			// 帮派争霸角色登录通知
+			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}

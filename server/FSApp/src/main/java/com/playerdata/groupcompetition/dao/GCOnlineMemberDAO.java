@@ -59,4 +59,8 @@ public class GCOnlineMemberDAO {
 		}
 		return null;
 	}
+	
+	public void reset() {
+		this._dataMap.clear();
+	}
 }

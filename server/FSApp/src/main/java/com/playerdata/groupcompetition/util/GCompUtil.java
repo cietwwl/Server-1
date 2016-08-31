@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.service.role.MainMsgHandler;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -98,5 +99,9 @@ public class GCompUtil {
 		currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
 		currentDateTime.set(Calendar.SECOND, 0);
 		return currentDateTime.getTimeInMillis();
+	}
+	
+	public static void sendMarquee(String msg) {
+		MainMsgHandler.getInstance().sendPmdNotId(msg);
 	}
 }

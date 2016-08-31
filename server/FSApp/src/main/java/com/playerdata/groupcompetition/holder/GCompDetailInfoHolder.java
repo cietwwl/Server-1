@@ -21,7 +21,7 @@ public class GCompDetailInfoHolder {
 		_dao = GCompDetailInfoDAO.getInstance();
 	}
 	
-	public void syn(Player player, int matchId) {
+	public void syn(int matchId, Player player) {
 		GCompDetailInfo detailInfo = _dao.getDetailInfo(matchId);
 		ClientDataSynMgr.synData(player, detailInfo, eSynType.GCompDetailInfo, eSynOpType.UPDATE_SINGLE);
 	}

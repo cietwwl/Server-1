@@ -15,21 +15,21 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * 
- * 帮派争霸当前的一些数据
+ * 帮派争霸赛事全局数据
  * 
  * @author CHEN.P
  *
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
-class GCompCurrentData {
+class GCompEventsGlobalData {
 
 	@JsonProperty("1")
 	private long _heldTime; // 举办的时间
 	@JsonProperty("2")
 	private Map<GCEventsType, List<String>> _relativeGroups = new HashMap<GCEventsType, List<String>>(); // 参与的帮派
 	@JsonProperty("3")
-	private GCEventsType _currentStatus; // 当前的赛事阶段
+	private GCEventsType _currentStatus; // 当前的赛事阶段（16强，8强。。。）
 	@JsonProperty("4")
 	private boolean _currentStatusFinished; // 当前的赛事阶段是否已经完结
 	@JsonProperty("5")
@@ -51,7 +51,7 @@ class GCompCurrentData {
 		this._relativeGroups.put(type, new ArrayList<String>(relativeGroups));
 	}
 
-	public GCEventsType getCurrentStatus() {
+	public GCEventsType getCurrentEventsType() {
 		return _currentStatus;
 	}
 

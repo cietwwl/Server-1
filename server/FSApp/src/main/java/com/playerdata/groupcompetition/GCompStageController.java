@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
-import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.IConsumer;
@@ -57,9 +56,11 @@ public class GCompStageController {
 
 	private LinkedList<IGCompStage> _stageQueue = new LinkedList<IGCompStage>(); // 阶段队列
 	private IGCompStage _currentStage = null; // 当前的阶段
+	private int _sessionId; // 第几届
 	
-	public GCompStageController(List<IGCompStage> stageQueue) {
+	public GCompStageController(List<IGCompStage> stageQueue, int pSessionId) {
 		this._stageQueue.addAll(stageQueue);
+		this._sessionId = pSessionId;
 	}
 	
 	private void createTimerTask(IConsumer<GCompStageController> consumer, long deadline) {
@@ -76,10 +77,7 @@ public class GCompStageController {
 	}
 	
 	private void fireStageChangeEvent(GCompStageType currentStageType) {
-		GCompBaseInfoMgr.getInstance().update(currentStageType);
-		if (currentStageType == GCompStageType.SELECTION) {
-			GroupCompetitionMgr.getInstance().updateLaseHeldTime(System.currentTimeMillis());
-		}
+		GroupCompetitionMgr.getInstance().notifyStageChange(_currentStage, _sessionId);
 	}
 	
 	private void scheduleNextStageStartTask() {
@@ -129,12 +127,16 @@ public class GCompStageController {
 	/**
 	 * 
 	 * 第一阶段开始的时间
+	 * 如果firstStageStartTime比当前时间要小，则会直接开始
 	 * 
-	 * @param firstStageStartTime
+	 * @param firstStageStartTime 第一次开始的时间
 	 */
 	public void start(long firstStageStartTime) {
-		createTimerTask(new StageStartConsumer(), firstStageStartTime);
-		GCompBaseInfoMgr.getInstance().update(firstStageStartTime);
+		if(firstStageStartTime <= System.currentTimeMillis()) {
+			this.moveToNextStage();
+		} else {
+			createTimerTask(new StageStartConsumer(), firstStageStartTime);
+		}
 	}
 	
 	private static class StageEndMonitorConsumer implements IConsumer<GCompStageController> {

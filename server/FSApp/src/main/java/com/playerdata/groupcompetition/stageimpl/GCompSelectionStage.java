@@ -8,6 +8,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
+import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
@@ -51,6 +52,7 @@ public class GCompSelectionStage implements IGCompStage {
 	@Override
 	public void onStageStart(IGCompStage preStage) {
 		this._stageEndTime = GCompUtil.calculateEndTimeOfStage(_stageCfgId);
+		GCompUtil.sendMarquee(GCompTips.getTipsEnterSelectionStage());
 	}
 
 	@Override

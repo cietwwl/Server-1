@@ -48,4 +48,9 @@ public class GCompMatchSynData {
 		this.matches.clear();
 		this.matchNumType = null;
 	}
+
+	@Override
+	public String toString() {
+		return "GCompMatchSynData [matches=" + matches + ", matchNumType=" + matchNumType + "]";
+	}
 }

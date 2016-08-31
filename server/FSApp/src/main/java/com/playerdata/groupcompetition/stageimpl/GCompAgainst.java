@@ -80,4 +80,9 @@ public class GCompAgainst implements IGCAgainst {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "GCompAgainst [matchId=" + matchId + ", groupA=" + groupA + ", groupB=" + groupB + "]";
+	}
+
 }
