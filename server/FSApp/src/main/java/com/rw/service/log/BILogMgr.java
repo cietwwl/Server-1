@@ -580,8 +580,8 @@ public class BILogMgr {
 		if (reason.getEventTypeSecond() != null) {
 			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
-		moreInfo.put("coinChanged", String.valueOf(coinChanged));
-		moreInfo.put("coinRemain", String.valueOf(coinRemain));
+		moreInfo.put("giftGoldChanged", String.valueOf(coinChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
@@ -603,8 +603,8 @@ public class BILogMgr {
 		if (reason.getEventTypeSecond() != null) {
 			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
-		moreInfo.put("coinChanged", String.valueOf(coinChanged));
-		moreInfo.put("coinRemain", String.valueOf(coinRemain));
+		moreInfo.put("giftGoldChanged", String.valueOf(coinChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.GoldChange, player, moreInfo);
 	}
