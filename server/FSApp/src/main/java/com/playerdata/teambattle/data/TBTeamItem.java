@@ -147,7 +147,9 @@ public class TBTeamItem implements IMapItem{
 		for(TeamMember member : members){
 			if(member.getState().equals(TBMemberState.Fight)) return false;
 			if(member.getState().equals(TBMemberState.HalfFinish)) return false;
-			if(member.getState().equals(TBMemberState.Ready)) return false;
+			if(member.getState().equals(TBMemberState.Ready)) {
+				if(!member.isRobot()) return false;
+			}
 		}
 		return true;
 	}

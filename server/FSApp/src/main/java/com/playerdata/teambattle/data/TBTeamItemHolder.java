@@ -62,9 +62,11 @@ public class TBTeamItemHolder {
 
 	public void synData(TBTeamItem teamItem) {
 		for (TeamMember member : teamItem.getMembers()) {
-			Player player = PlayerMgr.getInstance().find(member.getUserID());
-			if (player != null && !member.getState().equals(TBMemberState.Finish) && !member.getState().equals(TBMemberState.Leave)) {
-				synData(player, teamItem);
+			if(!member.isRobot()){
+				Player player = PlayerMgr.getInstance().find(member.getUserID());
+				if (player != null && !member.getState().equals(TBMemberState.Finish) && !member.getState().equals(TBMemberState.Leave)) {
+					synData(player, teamItem);
+				}
 			}
 		}
 	}
