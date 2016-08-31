@@ -11,9 +11,9 @@ public class GCFightRecord implements Comparable<GCFightRecord>{
 	
 	private GCUserSimpleInfo offend;	//进攻方信息
 	
-	private GCUserSimpleInfo defend;	//防守方信息
+	private String defenderName;	//防守方信息
 	
-	private int state;	//0-进攻失败,1-进攻胜利
+	private int state;	//-1:进攻失败,1:进攻胜利,0:平局
 	
 	private long createTime;	//创建时间
 	
@@ -25,12 +25,12 @@ public class GCFightRecord implements Comparable<GCFightRecord>{
 		this.offend = offend;
 	}
 	
-	public GCUserSimpleInfo getDefend() {
-		return defend;
+	public String getDefenderName() {
+		return defenderName;
 	}
 	
-	public void setDefend(GCUserSimpleInfo defend) {
-		this.defend = defend;
+	public void setDefenderName(String defenderName) {
+		this.defenderName = defenderName;
 	}
 	
 	public int getState() {

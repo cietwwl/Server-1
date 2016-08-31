@@ -14,9 +14,11 @@ public class GCUserSimpleInfo {
 	
 	private String groupName;	//角色公会名字
 	
-	private String playerHeadFrame;	//头像框
+	private int continueWin;	//连胜场次
 	
-	private String playerHeadImage;	//头像
+	private int personalScore;	//本场个人得分
+	
+	private int groupScore;		//本场帮派得分
 
 	public String getUserName() {
 		return userName;
@@ -34,19 +36,27 @@ public class GCUserSimpleInfo {
 		this.groupName = groupName;
 	}
 
-	public String getPlayerHeadFrame() {
-		return playerHeadFrame;
+	public int getContinueWin() {
+		return continueWin;
 	}
 
-	public void setPlayerHeadFrame(String playerHeadFrame) {
-		this.playerHeadFrame = playerHeadFrame;
+	public void setContinueWin(int continueWin) {
+		this.continueWin = continueWin;
 	}
 
-	public String getPlayerHeadImage() {
-		return playerHeadImage;
+	public int getPersonalScore() {
+		return personalScore;
 	}
 
-	public void setPlayerHeadImage(String playerHeadImage) {
-		this.playerHeadImage = playerHeadImage;
+	public void setPersonalScore(int personalScore) {
+		this.personalScore = personalScore;
+	}
+
+	public int getGroupScore() {
+		return groupScore;
+	}
+
+	public void setGroupScore(int groupScore) {
+		this.groupScore = groupScore;
 	}
 }
