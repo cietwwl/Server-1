@@ -173,7 +173,7 @@ public class GroupSecretMatchHandler {
 
 		String matchId = GroupSecretMatchHelper.getGroupSecretMatchData(player);
 		if (StringUtils.isEmpty(matchId)) {
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境，掠夺搜索秘境费用返回");
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境");
 			return rsp.build().toByteString();
 		}
 
@@ -185,7 +185,7 @@ public class GroupSecretMatchHandler {
 		GroupSecretData groupSecretData = useCreateData.getGroupSecretData(id);
 		if (groupSecretData == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],查不着相应的秘境数据", matchId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境，掠夺搜索秘境费用返回");
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境");
 			return rsp.build().toByteString();
 		}
 
@@ -193,7 +193,7 @@ public class GroupSecretMatchHandler {
 		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", matchId, cfgId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境，掠夺搜索秘境费用返回");
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境");
 			return rsp.build().toByteString();
 		}
 

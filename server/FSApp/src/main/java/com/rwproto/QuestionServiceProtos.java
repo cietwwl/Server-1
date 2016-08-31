@@ -9,6 +9,88 @@ public final class QuestionServiceProtos {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
+   * Protobuf enum {@code eFeedbackType}
+   */
+  public enum eFeedbackType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>FEEDBACK = 1;</code>
+     */
+    FEEDBACK(0, 1),
+    /**
+     * <code>REPORT = 2;</code>
+     */
+    REPORT(1, 2),
+    ;
+
+    /**
+     * <code>FEEDBACK = 1;</code>
+     */
+    public static final int FEEDBACK_VALUE = 1;
+    /**
+     * <code>REPORT = 2;</code>
+     */
+    public static final int REPORT_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static eFeedbackType valueOf(int value) {
+      switch (value) {
+        case 1: return FEEDBACK;
+        case 2: return REPORT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<eFeedbackType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<eFeedbackType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<eFeedbackType>() {
+            public eFeedbackType findValueByNumber(int number) {
+              return eFeedbackType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.QuestionServiceProtos.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final eFeedbackType[] VALUES = values();
+
+    public static eFeedbackType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private eFeedbackType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:eFeedbackType)
+  }
+
+  /**
    * Protobuf enum {@code eSubmitResultType}
    */
   public enum eSubmitResultType
@@ -65,7 +147,7 @@ public final class QuestionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.QuestionServiceProtos.getDescriptor().getEnumTypes().get(0);
+      return com.rwproto.QuestionServiceProtos.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final eSubmitResultType[] VALUES = values();
@@ -93,75 +175,99 @@ public final class QuestionServiceProtos {
   public interface MsgSubmitQuestionRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional string channel = 1;
+    // required .eFeedbackType requestType = 1;
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    boolean hasRequestType();
+    /**
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType();
+
+    // optional string channel = 2;
+    /**
+     * <code>optional string channel = 2;</code>
      */
     boolean hasChannel();
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>optional string channel = 2;</code>
      */
     java.lang.String getChannel();
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>optional string channel = 2;</code>
      */
     com.google.protobuf.ByteString
         getChannelBytes();
 
-    // optional int32 type = 2;
+    // optional int32 type = 3;
     /**
-     * <code>optional int32 type = 2;</code>
+     * <code>optional int32 type = 3;</code>
      */
     boolean hasType();
     /**
-     * <code>optional int32 type = 2;</code>
+     * <code>optional int32 type = 3;</code>
      */
     int getType();
 
-    // optional string feedbackContent = 3;
+    // optional string feedbackContent = 4;
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     boolean hasFeedbackContent();
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     java.lang.String getFeedbackContent();
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     com.google.protobuf.ByteString
         getFeedbackContentBytes();
 
-    // optional string phone = 4;
+    // optional string phone = 5;
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     boolean hasPhone();
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     java.lang.String getPhone();
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     com.google.protobuf.ByteString
         getPhoneBytes();
 
-    // optional string model = 5;
+    // optional string model = 6;
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     boolean hasModel();
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     java.lang.String getModel();
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     com.google.protobuf.ByteString
         getModelBytes();
+
+    // optional .MsgReportRequest reportRequest = 7;
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    boolean hasReportRequest();
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    com.rwproto.QuestionServiceProtos.MsgReportRequest getReportRequest();
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder getReportRequestOrBuilder();
   }
   /**
    * Protobuf type {@code MsgSubmitQuestionRequest}
@@ -214,29 +320,53 @@ public final class QuestionServiceProtos {
               }
               break;
             }
-            case 10: {
-              bitField0_ |= 0x00000001;
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.QuestionServiceProtos.eFeedbackType value = com.rwproto.QuestionServiceProtos.eFeedbackType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                requestType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
               channel_ = input.readBytes();
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              type_ = input.readInt32();
-              break;
-            }
-            case 26: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              feedbackContent_ = input.readBytes();
+              type_ = input.readInt32();
               break;
             }
             case 34: {
               bitField0_ |= 0x00000008;
-              phone_ = input.readBytes();
+              feedbackContent_ = input.readBytes();
               break;
             }
             case 42: {
               bitField0_ |= 0x00000010;
+              phone_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
               model_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = reportRequest_.toBuilder();
+              }
+              reportRequest_ = input.readMessage(com.rwproto.QuestionServiceProtos.MsgReportRequest.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(reportRequest_);
+                reportRequest_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -279,17 +409,33 @@ public final class QuestionServiceProtos {
     }
 
     private int bitField0_;
-    // optional string channel = 1;
-    public static final int CHANNEL_FIELD_NUMBER = 1;
-    private java.lang.Object channel_;
+    // required .eFeedbackType requestType = 1;
+    public static final int REQUESTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.QuestionServiceProtos.eFeedbackType requestType_;
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
      */
-    public boolean hasChannel() {
+    public boolean hasRequestType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType() {
+      return requestType_;
+    }
+
+    // optional string channel = 2;
+    public static final int CHANNEL_FIELD_NUMBER = 2;
+    private java.lang.Object channel_;
+    /**
+     * <code>optional string channel = 2;</code>
+     */
+    public boolean hasChannel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string channel = 2;</code>
      */
     public java.lang.String getChannel() {
       java.lang.Object ref = channel_;
@@ -306,7 +452,7 @@ public final class QuestionServiceProtos {
       }
     }
     /**
-     * <code>optional string channel = 1;</code>
+     * <code>optional string channel = 2;</code>
      */
     public com.google.protobuf.ByteString
         getChannelBytes() {
@@ -322,33 +468,33 @@ public final class QuestionServiceProtos {
       }
     }
 
-    // optional int32 type = 2;
-    public static final int TYPE_FIELD_NUMBER = 2;
+    // optional int32 type = 3;
+    public static final int TYPE_FIELD_NUMBER = 3;
     private int type_;
     /**
-     * <code>optional int32 type = 2;</code>
+     * <code>optional int32 type = 3;</code>
      */
     public boolean hasType() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 type = 2;</code>
+     * <code>optional int32 type = 3;</code>
      */
     public int getType() {
       return type_;
     }
 
-    // optional string feedbackContent = 3;
-    public static final int FEEDBACKCONTENT_FIELD_NUMBER = 3;
+    // optional string feedbackContent = 4;
+    public static final int FEEDBACKCONTENT_FIELD_NUMBER = 4;
     private java.lang.Object feedbackContent_;
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     public boolean hasFeedbackContent() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     public java.lang.String getFeedbackContent() {
       java.lang.Object ref = feedbackContent_;
@@ -365,7 +511,7 @@ public final class QuestionServiceProtos {
       }
     }
     /**
-     * <code>optional string feedbackContent = 3;</code>
+     * <code>optional string feedbackContent = 4;</code>
      */
     public com.google.protobuf.ByteString
         getFeedbackContentBytes() {
@@ -381,17 +527,17 @@ public final class QuestionServiceProtos {
       }
     }
 
-    // optional string phone = 4;
-    public static final int PHONE_FIELD_NUMBER = 4;
+    // optional string phone = 5;
+    public static final int PHONE_FIELD_NUMBER = 5;
     private java.lang.Object phone_;
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     public boolean hasPhone() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     public java.lang.String getPhone() {
       java.lang.Object ref = phone_;
@@ -408,7 +554,7 @@ public final class QuestionServiceProtos {
       }
     }
     /**
-     * <code>optional string phone = 4;</code>
+     * <code>optional string phone = 5;</code>
      */
     public com.google.protobuf.ByteString
         getPhoneBytes() {
@@ -424,17 +570,17 @@ public final class QuestionServiceProtos {
       }
     }
 
-    // optional string model = 5;
-    public static final int MODEL_FIELD_NUMBER = 5;
+    // optional string model = 6;
+    public static final int MODEL_FIELD_NUMBER = 6;
     private java.lang.Object model_;
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     public boolean hasModel() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     public java.lang.String getModel() {
       java.lang.Object ref = model_;
@@ -451,7 +597,7 @@ public final class QuestionServiceProtos {
       }
     }
     /**
-     * <code>optional string model = 5;</code>
+     * <code>optional string model = 6;</code>
      */
     public com.google.protobuf.ByteString
         getModelBytes() {
@@ -467,18 +613,46 @@ public final class QuestionServiceProtos {
       }
     }
 
+    // optional .MsgReportRequest reportRequest = 7;
+    public static final int REPORTREQUEST_FIELD_NUMBER = 7;
+    private com.rwproto.QuestionServiceProtos.MsgReportRequest reportRequest_;
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    public boolean hasReportRequest() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.MsgReportRequest getReportRequest() {
+      return reportRequest_;
+    }
+    /**
+     * <code>optional .MsgReportRequest reportRequest = 7;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder getReportRequestOrBuilder() {
+      return reportRequest_;
+    }
+
     private void initFields() {
+      requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
       channel_ = "";
       type_ = 0;
       feedbackContent_ = "";
       phone_ = "";
       model_ = "";
+      reportRequest_ = com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasRequestType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -487,19 +661,25 @@ public final class QuestionServiceProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getChannelBytes());
+        output.writeEnum(1, requestType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, type_);
+        output.writeBytes(2, getChannelBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getFeedbackContentBytes());
+        output.writeInt32(3, type_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getPhoneBytes());
+        output.writeBytes(4, getFeedbackContentBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getModelBytes());
+        output.writeBytes(5, getPhoneBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getModelBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(7, reportRequest_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -512,23 +692,31 @@ public final class QuestionServiceProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getChannelBytes());
+          .computeEnumSize(1, requestType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, type_);
+          .computeBytesSize(2, getChannelBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getFeedbackContentBytes());
+          .computeInt32Size(3, type_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getPhoneBytes());
+          .computeBytesSize(4, getFeedbackContentBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getModelBytes());
+          .computeBytesSize(5, getPhoneBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getModelBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, reportRequest_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -638,6 +826,7 @@ public final class QuestionServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getReportRequestFieldBuilder();
         }
       }
       private static Builder create() {
@@ -646,16 +835,24 @@ public final class QuestionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        channel_ = "";
+        requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = 0;
+        channel_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        feedbackContent_ = "";
+        type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        phone_ = "";
+        feedbackContent_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        model_ = "";
+        phone_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
+        model_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        if (reportRequestBuilder_ == null) {
+          reportRequest_ = com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance();
+        } else {
+          reportRequestBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -687,23 +884,35 @@ public final class QuestionServiceProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.channel_ = channel_;
+        result.requestType_ = requestType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.type_ = type_;
+        result.channel_ = channel_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.feedbackContent_ = feedbackContent_;
+        result.type_ = type_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.phone_ = phone_;
+        result.feedbackContent_ = feedbackContent_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
+        result.phone_ = phone_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
         result.model_ = model_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (reportRequestBuilder_ == null) {
+          result.reportRequest_ = reportRequest_;
+        } else {
+          result.reportRequest_ = reportRequestBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -720,8 +929,11 @@ public final class QuestionServiceProtos {
 
       public Builder mergeFrom(com.rwproto.QuestionServiceProtos.MsgSubmitQuestionRequest other) {
         if (other == com.rwproto.QuestionServiceProtos.MsgSubmitQuestionRequest.getDefaultInstance()) return this;
+        if (other.hasRequestType()) {
+          setRequestType(other.getRequestType());
+        }
         if (other.hasChannel()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           channel_ = other.channel_;
           onChanged();
         }
@@ -729,25 +941,32 @@ public final class QuestionServiceProtos {
           setType(other.getType());
         }
         if (other.hasFeedbackContent()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           feedbackContent_ = other.feedbackContent_;
           onChanged();
         }
         if (other.hasPhone()) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
           phone_ = other.phone_;
           onChanged();
         }
         if (other.hasModel()) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
           model_ = other.model_;
           onChanged();
+        }
+        if (other.hasReportRequest()) {
+          mergeReportRequest(other.getReportRequest());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasRequestType()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -770,16 +989,52 @@ public final class QuestionServiceProtos {
       }
       private int bitField0_;
 
-      // optional string channel = 1;
-      private java.lang.Object channel_ = "";
+      // required .eFeedbackType requestType = 1;
+      private com.rwproto.QuestionServiceProtos.eFeedbackType requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>required .eFeedbackType requestType = 1;</code>
        */
-      public boolean hasChannel() {
+      public boolean hasRequestType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType() {
+        return requestType_;
+      }
+      /**
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public Builder setRequestType(com.rwproto.QuestionServiceProtos.eFeedbackType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        requestType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public Builder clearRequestType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
+        onChanged();
+        return this;
+      }
+
+      // optional string channel = 2;
+      private java.lang.Object channel_ = "";
+      /**
+       * <code>optional string channel = 2;</code>
+       */
+      public boolean hasChannel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string channel = 2;</code>
        */
       public java.lang.String getChannel() {
         java.lang.Object ref = channel_;
@@ -793,7 +1048,7 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>optional string channel = 2;</code>
        */
       public com.google.protobuf.ByteString
           getChannelBytes() {
@@ -809,84 +1064,84 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>optional string channel = 2;</code>
        */
       public Builder setChannel(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         channel_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>optional string channel = 2;</code>
        */
       public Builder clearChannel() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         channel_ = getDefaultInstance().getChannel();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string channel = 1;</code>
+       * <code>optional string channel = 2;</code>
        */
       public Builder setChannelBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         channel_ = value;
         onChanged();
         return this;
       }
 
-      // optional int32 type = 2;
+      // optional int32 type = 3;
       private int type_ ;
       /**
-       * <code>optional int32 type = 2;</code>
+       * <code>optional int32 type = 3;</code>
        */
       public boolean hasType() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 type = 2;</code>
+       * <code>optional int32 type = 3;</code>
        */
       public int getType() {
         return type_;
       }
       /**
-       * <code>optional int32 type = 2;</code>
+       * <code>optional int32 type = 3;</code>
        */
       public Builder setType(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         type_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 type = 2;</code>
+       * <code>optional int32 type = 3;</code>
        */
       public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         type_ = 0;
         onChanged();
         return this;
       }
 
-      // optional string feedbackContent = 3;
+      // optional string feedbackContent = 4;
       private java.lang.Object feedbackContent_ = "";
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public boolean hasFeedbackContent() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public java.lang.String getFeedbackContent() {
         java.lang.Object ref = feedbackContent_;
@@ -900,7 +1155,7 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public com.google.protobuf.ByteString
           getFeedbackContentBytes() {
@@ -916,51 +1171,51 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public Builder setFeedbackContent(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         feedbackContent_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public Builder clearFeedbackContent() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         feedbackContent_ = getDefaultInstance().getFeedbackContent();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string feedbackContent = 3;</code>
+       * <code>optional string feedbackContent = 4;</code>
        */
       public Builder setFeedbackContentBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         feedbackContent_ = value;
         onChanged();
         return this;
       }
 
-      // optional string phone = 4;
+      // optional string phone = 5;
       private java.lang.Object phone_ = "";
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public boolean hasPhone() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public java.lang.String getPhone() {
         java.lang.Object ref = phone_;
@@ -974,7 +1229,7 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public com.google.protobuf.ByteString
           getPhoneBytes() {
@@ -990,51 +1245,51 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public Builder setPhone(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         phone_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public Builder clearPhone() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         phone_ = getDefaultInstance().getPhone();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string phone = 4;</code>
+       * <code>optional string phone = 5;</code>
        */
       public Builder setPhoneBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         phone_ = value;
         onChanged();
         return this;
       }
 
-      // optional string model = 5;
+      // optional string model = 6;
       private java.lang.Object model_ = "";
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public boolean hasModel() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public java.lang.String getModel() {
         java.lang.Object ref = model_;
@@ -1048,7 +1303,7 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public com.google.protobuf.ByteString
           getModelBytes() {
@@ -1064,39 +1319,156 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public Builder setModel(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         model_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public Builder clearModel() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         model_ = getDefaultInstance().getModel();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string model = 5;</code>
+       * <code>optional string model = 6;</code>
        */
       public Builder setModelBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         model_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .MsgReportRequest reportRequest = 7;
+      private com.rwproto.QuestionServiceProtos.MsgReportRequest reportRequest_ = com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.QuestionServiceProtos.MsgReportRequest, com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder, com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder> reportRequestBuilder_;
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public boolean hasReportRequest() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportRequest getReportRequest() {
+        if (reportRequestBuilder_ == null) {
+          return reportRequest_;
+        } else {
+          return reportRequestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public Builder setReportRequest(com.rwproto.QuestionServiceProtos.MsgReportRequest value) {
+        if (reportRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          reportRequest_ = value;
+          onChanged();
+        } else {
+          reportRequestBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public Builder setReportRequest(
+          com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder builderForValue) {
+        if (reportRequestBuilder_ == null) {
+          reportRequest_ = builderForValue.build();
+          onChanged();
+        } else {
+          reportRequestBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public Builder mergeReportRequest(com.rwproto.QuestionServiceProtos.MsgReportRequest value) {
+        if (reportRequestBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              reportRequest_ != com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance()) {
+            reportRequest_ =
+              com.rwproto.QuestionServiceProtos.MsgReportRequest.newBuilder(reportRequest_).mergeFrom(value).buildPartial();
+          } else {
+            reportRequest_ = value;
+          }
+          onChanged();
+        } else {
+          reportRequestBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public Builder clearReportRequest() {
+        if (reportRequestBuilder_ == null) {
+          reportRequest_ = com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance();
+          onChanged();
+        } else {
+          reportRequestBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder getReportRequestBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getReportRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder getReportRequestOrBuilder() {
+        if (reportRequestBuilder_ != null) {
+          return reportRequestBuilder_.getMessageOrBuilder();
+        } else {
+          return reportRequest_;
+        }
+      }
+      /**
+       * <code>optional .MsgReportRequest reportRequest = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.QuestionServiceProtos.MsgReportRequest, com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder, com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder> 
+          getReportRequestFieldBuilder() {
+        if (reportRequestBuilder_ == null) {
+          reportRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.QuestionServiceProtos.MsgReportRequest, com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder, com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder>(
+                  reportRequest_,
+                  getParentForChildren(),
+                  isClean());
+          reportRequest_ = null;
+        }
+        return reportRequestBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgSubmitQuestionRequest)
@@ -1113,40 +1485,64 @@ public final class QuestionServiceProtos {
   public interface MsgSubmitQuestionResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional int32 type = 1;
+    // required .eFeedbackType requestType = 1;
     /**
-     * <code>optional int32 type = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    boolean hasRequestType();
+    /**
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType();
+
+    // optional int32 type = 2;
+    /**
+     * <code>optional int32 type = 2;</code>
      */
     boolean hasType();
     /**
-     * <code>optional int32 type = 1;</code>
+     * <code>optional int32 type = 2;</code>
      */
     int getType();
 
-    // optional .eSubmitResultType result = 2;
+    // optional .eSubmitResultType result = 3;
     /**
-     * <code>optional .eSubmitResultType result = 2;</code>
+     * <code>optional .eSubmitResultType result = 3;</code>
      */
     boolean hasResult();
     /**
-     * <code>optional .eSubmitResultType result = 2;</code>
+     * <code>optional .eSubmitResultType result = 3;</code>
      */
     com.rwproto.QuestionServiceProtos.eSubmitResultType getResult();
 
-    // optional string responseResult = 3;
+    // optional string responseResult = 4;
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     boolean hasResponseResult();
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     java.lang.String getResponseResult();
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     com.google.protobuf.ByteString
         getResponseResultBytes();
+
+    // optional .MsgReportReponse reportResponse = 5;
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    boolean hasReportResponse();
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    com.rwproto.QuestionServiceProtos.MsgReportReponse getReportResponse();
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder getReportResponseOrBuilder();
   }
   /**
    * Protobuf type {@code MsgSubmitQuestionResponse}
@@ -1200,24 +1596,48 @@ public final class QuestionServiceProtos {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
-              type_ = input.readInt32();
+              int rawValue = input.readEnum();
+              com.rwproto.QuestionServiceProtos.eFeedbackType value = com.rwproto.QuestionServiceProtos.eFeedbackType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                requestType_ = value;
+              }
               break;
             }
             case 16: {
+              bitField0_ |= 0x00000002;
+              type_ = input.readInt32();
+              break;
+            }
+            case 24: {
               int rawValue = input.readEnum();
               com.rwproto.QuestionServiceProtos.eSubmitResultType value = com.rwproto.QuestionServiceProtos.eSubmitResultType.valueOf(rawValue);
               if (value == null) {
-                unknownFields.mergeVarintField(2, rawValue);
+                unknownFields.mergeVarintField(3, rawValue);
               } else {
-                bitField0_ |= 0x00000002;
+                bitField0_ |= 0x00000004;
                 result_ = value;
               }
               break;
             }
-            case 26: {
-              bitField0_ |= 0x00000004;
+            case 34: {
+              bitField0_ |= 0x00000008;
               responseResult_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = reportResponse_.toBuilder();
+              }
+              reportResponse_ = input.readMessage(com.rwproto.QuestionServiceProtos.MsgReportReponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(reportResponse_);
+                reportResponse_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -1260,49 +1680,65 @@ public final class QuestionServiceProtos {
     }
 
     private int bitField0_;
-    // optional int32 type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
+    // required .eFeedbackType requestType = 1;
+    public static final int REQUESTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.QuestionServiceProtos.eFeedbackType requestType_;
     /**
-     * <code>optional int32 type = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
      */
-    public boolean hasType() {
+    public boolean hasRequestType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional int32 type = 1;</code>
+     * <code>required .eFeedbackType requestType = 1;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType() {
+      return requestType_;
+    }
+
+    // optional int32 type = 2;
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_;
+    /**
+     * <code>optional int32 type = 2;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 type = 2;</code>
      */
     public int getType() {
       return type_;
     }
 
-    // optional .eSubmitResultType result = 2;
-    public static final int RESULT_FIELD_NUMBER = 2;
+    // optional .eSubmitResultType result = 3;
+    public static final int RESULT_FIELD_NUMBER = 3;
     private com.rwproto.QuestionServiceProtos.eSubmitResultType result_;
     /**
-     * <code>optional .eSubmitResultType result = 2;</code>
+     * <code>optional .eSubmitResultType result = 3;</code>
      */
     public boolean hasResult() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .eSubmitResultType result = 2;</code>
+     * <code>optional .eSubmitResultType result = 3;</code>
      */
     public com.rwproto.QuestionServiceProtos.eSubmitResultType getResult() {
       return result_;
     }
 
-    // optional string responseResult = 3;
-    public static final int RESPONSERESULT_FIELD_NUMBER = 3;
+    // optional string responseResult = 4;
+    public static final int RESPONSERESULT_FIELD_NUMBER = 4;
     private java.lang.Object responseResult_;
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     public boolean hasResponseResult() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     public java.lang.String getResponseResult() {
       java.lang.Object ref = responseResult_;
@@ -1319,7 +1755,7 @@ public final class QuestionServiceProtos {
       }
     }
     /**
-     * <code>optional string responseResult = 3;</code>
+     * <code>optional string responseResult = 4;</code>
      */
     public com.google.protobuf.ByteString
         getResponseResultBytes() {
@@ -1335,16 +1771,44 @@ public final class QuestionServiceProtos {
       }
     }
 
+    // optional .MsgReportReponse reportResponse = 5;
+    public static final int REPORTRESPONSE_FIELD_NUMBER = 5;
+    private com.rwproto.QuestionServiceProtos.MsgReportReponse reportResponse_;
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    public boolean hasReportResponse() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.MsgReportReponse getReportResponse() {
+      return reportResponse_;
+    }
+    /**
+     * <code>optional .MsgReportReponse reportResponse = 5;</code>
+     */
+    public com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder getReportResponseOrBuilder() {
+      return reportResponse_;
+    }
+
     private void initFields() {
+      requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
       type_ = 0;
       result_ = com.rwproto.QuestionServiceProtos.eSubmitResultType.SUCCESS;
       responseResult_ = "";
+      reportResponse_ = com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasRequestType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1353,13 +1817,19 @@ public final class QuestionServiceProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, type_);
+        output.writeEnum(1, requestType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeEnum(2, result_.getNumber());
+        output.writeInt32(2, type_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getResponseResultBytes());
+        output.writeEnum(3, result_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getResponseResultBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, reportResponse_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1372,15 +1842,23 @@ public final class QuestionServiceProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, type_);
+          .computeEnumSize(1, requestType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, result_.getNumber());
+          .computeInt32Size(2, type_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getResponseResultBytes());
+          .computeEnumSize(3, result_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getResponseResultBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, reportResponse_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1490,6 +1968,7 @@ public final class QuestionServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getReportResponseFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1498,12 +1977,20 @@ public final class QuestionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        type_ = 0;
+        requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
         bitField0_ = (bitField0_ & ~0x00000001);
-        result_ = com.rwproto.QuestionServiceProtos.eSubmitResultType.SUCCESS;
+        type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        responseResult_ = "";
+        result_ = com.rwproto.QuestionServiceProtos.eSubmitResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000004);
+        responseResult_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        if (reportResponseBuilder_ == null) {
+          reportResponse_ = com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance();
+        } else {
+          reportResponseBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1535,15 +2022,27 @@ public final class QuestionServiceProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.type_ = type_;
+        result.requestType_ = requestType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.result_ = result_;
+        result.type_ = type_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
         result.responseResult_ = responseResult_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (reportResponseBuilder_ == null) {
+          result.reportResponse_ = reportResponse_;
+        } else {
+          result.reportResponse_ = reportResponseBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1560,6 +2059,9 @@ public final class QuestionServiceProtos {
 
       public Builder mergeFrom(com.rwproto.QuestionServiceProtos.MsgSubmitQuestionResponse other) {
         if (other == com.rwproto.QuestionServiceProtos.MsgSubmitQuestionResponse.getDefaultInstance()) return this;
+        if (other.hasRequestType()) {
+          setRequestType(other.getRequestType());
+        }
         if (other.hasType()) {
           setType(other.getType());
         }
@@ -1567,15 +2069,22 @@ public final class QuestionServiceProtos {
           setResult(other.getResult());
         }
         if (other.hasResponseResult()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           responseResult_ = other.responseResult_;
           onChanged();
+        }
+        if (other.hasReportResponse()) {
+          mergeReportResponse(other.getReportResponse());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasRequestType()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -1598,85 +2107,121 @@ public final class QuestionServiceProtos {
       }
       private int bitField0_;
 
-      // optional int32 type = 1;
-      private int type_ ;
+      // required .eFeedbackType requestType = 1;
+      private com.rwproto.QuestionServiceProtos.eFeedbackType requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
       /**
-       * <code>optional int32 type = 1;</code>
+       * <code>required .eFeedbackType requestType = 1;</code>
        */
-      public boolean hasType() {
+      public boolean hasRequestType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int32 type = 1;</code>
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.eFeedbackType getRequestType() {
+        return requestType_;
+      }
+      /**
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public Builder setRequestType(com.rwproto.QuestionServiceProtos.eFeedbackType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        requestType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .eFeedbackType requestType = 1;</code>
+       */
+      public Builder clearRequestType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        requestType_ = com.rwproto.QuestionServiceProtos.eFeedbackType.FEEDBACK;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 type = 2;
+      private int type_ ;
+      /**
+       * <code>optional int32 type = 2;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 type = 2;</code>
        */
       public int getType() {
         return type_;
       }
       /**
-       * <code>optional int32 type = 1;</code>
+       * <code>optional int32 type = 2;</code>
        */
       public Builder setType(int value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         type_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 type = 1;</code>
+       * <code>optional int32 type = 2;</code>
        */
       public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         type_ = 0;
         onChanged();
         return this;
       }
 
-      // optional .eSubmitResultType result = 2;
+      // optional .eSubmitResultType result = 3;
       private com.rwproto.QuestionServiceProtos.eSubmitResultType result_ = com.rwproto.QuestionServiceProtos.eSubmitResultType.SUCCESS;
       /**
-       * <code>optional .eSubmitResultType result = 2;</code>
+       * <code>optional .eSubmitResultType result = 3;</code>
        */
       public boolean hasResult() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .eSubmitResultType result = 2;</code>
+       * <code>optional .eSubmitResultType result = 3;</code>
        */
       public com.rwproto.QuestionServiceProtos.eSubmitResultType getResult() {
         return result_;
       }
       /**
-       * <code>optional .eSubmitResultType result = 2;</code>
+       * <code>optional .eSubmitResultType result = 3;</code>
        */
       public Builder setResult(com.rwproto.QuestionServiceProtos.eSubmitResultType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         result_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .eSubmitResultType result = 2;</code>
+       * <code>optional .eSubmitResultType result = 3;</code>
        */
       public Builder clearResult() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         result_ = com.rwproto.QuestionServiceProtos.eSubmitResultType.SUCCESS;
         onChanged();
         return this;
       }
 
-      // optional string responseResult = 3;
+      // optional string responseResult = 4;
       private java.lang.Object responseResult_ = "";
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public boolean hasResponseResult() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public java.lang.String getResponseResult() {
         java.lang.Object ref = responseResult_;
@@ -1690,7 +2235,7 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public com.google.protobuf.ByteString
           getResponseResultBytes() {
@@ -1706,39 +2251,156 @@ public final class QuestionServiceProtos {
         }
       }
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public Builder setResponseResult(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         responseResult_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public Builder clearResponseResult() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         responseResult_ = getDefaultInstance().getResponseResult();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string responseResult = 3;</code>
+       * <code>optional string responseResult = 4;</code>
        */
       public Builder setResponseResultBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         responseResult_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .MsgReportReponse reportResponse = 5;
+      private com.rwproto.QuestionServiceProtos.MsgReportReponse reportResponse_ = com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.QuestionServiceProtos.MsgReportReponse, com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder, com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder> reportResponseBuilder_;
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public boolean hasReportResponse() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportReponse getReportResponse() {
+        if (reportResponseBuilder_ == null) {
+          return reportResponse_;
+        } else {
+          return reportResponseBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public Builder setReportResponse(com.rwproto.QuestionServiceProtos.MsgReportReponse value) {
+        if (reportResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          reportResponse_ = value;
+          onChanged();
+        } else {
+          reportResponseBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public Builder setReportResponse(
+          com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder builderForValue) {
+        if (reportResponseBuilder_ == null) {
+          reportResponse_ = builderForValue.build();
+          onChanged();
+        } else {
+          reportResponseBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public Builder mergeReportResponse(com.rwproto.QuestionServiceProtos.MsgReportReponse value) {
+        if (reportResponseBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              reportResponse_ != com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance()) {
+            reportResponse_ =
+              com.rwproto.QuestionServiceProtos.MsgReportReponse.newBuilder(reportResponse_).mergeFrom(value).buildPartial();
+          } else {
+            reportResponse_ = value;
+          }
+          onChanged();
+        } else {
+          reportResponseBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public Builder clearReportResponse() {
+        if (reportResponseBuilder_ == null) {
+          reportResponse_ = com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance();
+          onChanged();
+        } else {
+          reportResponseBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder getReportResponseBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getReportResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      public com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder getReportResponseOrBuilder() {
+        if (reportResponseBuilder_ != null) {
+          return reportResponseBuilder_.getMessageOrBuilder();
+        } else {
+          return reportResponse_;
+        }
+      }
+      /**
+       * <code>optional .MsgReportReponse reportResponse = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.QuestionServiceProtos.MsgReportReponse, com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder, com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder> 
+          getReportResponseFieldBuilder() {
+        if (reportResponseBuilder_ == null) {
+          reportResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.QuestionServiceProtos.MsgReportReponse, com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder, com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder>(
+                  reportResponse_,
+                  getParentForChildren(),
+                  isClean());
+          reportResponse_ = null;
+        }
+        return reportResponseBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgSubmitQuestionResponse)
@@ -1752,6 +2414,1341 @@ public final class QuestionServiceProtos {
     // @@protoc_insertion_point(class_scope:MsgSubmitQuestionResponse)
   }
 
+  public interface MsgReportRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional string userId = 1;
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    boolean hasUserId();
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+
+    // optional string chatContent = 2;
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    boolean hasChatContent();
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    java.lang.String getChatContent();
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getChatContentBytes();
+
+    // optional string channel = 3;
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    boolean hasChannel();
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    java.lang.String getChannel();
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getChannelBytes();
+
+    // optional int32 reportChannel = 4;
+    /**
+     * <code>optional int32 reportChannel = 4;</code>
+     */
+    boolean hasReportChannel();
+    /**
+     * <code>optional int32 reportChannel = 4;</code>
+     */
+    int getReportChannel();
+  }
+  /**
+   * Protobuf type {@code MsgReportRequest}
+   */
+  public static final class MsgReportRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements MsgReportRequestOrBuilder {
+    // Use MsgReportRequest.newBuilder() to construct.
+    private MsgReportRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MsgReportRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MsgReportRequest defaultInstance;
+    public static MsgReportRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MsgReportRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MsgReportRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              chatContent_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              channel_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              reportChannel_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.QuestionServiceProtos.internal_static_MsgReportRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.QuestionServiceProtos.internal_static_MsgReportRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.QuestionServiceProtos.MsgReportRequest.class, com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MsgReportRequest> PARSER =
+        new com.google.protobuf.AbstractParser<MsgReportRequest>() {
+      public MsgReportRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MsgReportRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MsgReportRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional string userId = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userId_;
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string userId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string chatContent = 2;
+    public static final int CHATCONTENT_FIELD_NUMBER = 2;
+    private java.lang.Object chatContent_;
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    public boolean hasChatContent() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    public java.lang.String getChatContent() {
+      java.lang.Object ref = chatContent_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chatContent_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string chatContent = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChatContentBytes() {
+      java.lang.Object ref = chatContent_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chatContent_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string channel = 3;
+    public static final int CHANNEL_FIELD_NUMBER = 3;
+    private java.lang.Object channel_;
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    public boolean hasChannel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    public java.lang.String getChannel() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          channel_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string channel = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChannelBytes() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channel_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 reportChannel = 4;
+    public static final int REPORTCHANNEL_FIELD_NUMBER = 4;
+    private int reportChannel_;
+    /**
+     * <code>optional int32 reportChannel = 4;</code>
+     */
+    public boolean hasReportChannel() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 reportChannel = 4;</code>
+     */
+    public int getReportChannel() {
+      return reportChannel_;
+    }
+
+    private void initFields() {
+      userId_ = "";
+      chatContent_ = "";
+      channel_ = "";
+      reportChannel_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getChatContentBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getChannelBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, reportChannel_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getChatContentBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getChannelBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, reportChannel_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.QuestionServiceProtos.MsgReportRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MsgReportRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.QuestionServiceProtos.MsgReportRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.QuestionServiceProtos.MsgReportRequest.class, com.rwproto.QuestionServiceProtos.MsgReportRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.QuestionServiceProtos.MsgReportRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        chatContent_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        channel_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        reportChannel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportRequest_descriptor;
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportRequest getDefaultInstanceForType() {
+        return com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportRequest build() {
+        com.rwproto.QuestionServiceProtos.MsgReportRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportRequest buildPartial() {
+        com.rwproto.QuestionServiceProtos.MsgReportRequest result = new com.rwproto.QuestionServiceProtos.MsgReportRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.chatContent_ = chatContent_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.channel_ = channel_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.reportChannel_ = reportChannel_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.QuestionServiceProtos.MsgReportRequest) {
+          return mergeFrom((com.rwproto.QuestionServiceProtos.MsgReportRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.QuestionServiceProtos.MsgReportRequest other) {
+        if (other == com.rwproto.QuestionServiceProtos.MsgReportRequest.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000001;
+          userId_ = other.userId_;
+          onChanged();
+        }
+        if (other.hasChatContent()) {
+          bitField0_ |= 0x00000002;
+          chatContent_ = other.chatContent_;
+          onChanged();
+        }
+        if (other.hasChannel()) {
+          bitField0_ |= 0x00000004;
+          channel_ = other.channel_;
+          onChanged();
+        }
+        if (other.hasReportChannel()) {
+          setReportChannel(other.getReportChannel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.QuestionServiceProtos.MsgReportRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.QuestionServiceProtos.MsgReportRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional string userId = 1;
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string userId = 1;</code>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string chatContent = 2;
+      private java.lang.Object chatContent_ = "";
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public boolean hasChatContent() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public java.lang.String getChatContent() {
+        java.lang.Object ref = chatContent_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chatContent_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChatContentBytes() {
+        java.lang.Object ref = chatContent_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chatContent_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public Builder setChatContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chatContent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public Builder clearChatContent() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        chatContent_ = getDefaultInstance().getChatContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string chatContent = 2;</code>
+       */
+      public Builder setChatContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chatContent_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string channel = 3;
+      private java.lang.Object channel_ = "";
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public boolean hasChannel() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public java.lang.String getChannel() {
+        java.lang.Object ref = channel_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          channel_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChannelBytes() {
+        java.lang.Object ref = channel_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channel_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public Builder setChannel(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        channel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public Builder clearChannel() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        channel_ = getDefaultInstance().getChannel();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channel = 3;</code>
+       */
+      public Builder setChannelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        channel_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 reportChannel = 4;
+      private int reportChannel_ ;
+      /**
+       * <code>optional int32 reportChannel = 4;</code>
+       */
+      public boolean hasReportChannel() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 reportChannel = 4;</code>
+       */
+      public int getReportChannel() {
+        return reportChannel_;
+      }
+      /**
+       * <code>optional int32 reportChannel = 4;</code>
+       */
+      public Builder setReportChannel(int value) {
+        bitField0_ |= 0x00000008;
+        reportChannel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 reportChannel = 4;</code>
+       */
+      public Builder clearReportChannel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        reportChannel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MsgReportRequest)
+    }
+
+    static {
+      defaultInstance = new MsgReportRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MsgReportRequest)
+  }
+
+  public interface MsgReportReponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional string result = 1;
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    boolean hasResult();
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    java.lang.String getResult();
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getResultBytes();
+  }
+  /**
+   * Protobuf type {@code MsgReportReponse}
+   */
+  public static final class MsgReportReponse extends
+      com.google.protobuf.GeneratedMessage
+      implements MsgReportReponseOrBuilder {
+    // Use MsgReportReponse.newBuilder() to construct.
+    private MsgReportReponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MsgReportReponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MsgReportReponse defaultInstance;
+    public static MsgReportReponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MsgReportReponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MsgReportReponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              result_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.QuestionServiceProtos.internal_static_MsgReportReponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.QuestionServiceProtos.internal_static_MsgReportReponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.QuestionServiceProtos.MsgReportReponse.class, com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MsgReportReponse> PARSER =
+        new com.google.protobuf.AbstractParser<MsgReportReponse>() {
+      public MsgReportReponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MsgReportReponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MsgReportReponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional string result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private java.lang.Object result_;
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    public java.lang.String getResult() {
+      java.lang.Object ref = result_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          result_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string result = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getResultBytes() {
+      java.lang.Object ref = result_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        result_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      result_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getResultBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getResultBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.QuestionServiceProtos.MsgReportReponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.QuestionServiceProtos.MsgReportReponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MsgReportReponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.QuestionServiceProtos.MsgReportReponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportReponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportReponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.QuestionServiceProtos.MsgReportReponse.class, com.rwproto.QuestionServiceProtos.MsgReportReponse.Builder.class);
+      }
+
+      // Construct using com.rwproto.QuestionServiceProtos.MsgReportReponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        result_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.QuestionServiceProtos.internal_static_MsgReportReponse_descriptor;
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportReponse getDefaultInstanceForType() {
+        return com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance();
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportReponse build() {
+        com.rwproto.QuestionServiceProtos.MsgReportReponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.QuestionServiceProtos.MsgReportReponse buildPartial() {
+        com.rwproto.QuestionServiceProtos.MsgReportReponse result = new com.rwproto.QuestionServiceProtos.MsgReportReponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.result_ = result_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.QuestionServiceProtos.MsgReportReponse) {
+          return mergeFrom((com.rwproto.QuestionServiceProtos.MsgReportReponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.QuestionServiceProtos.MsgReportReponse other) {
+        if (other == com.rwproto.QuestionServiceProtos.MsgReportReponse.getDefaultInstance()) return this;
+        if (other.hasResult()) {
+          bitField0_ |= 0x00000001;
+          result_ = other.result_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.QuestionServiceProtos.MsgReportReponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.QuestionServiceProtos.MsgReportReponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional string result = 1;
+      private java.lang.Object result_ = "";
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public java.lang.String getResult() {
+        java.lang.Object ref = result_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          result_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getResultBytes() {
+        java.lang.Object ref = result_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          result_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public Builder setResult(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        result_ = getDefaultInstance().getResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string result = 1;</code>
+       */
+      public Builder setResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MsgReportReponse)
+    }
+
+    static {
+      defaultInstance = new MsgReportReponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MsgReportReponse)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgSubmitQuestionRequest_descriptor;
   private static
@@ -1762,6 +3759,16 @@ public final class QuestionServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_MsgSubmitQuestionResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MsgReportRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MsgReportRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MsgReportReponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MsgReportReponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1771,15 +3778,23 @@ public final class QuestionServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025QuestionService.proto\"p\n\030MsgSubmitQues" +
-      "tionRequest\022\017\n\007channel\030\001 \001(\t\022\014\n\004type\030\002 \001" +
-      "(\005\022\027\n\017feedbackContent\030\003 \001(\t\022\r\n\005phone\030\004 \001" +
-      "(\t\022\r\n\005model\030\005 \001(\t\"e\n\031MsgSubmitQuestionRe" +
-      "sponse\022\014\n\004type\030\001 \001(\005\022\"\n\006result\030\002 \001(\0162\022.e" +
-      "SubmitResultType\022\026\n\016responseResult\030\003 \001(\t" +
-      "**\n\021eSubmitResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FA" +
-      "IL\020\001B$\n\013com.rwprotoB\025QuestionServiceProt" +
-      "os"
+      "\n\025QuestionService.proto\"\277\001\n\030MsgSubmitQue" +
+      "stionRequest\022#\n\013requestType\030\001 \002(\0162\016.eFee" +
+      "dbackType\022\017\n\007channel\030\002 \001(\t\022\014\n\004type\030\003 \001(\005" +
+      "\022\027\n\017feedbackContent\030\004 \001(\t\022\r\n\005phone\030\005 \001(\t" +
+      "\022\r\n\005model\030\006 \001(\t\022(\n\rreportRequest\030\007 \001(\0132\021" +
+      ".MsgReportRequest\"\265\001\n\031MsgSubmitQuestionR" +
+      "esponse\022#\n\013requestType\030\001 \002(\0162\016.eFeedback" +
+      "Type\022\014\n\004type\030\002 \001(\005\022\"\n\006result\030\003 \001(\0162\022.eSu" +
+      "bmitResultType\022\026\n\016responseResult\030\004 \001(\t\022)" +
+      "\n\016reportResponse\030\005 \001(\0132\021.MsgReportRepons",
+      "e\"_\n\020MsgReportRequest\022\016\n\006userId\030\001 \001(\t\022\023\n" +
+      "\013chatContent\030\002 \001(\t\022\017\n\007channel\030\003 \001(\t\022\025\n\rr" +
+      "eportChannel\030\004 \001(\005\"\"\n\020MsgReportReponse\022\016" +
+      "\n\006result\030\001 \001(\t*)\n\reFeedbackType\022\014\n\010FEEDB" +
+      "ACK\020\001\022\n\n\006REPORT\020\002**\n\021eSubmitResultType\022\013" +
+      "\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001B$\n\013com.rwprotoB\025Qu" +
+      "estionServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1791,13 +3806,25 @@ public final class QuestionServiceProtos {
           internal_static_MsgSubmitQuestionRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgSubmitQuestionRequest_descriptor,
-              new java.lang.String[] { "Channel", "Type", "FeedbackContent", "Phone", "Model", });
+              new java.lang.String[] { "RequestType", "Channel", "Type", "FeedbackContent", "Phone", "Model", "ReportRequest", });
           internal_static_MsgSubmitQuestionResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgSubmitQuestionResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgSubmitQuestionResponse_descriptor,
-              new java.lang.String[] { "Type", "Result", "ResponseResult", });
+              new java.lang.String[] { "RequestType", "Type", "Result", "ResponseResult", "ReportResponse", });
+          internal_static_MsgReportRequest_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_MsgReportRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MsgReportRequest_descriptor,
+              new java.lang.String[] { "UserId", "ChatContent", "Channel", "ReportChannel", });
+          internal_static_MsgReportReponse_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_MsgReportReponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MsgReportReponse_descriptor,
+              new java.lang.String[] { "Result", });
           return null;
         }
       };

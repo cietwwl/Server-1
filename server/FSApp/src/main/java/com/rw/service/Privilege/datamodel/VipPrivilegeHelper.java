@@ -152,6 +152,9 @@ public class VipPrivilegeHelper {
 		case TOWER_RESET_TIMES:
 			pname = PvePrivilegeNames.arrayMaxResetCnt;
 			break;
+		case ISALLOW_REPORT:
+			pname = LoginPrivilegeNames.isAllowReport;
+			break;
 		default:
 			break;
 		}

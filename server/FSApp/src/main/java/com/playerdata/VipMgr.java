@@ -78,6 +78,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		tableVip.addPrivilege(EPrivilegeDef.THIRD_CHESTS_OPEN,GetMaxPrivilege(EPrivilegeDef.THIRD_CHESTS_OPEN));
 		tableVip.addPrivilege(EPrivilegeDef.FASHION_BUY_OPEN,GetMaxPrivilege(EPrivilegeDef.FASHION_BUY_OPEN));
 		tableVip.addPrivilege(EPrivilegeDef.RESIGN_OPEN,GetMaxPrivilege(EPrivilegeDef.RESIGN_OPEN));
+		tableVip.addPrivilege(EPrivilegeDef.ISALLOW_REPORT,GetMaxPrivilege(EPrivilegeDef.ISALLOW_REPORT));
 		
 	}
 	private void refreshVar(TableVip tableVip){
