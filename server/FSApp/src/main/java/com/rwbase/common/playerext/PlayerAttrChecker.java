@@ -53,6 +53,6 @@ public class PlayerAttrChecker implements PlayerTaskListener {
 		if (memberData == null) {
 			return;
 		}
-		memberMgr.updateMemberFight(userId, player.getHeroMgr().getFightingAll());
+		memberMgr.updateMemberFight(userId, player.getHeroMgr().getFightingAll(player));
 	}
 }
