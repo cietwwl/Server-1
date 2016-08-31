@@ -1,5 +1,6 @@
 package com.rw.service.PeakArena;
 
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.rw.service.FsService;
@@ -7,7 +8,6 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.PeakArenaServiceProtos.eArenaType;
 import com.rwproto.RequestProtos.Request;
@@ -19,8 +19,9 @@ public class PeakArenaService implements FsService {
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player)) {
-			player.NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN);
+		RefParam<String> outtip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player,outtip)) {
+			player.NotifyFunctionNotOpen(outtip.value);
 			return result;
 		}
 		try {

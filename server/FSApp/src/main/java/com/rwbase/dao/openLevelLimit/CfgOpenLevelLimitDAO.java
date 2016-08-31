@@ -2,9 +2,11 @@ package com.rwbase.dao.openLevelLimit;
 
 import java.util.Map;
 
+import com.common.RefParam;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 
@@ -19,6 +21,12 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		return cfgCacheMap;
 	}
 
+	public String getNotOpenTip(eOpenLevelType type, Player player){
+		RefParam<String> outtip = new RefParam<String>();
+		isOpen(type,player,outtip);
+		return outtip.value;
+	}
+	
 	/**
 	 * 某个功能是否开放
 	 * @param type 检测开放的功能类型
@@ -26,6 +34,10 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	 * @return 是否开放
 	 */
 	public boolean isOpen(eOpenLevelType type, Player player){
+		return isOpen(type,player,null);
+	}
+	
+	public boolean isOpen(eOpenLevelType type, Player player, RefParam<String> outTip){
 		boolean result = false;
 		int level = player.getLevel();
 		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
@@ -39,6 +51,23 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				}
 			}
 		}
+
+		if (!result && outTip != null){
+			if (cfg == null){
+				outTip.value = "功能未开放";
+			}else{
+				ChineseStringHelper helper = ChineseStringHelper.getInstance();
+				int checkPointID = cfg.getCheckPointID();
+				if (checkPointID > 0){
+					String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关%s开启");
+					outTip.value = String.format(tipTemplate, level,checkPointID);
+				}else{
+					String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
+					outTip.value = String.format(tipTemplate, level);
+				}
+			}
+		}
+
 		return result;
 	}
 
