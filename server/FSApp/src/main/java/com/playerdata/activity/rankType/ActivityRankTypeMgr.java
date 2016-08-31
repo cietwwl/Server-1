@@ -128,7 +128,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			//没奖的酱油进下边设置关闭
 			SendRewardRecord record = sendMap.get(activityRankTypeItem.getEnumId());
 			if(record == null){
-				GameLog.error(LogModule.ComActivityRank, player.getUserId(), "数据库数据的id找不到对应的cfg生成的record", null);
 				continue;					
 			}
 			long sendtime = record.getLasttime();				
@@ -192,7 +191,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		for(ActivityRankTypeCfg cfg:cfgList){//所有的配表活动
 			ActivityRankTypeEnum activityRankTypeEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 			if(activityRankTypeEnum==null){
-				GameLog.error(LogModule.ComActivityRank, null, "配置文件有配，但枚举不存在", null);
 				continue;
 			}
 			
@@ -209,10 +207,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			}
 			record.setLasttime(System.currentTimeMillis());
 			record.setSend(true);
-			GameLog.info(LogModule.ComActivityRank.getName(), null, "开始派发排行榜奖励，cfg名字为 =" + cfg.getId(), null);
-			int isrealtime = cfg.getDailyOrRealtime();
-			for(Integer ranktype:activityRankTypeEnum.getRankTypes()){//该配表对应的所有排行榜，比如竞技场就分4个职业
-				int noitem = 0;
+			for(Integer ranktype:activityRankTypeEnum.getRankTypes()){//该配表对应的所有排行榜，比如竞技场就分4个职业				
 				RankType rankType = RankType.getRankType(ranktype,1);
 				List<RankInfo> rankList = new ArrayList<RankInfo>();
 				List<RankingLevelData> tableranklist = RankingMgr.getInstance().getRankList(rankType, cfg.getRewardNum());
@@ -234,7 +229,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					ActivityRankTypeItem targetItem = dataHolder.getItem(rankInfo.getHeroUUID(), activityRankTypeEnum);
 					if(targetItem==null){
 						//有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
-						noitem++;
 //						System.out.println("activityrank.机器人没有数据。。。。。。。。。。。。。。。。名额="+ cfg.getRewardNum() + "  序列="+noitem);
 						continue;
 					}
@@ -265,8 +259,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);
 //						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
-					}else{//所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致
-						GameLog.error(LogModule.ComActivityRank, player.getUserId(), "所有条件都满足，但是cfg的排名范围和subcfg的排名范围不一致,排名="+rankInfo.getRankingLevel()+" 活动类型=" + cfg.getId(),null);
 					}
 				}			
 			}			
@@ -326,12 +318,10 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 		if(rankEnum == null){
-			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityRankTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rankEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
