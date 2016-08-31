@@ -60,6 +60,7 @@ public class FSUserFightingGrowthHolder {
 			synData.gainWays = cfg.getGrowthWayList(); // 获取途径
 			synData.currentValue = type.getGetCurrentFightingFunc().apply(player); // 当前的战斗力
 			synData.maxValue = type.getGetMaxFightingFunc().apply(player); // 当前等级的最大值
+			System.out.println("type=" + type + ", currentValue=" + synData.currentValue + ", maxValue=" + synData.maxValue);
 			list.add(synData);
 		}
 		return list;

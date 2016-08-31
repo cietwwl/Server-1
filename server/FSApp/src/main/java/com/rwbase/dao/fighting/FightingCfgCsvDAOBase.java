@@ -34,19 +34,19 @@ public abstract class FightingCfgCsvDAOBase<T extends FightingCfgBase> extends C
 	}
 	
 	public T getByLevel(int lv) {
-		T pre = null;
+		T target = null;
 		for (int i = 0; i < _sortByRequiredLvList.size(); i++) {
 			T t = _sortByRequiredLvList.get(i);
 			if (t.getRequiredLv() > lv) {
-				if (pre == null) {
-					pre = t;
-					break;
+				if (target == null) {
+					target = t;
 				}
+				break;
 			} else {
-				pre = t;
+				target = t;
 			}
 		}
-		return pre;
+		return target;
 	}
 	
 	private static class FightingCfgBaseComparator implements Comparator<FightingCfgBase> {
