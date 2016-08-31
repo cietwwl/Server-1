@@ -621,7 +621,7 @@ public class Player implements PlayerIF {
 	}
 	
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
-		if (message == null || message.equals("")) {
+		if (StringUtils.isBlank(message)) {
 			return;
 		}
 		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();

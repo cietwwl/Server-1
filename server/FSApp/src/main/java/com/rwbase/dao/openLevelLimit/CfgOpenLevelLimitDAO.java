@@ -1,6 +1,11 @@
 package com.rwbase.dao.openLevelLimit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.common.RefParam;
 import com.playerdata.Player;
@@ -9,6 +14,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwproto.MsgDef.Command;
 
 public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 
@@ -16,9 +22,31 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		return SpringContextUtil.getBean(CfgOpenLevelLimitDAO.class);
 	}
 
+	private Map<Command,List<CfgOpenLevelLimit>> cmdMapping;
 	public Map<String, CfgOpenLevelLimit> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("openLevelLimit/openLevelLimit.csv", CfgOpenLevelLimit.class);
+		Map<String, CfgOpenLevelLimit> tmpMap = CfgCsvHelper.readCsv2Map("openLevelLimit/openLevelLimit.csv", CfgOpenLevelLimit.class);
+		Set<Entry<String, CfgOpenLevelLimit>> entryLst = tmpMap.entrySet();
+		Map<Command,List<CfgOpenLevelLimit>> mapping = new HashMap<Command, List<CfgOpenLevelLimit>>();
+		for (Entry<String, CfgOpenLevelLimit> entry : entryLst) {
+			CfgOpenLevelLimit cfg = entry.getValue();
+			Command serviceId = cfg.getServiceId();
+			if (serviceId != null){
+				List<CfgOpenLevelLimit> old = mapping.get(serviceId);
+				if (old == null){
+					old = new ArrayList<CfgOpenLevelLimit>();
+					mapping.put(serviceId, old);
+				}
+				old.add(cfg);
+			}
+		}
+		
+		cmdMapping = mapping;
+		cfgCacheMap = tmpMap;
 		return cfgCacheMap;
+	}
+	
+	public List<CfgOpenLevelLimit> getOpenCfg(Command cmd){
+		return cmdMapping.get(cmd);
 	}
 
 	public String getNotOpenTip(eOpenLevelType type, Player player){

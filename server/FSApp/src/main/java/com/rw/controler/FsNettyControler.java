@@ -256,4 +256,8 @@ public class FsNettyControler {
 		}
 		msg.clear();
 	}
+
+	public void functionNotOpen(String userId, RequestHeader header) {
+		sendErrorResponse(userId, header, 500);
+	}
 }

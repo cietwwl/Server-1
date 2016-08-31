@@ -19,11 +19,11 @@ public class PeakArenaService implements FsService {
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-		RefParam<String> outtip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player,outtip)) {
-			player.NotifyFunctionNotOpen(outtip.value);
-			return result;
-		}
+//		RefParam<String> outtip = new RefParam<String>();
+//		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player,outtip)) {
+//			player.NotifyFunctionNotOpen(outtip.value);
+//			return result;
+//		}
 		try {
 			MsgArenaRequest msgArenaRequest = MsgArenaRequest.parseFrom(request.getBody().getSerializedContent());
 			eArenaType arenaType = msgArenaRequest.getArenaType();
