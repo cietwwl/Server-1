@@ -245,7 +245,7 @@ public class GroupSecretMatchEnemyDataMgr {
 
 			String heroId = leftInfo.getId();
 //			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
-			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(player, heroId);
+			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 			if (hero == null) {
 				continue;
 			}

@@ -90,14 +90,12 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getEnumId());
 			if (countTypeEnum == null) {
-				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityCountTypeCfg.getId());
 				continue;
 			}
 			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {						
 				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum,activityCountTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
-					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
 					continue;
 				}
 				if (addItemList == null) {
@@ -171,7 +169,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 			ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
 			if(subItemCfg == null){
-				GameLog.error(LogModule.ComActivityCount, player.getUserId(), "发送邮件失败，没有配置文件", null);
 				continue;
 			}			
 			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
@@ -179,9 +176,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
 				if (isAdd) {
 					subItem.setTaken(true);
-				} else {
-					GameLog.error(LogModule.ComActivityCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-				}
+				} 
 			}
 		}
 	}
@@ -190,7 +185,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
 		if(cfgById == null){
-			GameLog.error(LogModule.ComActivityCount, null, "发送邮件失败，没有配置文件", null);
 			return false;
 		}
 		long endTime = cfgById.getEndTime();
@@ -215,7 +209,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "活动开了，但open没生成数据,type=" + countType, null);
 			return;
 		}
 		dataItem.setCount(dataItem.getCount() + countadd);
@@ -271,12 +264,10 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(cfg.getEnumId());
 		if(eNum == null){
-			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityCountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),eNum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){

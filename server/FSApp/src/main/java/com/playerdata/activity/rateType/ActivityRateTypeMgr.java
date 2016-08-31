@@ -144,7 +144,6 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
 				.getCfgById(ActivityRateTypeItem.getCfgId());
 		if(cfgById == null){
-			GameLog.error(LogModule.ComActivityRate, null, "通用活动找不到配置文件", null);
 			return false;
 		}
 		
@@ -203,7 +202,6 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			//当前玩家通关的副本类型在这个活动里有对应的双倍奖励
 			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 			if(eNum == null){
-				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
 				continue;
 			}
 			
@@ -266,12 +264,10 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 		if(rateEnum == null){
-			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityRateTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rateEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
