@@ -72,4 +72,4 @@ Thumbs.db
 /server/FSApp/datalogs/methodtrace/*.log
 /server/RobotPressureTest/log/*.log
 datalogs
-/server/FSApp/src/main/resources/server.properties
+protoFile

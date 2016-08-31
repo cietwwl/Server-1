@@ -19,9 +19,11 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
@@ -57,6 +59,8 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityFortuneCatTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyRechargeTypeMgr.getInstance().checkActivityOpen(player);
 	}
 
 
@@ -135,7 +139,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 			
 			ActivityCountTypeCfg targetCfg = ActivityCountTypeCfgDAO.getInstance().getCfgByEnumId(targetItem);
 			if(targetCfg == null){
-//				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {

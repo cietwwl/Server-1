@@ -154,7 +154,7 @@ public class FSHeroMgr implements HeroMgr {
 		String userId = player.getTableUser().getUserId();
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(userId);
 		List<String> idsOfOtherHeros = mapItemStore.getReadOnlyKeyList();
-		List<String> list = new ArrayList<String>(idsOfOtherHeros.size());
+		List<String> list = new ArrayList<String>(idsOfOtherHeros);
 		list.add(userId);
 		return list;
 	}

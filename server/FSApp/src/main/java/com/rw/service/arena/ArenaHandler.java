@@ -1028,9 +1028,7 @@ public class ArenaHandler {
 			}
 			rewardList.add(id);
 			Map<Integer, Integer> rewards = template.getRewards();
-			ItemBagMgr itemBagMgr = player.getItemBagMgr();
 			for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
-				itemBagMgr.addItem(entry.getKey(), entry.getValue());
 				Integer haveCount = rewardMap.get(entry.getKey());
 				if(null == haveCount) haveCount = entry.getValue();
 				else haveCount += entry.getValue();

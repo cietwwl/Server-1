@@ -3499,15 +3499,20 @@ public final class ActivityLimitHeroTypeProto {
   public interface GamebleRewardOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 rewardId = 1;
+    // required string rewardId = 1;
     /**
-     * <code>required int32 rewardId = 1;</code>
+     * <code>required string rewardId = 1;</code>
      */
     boolean hasRewardId();
     /**
-     * <code>required int32 rewardId = 1;</code>
+     * <code>required string rewardId = 1;</code>
      */
-    int getRewardId();
+    java.lang.String getRewardId();
+    /**
+     * <code>required string rewardId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getRewardIdBytes();
 
     // required int32 rewardNum = 2;
     /**
@@ -3570,9 +3575,9 @@ public final class ActivityLimitHeroTypeProto {
               }
               break;
             }
-            case 8: {
+            case 10: {
               bitField0_ |= 0x00000001;
-              rewardId_ = input.readInt32();
+              rewardId_ = input.readBytes();
               break;
             }
             case 16: {
@@ -3620,20 +3625,47 @@ public final class ActivityLimitHeroTypeProto {
     }
 
     private int bitField0_;
-    // required int32 rewardId = 1;
+    // required string rewardId = 1;
     public static final int REWARDID_FIELD_NUMBER = 1;
-    private int rewardId_;
+    private java.lang.Object rewardId_;
     /**
-     * <code>required int32 rewardId = 1;</code>
+     * <code>required string rewardId = 1;</code>
      */
     public boolean hasRewardId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 rewardId = 1;</code>
+     * <code>required string rewardId = 1;</code>
      */
-    public int getRewardId() {
-      return rewardId_;
+    public java.lang.String getRewardId() {
+      java.lang.Object ref = rewardId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          rewardId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string rewardId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRewardIdBytes() {
+      java.lang.Object ref = rewardId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rewardId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     // required int32 rewardNum = 2;
@@ -3653,7 +3685,7 @@ public final class ActivityLimitHeroTypeProto {
     }
 
     private void initFields() {
-      rewardId_ = 0;
+      rewardId_ = "";
       rewardNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -3677,7 +3709,7 @@ public final class ActivityLimitHeroTypeProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, rewardId_);
+        output.writeBytes(1, getRewardIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, rewardNum_);
@@ -3693,7 +3725,7 @@ public final class ActivityLimitHeroTypeProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, rewardId_);
+          .computeBytesSize(1, getRewardIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3815,7 +3847,7 @@ public final class ActivityLimitHeroTypeProto {
 
       public Builder clear() {
         super.clear();
-        rewardId_ = 0;
+        rewardId_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
         rewardNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3872,7 +3904,9 @@ public final class ActivityLimitHeroTypeProto {
       public Builder mergeFrom(com.rwproto.ActivityLimitHeroTypeProto.GamebleReward other) {
         if (other == com.rwproto.ActivityLimitHeroTypeProto.GamebleReward.getDefaultInstance()) return this;
         if (other.hasRewardId()) {
-          setRewardId(other.getRewardId());
+          bitField0_ |= 0x00000001;
+          rewardId_ = other.rewardId_;
+          onChanged();
         }
         if (other.hasRewardNum()) {
           setRewardNum(other.getRewardNum());
@@ -3912,35 +3946,76 @@ public final class ActivityLimitHeroTypeProto {
       }
       private int bitField0_;
 
-      // required int32 rewardId = 1;
-      private int rewardId_ ;
+      // required string rewardId = 1;
+      private java.lang.Object rewardId_ = "";
       /**
-       * <code>required int32 rewardId = 1;</code>
+       * <code>required string rewardId = 1;</code>
        */
       public boolean hasRewardId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 rewardId = 1;</code>
+       * <code>required string rewardId = 1;</code>
        */
-      public int getRewardId() {
-        return rewardId_;
+      public java.lang.String getRewardId() {
+        java.lang.Object ref = rewardId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          rewardId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 rewardId = 1;</code>
+       * <code>required string rewardId = 1;</code>
        */
-      public Builder setRewardId(int value) {
-        bitField0_ |= 0x00000001;
+      public com.google.protobuf.ByteString
+          getRewardIdBytes() {
+        java.lang.Object ref = rewardId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rewardId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       */
+      public Builder setRewardId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         rewardId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 rewardId = 1;</code>
+       * <code>required string rewardId = 1;</code>
        */
       public Builder clearRewardId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        rewardId_ = 0;
+        rewardId_ = getDefaultInstance().getRewardId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       */
+      public Builder setRewardIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        rewardId_ = value;
         onChanged();
         return this;
       }
@@ -4030,7 +4105,7 @@ public final class ActivityLimitHeroTypeProto {
       "roType.GamebleReward\"L\n\nRankRecord\022\016\n\006nu",
       "mber\030\001 \002(\005\022\013\n\003uid\030\002 \002(\t\022\014\n\004name\030\003 \002(\t\022\023\n" +
       "\013getIntegral\030\004 \002(\005\"4\n\rGamebleReward\022\020\n\010r" +
-      "ewardId\030\001 \002(\005\022\021\n\trewardNum\030\002 \002(\005*9\n\013Requ" +
+      "ewardId\030\001 \002(\t\022\021\n\trewardNum\030\002 \002(\005*9\n\013Requ" +
       "estType\022\n\n\006GAMBLE\020\001\022\017\n\013GET_REWARDS\020\002\022\r\n\t" +
       "VIEW_RANK\020\003*!\n\nGambleType\022\n\n\006SINGLE\020\000\022\007\n" +
       "\003TEN\020\001B)\n\013com.rwprotoB\032ActivityLimitHero" +

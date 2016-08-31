@@ -197,8 +197,10 @@
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
 	
-	
-	
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
@@ -259,6 +261,7 @@
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
 	<bean class="com.rwbase.dao.battle.pojo.BattleCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.battleVerify.MonsterCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.store.WakenLotteryDrawCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO"  init-method="init" />
