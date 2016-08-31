@@ -90,6 +90,13 @@ public class DataSynVersionHolder {
 
 		synNotInVersion(player);
 	}
+	public void synByClientVersion(Player player, eSynType synTypeTmp,  int clientVerion) {
+		
+		PlayerDataMgr playerDataMgr = versionMap.get(synTypeTmp);
+		
+		playerDataMgr.syn(player, clientVerion);
+		
+	}
 
 	public void synAll(Player player) {
 
