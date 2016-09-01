@@ -41,6 +41,7 @@ import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
@@ -509,9 +510,18 @@ public class TeamBattleBM {
 			TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		}
 		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
-			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
-			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
-			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
+			ArmyInfo army = null;
+			if(!StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())){				
+				TeamMember memTmp = teamItem.findMember(teamInfoSimple.getUserID());
+				if(memTmp.isRobot()){
+					army = TeamMatchMgr.getInstance().getArmyInfo(memTmp.getRandomData());
+				}else{					
+					army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
+				}
+				if(army!=null){					
+					tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
+				}
+			}
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}

@@ -2,6 +2,7 @@ package com.playerdata.teambattle.manager;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.robot.RandomData;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.teambattle.cfg.TBBuyCostCfg;
@@ -62,13 +63,14 @@ public class UserTeamBattleDataMgr {
 	public void leaveTeam(String userID, String teamId){
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userID);
 		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())) {
+			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(teamId);
 			//判断是不是机器人离队
-			StaticMemberTeamInfo robotInfo = getRobotStaticTeamInfo(userID);
+			TeamMember teamMember = teamItem.findMember(userID);
+			StaticMemberTeamInfo robotInfo = getRobotStaticTeamInfo(teamMember);
 			if(null == robotInfo){
 				return;
 			}
 			//机器人离队
-			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(teamId);
 			leaveTeam(userID, teamItem);
 		}else{
 			//玩家离队
@@ -142,7 +144,14 @@ public class UserTeamBattleDataMgr {
 		return teamItem.isFull();
 	}
 	
-	public StaticMemberTeamInfo getRobotStaticTeamInfo(String robotId){
-		return new StaticMemberTeamInfo();
+	public StaticMemberTeamInfo getRobotStaticTeamInfo(TeamMember member){
+		
+		RandomData randomData = member.getRandomData();
+		TeamMatchData matchTeamArmy = TeamMatchMgr.getInstance().getMatchTeamArmy(randomData);
+		StaticMemberTeamInfo staticMemberTeamInfo = null;
+		if(matchTeamArmy!=null){
+			staticMemberTeamInfo = matchTeamArmy.toStaticMemberTeamInfo(); 
+		}
+		return staticMemberTeamInfo;
 	}
 }
