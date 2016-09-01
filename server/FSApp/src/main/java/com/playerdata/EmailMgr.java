@@ -104,6 +104,11 @@ public class EmailMgr implements PlayerEventListener {
 		}
 	}
 
+	/**
+	 * 
+	 * @param emailId
+	 * @param blnAuto 到期邮件则为自动删除，系统删除均blnAuto = false
+	 */
 	public void delEmail(String emailId, boolean blnAuto) {
 		EmailItem emailItem = getTableEmail().getEmailList().remove(emailId);
 		BILogMgr.getInstance().logEmail(userId, emailItem, blnAuto ? EmailLogTemplate.EamilOpType.EMAIL_DELETE :  EmailLogTemplate.EamilOpType.EMAIL_AUTO_DELETE);
