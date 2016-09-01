@@ -55,8 +55,8 @@ public class PlayerCreateTask implements Runnable {
 
 	@Override
 	public void run() {
-		if(!this.ctx.channel().isActive()){
-			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:"+UserChannelMgr.getCtxInfo(ctx));
+		if (!this.ctx.channel().isActive()) {
+			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:" + UserChannelMgr.getCtxInfo(ctx));
 			return;
 		}
 		long executeTime = System.currentTimeMillis();
@@ -66,7 +66,7 @@ public class PlayerCreateTask implements Runnable {
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
 		String userId = nettyControler.getGameLoginHandler().getUserId(accountId, zoneId);
-		FSTraceLogger.logger("run(" + (executeTime - submitTime)+", CREATE ," + seqID  + ")[" + accountId  +"]"+((userId == null)?"":userId));
+		FSTraceLogger.logger("run", executeTime - submitTime, "CREATE", seqID, userId, accountId);
 		GameWorld world = GameWorldFactory.getGameWorld();
 		if (userId != null) {
 			// author: lida 增加容错 如果已经创建角色则进入主城
@@ -106,7 +106,6 @@ public class PlayerCreateTask implements Runnable {
 			clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 		}
-		// modify@2015-08-07 by Jamaz
 		// 用serverId+identifier的方式生成userId
 		userId = newUserId();
 		createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
@@ -124,23 +123,15 @@ public class PlayerCreateTask implements Runnable {
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
 		PlayerParam param = new PlayerParam(accountId, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
-		
-		//临时做法
+
+		// 临时做法
 		DropRecord record = new DropRecord(userId);
 		DropRecordDAO.getInstance().update(record);
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneReg(player);
-		// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
-//		world.asynExecute(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				nettyControler.getGameLoginHandler().notifyPlatformPlayerLogin(zoneId, accountId, player);
-//			}
-//		});
-		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request,false));
-		FSTraceLogger.logger("login(" + (System.currentTimeMillis() - executeTime)+", CREATE ," + seqID  + ")[" + accountId  +"]");
+		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false));
+		FSTraceLogger.logger("login", System.currentTimeMillis() - executeTime, "CREATE", seqID, userId, accountId);
 	}
 
 	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {
