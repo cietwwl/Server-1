@@ -128,7 +128,18 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		return null;
 	}
 	
-	
+	public List<ActivityDailyDiscountTypeCfg> getCfgListByItemEmuid(String enumId){
+		List<ActivityDailyDiscountTypeCfg> cfgListByItem = new ArrayList<ActivityDailyDiscountTypeCfg>();
+		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();
+		for(ActivityDailyDiscountTypeCfg cfg : cfglist){
+			if(StringUtils.equals(enumId, cfg.getEnumId())){
+				cfgListByItem.add(cfg);
+			}			
+		}
+		
+		return cfgListByItem;
+		
+	}
 	
 	
 	

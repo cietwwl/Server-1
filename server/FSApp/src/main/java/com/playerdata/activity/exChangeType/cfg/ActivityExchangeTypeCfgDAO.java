@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -78,7 +79,16 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		return null;
 	}
 	
-	
+	public List<ActivityExchangeTypeCfg> getCfgListByEnumId(String enumId){
+		List<ActivityExchangeTypeCfg> cfgList = new ArrayList<ActivityExchangeTypeCfg>();
+		List<ActivityExchangeTypeCfg> allCfg = getAllCfg();
+		for(ActivityExchangeTypeCfg cfg : allCfg){
+			if(StringUtils.equals(cfg.getEnumId(), enumId)){
+				cfgList.add(cfg);
+			}			
+		}
+		return cfgList;		
+	}
 	
 	
 	

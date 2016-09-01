@@ -31,7 +31,8 @@ import com.rwproto.ResponseProtos.ResponseHeader;
  */
 public abstract class ClientMsgHandler {
 
-	private LinkedBlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(1);
+	private LinkedBlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(
+			1);
 
 	private MsgReciver msgReciver;
 
@@ -44,7 +45,8 @@ public abstract class ClientMsgHandler {
 	public ClientMsgHandler() {
 		this.id = generator.incrementAndGet();
 		this.name = "机器人[" + id + "]";
-		RobotLog.testInfo("创建机器人：" + name + getClient().getAccountId() + "," + getClient());
+		RobotLog.testInfo("创建机器人：" + name + getClient().getAccountId() + ","
+				+ getClient());
 	}
 
 	public String getName() {
@@ -68,14 +70,16 @@ public abstract class ClientMsgHandler {
 		lastExecuteTime = current;
 		long cost = current - start;
 		// if (cost > 1000) {
-		RobotLog.testInfo(getName() + " 处理耗时=" + cost + "cmd=," + msgReciver.getCmd() + ",seqId=" + seqId + "," + getClient());
+		RobotLog.testInfo(getName() + " 处理耗时=" + cost + "cmd=,"
+				+ msgReciver.getCmd() + ",seqId=" + seqId + "," + getClient());
 		// }
 		return resp;
 
 	}
 
 	public void setResp(Response resp) {
-		if (msgReciver != null && msgReciver.getCmd() == resp.getHeader().getCommand()) {
+		if (msgReciver != null
+				&& msgReciver.getCmd() == resp.getHeader().getCommand()) {
 
 			if (resultQueue.isEmpty()) {
 				resultQueue.add(resp);
@@ -84,13 +88,23 @@ public abstract class ClientMsgHandler {
 	}
 
 	public void dataSyn(Response resp) {
-		if (Command.MSG_DATA_SYN == resp.getHeader().getCommand()) {
-			try {
-				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
+
+		ByteString synData = resp.getHeader().getSynData();
+		MsgDataSynList datasynList = null;
+		try {
+
+			if (Command.MSG_DATA_SYN == resp.getHeader().getCommand()) {
+				datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
+			} else if (synData != null) {
+				datasynList = MsgDataSynList.parseFrom(synData);
+			}
+			
+			if (datasynList != null) {
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
-//					RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= " + synType.getNumber() + " i =" + i);
-//					i++;
+					// RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= "
+					// + synType.getNumber() + " i =" + i);
+					// i++;
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -112,7 +126,8 @@ public abstract class ClientMsgHandler {
 						getClient().getNormalMemberHolder().syn(msgDataSyn);
 						break;
 					case GroupResearchSkill:
-						getClient().getResearchSkillDataHolder().syn(msgDataSyn);
+						getClient().getResearchSkillDataHolder()
+								.syn(msgDataSyn);
 						break;
 					case GroupLog:
 						getClient().getLogHolder().syn(msgDataSyn);
@@ -127,28 +142,34 @@ public abstract class ClientMsgHandler {
 						getClient().getActivityCountHolder().syn(msgDataSyn);
 						break;
 					case ActivityDailyType:
-						getClient().getActivityDailyCountHolder().syn(msgDataSyn);
+						getClient().getActivityDailyCountHolder().syn(
+								msgDataSyn);
 						break;
 					case FRESHER_ATIVITY_DATA:
 						getClient().getFresherActivityHolder().syn(msgDataSyn);
 						break;
 					case SECRETAREA_BASE_INFO:
-						getClient().getGroupSecretBaseInfoSynDataHolder().syn(msgDataSyn);
+						getClient().getGroupSecretBaseInfoSynDataHolder().syn(
+								msgDataSyn);
 						break;
 					case SECRETAREA_TEAM_INFO:
-						getClient().getGroupSecretTeamDataHolder().syn(msgDataSyn);
+						getClient().getGroupSecretTeamDataHolder().syn(
+								msgDataSyn);
 						break;
 					case SECRETAREA_USER_INFO:
-						getClient().getGroupSecretUserInfoSynDataHolder().syn(msgDataSyn);
+						getClient().getGroupSecretUserInfoSynDataHolder().syn(
+								msgDataSyn);
 						break;
 					case USER_HEROS:
 						getClient().getUserHerosDataHolder().syn(msgDataSyn);
 						break;
 					case FIX_NORM_EQUIP:
-						getClient().getFixNormEquipDataItemHolder().syn(msgDataSyn);
+						getClient().getFixNormEquipDataItemHolder().syn(
+								msgDataSyn);
 						break;
 					case FIX_EXP_EQUIP:
-						getClient().getFixExpEquipDataItemHolder().syn(msgDataSyn);
+						getClient().getFixExpEquipDataItemHolder().syn(
+								msgDataSyn);
 						break;
 					case MagicSecretData:
 						getClient().getMagicSecretHolder().syn(msgDataSyn);
@@ -169,18 +190,21 @@ public abstract class ClientMsgHandler {
 						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
 						break;
 					case GFightOnlineResourceData:
-						getClient().getGFightOnlineResourceHolder().syn(msgDataSyn);
+						getClient().getGFightOnlineResourceHolder().syn(
+								msgDataSyn);
 						break;
 					case GFightOnlineGroupData:
-						getClient().getGFightOnlineGroupHolder().syn(msgDataSyn);
+						getClient().getGFightOnlineGroupHolder()
+								.syn(msgDataSyn);
 						break;
 					case TEAM_BATTLE_TEAM:
 						getClient().getTBTeamItemHolder().syn(msgDataSyn);
 						break;
 					case USER_TEAM_BATTLE:
-						getClient().getUserTeamBattleDataHolder().syn(msgDataSyn);
+						getClient().getUserTeamBattleDataHolder().syn(
+								msgDataSyn);
 						break;
-			//--------------------------帮派副本数据-------------------------------//			
+					// --------------------------帮派副本数据-------------------------------//
 					case GROUP_COPY_LEVEL:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
@@ -199,21 +223,26 @@ public abstract class ClientMsgHandler {
 					default:
 					}
 				}
-			} catch (Throwable e) {
-				e.printStackTrace();
-				RobotLog.fail("!!!!!!!!!!!!!!!!!!!!!------------------------------------------------", e);
-				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
+		} catch (Throwable e) {
+			e.printStackTrace();
+			RobotLog.fail(
+					"!!!!!!!!!!!!!!!!!!!!!------------------------------------------------",
+					e);
+			throw (new RuntimeException(
+					"ClientMsgHandler[dataSyn] parse error", e));
 		}
 	}
 
 	public void receiveRsp(Response resp) {
 		if (Command.MSG_CHAT == resp.getHeader().getCommand()) {
 			try {
-				MsgChatResponse rsp = MsgChatResponse.parseFrom(resp.getSerializedContent());
+				MsgChatResponse rsp = MsgChatResponse.parseFrom(resp
+						.getSerializedContent());
 			} catch (InvalidProtocolBufferException e) {
 				e.printStackTrace();
-				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
+				throw (new RuntimeException(
+						"ClientMsgHandler[dataSyn] parse error", e));
 			}
 		}
 	}
@@ -229,7 +258,8 @@ public abstract class ClientMsgHandler {
 	 * @param token
 	 * @param bytes
 	 */
-	public boolean sendMsg(final Command command, ByteString bytes, MsgReciver msgReciverP) {
+	public boolean sendMsg(final Command command, ByteString bytes,
+			MsgReciver msgReciverP) {
 		msgReciver = msgReciverP;
 
 		boolean success = false;
@@ -255,33 +285,47 @@ public abstract class ClientMsgHandler {
 		request.setBody(body);
 		final long sendTime = System.currentTimeMillis();
 		try {
-			final Channel channel = ChannelServer.getInstance().getChannel(client);
+			final Channel channel = ChannelServer.getInstance().getChannel(
+					client);
 			if (channel == null) {
-				RobotLog.testException("channel is null:" + client.getAccountId(), new NullPointerException());
+				RobotLog.testException(
+						"channel is null:" + client.getAccountId(),
+						new NullPointerException());
 				return false;
 			}
 			client.setCommandInfo(new CommandInfo(command, seqId));
-			// StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+			// StackTraceElement[] trace =
+			// Thread.currentThread().getStackTrace();
 			// StringBuilder sb = new StringBuilder();
-			// sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
+			// sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" +
+			// command + ",seqId=" + seqId).append("\n");
 			// for (int i = 0; i < trace.length; i++) {
 			// sb.append("      ").append(trace[i].toString()).append("\r\n");
 			// }
 			// RobotLog.testInfo(sb.toString());
-			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
+			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId()
+					+ ",command=" + command + ",seqId=" + seqId);
 
 			ChannelFuture f = channel.writeAndFlush(request);
 			f.addListener(new GenericFutureListener<ChannelFuture>() {
-				public void operationComplete(ChannelFuture future) throws Exception {
+				public void operationComplete(ChannelFuture future)
+						throws Exception {
 					if (!future.isSuccess()) {
-						RobotLog.testError("send msg fail:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",active=" + channel.isActive() + ",write=" + channel.isWritable()
-								+ ",open=" + channel.isOpen());
+						RobotLog.testError("send msg fail:"
+								+ client.getAccountId() + ",command=" + command
+								+ ",seqId=" + seqId + ",active="
+								+ channel.isActive() + ",write="
+								+ channel.isWritable() + ",open="
+								+ channel.isOpen());
 					} else {
 						long cost = System.currentTimeMillis() - sendTime;
 						if (cost > 1000) {
-							RobotLog.testError("send cost:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",cost=" + cost);
+							RobotLog.testError("send cost:"
+									+ client.getAccountId() + ",command="
+									+ command + ",seqId=" + seqId + ",cost="
+									+ cost);
 						}
-					} 
+					}
 				}
 			});
 			Thread.sleep(300);
@@ -297,8 +341,13 @@ public abstract class ClientMsgHandler {
 			}
 		} catch (Exception e) {
 			long cost = System.currentTimeMillis() - sendTime;
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId+",cost="+cost, e);
-			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:"
+					+ client.getAccountId() + ",command=" + command + ",seqId="
+					+ seqId + ",cost=" + cost, e);
+			RobotLog.testException(
+					"ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:"
+							+ client.getAccountId() + ",command=" + command
+							+ ",seqId=" + seqId, e);
 			success = false;
 		}
 		return success;
@@ -309,13 +358,16 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:"
+					+ msgReciverP.getCmd() + "account :"
+					+ client.getAccountId());
 			success = false;
 		} else {
 
 			ResponseHeader headerTmp = rsp.getHeader();
 			if (headerTmp == null) {
-				RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
+				RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:"
+						+ client.getAccountId());
 				success = false;
 			} else {
 				Command commandTmp = headerTmp.getCommand();

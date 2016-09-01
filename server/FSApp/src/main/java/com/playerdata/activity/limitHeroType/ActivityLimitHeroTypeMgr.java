@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,7 +38,6 @@ import com.playerdata.activity.limitHeroType.gamble.TenGamble;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
-import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.role.MainMsgHandler;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityLimitHeroTypeProto.ActivityCommonRspMsg.Builder;
@@ -247,17 +244,6 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 
 	
 
-//	public ActivityComResult gamble(Player player, ActivityCommonReqMsg commonReq, Builder response) {
-//		ActivityComResult result = ActivityComResult.newInstance(false);
-//		result.setReason("");
-//		if(commonReq.getGambleType() == GambleType.SINGLE){
-//			result = gambleSingle(player,response);
-//		}
-//		if(commonReq.getGambleType() == GambleType.TEN){
-//			result =  gambleTen(player,response);
-//		}		
-//		return result;
-//	}
 	
 	public ActivityComResult gamble(Player player,ActivityCommonReqMsg commonReq,Builder response){
 		ActivityComResult result = ActivityComResult.newInstance(false);
@@ -290,7 +276,6 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		int type = getType(dataItem,planCfg,commonReq,isFree,guatanteeTimes);
 		Gamble handler = ActivityLimitGambleMap.get(type);
 		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes);
-		System.out.println("map~~~~~~~~~~~~~~~ = " + map);
 		dataHolder.updateItem(player, dataItem);
 		doDropList(player,response,map);		
 		result.setSuccess(true);

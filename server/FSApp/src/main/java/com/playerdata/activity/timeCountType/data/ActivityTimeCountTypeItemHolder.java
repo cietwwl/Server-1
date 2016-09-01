@@ -38,7 +38,10 @@ public class ActivityTimeCountTypeItemHolder{
 		List<ActivityTimeCountTypeItem> itemList = new ArrayList<ActivityTimeCountTypeItem>();
 		Enumeration<ActivityTimeCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();			
+			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();		
+			if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+				continue;
+			}
 			itemList.add(item);
 		}		
 		return itemList;
@@ -46,7 +49,6 @@ public class ActivityTimeCountTypeItemHolder{
 	
 	public void updateItem(Player player, ActivityTimeCountTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
-
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
@@ -55,13 +57,12 @@ public class ActivityTimeCountTypeItemHolder{
 		return getItemStore(userId).getItem(itemId);
 	}
 	
-
-	
 	public boolean addItemList(Player player, List<ActivityTimeCountTypeItem> itemList){
 		try {
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
+				List<ActivityTimeCountTypeItem> itemListTmp = getItemList(player.getUserId());									
+				ClientDataSynMgr.updateDataList(player, itemListTmp, synType, eSynOpType.UPDATE_LIST);
 			}
 			return addSuccess;
 		} catch (DuplicatedKeyException e) {
@@ -73,15 +74,7 @@ public class ActivityTimeCountTypeItemHolder{
 	
 //	
 	public void synAllData(Player player){
-		List<ActivityTimeCountTypeItem> itemList = getItemList(player.getUserId());			
-		Iterator<ActivityTimeCountTypeItem> it = itemList.iterator();
-		while(it.hasNext()){
-			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem)it.next();
-			if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-//				removeItem(player, item);
-				it.remove();
-			}
-		}	
+		List<ActivityTimeCountTypeItem> itemList = getItemList(player.getUserId());	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
