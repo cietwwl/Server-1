@@ -71,8 +71,10 @@ public class GCompUserQuizItemHolder {
 				eventList.add(quizEventItem);
 			}
 		}
-		ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
-		ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
+		if(!itemList.isEmpty()){
+			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
 	/**
@@ -81,7 +83,7 @@ public class GCompUserQuizItemHolder {
 	 */
 	public void synCanQuizItem(Player player){
 		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
-		if(itemList != null) {
+		if(itemList != null && !itemList.isEmpty()) {
 			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
 		}
 	}
