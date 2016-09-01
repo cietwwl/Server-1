@@ -17,6 +17,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.netty.UserSession;
 import com.rw.service.FsService;
+import com.rw.service.common.FunctionOpenLogic;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.dao.guide.GuideProgressDAO;
@@ -90,9 +91,17 @@ public class GameLogicTask implements PlayerTask {
 				FsService serivice = nettyControler.getSerivice(command);
 				GeneratedMessage msg = serivice.parseMsg(request);
 				registerBehavior(player, serivice, command, msg, header.getEntranceId());
-				resultContent = serivice.doTask(msg, player);
-				player.getAssistantMgr().doCheck();
-				FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
+				ProtocolMessageEnum msgType = serivice.getMsgType(msg);
+				
+				if (FunctionOpenLogic.getInstance().isOpen(msgType,request, player)){
+					resultContent = serivice.doTask(msg, player);
+					player.getAssistantMgr().doCheck();
+					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
+				}else{
+					nettyControler.functionNotOpen(userId,request.getHeader());
+					return;
+				}
+
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
