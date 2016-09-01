@@ -49,7 +49,7 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 		//处理领取最终奖励
 		FresherActivityItem fresherActivityItem = holder.getFresherActivityItemsById(cfgId);
 		String currentValue = fresherActivityItem.getCurrentValue();
-		int currentAcheiveFinalRewardId = StringUtils.isEmpty(currentValue) ? 0 : Integer.parseInt(currentValue);
+		int currentAcheiveFinalRewardId = StringUtils.isEmpty(currentValue) ? -1 : Integer.parseInt(currentValue);
 		
 		
 		List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
@@ -63,6 +63,9 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 					break;
 				}
 			}
+		}
+		if(StringUtils.isEmpty(reward)){
+			return "您的进度不足以领取奖励哦。";
 		}
 		fresherActivityItem.setCurrentValue(String.valueOf(currentAcheiveFinalRewardId));
 		holder.achieveFresherActivityReward(player, fresherActivityItem);
