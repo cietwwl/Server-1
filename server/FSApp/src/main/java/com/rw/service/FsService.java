@@ -5,14 +5,13 @@ import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.playerdata.Player;
-import com.rwbase.dao.user.UserGameData;
 import com.rwproto.RequestProtos.Request;
 
 
 public interface FsService <Msg extends GeneratedMessage, Type extends ProtocolMessageEnum>{
 	
 	/**
-	 * 消息分发 逻辑处理
+	 * 消息分发 
 	 * @param request
 	 * @param player
 	 * @return
@@ -20,7 +19,7 @@ public interface FsService <Msg extends GeneratedMessage, Type extends ProtocolM
 	public ByteString doTask(Msg request, Player player);
 	
 	/**
-	 * 消息解析统一入口
+	 * 消息解析
 	 * @param request 返回消息请求
 	 * @return
 	 * @throws InvalidProtocolBufferException
@@ -28,7 +27,7 @@ public interface FsService <Msg extends GeneratedMessage, Type extends ProtocolM
 	public Msg parseMsg(Request request) throws InvalidProtocolBufferException;
 	
 	/**
-	 * 返回消息处理类型
+	 * 消息处理类型
 	 * @param request
 	 * @return
 	 */

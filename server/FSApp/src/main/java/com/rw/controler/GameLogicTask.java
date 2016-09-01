@@ -32,6 +32,7 @@ import com.rwproto.PlotViewProtos.PlotProgress;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;
 import com.rwproto.ResponseProtos.Response;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
 public class GameLogicTask implements PlayerTask {
 
@@ -87,8 +88,16 @@ public class GameLogicTask implements PlayerTask {
 			try {
 				// 收集逻辑产生的数据变化
 				UserChannelMgr.onBSBegin(userId);
-				FsService serivice = nettyControler.getSerivice(command);
+				FsService<GeneratedMessage, ProtocolMessageEnum> serivice = nettyControler.getSerivice(command);
+				if (serivice == null) {
+					proceeMsgRequestException(player, userId, "command获取不到对应的service. command:" + command, command, executeTime, seqID);
+					return;
+				}
 				GeneratedMessage msg = serivice.parseMsg(request);
+				if (msg == null) {
+					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command, executeTime, seqID);
+					return;
+				}
 				registerBehavior(player, serivice, command, msg, header.getEntranceId());
 				resultContent = serivice.doTask(msg, player);
 				player.getAssistantMgr().doCheck();
@@ -109,6 +118,12 @@ public class GameLogicTask implements PlayerTask {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
 		}
 		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
+	}
+	
+	private void proceeMsgRequestException(Player player, String userId, String msg, Command command, long executeTime, int seqID){
+		GameLog.error("GameLogicTask", "run business service exception:", msg);
+		nettyControler.sendErrorResponse(userId, request.getHeader(), 503);
+		FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
