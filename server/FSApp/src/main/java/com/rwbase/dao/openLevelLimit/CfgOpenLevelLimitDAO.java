@@ -8,11 +8,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.common.RefParam;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 import com.rwproto.MsgDef.Command;
 
@@ -87,8 +90,15 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				ChineseStringHelper helper = ChineseStringHelper.getInstance();
 				int checkPointID = cfg.getCheckPointID();
 				if (checkPointID > 0){
-					String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关%s开启");
-					outTip.value = String.format(tipTemplate, level,checkPointID);
+					CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
+					if (copyCfg != null){
+						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关%s开启");
+						outTip.value = String.format(tipTemplate, level,copyCfg.getName());
+					}else{
+						GameLog.error("功能开发", "", "配置错误：openLevelLimit配置了不存在的关卡ID:"+checkPointID);
+						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
+						outTip.value = String.format(tipTemplate, level);
+					}
 				}else{
 					String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
 					outTip.value = String.format(tipTemplate, level);

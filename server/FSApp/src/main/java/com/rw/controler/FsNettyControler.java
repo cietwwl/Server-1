@@ -258,6 +258,6 @@ public class FsNettyControler {
 	}
 
 	public void functionNotOpen(String userId, RequestHeader header) {
-		sendErrorResponse(userId, header, 500);
+		sendErrorResponse(userId, header, 403);
 	}
 }
