@@ -15,6 +15,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.item.useeffect.impl.UseItemDataComparator;
 import com.rw.service.item.useeffect.impl.UseItemTempData;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -112,6 +113,7 @@ public class HeroHandler {
 			role.setStarLevel(nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
+			GFOnlineListenerPlayerChange.heroChangeHandler(player);
 			break;
 		case -1:
 			rsp.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
@@ -248,6 +250,7 @@ public class HeroHandler {
 			return msgHeroResponse.build().toByteString();
 		}
 
+		int beforeAddLevel = curLevel;
 		boolean isFull = false;
 		int addExp = useCount * perExpItemAdd;
 		while (addExp >= (levelExp - curExp)) {
@@ -270,6 +273,8 @@ public class HeroHandler {
 			curExp = 0;
 			levelExp = levelCfg.getHeroUpgradeExp();
 		}
+		
+		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 
 		if (!isFull) {
 			curExp += addExp;
@@ -382,6 +387,7 @@ public class HeroHandler {
 		Map<String, Integer> usedMap = new HashMap<String, Integer>();// 已经使用的道具
 		int totalCount = 0;
 		// int totalExp = 0;
+		int beforeAddLevel = curLevel;
 		while (curLevel < player.getLevel()) {
 
 			if (curExp >= levelExp) {
@@ -453,6 +459,9 @@ public class HeroHandler {
 			}
 
 		}
+		
+		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
+		
 		if(curExp > levelExp){
 			curExp = levelExp;
 		}
@@ -502,5 +511,13 @@ public class HeroHandler {
 
 		Collections.sort(retList, UseItemDataComparator.getInstance());
 		return retList;
+	}
+	
+	/**
+	 * 英雄升级事件
+	 * @param player
+	 */
+	private void heroLevelUpEnent(Player player){
+		GFOnlineListenerPlayerChange.heroChangeHandler(player);
 	}
 }
