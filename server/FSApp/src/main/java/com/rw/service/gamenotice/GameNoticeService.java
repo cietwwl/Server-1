@@ -1,6 +1,7 @@
 package com.rw.service.gamenotice;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.service.FsService;
@@ -14,18 +15,17 @@ import com.rwproto.RequestProtos.Request;
  *
  */
 @SuppressWarnings("finally")
-public class GameNoticeService implements FsService{
+public class GameNoticeService implements FsService<NoticeRequest, ENoticeType>{
 
-	
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(NoticeRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString byteString = null;
 		try {
-			NoticeRequest noticeRequest = NoticeRequest.parseFrom(request.getBody().getSerializedContent());
-			 ENoticeType type = noticeRequest.getType();
+			 ENoticeType type = request.getType();
 			switch (type) {
 			case GameNotice:
-				byteString = GameNoticeHandler.getInstance().requestGameNotice(noticeRequest, player);
+				byteString = GameNoticeHandler.getInstance().requestGameNotice(request, player);
 				break;
 			default:
 				GameLog.error("通告模块", "分发协议Service", "接收到了一个Unknown的消息，无法处理");
@@ -36,6 +36,19 @@ public class GameNoticeService implements FsService{
 		} finally {
 			return byteString;
 		}
+	}
+
+	@Override
+	public NoticeRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		NoticeRequest noticeRequest = NoticeRequest.parseFrom(request.getBody().getSerializedContent());
+		return noticeRequest;
+	}
+
+	@Override
+	public ENoticeType getMsgType(NoticeRequest request) {
+		// TODO Auto-generated method stub
+		return request.getType();
 	}
 	
 }

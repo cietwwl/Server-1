@@ -39,7 +39,10 @@ public class ActivityDailyDiscountTypeItemHolder{
 		List<ActivityDailyDiscountTypeItem> itemList = new ArrayList<ActivityDailyDiscountTypeItem>();
 		Enumeration<ActivityDailyDiscountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();			
+			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();		
+			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgListByItemEmuid(item.getEnumId()).isEmpty()){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -55,15 +58,6 @@ public class ActivityDailyDiscountTypeItemHolder{
 		String itemId=ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityDailyDiscountTypeItem item){
 	
@@ -98,14 +92,13 @@ public class ActivityDailyDiscountTypeItemHolder{
 //	
 	public void synAllData(Player player){
 		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());		
-		Iterator<ActivityDailyDiscountTypeItem> it = itemList.iterator();
-		while(it.hasNext()){
-			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem)it.next();
-			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-//				removeItem(player, item);
-				it.remove();
-			}
-		}
+//		Iterator<ActivityDailyDiscountTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem)it.next();
+//			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				it.remove();
+//			}
+//		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

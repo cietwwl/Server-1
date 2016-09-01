@@ -8,7 +8,9 @@ import java.util.Map;
 import com.bm.login.AccoutBM;
 import com.common.GameUtil;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.rw.fsutil.dao.cache.SimpleCache;
@@ -33,7 +35,7 @@ public class FsNettyControler {
 	private GameLoginHandler gameLoginHandler = new GameLoginHandler();
 	// 容量需要做成配置
 	private SimpleCache<String, PlayerMsgCache> msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
-	private Map<Command, FsService> commandMap;
+	private Map<Command, FsService<GeneratedMessage, ProtocolMessageEnum>> commandMap;
 
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
 		long current = System.currentTimeMillis();
@@ -212,11 +214,11 @@ public class FsNettyControler {
 		return headerBuilder.build();
 	}
 
-	public FsService getSerivice(Command command) {
+	public FsService<GeneratedMessage, ProtocolMessageEnum> getSerivice(Command command) {
 		return commandMap.get(command);
 	}
 
-	public void setCommandMap(Map<Command, FsService> commandMap) {
+	public void setCommandMap(Map<Command, FsService<GeneratedMessage, ProtocolMessageEnum>> commandMap) {
 		this.commandMap = commandMap;
 	}
 

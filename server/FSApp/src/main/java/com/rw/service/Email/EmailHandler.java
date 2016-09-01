@@ -80,7 +80,7 @@ public class EmailHandler {
 			item.setChecked(true);
 			player.getEmailMgr().checkUnread();
 			if (item.getDeleteType() == EEmailDeleteType.GET_DELETE.getValue()) {
-				player.getEmailMgr().delEmail(item.getEmailId());
+				player.getEmailMgr().delEmail(item.getEmailId(), false);
 				pushEmailList(player);
 			}
 		} else {
@@ -119,7 +119,7 @@ public class EmailHandler {
 				item.setChecked(true);
 				player.getEmailMgr().checkUnread();
 				if (item.getDeleteType() == EEmailDeleteType.GET_DELETE.getValue()) {
-					player.getEmailMgr().delEmail(item.getEmailId());
+					player.getEmailMgr().delEmail(item.getEmailId(), false);
 				}
 				isPushEmail = true;
 				// 记录奖励

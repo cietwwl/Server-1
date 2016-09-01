@@ -1,6 +1,7 @@
 package com.playerdata.groupFightOnline.service;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -11,72 +12,72 @@ import com.rwproto.GrouFightOnlineProto.GFRequestType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.RequestProtos.Request;
 
-public class GFightOnlineService implements FsService {
+public class GFightOnlineService implements FsService<GroupFightOnlineReqMsg, GFRequestType> {
 	
 	private GFightOnlineHandler gfHandler = GFightOnlineHandler.getInstance();
 
 	@SuppressWarnings("finally")
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(GroupFightOnlineReqMsg request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			GroupFightOnlineReqMsg msgGFRequest = GroupFightOnlineReqMsg.parseFrom(request.getBody().getSerializedContent());
-			GFRequestType gfType = msgGFRequest.getReqType();
+			GFRequestType gfType = request.getReqType();
 			
-			int resourceID = msgGFRequest.getResourceID();
+			int resourceID = request.getResourceID();
 			
-			String clientDataVersion = msgGFRequest.getClientVersion();
+			String clientDataVersion = request.getClientVersion();
 			switch (gfType) {
 			case GET_RESOURCE_INFO:
-				result = gfHandler.getResourceInfo(player, msgGFRequest);
+				result = gfHandler.getResourceInfo(player, request);
 				break;
 			case GROUP_BIDDING:
-				result = gfHandler.groupBidding(player, msgGFRequest);
+				result = gfHandler.groupBidding(player, request);
 				break;
 			case PERSONAL_BIDDING:
-				result = gfHandler.personalBidding(player, msgGFRequest);
+				result = gfHandler.personalBidding(player, request);
 				break;
 			case MODIFY_SELF_DEFENDER:
-				result = gfHandler.modifySelfDefender(player, msgGFRequest);
+				result = gfHandler.modifySelfDefender(player, request);
 				break;
 			case GET_ENIMY_DEFENDER:
-				result = gfHandler.getEnimyDefender(player, msgGFRequest);
+				result = gfHandler.getEnimyDefender(player, request);
 				break;
 			case CHANGE_ENIMY_DEFENDER:
-				result = gfHandler.changeEnimyDefender(player, msgGFRequest);
+				result = gfHandler.changeEnimyDefender(player, request);
 				break;
 			case START_FIGHT:
-				result = gfHandler.startFight(player, msgGFRequest);
+				result = gfHandler.startFight(player, request);
 				break;
 			case INFORM_FIGHT_RESULT:
-				result = gfHandler.informFightResult(player, msgGFRequest);
+				result = gfHandler.informFightResult(player, request);
 				break;
 			case GET_GROUP_BID_RANK:
-				result = gfHandler.getGroupBidRank(player, msgGFRequest);
+				result = gfHandler.getGroupBidRank(player, request);
 				break;
 			case GET_KILL_RANK:
-				result = gfHandler.getKillRank(player, msgGFRequest);
+				result = gfHandler.getKillRank(player, request);
 				break;
 			case GET_HURT_RANK:
-				result = gfHandler.getHurtRank(player, msgGFRequest);
+				result = gfHandler.getHurtRank(player, request);
 				break;
 			case GET_ALL_RANK_IN_GROUP:
-				result = gfHandler.getAllRankInGroup(player, msgGFRequest);
+				result = gfHandler.getAllRankInGroup(player, request);
 				break;
 			case GET_DEFENDER_TEAMS:
-				result = gfHandler.getDefenderTeams(player, msgGFRequest);
+				result = gfHandler.getDefenderTeams(player, request);
 				break;
 			case VIEW_DEFENDER_TEAM:
-				result = gfHandler.viewDefenderTeam(player, msgGFRequest);
+				result = gfHandler.viewDefenderTeam(player, request);
 				break;
 			case GET_FIGHT_RECORD:
-				result = gfHandler.getFightRecord(player, msgGFRequest);
+				result = gfHandler.getFightRecord(player, request);
 				break;
 			case GET_FIGHT_OVER_REWARD:
-				result = gfHandler.getFightOverReward(player, msgGFRequest);
+				result = gfHandler.getFightOverReward(player, request);
 				break;
 			case SYN_GROUP_DATA:
-				result = gfHandler.synGroupData(player, msgGFRequest);
+				result = gfHandler.synGroupData(player, request);
 				break;
 			default:
 				GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
@@ -85,12 +86,23 @@ public class GFightOnlineService implements FsService {
 			
 			GFightDataVersionMgr.synByVersion(player, resourceID, clientDataVersion);
 			
-		} catch (InvalidProtocolBufferException e) {
-			GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "出现了InvalidProtocolBufferException异常", e);
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "出现了Exception异常", e);
 		} finally {
 			return result;
 		}
+	}
+
+	@Override
+	public GroupFightOnlineReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		GroupFightOnlineReqMsg msgGFRequest = GroupFightOnlineReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return msgGFRequest;
+	}
+
+	@Override
+	public GFRequestType getMsgType(GroupFightOnlineReqMsg request) {
+		// TODO Auto-generated method stub
+		return request.getReqType();
 	}
 }
