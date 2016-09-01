@@ -7,8 +7,10 @@ import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.trace.listener.ItemDataListener;
+import com.rw.trace.listener.MajorDataListener;
 import com.rw.trace.listener.UserGameDataListener;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.user.UserGameData;
 
 /**
@@ -27,8 +29,9 @@ import com.rwbase.dao.user.UserGameData;
  */
 public enum DataChangeListenRegister {
 
-//	ITEM_DATA(ItemData.class, ItemDataListener.class), 
-//	USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
+	ITEM_DATA(ItemData.class, ItemDataListener.class), 
+	USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
+	MAJOR_DATA(MajorData.class, MajorDataListener.class),
 
 	;
 	private DataChangeListenRegister(Class<?> traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {

@@ -8,39 +8,52 @@ import com.rwproto.PlayerSettingProtos.MsgSettingRequest;
 import com.rwproto.PlayerSettingProtos.eSettingRequestType;
 import com.rwproto.RequestProtos.Request;
 
-public class SettingService implements FsService
+public class SettingService implements FsService<MsgSettingRequest, eSettingRequestType>
 {
 	private SettingHandler handler = SettingHandler.getInstance();
-	public ByteString doTask(Request request, Player player) {
+	
+	@Override
+	public ByteString doTask(MsgSettingRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			MsgSettingRequest settingRequest = MsgSettingRequest.parseFrom(request.getBody().getSerializedContent());
-			eSettingRequestType settingServiceType = settingRequest.getRequestType();
-			switch (settingServiceType) 
-			{
+			eSettingRequestType settingServiceType = request.getRequestType();
+			switch (settingServiceType) {
 			case RENAME:
-				result = handler.rename(settingRequest, player);
+				result = handler.rename(request, player);
 				break;
 			case EXCHANGE_CODE:
-				result = handler.exchangeCode(settingRequest, player);
+				result = handler.exchangeCode(request, player);
 				break;
 			case CHANGE_HEAD:
-				result = handler.changeHead(settingRequest, player);
+				result = handler.changeHead(request, player);
 				break;
 			case CHANGE_HEADBOX:
-				result = handler.changeHeadBox(settingRequest, player);
+				result = handler.changeHeadBox(request, player);
 				break;
 			case GET_DATA:
-				result = handler.getSettingInfo(settingRequest, player);
+				result = handler.getSettingInfo(request, player);
 				break;
 			default:
 				break;
 			}
-			
-		} catch (InvalidProtocolBufferException e) {
-						e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	@Override
+	public MsgSettingRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgSettingRequest settingRequest = MsgSettingRequest.parseFrom(request.getBody().getSerializedContent());
+		return settingRequest;
+	}
+	@Override
+	public eSettingRequestType getMsgType(MsgSettingRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 
 }

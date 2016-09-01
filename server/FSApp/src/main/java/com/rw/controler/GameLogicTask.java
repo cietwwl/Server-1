@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.bm.login.ZoneBM;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -14,7 +16,8 @@ import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.netty.UserSession;
-import com.rw.service.common.FunctionOpenLogic;
+import com.rw.service.FsService;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
@@ -84,15 +87,12 @@ public class GameLogicTask implements PlayerTask {
 			try {
 				// 收集逻辑产生的数据变化
 				UserChannelMgr.onBSBegin(userId);
-				
-				if (FunctionOpenLogic.getInstance().isOpen(request, player)){
-					resultContent = nettyControler.getSerivice(command).doTask(request, player);
-					player.getAssistantMgr().doCheck();
-					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
-				}else{
-					nettyControler.functionNotOpen(userId,request.getHeader());
-					return;
-				}
+				FsService serivice = nettyControler.getSerivice(command);
+				GeneratedMessage msg = serivice.parseMsg(request);
+				registerBehavior(player, serivice, command, msg, header.getEntranceId());
+				resultContent = serivice.doTask(msg, player);
+				player.getAssistantMgr().doCheck();
+				FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
@@ -109,6 +109,14 @@ public class GameLogicTask implements PlayerTask {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
 		}
 		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void registerBehavior(Player player, FsService serivice, Command command, GeneratedMessage msg, int viewId) {
+		
+		ProtocolMessageEnum msgType = serivice.getMsgType(msg);
+		String value = String.valueOf(msgType.getNumber());
+		GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
 	}
 
 	private void handleGuildance(RequestHeader header, String userId) {

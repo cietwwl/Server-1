@@ -11,36 +11,41 @@ import com.rwproto.OtherRoleAttrProtos.OtherRoleAttrRequest;
 import com.rwproto.RequestProtos.Request;
 
 
-public class OtherRoleAttrService implements FsService {	
+public class OtherRoleAttrService implements FsService<OtherRoleAttrRequest, EMsgType> {	
+
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(OtherRoleAttrRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			OtherRoleAttrRequest req = OtherRoleAttrRequest.parseFrom(request.getBody().getSerializedContent());
-			EMsgType requestType = req.getType();
+			EMsgType requestType = request.getType();
 			switch (requestType) {
 			case BaseMsg:
-				result = OtherRoleHandler.getInstance().getRoleInfo(req.getUserId(),player);
-				
-				//player.delMsgMap(req.getId());
+				result = OtherRoleHandler.getInstance().getRoleInfo(request.getUserId(),player);
 				break;
 			case OtherMsg:
-				//result = handler.selectCareer(req, player);
-				//
-				//res.setType(EMsgType.ClientMsg);
-				//res.setId(req.getId());
-				//result = res.build().toByteString();
 			default:
 				break;
 			}
 			
-			//System.out.println(""+req.getId());
-		
 	
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public OtherRoleAttrRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		OtherRoleAttrRequest req = OtherRoleAttrRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public EMsgType getMsgType(OtherRoleAttrRequest request) {
+		// TODO Auto-generated method stub
+		return request.getType();
 	}
 
 }

@@ -17,8 +17,6 @@ import com.playerdata.activity.ActivityComResult;
 
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -28,8 +26,6 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
-import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;

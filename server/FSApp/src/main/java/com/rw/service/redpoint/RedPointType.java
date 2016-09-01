@@ -58,6 +58,7 @@ public enum RedPointType {
     TEAMBATTLE_FULL_MEMBER,
     PVE_TEAMBATTLE,
     FORTUNE_CAT,
+    LIMIT_HERO,
     ;
     private RedPointType(){
     	

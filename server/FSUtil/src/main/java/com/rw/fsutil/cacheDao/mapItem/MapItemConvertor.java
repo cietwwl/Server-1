@@ -41,7 +41,12 @@ public class MapItemConvertor<T extends IMapItem> implements CacheJsonConverter<
 		Map<String, T> items = value.getItemMap();
 		HashMap<String, T> map = new HashMap<String, T>(items.size());
 		for (Map.Entry<String, T> entry : items.entrySet()) {
-			map.put(entry.getKey(), entry.getValue());
+			T valueCopy = parser.copy(entry.getValue());
+			if (valueCopy == null) {
+				FSUtilLogger.error("copy value fail:" + key + "," + entry.getKey());
+				continue;
+			}
+			map.put(entry.getKey(), valueCopy);
 		}
 		return new MapItemStoreCopy<T>(key, map);
 	}

@@ -12,13 +12,17 @@ import org.apache.log4j.PatternLayout;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
+import com.rw.service.log.behavior.DataChangeReason;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.eLog.eBILogType;
@@ -37,7 +41,9 @@ import com.rw.service.log.template.ChatLogTemplate;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
+import com.rw.service.log.template.EmailLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
+import com.rw.service.log.template.GoldChangeLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -57,13 +63,21 @@ import com.rw.service.log.template.ZoneCountVipSpreadLogTemplate;
 import com.rw.service.log.template.ZoneLoginLogTemplate;
 import com.rw.service.log.template.ZoneLogoutLogTemplate;
 import com.rw.service.log.template.ZoneRegLogTemplate;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailData;
+import com.rwbase.dao.email.EmailItem;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
+import com.rwbase.dao.item.SpecialItemCfgDAO;
+import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.MsgDef.Command;
 
 public class BILogMgr {
 	
@@ -105,6 +119,8 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ZoneCountChargeGold, new ZoneCountChargeGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
+		templateMap.put(eBILogType.GoldChange, new GoldChangeLogTemplate());
+		templateMap.put(eBILogType.Email, new EmailLogTemplate());
 
 	}
 	
@@ -489,60 +505,108 @@ public class BILogMgr {
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
+	
+	private DataChangeReason parseChangeReason(List<Object> typeList){
+		Player player = (Player)typeList.get(0);
+		Command command = (Command)typeList.get(1);
+		Object viewId = typeList.get(2);
+		Object secondType = typeList.get(3);
+		
+		String secondBehavior = GameBehaviorMgr.getInstance().getSecondBehavior(command, secondType);
+		
+		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString());
+		return reason;
+		
+	}
 
-	public void logItemChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, List<ItemData> itemList_incr, List<ItemData> itemList_decr) {
+	public void logItemChanged(List<Object> typeList, String incrInfo, String decrInfo) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if (scenceId != null) {
-			moreInfo.put("scenceId", scenceId);
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
 		}
 
-		if (type_1 != null) {
-			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
-
-		if (type_2 != null) {
-			moreInfo.put("ItemChangedEventType_2", type_2.name());
-		}
-		moreInfo.put("itemList_incr", getItemListLog(itemList_incr));
-		moreInfo.put("itemList_decr", getItemListLog(itemList_decr));
+		moreInfo.put("itemList_incr", incrInfo);
+		moreInfo.put("itemList_decr", decrInfo);
 
 		logPlayer(eBILogType.ItemChanged, player, moreInfo);
 	}
 
-	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
+	public void logCoinChanged(List<Object> typeList, int coinChanged, long coinRemain) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if (scenceId != null) {
-			moreInfo.put("scenceId", scenceId);
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
 		}
 
-		if (type_1 != null) {
-			moreInfo.put("ItemChangedEventType_1", type_1.name());
-		}
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
 
-		if (type_2 != null) {
-			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
 		moreInfo.put("coinChanged", String.valueOf(coinChanged));
 		moreInfo.put("coinRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.CoinChanged, player, moreInfo);
 	}
-
-	public void logGiftGoldChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int giftGoldChanged, int giftGoldRemain) {
+	
+	public void logGiftGoldChanged(List<Object> typeList, int coinChanged, long coinRemain) {
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if (scenceId != null) {
-			moreInfo.put("scenceId", scenceId);
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
 		}
-		if (type_1 != null) {
-			moreInfo.put("ItemChangedEventType_1", type_1.name());
+
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
 		}
-		if (type_2 != null) {
-			moreInfo.put("ItemChangedEventType_2", type_2.name());
-		}
-		moreInfo.put("giftGoldChanged", String.valueOf(giftGoldChanged));
-		moreInfo.put("giftGoldRemain", String.valueOf(giftGoldRemain));
+		moreInfo.put("giftGoldChanged", String.valueOf(coinChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
+	}
+	
+	public void logGoldChanged(List<Object> typeList, int coinChanged, long coinRemain){
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (reason.getCurrentViewId() != null) {
+			moreInfo.put("scenceId", reason.getCurrentViewId());
+		}
+
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}
+		moreInfo.put("giftGoldChanged", String.valueOf(coinChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(coinRemain));
+
+		logPlayer(eBILogType.GoldChange, player, moreInfo);
 	}
 
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
@@ -551,6 +615,58 @@ public class BILogMgr {
 		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
+	}
+	
+	public void logEmail(String userId, EmailItem emailData, EmailLogTemplate.EamilOpType opType) {
+		try {
+			Map<String, String> moreInfo = new HashMap<String, String>();
+			moreInfo.put("opType", opType.getId());
+			moreInfo.put("emailId", emailData.getEmailId());
+			moreInfo.put("emailTitle", emailData.getTitle());
+			moreInfo.put("emailContent", emailData.getContent());
+			moreInfo.put("coolTime", DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("expireTime", DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
+
+			String emailAttachment = emailData.getEmailAttachment();
+			String[] split = emailAttachment.split(",");
+			StringBuilder sbAttachList = new StringBuilder();
+			StringBuilder sbAttachAttr = new StringBuilder();
+			int index = 0;
+			if (split.length > 1) {
+				for (String value : split) {
+					String[] split2 = value.split("~");
+					if (split2.length > 1) {
+						int model = Integer.parseInt(split2[0]);
+						String count = split2[1];
+						sbAttachList.append(model).append(":").append(count);
+						eSpecialItemId def = eSpecialItemId.getDef(model);
+						if (def == null) {
+							ItemBaseCfg cfg = ItemCfgHelper.GetConfig(model);
+							String name = cfg != null ? cfg.getName() : "";
+							String desc = cfg != null ? cfg.getDescription() : "";
+							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+						} else {
+							SpecialItemCfg cfg = SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(model));
+							String name = cfg != null ? cfg.getName() : "";
+							String desc = cfg != null ? cfg.getDescription() : "";
+							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+						}
+						index++;
+						if (index < split.length) {
+							sbAttachAttr.append("&");
+							sbAttachList.append("&");
+						}
+					}
+				}
+			}
+
+			moreInfo.put("attachList", sbAttachList.toString());
+			moreInfo.put("attachAttr", sbAttachAttr.toString());
+
+			logUserId(eBILogType.Email, userId, moreInfo);
+		} catch (Exception ex) {
+			GameLog.error("LOGSENDER", userId, "logEmail" + ex.getMessage());
+		}
 	}
 
 	private String getItemListLog(List<ItemData> itemList) {
@@ -573,6 +689,18 @@ public class BILogMgr {
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
 
+	}
+	
+	/**
+	 * 用于邮件日志，邮件日志不需要记录其他信息，只需要传进zoneid
+	 * @param logType
+	 * @param userId
+	 * @param moreInfo
+	 */
+	private void logUserId(eBILogType logType, String userId, Map<String, String> moreInfo){
+		ZoneLoginInfo zoneLoginInfo = new ZoneLoginInfo();
+		zoneLoginInfo.setLoginZoneId(GameManager.getZoneId());
+		log(logType, null, zoneLoginInfo, null, moreInfo);
 	}
 
 	private void log(final eBILogType logType, ZoneRegInfo zoneRegInfo, ZoneLoginInfo zoneLoginInfo, RoleGameInfo roleGameInfo, Map<String, String> moreInfo) {

@@ -79,7 +79,7 @@ public class GambleHandler {
 		if (player.getLevel() < planCfg.getOpenLevel()){
 			return GambleLogicHelper.SetError(response,player,String.format("等级不足，配置:%s", planIdStr),String.format("%i级开放", planCfg.getOpenLevel()));
 		}
-
+		
 		if (player.getVip() < planCfg.getOpenVipLevel()){
 			return GambleLogicHelper.SetError(response,player,String.format("VIP等级不足，配置:%s", planIdStr),String.format("VIP%i级开放", planCfg.getOpenVipLevel()));
 		}
