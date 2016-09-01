@@ -170,6 +170,7 @@ public class GCompUserQuizItemHolder {
 		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
+		if(null == envetsData) return result;
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		for(GCompAgainst against :currentAgainst){
 			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());

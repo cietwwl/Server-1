@@ -78,6 +78,7 @@ public class GCompQuizMgr {
 	 */
 	public void getCanGuizMatch(Player player, com.rwproto.GroupCompetitionProto.RspAllGuessInfo.Builder gcRsp) {
 		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
+		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	
 	/**

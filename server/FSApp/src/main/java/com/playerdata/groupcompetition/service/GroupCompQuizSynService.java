@@ -10,7 +10,6 @@ import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
-import com.rwproto.GroupCompetitionProto.ReqNewGuess;
 import com.rwproto.RequestProtos.Request;
 
 /**
