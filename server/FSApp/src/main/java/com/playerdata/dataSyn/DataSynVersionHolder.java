@@ -22,6 +22,7 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.quiz.GCompUserQuizItemHolder;
@@ -461,5 +462,13 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.EmbattleInfo);
+		
+		versionMap.put(eSynType.FIGHTING_GROWTH_DATA, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				FSuserFightingGrowthMgr.getInstance().synFightingTitleData(player);
+			}
+		}));
+		orderList.add(eSynType.FIGHTING_GROWTH_DATA);
 	}
 }

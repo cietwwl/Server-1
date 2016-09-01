@@ -60,7 +60,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 401004012,,401004012,,,,,,,,,
 401004041,,401004041,,,,,500008_loop,bind_hp,,,
 204008011,,204008011,,,,,,,,,
-204008021,,204008021,,,,,,,,,
+204008021,,204008021,,,,,fx_204008_skill02_loop,hit,,,
 204008031,,204008031,,,,,500022_loop,hit,,,
 204008041,,204008041,,,,,,,,,
 203010031,,203010031,,fx_204001_skill04_pre,hit,1.5,fx_204001_skill04_Loop,hit,fx_204001_skill04_end,hit,0.8

@@ -174,4 +174,8 @@ public class FSuserFightingGrowthMgr {
 		}
 		return cfg.getPrivilegeDescItem();
 	}
+	
+	public void synFightingTitleData(Player player) {
+		_holder.synFightingTitleBaseData(player);
+	}
 }
