@@ -64,4 +64,9 @@ public class GCompDetailInfo {
 	public void setMvp(GCompPersonalScore mvp) {
 		this.mvp = mvp;
 	}
+
+	@Override
+	public String toString() {
+		return "GCompDetailInfo [matchId=" + matchId + ", groupScores=" + groupScores + ", mvp=" + mvp + "]";
+	}
 }

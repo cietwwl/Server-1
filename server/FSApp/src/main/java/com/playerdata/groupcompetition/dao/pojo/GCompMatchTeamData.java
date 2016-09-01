@@ -5,17 +5,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GCompMatchTeamData {
 
-	private Map<Integer, GCompGroupTeamData> _allGroupTeamDatas = new ConcurrentHashMap<Integer, GCompGroupTeamData>(); // key=matchId，value=帮派的队伍数据
+	private Map<Integer, GCompGroupTeamHolder> _allGroupTeamHolders = new ConcurrentHashMap<Integer, GCompGroupTeamHolder>(); // key=matchId，value=帮派的队伍数据
 	
-	public GCompGroupTeamData getGroupTeamData(int matchId) {
-		return _allGroupTeamDatas.get(matchId);
+	public GCompGroupTeamHolder getGroupTeamData(int matchId) {
+		return _allGroupTeamHolders.get(matchId);
 	}
 	
-	public void addGroupTeamData(int matchId, GCompGroupTeamData data) {
-		this._allGroupTeamDatas.put(matchId, data);
+	public void addGroupTeamHolder(int matchId, GCompGroupTeamHolder data) {
+		this._allGroupTeamHolders.put(matchId, data);
 	}
 	
 	public void clear() {
-		this._allGroupTeamDatas.clear();
+		this._allGroupTeamHolders.clear();
 	}
 }

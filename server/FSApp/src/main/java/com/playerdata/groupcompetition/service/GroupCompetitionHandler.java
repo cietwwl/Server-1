@@ -8,22 +8,28 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
+import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
 import com.rwproto.GroupCompetitionProto.CommonReqMsg;
+import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
+import com.rwproto.GroupCompetitionProto.TeamRequest;
 
 public class GroupCompetitionHandler {
 
@@ -114,6 +120,15 @@ public class GroupCompetitionHandler {
 		}
 		return builder;
 	}
+	
+	private CommonRsp createCommonRsp(GCResultType resultType, String tips) {
+		CommonRsp.Builder builder = CommonRsp.newBuilder();
+		builder.setResultType(resultType);
+		if (tips != null) {
+			builder.setTips(tips);
+		}
+		return builder.build();
+	}
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
@@ -171,5 +186,22 @@ public class GroupCompetitionHandler {
 			GCompMatchDataMgr.getInstance().sendMatchData(player);
 		}
 		return builder.build().toByteString();
+	}
+	
+	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
+		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getMatchId(), player);
+		GCResultType resultType ;
+		if(success) {
+			resultType = GCResultType.SUCCESS;
+		} else {
+			resultType = GCResultType.DATA_ERROR;
+		}
+		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNoMatchDetailData() : null);
+		return builder.build().toByteString();
+	}
+	
+	public ByteString createTeam(Player player, TeamRequest teamRequest) {
+		IReadOnlyPair<Boolean, String> createResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
+		return this.createCommonRsp(createResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, createResult.getT2()).toByteString();
 	}
 }

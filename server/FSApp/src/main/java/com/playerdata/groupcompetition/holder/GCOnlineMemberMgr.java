@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.service.group.helper.GroupHelper;
@@ -40,7 +42,10 @@ public class GCOnlineMemberMgr {
 		}
 	}
 	
-	public void onEventsStart(GCEventsType type) {
+	public void onEventsStart(GCEventsType type, List<String> relativeGroupIds) {
 		_dataHolder.reset();
+		for(int i = 0, size = relativeGroupIds.size(); i < size; i++) {
+			_dataHolder.addOnlineMemberList(relativeGroupIds.get(i));
+		}
 	}
 }

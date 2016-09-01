@@ -22,7 +22,7 @@ public class GCompDetailInfoMgr {
 		_dataHolder.add(detailInfo);
 	}
 	
-	public void sendDetailInfo(int matchId, Player player) {
-		_dataHolder.syn(matchId, player);
+	public boolean sendDetailInfo(int matchId, Player player) {
+		return _dataHolder.syn(matchId, player);
 	}
 }

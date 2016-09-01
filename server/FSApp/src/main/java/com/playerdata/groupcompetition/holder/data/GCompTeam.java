@@ -5,11 +5,18 @@ import java.util.List;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCUnit;
 
+/**
+ * 
+ * 帮派战的队伍数据
+ * 
+ * @author CHEN.P
+ *
+ */
 @SynClass
-public class GCompTeamSynData implements IGCUnit {
+public class GCompTeam implements IGCUnit {
 
 	private String teamId; // 队伍的id
-	private List<GCompTeamMemberSynData> members; // 队伍的成员
+	private List<GCompTeamMember> members; // 队伍的成员
 	
 	/**
 	 * 
@@ -21,7 +28,7 @@ public class GCompTeamSynData implements IGCUnit {
 		this.teamId = pTeamId;
 	}
 	
-	public List<GCompTeamMemberSynData> getMembers() {
+	public List<GCompTeamMember> getMembers() {
 		return members;
 	}
 

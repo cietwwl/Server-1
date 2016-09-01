@@ -21,6 +21,9 @@ public class TeamMember {
 	
 	@IgnoreSynField
 	private String userName;
+	
+	@IgnoreSynField
+	private boolean isRobot = false;
 
 	public String getUserID() {
 		return userID;
@@ -60,5 +63,13 @@ public class TeamMember {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public boolean isRobot() {
+		return isRobot;
+	}
+
+	public void setRobot(boolean isRobot) {
+		this.isRobot = isRobot;
 	}
 }

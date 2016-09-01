@@ -7,6 +7,7 @@ import java.util.List;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompStageType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
@@ -65,13 +66,13 @@ public class GCompStageController {
 	
 	private void createTimerTask(IConsumer<GCompStageController> consumer, long deadline) {
 		GCompCommonTask.scheduleCommonTask(consumer, this, deadline);
-		System.err.println("----------帮派争霸-阶段控制器-提交时效任务, deadLine : " + _dateFormatter.format(new java.util.Date(deadline)) + "----------");
+		GCompUtil.log("---------- 帮派争霸-阶段控制器-提交时效任务, deadLine : {} ----------" , _dateFormatter.format(new java.util.Date(deadline)));
 	}
 	
 	private void notifyCurrentStageEnd() {
 		// 通知当前阶段结束
 		if (_currentStage != null) {
-			System.err.println("----------阶段结束：" + _currentStage.getStageType() + "----------");
+			GCompUtil.log("---------- 阶段结束：{} ----------", _currentStage.getStageType());
 			_currentStage.onStageEnd();
 		}
 	}
@@ -113,7 +114,7 @@ public class GCompStageController {
 			IGCompStage pre = _currentStage;
 			_currentStage = _stageQueue.removeFirst();
 			_currentStage.onStageStart(pre);
-			System.err.println("----------新阶段开始，当前阶段：" + _currentStage.getStageType() + "----------");
+			GCompUtil.log("---------- 新阶段开始，当前阶段：{} ----------",  _currentStage.getStageType());
 			long endTime = _currentStage.getStageEndTime();
 			createTimerTask(new StageEndMonitorConsumer(), endTime);
 			scheduleNextStageStartTask();

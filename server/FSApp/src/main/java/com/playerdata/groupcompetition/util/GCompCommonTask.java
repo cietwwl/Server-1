@@ -33,7 +33,7 @@ public class GCompCommonTask<T> implements IGameTimerTask {
 		if (sub >= 500) {
 			second++;
 		}
-		System.err.println("----------帮派争霸-一般时效任务-提交时效任务, consumer : " + consumer + ", 延迟秒数 = " + second + "----------");
+		GCompUtil.log("---------- 帮派争霸-一般时效任务-提交时效任务, consumer : {}, 延迟秒数 = {} ----------" , consumer , second);
 		FSGameTimerMgr.getInstance().submitSecondTask(task, (int) second);
 	}
 	

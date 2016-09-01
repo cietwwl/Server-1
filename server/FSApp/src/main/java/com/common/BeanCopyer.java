@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.common.beanCopy.BeanCopyOpt;
+import com.common.beanCopy.ICopy;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -23,8 +25,16 @@ public class BeanCopyer {
 	 * @param target
 	 * @param nameFixAction 如果要拷贝的名字不一样，但有规律，可以传入nameFixAction来修正
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void copy(Object source, Object target) {
-		copy(source, target, null);
+		
+		ICopy optCopyer = BeanCopyOpt.getInstance().getOptCopyer(source.getClass(), target.getClass());
+		if(optCopyer!=null){
+			optCopyer.copy(source, target);
+		}else{			
+			copy(source, target, null);
+		}
+		
 	}
 
 	/**
