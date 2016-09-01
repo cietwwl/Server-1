@@ -329,7 +329,6 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}			
 		}
-		System.out.println();
 		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyChargeList);
 		

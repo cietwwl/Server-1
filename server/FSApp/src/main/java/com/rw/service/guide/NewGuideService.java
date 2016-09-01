@@ -20,48 +20,11 @@ import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.pojo.UserGuideProgress;
 import com.rwproto.GuidanceProgressProtos.GuidanceProgress;
 import com.rwproto.GuidanceProgressProtos.GuidanceRequest;
+import com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType;
 import com.rwproto.GuidanceProgressProtos.GuidanceResponse;
 import com.rwproto.RequestProtos.Request;
 
-public class NewGuideService implements FsService {
-
-	@Override
-	public ByteString doTask(Request request, Player player) {
-		GuidanceResponse.Builder builder = GuidanceResponse.newBuilder();
-		try {
-			GuidanceRequest req = GuidanceRequest.parseFrom(request.getBody().getSerializedContent());
-			switch (req.getRequestType()) {
-			case LoadProgress:
-				UserGuideProgress guide = GuideProgressDAO.getInstance().get(player.getUserId());
-				ArrayList<GuidanceProgress> list = new ArrayList<GuidanceProgress>();
-				if (guide == null) {
-					builder.addAllSavedProgress(list);
-					return builder.build().toByteString();
-				}
-				for (Map.Entry<Integer, Integer> entry : guide.getProgressMap().entrySet()) {
-					GuidanceProgress.Builder b = GuidanceProgress.newBuilder();
-					b.setGuideID(entry.getKey());
-					b.setProgress(entry.getValue());
-					list.add(b.build());
-				}
-				builder.addAllSavedProgress(list);
-				return builder.build().toByteString();
-			case GiveItem:
-				int actId = req.getGiveActionId();
-				GiveItemCfg cfg = GiveItemCfgDAO.getInstance().getCfgById(String.valueOf(actId));
-				RefParam<String> outTip=new RefParam<String>();
-				boolean result = giveItem(cfg, player, outTip);
-				return setResponse(builder, outTip.value, result);
-			default:
-				return builder.build().toByteString();
-			}
-
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-			return builder.build().toByteString();
-		} 
-
-	}
+public class NewGuideService implements FsService<GuidanceRequest, GuidanceRequestType> {
 
 	private ByteString setResponse(GuidanceResponse.Builder builder, String tip, boolean result) {
 		builder.setTip(tip);
@@ -126,6 +89,56 @@ public class NewGuideService implements FsService {
 		}
 		GameLog.info("引导", player.getUserId(), "成功赠送物品,actId:"+actId, null);
 		return result;
+	}
+
+	@Override
+	public ByteString doTask(GuidanceRequest request, Player player) {
+		// TODO Auto-generated method stub
+		GuidanceResponse.Builder builder = GuidanceResponse.newBuilder();
+		try {
+			switch (request.getRequestType()) {
+			case LoadProgress:
+				UserGuideProgress guide = GuideProgressDAO.getInstance().get(player.getUserId());
+				ArrayList<GuidanceProgress> list = new ArrayList<GuidanceProgress>();
+				if (guide == null) {
+					builder.addAllSavedProgress(list);
+					return builder.build().toByteString();
+				}
+				for (Map.Entry<Integer, Integer> entry : guide.getProgressMap().entrySet()) {
+					GuidanceProgress.Builder b = GuidanceProgress.newBuilder();
+					b.setGuideID(entry.getKey());
+					b.setProgress(entry.getValue());
+					list.add(b.build());
+				}
+				builder.addAllSavedProgress(list);
+				return builder.build().toByteString();
+			case GiveItem:
+				int actId = request.getGiveActionId();
+				GiveItemCfg cfg = GiveItemCfgDAO.getInstance().getCfgById(String.valueOf(actId));
+				RefParam<String> outTip=new RefParam<String>();
+				boolean result = giveItem(cfg, player, outTip);
+				return setResponse(builder, outTip.value, result);
+			default:
+				return builder.build().toByteString();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return builder.build().toByteString();
+		} 
+	}
+
+	@Override
+	public GuidanceRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		GuidanceRequest req = GuidanceRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public GuidanceRequestType getMsgType(GuidanceRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 
 }

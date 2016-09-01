@@ -10,26 +10,7 @@ import com.rwproto.TaskProtos.TaskResponse;
 import com.rwproto.TaskProtos.eTaskRequestType;
 import com.rwproto.TaskProtos.eTaskResultType;
 
-public class TaskService implements FsService {
-
-	@Override
-	public ByteString doTask(Request request, Player player) {
-		ByteString result = null;
-		try {
-			TaskRequest req = TaskRequest.parseFrom(request.getBody().getSerializedContent());
-			eTaskRequestType reqType = req.getRequestType();
-			switch (reqType) {
-			case GetReward:
-				result =getReward(req.getId(),player);
-				break;
-			default:
-				break;
-			}
-		}catch(InvalidProtocolBufferException e){
-			e.printStackTrace();
-		}
-		return result;
-	}
+public class TaskService implements FsService<TaskRequest, eTaskRequestType> {
 
 	private ByteString getReward(int id, Player player) {
 		TaskResponse.Builder resp = TaskResponse.newBuilder();
@@ -42,5 +23,37 @@ public class TaskService implements FsService {
 			resp.setId(id);
 		}
 		return resp.build().toByteString();
+	}
+
+	@Override
+	public ByteString doTask(TaskRequest request, Player player) {
+		// TODO Auto-generated method stub
+		ByteString result = null;
+		try {
+			eTaskRequestType reqType = request.getRequestType();
+			switch (reqType) {
+			case GetReward:
+				result =getReward(request.getId(),player);
+				break;
+			default:
+				break;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public TaskRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		TaskRequest req = TaskRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public eTaskRequestType getMsgType(TaskRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 }

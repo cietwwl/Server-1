@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import com.common.Utils;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -87,6 +88,12 @@ public class GroupCopyProgress {
 		}
 	}
 
-	
+	//此方法只能在初始化时候调用
+	protected void calculateMonsterFromProgress(double p){
+		this.progress = p;
+		for (GroupCopyMonsterSynStruct struct : mDatas) {
+			struct.setCurHP((int) (struct.getTotalHP() * p));
+		}
+	}
 	
 }

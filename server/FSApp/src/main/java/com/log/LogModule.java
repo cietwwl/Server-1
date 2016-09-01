@@ -30,6 +30,8 @@ public enum LogModule {
 	ComActivityRedEnvelope("通用活动_RedEnvelope"),
 	ComActivityFortuneCat("通用活动_FortuneCat"),
 	
+	ComActivityLimitHero("通用活动_LimitHero"),
+	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),
 	GroupSecret("帮派秘境"),
@@ -39,7 +41,8 @@ public enum LogModule {
 	GroupCopy("帮派副本"),
 	TeamBattle("组队副本"),
 	BattleVerify("战斗校验"),
-	DataEncode("加密校验")
+	DataEncode("加密校验"),
+	DataSynService("数据同步服务")
 	;
 	
 	private String name;

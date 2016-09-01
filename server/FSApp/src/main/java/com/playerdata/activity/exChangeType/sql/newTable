@@ -5,3 +5,5 @@ CREATE TABLE `activity_exchange_item` (
   PRIMARY KEY (`id`),
   KEY `userId` (`extention`(255)) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+
