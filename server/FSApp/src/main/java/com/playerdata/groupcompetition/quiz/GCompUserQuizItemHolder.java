@@ -37,8 +37,17 @@ public class GCompUserQuizItemHolder {
 	 * @param player
 	 * @param item
 	 */
-	public boolean containsItem(Player player, int marchId){
-		return getItemStore(player.getUserId()).getItem(player.getUserId() + "_" + marchId) == null;
+	public boolean containsItem(Player player, int matchId){
+		return getItemStore(player.getUserId()).getItem(player.getUserId() + "_" + matchId) == null;
+	}
+	
+	/**
+	 * 检查是否已竞猜
+	 * @param player
+	 * @param item
+	 */
+	public GCompUserQuizItem getItem(Player player, int matchId){
+		return getItemStore(player.getUserId()).getItem(player.getUserId() + "_" + matchId);
 	}
 	
 	/**
@@ -57,7 +66,16 @@ public class GCompUserQuizItemHolder {
 	 */
 	public void synAllData(Player player){
 		List<GCompUserQuizItem> itemList = getItemList(player.getUserId());
+		List<GCQuizEventItem> eventList = new ArrayList<GCQuizEventItem>();
+		for(GCompUserQuizItem item: itemList){
+			GCompQuizMgr.getInstance().sendQuizReward(player, item);
+			GCQuizEventItem quizEventItem = GroupQuizEventItemDAO.getInstance().getQuizInfo(item.getMatchId());
+			if(null != quizEventItem) {
+				eventList.add(quizEventItem);
+			}
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		ClientDataSynMgr.synDataList(player, eventList, synType, eSynOpType.UPDATE_LIST);
 	}
 	
 	/**
@@ -92,28 +110,12 @@ public class GCompUserQuizItemHolder {
 		MapItemStoreCache<GCompUserQuizItem> cache = MapItemStoreFactory.getGCompQuizItemCache();
 		return cache.getMapItemStore(userId, GCompUserQuizItem.class);
 	}
-	
+
 	/**
-	 * 获取当前阶段的赛事id
-	 * @return
-	 */
-	public List<Integer> getCurrentMatchID(){
-		return new ArrayList<Integer>();
-	}
-	
-	/**
-	 * 获取当前阶段的赛事id
+	 * 获取当前赛事是第几届
 	 * @return
 	 */
 	public static int getCurrentSessionID(){
 		return 0;
-	}
-	
-	/**
-	 * 获取当前阶段的赛事id
-	 * @return
-	 */
-	public static String getCurrentStageID(){
-		return "";
 	}
 }
