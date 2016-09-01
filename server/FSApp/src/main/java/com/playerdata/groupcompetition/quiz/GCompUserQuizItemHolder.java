@@ -7,7 +7,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -169,7 +169,7 @@ public class GCompUserQuizItemHolder {
 	private List<GCQuizEventItem> getCurrentFightForQuiz(){
 		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData envetsData = GCompMatchDataMgr.getInstance().getEventsData(currentEvent);
+		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		for(GCompAgainst against :currentAgainst){
 			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());
