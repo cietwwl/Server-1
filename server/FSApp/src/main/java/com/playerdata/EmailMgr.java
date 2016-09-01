@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.common.PlayerEventListener;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.EmailLogTemplate;
 import com.rwbase.dao.email.EmailItem;
 import com.rwbase.dao.email.TableEmail;
 import com.rwbase.dao.email.TableEmailDAO;
@@ -45,7 +47,7 @@ public class EmailMgr implements PlayerEventListener {
 			}
 		}
 		for (EmailItem item : removeList) {
-			delEmail(item.getEmailId());
+			delEmail(item.getEmailId(), true);
 		}
 	}
 
@@ -93,6 +95,7 @@ public class EmailMgr implements PlayerEventListener {
 		if (data != null) {
 			if (!data.isChecked() /*&& StringUtils.isEmpty(data.getEmailAttachment())*/) {
 				data.setChecked(true);
+				BILogMgr.getInstance().logEmail(userId, data, EmailLogTemplate.EamilOpType.EMAIL_OPEN);
 			}
 			checkUnread();
 			return true;
@@ -101,8 +104,14 @@ public class EmailMgr implements PlayerEventListener {
 		}
 	}
 
-	public void delEmail(String emailId) {
-		getTableEmail().getEmailList().remove(emailId);
+	/**
+	 * 
+	 * @param emailId
+	 * @param blnAuto 到期邮件则为自动删除，系统删除均blnAuto = false
+	 */
+	public void delEmail(String emailId, boolean blnAuto) {
+		EmailItem emailItem = getTableEmail().getEmailList().remove(emailId);
+		BILogMgr.getInstance().logEmail(userId, emailItem, blnAuto ? EmailLogTemplate.EamilOpType.EMAIL_DELETE :  EmailLogTemplate.EamilOpType.EMAIL_AUTO_DELETE);
 	}
 
 	public boolean isExpire(EmailItem email) {

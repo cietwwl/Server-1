@@ -1,46 +1,61 @@
 package com.rw.service.Equip;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class EquipService implements FsService {
+public class EquipService implements FsService<EquipRequest, EquipEventType> {
 	private EquipHandler handler = EquipHandler.getInstance();
 
 	@Override
-	public ByteString doTask(Request request, Player player) {
+	public ByteString doTask(EquipRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			EquipRequest equipReq = EquipRequest.parseFrom(request.getBody().getSerializedContent());
-			switch (equipReq.getEventType()) {
+			switch (request.getEventType()) {
 			case Advance:
-				result = handler.advance(player, equipReq.getRoleId());
+				result = handler.advance(player, request.getRoleId());
 				break;
 			case Equip_Attach:
-				result = handler.equipAttach(player, equipReq.getRoleId(), equipReq.getEquipIndex(), equipReq.getMateList());
+				result = handler.equipAttach(player, request.getRoleId(), request.getEquipIndex(), request.getMateList());
 				break;
 			case Equip_Compose:
-				result = handler.equipCompose(player, equipReq.getEquipId());
+				result = handler.equipCompose(player, request.getEquipId());
 				break;
 			case Equip_OnekeyAttach:
-				result = handler.equipOnekeyAttach(player, equipReq.getRoleId(), equipReq.getEquipIndex());
+				result = handler.equipOnekeyAttach(player, request.getRoleId(), request.getEquipIndex());
 				break;
 			case Wear_Equip:
-				result = handler.wearEquip(player, equipReq.getRoleId(), equipReq.getEquipIndex());
+				result = handler.wearEquip(player, request.getRoleId(), request.getEquipIndex());
 				break;
 			case OneKeyWearEquip:
-				result = handler.oneKeyWearEquip(player, equipReq.getRoleId());
+				result = handler.oneKeyWearEquip(player, request.getRoleId());
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return result;
+	}
+
+	@Override
+	public EquipRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		EquipRequest equipRequest = EquipRequest.parseFrom(request.getBody().getSerializedContent());
+		return equipRequest;
+	}
+
+	@Override
+	public EquipEventType getMsgType(EquipRequest request) {
+		// TODO Auto-generated method stub
+		return request.getEventType();
 	}
 }

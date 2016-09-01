@@ -85,7 +85,6 @@ public class TeamBattleBM {
 		if(utbData != null) utbData.setSynTeam(true);
 		UserTeamBattleDataMgr.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
-		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, 100);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 	

@@ -84,7 +84,7 @@ public class BIStatLogMgr {
 //			doDbcounts(sql,coinAccount,giftGoldAccount,chargeGoldAccount);
 //		}
 		
-		String tempSql = "select ownerId, coin, gold, giftGold, chargeGold from majordata order by ownerId limit ? offset ?;";
+		String tempSql = "select userId, coin, gold, giftGold, chargeGold, zoneRegInfo from majordata left join `user` on majordata.id = `user`.userId  order by `user`.userId limit ? offset ?;";
 		
 		doDbcounts(tempSql, coinAccount, giftGoldAccount, chargeGoldAccount);
 				
