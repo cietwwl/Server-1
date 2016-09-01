@@ -3,6 +3,7 @@ package com.rw.dataaccess.attachment;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
@@ -16,6 +17,7 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.dataaccess.attachment.creator.ActivityCountTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyDiscountCreator;
+import com.rw.dataaccess.attachment.creator.ActivityDailyRechargeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityExchangeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityFortuneCatCreator;
@@ -44,6 +46,7 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_DAILYDISCOUNT(9,ActivityDailyDiscountTypeItem.class,ActivityDailyDiscountCreator.class),
 	ACTIVITY_FORTUNECAT(10,ActivityFortuneCatTypeItem.class,ActivityFortuneCatCreator.class),
 	ACTIVITY_TIMECARD(11,ActivityTimeCardTypeItem.class,ActivityTimeCardCreator.class),
+	ACTIVITY_DAILYCHARGE(12,ActivityDailyRechargeTypeItem.class,ActivityDailyRechargeCreator.class),
 	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
 	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
 	FRESHER_ACTIVITY(15, FresherActivityBigItem.class, FresherActivityCreator.class),

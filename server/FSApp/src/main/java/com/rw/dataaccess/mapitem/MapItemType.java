@@ -18,8 +18,8 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 
 public enum MapItemType {
 
-	// 每日充值
-	RECRAHGE_TYPE(1, ActivityDailyRechargeTypeItem.class, ActivityRechargeTypeCreator.class),
+//	// 每日充值
+//	RECRAHGE_TYPE(1, ActivityDailyRechargeTypeItem.class, ActivityRechargeTypeCreator.class),
 	// 限时英雄
 //	LIMIT_HERO(2, ActivityLimitHeroTypeItem.class, LimitHeroCreator.class),
 	// 招财猫

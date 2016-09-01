@@ -86,7 +86,7 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
-	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
+//	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
 
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
@@ -218,7 +218,7 @@ public class MapItemStoreFactory {
 
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 
-		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
+//		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
 		
 		groupCompQuizItemCache = createForPerload(GCompUserQuizItem.class, "userID", heroCapacity);
 	}
@@ -364,9 +364,9 @@ public class MapItemStoreFactory {
 		return activityDateTypeItemCache;
 	}
 
-	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
-		return activityDailyRechargeItemCache;
-	}	
+//	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
+//		return activityDailyRechargeItemCache;
+//	}	
 
 	/**
 	 * 获取万仙阵阵容信息缓存
