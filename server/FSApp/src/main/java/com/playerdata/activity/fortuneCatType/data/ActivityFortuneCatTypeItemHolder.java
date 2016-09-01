@@ -58,15 +58,6 @@ public class ActivityFortuneCatTypeItemHolder{
 		return getItemStore(userId).getItem(userId);
 	}
 	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
-	
 	public boolean addItem(Player player, ActivityFortuneCatTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
