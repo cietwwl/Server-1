@@ -93,6 +93,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     GetSelectionData(9, 10),
+    /**
+     * <code>GetCanGuessMatch = 11;</code>
+     *
+     * <pre>
+     *获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+     * </pre>
+     */
+    GetCanGuessMatch(10, 11),
     ;
 
     /**
@@ -175,6 +183,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int GetSelectionData_VALUE = 10;
+    /**
+     * <code>GetCanGuessMatch = 11;</code>
+     *
+     * <pre>
+     *获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+     * </pre>
+     */
+    public static final int GetCanGuessMatch_VALUE = 11;
 
 
     public final int getNumber() { return value; }
@@ -191,6 +207,7 @@ public final class GroupCompetitionProto {
         case 8: return GetPlayersBaseInfo;
         case 9: return GetMatchView;
         case 10: return GetSelectionData;
+        case 11: return GetCanGuessMatch;
         default: return null;
       }
     }
@@ -263,6 +280,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     DATA_ERROR(1, 2),
+    /**
+     * <code>COIN_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *金币不足
+     * </pre>
+     */
+    COIN_NOT_ENOUGH(2, 3),
     ;
 
     /**
@@ -281,6 +306,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int DATA_ERROR_VALUE = 2;
+    /**
+     * <code>COIN_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *金币不足
+     * </pre>
+     */
+    public static final int COIN_NOT_ENOUGH_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -289,6 +322,7 @@ public final class GroupCompetitionProto {
       switch (value) {
         case 1: return SUCCESS;
         case 2: return DATA_ERROR;
+        case 3: return COIN_NOT_ENOUGH;
         default: return null;
       }
     }
@@ -9452,9 +9486,27 @@ public final class GroupCompetitionProto {
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
 
-    // required string groupId = 2;
+    // required int32 matchId = 2;
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    boolean hasMatchId();
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    int getMatchId();
+
+    // required string groupId = 3;
+    /**
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9462,7 +9514,7 @@ public final class GroupCompetitionProto {
      */
     boolean hasGroupId();
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9470,7 +9522,7 @@ public final class GroupCompetitionProto {
      */
     java.lang.String getGroupId();
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9479,20 +9531,20 @@ public final class GroupCompetitionProto {
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
-    // required int32 coin = 3;
+    // required int32 coin = 4;
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     boolean hasCoin();
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     int getCoin();
@@ -9563,13 +9615,18 @@ public final class GroupCompetitionProto {
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
+              matchId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
               groupId_ = input.readBytes();
               break;
             }
-            case 24: {
-              bitField0_ |= 0x00000004;
+            case 32: {
+              bitField0_ |= 0x00000008;
               coin_ = input.readInt32();
               break;
             }
@@ -9637,21 +9694,45 @@ public final class GroupCompetitionProto {
       return reqType_;
     }
 
-    // required string groupId = 2;
-    public static final int GROUPID_FIELD_NUMBER = 2;
+    // required int32 matchId = 2;
+    public static final int MATCHID_FIELD_NUMBER = 2;
+    private int matchId_;
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    public boolean hasMatchId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    public int getMatchId() {
+      return matchId_;
+    }
+
+    // required string groupId = 3;
+    public static final int GROUPID_FIELD_NUMBER = 3;
     private java.lang.Object groupId_;
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
      * </pre>
      */
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9672,7 +9753,7 @@ public final class GroupCompetitionProto {
       }
     }
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9692,24 +9773,24 @@ public final class GroupCompetitionProto {
       }
     }
 
-    // required int32 coin = 3;
-    public static final int COIN_FIELD_NUMBER = 3;
+    // required int32 coin = 4;
+    public static final int COIN_FIELD_NUMBER = 4;
     private int coin_;
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     public boolean hasCoin() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     public int getCoin() {
@@ -9718,6 +9799,7 @@ public final class GroupCompetitionProto {
 
     private void initFields() {
       reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      matchId_ = 0;
       groupId_ = "";
       coin_ = 0;
     }
@@ -9727,6 +9809,10 @@ public final class GroupCompetitionProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMatchId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9749,10 +9835,13 @@ public final class GroupCompetitionProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getGroupIdBytes());
+        output.writeInt32(2, matchId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, coin_);
+        output.writeBytes(3, getGroupIdBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, coin_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9769,11 +9858,15 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getGroupIdBytes());
+          .computeInt32Size(2, matchId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, coin_);
+          .computeBytesSize(3, getGroupIdBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, coin_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9897,10 +9990,12 @@ public final class GroupCompetitionProto {
         super.clear();
         reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
         bitField0_ = (bitField0_ & ~0x00000001);
-        groupId_ = "";
+        matchId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        coin_ = 0;
+        groupId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        coin_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -9936,9 +10031,13 @@ public final class GroupCompetitionProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.groupId_ = groupId_;
+        result.matchId_ = matchId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.groupId_ = groupId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.coin_ = coin_;
         result.bitField0_ = to_bitField0_;
@@ -9960,8 +10059,11 @@ public final class GroupCompetitionProto {
         if (other.hasReqType()) {
           setReqType(other.getReqType());
         }
+        if (other.hasMatchId()) {
+          setMatchId(other.getMatchId());
+        }
         if (other.hasGroupId()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           groupId_ = other.groupId_;
           onChanged();
         }
@@ -9974,6 +10076,10 @@ public final class GroupCompetitionProto {
 
       public final boolean isInitialized() {
         if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasMatchId()) {
           
           return false;
         }
@@ -10059,20 +10165,69 @@ public final class GroupCompetitionProto {
         return this;
       }
 
-      // required string groupId = 2;
+      // required int32 matchId = 2;
+      private int matchId_ ;
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public boolean hasMatchId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public int getMatchId() {
+        return matchId_;
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public Builder setMatchId(int value) {
+        bitField0_ |= 0x00000002;
+        matchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public Builder clearMatchId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        matchId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string groupId = 3;
       private java.lang.Object groupId_ = "";
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
        * </pre>
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10090,7 +10245,7 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10110,7 +10265,7 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10121,26 +10276,26 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         groupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
        * </pre>
        */
       public Builder clearGroupId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         groupId_ = getDefaultInstance().getGroupId();
         onChanged();
         return this;
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10151,56 +10306,56 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         groupId_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 coin = 3;
+      // required int32 coin = 4;
       private int coin_ ;
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public boolean hasCoin() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public int getCoin() {
         return coin_;
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public Builder setCoin(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         coin_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public Builder clearCoin() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         coin_ = 0;
         onChanged();
         return this;
@@ -10237,6 +10392,33 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCResultType getRstType();
+
+    // optional string tipMsg = 2;
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
   }
   /**
    * Protobuf type {@code groupCompetition.RsqNewGuess}
@@ -10304,6 +10486,11 @@ public final class GroupCompetitionProto {
               }
               break;
             }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              tipMsg_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10368,8 +10555,64 @@ public final class GroupCompetitionProto {
       return rstType_;
     }
 
+    // optional string tipMsg = 2;
+    public static final int TIPMSG_FIELD_NUMBER = 2;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10390,6 +10633,9 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, rstType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipMsgBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10402,6 +10648,10 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, rstType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10525,6 +10775,8 @@ public final class GroupCompetitionProto {
         super.clear();
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -10557,6 +10809,10 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000001;
         }
         result.rstType_ = rstType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10575,6 +10831,11 @@ public final class GroupCompetitionProto {
         if (other == com.rwproto.GroupCompetitionProto.RsqNewGuess.getDefaultInstance()) return this;
         if (other.hasRstType()) {
           setRstType(other.getRstType());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000002;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10655,6 +10916,104 @@ public final class GroupCompetitionProto {
       public Builder clearRstType() {
         bitField0_ = (bitField0_ & ~0x00000001);
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        onChanged();
+        return this;
+      }
+
+      // optional string tipMsg = 2;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
         onChanged();
         return this;
       }
@@ -12707,24 +13066,26 @@ public final class GroupCompetitionProto {
       ".GCRequestType\"w\n\017RspAllGuessInfo\022/\n\007rst" +
       "Type\030\001 \002(\0162\036.groupCompetition.GCResultTy" +
       "pe\0223\n\tguessInfo\030\002 \003(\0132 .groupCompetition" +
-      ".MatchGuessInfo\"^\n\013ReqNewGuess\0220\n\007reqTyp",
+      ".MatchGuessInfo\"o\n\013ReqNewGuess\0220\n\007reqTyp",
       "e\030\001 \002(\0162\037.groupCompetition.GCRequestType" +
-      "\022\017\n\007groupId\030\002 \002(\t\022\014\n\004coin\030\003 \002(\005\">\n\013RsqNe" +
-      "wGuess\022/\n\007rstType\030\001 \002(\0162\036.groupCompetiti" +
-      "on.GCResultType\"\335\001\n\016PlayerBaseInfo\022\016\n\006us" +
-      "erId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 " +
-      "\002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003" +
-      "sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fighti" +
-      "ngAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionU" +
-      "sage\030\n \001(\0132\033.FashionService.FashionUsed*" +
-      "\320\001\n\rGCRequestType\022\024\n\020EnterPrepareArea\020\001\022",
-      "\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPreparePo" +
-      "sition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014" +
-      "\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayers" +
-      "BaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelec" +
-      "tionData\020\n*+\n\014GCResultType\022\013\n\007SUCCESS\020\001\022" +
-      "\016\n\nDATA_ERROR\020\002B$\n\013com.rwprotoB\025GroupCom" +
-      "petitionProto"
+      "\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004co" +
+      "in\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002(\016" +
+      "2\036.groupCompetition.GCResultType\022\016\n\006tipM" +
+      "sg\030\002 \001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030\001 " +
+      "\002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007" +
+      "imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002" +
+      "(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010" +
+      " \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030\n " +
+      "\001(\0132\033.FashionService.FashionUsed*\346\001\n\rGCR",
+      "equestType\022\024\n\020EnterPrepareArea\020\001\022\024\n\020Leav" +
+      "ePrepareArea\020\002\022\031\n\025InformPreparePosition\020" +
+      "\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGu" +
+      "ess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersBaseInf" +
+      "o\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelectionDat" +
+      "a\020\n\022\024\n\020GetCanGuessMatch\020\013*@\n\014GCResultTyp" +
+      "e\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_N" +
+      "OT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompeti" +
+      "tionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -12802,13 +13163,13 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_ReqNewGuess_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_ReqNewGuess_descriptor,
-              new java.lang.String[] { "ReqType", "GroupId", "Coin", });
+              new java.lang.String[] { "ReqType", "MatchId", "GroupId", "Coin", });
           internal_static_groupCompetition_RsqNewGuess_descriptor =
             getDescriptor().getMessageTypes().get(12);
           internal_static_groupCompetition_RsqNewGuess_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_RsqNewGuess_descriptor,
-              new java.lang.String[] { "RstType", });
+              new java.lang.String[] { "RstType", "TipMsg", });
           internal_static_groupCompetition_PlayerBaseInfo_descriptor =
             getDescriptor().getMessageTypes().get(13);
           internal_static_groupCompetition_PlayerBaseInfo_fieldAccessorTable = new
