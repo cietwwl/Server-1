@@ -108,7 +108,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
 			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgByItem(targetItem);
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 				return;
 			}			
 			
@@ -162,8 +161,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 				long endTime = cfgById.getEndTime();
 				long currentTime = System.currentTimeMillis();
 				return currentTime > endTime;
-			}else{
-				GameLog.error("activitydailyDiscounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyDiscountTypeEnum.getById(activityDailyCountTypeItem.getCfgId()));
 			}
 		}
 		return false;
@@ -208,7 +205,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			}
 			if(itemCfg == null){
 				result.setReason("异常，请联系游戏官方");
-				GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "玩家数据有某个兑换道具的数据，但没有找到对应的折扣商品", null);
 				result.setSuccess(false);
 				return result;		
 			}			
@@ -272,7 +268,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	private void getItem(Player player, ActivityDailyDiscountTypeSubItem targetItem) {
 		ActivityDailyDiscountItemCfg subCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(targetItem.getCfgId());
 		if(subCfg == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 			return;
 		}
 		targetItem.setCount(targetItem.getCount()+1);
@@ -288,12 +283,10 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());//cfg
 		if(dailyDiscountEnum == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityDailyDiscountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),dailyDiscountEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){

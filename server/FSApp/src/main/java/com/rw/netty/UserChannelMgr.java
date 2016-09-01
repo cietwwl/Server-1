@@ -1,9 +1,12 @@
 package com.rw.netty;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,15 +24,19 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.rw.controler.FsNettyControler;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rwproto.GameLoginProtos.GameLoginResponse;
+import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef.Command;
 
 public class UserChannelMgr {
@@ -227,17 +235,29 @@ public class UserChannelMgr {
 		return synData.setInReq();
 	}
 
-	public static boolean onBSEnd(String userId) {
+//	public static boolean synDataOnBSEnd(String userId) {
+//		ChannelHandlerContext ctx = userChannelMap.get(userId);
+//		if (ctx == null) {
+//			return false;
+//		}
+//
+//		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
+//		if (synData == null) {
+//			return false;
+//		}
+//		return synData.doSyn(ctx, userId);
+//	}
+	public static ByteString getDataOnBSEnd(String userId) {
 		ChannelHandlerContext ctx = userChannelMap.get(userId);
 		if (ctx == null) {
-			return false;
+			return null;
 		}
-
+		
 		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
 		if (synData == null) {
-			return false;
+			return null;
 		}
-		return synData.doSyn(ctx, userId);
+		return synData.getSynData(ctx, userId);
 	}
 
 	/**
@@ -397,4 +417,26 @@ public class UserChannelMgr {
 		return disconnectMap.keySet();
 	}
 
+	public static void KickOffPlayer(final ChannelHandlerContext oldContext, FsNettyControler nettyControler, String userId){
+		GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
+		loginResponse.setResultType(eLoginResultType.SUCCESS);
+		loginResponse.setError("你的账号在另一处登录，请重新登录");
+		
+		ChannelFuture f = nettyControler.sendAyncResponse(userId, oldContext, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
+		f.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+			@Override
+			public void operationComplete(Future<? super Void> future) throws Exception {
+				oldContext.executor().schedule(new Callable<Void>() {
+
+					@Override
+					public Void call() throws Exception {
+						oldContext.close();
+						return null;
+					}
+				}, 300, TimeUnit.MILLISECONDS);
+			}
+		});
+		
+	}
 }

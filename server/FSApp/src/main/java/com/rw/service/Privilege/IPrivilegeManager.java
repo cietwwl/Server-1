@@ -14,6 +14,8 @@ public interface IPrivilegeManager {
 	
 	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> boolean getBoolPrivilege(PrivilegeNameEnums pname);
 	
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> String getStringPrivilege(PrivilegeNameEnums pname);
+	
 	//竞技场特权点
 	public IStream<PrivilegeProperty> getArenaPrivilege();
 	

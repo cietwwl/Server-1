@@ -55,7 +55,6 @@ public class ActivityTimeCountTypeMgr {
 			}
 			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(activityTimeCountTypeCfg.getId());
 			if (TimeCountTypeEnum == null) {
-				GameLog.error("ActivityTimeCountTypeMgr", "#checkNewOpen()", "找不到活动类型：" + activityTimeCountTypeCfg.getId());
 				continue;
 			}
 			ActivityTimeCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), TimeCountTypeEnum);// 已在之前生成数据的活动
@@ -93,7 +92,6 @@ public class ActivityTimeCountTypeMgr {
 				for (ActivityTimeCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 					ActivityTimeCountTypeSubCfg subItemCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
 					if(subItemCfg == null){
-						GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
 						continue;
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
@@ -101,8 +99,6 @@ public class ActivityTimeCountTypeMgr {
 						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
 						if (isAdd) {
 							subItem.setTaken(true);
-						} else {
-							GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
 						}
 					}
 				}
@@ -117,7 +113,6 @@ public class ActivityTimeCountTypeMgr {
 
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
 		if(cfgById == null){
-			GameLog.error(LogModule.ComActivityTimeCount, null, "通用活动找不到配置文件", null);
 			return false;
 		}		
 		long endTime = cfgById.getEndTime();
@@ -204,7 +199,6 @@ public class ActivityTimeCountTypeMgr {
 				}				
 			}		
 			if(dataItem.getCount() < subcfg.getCount()){
-				GameLog.error("activitytimecounttypemgr", "uid=" + player.getUserId(), "时间未到但申请领取");
 				result.setReason("时间未到");
 				return result;
 			}
@@ -255,7 +249,6 @@ public class ActivityTimeCountTypeMgr {
 		
 		ActivityTimeCountTypeSubCfg subCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(subCfg == null){
-			GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
 			return;
 		}	
 		targetItem.setTaken(true);

@@ -1,8 +1,6 @@
 package com.playerdata.fixEquip;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -14,44 +12,53 @@ import com.rwproto.FixEquipProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
-public class FixEquipService implements FsService<CommonReqMsg, RequestType> {
+public class FixEquipService implements FsService {
+
 
 	@Override
-	public ByteString doTask(CommonReqMsg request, Player player) {
-		// TODO Auto-generated method stub
+	public ByteString doTask(Request request, Player player) {
+		
 		FixExpEquipHandler expEquipHandler = FixExpEquipHandler.getInstance();
 		FixNormEquipHandler normEquipHandler = FixNormEquipHandler.getInstance();
 		
 		ByteString byteString = null;
 		try {
-			RequestType reqType = request.getReqType();
-			switch (reqType) {	
+			CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+			
+			player.getUserTmpGameDataFlag().setSynFightingAll(true);
+			
+			RequestType reqType = commonReq.getReqType();
+			switch (reqType) {
+			case Open_main_view:
+				byteString = expEquipHandler.checkStoredExp(player, commonReq);
+				break;
+			
 			case Norm_level_up:
-				byteString = normEquipHandler.levelUp(player, request);
+				byteString = normEquipHandler.levelUp(player, commonReq);
 				break;
 			case Norm_level_up_one_key:
-				byteString = normEquipHandler.levelUpOneKey(player, request);
+				byteString = normEquipHandler.levelUpOneKey(player, commonReq);
 				break;
 			case Norm_quality_up:
-				byteString = normEquipHandler.qualityUp(player, request);
+				byteString = normEquipHandler.qualityUp(player, commonReq);
 				break;
 			case Norm_star_up:
-				byteString = normEquipHandler.starUp(player, request);
+				byteString = normEquipHandler.starUp(player, commonReq);
 				break;
 			case Norm_star_down:
-				byteString = normEquipHandler.starDown(player, request);
+				byteString = normEquipHandler.starDown(player, commonReq);
 				break;
 			case Exp_level_up:
-				byteString = expEquipHandler.levelUp(player, request);
+				byteString = expEquipHandler.levelUp(player, commonReq);
 				break;
 			case Exp_quality_up:
-				byteString = expEquipHandler.qualityUp(player, request);
+				byteString = expEquipHandler.qualityUp(player, commonReq);
 				break;
 			case Exp_star_up:
-				byteString = expEquipHandler.starUp(player, request);
+				byteString = expEquipHandler.starUp(player, commonReq);
 				break;
 			case Exp_star_down:
-				byteString = expEquipHandler.starDown(player, request);
+				byteString = expEquipHandler.starDown(player, commonReq);
 				break;
 			default:
 				GameLog.error(LogModule.FixEquip, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
@@ -63,18 +70,6 @@ public class FixEquipService implements FsService<CommonReqMsg, RequestType> {
 			GameLog.error(LogModule.FixEquip, player.getUserId(), "出现了Exception异常", e);
 		}
 		return byteString;
-	}
-
-	@Override
-	public CommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
-		CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
-		return commonReq;
-	}
-
-	@Override
-	public RequestType getMsgType(CommonReqMsg request) {
-		// TODO Auto-generated method stub
-		return request.getReqType();
+		
 	}
 }

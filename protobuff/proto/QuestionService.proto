@@ -3,21 +3,41 @@ option java_package = "com.rwproto";
 option java_outer_classname = "QuestionServiceProtos";
 
 
+enum eFeedbackType{
+	FEEDBACK = 1;
+	REPORT = 2;
+}
+
 enum eSubmitResultType {
 	SUCCESS=0;
 	FAIL=1;
 }
 
 message MsgSubmitQuestionRequest{
-	optional string channel = 1;
-	optional int32 type = 2;
-	optional string feedbackContent = 3;
-	optional string phone = 4;
-	optional string model = 5;
+	required eFeedbackType requestType = 1;
+	optional string channel = 2;
+	optional int32 type = 3;
+	optional string feedbackContent = 4;
+	optional string phone = 5;
+	optional string model = 6;
+	optional MsgReportRequest reportRequest = 7;
 }
 
 message MsgSubmitQuestionResponse{
-	optional int32 type = 1;
-	optional eSubmitResultType result = 2;
-	optional string responseResult = 3;
+	required eFeedbackType requestType = 1;
+	optional int32 type = 2;
+	optional eSubmitResultType result = 3;
+	optional string responseResult = 4;
+	optional MsgReportReponse reportResponse = 5;
+}
+
+message MsgReportRequest{
+	optional string userId = 1;
+	optional string chatContent = 2;
+	optional string channel = 3;
+	optional int32 reportChannel = 4;
+}
+
+message MsgReportReponse{
+	optional string result = 1;
 }

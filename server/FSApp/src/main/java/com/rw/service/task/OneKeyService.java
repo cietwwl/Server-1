@@ -1,6 +1,8 @@
 package com.rw.service.task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -27,12 +29,15 @@ public class OneKeyService implements FsService<OneKeyGetRewardRequest, OneKeyRe
 		if(player.getLevel() >= openLevel){
 			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 			resp.setResult(DailyActivityHandler.getInstance().taskAllFinish(player, rewardMap));
+			List<ItemInfo> items = new ArrayList<ItemInfo>();
 			for(Integer key : rewardMap.keySet()){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				items.add(item);
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
+			player.getItemBagMgr().addItem(items);
 		}else{
 			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
@@ -45,12 +50,15 @@ public class OneKeyService implements FsService<OneKeyGetRewardRequest, OneKeyRe
 		if(player.getLevel() >= openLevel){
 			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 			resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
+			List<ItemInfo> items = new ArrayList<ItemInfo>();
 			for(Integer key : rewardMap.keySet()){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				items.add(item);
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
+			player.getItemBagMgr().addItem(items);
 		}else{
 			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
@@ -63,12 +71,15 @@ public class OneKeyService implements FsService<OneKeyGetRewardRequest, OneKeyRe
 		if(player.getLevel() >= openLevel){
 			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 			resp.setResult(EmailHandler.getInstance().getAllAttachment(player, rewardMap));
+			List<ItemInfo> items = new ArrayList<ItemInfo>();
 			for(Integer key : rewardMap.keySet()){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				items.add(item);
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
+			player.getItemBagMgr().addItem(items);
 		}else{
 			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
@@ -81,12 +92,15 @@ public class OneKeyService implements FsService<OneKeyGetRewardRequest, OneKeyRe
 		if(player.getLevel() >= openLevel){
 			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 			resp.setResult(ArenaHandler.getInstance().getAllScoreReward(player, rewardMap));
+			List<ItemInfo> items = new ArrayList<ItemInfo>();
 			for(Integer key : rewardMap.keySet()){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(key);
 				item.setItemNum(rewardMap.get(key));
+				items.add(item);
 				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
 			}
+			player.getItemBagMgr().addItem(items);
 		}else{
 			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}

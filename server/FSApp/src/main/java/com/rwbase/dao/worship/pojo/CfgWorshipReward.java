@@ -12,13 +12,17 @@ public class CfgWorshipReward {
 	
 	private int lowwer;//下限
 	
-	public void format() throws RuntimeException{
+	private WorshipItemData rewardData;
+	
+	public void format(){
 		String[] str = round.split("~");
 		if(str.length < 2){
 			throw new RuntimeException("格式化膜拜配置表时发现配置["+key+"]的人数格式不正确:"+ round);
 		}
 		lowwer = Integer.parseInt(str[0].toString().trim());
 		upper = Integer.parseInt(str[1].toString().trim());
+		round = null;
+		
 	}
 	
 	
@@ -44,6 +48,15 @@ public class CfgWorshipReward {
 		return lowwer;
 	}
 
-	
+
+	public WorshipItemData getRewardData() {
+		return rewardData;
+	}
+
+
+	public void setRewardData(WorshipItemData rewardData) {
+		this.rewardData = rewardData;
+	}
+
 	
 }

@@ -73,6 +73,13 @@ public final class FixEquipProto {
      * </pre>
      */
     Exp_star_down(8, 9),
+    /**
+     * <code>Open_main_view = 10;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    Open_main_view(9, 10),
     ;
 
     /**
@@ -135,6 +142,13 @@ public final class FixEquipProto {
      * </pre>
      */
     public static final int Exp_star_down_VALUE = 9;
+    /**
+     * <code>Open_main_view = 10;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public static final int Open_main_view_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -150,6 +164,7 @@ public final class FixEquipProto {
         case 7: return Exp_quality_up;
         case 8: return Exp_star_up;
         case 9: return Exp_star_down;
+        case 10: return Open_main_view;
         default: return null;
       }
     }
@@ -3381,13 +3396,13 @@ public final class FixEquipProto {
       "UpReqParams\030\004 \001(\0132\035.fixEquip.ExpLevelUpR" +
       "eqParams\"Y\n\014CommonRspMsg\022&\n\007reqType\030\001 \002(" +
       "\0162\025.fixEquip.RequestType\022\021\n\tisSuccess\030\002 " +
-      "\002(\010\022\016\n\006tipMsg\030\003 \001(\t*\300\001\n\013RequestType\022\021\n\rN",
+      "\002(\010\022\016\n\006tipMsg\030\003 \001(\t*\324\001\n\013RequestType\022\021\n\rN",
       "orm_level_up\020\001\022\023\n\017Norm_quality_up\020\002\022\020\n\014N" +
       "orm_star_up\020\003\022\022\n\016Norm_star_down\020\004\022\031\n\025Nor" +
       "m_level_up_one_key\020\005\022\020\n\014Exp_level_up\020\006\022\022" +
       "\n\016Exp_quality_up\020\007\022\017\n\013Exp_star_up\020\010\022\021\n\rE" +
-      "xp_star_down\020\tB\034\n\013com.rwprotoB\rFixEquipP" +
-      "roto"
+      "xp_star_down\020\t\022\022\n\016Open_main_view\020\nB\034\n\013co" +
+      "m.rwprotoB\rFixEquipProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -8,6 +8,7 @@ public class loginPrivilege extends AbstractConfigChargeSource<LoginPrivilegeNam
   private int buyPowerCount; //可购买体力次数
   private int useCoinTransCount; //可使用点金手次数
   private int getSweepTicketNum; //每日领取扫荡卷张数
+  private boolean isAllowReport; //开启举报玩家
 
 
 	@Override

@@ -7,12 +7,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
+import com.bm.groupCopy.GroupCopyMailHelper;
 import com.gm.activity.RankingActivity;
-import com.groupCopy.bm.groupCopy.GroupCopyMailHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.activity.dailyCharge.ActivityDetector;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.rw.fsutil.common.SimpleThreadFactory;
@@ -63,6 +64,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				GFightStateTransfer.getInstance().checkTransfer();
+				ActivityDetector.getInstance().detectActive();
 			}
 
 		}, SECOND * 10);

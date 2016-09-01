@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.chat.ChatBM;
-import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
+import com.bm.groupCopy.GroupCopyLevelBL;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;

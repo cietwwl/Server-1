@@ -15,4 +15,5 @@ message ResponseHeader {
 	required int32 StatusCode = 3;
 	optional int32 seqID = 4;
 	optional string ErrorMsg = 5;
+	optional bytes synData = 6;  //跟随返回的同步数据
 }

@@ -114,7 +114,8 @@ enum eSynType	//数据同步类型
 	USER_TEAM_BATTLE = 91;	//组队战斗，玩家信息
 	TEAM_BATTLE_TEAM = 92;	//组队战斗，队伍信息
 
-
+	ActivityDailyRechargeType = 93; //每日充值活动
+	
 }
 
 message MsgDataSynList
@@ -139,3 +140,22 @@ message MsgDataSyn
     optional int32 version=4;					//数据版本号
     optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
 }
+
+
+enum RequestType{
+	SynByType = 1;//
+}
+
+
+message DataSynReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	repeated DataSynVersion version = 2; //同步数据版本
+}
+
+
+message DataSynRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+}
+
