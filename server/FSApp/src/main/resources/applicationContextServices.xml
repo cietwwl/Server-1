@@ -116,7 +116,7 @@
 
      			<entry key="MSG_GROUP_COMPETITION" value-ref="groupCompetitionService" />
      			<entry key="MSG_GROUP_COMPETITION_GET_DATA" value-ref="groupCompetitionDataService" />
-
+				<entry key="MSG_GROUP_COMPETITION_QUIZ" value-ref="groupCompQuizService" />
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
 			</map>
 		</property>
@@ -207,7 +207,7 @@
 	<bean id="userFightingGrowthService" class="com.rw.service.fightinggrowth.FSUserFightingGrowthService" />
 	<bean id="groupCompetitionService" class="com.playerdata.groupcompetition.service.GroupCompetitionService" />
 	<bean id="groupCompetitionDataService" class="com.playerdata.groupcompetition.service.GroupCompetitionGetDataService" />
-
+	<bean id="groupCompQuizService" class="com.playerdata.groupcompetition.service.GroupCompQuizService" />
 	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
 </beans>  

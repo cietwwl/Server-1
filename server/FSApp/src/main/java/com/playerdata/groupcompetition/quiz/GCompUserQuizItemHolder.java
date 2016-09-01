@@ -6,6 +6,11 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
+import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
+import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
@@ -14,22 +19,14 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompUserQuizItemHolder {
 	
-	final private eSynType synType = eSynType.GFBiddingData;
+	final private eSynType selfQuizSynType = eSynType.GCompSelfGuess;
+	final private eSynType quizDetailSynType = eSynType.GCompSelfGuessDetail;
+	final private eSynType canQuizSynType = eSynType.GCompCanGuessItem;
 	
 	private static GCompUserQuizItemHolder instance = new GCompUserQuizItemHolder();
 
 	public static GCompUserQuizItemHolder getInstance() {
 		return instance;
-	}
-
-	/**
-	 * 更新个人的竞猜信息
-	 * @param player
-	 * @param item
-	 */
-	public void updateItem(Player player, GCompUserQuizItem item){
-		getItemStore(player.getUserId()).updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	/**
@@ -74,8 +71,19 @@ public class GCompUserQuizItemHolder {
 				eventList.add(quizEventItem);
 			}
 		}
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
-		ClientDataSynMgr.synDataList(player, eventList, synType, eSynOpType.UPDATE_LIST);
+		ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+		ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
+	}
+	
+	/**
+	 * 同步所有可竞猜的项
+	 * @param player
+	 */
+	public void synCanQuizItem(Player player){
+		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
+		if(itemList != null) {
+			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
 	/**
@@ -111,6 +119,24 @@ public class GCompUserQuizItemHolder {
 		return cache.getMapItemStore(userId, GCompUserQuizItem.class);
 	}
 
+	/**
+	 * 获取当前阶段可以竞猜的项目
+	 * @return
+	 */
+	private List<GCQuizEventItem> getCurrentFightForQuiz(){
+		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
+		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
+		GCompEventsData envetsData = GCompMatchDataMgr.getInstance().getEventsData(currentEvent);
+		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
+		for(GCompAgainst against :currentAgainst){
+			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());
+			if(null != quizEvent){
+				result.add(quizEvent);
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * 获取当前赛事是第几届
 	 * @return

@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
+import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -27,6 +28,8 @@ import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.ReqNewGuess;
+import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
@@ -203,5 +206,17 @@ public class GroupCompetitionHandler {
 	public ByteString createTeam(Player player, TeamRequest teamRequest) {
 		IReadOnlyPair<Boolean, String> createResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
 		return this.createCommonRsp(createResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, createResult.getT2()).toByteString();
+	}
+	
+	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
+		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
+		GCompQuizMgr.getInstance().createNewGuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
+		return gcRsp.build().toByteString();
+	}
+	
+	public ByteString getCanGuessMatch(Player player, ReqNewGuess request) {
+		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
+		GCompQuizMgr.getInstance().getCanGuizMatch(player, gcRsp);
+		return gcRsp.build().toByteString();
 	}
 }
