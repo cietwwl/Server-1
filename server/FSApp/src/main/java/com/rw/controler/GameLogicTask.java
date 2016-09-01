@@ -124,6 +124,7 @@ public class GameLogicTask implements PlayerTask {
 	private void registerBehavior(Player player, FsService serivice, Command command, GeneratedMessage msg, int viewId) {
 		
 		ProtocolMessageEnum msgType = serivice.getMsgType(msg);
+		if (msgType == null) return;
 		String value = String.valueOf(msgType.getNumber());
 		GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
 	}

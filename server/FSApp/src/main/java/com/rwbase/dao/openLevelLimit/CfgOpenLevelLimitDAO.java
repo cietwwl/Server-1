@@ -92,7 +92,7 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				if (checkPointID > 0){
 					CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
 					if (copyCfg != null){
-						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关%s开启");
+						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关“%s”开启");
 						outTip.value = String.format(tipTemplate, level,copyCfg.getName());
 					}else{
 						GameLog.error("功能开发", "", "配置错误：openLevelLimit配置了不存在的关卡ID:"+checkPointID);
