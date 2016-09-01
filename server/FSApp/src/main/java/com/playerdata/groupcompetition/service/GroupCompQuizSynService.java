@@ -9,6 +9,7 @@ import com.rw.service.FsService;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
 import com.rwproto.RequestProtos.Request;
 
@@ -17,18 +18,18 @@ import com.rwproto.RequestProtos.Request;
  * @author AkenWang
  *
  */
-public class GroupCompQuizService implements FsService<ReqNewGuess, GCRequestType> {
+public class GroupCompQuizSynService implements FsService<ReqAllGuessInfo, GCRequestType> {
 
 	private GroupCompetitionHandler mHandler = GroupCompetitionHandler.getInstance();
 
 	@Override
-	public ByteString doTask(ReqNewGuess request, Player player) {
+	public ByteString doTask(ReqAllGuessInfo request, Player player) {
 		ByteString result = null;
 		try {
 			GCRequestType gcType = request.getReqType();
 			switch (gcType) {
-			case NewGuess:
-				result = mHandler.haveNewGuess(player, request);
+			case GetCanGuessMatch:
+				result = mHandler.getCanGuessMatch(player, request);
 				break;
 			default:
 				GameLog.error(LogModule.GroupCompetition, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
@@ -38,20 +39,20 @@ public class GroupCompQuizService implements FsService<ReqNewGuess, GCRequestTyp
 			GameLog.error(LogModule.GroupCompetition, player.getUserId(), "出现了Exception异常", e);
 			CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("竞猜数据有误");
+			gcRsp.setTipMsg("同步竞猜数据有误");
 			result = gcRsp.build().toByteString();
 		}
 		return result;
 	}
 
 	@Override
-	public ReqNewGuess parseMsg(Request request) throws InvalidProtocolBufferException {
-		ReqNewGuess msgRequest = ReqNewGuess.parseFrom(request.getBody().getSerializedContent());
+	public ReqAllGuessInfo parseMsg(Request request) throws InvalidProtocolBufferException {
+		ReqAllGuessInfo msgRequest = ReqAllGuessInfo.parseFrom(request.getBody().getSerializedContent());
 		return msgRequest;
 	}
 
 	@Override
-	public GCRequestType getMsgType(ReqNewGuess request) {
+	public GCRequestType getMsgType(ReqAllGuessInfo request) {
 		return request.getReqType();
 	}
 }

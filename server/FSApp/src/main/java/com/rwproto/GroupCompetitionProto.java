@@ -9434,7 +9434,7 @@ public final class GroupCompetitionProto {
    * Protobuf type {@code groupCompetition.ReqAllGuessInfo}
    *
    * <pre>
-   *请求竞猜
+   *请求竞猜（请求同步当前可竞猜数据）
    * </pre>
    */
   public static final class ReqAllGuessInfo extends
@@ -9677,7 +9677,7 @@ public final class GroupCompetitionProto {
      * Protobuf type {@code groupCompetition.ReqAllGuessInfo}
      *
      * <pre>
-     *请求竞猜
+     *请求竞猜（请求同步当前可竞猜数据）
      * </pre>
      */
     public static final class Builder extends
@@ -9882,31 +9882,6 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCResultType getRstType();
-
-    // repeated .groupCompetition.MatchGuessInfo guessInfo = 2;
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo> 
-        getGuessInfoList();
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    com.rwproto.GroupCompetitionProto.MatchGuessInfo getGuessInfo(int index);
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    int getGuessInfoCount();
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    java.util.List<? extends com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder> 
-        getGuessInfoOrBuilderList();
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder getGuessInfoOrBuilder(
-        int index);
   }
   /**
    * Protobuf type {@code groupCompetition.RspAllGuessInfo}
@@ -9974,14 +9949,6 @@ public final class GroupCompetitionProto {
               }
               break;
             }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                guessInfo_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.MatchGuessInfo>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              guessInfo_.add(input.readMessage(com.rwproto.GroupCompetitionProto.MatchGuessInfo.PARSER, extensionRegistry));
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9990,9 +9957,6 @@ public final class GroupCompetitionProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          guessInfo_ = java.util.Collections.unmodifiableList(guessInfo_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -10049,45 +10013,8 @@ public final class GroupCompetitionProto {
       return rstType_;
     }
 
-    // repeated .groupCompetition.MatchGuessInfo guessInfo = 2;
-    public static final int GUESSINFO_FIELD_NUMBER = 2;
-    private java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo> guessInfo_;
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    public java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo> getGuessInfoList() {
-      return guessInfo_;
-    }
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    public java.util.List<? extends com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder> 
-        getGuessInfoOrBuilderList() {
-      return guessInfo_;
-    }
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    public int getGuessInfoCount() {
-      return guessInfo_.size();
-    }
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    public com.rwproto.GroupCompetitionProto.MatchGuessInfo getGuessInfo(int index) {
-      return guessInfo_.get(index);
-    }
-    /**
-     * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-     */
-    public com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder getGuessInfoOrBuilder(
-        int index) {
-      return guessInfo_.get(index);
-    }
-
     private void initFields() {
       rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
-      guessInfo_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10098,12 +10025,6 @@ public final class GroupCompetitionProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getGuessInfoCount(); i++) {
-        if (!getGuessInfo(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -10113,9 +10034,6 @@ public final class GroupCompetitionProto {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, rstType_.getNumber());
-      }
-      for (int i = 0; i < guessInfo_.size(); i++) {
-        output.writeMessage(2, guessInfo_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -10129,10 +10047,6 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, rstType_.getNumber());
-      }
-      for (int i = 0; i < guessInfo_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, guessInfo_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10246,7 +10160,6 @@ public final class GroupCompetitionProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getGuessInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -10257,12 +10170,6 @@ public final class GroupCompetitionProto {
         super.clear();
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
-        if (guessInfoBuilder_ == null) {
-          guessInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          guessInfoBuilder_.clear();
-        }
         return this;
       }
 
@@ -10295,15 +10202,6 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000001;
         }
         result.rstType_ = rstType_;
-        if (guessInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            guessInfo_ = java.util.Collections.unmodifiableList(guessInfo_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.guessInfo_ = guessInfo_;
-        } else {
-          result.guessInfo_ = guessInfoBuilder_.build();
-        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10323,32 +10221,6 @@ public final class GroupCompetitionProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
-        if (guessInfoBuilder_ == null) {
-          if (!other.guessInfo_.isEmpty()) {
-            if (guessInfo_.isEmpty()) {
-              guessInfo_ = other.guessInfo_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureGuessInfoIsMutable();
-              guessInfo_.addAll(other.guessInfo_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.guessInfo_.isEmpty()) {
-            if (guessInfoBuilder_.isEmpty()) {
-              guessInfoBuilder_.dispose();
-              guessInfoBuilder_ = null;
-              guessInfo_ = other.guessInfo_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              guessInfoBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getGuessInfoFieldBuilder() : null;
-            } else {
-              guessInfoBuilder_.addAllMessages(other.guessInfo_);
-            }
-          }
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -10357,12 +10229,6 @@ public final class GroupCompetitionProto {
         if (!hasRstType()) {
           
           return false;
-        }
-        for (int i = 0; i < getGuessInfoCount(); i++) {
-          if (!getGuessInfo(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -10436,246 +10302,6 @@ public final class GroupCompetitionProto {
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         onChanged();
         return this;
-      }
-
-      // repeated .groupCompetition.MatchGuessInfo guessInfo = 2;
-      private java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo> guessInfo_ =
-        java.util.Collections.emptyList();
-      private void ensureGuessInfoIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          guessInfo_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.MatchGuessInfo>(guessInfo_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCompetitionProto.MatchGuessInfo, com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder, com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder> guessInfoBuilder_;
-
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo> getGuessInfoList() {
-        if (guessInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(guessInfo_);
-        } else {
-          return guessInfoBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public int getGuessInfoCount() {
-        if (guessInfoBuilder_ == null) {
-          return guessInfo_.size();
-        } else {
-          return guessInfoBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public com.rwproto.GroupCompetitionProto.MatchGuessInfo getGuessInfo(int index) {
-        if (guessInfoBuilder_ == null) {
-          return guessInfo_.get(index);
-        } else {
-          return guessInfoBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder setGuessInfo(
-          int index, com.rwproto.GroupCompetitionProto.MatchGuessInfo value) {
-        if (guessInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGuessInfoIsMutable();
-          guessInfo_.set(index, value);
-          onChanged();
-        } else {
-          guessInfoBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder setGuessInfo(
-          int index, com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder builderForValue) {
-        if (guessInfoBuilder_ == null) {
-          ensureGuessInfoIsMutable();
-          guessInfo_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          guessInfoBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder addGuessInfo(com.rwproto.GroupCompetitionProto.MatchGuessInfo value) {
-        if (guessInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGuessInfoIsMutable();
-          guessInfo_.add(value);
-          onChanged();
-        } else {
-          guessInfoBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder addGuessInfo(
-          int index, com.rwproto.GroupCompetitionProto.MatchGuessInfo value) {
-        if (guessInfoBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureGuessInfoIsMutable();
-          guessInfo_.add(index, value);
-          onChanged();
-        } else {
-          guessInfoBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder addGuessInfo(
-          com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder builderForValue) {
-        if (guessInfoBuilder_ == null) {
-          ensureGuessInfoIsMutable();
-          guessInfo_.add(builderForValue.build());
-          onChanged();
-        } else {
-          guessInfoBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder addGuessInfo(
-          int index, com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder builderForValue) {
-        if (guessInfoBuilder_ == null) {
-          ensureGuessInfoIsMutable();
-          guessInfo_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          guessInfoBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder addAllGuessInfo(
-          java.lang.Iterable<? extends com.rwproto.GroupCompetitionProto.MatchGuessInfo> values) {
-        if (guessInfoBuilder_ == null) {
-          ensureGuessInfoIsMutable();
-          super.addAll(values, guessInfo_);
-          onChanged();
-        } else {
-          guessInfoBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder clearGuessInfo() {
-        if (guessInfoBuilder_ == null) {
-          guessInfo_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          guessInfoBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public Builder removeGuessInfo(int index) {
-        if (guessInfoBuilder_ == null) {
-          ensureGuessInfoIsMutable();
-          guessInfo_.remove(index);
-          onChanged();
-        } else {
-          guessInfoBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder getGuessInfoBuilder(
-          int index) {
-        return getGuessInfoFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder getGuessInfoOrBuilder(
-          int index) {
-        if (guessInfoBuilder_ == null) {
-          return guessInfo_.get(index);  } else {
-          return guessInfoBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public java.util.List<? extends com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder> 
-           getGuessInfoOrBuilderList() {
-        if (guessInfoBuilder_ != null) {
-          return guessInfoBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(guessInfo_);
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder addGuessInfoBuilder() {
-        return getGuessInfoFieldBuilder().addBuilder(
-            com.rwproto.GroupCompetitionProto.MatchGuessInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder addGuessInfoBuilder(
-          int index) {
-        return getGuessInfoFieldBuilder().addBuilder(
-            index, com.rwproto.GroupCompetitionProto.MatchGuessInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupCompetition.MatchGuessInfo guessInfo = 2;</code>
-       */
-      public java.util.List<com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder> 
-           getGuessInfoBuilderList() {
-        return getGuessInfoFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCompetitionProto.MatchGuessInfo, com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder, com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder> 
-          getGuessInfoFieldBuilder() {
-        if (guessInfoBuilder_ == null) {
-          guessInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GroupCompetitionProto.MatchGuessInfo, com.rwproto.GroupCompetitionProto.MatchGuessInfo.Builder, com.rwproto.GroupCompetitionProto.MatchGuessInfoOrBuilder>(
-                  guessInfo_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          guessInfo_ = null;
-        }
-        return guessInfoBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupCompetition.RspAllGuessInfo)
@@ -19252,45 +18878,44 @@ public final class GroupCompetitionProto {
       "roupInfo\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002" +
       " \002(\t\022\021\n\tgroupName\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002",
       "\"C\n\017ReqAllGuessInfo\0220\n\007reqType\030\001 \002(\0162\037.g" +
-      "roupCompetition.GCRequestType\"w\n\017RspAllG" +
+      "roupCompetition.GCRequestType\"B\n\017RspAllG" +
       "uessInfo\022/\n\007rstType\030\001 \002(\0162\036.groupCompeti" +
-      "tion.GCResultType\0223\n\tguessInfo\030\002 \003(\0132 .g" +
-      "roupCompetition.MatchGuessInfo\"o\n\013ReqNew" +
-      "Guess\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
-      "n.GCRequestType\022\017\n\007matchId\030\002 \002(\005\022\017\n\007grou" +
-      "pId\030\003 \002(\t\022\014\n\004coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/" +
-      "\n\007rstType\030\001 \002(\0162\036.groupCompetition.GCRes" +
-      "ultType\022\016\n\006tipMsg\030\002 \001(\t\"\335\001\n\016PlayerBaseIn",
-      "fo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005" +
-      "level\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005" +
-      " \002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023" +
-      "\n\013fightingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014" +
-      "fashionUsage\030\n \001(\0132\033.FashionService.Fash" +
-      "ionUsed\"\240\001\n\020SelectionRspData\0226\n\010rankings" +
-      "\030\001 \003(\0132$.groupCompetition.SelectionGroup" +
-      "Data\022:\n\014ownGroupData\030\002 \001(\0132$.groupCompet" +
-      "ition.SelectionGroupData\022\030\n\020selectionEnd" +
-      "Time\030\003 \002(\006\"T\n\022SelectionGroupData\022\017\n\007rank",
-      "ing\030\001 \002(\007\022\014\n\004name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(" +
-      "\006\022\r\n\005upNum\030\004 \002(\007\"O\n\013TeamRequest\0220\n\007reqTy" +
-      "pe\030\001 \002(\0162\037.groupCompetition.GCRequestTyp" +
-      "e\022\016\n\006heroId\030\002 \003(\t\"\035\n\013JoinTeamReq\022\016\n\006team" +
-      "Id\030\001 \002(\007\"[\n\021TeamMemberRequest\0220\n\007reqType" +
-      "\030\001 \002(\0162\037.groupCompetition.GCRequestType\022" +
-      "\024\n\014targetUserId\030\002 \002(\t\"\"\n\021TeamStatusReque" +
-      "st\022\r\n\005ready\030\001 \002(\010\"M\n\tCommonRsp\0222\n\nresult" +
-      "Type\030\001 \002(\0162\036.groupCompetition.GCResultTy" +
-      "pe\022\014\n\004tips\030\002 \001(\t*\256\002\n\rGCRequestType\022\024\n\020En",
-      "terPrepareArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031" +
-      "\n\025InformPreparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017" +
-      "\n\013PlaybackMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGues" +
-      "s\020\007\022\026\n\022GetPlayersBaseInfo\020\010\022\020\n\014GetMatchV" +
-      "iew\020\t\022\024\n\020GetSelectionData\020\n\022\016\n\nCreateTea" +
-      "m\020\013\022\024\n\020AdjustTeamMember\020\014\022\020\n\014InviteMembe" +
-      "r\020\r\022\016\n\nKickMember\020\016\022\024\n\020GetCanGuessMatch\020" +
-      "\017*@\n\014GCResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_E" +
-      "RROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013com.rwpro" +
-      "toB\025GroupCompetitionProto"
+      "tion.GCResultType\"o\n\013ReqNewGuess\0220\n\007reqT" +
+      "ype\030\001 \002(\0162\037.groupCompetition.GCRequestTy" +
+      "pe\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004" +
+      "coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002" +
+      "(\0162\036.groupCompetition.GCResultType\022\016\n\006ti" +
+      "pMsg\030\002 \001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030" +
+      "\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017",
+      "\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006" +
+      " \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll" +
+      "\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030" +
+      "\n \001(\0132\033.FashionService.FashionUsed\"\240\001\n\020S" +
+      "electionRspData\0226\n\010rankings\030\001 \003(\0132$.grou" +
+      "pCompetition.SelectionGroupData\022:\n\014ownGr" +
+      "oupData\030\002 \001(\0132$.groupCompetition.Selecti" +
+      "onGroupData\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n" +
+      "\022SelectionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004" +
+      "name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 ",
+      "\002(\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.gr" +
+      "oupCompetition.GCRequestType\022\016\n\006heroId\030\002" +
+      " \003(\t\"\035\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\007\"[\n\021T" +
+      "eamMemberRequest\0220\n\007reqType\030\001 \002(\0162\037.grou" +
+      "pCompetition.GCRequestType\022\024\n\014targetUser" +
+      "Id\030\002 \002(\t\"\"\n\021TeamStatusRequest\022\r\n\005ready\030\001" +
+      " \002(\010\"M\n\tCommonRsp\0222\n\nresultType\030\001 \002(\0162\036." +
+      "groupCompetition.GCResultType\022\014\n\004tips\030\002 " +
+      "\001(\t*\256\002\n\rGCRequestType\022\024\n\020EnterPrepareAre" +
+      "a\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPrepa",
+      "rePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg" +
+      "\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPla" +
+      "yersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetS" +
+      "electionData\020\n\022\016\n\nCreateTeam\020\013\022\024\n\020Adjust" +
+      "TeamMember\020\014\022\020\n\014InviteMember\020\r\022\016\n\nKickMe" +
+      "mber\020\016\022\024\n\020GetCanGuessMatch\020\017*@\n\014GCResult" +
+      "Type\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COI" +
+      "N_NOT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupComp" +
+      "etitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -19368,7 +18993,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_RspAllGuessInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_RspAllGuessInfo_descriptor,
-              new java.lang.String[] { "RstType", "GuessInfo", });
+              new java.lang.String[] { "RstType", });
           internal_static_groupCompetition_ReqNewGuess_descriptor =
             getDescriptor().getMessageTypes().get(12);
           internal_static_groupCompetition_ReqNewGuess_fieldAccessorTable = new

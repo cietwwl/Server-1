@@ -28,7 +28,9 @@ import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
+import com.rwproto.GroupCompetitionProto.RspAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
@@ -214,8 +216,8 @@ public class GroupCompetitionHandler {
 		return gcRsp.build().toByteString();
 	}
 	
-	public ByteString getCanGuessMatch(Player player, ReqNewGuess request) {
-		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
+	public ByteString getCanGuessMatch(Player player, ReqAllGuessInfo request) {
+		RspAllGuessInfo.Builder gcRsp = RspAllGuessInfo.newBuilder();
 		GCompQuizMgr.getInstance().getCanGuizMatch(player, gcRsp);
 		return gcRsp.build().toByteString();
 	}
