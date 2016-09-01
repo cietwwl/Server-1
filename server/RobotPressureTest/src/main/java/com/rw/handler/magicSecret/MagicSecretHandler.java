@@ -108,11 +108,12 @@ public class MagicSecretHandler {
 			return result;
 		}
 		result = getReward(client);
-		if (!result) {
-			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
-			return result;
-		}
-		return openBoxHandler(client, dungeonId);
+		return result;
+//		if (!result) {
+//			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
+//			return result;
+//		}
+//		return openBoxHandler(client, dungeonId);
 	}
 
 	private boolean openBoxHandler(Client client, String dungeonId) {
@@ -132,8 +133,8 @@ public class MagicSecretHandler {
 			RobotLog.fail("MagicSecretHandler[send]放弃道具反馈结果=" + result);
 			return result;
 		}
-
-		return exchangeBuffHandler(client);
+		return result;
+//		return exchangeBuffHandler(client);
 	}
 
 	private boolean exchangeBuffHandler(Client client) {
