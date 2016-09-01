@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.quiz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,7 +9,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -83,9 +84,9 @@ public class GCompQuizMgr {
 	/**
 	 * 阶段开始时，创建竞猜项目
 	 */
-	public void groupCompEventStart(){
+	public void groupCompEventsStart(){
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData envetsData = GCompMatchDataMgr.getInstance().getEventsData(currentEvent);
+		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		for(GCompAgainst against :currentAgainst){
 			IGCGroup groupA = against.getGroupA();
@@ -108,7 +109,7 @@ public class GCompQuizMgr {
 	 * @param matchId 结算的比赛id
 	 * @param winGroupId 获胜的帮派id
 	 */
-	public void groupCompEventEnd(int matchId, String winGroupId){
+	public void groupCompEventsEnd(int matchId, String winGroupId){
 		GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(matchId);
 		if(null == quizEvent){
 			return;

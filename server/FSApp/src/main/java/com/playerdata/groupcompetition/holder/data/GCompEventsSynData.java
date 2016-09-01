@@ -13,7 +13,7 @@ import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 @SynClass
-public class GCompMatchSynData {
+public class GCompEventsSynData {
 
 	private List<GCompAgainst> matches = new ArrayList<GCompAgainst>();
 	@IgnoreSynField

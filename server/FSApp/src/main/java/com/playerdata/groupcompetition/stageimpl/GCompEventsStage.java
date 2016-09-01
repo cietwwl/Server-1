@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
@@ -187,7 +187,7 @@ public class GCompEventsStage implements IGCompStage {
 		} else {
 			startType = GCEventsType.TOP_8;
 		}
-		GCompMatchDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
+		GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
 		List<String> loseGroupIds = Collections.emptyList();
 		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);

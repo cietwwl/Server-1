@@ -9,6 +9,11 @@ public class GCompTeamMember {
 	private boolean isLeader;
 	private ArmyInfoSimple teamInfo;
 	
+	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
+		this.isLeader = pIsLeader;
+		this.teamInfo = pTeamInfo;
+	}
+	
 	public boolean isLeader() {
 		return this.isLeader;
 	}

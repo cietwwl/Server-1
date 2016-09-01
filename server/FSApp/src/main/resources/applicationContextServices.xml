@@ -118,6 +118,11 @@
      			<entry key="MSG_GROUP_COMPETITION_GET_DATA" value-ref="groupCompetitionDataService" />
 				<entry key="MSG_GROUP_COMPETITION_QUIZ" value-ref="groupCompQuizService" />
 				<entry key="MSG_GROUP_COMPETITION_QUIZ_SYN" value-ref="groupCompCanQuizService" />
+     			<entry key="MSG_GROUP_COMPETITION_GET_DATA" value-ref="groupCompetitionDataService" />
+     			<entry key="MSG_GROUP_COMPETITION_TEAM_REQ" value-ref="groupCompetitionEventsService" />
+     			<entry key="MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ" value-ref="groupCompetitionEventsService" />
+     			<entry key="MSG_GROUP_COMPETITION_TEAM_STATUS_REQ" value-ref="groupCompetitionEventsService" />
+     			<entry key="MSG_GROUP_JOIN_TEAM_REQ" value-ref="groupCompetitionEventsService" />
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
 			</map>
 		</property>
@@ -210,6 +215,7 @@
 	<bean id="groupCompetitionDataService" class="com.playerdata.groupcompetition.service.GroupCompetitionGetDataService" />
 	<bean id="groupCompQuizService" class="com.playerdata.groupcompetition.service.GroupCompQuizService" />
 	<bean id="groupCompCanQuizService" class="com.playerdata.groupcompetition.service.GroupCompQuizSynService" />
+	<bean id="groupCompetitionEventsService" class="com.playerdata.groupcompetition.service.GroupCompetitionEventsService" />
 	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
 </beans>  

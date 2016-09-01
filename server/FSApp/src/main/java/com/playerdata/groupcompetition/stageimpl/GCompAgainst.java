@@ -35,8 +35,13 @@ public class GCompAgainst implements IGCAgainst {
 		this.position = pPosition;
 	}
 	
-	public void setWinner(String pWinner) {
-		this.winner = pWinner;
+	public void setWinGroupId(String winGroupId) {
+		this.winner = winGroupId;
+		this.winGroup = groupA.getGroupId().equals(winner) ? groupA : groupB;
+	}
+	
+	public String getWinGroupId() {
+		return winner;
 	}
 	
 	@Override

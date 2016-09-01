@@ -218,8 +218,9 @@ public class GMHandler {
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
 		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
-		funcCallBackMap.put("moveGroupCompStage".toLowerCase(), "moveGroupCompStage");
+		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
+		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1503,6 +1504,25 @@ public class GMHandler {
 		requestBuilder.setHeader(headerBuilder.build());
 		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
 		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonReqMsg.newBuilder().setReqType(GCRequestType.EnterPrepareArea).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestCreateGCompTeam(String[] arrCommandContents, Player player) {
+		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
+		if (heroIds.isEmpty()) {
+			return false;
+		}
+		int size = heroIds.size();
+		heroIds = new ArrayList<String>(heroIds.subList(0, size > 4 ? 4 : size));
+		heroIds.add(player.getUserId());
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_TEAM_REQ);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamRequest.newBuilder().setReqType(GCRequestType.CreateTeam).addAllHeroId(heroIds).build().toByteString());
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}

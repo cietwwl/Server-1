@@ -2,33 +2,33 @@ package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.dao.GCompMatchDataDAO;
-import com.playerdata.groupcompetition.holder.data.GCompMatchSynData;
+import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
+import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GCompMatchDataHolder {
+public class GCompEventsDataHolder {
 
-	private static final GCompMatchDataHolder _instance = new GCompMatchDataHolder();
+	private static final GCompEventsDataHolder _instance = new GCompEventsDataHolder();
 	
-	public static GCompMatchDataHolder getInstance() {
+	public static GCompEventsDataHolder getInstance() {
 		return _instance;
 	}
 	
 	private final eSynType _synType = eSynType.GCompMatch;
-	private final GCompMatchDataDAO _dao;
+	private final GCompEventsDataDAO _dao;
 	
-	protected GCompMatchDataHolder() {
-		this._dao = GCompMatchDataDAO.getInstance();
+	protected GCompEventsDataHolder() {
+		this._dao = GCompEventsDataDAO.getInstance();
 	}
 	
-	GCompMatchSynData get() {
+	GCompEventsSynData get() {
 		return _dao.get();
 	}
 	
 	public void syn(Player toPlayer) {
-		GCompMatchSynData synData = this.get();
+		GCompEventsSynData synData = this.get();
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
 		GCompUtil.log("同步数据：{}", synData);
 	}
