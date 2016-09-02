@@ -39,7 +39,10 @@ public class ActivityVitalityItemHolder{
 		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
 		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();			
+			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();	
+			if(ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -101,14 +104,14 @@ public class ActivityVitalityItemHolder{
 //	
 	public void synAllData(Player player){
 		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());	
-		Iterator<ActivityVitalityTypeItem> it = itemList.iterator();
-		while(it.hasNext()){
-			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem)it.next();
-			if(ActivityVitalityCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-//				removeItem(player, item);
-				it.remove();
-			}
-		}		
+//		Iterator<ActivityVitalityTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem)it.next();
+//			if(ActivityVitalityCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+////				removeItem(player, item);
+//				it.remove();
+//			}
+//		}		
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

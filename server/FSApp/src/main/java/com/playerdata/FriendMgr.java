@@ -376,27 +376,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		return resultVo;
 	}
 
-	/** 未搜索到好友，为其查找相近好友，最多10人。 */
-	public List<FriendInfo> searchNearFriend() {
-		List<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>();
-		Map<String, Player> m_PlayerList = PlayerMgr.getInstance().getAllPlayer();
-		Iterator<Player> it = m_PlayerList.values().iterator();
-		TableFriend tableFriend = getTableFriend();
-		while (resultList.size() < 10 && it.hasNext()) {
-			Player player = it.next();
-			if (Math.abs(player.getLevel() - m_pPlayer.getLevel()) <= 5 && // 等级符合
-					!tableFriend.getFriendList().containsKey(player.getUserId()) && // 不是自己好友
-					!tableFriend.getRequestList().containsKey(player.getUserId()) && // 未在请求列表
-					!tableFriend.getBlackList().containsKey(player.getUserId()) && // 未在黑名单列表
-					!player.getUserId().equals(m_pPlayer.getUserId())) {// 不是自己
-
-				FriendItem item = FriendItem.newInstance(player.getUserId());
-				resultList.add(friendItemToInfo(item));
-			}
-		}
-		return resultList;
-	}
-
 	/** 赠送体力 */
 	public FriendResultVo givePower(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
@@ -453,7 +432,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					tableFriend.getFriendGiveList().get(otherUserId).setReceiveState(false);
 					resultVo.resultType = EFriendResultType.SUCCESS;
 					list.add(tableFriend.getFriendList().get(otherUserId));
-					tableFriend.getFriendVo().addOnePower(A_POWER_COUNT);
+					tableFriend.getFriendVo().addOnePower(1);
 					resultVo.powerCount = A_POWER_COUNT;
 					resultVo.updateList = friendItemToInfoList(list);
 					resultVo.resultMsg = "成功领取 " + A_POWER_COUNT + "体力，今日还可领取 " + tableFriend.getFriendVo().getSurplusCount(m_pPlayer.getLevel()) + " 次";
@@ -550,6 +529,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 		resultVo.powerCount = count * A_POWER_COUNT;
 
+		tableFriend.getFriendVo().addOnePower(count); // 2016-08-30 by PERRY
+		
 		if (count == 0 && !tableFriend.getFriendVo().isCanReceive(m_pPlayer.getLevel())) {
 			resultVo.resultMsg = "今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.FAIL;
@@ -565,7 +546,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 
 		resultVo.updateList = friendItemToInfoList(list);
-		tableFriend.getFriendVo().addOnePower(resultVo.powerCount);
+//		tableFriend.getFriendVo().addOnePower(resultVo.powerCount); // 放前一点
 
 		FriendUtils.checkHasNotReceive(m_pPlayer, tableFriend);
 		return resultVo;

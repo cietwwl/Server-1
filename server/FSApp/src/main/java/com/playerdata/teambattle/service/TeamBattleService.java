@@ -1,6 +1,9 @@
 package com.playerdata.teambattle.service;
 
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -17,69 +20,67 @@ import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
  * @author AkenWang
  *
  */
-public class TeamBattleService implements FsService {
+public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestType> {
 
 	private TeamBattleHandler mHandler = TeamBattleHandler.getInstance();
-
+	
 	@SuppressWarnings("finally")
-	public ByteString doTask(Request request, Player player) {
+	@Override
+	public ByteString doTask(TeamBattleReqMsg request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			TeamBattleReqMsg msgTBRequest = TeamBattleReqMsg.parseFrom(request.getBody().getSerializedContent());
-			TBRequestType msType = msgTBRequest.getReqType();
+			
+			TBRequestType msType = request.getReqType();
 			switch (msType) {
 			case SYN_TEAM_BATTLE:
-				result = mHandler.synTeamBattle(player, msgTBRequest);
+				result = mHandler.synTeamBattle(player, request);
 				break;
 			case NON_SYN_TEAM_BATTLE:
-				result = mHandler.nonSynTeamBattle(player, msgTBRequest);
+				result = mHandler.nonSynTeamBattle(player, request);
 				break;
 			case SAVE_TEAM_INFO:
-				result = mHandler.saveTeamInfo(player, msgTBRequest);
+				result = mHandler.saveTeamInfo(player, request);
 				break;
 			case CREATE_TEAM:
-				result = mHandler.createTeam(player, msgTBRequest);
+				result = mHandler.createTeam(player, request);
 				break;
 			case JOIN_TEAM:
-				result = mHandler.joinTeam(player, msgTBRequest);
+				result = mHandler.joinTeam(player, request);
 				break;
 			case ACCEPT_INVITE:
-				result = mHandler.acceptInvite(player, msgTBRequest);
+				result = mHandler.acceptInvite(player, request);
 				break;
 			case SET_TEAM_FREE_JION:
-				result = mHandler.setTeamFreeJion(player, msgTBRequest);
+				result = mHandler.setTeamFreeJion(player, request);
 				break;
 			case KICK_OFF_MEMBER:
-				result = mHandler.kickoffMember(player, msgTBRequest);
+				result = mHandler.kickoffMember(player, request);
 				break;
 			case INVITE_PLAYER:
-				result = mHandler.invitePlayer(player, msgTBRequest);
+				result = mHandler.invitePlayer(player, request);
 				break;
 			case START_FIGHT:
-				result = mHandler.startFight(player, msgTBRequest);
+				result = mHandler.startFight(player, request);
 				break;
 			case INFORM_FIGHT_RESULT:
-				result = mHandler.informFightResult(player, msgTBRequest);
+				result = mHandler.informFightResult(player, request);
 				break;
 			case LEAVE_TEAM:
-				result = mHandler.leaveTeam(player, msgTBRequest);
+				result = mHandler.leaveTeam(player, request);
 				break;
 			case SCORE_EXCHANGE:
-				result = mHandler.scoreExchage(player, msgTBRequest);
+				result = mHandler.scoreExchage(player, request);
 				break;
 			case SAVE_MEMBER_POSITION:
-				result = mHandler.saveMemPosition(player, msgTBRequest);
+				result = mHandler.saveMemPosition(player, request);
 				break;
 			case BUY_TIMES:
-				result = mHandler.buyBattleTimes(player, msgTBRequest);
+				result = mHandler.buyBattleTimes(player, request);
 			default:
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
-			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
-			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
-			result = tbRsp.build().toByteString();
 		} catch (Exception e) {
 			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
 			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
@@ -87,5 +88,18 @@ public class TeamBattleService implements FsService {
 		} finally {
 			return result;
 		}
+	}
+
+	@Override
+	public TeamBattleReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		TeamBattleReqMsg msgTBRequest = TeamBattleReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return msgTBRequest;
+	}
+
+	@Override
+	public TBRequestType getMsgType(TeamBattleReqMsg request) {
+		// TODO Auto-generated method stub
+		return request.getReqType();
 	}
 }

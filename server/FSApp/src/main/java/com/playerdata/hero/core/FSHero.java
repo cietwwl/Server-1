@@ -200,6 +200,9 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfoIF {
 			if (preFighting != attr.getFighting()) {
 				// 保持那边的战斗力一致
 				owner.getUserGameDataMgr().notifySingleFightingChange(attr.getFighting(), preFighting);
+				// 通知同步
+				owner.getTempAttribute().setHeroFightingChanged();
+				owner.getUserTmpGameDataFlag().setSynFightingAll(true);
 			}
 		}
 	}

@@ -1687,6 +1687,85 @@ public final class DataSynProtos {
     // @@protoc_insertion_point(enum_scope:DataSyn.eSynType)
   }
 
+  /**
+   * Protobuf enum {@code DataSyn.RequestType}
+   */
+  public enum RequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>SynByType = 1;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    SynByType(0, 1),
+    ;
+
+    /**
+     * <code>SynByType = 1;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public static final int SynByType_VALUE = 1;
+
+
+    public final int getNumber() { return value; }
+
+    public static RequestType valueOf(int value) {
+      switch (value) {
+        case 1: return SynByType;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+            public RequestType findValueByNumber(int number) {
+              return RequestType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.DataSynProtos.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final RequestType[] VALUES = values();
+
+    public static RequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private RequestType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:DataSyn.RequestType)
+  }
+
   public interface SynDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -5678,6 +5757,1707 @@ public final class DataSynProtos {
     // @@protoc_insertion_point(class_scope:DataSyn.MsgDataSyn)
   }
 
+  public interface DataSynReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .DataSyn.RequestType reqType = 1;
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    com.rwproto.DataSynProtos.RequestType getReqType();
+
+    // repeated .DataSyn.DataSynVersion version = 2;
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    java.util.List<com.rwproto.DataSynProtos.DataSynVersion> 
+        getVersionList();
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    com.rwproto.DataSynProtos.DataSynVersion getVersion(int index);
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    int getVersionCount();
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.DataSynProtos.DataSynVersionOrBuilder> 
+        getVersionOrBuilderList();
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    com.rwproto.DataSynProtos.DataSynVersionOrBuilder getVersionOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code DataSyn.DataSynReqMsg}
+   */
+  public static final class DataSynReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements DataSynReqMsgOrBuilder {
+    // Use DataSynReqMsg.newBuilder() to construct.
+    private DataSynReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DataSynReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DataSynReqMsg defaultInstance;
+    public static DataSynReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DataSynReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DataSynReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.DataSynProtos.RequestType value = com.rwproto.DataSynProtos.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                version_ = new java.util.ArrayList<com.rwproto.DataSynProtos.DataSynVersion>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              version_.add(input.readMessage(com.rwproto.DataSynProtos.DataSynVersion.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          version_ = java.util.Collections.unmodifiableList(version_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.DataSynProtos.DataSynReqMsg.class, com.rwproto.DataSynProtos.DataSynReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DataSynReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<DataSynReqMsg>() {
+      public DataSynReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DataSynReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DataSynReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .DataSyn.RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.DataSynProtos.RequestType reqType_;
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求功能协议类型
+     * </pre>
+     */
+    public com.rwproto.DataSynProtos.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // repeated .DataSyn.DataSynVersion version = 2;
+    public static final int VERSION_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.DataSynProtos.DataSynVersion> version_;
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    public java.util.List<com.rwproto.DataSynProtos.DataSynVersion> getVersionList() {
+      return version_;
+    }
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.DataSynProtos.DataSynVersionOrBuilder> 
+        getVersionOrBuilderList() {
+      return version_;
+    }
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    public int getVersionCount() {
+      return version_.size();
+    }
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    public com.rwproto.DataSynProtos.DataSynVersion getVersion(int index) {
+      return version_.get(index);
+    }
+    /**
+     * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+     *
+     * <pre>
+     *同步数据版本
+     * </pre>
+     */
+    public com.rwproto.DataSynProtos.DataSynVersionOrBuilder getVersionOrBuilder(
+        int index) {
+      return version_.get(index);
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+      version_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getVersionCount(); i++) {
+        if (!getVersion(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      for (int i = 0; i < version_.size(); i++) {
+        output.writeMessage(2, version_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      for (int i = 0; i < version_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, version_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.DataSynProtos.DataSynReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DataSyn.DataSynReqMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.DataSynProtos.DataSynReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.DataSynProtos.DataSynReqMsg.class, com.rwproto.DataSynProtos.DataSynReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.DataSynProtos.DataSynReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getVersionFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (versionBuilder_ == null) {
+          version_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          versionBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynReqMsg_descriptor;
+      }
+
+      public com.rwproto.DataSynProtos.DataSynReqMsg getDefaultInstanceForType() {
+        return com.rwproto.DataSynProtos.DataSynReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.DataSynProtos.DataSynReqMsg build() {
+        com.rwproto.DataSynProtos.DataSynReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.DataSynProtos.DataSynReqMsg buildPartial() {
+        com.rwproto.DataSynProtos.DataSynReqMsg result = new com.rwproto.DataSynProtos.DataSynReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (versionBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            version_ = java.util.Collections.unmodifiableList(version_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.version_ = version_;
+        } else {
+          result.version_ = versionBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.DataSynProtos.DataSynReqMsg) {
+          return mergeFrom((com.rwproto.DataSynProtos.DataSynReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.DataSynProtos.DataSynReqMsg other) {
+        if (other == com.rwproto.DataSynProtos.DataSynReqMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (versionBuilder_ == null) {
+          if (!other.version_.isEmpty()) {
+            if (version_.isEmpty()) {
+              version_ = other.version_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureVersionIsMutable();
+              version_.addAll(other.version_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.version_.isEmpty()) {
+            if (versionBuilder_.isEmpty()) {
+              versionBuilder_.dispose();
+              versionBuilder_ = null;
+              version_ = other.version_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              versionBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getVersionFieldBuilder() : null;
+            } else {
+              versionBuilder_.addAllMessages(other.version_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getVersionCount(); i++) {
+          if (!getVersion(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.DataSynProtos.DataSynReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.DataSynProtos.DataSynReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .DataSyn.RequestType reqType = 1;
+      private com.rwproto.DataSynProtos.RequestType reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.DataSynProtos.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求功能协议类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+        onChanged();
+        return this;
+      }
+
+      // repeated .DataSyn.DataSynVersion version = 2;
+      private java.util.List<com.rwproto.DataSynProtos.DataSynVersion> version_ =
+        java.util.Collections.emptyList();
+      private void ensureVersionIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          version_ = new java.util.ArrayList<com.rwproto.DataSynProtos.DataSynVersion>(version_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.DataSynProtos.DataSynVersion, com.rwproto.DataSynProtos.DataSynVersion.Builder, com.rwproto.DataSynProtos.DataSynVersionOrBuilder> versionBuilder_;
+
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public java.util.List<com.rwproto.DataSynProtos.DataSynVersion> getVersionList() {
+        if (versionBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(version_);
+        } else {
+          return versionBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public int getVersionCount() {
+        if (versionBuilder_ == null) {
+          return version_.size();
+        } else {
+          return versionBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.DataSynVersion getVersion(int index) {
+        if (versionBuilder_ == null) {
+          return version_.get(index);
+        } else {
+          return versionBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder setVersion(
+          int index, com.rwproto.DataSynProtos.DataSynVersion value) {
+        if (versionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionIsMutable();
+          version_.set(index, value);
+          onChanged();
+        } else {
+          versionBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder setVersion(
+          int index, com.rwproto.DataSynProtos.DataSynVersion.Builder builderForValue) {
+        if (versionBuilder_ == null) {
+          ensureVersionIsMutable();
+          version_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          versionBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder addVersion(com.rwproto.DataSynProtos.DataSynVersion value) {
+        if (versionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionIsMutable();
+          version_.add(value);
+          onChanged();
+        } else {
+          versionBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder addVersion(
+          int index, com.rwproto.DataSynProtos.DataSynVersion value) {
+        if (versionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionIsMutable();
+          version_.add(index, value);
+          onChanged();
+        } else {
+          versionBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder addVersion(
+          com.rwproto.DataSynProtos.DataSynVersion.Builder builderForValue) {
+        if (versionBuilder_ == null) {
+          ensureVersionIsMutable();
+          version_.add(builderForValue.build());
+          onChanged();
+        } else {
+          versionBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder addVersion(
+          int index, com.rwproto.DataSynProtos.DataSynVersion.Builder builderForValue) {
+        if (versionBuilder_ == null) {
+          ensureVersionIsMutable();
+          version_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          versionBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder addAllVersion(
+          java.lang.Iterable<? extends com.rwproto.DataSynProtos.DataSynVersion> values) {
+        if (versionBuilder_ == null) {
+          ensureVersionIsMutable();
+          super.addAll(values, version_);
+          onChanged();
+        } else {
+          versionBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder clearVersion() {
+        if (versionBuilder_ == null) {
+          version_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          versionBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public Builder removeVersion(int index) {
+        if (versionBuilder_ == null) {
+          ensureVersionIsMutable();
+          version_.remove(index);
+          onChanged();
+        } else {
+          versionBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.DataSynVersion.Builder getVersionBuilder(
+          int index) {
+        return getVersionFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.DataSynVersionOrBuilder getVersionOrBuilder(
+          int index) {
+        if (versionBuilder_ == null) {
+          return version_.get(index);  } else {
+          return versionBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.DataSynProtos.DataSynVersionOrBuilder> 
+           getVersionOrBuilderList() {
+        if (versionBuilder_ != null) {
+          return versionBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(version_);
+        }
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.DataSynVersion.Builder addVersionBuilder() {
+        return getVersionFieldBuilder().addBuilder(
+            com.rwproto.DataSynProtos.DataSynVersion.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.DataSynVersion.Builder addVersionBuilder(
+          int index) {
+        return getVersionFieldBuilder().addBuilder(
+            index, com.rwproto.DataSynProtos.DataSynVersion.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .DataSyn.DataSynVersion version = 2;</code>
+       *
+       * <pre>
+       *同步数据版本
+       * </pre>
+       */
+      public java.util.List<com.rwproto.DataSynProtos.DataSynVersion.Builder> 
+           getVersionBuilderList() {
+        return getVersionFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.DataSynProtos.DataSynVersion, com.rwproto.DataSynProtos.DataSynVersion.Builder, com.rwproto.DataSynProtos.DataSynVersionOrBuilder> 
+          getVersionFieldBuilder() {
+        if (versionBuilder_ == null) {
+          versionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.DataSynProtos.DataSynVersion, com.rwproto.DataSynProtos.DataSynVersion.Builder, com.rwproto.DataSynProtos.DataSynVersionOrBuilder>(
+                  version_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          version_ = null;
+        }
+        return versionBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:DataSyn.DataSynReqMsg)
+    }
+
+    static {
+      defaultInstance = new DataSynReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:DataSyn.DataSynReqMsg)
+  }
+
+  public interface DataSynRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .DataSyn.RequestType reqType = 1;
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    com.rwproto.DataSynProtos.RequestType getReqType();
+
+    // required bool isSuccess = 2;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean hasIsSuccess();
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean getIsSuccess();
+
+    // optional string tipMsg = 3;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
+  }
+  /**
+   * Protobuf type {@code DataSyn.DataSynRspMsg}
+   */
+  public static final class DataSynRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements DataSynRspMsgOrBuilder {
+    // Use DataSynRspMsg.newBuilder() to construct.
+    private DataSynRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DataSynRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DataSynRspMsg defaultInstance;
+    public static DataSynRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DataSynRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DataSynRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.DataSynProtos.RequestType value = com.rwproto.DataSynProtos.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              isSuccess_ = input.readBool();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              tipMsg_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.DataSynProtos.DataSynRspMsg.class, com.rwproto.DataSynProtos.DataSynRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DataSynRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<DataSynRspMsg>() {
+      public DataSynRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DataSynRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DataSynRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .DataSyn.RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.DataSynProtos.RequestType reqType_;
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .DataSyn.RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *回应的功能协议类型
+     * </pre>
+     */
+    public com.rwproto.DataSynProtos.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required bool isSuccess = 2;
+    public static final int ISSUCCESS_FIELD_NUMBER = 2;
+    private boolean isSuccess_;
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    public boolean hasIsSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool isSuccess = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    public boolean getIsSuccess() {
+      return isSuccess_;
+    }
+
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+      isSuccess_ = false;
+      tipMsg_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTipMsgBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.DataSynProtos.DataSynRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.DataSynProtos.DataSynRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DataSyn.DataSynRspMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.DataSynProtos.DataSynRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.DataSynProtos.DataSynRspMsg.class, com.rwproto.DataSynProtos.DataSynRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.DataSynProtos.DataSynRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        isSuccess_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.DataSynProtos.internal_static_DataSyn_DataSynRspMsg_descriptor;
+      }
+
+      public com.rwproto.DataSynProtos.DataSynRspMsg getDefaultInstanceForType() {
+        return com.rwproto.DataSynProtos.DataSynRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.DataSynProtos.DataSynRspMsg build() {
+        com.rwproto.DataSynProtos.DataSynRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.DataSynProtos.DataSynRspMsg buildPartial() {
+        com.rwproto.DataSynProtos.DataSynRspMsg result = new com.rwproto.DataSynProtos.DataSynRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isSuccess_ = isSuccess_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tipMsg_ = tipMsg_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.DataSynProtos.DataSynRspMsg) {
+          return mergeFrom((com.rwproto.DataSynProtos.DataSynRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.DataSynProtos.DataSynRspMsg other) {
+        if (other == com.rwproto.DataSynProtos.DataSynRspMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasIsSuccess()) {
+          setIsSuccess(other.getIsSuccess());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000004;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasIsSuccess()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.DataSynProtos.DataSynRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.DataSynProtos.DataSynRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .DataSyn.RequestType reqType = 1;
+      private com.rwproto.DataSynProtos.RequestType reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public com.rwproto.DataSynProtos.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.DataSynProtos.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .DataSyn.RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *回应的功能协议类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.DataSynProtos.RequestType.SynByType;
+        onChanged();
+        return this;
+      }
+
+      // required bool isSuccess = 2;
+      private boolean isSuccess_ ;
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public boolean hasIsSuccess() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public boolean getIsSuccess() {
+        return isSuccess_;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder setIsSuccess(boolean value) {
+        bitField0_ |= 0x00000002;
+        isSuccess_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isSuccess = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder clearIsSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isSuccess_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional string tipMsg = 3;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:DataSyn.DataSynRspMsg)
+    }
+
+    static {
+      defaultInstance = new DataSynRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:DataSyn.DataSynRspMsg)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_DataSyn_SynData_descriptor;
   private static
@@ -5703,6 +7483,16 @@ public final class DataSynProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_DataSyn_MsgDataSyn_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_DataSyn_DataSynReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_DataSyn_DataSynReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_DataSyn_DataSynRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_DataSyn_DataSynRspMsg_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5722,58 +7512,63 @@ public final class DataSynProtos {
       "Type\030\001 \002(\0162\021.DataSyn.eSynType\022&\n\tsynOpTy" +
       "pe\030\002 \001(\0162\023.DataSyn.eSynOpType\022!\n\007SynData" +
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
-      "\005\022\017\n\007groupId\030\005 \001(\t*{\n\neSynOpType\022\017\n\013UPDA" +
-      "TE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SING" +
-      "LE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020" +
-      "\005\022\024\n\020UPDATE_PART_LIST\020\006*\321\016\n\010eSynType\022\025\n\021" +
-      "COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002" +
-      "\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETAREA" +
-      "_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022" +
-      "\037\n\033SECRETAREA_DEFEND_TEAM_INFO\020\006\022\032\n\026SECR" +
-      "ETAREA_USER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016" +
-      "\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_",
-      "ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_" +
-      "ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n" +
-      "\016USER_GAME_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSE" +
-      "R_ITEM_BAG\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild" +
-      "\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016" +
-      "\n\nStore_Data\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DAT" +
-      "A\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GUILD_USER_INFO" +
-      "\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY" +
-      "_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037" +
-      "\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020!",
-      "\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeData" +
-      "\020#\022\024\n\020GROUP_COPY_LEVEL\020$\022\022\n\016GROUP_COPY_M" +
-      "AP\020%\022\025\n\021GROUP_COPY_REWARD\020&\022\030\n\024GroupAppl" +
-      "yMemberData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n" +
-      "\017GroupStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_" +
-      "INFO\020+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_F" +
-      "ETTERS\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_" +
-      "EQUIP\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017Grou" +
-      "pSecretData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020Ma" +
-      "gicChapterData\0203\022\030\n\024SECRETAREA_TEAM_INFO",
-      "\0204\022\027\n\023USE_GROUP_COPY_DATA\0205\022\032\n\026GROUP_COP" +
-      "Y_SERVER_RANK\0206\022\031\n\025GROUP_ITEM_DROP_APPLY" +
-      "\0207\022\025\n\021ActivityCountType\020<\022\030\n\024ActivityTim" +
-      "eCardType\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Act" +
-      "ivityDateType\020?\022\030\n\024ActivityTimeSaleType\020" +
-      "@\022\030\n\024ActivityDateSaleType\020A\022\024\n\020ActivityR" +
-      "ankType\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025A" +
-      "ctivityTimeCountType\020D\022\025\n\021ActivityDailyT" +
-      "ype\020E\022\030\n\024ActivityVitalityType\020F\022\035\n\031Activ" +
-      "ityDailyDiscountType\020G\022\033\n\027ActivityVipDis",
-      "countType\020H\022\033\n\027ActivityRedEnvelopeType\020I" +
-      "\022\032\n\026ActivityFortuneCatType\020J\022\031\n\025Activity" +
-      "LimitHeroType\020K\022\020\n\014QuestionList\020P\022\021\n\rGFB" +
-      "iddingData\020Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GF" +
-      "ightOnlineGroupData\020S\022\034\n\030GFightOnlinePer" +
-      "sonalData\020T\022\034\n\030GFightOnlineResourceData\020" +
-      "U\022\r\n\tMajorData\020V\022\026\n\022GFightSimpleLeader\020W" +
-      "\022\025\n\021GFightFinalReward\020X\022\020\n\014EmbattleInfo\020" +
-      "Y\022\025\n\021MAGICEQUIP_FETTER\020Z\022\024\n\020USER_TEAM_BA" +
-      "TTLE\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\\022\035\n\031Activity",
-      "DailyRechargeType\020]B\034\n\013com.rwprotoB\rData" +
-      "SynProtos"
+      "\005\022\017\n\007groupId\030\005 \001(\t\"`\n\rDataSynReqMsg\022%\n\007r" +
+      "eqType\030\001 \002(\0162\024.DataSyn.RequestType\022(\n\007ve" +
+      "rsion\030\002 \003(\0132\027.DataSyn.DataSynVersion\"Y\n\r" +
+      "DataSynRspMsg\022%\n\007reqType\030\001 \002(\0162\024.DataSyn" +
+      ".RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
+      "g\030\003 \001(\t*{\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021" +
+      "\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREM" +
+      "OVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020\005\022\024\n\020UPDATE" +
+      "_PART_LIST\020\006*\321\016\n\010eSynType\022\025\n\021COPY_LEVEL_" +
+      "RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\030\n\024SECRETA",
+      "REA_BASE_INFO\020\003\022\031\n\025SECRETAREA_DEF_RECORD" +
+      "\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\037\n\033SECRETAR" +
+      "EA_DEFEND_TEAM_INFO\020\006\022\032\n\026SECRETAREA_USER" +
+      "_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_ITE" +
+      "M\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n\016R" +
+      "OLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n\nU" +
+      "SER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAME_" +
+      "DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BAG\020" +
+      "\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve_U" +
+      "nendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_Dat",
+      "a\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SETT" +
+      "ING_DATA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEVEN" +
+      "_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r\n\t" +
+      "ASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroupBa" +
+      "seData\020 \022\023\n\017GroupMemberData\020!\022\014\n\010GroupLo" +
+      "g\020\"\022\032\n\026UserGroupAttributeData\020#\022\024\n\020GROUP" +
+      "_COPY_LEVEL\020$\022\022\n\016GROUP_COPY_MAP\020%\022\025\n\021GRO" +
+      "UP_COPY_REWARD\020&\022\030\n\024GroupApplyMemberData" +
+      "\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n\017GroupStudy" +
+      "Skill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022U",
+      "SER_TMP_GAME_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\022\n" +
+      "\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023" +
+      "UserGroupSecretData\0200\022\023\n\017GroupSecretData" +
+      "\0201\022\023\n\017MagicSecretData\0202\022\024\n\020MagicChapterD" +
+      "ata\0203\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\027\n\023USE_G" +
+      "ROUP_COPY_DATA\0205\022\032\n\026GROUP_COPY_SERVER_RA" +
+      "NK\0206\022\031\n\025GROUP_ITEM_DROP_APPLY\0207\022\025\n\021Activ" +
+      "ityCountType\020<\022\030\n\024ActivityTimeCardType\020=" +
+      "\022\024\n\020ActivityRateType\020>\022\024\n\020ActivityDateTy" +
+      "pe\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024Activi",
+      "tyDateSaleType\020A\022\024\n\020ActivityRankType\020B\022\030" +
+      "\n\024ActivityExchangeType\020C\022\031\n\025ActivityTime" +
+      "CountType\020D\022\025\n\021ActivityDailyType\020E\022\030\n\024Ac" +
+      "tivityVitalityType\020F\022\035\n\031ActivityDailyDis" +
+      "countType\020G\022\033\n\027ActivityVipDiscountType\020H" +
+      "\022\033\n\027ActivityRedEnvelopeType\020I\022\032\n\026Activit" +
+      "yFortuneCatType\020J\022\031\n\025ActivityLimitHeroTy" +
+      "pe\020K\022\020\n\014QuestionList\020P\022\021\n\rGFBiddingData\020" +
+      "Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GFightOnlineG" +
+      "roupData\020S\022\034\n\030GFightOnlinePersonalData\020T",
+      "\022\034\n\030GFightOnlineResourceData\020U\022\r\n\tMajorD" +
+      "ata\020V\022\026\n\022GFightSimpleLeader\020W\022\025\n\021GFightF" +
+      "inalReward\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICE" +
+      "QUIP_FETTER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020T" +
+      "EAM_BATTLE_TEAM\020\\\022\035\n\031ActivityDailyRechar" +
+      "geType\020]*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034" +
+      "\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5810,6 +7605,18 @@ public final class DataSynProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_DataSyn_MsgDataSyn_descriptor,
               new java.lang.String[] { "SynType", "SynOpType", "SynData", "Version", "GroupId", });
+          internal_static_DataSyn_DataSynReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_DataSyn_DataSynReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_DataSyn_DataSynReqMsg_descriptor,
+              new java.lang.String[] { "ReqType", "Version", });
+          internal_static_DataSyn_DataSynRspMsg_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_DataSyn_DataSynRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_DataSyn_DataSynRspMsg_descriptor,
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
           return null;
         }
       };

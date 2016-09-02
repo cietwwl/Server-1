@@ -149,6 +149,9 @@ public class RedPointManager {
 		case FORTUNE_CAT:
 			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
 			break;
+		case LIMIT_HERO:
+			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
+			break;
 		default:
 			break;
 		}		
