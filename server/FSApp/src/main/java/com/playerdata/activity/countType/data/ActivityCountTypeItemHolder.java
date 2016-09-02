@@ -35,12 +35,12 @@ public class ActivityCountTypeItemHolder{
 	 */
 	public List<ActivityCountTypeItem> getItemList(String userId)	
 	{
-		
+		ActivityCountTypeCfgDAO typeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeItem> itemList = new ArrayList<ActivityCountTypeItem>();
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();			
-			if(ActivityCountTypeCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
+			if(typeCfgDAO.hasCfgListByEnumId(item.getEnumId())){
 				continue;
 			}
 			itemList.add(item);
