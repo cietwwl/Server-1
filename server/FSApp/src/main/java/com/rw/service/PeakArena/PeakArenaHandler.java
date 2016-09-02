@@ -217,6 +217,12 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+        
+        PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
+        if (closeCfg.isCloseTime()){
+            return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
+        }
+
 		List<ListRankingEntry<String, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData, player);
 		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
 			ArenaInfo.Builder info = ArenaInfo.newBuilder();
@@ -365,10 +371,6 @@ public class PeakArenaHandler {
 	public ByteString fightStart(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
-		if (closeCfg.isCloseTime()){
-			return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
-		}
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
