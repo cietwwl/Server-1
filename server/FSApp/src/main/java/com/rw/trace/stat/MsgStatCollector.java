@@ -1,30 +1,39 @@
 package com.rw.trace.stat;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-
 import com.google.protobuf.ProtocolMessageEnum;
 import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.dao.cache.CacheLogger;
 import com.rwproto.MsgDef.Command;
 
-public class MsgStatCollector implements Callable<Void> {
+public class MsgStatCollector {
 
-	private ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> containter;
-	
+	private final ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> runCostContainter;
+	private final ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> sendCostContainter;
+	private final ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> submitCostContainter;
+
 	public MsgStatCollector() {
-		this.containter = new ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat>();
+		this.runCostContainter = new ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat>();
+		this.sendCostContainter = new ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat>();
+		this.submitCostContainter = new ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat>();
 	}
 
-	public void addCost(Command msg, ProtocolMessageEnum type, long cost) {
+	public void addSendCost(Command msg, ProtocolMessageEnum type, long cost) {
+		addCost("send", sendCostContainter, msg, type, cost);
+	}
+
+	public void addRunCost(Command msg, ProtocolMessageEnum type, long cost) {
+		addCost("run", runCostContainter, msg, type, cost);
+	}
+
+	public void addSubmitCost(Command msg, ProtocolMessageEnum type, long cost) {
+		addCost("submit", submitCostContainter, msg, type, cost);
+	}
+
+	private void addCost(String name, ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> containter, Command msg, ProtocolMessageEnum type, long cost) {
 		Pair<Command, ProtocolMessageEnum> key = Pair.Create(msg, type);
 		MsgStat msgStat = containter.get(key);
 		if (msgStat == null) {
-			msgStat = new MsgStat(key, 100);
+			msgStat = new MsgStat(name, key, 100);
 			MsgStat old = containter.putIfAbsent(key, msgStat);
 			if (old != null) {
 				msgStat = old;
@@ -32,25 +41,17 @@ public class MsgStatCollector implements Callable<Void> {
 		}
 		msgStat.add(cost);
 	}
-	
-	public ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> getContainer(){
-		return containter;
+
+	public ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> getSubmitCostContainter() {
+		return submitCostContainter;
 	}
 
-	@Override
-	public Void call() throws Exception {
-		StringBuilder sb = new StringBuilder();
-		for (MsgStat msgStat : containter.values()) {
-			sb.append(msgStat.toString()).append(CacheLogger.lineSeparator);
-		}
-		PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stat.log",true))), true);
-		try {
-			writer.append(sb.toString());
-		} finally {
-			writer.flush();
-			writer.close();
-		}
-		return null;
+	public ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> getRunCostContainter() {
+		return runCostContainter;
+	}
+
+	public ConcurrentHashMap<Pair<Command, ProtocolMessageEnum>, MsgStat> getSendCostContainter() {
+		return sendCostContainter;
 	}
 
 }
