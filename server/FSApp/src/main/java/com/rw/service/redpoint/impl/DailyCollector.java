@@ -24,6 +24,7 @@ public class DailyCollector implements RedPointCollector {
 			for (DailyActivityData data : dailyList) {
 				if (data.getCanGetReward() == 1) {
 					dailyCompleted = true;
+					break;
 				}
 			}
 			if (dailyCompleted) {
