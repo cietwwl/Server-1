@@ -18,19 +18,24 @@ public abstract class FightingCfgCsvDAOBase<T extends FightingCfgBase> extends C
 	private List<T> _sortByRequiredLvList;
 	
 	private final Comparator<FightingCfgBase> _comparator = new FightingCfgBaseComparator();
-
-	protected Map<String, T> readFightingCfgBaseType(String fileName, Class<T> clazz) {
-		String path = String.format(basePathFormat, fileName);
-		Map<String, T> map = CfgCsvHelper.readCsv2Map(path, clazz);
-		for (Iterator<T> itr = map.values().iterator(); itr.hasNext();) {
+	
+	protected abstract String getFileName();
+	
+	protected abstract Class<T> getCfgClazz();
+	
+	@Override
+	protected final Map<String, T> initJsonCfg() {
+		String path = String.format(basePathFormat, getFileName());
+		this.cfgCacheMap = CfgCsvHelper.readCsv2Map(path, getCfgClazz());
+		for (Iterator<T> itr = cfgCacheMap.values().iterator(); itr.hasNext();) {
 			itr.next().afterInit();
 		}
-		_sortByRequiredLvList = new ArrayList<T>(map.size());
-		for(T t : map.values()) {
+		_sortByRequiredLvList = new ArrayList<T>(cfgCacheMap.size());
+		for (T t : cfgCacheMap.values()) {
 			_sortByRequiredLvList.add(t);
 		}
 		Collections.sort(_sortByRequiredLvList, _comparator);
-		return map;
+		return cfgCacheMap;
 	}
 	
 	public T getByLevel(int lv) {

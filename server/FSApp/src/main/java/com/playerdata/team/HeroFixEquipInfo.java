@@ -10,6 +10,7 @@ public class HeroFixEquipInfo {
 	private int level;
 	private int quality;
 	private int star;
+	private int slot;
 
 	public String getId() {
 		return id;
@@ -41,5 +42,13 @@ public class HeroFixEquipInfo {
 
 	public void setStar(int star) {
 		this.star = star;
+	}
+	
+	public int getSlot() {
+		return slot;
+	}
+	
+	public void setSlot(int pSlot) {
+		this.slot = pSlot;
 	}
 }

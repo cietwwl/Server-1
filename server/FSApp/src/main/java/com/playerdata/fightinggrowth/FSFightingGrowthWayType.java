@@ -7,8 +7,8 @@ import java.util.Map;
 import com.playerdata.Player;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicMaxFightingFunc;
-import com.playerdata.fightinggrowth.fightingfunc.FSGetFixExpEquipCurrentFightingFunc;
-import com.playerdata.fightinggrowth.fightingfunc.FSGetFixExpEquipMaxFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetFixEquipCurrentFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetFixEquipMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGemCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGemMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicCurrentFightingFunc;
@@ -31,7 +31,7 @@ public enum FSFightingGrowthWayType {
 	NORM_EQUIP(2, FSGetNormEquipCurrentFightingFunc.class, FSGetNormEquipMaxFightingFunc.class), // 装备属性的战斗力获取
 	GEM(3, FSGetGemCurrentFightingFunc.class, FSGetGemMaxFightingFunc.class), // 宝石属性的战斗力获取
 	MAGIC(4, FSGetMagicCurrentFightingFunc.class, FSGetMagicMaxFightingFunc.class), // 法宝属性的战斗力获取
-	EXP_EQUIP(5, FSGetFixExpEquipCurrentFightingFunc.class, FSGetFixExpEquipMaxFightingFunc.class), // 神器属性的战斗力获取
+	FIX_EQUIP(5, FSGetFixEquipCurrentFightingFunc.class, FSGetFixEquipMaxFightingFunc.class), // 神器属性的战斗力获取
 	;
 	private final int _sign;
 	private final IFunction<Player, Integer> _getCurrentFightingFunc;

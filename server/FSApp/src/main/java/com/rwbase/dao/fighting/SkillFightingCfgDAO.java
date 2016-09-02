@@ -1,7 +1,5 @@
 package com.rwbase.dao.fighting;
 
-import java.util.Map;
-
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.dao.fighting.pojo.SkillFightingCfg;
 
@@ -12,9 +10,12 @@ public class SkillFightingCfgDAO extends FightingCfgCsvDAOBase<SkillFightingCfg>
 	}
 	
 	@Override
-	protected Map<String, SkillFightingCfg> initJsonCfg() {
-		this.cfgCacheMap = readFightingCfgBaseType("SkillFighting.csv", SkillFightingCfg.class);
-		return cfgCacheMap;
+	protected String getFileName() {
+		return "SkillFighting.csv";
 	}
 
+	@Override
+	protected Class<SkillFightingCfg> getCfgClazz() {
+		return SkillFightingCfg.class;
+	}
 }

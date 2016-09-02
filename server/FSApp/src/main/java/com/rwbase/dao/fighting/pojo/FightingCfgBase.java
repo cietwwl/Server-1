@@ -8,14 +8,14 @@ import com.rwbase.common.FightingIndexKey;
 
 public abstract class FightingCfgBase {
 
-	private Map<Integer, Integer> _fightingOfSkillIndex;
+	private Map<Integer, Integer> _fightingOfIndex;
 	private int _max;
 	private int _allFighting;
 	
 	public abstract int getRequiredLv();
 
 	public void afterInit() {
-		_fightingOfSkillIndex = new HashMap<Integer, Integer>();
+		_fightingOfIndex = new HashMap<Integer, Integer>();
 		Field[] allFields = this.getClass().getDeclaredFields();
 		for (int i = 0; i < allFields.length; i++) {
 			Field temp = allFields[i];
@@ -23,13 +23,15 @@ public abstract class FightingCfgBase {
 			if (indexKey != null) {
 				Integer value = 0;
 				try {
+					temp.setAccessible(true);
 					value = (Integer) temp.get(this);
+					temp.setAccessible(false);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
-				Integer pre = _fightingOfSkillIndex.put(indexKey.value(), value);
+				Integer pre = _fightingOfIndex.put(indexKey.value(), value);
 				if (pre != null) {
-					throw new RuntimeException("重复的主键：" + pre);
+					throw new RuntimeException("重复的主键：" + indexKey.value());
 				}
 				if (_max < indexKey.value()) {
 					_max = indexKey.value();
@@ -39,11 +41,16 @@ public abstract class FightingCfgBase {
 		}
 	}
 	
-	public final int getFightingOfKey(int key) {
-		return _fightingOfSkillIndex.get(key);
+	public final int getFightingOfIndex(int key) {
+		return _fightingOfIndex.get(key);
 	}
 	
 	public final int getAllFighting() {
 		return _allFighting;
+	}
+	
+	@Override
+	public String toString() {
+		return "FightingCfgBase, fightingOfIndex = " + _fightingOfIndex;
 	}
 }

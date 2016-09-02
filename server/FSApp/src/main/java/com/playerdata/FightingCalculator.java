@@ -1,9 +1,13 @@
 package com.playerdata;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.common.BeanOperationHelper;
+import com.rwbase.common.IFunction;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.dao.fighting.FightingWeightCfgDAO;
 import com.rwbase.dao.fighting.pojo.FightingWeightCfg;
 import com.rwbase.dao.item.MagicCfgDAO;
@@ -13,9 +17,9 @@ import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillEffectCfgDAO;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillEffectCfg;
+import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FightingCalculator {
 	private static final String PHYSIC_ATTAK = "physiqueAttack";// 物理攻击
@@ -23,6 +27,22 @@ public class FightingCalculator {
 	private static final String SKILL_LEVEL = "skillLevel";// 技能等级
 	private static final String MAGIC_LEVEL = "magicLevel";// 法宝等级
 	private static final float COMMON_ATK_RATE = 1.5f;// 普通攻击除的系数
+	
+	public static int calFightingNew(Hero roleP, AttrData totalAttrData) {
+		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
+		int fighting = 0;
+		for (int i = 0; i < allComponentsOfHero.size(); i++) {
+			fighting += allComponentsOfHero.get(i).apply(roleP);
+		}
+		if (roleP.isMainRole()) {
+			Player p = roleP.getPlayer();
+			List<IFunction<Player, Integer>> allComponentsOfPlayer = FightingCalculateComponentType.getAllPlayerComponents();
+			for (int i = 0; i < allComponentsOfPlayer.size(); i++) {
+				fighting += allComponentsOfPlayer.get(i).apply(p);
+			}
+		}
+		return fighting;
+	}
 
 	public static int calFighting(Hero roleP, AttrData totalAttrData) {
 		// 技能的总等级
@@ -41,7 +61,10 @@ public class FightingCalculator {
 			}
 		}
 
-		return calFighting(roleP.getTemplateId(), skillLevel, magicLevel, magicModelId, totalAttrData);
+		int fighting = calFighting(roleP.getTemplateId(), skillLevel, magicLevel, magicModelId, totalAttrData);
+		int fightingNew = calFightingNew(roleP, totalAttrData);
+		System.out.println("hero[" + roleP.getId() + "," + roleP.getName() + "], 旧战力=" + fighting + ", 新战力=" + fightingNew);
+		return fighting;
 	}
 
 	/**
@@ -113,6 +136,44 @@ public class FightingCalculator {
 		// System.err.println(sb.toString());
 
 		return (int) fighting;
+	}
+	
+	public static int calculateFighting(Map<Integer, Integer> attrMap, String heroTemplateId) {
+		int fighting = 0;
+		Map<String, Float> fightingWeights = FightingWeightCfgDAO.getInstance().getWeightsOfAttrName();
+		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(heroTemplateId);
+		SkillCfg skillCfg = SkillCfgDAO.getInstance().getCfg(roleCfg.getAttackId());
+		String skillEffectId = "";
+		if (skillCfg != null) {
+			skillEffectId = skillCfg.getSkillEffectId();
+		}
+
+		float attackCD = 0;
+		SkillEffectCfg skillEffect = SkillEffectCfgDAO.getCfgDAO().getCfgById(skillEffectId);
+		if (skillEffect != null) {
+			attackCD = skillEffect.getCD();
+		}
+		for (Iterator<Map.Entry<Integer, Integer>> itr = attrMap.entrySet().iterator(); itr.hasNext();) {
+			Map.Entry<Integer, Integer> entry = itr.next();
+			AttributeType type = AttributeType.getAttributeType(entry.getKey());
+			String attrName = type.attrFieldName;
+			Float weight = fightingWeights.get(type.attrFieldName);
+			int attrValue = entry.getValue();
+			if (weight == null) {
+				continue;
+			}
+			if (attrName.equals(PHYSIC_ATTAK) || attrName.equals(SPRITE_ATTAK)) {
+				float reactionTime = 0;
+				if (roleCfg != null) {
+					reactionTime = roleCfg.getReactionTime();
+				}
+				fighting += attrValue / ((attackCD + reactionTime) / COMMON_ATK_RATE) * weight;
+
+			} else {
+				fighting += attrValue * weight;
+			}
+		}
+		return fighting;
 	}
 	// private static int calTotalSkillLevel(Hero roleP) {
 	// int skillTotalLevel = 0;

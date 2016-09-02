@@ -10,7 +10,7 @@ public class MagicQualityFightingCfgDAO extends FightingCfgCsvDAOOneToOneBase {
 	
 	@Override
 	protected String getFileName() {
-		return "FightingCfgCsvDAOOneToOneBase.csv";
+		return "MagicQualityFighting.csv";
 	}
 	
 
