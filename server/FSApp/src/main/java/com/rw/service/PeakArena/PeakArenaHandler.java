@@ -367,7 +367,7 @@ public class PeakArenaHandler {
 		response.setArenaType(request.getArenaType());
 		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
 		if (closeCfg.isCloseTime()){
-			return sendFailRespon(player, response, closeCfg.getCloseTimeTip());
+			return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
 		}
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
@@ -901,4 +901,9 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
+    private ByteString sendFailResponPopTip(Player player, MsgArenaResponse.Builder response, String tips) {
+        player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, tips);
+        response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+        return response.build().toByteString();
+    }
 }
