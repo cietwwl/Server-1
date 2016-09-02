@@ -386,8 +386,9 @@ public class Robot {
 		return sendSuccess;
 	}
 	
-	public boolean addHero() {
-		boolean sendSuccess = GmHandler.instance().send(client, "* teambringit " + 1);
+	/** 1-4 正常版的全战力；5，转为1，精简版,只加英雄加满等级，不做其他增幅*/
+	public boolean addHero(int i) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* teambringit " + i);
 		return sendSuccess;
 	}
 
