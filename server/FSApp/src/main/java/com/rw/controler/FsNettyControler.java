@@ -2,6 +2,8 @@ package com.rw.controler;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Map;
 
@@ -128,15 +130,15 @@ public class FsNettyControler {
 		sendResponse(userId, header, resultContent, sessionId, null);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
+	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
 		if (userId == null) {
-			return;
+			return null;
 		}
 		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
 		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 			ctx = null;
 		}
-		sendResponse(userId, header, resultContent, 200, ctx, synData);
+		return sendResponse(userId, header, resultContent, 200, ctx, synData);
 	}
 
 	/**
