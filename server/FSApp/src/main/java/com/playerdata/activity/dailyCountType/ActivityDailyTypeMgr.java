@@ -99,7 +99,6 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityDailyTypeItem targetItem : item) {
 			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(targetItem.getCfgid());
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
 				continue;
 			}
 			if(ActivityTypeHelper.isNewDayHourOfActivity(5,targetItem.getLastTime())){
@@ -131,8 +130,6 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			long endTime = cfgById.getEndTime();
 			long currentTime = System.currentTimeMillis();
 			return currentTime > endTime;
-		}else{
-			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyTypeEnum.Daily);
 		}
 	}
 	return false;
@@ -144,15 +141,12 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		for (ActivityDailyTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
 			ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
 			if(subItemCfg == null){
-				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
 				return;
 			}
 			if (subItem.getCount() >= subItemCfg.getCount()&&!subItem.isTaken()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
+				ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
-				if (!isAdd) 
-					GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-				}
+			}
 		}		
 	}
 	
@@ -200,12 +194,10 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
 		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "枚举获得了活动且判断开启，但活动未生成item;主活动未开启，子活动时间超期", null);
 			return;
 		}
 		ActivityDailyTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);
 		if(subItem == null){
-			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "枚举获得了活动且判断开启，但活动未生成对应subitem;主活动开启，其他主活动的子活动跨期进入", null);
 			return;
 		}
 		subItem.setCount(subItem.getCount() + countadd);
@@ -223,7 +215,6 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		}
 				
 		if(cfg == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
 			return subItem;
 		}
 		
@@ -238,9 +229,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 			
 		}
 		
-		if(subItem == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
-		}
+		
 		
 		return   subItem;
 	}
@@ -281,7 +270,6 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 	private void takeGift(Player player, ActivityDailyTypeSubItem targetItem) {
 		ActivityDailyTypeSubCfg subCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(subCfg == null){
-			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
 			return;
 		}
 		targetItem.setTaken(true);
@@ -298,12 +286,10 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityDailyTypeEnum dailyEnum = ActivityDailyTypeEnum.getById(cfg.getEnumId());
 		if(dailyEnum == null){
-			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityDailyTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId());
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){

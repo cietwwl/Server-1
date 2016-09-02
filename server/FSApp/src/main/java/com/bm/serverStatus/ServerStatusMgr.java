@@ -1,6 +1,7 @@
 package com.bm.serverStatus;
 
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Severity;
@@ -12,10 +13,18 @@ import com.gm.task.GmEmailAll;
 import com.playerdata.Player;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.role.MainMsgHandler;
+import com.rwbase.common.timer.IGameTimerTask;
+import com.rwbase.common.timer.core.FSGameTimeSignal;
+import com.rwbase.common.timer.core.FSGameTimerMgr;
+import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 import com.rwbase.dao.email.EmailData;
+import com.rwbase.dao.serverData.GmNoticeInfo;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.serverData.ServerGmEmailHolder;
+import com.rwbase.dao.serverData.ServerGmNotice;
+import com.rwbase.dao.serverData.ServerGmNoticeHolder;
 
 
 public class ServerStatusMgr {
@@ -27,9 +36,15 @@ public class ServerStatusMgr {
 	
 	private static ServerDataHolder dataHolder = new ServerDataHolder();
 	private static ServerGmEmailHolder mailHolder = new ServerGmEmailHolder();
+	private static ServerGmNoticeHolder gmNoticeHolder = new ServerGmNoticeHolder();
 	
 	private static AtomicLong iSequenceNum = new AtomicLong(0);
 
+	public static void init(){
+		gmNoticeHolder.initGmNotices();
+		FSGameTimerMgr.getInstance().submitMinuteTask(new ProcessGmNoticeTimerTask(), 1);
+	}
+	
 	public static ServerStatus getStatus() {
 		return status;
 	}
@@ -147,5 +162,42 @@ public class ServerStatusMgr {
 	public static long getiSequenceNum() {
 		int intServerId = GameManager.getZoneId();
 		return intServerId * 100000000 + iSequenceNum.getAndIncrement();
+	}
+	
+	public static List<ServerGmNotice> getAllGmNotice(){
+		return gmNoticeHolder.GetGmNotices();
+	}
+	
+	public static void removeGmNotice(int serverGmNoticeId){
+		gmNoticeHolder.removeGmNotice(serverGmNoticeId);
+	}
+	
+	public static void editGmNotice(ServerGmNotice gmNotice, boolean insert){
+		gmNoticeHolder.editGmNotice(gmNotice, insert);
+	}
+	
+	public static ServerGmNotice getGmNotice(int serverGmNoticeId){
+		return gmNoticeHolder.getGmNoticeById(serverGmNoticeId);
+	}
+	
+	/**
+	 * 分时效处理广播
+	 */
+	public static void processGmNotice() {
+		List<ServerGmNotice> allGmNotice = getAllGmNotice();
+		long currentTime = System.currentTimeMillis();
+		for (ServerGmNotice serverGmNotice : allGmNotice) {
+			GmNoticeInfo noticeInfo = serverGmNotice.getNoticeInfo();
+			long startTime = noticeInfo.getStartTime();
+			long endTime = noticeInfo.getEndTime();
+			long cycleInterval = noticeInfo.getCycleInterval() * 60 * 1000;
+			long broadcastTime = noticeInfo.getLastBroadcastTime();
+			if (currentTime >= startTime && currentTime <= endTime) {
+				if (cycleInterval < (currentTime - broadcastTime)) {
+					MainMsgHandler.getInstance().sendPmdNotId(noticeInfo.getTitle() + ":" + noticeInfo.getContent());
+					noticeInfo.setLastBroadcastTime(currentTime);
+				}
+			}
+		}
 	}
 }

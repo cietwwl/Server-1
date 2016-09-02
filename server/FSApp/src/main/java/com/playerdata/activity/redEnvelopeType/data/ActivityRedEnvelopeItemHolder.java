@@ -77,22 +77,6 @@ public class ActivityRedEnvelopeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityRedEnvelopeTypeItem> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
-			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-
-	
 	public void synAllData(Player player){
 		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());		
 		Iterator<ActivityRedEnvelopeTypeItem> it = itemList.iterator();

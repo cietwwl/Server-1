@@ -33,12 +33,8 @@ public class TeamBattleHandler {
 	 * @param client
 	 * @return
 	 */
-	public boolean startTBCreateTeam(Client client){
-		boolean result = synTeamBattle(client);
-		if (!result) {
-			RobotLog.fail("startTBCreateTeam[send]组队同步数据反馈结果=" + result);
-			return result;
-		}
+	private boolean startTBCreateTeam(Client client){
+		boolean result = true;
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
 		if(null == utbData){
 			RobotLog.fail("startTBCreateTeam[send]玩家数据同步不成功");

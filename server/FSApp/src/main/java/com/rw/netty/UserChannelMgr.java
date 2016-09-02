@@ -31,6 +31,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.rw.controler.FsNettyControler;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -38,6 +39,8 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.ResponseProtos.Response;
+import com.rwproto.ResponseProtos.ResponseHeader;
 
 public class UserChannelMgr {
 
@@ -117,10 +120,10 @@ public class UserChannelMgr {
 		return ctx.channel().attr(SESSION_INFO).get();
 	}
 
-	public static String getCtxInfo(ChannelHandlerContext ctx){
+	public static String getCtxInfo(ChannelHandlerContext ctx) {
 		return getCtxInfo(ctx, true);
 	}
-	
+
 	public static String getCtxInfo(ChannelHandlerContext ctx, boolean addLastCommand) {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -235,24 +238,24 @@ public class UserChannelMgr {
 		return synData.setInReq();
 	}
 
-//	public static boolean synDataOnBSEnd(String userId) {
-//		ChannelHandlerContext ctx = userChannelMap.get(userId);
-//		if (ctx == null) {
-//			return false;
-//		}
-//
-//		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
-//		if (synData == null) {
-//			return false;
-//		}
-//		return synData.doSyn(ctx, userId);
-//	}
+	// public static boolean synDataOnBSEnd(String userId) {
+	// ChannelHandlerContext ctx = userChannelMap.get(userId);
+	// if (ctx == null) {
+	// return false;
+	// }
+	//
+	// SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
+	// if (synData == null) {
+	// return false;
+	// }
+	// return synData.doSyn(ctx, userId);
+	// }
 	public static ByteString getDataOnBSEnd(String userId) {
 		ChannelHandlerContext ctx = userChannelMap.get(userId);
 		if (ctx == null) {
 			return null;
 		}
-		
+
 		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
 		if (synData == null) {
 			return null;
@@ -417,11 +420,11 @@ public class UserChannelMgr {
 		return disconnectMap.keySet();
 	}
 
-	public static void KickOffPlayer(final ChannelHandlerContext oldContext, FsNettyControler nettyControler, String userId){
+	public static void KickOffPlayer(final ChannelHandlerContext oldContext, FsNettyControler nettyControler, String userId) {
 		GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
 		loginResponse.setResultType(eLoginResultType.SUCCESS);
 		loginResponse.setError("你的账号在另一处登录，请重新登录");
-		
+
 		ChannelFuture f = nettyControler.sendAyncResponse(userId, oldContext, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
 		f.addListener(new GenericFutureListener<Future<? super Void>>() {
 
@@ -437,6 +440,14 @@ public class UserChannelMgr {
 				}, 300, TimeUnit.MILLISECONDS);
 			}
 		});
-		
+
 	}
+
+	public static void broadcastMsg(Command command, ByteString byteString) {
+		FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
+		for (ChannelHandlerContext ctx : userChannelMap.values()) {
+			nettyControler.sendAyncResponse(null, ctx, command, byteString);
+		}
+	}
+
 }

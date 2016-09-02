@@ -60,13 +60,15 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 		boolean changed = false;
 		List<Integer> firstInitTaskIds = holder.getTaskItem().getFirstIncrementTaskIds();
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
 		// 根据开启条件将任务加入任务列表,主要是时间和等级;
 		for (DailyActivityCfgEntity entity : taskCfgList) {
 			DailyActivityCfg cfg = entity.getCfg();
 			if (!refresh && isRemoveTask(cfg)) {
 				continue; // 不加入已经领取过奖励的任务
 			}
-			if (hasNoRight(cfg)) {
+			if (hasNoRight(cfg, playerLevel, playerVip)) {
 				continue;
 			}
 			// 刷新的话不需要遍历检查是否存在任务，直接检查能否创建任务
@@ -74,7 +76,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 			if (refresh) {
 				tempData = null;
 			} else {
-				tempData = getActivityDataById(cfg.getTaskType());
+				tempData = getActivityDataById(cfg.getTaskType(), cfgDAO);
 			}
 
 			if (tempData != null) {
@@ -170,8 +172,9 @@ public class DailyActivityMgr implements PlayerEventListener {
 		return isRemove;
 	}
 
-	public boolean hasNoRight(DailyActivityCfg cfg) {
-		return cfg.getMaxLevel() < player.getLevel() || player.getVip() < cfg.getVip() || cfg.getMaxVip() < player.getVip();
+	public boolean hasNoRight(DailyActivityCfg cfg, int playerLevel, int playerVip) {
+		//return cfg.getMaxLevel() < player.getLevel() || player.getVip() < cfg.getVip() || cfg.getMaxVip() < player.getVip();
+		return cfg.getMaxLevel() < playerLevel || playerVip < cfg.getVip() || cfg.getMaxVip() < playerVip;
 	}
 
 	// 返回一个角色所有的任务
@@ -262,9 +265,9 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 	}
 
-	private DailyActivityData getActivityDataById(int type) {
+	private DailyActivityData getActivityDataById(int type, DailyActivityCfgDAO cfgDAO) {
 		for (DailyActivityData td : holder.getTaskItem().getTaskList()) {
-			DailyActivityCfg tempCfg = (DailyActivityCfg) DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(td.getTaskId()));
+			DailyActivityCfg tempCfg = cfgDAO.getCfgById(String.valueOf(td.getTaskId()));
 			if (tempCfg == null) {
 				continue;
 			}

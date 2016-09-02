@@ -1,9 +1,9 @@
 key,Remarks,id,sex,career,percent,desc,goodDesc,icon,atlasPath
-1_1,,1_1,1,1,0.67_1_0.8,前排防御型力士，队伍中不能缺少的坚实壁垒,防御,ZT_LiShi,Assets/UIPrefab/Textures/Common.prefab
-0_1,,0_1,,1,0.67_1_0.8,前排防御型力士，队伍中不能缺少的坚实壁垒,防御,ZT_LiShi,Assets/UIPrefab/Textures/Common.prefab
-1_2,,1_2,1,2,0.77_0.6_0.6,高攻高暴击，前排暴力输出职业,近战_攻击,ZT_XingZhe,Assets/UIPrefab/Textures/Common.prefab
-0_2,,0_2,,2,0.77_0.6_0.6,高攻高暴击，前排暴力输出职业,近战_攻击,ZT_XingZhe,Assets/UIPrefab/Textures/Common.prefab
-1_3,,1_3,1,3,1_0.53_0.7,擅长大范围魔法攻击，绝对恐怖的伤害输出,远程_魔法,ZY_ShuShi,Assets/UIPrefab/Textures/Common.prefab
-0_3,,0_3,,3,1_0.53_0.7,擅长大范围魔法攻击，绝对恐怖的伤害输出,远程_魔法,ZY_ShuShi,Assets/UIPrefab/Textures/Common.prefab
-1_4,,1_4,1,4,0.82_0.37_1,能治疗能加BUFF能控场，带领团队的职业,辅助_治疗,ZT_JiSi,Assets/UIPrefab/Textures/Common.prefab
-0_4,,0_4,,4,0.82_0.37_1,能治疗能加BUFF能控场，带领团队的职业,辅助_治疗,ZT_JiSi,Assets/UIPrefab/Textures/Common.prefab
+1_1,,1_1,1,1,0.67_1_0.8,防御型前排，队伍中不能缺少的坚实壁垒,防御:attFangYu,ZT_LiShi,Assets/UIPrefab/Textures/Text.prefab
+0_1,,0_1,,1,0.67_1_0.8,防御型前排，队伍中不能缺少的坚实壁垒,防御:attFangYu,ZT_LiShi,Assets/UIPrefab/Textures/Text.prefab
+1_2,,1_2,1,2,0.77_0.6_0.6,输出型前排，攻守兼备的菜刀队首选,近战:attJinZhan_攻击:attDanTiShangHai,ZT_XingZhe,Assets/UIPrefab/Textures/Text.prefab
+0_2,,0_2,,2,0.77_0.6_0.6,输出型前排，攻守兼备的菜刀队首选,近战:attJinZhan_攻击:attDanTiShangHai,ZT_XingZhe,Assets/UIPrefab/Textures/Text.prefab
+1_3,,1_3,1,3,1_0.53_0.7,输出型后排，擅长群体攻击，可以快速消灭大量敌人,远程:attYuanCheng_魔法:attMoFa,ZY_ShuShi,Assets/UIPrefab/Textures/Text.prefab
+0_3,,0_3,,3,1_0.53_0.7,输出型后排，擅长群体攻击，可以快速消灭大量敌人,远程:attYuanCheng_魔法:attMoFa,ZY_ShuShi,Assets/UIPrefab/Textures/Text.prefab
+1_4,,1_4,1,4,0.82_0.37_1,输出型中排，擅长单体攻击，队伍不可或缺的稳定输出,单体输出:attDanTiShangHai_远程:attYuanCheng,ZY_SheShou,Assets/UIPrefab/Textures/Text.prefab
+0_4,,0_4,,4,0.82_0.37_1,输出型中排，擅长单体攻击，队伍不可或缺的稳定输出,单体输出:attDanTiShangHai_远程:attYuanCheng,ZY_SheShou,Assets/UIPrefab/Textures/Text.prefab

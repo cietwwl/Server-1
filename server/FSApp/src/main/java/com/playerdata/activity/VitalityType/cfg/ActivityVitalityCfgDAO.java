@@ -18,6 +18,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -224,5 +225,15 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return null;
 	}
 	
+	public List<ActivityVitalityCfg> getCfgListByEnumId(String enumId){
+		List<ActivityVitalityCfg> cfgList = new ArrayList<ActivityVitalityCfg>();
+		List<ActivityVitalityCfg> allCfg = getAllCfg();
+		for(ActivityVitalityCfg cfg : allCfg){
+			if(StringUtils.equals(cfg.getEnumID(), enumId)){
+				cfgList.add(cfg);
+			}			
+		}
+		return cfgList;		
+	}
 
 }

@@ -28,6 +28,7 @@ public class ClientInboundHandler extends SimpleChannelInboundHandler<Object> {
 		} else {
 			RobotLog.testInfo("收到的消息, accountId：" + client.getAccountId() + ",cmd" + rsp.getHeader().getCommand() + ",seqId=" + rsp.getHeader().getSeqID());
 			MsgLog.info("收到的消息, accountId：" + client.getAccountId() + " cmd:" + rsp.getHeader().getCommand());
+			client.getMsgHandler().processKickOff(rsp);
 			client.getMsgHandler().dataSyn(rsp);
 			client.getMsgHandler().setResp(rsp);
 			PushMsgHandlerFactory.getFactory().onMsgReceive(client, rsp);// 推送消息到达
