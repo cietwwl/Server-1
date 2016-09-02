@@ -244,7 +244,9 @@ public class GMHandler {
 		GameLog.info("GM", "reloadConfig", "start", null);
 		boolean result = true;
 		for (int i = 0; i < arrCommandContents.length; i++) {
-			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+			String clname = arrCommandContents[i];
+			clname = CfgCsvReloader.findClassName(clname);
+			result = result && reloadConfigByHelperClass(clname);
 		}
 		GameLog.info("GM", "reloadConfig", "finished", null);
 		return result;

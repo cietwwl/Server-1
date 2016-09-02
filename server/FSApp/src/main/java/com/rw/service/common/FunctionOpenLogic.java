@@ -21,7 +21,9 @@ public class FunctionOpenLogic {
 		}
 		return instance;
 	}
+	public boolean passed = false;
 	public boolean isOpen(ProtocolMessageEnum msgType, Request request,Player player){
+		if (passed) return true;
 		CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
 		Command cmd = request.getHeader().getCommand();
 		List<CfgOpenLevelLimit> cfgLst = helper.getOpenCfg(cmd);
