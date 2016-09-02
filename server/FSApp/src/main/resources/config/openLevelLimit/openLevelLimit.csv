@@ -5,8 +5,8 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 4,,4,1,100,,,MSG_CopyService,
 5,,5,13,100,,,MSG_RANKING,
 6,,6,99,100,,,,
-7,,7,21,100,,110305,MSG_TRIAL,
-8,,8,32,100,,,,
+7,,7,21,100,,110305,MSG_TRIAL,TRIAL_TYPE_TRIAL
+8,,8,32,100,,,MSG_TRIAL,TRIAL_TYPE_CELESTIAL
 9,,9,36,100,,,,
 10,,10,4,100,,,,
 11,,11,35,100,,,,
@@ -37,7 +37,7 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 37,,37,18,100,,,,
 38,,38,18,100,,,,
 39,,38,5,100,,110101,,
-40,,40,26,100,,,,
+40,,40,26,100,,,MSG_TRIAL,TRAIL_VALLEY
 41,,41,18,100,,,,
 42,,42,7,100,,110102,,
 43,,43,11,100,,110202,,
