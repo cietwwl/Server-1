@@ -288,9 +288,11 @@ public class GFDefendArmyMgr {
 		List<DefendArmyHerosInfo> newItems = new ArrayList<DefendArmyHerosInfo>();
 		for(GFDefendArmyItem defender : defenders){
 			DefendArmyHerosInfo heros = new DefendArmyHerosInfo();
+			if(defender.getSimpleArmy() == null) continue;
 			heros.setDefendArmyID(defender.getArmyID());
 			heros.setHeroIDs(defender.getSimpleArmy().getHeroIdList());
 			heros.setMagicID(defender.getSimpleArmy().getArmyMagic().getId());
+			newItems.add(heros);
 		}
 		return newItems;
 	}

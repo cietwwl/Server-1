@@ -273,8 +273,6 @@ public class HeroHandler {
 			curExp = 0;
 			levelExp = levelCfg.getHeroUpgradeExp();
 		}
-		
-		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 
 		if (!isFull) {
 			curExp += addExp;
@@ -287,6 +285,7 @@ public class HeroHandler {
 			GameLog.info("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s],吞卡后浪费经验值[%s],等级[%s],当前经验[%s]\n吞卡数量[%s][%s]", heroUUID, addExp, curLevel, curExp, itemId, useCount), null);
 			msgHeroResponse.setModerId(heroUUID);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
+			if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 			return msgHeroResponse.build().toByteString();
 		} else {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s]需要吞卡的Id是[%s],数量为[%s]失败了", heroUUID, itemId, useCount), null);
@@ -460,8 +459,6 @@ public class HeroHandler {
 
 		}
 		
-		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
-		
 		if(curExp > levelExp){
 			curExp = levelExp;
 		}
@@ -480,7 +477,7 @@ public class HeroHandler {
 			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
 			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
 		}
-
+		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 		return msgRsp.build().toByteString();
 	}
 
