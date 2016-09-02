@@ -102,21 +102,19 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	public ActivityCountTypeCfg getCfgByEnumId(ActivityCountTypeItem item) {
 		String cfgId = item.getCfgId();
 		String cfgEnumId = item.getEnumId();
-		List<ActivityCountTypeCfg> cfgList = getAllCfg();
+		List<ActivityCountTypeCfg> cfgList = enumIdCfgMapping.get(item.getEnumId());		
 		List<ActivityCountTypeCfg> cfgListByEnum = new ArrayList<ActivityCountTypeCfg>();
 		for (ActivityCountTypeCfg cfg : cfgList) {// 取出所有符合相同枚举的可选配置
-			if (StringUtils.equals(cfgEnumId, cfg.getEnumId()) && !StringUtils.equals(cfgId, cfg.getId())) {
+			if (!StringUtils.equals(cfgId, cfg.getId())) {
 				cfgListByEnum.add(cfg);
 			}
 		}
-
 		List<ActivityCountTypeCfg> cfgListIsOpen = new ArrayList<ActivityCountTypeCfg>();// 激活的下一个活动，只有0或1个；
 		for (ActivityCountTypeCfg cfg : cfgListByEnum) {
-			if (ActivityCountTypeMgr.getInstance().isOpen(cfg)) {
+			if (isOpen(cfg)) {
 				cfgListIsOpen.add(cfg);
 			}
 		}
-
 		if (cfgListIsOpen.size() > 1) {
 			GameLog.error(LogModule.ComActivityCount, null, "发现了两个以上开放的活动,活动枚举为=" + cfgEnumId, null);
 			return null;
@@ -127,13 +125,18 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	}
 
 	public boolean hasCfgListByEnumId(String enumId) {
-		List<ActivityCountTypeCfg> allCfg = getAllCfg();
-		for (ActivityCountTypeCfg cfg : allCfg) {
-			if (StringUtils.equals(cfg.getEnumId(), enumId)) {
-				return true;
-			}
+		List<ActivityCountTypeCfg> typeCfgList = enumIdCfgMapping.get(enumId);
+		if(typeCfgList == null ||typeCfgList.isEmpty()){
+			return false;
 		}
-		return false;
+		return true;
+//		List<ActivityCountTypeCfg> allCfg = getAllCfg();
+//		for (ActivityCountTypeCfg cfg : allCfg) {
+//			if (StringUtils.equals(cfg.getEnumId(), enumId)) {
+//				return true;
+//			}
+//		}
+//		return false;
 	}
 
 	/**

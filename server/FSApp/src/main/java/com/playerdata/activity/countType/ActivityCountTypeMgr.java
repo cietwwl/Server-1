@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
@@ -84,7 +82,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityCountTypeCfg)) {
+			if (!ActivityCountTypeCfgDAO.getInstance().isOpen(activityCountTypeCfg)) {
 				// 活动未开启
 				continue;
 			}
@@ -107,29 +105,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
-	}
-	
-	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
-		if (activityCountTypeCfg != null) {
-			long startTime = activityCountTypeCfg.getStartTime();
-			long endTime = activityCountTypeCfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime >= startTime;
-		}
-		return false;
-	}
-	
-	public boolean isOpen(List<ActivityCountTypeCfg> cfgList){
-		boolean isOpen = false;
-		for(ActivityCountTypeCfg cfg:cfgList){
-			if(isOpen(cfg)){
-				isOpen = true;
-				break;
-			}		
-		}
-		return isOpen;
-	}
-	
+	}	
 	
 	private void checkCfgVersion(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
@@ -193,17 +169,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		return currentTime > endTime;
 	}
 
-	
-	
-	public boolean isLevelEnough(Player player, List<ActivityCountTypeCfg> cfgList) {
-		for(ActivityCountTypeCfg cfg : cfgList){
-			if(player.getLevel() >= cfg.getLevelLimit()&&isOpen(cfg)){
-				return true;
-			}			
-		}
-		return false;
-	}
-
 	public void addCount(Player player, ActivityCountTypeEnum countType, int countadd) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 
@@ -249,6 +214,10 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 	private void takeGift(Player player, ActivityCountTypeSubItem targetItem) {
 		ActivityCountTypeSubCfg subCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		targetItem.setTaken(true);
+		if(subCfg == null){
+			//logger
+			return;
+		}
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
 
 	}
