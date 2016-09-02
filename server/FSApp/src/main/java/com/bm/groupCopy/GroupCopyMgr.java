@@ -111,14 +111,6 @@ public class GroupCopyMgr {
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
 	}
 	
-	/**
-	 * 系统加载完所有数据后才可以执行此方法
-	 */
-	public void checkDataFromCfg(){
-		lvRecordHolder.checkAndInitData();
-		mapRecordHolder.checkAndInitData();
-		dropHolder.checkAndInitData();
-	}
 	
 	/**
 	 * 开启副本地图

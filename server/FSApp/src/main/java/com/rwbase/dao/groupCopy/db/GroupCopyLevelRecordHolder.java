@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.groupCopy.GroupCopyLevelBL;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -54,6 +56,7 @@ public class GroupCopyLevelRecordHolder {
 			try {
 				getItemStore().addItem(addList);
 			} catch (DuplicatedKeyException e) {
+				GameLog.error(LogModule.GroupCopy, GroupCopyLevelRecordHolder.class.getName(), "检查副本数据时发现异常", e);
 				e.printStackTrace();
 			}
 		}
