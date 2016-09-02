@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.prepare;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynType;
@@ -219,5 +222,26 @@ public class PrepareAreaMgr {
 			result.add(infoBuilder.build());
 		}
 		return result;
+	}
+	
+	/**
+	 * 获取某帮派备战区内，连接正常的玩家id
+	 * @param groupId
+	 * @return
+	 */
+	public List<String> getOnlineUserFromPrepareScene(String groupId){
+		List<String> onlineUsers = new ArrayList<String>();
+		if(!groupScene.containsKey(groupId)){
+			return onlineUsers;
+		}
+		long sceneId = groupScene.get(groupId);
+		List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
+		for(String userId : usersInScene){
+			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
+			if (ctx != null) {
+				onlineUsers.add(userId);
+			}
+		}
+		return onlineUsers;
 	}
 }
