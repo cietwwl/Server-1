@@ -15,6 +15,13 @@ public class GCompTips {
 	private static String tipsTeamMustIncludeMainRole = "出战阵容必须包含主角！";
 	private static String tipsNotAllHeroExists = "部分英雄不存在！";
 	private static String tipsCreateTeamSuccess = "创建队伍成功";
+	private static String tipsTeamNotExists = "队伍不存在！";
+	private static String tipsTeamMemberIsMax = "队伍成员已经到达上限！";
+	private static String tipsTargetNotInYourGroup = "目标和你不在同一个帮派";
+	private static String tipsTargetIsInTeam = "目标已经有队伍了！";
+	private static String tipsTargetNotExists = "目标不存在！";
+	private static String tipsTargetNotOnline = "目标不在线！";
+	private static String tipsInvitation = "[{}]邀请您加入队伍，是否同意加入？";
 	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
@@ -66,6 +73,34 @@ public class GCompTips {
 
 	public static String getTipsCreateTeamSuccess() {
 		return tipsCreateTeamSuccess;
+	}
+
+	public static String getTipsTeamNotExists() {
+		return tipsTeamNotExists;
+	}
+
+	public static String getTipsTeamMemberIsMax() {
+		return tipsTeamMemberIsMax;
+	}
+
+	public static String getTipsTargetNotInYourGroup() {
+		return tipsTargetNotInYourGroup;
+	}
+
+	public static String getTipsTargetIsInTeam() {
+		return tipsTargetIsInTeam;
+	}
+
+	public static String getTipsTargetNotExists() {
+		return tipsTargetNotExists;
+	}
+
+	public static String getTipsTargetNotOnline() {
+		return tipsTargetNotOnline;
+	}
+
+	public static String getTipsInvitation(String invitorName) {
+		return GCompUtil.format(tipsInvitation, invitorName);
 	}
 	
 }

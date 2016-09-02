@@ -19,3 +19,5 @@ echo %a%
 ..\cs\protogen -p:detectMissing -i:%a% -o:%csPath%%a:proto=cs%
 
 @echo -------------end----------------
+
+pause

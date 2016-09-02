@@ -21,6 +21,14 @@ public class GCOnlineMemberMgr {
 		
 	}
 	
+	public boolean isMemberOnline(Player player) {
+		Group group = GroupHelper.getGroup(player);
+		if (group != null) {
+			return _dataHolder.getOnlineMember(player, group.getGroupBaseDataMgr().getGroupData().getGroupId()) != null;
+		}
+		return false;
+	}
+	
 	public void sendOnlineMembers(Player player) {
 		Group group = GroupHelper.getGroup(player);
 		if (group != null) {

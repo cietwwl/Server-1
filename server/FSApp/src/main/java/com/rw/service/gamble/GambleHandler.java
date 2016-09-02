@@ -7,6 +7,7 @@ import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
+import com.common.RefBool;
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -14,9 +15,11 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.UserGameDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
+import com.rw.service.gamble.datamodel.GambleHistoryRecord;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
@@ -88,23 +91,17 @@ public class GambleHandler {
 			return GambleLogicHelper.SetError(response,player,String.format("无效掉落物品数量，配置:%s", planIdStr),"无法抽卡");
 		}
 		
-		StringBuilder trace = gamblePlanId ==5 ? new StringBuilder() : null;
-		
+		ArrayList<GambleAdwardItem> dropList = new ArrayList<GambleAdwardItem>(10);
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
 		String userId = player.getUserId();
 		GambleRecord record = gambleRecords.getOrCreate(userId);
 		GambleDropHistory historyRecord = record.getHistory(gamblePlanId);
-		// 保证热点随机种子初始化
-		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0){
-			historyRecord.GenerateHotCheckCount(getRandom(), planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
-		}
-
+		GambleHistoryRecord historyByGroup = record.getByGroup(planCfg);
+//		final int oldCount = historyByGroup.getChargeGambleHistory().size();
 		IDropGambleItemPlan dropPlan;//免费或者收费方案组
 		boolean isFree = historyRecord.canUseFree(planCfg);
-		GambleLogicHelper.logTrace(trace,historyRecord);
-		GambleLogicHelper.logTrace(trace,"isFree:"+isFree);
-
+		
 		if (isFree){//使用免费方案
 			dropPlan = planCfg.getFreePlan();
 		}else{//使用收费方案
@@ -113,14 +110,113 @@ public class GambleHandler {
 			}
 			dropPlan = planCfg.getChargePlan();
 		}
-
-		setContext(player);
+		
 		Random ranGen = getRandom();
+		String defaultItem = String.valueOf(planCfg.getGoods());
+		
+		setContext(player);
+		RefBool hasFirst = new RefBool();
+		StringBuilder trace = gamblePlanId ==5 ? new StringBuilder() : null;
+
+		// start core logic
+		dropPlan = coreLogic(gamblePlanId, planIdStr, planCfg, dropList, userId, historyRecord, historyByGroup,
+				dropPlan, isFree, ranGen, defaultItem,trace,hasFirst);
+		
+		clearContext();
+
+		//扣钱
+		if (!isFree){//使用收费方案
+			if (!userGameDataMgr.deductCurrency(planCfg.getMoneyType(), planCfg.getMoneyNum())){
+				return GambleLogicHelper.SetError(response,player,String.format("金钱不足，配置:%s", planIdStr),"金钱不足");
+			}
+		}
+		
+		int adjustCount = dropList.size();
+		if (hasFirst.value && adjustCount >0){
+			adjustCount--;
+		}
+		record.adjustCountOfSameGroup(planCfg,dropPlan, adjustCount);
+		
+		//必掉经验丹，个数跟掉落物品个数一样
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		itemBagMgr.addItem(planCfg.getGoods(), planCfg.getDropItemCount());
+		//保存到背包，并发送跑马灯数据
+		{
+			String reward = "";
+			for (int i = 0; i < dropList.size(); i++) {
+				GambleAdwardItem rewardData = dropList.get(i);
+				if (rewardData.getItemId().indexOf("_") != -1) {// 佣兵
+					player.getHeroMgr().addHero(player, rewardData.getItemId());
+					MainMsgHandler.getInstance().sendPmdJtYb(player, rewardData.getItemId());
+				} else {
+					reward += "," + rewardData.getItemId() + "~" + rewardData.getItemNum();
+					MainMsgHandler.getInstance().sendPmdJtGoods(player, rewardData.getItemId());
+				}
+			}
+			itemBagMgr.addItemByPrizeStr(reward);
+		}
+
+		//保存到历史
+		if (!gambleRecords.commit(record)){
+			GameLog.error("钓鱼台", userId, "更新历史纪录失败,table:gamble_record");
+		}
+		
+		
+		ArrayList<GambleRewardData> tmpDropList = new ArrayList<GambleRewardData>(dropList.size());
+		for(int i = 0;i<dropList.size();i++){
+			GambleAdwardItem tmpItem = dropList.get(i);
+			GambleRewardData.Builder b = GambleRewardData.newBuilder();
+			b.setItemId(tmpItem.getItemId());
+			b.setItemNum(tmpItem.getItemNum());
+			tmpDropList.add(b.build());
+		}
+		response.addAllItemList(tmpDropList);
+		
+		GambleLogicHelper.pushGambleItem(player,ranGen,defaultItem);
+
+		response.setResultType(EGambleResultType.SUCCESS);
+		//魂匣抽不算入通用活动
+		if(request.getGambleType() != EGambleType.ADVANCED){
+			UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		}
+		
+		//抽卡完成后通知任务系统抽卡获得奖品的次数
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Altar,dropList.size());
+		
+		return response.build().toByteString();
+	}
+
+	/**
+	 * 为了给GambleTest调用而开放，其他地方不要调用
+	 * @param gamblePlanId
+	 * @param planIdStr
+	 * @param planCfg
+	 * @param dropList
+	 * @param userId
+	 * @param historyRecord
+	 * @param historyByGroup
+	 * @param dropPlan
+	 * @param isFree
+	 * @param ranGen
+	 * @param defaultItem
+	 * @param trace
+	 * @return
+	 */
+	public IDropGambleItemPlan coreLogic(int gamblePlanId, String planIdStr, GamblePlanCfg planCfg,
+			ArrayList<GambleAdwardItem> dropList, String userId, GambleDropHistory historyRecord,
+			GambleHistoryRecord historyByGroup, IDropGambleItemPlan dropPlan, boolean isFree, Random ranGen,
+			String defaultItem,StringBuilder trace,RefBool hasFirst) {
+		// 保证热点随机种子初始化
+		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0){
+			historyRecord.GenerateHotCheckCount(getRandom(), planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
+		}
+
+		GambleLogicHelper.logTrace(trace,historyRecord,historyByGroup);
+		GambleLogicHelper.logTrace(trace,"isFree:"+isFree);
+
 		RefInt slotCount = new RefInt();
-		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
-		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
 		boolean isFirstTime = historyRecord.isChargeGambleFirstTime();
 		
@@ -132,8 +228,9 @@ public class GambleHandler {
 				//return SetError(response,player,String.format("首抽配置无效，配置:%s", planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-				historyRecord.add(isFree,itemModel,slotCount.value);
-				historyRecord.clearGuaranteeHistory(false,dropPlan,trace);
+				historyRecord.add(isFree,itemModel,slotCount.value,historyByGroup,true);
+				historyRecord.clearGuaranteeHistory(false,dropPlan,trace,historyByGroup);
+				hasFirst.value = true;
 			}
 		}
 
@@ -175,7 +272,7 @@ public class GambleHandler {
 			if (dropPlan == null){
 				//最后容错：20个经验单
 				GambleLogicHelper.add2DropList(dropList, 20, defaultItem,userId,planIdStr,defaultItem);
-				historyRecord.add(isFree,defaultItem,20);
+				historyRecord.add(isFree,defaultItem,20,historyByGroup);
 				GambleLogicHelper.logTrace(trace,"最后容错：20个经验单,ID="+defaultItem);
 				continue;
 			}
@@ -183,7 +280,7 @@ public class GambleHandler {
 			boolean isGuarantee = false;
 			if (historyRecord.passExclusiveCheck(isFree)){//前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:true");
-				if(historyRecord.checkGuarantee(isFree,dropPlan)){
+				if(historyRecord.checkGuarantee(isFree,dropPlan,historyByGroup)){
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen,selectedDropGroupIndex);
 					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,dropGroupId="+dropGroupId);
@@ -194,7 +291,7 @@ public class GambleHandler {
 				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value);
+					historyRecord.add(isFree,itemModel,slotCount.value,historyByGroup);
 				}else{
 					//有错误，减少最大抽卡数量
 					//maxCount --;
@@ -206,10 +303,10 @@ public class GambleHandler {
 				
 			}else{
 				GambleLogicHelper.logTrace(trace,"passExclusiveCheck:false");
-				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree,dropPlan);
+				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree,dropPlan,historyByGroup);
 				GambleLogicHelper.logTrace(trace,"checkHistory:",checkHistory);
 				GambleDropGroup tmpGroup=null;
-				if(historyRecord.checkGuarantee(isFree,dropPlan)){
+				if(historyRecord.checkGuarantee(isFree,dropPlan,historyByGroup)){
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory,selectedDropGroupIndex);
 					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace,"checkGuarantee:true,tmpGroup=",tmpGroup);
@@ -219,7 +316,7 @@ public class GambleHandler {
 				}
 				
 				if (tmpGroup == null){
-					GameLog.error("钓鱼台", player.getUserId(), "严重错误,无法去重,history:"+checkHistory+",isFree:"+isFree+",plan key:"+planCfg.getKey());
+					GameLog.error("钓鱼台", userId, "严重错误,无法去重,history:"+checkHistory+",isFree:"+isFree+",plan key:"+planCfg.getKey());
 					GambleLogicHelper.logTrace(trace,"removeHistoryFromOrdinaryGroup:"+selectedDropGroupIndex.value);
 					dropPlan = dropPlan.removeHistoryFromOrdinaryGroup(selectedDropGroupIndex.value);
 					continue;
@@ -229,9 +326,9 @@ public class GambleHandler {
 				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount,tmpWeight);
 				GambleLogicHelper.logTrace(trace,"random generate itemModel="+itemModel+",slotCount="+slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-					historyRecord.add(isFree,itemModel,slotCount.value);
+					historyRecord.add(isFree,itemModel,slotCount.value,historyByGroup);
 					GambleLogicHelper.logTrace(trace,"checkDistinctTag,isFree:"+isFree+",ExclusiveCount:"+dropPlan.getExclusiveCount());
-					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
+					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount(),historyByGroup);
 				}else{
 					//有错误，减少最大抽卡数量
 					//maxCount --;
@@ -243,59 +340,12 @@ public class GambleHandler {
 				}
 			}
 			
-			historyRecord.clearGuaranteeHistory(isGuarantee,dropPlan,trace);
+			historyRecord.clearGuaranteeHistory(isGuarantee,dropPlan,trace,historyByGroup);
 		}
 		
-		clearContext();
 		//System.out.println(trace.toString());
 		GambleLogicHelper.testHasHero(dropList,trace,gamblePlanId,userId);
-		
-		//扣钱
-		if (!isFree){//使用收费方案
-			if (!userGameDataMgr.deductCurrency(planCfg.getMoneyType(), planCfg.getMoneyNum())){
-				return GambleLogicHelper.SetError(response,player,String.format("金钱不足，配置:%s", planIdStr),"金钱不足");
-			}
-		}
-		
-		//必掉经验丹，个数跟掉落物品个数一样
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		itemBagMgr.addItem(planCfg.getGoods(), planCfg.getDropItemCount());
-		//保存到背包，并发送跑马灯数据
-		{
-			String reward = "";
-			for (int i = 0; i < dropList.size(); i++) {
-				GambleRewardData rewardData = dropList.get(i);
-				if (rewardData.getItemId().indexOf("_") != -1) {// 佣兵
-//					player.getHeroMgr().addHero(rewardData.getItemId());
-					player.getHeroMgr().addHero(player, rewardData.getItemId());
-					MainMsgHandler.getInstance().sendPmdJtYb(player, rewardData.getItemId());
-				} else {
-					reward += "," + rewardData.getItemId() + "~" + rewardData.getItemNum();
-					MainMsgHandler.getInstance().sendPmdJtGoods(player, rewardData.getItemId());
-				}
-			}
-			itemBagMgr.addItemByPrizeStr(reward);
-		}
-
-		//保存到历史
-		if (!gambleRecords.commit(record)){
-			GameLog.error("钓鱼台", userId, "更新历史纪录失败,table:gamble_record");
-		}
-		
-		response.addAllItemList(dropList);
-		
-		GambleLogicHelper.pushGambleItem(player,ranGen,defaultItem);
-
-		response.setResultType(EGambleResultType.SUCCESS);
-		//魂匣抽不算入通用活动
-		if(request.getGambleType() != EGambleType.ADVANCED){
-			UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
-		}
-		
-		//抽卡完成后通知任务系统抽卡获得奖品的次数
-		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Altar,dropList.size());
-		
-		return response.build().toByteString();
+		return dropPlan;
 	}
 
 	public ByteString gambleData(GambleRequest request, Player player) {

@@ -1,10 +1,11 @@
 package com.playerdata.groupcompetition.holder.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupcompetition.data.IGCUnit;
 
 /**
  * 
@@ -14,16 +15,19 @@ import com.playerdata.groupcompetition.data.IGCUnit;
  *
  */
 @SynClass
-public class GCompTeam implements IGCUnit {
+public class GCompTeam {
 
 	private String teamId; // 队伍的id
 	private List<GCompTeamMember> members; // 队伍的成员
+	@IgnoreSynField
+	private List<GCompTeamMember> membersRO;
 	
 	public static GCompTeam createNewTeam(String teamId, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
 		team.teamId = teamId;
 		team.members = new ArrayList<GCompTeamMember>();
 		team.members.add(leader);
+		team.membersRO = Collections.unmodifiableList(team.members);
 		if (members != null && members.length > 0) {
 			for (int i = 0; i < members.length; i++) {
 				team.members.add(members[i]);
@@ -32,82 +36,28 @@ public class GCompTeam implements IGCUnit {
 		return team;
 	}
 	
-	/**
-	 * 
-	 * 设置队伍的id
-	 * 
-	 * @param pTeamId
-	 */
-	public void setId(String pTeamId) {
-		this.teamId = pTeamId;
+	public String getTeamId() {
+		return this.teamId;
 	}
 	
 	public List<GCompTeamMember> getMembers() {
-		return members;
-	}
-
-	@Override
-	public long getLastMatchTime() {
-		return 0;
-	}
-
-	@Override
-	public void setLastMatchTime(long time) {
-		
-	}
-
-	@Override
-	public int getTotalMatchTimes() {
-		return 0;
-	}
-
-	@Override
-	public void setTotalMatchTimes(int pTimes) {
-		
-	}
-
-	@Override
-	public String getId() {
-		return teamId;
-	}
-
-	@Override
-	public int getLevel() {
-		return 0;
-	}
-
-	@Override
-	public int getTotalWinTimes() {
-		return 0;
-	}
-
-	@Override
-	public int getHighestContinuousWinTimes() {
-		return 0;
-	}
-
-	@Override
-	public int getCurrentContinousWinTimes() {
-		return 0;
-	}
-
-	@Override
-	public int getCurrentScore() {
-		return 0;
-	}
-
-	@Override
-	public int getCurrentScoreForGroup() {
-		return 0;
+		return membersRO;
 	}
 	
-	@Override
-	public String getIdOfLastCompetitor() {
-		return null;
+	public GCompTeamMember getTeamMember(String userId) {
+		synchronized(members) {
+			for(GCompTeamMember teamMember : members) {
+				if(teamMember.getUserId().equals(userId)) {
+					return teamMember;
+				}
+			}
+			return null;
+		}
 	}
 	
-	@Override
-	public void setIdOfLastCompetitor(String competitorId) {
-		
+	public void addTeamMember(GCompTeamMember member) {
+		synchronized(members) {
+			members.add(member);
+		}
 	}
 }

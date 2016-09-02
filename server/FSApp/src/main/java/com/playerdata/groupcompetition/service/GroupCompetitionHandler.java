@@ -7,6 +7,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
@@ -34,6 +35,7 @@ import com.rwproto.GroupCompetitionProto.RspAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
+import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
 
 public class GroupCompetitionHandler {
@@ -134,6 +136,16 @@ public class GroupCompetitionHandler {
 		}
 		return builder.build();
 	}
+	
+	private ByteString inviteMember(Player player, TeamMemberRequest request) {
+		Player targetPlayer = PlayerMgr.getInstance().find(request.getTargetUserId());
+		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().inviteMember(player, targetPlayer);
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	private ByteString kickMember(Player player, TeamMemberRequest request) {
+		return null;
+	}
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
@@ -205,15 +217,6 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
-	public ByteString teamRequest(Player player, TeamRequest teamRequest) {
-		if (teamRequest.getReqType() == GCRequestType.CreateTeam) {
-			IReadOnlyPair<Boolean, String> createResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
-			return this.createCommonRsp(createResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, createResult.getT2()).toByteString();
-		} else {
-			return ByteString.EMPTY;
-		}
-	}
-	
 	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
 		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
 		GCompQuizMgr.getInstance().createNewGuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
@@ -224,5 +227,39 @@ public class GroupCompetitionHandler {
 		RspAllGuessInfo.Builder gcRsp = RspAllGuessInfo.newBuilder();
 		GCompQuizMgr.getInstance().getCanGuizMatch(player, gcRsp);
 		return gcRsp.build().toByteString();
+	}
+	
+	/**
+	 * 
+	 * 处理玩家创建队伍或者调整队伍阵容
+	 * 
+	 * @param player
+	 * @param teamRequest
+	 * @return
+	 */
+	public ByteString teamRequest(Player player, TeamRequest teamRequest) {
+		IReadOnlyPair<Boolean, String> processResult;
+		switch (teamRequest.getReqType()) {
+		case CreateTeam:
+			processResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
+			break;
+		case AdjustTeamMember:
+			processResult = GCompTeamMgr.getInstance().updateHeros(player, teamRequest.getHeroIdList());
+			break;
+		default:
+			return ByteString.EMPTY;
+		}
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	public ByteString teamMemberRequest(Player player, TeamMemberRequest request) {
+		switch (request.getReqType()) {
+		case InviteMember:
+			return inviteMember(player, request);
+		case KickMember:
+			return this.kickMember(player, request);
+		default:
+			return ByteString.EMPTY;
+		}
 	}
 }
