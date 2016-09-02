@@ -32,7 +32,7 @@ public class MsgInfo {
 
 	@Override
 	public String toString() {
-		return "(max=" + max + ", times=" + times + ", totalAvgCost=" + totalAvgCost + ", recentlyAvgCost=" + recentlyAvgCost + ")";
+		return "(totalAvg=" + totalAvgCost + ", recentlyAvg=" + recentlyAvgCost + ", times=" + times + ", max=" + max + ")";
 	}
 
 }
