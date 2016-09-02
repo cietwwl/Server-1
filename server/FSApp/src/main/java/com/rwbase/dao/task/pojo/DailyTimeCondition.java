@@ -29,12 +29,12 @@ public class DailyTimeCondition implements DailyStartCondition, DailyFinishCondi
 	}
 
 	@Override
-	public boolean isMatchCondition(Player player, DailyActivityData data) {
-		return isMatchCondition(player);
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip, DailyActivityData data) {
+		return isMatchCondition(userId, playerLevel, playerVip);
 	}
 
 	@Override
-	public boolean isMatchCondition(Player player) {
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip) {
 		// 当前时间
 		// 把原来的代码拷过来
 		Calendar c = Calendar.getInstance();
