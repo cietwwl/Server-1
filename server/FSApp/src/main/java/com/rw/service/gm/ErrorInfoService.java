@@ -10,15 +10,14 @@ import com.rwproto.MsgErrInfoProtos.EMsgErrorInfoType;
 import com.rwproto.MsgErrInfoProtos.MsgErrorInfoRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class ErrorInfoService implements FsService{
+public class ErrorInfoService implements FsService<MsgErrorInfoRequest, EMsgErrorInfoType>{
 
-
-	
-	public ByteString doTask(Request request, Player player) {
+	@Override
+	public ByteString doTask(MsgErrorInfoRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			MsgErrorInfoRequest msgGMRequest = MsgErrorInfoRequest.parseFrom(request.getBody().getSerializedContent());
-			EMsgErrorInfoType type = msgGMRequest.getType();
+			EMsgErrorInfoType type = request.getType();
 			switch (type) {
 			case ServerMsg:
 				
@@ -27,10 +26,23 @@ public class ErrorInfoService implements FsService{
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public MsgErrorInfoRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgErrorInfoRequest msgGMRequest = MsgErrorInfoRequest.parseFrom(request.getBody().getSerializedContent());
+		return msgGMRequest;
+	}
+
+	@Override
+	public EMsgErrorInfoType getMsgType(MsgErrorInfoRequest request) {
+		// TODO Auto-generated method stub
+		return request.getType();
 	}
 
 }

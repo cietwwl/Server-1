@@ -14,6 +14,7 @@ import com.rwbase.dao.task.DailyFinishType;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
 import com.rwbase.dao.task.pojo.DailyActivityData;
+import com.rwbase.dao.task.pojo.DailyActivityTaskItem;
 
 /**
  * 任务的数据管理类。
@@ -51,22 +52,27 @@ public class DailyActivityMgr implements PlayerEventListener {
 	public List<DailyActivityData> getTaskListByCfg(boolean refresh) {
 		DailyActivityCfgDAO cfgDAO = DailyActivityCfgDAO.getInstance();
 		List<DailyActivityCfgEntity> taskCfgList = cfgDAO.getAllReadOnlyEntitys();
+		DailyActivityTaskItem taskItem = holder.getTaskItem();
 		List<DailyActivityData> currentList;
 		// 刷新
 		if (refresh) {
 			currentList = new ArrayList<DailyActivityData>();
 		} else {
-			currentList = holder.getTaskItem().getTaskList();
+			currentList = taskItem.getTaskList();
 		}
 		boolean changed = false;
-		List<Integer> firstInitTaskIds = holder.getTaskItem().getFirstIncrementTaskIds();
+		List<DailyActivityData> removeList = taskItem.getRemoveTaskList();
+		List<Integer> firstInitTaskIds = taskItem.getFirstIncrementTaskIds();
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
+		String userId = player.getUserId();
 		// 根据开启条件将任务加入任务列表,主要是时间和等级;
 		for (DailyActivityCfgEntity entity : taskCfgList) {
 			DailyActivityCfg cfg = entity.getCfg();
-			if (!refresh && isRemoveTask(cfg)) {
+			if (!refresh && isRemoveTask(cfg, removeList)) {
 				continue; // 不加入已经领取过奖励的任务
 			}
-			if (hasNoRight(cfg)) {
+			if (hasNoRight(cfg, playerLevel, playerVip)) {
 				continue;
 			}
 			// 刷新的话不需要遍历检查是否存在任务，直接检查能否创建任务
@@ -74,13 +80,13 @@ public class DailyActivityMgr implements PlayerEventListener {
 			if (refresh) {
 				tempData = null;
 			} else {
-				tempData = getActivityDataById(cfg.getTaskType());
+				tempData = getActivityDataById(cfg.getTaskType(), cfgDAO, taskItem);
 			}
 
 			if (tempData != null) {
 				// 已经存在检查是否完成
 				// 检查完成条件
-				boolean matchCondition = entity.getFinishCondition().isMatchCondition(player, tempData);
+				boolean matchCondition = entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, tempData);
 				if (tempData.getCanGetReward() == 0) {
 					if (matchCondition) {
 						tempData.setCanGetReward(1);
@@ -99,7 +105,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 				}
 			} else {
 				// 检查开启条件
-				if (!entity.getStartCondition().isMatchCondition(player)) {
+				if (!entity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip)) {
 					continue;
 				}
 				DailyActivityData data = new DailyActivityData();
@@ -107,14 +113,14 @@ public class DailyActivityMgr implements PlayerEventListener {
 				currentList.add(data);
 				setInitNum(data, cfg, firstInitTaskIds);
 				// 检查完成条件
-				if (entity.getFinishCondition().isMatchCondition(player, data)) {
+				if (entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, data)) {
 					data.setCanGetReward(1);
 				}
 				changed = true;
 			}
 		}
 		if (refresh) {
-			holder.getTaskItem().setTaskList(currentList);
+			taskItem.setTaskList(currentList);
 			holder.save();
 		} else if (changed) {
 			holder.save();
@@ -132,46 +138,42 @@ public class DailyActivityMgr implements PlayerEventListener {
 			int taskId = data.getTaskId();
 			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
 			if (cfg == null) {
-//				System.out.println("------ID："+taskId+", 的任务不存在");
+				// System.out.println("------ID："+taskId+", 的任务不存在");
 				continue;
 			}
 
-			if(temMap.containsKey(taskId)){
-//				System.out.println("======ID："+taskId+", 重复");
-				//过滤掉重复的数据
+			if (temMap.containsKey(taskId)) {
+				// System.out.println("======ID："+taskId+", 重复");
+				// 过滤掉重复的数据
 				continue;
 			}
-			
+
 			temMap.put(taskId, data);
-//			System.out.println("------处理后的任务ID："+taskId+", 任务描述："+ cfg.getCfg().getDescription());
+			// System.out.println("------处理后的任务ID："+taskId+", 任务描述："+
+			// cfg.getCfg().getDescription());
 		}
-		
+
 		list.addAll(temMap.values());
 
 		return list;
 	}
 
 	/** 检查该配置的任务是否已经被领取(移动到remove列表 ) **/
-	private boolean isRemoveTask(DailyActivityCfg cfg) {
+	private boolean isRemoveTask(DailyActivityCfg cfg, List<DailyActivityData> removeList) {
 		boolean isRemove = false;
-		for (DailyActivityData td : holder.getTaskItem().getRemoveTaskList()) {
-			DailyActivityCfg saveDailyActivityCfg = (DailyActivityCfg) DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(td.getTaskId()));
-			if (saveDailyActivityCfg != null) {
-				if (saveDailyActivityCfg.getTaskType() == cfg.getTaskType()) {
-					isRemove = true;
-					break;
-				}
-			}
-			if (td.getTaskId() == cfg.getId()) {
-				isRemove = true;
-				break;
+		int cfgId = cfg.getId();
+		for (int i = removeList.size(); --i >= 0;) {
+			if (removeList.get(i).getTaskId() == cfgId) {
+				return true;
 			}
 		}
-		return isRemove;
+		return false;
 	}
 
-	public boolean hasNoRight(DailyActivityCfg cfg) {
-		return cfg.getMaxLevel() < player.getLevel() || player.getVip() < cfg.getVip() || cfg.getMaxVip() < player.getVip();
+	public boolean hasNoRight(DailyActivityCfg cfg, int playerLevel, int playerVip) {
+		// return cfg.getMaxLevel() < player.getLevel() || player.getVip() <
+		// cfg.getVip() || cfg.getMaxVip() < player.getVip();
+		return cfg.getMaxLevel() < playerLevel || playerVip < cfg.getVip() || cfg.getMaxVip() < playerVip;
 	}
 
 	// 返回一个角色所有的任务
@@ -227,6 +229,9 @@ public class DailyActivityMgr implements PlayerEventListener {
 			DailyActivityCfgDAO activityDAO = DailyActivityCfgDAO.getInstance();
 			List<DailyActivityData> taskList = holder.getTaskItem().getTaskList();
 			int size = taskList.size();
+			String userId = player.getUserId();
+			int playerLevel = player.getLevel();
+			int playerVip = player.getVip();
 			for (int i = 0; i < size; i++) {
 				DailyActivityData taskData = taskList.get(i);
 				DailyActivityCfgEntity entity = activityDAO.getCfgEntity(taskData.getTaskId());
@@ -238,7 +243,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 					continue;
 				}
 				// 保留原逻辑先
-				if (!entity.getStartCondition().isMatchCondition(player)) {
+				if (!entity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip)) {
 					continue;
 				}
 
@@ -250,7 +255,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 				}
 				taskData.setCurrentProgress(currentProgress);
 				// 检查是否完成任务
-				if (entity.getFinishCondition().isMatchCondition(player, taskData)) {
+				if (entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, taskData)) {
 					taskData.setCanGetReward(1);
 				}
 				this.holder.save();
@@ -262,9 +267,10 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 	}
 
-	private DailyActivityData getActivityDataById(int type) {
-		for (DailyActivityData td : holder.getTaskItem().getTaskList()) {
-			DailyActivityCfg tempCfg = (DailyActivityCfg) DailyActivityCfgDAO.getInstance().getCfgById(String.valueOf(td.getTaskId()));
+	//TODO 这个方法alex优化
+	private DailyActivityData getActivityDataById(int type, DailyActivityCfgDAO cfgDAO, DailyActivityTaskItem taskItem) {
+		for (DailyActivityData td : taskItem.getTaskList()) {
+			DailyActivityCfg tempCfg = cfgDAO.getCfgById(String.valueOf(td.getTaskId()));
 			if (tempCfg == null) {
 				continue;
 			}

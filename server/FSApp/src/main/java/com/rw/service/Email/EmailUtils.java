@@ -14,6 +14,8 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.EmailLogTemplate;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -182,12 +184,14 @@ public class EmailUtils {
 		if (otherTable == null) {
 			return false;
 		}
-		setEamil(otherTable, emailData, sendTime);
+		EmailItem emailItem = setEamil(otherTable, emailData, sendTime);
 		TableEmailDAO.getInstance().update(otherTable);
+		BILogMgr.getInstance().logEmail(userId, emailItem, EmailLogTemplate.EamilOpType.EMAIL_SEND);
+		BILogMgr.getInstance().logEmail(userId, emailItem, EmailLogTemplate.EamilOpType.EMAIL_RECEIVE);
 		return true;
 	}
 
-	public static void setEamil(TableEmail otherTable, EmailData emailData, long sendTime) {
+	public static EmailItem setEamil(TableEmail otherTable, EmailData emailData, long sendTime) {
 		EmailItem item = new EmailItem();
 		item.setEmailId(UUID.randomUUID().toString());
 		item.setCfgid(emailData.getCfgid());
@@ -204,6 +208,9 @@ public class EmailUtils {
 		item.setCoolTime(emailData.getCoolTime());
 		item.setBeginTime(emailData.getBeginTime());
 		item.setEndTime(emailData.getEndTime());
+		
+		//记录一下EmailId
+		emailData.setEmailId(item.getEmailId());
 		if (emailData.isDeadline()) {
 			try {
 				item.setDeadlineTimeInMill(format.parse(emailData.getDeadlineTime()).getTime());
@@ -214,6 +221,7 @@ public class EmailUtils {
 			item.setDeadlineTimeInMill(System.currentTimeMillis() + emailData.getDelayTime() * 1000L);
 		}
 		otherTable.addEmail(item);
+		return item;
 	}
 
 	/**

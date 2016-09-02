@@ -8,29 +8,34 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-//		 Robot robot = loginRobot("12312");
+		 Robot robot = loginRobot("12301");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpcllen"+ 112);
+//		 Robot robot = createRobot("tmpcllen"+ 912);
 		 if(robot == null){
 		 }else{
 			 //boolean issucc = robot.startTBCreateTeam();
-			 robot.upgrade(33);
-			 robot.checkEnoughMoney();
-			 robot.addFixEquip();
+//			 robot.upgrade(33);
+//			 robot.checkEnoughMoney();
+//			 robot.gambleByGold();
+//			 robot.addFixEquip();
 //			 robot.addGold(9999);
 //			 robot.addCoin(9999);
 //			 robot.addHero(1);
 //			 robot.addHero(1);
 //			 robot.createGroup("tmpallen112");
 //			 boolean issucc = robot.attackEnemyGroupSecret();
-			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
+//			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
 			 //robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
-			 System.out.println("@@@@@@@@@@@test：" + issucc);
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
+//			 System.out.println("@@@@@@@@@@@test：" + issucc);
 		 }
 		 
 		 

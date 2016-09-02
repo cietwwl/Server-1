@@ -50,14 +50,13 @@ public class PlayerLoginTask implements PlayerTask {
 
 	@Override
 	public void run(Player player) {
-		if(!this.ctx.channel().isActive()){
-			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:"+UserChannelMgr.getCtxInfo(ctx));
+		if (!this.ctx.channel().isActive()) {
+			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:" + UserChannelMgr.getCtxInfo(ctx));
 			return;
 		}
 		int seqID = header.getSeqID();
 		long executeTime = System.currentTimeMillis();
-		FSTraceLogger.logger("run(" + (executeTime - submitTime)+"," + "LOGIN" + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
-		
+		FSTraceLogger.logger("run", executeTime - submitTime, "LOGIN", seqID, player != null ? player.getUserId() : null, null);
 		GameLoginResponse.Builder response = GameLoginResponse.newBuilder();
 		if (player == null) {
 			response.setError("服务器繁忙，请稍后再次尝试登录。");
@@ -132,12 +131,12 @@ public class PlayerLoginTask implements PlayerTask {
 				dao.update(userPlotProgress);
 			}
 			response.setLoginType(eGameLoginType.GAME_LOGIN);
-		}else{
+		} else {
 			response.setLoginType(eGameLoginType.CREATE_ROLE);
 		}
 		long createTime = user.getCreateTime();
 		response.setCreateTime(createTime);
-		
+
 		final Player p = player;
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
@@ -164,8 +163,8 @@ public class PlayerLoginTask implements PlayerTask {
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
-//		BILogMgr.getInstance().logZoneLogin(player);
-		
+		// BILogMgr.getInstance().logZoneLogin(player);
+
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 
@@ -174,9 +173,7 @@ public class PlayerLoginTask implements PlayerTask {
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
 		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
-		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ "LOGIN" + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
-
+		FSTraceLogger.logger("send", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null);
 	}
-	
 
 }

@@ -47,7 +47,6 @@
 			    <entry key="MSG_ARENA" value-ref="arenaService" />
 			    <entry key="MSG_FRIEND" value-ref="friendService" />
 			    <entry key="MSG_SIGN" value-ref="signService" />
-			    <entry key="MSG_VIP" value-ref="vipService" />
 			    <entry key="MSG_SETTING" value-ref="settingService" />
 			    <entry key="MSG_OtherRoleAttr" value-ref="otherRoleAttrService" />
 			    <entry key="MSG_TOWER" value-ref="towerService" />
@@ -85,6 +84,7 @@
 			     <entry key="MSG_ACTIVITY_RedEnvelope_TYPE" value-ref="activityRedEnvelopeTypeService" />
 			     <entry key="MSG_ACTIVITY_FORTUNECAT_TYPE" value-ref="activityFortuneCatTypeService" />
 			     <entry key="MSG_ACTIVITY_DAILY_CHARGE_TYPE" value-ref="activityDailyChargeTypeService" />
+			     <entry key="MSG_ACTIVITY_LimitHero_TYPE" value-ref="activityLimitHeroTypeService" />
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
@@ -108,10 +108,11 @@
      			<entry key="MSG_TEAM_BATTLE" value-ref="teamBattleService" />
      			<entry key="MSG_ONE_KEY_REWARD" value-ref="oneKeyService" />
      			<entry key="MSG_BATTLE_COMMON" value-ref="saveTeaminfoToServerService" />
+
+     			<entry key="MSG_SYN_DATA_SERVICE" value-ref="synDataService" />
      			
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UI_DATA" value-ref="userFightingGrowthService" />
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
-     			
 			</map>
 		</property>
 	</bean>
@@ -141,7 +142,6 @@
 	
 	<bean id="friendService" class="com.rw.service.friend.FriendService"  />
 	<bean id="signService" class="com.rw.service.sign.SignService"  />
-	<bean id="vipService" class="com.rw.service.vip.VipService"  />
 	<bean id="settingService" class="com.rw.service.setting.SettingService"  />
 	<bean id="otherRoleAttrService" class="com.rw.service.role.OtherRoleAttrService"  />
 	<bean id="storeService" class="com.rw.service.store.StoreService"  />
@@ -172,9 +172,9 @@
 	<bean id="activityDailyDiscountTypeService" class="com.playerdata.activity.dailyDiscountType.service.ActivityDailyDiscountTypeService"  />
 	<bean id="activityRedEnvelopeTypeService" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
 	<bean id="activityDailyChargeTypeService" class="com.playerdata.activity.dailyCharge.service.ActivityDailyRechargeTypeService" />
+	<bean id="activityLimitHeroTypeService" class="com.playerdata.activity.limitHeroType.service.ActivityLimitHeroTypeService"  />
 	
 	<bean id="activityFortuneCatTypeService" class="com.playerdata.activity.fortuneCatType.service.ActivityFortuneCatTypeService"  />
-	
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
@@ -196,5 +196,9 @@
 	<bean id="oneKeyService" class = "com.rw.service.task.OneKeyService" />
 	<bean id="redpointService" class="com.rw.service.redpoint.RedPointService"/>
 	<bean id="saveTeaminfoToServerService" class="com.playerdata.saveteaminfo.SaveTeaminfoToServerService"/>
+	
+	<bean id="synDataService" class="com.playerdata.dataSyn.service.SynDataService"/>
+	
 	<bean id="userFightingGrowthService" class="com.rw.service.fightinggrowth.FSUserFightingGrowthService" />
+
 </beans>  

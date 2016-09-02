@@ -8,35 +8,46 @@ import com.rwproto.RequestProtos.Request;
 import com.rwproto.RoleServiceProtos.RoleRequest;
 import com.rwproto.RoleServiceProtos.RoleRequestType;
 
-public class RoleService implements FsService {
+public class RoleService implements FsService<RoleRequest, RoleRequestType> {
 
 	private RoleHandler handler = RoleHandler.getInstance();
-
-	public ByteString doTask(Request request, Player player) {
+	
+	@Override
+	public ByteString doTask(RoleRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			RoleRequest req = RoleRequest.parseFrom(request.getBody().getSerializedContent());
-			RoleRequestType requestType = req.getRequestType();
+			RoleRequestType requestType = request.getRequestType();
 			switch (requestType) {
-			//case CREATE_ROLE:
-			//	result = handler.createRole(req, player);
-			//	break;
 			case SELECT_CAREER:
-				result = handler.selectCareer(req, player);
+				result = handler.selectCareer(request, player);
 				break;
 			case CHANGE_ROLE:
-				result = handler.changeInfo(req, player);
+				result = handler.changeInfo(request, player);
 				break;
 			case CAREER_ADVANCE:
-				result = handler.careerAdvance(req,player);
+				result = handler.careerAdvance(request, player);
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public RoleRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		RoleRequest req = RoleRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public RoleRequestType getMsgType(RoleRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 
 }

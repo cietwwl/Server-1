@@ -16,7 +16,7 @@ public class DailyProgressCondition implements DailyFinishCondition {
 	}
 
 	@Override
-	public boolean isMatchCondition(Player player, DailyActivityData data) {
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip, DailyActivityData data) {
 		return data.getCurrentProgress() >= needProgress;
 	}
 

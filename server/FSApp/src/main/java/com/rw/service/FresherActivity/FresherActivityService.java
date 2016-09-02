@@ -7,23 +7,10 @@ import com.playerdata.readonly.FresherActivityMgrIF;
 import com.rw.service.FsService;
 import com.rwproto.FrshActProtos.FrshActRequest;
 import com.rwproto.FrshActProtos.FrshActResponse;
+import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.Request;
 
-public class FresherActivityService implements FsService{
-
-	@Override
-	public ByteString doTask(Request request, Player player) {
-		// TODO Auto-generated method stub
-		ByteString result = null;
-		try{
-			FrshActRequest req = FrshActRequest.parseFrom(request.getBody().getSerializedContent());
-			int cfgId = req.getCfgId();
-			result = handlerAchieveActivityReward(player, cfgId);
-		}catch(InvalidProtocolBufferException e){
-			e.printStackTrace();
-		}
-		return result;
-	}
+public class FresherActivityService implements FsService<FrshActRequest, Command>{
 
 	private ByteString handlerAchieveActivityReward(Player player, int cfgId){
 		FresherActivityMgrIF fresherActivityMgr = player.getFresherActivityMgrIF();
@@ -38,5 +25,31 @@ public class FresherActivityService implements FsService{
 			resp.setResult(1);
 		}
 		return resp.build().toByteString();
+	}
+
+	@Override
+	public ByteString doTask(FrshActRequest request, Player player) {
+		// TODO Auto-generated method stub
+		ByteString result = null;
+		try{
+			int cfgId = request.getCfgId();
+			result = handlerAchieveActivityReward(player, cfgId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public FrshActRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		FrshActRequest req = FrshActRequest.parseFrom(request.getBody().getSerializedContent());
+		return req;
+	}
+
+	@Override
+	public Command getMsgType(FrshActRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

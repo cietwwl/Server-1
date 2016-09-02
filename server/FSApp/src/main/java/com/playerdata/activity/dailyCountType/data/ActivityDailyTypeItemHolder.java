@@ -70,28 +70,7 @@ public class ActivityDailyTypeItemHolder{
 		}
 		return addSuccess;
 	}
-	
-	public boolean addItemList(Player player, List<ActivityDailyTypeItem> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
-			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
+
 	public void synAllData(Player player){
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());	
 		Iterator<ActivityDailyTypeItem> it = itemList.iterator();

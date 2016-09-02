@@ -41,7 +41,10 @@ public class ActivityExchangeTypeItemHolder{
 		List<ActivityExchangeTypeItem> itemList = new ArrayList<ActivityExchangeTypeItem>();
 		Enumeration<ActivityExchangeTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();			
+			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();	
+			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -57,15 +60,6 @@ public class ActivityExchangeTypeItemHolder{
 		String itemId = ActivityExChangeTypeHelper.getItemId(userId, exChangeTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityExchangeTypeItem item){
 	
@@ -99,14 +93,14 @@ public class ActivityExchangeTypeItemHolder{
 //	
 	public void synAllData(Player player){
 		List<ActivityExchangeTypeItem> itemList = getItemList(player.getUserId());		
-		Iterator<ActivityExchangeTypeItem> it = itemList.iterator();
-		while(it.hasNext()){
-			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem)it.next();
-			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-//				removeItem(player, item);
-				it.remove();
-			}
-		}
+//		Iterator<ActivityExchangeTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem)it.next();
+//			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+////				removeItem(player, item);
+//				it.remove();
+//			}
+//		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

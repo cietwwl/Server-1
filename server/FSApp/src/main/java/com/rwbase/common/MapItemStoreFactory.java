@@ -11,6 +11,7 @@ import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeI
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
@@ -113,6 +114,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
 	
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
+	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
 	
@@ -220,6 +222,7 @@ public class MapItemStoreFactory {
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
 
 		register(activityFortuneCatTypeItemCache = new MapItemStoreCache<ActivityFortuneCatTypeItem>(ActivityFortuneCatTypeItem.class, "userId", heroCapacity));
+		register(activityLimitHeroTypeItemCache = new MapItemStoreCache<ActivityLimitHeroTypeItem>(ActivityLimitHeroTypeItem.class, "userId", heroCapacity));
 
 		
 		register(activityRedEnvelopeTypeItemCache = new MapItemStoreCache<ActivityRedEnvelopeTypeItem>(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity));
@@ -453,6 +456,10 @@ public class MapItemStoreFactory {
 	
 	public static MapItemStoreCache<ActivityFortuneCatTypeItem> getActivityFortuneCatTypeItemCache() {
 		return activityFortuneCatTypeItemCache;
+	}
+
+	public static MapItemStoreCache<ActivityLimitHeroTypeItem> getActivityLimitHeroTypeItemCache() {
+		return activityLimitHeroTypeItemCache;
 	}
 
 	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {

@@ -10,6 +10,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
@@ -24,7 +25,6 @@ import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
-import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
@@ -41,7 +41,7 @@ public class MagicSecretMgr {
 	public final static float TWO_STAR_SCORE_COEFFICIENT = 1.5f;
 	public final static float THREE_STAR_SCORE_COEFFICIENT = 2.5f;
 	
-	public final static int MS_RANK_FETCH_COUNT = 100;
+	public final static int MS_RANK_FETCH_COUNT = 50;
 	
 	public final static String CHAPTER_INIT_ID = "1";
 	public final static int MS_STAR_ID = -301;
@@ -66,7 +66,7 @@ public class MagicSecretMgr {
 		List<MSScoreDataItem> rankList = MSScoreRankMgr.getMSScoreRankList();
 		int size = rankList.size();
 		for(int i = 0; i < size; i++){
-			msRsp.addMsRankData(JsonUtil.writeValue(rankList.get(i)));
+			msRsp.addMsRankData(ClientDataSynMgr.toClientData(rankList.get(i)));
 		}
 		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(player.getUserId()));
 		msRsp.setRstType(msResultType.SUCCESS);
@@ -163,13 +163,13 @@ public class MagicSecretMgr {
 			List<? extends ItemInfo> rewardItems = singleDungeonReward(player, fightingDung, finishStar);
 			// 获得的物品
 			for(int i = 0; i < rewardItems.size(); i++){
-				msRsp.addRewardData(JsonUtil.writeValue(rewardItems.get(i)));
+				msRsp.addRewardData(ClientDataSynMgr.toClientData(rewardItems.get(i)));
 			}
 			// 更新最高纪录，添加首次通关章节的奖励(如果刷新了纪录，并且是本章最后一关)
 			if(MSInnerProcessor.updateSelfMaxStage(player, dungeonID) && MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER){
 				MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(chapterID));
 				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
-					msRsp.addRewardData(JsonUtil.writeValue(mcCfg.getPassBonus().get(i)));
+					msRsp.addRewardData(ClientDataSynMgr.toClientData(mcCfg.getPassBonus().get(i)));
 				}
 				MSInnerProcessor.handleDropItem(player, mcCfg.getPassBonus());
 				msRsp.setIsFirstFinish(true);
@@ -219,7 +219,7 @@ public class MagicSecretMgr {
 		}
 		// 获得的物品
 		for(int i = 0; i < rewardItems.size(); i++){
-			msRsp.addRewardData(JsonUtil.writeValue(rewardItems.get(i)));
+			msRsp.addRewardData(ClientDataSynMgr.toClientData(rewardItems.get(i)));
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
@@ -294,7 +294,7 @@ public class MagicSecretMgr {
 			items.addAll(MSInnerProcessor.generateDropItem(player, dropStr));
 		MSInnerProcessor.handleDropItem(player, items);
 		for(int i = 0; i < items.size(); i++){
-			msRsp.addRewardData(JsonUtil.writeValue(items.get(i)));
+			msRsp.addRewardData(ClientDataSynMgr.toClientData(items.get(i)));
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
@@ -340,7 +340,7 @@ public class MagicSecretMgr {
 		}
 		MSInnerProcessor.handleDropItem(player, dungScoreCfg.getRewardList());
 		for(int i = 0; i < dungScoreCfg.getRewardList().size(); i++){
-			msRsp.addRewardData(JsonUtil.writeValue(dungScoreCfg.getRewardList().get(i)));
+			msRsp.addRewardData(ClientDataSynMgr.toClientData(dungScoreCfg.getRewardList().get(i)));
 		}
 		umsData.getGotScoreReward().add(scoreRewardID);
 		msRsp.setRstType(msResultType.SUCCESS);

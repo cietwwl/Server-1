@@ -35,7 +35,6 @@ public class ActivityDailyChargeSubCfgDAO extends CfgCsvDao<ActivityDailyChargeS
 		if(null == cfg) return todaySubs; 
 		if(!ActivityDetector.getInstance().isActive(cfg)) return todaySubs;
 		//还在活跃期内，取当天的数据
-		System.out.println();
 		int todayNum = ActivityDetector.getInstance().getCurrentDay(cfg);
 		for(ActivityDailyChargeSubCfg subCfg : cfgCacheMap.values()){
 			if(StringUtils.equals(subCfg.getDay(), String.valueOf(todayNum)) && 

@@ -35,11 +35,14 @@ public class ActivityCountTypeItemHolder{
 	 */
 	public List<ActivityCountTypeItem> getItemList(String userId)	
 	{
-		
+		ActivityCountTypeCfgDAO typeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeItem> itemList = new ArrayList<ActivityCountTypeItem>();
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();			
+			if(typeCfgDAO.hasCfgListByEnumId(item.getEnumId())){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -55,15 +58,6 @@ public class ActivityCountTypeItemHolder{
 		String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityCountTypeItem item){
 	
@@ -88,23 +82,17 @@ public class ActivityCountTypeItemHolder{
 		}
 	}
 	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
+
 	public void synAllData(Player player){
 		List<ActivityCountTypeItem> itemList = getItemList(player.getUserId());			
-		Iterator<ActivityCountTypeItem> it = itemList.iterator();
-		while(it.hasNext()){
-			ActivityCountTypeItem item = (ActivityCountTypeItem)it.next();
-			if(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-//				removeItem(player, item);
-				it.remove();
-			}
-		}
+//		Iterator<ActivityCountTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityCountTypeItem item = (ActivityCountTypeItem)it.next();
+//			if(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+////				removeItem(player, item);
+//				it.remove();
+//			}
+//		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

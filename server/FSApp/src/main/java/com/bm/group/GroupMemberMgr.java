@@ -396,6 +396,21 @@ public class GroupMemberMgr {
 		item.setLevel((short) level);
 		holder.updateMemberData(item.getId());
 	}
+	
+	/**
+	 * 更新成员的全员战力
+	 * @param userId
+	 * @param fight
+	 */
+	public void updateMemberFight(String userId, int fight){
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if(item == null){
+			return;
+		}
+		
+		item.setFighting(fight);
+		holder.updateMemberData(item.getId());
+	}
 
 	/**
 	 * 更新成员的头像图标
