@@ -47,7 +47,7 @@ public class FSTraceLogger {
 		logger(sb.toString());
 		MsgStatCollector collector = MsgStatFactory.getCollector();
 		collector.addSendCost(command, type, sendCost);
-		collector.addSendCost(command, type, submitCost);
+		collector.addSubmitCost(command, type, submitCost);
 	}
 
 	public static void logger(String head, long cost, Object oneKey, Object secondekey, long seqId, String userId, String account) {

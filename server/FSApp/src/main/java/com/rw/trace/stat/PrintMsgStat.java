@@ -22,7 +22,6 @@ public class PrintMsgStat implements Callable<Void> {
 		print(sb, MsgStatFactory.getCollector().getSendCostContainter().values());
 		print(sb, MsgStatFactory.getCollector().getRunCostContainter().values());
 		sb.append("===============================================").append(CacheLogger.lineSeparator);
-
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stat.log", true))), true);
 		try {
 			writer.append(sb.toString());
