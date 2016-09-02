@@ -1,6 +1,5 @@
 package com.rwbase.dao.task.pojo;
 
-import com.playerdata.Player;
 import com.rwbase.dao.task.DailyStartCondition;
 
 public class DailyLevelCondition implements DailyStartCondition {
@@ -12,8 +11,8 @@ public class DailyLevelCondition implements DailyStartCondition {
 	}
 
 	@Override
-	public boolean isMatchCondition(Player player) {
-		return player.getLevel() >= needLevel;
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip) {
+		return playerLevel >= needLevel;
 	}
 
 }
