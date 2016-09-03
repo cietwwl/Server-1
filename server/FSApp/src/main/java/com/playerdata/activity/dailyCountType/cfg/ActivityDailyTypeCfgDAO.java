@@ -77,11 +77,14 @@ public final class ActivityDailyTypeCfgDAO extends
 	}
 
 	public List<ActivityDailyTypeSubItem> newItemList(String parentid) {
+		ActivityDailyTypeSubCfgDAO activityDailyTypeSubCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
+				
+		
 		List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 		List<ActivityDailyTypeSubCfg> subCfgListByParentid = ActivityDailyTypeSubCfgDAO
 				.getInstance().getCfgMapByParentid(parentid);
 		for (ActivityDailyTypeSubCfg subCfg : subCfgListByParentid) {
-			if (!ActivityDailyTypeSubCfgDAO.getInstance().isOpen(subCfg)) {
+			if (!activityDailyTypeSubCfgDAO.isOpen(subCfg)) {
 				// 该子类型活动当天没开启
 				continue;
 			}

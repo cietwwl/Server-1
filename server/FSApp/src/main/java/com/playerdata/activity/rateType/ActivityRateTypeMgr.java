@@ -57,6 +57,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	private void checkNewOpen(Player player) {
 		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
 				.getInstance();
+		ActivityRateTypeCfgDAO activityRateTypeCfgDAO = ActivityRateTypeCfgDAO.getInstance();
 		List<ActivityRateTypeCfg> allCfgList = ActivityRateTypeCfgDAO
 				.getInstance().getAllCfg();
 		for (ActivityRateTypeCfg activityRateTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -75,7 +76,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			if(targetItem != null){
 				continue;
 			}
-			targetItem = ActivityRateTypeCfgDAO.getInstance().newItem(
+			targetItem = activityRateTypeCfgDAO.newItem(
 					player, activityRateTypeCfg);// 生成新开启活动的数据
 			if (targetItem != null) {
 				dataHolder.addItem(player, targetItem);
@@ -85,9 +86,10 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkVersion(Player player) {
 		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder.getInstance();
+		ActivityRateTypeCfgDAO activityRateTypeCfgDAO = ActivityRateTypeCfgDAO.getInstance();
 		List<ActivityRateTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for(ActivityRateTypeItem item : itemList){
-			ActivityRateTypeCfg cfg = ActivityRateTypeCfgDAO.getInstance().getCfgByEnumId(item);
+			ActivityRateTypeCfg cfg = activityRateTypeCfgDAO.getCfgByEnumId(item);
 			if(cfg == null){				
 				continue;
 			}
@@ -107,15 +109,15 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		long currentTime = System.currentTimeMillis();
 		isopen = currentTime < endTime && currentTime >= startTime ? true
 				: false;
-
-		if (isopen) {
-			int hour = DateUtils.getCurrentHour();
-			for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg
-					.getStartAndEnd()) {
-				isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
-				if (isopen) {
-					break;
-				}
+		if(!isopen){
+			return isopen;
+		}
+		
+		int hour = DateUtils.getCurrentHour();
+		for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg.getStartAndEnd()) {
+			isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
+			if (isopen) {
+				return isopen;
 			}
 		}
 		return isopen;
@@ -176,9 +178,11 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	public Map<Integer, Integer> getEspecialItemtypeAndEspecialWithTime(Player player,int copyType){
 		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
 		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
-	
+		ActivityRateTypeMgr activityRateTypeMgr = ActivityRateTypeMgr.getInstance();
+		
+		
 		for(ActivityRateTypeCfg cfg : cfgList){
-			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, cfg)){
+			if(!activityRateTypeMgr.isActivityOnGoing(player, cfg)){
 				continue;
 			}
 			Map<Integer, List<Integer>> map = cfg.getCopyTypeMap();

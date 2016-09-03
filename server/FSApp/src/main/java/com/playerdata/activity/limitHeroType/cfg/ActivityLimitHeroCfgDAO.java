@@ -99,8 +99,9 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 
 	public ActivityLimitHeroCfg getCfgListByItem(ActivityLimitHeroTypeItem item) {
 		List<ActivityLimitHeroCfg> openCfgList = new ArrayList<ActivityLimitHeroCfg>();
+		ActivityLimitHeroTypeMgr activityLimitHeroTypeMgr = ActivityLimitHeroTypeMgr.getInstance();
 		for(ActivityLimitHeroCfg cfg : getAllCfg()){
-			if (!StringUtils.equals(item.getCfgId(),cfg.getId())&&ActivityLimitHeroTypeMgr.getInstance().isOpen(cfg)) {
+			if (!StringUtils.equals(item.getCfgId(),cfg.getId())&&activityLimitHeroTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}
