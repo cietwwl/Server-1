@@ -90,6 +90,10 @@ public final class ActivityDailyTypeSubCfgDAO extends
 	/** 用于验证某个功能对应的多个subCfg是否存在开启的并且等级足以触发 */
 	public boolean isOpenAndLevelEnough(int playerlevel,
 			List<ActivityDailyTypeSubCfg> subList) {
+		if(subList == null || subList.isEmpty()){
+			//策划把子表删除了
+			return false;
+		}
 		ActivityDailyTypeSubCfg tmp = null;
 		boolean isOpen = false;
 		for (ActivityDailyTypeSubCfg subCfg : subList) {
