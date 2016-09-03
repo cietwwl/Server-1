@@ -680,13 +680,21 @@ public final class MsgDef {
      */
     MSG_FIGHTING_GROWTH_REQUEST_UPGRADE(89, 192),
     /**
+     * <code>MSG_FIGHTING_PUSH_DATA = 193;</code>
+     *
+     * <pre>
+     * 首页战力成长：推送更新的数据
+     * </pre>
+     */
+    MSG_FIGHTING_PUSH_DATA(90, 193),
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
      *道术系统
      * </pre>
      */
-    MSG_TAOIST(90, 200),
+    MSG_TAOIST(91, 200),
     /**
      * <code>MSG_FIX_EQUIP = 201;</code>
      *
@@ -694,7 +702,7 @@ public final class MsgDef {
      *专属装备
      * </pre>
      */
-    MSG_FIX_EQUIP(91, 201),
+    MSG_FIX_EQUIP(92, 201),
     /**
      * <code>MSG_GROUP_SECRET = 202;</code>
      *
@@ -702,7 +710,7 @@ public final class MsgDef {
      *帮派秘境
      * </pre>
      */
-    MSG_GROUP_SECRET(92, 202),
+    MSG_GROUP_SECRET(93, 202),
     /**
      * <code>MSG_MAGIC_SECRET = 203;</code>
      *
@@ -710,7 +718,7 @@ public final class MsgDef {
      *法宝秘境
      * </pre>
      */
-    MSG_MAGIC_SECRET(93, 203),
+    MSG_MAGIC_SECRET(94, 203),
     /**
      * <code>MSG_GROUP_SECRET_MATCH = 204;</code>
      *
@@ -718,7 +726,7 @@ public final class MsgDef {
      *帮派秘境探索
      * </pre>
      */
-    MSG_GROUP_SECRET_MATCH(94, 204),
+    MSG_GROUP_SECRET_MATCH(95, 204),
     /**
      * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
      *
@@ -726,7 +734,7 @@ public final class MsgDef {
      *在线帮战
      * </pre>
      */
-    MSG_GROUP_FIGHT_ONLINE(95, 205),
+    MSG_GROUP_FIGHT_ONLINE(96, 205),
     /**
      * <code>MSG_RED_POINT_SERVICE = 206;</code>
      *
@@ -734,11 +742,11 @@ public final class MsgDef {
      *红点扩展点击传送
      * </pre>
      */
-    MSG_RED_POINT_SERVICE(96, 206),
+    MSG_RED_POINT_SERVICE(97, 206),
     /**
      * <code>MSG_TEAM_BATTLE = 207;</code>
      */
-    MSG_TEAM_BATTLE(97, 207),
+    MSG_TEAM_BATTLE(98, 207),
     /**
      * <code>MSG_ONE_KEY_REWARD = 208;</code>
      *
@@ -746,7 +754,7 @@ public final class MsgDef {
      *一键领取奖励
      * </pre>
      */
-    MSG_ONE_KEY_REWARD(98, 208),
+    MSG_ONE_KEY_REWARD(99, 208),
     /**
      * <code>MSG_BATTLE_COMMON = 209;</code>
      *
@@ -754,7 +762,7 @@ public final class MsgDef {
      *保存客户端阵容到服务器
      * </pre>
      */
-    MSG_BATTLE_COMMON(99, 209),
+    MSG_BATTLE_COMMON(100, 209),
     /**
      * <code>MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;</code>
      *
@@ -762,7 +770,7 @@ public final class MsgDef {
      *每日充值活动
      * </pre>
      */
-    MSG_ACTIVITY_DAILY_CHARGE_TYPE(100, 212),
+    MSG_ACTIVITY_DAILY_CHARGE_TYPE(101, 212),
     /**
      * <code>MSG_SYN_DATA_SERVICE = 213;</code>
      *
@@ -770,7 +778,7 @@ public final class MsgDef {
      *数据同步请求服务
      * </pre>
      */
-    MSG_SYN_DATA_SERVICE(101, 213),
+    MSG_SYN_DATA_SERVICE(102, 213),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -778,7 +786,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(102, 995),
+    MSG_FEEDBACK(103, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -786,7 +794,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(103, 996),
+    MSG_SDK_VERIFY(104, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -794,7 +802,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(104, 997),
+    MSG_NUMERIC_ANALYSIS(105, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -802,7 +810,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(105, 998),
+    MSG_PLATFORMGS(106, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -810,7 +818,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(106, 999),
+    MSG_GAMEPRESS(107, 999),
     ;
 
     /**
@@ -1480,6 +1488,14 @@ public final class MsgDef {
      */
     public static final int MSG_FIGHTING_GROWTH_REQUEST_UPGRADE_VALUE = 192;
     /**
+     * <code>MSG_FIGHTING_PUSH_DATA = 193;</code>
+     *
+     * <pre>
+     * 首页战力成长：推送更新的数据
+     * </pre>
+     */
+    public static final int MSG_FIGHTING_PUSH_DATA_VALUE = 193;
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
@@ -1707,6 +1723,7 @@ public final class MsgDef {
         case 190: return MSG_CHAT_SET_CURRENT_TARGET;
         case 191: return MSG_FIGHTING_GROWTH_REQUEST_UI_DATA;
         case 192: return MSG_FIGHTING_GROWTH_REQUEST_UPGRADE;
+        case 193: return MSG_FIGHTING_PUSH_DATA;
         case 200: return MSG_TAOIST;
         case 201: return MSG_FIX_EQUIP;
         case 202: return MSG_GROUP_SECRET;
@@ -1784,7 +1801,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022proto/MsgDef.proto\022\006MsgDef*\356\022\n\007Command" +
+      "\n\022proto/MsgDef.proto\022\006MsgDef*\213\023\n\007Command" +
       "\022\021\n\rMSG_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026" +
       "MSG_DO_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE" +
       "_LIST\020h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022" +
@@ -1834,18 +1851,19 @@ public final class MsgDef {
       "\n\036MSG_CHAT_REQUEST_PRIVATE_CHATS\020\275\001\022 \n\033M" +
       "SG_CHAT_SET_CURRENT_TARGET\020\276\001\022(\n#MSG_FIG" +
       "HTING_GROWTH_REQUEST_UI_DATA\020\277\001\022(\n#MSG_F",
-      "IGHTING_GROWTH_REQUEST_UPGRADE\020\300\001\022\017\n\nMSG" +
-      "_TAOIST\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_GR" +
-      "OUP_SECRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\033\n\026" +
-      "MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_F" +
-      "IGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE\020" +
-      "\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY_" +
-      "REWARD\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022#\n\036MSG" +
-      "_ACTIVITY_DAILY_CHARGE_TYPE\020\324\001\022\031\n\024MSG_SY" +
-      "N_DATA_SERVICE\020\325\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016" +
-      "MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSI",
-      "S\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRE" +
-      "SS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "IGHTING_GROWTH_REQUEST_UPGRADE\020\300\001\022\033\n\026MSG" +
+      "_FIGHTING_PUSH_DATA\020\301\001\022\017\n\nMSG_TAOIST\020\310\001\022" +
+      "\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SECRET\020" +
+      "\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\033\n\026MSG_GROUP_S" +
+      "ECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_FIGHT_ONLINE" +
+      "\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE\020\316\001\022\024\n\017MSG_T" +
+      "EAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY_REWARD\020\320\001\022\026" +
+      "\n\021MSG_BATTLE_COMMON\020\321\001\022#\n\036MSG_ACTIVITY_D" +
+      "AILY_CHARGE_TYPE\020\324\001\022\031\n\024MSG_SYN_DATA_SERV" +
+      "ICE\020\325\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VER",
+      "IFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG" +
+      "_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013co" +
+      "m.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

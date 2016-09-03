@@ -10,8 +10,8 @@ public class RequestUIDataProcesser implements IMsgProcesser {
 
 	@Override
 	public ByteString process(Player player, Request request) {
-		FSuserFightingGrowthMgr.getInstance().getHolder().synData(player);
-		return ByteString.EMPTY;
+//		FSuserFightingGrowthMgr.getInstance().getHolder().synData(player);
+		return FSuserFightingGrowthMgr.getInstance().getHolder().createFightingGrowthSynData(player).toByteString();
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.playerdata.team;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /*
  * @author HC
  * @date 2016年7月13日 下午7:01:50
@@ -10,7 +12,8 @@ public class HeroFixEquipInfo {
 	private int level;
 	private int quality;
 	private int star;
-	private int slot;
+	@JsonIgnore
+	private int slot; // 战斗力计算那边借用这个变量识别，但是不需要保存到数据库
 
 	public String getId() {
 		return id;
@@ -44,10 +47,12 @@ public class HeroFixEquipInfo {
 		this.star = star;
 	}
 	
+	@JsonIgnore
 	public int getSlot() {
 		return slot;
 	}
 	
+	@JsonIgnore
 	public void setSlot(int pSlot) {
 		this.slot = pSlot;
 	}

@@ -2,12 +2,13 @@ package com.playerdata.fightinggrowth;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
 import com.playerdata.Player;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthWayInfoCfgDAO;
@@ -15,8 +16,10 @@ import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwproto.DataSynProtos.eSynOpType;
-import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.FightGrowthProto.UpgradeItemRequired;
+import com.rwproto.FightGrowthProto.UserFightingGrowthSynData;
+import com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData;
+import com.rwproto.MsgDef.Command;
 
 public class FSUserFightingGrowthHolder {
 	
@@ -37,12 +40,12 @@ public class FSUserFightingGrowthHolder {
 		return null;
 	}
 	
-	private List<FSUserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player) {
+	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player) {
 		List<String> wayKeys = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getDisplaySeqRO();
-		List<FSUserFightingGrowthWaySynData> list = new ArrayList<FSUserFightingGrowthWaySynData>(wayKeys.size());
+		List<UserFightingGrowthWaySynData> list = new ArrayList<UserFightingGrowthWaySynData>(wayKeys.size());
 		FSUserFightingGrowthWayInfoCfg cfg;
-		FSUserFightingGrowthWaySynData synData;
 		FSFightingGrowthWayType type;
+		UserFightingGrowthWaySynData.Builder builder;
 		for(int i = 0; i < wayKeys.size(); i++) {
 			cfg = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getCfgById(wayKeys.get(i));
 			if (cfg.getFightingOriginFuncId() > 0) {
@@ -53,43 +56,77 @@ public class FSUserFightingGrowthHolder {
 				}
 			}
 			type = FSFightingGrowthWayType.getBySign(cfg.getTypeForServer());
-			synData = new FSUserFightingGrowthWaySynData();
-			synData.key = cfg.getKey(); // key
-			synData.name = cfg.getFightingOrigin(); // 名字
-			synData.gotoType = cfg.getGotoType(); // 打开界面
-			synData.gainWays = cfg.getGrowthWayList(); // 获取途径
-			synData.currentValue = type.getGetCurrentFightingFunc().apply(player); // 当前的战斗力
-			synData.maxValue = type.getGetMaxFightingFunc().apply(player); // 当前等级的最大值
-			System.out.println("type=" + type + ", currentValue=" + synData.currentValue + ", maxValue=" + synData.maxValue);
-			list.add(synData);
+			builder = UserFightingGrowthWaySynData.newBuilder();
+			builder.setKey(cfg.getKey()); // key
+			builder.setName(cfg.getFightingOrigin()); // 名字
+			builder.setGotoType(cfg.getGotoType()); // 打开界面
+			builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
+			builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
+			builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
+			System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
+			list.add(builder.build());
 		}
 		return list;
 	}
 	
-	private FSUserFightingGrowthSynData genSynData(Player player, FSUserFightingGrowthData userFightingGrowthData, FSUserFightingGrowthTitleCfg currentTitleCfg, FSUserFightingGrowthTitleCfg nextTitleCfg) {
+	private UserFightingGrowthSynData genSynData(Player player, FSUserFightingGrowthData userFightingGrowthData, FSUserFightingGrowthTitleCfg currentTitleCfg, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		FSUserFightingGrowthSynData synData = new FSUserFightingGrowthSynData();
 		synData.userId = userFightingGrowthData.getUserId();
+		int fightingRequired;
+		Map<Integer, Integer> itemsRequired;
+		boolean hasNextTitle = true;
+		String currentTitle;
+		String titleIcon;
 		if (nextTitleCfg != null) {
 			// 有下一级的称号
-			synData.fightingRequired = nextTitleCfg.getFightingRequired(); // 当前称号所需要达到的战斗力
-			synData.itemsRequired = nextTitleCfg.getItemRequiredMap(); // 提升称号所需要的材料
+			fightingRequired = nextTitleCfg.getFightingRequired(); // 当前称号所需要达到的战斗力
+			itemsRequired = nextTitleCfg.getItemRequiredMap(); // 提升称号所需要的材料
 		} else {
 			// 没有下一级的称号
-			synData.hasNextTitle = false;
-			synData.fightingRequired = 0;
-			synData.itemsRequired = Collections.emptyMap();
+			hasNextTitle = false;
+			fightingRequired = 0;
+			itemsRequired = Collections.emptyMap();
 		}
 		if (StringUtils.isEmpty(userFightingGrowthData.getCurrentTitleKey())) {
 			// 当前还没有达成任何的称号
-			synData.currentTitle = "";
-			synData.titleIcon = "";
+			currentTitle = "";
+			titleIcon = "";
 		} else {
-			synData.currentTitle = currentTitleCfg.getFightingTitle();
-			synData.titleIcon = currentTitleCfg.getFightingIcon();
+			currentTitle = currentTitleCfg.getFightingTitle();
+			titleIcon = currentTitleCfg.getFightingIcon();
 		}
-		synData.growthWayInfos = this.getFightingGrowthWaySynData(player); // 战斗力提升途径
-		return synData;
+		List<UserFightingGrowthWaySynData> wayInfoList = this.getFightingGrowthWaySynData(player); // 战斗力提升途径
+		UserFightingGrowthSynData.Builder dataBuilder = UserFightingGrowthSynData.newBuilder();
+		dataBuilder.setUserId(userFightingGrowthData.getUserId());
+		dataBuilder.setCurrentTitle(currentTitle);
+		dataBuilder.setTitleIcon(titleIcon);
+		dataBuilder.setHasNextTitle(hasNextTitle);
+		dataBuilder.setFightingRequired(fightingRequired);
+		if (itemsRequired.size() > 0) {
+			for(Iterator<Map.Entry<Integer, Integer>> itr = itemsRequired.entrySet().iterator(); itr.hasNext();) {
+				Map.Entry<Integer, Integer> entry = itr.next();
+				dataBuilder.addUpgradeItemRequired(UpgradeItemRequired.newBuilder().setItemCfgId(entry.getKey()).setItemCount(entry.getValue()));
+			}
+		}
+		dataBuilder.addAllGrowthWayData(wayInfoList);
+		return dataBuilder.build();
 	}
+	
+//	/**
+//	 * 
+//	 * 创建一个战力提升的前后端同步数据
+//	 * 
+//	 * @param player
+//	 * @return
+//	 */
+//	public FSUserFightingGrowthSynData createFightingGrowthSynData(Player player) {
+//		FSUserFightingGrowthData userFightingGrowthData = this.getUserFightingGrowthData(player);
+//		// 当前的称号
+//		FSUserFightingGrowthTitleCfg titleCfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
+//		// 下一级称号
+//		FSUserFightingGrowthTitleCfg nextTitleCfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getNextFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
+//		return this.genSynData(player, userFightingGrowthData, titleCfg, nextTitleCfg);
+//	}
 	
 	/**
 	 * 
@@ -98,7 +135,7 @@ public class FSUserFightingGrowthHolder {
 	 * @param player
 	 * @return
 	 */
-	public FSUserFightingGrowthSynData createFightingGrowthSynData(Player player) {
+	public UserFightingGrowthSynData createFightingGrowthSynData(Player player) {
 		FSUserFightingGrowthData userFightingGrowthData = this.getUserFightingGrowthData(player);
 		// 当前的称号
 		FSUserFightingGrowthTitleCfg titleCfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
@@ -135,7 +172,8 @@ public class FSUserFightingGrowthHolder {
 	 * @param player
 	 */
 	public void synData(Player player) {
-		FSUserFightingGrowthSynData synData = this.createFightingGrowthSynData(player);
-		ClientDataSynMgr.synData(player, synData, eSynType.FIGHTING_GROWTH_DATA, eSynOpType.UPDATE_SINGLE);
+		UserFightingGrowthSynData synData = this.createFightingGrowthSynData(player);
+//		ClientDataSynMgr.synData(player, synData, eSynType.FIGHTING_GROWTH_DATA, eSynOpType.UPDATE_SINGLE);
+		player.SendMsg(Command.MSG_FIGHTING_PUSH_DATA, synData.toByteString());
 	}
 }

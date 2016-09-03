@@ -656,11 +656,4080 @@ public final class FightGrowthProto {
     // @@protoc_insertion_point(class_scope:UpgradeFightingTitleResponse)
   }
 
+  public interface UpgradeItemRequiredOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required fixed32 itemCfgId = 1;
+    /**
+     * <code>required fixed32 itemCfgId = 1;</code>
+     *
+     * <pre>
+     * 道具编号
+     * </pre>
+     */
+    boolean hasItemCfgId();
+    /**
+     * <code>required fixed32 itemCfgId = 1;</code>
+     *
+     * <pre>
+     * 道具编号
+     * </pre>
+     */
+    int getItemCfgId();
+
+    // required fixed32 itemCount = 2;
+    /**
+     * <code>required fixed32 itemCount = 2;</code>
+     *
+     * <pre>
+     * 需求的数量
+     * </pre>
+     */
+    boolean hasItemCount();
+    /**
+     * <code>required fixed32 itemCount = 2;</code>
+     *
+     * <pre>
+     * 需求的数量
+     * </pre>
+     */
+    int getItemCount();
+  }
+  /**
+   * Protobuf type {@code UpgradeItemRequired}
+   *
+   * <pre>
+   * 道具需求
+   * </pre>
+   */
+  public static final class UpgradeItemRequired extends
+      com.google.protobuf.GeneratedMessage
+      implements UpgradeItemRequiredOrBuilder {
+    // Use UpgradeItemRequired.newBuilder() to construct.
+    private UpgradeItemRequired(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private UpgradeItemRequired(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final UpgradeItemRequired defaultInstance;
+    public static UpgradeItemRequired getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public UpgradeItemRequired getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UpgradeItemRequired(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              bitField0_ |= 0x00000001;
+              itemCfgId_ = input.readFixed32();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              itemCount_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FightGrowthProto.internal_static_UpgradeItemRequired_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FightGrowthProto.internal_static_UpgradeItemRequired_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FightGrowthProto.UpgradeItemRequired.class, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<UpgradeItemRequired> PARSER =
+        new com.google.protobuf.AbstractParser<UpgradeItemRequired>() {
+      public UpgradeItemRequired parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UpgradeItemRequired(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UpgradeItemRequired> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required fixed32 itemCfgId = 1;
+    public static final int ITEMCFGID_FIELD_NUMBER = 1;
+    private int itemCfgId_;
+    /**
+     * <code>required fixed32 itemCfgId = 1;</code>
+     *
+     * <pre>
+     * 道具编号
+     * </pre>
+     */
+    public boolean hasItemCfgId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required fixed32 itemCfgId = 1;</code>
+     *
+     * <pre>
+     * 道具编号
+     * </pre>
+     */
+    public int getItemCfgId() {
+      return itemCfgId_;
+    }
+
+    // required fixed32 itemCount = 2;
+    public static final int ITEMCOUNT_FIELD_NUMBER = 2;
+    private int itemCount_;
+    /**
+     * <code>required fixed32 itemCount = 2;</code>
+     *
+     * <pre>
+     * 需求的数量
+     * </pre>
+     */
+    public boolean hasItemCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required fixed32 itemCount = 2;</code>
+     *
+     * <pre>
+     * 需求的数量
+     * </pre>
+     */
+    public int getItemCount() {
+      return itemCount_;
+    }
+
+    private void initFields() {
+      itemCfgId_ = 0;
+      itemCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemCfgId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasItemCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(1, itemCfgId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed32(2, itemCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(1, itemCfgId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, itemCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UpgradeItemRequired parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FightGrowthProto.UpgradeItemRequired prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UpgradeItemRequired}
+     *
+     * <pre>
+     * 道具需求
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FightGrowthProto.internal_static_UpgradeItemRequired_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FightGrowthProto.internal_static_UpgradeItemRequired_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FightGrowthProto.UpgradeItemRequired.class, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder.class);
+      }
+
+      // Construct using com.rwproto.FightGrowthProto.UpgradeItemRequired.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemCfgId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FightGrowthProto.internal_static_UpgradeItemRequired_descriptor;
+      }
+
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired getDefaultInstanceForType() {
+        return com.rwproto.FightGrowthProto.UpgradeItemRequired.getDefaultInstance();
+      }
+
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired build() {
+        com.rwproto.FightGrowthProto.UpgradeItemRequired result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired buildPartial() {
+        com.rwproto.FightGrowthProto.UpgradeItemRequired result = new com.rwproto.FightGrowthProto.UpgradeItemRequired(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemCfgId_ = itemCfgId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.itemCount_ = itemCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FightGrowthProto.UpgradeItemRequired) {
+          return mergeFrom((com.rwproto.FightGrowthProto.UpgradeItemRequired)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FightGrowthProto.UpgradeItemRequired other) {
+        if (other == com.rwproto.FightGrowthProto.UpgradeItemRequired.getDefaultInstance()) return this;
+        if (other.hasItemCfgId()) {
+          setItemCfgId(other.getItemCfgId());
+        }
+        if (other.hasItemCount()) {
+          setItemCount(other.getItemCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemCfgId()) {
+          
+          return false;
+        }
+        if (!hasItemCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FightGrowthProto.UpgradeItemRequired parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FightGrowthProto.UpgradeItemRequired) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required fixed32 itemCfgId = 1;
+      private int itemCfgId_ ;
+      /**
+       * <code>required fixed32 itemCfgId = 1;</code>
+       *
+       * <pre>
+       * 道具编号
+       * </pre>
+       */
+      public boolean hasItemCfgId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required fixed32 itemCfgId = 1;</code>
+       *
+       * <pre>
+       * 道具编号
+       * </pre>
+       */
+      public int getItemCfgId() {
+        return itemCfgId_;
+      }
+      /**
+       * <code>required fixed32 itemCfgId = 1;</code>
+       *
+       * <pre>
+       * 道具编号
+       * </pre>
+       */
+      public Builder setItemCfgId(int value) {
+        bitField0_ |= 0x00000001;
+        itemCfgId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 itemCfgId = 1;</code>
+       *
+       * <pre>
+       * 道具编号
+       * </pre>
+       */
+      public Builder clearItemCfgId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemCfgId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 itemCount = 2;
+      private int itemCount_ ;
+      /**
+       * <code>required fixed32 itemCount = 2;</code>
+       *
+       * <pre>
+       * 需求的数量
+       * </pre>
+       */
+      public boolean hasItemCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required fixed32 itemCount = 2;</code>
+       *
+       * <pre>
+       * 需求的数量
+       * </pre>
+       */
+      public int getItemCount() {
+        return itemCount_;
+      }
+      /**
+       * <code>required fixed32 itemCount = 2;</code>
+       *
+       * <pre>
+       * 需求的数量
+       * </pre>
+       */
+      public Builder setItemCount(int value) {
+        bitField0_ |= 0x00000002;
+        itemCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 itemCount = 2;</code>
+       *
+       * <pre>
+       * 需求的数量
+       * </pre>
+       */
+      public Builder clearItemCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        itemCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:UpgradeItemRequired)
+    }
+
+    static {
+      defaultInstance = new UpgradeItemRequired(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:UpgradeItemRequired)
+  }
+
+  public interface UserFightingGrowthWaySynDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string key = 1;
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    boolean hasKey();
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    java.lang.String getKey();
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getKeyBytes();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required fixed32 currentFighting = 3;
+    /**
+     * <code>required fixed32 currentFighting = 3;</code>
+     *
+     * <pre>
+     * 当前的战斗力
+     * </pre>
+     */
+    boolean hasCurrentFighting();
+    /**
+     * <code>required fixed32 currentFighting = 3;</code>
+     *
+     * <pre>
+     * 当前的战斗力
+     * </pre>
+     */
+    int getCurrentFighting();
+
+    // required fixed32 maxFighting = 4;
+    /**
+     * <code>required fixed32 maxFighting = 4;</code>
+     *
+     * <pre>
+     * 最大的战斗力
+     * </pre>
+     */
+    boolean hasMaxFighting();
+    /**
+     * <code>required fixed32 maxFighting = 4;</code>
+     *
+     * <pre>
+     * 最大的战斗力
+     * </pre>
+     */
+    int getMaxFighting();
+
+    // repeated fixed32 gainWay = 5;
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGainWayList();
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    int getGainWayCount();
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    int getGainWay(int index);
+
+    // required fixed32 gotoType = 6;
+    /**
+     * <code>required fixed32 gotoType = 6;</code>
+     *
+     * <pre>
+     * 打开的功能类型
+     * </pre>
+     */
+    boolean hasGotoType();
+    /**
+     * <code>required fixed32 gotoType = 6;</code>
+     *
+     * <pre>
+     * 打开的功能类型
+     * </pre>
+     */
+    int getGotoType();
+  }
+  /**
+   * Protobuf type {@code UserFightingGrowthWaySynData}
+   *
+   * <pre>
+   * 玩家战力提升数据成长途径数据
+   * </pre>
+   */
+  public static final class UserFightingGrowthWaySynData extends
+      com.google.protobuf.GeneratedMessage
+      implements UserFightingGrowthWaySynDataOrBuilder {
+    // Use UserFightingGrowthWaySynData.newBuilder() to construct.
+    private UserFightingGrowthWaySynData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private UserFightingGrowthWaySynData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final UserFightingGrowthWaySynData defaultInstance;
+    public static UserFightingGrowthWaySynData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public UserFightingGrowthWaySynData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UserFightingGrowthWaySynData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              key_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              currentFighting_ = input.readFixed32();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              maxFighting_ = input.readFixed32();
+              break;
+            }
+            case 45: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                gainWay_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              gainWay_.add(input.readFixed32());
+              break;
+            }
+            case 42: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010) && input.getBytesUntilLimit() > 0) {
+                gainWay_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                gainWay_.add(input.readFixed32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 53: {
+              bitField0_ |= 0x00000010;
+              gotoType_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          gainWay_ = java.util.Collections.unmodifiableList(gainWay_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthWaySynData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthWaySynData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.class, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<UserFightingGrowthWaySynData> PARSER =
+        new com.google.protobuf.AbstractParser<UserFightingGrowthWaySynData>() {
+      public UserFightingGrowthWaySynData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UserFightingGrowthWaySynData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UserFightingGrowthWaySynData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string key = 1;
+    public static final int KEY_FIELD_NUMBER = 1;
+    private java.lang.Object key_;
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    public boolean hasKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    public java.lang.String getKey() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          key_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键索引
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getKeyBytes() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        key_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required fixed32 currentFighting = 3;
+    public static final int CURRENTFIGHTING_FIELD_NUMBER = 3;
+    private int currentFighting_;
+    /**
+     * <code>required fixed32 currentFighting = 3;</code>
+     *
+     * <pre>
+     * 当前的战斗力
+     * </pre>
+     */
+    public boolean hasCurrentFighting() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required fixed32 currentFighting = 3;</code>
+     *
+     * <pre>
+     * 当前的战斗力
+     * </pre>
+     */
+    public int getCurrentFighting() {
+      return currentFighting_;
+    }
+
+    // required fixed32 maxFighting = 4;
+    public static final int MAXFIGHTING_FIELD_NUMBER = 4;
+    private int maxFighting_;
+    /**
+     * <code>required fixed32 maxFighting = 4;</code>
+     *
+     * <pre>
+     * 最大的战斗力
+     * </pre>
+     */
+    public boolean hasMaxFighting() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required fixed32 maxFighting = 4;</code>
+     *
+     * <pre>
+     * 最大的战斗力
+     * </pre>
+     */
+    public int getMaxFighting() {
+      return maxFighting_;
+    }
+
+    // repeated fixed32 gainWay = 5;
+    public static final int GAINWAY_FIELD_NUMBER = 5;
+    private java.util.List<java.lang.Integer> gainWay_;
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGainWayList() {
+      return gainWay_;
+    }
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    public int getGainWayCount() {
+      return gainWay_.size();
+    }
+    /**
+     * <code>repeated fixed32 gainWay = 5;</code>
+     *
+     * <pre>
+     * 获取途径
+     * </pre>
+     */
+    public int getGainWay(int index) {
+      return gainWay_.get(index);
+    }
+
+    // required fixed32 gotoType = 6;
+    public static final int GOTOTYPE_FIELD_NUMBER = 6;
+    private int gotoType_;
+    /**
+     * <code>required fixed32 gotoType = 6;</code>
+     *
+     * <pre>
+     * 打开的功能类型
+     * </pre>
+     */
+    public boolean hasGotoType() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required fixed32 gotoType = 6;</code>
+     *
+     * <pre>
+     * 打开的功能类型
+     * </pre>
+     */
+    public int getGotoType() {
+      return gotoType_;
+    }
+
+    private void initFields() {
+      key_ = "";
+      name_ = "";
+      currentFighting_ = 0;
+      maxFighting_ = 0;
+      gainWay_ = java.util.Collections.emptyList();
+      gotoType_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCurrentFighting()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMaxFighting()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGotoType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFixed32(3, currentFighting_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFixed32(4, maxFighting_);
+      }
+      for (int i = 0; i < gainWay_.size(); i++) {
+        output.writeFixed32(5, gainWay_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFixed32(6, gotoType_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(3, currentFighting_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(4, maxFighting_);
+      }
+      {
+        int dataSize = 0;
+        dataSize = 4 * getGainWayList().size();
+        size += dataSize;
+        size += 1 * getGainWayList().size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(6, gotoType_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UserFightingGrowthWaySynData}
+     *
+     * <pre>
+     * 玩家战力提升数据成长途径数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthWaySynData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthWaySynData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.class, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder.class);
+      }
+
+      // Construct using com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        key_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        currentFighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        maxFighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        gainWay_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        gotoType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthWaySynData_descriptor;
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getDefaultInstanceForType() {
+        return com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.getDefaultInstance();
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData build() {
+        com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData buildPartial() {
+        com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData result = new com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.currentFighting_ = currentFighting_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.maxFighting_ = maxFighting_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          gainWay_ = java.util.Collections.unmodifiableList(gainWay_);
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.gainWay_ = gainWay_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.gotoType_ = gotoType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData) {
+          return mergeFrom((com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData other) {
+        if (other == com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.getDefaultInstance()) return this;
+        if (other.hasKey()) {
+          bitField0_ |= 0x00000001;
+          key_ = other.key_;
+          onChanged();
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000002;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasCurrentFighting()) {
+          setCurrentFighting(other.getCurrentFighting());
+        }
+        if (other.hasMaxFighting()) {
+          setMaxFighting(other.getMaxFighting());
+        }
+        if (!other.gainWay_.isEmpty()) {
+          if (gainWay_.isEmpty()) {
+            gainWay_ = other.gainWay_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureGainWayIsMutable();
+            gainWay_.addAll(other.gainWay_);
+          }
+          onChanged();
+        }
+        if (other.hasGotoType()) {
+          setGotoType(other.getGotoType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKey()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasCurrentFighting()) {
+          
+          return false;
+        }
+        if (!hasMaxFighting()) {
+          
+          return false;
+        }
+        if (!hasGotoType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string key = 1;
+      private java.lang.Object key_ = "";
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public java.lang.String getKey() {
+        java.lang.Object ref = key_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          key_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getKeyBytes() {
+        java.lang.Object ref = key_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          key_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public Builder setKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键索引
+       * </pre>
+       */
+      public Builder setKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 currentFighting = 3;
+      private int currentFighting_ ;
+      /**
+       * <code>required fixed32 currentFighting = 3;</code>
+       *
+       * <pre>
+       * 当前的战斗力
+       * </pre>
+       */
+      public boolean hasCurrentFighting() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required fixed32 currentFighting = 3;</code>
+       *
+       * <pre>
+       * 当前的战斗力
+       * </pre>
+       */
+      public int getCurrentFighting() {
+        return currentFighting_;
+      }
+      /**
+       * <code>required fixed32 currentFighting = 3;</code>
+       *
+       * <pre>
+       * 当前的战斗力
+       * </pre>
+       */
+      public Builder setCurrentFighting(int value) {
+        bitField0_ |= 0x00000004;
+        currentFighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 currentFighting = 3;</code>
+       *
+       * <pre>
+       * 当前的战斗力
+       * </pre>
+       */
+      public Builder clearCurrentFighting() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        currentFighting_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 maxFighting = 4;
+      private int maxFighting_ ;
+      /**
+       * <code>required fixed32 maxFighting = 4;</code>
+       *
+       * <pre>
+       * 最大的战斗力
+       * </pre>
+       */
+      public boolean hasMaxFighting() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required fixed32 maxFighting = 4;</code>
+       *
+       * <pre>
+       * 最大的战斗力
+       * </pre>
+       */
+      public int getMaxFighting() {
+        return maxFighting_;
+      }
+      /**
+       * <code>required fixed32 maxFighting = 4;</code>
+       *
+       * <pre>
+       * 最大的战斗力
+       * </pre>
+       */
+      public Builder setMaxFighting(int value) {
+        bitField0_ |= 0x00000008;
+        maxFighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 maxFighting = 4;</code>
+       *
+       * <pre>
+       * 最大的战斗力
+       * </pre>
+       */
+      public Builder clearMaxFighting() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        maxFighting_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated fixed32 gainWay = 5;
+      private java.util.List<java.lang.Integer> gainWay_ = java.util.Collections.emptyList();
+      private void ensureGainWayIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          gainWay_ = new java.util.ArrayList<java.lang.Integer>(gainWay_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGainWayList() {
+        return java.util.Collections.unmodifiableList(gainWay_);
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public int getGainWayCount() {
+        return gainWay_.size();
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public int getGainWay(int index) {
+        return gainWay_.get(index);
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public Builder setGainWay(
+          int index, int value) {
+        ensureGainWayIsMutable();
+        gainWay_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public Builder addGainWay(int value) {
+        ensureGainWayIsMutable();
+        gainWay_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public Builder addAllGainWay(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGainWayIsMutable();
+        super.addAll(values, gainWay_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 gainWay = 5;</code>
+       *
+       * <pre>
+       * 获取途径
+       * </pre>
+       */
+      public Builder clearGainWay() {
+        gainWay_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 gotoType = 6;
+      private int gotoType_ ;
+      /**
+       * <code>required fixed32 gotoType = 6;</code>
+       *
+       * <pre>
+       * 打开的功能类型
+       * </pre>
+       */
+      public boolean hasGotoType() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required fixed32 gotoType = 6;</code>
+       *
+       * <pre>
+       * 打开的功能类型
+       * </pre>
+       */
+      public int getGotoType() {
+        return gotoType_;
+      }
+      /**
+       * <code>required fixed32 gotoType = 6;</code>
+       *
+       * <pre>
+       * 打开的功能类型
+       * </pre>
+       */
+      public Builder setGotoType(int value) {
+        bitField0_ |= 0x00000020;
+        gotoType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 gotoType = 6;</code>
+       *
+       * <pre>
+       * 打开的功能类型
+       * </pre>
+       */
+      public Builder clearGotoType() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        gotoType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:UserFightingGrowthWaySynData)
+    }
+
+    static {
+      defaultInstance = new UserFightingGrowthWaySynData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:UserFightingGrowthWaySynData)
+  }
+
+  public interface UserFightingGrowthSynDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string userId = 1;
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    boolean hasUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+
+    // required string currentTitle = 2;
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    boolean hasCurrentTitle();
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    java.lang.String getCurrentTitle();
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getCurrentTitleBytes();
+
+    // required string titleIcon = 3;
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    boolean hasTitleIcon();
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    java.lang.String getTitleIcon();
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTitleIconBytes();
+
+    // required fixed32 fightingRequired = 4;
+    /**
+     * <code>required fixed32 fightingRequired = 4;</code>
+     *
+     * <pre>
+     * 升级所需要的战斗力
+     * </pre>
+     */
+    boolean hasFightingRequired();
+    /**
+     * <code>required fixed32 fightingRequired = 4;</code>
+     *
+     * <pre>
+     * 升级所需要的战斗力
+     * </pre>
+     */
+    int getFightingRequired();
+
+    // required bool hasNextTitle = 5;
+    /**
+     * <code>required bool hasNextTitle = 5;</code>
+     *
+     * <pre>
+     * 是否有下一个
+     * </pre>
+     */
+    boolean hasHasNextTitle();
+    /**
+     * <code>required bool hasNextTitle = 5;</code>
+     *
+     * <pre>
+     * 是否有下一个
+     * </pre>
+     */
+    boolean getHasNextTitle();
+
+    // repeated .UpgradeItemRequired upgradeItemRequired = 6;
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> 
+        getUpgradeItemRequiredList();
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index);
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    int getUpgradeItemRequiredCount();
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
+        getUpgradeItemRequiredOrBuilderList();
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
+        int index);
+
+    // repeated .UserFightingGrowthWaySynData growthWayData = 7;
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> 
+        getGrowthWayDataList();
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index);
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    int getGrowthWayDataCount();
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
+        getGrowthWayDataOrBuilderList();
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code UserFightingGrowthSynData}
+   *
+   * <pre>
+   * 玩家战力提升数据
+   * </pre>
+   */
+  public static final class UserFightingGrowthSynData extends
+      com.google.protobuf.GeneratedMessage
+      implements UserFightingGrowthSynDataOrBuilder {
+    // Use UserFightingGrowthSynData.newBuilder() to construct.
+    private UserFightingGrowthSynData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private UserFightingGrowthSynData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final UserFightingGrowthSynData defaultInstance;
+    public static UserFightingGrowthSynData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public UserFightingGrowthSynData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UserFightingGrowthSynData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              currentTitle_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              titleIcon_ = input.readBytes();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              fightingRequired_ = input.readFixed32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              hasNextTitle_ = input.readBool();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                upgradeItemRequired_ = new java.util.ArrayList<com.rwproto.FightGrowthProto.UpgradeItemRequired>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              upgradeItemRequired_.add(input.readMessage(com.rwproto.FightGrowthProto.UpgradeItemRequired.PARSER, extensionRegistry));
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                growthWayData_ = new java.util.ArrayList<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              growthWayData_.add(input.readMessage(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          upgradeItemRequired_ = java.util.Collections.unmodifiableList(upgradeItemRequired_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          growthWayData_ = java.util.Collections.unmodifiableList(growthWayData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthSynData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthSynData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FightGrowthProto.UserFightingGrowthSynData.class, com.rwproto.FightGrowthProto.UserFightingGrowthSynData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<UserFightingGrowthSynData> PARSER =
+        new com.google.protobuf.AbstractParser<UserFightingGrowthSynData>() {
+      public UserFightingGrowthSynData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UserFightingGrowthSynData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UserFightingGrowthSynData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string userId = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userId_;
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 战力提升数据的userId
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string currentTitle = 2;
+    public static final int CURRENTTITLE_FIELD_NUMBER = 2;
+    private java.lang.Object currentTitle_;
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    public boolean hasCurrentTitle() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    public java.lang.String getCurrentTitle() {
+      java.lang.Object ref = currentTitle_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          currentTitle_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string currentTitle = 2;</code>
+     *
+     * <pre>
+     * 当前的称号
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCurrentTitleBytes() {
+      java.lang.Object ref = currentTitle_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentTitle_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string titleIcon = 3;
+    public static final int TITLEICON_FIELD_NUMBER = 3;
+    private java.lang.Object titleIcon_;
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    public boolean hasTitleIcon() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    public java.lang.String getTitleIcon() {
+      java.lang.Object ref = titleIcon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          titleIcon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string titleIcon = 3;</code>
+     *
+     * <pre>
+     * 当前的称号图片
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTitleIconBytes() {
+      java.lang.Object ref = titleIcon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        titleIcon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required fixed32 fightingRequired = 4;
+    public static final int FIGHTINGREQUIRED_FIELD_NUMBER = 4;
+    private int fightingRequired_;
+    /**
+     * <code>required fixed32 fightingRequired = 4;</code>
+     *
+     * <pre>
+     * 升级所需要的战斗力
+     * </pre>
+     */
+    public boolean hasFightingRequired() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required fixed32 fightingRequired = 4;</code>
+     *
+     * <pre>
+     * 升级所需要的战斗力
+     * </pre>
+     */
+    public int getFightingRequired() {
+      return fightingRequired_;
+    }
+
+    // required bool hasNextTitle = 5;
+    public static final int HASNEXTTITLE_FIELD_NUMBER = 5;
+    private boolean hasNextTitle_;
+    /**
+     * <code>required bool hasNextTitle = 5;</code>
+     *
+     * <pre>
+     * 是否有下一个
+     * </pre>
+     */
+    public boolean hasHasNextTitle() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required bool hasNextTitle = 5;</code>
+     *
+     * <pre>
+     * 是否有下一个
+     * </pre>
+     */
+    public boolean getHasNextTitle() {
+      return hasNextTitle_;
+    }
+
+    // repeated .UpgradeItemRequired upgradeItemRequired = 6;
+    public static final int UPGRADEITEMREQUIRED_FIELD_NUMBER = 6;
+    private java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> upgradeItemRequired_;
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> getUpgradeItemRequiredList() {
+      return upgradeItemRequired_;
+    }
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
+        getUpgradeItemRequiredOrBuilderList() {
+      return upgradeItemRequired_;
+    }
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    public int getUpgradeItemRequiredCount() {
+      return upgradeItemRequired_.size();
+    }
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    public com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index) {
+      return upgradeItemRequired_.get(index);
+    }
+    /**
+     * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+     *
+     * <pre>
+     * 升级所需要的道具
+     * </pre>
+     */
+    public com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
+        int index) {
+      return upgradeItemRequired_.get(index);
+    }
+
+    // repeated .UserFightingGrowthWaySynData growthWayData = 7;
+    public static final int GROWTHWAYDATA_FIELD_NUMBER = 7;
+    private java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> growthWayData_;
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> getGrowthWayDataList() {
+      return growthWayData_;
+    }
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
+        getGrowthWayDataOrBuilderList() {
+      return growthWayData_;
+    }
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    public int getGrowthWayDataCount() {
+      return growthWayData_.size();
+    }
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index) {
+      return growthWayData_.get(index);
+    }
+    /**
+     * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+     *
+     * <pre>
+     * 成长途径数据
+     * </pre>
+     */
+    public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
+        int index) {
+      return growthWayData_.get(index);
+    }
+
+    private void initFields() {
+      userId_ = "";
+      currentTitle_ = "";
+      titleIcon_ = "";
+      fightingRequired_ = 0;
+      hasNextTitle_ = false;
+      upgradeItemRequired_ = java.util.Collections.emptyList();
+      growthWayData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCurrentTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTitleIcon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFightingRequired()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHasNextTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getUpgradeItemRequiredCount(); i++) {
+        if (!getUpgradeItemRequired(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getGrowthWayDataCount(); i++) {
+        if (!getGrowthWayData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getCurrentTitleBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTitleIconBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFixed32(4, fightingRequired_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(5, hasNextTitle_);
+      }
+      for (int i = 0; i < upgradeItemRequired_.size(); i++) {
+        output.writeMessage(6, upgradeItemRequired_.get(i));
+      }
+      for (int i = 0; i < growthWayData_.size(); i++) {
+        output.writeMessage(7, growthWayData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getCurrentTitleBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTitleIconBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(4, fightingRequired_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, hasNextTitle_);
+      }
+      for (int i = 0; i < upgradeItemRequired_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, upgradeItemRequired_.get(i));
+      }
+      for (int i = 0; i < growthWayData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, growthWayData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.UserFightingGrowthSynData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FightGrowthProto.UserFightingGrowthSynData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UserFightingGrowthSynData}
+     *
+     * <pre>
+     * 玩家战力提升数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FightGrowthProto.UserFightingGrowthSynDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthSynData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthSynData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FightGrowthProto.UserFightingGrowthSynData.class, com.rwproto.FightGrowthProto.UserFightingGrowthSynData.Builder.class);
+      }
+
+      // Construct using com.rwproto.FightGrowthProto.UserFightingGrowthSynData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getUpgradeItemRequiredFieldBuilder();
+          getGrowthWayDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        currentTitle_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        titleIcon_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        fightingRequired_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        hasNextTitle_ = false;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        if (upgradeItemRequiredBuilder_ == null) {
+          upgradeItemRequired_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          upgradeItemRequiredBuilder_.clear();
+        }
+        if (growthWayDataBuilder_ == null) {
+          growthWayData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          growthWayDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FightGrowthProto.internal_static_UserFightingGrowthSynData_descriptor;
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthSynData getDefaultInstanceForType() {
+        return com.rwproto.FightGrowthProto.UserFightingGrowthSynData.getDefaultInstance();
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthSynData build() {
+        com.rwproto.FightGrowthProto.UserFightingGrowthSynData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FightGrowthProto.UserFightingGrowthSynData buildPartial() {
+        com.rwproto.FightGrowthProto.UserFightingGrowthSynData result = new com.rwproto.FightGrowthProto.UserFightingGrowthSynData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.currentTitle_ = currentTitle_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.titleIcon_ = titleIcon_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.fightingRequired_ = fightingRequired_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.hasNextTitle_ = hasNextTitle_;
+        if (upgradeItemRequiredBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            upgradeItemRequired_ = java.util.Collections.unmodifiableList(upgradeItemRequired_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.upgradeItemRequired_ = upgradeItemRequired_;
+        } else {
+          result.upgradeItemRequired_ = upgradeItemRequiredBuilder_.build();
+        }
+        if (growthWayDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            growthWayData_ = java.util.Collections.unmodifiableList(growthWayData_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.growthWayData_ = growthWayData_;
+        } else {
+          result.growthWayData_ = growthWayDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FightGrowthProto.UserFightingGrowthSynData) {
+          return mergeFrom((com.rwproto.FightGrowthProto.UserFightingGrowthSynData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FightGrowthProto.UserFightingGrowthSynData other) {
+        if (other == com.rwproto.FightGrowthProto.UserFightingGrowthSynData.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000001;
+          userId_ = other.userId_;
+          onChanged();
+        }
+        if (other.hasCurrentTitle()) {
+          bitField0_ |= 0x00000002;
+          currentTitle_ = other.currentTitle_;
+          onChanged();
+        }
+        if (other.hasTitleIcon()) {
+          bitField0_ |= 0x00000004;
+          titleIcon_ = other.titleIcon_;
+          onChanged();
+        }
+        if (other.hasFightingRequired()) {
+          setFightingRequired(other.getFightingRequired());
+        }
+        if (other.hasHasNextTitle()) {
+          setHasNextTitle(other.getHasNextTitle());
+        }
+        if (upgradeItemRequiredBuilder_ == null) {
+          if (!other.upgradeItemRequired_.isEmpty()) {
+            if (upgradeItemRequired_.isEmpty()) {
+              upgradeItemRequired_ = other.upgradeItemRequired_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureUpgradeItemRequiredIsMutable();
+              upgradeItemRequired_.addAll(other.upgradeItemRequired_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.upgradeItemRequired_.isEmpty()) {
+            if (upgradeItemRequiredBuilder_.isEmpty()) {
+              upgradeItemRequiredBuilder_.dispose();
+              upgradeItemRequiredBuilder_ = null;
+              upgradeItemRequired_ = other.upgradeItemRequired_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              upgradeItemRequiredBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUpgradeItemRequiredFieldBuilder() : null;
+            } else {
+              upgradeItemRequiredBuilder_.addAllMessages(other.upgradeItemRequired_);
+            }
+          }
+        }
+        if (growthWayDataBuilder_ == null) {
+          if (!other.growthWayData_.isEmpty()) {
+            if (growthWayData_.isEmpty()) {
+              growthWayData_ = other.growthWayData_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureGrowthWayDataIsMutable();
+              growthWayData_.addAll(other.growthWayData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.growthWayData_.isEmpty()) {
+            if (growthWayDataBuilder_.isEmpty()) {
+              growthWayDataBuilder_.dispose();
+              growthWayDataBuilder_ = null;
+              growthWayData_ = other.growthWayData_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              growthWayDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getGrowthWayDataFieldBuilder() : null;
+            } else {
+              growthWayDataBuilder_.addAllMessages(other.growthWayData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasCurrentTitle()) {
+          
+          return false;
+        }
+        if (!hasTitleIcon()) {
+          
+          return false;
+        }
+        if (!hasFightingRequired()) {
+          
+          return false;
+        }
+        if (!hasHasNextTitle()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getUpgradeItemRequiredCount(); i++) {
+          if (!getUpgradeItemRequired(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getGrowthWayDataCount(); i++) {
+          if (!getGrowthWayData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FightGrowthProto.UserFightingGrowthSynData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FightGrowthProto.UserFightingGrowthSynData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string userId = 1;
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 战力提升数据的userId
+       * </pre>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string currentTitle = 2;
+      private java.lang.Object currentTitle_ = "";
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public boolean hasCurrentTitle() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public java.lang.String getCurrentTitle() {
+        java.lang.Object ref = currentTitle_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          currentTitle_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getCurrentTitleBytes() {
+        java.lang.Object ref = currentTitle_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          currentTitle_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public Builder setCurrentTitle(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        currentTitle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public Builder clearCurrentTitle() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        currentTitle_ = getDefaultInstance().getCurrentTitle();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string currentTitle = 2;</code>
+       *
+       * <pre>
+       * 当前的称号
+       * </pre>
+       */
+      public Builder setCurrentTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        currentTitle_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string titleIcon = 3;
+      private java.lang.Object titleIcon_ = "";
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public boolean hasTitleIcon() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public java.lang.String getTitleIcon() {
+        java.lang.Object ref = titleIcon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          titleIcon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTitleIconBytes() {
+        java.lang.Object ref = titleIcon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          titleIcon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public Builder setTitleIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        titleIcon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public Builder clearTitleIcon() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        titleIcon_ = getDefaultInstance().getTitleIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string titleIcon = 3;</code>
+       *
+       * <pre>
+       * 当前的称号图片
+       * </pre>
+       */
+      public Builder setTitleIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        titleIcon_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 fightingRequired = 4;
+      private int fightingRequired_ ;
+      /**
+       * <code>required fixed32 fightingRequired = 4;</code>
+       *
+       * <pre>
+       * 升级所需要的战斗力
+       * </pre>
+       */
+      public boolean hasFightingRequired() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required fixed32 fightingRequired = 4;</code>
+       *
+       * <pre>
+       * 升级所需要的战斗力
+       * </pre>
+       */
+      public int getFightingRequired() {
+        return fightingRequired_;
+      }
+      /**
+       * <code>required fixed32 fightingRequired = 4;</code>
+       *
+       * <pre>
+       * 升级所需要的战斗力
+       * </pre>
+       */
+      public Builder setFightingRequired(int value) {
+        bitField0_ |= 0x00000008;
+        fightingRequired_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 fightingRequired = 4;</code>
+       *
+       * <pre>
+       * 升级所需要的战斗力
+       * </pre>
+       */
+      public Builder clearFightingRequired() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        fightingRequired_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool hasNextTitle = 5;
+      private boolean hasNextTitle_ ;
+      /**
+       * <code>required bool hasNextTitle = 5;</code>
+       *
+       * <pre>
+       * 是否有下一个
+       * </pre>
+       */
+      public boolean hasHasNextTitle() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required bool hasNextTitle = 5;</code>
+       *
+       * <pre>
+       * 是否有下一个
+       * </pre>
+       */
+      public boolean getHasNextTitle() {
+        return hasNextTitle_;
+      }
+      /**
+       * <code>required bool hasNextTitle = 5;</code>
+       *
+       * <pre>
+       * 是否有下一个
+       * </pre>
+       */
+      public Builder setHasNextTitle(boolean value) {
+        bitField0_ |= 0x00000010;
+        hasNextTitle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool hasNextTitle = 5;</code>
+       *
+       * <pre>
+       * 是否有下一个
+       * </pre>
+       */
+      public Builder clearHasNextTitle() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        hasNextTitle_ = false;
+        onChanged();
+        return this;
+      }
+
+      // repeated .UpgradeItemRequired upgradeItemRequired = 6;
+      private java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> upgradeItemRequired_ =
+        java.util.Collections.emptyList();
+      private void ensureUpgradeItemRequiredIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          upgradeItemRequired_ = new java.util.ArrayList<com.rwproto.FightGrowthProto.UpgradeItemRequired>(upgradeItemRequired_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FightGrowthProto.UpgradeItemRequired, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder, com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> upgradeItemRequiredBuilder_;
+
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> getUpgradeItemRequiredList() {
+        if (upgradeItemRequiredBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(upgradeItemRequired_);
+        } else {
+          return upgradeItemRequiredBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public int getUpgradeItemRequiredCount() {
+        if (upgradeItemRequiredBuilder_ == null) {
+          return upgradeItemRequired_.size();
+        } else {
+          return upgradeItemRequiredBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          return upgradeItemRequired_.get(index);
+        } else {
+          return upgradeItemRequiredBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder setUpgradeItemRequired(
+          int index, com.rwproto.FightGrowthProto.UpgradeItemRequired value) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.set(index, value);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder setUpgradeItemRequired(
+          int index, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder builderForValue) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder addUpgradeItemRequired(com.rwproto.FightGrowthProto.UpgradeItemRequired value) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.add(value);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder addUpgradeItemRequired(
+          int index, com.rwproto.FightGrowthProto.UpgradeItemRequired value) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.add(index, value);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder addUpgradeItemRequired(
+          com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder builderForValue) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.add(builderForValue.build());
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder addUpgradeItemRequired(
+          int index, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder builderForValue) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder addAllUpgradeItemRequired(
+          java.lang.Iterable<? extends com.rwproto.FightGrowthProto.UpgradeItemRequired> values) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          ensureUpgradeItemRequiredIsMutable();
+          super.addAll(values, upgradeItemRequired_);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder clearUpgradeItemRequired() {
+        if (upgradeItemRequiredBuilder_ == null) {
+          upgradeItemRequired_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public Builder removeUpgradeItemRequired(int index) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          ensureUpgradeItemRequiredIsMutable();
+          upgradeItemRequired_.remove(index);
+          onChanged();
+        } else {
+          upgradeItemRequiredBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder getUpgradeItemRequiredBuilder(
+          int index) {
+        return getUpgradeItemRequiredFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
+          int index) {
+        if (upgradeItemRequiredBuilder_ == null) {
+          return upgradeItemRequired_.get(index);  } else {
+          return upgradeItemRequiredBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
+           getUpgradeItemRequiredOrBuilderList() {
+        if (upgradeItemRequiredBuilder_ != null) {
+          return upgradeItemRequiredBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(upgradeItemRequired_);
+        }
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder addUpgradeItemRequiredBuilder() {
+        return getUpgradeItemRequiredFieldBuilder().addBuilder(
+            com.rwproto.FightGrowthProto.UpgradeItemRequired.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder addUpgradeItemRequiredBuilder(
+          int index) {
+        return getUpgradeItemRequiredFieldBuilder().addBuilder(
+            index, com.rwproto.FightGrowthProto.UpgradeItemRequired.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
+       *
+       * <pre>
+       * 升级所需要的道具
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder> 
+           getUpgradeItemRequiredBuilderList() {
+        return getUpgradeItemRequiredFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FightGrowthProto.UpgradeItemRequired, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder, com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
+          getUpgradeItemRequiredFieldBuilder() {
+        if (upgradeItemRequiredBuilder_ == null) {
+          upgradeItemRequiredBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FightGrowthProto.UpgradeItemRequired, com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder, com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder>(
+                  upgradeItemRequired_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          upgradeItemRequired_ = null;
+        }
+        return upgradeItemRequiredBuilder_;
+      }
+
+      // repeated .UserFightingGrowthWaySynData growthWayData = 7;
+      private java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> growthWayData_ =
+        java.util.Collections.emptyList();
+      private void ensureGrowthWayDataIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          growthWayData_ = new java.util.ArrayList<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData>(growthWayData_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> growthWayDataBuilder_;
+
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> getGrowthWayDataList() {
+        if (growthWayDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(growthWayData_);
+        } else {
+          return growthWayDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public int getGrowthWayDataCount() {
+        if (growthWayDataBuilder_ == null) {
+          return growthWayData_.size();
+        } else {
+          return growthWayDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index) {
+        if (growthWayDataBuilder_ == null) {
+          return growthWayData_.get(index);
+        } else {
+          return growthWayDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder setGrowthWayData(
+          int index, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData value) {
+        if (growthWayDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.set(index, value);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder setGrowthWayData(
+          int index, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder builderForValue) {
+        if (growthWayDataBuilder_ == null) {
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          growthWayDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder addGrowthWayData(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData value) {
+        if (growthWayDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.add(value);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder addGrowthWayData(
+          int index, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData value) {
+        if (growthWayDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.add(index, value);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder addGrowthWayData(
+          com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder builderForValue) {
+        if (growthWayDataBuilder_ == null) {
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          growthWayDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder addGrowthWayData(
+          int index, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder builderForValue) {
+        if (growthWayDataBuilder_ == null) {
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          growthWayDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder addAllGrowthWayData(
+          java.lang.Iterable<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> values) {
+        if (growthWayDataBuilder_ == null) {
+          ensureGrowthWayDataIsMutable();
+          super.addAll(values, growthWayData_);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder clearGrowthWayData() {
+        if (growthWayDataBuilder_ == null) {
+          growthWayData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public Builder removeGrowthWayData(int index) {
+        if (growthWayDataBuilder_ == null) {
+          ensureGrowthWayDataIsMutable();
+          growthWayData_.remove(index);
+          onChanged();
+        } else {
+          growthWayDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder getGrowthWayDataBuilder(
+          int index) {
+        return getGrowthWayDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
+          int index) {
+        if (growthWayDataBuilder_ == null) {
+          return growthWayData_.get(index);  } else {
+          return growthWayDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
+           getGrowthWayDataOrBuilderList() {
+        if (growthWayDataBuilder_ != null) {
+          return growthWayDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(growthWayData_);
+        }
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder addGrowthWayDataBuilder() {
+        return getGrowthWayDataFieldBuilder().addBuilder(
+            com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder addGrowthWayDataBuilder(
+          int index) {
+        return getGrowthWayDataFieldBuilder().addBuilder(
+            index, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
+       *
+       * <pre>
+       * 成长途径数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder> 
+           getGrowthWayDataBuilderList() {
+        return getGrowthWayDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
+          getGrowthWayDataFieldBuilder() {
+        if (growthWayDataBuilder_ == null) {
+          growthWayDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder, com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder>(
+                  growthWayData_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          growthWayData_ = null;
+        }
+        return growthWayDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:UserFightingGrowthSynData)
+    }
+
+    static {
+      defaultInstance = new UserFightingGrowthSynData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:UserFightingGrowthSynData)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_UpgradeFightingTitleResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpgradeFightingTitleResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_UpgradeItemRequired_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UpgradeItemRequired_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_UserFightingGrowthWaySynData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UserFightingGrowthWaySynData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_UserFightingGrowthSynData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UserFightingGrowthSynData_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -672,8 +4741,19 @@ public final class FightGrowthProto {
     java.lang.String[] descriptorData = {
       "\n\027proto/FightGrowth.proto\"=\n\034UpgradeFigh" +
       "tingTitleResponse\022\017\n\007success\030\001 \002(\010\022\014\n\004ti" +
-      "ps\030\002 \002(\tB\037\n\013com.rwprotoB\020FightGrowthProt" +
-      "o"
+      "ps\030\002 \002(\t\";\n\023UpgradeItemRequired\022\021\n\titemC" +
+      "fgId\030\001 \002(\007\022\021\n\titemCount\030\002 \002(\007\"\212\001\n\034UserFi" +
+      "ghtingGrowthWaySynData\022\013\n\003key\030\001 \002(\t\022\014\n\004n" +
+      "ame\030\002 \002(\t\022\027\n\017currentFighting\030\003 \002(\007\022\023\n\013ma" +
+      "xFighting\030\004 \002(\007\022\017\n\007gainWay\030\005 \003(\007\022\020\n\010goto" +
+      "Type\030\006 \002(\007\"\355\001\n\031UserFightingGrowthSynData" +
+      "\022\016\n\006userId\030\001 \002(\t\022\024\n\014currentTitle\030\002 \002(\t\022\021" +
+      "\n\ttitleIcon\030\003 \002(\t\022\030\n\020fightingRequired\030\004 ",
+      "\002(\007\022\024\n\014hasNextTitle\030\005 \002(\010\0221\n\023upgradeItem" +
+      "Required\030\006 \003(\0132\024.UpgradeItemRequired\0224\n\r" +
+      "growthWayData\030\007 \003(\0132\035.UserFightingGrowth" +
+      "WaySynDataB\037\n\013com.rwprotoB\020FightGrowthPr" +
+      "oto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -686,6 +4766,24 @@ public final class FightGrowthProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UpgradeFightingTitleResponse_descriptor,
               new java.lang.String[] { "Success", "Tips", });
+          internal_static_UpgradeItemRequired_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_UpgradeItemRequired_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_UpgradeItemRequired_descriptor,
+              new java.lang.String[] { "ItemCfgId", "ItemCount", });
+          internal_static_UserFightingGrowthWaySynData_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_UserFightingGrowthWaySynData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_UserFightingGrowthWaySynData_descriptor,
+              new java.lang.String[] { "Key", "Name", "CurrentFighting", "MaxFighting", "GainWay", "GotoType", });
+          internal_static_UserFightingGrowthSynData_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_UserFightingGrowthSynData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_UserFightingGrowthSynData_descriptor,
+              new java.lang.String[] { "UserId", "CurrentTitle", "TitleIcon", "FightingRequired", "HasNextTitle", "UpgradeItemRequired", "GrowthWayData", });
           return null;
         }
       };
