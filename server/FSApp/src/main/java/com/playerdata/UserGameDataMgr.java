@@ -9,9 +9,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.ItemChangedEventType_1;
-import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
@@ -171,7 +168,6 @@ public class UserGameDataMgr {
 	// }
 
 	public int addCoin(int nValue) {
-		UserGameData tableUserOther = userGameDataHolder.get();
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		if (marjorData.getCoin() + nValue >= 0) {
 			marjorData.setCoin(marjorData.getCoin() + nValue);
