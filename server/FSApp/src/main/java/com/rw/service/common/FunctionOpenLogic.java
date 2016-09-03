@@ -68,8 +68,11 @@ public class FunctionOpenLogic {
 	private eOpenLevelType specialSelect(ProtocolMessageEnum msgType, Request request,Player player,List<CfgOpenLevelLimit> cfgLst){
 		String msgTypeStr = String.valueOf(msgType);
 		for (CfgOpenLevelLimit cfg : cfgLst) {
-			if (cfg.getSubmoduleId().equals(msgTypeStr)){
-				return eOpenLevelType.getByOrder(cfg.getType());
+			List<String> lst = cfg.getSubmoduleIdList();
+			for (String reqName : lst) {
+				if (reqName.equals(msgTypeStr)){
+					return eOpenLevelType.getByOrder(cfg.getType());
+				}
 			}
 		}
 		return null;

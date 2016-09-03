@@ -32,6 +32,7 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		Map<Command,List<CfgOpenLevelLimit>> mapping = new HashMap<Command, List<CfgOpenLevelLimit>>();
 		for (Entry<String, CfgOpenLevelLimit> entry : entryLst) {
 			CfgOpenLevelLimit cfg = entry.getValue();
+			cfg.ExraLoad();
 			Command serviceId = cfg.getServiceId();
 			if (serviceId != null){
 				List<CfgOpenLevelLimit> old = mapping.get(serviceId);
@@ -89,6 +90,7 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 			}else{
 				ChineseStringHelper helper = ChineseStringHelper.getInstance();
 				int checkPointID = cfg.getCheckPointID();
+				level = cfg.getMinLevel();
 				if (checkPointID > 0){
 					CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
 					if (copyCfg != null){
