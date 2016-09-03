@@ -20,6 +20,7 @@ import com.gm.task.GmDeleteGameNotice;
 import com.gm.task.GmEditCloseTips;
 import com.gm.task.GmEditGameNotice;
 import com.gm.task.GmEditGmNotice;
+import com.gm.task.GmEditLevel;
 import com.gm.task.GmEditPlatformNotice;
 import com.gm.task.GmEmailAll;
 import com.gm.task.GmEmailSingleCheck;
@@ -153,6 +154,7 @@ public class GmHandler {
 		taskMap.put(20072, new GmQueryGroupRankingInfo());
 		taskMap.put(20073, new GmQueryGroupInfo());
 		taskMap.put(20074, new GmViewGroupMember());
+		taskMap.put(20075, new GmEditLevel());
 		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		

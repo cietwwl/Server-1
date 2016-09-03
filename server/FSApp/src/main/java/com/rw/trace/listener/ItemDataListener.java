@@ -41,7 +41,6 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			int modelId2 = newItem.getModelId();
 			int count2 = newItem.getCount();
 			if (modelId1 != modelId2 || count1 != count2) {
-				System.out.println("更新道具：" + modelId1 + "=" + count1 + "," + modelId2 + "=" + count2);
 				if (modelId1 != modelId2) {
 					sbDel.append(modelId1).append(":").append(count1).append("&");
 					sbAdd.append(modelId2).append(":").append(count2).append("&");

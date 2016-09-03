@@ -1,6 +1,7 @@
 package com.playerdata.activity.countType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,46 +25,51 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {	
-
+public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {
 
 	public static ActivityCountTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeCfgDAO.class);
 	}
 
-	
+	private HashMap<String, List<ActivityCountTypeCfg>> enumIdCfgMapping;
+
 	@Override
 	public Map<String, ActivityCountTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
 		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}
-		
+		HashMap<String, List<ActivityCountTypeCfg>> enumIdCfgMapping_ = new HashMap<String, List<ActivityCountTypeCfg>>();
+		for (ActivityCountTypeCfg typeCfg : cfgCacheMap.values()) {
+			String enumId = typeCfg.getEnumId();
+			List<ActivityCountTypeCfg> list = enumIdCfgMapping_.get(enumId);
+			if (list == null) {
+				list = new ArrayList<ActivityCountTypeCfg>();
+				enumIdCfgMapping_.put(enumId, list);
+			}
+			list.add(typeCfg);
+		}
+		this.enumIdCfgMapping = enumIdCfgMapping_;
 		return cfgCacheMap;
 	}
-	
 
-
-
-	public void parseTime(ActivityCountTypeCfg cfgItem){
+	public void parseTime(ActivityCountTypeCfg cfgItem) {
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);
-		
+
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getEndTimeStr());
-		cfgItem.setEndTime(endTime);		
+		cfgItem.setEndTime(endTime);
 	}
-		
-	
 
 	/**
 	 * 
 	 * @param player
 	 * @param countTypeEnum
-	 * @param subdaysNum  每日重置类型的活动,第几天
+	 * @param subdaysNum 每日重置类型的活动,第几天
 	 * @return
 	 */
-	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum,ActivityCountTypeCfg activityCountTypeCfg){
-		if(activityCountTypeCfg!=null){	
+	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum, ActivityCountTypeCfg activityCountTypeCfg) {
+		if (activityCountTypeCfg != null) {
 			ActivityCountTypeItem item = new ActivityCountTypeItem();
 			String itemId = ActivityCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
 			item.setId(itemId);
@@ -73,64 +79,114 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 			item.setVersion(activityCountTypeCfg.getVersion());
 			item.setSubItemList(newItemList(player, activityCountTypeCfg));
 			return item;
-		}else{
+		} else {
 			return null;
 		}
 	}
-	
-	
+
 	public List<ActivityCountTypeSubItem> newItemList(Player player, ActivityCountTypeCfg activityCountTypeCfg) {
 		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO.getInstance().getByParentCfgId(activityCountTypeCfg.getId());
 		for (ActivityCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
 			ActivityCountTypeSubItem subItem = new ActivityCountTypeSubItem();
-			subItem.setCfgId(activityCountTypeSubCfg.getId());	
+			subItem.setCfgId(activityCountTypeSubCfg.getId());
 			subItem.setCount(activityCountTypeSubCfg.getAwardCount());
 			subItemList.add(subItem);
-		}	
+		}
 		return subItemList;
 	}
 
 	/**
-	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
+	 * 获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动
 	 */
 	public ActivityCountTypeCfg getCfgByEnumId(ActivityCountTypeItem item) {
 		String cfgId = item.getCfgId();
 		String cfgEnumId = item.getEnumId();
-		List<ActivityCountTypeCfg>  cfgList = getAllCfg();
-		List<ActivityCountTypeCfg>  cfgListByEnum = new ArrayList<ActivityCountTypeCfg>();
-		for(ActivityCountTypeCfg cfg : cfgList){//取出所有符合相同枚举的可选配置
-			if(StringUtils.equals(cfgEnumId, cfg.getEnumId())&&!StringUtils.equals(cfgId, cfg.getId())){
+		List<ActivityCountTypeCfg> cfgList = enumIdCfgMapping.get(item.getEnumId());		
+		List<ActivityCountTypeCfg> cfgListByEnum = new ArrayList<ActivityCountTypeCfg>();
+		for (ActivityCountTypeCfg cfg : cfgList) {// 取出所有符合相同枚举的可选配置
+			if (!StringUtils.equals(cfgId, cfg.getId())) {
 				cfgListByEnum.add(cfg);
-			}			
+			}
 		}
-		
-		List<ActivityCountTypeCfg>  cfgListIsOpen = new ArrayList<ActivityCountTypeCfg>();//激活的下一个活动，只有0或1个；
-		for(ActivityCountTypeCfg cfg : cfgListByEnum){
-			if(ActivityCountTypeMgr.getInstance().isOpen(cfg)){
+		List<ActivityCountTypeCfg> cfgListIsOpen = new ArrayList<ActivityCountTypeCfg>();// 激活的下一个活动，只有0或1个；
+		for (ActivityCountTypeCfg cfg : cfgListByEnum) {
+			if (isOpen(cfg)) {
 				cfgListIsOpen.add(cfg);
-			}			
+			}
 		}
-		
-		if(cfgListIsOpen.size() > 1){
-			GameLog.error(LogModule.ComActivityCount, null, "发现了两个以上开放的活动,活动枚举为="+ cfgEnumId, null);
+		if (cfgListIsOpen.size() > 1) {
+			GameLog.error(LogModule.ComActivityCount, null, "发现了两个以上开放的活动,活动枚举为=" + cfgEnumId, null);
 			return null;
-		}else if(cfgListIsOpen.size() == 1){
+		} else if (cfgListIsOpen.size() == 1) {
 			return cfgListIsOpen.get(0);
-		}		
+		}
 		return null;
 	}
 
-	public List<ActivityCountTypeCfg> getCfgListByEnumId(String enumId){
-		List<ActivityCountTypeCfg> cfgList = new ArrayList<ActivityCountTypeCfg>();
-		List<ActivityCountTypeCfg> allCfg = getAllCfg();
-		for(ActivityCountTypeCfg cfg : allCfg){
-			if(StringUtils.equals(cfg.getEnumId(), enumId)){
-				cfgList.add(cfg);
-			}			
+	public boolean hasCfgListByEnumId(String enumId) {
+		List<ActivityCountTypeCfg> typeCfgList = enumIdCfgMapping.get(enumId);
+		if(typeCfgList == null ||typeCfgList.isEmpty()){
+			return false;
 		}
-		return cfgList;		
+		return true;
+//		List<ActivityCountTypeCfg> allCfg = getAllCfg();
+//		for (ActivityCountTypeCfg cfg : allCfg) {
+//			if (StringUtils.equals(cfg.getEnumId(), enumId)) {
+//				return true;
+//			}
+//		}
+//		return false;
 	}
 
+	/**
+	 * 检查指定enumId活动是否有已开放和满足玩家等级，如果有，返回true
+	 * 
+	 * @param playerLevel
+	 * @param enumId
+	 * @return
+	 */
+	public boolean isOpenAndLevelEnough(int playerLevel, ActivityCountTypeEnum enumId) {
+		List<ActivityCountTypeCfg> typeCfgList = enumIdCfgMapping.get(enumId.getCfgId());
+		if (typeCfgList == null) {
+			return false;
+		}
+		for (int i = 0, size = typeCfgList.size(); i < size; i++) {
+			ActivityCountTypeCfg cfg = typeCfgList.get(i);
+			if (playerLevel >= cfg.getLevelLimit() && isOpen(cfg)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	/**
+	 * 检查指定enumId活动是否有已开放，如果有，返回true
+	 * 
+	 * @param enumId
+	 * @return
+	 */
+	public boolean isOpen(ActivityCountTypeEnum enumId) {
+		List<ActivityCountTypeCfg> typeCfgList = enumIdCfgMapping.get(enumId.getCfgId());
+		if (typeCfgList == null) {
+			return false;
+		}
+		for (int i = 0, size = typeCfgList.size(); i < size; i++) {
+			ActivityCountTypeCfg cfg = typeCfgList.get(i);
+			if (isOpen(cfg)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+		if (activityCountTypeCfg != null) {
+			long startTime = activityCountTypeCfg.getStartTime();
+			long endTime = activityCountTypeCfg.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
+	}
 }

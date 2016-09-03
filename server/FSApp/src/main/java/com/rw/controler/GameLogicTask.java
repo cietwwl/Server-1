@@ -1,6 +1,9 @@
 package com.rw.controler;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.List;
 import java.util.Map;
@@ -52,14 +55,14 @@ public class GameLogicTask implements PlayerTask {
 		ByteString resultContent;
 		String userId = null;
 		RequestHeader header = request.getHeader();
-		int seqID = header.getSeqID();
+		final int seqID = header.getSeqID();
 		long sessionId = session.getSessionId();
-		Command command = header.getCommand();
-		long executeTime = System.currentTimeMillis();
-		
-		ByteString synData = null;//同步数据
+		final Command command = header.getCommand();
+		final long executeTime = System.currentTimeMillis();
+		ProtocolMessageEnum msgType = null;
+		ByteString synData = null;// 同步数据
 		try {
-			FSTraceLogger.logger("run(" + (executeTime - submitTime)+"," + command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
+			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
 			// plyaer为null不敢做过滤
 			if (player != null) {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
@@ -88,45 +91,77 @@ public class GameLogicTask implements PlayerTask {
 			try {
 				// 收集逻辑产生的数据变化
 				UserChannelMgr.onBSBegin(userId);
-				FsService serivice = nettyControler.getSerivice(command);
-				GeneratedMessage msg = serivice.parseMsg(request);
-				registerBehavior(player, serivice, command, msg, header.getEntranceId());
-				ProtocolMessageEnum msgType = serivice.getMsgType(msg);
+				FsService<GeneratedMessage, ProtocolMessageEnum> serivice = nettyControler.getSerivice(command);
+				if (serivice == null) {
+					proceeMsgRequestException(player, userId, "command获取不到对应的service. command:" + command, command, executeTime, seqID);
+					return;
+				}
 				
-				if (FunctionOpenLogic.getInstance().isOpen(msgType,request, player)){
+				GeneratedMessage msg = serivice.parseMsg(request);
+				if (msg == null) {
+					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command,
+							executeTime, seqID);
+					return;
+				}
+
+				msgType = serivice.getMsgType(msg);
+				registerBehavior(player, serivice, command, msgType, msg, header.getEntranceId());
+
+				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
 					resultContent = serivice.doTask(msg, player);
 					player.getAssistantMgr().doCheck();
-					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
-				}else{
-					nettyControler.functionNotOpen(userId,request.getHeader());
+					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime) + "," + command + ","
+							+ seqID + ")[" + player.getUserId() + "]");
+				} else {
+					nettyControler.functionNotOpen(userId, request.getHeader());
 					return;
 				}
 
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
-//				UserChannelMgr.synDataOnBSEnd(userId);
+				// UserChannelMgr.synDataOnBSEnd(userId);
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);
 			nettyControler.sendErrorResponse(userId, request.getHeader(), 500);
+			FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 			return;
 		}
-		nettyControler.sendResponse(userId, header, resultContent, sessionId, synData);
+		ChannelFuture future = nettyControler.sendResponse(userId, header, resultContent, sessionId, synData);
+		if (future == null) {
+			FSTraceLogger.logger("send fail", 0, command, null, seqID, player != null ? player.getUserId() : null);
+		} else {
+
+			final String userId_ = userId;
+			final ProtocolMessageEnum type_ = msgType;
+			future.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+				@Override
+				public void operationComplete(Future<? super Void> future) throws Exception {
+					long current = System.currentTimeMillis();
+					FSTraceLogger.logger("send", current - submitTime, current - executeTime, command, type_, seqID, userId_, null);
+				}
+			});
+		}
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
 		}
-		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
 	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void registerBehavior(Player player, FsService serivice, Command command, GeneratedMessage msg, int viewId) {
-		
-		ProtocolMessageEnum msgType = serivice.getMsgType(msg);
-		if (msgType == null) return;
-		String value = String.valueOf(msgType.getNumber());
-		GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+
+	private void proceeMsgRequestException(Player player, String userId, String msg, Command command, long executeTime, int seqID) {
+		GameLog.error("GameLogicTask", "run business service exception:", msg);
+		nettyControler.sendErrorResponse(userId, request.getHeader(), 503);
+		FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	private void registerBehavior(Player player, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
+		if (msgType != null) {
+			String value = String.valueOf(msgType.getNumber());
+			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		}
 	}
 
 	private void handleGuildance(RequestHeader header, String userId) {

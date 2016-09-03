@@ -28,13 +28,14 @@ public class AssistantDailyActivityCheck extends DefaultAssistantChecker {
 			
 			DailyActivityMgr dailyActivityMgr = player.getDailyActivityMgr();
 			List<DailyActivityData> allTask = dailyActivityMgr.getAllTask();
-			
+			int playerLevel = player.getLevel();
+			int playerVip = player.getVip();
 			for (DailyActivityData dailyActivityData : allTask) {
 				if (dailyActivityData.notFinish()) {
 					
 					DailyActivityCfg cfgByTaskId = dailyActivityMgr.getCfgByTaskId(dailyActivityData.getTaskId());
 					// 2是功能类的任务
-					if (cfgByTaskId.getTaskClassify() == 2 && !dailyActivityMgr.hasNoRight(cfgByTaskId)) {
+					if (cfgByTaskId.getTaskClassify() == 2 && !dailyActivityMgr.hasNoRight(cfgByTaskId, playerLevel, playerVip)) {
 						hasTaskToDo = true;
 						break;
 					}

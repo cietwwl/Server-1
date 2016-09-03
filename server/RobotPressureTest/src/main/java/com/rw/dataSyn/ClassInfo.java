@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.rw.common.RobotLog;
 import com.rw.dataSyn.json.FieldInfo;
 
@@ -41,11 +43,13 @@ public class ClassInfo {
 		Object target = null;
 		try{
 			target = clazz.newInstance();
-			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact	
+			
+			JSONObject tableData = JSON.parseObject(json);			
+//			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact	
 
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
-				fieldJson = tableData.get(fieldName);
+				fieldJson = tableData.getString(fieldName);
 				if(StringUtils.isNotBlank(fieldJson)){
 					fieldInfo.fromJson(target, fieldJson);
 				}

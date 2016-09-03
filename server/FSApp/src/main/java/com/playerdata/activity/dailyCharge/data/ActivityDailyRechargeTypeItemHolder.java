@@ -67,9 +67,11 @@ public class ActivityDailyRechargeTypeItemHolder{
 	private List<ActivityDailyRechargeTypeItem> addNewActivity(String userId){	
 		List<ActivityDailyChargeCfg> activeDailyList = ActivityDetector.getInstance().getAllDailyActivity();
 		List<ActivityDailyRechargeTypeItem> newAddItems = new ArrayList<ActivityDailyRechargeTypeItem>();
+		ActivityDailyChargeSubCfgDAO  chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
+		MapItemStore<ActivityDailyRechargeTypeItem> itemStore = getItemStore(userId);
 		for(ActivityDailyChargeCfg cfg : activeDailyList){
 			String activityID = getActivityID(String.valueOf(cfg.getId()), userId);
-			ActivityDailyRechargeTypeItem item = getItemStore(userId).getItem(activityID);
+			ActivityDailyRechargeTypeItem item = itemStore.getItem(activityID);
 			if(null == item){
 				// 有新增的活动
 				item = new ActivityDailyRechargeTypeItem();
@@ -78,7 +80,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 				item.setUserId(userId);
 				item.setVersion(cfg.getVersion());
 				List<ActivityDailyRechargeTypeSubItem> subItemList = new ArrayList<ActivityDailyRechargeTypeSubItem>();
-				List<String> todaySubs = ActivityDailyChargeSubCfgDAO.getInstance().getTodaySubActivity(String.valueOf(cfg.getId()));
+				List<String> todaySubs = chargeSubCfgDAO.getTodaySubActivity(String.valueOf(cfg.getId()));
 				for(String subId : todaySubs){
 					ActivityDailyRechargeTypeSubItem subItem = new ActivityDailyRechargeTypeSubItem();
 					subItem.setCfgId(subId);
@@ -90,7 +92,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 			}
 		}
 		try {
-			getItemStore(userId).addItem(newAddItems);
+			itemStore.addItem(newAddItems);
 		} catch (DuplicatedKeyException e) {
 			e.printStackTrace();
 		}
@@ -105,10 +107,12 @@ public class ActivityDailyRechargeTypeItemHolder{
 	private ArrayList<ActivityDailyRechargeTypeItem> removeExpireActivity(String userId){
 		List<String> removeList = new ArrayList<String>();
 		Map<String, ActivityDailyRechargeTypeItem> activeItemMap = new HashMap<String, ActivityDailyRechargeTypeItem>();
-		Enumeration<ActivityDailyRechargeTypeItem> mapEnum = getItemStore(userId).getEnum();
+		MapItemStore<ActivityDailyRechargeTypeItem> rechargeStore = getItemStore(userId);
+		Enumeration<ActivityDailyRechargeTypeItem> mapEnum = rechargeStore.getEnum();
+		ActivityDetector detector = ActivityDetector.getInstance();
 		while (mapEnum.hasMoreElements()) {
-			ActivityDailyRechargeTypeItem item = (ActivityDailyRechargeTypeItem) mapEnum.nextElement();
-			boolean isActive = ActivityDetector.getInstance().containsActivity(item.getCfgId());
+			ActivityDailyRechargeTypeItem item = mapEnum.nextElement();
+			boolean isActive = detector.containsActivity(item.getCfgId());
 			if(isActive){
 				activeItemMap.put(item.getId(), item);
 			}else{
@@ -117,7 +121,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 				removeList.add(item.getId());
 			}
 		}
-		getItemStore(userId).removeItem(removeList);
+		rechargeStore.removeItem(removeList);
 		return new ArrayList<ActivityDailyRechargeTypeItem>(activeItemMap.values());
 	}
 	
