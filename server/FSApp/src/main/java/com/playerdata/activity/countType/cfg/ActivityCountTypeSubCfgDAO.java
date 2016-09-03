@@ -16,23 +16,26 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTypeSubCfg> {
-
+public final class ActivityCountTypeSubCfgDAO extends
+		CfgCsvDao<ActivityCountTypeSubCfg> {
 
 	public static ActivityCountTypeSubCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeSubCfgDAO.class);
 	}
-	
+
 	private HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMapping = new HashMap<String, List<ActivityCountTypeSubCfg>>();
-	
+
 	@Override
 	public Map<String, ActivityCountTypeSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeSubCfg.csv", ActivityCountTypeSubCfg.class);	
+		cfgCacheMap = CfgCsvHelper.readCsv2Map(
+				"Activity/ActivityCountTypeSubCfg.csv",
+				ActivityCountTypeSubCfg.class);
 		HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMappingTmp = new HashMap<String, List<ActivityCountTypeSubCfg>>();
-		for(ActivityCountTypeSubCfg subCfg : cfgCacheMap.values()){
+		for (ActivityCountTypeSubCfg subCfg : cfgCacheMap.values()) {
 			String parentid = subCfg.getParentCfg();
-			List<ActivityCountTypeSubCfg> list = parentCfgMappingTmp.get(parentid);
-			if(list == null){
+			List<ActivityCountTypeSubCfg> list = parentCfgMappingTmp
+					.get(parentid);
+			if (list == null) {
 				list = new ArrayList<ActivityCountTypeSubCfg>();
 				parentCfgMappingTmp.put(parentid, list);
 			}
@@ -41,30 +44,26 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 		this.parentCfgMapping = parentCfgMappingTmp;
 		return cfgCacheMap;
 	}
-	
 
-
-	public List<ActivityCountTypeSubCfg> getByParentCfgId(String parentCfgId){
+	public List<ActivityCountTypeSubCfg> getByParentCfgId(String parentCfgId) {
 		List<ActivityCountTypeSubCfg> targetList = new ArrayList<ActivityCountTypeSubCfg>();
-		List<ActivityCountTypeSubCfg> parentCfgList = parentCfgMapping.get(parentCfgId);
-		if(parentCfgList == null || parentCfgList.isEmpty()){
+		List<ActivityCountTypeSubCfg> parentCfgList = parentCfgMapping
+				.get(parentCfgId);
+		if (parentCfgList == null || parentCfgList.isEmpty()) {
 			return targetList;
 		}
 		for (ActivityCountTypeSubCfg subCfg : parentCfgList) {
-			if(StringUtils.equals(subCfg.getParentCfg(), parentCfgId)){
+			if (StringUtils.equals(subCfg.getParentCfg(), parentCfgId)) {
 				targetList.add(subCfg);
 			}
 		}
-		return targetList;				
+		return targetList;
 	}
-	
-	public ActivityCountTypeSubCfg getById(String subId){
+
+	public ActivityCountTypeSubCfg getById(String subId) {
 		ActivityCountTypeSubCfg target = cfgCacheMap.get(subId);
 		return target;
-		
-	}
-	
-	
 
+	}
 
 }
