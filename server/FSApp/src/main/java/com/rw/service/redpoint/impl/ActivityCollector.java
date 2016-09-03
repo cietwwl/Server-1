@@ -84,7 +84,7 @@ public class ActivityCollector implements RedPointCollector{
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityCountTypeCfg cfg:allCfgList){
-			if(!ActivityCountTypeMgr.getInstance().isOpen(cfg)){
+			if(!ActivityCountTypeCfgDAO.getInstance().isOpen(cfg)){
 				continue;
 			}
 			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
