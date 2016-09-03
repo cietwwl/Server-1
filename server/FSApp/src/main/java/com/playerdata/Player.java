@@ -1,5 +1,7 @@
 package com.playerdata;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,8 +100,6 @@ import com.rwproto.ResponseProtos;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.ResponseProtos.ResponseHeader;
 
-import io.netty.channel.ChannelHandlerContext;
-
 /**
  * 玩家类
  *
@@ -111,6 +111,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class Player implements PlayerIF {
 
+	private final String userId;
 	private UserDataMgr userDataMgr;
 	private UserGameDataMgr userGameDataMgr;
 
@@ -249,6 +250,7 @@ public class Player implements PlayerIF {
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 		}
+		this.userId = userId;
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
@@ -1058,7 +1060,8 @@ public class Player implements PlayerIF {
 	}
 
 	public String getUserId() {
-		return userGameDataMgr.getUserId();
+//		return userGameDataMgr.getUserId();
+		return this.userId;
 	}
 
 	public TableUserOtherIF getTableUserOther() {

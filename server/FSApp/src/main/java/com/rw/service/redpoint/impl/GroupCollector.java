@@ -19,6 +19,7 @@ import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.GroupCommonProto.GroupFunction;
 
 /*
@@ -29,7 +30,7 @@ import com.rwproto.GroupCommonProto.GroupFunction;
 public class GroupCollector implements RedPointCollector {
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		if (userGroupAttributeData == null) {
 			return;
@@ -50,9 +51,8 @@ public class GroupCollector implements RedPointCollector {
 			return;
 		}
 
-		String userId = player.getUserId();
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(userId, false);
+		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(player.getUserId(), false);
 		if (memberData == null) {
 			return;
 		}
@@ -102,5 +102,10 @@ public class GroupCollector implements RedPointCollector {
 				map.put(RedPointType.GROUP_WINDOW_MANAGER_ENTER_GROUP, Collections.EMPTY_LIST);
 			}
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 }

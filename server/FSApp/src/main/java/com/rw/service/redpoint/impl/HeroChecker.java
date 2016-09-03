@@ -1,7 +1,6 @@
 package com.rw.service.redpoint.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,9 +14,9 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.equipment.EquipItem;
-import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -35,7 +34,7 @@ public class HeroChecker implements RedPointCollector {
 	}
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> heroRedPointList = new ArrayList<String>();
 //		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
 		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
@@ -155,5 +154,10 @@ public class HeroChecker implements RedPointCollector {
 				it.remove();
 			}
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 }
