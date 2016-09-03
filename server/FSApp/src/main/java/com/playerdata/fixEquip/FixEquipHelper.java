@@ -52,11 +52,6 @@ public class FixEquipHelper {
 		return heroId + "_" + cfgId;
 	}
 	
-	public static eOpenLevelType CheckOpenForExpStarUp(Player player, Request request,ProtocolMessageEnum msgType){
-		//TODO 选择FIX_Exp_EQUIP_4或者FIX_Exp_EQUIP_5 ， 返回null表示参数有错误
-		return null;
-	}
-
 	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
 		Map<Integer, Integer> itemsNeed = new HashMap<Integer, Integer>();
 		if (StringUtils.isNotBlank(itemsNeedStr)) {

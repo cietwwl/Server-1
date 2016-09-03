@@ -27,7 +27,7 @@ public class FunctionOpenLogic {
 	}
 	public boolean passed = true;
 	public boolean isOpen(ProtocolMessageEnum msgType, Request request,Player player){
-		passed = false;
+		passed = true;
 		if (passed) return true;
 		CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
 		Command cmd = request.getHeader().getCommand();
@@ -71,9 +71,9 @@ public class FunctionOpenLogic {
 	 * @return
 	 */
 	private eOpenLevelType specialSelect(ProtocolMessageEnum msgType, Request request,Player player,List<CfgOpenLevelLimit> cfgLst){
-		//神器需要特殊处理
+		//通用神器的觉醒需要特殊处理，转到业务逻辑自行处理
 		if (RequestType.Exp_star_up.equals(msgType)){
-			return FixEquipHelper.CheckOpenForExpStarUp(player, request, msgType);
+			return null;
 		}
 		
 		String msgTypeStr = String.valueOf(msgType);
