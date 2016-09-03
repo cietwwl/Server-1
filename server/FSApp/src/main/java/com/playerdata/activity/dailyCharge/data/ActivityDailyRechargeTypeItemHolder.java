@@ -26,7 +26,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityExchangeType;
+	final private eSynType synType = eSynType.ActivityDailyRechargeType;
 	
 	public List<ActivityDailyRechargeTypeItem> getItemList(String userId){
 		return refreshDailyRecharge(userId);
@@ -52,7 +52,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 	 * @param userId
 	 * @return
 	 */
-	private List<ActivityDailyRechargeTypeItem> refreshDailyRecharge(String userId){
+	public List<ActivityDailyRechargeTypeItem> refreshDailyRecharge(String userId){
 		List<ActivityDailyRechargeTypeItem> afterRemove = removeExpireActivity(userId);
 		List<ActivityDailyRechargeTypeItem> newAdd = addNewActivity(userId);
 		afterRemove.addAll(newAdd);

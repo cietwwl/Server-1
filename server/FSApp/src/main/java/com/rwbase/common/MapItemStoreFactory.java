@@ -247,6 +247,8 @@ public class MapItemStoreFactory {
 		register(embattleInfoItemCache = new MapItemStoreCache<EmbattleInfo>(EmbattleInfo.class, "userId", heroCapacity));
 		
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
+
+		register(activityDailyRechargeItemCache = new MapItemStoreCache<ActivityDailyRechargeTypeItem>(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity, true));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {

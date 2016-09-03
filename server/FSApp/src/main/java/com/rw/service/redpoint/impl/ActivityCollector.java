@@ -7,8 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
@@ -26,6 +24,7 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
@@ -36,13 +35,10 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
@@ -326,8 +322,10 @@ public class ActivityCollector implements RedPointCollector{
 				activityList.add(redEnvelopeItem.getCfgId());
 				continue;
 			}			
-		}		
-		
+		}
+		System.out.println();
+		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(dailyChargeList);
 		
 //		if (!activityList.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);

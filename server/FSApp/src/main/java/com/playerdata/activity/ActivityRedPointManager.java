@@ -64,7 +64,7 @@ public class ActivityRedPointManager {
 			ActivityRankTypeMgr.getInstance().updateRedPoint(player, str);
 		} else if (tmp < 90000 && tmp > 80000) {
 			ActivityDailyDiscountTypeMgr.getInstance().updateRedPoint(player,str);
-		} else if (tmp < 12000 && tmp > 11000) {
+		} else if (tmp < 120000 && tmp > 110000) {
 			ActivityDailyRechargeTypeMgr.getInstance().updateRedPoint(player, str);
 		} else{
 			GameLog.error(LogModule.RedPoint, player.getUserId(), "传来的id异常"+str, null);

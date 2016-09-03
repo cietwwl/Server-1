@@ -7,6 +7,7 @@ import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
@@ -239,6 +240,14 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				UserTeamBattleDataMgr.getInstance().dailyReset(player);
+			}
+		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
 			}
 		});
 		

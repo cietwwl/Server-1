@@ -65,6 +65,6 @@ public class ActivityDetector {
 	 * @return
 	 */
 	public int getCurrentDay(ActivityDailyChargeCfg cfg){
-		return 1;
+		return (int) ((System.currentTimeMillis() - cfg.getStartTime())/(24*60*60*1000)) + 1;
 	}
 }

@@ -15,7 +15,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_exchange_item")
+@Table(name = "activity_daily_charge_item")
 public class ActivityDailyRechargeTypeItem implements  IMapItem {
 
 	@Id

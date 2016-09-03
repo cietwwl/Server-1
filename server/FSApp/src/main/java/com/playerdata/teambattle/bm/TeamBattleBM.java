@@ -17,6 +17,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
@@ -84,6 +85,7 @@ public class TeamBattleBM {
 		if(utbData != null) utbData.setSynTeam(true);
 		UserTeamBattleDataMgr.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
+		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, 100);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 	

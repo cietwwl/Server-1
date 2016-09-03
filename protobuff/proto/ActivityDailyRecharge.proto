@@ -7,7 +7,6 @@ package activityDailyRecharge;
 
 enum RequestType{
 	TAKE_GIFT = 1;	//领取奖励
-	SET_VIEW_STATE = 2;	//去掉未查看的红点
 }
 
 message ActivityCommonReqMsg{
