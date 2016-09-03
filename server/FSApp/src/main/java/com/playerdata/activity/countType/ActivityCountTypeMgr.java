@@ -81,11 +81,12 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	private void checkNewOpen(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
 				.getInstance();
+		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO
 				.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!ActivityCountTypeCfgDAO.getInstance().isOpen(
+			if (!activityCountTypeCfgDAO.isOpen(
 					activityCountTypeCfg)) {
 				// 活动未开启
 				continue;
@@ -98,7 +99,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			ActivityCountTypeItem targetItem = dataHolder.getItem(
 					player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
-				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(
+				targetItem = activityCountTypeCfgDAO.newItem(
 						player, countTypeEnum, activityCountTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					continue;
@@ -117,19 +118,18 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	private void checkCfgVersion(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
 				.getInstance();
+		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player
 				.getUserId());
 		for (ActivityCountTypeItem targetItem : itemList) {
 
-			ActivityCountTypeCfg targetCfg = ActivityCountTypeCfgDAO
-					.getInstance().getCfgByEnumId(targetItem);
+			ActivityCountTypeCfg targetCfg = activityCountTypeCfgDAO.getCfgByEnumId(targetItem);
 			if (targetCfg == null) {
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(),
 					targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, ActivityCountTypeCfgDAO
-						.getInstance().newItemList(player, targetCfg));
+				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
@@ -158,9 +158,10 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	private void sendEmailIfGiftNotTaken(Player player,
 			ActivityCountTypeItem activityCountTypeItem,
 			List<ActivityCountTypeSubItem> list) {
+		ActivityCountTypeSubCfgDAO activityCountTypeSubCfgDAO = ActivityCountTypeSubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
-			ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO
-					.getInstance().getById(subItem.getCfgId());
+			ActivityCountTypeSubCfg subItemCfg = activityCountTypeSubCfgDAO.getById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				continue;
 			}
@@ -168,7 +169,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 					&& activityCountTypeItem.getCount() >= subItemCfg
 							.getAwardCount()) {
 
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
+				boolean isAdd = comGiftMgr.addGiftTOEmailById(
 						player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				if (isAdd) {
@@ -254,11 +255,33 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
 	public void updateRedPoint(Player player, String target) {
 		ActivityCountTypeItemHolder activityCountTypeItemHolder = new ActivityCountTypeItemHolder();
-		ActivityCountTypeCfg cfg = ActivityCountTypeCfgDAO.getInstance()
-				.getCfgById(target);
+		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
+		ActivityCountTypeCfg cfg = activityCountTypeCfgDAO.getCfgById(target);
 		if (cfg == null) {
 			return;
 		}
+		update(player,cfg,activityCountTypeItemHolder);				
+		if(StringUtils.isEmpty(cfg.getGroup())){
+			//获取同属一组group的cfg
+			return;
+		}
+		ActivityCountTypeCfg cfgByGroup  = null;
+		for(ActivityCountTypeCfg cfgTmp : activityCountTypeCfgDAO.getAllCfg()){
+			if(StringUtils.equals(cfg.getGroup(), cfgTmp.getGroup())&&!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
+				cfgByGroup = cfgTmp;
+				break;
+			}
+		}
+		if(cfgByGroup == null){
+			return;
+		}
+		update(player,cfgByGroup,activityCountTypeItemHolder);	
+		
+		
+	}
+
+	private void update(Player player,ActivityCountTypeCfg cfg,
+			ActivityCountTypeItemHolder activityCountTypeItemHolder) {		
 		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(cfg
 				.getEnumId());
 		if (eNum == null) {
@@ -273,6 +296,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}
+		
 	}
 
 }

@@ -22,25 +22,5 @@ public class ActivityLimitHeroBoxCfgDAO extends CfgCsvDao<ActivityLimitHeroBoxCf
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroBoxCfg.csv", ActivityLimitHeroBoxCfg.class);			
 		return cfgCacheMap;
 	}
-
-
-	
-	
-//	/**根据传入的id来查找激活的子活动*/
-//	public ActivityVitalityRewardCfg getById(String subId){
-//		ActivityVitalityRewardCfg target = new ActivityVitalityRewardCfg();
-//		List<ActivityVitalityRewardCfg> allCfg = getAllCfg();
-//		for (ActivityVitalityRewardCfg cfg : allCfg) {
-//			if(StringUtils.equals(cfg.getId(), subId)){
-//				target = cfg;
-//				break;
-//			}
-//		}
-//		return target;		
-//	}
-//	
-	
-	
-	
 	
 }

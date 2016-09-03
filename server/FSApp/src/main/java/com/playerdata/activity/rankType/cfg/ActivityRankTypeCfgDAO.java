@@ -82,8 +82,9 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 		if(cfgList == null || cfgList.isEmpty()){
 			return null;
 		}
+		ActivityRankTypeMgr activityRankTypeMgr = ActivityRankTypeMgr.getInstance();
 		for(ActivityRankTypeCfg cfg : cfgList){
-			if(!StringUtils.equals(id, cfg.getId())&&ActivityRankTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(id, cfg.getId())&&activityRankTypeMgr.isOpen(cfg)){
 				cfgListByItem.add(cfg);
 			}
 		}

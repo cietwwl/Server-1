@@ -17,12 +17,13 @@ public class TenGamble implements Gamble{
 		Map<Integer, Integer> planList = cfg.getOrdinaryPlanMap();
 		Map<Integer, Integer> guaranteePlanList = cfg.getGuaranteePlanMap();
 		StringBuilder rewardsMap = new StringBuilder();
+		ActivityLimitHeroTypeMgr activityLimitHeroTypeMgr = ActivityLimitHeroTypeMgr.getInstance();
 		for(int i = 0;i < gambleTime;i++){
 			String str = "";
 			if(i < guaranteeTimes){
-				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,guaranteePlanList);	
+				str = activityLimitHeroTypeMgr.getGambleRewards(player,guaranteePlanList);	
 			}else{
-				str = ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,planList);	
+				str = activityLimitHeroTypeMgr.getGambleRewards(player,planList);	
 			}
 			
 			if(i == gambleTime - 1){
