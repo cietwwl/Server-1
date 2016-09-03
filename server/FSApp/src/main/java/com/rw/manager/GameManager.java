@@ -35,6 +35,7 @@ import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -119,8 +120,8 @@ public class GameManager {
 		/**** 排行初始化 ******/
 		// ArenaBM.getInstance().InitData();
 		// 初始化排行榜系统
-		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1);
-		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1);
+		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("ranking"));
+		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("list_ranking"));
 		RankingFactory.init(Arrays.asList(RankType.values()), Arrays.asList(ListRankingType.values()), rankingPool, listRankingPool);
 
 		tempTimers = System.currentTimeMillis();
