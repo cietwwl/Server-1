@@ -1,12 +1,10 @@
 package com.rw.trace.stat;
 
-import com.google.protobuf.ProtocolMessageEnum;
 import com.rw.fsutil.common.Pair;
-import com.rwproto.MsgDef.Command;
 
 public class MsgStat {
 
-	private final Pair<Command, ProtocolMessageEnum> key;
+	private final Pair<Object, Object> key;
 	private final String name;
 	private int total;
 	private int times;
@@ -17,7 +15,7 @@ public class MsgStat {
 	private int index;
 	private int max;
 
-	public MsgStat(String name, Pair<Command, ProtocolMessageEnum> key, int recentlyMax) {
+	public MsgStat(String name, Pair<Object, Object> key, int recentlyMax) {
 		this.key = key;
 		this.name = name;
 		this.recentlyMax = recentlyMax;
@@ -58,10 +56,18 @@ public class MsgStat {
 
 	@Override
 	public String toString() {
-		return "[" + key.getT1() + "," + key.getT2() + "," + name + "]" + getMsgInfo();
+		Object key2 = key.getT2();
+		StringBuilder sb = new StringBuilder();
+		sb.append('[').append(key.getT1());
+		if (key2 != null) {
+			sb.append(',').append(key2);
+		}
+		sb.append(',').append(name).append(']');
+		sb.append(getMsgInfo());
+		return sb.toString();
 	}
 
-	public Pair<Command, ProtocolMessageEnum> getKey() {
+	public Pair<Object, Object> getKey() {
 		return key;
 	}
 }

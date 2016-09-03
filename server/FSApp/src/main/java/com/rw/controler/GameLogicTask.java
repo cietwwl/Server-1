@@ -129,7 +129,7 @@ public class GameLogicTask implements PlayerTask {
 				@Override
 				public void operationComplete(Future<? super Void> future) throws Exception {
 					long current = System.currentTimeMillis();
-					FSTraceLogger.logger("send", current - submitTime, current - executeTime, command, type_, seqID, userId_, null);
+					FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, command, type_, seqID, userId_, null);
 				}
 			});
 		}
