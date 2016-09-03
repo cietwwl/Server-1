@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
@@ -35,7 +36,9 @@ import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rwproto.RequestProtos.Request;
 
 public class FixEquipHelper {
 
@@ -47,6 +50,11 @@ public class FixEquipHelper {
 	public static String getNormItemId(String heroId, String cfgId) {
 
 		return heroId + "_" + cfgId;
+	}
+	
+	public static eOpenLevelType CheckOpenForExpStarUp(Player player, Request request,ProtocolMessageEnum msgType){
+		//TODO 选择FIX_Exp_EQUIP_4或者FIX_Exp_EQUIP_5 ， 返回null表示参数有错误
+		return null;
 	}
 
 	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
