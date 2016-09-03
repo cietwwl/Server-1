@@ -97,6 +97,7 @@ enum Command {
 	
 	MSG_FIGHTING_GROWTH_REQUEST_UI_DATA = 191; // 首页战力成长：请求UI数据（带一个empty的body即可）
 	MSG_FIGHTING_GROWTH_REQUEST_UPGRADE = 192; // 首页战力成长：请求晋级（带一个empty的body即可）
+	MSG_FIGHTING_PUSH_DATA = 193; // 首页战力成长：推送更新的数据
 	
 	
 	MSG_TAOIST = 200;//道术系统
