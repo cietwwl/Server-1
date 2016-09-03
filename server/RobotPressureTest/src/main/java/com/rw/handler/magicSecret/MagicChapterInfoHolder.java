@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
-import com.rwproto.DataSynProtos.eSynType;
 
 public class MagicChapterInfoHolder{
 	
@@ -18,8 +17,6 @@ public class MagicChapterInfoHolder{
 	public static MagicChapterInfoHolder getInstance(){
 		return InstanceHolder.instance;
 	}
-	
-	
 	
 	private  Map<String, MagicChapterInfo> list = new HashMap<String, MagicChapterInfo>();
 	
@@ -43,8 +40,5 @@ public class MagicChapterInfoHolder{
 
 	public void setList(Map<String, MagicChapterInfo> list) {
 		this.list = list;
-	}	
-	
-	
-	
+	}
 }

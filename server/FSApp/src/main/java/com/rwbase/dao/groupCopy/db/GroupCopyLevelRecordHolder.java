@@ -83,6 +83,7 @@ public class GroupCopyLevelRecordHolder {
 			try {
 				getItemStore().addItem(addList);
 			} catch (DuplicatedKeyException e) {
+				GameLog.error(LogModule.GroupCopy, GroupCopyLevelRecordHolder.class.getName(), "检查副本数据时发现异常", e);
 				e.printStackTrace();
 			}
 		}

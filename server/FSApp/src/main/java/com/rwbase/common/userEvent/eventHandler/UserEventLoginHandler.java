@@ -27,7 +27,8 @@ public class UserEventLoginHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				if (!ActivityCountTypeCfgDAO.getInstance().isOpen(ActivityCountTypeEnum.Login)) {
+				if (!ActivityCountTypeCfgDAO.getInstance().isOpen(
+						ActivityCountTypeEnum.Login)) {
 					return;
 				}
 
@@ -36,17 +37,22 @@ public class UserEventLoginHandler implements IUserEventHandler {
 				if (StringUtils.equals(params + "", "0")) {// 没有活动的登陆数据，首次登陆
 					isnewday = true;
 				} else {
-					isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
+					isnewday = DateUtils.dayChanged(Long.parseLong(params
+							.toString()));
 				}
 				if (isnewday) {
-					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login, 1);
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.Login, 1);
 				}
 			}
 
 			@Override
 			public void logError(Player player, Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.Login.toString()).append(" error");
-				GameLog.error(LogModule.UserEvent, "userId:" + player.getUserId(), reason.toString(), ex);
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.Login.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
 			}
 		});
 

@@ -24,15 +24,21 @@ public class UserEventEliteCopyWinHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(player.getLevel(), ActivityCountTypeEnum.ElityCopyWin)) {
-					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.ElityCopyWin, Integer.parseInt(params.toString()));
+				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(
+						player.getLevel(), ActivityCountTypeEnum.ElityCopyWin)) {
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.ElityCopyWin,
+							Integer.parseInt(params.toString()));
 				}
 			}
 
 			@Override
 			public void logError(Player player, Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.ElityCopyWin.toString()).append(" error");
-				GameLog.error(LogModule.UserEvent, "userId:" + player.getUserId(), reason.toString(), ex);
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.ElityCopyWin.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
 			}
 		});
 	}
