@@ -121,7 +121,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 				removeList.add(item.getId());
 			}
 		}
-		rechargeStore.removeItem(removeList);
+		if(!removeList.isEmpty()) rechargeStore.removeItem(removeList);
 		return new ArrayList<ActivityDailyRechargeTypeItem>(activeItemMap.values());
 	}
 	
