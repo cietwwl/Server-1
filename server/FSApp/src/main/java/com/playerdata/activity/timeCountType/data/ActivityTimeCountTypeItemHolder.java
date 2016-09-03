@@ -2,12 +2,9 @@ package com.playerdata.activity.timeCountType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
-import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeHelper;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;

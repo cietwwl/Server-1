@@ -8,15 +8,11 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.rank.RankType;
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -36,7 +32,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 	
 	private static ActivityRankTypeMgr instance = new ActivityRankTypeMgr();
 	
-	private final static int MAKEUPEMAIL = 10055;
 	
 	private static Map<String, SendRewardRecord> sendMap = new HashMap<String, SendRewardRecord>();
 	

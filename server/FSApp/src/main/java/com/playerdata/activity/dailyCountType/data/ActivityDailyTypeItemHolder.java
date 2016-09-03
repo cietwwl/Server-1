@@ -63,7 +63,7 @@ public class ActivityDailyTypeItemHolder {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
 		Iterator<ActivityDailyTypeItem> it = itemList.iterator();
 		while (it.hasNext()) {
-			ActivityDailyTypeItem item = (ActivityDailyTypeItem) it.next();
+			ActivityDailyTypeItem item = it.next();
 			if (ActivityDailyTypeCfgDAO.getInstance().getCfgById(
 					item.getCfgid()) == null) {
 				it.remove();

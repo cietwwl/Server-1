@@ -1,10 +1,9 @@
 package com.playerdata.activity.timeCountType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -21,37 +20,34 @@ public final class ActivityTimeCountTypeSubCfgDAO extends CfgCsvDao<ActivityTime
 	public static ActivityTimeCountTypeSubCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityTimeCountTypeSubCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityTimeCountTypeSubCfg>> subCfgMapListByParentid;
+	
 	
 	@Override
 	public Map<String, ActivityTimeCountTypeSubCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCountTypeSubCfg.csv", ActivityTimeCountTypeSubCfg.class);	
+		HashMap<String, List<ActivityTimeCountTypeSubCfg>> subCfgMap= new HashMap<String, List<ActivityTimeCountTypeSubCfg>>();
+		for(ActivityTimeCountTypeSubCfg subCfg : cfgCacheMap.values()){
+			String parentid = subCfg.getParentId();
+			List<ActivityTimeCountTypeSubCfg> list = subCfgMap.get(parentid);
+			if(list == null){
+				list = new ArrayList<ActivityTimeCountTypeSubCfg>();
+				subCfgMap.put(parentid, list);
+			}			
+			list.add(subCfg);
+		}
+		this.subCfgMapListByParentid = subCfgMap;
 		return cfgCacheMap;
 	}
 	
 
 
 	public List<ActivityTimeCountTypeSubCfg> getByParentCfgId(String parentCfgId){
-		List<ActivityTimeCountTypeSubCfg> targetList = new ArrayList<ActivityTimeCountTypeSubCfg>();
-		List<ActivityTimeCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityTimeCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentId(), parentCfgId)){
-				targetList.add(tmpItem);
-			}
-		}
-		return targetList;
-		
+		return subCfgMapListByParentid.get(parentCfgId);		
 	}
 	public ActivityTimeCountTypeSubCfg getById(String subId){
-		ActivityTimeCountTypeSubCfg target = new ActivityTimeCountTypeSubCfg();
-		List<ActivityTimeCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityTimeCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getId(), subId)){
-				target = tmpItem;
-			}
-		}
-		return target;
-		
+		return cfgCacheMap.get(subId);
 	}
 	
 	

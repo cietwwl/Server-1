@@ -115,12 +115,14 @@ public class GFOnlineHurtRankMgr {
 		try {
 			List<GFOnlineHurtItem> hurtRank = getGFHurtRankList(resourceID);
 			Iterator<GFOnlineHurtItem> it = hurtRank.iterator();
-			int rewardCfgCount = GFightOnlineDamageRankDAO.getInstance().getEntryCount();
+			
+			GFightOnlineDamageRankDAO damageRankDAO = GFightOnlineDamageRankDAO.getInstance();
+			int rewardCfgCount = damageRankDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
 				if (i != 1)
-					startRank = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				GFightOnlineDamageRankCfg rewardCfg = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i));
+					startRank = damageRankDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				GFightOnlineDamageRankCfg rewardCfg = damageRankDAO.getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;
