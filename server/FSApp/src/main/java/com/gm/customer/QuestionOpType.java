@@ -3,6 +3,7 @@ package com.gm.customer;
 public enum QuestionOpType {
 	Question_Query(25000, "玩家反馈查询"),
 	Question_Submit(25001, "玩家反馈新增"),
+	Feedback_Player(25002, "举报玩家聊天"),
 	;
 	private int opType;
 	private String desc;
