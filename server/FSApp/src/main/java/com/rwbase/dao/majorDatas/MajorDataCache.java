@@ -141,15 +141,16 @@ public class MajorDataCache {
 
 		@Override
 		public boolean insert(String key, final MajorData value) throws DuplicatedKeyException, Exception {
-			int result = template.update("insert into majordata (id,coin,gold,chargeGold,giftGold) values(?,?,?,?,?)", new PreparedStatementSetter() {
+			int result = template.update("insert into majordata (id,ownerId,coin,gold,chargeGold,giftGold) values(?,?,?,?,?,?)", new PreparedStatementSetter() {
 
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
 					ps.setString(1, value.getId());
-					ps.setLong(2, value.getCoin());
-					ps.setInt(3, value.getGold());
-					ps.setInt(4, value.getChargeGold());
-					ps.setInt(5, value.getGiftGold());
+					ps.setString(2, value.getOwnerId());
+					ps.setLong(3, value.getCoin());
+					ps.setInt(4, value.getGold());
+					ps.setInt(5, value.getChargeGold());
+					ps.setInt(6, value.getGiftGold());
 				}
 			});
 			return result > 0;
