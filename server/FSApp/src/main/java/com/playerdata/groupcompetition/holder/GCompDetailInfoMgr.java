@@ -12,7 +12,7 @@ public class GCompDetailInfoMgr {
 	}
 	
 	private GCompDetailInfoHolder _dataHolder;
-
+	
 	protected GCompDetailInfoMgr() {
 		_dataHolder = new GCompDetailInfoHolder();
 	}

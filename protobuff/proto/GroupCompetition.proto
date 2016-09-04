@@ -26,6 +26,7 @@ enum GCRequestType{
 	CreateTeam = 17; // 创建队伍
 	AdjustTeamMember = 18; // 调整队伍成员
 	StartMatching = 19; // 开始匹配
+	LeaveLivePage = 20; //离开直播页面
 }
 
 enum TeamStatusType {
@@ -55,6 +56,7 @@ message CommonRspMsg{
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
 	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+	optional fixed64 latestTime = 3;	//赛事记录最新的时间
 }
 
 message CommonGetDataRspMsg {

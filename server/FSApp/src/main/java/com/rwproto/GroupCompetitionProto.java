@@ -165,6 +165,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     StartMatching(18, 19),
+    /**
+     * <code>LeaveLivePage = 20;</code>
+     *
+     * <pre>
+     *离开直播页面
+     * </pre>
+     */
+    LeaveLivePage(19, 20),
     ;
 
     /**
@@ -319,6 +327,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int StartMatching_VALUE = 19;
+    /**
+     * <code>LeaveLivePage = 20;</code>
+     *
+     * <pre>
+     *离开直播页面
+     * </pre>
+     */
+    public static final int LeaveLivePage_VALUE = 20;
 
 
     public final int getNumber() { return value; }
@@ -344,6 +360,7 @@ public final class GroupCompetitionProto {
         case 17: return CreateTeam;
         case 18: return AdjustTeamMember;
         case 19: return StartMatching;
+        case 20: return LeaveLivePage;
         default: return null;
       }
     }
@@ -2760,6 +2777,24 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     int getMatchId();
+
+    // optional fixed64 latestTime = 3;
+    /**
+     * <code>optional fixed64 latestTime = 3;</code>
+     *
+     * <pre>
+     *赛事记录最新的时间
+     * </pre>
+     */
+    boolean hasLatestTime();
+    /**
+     * <code>optional fixed64 latestTime = 3;</code>
+     *
+     * <pre>
+     *赛事记录最新的时间
+     * </pre>
+     */
+    long getLatestTime();
   }
   /**
    * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
@@ -2826,6 +2861,11 @@ public final class GroupCompetitionProto {
             case 21: {
               bitField0_ |= 0x00000002;
               matchId_ = input.readFixed32();
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000004;
+              latestTime_ = input.readFixed64();
               break;
             }
           }
@@ -2916,9 +2956,34 @@ public final class GroupCompetitionProto {
       return matchId_;
     }
 
+    // optional fixed64 latestTime = 3;
+    public static final int LATESTTIME_FIELD_NUMBER = 3;
+    private long latestTime_;
+    /**
+     * <code>optional fixed64 latestTime = 3;</code>
+     *
+     * <pre>
+     *赛事记录最新的时间
+     * </pre>
+     */
+    public boolean hasLatestTime() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional fixed64 latestTime = 3;</code>
+     *
+     * <pre>
+     *赛事记录最新的时间
+     * </pre>
+     */
+    public long getLatestTime() {
+      return latestTime_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
       matchId_ = 0;
+      latestTime_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2942,6 +3007,9 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeFixed32(2, matchId_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFixed64(3, latestTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2958,6 +3026,10 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(2, matchId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed64Size(3, latestTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3079,6 +3151,8 @@ public final class GroupCompetitionProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         matchId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        latestTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -3115,6 +3189,10 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000002;
         }
         result.matchId_ = matchId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.latestTime_ = latestTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3136,6 +3214,9 @@ public final class GroupCompetitionProto {
         }
         if (other.hasMatchId()) {
           setMatchId(other.getMatchId());
+        }
+        if (other.hasLatestTime()) {
+          setLatestTime(other.getLatestTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3265,6 +3346,55 @@ public final class GroupCompetitionProto {
       public Builder clearMatchId() {
         bitField0_ = (bitField0_ & ~0x00000002);
         matchId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed64 latestTime = 3;
+      private long latestTime_ ;
+      /**
+       * <code>optional fixed64 latestTime = 3;</code>
+       *
+       * <pre>
+       *赛事记录最新的时间
+       * </pre>
+       */
+      public boolean hasLatestTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional fixed64 latestTime = 3;</code>
+       *
+       * <pre>
+       *赛事记录最新的时间
+       * </pre>
+       */
+      public long getLatestTime() {
+        return latestTime_;
+      }
+      /**
+       * <code>optional fixed64 latestTime = 3;</code>
+       *
+       * <pre>
+       *赛事记录最新的时间
+       * </pre>
+       */
+      public Builder setLatestTime(long value) {
+        bitField0_ |= 0x00000004;
+        latestTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed64 latestTime = 3;</code>
+       *
+       * <pre>
+       *赛事记录最新的时间
+       * </pre>
+       */
+      public Builder clearLatestTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        latestTime_ = 0L;
         onChanged();
         return this;
       }
@@ -20945,76 +21075,77 @@ public final class GroupCompetitionProto {
       " \003(\t\"\202\001\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036" +
       ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
       "\030\002 \001(\t\0221\n\007players\030\003 \003(\0132 .groupCompetiti" +
-      "on.PlayerBaseInfo\"X\n\023CommonGetDataReqMsg" +
+      "on.PlayerBaseInfo\"l\n\023CommonGetDataReqMsg" +
       "\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCR",
-      "equestType\022\017\n\007matchId\030\002 \001(\007\"\303\001\n\023CommonGe" +
-      "tDataRspMsg\0220\n\007reqType\030\001 \002(\0162\037.groupComp" +
-      "etition.GCRequestType\022/\n\007rstType\030\002 \002(\0162\036" +
-      ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
-      "\030\003 \001(\t\0229\n\rselectionData\030\004 \001(\0132\".groupCom" +
-      "petition.SelectionRspData\"$\n\014AreaPositio" +
-      "n\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlayba" +
-      "ckInfo\022\014\n\004test\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(" +
-      "\005\022\025\n\rpersonalScore\030\003 \002(\005\022\022\n\ngroupScore\030\004" +
-      " \002(\005\"I\n\025ReqLiveAndPlaybackMsg\0220\n\007reqType",
-      "\030\001 \002(\0162\037.groupCompetition.GCRequestType\"" +
-      "}\n\025RspLiveAndPlaybackMsg\022/\n\007rstType\030\001 \002(" +
-      "\0162\036.groupCompetition.GCResultType\0223\n\004msg" +
-      "s\030\002 \003(\0132%.groupCompetition.LiveAndPlayba" +
-      "ckInfo\"\222\001\n\016MatchGuessInfo\022\017\n\007session\030\001 \002" +
-      "(\005\022\014\n\004topN\030\002 \002(\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006gr" +
-      "oups\030\004 \003(\0132\033.groupCompetition.GroupInfo\022" +
-      "\020\n\010guessNum\030\005 \002(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tG" +
-      "roupInfo\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002" +
-      " \002(\t\022\021\n\tgroupName\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002",
-      "\"C\n\017ReqAllGuessInfo\0220\n\007reqType\030\001 \002(\0162\037.g" +
-      "roupCompetition.GCRequestType\"w\n\017RspAllG" +
-      "uessInfo\022/\n\007rstType\030\001 \002(\0162\036.groupCompeti" +
-      "tion.GCResultType\0223\n\tguessInfo\030\002 \003(\0132 .g" +
-      "roupCompetition.MatchGuessInfo\"o\n\013ReqNew" +
-      "Guess\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
-      "n.GCRequestType\022\017\n\007matchId\030\002 \002(\005\022\017\n\007grou" +
-      "pId\030\003 \002(\t\022\014\n\004coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/" +
-      "\n\007rstType\030\001 \002(\0162\036.groupCompetition.GCRes" +
-      "ultType\022\016\n\006tipMsg\030\002 \001(\t\"\335\001\n\016PlayerBaseIn",
-      "fo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005" +
-      "level\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005" +
-      " \002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023" +
-      "\n\013fightingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014" +
-      "fashionUsage\030\n \001(\0132\033.FashionService.Fash" +
-      "ionUsed\"\240\001\n\020SelectionRspData\0226\n\010rankings" +
-      "\030\001 \003(\0132$.groupCompetition.SelectionGroup" +
-      "Data\022:\n\014ownGroupData\030\002 \001(\0132$.groupCompet" +
-      "ition.SelectionGroupData\022\030\n\020selectionEnd" +
-      "Time\030\003 \002(\006\"T\n\022SelectionGroupData\022\017\n\007rank",
-      "ing\030\001 \002(\007\022\014\n\004name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(" +
-      "\006\022\r\n\005upNum\030\004 \002(\007\"O\n\013TeamRequest\0220\n\007reqTy" +
+      "equestType\022\017\n\007matchId\030\002 \001(\007\022\022\n\nlatestTim" +
+      "e\030\003 \001(\006\"\303\001\n\023CommonGetDataRspMsg\0220\n\007reqTy" +
       "pe\030\001 \002(\0162\037.groupCompetition.GCRequestTyp" +
-      "e\022\016\n\006heroId\030\002 \003(\t\"-\n\013JoinTeamReq\022\016\n\006team" +
-      "Id\030\001 \002(\t\022\016\n\006heroId\030\002 \003(\t\"[\n\021TeamMemberRe" +
-      "quest\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
-      "n.GCRequestType\022\024\n\014targetUserId\030\002 \002(\t\"E\n" +
-      "\021TeamStatusRequest\0220\n\007reqType\030\001 \002(\0162\037.gr" +
-      "oupCompetition.GCRequestType\".\n\016TeamInvi" +
-      "tation\022\016\n\006teamId\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\t",
-      "CommonRsp\0222\n\nresultType\030\001 \002(\0162\036.groupCom" +
-      "petition.GCResultType\022\014\n\004tips\030\002 \001(\t\"D\n\020T" +
-      "eamStatusChange\0220\n\006status\030\001 \002(\0162 .groupC" +
-      "ompetition.TeamStatusType*\367\002\n\rGCRequestT" +
-      "ype\022\024\n\020EnterPrepareArea\020\001\022\024\n\020LeavePrepar" +
-      "eArea\020\002\022\031\n\025InformPreparePosition\020\003\022\013\n\007Li" +
-      "veMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGuess\020\006\022\014" +
-      "\n\010NewGuess\020\007\022\026\n\022GetPlayersBaseInfo\020\010\022\020\n\014" +
-      "GetMatchView\020\t\022\024\n\020GetSelectionData\020\n\022\024\n\020" +
-      "GetCanGuessMatch\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017",
-      "CancelTeamReady\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014Invi" +
-      "teMember\020\017\022\016\n\nKickMember\020\020\022\016\n\nCreateTeam" +
-      "\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n\rStartMatchin" +
-      "g\020\023*<\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Bec" +
-      "omeLeader\020\002\022\014\n\010CanMatch\020\003*@\n\014GCResultTyp" +
-      "e\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_N" +
-      "OT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompeti" +
-      "tionProto"
+      "e\022/\n\007rstType\030\002 \002(\0162\036.groupCompetition.GC" +
+      "ResultType\022\016\n\006tipMsg\030\003 \001(\t\0229\n\rselectionD" +
+      "ata\030\004 \001(\0132\".groupCompetition.SelectionRs" +
+      "pData\"$\n\014AreaPosition\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 " +
+      "\002(\002\"c\n\023LiveAndPlaybackInfo\022\014\n\004test\030\001 \002(\t" +
+      "\022\023\n\013continueWin\030\002 \002(\005\022\025\n\rpersonalScore\030\003" +
+      " \002(\005\022\022\n\ngroupScore\030\004 \002(\005\"I\n\025ReqLiveAndPl",
+      "aybackMsg\0220\n\007reqType\030\001 \002(\0162\037.groupCompet" +
+      "ition.GCRequestType\"}\n\025RspLiveAndPlaybac" +
+      "kMsg\022/\n\007rstType\030\001 \002(\0162\036.groupCompetition" +
+      ".GCResultType\0223\n\004msgs\030\002 \003(\0132%.groupCompe" +
+      "tition.LiveAndPlaybackInfo\"\222\001\n\016MatchGues" +
+      "sInfo\022\017\n\007session\030\001 \002(\005\022\014\n\004topN\030\002 \002(\005\022\020\n\010" +
+      "groupNum\030\003 \002(\005\022+\n\006groups\030\004 \003(\0132\033.groupCo" +
+      "mpetition.GroupInfo\022\020\n\010guessNum\030\005 \002(\005\022\020\n" +
+      "\010hasGuess\030\006 \002(\010\"S\n\tGroupInfo\022\017\n\007groupId\030" +
+      "\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\021\n\tgroupName\030\003 ",
+      "\002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n\017ReqAllGuessInfo\022" +
+      "0\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCRe" +
+      "questType\"w\n\017RspAllGuessInfo\022/\n\007rstType\030" +
+      "\001 \002(\0162\036.groupCompetition.GCResultType\0223\n" +
+      "\tguessInfo\030\002 \003(\0132 .groupCompetition.Matc" +
+      "hGuessInfo\"o\n\013ReqNewGuess\0220\n\007reqType\030\001 \002" +
+      "(\0162\037.groupCompetition.GCRequestType\022\017\n\007m" +
+      "atchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004coin\030\004 " +
+      "\002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002(\0162\036.gr" +
+      "oupCompetition.GCResultType\022\016\n\006tipMsg\030\002 ",
+      "\001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030\001 \002(\t\022\020" +
+      "\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007image" +
+      "Id\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n" +
+      "\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010 \002(\005\022" +
+      "\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030\n \001(\0132\033" +
+      ".FashionService.FashionUsed\"\240\001\n\020Selectio" +
+      "nRspData\0226\n\010rankings\030\001 \003(\0132$.groupCompet" +
+      "ition.SelectionGroupData\022:\n\014ownGroupData" +
+      "\030\002 \001(\0132$.groupCompetition.SelectionGroup" +
+      "Data\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n\022Select",
+      "ionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004name\030\002 " +
+      "\002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 \002(\007\"O\n\013" +
+      "TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.groupComp" +
+      "etition.GCRequestType\022\016\n\006heroId\030\002 \003(\t\"-\n" +
+      "\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\t\022\016\n\006heroId\030\002" +
+      " \003(\t\"[\n\021TeamMemberRequest\0220\n\007reqType\030\001 \002" +
+      "(\0162\037.groupCompetition.GCRequestType\022\024\n\014t" +
+      "argetUserId\030\002 \002(\t\"E\n\021TeamStatusRequest\0220" +
+      "\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCReq" +
+      "uestType\".\n\016TeamInvitation\022\016\n\006teamId\030\001 \002",
+      "(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\nresultT" +
+      "ype\030\001 \002(\0162\036.groupCompetition.GCResultTyp" +
+      "e\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChange\0220\n\006s" +
+      "tatus\030\001 \002(\0162 .groupCompetition.TeamStatu" +
+      "sType*\212\003\n\rGCRequestType\022\024\n\020EnterPrepareA" +
+      "rea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPre" +
+      "parePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackM" +
+      "sg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetP" +
+      "layersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020Ge" +
+      "tSelectionData\020\n\022\024\n\020GetCanGuessMatch\020\013\022\020",
+      "\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n" +
+      "\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMe" +
+      "mber\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMemb" +
+      "er\020\022\022\021\n\rStartMatching\020\023\022\021\n\rLeaveLivePage" +
+      "\020\024*<\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Beco" +
+      "meLeader\020\002\022\014\n\010CanMatch\020\003*@\n\014GCResultType" +
+      "\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NO" +
+      "T_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompetit" +
+      "ionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -21038,7 +21169,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonGetDataReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "MatchId", });
+              new java.lang.String[] { "ReqType", "MatchId", "LatestTime", });
           internal_static_groupCompetition_CommonGetDataRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable = new

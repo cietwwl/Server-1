@@ -11,6 +11,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
@@ -325,5 +326,17 @@ public class GroupCompetitionHandler {
 			return ByteString.EMPTY;
 		}
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getMatchId(), request.getLatestTime());
+		return builder.build().toByteString();
+	}
+
+	public ByteString leaveLivePage(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCompFightingRecordMgr.getInstance().leaveLivePage(player, builder, request.getMatchId());
+		return builder.build().toByteString();
 	}
 }
