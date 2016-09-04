@@ -8,6 +8,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class GCompFightingRecord {
 
 	private long time;
+	private int matchId;
 	private List<GCompPersonFightingRecord> personalFightingRecords;
 	
 	public long getTime() {
@@ -18,6 +19,14 @@ public class GCompFightingRecord {
 		this.time = time;
 	}
 	
+	public int getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
+	}
+
 	public List<GCompPersonFightingRecord> getPersonalFightingRecords() {
 		return personalFightingRecords;
 	}
@@ -25,5 +34,4 @@ public class GCompFightingRecord {
 	public void setPersonalFightingRecords(List<GCompPersonFightingRecord> personalFightingRecords) {
 		this.personalFightingRecords = personalFightingRecords;
 	}
-
 }
