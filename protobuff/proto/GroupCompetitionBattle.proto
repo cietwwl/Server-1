@@ -10,6 +10,7 @@ enum GCBattleReqType{
 	UPLOAD_HP_INFO = 2;//上传生命信息
 	BATTLE_END = 3;//请求结束战斗
 	PUSH_HP_INFO = 4;//血量信息推送消息
+	MATCH_GROUP_SOCRE = 5;//请求获取匹配双方的帮派积分
 }
 
 //战斗结果
@@ -20,10 +21,21 @@ enum GCBattleResult{
 	DRAW = 3;//平
 }
 
+//对垒的帮派信息
+message GCMatchGroupInfo{
+	required string myGroupName = 1;//自己的帮派名字
+	required string enemyGroupName = 2;//敌人的帮派名字
+	required string myGroupIcon = 3;//自己的帮派图标
+	required string enemyGroupIcon = 4;//敌人的帮派图标
+	required int32 myGroupScore = 5;//自己的帮派积分
+	required int32 enemyGroupScore = 6;//敌人的帮派积分
+}
+
 //请求战斗开始的响应消息
 message GCBattleStartRspMsg{
 	required string mineArmyInfo = 1;//自己的ArmyInfo
 	required string enemyArmyInfo = 2;//敌人的ArmyInfo
+	required GCMatchGroupInfo matchGroupInfo = 3;//对垒的帮派的信息
 }
 
 //上传血量信息的请求消息
@@ -44,6 +56,12 @@ message GCPushHpInfoRspMsg{
 	required float enemyHpPercent = 3;//敌人的血量变化
 }
 
+//获取对垒双方的帮派积分变化的响应信息
+message GCMatchGroupScoreRspMsg{
+	required int32 myGroupScore = 1;//自己帮派的积分
+	required int32 enemyGroupScore = 2;//敌人帮派的积分
+}
+
 //通用请求消息
 message GCBattleCommonReqMsg{
 	required GCBattleReqType reqType = 1;//请求的类型
@@ -58,4 +76,5 @@ message GCBattleCommonRspMsg{
 	optional string tipMsg = 3;//提示消息
 	optional GCBattleStartRspMsg battleStartRsp = 4;//战斗开始的响应消息
 	optional GCPushHpInfoRspMsg pushHpInfoRsp = 5;//推送的血量变化信息
+	optional GCMatchGroupScoreRspMsg matchGroupScoreRsp = 6;//获取对垒双方的帮派积分变化信息
 }

@@ -1015,6 +1015,14 @@ public final class DataSynProtos {
      * </pre>
      */
     GCompCanGuessItem(103, 111),
+    /**
+     * <code>GCompMatchEnemy = 112;</code>
+     *
+     * <pre>
+     *匹配敌人数据
+     * </pre>
+     */
+    GCompMatchEnemy(104, 112),
     ;
 
     /**
@@ -1849,6 +1857,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int GCompCanGuessItem_VALUE = 111;
+    /**
+     * <code>GCompMatchEnemy = 112;</code>
+     *
+     * <pre>
+     *匹配敌人数据
+     * </pre>
+     */
+    public static final int GCompMatchEnemy_VALUE = 112;
 
 
     public final int getNumber() { return value; }
@@ -1959,6 +1975,7 @@ public final class DataSynProtos {
         case 109: return GCompSelfGuess;
         case 110: return GCompSelfGuessDetail;
         case 111: return GCompCanGuessItem;
+        case 112: return GCompMatchEnemy;
         default: return null;
       }
     }
@@ -8047,7 +8064,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\343\021\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\370\021\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8104,9 +8121,9 @@ public final class DataSynProtos {
       "ineMember\020i\022\023\n\017GCompTeamHolder\020j\022\025\n\021BENE" +
       "FIT_SELL_DATA\020k\022\024\n\020ACHIEVEMENT_DATA\020l\022\022\n" +
       "\016GCompSelfGuess\020m\022\030\n\024GCompSelfGuessDetai" +
-      "l\020n\022\025\n\021GCompCanGuessItem\020o*\034\n\013RequestTyp" +
-      "e\022\r\n\tSynByType\020\001B\034\n\013com.rwprotoB\rDataSyn" +
-      "Protos"
+      "l\020n\022\025\n\021GCompCanGuessItem\020o\022\023\n\017GCompMatch" +
+      "Enemy\020p*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n" +
+      "\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

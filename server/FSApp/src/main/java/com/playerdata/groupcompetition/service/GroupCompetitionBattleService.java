@@ -25,6 +25,8 @@ public class GroupCompetitionBattleService implements FsService<GCBattleCommonRe
 			return handler.battleStartHandler(player);
 		case UPLOAD_HP_INFO:
 			return handler.uploadHpInfoHandler(player, request.getUploadHpInfoReq());
+		case MATCH_GROUP_SOCRE:
+			return handler.getMatchGroupScoreHandler(player);
 		case BATTLE_END:
 			return handler.battleEndHandler(player, request.getBattleEndReq());
 		default:

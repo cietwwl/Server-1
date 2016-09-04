@@ -2,6 +2,8 @@ package com.playerdata.groupcompetition.holder.data;
 
 import java.util.UUID;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchState;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchType;
 
@@ -11,6 +13,7 @@ import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchType;
  * @desc
  **/
 
+@SynClass
 public class GCompMatchData {
 
 	/**
@@ -44,6 +47,7 @@ public class GCompMatchData {
 	}
 
 	/** 使用UUID */
+	@IgnoreSynField
 	private String matchId;// 匹配的Id
 	private GCompTeam myTeam;// 己方的队伍信息
 	private GCompTeam enemyTeam;// 敌人的队伍信息
@@ -56,6 +60,7 @@ public class GCompMatchData {
 	 * {@link GCompMatchType}
 	 * </pre>
 	 */
+	@IgnoreSynField
 	private int matchType;// 匹配的类型<1：队伍匹配 2：个人匹配>
 
 	/**
@@ -70,7 +75,8 @@ public class GCompMatchData {
 	 * <font color="ff0000">默认是未匹配状态</font>
 	 * </pre>
 	 */
-	private int matchState = GCompMatchState.NON_MATCH.state;
+	@IgnoreSynField
+	private int matchState = GCompMatchState.START_BATTLE.state;
 
 	GCompMatchData() {
 	}

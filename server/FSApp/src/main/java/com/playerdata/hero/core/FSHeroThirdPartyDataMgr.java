@@ -105,6 +105,7 @@ public class FSHeroThirdPartyDataMgr {
 	void fireStarLevelChangeEvent(Player player, Hero hero, int preStar) {
 		if (preStar != hero.getStarLevel()) {
 			FettersBM.whenHeroChange(player, hero.getModeId());
+			hero.getAttrMgr().reCal();
 		}
 		marqueeMsg(player, hero, marqueeStar, hero.getStarLevel());
 		player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);

@@ -5,10 +5,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMatchData;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 /**
  * @Author HC
@@ -38,22 +42,17 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addTeamMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData data = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
-		String matchId = data.getMatchId();
+		String myMatchId = myMatchData.getMatchId();
+		String enemyMatchId = enemyMatchData.getMatchId();
 
-		matchDataMap.put(matchId, data);
+		matchDataMap.put(myMatchId, myMatchData);
+		matchDataMap.put(enemyMatchId, enemyMatchData);
 
-		List<GCompTeamMember> members = myTeam.getMembers();
-		for (int i = 0, size = members.size(); i < size; i++) {
-			GCompTeamMember member = members.get(i);
-			if (member == null) {
-				continue;
-			}
-
-			String userId = member.getUserId();
-			userId2MatchId.put(userId, matchId);
-		}
+		recordUserId2MatchInfo(myMatchData);
+		recordUserId2MatchInfo(enemyMatchData);
 	}
 
 	/**
@@ -63,13 +62,30 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addPersonalMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData data = GCompMatchData.createPersonalMatchData(myTeam, enemyTeam);
+		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
+		String myMatchId = myMatchData.getMatchId();
+		String enemyMatchId = enemyMatchData.getMatchId();
+
+		matchDataMap.put(myMatchId, myMatchData);
+		matchDataMap.put(enemyMatchId, enemyMatchData);
+
+		recordUserId2MatchInfo(myMatchData);
+		recordUserId2MatchInfo(enemyMatchData);
+	}
+
+	/**
+	 * 记录并同步数据
+	 * 
+	 * @param team
+	 * @param data
+	 */
+	private void recordUserId2MatchInfo(GCompMatchData data) {
 		String matchId = data.getMatchId();
 
-		matchDataMap.put(matchId, data);
+		List<GCompTeamMember> members = data.getMyTeam().getMembers();
 
-		List<GCompTeamMember> members = myTeam.getMembers();
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
 			if (member == null) {
@@ -78,6 +94,8 @@ public class GCompMatchDataHolder {
 
 			String userId = member.getUserId();
 			userId2MatchId.put(userId, matchId);
+
+			synData(userId, data);
 		}
 	}
 
@@ -142,5 +160,15 @@ public class GCompMatchDataHolder {
 		}
 
 		return matchDataMap.get(matchId);
+	}
+
+	/**
+	 * 同步匹配的数据
+	 * 
+	 * @param userId
+	 * @param data
+	 */
+	private void synData(String userId, GCompMatchData data) {
+		ClientDataSynMgr.synData(PlayerMgr.getInstance().find(userId), data, eSynType.GCompMatch, eSynOpType.UPDATE_SINGLE);
 	}
 }
