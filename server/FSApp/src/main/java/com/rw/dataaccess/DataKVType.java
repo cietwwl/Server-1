@@ -2,7 +2,6 @@ package com.rw.dataaccess;
 
 import com.common.HPCUtil;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
-import com.playerdata.groupcompetition.dao.GCompFightingRecordDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.playerdata.teambattle.data.UserTeamBattleDAO;
 import com.rw.dataaccess.processor.BattleTowerCreator;
@@ -11,7 +10,6 @@ import com.rw.dataaccess.processor.DailyActivityCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FSUserFightingGrowthDataCreator;
 import com.rw.dataaccess.processor.FriendCreator;
-import com.rw.dataaccess.processor.GCompFightRecordCreator;
 import com.rw.dataaccess.processor.GuideProgressCreator;
 import com.rw.dataaccess.processor.MagicSecretCreator;
 import com.rw.dataaccess.processor.PlotProgressCreator;
@@ -90,7 +88,6 @@ public enum DataKVType {
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
-	GCOMP_FIGHT_RECORD(30, GCompFightingRecordDAO.class, GCompFightRecordCreator.class),
 	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {

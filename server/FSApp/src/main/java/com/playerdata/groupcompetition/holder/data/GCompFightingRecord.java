@@ -6,11 +6,19 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 public class GCompFightingRecord {
-
+	private String id;
 	private long time;
 	private int matchId;
 	private List<GCompPersonFightingRecord> personalFightingRecords;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public long getTime() {
 		return time;
 	}
