@@ -68,7 +68,7 @@ public class GCompEventsDataMgr {
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
 			against = againsts.get(i);
-			if (against.getGroupA().getGroupId().equals(groupId) || against.getGroupB().equals(groupId)) {
+			if (against.getGroupA().getGroupId().equals(groupId) || against.getGroupB().getGroupId().equals(groupId)) {
 				return against.getId();
 			}
 		}

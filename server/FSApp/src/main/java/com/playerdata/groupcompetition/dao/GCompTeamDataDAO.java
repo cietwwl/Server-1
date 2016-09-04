@@ -61,6 +61,6 @@ public class GCompTeamDataDAO {
 	
 	public void removeTeamData(int matchId, String groupId, GCompTeam team) {
 		GCompGroupTeamMgr groupTeamMgr = _matchTeamData.getGroupTeamData(matchId);
-		groupTeamMgr.removeTeam(team.getTeamId(), groupId);
+		groupTeamMgr.removeTeam(groupId, team.getTeamId());
 	}
 }

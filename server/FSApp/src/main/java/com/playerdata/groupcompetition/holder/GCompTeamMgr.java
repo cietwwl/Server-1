@@ -14,8 +14,11 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
+import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
+import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -49,49 +52,45 @@ public class GCompTeamMgr {
 	}
 	
 	private Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoList(Player player, List<String> heroIds, boolean includeMain, boolean includeMagic) {
-		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> result = Pair.Create(null, null);
-		List<Hero> heros = FSHeroMgr.getInstance().getHeros(player, heroIds);
-		if (heros.size() == heroIds.size()) {
-			GCompTeamArmyInfo gcompTeamArmyInfo = new GCompTeamArmyInfo();
-			gcompTeamArmyInfo.heroArmyInfos = new ArrayList<ArmyHeroSimple>(heros.size() - 1);
-			for (Hero h : heros) {
-				if (h.getId().equals(player.getUserId())) {
-					if (includeMain) {
-						gcompTeamArmyInfo.playerArmyInfo = ArmyHeroSimple.newInstance(h);
+		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> result = Pair.Create(null, CreateTeamMemberResultStatus.SUCCESS);
+		GCompTeamArmyInfo gcompTeamArmyInfo = new GCompTeamArmyInfo();
+		if (heroIds.size() > 0) {
+			List<Hero> heros = FSHeroMgr.getInstance().getHeros(player, heroIds);
+			if (heros.size() == heroIds.size()) {
+				gcompTeamArmyInfo.heroArmyInfos = new ArrayList<ArmyHeroSimple>(heros.size() - 1);
+				for (Hero h : heros) {
+					if (h.getId().equals(player.getUserId())) {
+						if (includeMain) {
+							gcompTeamArmyInfo.playerArmyInfo = ArmyHeroSimple.newInstance(h);
+						}
+					} else {
+						gcompTeamArmyInfo.heroArmyInfos.add(ArmyHeroSimple.newInstance(h));
 					}
-				} else {
-					gcompTeamArmyInfo.heroArmyInfos.add(ArmyHeroSimple.newInstance(h));
+					gcompTeamArmyInfo.fighting += h.getFighting();
 				}
-				gcompTeamArmyInfo.fighting += h.getFighting();
+				result.setT2(CreateTeamMemberResultStatus.SUCCESS);
+				result.setT1(gcompTeamArmyInfo);
+			} else {
+				result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
+				GCompUtil.log("请求创建TeamMember，有部分英雄不存在！英雄id列表：{}, playerId：{}", heroIds, player.getUserId());
 			}
-			result.setT2(CreateTeamMemberResultStatus.SUCCESS);
-			result.setT1(gcompTeamArmyInfo);
-		} else {
-			result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
-			GCompUtil.log("请求创建TeamMember，有部分英雄不存在！英雄id列表：{}, playerId：{}", heroIds, player.getUserId());
+		}
+		if (includeMagic && result.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
+			gcompTeamArmyInfo.armyMagic = new ArmyMagic(player.getMagic());
 		}
 		return result;
 	}
 	
-	private Pair<CreateTeamMemberResultStatus, GCompTeamMember> createTeamMember(Player player, List<String> heroIds, boolean isLeader) {
-		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = Pair.Create(CreateTeamMemberResultStatus.SUCCESS, null);
-		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoResult = this.createArmyInfoList(player, heroIds, true, true);
-		if (createArmyInfoResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
-			GCompTeamArmyInfo teamArmyInfo = createArmyInfoResult.getT1();
-			ArmyInfoSimple armyInfo = new ArmyInfoSimple();
-			armyInfo.setPlayerName(player.getUserName());
-			armyInfo.setHeroList(teamArmyInfo.heroArmyInfos);
-			armyInfo.setPlayer(teamArmyInfo.playerArmyInfo);
-			armyInfo.setPlayerHeadImage(player.getHeadImage());
-			armyInfo.setTeamFighting(teamArmyInfo.fighting);
-			armyInfo.setArmyMagic(teamArmyInfo.armyMagic);
-			armyInfo.setGroupName(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
-			GCompTeamMember member = new GCompTeamMember(isLeader, armyInfo);
-			createResult.setT2(member);
+	private boolean checkIfCanMakeTeam(Pair<Boolean, String> result) {
+		// 检查是否处于队伍战状态
+		GCompEventsStatus eventsStatus = GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
+		if(eventsStatus == GCompEventsStatus.TEAM_EVENTS || eventsStatus == GCompEventsStatus.PREPARE) {
+			// 组队阶段和准备阶段都可以组队
+			return true;
 		} else {
-			createResult.setT1(createArmyInfoResult.getT2());
+			result.setT2(GCompTips.getTipsNotTeamEventsNow());
+			return false;
 		}
-		return createResult;
 	}
 	
 	// 对将要创建成为GCompTeamMember的英雄列表进行检查，包括英雄列表是否为空，是否包含主角
@@ -133,8 +132,22 @@ public class GCompTeamMgr {
 		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ, invitationBuilder.build().toByteString());
 	}
 	
-	private void sendKickNotice(Player targetPlayer, TeamStatusType type) {
+	private void sendTeamStatus(Player targetPlayer, TeamStatusType type) {
 		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, TeamStatusChange.newBuilder().setStatus(type).build().toByteString());
+	}
+	
+	private GCompTeam createTeamInternal(Player player, List<String> heroIds, int matchId, String groupId, boolean isPersonal, Pair<Boolean, String> result) {
+		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = this.createTeamMember(player, heroIds, true);
+		if (createResult.getT1() == CreateTeamMemberResultStatus.SUCCESS) {
+			GCompTeam newTeam = GCompTeam.createNewTeam(String.valueOf(_idGenerator.incrementAndGet()), isPersonal ? GCompTeamType.SINGLE_PLAYER : GCompTeamType.MULTIPLE_PLAYERS, createResult.getT2());
+			this._dataHolder.addTeam(player, GroupCompetitionMgr.getInstance().getCurrentEventsType(), matchId, groupId, newTeam);
+			result.setT1(true);
+			result.setT2(GCompTips.getTipsCreateTeamSuccess());
+			return newTeam;
+		} else {
+			result.setT2(createResult.getT1().getTips());
+			return null;
+		}
 	}
 	
 	public void onEventsStart(GCEventsType eventsType, List<? extends IGCAgainst> againsts) {
@@ -146,6 +159,27 @@ public class GCompTeamMgr {
 		this._dataHolder.syn(matchId, player);
 	}
 	
+	public Pair<CreateTeamMemberResultStatus, GCompTeamMember> createTeamMember(Player player, List<String> heroIds, boolean isLeader) {
+		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = Pair.Create(CreateTeamMemberResultStatus.SUCCESS, null);
+		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoResult = this.createArmyInfoList(player, heroIds, true, true);
+		if (createArmyInfoResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
+			GCompTeamArmyInfo teamArmyInfo = createArmyInfoResult.getT1();
+			ArmyInfoSimple armyInfo = new ArmyInfoSimple();
+			armyInfo.setPlayerName(player.getUserName());
+			armyInfo.setHeroList(teamArmyInfo.heroArmyInfos);
+			armyInfo.setPlayer(teamArmyInfo.playerArmyInfo);
+			armyInfo.setPlayerHeadImage(player.getHeadImage());
+			armyInfo.setTeamFighting(teamArmyInfo.fighting);
+			armyInfo.setArmyMagic(teamArmyInfo.armyMagic);
+			armyInfo.setGroupName(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
+			GCompTeamMember member = new GCompTeamMember(isLeader, armyInfo);
+			createResult.setT2(member);
+		} else {
+			createResult.setT1(createArmyInfoResult.getT2());
+		}
+		return createResult;
+	}
+	
 	/**
 	 * 
 	 * 创建队伍
@@ -155,6 +189,10 @@ public class GCompTeamMgr {
 	 */
 	public IReadOnlyPair<Boolean, String> createTeam(Player player, List<String> heroIds) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
 		
 		if(!this.checkTeamHeroIds(player, heroIds, result)) {
 			return result;
@@ -173,17 +211,36 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = this.createTeamMember(player, heroIds, true);
-		if (createResult.getT1() == CreateTeamMemberResultStatus.SUCCESS) {
-			GCompTeam newTeam = GCompTeam.createNewTeam(String.valueOf(_idGenerator.incrementAndGet()), createResult.getT2());
-			this._dataHolder.addTeam(player, GroupCompetitionMgr.getInstance().getCurrentEventsType(), matchId, groupId, newTeam);
-			result.setT1(true);
-			result.setT2(GCompTips.getTipsCreateTeamSuccess());
-		} else {
-			result.setT2(createResult.getT1().getTips());
-		}
+		this.createTeamInternal(player, heroIds, matchId, groupId, false, result);
 		
 		return result;
+	}
+	
+	public GCompTeam getTeam(int matchId, String groupId, String teamId) {
+		return _dataHolder.getTeamByTeamId(matchId, teamId);
+	}
+	
+	private void updateHerosInternal(Player player, GCompTeamMember teamMember, List<String> heroIds, Pair<Boolean, String> result) {
+		ArmyInfoSimple ais = teamMember.getArmyInfo();
+		List<String> heroIdList = ais.getHeroIdList();
+		heroIdList.add(player.getUserId());
+		boolean updateMagic = player.getMagic().getModelId() != teamMember.getArmyInfo().getArmyMagic().getModelId();
+		boolean needUpdate = updateMagic;
+		if(heroIdList.size() != heroIds.size() || (heroIdList.size() == heroIds.size() && !heroIdList.containsAll(heroIds))) {
+			needUpdate = true;
+		}
+		if (needUpdate) {
+			Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createResult = createArmyInfoList(player, heroIds, false, updateMagic);
+			if (createResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
+				teamMember.getArmyInfo().setHeroList(createResult.getT1().heroArmyInfos);
+				result.setT1(true);
+			} else {
+				result.setT1(false);
+				result.setT2(createResult.getT2().getTips());
+			}
+		} else {
+			result.setT1(true);
+		}
 	}
 	
 	/**
@@ -194,6 +251,7 @@ public class GCompTeamMgr {
 	 * @param newHeroIds
 	 */
 	public IReadOnlyPair<Boolean, String> updateHeros(Player player, List<String> newHeroIds) {
+		GCompUtil.log("更新英雄，playerId：{}，英雄列表：{}", player.getUserId(), newHeroIds);
 		Pair<Boolean, String> result = Pair.Create(false, null);
 
 		if (!checkTeamHeroIds(player, newHeroIds, result)) {
@@ -207,14 +265,7 @@ public class GCompTeamMgr {
 		
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchAndGroupInfo.getT2(), player.getUserId(), matchAndGroupInfo.getT1());
 		GCompTeamMember teamMember = team.getTeamMember(player.getUserId());
-		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createResult = createArmyInfoList(player, newHeroIds, false, false);
-		if (createResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
-			teamMember.getTeamInfo().setHeroList(createResult.getT1().heroArmyInfos);
-			result.setT1(true);
-		} else {
-			result.setT1(false);
-			result.setT2(createResult.getT2().getTips());
-		}
+		this.updateHerosInternal(player, teamMember, newHeroIds, result);
 		
 		
 		_dataHolder.synToAllMembers(team);
@@ -231,6 +282,10 @@ public class GCompTeamMgr {
 	 */
 	public IReadOnlyPair<Boolean, String> joinTeam(Player player, String teamId, List<String> heroIds) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
 
 		if (!checkTeamHeroIds(player, heroIds, result)) {
 			return result;
@@ -259,6 +314,7 @@ public class GCompTeamMgr {
 			synchronized (team) {
 				if (team.getMembers().size() < GCompCommonConfig.getMaxMemberCountOfTeam()) {
 					team.addTeamMember(createMemberResult.getT2());
+					_dataHolder.synToAllMembers(team);
 					result.setT1(true);
 				} else {
 					result.setT2(GCompTips.getTipsTeamMemberIsMax());
@@ -273,18 +329,31 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> inviteMember(Player leader, Player target) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
+		if(leader == target) {
+			result.setT2(GCompTips.getTipsCannotInviteYourselft());
+			return result;
+		}
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			// 检查是否可以组队
+			return result;
+		}
+		
 		if (target == null) {
+			// 对方不存在
 			result.setT2(GCompTips.getTipsTargetNotExists());
 			return result;
 		}
 		
-		if(GCOnlineMemberMgr.getInstance().isMemberOnline(target)) {
+		if(!GCOnlineMemberMgr.getInstance().isMemberOnline(target)) {
+			// 对方不在线
 			result.setT2(GCompTips.getTipsTargetNotOnline());
 			return result;
 		}
 		
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(leader, result);
 		if (matchAndGroupInfo == null) {
+			// 没有帮派，或者帮派没有入围
 			return result;
 		}
 		
@@ -297,12 +366,13 @@ public class GCompTeamMgr {
 		
 		int matchId = matchAndGroupInfo.getT2();
 		if (_dataHolder.getTeamOfUser(matchId, target.getUserId(), targetGroupId) != null) {
+			// 对方已经有队伍
 			result.setT2(GCompTips.getTipsTargetIsInTeam());
 			return result;
 		}
 		
 		GCompTeam myTeam = _dataHolder.getTeamOfUser(matchId, leader.getUserId(), targetGroupId);
-		if(myTeam.getTeamMember(leader.getUserId()).isLeader()) {
+		if(!myTeam.getTeamMember(leader.getUserId()).isLeader()) {
 			result.setT2(GCompTips.getTipsYouAreNotLeader());
 		} else if (myTeam.getMembers().size() < GCompCommonConfig.getMaxMemberCountOfTeam()) {
 			result.setT1(true);
@@ -337,11 +407,19 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
+		// 不能踢除自己
+		if(player.getUserId().equals(targetUserId)) {
+			result.setT2(GCompTips.getTipsCannotKickYourself());
+			return result;
+		}
+		
 		teamMember = team.getTeamMember(targetUserId);
 		if(teamMember != null) {
 			result.setT1(true);
 			team.removeTeamMember(teamMember);
-			sendKickNotice(PlayerMgr.getInstance().find(targetUserId), TeamStatusType.Kicked);
+			Player targetPlayer = PlayerMgr.getInstance().find(targetUserId);
+			sendTeamStatus(targetPlayer, TeamStatusType.Kicked);
+			_dataHolder.synRemove(targetPlayer, team);
 			List<GCompTeamMember> members = team.getMembers();
 			if(members.size() == 1) {
 				_dataHolder.update(player, team);
@@ -388,6 +466,7 @@ public class GCompTeamMgr {
 		GCompTeamMember member = team.getTeamMember(player.getUserId());
 		team.removeTeamMember(member);
 		List<GCompTeamMember> members = team.getMembers();
+		_dataHolder.synRemove(player, team);
 		if (members.isEmpty()) {
 			// 解散队伍
 			_dataHolder.removeTeam(matchId, matchAndGroupInfo.getT1(), team);
@@ -395,24 +474,13 @@ public class GCompTeamMgr {
 			// 转移队长
 			GCompTeamMember newLeader = members.get(0);
 			newLeader.setLeader(true);
-			sendKickNotice(PlayerMgr.getInstance().find(newLeader.getUserId()), TeamStatusType.BecomeLeader);
+			team.setLeaderId(newLeader.getUserId());
+			sendTeamStatus(PlayerMgr.getInstance().find(newLeader.getUserId()), TeamStatusType.BecomeLeader);
 			_dataHolder.synToAllMembers(team);
 		}
+		result.setT1(true);
 		
 		return result;
-	}
-	
-	private void cancelRandy(Player player, GCompTeam team, Pair<Boolean, String> result) {
-		
-		if(team.isMatching()) {
-			result.setT2(GCompTips.getTipsTeamIsMatchingCannotCancelReady());
-			return;
-		}
-		
-		GCompTeamMember member = team.getTeamMember(player.getUserId());
-		member.setReady(false);
-		
-		_dataHolder.synToAllMembers(team);
 	}
 	
 	private void checkIfAllReady(GCompTeam team) {
@@ -437,8 +505,25 @@ public class GCompTeamMgr {
 		checkIfAllReady(team);
 	}
 	
+	private void cancelReady(Player player, GCompTeam team, Pair<Boolean, String> result) {
+		
+		if(team.isMatching()) {
+			result.setT2(GCompTips.getTipsTeamIsMatchingCannotCancelReady());
+			return;
+		}
+		
+		GCompTeamMember member = team.getTeamMember(player.getUserId());
+		member.setReady(false);
+		
+		_dataHolder.synToAllMembers(team);
+	}
+	
 	public IReadOnlyPair<Boolean, String> switchMemberStatus(Player player, boolean setReady) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
 		
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
@@ -456,14 +541,18 @@ public class GCompTeamMgr {
 		if(setReady) {
 			setReady(player, team, result);
 		} else {
-			cancelRandy(player, team, result);
+			cancelReady(player, team, result);
 		}
 		
 		return result;
 	}
 	
-	public IReadOnlyPair<Boolean, String> startMatching(Player player) {
+	public IReadOnlyPair<Boolean, String> startTeamMatching(Player player) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
@@ -478,11 +567,174 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
+		// 检查队伍是否满员
+		if(team.getMembers().size() < GCompCommonConfig.getMaxMemberCountOfTeam()) {
+			result.setT2(GCompTips.getTipsTeamMemberCountIsNotMax());
+			return result;
+		}
+		
+		// 队伍正在匹配中
+		if(team.isMatching()) {
+			result.setT2(GCompTips.getTipsTeamIsMatching());
+			return result;
+		}
+		
+		// 队伍正在战斗中
+		if(team.isInBattle()) {
+			result.setT2(GCompTips.getTipsTeamIsInBattle());
+			return result;
+		}
+		
+		team.setMatching(true);
+		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
+		result.setT1(true);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * 取消匹配（个人和组队通用）
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public IReadOnlyPair<Boolean, String> cancelTeamMatching(Player player) {
+		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
+
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		if (matchAndGroupInfo == null) {
+			return result;
+		}
+
+		// 检查是否有队伍
+		int matchId = matchAndGroupInfo.getT2();
+		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
+		if (team == null) {
+			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+			return result;
+		}
+		
+		// 队伍没有在匹配中
+		if(!team.isMatching()) {
+			result.setT2(GCompTips.getTipsTeamIsNotMatching());
+			return result;
+		}
+		
+		// 队伍正在战斗中
+		if(team.isInBattle()) {
+			result.setT2(GCompTips.getTipsTeamIsInBattle());
+			return result;
+		}
+		
+		team.setMatching(false);
+		GroupCompetitionMatchingCenter.getInstance().cancelMatching(matchId, matchAndGroupInfo.getT1(), team);
+		result.setT1(true);
+		return result;
+	}
+	
+	public IReadOnlyPair<Boolean, String> randomMatching(Player player, List<String> heroIds) {
+		Pair<Boolean, String> result = Pair.Create(false, null);
+
+		if (!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
+
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		if (matchAndGroupInfo == null) {
+			return result;
+		}
+
+		// 检查是否有队伍
+		int matchId = matchAndGroupInfo.getT2();
+		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
+		if (team != null) {
+			result.setT2(GCompTips.getTipsYouAreInTeam());
+			return result;
+		}
+		
+		if(GroupCompetitionMatchingCenter.getInstance().isInRandomMatching(matchId, matchAndGroupInfo.getT1(), player.getUserId())) {
+			result.setT2(GCompTips.getTipsYouAreInRandomMatching());
+			return result;
+		}
+		
+		GroupCompetitionMatchingCenter.getInstance().addToRandomMatching(matchId, matchAndGroupInfo.getT1(), player, heroIds);
+		result.setT1(true);
+		return result;
+	}
+	
+	public IReadOnlyPair<Boolean, String> cancelRandomMatching(Player player) {
+		Pair<Boolean, String> result = Pair.Create(false, null);
+
+		if (!this.checkIfCanMakeTeam(result)) {
+			return result;
+		}
+
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		if (matchAndGroupInfo == null) {
+			return result;
+		}
+		
+		int matchId = matchAndGroupInfo.getT2();
+		if(!GroupCompetitionMatchingCenter.getInstance().isInRandomMatching(matchId, matchAndGroupInfo.getT1(), player.getUserId())) {
+			result.setT2(GCompTips.getTipsYouAreNotInRandomMatching());
+			return result;
+		}
+		
+		GroupCompetitionMatchingCenter.getInstance().cancelRandomMatching(matchId, matchAndGroupInfo.getT1(), player);
+		result.setT1(true);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * 个人匹配
+	 * 
+	 * @param player
+	 * @param heroIds
+	 * @return
+	 */
+	public IReadOnlyPair<Boolean, String> personalMatching(Player player, List<String> heroIds) {
+		Pair<Boolean, String> result = Pair.Create(false, null);
+
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		if (matchAndGroupInfo == null) {
+			return result;
+		}
+
+		// 检查是否有队伍
+		int matchId = matchAndGroupInfo.getT2();
+		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
+		if (team == null) {
+			// 创建队伍
+			team = this.createTeamInternal(player, heroIds, matchId, matchAndGroupInfo.getT1(), false, result);
+			if(!result.getT1()) {
+				return result;
+			}
+		} else if (team.isMatching()) {
+			result.setT2(GCompTips.getTipsTeamIsMatching());
+			return result;
+		} else if (team.isInBattle()) {
+			result.setT2(GCompTips.getTipsTeamIsInBattle());
+			return result;
+		} else {
+			this.updateHerosInternal(player, team.getMembers().get(0), heroIds, result);
+			if(!result.getT1()) {
+				return result;
+			}
+		}
+		
+		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
+		result.setT1(true);
+		
 		return result;
 	}
 	
 	
-	private static enum CreateTeamMemberResultStatus {
+	public static enum CreateTeamMemberResultStatus {
 		
 		SUCCESS,
 		HERO_NOT_MATCH {

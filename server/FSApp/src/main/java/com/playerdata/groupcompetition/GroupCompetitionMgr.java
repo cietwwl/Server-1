@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -91,17 +92,22 @@ public class GroupCompetitionMgr {
 	private void checkStartGroupCompetition() {
 		GroupCompetitionGlobalData data = _dataHolder.get();
 		if(data.getHeldTimes() > 0) {
-			// 有举办过赛事
-			switch (data.getCurrentStageType()) {
-			case SELECTION:
-				this.continueOldStageController(data);
-				break;
-			case EVENTS:
-				// TODO 处理赛事阶段期间停服，然后起服
-				break;
-			default:
-				break;
+//			// 有举办过赛事
+//			switch (data.getCurrentStageType()) {
+//			case SELECTION:
+//				this.continueOldStageController(data);
+//				break;
+//			case EVENTS:
+//				// P2DO 处理赛事阶段期间停服，然后起服
+//				break;
+//			default:
+//				break;
+//			}
+			if (data.getCurrentEventsData() != null) {
+				data.getCurrentEventsData().reset();
 			}
+			data.setCurrentStageType(GCompStageType.SELECTION);
+			this.continueOldStageController(data); // 测试：现在先默认重新开始
 		} else {
 			// 没有举办过
 			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
@@ -160,6 +166,7 @@ public class GroupCompetitionMgr {
 					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
+					GCompMemberMgr.getInstance().checkAndAddGroupMember(player);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

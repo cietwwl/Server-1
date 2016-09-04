@@ -89,7 +89,7 @@ public class GroupCompetitionBattleHandler {
 
 		// 把敌人信息找出来
 		// 先获取到我自己的上阵阵容
-		ArmyInfoSimple mineArmyInfoSimple = mine.getTeamInfo();
+		ArmyInfoSimple mineArmyInfoSimple = mine.getArmyInfo();
 		if (mineArmyInfoSimple == null) {
 			return fillFailMsg(rsp, "获取己方阵容信息失败");
 		}
@@ -105,7 +105,7 @@ public class GroupCompetitionBattleHandler {
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
-		ArmyInfoSimple enemyArmyInfoSimple = enemyMemberList.get(mineIndex).getTeamInfo();
+		ArmyInfoSimple enemyArmyInfoSimple = enemyMemberList.get(mineIndex).getArmyInfo();
 		if (enemyArmyInfoSimple == null) {
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
