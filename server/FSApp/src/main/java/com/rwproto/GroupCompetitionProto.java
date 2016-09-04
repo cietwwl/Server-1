@@ -166,13 +166,53 @@ public final class GroupCompetitionProto {
      */
     StartMatching(18, 19),
     /**
-     * <code>LeaveLivePage = 20;</code>
+     * <code>CancelMatching = 20;</code>
+     *
+     * <pre>
+     * 取消匹配
+     * </pre>
+     */
+    CancelMatching(19, 20),
+    /**
+     * <code>StartRandomMatching = 21;</code>
+     *
+     * <pre>
+     * 开始随机匹配
+     * </pre>
+     */
+    StartRandomMatching(20, 21),
+    /**
+     * <code>CancelRandomMatching = 22;</code>
+     *
+     * <pre>
+     * 取消随机匹配
+     * </pre>
+     */
+    CancelRandomMatching(21, 22),
+    /**
+     * <code>PersonalMatching = 23;</code>
+     *
+     * <pre>
+     * 个人匹配
+     * </pre>
+     */
+    PersonalMatching(22, 23),
+    /**
+     * <code>PersonalCancelMatching = 24;</code>
+     *
+     * <pre>
+     * 取消个人匹配
+     * </pre>
+     */
+    PersonalCancelMatching(23, 24),
+    /**
+     * <code>LeaveLivePage = 25;</code>
      *
      * <pre>
      *离开直播页面
      * </pre>
      */
-    LeaveLivePage(19, 20),
+    LeaveLivePage(24, 25),
     ;
 
     /**
@@ -328,13 +368,53 @@ public final class GroupCompetitionProto {
      */
     public static final int StartMatching_VALUE = 19;
     /**
-     * <code>LeaveLivePage = 20;</code>
+     * <code>CancelMatching = 20;</code>
+     *
+     * <pre>
+     * 取消匹配
+     * </pre>
+     */
+    public static final int CancelMatching_VALUE = 20;
+    /**
+     * <code>StartRandomMatching = 21;</code>
+     *
+     * <pre>
+     * 开始随机匹配
+     * </pre>
+     */
+    public static final int StartRandomMatching_VALUE = 21;
+    /**
+     * <code>CancelRandomMatching = 22;</code>
+     *
+     * <pre>
+     * 取消随机匹配
+     * </pre>
+     */
+    public static final int CancelRandomMatching_VALUE = 22;
+    /**
+     * <code>PersonalMatching = 23;</code>
+     *
+     * <pre>
+     * 个人匹配
+     * </pre>
+     */
+    public static final int PersonalMatching_VALUE = 23;
+    /**
+     * <code>PersonalCancelMatching = 24;</code>
+     *
+     * <pre>
+     * 取消个人匹配
+     * </pre>
+     */
+    public static final int PersonalCancelMatching_VALUE = 24;
+    /**
+     * <code>LeaveLivePage = 25;</code>
      *
      * <pre>
      *离开直播页面
      * </pre>
      */
-    public static final int LeaveLivePage_VALUE = 20;
+    public static final int LeaveLivePage_VALUE = 25;
 
 
     public final int getNumber() { return value; }
@@ -360,7 +440,12 @@ public final class GroupCompetitionProto {
         case 17: return CreateTeam;
         case 18: return AdjustTeamMember;
         case 19: return StartMatching;
-        case 20: return LeaveLivePage;
+        case 20: return CancelMatching;
+        case 21: return StartRandomMatching;
+        case 22: return CancelRandomMatching;
+        case 23: return PersonalMatching;
+        case 24: return PersonalCancelMatching;
+        case 25: return LeaveLivePage;
         default: return null;
       }
     }
@@ -16595,7 +16680,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
      * </pre>
      */
     boolean hasReqType();
@@ -16603,7 +16688,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
@@ -16768,7 +16853,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
      * </pre>
      */
     public boolean hasReqType() {
@@ -16778,7 +16863,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
      * </pre>
      */
     public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -17107,7 +17192,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
        * </pre>
        */
       public boolean hasReqType() {
@@ -17117,7 +17202,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
        * </pre>
        */
       public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -17127,7 +17212,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
        * </pre>
        */
       public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
@@ -17143,7 +17228,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
        * </pre>
        */
       public Builder clearReqType() {
@@ -18754,7 +18839,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
      * </pre>
      */
     boolean hasReqType();
@@ -18762,7 +18847,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
@@ -18880,7 +18965,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
      * </pre>
      */
     public boolean hasReqType() {
@@ -18890,7 +18975,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
      * </pre>
      */
     public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -19142,7 +19227,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
        * </pre>
        */
       public boolean hasReqType() {
@@ -19152,7 +19237,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
        * </pre>
        */
       public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -19162,7 +19247,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
        * </pre>
        */
       public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
@@ -19178,7 +19263,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
        * </pre>
        */
       public Builder clearReqType() {
@@ -21131,7 +21216,7 @@ public final class GroupCompetitionProto {
       "ype\030\001 \002(\0162\036.groupCompetition.GCResultTyp" +
       "e\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChange\0220\n\006s" +
       "tatus\030\001 \002(\0162 .groupCompetition.TeamStatu" +
-      "sType*\212\003\n\rGCRequestType\022\024\n\020EnterPrepareA" +
+      "sType*\203\004\n\rGCRequestType\022\024\n\020EnterPrepareA" +
       "rea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPre" +
       "parePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackM" +
       "sg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetP" +
@@ -21140,12 +21225,15 @@ public final class GroupCompetitionProto {
       "\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n" +
       "\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMe" +
       "mber\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMemb" +
-      "er\020\022\022\021\n\rStartMatching\020\023\022\021\n\rLeaveLivePage" +
-      "\020\024*<\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Beco" +
-      "meLeader\020\002\022\014\n\010CanMatch\020\003*@\n\014GCResultType" +
-      "\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NO" +
-      "T_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompetit" +
-      "ionProto"
+      "er\020\022\022\021\n\rStartMatching\020\023\022\022\n\016CancelMatchin" +
+      "g\020\024\022\027\n\023StartRandomMatching\020\025\022\030\n\024CancelRa" +
+      "ndomMatching\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026" +
+      "PersonalCancelMatching\020\030\022\021\n\rLeaveLivePag" +
+      "e\020\031*<\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Bec" +
+      "omeLeader\020\002\022\014\n\010CanMatch\020\003*@\n\014GCResultTyp" +
+      "e\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_N",
+      "OT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompeti" +
+      "tionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
