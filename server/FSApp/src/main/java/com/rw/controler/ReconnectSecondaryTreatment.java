@@ -63,7 +63,8 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		if (oldCtx != null) {
-			oldCtx.close();
+//			oldCtx.close();
+			UserChannelMgr.KickOffPlayer(oldCtx, nettyControler, userId);
 			GameLog.error("reconnect", userId, "remove old session:" + UserChannelMgr.getCtxInfo(oldCtx));
 		}
 		UserChannelMgr.onBSBegin(userId);

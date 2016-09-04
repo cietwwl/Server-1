@@ -2,6 +2,8 @@ package com.playerdata.dataEncode.fieldToStr;
 
 import java.lang.reflect.Field;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.dataEncode.IFieldToStr;
 
 public class EncodeFieldPrimitive implements IFieldToStr{
@@ -18,17 +20,15 @@ public class EncodeFieldPrimitive implements IFieldToStr{
 		if(objectValue == null){
 			return null;
 		}
-
+		
 		String strValue = String.valueOf(objectValue);
-//		Class<?> fieldType = field.getType();
-//		boolean sendToClient = true;
-//		if(fieldType == float.class){
-//			sendToClient =!StringUtils.equals(strValue, "0.0");
-//		}else if(fieldType == long.class || fieldType == int.class){
-//			sendToClient =!StringUtils.equals(strValue, "0");
-//		}
-//		
-//		return sendToClient?strValue:null;
+		
+		Class<?> fieldType = field.getType();
+		
+		if(fieldType == float.class && StringUtils.endsWith(strValue, ".0")){
+			strValue = StringUtils.substringBeforeLast(strValue, ".0");
+		}
+
 		return strValue;
 	}
 

@@ -119,27 +119,7 @@ public class PlayerLoginTask implements PlayerTask {
 			// 断开非当前链接
 			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
-				GameLog.debug("Kick Player...,userId:" + userId);
-//				player.KickOff("你的账号在另一处登录，请重新登录");
-				GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
-				loginResponse.setResultType(eLoginResultType.SUCCESS);
-				loginResponse.setError("你的账号在另一处登录，请重新登录");
-				
-				ChannelFuture f = nettyControler.sendAyncResponse(userId, oldContext, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
-				f.addListener(new GenericFutureListener<Future<? super Void>>() {
-
-					@Override
-					public void operationComplete(Future<? super Void> future) throws Exception {
-						oldContext.executor().schedule(new Callable<Void>() {
-
-							@Override
-							public Void call() throws Exception {
-								oldContext.close();
-								return null;
-							}
-						}, 300, TimeUnit.MILLISECONDS);
-					}
-				});
+				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
 			}
 		}
 		// 检查发送版本更新

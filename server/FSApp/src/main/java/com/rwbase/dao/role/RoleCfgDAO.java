@@ -14,7 +14,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.service.skill.SkillConstant;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.RoleCfg;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 
@@ -111,14 +111,14 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		return this.getConfig(templateId);
 	}
 
-	public List<Skill> getSkill(String playerId) {
+	public List<SkillItem> getSkill(String playerId) {
 		RoleCfg pPlayerCfg = getConfig(playerId);
 		if (pPlayerCfg == null) {
 			return null;
 		}
-		List<Skill> arr = new ArrayList<Skill>();
+		List<SkillItem> arr = new ArrayList<SkillItem>();
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId01())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getSkillId01());
 			pSkill.setOrder(0);
 			pSkill.setLevel(1);
@@ -126,7 +126,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId02())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getSkillId02());
 			pSkill.setOrder(1);
 			pSkill.setLevel(0);
@@ -134,7 +134,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId03())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getSkillId03());
 			pSkill.setOrder(2);
 			pSkill.setLevel(0);
@@ -142,7 +142,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId04())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getSkillId04());
 			pSkill.setOrder(3);
 			pSkill.setLevel(0);
@@ -150,7 +150,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 
 		if (StringUtils.isNotBlank(pPlayerCfg.getSkillId05())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getSkillId05());
 			pSkill.setOrder(4);
 			pSkill.setLevel(-1);
@@ -158,7 +158,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 
 		if (StringUtils.isNotBlank(pPlayerCfg.getDieSkillId())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getDieSkillId());
 			pSkill.setOrder(5);
 			pSkill.setLevel(-2);// 死亡技能等级设为-2
@@ -166,7 +166,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		}
 		
 		if (StringUtils.isNotBlank(pPlayerCfg.getAttackId())) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(pPlayerCfg.getAttackId());
 			pSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
 			pSkill.setLevel(1);

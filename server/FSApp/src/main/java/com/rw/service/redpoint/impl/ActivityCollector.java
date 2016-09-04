@@ -196,7 +196,7 @@ public class ActivityCollector implements RedPointCollector{
 				continue;				
 			}
 			if(!activityVitalityTypeItem.isTouchRedPoint()){
-				activityList.add(activityVitalityTypeItem.getId());
+				activityList.add(activityVitalityTypeItem.getCfgId());
 				continue;
 			}
 			
@@ -208,7 +208,7 @@ public class ActivityCollector implements RedPointCollector{
 				}
 				if (subItem.getCount() >= subItemCfg.getCount()
 						&& !subItem.isTaken()) {
-					activityList.add(activityVitalityTypeItem.getId());
+					activityList.add(activityVitalityTypeItem.getCfgId());
 					break;
 				}
 			}

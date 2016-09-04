@@ -2,7 +2,7 @@ package com.playerdata.dataSyn.json;
 
 public interface IFieldToJson {
 	
-	public String toJson (Object target)  throws Exception;
+	public Object toJson (Object target)  throws Exception;
 	
 	public void fromJson(Object target, String json) throws Exception;
 	

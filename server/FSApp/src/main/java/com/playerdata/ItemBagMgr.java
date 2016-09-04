@@ -986,7 +986,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int hasSize = getItemListByType(type).size() + offSize;
 			if (hasSize < capacity) {
 				addItemList.add(newItemData);
-				offSizeMap.put(type, offSize++);
+				offSizeMap.put(type, ++offSize);
 			} else {
 				if (!typeDefList.contains(type)) {
 					typeDefList.add(type);

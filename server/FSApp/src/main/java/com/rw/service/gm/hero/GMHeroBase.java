@@ -18,7 +18,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -118,8 +118,8 @@ public class GMHeroBase {
 			return;
 		}
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
-		for (Skill skill : skillList) {
+		List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
+		for (SkillItem skill : skillList) {
 			if(skill.getSkillId().equals(skillId)){
 				SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(maxSkillId);
 				skill.setLevel(cfg.getLevel());
@@ -335,8 +335,8 @@ public class GMHeroBase {
 		return cfg.getSkillId();
 	}
 	
-	public static List<Skill> gmGetHeroBaseSkillList(RoleCfg roleCfg){
-		List<Skill> list = new ArrayList<Skill>();
+	public static List<SkillItem> gmGetHeroBaseSkillList(RoleCfg roleCfg){
+		List<SkillItem> list = new ArrayList<SkillItem>();
 		list.add(parseSkill(roleCfg.getSkillId01()));
 		list.add(parseSkill(roleCfg.getSkillId02()));
 		list.add(parseSkill(roleCfg.getSkillId03()));
@@ -345,11 +345,11 @@ public class GMHeroBase {
 		return list;
 	}
 	
-	private static Skill parseSkill(String skillValue){
+	private static SkillItem parseSkill(String skillValue){
 		if(skillValue == null || skillValue.equals("")){
 			return null;
 		}
-		Skill skill = new Skill();
+		SkillItem skill = new SkillItem();
 		String[] tmpIds = skillValue.split("_");
 		skill.setSkillId(skillValue);
 		skill.setLevel(Integer.parseInt(tmpIds[1]));

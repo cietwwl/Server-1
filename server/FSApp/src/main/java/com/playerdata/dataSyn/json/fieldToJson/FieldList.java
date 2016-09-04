@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
@@ -29,29 +30,29 @@ public class FieldList implements IFieldToJson{
 	
 	@Override
 	@SuppressWarnings({ "rawtypes" })
-	public String toJson(Object target) throws Exception {
+	public Object toJson(Object target) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
 		}	
+		JSONArray jsonArray = new JSONArray();
 		
-		List<String> valueList = new ArrayList<String>();
 		List objectList = (List)objectValue;
 		for (Object objectValueTmp : objectList) {
-			String strValue = null;			
+			Object jsonObj = null;			
 			switch (genericType) {
 				case Class:
-					strValue = genericClassInfo.toJson(objectValueTmp);
+					jsonObj = genericClassInfo.toJsonObject(objectValueTmp);
 				break;
 				case Enum:
 					int enumInt = ((Enum)objectValueTmp).ordinal();
-					strValue = String.valueOf(enumInt);
+					jsonObj = String.valueOf(enumInt);
 					break;
 				case Primitive:
-					strValue = String.valueOf(objectValueTmp);
+					jsonObj = String.valueOf(objectValueTmp);
 					break;
 				case String:
-					strValue = (String)objectValueTmp;
+					jsonObj = (String)objectValueTmp;
 					break;
 				case List:
 					//do nothing 不支持
@@ -63,10 +64,11 @@ public class FieldList implements IFieldToJson{
 					//do nothing 不支持
 					break;
 			}	
-			
-			valueList.add(strValue);
+			if(jsonObj!=null){
+				jsonArray.add(jsonObj);
+			}
 		}
-		return valueList.size()>0 ? JsonUtil.writeValue(valueList):null;
+		return jsonArray.size()>0 ? jsonArray:null;
 	}
 	
 	@Override
