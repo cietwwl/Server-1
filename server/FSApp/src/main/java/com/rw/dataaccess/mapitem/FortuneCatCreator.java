@@ -2,6 +2,7 @@ package com.rw.dataaccess.mapitem;
 
 import java.util.List;
 
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 
 public class FortuneCatCreator implements MapItemCreator<ActivityFortuneCatTypeItem>{
@@ -15,7 +16,7 @@ public class FortuneCatCreator implements MapItemCreator<ActivityFortuneCatTypeI
 	@Override
 	public boolean isOpen(MapItemValidateParam param) {
 		// TODO Auto-generated method stub
-		return false;
+		return ActivityFortuneCatTypeMgr.getInstance().isOpen(param);
 	}
 
 }

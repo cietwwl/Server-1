@@ -2,6 +2,8 @@ package com.rw.dataaccess.mapitem;
 
 import java.util.List;
 
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 
 public class LimitHeroCreator implements MapItemCreator<ActivityLimitHeroTypeItem>{
@@ -15,7 +17,7 @@ public class LimitHeroCreator implements MapItemCreator<ActivityLimitHeroTypeIte
 	@Override
 	public boolean isOpen(MapItemValidateParam param) {
 		// TODO Auto-generated method stub
-		return false;
+		return ActivityLimitHeroTypeMgr.getInstance().isOpen(param);
 	}
 
 }

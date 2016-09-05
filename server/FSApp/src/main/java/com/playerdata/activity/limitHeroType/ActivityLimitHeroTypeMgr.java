@@ -35,6 +35,7 @@ import com.playerdata.activity.limitHeroType.gamble.FreeGamble;
 import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
@@ -619,5 +620,24 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		}			
 	}
 
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
+		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (isOpen(cfg,param)) {
+				return true;
+			}			
+		}
+		return false;
+	}
+	
+	public boolean isOpen(ActivityLimitHeroCfg cfg,MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
+	}
 	
 }

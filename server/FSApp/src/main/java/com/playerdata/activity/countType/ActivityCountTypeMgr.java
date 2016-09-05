@@ -28,6 +28,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
@@ -155,7 +156,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
-	private boolean isClose(ActivityCountTypeCfgDAO dao ,String cfgId) {
+	public boolean isClose(ActivityCountTypeCfgDAO dao ,String cfgId) {
 		ActivityCountTypeCfg cfgById = dao.getCfgById(cfgId);
 		if (cfgById == null) {
 			return false;
@@ -300,6 +301,24 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}
 		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (isOpen(cfg,param)) {
+				// 活动未开启
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityCountTypeCfg cfg, MapItemValidateParam param) {
+		long startTime = cfg.getStartTime();
+		long endTime = cfg.getEndTime();
+		long currentTime = param.getCurrentTime();
+		return currentTime < endTime && currentTime >= startTime;
 	}
 
 }
