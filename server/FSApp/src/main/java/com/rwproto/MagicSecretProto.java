@@ -119,6 +119,10 @@ public final class MagicSecretProto {
     SET_BOX_OPEN_ABLE(12, 13),
     /**
      * <code>GET_HEROS_FIGHT = 14;</code>
+     *
+     * <pre>
+     *请求所有的英雄的战斗力
+     * </pre>
      */
     GET_HEROS_FIGHT(13, 14),
     ;
@@ -229,6 +233,10 @@ public final class MagicSecretProto {
     public static final int SET_BOX_OPEN_ABLE_VALUE = 13;
     /**
      * <code>GET_HEROS_FIGHT = 14;</code>
+     *
+     * <pre>
+     *请求所有的英雄的战斗力
+     * </pre>
      */
     public static final int GET_HEROS_FIGHT_VALUE = 14;
 
@@ -665,9 +673,9 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getBuffIdBytes();
 
-    // optional .magicSecret.msRewardBox rwdBox = 6;
+    // optional .magicSecret.MSItemInfo rwdBox = 6;
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -675,21 +683,21 @@ public final class MagicSecretProto {
      */
     boolean hasRwdBox();
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
      * </pre>
      */
-    com.rwproto.MagicSecretProto.msRewardBox getRwdBox();
+    com.rwproto.MagicSecretProto.MSItemInfo getRwdBox();
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
      * </pre>
      */
-    com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder();
+    com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRwdBoxOrBuilder();
 
     // optional string armyInfo = 7;
     /**
@@ -837,11 +845,11 @@ public final class MagicSecretProto {
               break;
             }
             case 50: {
-              com.rwproto.MagicSecretProto.msRewardBox.Builder subBuilder = null;
+              com.rwproto.MagicSecretProto.MSItemInfo.Builder subBuilder = null;
               if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = rwdBox_.toBuilder();
               }
-              rwdBox_ = input.readMessage(com.rwproto.MagicSecretProto.msRewardBox.PARSER, extensionRegistry);
+              rwdBox_ = input.readMessage(com.rwproto.MagicSecretProto.MSItemInfo.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(rwdBox_);
                 rwdBox_ = subBuilder.buildPartial();
@@ -1148,11 +1156,11 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional .magicSecret.msRewardBox rwdBox = 6;
+    // optional .magicSecret.MSItemInfo rwdBox = 6;
     public static final int RWDBOX_FIELD_NUMBER = 6;
-    private com.rwproto.MagicSecretProto.msRewardBox rwdBox_;
+    private com.rwproto.MagicSecretProto.MSItemInfo rwdBox_;
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -1162,23 +1170,23 @@ public final class MagicSecretProto {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
      * </pre>
      */
-    public com.rwproto.MagicSecretProto.msRewardBox getRwdBox() {
+    public com.rwproto.MagicSecretProto.MSItemInfo getRwdBox() {
       return rwdBox_;
     }
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+     * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
      * </pre>
      */
-    public com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder() {
+    public com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRwdBoxOrBuilder() {
       return rwdBox_;
     }
 
@@ -1291,7 +1299,7 @@ public final class MagicSecretProto {
       finishState_ = "";
       chapterId_ = "";
       buffId_ = "";
-      rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
+      rwdBox_ = com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance();
       armyInfo_ = "";
       scoreRewardID_ = 0;
       buffOrBoxAble_ = false;
@@ -1518,7 +1526,7 @@ public final class MagicSecretProto {
         buffId_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
         if (rwdBoxBuilder_ == null) {
-          rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
+          rwdBox_ = com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance();
         } else {
           rwdBoxBuilder_.clear();
         }
@@ -2131,12 +2139,12 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // optional .magicSecret.msRewardBox rwdBox = 6;
-      private com.rwproto.MagicSecretProto.msRewardBox rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
+      // optional .magicSecret.MSItemInfo rwdBox = 6;
+      private com.rwproto.MagicSecretProto.MSItemInfo rwdBox_ = com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.MagicSecretProto.msRewardBox, com.rwproto.MagicSecretProto.msRewardBox.Builder, com.rwproto.MagicSecretProto.msRewardBoxOrBuilder> rwdBoxBuilder_;
+          com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> rwdBoxBuilder_;
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -2146,13 +2154,13 @@ public final class MagicSecretProto {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
-      public com.rwproto.MagicSecretProto.msRewardBox getRwdBox() {
+      public com.rwproto.MagicSecretProto.MSItemInfo getRwdBox() {
         if (rwdBoxBuilder_ == null) {
           return rwdBox_;
         } else {
@@ -2160,13 +2168,13 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
-      public Builder setRwdBox(com.rwproto.MagicSecretProto.msRewardBox value) {
+      public Builder setRwdBox(com.rwproto.MagicSecretProto.MSItemInfo value) {
         if (rwdBoxBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2180,14 +2188,14 @@ public final class MagicSecretProto {
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
       public Builder setRwdBox(
-          com.rwproto.MagicSecretProto.msRewardBox.Builder builderForValue) {
+          com.rwproto.MagicSecretProto.MSItemInfo.Builder builderForValue) {
         if (rwdBoxBuilder_ == null) {
           rwdBox_ = builderForValue.build();
           onChanged();
@@ -2198,18 +2206,18 @@ public final class MagicSecretProto {
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
-      public Builder mergeRwdBox(com.rwproto.MagicSecretProto.msRewardBox value) {
+      public Builder mergeRwdBox(com.rwproto.MagicSecretProto.MSItemInfo value) {
         if (rwdBoxBuilder_ == null) {
           if (((bitField0_ & 0x00000020) == 0x00000020) &&
-              rwdBox_ != com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance()) {
+              rwdBox_ != com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance()) {
             rwdBox_ =
-              com.rwproto.MagicSecretProto.msRewardBox.newBuilder(rwdBox_).mergeFrom(value).buildPartial();
+              com.rwproto.MagicSecretProto.MSItemInfo.newBuilder(rwdBox_).mergeFrom(value).buildPartial();
           } else {
             rwdBox_ = value;
           }
@@ -2221,7 +2229,7 @@ public final class MagicSecretProto {
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -2229,7 +2237,7 @@ public final class MagicSecretProto {
        */
       public Builder clearRwdBox() {
         if (rwdBoxBuilder_ == null) {
-          rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
+          rwdBox_ = com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance();
           onChanged();
         } else {
           rwdBoxBuilder_.clear();
@@ -2238,25 +2246,25 @@ public final class MagicSecretProto {
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
-      public com.rwproto.MagicSecretProto.msRewardBox.Builder getRwdBoxBuilder() {
+      public com.rwproto.MagicSecretProto.MSItemInfo.Builder getRwdBoxBuilder() {
         bitField0_ |= 0x00000020;
         onChanged();
         return getRwdBoxFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
-      public com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder() {
+      public com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRwdBoxOrBuilder() {
         if (rwdBoxBuilder_ != null) {
           return rwdBoxBuilder_.getMessageOrBuilder();
         } else {
@@ -2264,18 +2272,18 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
+       * <code>optional .magicSecret.MSItemInfo rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.MagicSecretProto.msRewardBox, com.rwproto.MagicSecretProto.msRewardBox.Builder, com.rwproto.MagicSecretProto.msRewardBoxOrBuilder> 
+          com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> 
           getRwdBoxFieldBuilder() {
         if (rwdBoxBuilder_ == null) {
           rwdBoxBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.MagicSecretProto.msRewardBox, com.rwproto.MagicSecretProto.msRewardBox.Builder, com.rwproto.MagicSecretProto.msRewardBoxOrBuilder>(
+              com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder>(
                   rwdBox_,
                   getParentForChildren(),
                   isClean());
@@ -2530,18 +2538,26 @@ public final class MagicSecretProto {
      */
     com.rwproto.MagicSecretProto.msResultType getRstType();
 
-    // repeated string msRankData = 3;
+    // repeated .magicSecret.MSScoreRankItem msRankData = 3;
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getMsRankDataList();
+    java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem> 
+        getMsRankDataList();
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+     *
+     * <pre>
+     *排行榜的数据
+     * </pre>
+     */
+    com.rwproto.MagicSecretProto.MSScoreRankItem getMsRankData(int index);
+    /**
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
@@ -2549,22 +2565,23 @@ public final class MagicSecretProto {
      */
     int getMsRankDataCount();
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    java.lang.String getMsRankData(int index);
+    java.util.List<? extends com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder> 
+        getMsRankDataOrBuilderList();
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getMsRankDataBytes(int index);
+    com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder getMsRankDataOrBuilder(
+        int index);
 
     // optional int32 selfRank = 4;
     /**
@@ -2584,41 +2601,50 @@ public final class MagicSecretProto {
      */
     int getSelfRank();
 
-    // repeated string rewardData = 5;
+    // repeated .magicSecret.MSItemInfo rewardData = 5;
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getRewardDataList();
+    java.util.List<com.rwproto.MagicSecretProto.MSItemInfo> 
+        getRewardDataList();
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+     * </pre>
+     */
+    com.rwproto.MagicSecretProto.MSItemInfo getRewardData(int index);
+    /**
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
     int getRewardDataCount();
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    java.lang.String getRewardData(int index);
+    java.util.List<? extends com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> 
+        getRewardDataOrBuilderList();
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getRewardDataBytes(int index);
+    com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRewardDataOrBuilder(
+        int index);
 
     // optional string armyInfo = 6;
     /**
@@ -2647,9 +2673,36 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getArmyInfoBytes();
 
-    // optional bool isFirstFinish = 7;
+    // optional string selfArmy = 7;
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    boolean hasSelfArmy();
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    java.lang.String getSelfArmy();
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getSelfArmyBytes();
+
+    // optional bool isFirstFinish = 8;
+    /**
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -2657,7 +2710,7 @@ public final class MagicSecretProto {
      */
     boolean hasIsFirstFinish();
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -2665,32 +2718,59 @@ public final class MagicSecretProto {
      */
     boolean getIsFirstFinish();
 
-    // optional string herosFighting = 8;
+    // optional string herosFighting = 9;
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     boolean hasHerosFighting();
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     java.lang.String getHerosFighting();
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     com.google.protobuf.ByteString
         getHerosFightingBytes();
+
+    // optional string magicFighting = 10;
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    boolean hasMagicFighting();
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    java.lang.String getMagicFighting();
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMagicFightingBytes();
   }
   /**
    * Protobuf type {@code magicSecret.MagicSecretRspMsg}
@@ -2767,10 +2847,10 @@ public final class MagicSecretProto {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                msRankData_ = new com.google.protobuf.LazyStringArrayList();
+                msRankData_ = new java.util.ArrayList<com.rwproto.MagicSecretProto.MSScoreRankItem>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              msRankData_.add(input.readBytes());
+              msRankData_.add(input.readMessage(com.rwproto.MagicSecretProto.MSScoreRankItem.PARSER, extensionRegistry));
               break;
             }
             case 32: {
@@ -2780,10 +2860,10 @@ public final class MagicSecretProto {
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                rewardData_ = new com.google.protobuf.LazyStringArrayList();
+                rewardData_ = new java.util.ArrayList<com.rwproto.MagicSecretProto.MSItemInfo>();
                 mutable_bitField0_ |= 0x00000010;
               }
-              rewardData_.add(input.readBytes());
+              rewardData_.add(input.readMessage(com.rwproto.MagicSecretProto.MSItemInfo.PARSER, extensionRegistry));
               break;
             }
             case 50: {
@@ -2791,14 +2871,24 @@ public final class MagicSecretProto {
               armyInfo_ = input.readBytes();
               break;
             }
-            case 56: {
+            case 58: {
               bitField0_ |= 0x00000010;
+              selfArmy_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000020;
               isFirstFinish_ = input.readBool();
               break;
             }
-            case 66: {
-              bitField0_ |= 0x00000020;
+            case 74: {
+              bitField0_ |= 0x00000040;
               herosFighting_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000080;
+              magicFighting_ = input.readBytes();
               break;
             }
           }
@@ -2810,10 +2900,10 @@ public final class MagicSecretProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          msRankData_ = new com.google.protobuf.UnmodifiableLazyStringList(msRankData_);
+          msRankData_ = java.util.Collections.unmodifiableList(msRankData_);
         }
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-          rewardData_ = new com.google.protobuf.UnmodifiableLazyStringList(rewardData_);
+          rewardData_ = java.util.Collections.unmodifiableList(rewardData_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2895,22 +2985,32 @@ public final class MagicSecretProto {
       return rstType_;
     }
 
-    // repeated string msRankData = 3;
+    // repeated .magicSecret.MSScoreRankItem msRankData = 3;
     public static final int MSRANKDATA_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList msRankData_;
+    private java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem> msRankData_;
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getMsRankDataList() {
+    public java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem> getMsRankDataList() {
       return msRankData_;
     }
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+     *
+     * <pre>
+     *排行榜的数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder> 
+        getMsRankDataOrBuilderList() {
+      return msRankData_;
+    }
+    /**
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
@@ -2920,25 +3020,25 @@ public final class MagicSecretProto {
       return msRankData_.size();
     }
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    public java.lang.String getMsRankData(int index) {
+    public com.rwproto.MagicSecretProto.MSScoreRankItem getMsRankData(int index) {
       return msRankData_.get(index);
     }
     /**
-     * <code>repeated string msRankData = 3;</code>
+     * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getMsRankDataBytes(int index) {
-      return msRankData_.getByteString(index);
+    public com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder getMsRankDataOrBuilder(
+        int index) {
+      return msRankData_.get(index);
     }
 
     // optional int32 selfRank = 4;
@@ -2965,50 +3065,60 @@ public final class MagicSecretProto {
       return selfRank_;
     }
 
-    // repeated string rewardData = 5;
+    // repeated .magicSecret.MSItemInfo rewardData = 5;
     public static final int REWARDDATA_FIELD_NUMBER = 5;
-    private com.google.protobuf.LazyStringList rewardData_;
+    private java.util.List<com.rwproto.MagicSecretProto.MSItemInfo> rewardData_;
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getRewardDataList() {
+    public java.util.List<com.rwproto.MagicSecretProto.MSItemInfo> getRewardDataList() {
       return rewardData_;
     }
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> 
+        getRewardDataOrBuilderList() {
+      return rewardData_;
+    }
+    /**
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
     public int getRewardDataCount() {
       return rewardData_.size();
     }
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    public java.lang.String getRewardData(int index) {
+    public com.rwproto.MagicSecretProto.MSItemInfo getRewardData(int index) {
       return rewardData_.get(index);
     }
     /**
-     * <code>repeated string rewardData = 5;</code>
+     * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
      *
      * <pre>
-     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getRewardDataBytes(int index) {
-      return rewardData_.getByteString(index);
+    public com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRewardDataOrBuilder(
+        int index) {
+      return rewardData_.get(index);
     }
 
     // optional string armyInfo = 6;
@@ -3066,21 +3176,76 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional bool isFirstFinish = 7;
-    public static final int ISFIRSTFINISH_FIELD_NUMBER = 7;
+    // optional string selfArmy = 7;
+    public static final int SELFARMY_FIELD_NUMBER = 7;
+    private java.lang.Object selfArmy_;
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public boolean hasSelfArmy() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public java.lang.String getSelfArmy() {
+      java.lang.Object ref = selfArmy_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          selfArmy_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getSelfArmyBytes() {
+      java.lang.Object ref = selfArmy_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        selfArmy_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional bool isFirstFinish = 8;
+    public static final int ISFIRSTFINISH_FIELD_NUMBER = 8;
     private boolean isFirstFinish_;
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
      * </pre>
      */
     public boolean hasIsFirstFinish() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -3090,24 +3255,24 @@ public final class MagicSecretProto {
       return isFirstFinish_;
     }
 
-    // optional string herosFighting = 8;
-    public static final int HEROSFIGHTING_FIELD_NUMBER = 8;
+    // optional string herosFighting = 9;
+    public static final int HEROSFIGHTING_FIELD_NUMBER = 9;
     private java.lang.Object herosFighting_;
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     public boolean hasHerosFighting() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     public java.lang.String getHerosFighting() {
@@ -3125,10 +3290,10 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
-     *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3145,15 +3310,72 @@ public final class MagicSecretProto {
       }
     }
 
+    // optional string magicFighting = 10;
+    public static final int MAGICFIGHTING_FIELD_NUMBER = 10;
+    private java.lang.Object magicFighting_;
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    public boolean hasMagicFighting() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    public java.lang.String getMagicFighting() {
+      java.lang.Object ref = magicFighting_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          magicFighting_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string magicFighting = 10;</code>
+     *
+     * <pre>
+     *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMagicFightingBytes() {
+      java.lang.Object ref = magicFighting_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        magicFighting_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.MagicSecretProto.msRequestType.GET_MS_RANK;
       rstType_ = com.rwproto.MagicSecretProto.msResultType.SUCCESS;
-      msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      msRankData_ = java.util.Collections.emptyList();
       selfRank_ = 0;
-      rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      rewardData_ = java.util.Collections.emptyList();
       armyInfo_ = "";
+      selfArmy_ = "";
       isFirstFinish_ = false;
       herosFighting_ = "";
+      magicFighting_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3167,6 +3389,18 @@ public final class MagicSecretProto {
       if (!hasRstType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getMsRankDataCount(); i++) {
+        if (!getMsRankData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getRewardDataCount(); i++) {
+        if (!getRewardData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3182,22 +3416,28 @@ public final class MagicSecretProto {
         output.writeEnum(2, rstType_.getNumber());
       }
       for (int i = 0; i < msRankData_.size(); i++) {
-        output.writeBytes(3, msRankData_.getByteString(i));
+        output.writeMessage(3, msRankData_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(4, selfRank_);
       }
       for (int i = 0; i < rewardData_.size(); i++) {
-        output.writeBytes(5, rewardData_.getByteString(i));
+        output.writeMessage(5, rewardData_.get(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(6, getArmyInfoBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBool(7, isFirstFinish_);
+        output.writeBytes(7, getSelfArmyBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(8, getHerosFightingBytes());
+        output.writeBool(8, isFirstFinish_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(9, getHerosFightingBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(10, getMagicFightingBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -3216,27 +3456,17 @@ public final class MagicSecretProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, rstType_.getNumber());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < msRankData_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(msRankData_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getMsRankDataList().size();
+      for (int i = 0; i < msRankData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, msRankData_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, selfRank_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < rewardData_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(rewardData_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getRewardDataList().size();
+      for (int i = 0; i < rewardData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, rewardData_.get(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3244,11 +3474,19 @@ public final class MagicSecretProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, isFirstFinish_);
+          .computeBytesSize(7, getSelfArmyBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getHerosFightingBytes());
+          .computeBoolSize(8, isFirstFinish_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getHerosFightingBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getMagicFightingBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3358,6 +3596,8 @@ public final class MagicSecretProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMsRankDataFieldBuilder();
+          getRewardDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3370,18 +3610,30 @@ public final class MagicSecretProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         rstType_ = com.rwproto.MagicSecretProto.msResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000002);
-        msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        if (msRankDataBuilder_ == null) {
+          msRankData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          msRankDataBuilder_.clear();
+        }
         selfRank_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        if (rewardDataBuilder_ == null) {
+          rewardData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          rewardDataBuilder_.clear();
+        }
         armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
-        isFirstFinish_ = false;
+        selfArmy_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
-        herosFighting_ = "";
+        isFirstFinish_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
+        herosFighting_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        magicFighting_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -3418,22 +3670,28 @@ public final class MagicSecretProto {
           to_bitField0_ |= 0x00000002;
         }
         result.rstType_ = rstType_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          msRankData_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              msRankData_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (msRankDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            msRankData_ = java.util.Collections.unmodifiableList(msRankData_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.msRankData_ = msRankData_;
+        } else {
+          result.msRankData_ = msRankDataBuilder_.build();
         }
-        result.msRankData_ = msRankData_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000004;
         }
         result.selfRank_ = selfRank_;
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          rewardData_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              rewardData_);
-          bitField0_ = (bitField0_ & ~0x00000010);
+        if (rewardDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            rewardData_ = java.util.Collections.unmodifiableList(rewardData_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.rewardData_ = rewardData_;
+        } else {
+          result.rewardData_ = rewardDataBuilder_.build();
         }
-        result.rewardData_ = rewardData_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -3441,11 +3699,19 @@ public final class MagicSecretProto {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.isFirstFinish_ = isFirstFinish_;
+        result.selfArmy_ = selfArmy_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000020;
         }
+        result.isFirstFinish_ = isFirstFinish_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000040;
+        }
         result.herosFighting_ = herosFighting_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.magicFighting_ = magicFighting_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3468,40 +3734,82 @@ public final class MagicSecretProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
-        if (!other.msRankData_.isEmpty()) {
-          if (msRankData_.isEmpty()) {
-            msRankData_ = other.msRankData_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureMsRankDataIsMutable();
-            msRankData_.addAll(other.msRankData_);
+        if (msRankDataBuilder_ == null) {
+          if (!other.msRankData_.isEmpty()) {
+            if (msRankData_.isEmpty()) {
+              msRankData_ = other.msRankData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureMsRankDataIsMutable();
+              msRankData_.addAll(other.msRankData_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.msRankData_.isEmpty()) {
+            if (msRankDataBuilder_.isEmpty()) {
+              msRankDataBuilder_.dispose();
+              msRankDataBuilder_ = null;
+              msRankData_ = other.msRankData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              msRankDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMsRankDataFieldBuilder() : null;
+            } else {
+              msRankDataBuilder_.addAllMessages(other.msRankData_);
+            }
+          }
         }
         if (other.hasSelfRank()) {
           setSelfRank(other.getSelfRank());
         }
-        if (!other.rewardData_.isEmpty()) {
-          if (rewardData_.isEmpty()) {
-            rewardData_ = other.rewardData_;
-            bitField0_ = (bitField0_ & ~0x00000010);
-          } else {
-            ensureRewardDataIsMutable();
-            rewardData_.addAll(other.rewardData_);
+        if (rewardDataBuilder_ == null) {
+          if (!other.rewardData_.isEmpty()) {
+            if (rewardData_.isEmpty()) {
+              rewardData_ = other.rewardData_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureRewardDataIsMutable();
+              rewardData_.addAll(other.rewardData_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.rewardData_.isEmpty()) {
+            if (rewardDataBuilder_.isEmpty()) {
+              rewardDataBuilder_.dispose();
+              rewardDataBuilder_ = null;
+              rewardData_ = other.rewardData_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              rewardDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardDataFieldBuilder() : null;
+            } else {
+              rewardDataBuilder_.addAllMessages(other.rewardData_);
+            }
+          }
         }
         if (other.hasArmyInfo()) {
           bitField0_ |= 0x00000020;
           armyInfo_ = other.armyInfo_;
           onChanged();
         }
+        if (other.hasSelfArmy()) {
+          bitField0_ |= 0x00000040;
+          selfArmy_ = other.selfArmy_;
+          onChanged();
+        }
         if (other.hasIsFirstFinish()) {
           setIsFirstFinish(other.getIsFirstFinish());
         }
         if (other.hasHerosFighting()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
           herosFighting_ = other.herosFighting_;
+          onChanged();
+        }
+        if (other.hasMagicFighting()) {
+          bitField0_ |= 0x00000200;
+          magicFighting_ = other.magicFighting_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -3516,6 +3824,18 @@ public final class MagicSecretProto {
         if (!hasRstType()) {
           
           return false;
+        }
+        for (int i = 0; i < getMsRankDataCount(); i++) {
+          if (!getMsRankData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getRewardDataCount(); i++) {
+          if (!getRewardData(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -3643,133 +3963,316 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // repeated string msRankData = 3;
-      private com.google.protobuf.LazyStringList msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .magicSecret.MSScoreRankItem msRankData = 3;
+      private java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem> msRankData_ =
+        java.util.Collections.emptyList();
       private void ensureMsRankDataIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          msRankData_ = new com.google.protobuf.LazyStringArrayList(msRankData_);
+          msRankData_ = new java.util.ArrayList<com.rwproto.MagicSecretProto.MSScoreRankItem>(msRankData_);
           bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.MagicSecretProto.MSScoreRankItem, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder, com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder> msRankDataBuilder_;
+
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getMsRankDataList() {
-        return java.util.Collections.unmodifiableList(msRankData_);
+      public java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem> getMsRankDataList() {
+        if (msRankDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(msRankData_);
+        } else {
+          return msRankDataBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public int getMsRankDataCount() {
-        return msRankData_.size();
+        if (msRankDataBuilder_ == null) {
+          return msRankData_.size();
+        } else {
+          return msRankDataBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public java.lang.String getMsRankData(int index) {
-        return msRankData_.get(index);
+      public com.rwproto.MagicSecretProto.MSScoreRankItem getMsRankData(int index) {
+        if (msRankDataBuilder_ == null) {
+          return msRankData_.get(index);
+        } else {
+          return msRankDataBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
-       *
-       * <pre>
-       *排行榜的数据
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getMsRankDataBytes(int index) {
-        return msRankData_.getByteString(index);
-      }
-      /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder setMsRankData(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureMsRankDataIsMutable();
-        msRankData_.set(index, value);
-        onChanged();
+          int index, com.rwproto.MagicSecretProto.MSScoreRankItem value) {
+        if (msRankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMsRankDataIsMutable();
+          msRankData_.set(index, value);
+          onChanged();
+        } else {
+          msRankDataBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder setMsRankData(
+          int index, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder builderForValue) {
+        if (msRankDataBuilder_ == null) {
+          ensureMsRankDataIsMutable();
+          msRankData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          msRankDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder addMsRankData(com.rwproto.MagicSecretProto.MSScoreRankItem value) {
+        if (msRankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMsRankDataIsMutable();
+          msRankData_.add(value);
+          onChanged();
+        } else {
+          msRankDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder addMsRankData(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureMsRankDataIsMutable();
-        msRankData_.add(value);
-        onChanged();
+          int index, com.rwproto.MagicSecretProto.MSScoreRankItem value) {
+        if (msRankDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMsRankDataIsMutable();
+          msRankData_.add(index, value);
+          onChanged();
+        } else {
+          msRankDataBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder addMsRankData(
+          com.rwproto.MagicSecretProto.MSScoreRankItem.Builder builderForValue) {
+        if (msRankDataBuilder_ == null) {
+          ensureMsRankDataIsMutable();
+          msRankData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          msRankDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder addMsRankData(
+          int index, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder builderForValue) {
+        if (msRankDataBuilder_ == null) {
+          ensureMsRankDataIsMutable();
+          msRankData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          msRankDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder addAllMsRankData(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureMsRankDataIsMutable();
-        super.addAll(values, msRankData_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.MagicSecretProto.MSScoreRankItem> values) {
+        if (msRankDataBuilder_ == null) {
+          ensureMsRankDataIsMutable();
+          super.addAll(values, msRankData_);
+          onChanged();
+        } else {
+          msRankDataBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder clearMsRankData() {
-        msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
+        if (msRankDataBuilder_ == null) {
+          msRankData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          msRankDataBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string msRankData = 3;</code>
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public Builder addMsRankDataBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureMsRankDataIsMutable();
-        msRankData_.add(value);
-        onChanged();
+      public Builder removeMsRankData(int index) {
+        if (msRankDataBuilder_ == null) {
+          ensureMsRankDataIsMutable();
+          msRankData_.remove(index);
+          onChanged();
+        } else {
+          msRankDataBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSScoreRankItem.Builder getMsRankDataBuilder(
+          int index) {
+        return getMsRankDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder getMsRankDataOrBuilder(
+          int index) {
+        if (msRankDataBuilder_ == null) {
+          return msRankData_.get(index);  } else {
+          return msRankDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder> 
+           getMsRankDataOrBuilderList() {
+        if (msRankDataBuilder_ != null) {
+          return msRankDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(msRankData_);
+        }
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSScoreRankItem.Builder addMsRankDataBuilder() {
+        return getMsRankDataFieldBuilder().addBuilder(
+            com.rwproto.MagicSecretProto.MSScoreRankItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSScoreRankItem.Builder addMsRankDataBuilder(
+          int index) {
+        return getMsRankDataFieldBuilder().addBuilder(
+            index, com.rwproto.MagicSecretProto.MSScoreRankItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .magicSecret.MSScoreRankItem msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.MagicSecretProto.MSScoreRankItem.Builder> 
+           getMsRankDataBuilderList() {
+        return getMsRankDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.MagicSecretProto.MSScoreRankItem, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder, com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder> 
+          getMsRankDataFieldBuilder() {
+        if (msRankDataBuilder_ == null) {
+          msRankDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.MagicSecretProto.MSScoreRankItem, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder, com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder>(
+                  msRankData_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          msRankData_ = null;
+        }
+        return msRankDataBuilder_;
       }
 
       // optional int32 selfRank = 4;
@@ -3821,133 +4324,316 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // repeated string rewardData = 5;
-      private com.google.protobuf.LazyStringList rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .magicSecret.MSItemInfo rewardData = 5;
+      private java.util.List<com.rwproto.MagicSecretProto.MSItemInfo> rewardData_ =
+        java.util.Collections.emptyList();
       private void ensureRewardDataIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          rewardData_ = new com.google.protobuf.LazyStringArrayList(rewardData_);
+          rewardData_ = new java.util.ArrayList<com.rwproto.MagicSecretProto.MSItemInfo>(rewardData_);
           bitField0_ |= 0x00000010;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> rewardDataBuilder_;
+
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getRewardDataList() {
-        return java.util.Collections.unmodifiableList(rewardData_);
+      public java.util.List<com.rwproto.MagicSecretProto.MSItemInfo> getRewardDataList() {
+        if (rewardDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rewardData_);
+        } else {
+          return rewardDataBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
       public int getRewardDataCount() {
-        return rewardData_.size();
+        if (rewardDataBuilder_ == null) {
+          return rewardData_.size();
+        } else {
+          return rewardDataBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
-      public java.lang.String getRewardData(int index) {
-        return rewardData_.get(index);
+      public com.rwproto.MagicSecretProto.MSItemInfo getRewardData(int index) {
+        if (rewardDataBuilder_ == null) {
+          return rewardData_.get(index);
+        } else {
+          return rewardDataBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getRewardDataBytes(int index) {
-        return rewardData_.getByteString(index);
-      }
-      /**
-       * <code>repeated string rewardData = 5;</code>
-       *
-       * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
       public Builder setRewardData(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureRewardDataIsMutable();
-        rewardData_.set(index, value);
-        onChanged();
+          int index, com.rwproto.MagicSecretProto.MSItemInfo value) {
+        if (rewardDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardDataIsMutable();
+          rewardData_.set(index, value);
+          onChanged();
+        } else {
+          rewardDataBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public Builder setRewardData(
+          int index, com.rwproto.MagicSecretProto.MSItemInfo.Builder builderForValue) {
+        if (rewardDataBuilder_ == null) {
+          ensureRewardDataIsMutable();
+          rewardData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public Builder addRewardData(com.rwproto.MagicSecretProto.MSItemInfo value) {
+        if (rewardDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardDataIsMutable();
+          rewardData_.add(value);
+          onChanged();
+        } else {
+          rewardDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
       public Builder addRewardData(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureRewardDataIsMutable();
-        rewardData_.add(value);
-        onChanged();
+          int index, com.rwproto.MagicSecretProto.MSItemInfo value) {
+        if (rewardDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardDataIsMutable();
+          rewardData_.add(index, value);
+          onChanged();
+        } else {
+          rewardDataBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public Builder addRewardData(
+          com.rwproto.MagicSecretProto.MSItemInfo.Builder builderForValue) {
+        if (rewardDataBuilder_ == null) {
+          ensureRewardDataIsMutable();
+          rewardData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public Builder addRewardData(
+          int index, com.rwproto.MagicSecretProto.MSItemInfo.Builder builderForValue) {
+        if (rewardDataBuilder_ == null) {
+          ensureRewardDataIsMutable();
+          rewardData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
       public Builder addAllRewardData(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureRewardDataIsMutable();
-        super.addAll(values, rewardData_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.MagicSecretProto.MSItemInfo> values) {
+        if (rewardDataBuilder_ == null) {
+          ensureRewardDataIsMutable();
+          super.addAll(values, rewardData_);
+          onChanged();
+        } else {
+          rewardDataBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
       public Builder clearRewardData() {
-        rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
-        onChanged();
+        if (rewardDataBuilder_ == null) {
+          rewardData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          rewardDataBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string rewardData = 5;</code>
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
        *
        * <pre>
-       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
        * </pre>
        */
-      public Builder addRewardDataBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureRewardDataIsMutable();
-        rewardData_.add(value);
-        onChanged();
+      public Builder removeRewardData(int index) {
+        if (rewardDataBuilder_ == null) {
+          ensureRewardDataIsMutable();
+          rewardData_.remove(index);
+          onChanged();
+        } else {
+          rewardDataBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSItemInfo.Builder getRewardDataBuilder(
+          int index) {
+        return getRewardDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSItemInfoOrBuilder getRewardDataOrBuilder(
+          int index) {
+        if (rewardDataBuilder_ == null) {
+          return rewardData_.get(index);  } else {
+          return rewardDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> 
+           getRewardDataOrBuilderList() {
+        if (rewardDataBuilder_ != null) {
+          return rewardDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rewardData_);
+        }
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSItemInfo.Builder addRewardDataBuilder() {
+        return getRewardDataFieldBuilder().addBuilder(
+            com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public com.rwproto.MagicSecretProto.MSItemInfo.Builder addRewardDataBuilder(
+          int index) {
+        return getRewardDataFieldBuilder().addBuilder(
+            index, com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .magicSecret.MSItemInfo rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品MSItemInfo
+       * </pre>
+       */
+      public java.util.List<com.rwproto.MagicSecretProto.MSItemInfo.Builder> 
+           getRewardDataBuilderList() {
+        return getRewardDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder> 
+          getRewardDataFieldBuilder() {
+        if (rewardDataBuilder_ == null) {
+          rewardDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.MagicSecretProto.MSItemInfo, com.rwproto.MagicSecretProto.MSItemInfo.Builder, com.rwproto.MagicSecretProto.MSItemInfoOrBuilder>(
+                  rewardData_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          rewardData_ = null;
+        }
+        return rewardDataBuilder_;
       }
 
       // optional string armyInfo = 6;
@@ -4048,20 +4734,118 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // optional bool isFirstFinish = 7;
+      // optional string selfArmy = 7;
+      private java.lang.Object selfArmy_ = "";
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public boolean hasSelfArmy() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public java.lang.String getSelfArmy() {
+        java.lang.Object ref = selfArmy_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          selfArmy_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getSelfArmyBytes() {
+        java.lang.Object ref = selfArmy_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          selfArmy_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setSelfArmy(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        selfArmy_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder clearSelfArmy() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        selfArmy_ = getDefaultInstance().getSelfArmy();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setSelfArmyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        selfArmy_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool isFirstFinish = 8;
       private boolean isFirstFinish_ ;
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public boolean hasIsFirstFinish() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
@@ -4071,49 +4855,49 @@ public final class MagicSecretProto {
         return isFirstFinish_;
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public Builder setIsFirstFinish(boolean value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         isFirstFinish_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public Builder clearIsFirstFinish() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         isFirstFinish_ = false;
         onChanged();
         return this;
       }
 
-      // optional string herosFighting = 8;
+      // optional string herosFighting = 9;
       private java.lang.Object herosFighting_ = "";
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public boolean hasHerosFighting() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public java.lang.String getHerosFighting() {
@@ -4128,10 +4912,10 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4148,10 +4932,10 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public Builder setHerosFighting(
@@ -4159,29 +4943,29 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         herosFighting_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public Builder clearHerosFighting() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         herosFighting_ = getDefaultInstance().getHerosFighting();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
-       *所有英雄的战斗力（HashMap&lt;Integer, HashMap&lt;Integer, Integer&gt;&gt;......HashMap&lt;法宝id, HashMap&lt;英雄id, 英雄战力&gt;&gt;）
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public Builder setHerosFightingBytes(
@@ -4189,8 +4973,106 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         herosFighting_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string magicFighting = 10;
+      private java.lang.Object magicFighting_ = "";
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public boolean hasMagicFighting() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public java.lang.String getMagicFighting() {
+        java.lang.Object ref = magicFighting_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          magicFighting_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMagicFightingBytes() {
+        java.lang.Object ref = magicFighting_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          magicFighting_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public Builder setMagicFighting(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        magicFighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public Builder clearMagicFighting() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        magicFighting_ = getDefaultInstance().getMagicFighting();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string magicFighting = 10;</code>
+       *
+       * <pre>
+       *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
+       * </pre>
+       */
+      public Builder setMagicFightingBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        magicFighting_ = value;
         onChanged();
         return this;
       }
@@ -4206,73 +5088,73 @@ public final class MagicSecretProto {
     // @@protoc_insertion_point(class_scope:magicSecret.MagicSecretRspMsg)
   }
 
-  public interface msRewardBoxOrBuilder
+  public interface MSItemInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string boxID = 1;
+    // required string itemID = 1;
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
-    boolean hasBoxID();
+    boolean hasItemID();
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
-    java.lang.String getBoxID();
+    java.lang.String getItemID();
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
     com.google.protobuf.ByteString
-        getBoxIDBytes();
+        getItemIDBytes();
 
-    // required int32 boxCount = 2;
+    // required int32 itemCount = 2;
     /**
-     * <code>required int32 boxCount = 2;</code>
+     * <code>required int32 itemCount = 2;</code>
      *
      * <pre>
-     *箱子数量
+     *箱子数量(物品数量)
      * </pre>
      */
-    boolean hasBoxCount();
+    boolean hasItemCount();
     /**
-     * <code>required int32 boxCount = 2;</code>
+     * <code>required int32 itemCount = 2;</code>
      *
      * <pre>
-     *箱子数量
+     *箱子数量(物品数量)
      * </pre>
      */
-    int getBoxCount();
+    int getItemCount();
   }
   /**
-   * Protobuf type {@code magicSecret.msRewardBox}
+   * Protobuf type {@code magicSecret.MSItemInfo}
    */
-  public static final class msRewardBox extends
+  public static final class MSItemInfo extends
       com.google.protobuf.GeneratedMessage
-      implements msRewardBoxOrBuilder {
-    // Use msRewardBox.newBuilder() to construct.
-    private msRewardBox(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements MSItemInfoOrBuilder {
+    // Use MSItemInfo.newBuilder() to construct.
+    private MSItemInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private msRewardBox(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private MSItemInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final msRewardBox defaultInstance;
-    public static msRewardBox getDefaultInstance() {
+    private static final MSItemInfo defaultInstance;
+    public static MSItemInfo getDefaultInstance() {
       return defaultInstance;
     }
 
-    public msRewardBox getDefaultInstanceForType() {
+    public MSItemInfo getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -4282,7 +5164,7 @@ public final class MagicSecretProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private msRewardBox(
+    private MSItemInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4307,12 +5189,12 @@ public final class MagicSecretProto {
             }
             case 10: {
               bitField0_ |= 0x00000001;
-              boxID_ = input.readBytes();
+              itemID_ = input.readBytes();
               break;
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              boxCount_ = input.readInt32();
+              itemCount_ = input.readInt32();
               break;
             }
           }
@@ -4329,54 +5211,54 @@ public final class MagicSecretProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.MagicSecretProto.internal_static_magicSecret_msRewardBox_descriptor;
+      return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSItemInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.MagicSecretProto.internal_static_magicSecret_msRewardBox_fieldAccessorTable
+      return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSItemInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.MagicSecretProto.msRewardBox.class, com.rwproto.MagicSecretProto.msRewardBox.Builder.class);
+              com.rwproto.MagicSecretProto.MSItemInfo.class, com.rwproto.MagicSecretProto.MSItemInfo.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<msRewardBox> PARSER =
-        new com.google.protobuf.AbstractParser<msRewardBox>() {
-      public msRewardBox parsePartialFrom(
+    public static com.google.protobuf.Parser<MSItemInfo> PARSER =
+        new com.google.protobuf.AbstractParser<MSItemInfo>() {
+      public MSItemInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new msRewardBox(input, extensionRegistry);
+        return new MSItemInfo(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<msRewardBox> getParserForType() {
+    public com.google.protobuf.Parser<MSItemInfo> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required string boxID = 1;
-    public static final int BOXID_FIELD_NUMBER = 1;
-    private java.lang.Object boxID_;
+    // required string itemID = 1;
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private java.lang.Object itemID_;
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
-    public boolean hasBoxID() {
+    public boolean hasItemID() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
-    public java.lang.String getBoxID() {
-      java.lang.Object ref = boxID_;
+    public java.lang.String getItemID() {
+      java.lang.Object ref = itemID_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -4384,70 +5266,70 @@ public final class MagicSecretProto {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          boxID_ = s;
+          itemID_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string boxID = 1;</code>
+     * <code>required string itemID = 1;</code>
      *
      * <pre>
-     *箱子id
+     *箱子id(或者物品id)
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getBoxIDBytes() {
-      java.lang.Object ref = boxID_;
+        getItemIDBytes() {
+      java.lang.Object ref = itemID_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        boxID_ = b;
+        itemID_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    // required int32 boxCount = 2;
-    public static final int BOXCOUNT_FIELD_NUMBER = 2;
-    private int boxCount_;
+    // required int32 itemCount = 2;
+    public static final int ITEMCOUNT_FIELD_NUMBER = 2;
+    private int itemCount_;
     /**
-     * <code>required int32 boxCount = 2;</code>
+     * <code>required int32 itemCount = 2;</code>
      *
      * <pre>
-     *箱子数量
+     *箱子数量(物品数量)
      * </pre>
      */
-    public boolean hasBoxCount() {
+    public boolean hasItemCount() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 boxCount = 2;</code>
+     * <code>required int32 itemCount = 2;</code>
      *
      * <pre>
-     *箱子数量
+     *箱子数量(物品数量)
      * </pre>
      */
-    public int getBoxCount() {
-      return boxCount_;
+    public int getItemCount() {
+      return itemCount_;
     }
 
     private void initFields() {
-      boxID_ = "";
-      boxCount_ = 0;
+      itemID_ = "";
+      itemCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasBoxID()) {
+      if (!hasItemID()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasBoxCount()) {
+      if (!hasItemCount()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4459,10 +5341,10 @@ public final class MagicSecretProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getBoxIDBytes());
+        output.writeBytes(1, getItemIDBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, boxCount_);
+        output.writeInt32(2, itemCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4475,11 +5357,11 @@ public final class MagicSecretProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getBoxIDBytes());
+          .computeBytesSize(1, getItemIDBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, boxCount_);
+          .computeInt32Size(2, itemCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4493,53 +5375,53 @@ public final class MagicSecretProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(byte[] data)
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(java.io.InputStream input)
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseDelimitedFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.MagicSecretProto.msRewardBox parseFrom(
+    public static com.rwproto.MagicSecretProto.MSItemInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4548,7 +5430,7 @@ public final class MagicSecretProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.MagicSecretProto.msRewardBox prototype) {
+    public static Builder newBuilder(com.rwproto.MagicSecretProto.MSItemInfo prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -4560,24 +5442,24 @@ public final class MagicSecretProto {
       return builder;
     }
     /**
-     * Protobuf type {@code magicSecret.msRewardBox}
+     * Protobuf type {@code magicSecret.MSItemInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.MagicSecretProto.msRewardBoxOrBuilder {
+       implements com.rwproto.MagicSecretProto.MSItemInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.MagicSecretProto.internal_static_magicSecret_msRewardBox_descriptor;
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSItemInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.MagicSecretProto.internal_static_magicSecret_msRewardBox_fieldAccessorTable
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSItemInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.MagicSecretProto.msRewardBox.class, com.rwproto.MagicSecretProto.msRewardBox.Builder.class);
+                com.rwproto.MagicSecretProto.MSItemInfo.class, com.rwproto.MagicSecretProto.MSItemInfo.Builder.class);
       }
 
-      // Construct using com.rwproto.MagicSecretProto.msRewardBox.newBuilder()
+      // Construct using com.rwproto.MagicSecretProto.MSItemInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4597,9 +5479,9 @@ public final class MagicSecretProto {
 
       public Builder clear() {
         super.clear();
-        boxID_ = "";
+        itemID_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        boxCount_ = 0;
+        itemCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -4610,67 +5492,67 @@ public final class MagicSecretProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.MagicSecretProto.internal_static_magicSecret_msRewardBox_descriptor;
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSItemInfo_descriptor;
       }
 
-      public com.rwproto.MagicSecretProto.msRewardBox getDefaultInstanceForType() {
-        return com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
+      public com.rwproto.MagicSecretProto.MSItemInfo getDefaultInstanceForType() {
+        return com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance();
       }
 
-      public com.rwproto.MagicSecretProto.msRewardBox build() {
-        com.rwproto.MagicSecretProto.msRewardBox result = buildPartial();
+      public com.rwproto.MagicSecretProto.MSItemInfo build() {
+        com.rwproto.MagicSecretProto.MSItemInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.MagicSecretProto.msRewardBox buildPartial() {
-        com.rwproto.MagicSecretProto.msRewardBox result = new com.rwproto.MagicSecretProto.msRewardBox(this);
+      public com.rwproto.MagicSecretProto.MSItemInfo buildPartial() {
+        com.rwproto.MagicSecretProto.MSItemInfo result = new com.rwproto.MagicSecretProto.MSItemInfo(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.boxID_ = boxID_;
+        result.itemID_ = itemID_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.boxCount_ = boxCount_;
+        result.itemCount_ = itemCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.MagicSecretProto.msRewardBox) {
-          return mergeFrom((com.rwproto.MagicSecretProto.msRewardBox)other);
+        if (other instanceof com.rwproto.MagicSecretProto.MSItemInfo) {
+          return mergeFrom((com.rwproto.MagicSecretProto.MSItemInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.MagicSecretProto.msRewardBox other) {
-        if (other == com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance()) return this;
-        if (other.hasBoxID()) {
+      public Builder mergeFrom(com.rwproto.MagicSecretProto.MSItemInfo other) {
+        if (other == com.rwproto.MagicSecretProto.MSItemInfo.getDefaultInstance()) return this;
+        if (other.hasItemID()) {
           bitField0_ |= 0x00000001;
-          boxID_ = other.boxID_;
+          itemID_ = other.itemID_;
           onChanged();
         }
-        if (other.hasBoxCount()) {
-          setBoxCount(other.getBoxCount());
+        if (other.hasItemCount()) {
+          setItemCount(other.getItemCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasBoxID()) {
+        if (!hasItemID()) {
           
           return false;
         }
-        if (!hasBoxCount()) {
+        if (!hasItemCount()) {
           
           return false;
         }
@@ -4681,11 +5563,11 @@ public final class MagicSecretProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.MagicSecretProto.msRewardBox parsedMessage = null;
+        com.rwproto.MagicSecretProto.MSItemInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.MagicSecretProto.msRewardBox) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.MagicSecretProto.MSItemInfo) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -4696,162 +5578,1592 @@ public final class MagicSecretProto {
       }
       private int bitField0_;
 
-      // required string boxID = 1;
-      private java.lang.Object boxID_ = "";
+      // required string itemID = 1;
+      private java.lang.Object itemID_ = "";
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
-      public boolean hasBoxID() {
+      public boolean hasItemID() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
-      public java.lang.String getBoxID() {
-        java.lang.Object ref = boxID_;
+      public java.lang.String getItemID() {
+        java.lang.Object ref = itemID_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          boxID_ = s;
+          itemID_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getBoxIDBytes() {
-        java.lang.Object ref = boxID_;
+          getItemIDBytes() {
+        java.lang.Object ref = itemID_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          boxID_ = b;
+          itemID_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
-      public Builder setBoxID(
+      public Builder setItemID(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        boxID_ = value;
+        itemID_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
-      public Builder clearBoxID() {
+      public Builder clearItemID() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        boxID_ = getDefaultInstance().getBoxID();
+        itemID_ = getDefaultInstance().getItemID();
         onChanged();
         return this;
       }
       /**
-       * <code>required string boxID = 1;</code>
+       * <code>required string itemID = 1;</code>
        *
        * <pre>
-       *箱子id
+       *箱子id(或者物品id)
        * </pre>
        */
-      public Builder setBoxIDBytes(
+      public Builder setItemIDBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000001;
-        boxID_ = value;
+        itemID_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 boxCount = 2;
-      private int boxCount_ ;
+      // required int32 itemCount = 2;
+      private int itemCount_ ;
       /**
-       * <code>required int32 boxCount = 2;</code>
+       * <code>required int32 itemCount = 2;</code>
        *
        * <pre>
-       *箱子数量
+       *箱子数量(物品数量)
        * </pre>
        */
-      public boolean hasBoxCount() {
+      public boolean hasItemCount() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 boxCount = 2;</code>
+       * <code>required int32 itemCount = 2;</code>
        *
        * <pre>
-       *箱子数量
+       *箱子数量(物品数量)
        * </pre>
        */
-      public int getBoxCount() {
-        return boxCount_;
+      public int getItemCount() {
+        return itemCount_;
       }
       /**
-       * <code>required int32 boxCount = 2;</code>
+       * <code>required int32 itemCount = 2;</code>
        *
        * <pre>
-       *箱子数量
+       *箱子数量(物品数量)
        * </pre>
        */
-      public Builder setBoxCount(int value) {
+      public Builder setItemCount(int value) {
         bitField0_ |= 0x00000002;
-        boxCount_ = value;
+        itemCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 boxCount = 2;</code>
+       * <code>required int32 itemCount = 2;</code>
        *
        * <pre>
-       *箱子数量
+       *箱子数量(物品数量)
        * </pre>
        */
-      public Builder clearBoxCount() {
+      public Builder clearItemCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        boxCount_ = 0;
+        itemCount_ = 0;
         onChanged();
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:magicSecret.msRewardBox)
+      // @@protoc_insertion_point(builder_scope:magicSecret.MSItemInfo)
     }
 
     static {
-      defaultInstance = new msRewardBox(true);
+      defaultInstance = new MSItemInfo(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:magicSecret.msRewardBox)
+    // @@protoc_insertion_point(class_scope:magicSecret.MSItemInfo)
+  }
+
+  public interface MSScoreRankItemOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string userId = 1;
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    boolean hasUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+
+    // required int32 totalScore = 2;
+    /**
+     * <code>required int32 totalScore = 2;</code>
+     *
+     * <pre>
+     *总积分
+     * </pre>
+     */
+    boolean hasTotalScore();
+    /**
+     * <code>required int32 totalScore = 2;</code>
+     *
+     * <pre>
+     *总积分
+     * </pre>
+     */
+    int getTotalScore();
+
+    // required string userName = 3;
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    boolean hasUserName();
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    java.lang.String getUserName();
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserNameBytes();
+
+    // required int32 level = 4;
+    /**
+     * <code>required int32 level = 4;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 4;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required string headImage = 5;
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    boolean hasHeadImage();
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    java.lang.String getHeadImage();
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadImageBytes();
+
+    // required int32 job = 6;
+    /**
+     * <code>required int32 job = 6;</code>
+     *
+     * <pre>
+     *职业
+     * </pre>
+     */
+    boolean hasJob();
+    /**
+     * <code>required int32 job = 6;</code>
+     *
+     * <pre>
+     *职业
+     * </pre>
+     */
+    int getJob();
+
+    // required string title = 7;
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    boolean hasTitle();
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    java.lang.String getTitle();
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+  }
+  /**
+   * Protobuf type {@code magicSecret.MSScoreRankItem}
+   */
+  public static final class MSScoreRankItem extends
+      com.google.protobuf.GeneratedMessage
+      implements MSScoreRankItemOrBuilder {
+    // Use MSScoreRankItem.newBuilder() to construct.
+    private MSScoreRankItem(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MSScoreRankItem(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MSScoreRankItem defaultInstance;
+    public static MSScoreRankItem getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MSScoreRankItem getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MSScoreRankItem(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              totalScore_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              userName_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              level_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              headImage_ = input.readBytes();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              job_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              title_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSScoreRankItem_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSScoreRankItem_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.MagicSecretProto.MSScoreRankItem.class, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MSScoreRankItem> PARSER =
+        new com.google.protobuf.AbstractParser<MSScoreRankItem>() {
+      public MSScoreRankItem parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MSScoreRankItem(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MSScoreRankItem> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string userId = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userId_;
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 totalScore = 2;
+    public static final int TOTALSCORE_FIELD_NUMBER = 2;
+    private int totalScore_;
+    /**
+     * <code>required int32 totalScore = 2;</code>
+     *
+     * <pre>
+     *总积分
+     * </pre>
+     */
+    public boolean hasTotalScore() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 totalScore = 2;</code>
+     *
+     * <pre>
+     *总积分
+     * </pre>
+     */
+    public int getTotalScore() {
+      return totalScore_;
+    }
+
+    // required string userName = 3;
+    public static final int USERNAME_FIELD_NUMBER = 3;
+    private java.lang.Object userName_;
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    public boolean hasUserName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    public java.lang.String getUserName() {
+      java.lang.Object ref = userName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userName = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserNameBytes() {
+      java.lang.Object ref = userName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 level = 4;
+    public static final int LEVEL_FIELD_NUMBER = 4;
+    private int level_;
+    /**
+     * <code>required int32 level = 4;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 level = 4;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required string headImage = 5;
+    public static final int HEADIMAGE_FIELD_NUMBER = 5;
+    private java.lang.Object headImage_;
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    public boolean hasHeadImage() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    public java.lang.String getHeadImage() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headImage_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headImage = 5;</code>
+     *
+     * <pre>
+     *头像
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadImageBytes() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headImage_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 job = 6;
+    public static final int JOB_FIELD_NUMBER = 6;
+    private int job_;
+    /**
+     * <code>required int32 job = 6;</code>
+     *
+     * <pre>
+     *职业
+     * </pre>
+     */
+    public boolean hasJob() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 job = 6;</code>
+     *
+     * <pre>
+     *职业
+     * </pre>
+     */
+    public int getJob() {
+      return job_;
+    }
+
+    // required string title = 7;
+    public static final int TITLE_FIELD_NUMBER = 7;
+    private java.lang.Object title_;
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    public boolean hasTitle() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          title_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     *称号
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      userId_ = "";
+      totalScore_ = 0;
+      userName_ = "";
+      level_ = 0;
+      headImage_ = "";
+      job_ = 0;
+      title_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTotalScore()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUserName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHeadImage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasJob()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, totalScore_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getUserNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, level_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getHeadImageBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, job_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getTitleBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, totalScore_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getUserNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, level_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getHeadImageBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, job_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getTitleBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.MagicSecretProto.MSScoreRankItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.MagicSecretProto.MSScoreRankItem prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code magicSecret.MSScoreRankItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.MagicSecretProto.MSScoreRankItemOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSScoreRankItem_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSScoreRankItem_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.MagicSecretProto.MSScoreRankItem.class, com.rwproto.MagicSecretProto.MSScoreRankItem.Builder.class);
+      }
+
+      // Construct using com.rwproto.MagicSecretProto.MSScoreRankItem.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        totalScore_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        headImage_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        job_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        title_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.MagicSecretProto.internal_static_magicSecret_MSScoreRankItem_descriptor;
+      }
+
+      public com.rwproto.MagicSecretProto.MSScoreRankItem getDefaultInstanceForType() {
+        return com.rwproto.MagicSecretProto.MSScoreRankItem.getDefaultInstance();
+      }
+
+      public com.rwproto.MagicSecretProto.MSScoreRankItem build() {
+        com.rwproto.MagicSecretProto.MSScoreRankItem result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.MagicSecretProto.MSScoreRankItem buildPartial() {
+        com.rwproto.MagicSecretProto.MSScoreRankItem result = new com.rwproto.MagicSecretProto.MSScoreRankItem(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.totalScore_ = totalScore_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.userName_ = userName_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.headImage_ = headImage_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.job_ = job_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.title_ = title_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.MagicSecretProto.MSScoreRankItem) {
+          return mergeFrom((com.rwproto.MagicSecretProto.MSScoreRankItem)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.MagicSecretProto.MSScoreRankItem other) {
+        if (other == com.rwproto.MagicSecretProto.MSScoreRankItem.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000001;
+          userId_ = other.userId_;
+          onChanged();
+        }
+        if (other.hasTotalScore()) {
+          setTotalScore(other.getTotalScore());
+        }
+        if (other.hasUserName()) {
+          bitField0_ |= 0x00000004;
+          userName_ = other.userName_;
+          onChanged();
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasHeadImage()) {
+          bitField0_ |= 0x00000010;
+          headImage_ = other.headImage_;
+          onChanged();
+        }
+        if (other.hasJob()) {
+          setJob(other.getJob());
+        }
+        if (other.hasTitle()) {
+          bitField0_ |= 0x00000040;
+          title_ = other.title_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasTotalScore()) {
+          
+          return false;
+        }
+        if (!hasUserName()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasHeadImage()) {
+          
+          return false;
+        }
+        if (!hasJob()) {
+          
+          return false;
+        }
+        if (!hasTitle()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.MagicSecretProto.MSScoreRankItem parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.MagicSecretProto.MSScoreRankItem) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string userId = 1;
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 1;</code>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 totalScore = 2;
+      private int totalScore_ ;
+      /**
+       * <code>required int32 totalScore = 2;</code>
+       *
+       * <pre>
+       *总积分
+       * </pre>
+       */
+      public boolean hasTotalScore() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 totalScore = 2;</code>
+       *
+       * <pre>
+       *总积分
+       * </pre>
+       */
+      public int getTotalScore() {
+        return totalScore_;
+      }
+      /**
+       * <code>required int32 totalScore = 2;</code>
+       *
+       * <pre>
+       *总积分
+       * </pre>
+       */
+      public Builder setTotalScore(int value) {
+        bitField0_ |= 0x00000002;
+        totalScore_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 totalScore = 2;</code>
+       *
+       * <pre>
+       *总积分
+       * </pre>
+       */
+      public Builder clearTotalScore() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        totalScore_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string userName = 3;
+      private java.lang.Object userName_ = "";
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public boolean hasUserName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public java.lang.String getUserName() {
+        java.lang.Object ref = userName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserNameBytes() {
+        java.lang.Object ref = userName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public Builder setUserName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        userName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public Builder clearUserName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        userName_ = getDefaultInstance().getUserName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userName = 3;</code>
+       */
+      public Builder setUserNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        userName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 level = 4;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 4;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 level = 4;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 4;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000008;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 4;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string headImage = 5;
+      private java.lang.Object headImage_ = "";
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public boolean hasHeadImage() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public java.lang.String getHeadImage() {
+        java.lang.Object ref = headImage_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headImage_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadImageBytes() {
+        java.lang.Object ref = headImage_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headImage_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public Builder setHeadImage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        headImage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public Builder clearHeadImage() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        headImage_ = getDefaultInstance().getHeadImage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headImage = 5;</code>
+       *
+       * <pre>
+       *头像
+       * </pre>
+       */
+      public Builder setHeadImageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        headImage_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 job = 6;
+      private int job_ ;
+      /**
+       * <code>required int32 job = 6;</code>
+       *
+       * <pre>
+       *职业
+       * </pre>
+       */
+      public boolean hasJob() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 job = 6;</code>
+       *
+       * <pre>
+       *职业
+       * </pre>
+       */
+      public int getJob() {
+        return job_;
+      }
+      /**
+       * <code>required int32 job = 6;</code>
+       *
+       * <pre>
+       *职业
+       * </pre>
+       */
+      public Builder setJob(int value) {
+        bitField0_ |= 0x00000020;
+        job_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 job = 6;</code>
+       *
+       * <pre>
+       *职业
+       * </pre>
+       */
+      public Builder clearJob() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        job_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string title = 7;
+      private java.lang.Object title_ = "";
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public boolean hasTitle() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public Builder clearTitle() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        title_ = getDefaultInstance().getTitle();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       *称号
+       * </pre>
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:magicSecret.MSScoreRankItem)
+    }
+
+    static {
+      defaultInstance = new MSScoreRankItem(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:magicSecret.MSScoreRankItem)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -4865,10 +7177,15 @@ public final class MagicSecretProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_magicSecret_msRewardBox_descriptor;
+    internal_static_magicSecret_MSItemInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_magicSecret_msRewardBox_fieldAccessorTable;
+      internal_static_magicSecret_MSItemInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_magicSecret_MSScoreRankItem_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_magicSecret_MSScoreRankItem_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4878,35 +7195,40 @@ public final class MagicSecretProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021MagicSecret.proto\022\013magicSecret\"\365\001\n\021Mag" +
+      "\n\021MagicSecret.proto\022\013magicSecret\"\364\001\n\021Mag" +
       "icSecretReqMsg\022+\n\007reqType\030\001 \002(\0162\032.magicS" +
       "ecret.msRequestType\022\021\n\tdungeonId\030\002 \001(\t\022\023" +
       "\n\013finishState\030\003 \001(\t\022\021\n\tchapterId\030\004 \001(\t\022\016" +
-      "\n\006buffId\030\005 \001(\t\022(\n\006rwdBox\030\006 \001(\0132\030.magicSe" +
-      "cret.msRewardBox\022\020\n\010armyInfo\030\007 \001(\t\022\025\n\rsc" +
-      "oreRewardID\030\010 \001(\005\022\025\n\rbuffOrBoxAble\030\t \001(\010" +
-      "\"\346\001\n\021MagicSecretRspMsg\022+\n\007reqType\030\001 \002(\0162" +
-      "\032.magicSecret.msRequestType\022*\n\007rstType\030\002" +
-      " \002(\0162\031.magicSecret.msResultType\022\022\n\nmsRan",
-      "kData\030\003 \003(\t\022\020\n\010selfRank\030\004 \001(\005\022\022\n\nrewardD" +
-      "ata\030\005 \003(\t\022\020\n\010armyInfo\030\006 \001(\t\022\025\n\risFirstFi" +
-      "nish\030\007 \001(\010\022\025\n\rherosFighting\030\010 \001(\t\".\n\013msR" +
-      "ewardBox\022\r\n\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(" +
-      "\005*\274\002\n\rmsRequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016" +
-      "ENTER_MS_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD" +
-      "\020\003\022\027\n\023GET_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_" +
-      "BUFF\020\005\022\023\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_AR" +
-      "MY\020\007\022\024\n\020GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_M" +
-      "S_RANK\020\t\022\026\n\022GIVE_UP_REWARD_BOX\020\n\022\020\n\014GIVE",
-      "_UP_BUFF\020\013\022\030\n\024SET_BUFF_SELECT_ABLE\020\014\022\025\n\021" +
-      "SET_BOX_OPEN_ABLE\020\r\022\023\n\017GET_HEROS_FIGHT\020\016" +
-      "*\321\001\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_" +
-      "NOT_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION" +
-      "_UNREACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_" +
-      "REWARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT" +
-      "_ENOUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\n" +
-      "DATA_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSecret" +
-      "Proto"
+      "\n\006buffId\030\005 \001(\t\022\'\n\006rwdBox\030\006 \001(\0132\027.magicSe" +
+      "cret.MSItemInfo\022\020\n\010armyInfo\030\007 \001(\t\022\025\n\rsco" +
+      "reRewardID\030\010 \001(\005\022\025\n\rbuffOrBoxAble\030\t \001(\010\"" +
+      "\306\002\n\021MagicSecretRspMsg\022+\n\007reqType\030\001 \002(\0162\032" +
+      ".magicSecret.msRequestType\022*\n\007rstType\030\002 " +
+      "\002(\0162\031.magicSecret.msResultType\0220\n\nmsRank",
+      "Data\030\003 \003(\0132\034.magicSecret.MSScoreRankItem" +
+      "\022\020\n\010selfRank\030\004 \001(\005\022+\n\nrewardData\030\005 \003(\0132\027" +
+      ".magicSecret.MSItemInfo\022\020\n\010armyInfo\030\006 \001(" +
+      "\t\022\020\n\010selfArmy\030\007 \001(\t\022\025\n\risFirstFinish\030\010 \001" +
+      "(\010\022\025\n\rherosFighting\030\t \001(\t\022\025\n\rmagicFighti" +
+      "ng\030\n \001(\t\"/\n\nMSItemInfo\022\016\n\006itemID\030\001 \002(\t\022\021" +
+      "\n\titemCount\030\002 \002(\005\"\205\001\n\017MSScoreRankItem\022\016\n" +
+      "\006userId\030\001 \002(\t\022\022\n\ntotalScore\030\002 \002(\005\022\020\n\010use" +
+      "rName\030\003 \002(\t\022\r\n\005level\030\004 \002(\005\022\021\n\theadImage\030" +
+      "\005 \002(\t\022\013\n\003job\030\006 \002(\005\022\r\n\005title\030\007 \002(\t*\274\002\n\rms",
+      "RequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS" +
+      "_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GE" +
+      "T_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023" +
+      "\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020" +
+      "GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t" +
+      "\022\026\n\022GIVE_UP_REWARD_BOX\020\n\022\020\n\014GIVE_UP_BUFF" +
+      "\020\013\022\030\n\024SET_BUFF_SELECT_ABLE\020\014\022\025\n\021SET_BOX_" +
+      "OPEN_ABLE\020\r\022\023\n\017GET_HEROS_FIGHT\020\016*\321\001\n\014msR" +
+      "esultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOU" +
+      "GH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UNREACH",
+      "\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_REWARD_B" +
+      "OX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_" +
+      "STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERR" +
+      "OR\020\nB\037\n\013com.rwprotoB\020MagicSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4924,13 +7246,19 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", "IsFirstFinish", "HerosFighting", });
-          internal_static_magicSecret_msRewardBox_descriptor =
+              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", "SelfArmy", "IsFirstFinish", "HerosFighting", "MagicFighting", });
+          internal_static_magicSecret_MSItemInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_magicSecret_msRewardBox_fieldAccessorTable = new
+          internal_static_magicSecret_MSItemInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_magicSecret_msRewardBox_descriptor,
-              new java.lang.String[] { "BoxID", "BoxCount", });
+              internal_static_magicSecret_MSItemInfo_descriptor,
+              new java.lang.String[] { "ItemID", "ItemCount", });
+          internal_static_magicSecret_MSScoreRankItem_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_magicSecret_MSScoreRankItem_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_magicSecret_MSScoreRankItem_descriptor,
+              new java.lang.String[] { "UserId", "TotalScore", "UserName", "Level", "HeadImage", "Job", "Title", });
           return null;
         }
       };

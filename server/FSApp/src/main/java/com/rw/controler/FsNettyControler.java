@@ -114,8 +114,8 @@ public class FsNettyControler {
 		sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
 	}
 
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
-		sendResponse(userId, header, resultContent, 200, ctx, synData);
+	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
+		return sendResponse(userId, header, resultContent, 200, ctx, synData);
 	}
 
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {

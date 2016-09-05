@@ -18,7 +18,7 @@ public class UserMagicSecretData {
 	private String userId; // 用户ID
 
 	@CombineSave
-	private String secretArmy; // 战斗队伍情况
+	private String secretArmy = ""; // 战斗队伍情况
 
 	@CombineSave
 	int historyScore; // 历史积分

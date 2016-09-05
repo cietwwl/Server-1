@@ -2,19 +2,10 @@ package com.playerdata.activity.dailyDiscountType.cfg;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
-
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -25,6 +16,7 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 		return SpringContextUtil.getBean(ActivityDailyDiscountTypeSubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMap ;
 	
 	@Override
 	public Map<String, ActivityDailyDiscountTypeSubCfg> initJsonCfg() {
@@ -32,6 +24,17 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 		for (ActivityDailyDiscountTypeSubCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}		
+		HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityDailyDiscountTypeSubCfg>>();
+		for(ActivityDailyDiscountTypeSubCfg subCfg : cfgCacheMap.values()){
+			String parentid = subCfg.getParentId();
+			List<ActivityDailyDiscountTypeSubCfg> list = subCfgListMapTmp.get(parentid);
+			if(list == null){
+				list = new ArrayList<ActivityDailyDiscountTypeSubCfg>();
+				subCfgListMapTmp.put(parentid, list);				
+			}
+			list.add(subCfg);
+ 		}
+		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
@@ -46,14 +49,7 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 	}
 
 
-	public List<ActivityDailyDiscountTypeSubCfg> getCfgListByParentId(String parantId) {
-		List<ActivityDailyDiscountTypeSubCfg> subCfgList = getAllCfg();
-		List<ActivityDailyDiscountTypeSubCfg> subCfgListByEnumID = new ArrayList<ActivityDailyDiscountTypeSubCfg>();
-		for(ActivityDailyDiscountTypeSubCfg subCfg :subCfgList){
-			if(StringUtils.equals(subCfg.getParentId(), parantId)){
-				subCfgListByEnumID.add(subCfg);
-			}			
-		}		
-		return subCfgListByEnumID;
+	public List<ActivityDailyDiscountTypeSubCfg> getCfgListByParentId(String parantId) {		
+		return subCfgListMap.get(parantId);
 	}
 }

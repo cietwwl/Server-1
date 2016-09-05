@@ -9,13 +9,13 @@ public abstract class UserEventHandleTask {
 	public void doWrapAction(Player player, Object params){
 		try {
 			doAction(player, params);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			logError(player,e);
 		}
 	}
 	
 	public abstract void doAction(Player player, Object params);
 	
-	public abstract void logError(Player player,Throwable ex);
+	public abstract void logError(Player player,Exception ex);
 	
 }

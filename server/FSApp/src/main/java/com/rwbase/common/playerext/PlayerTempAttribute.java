@@ -17,14 +17,16 @@ public class PlayerTempAttribute {
 	private final AtomicBoolean levelChanged;
 	private final AtomicBoolean heroFightingChanged;
 	private final AtomicBoolean checkRedPoint;
-	private boolean recordChanged; //竞技场日志变动
+	private boolean recordChanged; // 竞技场日志变动
 	private boolean refreshStore;
+	private final PlayerMemoryMark arenaChanged;
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
 		this.levelChanged = new AtomicBoolean();
 		this.heroFightingChanged = new AtomicBoolean();
 		this.checkRedPoint = new AtomicBoolean();
+		this.arenaChanged = new PlayerMemoryMark();
 	}
 
 	public void setExpChanged() {
@@ -97,4 +99,9 @@ public class PlayerTempAttribute {
 	public void setRefreshStore(boolean refreshStore) {
 		this.refreshStore = refreshStore;
 	}
+
+	public boolean checkAndResetArenaChanged() {
+		return this.arenaChanged.checkAndResetChanged();
+	}
+	
 }
