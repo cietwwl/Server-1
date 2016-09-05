@@ -25,6 +25,22 @@ import com.rwbase.dao.fighting.pojo.MagicFetterFightingCfg;
 
 public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, Integer>{
 	
+	private FetterMagicEquipCfgDao fetterMagicEquipCfgDao;
+	private MagicFetterFightingCfgDAO magicFetterFightingCfgDao;
+	private FixEquipFetterFightingCfgDAO fixEquipFetterFightingCfgDao;
+	private FettersConditionCfgDAO fettersConditionCfgDao;
+	private FettersBaseCfgDAO fetterBaseCfgDao;
+	private HeroFetterFightingCfgDAO heroFetterFightingCfgDao;
+	
+	public FSGetFetterCurrentFightingOfSingleFunc() {
+		fetterMagicEquipCfgDao = FetterMagicEquipCfgDao.getInstance();
+		magicFetterFightingCfgDao = MagicFetterFightingCfgDAO.getInstance();
+		fixEquipFetterFightingCfgDao = FixEquipFetterFightingCfgDAO.getInstnce();
+		fettersConditionCfgDao = FettersConditionCfgDAO.getCfgDAO();
+		fetterBaseCfgDao = FettersBaseCfgDAO.getCfgDAO();
+		heroFetterFightingCfgDao = HeroFetterFightingCfgDAO.getInstance();
+	}
+	
 	/**
 	 * 
 	 * 获取法宝羁绊的战斗力
@@ -45,14 +61,14 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 			MagicFetterFightingCfg magicFetterFightingCfg;
 			FixEquipFetterFightingCfg fixEquipFetterFightingCfg;
 			for (int i = 0; i < fetters.size(); i++) {
-				magicEquipConditionCfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(fetters.get(i)));
+				magicEquipConditionCfg = fetterMagicEquipCfgDao.getCfgById(String.valueOf(fetters.get(i)));
 				if (magicEquipConditionCfg.isMagicFetter()) {
 					// 法宝羁绊
-					magicFetterFightingCfg = MagicFetterFightingCfgDAO.getInstance().getCfgById(String.valueOf(magicEquipConditionCfg.getConditionLevel()));
+					magicFetterFightingCfg = magicFetterFightingCfgDao.getCfgById(String.valueOf(magicEquipConditionCfg.getConditionLevel()));
 					fighting += magicFetterFightingCfg.getFightingOfIndex(magicEquipConditionCfg.getSeq());
 				} else {
 					// 神器羁绊
-					fixEquipFetterFightingCfg = FixEquipFetterFightingCfgDAO.getInstnce().getCfgById(String.valueOf(magicEquipConditionCfg.getConditionLevel()));
+					fixEquipFetterFightingCfg = fixEquipFetterFightingCfgDao.getCfgById(String.valueOf(magicEquipConditionCfg.getConditionLevel()));
 					fighting += fixEquipFetterFightingCfg.getFightingOfIndex(magicEquipConditionCfg.getSeq());
 				}
 			}
@@ -83,9 +99,9 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 			for (Iterator<SynConditionData> itr = openList.values().iterator(); itr.hasNext();) {
 				temp = itr.next();
 				List<Integer> conditionList = temp.getConditionList(); // 列表保存的是所有已经完成的英雄羁绊条件
-				conditionCfg = FettersConditionCfgDAO.getCfgDAO().getFettersConditionTemplateByUniqueId(conditionList.get(conditionList.size() - 1));
-				fettersTemplate = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateById(conditionCfg.getConditionId());
-				fightingCfg = HeroFetterFightingCfgDAO.getInstance().getByLevel(conditionCfg.getConditionLevel());
+				conditionCfg = fettersConditionCfgDao.getFettersConditionTemplateByUniqueId(conditionList.get(conditionList.size() - 1));
+				fettersTemplate = fetterBaseCfgDao.getFettersBaseTemplateById(conditionCfg.getConditionId());
+				fightingCfg = heroFetterFightingCfgDao.getByLevel(conditionCfg.getConditionLevel());
 				fighting += fightingCfg.getFightingOfIndex(fettersTemplate.getSeq());
 			}
 		}

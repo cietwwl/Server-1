@@ -10,6 +10,12 @@ import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
 
 public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private GemFightingCfgDAO gemFightingCfgDAO;
+	
+	public FSGetGemCurrentFightingOfSingleFunc() {
+		gemFightingCfgDAO = GemFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Hero hero) {
@@ -19,7 +25,7 @@ public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Inte
 		int fighting = 0;
 		for (String cfgId : gemIdList) {
 			gemCfg = GemCfgDAO.getInstance().getCfgById(cfgId);
-			gemFightingCfg = GemFightingCfgDAO.getInstance().getByRequiredLv(gemCfg.getLevel());
+			gemFightingCfg = gemFightingCfgDAO.getByRequiredLv(gemCfg.getLevel());
 			fighting += gemFightingCfg.getFighting();
 		}
 		return fighting;

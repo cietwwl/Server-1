@@ -14,11 +14,19 @@ import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
  *
  */
 public class FSGetMagicMaxFightingFunc implements IFunction<Player, Integer>{
+	
+	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
+	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
+	
+	public FSGetMagicMaxFightingFunc() {
+		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
+		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Player player) {
-		OneToOneTypeFightingCfg levelFightingCfg = MagicLevelFightingCfgDAO.getInstance().getByRequiredLv(player.getLevel());
-		OneToOneTypeFightingCfg qualityFightingCfg = MagicQualityFightingCfgDAO.getInstance().getByRequiredLv(player.getLevel());
+		OneToOneTypeFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getByRequiredLv(player.getLevel());
+		OneToOneTypeFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getByRequiredLv(player.getLevel());
 		return levelFightingCfg.getFighting() + qualityFightingCfg.getFighting();
 	}
 

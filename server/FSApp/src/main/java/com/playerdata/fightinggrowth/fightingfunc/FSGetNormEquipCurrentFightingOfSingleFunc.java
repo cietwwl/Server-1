@@ -11,12 +11,18 @@ import com.rwbase.dao.item.pojo.HeroEquipCfg;
 
 public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
+	private HeroEquipCfgDAO heroEquipCfgDAO;
+	
+	public FSGetNormEquipCurrentFightingOfSingleFunc() {
+		heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
+	}
+	
 	@Override
 	public Integer apply(Hero hero) {
 		List<EquipItem> equipList = hero.getEquipMgr().getEquipList(hero.getId());
 		int fighting = 0;
 		for (EquipItem equipItem : equipList) {
-			HeroEquipCfg equipCfg = HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipItem.getModelId()));
+			HeroEquipCfg equipCfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipItem.getModelId()));
 			fighting += FightingCalculator.calculateFighting(equipCfg.getAttrDataMap(), hero.getTemplateId());
 		}
 		return fighting;

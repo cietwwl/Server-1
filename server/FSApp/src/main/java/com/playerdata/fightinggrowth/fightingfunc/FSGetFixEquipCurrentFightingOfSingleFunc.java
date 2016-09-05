@@ -14,6 +14,16 @@ import com.rwbase.dao.fighting.pojo.FixEquipQualityFightingCfg;
 import com.rwbase.dao.fighting.pojo.FixEquipStarFightingCfg;
 
 public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private FixEquipLevelFightingCfgDAO fixEquipLevelFightingCfgDAO;
+	private FixEquipQualityFightingCfgDAO fixEquipQualityFightingCfgDAO;
+	private FixEquipStarFightingCfgDAO fixEquipStarFightingCfgDAO;
+	
+	public FSGetFixEquipCurrentFightingOfSingleFunc() {
+		fixEquipLevelFightingCfgDAO = FixEquipLevelFightingCfgDAO.getInstance();
+		fixEquipQualityFightingCfgDAO = FixEquipQualityFightingCfgDAO.getInstance();
+		fixEquipStarFightingCfgDAO = FixEquipStarFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Hero hero) {
@@ -27,9 +37,9 @@ public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero,
 		FixEquipStarFightingCfg starFightingCfg;
 		for (int k = 0; k < fixEquipInfos.size(); k++) {
 			equipInfo = fixEquipInfos.get(k);
-			lvFightingCfg = FixEquipLevelFightingCfgDAO.getInstance().getByLevel(equipInfo.getLevel());
-			qualityFightingCfg = FixEquipQualityFightingCfgDAO.getInstance().getCfgById(String.valueOf(equipInfo.getQuality())); // 神器进阶的战斗力配置
-			starFightingCfg = FixEquipStarFightingCfgDAO.getInstance().getCfgById(String.valueOf(equipInfo.getStar())); // 神器觉醒的战斗力配置
+			lvFightingCfg = fixEquipLevelFightingCfgDAO.getByLevel(equipInfo.getLevel());
+			qualityFightingCfg = fixEquipQualityFightingCfgDAO.getCfgById(String.valueOf(equipInfo.getQuality())); // 神器进阶的战斗力配置
+			starFightingCfg = fixEquipStarFightingCfgDAO.getCfgById(String.valueOf(equipInfo.getStar())); // 神器觉醒的战斗力配置
 			int slotIndex = equipInfo.getSlot() + 1;
 			fighting += lvFightingCfg.getFightingOfIndex(slotIndex);
 			fighting += qualityFightingCfg.getFightingOfIndex(slotIndex);

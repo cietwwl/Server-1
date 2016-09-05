@@ -10,6 +10,12 @@ import com.rwbase.dao.fighting.pojo.SkillFightingCfg;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private SkillFightingCfgDAO skillFightingCfgDAO;
+	
+	public FSGetSkillCurrentFightingOfSingleFunc() {
+		skillFightingCfgDAO = SkillFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Hero hero) {
@@ -22,7 +28,7 @@ public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, In
 			if (skillItem.getOrder() == SkillConstant.NORMAL_SKILL_ORDER) {
 				continue;
 			}
-			skillFightingCfg = SkillFightingCfgDAO.getInstance().getByLevel(skillItem.getLevel());
+			skillFightingCfg = skillFightingCfgDAO.getByLevel(skillItem.getLevel());
 			fighting += skillFightingCfg.getFightingOfIndex(skillItem.getOrder() + 1);
 		}
 		return fighting;

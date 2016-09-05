@@ -18,13 +18,25 @@ import com.rwbase.dao.fighting.pojo.FixEquipStarFightingCfg;
  *
  */
 public class FSGetFixEquipMaxFightingFunc implements IFunction<Player, Integer> {
+	
+	private FixEquipLevelFightingCfgDAO fixEquipLevelFightingCfgDAO;
+	private FixEquipQualityFightingCfgDAO fixEquipQualityFightingCfgDAO;
+	private FixEquipStarFightingCfgDAO fixEquipStarFightingCfgDAO;
+	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
+	
+	public FSGetFixEquipMaxFightingFunc() {
+		fixEquipLevelFightingCfgDAO = FixEquipLevelFightingCfgDAO.getInstance();
+		fixEquipQualityFightingCfgDAO = FixEquipQualityFightingCfgDAO.getInstance();
+		fixEquipStarFightingCfgDAO = FixEquipStarFightingCfgDAO.getInstance();
+		expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Player player) {
-		int expectedHeroCount = ExpectedHeroStatusCfgDAO.getInstance().getExpectedHeroCount(player.getLevel()); // 系统期望的最大英雄数量
-		FixEquipLevelFightingCfg lvFightingCfg = FixEquipLevelFightingCfgDAO.getInstance().getByLevel(player.getLevel()); // 神器等级的战斗力配置
-		FixEquipQualityFightingCfg qualityFightingCfg = FixEquipQualityFightingCfgDAO.getInstance().getByLevel(player.getLevel()); // 神器进阶的战斗力配置
-		FixEquipStarFightingCfg starFightingCfg = FixEquipStarFightingCfgDAO.getInstance().getByLevel(player.getLevel()); // 神器觉醒的战斗力配置
+		int expectedHeroCount = expectedHeroStatusCfgDAO.getExpectedHeroCount(player.getLevel()); // 系统期望的最大英雄数量
+		FixEquipLevelFightingCfg lvFightingCfg = fixEquipLevelFightingCfgDAO.getByLevel(player.getLevel()); // 神器等级的战斗力配置
+		FixEquipQualityFightingCfg qualityFightingCfg = fixEquipQualityFightingCfgDAO.getByLevel(player.getLevel()); // 神器进阶的战斗力配置
+		FixEquipStarFightingCfg starFightingCfg = fixEquipStarFightingCfgDAO.getByLevel(player.getLevel()); // 神器觉醒的战斗力配置
 		return expectedHeroCount * (lvFightingCfg.getAllFighting() + qualityFightingCfg.getAllFighting() + starFightingCfg.getAllFighting());
 	}
 

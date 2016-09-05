@@ -15,12 +15,20 @@ import com.rwbase.dao.inlay.InlayItemHelper;
  *
  */
 public class FSGetGemMaxFightingFunc implements IFunction<Player, Integer> {
+	
+	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
+	private GemFightingCfgDAO gemFightingCfgDAO;
+	
+	public FSGetGemMaxFightingFunc() {
+		expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
+		gemFightingCfgDAO = GemFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Player player) {
-		int expectedHeroCount = ExpectedHeroStatusCfgDAO.getInstance().getExpectedHeroCount(player.getLevel());
+		int expectedHeroCount = expectedHeroStatusCfgDAO.getExpectedHeroCount(player.getLevel());
 		int gemCount = InlayItemHelper.getOpenCount(player.getLevel());
-		OneToOneTypeFightingCfg cfg = GemFightingCfgDAO.getInstance().getByRequiredLv(player.getLevel());
+		OneToOneTypeFightingCfg cfg = gemFightingCfgDAO.getByRequiredLv(player.getLevel());
 		return expectedHeroCount * gemCount * cfg.getFighting(); // 当前等级的最高战斗力就是英雄数量期望*宝石数量*宝石品质期望
 	}
 

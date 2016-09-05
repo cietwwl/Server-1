@@ -9,6 +9,12 @@ import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
 import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 
 public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private GroupSkillFightingCfgDAO groupSkillFightingCfgDAO;
+	
+	public FSGetGroupSkillFightingOfSingleFunc() {
+		groupSkillFightingCfgDAO = GroupSkillFightingCfgDAO.getInstance();
+	}
 
 	@Override
 	public Integer apply(Hero hero) {
@@ -20,7 +26,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 			for (int i = 0; i < groupSkillItemList.size(); i++) {
 				groupSkillItem = groupSkillItemList.get(i);
 				if (groupSkillItem.getLevel() > 0) {
-					fightingCfg = GroupSkillFightingCfgDAO.getInstance().getCfgById(groupSkillItem.getId());
+					fightingCfg = groupSkillFightingCfgDAO.getCfgById(groupSkillItem.getId());
 					fighting += fightingCfg.getFighting() * groupSkillItem.getLevel();
 				}
 			}

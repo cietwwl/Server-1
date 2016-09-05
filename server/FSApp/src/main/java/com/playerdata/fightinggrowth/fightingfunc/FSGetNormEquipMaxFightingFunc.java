@@ -20,16 +20,26 @@ import com.rwbase.dao.role.pojo.RoleQualityCfg;
  */
 public class FSGetNormEquipMaxFightingFunc implements IFunction<Player, Integer> {
 	
+	private HeroEquipCfgDAO heroEquipCfgDAO;
+	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
+	private RoleQualityCfgDAO roleQualityCfgDAO;
+	
+	public FSGetNormEquipMaxFightingFunc() {
+		heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
+		expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
+		roleQualityCfgDAO = RoleQualityCfgDAO.getInstance();
+	}
+	
 	private int getEquipFighting(int equipId, String heroTemplateId) {
-		HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
+		HeroEquipCfg cfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipId));
 		return FightingCalculator.calculateFighting(cfg.getAttrDataMap(), heroTemplateId);
 	}
 
 	@Override
 	public Integer apply(Player player) {
 		// 以主角为基准，满装备的战斗力
-		ExpectedHeroStatusCfg expectedHeroSatausCfg = ExpectedHeroStatusCfgDAO.getInstance().getCfgById(String.valueOf(player.getLevel()));
-		RoleQualityCfg qualtiyCfg = RoleQualityCfgDAO.getInstance().getConfig(Utils.computeQualityId(player.getModelId(), expectedHeroSatausCfg.getExpectedQuality()));
+		ExpectedHeroStatusCfg expectedHeroSatausCfg = expectedHeroStatusCfgDAO.getCfgById(String.valueOf(player.getLevel()));
+		RoleQualityCfg qualtiyCfg = roleQualityCfgDAO.getConfig(Utils.computeQualityId(player.getModelId(), expectedHeroSatausCfg.getExpectedQuality()));
 		String templateId = player.getTemplateId();
 		int fighting1 = this.getEquipFighting(qualtiyCfg.getEquip1(), templateId);
 		int fighting2 = this.getEquipFighting(qualtiyCfg.getEquip2(), templateId);
