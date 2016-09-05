@@ -22,6 +22,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeEntry;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -319,6 +320,26 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}	
 		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityRankTypeCfg> list = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRankTypeCfg cfg: list){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}		
+		return false;
+	}
+
+	private boolean isOpen(ActivityRankTypeCfg cfg, MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}
 	
 	

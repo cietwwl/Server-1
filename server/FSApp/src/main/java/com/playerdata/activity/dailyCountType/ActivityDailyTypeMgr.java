@@ -16,6 +16,7 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 
 public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
@@ -273,4 +274,23 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
 	}
 
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityDailyTypeCfg> allList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityDailyTypeCfg cfg : allList){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityDailyTypeCfg cfg, MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
+	}	
 }

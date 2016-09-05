@@ -13,6 +13,7 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -258,5 +259,25 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityRateTypeCfg> list = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRateTypeCfg cfg : list){
+			if(isOpen(cfg,param)){
+				return true;
+			}			
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityRateTypeCfg cfg, MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}
 }

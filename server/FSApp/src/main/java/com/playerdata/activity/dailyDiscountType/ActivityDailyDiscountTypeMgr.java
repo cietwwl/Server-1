@@ -26,6 +26,7 @@ import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeI
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
@@ -297,6 +298,29 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}	
 		
-	}	
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityDailyDiscountTypeCfg> allList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityDailyDiscountTypeCfg cfg : allList){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityDailyDiscountTypeCfg cfg,
+			MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
+		}
+	
+	
 	
 }
