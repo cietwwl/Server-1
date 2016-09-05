@@ -1,6 +1,8 @@
 package com.rw.service.FresherActivity.Achieve;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +55,14 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 		
 		
 		List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
+		Collections.sort(allCfg, new Comparator<FresherActivityFinalRewardCfg>() {
+
+			@Override
+			public int compare(FresherActivityFinalRewardCfg o1, FresherActivityFinalRewardCfg o2) {
+				// TODO Auto-generated method stub
+				return o1.getId() > o2.getId() ? 1 : -1;
+			}
+		});
 		for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
 
 			if (fresherActivityFinalRewardCfg.getProgress() <= result) {
