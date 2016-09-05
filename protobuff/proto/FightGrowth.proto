@@ -3,33 +3,33 @@ option java_package = "com.rwproto";
 option java_outer_classname = "FightGrowthProto";
 
 message UpgradeFightingTitleResponse {
-	required bool success = 1; // ÊÇ·ñ³É¹¦
-	required string tips = 2; // ÌáÊ¾ĞÅÏ¢
+	required bool success = 1; // æ˜¯å¦æˆåŠŸ
+	required string tips = 2; // æç¤ºä¿¡æ¯
 }
 
-// µÀ¾ßĞèÇó
+// é“å…·éœ€æ±‚
 message UpgradeItemRequired {
-	required fixed32 itemCfgId = 1; // µÀ¾ß±àºÅ
-	required fixed32 itemCount = 2; // ĞèÇóµÄÊıÁ¿
+	required fixed32 itemCfgId = 1; // é“å…·ç¼–å·
+	required fixed32 itemCount = 2; // éœ€æ±‚çš„æ•°é‡
 }
 
-// Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ³É³¤Í¾¾¶Êı¾İ
+// ç©å®¶æˆ˜åŠ›æå‡æ•°æ®æˆé•¿é€”å¾„æ•°æ®
 message UserFightingGrowthWaySynData {
-	required string key = 1; // ¹Ø¼üË÷Òı
-	required string name = 2; // Ãû×Ö
-	required fixed32 currentFighting = 3; // µ±Ç°µÄÕ½¶·Á¦
-	required fixed32 maxFighting = 4; // ×î´óµÄÕ½¶·Á¦
-	repeated fixed32 gainWay = 5; // »ñÈ¡Í¾¾¶
-	required fixed32 gotoType = 6; // ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+	required string key = 1; // å…³é”®ç´¢å¼•
+	required string name = 2; // åå­—
+	required fixed32 currentFighting = 3; // å½“å‰çš„æˆ˜æ–—åŠ›
+	required fixed32 maxFighting = 4; // æœ€å¤§çš„æˆ˜æ–—åŠ›
+	repeated fixed32 gainWay = 5; // è·å–é€”å¾„
+	required fixed32 gotoType = 6; // æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
 }
 
-// Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ
+// ç©å®¶æˆ˜åŠ›æå‡æ•°æ®
 message UserFightingGrowthSynData {
-	required string userId = 1; // Õ½Á¦ÌáÉıÊı¾İµÄuserId
-	required string currentTitle = 2; // µ±Ç°µÄ³ÆºÅ
-	required string titleIcon = 3; // µ±Ç°µÄ³ÆºÅÍ¼Æ¬
-	required fixed32 fightingRequired = 4; // Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
-	required bool hasNextTitle = 5; // ÊÇ·ñÓĞÏÂÒ»¸ö
-	repeated UpgradeItemRequired upgradeItemRequired= 6; // Éı¼¶ËùĞèÒªµÄµÀ¾ß
-	repeated UserFightingGrowthWaySynData growthWayData = 7; // ³É³¤Í¾¾¶Êı¾İ
+	required string userId = 1; // æˆ˜åŠ›æå‡æ•°æ®çš„userId
+	required string currentTitle = 2; // å½“å‰çš„ç§°å·
+	required string titleIcon = 3; // å½“å‰çš„ç§°å·å›¾ç‰‡
+	required fixed32 fightingRequired = 4; // å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
+	required bool hasNextTitle = 5; // æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
+	repeated UpgradeItemRequired upgradeItemRequired= 6; // å‡çº§æ‰€éœ€è¦çš„é“å…·
+	repeated UserFightingGrowthWaySynData growthWayData = 7; // æˆé•¿é€”å¾„æ•°æ®
 }

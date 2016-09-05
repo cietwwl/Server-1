@@ -16,7 +16,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * ÊÇ·ñ³É¹¦
+     * æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     boolean hasSuccess();
@@ -24,7 +24,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * ÊÇ·ñ³É¹¦
+     * æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     boolean getSuccess();
@@ -34,7 +34,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     boolean hasTips();
@@ -42,7 +42,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     java.lang.String getTips();
@@ -50,7 +50,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -164,7 +164,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * ÊÇ·ñ³É¹¦
+     * æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     public boolean hasSuccess() {
@@ -174,7 +174,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * ÊÇ·ñ³É¹¦
+     * æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     public boolean getSuccess() {
@@ -188,7 +188,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     public boolean hasTips() {
@@ -198,7 +198,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     public java.lang.String getTips() {
@@ -219,7 +219,7 @@ public final class FightGrowthProto {
      * <code>required string tips = 2;</code>
      *
      * <pre>
-     * ÌáÊ¾ĞÅÏ¢
+     * æç¤ºä¿¡æ¯
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -504,7 +504,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * ÊÇ·ñ³É¹¦
+       * æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public boolean hasSuccess() {
@@ -514,7 +514,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * ÊÇ·ñ³É¹¦
+       * æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public boolean getSuccess() {
@@ -524,7 +524,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * ÊÇ·ñ³É¹¦
+       * æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public Builder setSuccess(boolean value) {
@@ -537,7 +537,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * ÊÇ·ñ³É¹¦
+       * æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public Builder clearSuccess() {
@@ -553,7 +553,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public boolean hasTips() {
@@ -563,7 +563,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public java.lang.String getTips() {
@@ -581,7 +581,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -601,7 +601,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public Builder setTips(
@@ -618,7 +618,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public Builder clearTips() {
@@ -631,7 +631,7 @@ public final class FightGrowthProto {
        * <code>required string tips = 2;</code>
        *
        * <pre>
-       * ÌáÊ¾ĞÅÏ¢
+       * æç¤ºä¿¡æ¯
        * </pre>
        */
       public Builder setTipsBytes(
@@ -664,7 +664,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCfgId = 1;</code>
      *
      * <pre>
-     * µÀ¾ß±àºÅ
+     * é“å…·ç¼–å·
      * </pre>
      */
     boolean hasItemCfgId();
@@ -672,7 +672,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCfgId = 1;</code>
      *
      * <pre>
-     * µÀ¾ß±àºÅ
+     * é“å…·ç¼–å·
      * </pre>
      */
     int getItemCfgId();
@@ -682,7 +682,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCount = 2;</code>
      *
      * <pre>
-     * ĞèÇóµÄÊıÁ¿
+     * éœ€æ±‚çš„æ•°é‡
      * </pre>
      */
     boolean hasItemCount();
@@ -690,7 +690,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCount = 2;</code>
      *
      * <pre>
-     * ĞèÇóµÄÊıÁ¿
+     * éœ€æ±‚çš„æ•°é‡
      * </pre>
      */
     int getItemCount();
@@ -699,7 +699,7 @@ public final class FightGrowthProto {
    * Protobuf type {@code UpgradeItemRequired}
    *
    * <pre>
-   * µÀ¾ßĞèÇó
+   * é“å…·éœ€æ±‚
    * </pre>
    */
   public static final class UpgradeItemRequired extends
@@ -807,7 +807,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCfgId = 1;</code>
      *
      * <pre>
-     * µÀ¾ß±àºÅ
+     * é“å…·ç¼–å·
      * </pre>
      */
     public boolean hasItemCfgId() {
@@ -817,7 +817,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCfgId = 1;</code>
      *
      * <pre>
-     * µÀ¾ß±àºÅ
+     * é“å…·ç¼–å·
      * </pre>
      */
     public int getItemCfgId() {
@@ -831,7 +831,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCount = 2;</code>
      *
      * <pre>
-     * ĞèÇóµÄÊıÁ¿
+     * éœ€æ±‚çš„æ•°é‡
      * </pre>
      */
     public boolean hasItemCount() {
@@ -841,7 +841,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 itemCount = 2;</code>
      *
      * <pre>
-     * ĞèÇóµÄÊıÁ¿
+     * éœ€æ±‚çš„æ•°é‡
      * </pre>
      */
     public int getItemCount() {
@@ -977,7 +977,7 @@ public final class FightGrowthProto {
      * Protobuf type {@code UpgradeItemRequired}
      *
      * <pre>
-     * µÀ¾ßĞèÇó
+     * é“å…·éœ€æ±‚
      * </pre>
      */
     public static final class Builder extends
@@ -1118,7 +1118,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCfgId = 1;</code>
        *
        * <pre>
-       * µÀ¾ß±àºÅ
+       * é“å…·ç¼–å·
        * </pre>
        */
       public boolean hasItemCfgId() {
@@ -1128,7 +1128,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCfgId = 1;</code>
        *
        * <pre>
-       * µÀ¾ß±àºÅ
+       * é“å…·ç¼–å·
        * </pre>
        */
       public int getItemCfgId() {
@@ -1138,7 +1138,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCfgId = 1;</code>
        *
        * <pre>
-       * µÀ¾ß±àºÅ
+       * é“å…·ç¼–å·
        * </pre>
        */
       public Builder setItemCfgId(int value) {
@@ -1151,7 +1151,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCfgId = 1;</code>
        *
        * <pre>
-       * µÀ¾ß±àºÅ
+       * é“å…·ç¼–å·
        * </pre>
        */
       public Builder clearItemCfgId() {
@@ -1167,7 +1167,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCount = 2;</code>
        *
        * <pre>
-       * ĞèÇóµÄÊıÁ¿
+       * éœ€æ±‚çš„æ•°é‡
        * </pre>
        */
       public boolean hasItemCount() {
@@ -1177,7 +1177,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCount = 2;</code>
        *
        * <pre>
-       * ĞèÇóµÄÊıÁ¿
+       * éœ€æ±‚çš„æ•°é‡
        * </pre>
        */
       public int getItemCount() {
@@ -1187,7 +1187,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCount = 2;</code>
        *
        * <pre>
-       * ĞèÇóµÄÊıÁ¿
+       * éœ€æ±‚çš„æ•°é‡
        * </pre>
        */
       public Builder setItemCount(int value) {
@@ -1200,7 +1200,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 itemCount = 2;</code>
        *
        * <pre>
-       * ĞèÇóµÄÊıÁ¿
+       * éœ€æ±‚çš„æ•°é‡
        * </pre>
        */
       public Builder clearItemCount() {
@@ -1229,7 +1229,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     boolean hasKey();
@@ -1237,7 +1237,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     java.lang.String getKey();
@@ -1245,7 +1245,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1256,7 +1256,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     boolean hasName();
@@ -1264,7 +1264,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     java.lang.String getName();
@@ -1272,7 +1272,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1283,7 +1283,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 currentFighting = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄÕ½¶·Á¦
+     * å½“å‰çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     boolean hasCurrentFighting();
@@ -1291,7 +1291,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 currentFighting = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄÕ½¶·Á¦
+     * å½“å‰çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     int getCurrentFighting();
@@ -1301,7 +1301,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 maxFighting = 4;</code>
      *
      * <pre>
-     * ×î´óµÄÕ½¶·Á¦
+     * æœ€å¤§çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     boolean hasMaxFighting();
@@ -1309,7 +1309,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 maxFighting = 4;</code>
      *
      * <pre>
-     * ×î´óµÄÕ½¶·Á¦
+     * æœ€å¤§çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     int getMaxFighting();
@@ -1319,7 +1319,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     java.util.List<java.lang.Integer> getGainWayList();
@@ -1327,7 +1327,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     int getGainWayCount();
@@ -1335,7 +1335,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     int getGainWay(int index);
@@ -1345,7 +1345,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 gotoType = 6;</code>
      *
      * <pre>
-     * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+     * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
      * </pre>
      */
     boolean hasGotoType();
@@ -1353,7 +1353,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 gotoType = 6;</code>
      *
      * <pre>
-     * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+     * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
      * </pre>
      */
     int getGotoType();
@@ -1362,7 +1362,7 @@ public final class FightGrowthProto {
    * Protobuf type {@code UserFightingGrowthWaySynData}
    *
    * <pre>
-   * Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ³É³¤Í¾¾¶Êı¾İ
+   * ç©å®¶æˆ˜åŠ›æå‡æ•°æ®æˆé•¿é€”å¾„æ•°æ®
    * </pre>
    */
   public static final class UserFightingGrowthWaySynData extends
@@ -1509,7 +1509,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     public boolean hasKey() {
@@ -1519,7 +1519,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     public java.lang.String getKey() {
@@ -1540,7 +1540,7 @@ public final class FightGrowthProto {
      * <code>required string key = 1;</code>
      *
      * <pre>
-     * ¹Ø¼üË÷Òı
+     * å…³é”®ç´¢å¼•
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1564,7 +1564,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     public boolean hasName() {
@@ -1574,7 +1574,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     public java.lang.String getName() {
@@ -1595,7 +1595,7 @@ public final class FightGrowthProto {
      * <code>required string name = 2;</code>
      *
      * <pre>
-     * Ãû×Ö
+     * åå­—
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1619,7 +1619,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 currentFighting = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄÕ½¶·Á¦
+     * å½“å‰çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public boolean hasCurrentFighting() {
@@ -1629,7 +1629,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 currentFighting = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄÕ½¶·Á¦
+     * å½“å‰çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public int getCurrentFighting() {
@@ -1643,7 +1643,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 maxFighting = 4;</code>
      *
      * <pre>
-     * ×î´óµÄÕ½¶·Á¦
+     * æœ€å¤§çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public boolean hasMaxFighting() {
@@ -1653,7 +1653,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 maxFighting = 4;</code>
      *
      * <pre>
-     * ×î´óµÄÕ½¶·Á¦
+     * æœ€å¤§çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public int getMaxFighting() {
@@ -1667,7 +1667,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     public java.util.List<java.lang.Integer>
@@ -1678,7 +1678,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     public int getGainWayCount() {
@@ -1688,7 +1688,7 @@ public final class FightGrowthProto {
      * <code>repeated fixed32 gainWay = 5;</code>
      *
      * <pre>
-     * »ñÈ¡Í¾¾¶
+     * è·å–é€”å¾„
      * </pre>
      */
     public int getGainWay(int index) {
@@ -1702,7 +1702,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 gotoType = 6;</code>
      *
      * <pre>
-     * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+     * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
      * </pre>
      */
     public boolean hasGotoType() {
@@ -1712,7 +1712,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 gotoType = 6;</code>
      *
      * <pre>
-     * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+     * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
      * </pre>
      */
     public int getGotoType() {
@@ -1894,7 +1894,7 @@ public final class FightGrowthProto {
      * Protobuf type {@code UserFightingGrowthWaySynData}
      *
      * <pre>
-     * Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ³É³¤Í¾¾¶Êı¾İ
+     * ç©å®¶æˆ˜åŠ›æå‡æ•°æ®æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public static final class Builder extends
@@ -2095,7 +2095,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public boolean hasKey() {
@@ -2105,7 +2105,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public java.lang.String getKey() {
@@ -2123,7 +2123,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2143,7 +2143,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public Builder setKey(
@@ -2160,7 +2160,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public Builder clearKey() {
@@ -2173,7 +2173,7 @@ public final class FightGrowthProto {
        * <code>required string key = 1;</code>
        *
        * <pre>
-       * ¹Ø¼üË÷Òı
+       * å…³é”®ç´¢å¼•
        * </pre>
        */
       public Builder setKeyBytes(
@@ -2193,7 +2193,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public boolean hasName() {
@@ -2203,7 +2203,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public java.lang.String getName() {
@@ -2221,7 +2221,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2241,7 +2241,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public Builder setName(
@@ -2258,7 +2258,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public Builder clearName() {
@@ -2271,7 +2271,7 @@ public final class FightGrowthProto {
        * <code>required string name = 2;</code>
        *
        * <pre>
-       * Ãû×Ö
+       * åå­—
        * </pre>
        */
       public Builder setNameBytes(
@@ -2291,7 +2291,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 currentFighting = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄÕ½¶·Á¦
+       * å½“å‰çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public boolean hasCurrentFighting() {
@@ -2301,7 +2301,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 currentFighting = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄÕ½¶·Á¦
+       * å½“å‰çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public int getCurrentFighting() {
@@ -2311,7 +2311,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 currentFighting = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄÕ½¶·Á¦
+       * å½“å‰çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder setCurrentFighting(int value) {
@@ -2324,7 +2324,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 currentFighting = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄÕ½¶·Á¦
+       * å½“å‰çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder clearCurrentFighting() {
@@ -2340,7 +2340,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 maxFighting = 4;</code>
        *
        * <pre>
-       * ×î´óµÄÕ½¶·Á¦
+       * æœ€å¤§çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public boolean hasMaxFighting() {
@@ -2350,7 +2350,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 maxFighting = 4;</code>
        *
        * <pre>
-       * ×î´óµÄÕ½¶·Á¦
+       * æœ€å¤§çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public int getMaxFighting() {
@@ -2360,7 +2360,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 maxFighting = 4;</code>
        *
        * <pre>
-       * ×î´óµÄÕ½¶·Á¦
+       * æœ€å¤§çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder setMaxFighting(int value) {
@@ -2373,7 +2373,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 maxFighting = 4;</code>
        *
        * <pre>
-       * ×î´óµÄÕ½¶·Á¦
+       * æœ€å¤§çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder clearMaxFighting() {
@@ -2395,7 +2395,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public java.util.List<java.lang.Integer>
@@ -2406,7 +2406,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public int getGainWayCount() {
@@ -2416,7 +2416,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public int getGainWay(int index) {
@@ -2426,7 +2426,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public Builder setGainWay(
@@ -2440,7 +2440,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public Builder addGainWay(int value) {
@@ -2453,7 +2453,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public Builder addAllGainWay(
@@ -2467,7 +2467,7 @@ public final class FightGrowthProto {
        * <code>repeated fixed32 gainWay = 5;</code>
        *
        * <pre>
-       * »ñÈ¡Í¾¾¶
+       * è·å–é€”å¾„
        * </pre>
        */
       public Builder clearGainWay() {
@@ -2483,7 +2483,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 gotoType = 6;</code>
        *
        * <pre>
-       * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+       * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
        * </pre>
        */
       public boolean hasGotoType() {
@@ -2493,7 +2493,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 gotoType = 6;</code>
        *
        * <pre>
-       * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+       * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
        * </pre>
        */
       public int getGotoType() {
@@ -2503,7 +2503,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 gotoType = 6;</code>
        *
        * <pre>
-       * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+       * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
        * </pre>
        */
       public Builder setGotoType(int value) {
@@ -2516,7 +2516,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 gotoType = 6;</code>
        *
        * <pre>
-       * ´ò¿ªµÄ¹¦ÄÜÀàĞÍ
+       * æ‰“å¼€çš„åŠŸèƒ½ç±»å‹
        * </pre>
        */
       public Builder clearGotoType() {
@@ -2545,7 +2545,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     boolean hasUserId();
@@ -2553,7 +2553,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     java.lang.String getUserId();
@@ -2561,7 +2561,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2572,7 +2572,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     boolean hasCurrentTitle();
@@ -2580,7 +2580,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     java.lang.String getCurrentTitle();
@@ -2588,7 +2588,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2599,7 +2599,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     boolean hasTitleIcon();
@@ -2607,7 +2607,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     java.lang.String getTitleIcon();
@@ -2615,7 +2615,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2626,7 +2626,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 fightingRequired = 4;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+     * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     boolean hasFightingRequired();
@@ -2634,7 +2634,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 fightingRequired = 4;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+     * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     int getFightingRequired();
@@ -2644,7 +2644,7 @@ public final class FightGrowthProto {
      * <code>required bool hasNextTitle = 5;</code>
      *
      * <pre>
-     * ÊÇ·ñÓĞÏÂÒ»¸ö
+     * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
      * </pre>
      */
     boolean hasHasNextTitle();
@@ -2652,7 +2652,7 @@ public final class FightGrowthProto {
      * <code>required bool hasNextTitle = 5;</code>
      *
      * <pre>
-     * ÊÇ·ñÓĞÏÂÒ»¸ö
+     * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
      * </pre>
      */
     boolean getHasNextTitle();
@@ -2662,7 +2662,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> 
@@ -2671,7 +2671,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index);
@@ -2679,7 +2679,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     int getUpgradeItemRequiredCount();
@@ -2687,7 +2687,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
@@ -2696,7 +2696,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
@@ -2707,7 +2707,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> 
@@ -2716,7 +2716,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index);
@@ -2724,7 +2724,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     int getGrowthWayDataCount();
@@ -2732,7 +2732,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
@@ -2741,7 +2741,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
@@ -2751,7 +2751,7 @@ public final class FightGrowthProto {
    * Protobuf type {@code UserFightingGrowthSynData}
    *
    * <pre>
-   * Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ
+   * ç©å®¶æˆ˜åŠ›æå‡æ•°æ®
    * </pre>
    */
   public static final class UserFightingGrowthSynData extends
@@ -2896,7 +2896,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     public boolean hasUserId() {
@@ -2906,7 +2906,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     public java.lang.String getUserId() {
@@ -2927,7 +2927,7 @@ public final class FightGrowthProto {
      * <code>required string userId = 1;</code>
      *
      * <pre>
-     * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+     * æˆ˜åŠ›æå‡æ•°æ®çš„userId
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2951,7 +2951,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     public boolean hasCurrentTitle() {
@@ -2961,7 +2961,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     public java.lang.String getCurrentTitle() {
@@ -2982,7 +2982,7 @@ public final class FightGrowthProto {
      * <code>required string currentTitle = 2;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅ
+     * å½“å‰çš„ç§°å·
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3006,7 +3006,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     public boolean hasTitleIcon() {
@@ -3016,7 +3016,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     public java.lang.String getTitleIcon() {
@@ -3037,7 +3037,7 @@ public final class FightGrowthProto {
      * <code>required string titleIcon = 3;</code>
      *
      * <pre>
-     * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+     * å½“å‰çš„ç§°å·å›¾ç‰‡
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3061,7 +3061,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 fightingRequired = 4;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+     * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public boolean hasFightingRequired() {
@@ -3071,7 +3071,7 @@ public final class FightGrowthProto {
      * <code>required fixed32 fightingRequired = 4;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+     * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
      * </pre>
      */
     public int getFightingRequired() {
@@ -3085,7 +3085,7 @@ public final class FightGrowthProto {
      * <code>required bool hasNextTitle = 5;</code>
      *
      * <pre>
-     * ÊÇ·ñÓĞÏÂÒ»¸ö
+     * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
      * </pre>
      */
     public boolean hasHasNextTitle() {
@@ -3095,7 +3095,7 @@ public final class FightGrowthProto {
      * <code>required bool hasNextTitle = 5;</code>
      *
      * <pre>
-     * ÊÇ·ñÓĞÏÂÒ»¸ö
+     * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
      * </pre>
      */
     public boolean getHasNextTitle() {
@@ -3109,7 +3109,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> getUpgradeItemRequiredList() {
@@ -3119,7 +3119,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     public java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
@@ -3130,7 +3130,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     public int getUpgradeItemRequiredCount() {
@@ -3140,7 +3140,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     public com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index) {
@@ -3150,7 +3150,7 @@ public final class FightGrowthProto {
      * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
      *
      * <pre>
-     * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+     * å‡çº§æ‰€éœ€è¦çš„é“å…·
      * </pre>
      */
     public com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
@@ -3165,7 +3165,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> getGrowthWayDataList() {
@@ -3175,7 +3175,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
@@ -3186,7 +3186,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public int getGrowthWayDataCount() {
@@ -3196,7 +3196,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index) {
@@ -3206,7 +3206,7 @@ public final class FightGrowthProto {
      * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
      *
      * <pre>
-     * ³É³¤Í¾¾¶Êı¾İ
+     * æˆé•¿é€”å¾„æ•°æ®
      * </pre>
      */
     public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
@@ -3407,7 +3407,7 @@ public final class FightGrowthProto {
      * Protobuf type {@code UserFightingGrowthSynData}
      *
      * <pre>
-     * Íæ¼ÒÕ½Á¦ÌáÉıÊı¾İ
+     * ç©å®¶æˆ˜åŠ›æå‡æ•°æ®
      * </pre>
      */
     public static final class Builder extends
@@ -3689,7 +3689,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public boolean hasUserId() {
@@ -3699,7 +3699,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public java.lang.String getUserId() {
@@ -3717,7 +3717,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3737,7 +3737,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public Builder setUserId(
@@ -3754,7 +3754,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public Builder clearUserId() {
@@ -3767,7 +3767,7 @@ public final class FightGrowthProto {
        * <code>required string userId = 1;</code>
        *
        * <pre>
-       * Õ½Á¦ÌáÉıÊı¾İµÄuserId
+       * æˆ˜åŠ›æå‡æ•°æ®çš„userId
        * </pre>
        */
       public Builder setUserIdBytes(
@@ -3787,7 +3787,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public boolean hasCurrentTitle() {
@@ -3797,7 +3797,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public java.lang.String getCurrentTitle() {
@@ -3815,7 +3815,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3835,7 +3835,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public Builder setCurrentTitle(
@@ -3852,7 +3852,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public Builder clearCurrentTitle() {
@@ -3865,7 +3865,7 @@ public final class FightGrowthProto {
        * <code>required string currentTitle = 2;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅ
+       * å½“å‰çš„ç§°å·
        * </pre>
        */
       public Builder setCurrentTitleBytes(
@@ -3885,7 +3885,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public boolean hasTitleIcon() {
@@ -3895,7 +3895,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public java.lang.String getTitleIcon() {
@@ -3913,7 +3913,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3933,7 +3933,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public Builder setTitleIcon(
@@ -3950,7 +3950,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public Builder clearTitleIcon() {
@@ -3963,7 +3963,7 @@ public final class FightGrowthProto {
        * <code>required string titleIcon = 3;</code>
        *
        * <pre>
-       * µ±Ç°µÄ³ÆºÅÍ¼Æ¬
+       * å½“å‰çš„ç§°å·å›¾ç‰‡
        * </pre>
        */
       public Builder setTitleIconBytes(
@@ -3983,7 +3983,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 fightingRequired = 4;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+       * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public boolean hasFightingRequired() {
@@ -3993,7 +3993,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 fightingRequired = 4;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+       * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public int getFightingRequired() {
@@ -4003,7 +4003,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 fightingRequired = 4;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+       * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder setFightingRequired(int value) {
@@ -4016,7 +4016,7 @@ public final class FightGrowthProto {
        * <code>required fixed32 fightingRequired = 4;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄÕ½¶·Á¦
+       * å‡çº§æ‰€éœ€è¦çš„æˆ˜æ–—åŠ›
        * </pre>
        */
       public Builder clearFightingRequired() {
@@ -4032,7 +4032,7 @@ public final class FightGrowthProto {
        * <code>required bool hasNextTitle = 5;</code>
        *
        * <pre>
-       * ÊÇ·ñÓĞÏÂÒ»¸ö
+       * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
        * </pre>
        */
       public boolean hasHasNextTitle() {
@@ -4042,7 +4042,7 @@ public final class FightGrowthProto {
        * <code>required bool hasNextTitle = 5;</code>
        *
        * <pre>
-       * ÊÇ·ñÓĞÏÂÒ»¸ö
+       * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
        * </pre>
        */
       public boolean getHasNextTitle() {
@@ -4052,7 +4052,7 @@ public final class FightGrowthProto {
        * <code>required bool hasNextTitle = 5;</code>
        *
        * <pre>
-       * ÊÇ·ñÓĞÏÂÒ»¸ö
+       * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
        * </pre>
        */
       public Builder setHasNextTitle(boolean value) {
@@ -4065,7 +4065,7 @@ public final class FightGrowthProto {
        * <code>required bool hasNextTitle = 5;</code>
        *
        * <pre>
-       * ÊÇ·ñÓĞÏÂÒ»¸ö
+       * æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ª
        * </pre>
        */
       public Builder clearHasNextTitle() {
@@ -4092,7 +4092,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired> getUpgradeItemRequiredList() {
@@ -4106,7 +4106,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public int getUpgradeItemRequiredCount() {
@@ -4120,7 +4120,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UpgradeItemRequired getUpgradeItemRequired(int index) {
@@ -4134,7 +4134,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder setUpgradeItemRequired(
@@ -4155,7 +4155,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder setUpgradeItemRequired(
@@ -4173,7 +4173,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder addUpgradeItemRequired(com.rwproto.FightGrowthProto.UpgradeItemRequired value) {
@@ -4193,7 +4193,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder addUpgradeItemRequired(
@@ -4214,7 +4214,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder addUpgradeItemRequired(
@@ -4232,7 +4232,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder addUpgradeItemRequired(
@@ -4250,7 +4250,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder addAllUpgradeItemRequired(
@@ -4268,7 +4268,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder clearUpgradeItemRequired() {
@@ -4285,7 +4285,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public Builder removeUpgradeItemRequired(int index) {
@@ -4302,7 +4302,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder getUpgradeItemRequiredBuilder(
@@ -4313,7 +4313,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder getUpgradeItemRequiredOrBuilder(
@@ -4327,7 +4327,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public java.util.List<? extends com.rwproto.FightGrowthProto.UpgradeItemRequiredOrBuilder> 
@@ -4342,7 +4342,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder addUpgradeItemRequiredBuilder() {
@@ -4353,7 +4353,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder addUpgradeItemRequiredBuilder(
@@ -4365,7 +4365,7 @@ public final class FightGrowthProto {
        * <code>repeated .UpgradeItemRequired upgradeItemRequired = 6;</code>
        *
        * <pre>
-       * Éı¼¶ËùĞèÒªµÄµÀ¾ß
+       * å‡çº§æ‰€éœ€è¦çš„é“å…·
        * </pre>
        */
       public java.util.List<com.rwproto.FightGrowthProto.UpgradeItemRequired.Builder> 
@@ -4404,7 +4404,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData> getGrowthWayDataList() {
@@ -4418,7 +4418,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public int getGrowthWayDataCount() {
@@ -4432,7 +4432,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData getGrowthWayData(int index) {
@@ -4446,7 +4446,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder setGrowthWayData(
@@ -4467,7 +4467,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder setGrowthWayData(
@@ -4485,7 +4485,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder addGrowthWayData(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData value) {
@@ -4505,7 +4505,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder addGrowthWayData(
@@ -4526,7 +4526,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder addGrowthWayData(
@@ -4544,7 +4544,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder addGrowthWayData(
@@ -4562,7 +4562,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder addAllGrowthWayData(
@@ -4580,7 +4580,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder clearGrowthWayData() {
@@ -4597,7 +4597,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public Builder removeGrowthWayData(int index) {
@@ -4614,7 +4614,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder getGrowthWayDataBuilder(
@@ -4625,7 +4625,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
@@ -4639,7 +4639,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public java.util.List<? extends com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder> 
@@ -4654,7 +4654,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder addGrowthWayDataBuilder() {
@@ -4665,7 +4665,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder addGrowthWayDataBuilder(
@@ -4677,7 +4677,7 @@ public final class FightGrowthProto {
        * <code>repeated .UserFightingGrowthWaySynData growthWayData = 7;</code>
        *
        * <pre>
-       * ³É³¤Í¾¾¶Êı¾İ
+       * æˆé•¿é€”å¾„æ•°æ®
        * </pre>
        */
       public java.util.List<com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.Builder> 
