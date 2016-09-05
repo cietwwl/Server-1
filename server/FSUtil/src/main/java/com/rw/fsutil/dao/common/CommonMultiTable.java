@@ -114,5 +114,5 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		// total.addAndGet(System.nanoTime() - start);
 		return sqlArray[tableIndex];
 	}
-
+	
 }

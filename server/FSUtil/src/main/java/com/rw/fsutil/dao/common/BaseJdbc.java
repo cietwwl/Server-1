@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -236,10 +237,14 @@ public abstract class BaseJdbc<T> {
 	 * 执行批量添加和删除操作，要么全部成功，要么全部失败
 	 * </pre>
 	 * 
-	 * @param addSql 执行添加的sql语句
-	 * @param addList 添加列表
-	 * @param delSql 执行删除的sql语句
-	 * @param delList 删除列表
+	 * @param addSql
+	 *            执行添加的sql语句
+	 * @param addList
+	 *            添加列表
+	 * @param delSql
+	 *            执行删除的sql语句
+	 * @param delList
+	 *            删除列表
 	 * @return
 	 */
 	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) throws DuplicatedKeyException, DataNotExistException {
@@ -436,6 +441,10 @@ public abstract class BaseJdbc<T> {
 			fieldValues.add(JsonUtil.writeValue(fieldValueMap));
 		}
 		return fieldValues;
+	}
+
+	public RowMapper<T> getRowMapper() {
+		return rowMapper;
 	}
 
 }

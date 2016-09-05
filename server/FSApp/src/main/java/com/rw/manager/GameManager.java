@@ -91,11 +91,12 @@ public class GameManager {
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
-		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
+
+		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 
 		// initServerProperties();
 		initServerOpenTime();

@@ -127,4 +127,7 @@ public class DataCacheFactory {
 		return cacheMap.values();
 	}
 
+	public static DataCache<?, ?> getDataCache(Pair<Class, String> key){
+		return cacheMap.get(key);
+	}
 }

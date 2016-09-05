@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -49,7 +50,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
 		this(entityClazz, entityClazz.getName(), searchFieldP, itemBagCount, datasourceName, writeDirect);
 	}
-	
+
 	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, boolean writeDirect) {
 		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", writeDirect);
 	}
@@ -123,4 +124,22 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	public void submitRecordTask(String key) {
 		this.cache.submitRecordTask(key);
 	}
+
+	public String getSearchField() {
+		return searchFieldP;
+	}
+
+	public RowMapper<T> getRowMapper() {
+		return this.commonJdbc.getRowMapper();
+	}
+
+	public boolean putIfAbsent(String key, List<T> items) {
+		MapItemStore<T> store = new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect);
+		return this.cache.preInsertIfAbsent(key, store);
+	}
+	
+	public String getTableName(String userId){
+		return this.commonJdbc.getTableName(userId);
+	}
+	
 }
