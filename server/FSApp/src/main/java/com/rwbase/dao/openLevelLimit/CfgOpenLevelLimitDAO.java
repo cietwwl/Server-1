@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.common.RefInt;
 import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -94,8 +95,11 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				if (checkPointID > 0){
 					CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
 					if (copyCfg != null){
-						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关“%s”开启");
-						outTip.value = String.format(tipTemplate, level,copyCfg.getName());
+						RefInt chapter = new RefInt();
+						RefInt order = new RefInt();
+						GetCopyChapterAndOrder(checkPointID,chapter,order);
+						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关“%s-%s”开启");
+						outTip.value = String.format(tipTemplate, level,chapter.value,order.value);
 					}else{
 						GameLog.error("功能开发", "", "配置错误：openLevelLimit配置了不存在的关卡ID:"+checkPointID);
 						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
@@ -109,6 +113,11 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		}
 
 		return result;
+	}
+
+	private 	void GetCopyChapterAndOrder(int copyId,RefInt chapterNum,RefInt orderInChapter){
+		orderInChapter.value = copyId % 100;
+		chapterNum.value = (copyId / 100) % 100;
 	}
 
 	/**
