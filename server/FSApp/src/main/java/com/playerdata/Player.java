@@ -111,7 +111,8 @@ import com.rwproto.ResponseProtos.ResponseHeader;
 
 public class Player implements PlayerIF {
 
-	private final String userId;
+	private final String userId; // 角色id
+	private int level;
 	private UserDataMgr userDataMgr;
 	private UserGameDataMgr userGameDataMgr;
 
@@ -277,7 +278,7 @@ public class Player implements PlayerIF {
 
 		if (initMgr) {
 			initMgr();
-			
+
 			// 检查主角羁绊
 			this.me_FetterMgr.checkPlayerData(this);
 		}
@@ -322,7 +323,8 @@ public class Player implements PlayerIF {
 		upgradeMgr.init(this);
 
 		privilegeMgr.init(this);
-		me_FetterMgr.init(this);// 注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by Alex
+		me_FetterMgr.init(this);// 注意，这个要求加载完法宝及神器数据，因为会在内部对这个模块数据进行检查-----by
+								// Alex
 		m_TaskMgr.init(this);// 任务要获取其他模块的数据，所以把它放在最后进行初始化 ---by Alex
 	}
 
@@ -347,7 +349,7 @@ public class Player implements PlayerIF {
 
 			@Override
 			public void doAction() {
-				
+
 				Enumeration<? extends Hero> heros = m_HeroMgr.getHerosEnumeration(Player.this);
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
@@ -444,7 +446,6 @@ public class Player implements PlayerIF {
 			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}
 
-		
 		return synData;
 	}
 
@@ -599,12 +600,12 @@ public class Player implements PlayerIF {
 		if (this.tempAttribute.checkAndResetRedPoint()) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
 		}
-		
-		{//检查巅峰竞技场
+
+		{// 检查巅峰竞技场
 			Player player = this;
 			PeakArenaBM peakBM = PeakArenaBM.getInstance();
 			TablePeakArenaData arenaData = peakBM.getOrAddPeakArenaData(player);
-			if (arenaData != null){
+			if (arenaData != null) {
 				peakBM.addPeakArenaCoin(player, arenaData, peakBM.getPlace(player), System.currentTimeMillis());
 			}
 		}
@@ -786,6 +787,7 @@ public class Player implements PlayerIF {
 				}
 			}
 			addPower(addpower);
+			this.level = newLevel;
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
 			MagicChapterInfoHolder.getInstance().synAllData(this);
@@ -817,9 +819,9 @@ public class Player implements PlayerIF {
 			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
 		}
 	}
-	
+
 	public void setLevelByGM(int newLevel) {
-		if(newLevel <= 0){
+		if (newLevel <= 0) {
 			return;
 		}
 		// 最高等级
@@ -840,13 +842,13 @@ public class Player implements PlayerIF {
 		levelNotification.fire(newLevel);
 
 	}
-	
+
 	private void onLevelChangeByGm(int currentLevel, int newLevel) {
 		// 有升级
-		
+
 		if (currentLevel < newLevel) {
 			onLevelChange(currentLevel, newLevel);
-		}else{
+		} else {
 			Hero mainRoleHero = getMainRoleHero();
 			int fightbeforelevelup = getHeroMgr().getFightingTeam(this);
 			mainRoleHero.SetHeroLevel(newLevel);
@@ -1007,17 +1009,21 @@ public class Player implements PlayerIF {
 
 	public int getStarLevel() {
 		// return 0;
-//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getStarLevel();
+		// return
+		// getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getStarLevel();
 		return getMainRoleHero().getStarLevel();
 	}
 
 	public int getLevel() {
-//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
-		return getMainRoleHero().getLevel();
+		// return  getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		if (level == 0) {
+			level = getMainRoleHero().getLevel();
+		}
+		return level;
 	}
 
 	public long getExp() {
-//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getExp();
+		// return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getExp();
 		return getMainRoleHero().getExp();
 	}
 
@@ -1038,7 +1044,8 @@ public class Player implements PlayerIF {
 	}
 
 	public String getTemplateId() {
-//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getTemplateId();
+		// return
+		// getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getTemplateId();
 		return getMainRoleHero().getTemplateId();
 
 	}
@@ -1060,7 +1067,7 @@ public class Player implements PlayerIF {
 	}
 
 	public String getUserId() {
-//		return userGameDataMgr.getUserId();
+		// return userGameDataMgr.getUserId();
 		return this.userId;
 	}
 
@@ -1088,7 +1095,8 @@ public class Player implements PlayerIF {
 	}
 
 	public int getModelId() {
-//		return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getModeId();
+		// return
+		// getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getModeId();
 		return getMainRoleHero().getModeId();
 	}
 
@@ -1404,7 +1412,8 @@ public class Player implements PlayerIF {
 	 * 
 	 * @param heroModelId
 	 * @param fettersData
-	 * @param canSyn 是否可以同步数据
+	 * @param canSyn
+	 *            是否可以同步数据
 	 */
 	public void addOrUpdateHeroFetters(int heroModelId, SynFettersData fettersData, boolean canSyn) {
 		if (fettersData == null) {
