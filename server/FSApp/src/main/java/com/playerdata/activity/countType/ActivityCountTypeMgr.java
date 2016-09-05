@@ -82,8 +82,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
 				.getInstance();
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO
-				.getInstance().getAllCfg();
+		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (!activityCountTypeCfgDAO.isOpen(
