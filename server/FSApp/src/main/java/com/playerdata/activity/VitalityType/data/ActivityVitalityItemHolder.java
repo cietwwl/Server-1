@@ -61,17 +61,8 @@ public class ActivityVitalityItemHolder{
 	public ActivityVitalityTypeItem getItem(String userId, ActivityVitalityTypeEnum acVitalityTypeEnum){
 		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
 		return getItemStore(userId).getItem(itemId);
-	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
-	
+	}	
+
 	public boolean addItem(Player player, ActivityVitalityTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
@@ -93,25 +84,10 @@ public class ActivityVitalityItemHolder{
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
+	}	
+
 	public void synAllData(Player player){
 		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());	
-//		Iterator<ActivityVitalityTypeItem> it = itemList.iterator();
-//		while(it.hasNext()){
-//			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem)it.next();
-//			if(ActivityVitalityCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
-////				removeItem(player, item);
-//				it.remove();
-//			}
-//		}		
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
