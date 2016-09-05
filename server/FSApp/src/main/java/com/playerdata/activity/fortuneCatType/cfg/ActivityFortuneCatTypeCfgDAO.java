@@ -89,6 +89,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 
 	public ActivityFortuneCatTypeCfg getCfgListByItem(
 			ActivityFortuneCatTypeItem targetItem) {
+		ActivityFortuneCatTypeMgr activityFortuneCatTypeMgr = ActivityFortuneCatTypeMgr.getInstance();
 		String cfgId = targetItem.getCfgId();
 		List<ActivityFortuneCatTypeCfg>  cfgList = getAllCfg();
 		List<ActivityFortuneCatTypeCfg>  cfgListByItem = new ArrayList<ActivityFortuneCatTypeCfg>();
@@ -100,7 +101,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 		
 		List<ActivityFortuneCatTypeCfg>  cfgListIsOpen = new ArrayList<ActivityFortuneCatTypeCfg>();//激活的下一个活动，只有0或1个；
 		for(ActivityFortuneCatTypeCfg cfg : cfgListByItem){
-			if(ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)){
+			if(activityFortuneCatTypeMgr.isOpen(cfg)){
 				cfgListIsOpen.add(cfg);
 			}			
 		}

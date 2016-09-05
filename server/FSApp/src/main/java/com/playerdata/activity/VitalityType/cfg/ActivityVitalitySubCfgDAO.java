@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -50,12 +49,13 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 	
 	private ActivityVitalitySubCfg getVitalityOne(String subId) {
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
 		for(ActivityVitalityCfg cfg : cfgList){
 			if (StringUtils.equals(
 					ActivityVitalityTypeEnum.Vitality.getCfgId(),
 					cfg.getEnumID())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+					&& activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}
@@ -84,12 +84,13 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 	
 	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
 		for(ActivityVitalityCfg cfg : cfgList){
 			if (StringUtils.equals(
 					ActivityVitalityTypeEnum.VitalityTwo.getCfgId(),
 					cfg.getEnumID())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+					&& activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}

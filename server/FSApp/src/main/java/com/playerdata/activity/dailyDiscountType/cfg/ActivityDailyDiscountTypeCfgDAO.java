@@ -82,13 +82,14 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
+		ActivityDailyDiscountItemCfgDao activityDailyDiscountItemCfgDao = ActivityDailyDiscountItemCfgDao.getInstance();
 		for(ActivityDailyDiscountTypeSubCfg activityVitalitySubCfg : subCfgList){
 			if(activityVitalitySubCfg.getAfterSomeDays() != day){
 				continue;
 			}
 			
 			for(Integer itemId:activityVitalitySubCfg.getItemList()){
-				ActivityDailyDiscountItemCfg itemCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(itemId+"");
+				ActivityDailyDiscountItemCfg itemCfg = activityDailyDiscountItemCfgDao.getCfgById(itemId+"");
 				if(itemCfg == null){
 					continue;
 				}
@@ -110,12 +111,13 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
 	 */
 	public ActivityDailyDiscountTypeCfg getCfgByItem(ActivityDailyDiscountTypeItem item) {
+		ActivityDailyDiscountTypeMgr activityDailyDiscountTypeMgr = ActivityDailyDiscountTypeMgr.getInstance();
 		String id = item.getCfgId();
 		String enumId = item.getEnumId();
 		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();
 		List<ActivityDailyDiscountTypeCfg> cfgListByItem = new ArrayList<ActivityDailyDiscountTypeCfg>();
 		for(ActivityDailyDiscountTypeCfg cfg : cfglist){
-			if(!StringUtils.equals(cfg.getId(),id)&&StringUtils.equals(enumId, cfg.getEnumId())&&ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(cfg.getId(),id)&&StringUtils.equals(enumId, cfg.getEnumId())&&activityDailyDiscountTypeMgr.isOpen(cfg)){
 				cfgListByItem.add(cfg);
 			}			
 		}

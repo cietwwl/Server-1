@@ -143,9 +143,10 @@ public final class ActivityRateTypeCfgDAO extends
 				cfgListByEnumID.add(cfg);				
 			}			
 		}
+		ActivityRateTypeMgr activityRateTypeMgr = ActivityRateTypeMgr.getInstance();
 		List<ActivityRateTypeCfg> cfgListIsOpen = new ArrayList<ActivityRateTypeCfg>();
 		for(ActivityRateTypeCfg cfg : cfgListByEnumID){
-			if(ActivityRateTypeMgr.getInstance().isOpen(cfg)){
+			if(activityRateTypeMgr.isOpen(cfg)){
 				cfgListIsOpen.add(cfg);
 			}			
 		}

@@ -97,7 +97,8 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 
 	public List<ActivityRedEnvelopeTypeSubItem> getSubList(ActivityRedEnvelopeTypeCfg cfg) {
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
-		for(ActivityRedEnvelopeTypeSubCfg subCfg : ActivityRedEnvelopeTypeSubCfgDAO.getInstance().getAllCfg()){
+		ActivityRedEnvelopeTypeSubCfgDAO activityRedEnvelopeTypeSubCfgDAO = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
+		for(ActivityRedEnvelopeTypeSubCfg subCfg : activityRedEnvelopeTypeSubCfgDAO.getAllCfg()){
 			if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
 				continue;
 			}
@@ -114,8 +115,9 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public ActivityRedEnvelopeTypeCfg getCfgByItemOfVersion(ActivityRedEnvelopeTypeItem item){
 		List<ActivityRedEnvelopeTypeCfg> allCfg = getAllCfg();
 		List<ActivityRedEnvelopeTypeCfg> cfgOfOpen = new ArrayList<ActivityRedEnvelopeTypeCfg>();
+		ActivityRedEnvelopeTypeMgr activityRedEnvelopeTypeMgr = ActivityRedEnvelopeTypeMgr.getInstance();				
 		for(ActivityRedEnvelopeTypeCfg cfg : allCfg){
-			if(!StringUtils.equals(item.getCfgId(), cfg.getId())&&ActivityRedEnvelopeTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(item.getCfgId(), cfg.getId())&&activityRedEnvelopeTypeMgr.isOpen(cfg)){
 				cfgOfOpen.add(cfg);
 			}
 		}

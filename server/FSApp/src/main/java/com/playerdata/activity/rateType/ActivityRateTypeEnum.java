@@ -1,7 +1,10 @@
 package com.playerdata.activity.rateType;
 
+import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.rwbase.common.enu.eSpecialItemId;
 
 public enum ActivityRateTypeEnum{	
@@ -77,17 +80,19 @@ public enum ActivityRateTypeEnum{
 		this.num3 = num3;
 	}
 
-	public static ActivityRateTypeEnum getById(String cfgId){
-		ActivityRateTypeEnum target = null;
-		for (ActivityRateTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
+	private static HashMap<String, ActivityRateTypeEnum> map;
+
+	static {
+		ActivityRateTypeEnum[] array = values();
+		map = new HashMap<String, ActivityRateTypeEnum>();
+		for (int i = 0; i < array.length; i++) {
+			ActivityRateTypeEnum typeEnum = array[i];
+			map.put(typeEnum.getCfgId(), typeEnum);
+		}
 	}
-	
+
+	public static ActivityRateTypeEnum getById(String cfgId) {
+		return map.get(cfgId);
+	}
 	
 }
