@@ -166,6 +166,12 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityDailyRechargeTypeItem> items = ActivityDailyRechargeTypeItemHolder.getInstance().getItemList(player.getUserId());
 		if(null == items || items.isEmpty()) return;
 		for(ActivityDailyRechargeTypeItem item : items){
+			item.getSubItemList();
+			
+			
+			
+			
+			
 			// 这里要看，充值是否累计
 			item.setFinishCount(0);
 			List<ActivityDailyRechargeTypeSubItem> subItemList = new ArrayList<ActivityDailyRechargeTypeSubItem>();
@@ -180,5 +186,26 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 			ActivityDailyRechargeTypeItemHolder.getInstance().updateItem(player, item);
 		}
 		ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
+	}
+	
+	/**
+	 * 邮件补发过期未领取的奖励
+	 * @param player
+	 * @param item
+	 */
+	private void expireActivityEmail(Player player, ActivityDailyRechargeTypeItem item){
+		List<ActivityDailyRechargeTypeSubItem> subItems = item.getSubItemList();
+		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if(isLevelEnough(player, cfg)){
+			for(ActivityDailyRechargeTypeSubItem subItem : subItems){
+				ActivityDailyChargeSubCfg subCfg = ActivityDailyChargeSubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+				if(null == subCfg) {
+					continue;
+				}
+				if(!subItem.isGet() && item.getFinishCount() >= subCfg.getCount()){
+					
+				}
+			}
+		}
 	}
 }
