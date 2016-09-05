@@ -61,7 +61,7 @@ public class MapItemManagerImpl implements MapItemManager {
 			for (int i = 0; i < size; i++) {
 				Tuple<CacheKey, String, RowMapper<? extends IMapItem>> info = sqls.get(i);
 				List<? extends IMapItem> list = template.query(info.getT2(), info.getT3(), param);
-				if (list != null && !list.isEmpty()) {
+				if (list != null) {
 					Pair<CacheKey, List<? extends IMapItem>> p = Pair.<CacheKey, List<? extends IMapItem>>Create(info.getT1(), list);
 					datas.add(p);
 				}
