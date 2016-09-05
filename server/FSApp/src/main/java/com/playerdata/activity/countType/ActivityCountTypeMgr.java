@@ -139,9 +139,10 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 				.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player
 				.getUserId());
-
+		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
-			if (isClose(activityCountTypeItem)) {
+			String cfgId = activityCountTypeItem.getCfgId();
+			if (isClose(activityCountTypeCfgDAO,cfgId)) {
 				List<ActivityCountTypeSubItem> list = activityCountTypeItem
 						.getSubItemList();
 				if (!activityCountTypeItem.isClosed()) {
@@ -154,6 +155,20 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
+	private boolean isClose(ActivityCountTypeCfgDAO dao ,String cfgId) {
+		ActivityCountTypeCfg cfgById = dao.getCfgById(cfgId);
+		if (cfgById == null) {
+			return false;
+		}
+		long endTime = cfgById.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime > endTime;
+	}
+	
+
+	
+	
+	
 	private void sendEmailIfGiftNotTaken(Player player,
 			ActivityCountTypeItem activityCountTypeItem,
 			List<ActivityCountTypeSubItem> list) {
@@ -178,18 +193,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
-	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
-
-		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance()
-				.getCfgById(activityCountTypeItem.getCfgId());
-		if (cfgById == null) {
-			return false;
-		}
-		long endTime = cfgById.getEndTime();
-		long currentTime = System.currentTimeMillis();
-
-		return currentTime > endTime;
-	}
+	
 
 	public void addCount(Player player, ActivityCountTypeEnum countType,
 			int countadd) {

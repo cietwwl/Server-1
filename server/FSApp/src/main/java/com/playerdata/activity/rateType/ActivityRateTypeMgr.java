@@ -138,20 +138,14 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private boolean isClose(ActivityRateTypeItem ActivityRateTypeItem) {
-		boolean isclose = false;
 		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
 				.getCfgById(ActivityRateTypeItem.getCfgId());
 		if(cfgById == null){
 			return false;
-		}
-		
+		}		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
-		long startTime = cfgById.getStartTime();
-		if(currentTime > endTime || currentTime < startTime){
-			isclose = true;			
-		}
-		return isclose;
+		return currentTime > endTime;
 	}
 	
 	

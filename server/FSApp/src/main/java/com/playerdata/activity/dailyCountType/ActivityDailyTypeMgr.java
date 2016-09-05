@@ -125,17 +125,14 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private boolean isClose(ActivityDailyTypeItem activityDailyCountTypeItem) {
-		if (activityDailyCountTypeItem != null) {
-			ActivityDailyTypeCfg cfgById = ActivityDailyTypeCfgDAO
-					.getInstance().getCfgById(
-							activityDailyCountTypeItem.getCfgid());
-			if (cfgById != null) {
-				long endTime = cfgById.getEndTime();
-				long currentTime = System.currentTimeMillis();
-				return currentTime > endTime;
-			}
+		ActivityDailyTypeCfg cfgById = ActivityDailyTypeCfgDAO.getInstance()
+				.getCfgById(activityDailyCountTypeItem.getCfgid());
+		if (cfgById == null) {
+			return false;
 		}
-		return false;
+		long endTime = cfgById.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime > endTime;
 	}
 
 	private void sendEmailIfGiftNotTaken(Player player,

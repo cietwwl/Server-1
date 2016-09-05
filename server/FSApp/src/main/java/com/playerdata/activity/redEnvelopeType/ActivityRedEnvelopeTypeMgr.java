@@ -126,6 +126,9 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	private void checkClose(Player player) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
 		ActivityRedEnvelopeTypeItem item = dataHolder.getItem(player.getUserId());
+		if(item == null){
+			return;
+		}
 		if (!isClose(item)) {			
 			return;	
 		}
@@ -158,16 +161,14 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 
 	public boolean isClose(ActivityRedEnvelopeTypeItem activityVitalityTypeItem) {
-		if (activityVitalityTypeItem != null) {
-			ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());			
-			if(cfg == null){
-				return false;
-			}						
-			long endTime = cfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime >= endTime;//此活动的特殊两个时间段导致中间的时间段也需要用=号附加判断
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO
+				.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+		if (cfg == null) {
+			return false;
 		}
-		return false;
+		long endTime = cfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime >= endTime;
 	}
 	
 	public boolean isCanTakeGift(ActivityRedEnvelopeTypeItem item) {

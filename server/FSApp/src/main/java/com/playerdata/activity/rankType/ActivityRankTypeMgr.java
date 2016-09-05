@@ -146,12 +146,10 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 	
 	public boolean isClose(ActivityRankTypeItem activityRankTypeItem) {		
 		ActivityRankTypeCfg cfgById = ActivityRankTypeCfgDAO.getInstance().getCfgById(activityRankTypeItem.getCfgId());
-		boolean isclose = isClose(cfgById);
-		return isclose;
-	}
-	
-	public boolean isClose(ActivityRankTypeCfg cfg) {		
-		long endTime = cfg.getEndTime();		
+		if(cfgById == null){
+			return false;
+		}
+		long endTime = cfgById.getEndTime();		
 		long currentTime = System.currentTimeMillis();
 		return currentTime > endTime;
 	}

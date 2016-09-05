@@ -172,16 +172,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 //	
 	public boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
-		if (activityVitalityTypeItem != null) {
-			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());	
-			if(cfg == null){
-				return false;
-			}						
-			long endTime = cfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime > endTime;			
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance()
+				.getCfgById(activityVitalityTypeItem.getCfgId());
+		if (cfg == null) {
+			return false;
 		}
-		return false;
+		long endTime = cfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime > endTime;
 	}
 	
 	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
