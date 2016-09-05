@@ -75,6 +75,9 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 	public List<ActivityFortuneCatTypeSubItem> newSubItemList(ActivityFortuneCatTypeCfg cfg) {		
 		List<ActivityFortuneCatTypeSubItem> subItemList = new ArrayList<ActivityFortuneCatTypeSubItem>();
 		List<ActivityFortuneCatTypeSubCfg> subCfgList = ActivityFortuneCatTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
+		if(subCfgList == null){
+			return subItemList;
+		}
 		for(ActivityFortuneCatTypeSubCfg subCfg : subCfgList){
 			ActivityFortuneCatTypeSubItem item = new ActivityFortuneCatTypeSubItem();
 			item.setCfgId(subCfg.getId()+"");

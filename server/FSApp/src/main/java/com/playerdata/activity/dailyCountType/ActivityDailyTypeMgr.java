@@ -72,7 +72,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player
 				.getUserId());
 		for (ActivityDailyTypeItem targetItem : itemList) {
-			ActivityDailyTypeCfg targetCfg = activityDailyTypeCfgDAO.getCfgByItemOfEnumId(targetItem);
+			ActivityDailyTypeCfg targetCfg = activityDailyTypeCfgDAO.getCfgByItemOfItemId(targetItem);
 			if (targetCfg == null) {
 				// GameLog.error(LogModule.ComActivityDailyCount, null,
 				// "通用活动找不到配置文件", null);

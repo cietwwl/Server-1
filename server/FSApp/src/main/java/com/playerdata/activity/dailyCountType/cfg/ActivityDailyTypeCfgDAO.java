@@ -103,7 +103,7 @@ public final class ActivityDailyTypeCfgDAO extends
 	 * @param targetItem
 	 * @return 根据传入的item，获取同类型的，不同id的，激活的，唯一的下期配置
 	 */
-	public ActivityDailyTypeCfg getCfgByItemOfEnumId(
+	public ActivityDailyTypeCfg getCfgByItemOfItemId(
 			ActivityDailyTypeItem targetItem) {
 		String id = targetItem.getId();
 		List<ActivityDailyTypeCfg> cfgListIsOpen = new ArrayList<ActivityDailyTypeCfg>();
