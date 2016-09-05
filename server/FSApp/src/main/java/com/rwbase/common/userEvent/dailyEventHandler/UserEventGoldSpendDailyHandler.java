@@ -35,15 +35,16 @@ public class UserEventGoldSpendDailyHandler implements IUserEventHandler {
 							Integer.parseInt(params.toString()));
 				}
 			}
-
+			
 			@Override
-			public void logError(Player player, Throwable ex) {
+			public void logError(Player player, Exception ex) {
 				StringBuilder reason = new StringBuilder(
 						ActivityDailyTypeEnum.GoldSpendDaily.toString())
 						.append(" error");
 				GameLog.error(LogModule.UserEvent,
 						"userId:" + player.getUserId(), reason.toString(), ex);
 			}
+			
 		});
 
 	}

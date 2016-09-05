@@ -35,7 +35,7 @@ public class UserEventAdvanceDailyHandler implements IUserEventHandler {
 			}
 
 			@Override
-			public void logError(Player player, Throwable ex) {
+			public void logError(Player player, Exception ex) {
 				StringBuilder reason = new StringBuilder(
 						ActivityDailyTypeEnum.AdvanceDaily.toString())
 						.append(" error");
