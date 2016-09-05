@@ -96,4 +96,9 @@ public class ActivityTimeCardTypeMgr {
 		return targetSubItem;
 	}
 
+	public boolean isOpen() {
+		List<ActivityTimeCardTypeCfg> list = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
+		return !(list == null||list.isEmpty());
+	}
+
 }

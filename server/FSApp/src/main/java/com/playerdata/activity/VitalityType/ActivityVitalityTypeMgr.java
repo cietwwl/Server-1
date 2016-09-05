@@ -25,6 +25,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
@@ -395,5 +396,25 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityVitalityCfg> list = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		for(ActivityVitalityCfg cfg: list){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityVitalityCfg cfg, MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}
 }

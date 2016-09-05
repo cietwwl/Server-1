@@ -26,6 +26,7 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -376,6 +377,27 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			}
 		}		
 		activityCountTypeItemHolder.updateItem(player, dataItem);
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityExchangeTypeCfg> allList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityExchangeTypeCfg cfg : allList){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityExchangeTypeCfg cfg,
+			MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getChangeStartTime();
+			long endTime = cfg.getChangeEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}
 
 }

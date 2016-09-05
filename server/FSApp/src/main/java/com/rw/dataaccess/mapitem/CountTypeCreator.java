@@ -5,7 +5,7 @@ import java.util.List;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 
-public class ActivityCountTypeCreator implements MapItemCreator<ActivityCountTypeItem>{
+public class CountTypeCreator implements MapItemCreator<ActivityCountTypeItem>{
 
 	@Override
 	public List<ActivityCountTypeItem> create(String userId,

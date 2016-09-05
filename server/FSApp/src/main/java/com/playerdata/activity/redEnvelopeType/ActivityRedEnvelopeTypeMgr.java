@@ -23,6 +23,7 @@ import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
@@ -250,6 +251,27 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			activityRedEnvelopeTypeItemHolder.updateItem(player, dataItem);
 		}	
 		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityRedEnvelopeTypeCfg> list = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRedEnvelopeTypeCfg cfg : list){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}				
+		return false;
+	}
+
+	private boolean isOpen(ActivityRedEnvelopeTypeCfg cfg,
+			MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}	
 
 }

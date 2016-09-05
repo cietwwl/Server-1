@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
@@ -258,5 +260,10 @@ public class ActivityTimeCountTypeMgr {
 
 		
 		
+	}
+
+	public boolean isOpen() {
+			List<ActivityTimeCountTypeCfg> list = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
+			return !(list == null||list.isEmpty());
 	}
 }
