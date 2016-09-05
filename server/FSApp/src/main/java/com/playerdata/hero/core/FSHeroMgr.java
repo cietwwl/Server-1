@@ -43,7 +43,7 @@ public class FSHeroMgr implements HeroMgr {
 	}
 	
 	private List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator, boolean includeMain) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(includeMain);
 		this.loopAll(userId, consumer);
 		List<Hero> list = consumer.getResultList();
@@ -56,9 +56,9 @@ public class FSHeroMgr implements HeroMgr {
 	private FSHero createAndAddHeroToItemStore(Player player, eRoleType heroType, RoleCfg cfg, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
 		if (heroType == eRoleType.Hero) {
-			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getTableUser().getUserId());
+			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getUserId());
 		} else {
-			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(player.getTableUser().getUserId());
+			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(player.getUserId());
 		}
 		FSHero hero = new FSHero(player, heroType, cfg, uuid);
 		mapItemStore.addItem(hero);
@@ -133,7 +133,7 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public int getHerosSize(PlayerIF player) {
-		return FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getTableUser().getUserId()).getSize() + 1;
+		return FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getUserId()).getSize() + 1;
 	}
 	
 	@Override
@@ -151,7 +151,7 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public List<String> getHeroIdList(PlayerIF player) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(userId);
 		List<String> idsOfOtherHeros = mapItemStore.getReadOnlyKeyList();
 		List<String> list = new ArrayList<String>(idsOfOtherHeros);
@@ -161,12 +161,12 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public void AddAllHeroExp(PlayerIF player, long exp) {
-		this.loopAll(player.getTableUser().getUserId(), new FSAddExpToAllHeroConsumer(exp));
+		this.loopAll(player.getUserId(), new FSAddExpToAllHeroConsumer(exp));
 	}
 	
 	@Override
 	public FSHero getHeroByModerId(PlayerIF player, int moderId) {
-		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(player.getTableUser().getUserId());
+		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(player.getUserId());
 		FSHero data;
 		while (itr.hasMoreElements()) {
 			data = itr.nextElement();
@@ -180,7 +180,7 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public FSHero getHeroById(PlayerIF player, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
-		String playerUserId = player.getTableUser().getUserId();
+		String playerUserId = player.getUserId();
 		if (playerUserId.equals(uuid)) {
 			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(playerUserId);
 		} else {
@@ -248,20 +248,20 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public int isHasStar(PlayerIF player, int star) {
 		FSCountMatchTargetStarConsumer consumer = new FSCountMatchTargetStarConsumer(star);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		return consumer.getCountResult();
 	}
 
 	@Override
 	public int checkQuality(PlayerIF player, int quality) {
 		FSCountQualityConsumer consumer = new FSCountQualityConsumer(quality);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		return consumer.getCountResult();
 	}
 	
 	public List<Hero> getMaxFightingHeros(PlayerIF player) {
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(false);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		List<Hero> targetList = consumer.getResultList();
 		int size = targetList.size();
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
@@ -287,7 +287,7 @@ public class FSHeroMgr implements HeroMgr {
 
 	@Override
 	public Enumeration<FSHero> getHerosEnumeration(PlayerIF player) {
-		return FSHeroDAO.getInstance().getEnumeration(player.getTableUser().getUserId());
+		return FSHeroDAO.getInstance().getEnumeration(player.getUserId());
 	}
 
 	@Override
