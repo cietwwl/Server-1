@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -28,13 +29,7 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 		}	
 		HashMap<String, List<ActivityExchangeTypeDropCfg>> dropCfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeDropCfg>>();
 		for(ActivityExchangeTypeDropCfg dropCfg : cfgCacheMap.values()){
-			String parentId = dropCfg.getParentCfg();
-			List<ActivityExchangeTypeDropCfg> list = dropCfgListMapTmp.get(parentId);
-			if(list == null){
-				list = new ArrayList<ActivityExchangeTypeDropCfg>();
-				dropCfgListMapTmp.put(parentId, list);
-			}
-			list.add(dropCfg);
+			ActivityTypeHelper.add(dropCfg, dropCfg.getParentCfg(), dropCfgListMapTmp);
 		}
 		this.dropCfgListMap = dropCfgListMapTmp;
 		

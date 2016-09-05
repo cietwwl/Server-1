@@ -14,8 +14,10 @@ import java.util.Map;
 
 
 
+
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -35,13 +37,7 @@ public final class ActivityFortuneCatTypeSubCfgDAO extends CfgCsvDao<ActivityFor
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityFortunCatTypeSubCfg.csv", ActivityFortuneCatTypeSubCfg.class);	
 		HashMap<String, List<ActivityFortuneCatTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityFortuneCatTypeSubCfg>>();
 		for(ActivityFortuneCatTypeSubCfg subCfg: cfgCacheMap.values()){
-			String parentID = subCfg.getParentid();
-			List<ActivityFortuneCatTypeSubCfg> list = subCfgListMapTmp.get(parentID);
-			if(list == null){
-				list = new ArrayList<ActivityFortuneCatTypeSubCfg>();
-				subCfgListMapTmp.put(parentID, list);
-			}			
-			list.add(subCfg);
+			ActivityTypeHelper.add(subCfg, subCfg.getParentid(), subCfgListMapTmp);
 		}
 		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;				

@@ -42,13 +42,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		}
 		HashMap<String, List<ActivityDailyDiscountTypeCfg>> enumIdCfgMapping_ = new HashMap<String, List<ActivityDailyDiscountTypeCfg>>();
 		for (ActivityDailyDiscountTypeCfg typeCfg : cfgCacheMap.values()) {
-			String enumId = typeCfg.getEnumId();
-			List<ActivityDailyDiscountTypeCfg> list = enumIdCfgMapping_.get(enumId);
-			if (list == null) {
-				list = new ArrayList<ActivityDailyDiscountTypeCfg>();
-				enumIdCfgMapping_.put(enumId, list);
-			}
-			list.add(typeCfg);
+			ActivityTypeHelper.add(typeCfg, typeCfg.getEnumId(), enumIdCfgMapping_);
 		}
 		this.enumIdCfgMapping = enumIdCfgMapping_;
 		

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -29,13 +30,7 @@ public class ActivityLimitHeroRankCfgDAO extends CfgCsvDao<ActivityLimitHeroRank
 		}
 		HashMap<String, List<ActivityLimitHeroRankCfg>> rankCfgListMapTmp = new HashMap<String, List<ActivityLimitHeroRankCfg>>();
 		for(ActivityLimitHeroRankCfg rankCfg : cfgCacheMap.values()){
-			String parentID = rankCfg.getParentid();
-			List<ActivityLimitHeroRankCfg> list = rankCfgListMapTmp.get(parentID);
-			if(list == null){
-				list = new ArrayList<ActivityLimitHeroRankCfg>();
-				rankCfgListMapTmp.put(parentID, list);
-			}
-			list.add(rankCfg);
+			ActivityTypeHelper.add(rankCfg, rankCfg.getParentid(),rankCfgListMapTmp);
 		}
 		this.rankCfgListMap = rankCfgListMapTmp;
 		return cfgCacheMap;

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.rankType.ActivityRankTypeEnum;
 import com.playerdata.activity.rankType.ActivityRankTypeHelper;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
@@ -40,13 +41,7 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 		}
 		HashMap<String, List<ActivityRankTypeCfg>> cfgListMapByEnumidTmp = new HashMap<String, List<ActivityRankTypeCfg>>();
 		for(ActivityRankTypeCfg cfg : cfgCacheMap.values()){
-			String enumId = cfg.getEnumId();
-			List<ActivityRankTypeCfg> list = cfgListMapByEnumidTmp.get(enumId);
-			if(list == null){
-				list = new ArrayList<ActivityRankTypeCfg>();
-				cfgListMapByEnumidTmp.put(enumId, list);
-			}
-			list.add(cfg);
+			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgListMapByEnumidTmp);
 		}
 		this.cfgListMapByEnumid = cfgListMapByEnumidTmp;
 		return cfgCacheMap;

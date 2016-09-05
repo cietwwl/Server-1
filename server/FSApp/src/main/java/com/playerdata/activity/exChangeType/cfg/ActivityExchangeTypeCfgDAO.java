@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
@@ -48,13 +49,7 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		
 		HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeCfg>>();
 		for(ActivityExchangeTypeCfg cfg : cfgCacheMap.values()){
-			String enumId = cfg.getEnumId();
-			List<ActivityExchangeTypeCfg> list = cfgListMapTmp.get(enumId);
-			if(list == null){
-				list = new ArrayList<ActivityExchangeTypeCfg>();
-				cfgListMapTmp.put(enumId, list);
-			}
-			list.add(cfg);
+			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgListMapTmp);
 		}
 		this.cfgListMap = cfgListMapTmp;		
 		return cfgCacheMap;
