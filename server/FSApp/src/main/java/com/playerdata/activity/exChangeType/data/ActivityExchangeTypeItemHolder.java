@@ -42,7 +42,7 @@ public class ActivityExchangeTypeItemHolder{
 		Enumeration<ActivityExchangeTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();	
-			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
+			if(ActivityExchangeTypeCfgDAO.getInstance().isCfgByEnumIdEmpty(item.getEnumId())){
 				continue;
 			}
 			itemList.add(item);

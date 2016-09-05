@@ -1,5 +1,6 @@
 package com.rw.service.FresherActivity.Achieve;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
@@ -7,6 +8,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
@@ -20,17 +22,28 @@ public class FrshActAchieveNormalReward implements IFrshActAchieveRewardHandler 
 
 		FresherActivityItem item = holder.getFresherActivityItemsById(cfgId);
 		FresherActivityCfg cfg = (FresherActivityCfg) FresherActivityCfgDao.getInstance().getCfgById(String.valueOf(cfgId));
-		holder.achieveFresherActivityReward(player, cfgId);
+		
+		//普通领奖即立刻标识领取状态
+		FresherActivityItem fresherActivityItem = holder.getFresherActivityItemsById(cfgId);
+		fresherActivityItem.setGiftTaken(true);
+		fresherActivityItem.setClosed(true);
+		holder.achieveFresherActivityReward(player, fresherActivityItem);
+		
 		String reward = cfg.getReward();
 		// 发送奖励
+		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 		String[] split = reward.split(";");
 		for (String value : split) {
 			String[] split2 = value.split(":");
 			if (split2.length < 2) {
 				continue;
 			}
-			player.getItemBagMgr().addItem(Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
+			ItemInfo info = new ItemInfo();
+			info.setItemID(Integer.parseInt(split2[0]));
+			info.setItemNum(Integer.parseInt(split2[1]));
+			itemInfoList.add(info);
 		}
+		player.getItemBagMgr().addItem(itemInfoList);
 		
 		String rewardInfoActivity="";
 		List<BilogItemInfo> list = BilogItemInfo.fromStrArr(split);

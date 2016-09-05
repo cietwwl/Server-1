@@ -19,11 +19,12 @@ public class DataAccessFactory {
 		// TODO 这里需要检查数据库是否存在这张表
 	}
 
-	public static void init(String dsName,Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
-		if(!init.compareAndSet(false, true)){
+	public static void init(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
+			int[] selectRangeParam) {
+		if (!init.compareAndSet(false, true)) {
 			throw new ExceptionInInitializerError("重复初始化DataAccessFactory");
 		}
-		dataKvManager = new DataKvManagerImpl(dsName, map, extensionMap, dataKvCapacity);
+		dataKvManager = new DataKvManagerImpl(dsName, map, extensionMap, dataKvCapacity, selectRangeParam);
 		simpleSupport = new DataAccessSimpleSupport();
 	}
 

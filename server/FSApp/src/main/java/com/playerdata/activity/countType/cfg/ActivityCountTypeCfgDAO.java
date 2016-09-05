@@ -113,8 +113,10 @@ public final class ActivityCountTypeCfgDAO extends
 	public ActivityCountTypeCfg getCfgByEnumId(ActivityCountTypeItem item) {
 		String cfgId = item.getCfgId();
 		String cfgEnumId = item.getEnumId();
-		List<ActivityCountTypeCfg> cfgList = enumIdCfgMapping.get(item
-				.getEnumId());
+		List<ActivityCountTypeCfg> cfgList = enumIdCfgMapping.get(item.getEnumId());
+		if(cfgList == null){
+			return null;
+		}
 		List<ActivityCountTypeCfg> cfgListByEnum = new ArrayList<ActivityCountTypeCfg>();
 		for (ActivityCountTypeCfg cfg : cfgList) {// 取出所有符合相同枚举的可选配置
 			if (!StringUtils.equals(cfgId, cfg.getId())) {

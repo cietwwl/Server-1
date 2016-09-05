@@ -18,6 +18,7 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 		return SpringContextUtil.getBean(ActivityExchangeTypeDropCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityExchangeTypeDropCfg>> dropCfgListMap;
 	
 	@Override
 	public Map<String, ActivityExchangeTypeDropCfg> initJsonCfg() {
@@ -25,6 +26,18 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 		for (ActivityExchangeTypeDropCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}	
+		HashMap<String, List<ActivityExchangeTypeDropCfg>> dropCfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeDropCfg>>();
+		for(ActivityExchangeTypeDropCfg dropCfg : cfgCacheMap.values()){
+			String parentId = dropCfg.getParentCfg();
+			List<ActivityExchangeTypeDropCfg> list = dropCfgListMapTmp.get(parentId);
+			if(list == null){
+				list = new ArrayList<ActivityExchangeTypeDropCfg>();
+				dropCfgListMapTmp.put(parentId, list);
+			}
+			list.add(dropCfg);
+		}
+		this.dropCfgListMap = dropCfgListMapTmp;
+		
 		return cfgCacheMap;		
 	}
 	
@@ -54,30 +67,10 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 		cfgTmp.setDropMap(droplisttmp);
 	}
 
-
-	/**根据传入的id来查找激活的子活动*/
-	public ActivityExchangeTypeDropCfg getById(String subId){
-		ActivityExchangeTypeDropCfg target = new ActivityExchangeTypeDropCfg();
-		List<ActivityExchangeTypeDropCfg> allCfg = getAllCfg();
-		for (ActivityExchangeTypeDropCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getId(), subId)){
-				target = cfg;
-				break;
-			}
-		}
-		return target;		
-	}
 	
 	/**根据传入的父类id来查找激活的子活动列表*/
 	public List<ActivityExchangeTypeDropCfg> getByParentId(String subId){
-		List<ActivityExchangeTypeDropCfg> cfgList = new ArrayList<ActivityExchangeTypeDropCfg>();
-		List<ActivityExchangeTypeDropCfg> allCfg = getAllCfg();
-		for (ActivityExchangeTypeDropCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getParentCfg(), subId)){
-				cfgList.add(cfg);		
-			}
-		}
-		return cfgList;
+		return dropCfgListMap.get(subId);
 	}
 	
 	

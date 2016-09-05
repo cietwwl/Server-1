@@ -23,6 +23,8 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		return SpringContextUtil.getBean(ActivityExchangeTypeSubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityExchangeTypeSubCfg>> subCfgListMap;
+	
 	
 	@Override
 	public Map<String, ActivityExchangeTypeSubCfg> initJsonCfg() {
@@ -30,6 +32,17 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		for (ActivityExchangeTypeSubCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}		
+		HashMap<String, List<ActivityExchangeTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeSubCfg>>();
+		for(ActivityExchangeTypeSubCfg subCfg : cfgCacheMap.values()){
+			String parentID = subCfg.getParentCfg();
+			List<ActivityExchangeTypeSubCfg> list = subCfgListMapTmp.get(parentID);
+			if(list == null){
+				list = new ArrayList<ActivityExchangeTypeSubCfg>();
+				subCfgListMapTmp.put(parentID, list);
+			}
+			list.add(subCfg);
+		}
+		this.subCfgListMap = subCfgListMapTmp;		
 		return cfgCacheMap;
 	}
 
@@ -49,14 +62,7 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 	}
 	
 	public List<ActivityExchangeTypeSubCfg> getByParentCfgId(String parentCfgId){
-		List<ActivityExchangeTypeSubCfg> targetList = new ArrayList<ActivityExchangeTypeSubCfg>();
-		List<ActivityExchangeTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityExchangeTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
-				targetList.add(tmpItem);
-			}
-		}
-		return targetList;				
+		return subCfgListMap.get(parentCfgId);			
 	}
 
 
