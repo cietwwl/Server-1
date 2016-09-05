@@ -72,6 +72,8 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 
 	private void checkNewOpen(Player player) {
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
+		ActivityFortuneCatTypeCfgDAO activityFortuneCatTypeCfgDAO = ActivityFortuneCatTypeCfgDAO.getInstance();
+				
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityFortuneCatTypeItem> addItemList = null;
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -82,7 +84,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 
 			ActivityFortuneCatTypeItem targetItem = dataHolder.getItem(player.getUserId());// 已在之前生成数据的活动
 			if (targetItem == null) {						
-				targetItem = ActivityFortuneCatTypeCfgDAO.getInstance().newItem(player, cfg);// 生成新开启活动的数据
+				targetItem = activityFortuneCatTypeCfgDAO.newItem(player, cfg);// 生成新开启活动的数据
 				if (targetItem == null) {					
 					continue;
 				}
@@ -112,16 +114,17 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
+		ActivityFortuneCatTypeCfgDAO activityFortuneCatTypeCfgDAO = ActivityFortuneCatTypeCfgDAO.getInstance();
 		List<ActivityFortuneCatTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityFortuneCatTypeItem targetItem : itemList) {			
-			ActivityFortuneCatTypeCfg targetCfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgListByItem(targetItem);
+			ActivityFortuneCatTypeCfg targetCfg = activityFortuneCatTypeCfgDAO.getCfgListByItem(targetItem);
 			if(targetCfg == null){
 				GameLog.error(LogModule.ComActivityFortuneCat, null, "通用活动找不到配置文件", null);
 				continue;
 			}			
 			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg,ActivityFortuneCatTypeCfgDAO.getInstance().newSubItemList( targetCfg));
+				targetItem.reset(targetCfg,activityFortuneCatTypeCfgDAO.newSubItemList( targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
@@ -131,12 +134,13 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkClose(Player player){
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
+		ActivityFortuneCatTypeCfgDAO activityFortuneCatTypeCfgDAO = ActivityFortuneCatTypeCfgDAO.getInstance();
 		List<ActivityFortuneCatTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for(ActivityFortuneCatTypeItem item : itemList){
 			if(item.isClosed()){
 				continue;			
 			}
-			ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+			ActivityFortuneCatTypeCfg cfg = activityFortuneCatTypeCfgDAO.getCfgById(item.getCfgId());
 			if(cfg == null){
 				GameLog.error(LogModule.ComActivityFortuneCat, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
 				continue;

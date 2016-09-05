@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.ServerConfig;
 
 
@@ -21,9 +22,9 @@ public class GmServer {
 
 	private GmHandler gmHandler;
 	
-	private ExecutorService executorService = Executors.newFixedThreadPool(5);
+	private ExecutorService executorService = Executors.newFixedThreadPool(5,new SimpleThreadFactory("gm_run"));
 	
-	private ExecutorService gmService = Executors.newSingleThreadExecutor();
+	private ExecutorService gmService = Executors.newSingleThreadExecutor(new SimpleThreadFactory("gm_start"));
 	
 	public static void main(String[] args) {
 		GmServer server = new GmServer();

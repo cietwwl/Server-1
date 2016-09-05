@@ -1,5 +1,8 @@
 package com.playerdata.activity.dailyCountType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityDailyTypeEnum{	// implements TypeIdentification
@@ -28,20 +31,24 @@ public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 	
 	public String getCfgId(){
 		return cfgId;
+	}	
+	
+	private static HashMap<String, ActivityDailyTypeEnum> map ;
+	
+	static {
+		ActivityDailyTypeEnum[] array = values();
+		map = new HashMap<String, ActivityDailyTypeEnum>();
+		for(int i = 0;i< array.length;i++){
+			ActivityDailyTypeEnum activityDailyTypeEnum = array[i];
+			map.put(activityDailyTypeEnum.getCfgId(), activityDailyTypeEnum);
+		}
+	}
+	
+	public static ActivityDailyTypeEnum getById(String id){
+		return map.get(id);
 	}
 	
 	
-	public static ActivityDailyTypeEnum getById(String cfgId){
-		ActivityDailyTypeEnum target = null;
-		for (ActivityDailyTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
-	}
-
+	
 	
 }

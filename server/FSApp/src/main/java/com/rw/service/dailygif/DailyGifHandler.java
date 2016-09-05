@@ -1,5 +1,6 @@
 package com.rw.service.dailygif;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
@@ -11,6 +12,7 @@ import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.business.SevenDayGifCfg;
 import com.rwbase.dao.business.SevenDayGifCfgDAO;
 import com.rwbase.dao.business.SevenDayGifInfo;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.DailyGifProtos.DailyGifResponse;
 import com.rwproto.DailyGifProtos.EType;
 import com.rwproto.MsgDef;
@@ -72,12 +74,20 @@ public class DailyGifHandler {
 		if (dailyGif != null) {
 			// 给主角增加任务的奖励
 			String[] reward = dailyGif.goods.split("\\|");
+			
+			List<ItemInfo> list = new ArrayList<ItemInfo>();
+			
 			for (int i = 0; i < reward.length; i++) {
 				String[] rewardItem = reward[i].split("_");
 				if (rewardItem.length > 1) {
-					player.getItemBagMgr().addItem(Integer.parseInt(rewardItem[0]), Integer.parseInt(rewardItem[1]));
+					ItemInfo itemInfo = new ItemInfo();
+					itemInfo.setItemID(Integer.parseInt(rewardItem[0]));
+					itemInfo.setItemNum(Integer.parseInt(rewardItem[1]));
+					list.add(itemInfo);
 				}
 			}
+			player.getItemBagMgr().addItem(list);
+			
 			List<BilogItemInfo> rewardslist = BilogItemInfo.fromStrArr(reward);
 			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);				
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVENDAYACTIVITY,0,0);

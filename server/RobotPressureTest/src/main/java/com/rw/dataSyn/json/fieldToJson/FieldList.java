@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rw.dataSyn.ClassInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.dataSyn.json.FieldType;
@@ -82,11 +84,12 @@ public class FieldList implements IFieldToJson{
 	public void fromJson(Object target, String json) throws Exception {
 		
 		List<Object> objectList = new ArrayList<Object>();
+		JSONArray listData = JSON.parseArray(json);	
 
-		List<String> listData = JsonUtil.readList(json, String.class);
-       		
-		
-		for (String jsonTmp : listData) {
+//		List<String> listData = JsonUtil.readList(json, String.class);
+		int size = listData.size();
+		for (int i = 0; i < size; i++) {
+			String jsonTmp = listData.getString(i);
 			Object valueTmp = null;			
 			
 			switch (genericType) {
@@ -115,7 +118,9 @@ public class FieldList implements IFieldToJson{
 			if(valueTmp!=null){
 				objectList.add(valueTmp);
 			}
+			
 		}
+		
 		if(objectList.size()>0){
 			field.set(target, objectList);
 		}

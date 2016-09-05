@@ -4376,6 +4376,33 @@ public final class EquipProtos {
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
+
+    // optional string openSkillId = 8;
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    boolean hasOpenSkillId();
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    java.lang.String getOpenSkillId();
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getOpenSkillIdBytes();
   }
   /**
    * Protobuf type {@code EquipService.EquipResponse}
@@ -4492,6 +4519,11 @@ public final class EquipProtos {
             case 58: {
               bitField0_ |= 0x00000010;
               tipMsg_ = input.readBytes();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000020;
+              openSkillId_ = input.readBytes();
               break;
             }
           }
@@ -4785,6 +4817,61 @@ public final class EquipProtos {
       }
     }
 
+    // optional string openSkillId = 8;
+    public static final int OPENSKILLID_FIELD_NUMBER = 8;
+    private java.lang.Object openSkillId_;
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    public boolean hasOpenSkillId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    public java.lang.String getOpenSkillId() {
+      java.lang.Object ref = openSkillId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          openSkillId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string openSkillId = 8;</code>
+     *
+     * <pre>
+     *英雄进阶之后开放的技能
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getOpenSkillIdBytes() {
+      java.lang.Object ref = openSkillId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        openSkillId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       eventType_ = com.rwproto.EquipProtos.EquipEventType.Equip_Sync;
       roleId_ = "";
@@ -4793,6 +4880,7 @@ public final class EquipProtos {
       equipIndex_ = 0;
       oneKeySuccessIndex_ = java.util.Collections.emptyList();
       tipMsg_ = "";
+      openSkillId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4841,6 +4929,9 @@ public final class EquipProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(7, getTipMsgBytes());
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(8, getOpenSkillIdBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4882,6 +4973,10 @@ public final class EquipProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getOpenSkillIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5018,6 +5113,8 @@ public final class EquipProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        openSkillId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -5080,6 +5177,10 @@ public final class EquipProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.openSkillId_ = openSkillId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5149,6 +5250,11 @@ public final class EquipProtos {
         if (other.hasTipMsg()) {
           bitField0_ |= 0x00000040;
           tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
+        if (other.hasOpenSkillId()) {
+          bitField0_ |= 0x00000080;
+          openSkillId_ = other.openSkillId_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -5891,6 +5997,104 @@ public final class EquipProtos {
         return this;
       }
 
+      // optional string openSkillId = 8;
+      private java.lang.Object openSkillId_ = "";
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public boolean hasOpenSkillId() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public java.lang.String getOpenSkillId() {
+        java.lang.Object ref = openSkillId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          openSkillId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getOpenSkillIdBytes() {
+        java.lang.Object ref = openSkillId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          openSkillId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public Builder setOpenSkillId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        openSkillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public Builder clearOpenSkillId() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        openSkillId_ = getDefaultInstance().getOpenSkillId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string openSkillId = 8;</code>
+       *
+       * <pre>
+       *英雄进阶之后开放的技能
+       * </pre>
+       */
+      public Builder setOpenSkillIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        openSkillId_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:EquipService.EquipResponse)
     }
 
@@ -5947,17 +6151,18 @@ public final class EquipProtos {
       "Id\030\002 \001(\t\022*\n\tequipData\030\003 \003(\0132\027.EquipServi" +
       "ce.EquipData\022\022\n\nequipIndex\030\004 \001(\005\022\017\n\007equi",
       "pId\030\005 \001(\005\022\021\n\tbagSlotId\030\007 \001(\005\022#\n\004mate\030\006 \003" +
-      "(\0132\025.EquipService.TagMate\"\344\001\n\rEquipRespo" +
+      "(\0132\025.EquipService.TagMate\"\371\001\n\rEquipRespo" +
       "nse\022/\n\teventType\030\001 \002(\0162\034.EquipService.Eq" +
       "uipEventType\022\016\n\006roleId\030\002 \001(\t\022*\n\tequipDat" +
       "a\030\003 \003(\0132\027.EquipService.EquipData\022&\n\005erro" +
       "r\030\004 \002(\0162\027.ErrorService.ErrorType\022\022\n\nequi" +
       "pIndex\030\005 \001(\005\022\032\n\022oneKeySuccessIndex\030\006 \003(\005" +
-      "\022\016\n\006tipMsg\030\007 \001(\t*\217\001\n\016EquipEventType\022\016\n\nE" +
-      "quip_Sync\020\001\022\021\n\rEquip_Compose\020\002\022\016\n\nWear_E" +
-      "quip\020\003\022\013\n\007Advance\020\004\022\020\n\014Equip_Attach\020\005\022\026\n",
-      "\022Equip_OnekeyAttach\020\006\022\023\n\017OneKeyWearEquip" +
-      "\020\007B\032\n\013com.rwprotoB\013EquipProtos"
+      "\022\016\n\006tipMsg\030\007 \001(\t\022\023\n\013openSkillId\030\010 \001(\t*\217\001" +
+      "\n\016EquipEventType\022\016\n\nEquip_Sync\020\001\022\021\n\rEqui" +
+      "p_Compose\020\002\022\016\n\nWear_Equip\020\003\022\013\n\007Advance\020\004",
+      "\022\020\n\014Equip_Attach\020\005\022\026\n\022Equip_OnekeyAttach" +
+      "\020\006\022\023\n\017OneKeyWearEquip\020\007B\032\n\013com.rwprotoB\013" +
+      "EquipProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5993,7 +6198,7 @@ public final class EquipProtos {
           internal_static_EquipService_EquipResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_EquipService_EquipResponse_descriptor,
-              new java.lang.String[] { "EventType", "RoleId", "EquipData", "Error", "EquipIndex", "OneKeySuccessIndex", "TipMsg", });
+              new java.lang.String[] { "EventType", "RoleId", "EquipData", "Error", "EquipIndex", "OneKeySuccessIndex", "TipMsg", "OpenSkillId", });
           return null;
         }
       };

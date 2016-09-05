@@ -1,14 +1,15 @@
 package com.playerdata.mgcsecret.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
+import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msRequestType;
+import com.rwproto.MagicSecretProto.msResultType;
 import com.rwproto.RequestProtos.Request;
 
 /**
@@ -22,7 +23,6 @@ public class MagicSecretService implements FsService<MagicSecretReqMsg, msReques
 
 	@Override
 	public ByteString doTask(MagicSecretReqMsg request, Player player) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
 			msRequestType msType = request.getReqType();
@@ -66,9 +66,12 @@ public class MagicSecretService implements FsService<MagicSecretReqMsg, msReques
 			}
 		} catch (Exception e) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
-		} finally {
-			return result;
+			MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
+			msRsp.setReqType(request.getReqType());
+			msRsp.setRstType(msResultType.DATA_ERROR);
+			result = msRsp.build().toByteString();
 		}
+		return result;
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package com.playerdata.teambattle.service;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -24,7 +21,6 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 
 	private TeamBattleHandler mHandler = TeamBattleHandler.getInstance();
 	
-	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(TeamBattleReqMsg request, Player player) {
 		// TODO Auto-generated method stub
@@ -81,15 +77,12 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
-			result = tbRsp.build().toByteString();
 		} catch (Exception e) {
 			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
 			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
 			result = tbRsp.build().toByteString();
-		} finally {
-			return result;
-		}
+		} 
+		return result;
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class PeakArenaCloseCfg extends BaseConfig {
 		endHour = tmp[0];
 		endMin = tmp[1];
 		checkTimeFormat(endHour, endMin);
-		closeTimeTip = String.format("每天%s~%s期间无法进行他巅峰竞技场对战", startTime, endTime);
+		closeTimeTip = String.format("每天%s~%s期间无法进行巅峰竞技场对战", startTime, endTime);
 	}
 
 	private void checkTimeFormat(int hour, int min) {

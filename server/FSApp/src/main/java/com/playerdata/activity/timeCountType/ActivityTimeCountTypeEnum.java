@@ -1,6 +1,5 @@
 package com.playerdata.activity.timeCountType;
 
-import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityTimeCountTypeEnum{	// implements TypeIdentification
 	role_online("30001");
@@ -14,18 +13,12 @@ public enum ActivityTimeCountTypeEnum{	// implements TypeIdentification
 		return cfgId;
 	}
 	
-	
-	public static ActivityTimeCountTypeEnum getById(String cfgId){
-		ActivityTimeCountTypeEnum target = null;
-		for (ActivityTimeCountTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
-	}
 
-	
+	public static ActivityTimeCountTypeEnum getById(String cfgId) {
+		if (role_online.cfgId.equals(cfgId)) {
+			return role_online;
+		} else {
+			return null;
+		}
+	}
 }

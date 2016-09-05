@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.mainmsg.PmdCfg;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -70,13 +71,13 @@ public class MainMsgHandler {
 	}
 
 	private void sendPmdAll(ByteString pBuffer) {
-		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
-		List<Player> list = new ArrayList<Player>();
-		list.addAll(playeMap.values());
-		for (Player player : list) {
-			player.SendMsg(Command.MSG_MainMsg, pBuffer);
-		}
-
+//		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
+//		List<Player> list = new ArrayList<Player>();
+//		list.addAll(playeMap.values());
+//		for (Player player : list) {
+//			player.SendMsg(Command.MSG_MainMsg, pBuffer);
+//		}
+		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, pBuffer);
 	}
 
 	/*** 发送自定义码灯信 *****/
