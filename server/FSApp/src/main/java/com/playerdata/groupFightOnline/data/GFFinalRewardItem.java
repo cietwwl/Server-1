@@ -24,7 +24,7 @@ public class GFFinalRewardItem implements IMapItem{
 	@Id
 	private String rewardID;  // rewardID = resourceID_userID_rewardType
 
-	private String userID;	//奖励所属的角色
+	private String userId;	//奖励所属的角色
 	
 	@CombineSave
 	private String rewardOwner;	// rewardOwner = resourceID_userID
@@ -81,11 +81,11 @@ public class GFFinalRewardItem implements IMapItem{
 	}
 
 	public String getUserID() {
-		return userID;
+		return userId;
 	}
 
 	public void setUserID(String userID) {
-		this.userID = userID;
+		this.userId = userID;
 	}
 
 	public int getRewardType() {
