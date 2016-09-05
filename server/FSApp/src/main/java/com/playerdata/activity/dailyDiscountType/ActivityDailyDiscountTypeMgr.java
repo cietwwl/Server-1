@@ -157,16 +157,16 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		}
 	}
 	
-	private boolean isClose(ActivityDailyDiscountTypeItem activityDailyCountTypeItem) {
-		if (activityDailyCountTypeItem != null) {
-			ActivityDailyDiscountTypeCfg cfgById = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(activityDailyCountTypeItem.getCfgId());
-			if(cfgById!=null){
-				long endTime = cfgById.getEndTime();
-				long currentTime = System.currentTimeMillis();
-				return currentTime > endTime;
-			}
+	private boolean isClose(
+			ActivityDailyDiscountTypeItem activityDailyCountTypeItem) {
+		ActivityDailyDiscountTypeCfg cfgById = ActivityDailyDiscountTypeCfgDAO
+				.getInstance().getCfgById(activityDailyCountTypeItem.getCfgId());
+		if (cfgById == null) {
+			return false;
 		}
-		return false;
+		long endTime = cfgById.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime > endTime;
 	}
 	
 
