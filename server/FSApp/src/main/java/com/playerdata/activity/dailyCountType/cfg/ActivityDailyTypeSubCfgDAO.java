@@ -73,7 +73,11 @@ public final class ActivityDailyTypeSubCfgDAO extends
 	}
 
 	public List<ActivityDailyTypeSubCfg> getCfgMapByParentid(String parentid) {
-		return cfgMapByParentid.get(parentid);
+		List<ActivityDailyTypeSubCfg> list = cfgMapByParentid.get(parentid);
+		if(list == null){
+			list = new ArrayList<ActivityDailyTypeSubCfg>();
+		}
+		return list;
 	}
 
 	/** 用于验证单个cfg是否开启 */
