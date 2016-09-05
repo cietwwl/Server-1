@@ -248,10 +248,12 @@ public class Player implements PlayerIF {
 	}
 
 	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
+		this.userId = userId;
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
+		}else{
+			MapItemStoreFactory.preloadIntegration(userId, getLevel());
 		}
-		this.userId = userId;
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据

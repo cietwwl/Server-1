@@ -244,27 +244,29 @@ public class MapItemStoreFactory {
 		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
 		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
 
-		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
+		activityCountTypeItemCache = createForPerload(ActivityCountTypeItem.class, "userId", heroCapacity);
 
-		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
+		activityTimeCardTypeItemCache = createForPerload(ActivityTimeCardTypeItem.class, "userId", heroCapacity);
 
-		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
+		activityRateTypeItemCache = createForPerload(ActivityRateTypeItem.class, "userId", heroCapacity);
 
-		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
+		activityRankTypeItemCache = createForPerload(ActivityRankTypeItem.class, "userId", heroCapacity);
 
-		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));
-		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
+		activityExchangeTypeItemCache = createForPerload(ActivityExchangeTypeItem.class, "userId", heroCapacity);
 
-		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
+		activityTimeCountTypeItemCache = createForPerload(ActivityTimeCountTypeItem.class, "userId", heroCapacity);
 
-		register(activityVitalityItemCache = new MapItemStoreCache<ActivityVitalityTypeItem>(ActivityVitalityTypeItem.class, "userId", heroCapacity));
+		activityDailyCountTypeItemCache = createForPerload(ActivityDailyTypeItem.class, "userId", heroCapacity);
 
-		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
+		activityVitalityItemCache = createForPerload(ActivityVitalityTypeItem.class, "userId", heroCapacity);
+		
+		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
 
-		register(activityFortuneCatTypeItemCache = new MapItemStoreCache<ActivityFortuneCatTypeItem>(ActivityFortuneCatTypeItem.class, "userId", heroCapacity));
-		register(activityLimitHeroTypeItemCache = new MapItemStoreCache<ActivityLimitHeroTypeItem>(ActivityLimitHeroTypeItem.class, "userId", heroCapacity));
+		activityFortuneCatTypeItemCache = createForPerload(ActivityFortuneCatTypeItem.class, "userId", heroCapacity);
+		
+		activityLimitHeroTypeItemCache = createForPerload(ActivityLimitHeroTypeItem.class, "userId", heroCapacity);
 
-		register(activityRedEnvelopeTypeItemCache = new MapItemStoreCache<ActivityRedEnvelopeTypeItem>(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity));
+		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
 
 		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
 
@@ -693,6 +695,9 @@ public class MapItemStoreFactory {
 			if (!store.contains(userId)) {
 				typeList.add(type);
 			}
+		}
+		if(typeList.isEmpty()){
+			return;
 		}
 		List<MapItemEntity> datas = DataAccessFactory.getMapItemManager().load(userId, typeList);
 		HashMap<Integer, List<MapItemEntity>> map = new HashMap<Integer, List<MapItemEntity>>();

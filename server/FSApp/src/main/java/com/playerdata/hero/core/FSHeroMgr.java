@@ -292,7 +292,7 @@ public class FSHeroMgr implements HeroMgr {
 
 	@Override
 	public Hero getMainRoleHero(PlayerIF player) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(userId);
 		return mapItemStore.getItem(userId);
 	}
