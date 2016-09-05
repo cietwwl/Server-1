@@ -55,6 +55,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 
 	private void checkNewOpen(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
 		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -68,7 +69,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityExchangeTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {						
-				targetItem = ActivityExchangeTypeCfgDAO.getInstance().newItem(player, activityExchangeTypeCfg);// 生成新开启活动的数据
+				targetItem = activityExchangeTypeCfgDAO.newItem(player, activityExchangeTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {					
 					continue;
 				}
@@ -100,15 +101,16 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityExchangeTypeItem targetItem : itemList) {			
-			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgListByItem(targetItem);
+			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgListByItem(targetItem);
 			if(targetCfg == null){
 				continue;
 			}			
 			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg,ActivityExchangeTypeCfgDAO.getInstance().newItemList(player, targetCfg));
+				targetItem.reset(targetCfg,activityExchangeTypeCfgDAO.newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
@@ -116,9 +118,10 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkOtherDay(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
 		for (ActivityExchangeTypeItem targetItem : itemlist) {
-			ActivityExchangeTypeCfg targetCfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgById(targetItem.getCfgId());
 			if(targetCfg == null){
 				continue;
 			}
@@ -138,12 +141,13 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkClose(Player player){
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
 		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for(ActivityExchangeTypeItem item : itemList){
 			if(item.isClosed()){
 				continue;			
 			}
-			ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+			ActivityExchangeTypeCfg cfg = activityExchangeTypeCfgDAO.getCfgById(item.getCfgId());
 			if(cfg == null){
 				continue;
 			}
@@ -276,6 +280,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	public Map<Integer, Integer> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
 		idAndNumMap = new HashMap<Integer, Integer>();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
+		ActivityExchangeTypeDropCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeDropCfgDAO.getInstance();
 		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历所有的活动
 			if (!isDropOpen(activityExchangeTypeCfg)) {
 				// 活动未开启
@@ -285,7 +290,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 				//等级不足
 				continue;
 			}
-			List<ActivityExchangeTypeDropCfg> dropCfgList = ActivityExchangeTypeDropCfgDAO.getInstance().getByParentId(activityExchangeTypeCfg.getId());
+			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(activityExchangeTypeCfg.getId());
 			for(ActivityExchangeTypeDropCfg cfg : dropCfgList){//遍历单个活动可能对应的所有掉落道具类型
 				Map<Integer, Integer[]> map = cfg.getDropMap();
 				
@@ -360,7 +365,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		
 		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
 		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
-			if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
+			if(isCanTaken(player, subitem,false)){
 				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
 					continue;
 				}

@@ -37,7 +37,7 @@ public class UserEventGoldSpendRedEnvelopeHandler  implements IUserEventHandler{
 					}				
 				}
 			@Override
-			public void logError(Player player,Throwable ex) {
+			public void logError(Player player,Exception ex) {
 				StringBuilder reason = new StringBuilder(ActivityRedEnvelopeTypeEnum.redEnvelope.toString()).append(" error");				
 				GameLog.error(LogModule.ComActivityRedEnvelope, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						

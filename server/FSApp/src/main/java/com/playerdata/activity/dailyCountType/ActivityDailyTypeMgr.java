@@ -50,14 +50,15 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 				.getInstance();
 		List<ActivityDailyTypeCfg> activityDailyTypeCfgList = ActivityDailyTypeCfgDAO
 				.getInstance().getAllCfg();
+		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		for (ActivityDailyTypeCfg cfg : activityDailyTypeCfgList) {
-			if (!ActivityDailyTypeCfgDAO.getInstance().isOpen(cfg)) {
+			if (!activityDailyTypeCfgDAO.isOpen(cfg)) {
 				continue;
 			}
 			ActivityDailyTypeItem targetItem = dataHolder.getItem(player
 					.getUserId());
 			if (targetItem == null) {
-				targetItem = ActivityDailyTypeCfgDAO.getInstance().newItem(
+				targetItem = activityDailyTypeCfgDAO.newItem(
 						player, cfg);
 				dataHolder.addItem(player, targetItem);
 			}
@@ -67,11 +68,11 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 	private void checkCfgVersion(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder
 				.getInstance();
+		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		List<ActivityDailyTypeItem> itemList = dataHolder.getItemList(player
 				.getUserId());
 		for (ActivityDailyTypeItem targetItem : itemList) {
-			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO
-					.getInstance().getCfgByItemOfEnumId(targetItem);
+			ActivityDailyTypeCfg targetCfg = activityDailyTypeCfgDAO.getCfgByItemOfEnumId(targetItem);
 			if (targetCfg == null) {
 				// GameLog.error(LogModule.ComActivityDailyCount, null,
 				// "通用活动找不到配置文件", null);
@@ -90,10 +91,9 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 				.getInstance();
 		List<ActivityDailyTypeItem> item = dataHolder.getItemList(player
 				.getUserId());
-
+		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		for (ActivityDailyTypeItem targetItem : item) {
-			ActivityDailyTypeCfg targetCfg = ActivityDailyTypeCfgDAO
-					.getInstance().getConfig(targetItem.getCfgid());
+			ActivityDailyTypeCfg targetCfg = activityDailyTypeCfgDAO.getConfig(targetItem.getCfgid());
 			if (targetCfg == null) {
 				continue;
 			}
@@ -140,15 +140,16 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
 	private void sendEmailIfGiftNotTaken(Player player,
 			List<ActivityDailyTypeSubItem> subItemList) {
+		ActivityDailyTypeSubCfgDAO activityDailyTypeSubCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		for (ActivityDailyTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-			ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO
-					.getInstance().getById(subItem.getCfgId());
+			ActivityDailyTypeSubCfg subItemCfg = activityDailyTypeSubCfgDAO.getById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				return;
 			}
 			if (subItem.getCount() >= subItemCfg.getCount()
 					&& !subItem.isTaken()) {
-				ComGiftMgr.getInstance().addGiftTOEmailById(player,
+				comGiftMgr.addGiftTOEmailById(player,
 						subItemCfg.getGiftId(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
@@ -175,13 +176,14 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
 	public ActivityDailyTypeSubItem getbyDailyCountTypeEnum(Player player,
 			ActivityDailyTypeEnum typeEnum, ActivityDailyTypeItem dataItem) {
+		ActivityDailyTypeSubCfgDAO activityDailyTypeSubCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
 		ActivityDailyTypeSubItem subItem = null;
 		ActivityDailyTypeSubCfg cfg = null;
 		List<ActivityDailyTypeSubCfg> subcfglist = ActivityDailyTypeSubCfgDAO
 				.getInstance().getAllCfg();
 		for (ActivityDailyTypeSubCfg subcfg : subcfglist) {
 			if (StringUtils.equals(subcfg.getEnumId(), typeEnum.getCfgId())
-					&& ActivityDailyTypeSubCfgDAO.getInstance().isOpen(subcfg)) {
+					&& activityDailyTypeSubCfgDAO.isOpen(subcfg)) {
 				cfg = subcfg;
 			}
 		}

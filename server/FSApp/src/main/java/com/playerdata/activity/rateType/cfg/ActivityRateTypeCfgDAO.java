@@ -30,7 +30,9 @@ public final class ActivityRateTypeCfgDAO extends
 	public static ActivityRateTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityRateTypeCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumid ;
+	
 	@Override
 	public Map<String, ActivityRateTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(
@@ -40,6 +42,18 @@ public final class ActivityRateTypeCfgDAO extends
 			parseTimeByHour(cfgTmp);
 			parseCopyTypeAndespecialEnum(cfgTmp);
 		}
+		
+		HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumidTemp = new HashMap<String, List<ActivityRateTypeCfg>>();
+		for(ActivityRateTypeCfg cfg : cfgCacheMap.values()){
+			String enumId = cfg.getEnumId();
+			List<ActivityRateTypeCfg> list = cfgMapByEnumidTemp.get(enumId);
+			if(list == null){
+				list = new ArrayList<ActivityRateTypeCfg>();
+				cfgMapByEnumidTemp.put(enumId, list);
+			}
+			list.add(cfg);
+		}
+		this.cfgMapByEnumid = cfgMapByEnumidTemp;		
 		return cfgCacheMap;
 	}
 
@@ -77,9 +91,6 @@ public final class ActivityRateTypeCfgDAO extends
 				timebyHour
 						.setEndhour(Integer.parseInt(substartAndEndlist[1]) / 100);
 				timeList.add(timebyHour);
-				// System.out.println("activityrate.." + cfgTmp.getTitle() +
-				// " start=" +timebyHour.getStarthour() + " end=" +
-				// timebyHour.getEndhour());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -122,17 +133,20 @@ public final class ActivityRateTypeCfgDAO extends
 	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
 	 */
 	public ActivityRateTypeCfg getCfgByEnumId(ActivityRateTypeItem item) {
-		List<ActivityRateTypeCfg> cfgList = getAllCfg();
+		List<ActivityRateTypeCfg> cfgList = cfgMapByEnumid.get(item.getEnumId());
+		if(cfgList == null || cfgList.isEmpty()){
+			return null;
+		}
 		List<ActivityRateTypeCfg> cfgListByEnumID = new ArrayList<ActivityRateTypeCfg>();
 		for(ActivityRateTypeCfg cfg : cfgList){
-			if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getCfgId(), cfg.getId())){
+			if(!StringUtils.equals(item.getCfgId(), cfg.getId())){
 				cfgListByEnumID.add(cfg);				
 			}			
 		}
-		
+		ActivityRateTypeMgr activityRateTypeMgr = ActivityRateTypeMgr.getInstance();
 		List<ActivityRateTypeCfg> cfgListIsOpen = new ArrayList<ActivityRateTypeCfg>();
 		for(ActivityRateTypeCfg cfg : cfgListByEnumID){
-			if(ActivityRateTypeMgr.getInstance().isOpen(cfg)){
+			if(activityRateTypeMgr.isOpen(cfg)){
 				cfgListIsOpen.add(cfg);
 			}			
 		}

@@ -1,7 +1,6 @@
 package com.playerdata.activity.rankType.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -25,12 +24,10 @@ public class ActivityRankTypeService implements FsService<ActivityCommonReqMsg, 
 			case Get_Rank_Info:// 获取奖励
 				byteString = handler.getRankInfo(player, request);
 				break;
-
 			default:
 				GameLog.error(LogModule.ComActivityRank, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-
 		} catch (Exception e) {
 			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "出现了Exception异常", e);
 		}

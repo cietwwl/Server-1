@@ -90,6 +90,11 @@ public final class ActivityDailyTypeSubCfgDAO extends
 	/** 用于验证某个功能对应的多个subCfg是否存在开启的并且等级足以触发 */
 	public boolean isOpenAndLevelEnough(int playerlevel,
 			List<ActivityDailyTypeSubCfg> subList) {
+		if(subList == null || subList.isEmpty()){
+			//策划把子表删除了
+			return false;
+		}
+		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		ActivityDailyTypeSubCfg tmp = null;
 		boolean isOpen = false;
 		for (ActivityDailyTypeSubCfg subCfg : subList) {
@@ -102,19 +107,19 @@ public final class ActivityDailyTypeSubCfgDAO extends
 		if (tmp == null) {
 			return isOpen;
 		}
-		ActivityDailyTypeCfg cfg = ActivityDailyTypeCfgDAO.getInstance()
-				.getCfgById(tmp.getParentId());
+		ActivityDailyTypeCfg cfg = activityDailyTypeCfgDAO.getCfgById(tmp.getParentId());
 		if (cfg == null) {
 			return isOpen;
 		}
 		return playerlevel >= cfg.getLevelLimit()
-				&& ActivityDailyTypeCfgDAO.getInstance().isOpen(cfg);// 活动开启；活动等级足够
+				&& activityDailyTypeCfgDAO.isOpen(cfg);// 活动开启；活动等级足够
 	}
 
 	/** 用于验证某个功能对应的多个subCfg是否存在开启的 */
 	public boolean isOpen(List<ActivityDailyTypeSubCfg> subList) {
 		ActivityDailyTypeSubCfg tmp = null;
 		boolean isOpen = false;
+		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		for (ActivityDailyTypeSubCfg subCfg : subList) {
 			if (isOpen(subCfg)) {
 				isOpen = true;
@@ -130,6 +135,6 @@ public final class ActivityDailyTypeSubCfgDAO extends
 		if (cfg == null) {
 			return isOpen;
 		}
-		return ActivityDailyTypeCfgDAO.getInstance().isOpen(cfg);// 活动开启；活动等级足够
+		return activityDailyTypeCfgDAO.isOpen(cfg);// 活动开启；活动等级足够
 	}
 }

@@ -62,9 +62,10 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		String enumId  = item.getEnumId();
 		List<ActivityExchangeTypeCfg> cfgListByItem = new ArrayList<ActivityExchangeTypeCfg>();
 		List<ActivityExchangeTypeCfg> cfgList = getAllCfg();
+		ActivityExchangeTypeMgr activityExchangeTypeMgr = ActivityExchangeTypeMgr.getInstance();
 		for (ActivityExchangeTypeCfg cfg : cfgList) {
 			if (StringUtils.equals(enumId, cfg.getEnumId())	&& !StringUtils.equals(id, cfg.getId())
-					&& ActivityExchangeTypeMgr.getInstance().isOpen(cfg)) {
+					&& activityExchangeTypeMgr.isOpen(cfg)) {
 				cfgListByItem.add(cfg);
 			}
 		}
