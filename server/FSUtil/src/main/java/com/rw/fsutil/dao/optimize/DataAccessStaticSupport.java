@@ -22,6 +22,7 @@ public class DataAccessStaticSupport {
 
 	private static String dataKVName = "table_kvdata";
 	
+	
 	public static List<String> getDataKVTableNameList(JdbcTemplate template){
 		return getTableNameList(template, dataKVName);
 	}

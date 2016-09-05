@@ -8,5 +8,9 @@ import com.rw.fsutil.dao.cache.CacheKey;
 
 public interface MapItemManager {
 
+	public String getTableName(String userId);
+
+	public List<MapItemEntity> load(String userId, List<Integer> typeList);
+
 	public List<Pair<CacheKey, List<? extends IMapItem>>> load(List<Pair<CacheKey, String>> searchInfos, String userId);
 }

@@ -37,13 +37,8 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 		this.deleteSql = "delete from " + currentName + " where " + idFieldName + "=?";
 		this.updateSql = "update " + currentName + " set " + updateFields.toString() + " where " + idFieldName + " = ?";
 		this.insertSql = "insert into " + currentName + "(" + insertFields.toString() + ") values (" + insertHolds.toString() + ")";
-
 	}
-
-	public void insert(final List<T> list) throws DuplicatedKeyException, Exception {
-		super.insert(insertSql, list);
-	}
-
+	
 	public boolean insert(String key, T target) throws DuplicatedKeyException, Exception {
 		return super.insert(insertSql, key, target);
 	}

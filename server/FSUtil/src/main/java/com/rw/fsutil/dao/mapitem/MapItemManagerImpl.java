@@ -17,6 +17,8 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.Tuple;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.SpringContextUtil;
 
 public class MapItemManagerImpl implements MapItemManager {
@@ -25,6 +27,7 @@ public class MapItemManagerImpl implements MapItemManager {
 	private PlatformTransactionManager tm;
 	private DefaultTransactionDefinition df;
 	private HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos;
+	private final String[] mapItemTableName;
 
 	public MapItemManagerImpl(String dsName, Map<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
@@ -37,6 +40,39 @@ public class MapItemManagerImpl implements MapItemManager {
 		df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
 		this.storeInfos = new HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>>(storeInfos);
+		List<String> list = DataAccessStaticSupport.getTableNameList(template, "map_item_store");
+		mapItemTableName = new String[list.size()];
+		list.toArray(mapItemTableName);
+	}
+
+	public List<MapItemEntity> load(String userId, List<Integer> typeList) {
+		int index = DataAccessFactory.getSimpleSupport().getTableIndex(userId, mapItemTableName.length);
+		String tableName = mapItemTableName[index];
+		int size = typeList.size();
+		Object[] params = new Object[size + 1];
+		params[0] = userId;
+		StringBuilder sb = new StringBuilder();
+		sb.append("select id,extension,type from ").append(tableName).append(" where userId=? and type in(");
+		for (int i = 1; i <= size; i++) {
+			sb.append('?');
+			if (i < size) {
+				sb.append(',');
+			}
+			params[i] = typeList.get(i);
+		}
+
+		sb.append(')');
+		List<Map<String, Object>> datas = template.queryForList(sb.toString(), params);
+		ArrayList<MapItemEntity> entitys = new ArrayList<MapItemEntity>();
+		for (int i = datas.size(); --i >= 0;) {
+			Map<String, Object> map = datas.get(i);
+			String id = (String) map.get("id");
+			String extension = (String) map.get("userId");
+			Integer type = (Integer) map.get("type");
+			MapItemEntity entity = new MapItemEntity(id, extension, type);
+			entitys.add(entity);
+		}
+		return entitys;
 	}
 
 	public List<Pair<CacheKey, List<? extends IMapItem>>> load(List<Pair<CacheKey, String>> searchInfos, String userId) {
@@ -52,7 +88,7 @@ public class MapItemManagerImpl implements MapItemManager {
 			String tableName = info.getT2();
 			String searchKey = tableInfo.getT1();
 			String sql = "select * from " + tableName + " where " + searchKey + "=?";
-			sqls.add(Tuple.<CacheKey, String, RowMapper<? extends IMapItem>>Create(pairKey, sql, tableInfo.getT2()));
+			sqls.add(Tuple.<CacheKey, String, RowMapper<? extends IMapItem>> Create(pairKey, sql, tableInfo.getT2()));
 		}
 		ArrayList<Pair<CacheKey, List<? extends IMapItem>>> datas = new ArrayList<Pair<CacheKey, List<? extends IMapItem>>>();
 		int size = sqls.size();
@@ -62,7 +98,7 @@ public class MapItemManagerImpl implements MapItemManager {
 				Tuple<CacheKey, String, RowMapper<? extends IMapItem>> info = sqls.get(i);
 				List<? extends IMapItem> list = template.query(info.getT2(), info.getT3(), param);
 				if (list != null) {
-					Pair<CacheKey, List<? extends IMapItem>> p = Pair.<CacheKey, List<? extends IMapItem>>Create(info.getT1(), list);
+					Pair<CacheKey, List<? extends IMapItem>> p = Pair.<CacheKey, List<? extends IMapItem>> Create(info.getT1(), list);
 					datas.add(p);
 				}
 			}
@@ -73,4 +109,11 @@ public class MapItemManagerImpl implements MapItemManager {
 		}
 		return datas;
 	}
+
+	@Override
+	public String getTableName(String userId) {
+		int index = DataAccessFactory.getSimpleSupport().getTableIndex(userId, mapItemTableName.length);
+		return mapItemTableName[index];
+	}
+
 }

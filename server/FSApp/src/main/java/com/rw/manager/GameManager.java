@@ -3,7 +3,9 @@ package com.rw.manager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -34,7 +36,11 @@ import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.mapitem.MapItemCreator;
+import com.rw.dataaccess.mapitem.MapItemType;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
@@ -94,7 +100,14 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
-		MapItemStoreFactory.init();
+		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>,Class<? extends MapItemCreator<? extends IMapItem>>>>();
+		MapItemType[] types = MapItemType.values();
+		for(MapItemType t:types){
+			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = 
+					Pair.<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>Create(t.getMapItemClass(), t.getCreatorClass());	
+			map.put(t.getType(), pair);
+		}
+		MapItemStoreFactory.init(map);
 
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 

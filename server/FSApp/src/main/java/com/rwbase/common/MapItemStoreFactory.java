@@ -31,12 +31,17 @@ import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
+import com.rw.dataaccess.mapitem.MapItemCreator;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.Tuple;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.fsutil.dao.mapitem.MapItemEntity;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
 import com.rw.service.guide.datamodel.GiveItemHistory;
@@ -163,8 +168,12 @@ public class MapItemStoreFactory {
 
 	private static ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>> preloadCaches;
 	private static HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>> preloadCachesMapping;
+	private static HashMap<Integer, Pair<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> mapItemCreators;
+	private static HashMap<Class<? extends IMapItem>, Integer> mapItemIntegration;
+	private static List<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> integrationList;
+	private static HashMap<Integer, MapItemStoreCache<? extends IMapItem>> integrationMap;
 
-	public static void init() {
+	public static void init(Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map) {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
 				init = true;
@@ -173,6 +182,24 @@ public class MapItemStoreFactory {
 		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
+		integrationMap = new HashMap<Integer, MapItemStoreCache<? extends IMapItem>>();
+		mapItemIntegration = new HashMap<Class<? extends IMapItem>, Integer>();
+		integrationList = new ArrayList<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>>();
+		mapItemCreators = new HashMap<Integer, Pair<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>>();
+		for (Map.Entry<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> entry : map.entrySet()) {
+			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = entry.getValue();
+			MapItemCreator<? extends IMapItem> creator;
+			try {
+				creator = pair.getT2().newInstance();
+			} catch (Exception e) {
+				throw new ExceptionInInitializerError(e);
+			}
+			Integer key = entry.getKey();
+			Class<? extends IMapItem> mapItemClass = pair.getT1();
+			mapItemIntegration.put(mapItemClass, key);
+			mapItemCreators.put(key, Pair.<Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> Create(mapItemClass, creator));
+			integrationList.add(Tuple.<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> Create(key, mapItemClass, creator));
+		}
 		preloadCachesMapping = new HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>>();
 		preloadCaches = new ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>>();
 		storeInfos = new HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>>();
@@ -213,7 +240,7 @@ public class MapItemStoreFactory {
 		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardDistRecord>(GroupCopyRewardDistRecord.class, "groupId", heroCapacity));
 
 		userGroupCopyLevelRecordCache = createForPerload(UserGroupCopyMapRecord.class, "userId", heroCapacity);
-		
+
 		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
 		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
 
@@ -281,7 +308,11 @@ public class MapItemStoreFactory {
 	}
 
 	private static <T extends IMapItem> MapItemStoreCache<T> createForPerload(Class<T> clazz, String name, String searchKey, int capacity) {
-		MapItemStoreCache<T> cache = new MapItemStoreCache<T>(clazz, name, searchKey, capacity, false);
+		Integer type = mapItemIntegration.get(clazz);
+		MapItemStoreCache<T> cache = new MapItemStoreCache<T>(clazz, name, searchKey, capacity, type);
+		if (type != null) {
+			integrationMap.put(type, cache);
+		}
 		list.add(cache);
 		// TODO Pair可以只创建一次
 		CacheKey cacheKey = new CacheKey(clazz, name);
@@ -640,6 +671,49 @@ public class MapItemStoreFactory {
 			}
 			List items = pair.getT2();
 			cache.putIfAbsent(userId, items);
+		}
+	}
+
+	public static void preloadIntegration(String userId, int level) {
+		long start = System.currentTimeMillis();
+		ArrayList<Integer> typeList = new ArrayList<Integer>();
+		MapItemValidateParam param = new MapItemValidateParam(level, start);
+		for (int i = integrationList.size(); --i >= 0;) {
+			Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> tuple = integrationList.get(i);
+			MapItemCreator<? extends IMapItem> creator = tuple.getT3();
+			if (!creator.isOpen(param)) {
+				continue;
+			}
+			Integer type = tuple.getT1();
+			MapItemStoreCache<? extends IMapItem> store = integrationMap.get(type);
+			if (store == null) {
+				FSUtilLogger.error("can not find cache:" + type);
+				continue;
+			}
+			if (!store.contains(userId)) {
+				typeList.add(type);
+			}
+		}
+		List<MapItemEntity> datas = DataAccessFactory.getMapItemManager().load(userId, typeList);
+		HashMap<Integer, List<MapItemEntity>> map = new HashMap<Integer, List<MapItemEntity>>();
+		for (int i = datas.size(); --i >= 0;) {
+			MapItemEntity entity = datas.get(i);
+			Integer type = entity.getType();
+			List<MapItemEntity> list = map.get(type);
+			if (list == null) {
+				list = new ArrayList<MapItemEntity>();
+				map.put(type, list);
+			}
+			list.add(entity);
+		}
+		for (Map.Entry<Integer, List<MapItemEntity>> entry : map.entrySet()) {
+			Integer type = entry.getKey();
+			MapItemStoreCache<? extends IMapItem> store = integrationMap.get(type);
+			if (store == null) {
+				FSUtilLogger.error("can not find cache:" + type);
+				continue;
+			}
+			store.putIfAbsentByDBString(userId, datas);
 		}
 	}
 }

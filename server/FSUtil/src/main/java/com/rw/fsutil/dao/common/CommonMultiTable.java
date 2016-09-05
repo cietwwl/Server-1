@@ -19,8 +19,9 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 	private final String[] insertSqlArray;
 	private final String[] tableName;
 	private final int tableLength;
+	private final Integer type; // 是否分类型，即同一张表存在不同类型
 
-	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo,String searchFieldName) {
+	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo, String searchFieldName, Integer type) {
 		super(templateP, classInfoPojo);
 		String tableName = classInfoPojo.getTableName();
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
@@ -31,6 +32,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		StringBuilder insertFields = new StringBuilder();
 		StringBuilder insertHolds = new StringBuilder();
 		StringBuilder updateFields = new StringBuilder();
+		this.type = type;
 		try {
 			extractColumn(insertFields, insertHolds, updateFields);
 		} catch (Throwable t) {
@@ -45,6 +47,10 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		this.insertSqlArray = new String[size];
 		String insertFieldString = insertFields.toString();
 		String insertHoldsString = insertHolds.toString();
+		if (type != null) {
+			insertFieldString = insertFieldString + ",type";
+			insertHoldsString = insertHoldsString + ",?";
+		}
 		String updateFieldsString = updateFields.toString();
 		for (int i = 0; i < size; i++) {
 			String currentName = list.get(i);
@@ -53,14 +59,14 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 			this.delectSqlArray[i] = "delete from " + currentName + " where " + idFieldName + "=?";
 			this.updateSqlArray[i] = "update " + currentName + " set " + updateFieldsString + " where " + idFieldName + " = ?";
 			this.insertSqlArray[i] = "insert into " + currentName + "(" + insertFieldString + ") values (" + insertHoldsString + ")";
+
 		}
 	}
 
-	public void insert_(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
+	public void insert_(String searchId, final List<T> list, Integer type) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
-		super.insert(sql, list);
+		super.insert(sql, list, type);
 	}
-	
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
@@ -76,19 +82,19 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		String sql = getString(delectSqlArray, searchId);
 		return super.delete(sql, idList);
 	}
-	
-	public boolean insertAndDelete(String searchId, List<T> addList,List<String> delList) throws DuplicatedKeyException, DataNotExistException{
+
+	public boolean insertAndDelete(String searchId, List<T> addList, List<String> delList) throws DuplicatedKeyException, DataNotExistException {
 		String insertSql = getString(insertSqlArray, searchId);
 		String deleteSql = getString(delectSqlArray, searchId);
-		return super.insertAndDelete(insertSql, addList, deleteSql, delList);
+		return super.insertAndDelete(insertSql, addList, deleteSql, delList, type);
 	}
-	
-	public boolean updateToDB(String searchId, Map<String, T> map) throws Exception{
+
+	public boolean updateToDB(String searchId, Map<String, T> map) throws Exception {
 		String sql = getString(updateSqlArray, searchId);
 		return super.updateToDB(sql, map);
 	}
 
-	public boolean updateToDB(String searchId, String key, T target) throws Exception{
+	public boolean updateToDB(String searchId, String key, T target) throws Exception {
 		String sql = getString(updateSqlArray, searchId);
 		return super.updateToDB(sql, key, target);
 	}
@@ -99,6 +105,10 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		String tableName = getTableName(String.valueOf(value));
 		return super.findByKey(tableName, key, value);
 	}
+
+	// public List<T> queryForList(String searchId, Integer type){
+	//
+	// }
 
 	public String getTableName(String searchId) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(searchId, tableLength);
@@ -114,5 +124,5 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		// total.addAndGet(System.nanoTime() - start);
 		return sqlArray[tableIndex];
 	}
-	
+
 }

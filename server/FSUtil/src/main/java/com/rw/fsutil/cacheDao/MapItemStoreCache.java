@@ -1,7 +1,9 @@
 package com.rw.fsutil.cacheDao;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,6 +23,7 @@ import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.fsutil.dao.mapitem.MapItemEntity;
 import com.rw.fsutil.util.SpringContextUtil;
 
 /**
@@ -38,6 +41,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	private final String searchFieldP;
 	private CommonMultiTable<T> commonJdbc;
 	private boolean writeDirect = false;
+	private final Integer type;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", false);
@@ -48,22 +52,27 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
-		this(entityClazz, entityClazz.getName(), searchFieldP, itemBagCount, datasourceName, writeDirect);
+		this(entityClazz, entityClazz.getName(), searchFieldP, itemBagCount, datasourceName, writeDirect, null);
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, boolean writeDirect) {
-		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", writeDirect);
+		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", writeDirect, null);
 	}
 
-	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
+	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, Integer type) {
+		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", false, type);
+	}
+
+	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect, Integer type) {
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
 		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
-		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
+		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP, type);
 		this.writeDirect = writeDirect;
+		this.type = type;
 	}
 
 	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
@@ -80,7 +89,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
-		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this, writeDirect);
+		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this, writeDirect, type);
 		cache.preInsertIfAbsent(userId, m);
 	}
 
@@ -89,7 +98,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		@Override
 		public MapItemStore<T> load(String key) throws DataNotExistException, Exception {
 			List<T> list = commonJdbc.findByKey(searchFieldP, key);
-			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect);
+			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
 		}
 
 		@Override
@@ -134,12 +143,36 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public boolean putIfAbsent(String key, List<T> items) {
-		MapItemStore<T> store = new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect);
+		MapItemStore<T> store = new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
 		return this.cache.preInsertIfAbsent(key, store);
 	}
-	
-	public String getTableName(String userId){
+
+	public boolean putIfAbsentByDBString(final String key, final List<MapItemEntity> datas) {
+		return this.cache.preInsertIfAbsent(key, new Callable<MapItemStore<T>>() {
+
+			@Override
+			public MapItemStore<T> call() throws Exception {
+				int size = datas.size();
+				ArrayList<T> items = new ArrayList<T>(size);
+				for (int i = 0; i < size; i++) {
+					MapItemEntity entity = datas.get(i);
+					T t = commonJdbc.getRowBuilder().builde(key, entity);
+					if (t == null) {
+						FSUtilLogger.error("create mapitem fail:" + key + "," + type);
+						continue;
+					}
+					items.add(t);
+				}
+				return new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+			}
+		});
+	}
+
+	public String getTableName(String userId) {
 		return this.commonJdbc.getTableName(userId);
 	}
-	
+
+	public boolean contains(String searchId){
+		return this.cache.containsKey(searchId);
+	}
 }

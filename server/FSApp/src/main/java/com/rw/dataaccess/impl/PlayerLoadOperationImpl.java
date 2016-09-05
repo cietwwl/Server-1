@@ -30,7 +30,6 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 
 	private final DataKVDao<?>[] dataKVArray;
 	private final int maxType;
-	private final AtomicInteger generator = new AtomicInteger();
 
 	public PlayerLoadOperationImpl(HashMap<Integer, DataKVDao<?>> map) {
 		if (map.isEmpty()) {
@@ -68,7 +67,6 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 			}
 			kvDao.putIntoCacheByDBString(entity.getUserId(), entity.getValue());
 		}
-		int seqId = generator.incrementAndGet();
 		long end = System.currentTimeMillis();
 		FSTraceLogger.recordRun("LOAD_KV", end - start);
 		List<Pair<CacheKey, String>> preloadInfos = MapItemStoreFactory.getPreloadInfos(userId);

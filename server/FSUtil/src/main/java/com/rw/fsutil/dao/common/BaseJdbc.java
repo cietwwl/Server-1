@@ -33,6 +33,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
@@ -67,7 +68,7 @@ public abstract class BaseJdbc<T> {
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	protected void insert(String sql, final List<T> list) throws Exception {
+	protected void insert(String sql, final List<T> list, final Integer type) throws Exception {
 		final int size = list.size();
 		if (size == 0) {
 			return;
@@ -85,8 +86,10 @@ public abstract class BaseJdbc<T> {
 					List<Object> sqlContext = fieldValues.get(i);
 					int index = 0;
 					for (Object param : sqlContext) {
-						index++;
-						ps.setObject(index, param);
+						ps.setObject(++index, param);
+					}
+					if (type != null) {
+						ps.setInt(++index, type);
 					}
 				}
 
@@ -247,11 +250,11 @@ public abstract class BaseJdbc<T> {
 	 *            删除列表
 	 * @return
 	 */
-	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList) throws DuplicatedKeyException, DataNotExistException {
+	protected boolean insertAndDelete(String addSql, List<T> addList, String delSql, List<String> delList, Integer type) throws DuplicatedKeyException, DataNotExistException {
 		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
-			insert(addSql, addList);
+			insert(addSql, addList, type);
 			int[] result = batchDelete(delSql, delList);
 			for (int i = result.length; --i >= 0;) {
 				if (result[i] <= 0) {
@@ -357,6 +360,11 @@ public abstract class BaseJdbc<T> {
 		return resultList;
 	}
 
+	protected List<T> queryForList(String sql, Object[] params) {
+		List<T> resultList = template.query(sql, rowMapper, params);
+		return resultList;
+	}
+
 	private StringBuilder addSplit(StringBuilder sb) {
 		if (sb.length() > 0) {
 			sb.append(",");
@@ -444,6 +452,10 @@ public abstract class BaseJdbc<T> {
 	}
 
 	public RowMapper<T> getRowMapper() {
+		return rowMapper;
+	}
+	
+	public MapItemRowBuider<T> getRowBuilder(){
 		return rowMapper;
 	}
 
