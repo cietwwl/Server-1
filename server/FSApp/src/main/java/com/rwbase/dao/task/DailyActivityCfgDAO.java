@@ -3,6 +3,7 @@ package com.rwbase.dao.task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,14 @@ public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 		return SpringContextUtil.getBean(DailyActivityCfgDAO.class);
 	}
 
+	/**key=id*/
 	private HashMap<Integer, DailyActivityCfgEntity> entityMap;
 	private List<DailyActivityCfgEntity> allEntitys;
+	
+//	private HashSet<Integer> entryKeys = new HashSet<Integer>();
+	
+	/**key=type(任务类型)*/
+	private HashMap<Integer, List<DailyActivityCfgEntity>> allEntrisMap = new HashMap<Integer, List<DailyActivityCfgEntity>>();
 
 	@Override
 	public Map<String, DailyActivityCfg> initJsonCfg() {
@@ -34,6 +41,13 @@ public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 			}
 			
 			entityMap.put(cfg.getId(), entity);
+			
+			List<DailyActivityCfgEntity> list = allEntrisMap.get(cfg.getTaskType());
+			if(list == null){
+				list = new ArrayList<DailyActivityCfgEntity>();
+				allEntrisMap.put(cfg.getTaskClassify(), list);
+			}
+			list.add(entity);
 			
 		}
 		this.entityMap = entityMap;
@@ -61,6 +75,25 @@ public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 		return entity == null ? null : entity.getCfg();
 	}
 
+	
+	/**
+	 * 获取所有任务类型.
+	 * <p><font color=red>注意，此方法是copy一份新的集合出来进行操作。</font></p>
+	 * @return
+	 */
+	public HashSet<Integer> getAllTaskType(){
+		return new HashSet<Integer>(allEntrisMap.keySet());
+	}
+	
+	/**
+	 * 获取相同类型任务
+	 * @param type
+	 * @return
+	 */
+	public List<DailyActivityCfgEntity> getCfgEntrisByType(int type){
+		return allEntrisMap.get(type);
+	}
+	
 	// 根据任务id获得配置文件中的数据
 	// public DailyActivityCfg GetTaskCfgById(int taskId) {
 	// List<DailyActivityCfg> taskCfgList = getAllCfg();

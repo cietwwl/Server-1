@@ -1,13 +1,16 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.dailyActivity.DailyActivityHandler;
+import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.DailyActivityHolder;
 import com.rwbase.dao.task.DailyFinishType;
@@ -47,8 +50,116 @@ public class DailyActivityMgr implements PlayerEventListener {
 	public void resRed() {
 		DailyActivityHandler.getInstance().sendTaskList(player);
 	}
+	
+	
 
-	// 从配置文件中重新刷新任务列表
+	/**
+	 * 新的获取当前角色的任务列表方法    --by Alex
+	 * @return
+	 */
+	public List<DailyActivityData> getTaskList(){
+		//---------准备数据----------------//
+		DailyActivityCfgDAO cfgDAO = DailyActivityCfgDAO.getInstance();
+		HashSet<Integer> taskType = cfgDAO.getAllTaskType();
+		DailyActivityTaskItem taskItem = holder.getTaskItem();
+		List<DailyActivityData> currentList = taskItem.getTaskList();
+		List<Integer> firstInitTaskIds = taskItem.getFirstIncrementTaskIds();
+		
+		Map<Integer, DailyActivityData> finishMap = transferFinishList2Map(taskItem.getRemoveTaskList());
+		
+		List<DailyActivityData> scanList = new ArrayList<DailyActivityData>(currentList);
+
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
+		String userId = player.getUserId();
+		boolean change = false;
+		
+		
+		//------先检查已经存在的任务类型------//
+		for (DailyActivityData data : scanList) {
+			//检查一下是否已经完成
+			DailyActivityCfgEntity entity = cfgDAO.getCfgEntity(data.getTaskId());
+			boolean matchCondition = entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, data);
+			if (data.getCanGetReward() == 0) {
+				if(matchCondition){
+					//这个任务之前没有完成，但满足完成条件，可以设置为完成
+					data.setCanGetReward(1);
+					change = true;
+				}
+			}else if(!matchCondition){
+				//之前是可以领取，但检查的时候发现条件不满足，说明策划可能改了条件了，或者是时间类的任务已经超时，要把它移除
+				currentList.remove(data);
+				change = true;
+				
+				//检查一下同类型的任务有没有合适开放的任务
+				List<DailyActivityCfgEntity> subTypeList = cfgDAO.getCfgEntrisByType(entity.getCfg().getTaskType());
+				
+				checkAndAddNewMission(subTypeList, playerVip, playerLevel, userId, finishMap, firstInitTaskIds, currentList);
+				
+				
+			}
+			//移除已经检查的任务类型
+			taskType.remove(entity.getCfg().getTaskType());
+		}
+		
+		//------检查剩下的任务类型，看看有没有新任务------//
+		for (Integer type : taskType) {
+			List<DailyActivityCfgEntity> subTypeList = cfgDAO.getCfgEntrisByType(type);
+			
+			boolean add = checkAndAddNewMission(subTypeList, playerVip, playerLevel, userId, finishMap, firstInitTaskIds, currentList);
+			if(add){
+				change = true;
+			}
+			
+		}
+		
+		if(change){
+			holder.save();
+		}
+		
+		return Collections.unmodifiableList(currentList);
+	}
+	
+	
+	private boolean checkAndAddNewMission(List<DailyActivityCfgEntity> subTypeList, 
+			int playerVip, int playerLevel, String userId, Map<Integer, DailyActivityData> finishMap, 
+			List<Integer> firstInitTaskIds, List<DailyActivityData> currentList){
+		
+		DailyActivityCfgEntity newMission = null;
+		for (DailyActivityCfgEntity cfgEntity : subTypeList) {
+			if(cfgEntity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip) 
+					&& !finishMap.containsKey(cfgEntity.getCfg().getId()) && !hasNoRight(cfgEntity.getCfg(), playerLevel, playerVip)){
+				newMission = cfgEntity;
+				break;
+			}
+		}
+		
+		if(newMission != null){
+			DailyActivityData newData = new DailyActivityData();
+			newData.setTaskId(newMission.getCfg().getId());
+			setInitNum(newData, newMission.getCfg(), firstInitTaskIds);
+			// 检查完成条件
+			if (newMission.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, newData)) {
+				newData.setCanGetReward(1);
+			}
+			currentList.add(newData);
+			return true;
+		}
+		return false;
+		
+	}
+	
+	private Map<Integer, DailyActivityData> transferFinishList2Map(List<DailyActivityData> list){
+		Map<Integer, DailyActivityData> tempMap = new HashMap<Integer, DailyActivityData>();
+		
+		for (DailyActivityData data : list) {
+			tempMap.put(data.getTaskId(), data);
+		}
+		
+		return tempMap;
+	}
+	
+	// 从配置文件中重新刷新任务列表   
 	public List<DailyActivityData> getTaskListByCfg(boolean refresh) {
 		DailyActivityCfgDAO cfgDAO = DailyActivityCfgDAO.getInstance();
 		List<DailyActivityCfgEntity> taskCfgList = cfgDAO.getAllReadOnlyEntitys();
@@ -63,6 +174,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 		boolean changed = false;
 		List<DailyActivityData> removeList = taskItem.getRemoveTaskList();
 		List<Integer> firstInitTaskIds = taskItem.getFirstIncrementTaskIds();
+
 		int playerLevel = player.getLevel();
 		int playerVip = player.getVip();
 		String userId = player.getUserId();
@@ -80,7 +192,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 			if (refresh) {
 				tempData = null;
 			} else {
-				tempData = getActivityDataById(cfg.getTaskType(), cfgDAO, taskItem);
+				tempData = getActivityDataByType(cfg.getTaskType(), cfgDAO, taskItem);
 			}
 
 			if (tempData != null) {
@@ -127,40 +239,39 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 
 		// TODO HC 临时打个 补丁，用来解决日常任务被删除了某个配置之后，导致还出现的Bug
-		List<DailyActivityData> list = new ArrayList<DailyActivityData>();
-		Map<Integer, DailyActivityData> temMap = new HashMap<Integer, DailyActivityData>();
-		for (int i = currentList.size() - 1; i >= 0; --i) {
-			DailyActivityData data = currentList.get(i);
-			if (data == null) {
-				continue;
-			}
+//		List<DailyActivityData> list = new ArrayList<DailyActivityData>();
+//		Map<Integer, DailyActivityData> temMap = new HashMap<Integer, DailyActivityData>();
+//		for (int i = currentList.size() - 1; i >= 0; --i) {
+//			DailyActivityData data = currentList.get(i);
+//			if (data == null) {
+//				continue;
+//			}
+//
+//			int taskId = data.getTaskId();
+//			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
+//			if (cfg == null) {
+//				// System.out.println("------ID："+taskId+", 的任务不存在");
+//				continue;
+//			}
+//
+//			if (temMap.containsKey(taskId)) {
+//				// System.out.println("======ID："+taskId+", 重复");
+//				// 过滤掉重复的数据
+//				continue;
+//			}
+//
+//			temMap.put(taskId, data);
+//			// System.out.println("------处理后的任务ID："+taskId+", 任务描述："+
+//			// cfg.getCfg().getDescription());
+//		}
+//
+//		list.addAll(temMap.values());
 
-			int taskId = data.getTaskId();
-			DailyActivityCfgEntity cfg = cfgDAO.getCfgEntity(taskId);
-			if (cfg == null) {
-				// System.out.println("------ID："+taskId+", 的任务不存在");
-				continue;
-			}
-
-			if (temMap.containsKey(taskId)) {
-				// System.out.println("======ID："+taskId+", 重复");
-				// 过滤掉重复的数据
-				continue;
-			}
-
-			temMap.put(taskId, data);
-			// System.out.println("------处理后的任务ID："+taskId+", 任务描述："+
-			// cfg.getCfg().getDescription());
-		}
-
-		list.addAll(temMap.values());
-
-		return list;
+		return currentList;
 	}
 
 	/** 检查该配置的任务是否已经被领取(移动到remove列表 ) **/
 	private boolean isRemoveTask(DailyActivityCfg cfg, List<DailyActivityData> removeList) {
-		boolean isRemove = false;
 		int cfgId = cfg.getId();
 		for (int i = removeList.size(); --i >= 0;) {
 			if (removeList.get(i).getTaskId() == cfgId) {
@@ -178,7 +289,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 
 	// 返回一个角色所有的任务
 	public List<DailyActivityData> getAllTask() {
-		return getTaskListByCfg(false);
+//		return getTaskListByCfg(false);
+		return getTaskList();
 	}
 
 	public DailyActivityCfg getCfgByTaskId(int taskId) {
@@ -267,10 +379,11 @@ public class DailyActivityMgr implements PlayerEventListener {
 		}
 	}
 
-	//TODO 这个方法alex优化
-	private DailyActivityData getActivityDataById(int type, DailyActivityCfgDAO cfgDAO, DailyActivityTaskItem taskItem) {
+	
+	
+	private DailyActivityData getActivityDataByType(int type, DailyActivityCfgDAO cfgDAO, DailyActivityTaskItem taskItem) {
 		for (DailyActivityData td : taskItem.getTaskList()) {
-			DailyActivityCfg tempCfg = cfgDAO.getCfgById(String.valueOf(td.getTaskId()));
+			DailyActivityCfg tempCfg = cfgDAO.getTaskCfgById(td.getTaskId());
 			if (tempCfg == null) {
 				continue;
 			}
