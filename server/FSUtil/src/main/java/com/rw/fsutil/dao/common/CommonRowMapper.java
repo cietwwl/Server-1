@@ -36,8 +36,9 @@ class CommonRowMapper<T> implements RowMapper<T>, MapItemRowBuider<T> {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
 			for (int i = 0; i < columnCount; i++) {
-				String columnName = rsmd.getColumnName(i + 1);
-				Object value = rs.getObject(i + 1);
+				int index = i + 1;
+				String columnName = rsmd.getColumnName(index);
+				Object value = rs.getObject(index);
 				set(columnName, newInstance, value);
 			}
 			return newInstance;
@@ -127,7 +128,7 @@ class CommonRowMapper<T> implements RowMapper<T>, MapItemRowBuider<T> {
 			T newInstance = (T) classInfo.newInstance();
 			set("id", newInstance, entity.getId());
 			set("userId", newInstance, key);
-			set("extension", newInstance, entity.getExtention());
+			set("extention", newInstance, entity.getExtention());
 			return newInstance;
 		} catch (Exception e) {
 			e.printStackTrace();

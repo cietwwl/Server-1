@@ -259,11 +259,11 @@ public class MapItemStoreFactory {
 		activityDailyCountTypeItemCache = createForPerload(ActivityDailyTypeItem.class, "userId", heroCapacity);
 
 		activityVitalityItemCache = createForPerload(ActivityVitalityTypeItem.class, "userId", heroCapacity);
-		
+
 		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
 
 		activityFortuneCatTypeItemCache = createForPerload(ActivityFortuneCatTypeItem.class, "userId", heroCapacity);
-		
+
 		activityLimitHeroTypeItemCache = createForPerload(ActivityLimitHeroTypeItem.class, "userId", heroCapacity);
 
 		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
@@ -298,7 +298,7 @@ public class MapItemStoreFactory {
 
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 
-		register(activityDailyRechargeItemCache = new MapItemStoreCache<ActivityDailyRechargeTypeItem>(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity, true));
+		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -312,17 +312,18 @@ public class MapItemStoreFactory {
 	private static <T extends IMapItem> MapItemStoreCache<T> createForPerload(Class<T> clazz, String name, String searchKey, int capacity) {
 		Integer type = mapItemIntegration.get(clazz);
 		MapItemStoreCache<T> cache = new MapItemStoreCache<T>(clazz, name, searchKey, capacity, type);
+		list.add(cache);
 		if (type != null) {
 			integrationMap.put(type, cache);
+		} else {
+			// TODO Pair可以只创建一次
+			CacheKey cacheKey = new CacheKey(clazz, name);
+			RowMapper<? extends IMapItem> rm = cache.getRowMapper();
+			storeInfos.put(cacheKey, Pair.<String, RowMapper<? extends IMapItem>> Create(searchKey, rm));
+			Pair<CacheKey, MapItemStoreCache<? extends IMapItem>> cacheWrap = Pair.<CacheKey, MapItemStoreCache<? extends IMapItem>> Create(cacheKey, cache);
+			preloadCaches.add(cacheWrap);
+			preloadCachesMapping.put(cacheKey, cache);
 		}
-		list.add(cache);
-		// TODO Pair可以只创建一次
-		CacheKey cacheKey = new CacheKey(clazz, name);
-		RowMapper<? extends IMapItem> rm = cache.getRowMapper();
-		storeInfos.put(cacheKey, Pair.<String, RowMapper<? extends IMapItem>> Create(searchKey, rm));
-		Pair<CacheKey, MapItemStoreCache<? extends IMapItem>> cacheWrap = Pair.<CacheKey, MapItemStoreCache<? extends IMapItem>> Create(cacheKey, cache);
-		preloadCaches.add(cacheWrap);
-		preloadCachesMapping.put(cacheKey, cache);
 		return cache;
 	}
 
@@ -696,7 +697,7 @@ public class MapItemStoreFactory {
 				typeList.add(type);
 			}
 		}
-		if(typeList.isEmpty()){
+		if (typeList.isEmpty()) {
 			return;
 		}
 		List<MapItemEntity> datas = DataAccessFactory.getMapItemManager().load(userId, typeList);
@@ -711,12 +712,16 @@ public class MapItemStoreFactory {
 			}
 			list.add(entity);
 		}
-		for (Map.Entry<Integer, List<MapItemEntity>> entry : map.entrySet()) {
-			Integer type = entry.getKey();
+		for (int i = typeList.size(); --i >= 0;) {
+			Integer type = typeList.get(i);
 			MapItemStoreCache<? extends IMapItem> store = integrationMap.get(type);
 			if (store == null) {
 				FSUtilLogger.error("can not find cache:" + type);
 				continue;
+			}
+			List<MapItemEntity> data = map.get(type);
+			if (data == null) {
+				data = Collections.emptyList();
 			}
 			store.putIfAbsentByDBString(userId, datas);
 		}

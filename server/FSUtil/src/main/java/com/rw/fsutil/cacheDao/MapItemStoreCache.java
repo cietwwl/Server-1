@@ -97,7 +97,12 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 		@Override
 		public MapItemStore<T> load(String key) throws DataNotExistException, Exception {
-			List<T> list = commonJdbc.findByKey(searchFieldP, key);
+			List<T> list;
+			if (type == null) {
+				list = commonJdbc.findByKey(searchFieldP, key);
+			}else{
+				list = commonJdbc.queryForList(key, type);
+			}
 			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
 		}
 
@@ -152,27 +157,31 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 			@Override
 			public MapItemStore<T> call() throws Exception {
-				int size = datas.size();
-				ArrayList<T> items = new ArrayList<T>(size);
-				for (int i = 0; i < size; i++) {
-					MapItemEntity entity = datas.get(i);
-					T t = commonJdbc.getRowBuilder().builde(key, entity);
-					if (t == null) {
-						FSUtilLogger.error("create mapitem fail:" + key + "," + type);
-						continue;
-					}
-					items.add(t);
-				}
-				return new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+				return create(key, datas);
 			}
 		});
+	}
+	
+	private MapItemStore<T> create(String key,List<MapItemEntity> datas){
+		int size = datas.size();
+		ArrayList<T> items = new ArrayList<T>(size);
+		for (int i = 0; i < size; i++) {
+			MapItemEntity entity = datas.get(i);
+			T t = commonJdbc.getRowBuilder().builde(key, entity);
+			if (t == null) {
+				FSUtilLogger.error("create mapitem fail:" + key + "," + type);
+				continue;
+			}
+			items.add(t);
+		}
+		return new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
 	}
 
 	public String getTableName(String userId) {
 		return this.commonJdbc.getTableName(userId);
 	}
 
-	public boolean contains(String searchId){
+	public boolean contains(String searchId) {
 		return this.cache.containsKey(searchId);
 	}
 }

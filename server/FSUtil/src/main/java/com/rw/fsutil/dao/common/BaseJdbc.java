@@ -113,7 +113,7 @@ public abstract class BaseJdbc<T> {
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	protected boolean insert(final String sql, String key, T target) throws DuplicatedKeyException, Exception {
+	protected boolean insert(final String sql, String key, T target,final Integer type) throws DuplicatedKeyException, Exception {
 		final List<Object> fieldValues = extractAttributes(target, false);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		try {
@@ -124,6 +124,9 @@ public abstract class BaseJdbc<T> {
 					for (Object param : fieldValues) {
 						index++;
 						ps.setObject(index, param);
+					}
+					if (type != null) {
+						ps.setInt(++index, type);
 					}
 					return ps;
 				}
@@ -360,7 +363,7 @@ public abstract class BaseJdbc<T> {
 		return resultList;
 	}
 
-	protected List<T> queryForList(String sql, Object[] params) {
+	public List<T> queryForList(String sql, Object[] params) {
 		List<T> resultList = template.query(sql, rowMapper, params);
 		return resultList;
 	}

@@ -23,7 +23,12 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 
 	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo, String searchFieldName, Integer type) {
 		super(templateP, classInfoPojo);
-		String tableName = classInfoPojo.getTableName();
+		String tableName;
+		if(type == null){
+			tableName = classInfoPojo.getTableName();
+		}else{
+			tableName = "map_item_store";
+		}
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
 		int size = list.size();
 		if (size == 1 && !list.get(0).equals(tableName)) {
@@ -70,7 +75,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
-		return super.insert(sql, key, target);
+		return super.insert(sql, key, target,type);
 	}
 
 	public boolean delete(String searchId, String id) throws DataNotExistException, Exception {
@@ -106,9 +111,10 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		return super.findByKey(tableName, key, value);
 	}
 
-	// public List<T> queryForList(String searchId, Integer type){
-	//
-	// }
+	 public List<T> queryForList(String searchId, Integer type){
+		 String tableName = getTableName(String.valueOf(searchId));
+		 return super.queryForList("select id,userId,extention from "+tableName+" where userId=? and type=?", new Object[]{searchId,type});
+	 }
 
 	public String getTableName(String searchId) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(searchId, tableLength);

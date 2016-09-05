@@ -49,16 +49,17 @@ public class MapItemManagerImpl implements MapItemManager {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(userId, mapItemTableName.length);
 		String tableName = mapItemTableName[index];
 		int size = typeList.size();
+		int last = size - 1;
 		Object[] params = new Object[size + 1];
 		params[0] = userId;
 		StringBuilder sb = new StringBuilder();
-		sb.append("select id,extension,type from ").append(tableName).append(" where userId=? and type in(");
-		for (int i = 1; i <= size; i++) {
+		sb.append("select id,extention,type from ").append(tableName).append(" where userId=? and type in(");
+		for (int i = 0; i < size; i++) {
 			sb.append('?');
-			if (i < size) {
+			if (i < last) {
 				sb.append(',');
 			}
-			params[i] = typeList.get(i);
+			params[i+1] = typeList.get(i);
 		}
 
 		sb.append(')');
@@ -67,7 +68,7 @@ public class MapItemManagerImpl implements MapItemManager {
 		for (int i = datas.size(); --i >= 0;) {
 			Map<String, Object> map = datas.get(i);
 			String id = (String) map.get("id");
-			String extension = (String) map.get("userId");
+			String extension = (String) map.get("extention");
 			Integer type = (Integer) map.get("type");
 			MapItemEntity entity = new MapItemEntity(id, extension, type);
 			entitys.add(entity);
