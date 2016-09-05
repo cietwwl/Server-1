@@ -38,9 +38,10 @@ public class ActivityDailyDiscountTypeItemHolder{
 		
 		List<ActivityDailyDiscountTypeItem> itemList = new ArrayList<ActivityDailyDiscountTypeItem>();
 		Enumeration<ActivityDailyDiscountTypeItem> mapEnum = getItemStore(userId).getEnum();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		while (mapEnum.hasMoreElements()) {
 			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();		
-			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgListByItemEmuid(item.getEnumId()).isEmpty()){
+			if(activityDailyDiscountTypeCfgDAO.isCfgByItemEmuidEmpty(item.getEnumId())){
 				continue;
 			}
 			itemList.add(item);

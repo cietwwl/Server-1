@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -30,21 +31,8 @@ public final class ActivityDailyTypeSubCfgDAO extends
 		HashMap<String, List<ActivityDailyTypeSubCfg>> mapParentidTmp = new HashMap<String, List<ActivityDailyTypeSubCfg>>();
 		HashMap<String, List<ActivityDailyTypeSubCfg>> mapEnumidTmp = new HashMap<String, List<ActivityDailyTypeSubCfg>>();
 		for (ActivityDailyTypeSubCfg subCfg : cfgCacheMap.values()) {
-			String parentid = subCfg.getParentId();
-			String enumid = subCfg.getEnumId();
-			List<ActivityDailyTypeSubCfg> list = mapParentidTmp.get(parentid);
-			List<ActivityDailyTypeSubCfg> listByEnumid = mapEnumidTmp
-					.get(enumid);
-			if (list == null) {
-				list = new ArrayList<ActivityDailyTypeSubCfg>();
-				mapParentidTmp.put(parentid, list);
-			}
-			if (listByEnumid == null) {
-				listByEnumid = new ArrayList<ActivityDailyTypeSubCfg>();
-				mapEnumidTmp.put(enumid, listByEnumid);
-			}
-			listByEnumid.add(subCfg);
-			list.add(subCfg);
+			ActivityTypeHelper.add(subCfg, subCfg.getParentId(), mapParentidTmp);
+			ActivityTypeHelper.add(subCfg, subCfg.getEnumId(), mapEnumidTmp);
 		}
 		this.cfgMapByParentid = mapParentidTmp;
 		this.cfgMapByEnumid = mapEnumidTmp;
@@ -73,7 +61,11 @@ public final class ActivityDailyTypeSubCfgDAO extends
 	}
 
 	public List<ActivityDailyTypeSubCfg> getCfgMapByParentid(String parentid) {
-		return cfgMapByParentid.get(parentid);
+		List<ActivityDailyTypeSubCfg> list = cfgMapByParentid.get(parentid);
+		if(list == null){
+			list = new ArrayList<ActivityDailyTypeSubCfg>();
+		}
+		return list;
 	}
 
 	/** 用于验证单个cfg是否开启 */

@@ -1,6 +1,7 @@
 package com.playerdata.activity.limitHeroType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -18,13 +20,19 @@ public class ActivityLimitHeroRankCfgDAO extends CfgCsvDao<ActivityLimitHeroRank
 		return SpringContextUtil.getBean(ActivityLimitHeroRankCfgDAO.class);
 	}
 	
+	private HashMap<String, List<ActivityLimitHeroRankCfg>> rankCfgListMap ;
+	
 	@Override
 	protected Map<String, ActivityLimitHeroRankCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroRankCfg.csv", ActivityLimitHeroRankCfg.class);
 		for (ActivityLimitHeroRankCfg cfgTmp : cfgCacheMap.values()) {
 			parSetRankRange(cfgTmp);
 		}
-		
+		HashMap<String, List<ActivityLimitHeroRankCfg>> rankCfgListMapTmp = new HashMap<String, List<ActivityLimitHeroRankCfg>>();
+		for(ActivityLimitHeroRankCfg rankCfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(rankCfg, rankCfg.getParentid(),rankCfgListMapTmp);
+		}
+		this.rankCfgListMap = rankCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
@@ -41,13 +49,10 @@ public class ActivityLimitHeroRankCfgDAO extends CfgCsvDao<ActivityLimitHeroRank
 	}
 	
 	public List<ActivityLimitHeroRankCfg> getByParentCfgId(String id) {
-		List<ActivityLimitHeroRankCfg> allCfgList = getAllCfg();
-		List<ActivityLimitHeroRankCfg> subCfgList = new ArrayList<ActivityLimitHeroRankCfg>();
-		for(ActivityLimitHeroRankCfg boxCfg : allCfgList){
-			if(StringUtils.equals(id, boxCfg.getParentid())){
-				subCfgList.add(boxCfg);
-			}
+		List<ActivityLimitHeroRankCfg> list = rankCfgListMap.get(id);
+		if(list == null){
+			list = new ArrayList<ActivityLimitHeroRankCfg>();
 		}
-		return subCfgList;
+		return list;
 	}
 }

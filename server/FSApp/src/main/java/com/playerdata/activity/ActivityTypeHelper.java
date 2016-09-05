@@ -1,5 +1,9 @@
 package com.playerdata.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.rw.fsutil.util.DateUtils;
 
 public class ActivityTypeHelper {
@@ -52,5 +56,19 @@ public class ActivityTypeHelper {
 		}		
 		return false;
 	}
+	
+	/**
+	 * 将加载配置文件时的多个模块的缓存化数据使用统一方法处理
+	 * @param cfgItem
+	 */
+	public static <T> void add(Object cfg,String id,HashMap<String, List<T>> enumIdCfgMapping_){
+		List<T> list = enumIdCfgMapping_.get(id);
+		if (list == null) {
+			list = new ArrayList<T>();
+			enumIdCfgMapping_.put(id, list);
+		}
+		list.add((T) cfg);
+	}
+	
 	
 }

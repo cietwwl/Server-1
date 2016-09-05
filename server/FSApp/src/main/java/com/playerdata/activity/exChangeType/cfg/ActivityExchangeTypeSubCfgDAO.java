@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -23,6 +24,8 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		return SpringContextUtil.getBean(ActivityExchangeTypeSubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityExchangeTypeSubCfg>> subCfgListMap;
+	
 	
 	@Override
 	public Map<String, ActivityExchangeTypeSubCfg> initJsonCfg() {
@@ -30,6 +33,11 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		for (ActivityExchangeTypeSubCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}		
+		HashMap<String, List<ActivityExchangeTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeSubCfg>>();
+		for(ActivityExchangeTypeSubCfg subCfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(subCfg, subCfg.getParentCfg(), subCfgListMapTmp);
+		}
+		this.subCfgListMap = subCfgListMapTmp;		
 		return cfgCacheMap;
 	}
 
@@ -49,14 +57,7 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 	}
 	
 	public List<ActivityExchangeTypeSubCfg> getByParentCfgId(String parentCfgId){
-		List<ActivityExchangeTypeSubCfg> targetList = new ArrayList<ActivityExchangeTypeSubCfg>();
-		List<ActivityExchangeTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityExchangeTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
-				targetList.add(tmpItem);
-			}
-		}
-		return targetList;				
+		return subCfgListMap.get(parentCfgId);			
 	}
 
 

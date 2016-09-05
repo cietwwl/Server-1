@@ -98,7 +98,11 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public List<ActivityRedEnvelopeTypeSubItem> getSubList(ActivityRedEnvelopeTypeCfg cfg) {
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
 		ActivityRedEnvelopeTypeSubCfgDAO activityRedEnvelopeTypeSubCfgDAO = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
-		for(ActivityRedEnvelopeTypeSubCfg subCfg : activityRedEnvelopeTypeSubCfgDAO.getAllCfg()){
+		List<ActivityRedEnvelopeTypeSubCfg> subList = activityRedEnvelopeTypeSubCfgDAO.getSubCfgListByParentID(cfg.getId());
+		if(subList == null){
+			return subItemList;
+		}
+		for(ActivityRedEnvelopeTypeSubCfg subCfg : subList){
 			if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
 				continue;
 			}

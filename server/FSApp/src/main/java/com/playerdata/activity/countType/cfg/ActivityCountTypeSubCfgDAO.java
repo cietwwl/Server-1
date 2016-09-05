@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -32,14 +33,7 @@ public final class ActivityCountTypeSubCfgDAO extends
 				ActivityCountTypeSubCfg.class);
 		HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMappingTmp = new HashMap<String, List<ActivityCountTypeSubCfg>>();
 		for (ActivityCountTypeSubCfg subCfg : cfgCacheMap.values()) {
-			String parentid = subCfg.getParentCfg();
-			List<ActivityCountTypeSubCfg> list = parentCfgMappingTmp
-					.get(parentid);
-			if (list == null) {
-				list = new ArrayList<ActivityCountTypeSubCfg>();
-				parentCfgMappingTmp.put(parentid, list);
-			}
-			list.add(subCfg);
+			ActivityTypeHelper.add(subCfg,subCfg.getParentCfg(), parentCfgMappingTmp);
 		}
 		this.parentCfgMapping = parentCfgMappingTmp;
 		return cfgCacheMap;

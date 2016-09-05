@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeHelper;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
@@ -45,13 +46,7 @@ public final class ActivityRateTypeCfgDAO extends
 		
 		HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumidTemp = new HashMap<String, List<ActivityRateTypeCfg>>();
 		for(ActivityRateTypeCfg cfg : cfgCacheMap.values()){
-			String enumId = cfg.getEnumId();
-			List<ActivityRateTypeCfg> list = cfgMapByEnumidTemp.get(enumId);
-			if(list == null){
-				list = new ArrayList<ActivityRateTypeCfg>();
-				cfgMapByEnumidTemp.put(enumId, list);
-			}
-			list.add(cfg);
+			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgMapByEnumidTemp);
 		}
 		this.cfgMapByEnumid = cfgMapByEnumidTemp;		
 		return cfgCacheMap;
