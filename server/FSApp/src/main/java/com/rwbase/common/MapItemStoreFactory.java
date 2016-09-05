@@ -255,7 +255,7 @@ public class MapItemStoreFactory {
 
 		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 
-		groupFightRewardItemCache = createForPerload(GFFinalRewardItem.class, "rewardOwner", heroCapacity);
+		groupFightRewardItemCache = createForPerload(GFFinalRewardItem.class, "userID", heroCapacity);
 
 		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 
