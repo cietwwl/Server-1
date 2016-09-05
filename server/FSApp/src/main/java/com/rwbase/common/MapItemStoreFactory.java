@@ -197,7 +197,7 @@ public class MapItemStoreFactory {
 
 		fresherActivityCache = createForPerload(FresherActivityBigItem.class, "ownerId", heroCapacity);
 
-		register(inlayItemCache = new MapItemStoreCache<InlayItem>(InlayItem.class, "ownerId", heroCapacity));
+		inlayItemCache = createForPerload(InlayItem.class, "ownerId", heroCapacity);
 
 		register(magicCache = new MapItemStoreCache<Magic>(Magic.class, "id", heroCapacity));
 
@@ -212,7 +212,8 @@ public class MapItemStoreFactory {
 		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
 		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardDistRecord>(GroupCopyRewardDistRecord.class, "groupId", heroCapacity));
 
-		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
+		userGroupCopyLevelRecordCache = createForPerload(UserGroupCopyMapRecord.class, "userId", heroCapacity);
+		
 		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
 		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
 

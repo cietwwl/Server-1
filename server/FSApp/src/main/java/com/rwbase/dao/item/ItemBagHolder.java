@@ -2,9 +2,12 @@ package com.rwbase.dao.item;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.common.RefInt;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -150,6 +153,28 @@ public class ItemBagHolder implements RecordSynchronization {
 		return count;
 	}
 
+	/**
+	 * 获取道具modelId与数量的映射
+	 * 
+	 * @return
+	 */
+	public Map<Integer, RefInt> getModelCountMap() {
+		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			RefInt intValue = map.get(modelId);
+			int count = itemData.getCount();
+			if (intValue == null) {
+				map.put(modelId, new RefInt(count));
+			} else {
+				intValue.value += count;
+			}
+		}
+		return map;
+	}
+
 	// /**
 	// * 更新背包的操作
 	// *
@@ -157,7 +182,8 @@ public class ItemBagHolder implements RecordSynchronization {
 	// * @param newItemList 新创建物品的列表
 	// * @param updateItemList 更新物品的列表
 	// */
-	// public void updateItemBag(Player player, List<INewItem> newItemList, List<IUpdateItem> updateItemList) {
+	// public void updateItemBag(Player player, List<INewItem> newItemList,
+	// List<IUpdateItem> updateItemList) {
 	// List<ItemData> updateItems = new ArrayList<ItemData>();
 	// String userId = player.getUserId();
 	// MapItemStore<ItemData> itemDataStore = getItemStore();
@@ -168,10 +194,13 @@ public class ItemBagHolder implements RecordSynchronization {
 	// int templateId = newItem.getCfgId();
 	//
 	// // 检测获取的是不是AS级的法宝
-	// if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {// 检测是不是法宝
-	// MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
+	// if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {//
+	// 检测是不是法宝
+	// MagicCfg magicCfg = (MagicCfg)
+	// MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
 	// if (magicCfg != null) {// 是S，A级法宝
-	// MainMsgHandler.getInstance().sendPmdFb(player, magicCfg.getName(), magicCfg.getQuality());
+	// MainMsgHandler.getInstance().sendPmdFb(player, magicCfg.getName(),
+	// magicCfg.getQuality());
 	// /** 稀有法宝的获得,B,A、S级 **/
 	// }
 	// }
