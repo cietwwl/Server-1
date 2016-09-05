@@ -54,15 +54,8 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 		int currentAcheiveFinalRewardId = StringUtils.isEmpty(currentValue) ? -1 : Integer.parseInt(currentValue);
 		
 		
-		List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
-		Collections.sort(allCfg, new Comparator<FresherActivityFinalRewardCfg>() {
-
-			@Override
-			public int compare(FresherActivityFinalRewardCfg o1, FresherActivityFinalRewardCfg o2) {
-				// TODO Auto-generated method stub
-				return o1.getId() > o2.getId() ? 1 : -1;
-			}
-		});
+		List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getSortFinalRewardList();
+		
 		for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
 
 			if (fresherActivityFinalRewardCfg.getProgress() <= result) {
