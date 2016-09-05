@@ -32,6 +32,11 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 		ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
 	}
 	
+	/**
+	 * 添加完成的进度
+	 * @param player
+	 * @param count
+	 */
 	public void addFinishCount(Player player, int count){
 		List<ActivityDailyRechargeTypeItem> items = ActivityDailyRechargeTypeItemHolder.getInstance().getItemList(player.getUserId());
 		if(null == items || items.isEmpty()) return;
@@ -117,7 +122,9 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 		return true;
 	}
 
-	@Override
+	/**
+	 * 设置活动是否被查看的红点
+	 */
 	public void updateRedPoint(Player player, String eNum) {
 		ActivityDailyRechargeTypeItemHolder activityDailyRechargeItemHolder = ActivityDailyRechargeTypeItemHolder.getInstance();
 		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(eNum);
@@ -166,12 +173,7 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityDailyRechargeTypeItem> items = ActivityDailyRechargeTypeItemHolder.getInstance().getItemList(player.getUserId());
 		if(null == items || items.isEmpty()) return;
 		for(ActivityDailyRechargeTypeItem item : items){
-			item.getSubItemList();
-			
-			
-			
-			
-			
+			expireActivityEmail(player, item);
 			// 这里要看，充值是否累计
 			item.setFinishCount(0);
 			List<ActivityDailyRechargeTypeSubItem> subItemList = new ArrayList<ActivityDailyRechargeTypeSubItem>();
@@ -203,7 +205,7 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate{
 					continue;
 				}
 				if(!subItem.isGet() && item.getFinishCount() >= subCfg.getCount()){
-					
+					ComGiftMgr.getInstance().addGiftTOEmailById(player, subCfg.getGiftId(), null, cfg.getTitle());
 				}
 			}
 		}
