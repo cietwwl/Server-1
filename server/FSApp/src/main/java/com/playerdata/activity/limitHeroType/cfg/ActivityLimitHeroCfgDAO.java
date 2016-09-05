@@ -40,6 +40,8 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 		return SpringContextUtil.getBean(ActivityLimitHeroCfgDAO.class);
 	}
 	
+	
+	
 	@Override
 	public Map<String, ActivityLimitHeroCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);
@@ -82,16 +84,18 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	}
 
 	public List<ActivityLimitHeroTypeSubItem> newSubItemList(ActivityLimitHeroCfg cfg){
-		List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getAllCfg();
+		List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getCfgListByParentID(cfg.getId());
+		
 		List<ActivityLimitHeroTypeSubItem> subItemList = new ArrayList<ActivityLimitHeroTypeSubItem>();
+		if(boxCfgList == null){
+			return subItemList;
+		}
 		for(ActivityLimitHeroBoxCfg boxCfg : boxCfgList){
-			if(StringUtils.equals(cfg.getId(), boxCfg.getParentid())){
-				ActivityLimitHeroTypeSubItem subItem = new ActivityLimitHeroTypeSubItem();
-				subItem.setCfgId(boxCfg.getId());
-				subItem.setIntegral(boxCfg.getIntegral());
-				subItem.setRewards(boxCfg.getRewards());
-				subItemList.add(subItem);				
-			}			
+			ActivityLimitHeroTypeSubItem subItem = new ActivityLimitHeroTypeSubItem();
+			subItem.setCfgId(boxCfg.getId());
+			subItem.setIntegral(boxCfg.getIntegral());
+			subItem.setRewards(boxCfg.getRewards());
+			subItemList.add(subItem);		
 		}		
 		return subItemList;
 	}
@@ -100,7 +104,8 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	public ActivityLimitHeroCfg getCfgListByItem(ActivityLimitHeroTypeItem item) {
 		List<ActivityLimitHeroCfg> openCfgList = new ArrayList<ActivityLimitHeroCfg>();
 		ActivityLimitHeroTypeMgr activityLimitHeroTypeMgr = ActivityLimitHeroTypeMgr.getInstance();
-		for(ActivityLimitHeroCfg cfg : getAllCfg()){
+		List<ActivityLimitHeroCfg> allList = getAllCfg();
+		for(ActivityLimitHeroCfg cfg : allList){
 			if (!StringUtils.equals(item.getCfgId(),cfg.getId())&&activityLimitHeroTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
