@@ -179,7 +179,7 @@ public class PlayerLoginTask implements PlayerTask {
 		LoginSynDataHelper.setData(player, response);
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
-		FSTraceLogger.logger("run", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
+		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
 		ChannelFuture future = nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
 		future.addListener(new GenericFutureListener<Future<? super Void>>() {
 
