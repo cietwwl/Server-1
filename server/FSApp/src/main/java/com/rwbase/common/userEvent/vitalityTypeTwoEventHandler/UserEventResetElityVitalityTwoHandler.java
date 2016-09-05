@@ -32,7 +32,7 @@ public class UserEventResetElityVitalityTwoHandler implements IUserEventHandler{
 					}
 				}
 			@Override
-			public void logError(Player player,Throwable ex) {
+			public void logError(Player player,Exception ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.ResetElityVitalityTwo.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						

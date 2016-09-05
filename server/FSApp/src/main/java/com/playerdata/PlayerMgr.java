@@ -10,6 +10,7 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
@@ -61,6 +62,7 @@ public class PlayerMgr {
 
 		@Override
 		public Player load(String key) throws DataNotExistException, Exception {
+			GameOperationFactory.getLoadOperation().execute(key);
 			return new Player(key, true);
 		}
 

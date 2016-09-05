@@ -1,6 +1,5 @@
 package com.rwbase.dao.task.pojo;
 
-import com.playerdata.Player;
 
 public interface DailyFinishCondition {
 
@@ -10,5 +9,5 @@ public interface DailyFinishCondition {
 	 * @param player
 	 * @return
 	 */
-	public boolean isMatchCondition(Player player, DailyActivityData data);
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip, DailyActivityData data);
 }

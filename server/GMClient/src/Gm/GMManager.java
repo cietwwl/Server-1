@@ -25,6 +25,7 @@ import Gm.Task.GmChatBanPlayer;
 import Gm.Task.GmDeleteGameNotice;
 import Gm.Task.GmEditGameNotice;
 import Gm.Task.GmEditGmNotice;
+import Gm.Task.GmEditLevel;
 import Gm.Task.GmEditPlatformNotice;
 import Gm.Task.GmEmailAll;
 import Gm.Task.GmEmailSingleCheck;
@@ -153,9 +154,10 @@ public class GMManager {
 //		GmEditGmNotice handler = new GmEditGmNotice();
 //		GmQueryGmNotice handler = new GmQueryGmNotice();
 //		GmQueryGroupRankingInfo handler = new GmQueryGroupRankingInfo();
-		GmQueryGroupInfo handler = new GmQueryGroupInfo();
+//		GmQueryGroupInfo handler = new GmQueryGroupInfo();
 //		GmRemoveGmNotice handler = new GmRemoveGmNotice();
 //		GmViewGroupMember handler = new GmViewGroupMember();
+		GmEditLevel handler = new GmEditLevel();
 		
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);

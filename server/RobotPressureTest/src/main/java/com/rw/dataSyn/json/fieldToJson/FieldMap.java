@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.rw.dataSyn.ClassInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.dataSyn.json.FieldType;
@@ -128,10 +130,11 @@ public class FieldMap implements IFieldToJson {
 	@Override
 	public void fromJson(Object target, String json) throws Exception {
 		Map<Object,Object> resultData = new HashMap<Object, Object>();
-		Map<String,String> tableData = JsonUtil.readToMap(json);
+//		Map<String,String> tableData = JsonUtil.readToMap(json);
+		JSONObject tableData = JSON.parseObject(json);	
 
 		for(String keyTmp : tableData.keySet()){			
-			String jsonTmp = tableData.get(keyTmp);
+			String jsonTmp = tableData.getString(keyTmp);
 			
 			Object valueTmp = null;			
 			

@@ -7,12 +7,9 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.rankType.ActivityRankTypeEnum;
 import com.playerdata.activity.rankType.ActivityRankTypeHelper;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwproto.DataSynProtos.eSynOpType;
-import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityRankTypeItemHolder{
 	
@@ -20,21 +17,16 @@ public class ActivityRankTypeItemHolder{
 	
 	public static ActivityRankTypeItemHolder getInstance(){
 		return instance;
-	}
-
-	final private eSynType synType = eSynType.ActivityRankType;
-	
+	}	
 
 	public List<ActivityRankTypeItem> getItemList(String userId)	
-	{
-		
+	{		
 		List<ActivityRankTypeItem> itemList = new ArrayList<ActivityRankTypeItem>();
 		Enumeration<ActivityRankTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRankTypeItem item = (ActivityRankTypeItem) mapEnum.nextElement();
 			itemList.add(item);
-		}
-		
+		}		
 		return itemList;
 	}
 	
@@ -51,13 +43,6 @@ public class ActivityRankTypeItemHolder{
 	public boolean addItem(Player player, ActivityRankTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		return addSuccess;
-	}
-	
-	public boolean removeItem(Player player,ActivityRankTypeEnum type){
-		
-		String uidAndId = ActivityRankTypeHelper.getItemId(player.getUserId(), type);
-		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
 		return addSuccess;
 	}
 
