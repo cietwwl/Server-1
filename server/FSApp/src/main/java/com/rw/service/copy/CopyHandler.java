@@ -36,6 +36,7 @@ import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataHolder;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
+import com.rwproto.CopyServiceProtos.GodGiftRequest;
 import com.rwproto.CopyServiceProtos.MapAnimationState;
 import com.rwproto.CopyServiceProtos.MapGiftRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
@@ -260,4 +261,45 @@ public class CopyHandler {
 		}
 		return copyResponse.build().toByteString();
 	}
+	
+	
+	/**
+	 * 请求获取关卡宝箱
+	 * @param player
+	 * @param copyRequest
+	 * @return
+	 */
+	public ByteString getCopyBox(Player player, MsgCopyRequest copyRequest) {
+		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		MapGiftRequest mapGiftRequest = copyRequest.getMapGiftRequest();
+		int mapId = mapGiftRequest.getMapId();
+		int copy = mapGiftRequest.getIndex();
+		boolean suc = player.getCopyRecordMgr().getCopyBox(mapId, copy);
+		if(suc){
+			copyResponse.setEResultType(EResultType.Success);
+		}else{
+			copyResponse.setEResultType(EResultType.NONE);
+		}
+		return copyResponse.build().toByteString();
+	}
+
+	/**
+	 * 请求领取天尊锦囊
+	 * @param player
+	 * @param copyRequest
+	 * @return
+	 */
+	public ByteString getGodBox(Player player, MsgCopyRequest copyRequest) {
+		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		GodGiftRequest godGift = copyRequest.getGodGift();
+		int mapID = godGift.getMapID();
+		boolean suc = player.getCopyRecordMgr().getGodGiftBox(mapID);
+		if(suc){
+			copyResponse.setEResultType(EResultType.Success);
+		}else{
+			copyResponse.setEResultType(EResultType.NONE);
+		}
+		return copyResponse.build().toByteString();
+	}
+	
 }
