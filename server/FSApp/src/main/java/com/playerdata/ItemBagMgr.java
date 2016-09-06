@@ -1103,7 +1103,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				continue;
 			}
 
-			if (itemID < eSpecialItemId.eSpecial_End.ordinal()) {
+			if (itemID < eSpecialItemId.eSpecial_End.getValue()) {
 				Integer hasValue = currencyMap.get(itemID);
 				if (hasValue == null) {
 					currencyMap.put(itemID, itemNum);

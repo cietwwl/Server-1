@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,8 +68,11 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
@@ -76,6 +80,7 @@ import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -207,6 +212,9 @@ public class GMHandler {
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
+		
+		funcCallBackMap.put("emptybag", "emptyBag");
+		funcCallBackMap.put("testbag", "testBag");
 	}
 
 	public boolean isActive() {
@@ -1456,5 +1464,30 @@ public class GMHandler {
 		}
 
 		return player.getItemBagMgr().addItem(itemInfoList);
+	}
+	
+	public boolean emptyBag(String[] arrCommandContents, Player player) {
+		List<ItemData> list = new ArrayList<ItemData>();
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.HeroEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.RoleEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.SoulStone));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem));
+		List<IUseItem> items = new ArrayList<IUseItem>(list.size());
+		List<INewItem> newItems = new ArrayList<INewItem>();
+		for(ItemData itemData : list) {
+			items.add(new UseItem(itemData.getId(), itemData.getCount()));
+		}
+		try {
+			player.getItemBagMgr().updateItemBag(player, items, newItems);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean testBag(String[] arrCommandContents, Player player) {
+		com.rw.test.FSGameTestBagTask.testBag(arrCommandContents[0].trim(), player);
+		return true;
 	}
 }
