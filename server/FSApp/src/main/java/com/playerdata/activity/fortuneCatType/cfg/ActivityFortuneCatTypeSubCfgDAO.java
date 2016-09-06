@@ -2,8 +2,10 @@ package com.playerdata.activity.fortuneCatType.cfg;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 
 
@@ -25,22 +27,28 @@ public final class ActivityFortuneCatTypeSubCfgDAO extends CfgCsvDao<ActivityFor
 		return SpringContextUtil.getBean(ActivityFortuneCatTypeSubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityFortuneCatTypeSubCfg>> subCfgListMap ;
+	
 	
 	@Override
 	public Map<String, ActivityFortuneCatTypeSubCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityFortunCatTypeSubCfg.csv", ActivityFortuneCatTypeSubCfg.class);	
-		return cfgCacheMap;
+		HashMap<String, List<ActivityFortuneCatTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityFortuneCatTypeSubCfg>>();
+		for(ActivityFortuneCatTypeSubCfg subCfg: cfgCacheMap.values()){
+			String parentID = subCfg.getParentid();
+			List<ActivityFortuneCatTypeSubCfg> list = subCfgListMapTmp.get(parentID);
+			if(list == null){
+				list = new ArrayList<ActivityFortuneCatTypeSubCfg>();
+				subCfgListMapTmp.put(parentID, list);
+			}			
+			list.add(subCfg);
+		}
+		this.subCfgListMap = subCfgListMapTmp;
+		return cfgCacheMap;				
 	}
 
 
 	public List<ActivityFortuneCatTypeSubCfg> getCfgListByParentId(String cfgId) {
-		List<ActivityFortuneCatTypeSubCfg> subCfgList = getAllCfg();
-		List<ActivityFortuneCatTypeSubCfg> subCfgListByCfgId = new ArrayList<ActivityFortuneCatTypeSubCfg>();
-		for(ActivityFortuneCatTypeSubCfg subCfg :subCfgList){
-			if(StringUtils.equals(subCfg.getParentid(), cfgId)){
-				subCfgListByCfgId.add(subCfg);
-			}			
-		}		
-		return subCfgListByCfgId;
+		return subCfgListMap.get(cfgId);
 	}
 }

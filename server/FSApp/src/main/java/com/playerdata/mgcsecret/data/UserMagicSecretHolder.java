@@ -34,10 +34,6 @@ public class UserMagicSecretHolder {
 	public UserMagicSecretData get(Player player) {
 		String userId = player.getUserId();
 		UserMagicSecretData umsData = InstanceHolder.userMagicSecretDao.get(userId);
-		if (umsData.getSecretArmy() == null) {
-			umsData.setSecretArmy("");
-			syn(player);
-		}
 		return umsData;
 	}
 
@@ -53,14 +49,4 @@ public class UserMagicSecretHolder {
 
 	public void flush() {
 	}
-
-//	/**
-//	 * 每日重置的比对时间 05:00:00
-//	 * 
-//	 * @param lastResetTime
-//	 * @return
-//	 */
-//	public boolean isDailyFirstLogin(long lastResetTime) {
-//		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
-//	}
 }

@@ -16,7 +16,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class ArenaHisRewardCollector implements RedPointCollector {
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map,int level) {
 		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.ARENA, player)) {
 			return;
 		}
@@ -35,6 +35,11 @@ public class ArenaHisRewardCollector implements RedPointCollector {
 		if (count > arenaData.getHistoryRewards().size()) {
 			map.put(RedPointType.ARENA_WINDOW_RANK_REWARD_POINT, Collections.EMPTY_LIST);
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return eOpenLevelType.ARENA;
 	}
 
 }

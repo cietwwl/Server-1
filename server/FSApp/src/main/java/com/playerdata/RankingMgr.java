@@ -433,12 +433,12 @@ public class RankingMgr {
 //				break;
 			}
 
-			Ranking ranking = RankingFactory.getRanking(rankingType);
+			Ranking<?, ?> ranking = RankingFactory.getRanking(rankingType);
 			if (ranking == null) {
 				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
 				return null;
 			}
-			RankingEntry entry = ranking.getFirstEntry();
+			RankingEntry<?, ?> entry = ranking.getFirstEntry();
 			if (entry == null) {
 				return null;
 			}

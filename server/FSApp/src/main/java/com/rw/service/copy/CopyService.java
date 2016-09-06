@@ -40,6 +40,12 @@ public class CopyService implements FsService<MsgCopyRequest, ERequestType>{
 			case Map_Animation:
 				result = copyHandler.updateMapAnimation(player, request);
 				break;
+			case GET_COPY_BOX:
+				result = copyHandler.getCopyBox(player,request);
+				break;
+			case GET_GOD_BOX:
+				result = copyHandler.getGodBox(player,request);
+				break;
 			default:
 				break;
 			}

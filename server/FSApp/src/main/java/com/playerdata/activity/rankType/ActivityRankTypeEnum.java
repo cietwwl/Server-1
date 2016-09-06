@@ -1,6 +1,6 @@
 package com.playerdata.activity.rankType;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.HashMap;
 
 public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	
@@ -20,21 +20,24 @@ public enum ActivityRankTypeEnum{	// implements TypeIdentification
 		return cfgId;
 	}
 	
-	
-	public static ActivityRankTypeEnum getById(String cfgId){
-		ActivityRankTypeEnum target = null;
-		for (ActivityRankTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
-	}
 
 	public int[] getRankTypes() {
 		return rankTypes;
+	}
+	
+	private static HashMap<String, ActivityRankTypeEnum> map;
+
+	static {
+		ActivityRankTypeEnum[] array = values();
+		map = new HashMap<String, ActivityRankTypeEnum>();
+		for (int i = 0; i < array.length; i++) {
+			ActivityRankTypeEnum typeEnum = array[i];
+			map.put(typeEnum.getCfgId(), typeEnum);
+		}
+	}
+
+	public static ActivityRankTypeEnum getById(String cfgId) {
+		return map.get(cfgId);
 	}
 	
 

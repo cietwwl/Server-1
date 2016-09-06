@@ -27,7 +27,7 @@ public class HeroFixEquipChecker implements RedPointCollector {
 	}
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 	
 		HeroMgr heroMgr = player.getHeroMgr();
 //		List<String> heroIdList = heroMgr.getHeroIdList();
@@ -99,6 +99,11 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		if(!qualityUpList.isEmpty()){
 			map.put(RedPointType.HERO_FIX_EQUIP_QUALITY_UP, qualityUpList);
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 
 //	private String toParam(String heroId, List<String> fixEquipIdList) {

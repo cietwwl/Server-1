@@ -224,7 +224,6 @@ public class ChargeMgr {
 		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
-		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		

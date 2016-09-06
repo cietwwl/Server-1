@@ -54,6 +54,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityVitalityTypeItem> addItemList = null;
 		for (ActivityVitalityCfg activityVitalityCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -67,7 +68,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityVitalityTypeItem targetItem = dataHolder.getItem(player.getUserId(), acVitalityTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
-				targetItem = ActivityVitalityCfgDAO.getInstance().newItem(player, activityVitalityCfg);// 生成新开启活动的数据
+				targetItem = activityVitalityCfgDAO.newItem(player, activityVitalityCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					continue;
 				}
@@ -92,9 +93,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 	ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+	ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 	List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
-		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItemOfVersion(activityVitalityTypeItem);	
+		ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgByItemOfVersion(activityVitalityTypeItem);	
 		if(cfg == null ){
 			continue;
 		}
@@ -111,14 +113,15 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 }
 
 	private void checkOtherDay(Player player) {
-		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();		
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
 		
 		for(ActivityVitalityTypeItem activityVitalityTypeItem: item){
 			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getEnumId() )){
 				continue;
 			}
-			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgById(activityVitalityTypeItem.getCfgId());
 			if(cfg == null ){
 				continue;
 			}
@@ -182,14 +185,16 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
+		ActivityVitalitySubCfgDAO activityVitalitySubCfgDAO = ActivityVitalitySubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+			ActivityVitalitySubCfg subItemCfg = activityVitalitySubCfgDAO.getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				return;
 			}
 			if (subItem.getCount() >= subItemCfg.getCount()
 					&& !subItem.isTaken()) {
-				ComGiftMgr.getInstance().addGiftTOEmailById(
+				comGiftMgr.addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
@@ -207,16 +212,17 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			//不派发宝箱
 			return;
 		}
-		
+		ActivityVitalityRewardCfgDAO activityVitalityRewardCfgDAO = ActivityVitalityRewardCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = Item.getSubBoxItemList();		
 		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
-			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+			ActivityVitalityRewardCfg subItemCfg = activityVitalityRewardCfgDAO.getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
 				return;
 			}
 			if (Item.getActiveCount() >= subItemCfg.getActivecount()
 					&& !subItem.isTaken()) {
-				ComGiftMgr.getInstance().addGiftTOEmailById(
+				comGiftMgr.addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);

@@ -1,6 +1,9 @@
 package com.rw.controler;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,15 +40,19 @@ public class PlayerLoginTask implements PlayerTask {
 	private final long submitTime;
 
 	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request) {
-		this(ctx, header, request, true);
+		this(ctx, header, request, true, System.currentTimeMillis());
 	}
 
 	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request, boolean savePlot) {
+		this(ctx, header, request, savePlot, System.currentTimeMillis());
+	}
+
+	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request, boolean savePlot, long submitTime) {
 		this.ctx = ctx;
 		this.header = header;
 		this.request = request;
 		this.savePlot = savePlot;
-		this.submitTime = System.currentTimeMillis();
+		this.submitTime = submitTime;
 	}
 
 	@Override
@@ -54,9 +61,9 @@ public class PlayerLoginTask implements PlayerTask {
 			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:" + UserChannelMgr.getCtxInfo(ctx));
 			return;
 		}
-		int seqID = header.getSeqID();
-		long executeTime = System.currentTimeMillis();
-		FSTraceLogger.logger("run", executeTime - submitTime, "LOGIN", seqID, player != null ? player.getUserId() : null, null);
+		final int seqID = header.getSeqID();
+		final long executeTime = System.currentTimeMillis();
+		FSTraceLogger.logger("run", executeTime - submitTime, "LOGIN", seqID, player != null ? player.getUserId() : null, null, false);
 		GameLoginResponse.Builder response = GameLoginResponse.newBuilder();
 		if (player == null) {
 			response.setError("服务器繁忙，请稍后再次尝试登录。");
@@ -64,7 +71,7 @@ public class PlayerLoginTask implements PlayerTask {
 			nettyControler.sendResponse(header, response.build().toByteString(), ctx);
 			return;
 		}
-		String userId = player.getUserId();
+		final String userId = player.getUserId();
 		String clientInfoJson = request.getClientInfoJson();
 		ZoneLoginInfo zoneLoginInfo = null;
 		ClientInfo clientInfo = null;
@@ -172,8 +179,16 @@ public class PlayerLoginTask implements PlayerTask {
 		LoginSynDataHelper.setData(player, response);
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
-		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
-		FSTraceLogger.logger("send", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null);
+		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
+		ChannelFuture future = nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
+		future.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+			@Override
+			public void operationComplete(Future<? super Void> future) throws Exception {
+				long current = System.currentTimeMillis();
+				FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, "LOGIN", null, seqID, userId, null);
+			}
+		});
 	}
 
 }

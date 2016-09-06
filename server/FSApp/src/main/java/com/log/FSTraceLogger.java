@@ -18,8 +18,11 @@ public class FSTraceLogger {
 		logger(head, cost, command, null, seqId, userId, null);
 	}
 
-	public static void logger(String head, long cost, String command, long seqId, String userId, String account) {
+	public static void logger(String head, long cost, String command, long seqId, String userId, String account, boolean record) {
 		logger(head, cost, command, null, seqId, userId, account);
+		if (record) {
+			MsgStatFactory.getCollector().addRunCost(command, null, cost);
+		}
 	}
 
 	public static void logger(String head, long cost, Command command, ProtocolMessageEnum type, long seqId, String userId) {
@@ -30,7 +33,7 @@ public class FSTraceLogger {
 	}
 
 	// 后面再整合
-	public static void logger(String head, long submitCost, long sendCost, Command command, ProtocolMessageEnum type, long seqId, String userId, String account) {
+	public static void loggerSendAndSubmit(String head, long submitCost, long sendCost, Object command, Object type, long seqId, String userId, String account) {
 		if (!ServerSwitch.isOpenTraceLogger()) {
 			return;
 		}

@@ -14,17 +14,19 @@ import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 public class FriendCollector implements RedPointCollector {
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		FriendMgr friendMgr = player.getFriendMgr();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FRIEND, player)) {
-			return;
-		}
 		if (friendMgr.hasReceivePower()) {
 			map.put(RedPointType.FRIEND_WINDOW_RECEIVE_POWER, Collections.EMPTY_LIST);
 		}
 		if (friendMgr.hasRequest()) {
 			map.put(RedPointType.FRIEND_WINDOW_ADD_FRIEND, Collections.EMPTY_LIST);
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return eOpenLevelType.FRIEND;
 	}
 
 }

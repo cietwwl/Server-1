@@ -207,10 +207,11 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 
 	public ActivityVitalityCfg getCfgByItemOfVersion(ActivityVitalityTypeItem item) {
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
 		for(ActivityVitalityCfg cfg : getAllCfg()){
 			if (StringUtils.equals(item.getEnumId(), cfg.getEnumID())
 					&& !StringUtils.equals(item.getCfgId(), cfg.getId())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+					&& activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}
 			
