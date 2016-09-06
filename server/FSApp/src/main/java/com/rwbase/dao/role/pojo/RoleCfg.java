@@ -82,6 +82,8 @@ public class RoleCfg {
 	private int energyPerSecond; // 每秒恢复的能量
 	private int attackType;// 攻击类型
 
+	private float totalTimePerNormAtk; // 普攻总时长
+	
 	private float hardStraight;
 	private float reactionTime;// 反应时间
 	private float attackDistance; // 攻击距离...
@@ -504,6 +506,14 @@ public class RoleCfg {
 
 	public void setAttackType(int attackType) {
 		this.attackType = attackType;
+	}
+	
+	public float getTotalTimePerNormAtk() {
+		return totalTimePerNormAtk;
+	}
+
+	public void setTotalTimePerNormAtk(float pTotalTimePerNormAtk) {
+		this.totalTimePerNormAtk = pTotalTimePerNormAtk;
 	}
 
 	public String getSkillId01() {

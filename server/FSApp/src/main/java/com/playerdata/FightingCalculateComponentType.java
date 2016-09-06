@@ -17,15 +17,15 @@ import com.rwbase.common.IFunction;
 
 public enum FightingCalculateComponentType {
 
-	BASIC(FSGetBasicCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	FETTERS(FSGetFetterCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	FIX_EQUIP(FSGetFixEquipCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	GEM(FSGetGemCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	GROUP_SKILL(FSGetGroupSkillFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	MAGIC(EmptyHeroComponent.class, FSGetMagicCurrentFightingFunc.class),
-	NORM_EQUIP(FSGetNormEquipCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	SKILL(FSGetSkillCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
-	TAOIST(FSGetTaoistCurrentFightingOfSingleFunc.class, EmptyPlayerComponent.class),
+	BASIC(new FSGetBasicCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	FETTERS(new FSGetFetterCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	FIX_EQUIP(new FSGetFixEquipCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	GEM(new FSGetGemCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	GROUP_SKILL(new FSGetGroupSkillFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	MAGIC(EmptyHeroComponent.singleton, new FSGetMagicCurrentFightingFunc()),
+	NORM_EQUIP(new FSGetNormEquipCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	SKILL(new FSGetSkillCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	TAOIST(new FSGetTaoistCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;
 	private final IFunction<Player, Integer> _playerOnlyComponentFunc; // 只针对主角的
@@ -48,13 +48,9 @@ public enum FightingCalculateComponentType {
 		_allPlayerComponents = Collections.unmodifiableList(allPlayerComponents);
 	}
 	
-	private FightingCalculateComponentType(Class<? extends IFunction<Hero, Integer>> componentClazz, Class<? extends IFunction<Player, Integer>> playerOnlyComponentClazz) {
-		try {
-			_componentFunc = componentClazz.newInstance();
-			_playerOnlyComponentFunc = playerOnlyComponentClazz.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	private FightingCalculateComponentType(IFunction<Hero, Integer> pComponentFunc, IFunction<Player, Integer> playerOnlyComponentFunc) {
+		_componentFunc = pComponentFunc;
+		_playerOnlyComponentFunc = playerOnlyComponentFunc;
 	}
 	
 	public IFunction<Hero, Integer> getComponentFunc() {
@@ -73,11 +69,10 @@ public enum FightingCalculateComponentType {
 		return _allPlayerComponents;
 	}
 	
-	private static class EmptyHeroComponent implements IFunction<Hero, Integer>{
-		
-		public EmptyHeroComponent() {
-		}
+	private static class EmptyHeroComponent implements IFunction<Hero, Integer> {
 
+		private static final EmptyHeroComponent singleton = new EmptyHeroComponent();
+		
 		@Override
 		public Integer apply(Hero hero) {
 			return 0;
@@ -87,9 +82,8 @@ public enum FightingCalculateComponentType {
 	
 	private static class EmptyPlayerComponent implements IFunction<Player, Integer> {
 		
-		public EmptyPlayerComponent() {
-		}
-
+		private static final EmptyPlayerComponent singleton = new EmptyPlayerComponent();
+		
 		@Override
 		public Integer apply(Player player) {
 			return 0;

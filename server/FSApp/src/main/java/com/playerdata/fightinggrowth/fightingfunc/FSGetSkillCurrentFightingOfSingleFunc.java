@@ -28,8 +28,10 @@ public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, In
 			if (skillItem.getOrder() == SkillConstant.NORMAL_SKILL_ORDER) {
 				continue;
 			}
-			skillFightingCfg = skillFightingCfgDAO.getByLevel(skillItem.getLevel());
-			fighting += skillFightingCfg.getFightingOfIndex(skillItem.getOrder() + 1);
+			if (skillItem.getLevel() > 0) {
+				skillFightingCfg = skillFightingCfgDAO.getByLevel(skillItem.getLevel());
+				fighting += skillFightingCfg.getFightingOfIndex(skillItem.getOrder() + 1);
+			}
 		}
 		return fighting;
 	}

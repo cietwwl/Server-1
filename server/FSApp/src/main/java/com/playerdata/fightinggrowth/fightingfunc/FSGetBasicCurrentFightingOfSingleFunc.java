@@ -9,7 +9,8 @@ public class FSGetBasicCurrentFightingOfSingleFunc implements IFunction<Hero, In
 
 	@Override
 	public Integer apply(Hero hero) {
-		return FightingCalculator.calFighting(hero.getTemplateId(), 0, 0, "", (AttrData)hero.getAttrMgr().getRoleAttrData().getRoleBaseTotalData());
+		int fighting = FightingCalculator.calOnlyAttributeFighting(hero.getTemplateId(), (AttrData)hero.getAttrMgr().getRoleAttrData().getRoleBaseTotalData());
+		return fighting;
 	}
 
 }

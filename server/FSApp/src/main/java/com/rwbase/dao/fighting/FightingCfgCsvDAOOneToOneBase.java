@@ -26,10 +26,10 @@ public abstract class FightingCfgCsvDAOOneToOneBase extends CfgCsvDao<OneToOneTy
 		this._lvMap = new LinkedHashMap<Integer, OneToOneTypeFightingCfg>(this.cfgCacheMap.size() + 1, 1.0f);
 		List<Integer> list = new ArrayList<Integer>();
 		Map<Integer, OneToOneTypeFightingCfg> map = new HashMap<Integer, OneToOneTypeFightingCfg>();
-		for (Iterator<Map.Entry<String, OneToOneTypeFightingCfg>> itr = this.cfgCacheMap.entrySet().iterator(); itr.hasNext();) {
-			Map.Entry<String, OneToOneTypeFightingCfg> entry = itr.next();
-			list.add(entry.getValue().getRequiredLv());
-			map.put(entry.getValue().getRequiredLv(), entry.getValue());
+		for (Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			OneToOneTypeFightingCfg cfg = this.cfgCacheMap.get(itr.next());
+			list.add(cfg.getRequiredLv());
+			map.put(cfg.getRequiredLv(), cfg);
 		}
 		Collections.sort(list);
 		for (int i = 0; i < list.size(); i++) {
@@ -44,15 +44,18 @@ public abstract class FightingCfgCsvDAOOneToOneBase extends CfgCsvDao<OneToOneTy
 		if (cfg != null) {
 			return cfg;
 		} else {
-			for (Iterator<Map.Entry<Integer, OneToOneTypeFightingCfg>> itr = _lvMap.entrySet().iterator(); itr.hasNext();) {
-				Map.Entry<Integer, OneToOneTypeFightingCfg> entry = itr.next();
-				if (entry.getKey() > lv) {
+			int tempLv;
+			OneToOneTypeFightingCfg tempCfg;
+			for (Iterator<Integer> itr = _lvMap.keySet().iterator(); itr.hasNext();) {
+				tempLv = itr.next();
+				tempCfg = _lvMap.get(tempLv);
+				if (tempLv > lv) {
 					if (cfg == null) {
-						cfg = entry.getValue();
+						cfg = tempCfg;
 					}
 					break;
 				} else {
-					cfg = entry.getValue();
+					cfg = tempCfg;
 				}
 			}
 			return cfg;

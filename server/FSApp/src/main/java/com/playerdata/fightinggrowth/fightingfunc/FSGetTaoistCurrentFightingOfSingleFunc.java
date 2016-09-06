@@ -1,6 +1,7 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -24,12 +25,13 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 	public Integer apply(Hero hero) {
 		int fighting = 0;
 		TaoistFightingCfg taoistFightingCfg;
-		List<TaoistMagicCfg> allCfgs = taoistMagicCfgHelper.getAllCfg();
 		TaoistMagicCfg taoistMagicCfg;
 		Player player = hero.getPlayer();
-		for(int i = 0; i < allCfgs.size(); i++) {
-			taoistMagicCfg = allCfgs.get(i);
-			taoistFightingCfg = taoistFightingCfgDAO.getByLevel(player.getTaoistMgr().getLevel(taoistMagicCfg.getKey()));
+		Iterable<Map.Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
+		for(Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
+			Map.Entry<Integer, Integer> entry = itr.next();
+			taoistFightingCfg = taoistFightingCfgDAO.getByLevel(entry.getValue());
+			taoistMagicCfg = taoistMagicCfgHelper.getCfgById(String.valueOf(entry.getKey()));
 			fighting += taoistFightingCfg.getFightingOfIndex(taoistMagicCfg.getTagNum());
 		}
 		return fighting;

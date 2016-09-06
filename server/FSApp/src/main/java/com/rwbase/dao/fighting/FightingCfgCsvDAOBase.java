@@ -39,6 +39,9 @@ public abstract class FightingCfgCsvDAOBase<T extends FightingCfgBase> extends C
 	}
 	
 	public T getByLevel(int lv) {
+		if(lv <= 0) {
+			return null;
+		}
 		T target = null;
 		for (int i = 0; i < _sortByRequiredLvList.size(); i++) {
 			T t = _sortByRequiredLvList.get(i);

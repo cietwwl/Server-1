@@ -26,19 +26,25 @@ public class FightingCalculator {
 	private static final String SPRITE_ATTAK = "spiritAttack";// 法术攻击
 	private static final String SKILL_LEVEL = "skillLevel";// 技能等级
 	private static final String MAGIC_LEVEL = "magicLevel";// 法宝等级
-	private static final float COMMON_ATK_RATE = 1.5f;// 普通攻击除的系数
+	private static final float COMMON_ATK_RATE_OLD = 1.5f;// 普通攻击除的系数
+	private static final float COMMON_ATK_RATE = 3.0f;// 普通攻击除的系数 修改于 2016-09-06
 	
-	public static int calFightingNew(Hero roleP, AttrData totalAttrData) {
+	public static int calFightingNew(Hero roleP) {
 		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
 		int fighting = 0;
+		int singleFighting = 0;
 		for (int i = 0; i < allComponentsOfHero.size(); i++) {
-			fighting += allComponentsOfHero.get(i).apply(roleP);
+			singleFighting = allComponentsOfHero.get(i).apply(roleP);
+			System.out.println("hero:[" + roleP.getId() + ", " + roleP.getName() + "], 类型：" + allComponentsOfHero.get(i).getClass() + ", fighting : " + singleFighting);
+			fighting += singleFighting;
 		}
 		if (roleP.isMainRole()) {
 			Player p = roleP.getPlayer();
 			List<IFunction<Player, Integer>> allComponentsOfPlayer = FightingCalculateComponentType.getAllPlayerComponents();
 			for (int i = 0; i < allComponentsOfPlayer.size(); i++) {
-				fighting += allComponentsOfPlayer.get(i).apply(p);
+				singleFighting = allComponentsOfPlayer.get(i).apply(p);
+				System.out.println("hero:[" + roleP.getId() + ", " + roleP.getName() + "], 类型：" + allComponentsOfPlayer.get(i).getClass() + ", fighting : " + singleFighting);
+				fighting += singleFighting;
 			}
 		}
 		return fighting;
@@ -62,8 +68,8 @@ public class FightingCalculator {
 		}
 
 		int fighting = calFighting(roleP.getTemplateId(), skillLevel, magicLevel, magicModelId, totalAttrData);
-		int fightingNew = calFightingNew(roleP, totalAttrData);
-		System.out.println("hero[" + roleP.getId() + "," + roleP.getName() + "], 旧战力=" + fighting + ", 新战力=" + fightingNew);
+		int fightingNew = calFightingNew(roleP);
+		System.out.println("hero:[" + roleP.getId() + "," + roleP.getName() + "], 旧战力：" + fighting + ", 新战力：" + fightingNew);
 		return fighting;
 	}
 
@@ -124,7 +130,7 @@ public class FightingCalculator {
 				if (roleCfg != null) {
 					reactionTime = roleCfg.getReactionTime();
 				}
-				fighting += attrValue / ((attackCD + reactionTime) / COMMON_ATK_RATE) * cfg.getWeight();
+				fighting += attrValue / ((attackCD + reactionTime) / COMMON_ATK_RATE_OLD) * cfg.getWeight();
 
 			} else {
 				fighting += attrValue * cfg.getWeight();
@@ -138,21 +144,53 @@ public class FightingCalculator {
 		return (int) fighting;
 	}
 	
-	public static int calculateFighting(Map<Integer, Integer> attrMap, String heroTemplateId) {
+	/**
+	 * 计算战斗力
+	 * 
+	 * @param heroTemplateId 英雄的模版Id
+	 * @param attrData 属性
+	 * @return
+	 */
+	public static int calOnlyAttributeFighting(String heroTemplateId, AttrData attrData) {
+		float fighting = 0;
+
+		List<FightingWeightCfg> listInfo = FightingWeightCfgDAO.getInstance().getAllCfg();
+
+		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(heroTemplateId);
+		float totalTimePerNormAtk = roleCfg == null ? 0 : roleCfg.getTotalTimePerNormAtk();
+		
+		for (FightingWeightCfg cfg : listInfo) {
+			float attrValue = 0;
+
+			String attrName = cfg.getAttrName();
+			if (attrName.equals(SKILL_LEVEL)) {
+				continue;
+			} else if (attrName.contains(MAGIC_LEVEL)) {
+				continue;
+			} else {
+				attrValue = BeanOperationHelper.getValueByName(attrData, attrName);
+			}
+
+			if (attrName.equals(PHYSIC_ATTAK) || attrName.equals(SPRITE_ATTAK)) {
+
+				/* 1.攻击战力=物理攻击/(普攻总时长/3)*物理攻击权重+法术攻击/（普攻总时长/3）*法术攻击权重 */
+				fighting += attrValue / (totalTimePerNormAtk / COMMON_ATK_RATE) * cfg.getWeight();
+
+			} else {
+				fighting += attrValue * cfg.getWeight();
+			}
+
+		}
+
+		return (int) fighting;
+	}
+	
+	public static int calculateFighting(String heroTemplateId, Map<Integer, Integer> attrMap) {
 		int fighting = 0;
 		Map<String, Float> fightingWeights = FightingWeightCfgDAO.getInstance().getWeightsOfAttrName();
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(heroTemplateId);
-		SkillCfg skillCfg = SkillCfgDAO.getInstance().getCfg(roleCfg.getAttackId());
-		String skillEffectId = "";
-		if (skillCfg != null) {
-			skillEffectId = skillCfg.getSkillEffectId();
-		}
-
-		float attackCD = 0;
-		SkillEffectCfg skillEffect = SkillEffectCfgDAO.getCfgDAO().getCfgById(skillEffectId);
-		if (skillEffect != null) {
-			attackCD = skillEffect.getCD();
-		}
+		float totalTimePerNormAtk = roleCfg == null ? 0 : roleCfg.getTotalTimePerNormAtk();
+		
 		for (Iterator<Map.Entry<Integer, Integer>> itr = attrMap.entrySet().iterator(); itr.hasNext();) {
 			Map.Entry<Integer, Integer> entry = itr.next();
 			AttributeType type = AttributeType.getAttributeType(entry.getKey());
@@ -163,11 +201,9 @@ public class FightingCalculator {
 				continue;
 			}
 			if (attrName.equals(PHYSIC_ATTAK) || attrName.equals(SPRITE_ATTAK)) {
-				float reactionTime = 0;
-				if (roleCfg != null) {
-					reactionTime = roleCfg.getReactionTime();
-				}
-				fighting += attrValue / ((attackCD + reactionTime) / COMMON_ATK_RATE) * weight;
+				
+				/*1.攻击战力=物理攻击/(普攻总时长/3)*物理攻击权重+法术攻击/（普攻总时长/3）*法术攻击权重*/
+				fighting += attrValue / (totalTimePerNormAtk / COMMON_ATK_RATE) * weight;
 
 			} else {
 				fighting += attrValue * weight;
