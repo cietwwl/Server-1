@@ -12,6 +12,7 @@ import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.RsqNewGuess.Builder;
@@ -24,6 +25,7 @@ public class GCompQuizMgr {
 	
 	private static GCompQuizMgr instance = new GCompQuizMgr();
 
+	public static String REWARD_EMAIL_ID = "15001";
 	public static GCompQuizMgr getInstance() {
 		return instance;
 	}
@@ -141,7 +143,8 @@ public class GCompQuizMgr {
 				quizEvent.refreshRate(true);
 				float finalRate = quizEvent.getWinQuizGroup().getRate();
 				int rewardCount = (int)(finalRate * item.getCoinCount());
-				//TODO 猜对，发放奖励
+				//猜对，发放奖励
+				EmailUtils.sendEmail(player.getUserId(), REWARD_EMAIL_ID, eSpecialItemId.Coin + "~" + rewardCount);
 			}
 			item.setGetReward(true);
 		}
