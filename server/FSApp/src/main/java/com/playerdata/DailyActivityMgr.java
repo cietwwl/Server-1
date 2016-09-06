@@ -93,8 +93,10 @@ public class DailyActivityMgr implements PlayerEventListener {
 				
 				//检查一下同类型的任务有没有合适开放的任务
 				List<DailyActivityCfgEntity> subTypeList = cfgDAO.getCfgEntrisByType(entity.getCfg().getTaskType());
+				if(subTypeList != null){
+					checkAndAddNewMission(subTypeList, playerVip, playerLevel, userId, finishMap, firstInitTaskIds, currentList);
+				}
 				
-				checkAndAddNewMission(subTypeList, playerVip, playerLevel, userId, finishMap, firstInitTaskIds, currentList);
 				
 				
 			}
@@ -192,7 +194,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 			if (refresh) {
 				tempData = null;
 			} else {
-				tempData = getActivityDataByType(cfg.getTaskType(), cfgDAO, taskItem);
+				tempData = getActivityDataByType(cfg.getTaskType(), cfgDAO, currentList);
 			}
 
 			if (tempData != null) {
@@ -289,8 +291,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 
 	// 返回一个角色所有的任务
 	public List<DailyActivityData> getAllTask() {
-//		return getTaskListByCfg(false);
-		return getTaskList();
+		return getTaskListByCfg(false);
+//		return getTaskList();
 	}
 
 	public DailyActivityCfg getCfgByTaskId(int taskId) {
@@ -381,8 +383,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 
 	
 	
-	private DailyActivityData getActivityDataByType(int type, DailyActivityCfgDAO cfgDAO, DailyActivityTaskItem taskItem) {
-		for (DailyActivityData td : taskItem.getTaskList()) {
+	private DailyActivityData getActivityDataByType(int type, DailyActivityCfgDAO cfgDAO, List<DailyActivityData> list) {
+		for (DailyActivityData td : list) {
 			DailyActivityCfg tempCfg = cfgDAO.getTaskCfgById(td.getTaskId());
 			if (tempCfg == null) {
 				continue;
