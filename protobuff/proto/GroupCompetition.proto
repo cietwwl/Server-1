@@ -32,6 +32,9 @@ enum GCRequestType{
 	PersonalMatching = 23; // 个人匹配
 	PersonalCancelMatching = 24; // 取消个人匹配
 	LeaveLivePage = 25; //离开直播页面
+	GetKillRank = 26;	//个人击杀排行榜
+	GetWinRank = 27;	//连胜排行榜
+	GetScoreRank = 28;	//积分排行榜
 }
 
 enum TeamStatusType {
@@ -60,17 +63,19 @@ message CommonRspMsg{
 
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
-	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
-	optional fixed64 latestTime = 3;	//赛事记录最新的时间
+	optional ParaForLiveMsg livePara = 2;	//赛事直播（和回放）的参数
+	optional ParaForPlayBack playBackPara = 3;	//GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+	optional ParaForGetRank getRankPara = 4;	//获取排行榜的参数
 }
 
 message CommonGetDataRspMsg {
-	required GCRequestType reqType = 1; // 请求的类型
-	required GCResultType rstType = 2; // 请求结果
-	optional string tipMsg = 3; // 提示消息
-	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
+	required GCResultType rstType = 1; // 请求结果
+	optional string tipMsg = 2; // 提示消息
+	optional SelectionRspData selectionData = 3; // 海选信息（对于GCRequestType.GetSelectionData可用）
+	repeated GCompRankItem rankData = 4;	//排行榜数据
 }
 
+//备战区同屏玩家坐标
 message AreaPosition{
 	required float x = 1;
 	required float y = 2;
@@ -205,4 +210,29 @@ message CommonRsp {
 // 队伍状态发生变化
 message TeamStatusChange {
 	required TeamStatusType status = 1;
+}
+
+// 赛事直播的参数
+message ParaForLiveMsg{
+	required fixed32 matchId = 1;		//赛事阶段的id
+	optional fixed64 latestTime = 2;	//赛事记录最新的时间(LeaveLivePage的时候，不需要这个参数)
+}
+
+// 赛事回放的参数
+message ParaForPlayBack{
+	required fixed32 matchId = 1;		//赛事阶段的id
+}
+
+// 获取排行榜的参数
+message ParaForGetRank{
+	required int32 eventsType = 1;	//赛事阶段的id
+}
+
+//排行榜的数据结构（击杀、连胜、积分，三个排行榜共用的）
+message GCompRankItem{
+	required string userId = 1;
+	required string userName = 2;
+	required string headImage = 3;	//头像
+	required int32 value = 4;	//击杀数、或连胜数、或积分
+	required string groupName = 5;
 }

@@ -23,6 +23,12 @@ public class GroupCompetitionGetDataService implements FsService<CommonGetDataRe
 			return GroupCompetitionHandler.getInstance().leaveLivePage(player, request);
 		case PlaybackMsg:
 			return GroupCompetitionHandler.getInstance().getMatchDetailInfo(player, request);
+		case GetKillRank:
+			return GroupCompetitionHandler.getInstance().getKillRank(player, request);
+		case GetScoreRank:
+			return GroupCompetitionHandler.getInstance().getScoreRank(player, request);
+		case GetWinRank:
+			return GroupCompetitionHandler.getInstance().getWinRank(player, request);
 		default:
 			return null;
 		}

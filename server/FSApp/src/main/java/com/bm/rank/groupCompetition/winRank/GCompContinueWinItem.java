@@ -2,11 +2,12 @@ package com.bm.rank.groupCompetition.winRank;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.bm.rank.groupCompetition.GCompRankDataIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GCompContinueWinItem {
+public class GCompContinueWinItem implements GCompRankDataIF{
 
 	private String userId;
 	
@@ -56,5 +57,10 @@ public class GCompContinueWinItem {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	@Override
+	public int getValue() {
+		return continueWin;
 	}
 }

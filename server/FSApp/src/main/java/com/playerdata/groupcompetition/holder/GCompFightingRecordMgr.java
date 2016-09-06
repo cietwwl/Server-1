@@ -39,5 +39,6 @@ public class GCompFightingRecordMgr {
 
 	public void leaveLivePage(Player player, Builder builder, int matchId) {
 		_dataHolder.leaveLivePage(player, matchId);
+		builder.setRstType(GCResultType.SUCCESS);
 	}
 }

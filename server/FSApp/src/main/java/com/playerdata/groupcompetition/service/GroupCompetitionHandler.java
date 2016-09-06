@@ -16,6 +16,8 @@ import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
+import com.playerdata.groupcompetition.rank.GCompRankMgr;
+import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -124,7 +126,6 @@ public class GroupCompetitionHandler {
 	
 	private CommonGetDataRspMsg.Builder createGetDataRspBuilder(GCResultType resultType, String tips) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		builder.setReqType(GCRequestType.GetSelectionData);
 		builder.setRstType(resultType);
 		if (tips != null) {
 			builder.setTipMsg(tips);
@@ -220,7 +221,7 @@ public class GroupCompetitionHandler {
 	 * @return
 	 */
 	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
-		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getMatchId(), player);
+		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getPlayBackPara().getMatchId(), player);
 		GCResultType resultType ;
 		if(success) {
 			resultType = GCResultType.SUCCESS;
@@ -351,15 +352,52 @@ public class GroupCompetitionHandler {
 	
 	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		builder.setReqType(GCRequestType.LiveMsg);
-		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getMatchId(), request.getLatestTime());
+		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());
 		return builder.build().toByteString();
 	}
 
 	public ByteString leaveLivePage(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		builder.setReqType(GCRequestType.LeaveLivePage);
-		GCompFightingRecordMgr.getInstance().leaveLivePage(player, builder, request.getMatchId());
+		GCompFightingRecordMgr.getInstance().leaveLivePage(player, builder, request.getLivePara().getMatchId());
+		return builder.build().toByteString();
+	}
+
+	public ByteString getKillRank(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
+		if(null == event){
+			builder.setRstType(GCResultType.DATA_ERROR);
+			builder.setTipMsg("参数错误");
+			return builder.build().toByteString();
+		}
+		GCompRankMgr.getInstance().getKillRank(builder, event);
+		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
+	}
+
+	public ByteString getScoreRank(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
+		if(null == event){
+			builder.setRstType(GCResultType.DATA_ERROR);
+			builder.setTipMsg("参数错误");
+			return builder.build().toByteString();
+		}
+		GCompRankMgr.getInstance().getScoreRank(builder, event);
+		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
+	}
+
+	public ByteString getWinRank(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
+		if(null == event){
+			builder.setRstType(GCResultType.DATA_ERROR);
+			builder.setTipMsg("参数错误");
+			return builder.build().toByteString();
+		}
+		GCompRankMgr.getInstance().getWinRank(builder, event);
+		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
 }
