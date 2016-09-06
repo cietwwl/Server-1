@@ -1,5 +1,5 @@
 Key,Remarks,cfgId,activityType,typeDesc,tabType,startTime,endTime,condition,reward,activityDesc,gotoEnum,maxValue,startTimeType,activityCode
-101,,101,11,终极奖励,6,7,-1,,,终极奖励,,,2,101
+101,,101,11,终极奖励,6,0,7,,911002,终极奖励,,,2,101
 1001,,1001,,等级目标,,0,7,5,1:5000;2:5,升级到5级,MainCopyView,5,2,102
 1002,,1002,,等级目标,,0,7,10,1:8000;2:10;806105:1,升级到10级,MainCopyView,10,2,103
 1003,,1003,,等级目标,,0,7,15,1:10000;2:15;806106:1,升级到15级,MainCopyView,15,2,104
