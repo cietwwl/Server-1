@@ -9,8 +9,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class WBUserDataHolder {
 	private static WBUserDataHolder instance = new WBUserDataHolder();
 	
-	private static eSynType synType = eSynType.USER_GAME_DATA;
-	final private String WB_DATA_ID = "worldBossId";
+	private static eSynType synType = eSynType.WB_USER_DATA;
 	
 	public static WBUserDataHolder getInstance(){
 		return instance;
@@ -24,7 +23,7 @@ public class WBUserDataHolder {
 		if (WBUserData != null) {
 			ClientDataSynMgr.synData(player, WBUserData, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
-			GameLog.error("WBUserDataHolder", "#syn()", "find WBUserData fail:" + WB_DATA_ID);
+			GameLog.error("WBUserDataHolder", "#syn()", "find WBUserData fail:" + userId);
 		}
 		
 	}

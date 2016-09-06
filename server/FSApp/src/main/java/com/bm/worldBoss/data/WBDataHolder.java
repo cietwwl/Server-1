@@ -13,7 +13,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class WBDataHolder {
 	private static WBDataHolder instance = new WBDataHolder();
 	
-	private static eSynType synType = eSynType.USER_GAME_DATA;
+	private static eSynType synType = eSynType.WB_DATA;
 	final private String WB_DATA_ID = "worldBossId";
 	private AtomicInteger version = new AtomicInteger(-1);
 	
