@@ -99,6 +99,9 @@ public class GroupSecretHandler {
 
 	private void setMainPos(List<SecretBaseInfoSynData> defendSecretIdList,
 			Builder msg) {
+		if(defendSecretIdList == null){
+			return;
+		}
 		if(defendSecretIdList.size() == 0){
 			msg.setMainPos(0);
 			return;
