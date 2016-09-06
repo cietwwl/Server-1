@@ -18,6 +18,7 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.eAttachItemType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
+import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg.Builder;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
@@ -44,7 +45,10 @@ public class GroupSecretHandler {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
+		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
 		msg.setSecretCfgId(3);
+		setMainPos(defendSecretIdList,msg);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
@@ -70,11 +74,7 @@ public class GroupSecretHandler {
 					mainRoleIndex = i;
 					heroPosList.add(heroId);
 					continue;
-				}
-				
-				
-				
-				
+				}				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
 					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 					pos.setHeroId(heroId);
@@ -84,16 +84,38 @@ public class GroupSecretHandler {
 					break;
 				}
 			}
-			if (heroPosList == null || !heroPosList.contains(client.getUserId())) {
+			if (!heroPosList.contains(client.getUserId())) {
 				BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 				pos.setHeroId(client.getUserId());
 				pos.setPos(heroPosList.size());
 				msg.addTeamHeroId(pos);
+				heroPosList.add(client.getUserId());
 				break;
 			}
 		}
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
+	}
+
+	private void setMainPos(List<SecretBaseInfoSynData> defendSecretIdList,
+			Builder msg) {
+		if(defendSecretIdList.size() == 0){
+			msg.setMainPos(0);
+			return;
+		}
+		for(int i = 0;i < 5;i++){
+			boolean isThis = true;
+			for(SecretBaseInfoSynData data: defendSecretIdList){
+				if(data.getMainPos() == i){
+					isThis = false;
+					continue;
+				}
+			}
+			if(isThis){
+				msg.setMainPos(i);
+				return;
+			}
+		}		
 	}
 
 	public boolean inviteMemberDefend(Client client) {
