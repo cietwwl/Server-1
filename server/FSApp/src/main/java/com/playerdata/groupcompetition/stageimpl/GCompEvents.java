@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.GroupCompetitionRewardCenter;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
+import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
@@ -108,6 +110,7 @@ public class GCompEvents {
 		}
 		GCOnlineMemberMgr.getInstance().onEventsEnd(_type);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
+		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {
@@ -123,6 +126,7 @@ public class GCompEvents {
 			break;
 		}
 		GroupCompetitionMatchingCenter.getInstance().onEventsStatusChange(status);
+		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
 	/**

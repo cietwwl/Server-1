@@ -49,7 +49,6 @@ public class GCompTeam {
 	private boolean matching; // 是否正在匹配中
 	@IgnoreSynField
 	private boolean inBattle; // 是否正在战斗中
-	@SuppressWarnings("unused")
 	private String leaderId; // 队长的id，需要同步到客户端
 	private int lv; // 等级，取队长等级
 	private int battleTimes;
@@ -125,6 +124,10 @@ public class GCompTeam {
 	
 	public void setLeaderId(String pLeaderId) {
 		this.leaderId = pLeaderId;
+	}
+	
+	public String getLeaderId() {
+		return leaderId;
 	}
 
 	public int getLv() {

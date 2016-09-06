@@ -1,10 +1,16 @@
 package com.playerdata.groupcompetition.util;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.data.IGCGroup;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
@@ -107,6 +113,22 @@ public class GCompUtil {
 	
 	public static void sendMarquee(String msg) {
 		MainMsgHandler.getInstance().sendPmdNotId(msg);
+	}
+	
+	public static List<IGCGroup> getAllGroups(List<GCompAgainst> againstsList, Comparator<IGCGroup> comparator) {
+		List<IGCGroup> allGroups = new ArrayList<IGCGroup>(againstsList.size() * 2);
+		for (GCompAgainst against : againstsList) {
+			if (against.getGroupA().getGroupId().length() > 0) {
+				allGroups.add(against.getGroupA());
+			}
+			if (against.getGroupB().getGroupId().length() > 0) {
+				allGroups.add(against.getGroupB());
+			}
+		}
+		if (comparator != null) {
+			Collections.sort(allGroups, comparator);
+		}
+		return allGroups;
 	}
 	
 	/**

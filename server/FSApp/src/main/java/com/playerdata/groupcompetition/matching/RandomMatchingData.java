@@ -8,6 +8,7 @@ class RandomMatchingData {
 	private String userId;
 	private List<String> heroIds;
 	private boolean cancel;
+	private boolean robot;
 	
 	public RandomMatchingData(String pUserId, List<String> pHeroIds) {
 		this.userId = pUserId;
@@ -28,7 +29,16 @@ class RandomMatchingData {
 	public void setCancel(boolean value) {
 		this.cancel = true;
 	}
+	
 	public boolean isCancel() {
 		return cancel;
+	}
+	
+	public boolean isRobot() {
+		return robot;
+	}
+	
+	public void setRobot(boolean robot) {
+		this.robot = robot;
 	}
 }

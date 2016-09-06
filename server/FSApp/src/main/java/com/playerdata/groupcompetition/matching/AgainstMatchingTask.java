@@ -161,6 +161,9 @@ class AgainstMatchingTask implements IGameTimerTask {
 			return null;
 		}
 		GCompTeamMember leader = createResult.getT2();
+		if(r.isRobot()) {
+			leader.setRobot(true);
+		}
 		if (dataList.size() > 1) {
 			GCompTeamMember[] members = new GCompTeamMember[dataList.size() - 1];
 			for (int i = 1, size = dataList.size(); i < size; i++) {
@@ -168,6 +171,9 @@ class AgainstMatchingTask implements IGameTimerTask {
 				createResult = GCompTeamMgr.getInstance().createTeamMember(PlayerMgr.getInstance().find(r.getUserId()), r.getHeroIds(), false);
 				if (createResult.getT1() != CreateTeamMemberResultStatus.SUCCESS) {
 					return null;
+				}
+				if(r.isRobot()) {
+					createResult.getT2().setRobot(true);
 				}
 				members[i - 1] = createResult.getT2();
 			}
@@ -273,7 +279,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 				heroIds.add(h.getId());
 			}
 		}
-		return new RandomMatchingData(member.getUserId(), heroIds);
+		
+		RandomMatchingData data = new RandomMatchingData(member.getUserId(), heroIds);
+		data.setRobot(true);
+		return data;
 	}
 	
 	// 匹配机器人

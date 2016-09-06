@@ -5,7 +5,7 @@ public class GCompMember implements Comparable<GCompMember>{
 	private String userId; // 玩家id
 	private int lv; // 玩家等级
 	private int score; // 积分
-	private int winTimes; // 胜利的次数
+	private int totalWinTimes; // 胜利的次数
 	private int continueWins; // 连胜次数
 	private int maxContinueWins; // 最大连胜次数
 	
@@ -34,8 +34,12 @@ public class GCompMember implements Comparable<GCompMember>{
 		return continueWins;
 	}
 	
+	public int getTotalWinTimes() {
+		return totalWinTimes;
+	}
+	
 	public void incWinTimes() {
-		this.winTimes++;
+		this.totalWinTimes++;
 		this.continueWins++;
 		if (this.maxContinueWins < this.continueWins) {
 			this.maxContinueWins = this.continueWins;
