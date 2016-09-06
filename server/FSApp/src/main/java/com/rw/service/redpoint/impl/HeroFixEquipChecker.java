@@ -27,19 +27,19 @@ public class HeroFixEquipChecker implements RedPointCollector {
 	}
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 	
 		HeroMgr heroMgr = player.getHeroMgr();
 //		List<String> heroIdList = heroMgr.getHeroIdList();
 		List<String> heroIdList = heroMgr.getHeroIdList(player);
 
 		Set<String> heroIdSet = new HashSet<String>();
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, level)){
 			
 			checkQualityUP(map, player, heroMgr, heroIdList, heroIdSet);
 		}
 		
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, level)){
 			
 			checkStarUp(map, player, heroMgr, heroIdList, heroIdSet);
 		}
@@ -99,6 +99,11 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		if(!qualityUpList.isEmpty()){
 			map.put(RedPointType.HERO_FIX_EQUIP_QUALITY_UP, qualityUpList);
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 
 //	private String toParam(String heroId, List<String> fixEquipIdList) {

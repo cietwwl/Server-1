@@ -16,7 +16,7 @@ public class FresherActivityItem implements FresherActivityItemIF{
 	private String id;
 	@IgnoreSynField
 	private String ownerId;
-	private String currentValue;   //当前值
+	private String currentValue;   //当前值     (最终奖励用于记录领取的奖励id)
 
 	private eActivityType type;
 	

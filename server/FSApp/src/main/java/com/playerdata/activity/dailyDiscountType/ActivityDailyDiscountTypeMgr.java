@@ -20,6 +20,7 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCf
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
@@ -58,6 +59,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;
 		for (ActivityDailyDiscountTypeCfg activityCountTypeCfg : activitydailydiscountcfglist) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -73,7 +75,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			ActivityDailyDiscountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
 						
-				targetItem = ActivityDailyDiscountTypeCfgDAO.getInstance().newItem(player, activityCountTypeCfg);// 生成新开启活动的数据
+				targetItem = activityDailyDiscountTypeCfgDAO.newItem(player, activityCountTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityDailyDisCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
 					continue;
@@ -104,9 +106,10 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		List<ActivityDailyDiscountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
-			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgByItem(targetItem);
+			ActivityDailyDiscountTypeCfg targetCfg = activityDailyDiscountTypeCfgDAO.getCfgByItem(targetItem);
 			if(targetCfg == null){
 				return;
 			}			

@@ -71,7 +71,10 @@ public class GroupSecretHandler {
 					heroPosList.add(heroId);
 					continue;
 				}
-
+				
+				
+				
+				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
 					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 					pos.setHeroId(heroId);
@@ -80,6 +83,13 @@ public class GroupSecretHandler {
 					defendHeroList.add(heroId);
 					break;
 				}
+			}
+			if (heroPosList == null || !heroPosList.contains(client.getUserId())) {
+				BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+				pos.setHeroId(client.getUserId());
+				pos.setPos(heroPosList.size());
+				msg.addTeamHeroId(pos);
+				break;
 			}
 		}
 		req.setCreateReqMsg(msg);

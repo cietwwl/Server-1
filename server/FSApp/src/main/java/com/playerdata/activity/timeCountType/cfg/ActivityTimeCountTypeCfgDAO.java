@@ -75,6 +75,9 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 	public List<ActivityTimeCountTypeSubItem> newItemList(Player player, ActivityTimeCountTypeCfg activityCountTypeCfg) {
 		List<ActivityTimeCountTypeSubItem> subItemList = new ArrayList<ActivityTimeCountTypeSubItem>();
 		List<ActivityTimeCountTypeSubCfg> subItemCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getByParentCfgId(activityCountTypeCfg.getId());
+		if(subItemCfgList == null){
+			return subItemList;
+		}
 		for (ActivityTimeCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
 			ActivityTimeCountTypeSubItem subItem = new ActivityTimeCountTypeSubItem();
 			subItem.setCfgId(activityCountTypeSubCfg.getId());	

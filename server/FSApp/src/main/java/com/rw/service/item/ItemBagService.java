@@ -9,48 +9,56 @@ import com.rwproto.ItemBagProtos.MsgItemBagRequest;
 import com.rwproto.ItemBagProtos.TagCompose;
 import com.rwproto.RequestProtos.Request;
 
-public class ItemBagService implements FsService {
+public class ItemBagService implements FsService<MsgItemBagRequest, EItemBagEventType> {
 
 	private ItemBagHandler itemBagHandler = ItemBagHandler.getInstance();
 
-	public ByteString doTask(Request request, Player player) {
+	@Override
+	public ByteString doTask(MsgItemBagRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString responseData = null;
 		try {
-			MsgItemBagRequest itembagRequest = MsgItemBagRequest.parseFrom(request.getBody().getSerializedContent());
-			EItemBagEventType requestType = itembagRequest.getRequestType();
+			EItemBagEventType requestType = request.getRequestType();
 			switch (requestType) {
-			// case ItemBag_Index:
-			// itemBagHandler.PlayerOnLogin(player);
-			// break;
 			case ItemBag_Sell:
-				// for (TagItemData itemdata : itembagRequest.getItemUpdateDataList()) {
-				// itemBagHandler.SellItemItemData(player, itemdata.getModelId(), itemdata.getCount(), itemdata.getDbId());
-				// }
-				responseData = itemBagHandler.sellItemItemData(player, itembagRequest.getItemUpdateDataList());
+				responseData = itemBagHandler.sellItemItemData(player, request.getItemUpdateDataList());
 				break;
 			case ItemBag_Compose:
-				for (TagCompose tag : itembagRequest.getComposeList()) {
+				for (TagCompose tag : request.getComposeList()) {
 					itemBagHandler.ComposeItem(player, tag.getMateId(), tag.getComposeCount());
 				}
 				break;
 			case UseItem:
-				responseData = itemBagHandler.useItem(player, itembagRequest.getUseItemInfo());
+				responseData = itemBagHandler.useItem(player, request.getUseItemInfo());
 				break;
 			case ItemBag_Buy:
-				responseData = itemBagHandler.buyItem(player, itembagRequest.getComposeList());
+				responseData = itemBagHandler.buyItem(player, request.getComposeList());
 				break;
 			case ItemBag_MagicForgeMat_Buy:
-				responseData = itemBagHandler.buyMagicForgeMaterial(player, itembagRequest.getBuyItemInfo());
+				responseData = itemBagHandler.buyMagicForgeMaterial(player, request.getBuyItemInfo());
 				break;
 			case ItemBag_MagicWeapon_Decompose:
-				responseData = itemBagHandler.decomposeMagicItem(player, itembagRequest.getUseItemInfo());
+				responseData = itemBagHandler.decomposeMagicItem(player, request.getUseItemInfo());
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return responseData;
+	}
+
+	@Override
+	public MsgItemBagRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgItemBagRequest itembagRequest = MsgItemBagRequest.parseFrom(request.getBody().getSerializedContent());
+		return itembagRequest;
+	}
+
+	@Override
+	public EItemBagEventType getMsgType(MsgItemBagRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 }

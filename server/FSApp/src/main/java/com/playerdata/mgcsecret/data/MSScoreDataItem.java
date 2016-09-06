@@ -2,7 +2,10 @@ package com.playerdata.mgcsecret.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class MSScoreDataItem {
 	private String userId;
 	private int totalScore;	//总积分

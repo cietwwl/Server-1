@@ -13,6 +13,7 @@ import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.enu.eTaskSuperType;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.task.TaskCfgDAO;
 import com.rwbase.dao.task.TaskItemHolder;
 import com.rwbase.dao.task.pojo.TaskCfg;
@@ -243,11 +244,14 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 
 		String[] rewards = cfg.getReward().split(",");
+		List<ItemInfo> items = new ArrayList<ItemInfo>();
 		for (String reward : rewards) {
-			int itemId = Integer.parseInt(reward.split("_")[0]);
-			int count = Integer.parseInt(reward.split("_")[1]);
-			m_pPlayer.getItemBagMgr().addItem(itemId, count);
+			ItemInfo item = new ItemInfo();
+			item.setItemID(Integer.parseInt(reward.split("_")[0]));
+			item.setItemNum(Integer.parseInt(reward.split("_")[1]));
+			items.add(item);
 		}
+		m_pPlayer.getItemBagMgr().addItem(items);
 		task.setDrawState(2);
 		if (cfg.getPreTask() != -1) {
 			taskItemHolder.removeItem(m_pPlayer, task);

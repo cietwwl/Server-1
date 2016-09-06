@@ -9,30 +9,44 @@ import com.rwproto.RequestProtos.Request;
 import com.rwproto.WorshipServiceProtos.EWorshipRequestType;
 import com.rwproto.WorshipServiceProtos.WorshipRequest;
 
-public class WorshipService  implements FsService{
+public class WorshipService  implements FsService<WorshipRequest, EWorshipRequestType>{
 	private WorshipHandler worshipHandler = WorshipHandler.getInstance();
-	
-	public ByteString doTask(Request request, Player pPlayer) {
+
+	@Override
+	public ByteString doTask(WorshipRequest request, Player pPlayer) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			WorshipRequest worshipRequest = WorshipRequest.parseFrom(request.getBody().getSerializedContent());
-			EWorshipRequestType requestType = worshipRequest.getRequestType();
+			EWorshipRequestType requestType = request.getRequestType();
 			switch (requestType) {
 				case BY_WORSHIPPED_LIST:
 					result = WorshipMgr.getInstance().getByWorshipedInfo();
 					break;
 				case WORSHIP:
-					result = worshipHandler.worship(worshipRequest, pPlayer);
+					result = worshipHandler.worship(request, pPlayer);
 					break;
 				case WORSHIP_STATE:
-					result = worshipHandler.getWorshipState(worshipRequest, pPlayer);
+					result = worshipHandler.getWorshipState(request, pPlayer);
 					break;
 				default:
 					break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public WorshipRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		WorshipRequest worshipRequest = WorshipRequest.parseFrom(request.getBody().getSerializedContent());
+		return worshipRequest;
+	}
+
+	@Override
+	public EWorshipRequestType getMsgType(WorshipRequest request) {
+		// TODO Auto-generated method stub
+		return request.getRequestType();
 	}
 }

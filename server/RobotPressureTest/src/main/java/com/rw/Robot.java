@@ -1170,16 +1170,6 @@ public class Robot {
 		}
 		return GroupCopyMgr.getInstance().playGroupCopy(client);
 	}
-	
-
-	/**
-	 * 组队战创建或者加入队伍
-	 * 
-	 * @return
-	 */
-	public boolean startTBCreateTeam() {
-		return TeamBattleHandler.getInstance().startTBCreateTeam(client);
-	}
 
 	/**
 	 * 组队战开始战斗

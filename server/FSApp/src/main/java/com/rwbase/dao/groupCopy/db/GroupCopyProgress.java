@@ -13,8 +13,8 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class GroupCopyProgress {
 
-	private int totalHp;
-	private int currentHp;
+	private long totalHp;
+	private long currentHp;
 	
 	private double progress;//0-1
 	
@@ -46,19 +46,19 @@ public class GroupCopyProgress {
 		progress = Utils.div((totalHp - currentHp), totalHp, 5);
 	}
 
-	public int getTotalHp() {
+	public long getTotalHp() {
 		return totalHp;
 	}
 
-	public void setTotalHp(int totalHp) {
+	public void setTotalHp(long totalHp) {
 		this.totalHp = totalHp;
 	}
 
-	public int getCurrentHp() {
+	public long getCurrentHp() {
 		return currentHp;
 	}
 
-	public void setCurrentHp(int currentHp) {
+	public void setCurrentHp(long currentHp) {
 		this.currentHp = currentHp;
 	}
 
@@ -92,7 +92,7 @@ public class GroupCopyProgress {
 	protected void calculateMonsterFromProgress(double p){
 		this.progress = p;
 		for (GroupCopyMonsterSynStruct struct : mDatas) {
-			struct.setCurHP((int) (struct.getTotalHP() * p));
+			struct.setCurHP((long) (struct.getTotalHP() * p));
 		}
 	}
 	
