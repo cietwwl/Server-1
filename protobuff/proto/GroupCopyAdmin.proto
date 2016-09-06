@@ -78,7 +78,7 @@ message MemberInfo{
 	required string headIcon = 2;
 	required int32 lv = 3;
 	required string roleName = 4;
-	required int32 damage = 5;
+	required int64 damage = 5;
 	required bool canDist = 6;//是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
 	required string headbox = 7;//用户头像框
 	
