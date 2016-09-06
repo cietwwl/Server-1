@@ -291,8 +291,8 @@ public class DailyActivityMgr implements PlayerEventListener {
 
 	// 返回一个角色所有的任务
 	public List<DailyActivityData> getAllTask() {
-		return getTaskListByCfg(false);
-//		return getTaskList();
+//		return getTaskListByCfg(false);
+		return getTaskList();
 	}
 
 	public DailyActivityCfg getCfgByTaskId(int taskId) {
