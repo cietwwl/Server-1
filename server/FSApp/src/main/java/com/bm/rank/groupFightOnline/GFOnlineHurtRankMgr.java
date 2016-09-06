@@ -91,13 +91,13 @@ public class GFOnlineHurtRankMgr {
 	public static List<GFOnlineHurtItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
 		List<GFOnlineHurtItem> result = new ArrayList<GFOnlineHurtItem>();
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
-		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration();
+		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration(1, size);
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
 			GFOnlineHurtComparable hurtComparable = entry.getComparable();
 			if(hurtComparable.getResourceID() != resourceID) continue;
 			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
-			if(StringUtils.equals(hurtItem.getGroupID(), groupID) && result.size() < size){
+			if(StringUtils.equals(hurtItem.getGroupID(), groupID)){
 				hurtItem.setTotalHurt(hurtComparable.getTotalHurt());
 				result.add(hurtItem);
 			}

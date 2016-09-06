@@ -225,7 +225,7 @@ public class GroupCopyLevelBL {
 	 */
 	public static GroupCopyResult endFight(Player player, 
 			GroupCopyLevelRecordHolder recordHolder,String level,
-			List<GroupCopyMonsterSynStruct> mData, int damage) {
+			List<GroupCopyMonsterSynStruct> mData, long damage) {
 		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		StringBuilder reason = new StringBuilder();
@@ -318,7 +318,7 @@ public class GroupCopyLevelBL {
 	 * @param damage TODO
 	 */
 	private static Builder calculateAndSendReward(double befPro, double nowPro,
-			String level, Player player, int damage) {
+			String level, Player player, long damage) {
 		if(damage == 0 ){
 			//没有任何伤害不发奖励
 			return null;
@@ -372,9 +372,9 @@ public class GroupCopyLevelBL {
 		}
 		
 		//个人奖励的 金币=min（伤害*0.05，100000）
-		damage = (int)(damage*0.05 > 100000 ? 100000 : damage*0.05);
-		damage = damage > 0 ? damage : 0;
-		rewardInfo.setGold(damage);//暂时这样计算
+		int gold = (int) (damage*0.05 > 100000 ? 100000 : damage*0.05);
+		gold = gold > 0 ? gold : 0;
+		rewardInfo.setGold(gold);//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());

@@ -105,7 +105,7 @@ public class YinHanSDKHandler implements ISDKHandler{
 			
 		} catch (Exception ex) {
 			sdkVerifyResult.setBlnSuccess(false);
-			sdkVerifyResult.setMsg("exception!");
+			sdkVerifyResult.setMsg("SDK验证失败!");
 			ex.printStackTrace();
 		}
 	}

@@ -54,7 +54,7 @@ public class GroupCopyMapRecord implements IMapItem {
 	/**帮派成员在此章节总伤害，章节重置后清除<key=playerId,value=totalDamage>*/
 	@CombineSave
 	@IgnoreSynField
-	private Map<String, Integer> groupRoleDamageMap = new HashMap<String, Integer>();
+	private Map<String, Long> groupRoleDamageMap = new HashMap<String, Long>();
 	
 	
 	
@@ -62,15 +62,15 @@ public class GroupCopyMapRecord implements IMapItem {
 		
 		
 	}
-	public Map<String, Integer> getGroupRoleDamageMap() {
+	public Map<String, Long> getGroupRoleDamageMap() {
 		return groupRoleDamageMap;
 	}
-	public void setGroupRoleDamageMap(Map<String, Integer> groupRoleDamageMap) {
+	public void setGroupRoleDamageMap(Map<String, Long> groupRoleDamageMap) {
 		this.groupRoleDamageMap = groupRoleDamageMap;
 	}
 	
-	public void addPlayerDamage(String useID, int damage){
-		Integer v = groupRoleDamageMap.get(useID);
+	public void addPlayerDamage(String useID, long damage){
+		Long v = groupRoleDamageMap.get(useID);
 		if(v != null){
 			groupRoleDamageMap.put(useID, v + damage);
 		}else{
