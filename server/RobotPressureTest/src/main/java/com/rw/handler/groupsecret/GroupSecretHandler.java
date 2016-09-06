@@ -64,15 +64,16 @@ public class GroupSecretHandler {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 				String heroId = (String) iterator.next();
 				if (heroId.equals(client.getUserId())) {
-					if (heroPosList.contains(heroId)) {
-						continue;
-					}
-					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
-					pos.setHeroId(heroId);
-					pos.setPos(0);
-					msg.addTeamHeroId(pos);
-					mainRoleIndex = i;
-					heroPosList.add(heroId);
+					
+//					if (heroPosList.contains(heroId)) {
+//						continue;
+//					}
+//					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+//					pos.setHeroId(heroId);
+//					pos.setPos(0);
+//					msg.addTeamHeroId(pos);
+//					mainRoleIndex = i;
+//					heroPosList.add(heroId);
 					continue;
 				}				
 				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
