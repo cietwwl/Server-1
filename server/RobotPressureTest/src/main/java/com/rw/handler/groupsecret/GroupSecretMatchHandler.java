@@ -64,17 +64,29 @@ public class GroupSecretMatchHandler {
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		
 		int mainRoleIndex = 0;
+		int fightHeroNum = 1;//雇佣兵数量
 		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 			String heroId = (String) iterator.next();
+			if(heroId.equals(client.getUserId())){
+				continue;
+			}			
 			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 			pos.setHeroId(heroId);
 			pos.setPos(mainRoleIndex);				
 			msg.addHeroList(pos);
 			mainRoleIndex ++;
-			if(mainRoleIndex > 1){
+			if(mainRoleIndex >= fightHeroNum){
 				break;
 			}				
 		}
+		BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+		pos.setHeroId(client.getUserId());
+		pos.setPos(fightHeroNum);
+		msg.addHeroList(pos);
+		
+		
+		
+		
 		req.setAttackStartReq(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceierTmp(command, functionName, "发起进攻"));
 	}
