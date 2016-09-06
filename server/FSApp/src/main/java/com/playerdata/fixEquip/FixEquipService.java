@@ -25,6 +25,8 @@ public class FixEquipService implements FsService {
 		try {
 			CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 			
+			player.getUserTmpGameDataFlag().setSynFightingAll(true);
+			
 			RequestType reqType = commonReq.getReqType();
 			switch (reqType) {	
 			case Norm_level_up:
