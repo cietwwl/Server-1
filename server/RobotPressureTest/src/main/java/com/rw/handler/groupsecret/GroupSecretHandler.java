@@ -84,8 +84,8 @@ public class GroupSecretHandler {
 			if(defendSecretIdList != null){
 				sercetNum = defendSecretIdList.size();
 			}
-			RobotLog.fail("只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + defendHeroList.size()  + "     当前秘境数 = " + sercetNum);
-			return false;
+			RobotLog.fail("创建秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + defendHeroList.size()  + "     当前秘境数 = " + sercetNum);
+//			return true;
 		}
 		if (!heroPosList.contains(client.getUserId())) {
 			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();

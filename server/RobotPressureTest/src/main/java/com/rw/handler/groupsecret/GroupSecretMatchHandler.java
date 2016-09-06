@@ -65,6 +65,7 @@ public class GroupSecretMatchHandler {
 		
 		int mainRoleIndex = 0;
 		int fightHeroNum = 1;//雇佣兵数量
+		boolean isOk = false;
 		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 			String heroId = (String) iterator.next();
 			if(heroId.equals(client.getUserId())){
@@ -75,6 +76,7 @@ public class GroupSecretMatchHandler {
 			pos.setPos(mainRoleIndex);				
 			msg.addHeroList(pos);
 			mainRoleIndex ++;
+			isOk = true;
 			if(mainRoleIndex >= fightHeroNum){
 				break;
 			}				
@@ -83,10 +85,10 @@ public class GroupSecretMatchHandler {
 		pos.setHeroId(client.getUserId());
 		pos.setPos(fightHeroNum);
 		msg.addHeroList(pos);
-		
-		
-		
-		
+		if(!isOk){
+			RobotLog.fail("进攻秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + heroIds.size());
+//			return true;
+		}		
 		req.setAttackStartReq(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceierTmp(command, functionName, "发起进攻"));
 	}
