@@ -2,8 +2,12 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "FightGrowthProto";
 
+message EmptyMessage{
+}
+
+//MSG_FIGHTING_GROWTH_REQUEST_UPGRADE
 message UpgradeFightingTitleResponse {
-	required bool success = 1; // 是否成功
+	required bool success = 1; // 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
 	required string tips = 2; // 提示信息
 }
 
@@ -23,7 +27,7 @@ message UserFightingGrowthWaySynData {
 	required fixed32 gotoType = 6; // 打开的功能类型
 }
 
-// 玩家战力提升数据
+// 玩家战力提升数据 MSG_FIGHTING_GROWTH_REQUEST_UI_DATA
 message UserFightingGrowthSynData {
 	required string userId = 1; // 战力提升数据的userId
 	required string currentTitle = 2; // 当前的称号
@@ -32,4 +36,5 @@ message UserFightingGrowthSynData {
 	required bool hasNextTitle = 5; // 是否有下一个
 	repeated UpgradeItemRequired upgradeItemRequired= 6; // 升级所需要的道具
 	repeated UserFightingGrowthWaySynData growthWayData = 7; // 成长途径数据
+	required string currentUpKey = 8;//当前升级配置的ID
 }
