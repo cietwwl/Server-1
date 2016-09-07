@@ -20,7 +20,9 @@ public class WBData {
 	private long startTime;
 	private long endTime;
 	
-	private CurAttrData curAttrData;
+	private long curLife;// 当前生命值
+	private long maxLife;// 全部的血量
+	
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
 	private int version = 0;
 	//最后一击信息
@@ -71,12 +73,20 @@ public class WBData {
 		this.endTime = endTime;
 	}
 
-	public CurAttrData getCurAttrData() {
-		return curAttrData;
+	public long getCurLife() {
+		return curLife;
 	}
 
-	public void setCurAttrData(CurAttrData curAttrData) {
-		this.curAttrData = curAttrData;
+	public void setCurLife(long curLife) {
+		this.curLife = curLife;
+	}
+
+	public long getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(long maxLife) {
+		this.maxLife = maxLife;
 	}
 
 	public LastFightInfo getLastFightInfo() {

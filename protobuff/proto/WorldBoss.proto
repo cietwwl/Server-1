@@ -1,0 +1,45 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "WorldBossProtos";
+
+package WorldBoss;
+
+
+enum RequestType{
+
+	Enter = 1;//
+	FightBegin = 2;//
+	FightEnd = 3;//
+	BuyBuff = 4;
+
+}
+
+enum BuyBuffType{
+	GOLD = 1;
+	DIAMOND = 2;
+}
+
+message BuyBuffParam{
+	required BuyBuffType buyType = 1;
+}
+
+message FightEndParam{
+	required int64 totalHurt = 1;
+	optional string vCode = 2;
+}
+
+message CommonReqMsg{
+
+	required RequestType reqType = 1;
+	optional int32 wbDataVersion = 2;
+	optional int32 wbUserDataVersion = 3;	
+	optional BuyBuffParam buyBuffParam = 4;
+	optional FightEndParam FightEndParam = 5;
+
+}
+
+message CommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+}

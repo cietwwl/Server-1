@@ -16,14 +16,16 @@ public class WBUserDataHolder {
 	}
 
 
-	public void syn(Player player) {
-		
-		String userId = player.getUserId();
-		WBUserData WBUserData = get(userId);
-		if (WBUserData != null) {
-			ClientDataSynMgr.synData(player, WBUserData, synType, eSynOpType.UPDATE_SINGLE);
-		} else {
-			GameLog.error("WBUserDataHolder", "#syn()", "find WBUserData fail:" + userId);
+	public void syn(Player player, int versionP) {
+		int version = player.getDataSynVersionHolder().getVersion(synType);
+		if(version != versionP){			
+			String userId = player.getUserId();
+			WBUserData WBUserData = get(userId);
+			if (WBUserData != null) {
+				ClientDataSynMgr.synData(player, WBUserData, synType, eSynOpType.UPDATE_SINGLE);
+			} else {
+				GameLog.error("WBUserDataHolder", "#syn()", "find WBUserData fail:" + userId);
+			}
 		}
 		
 	}
@@ -38,8 +40,12 @@ public class WBUserDataHolder {
 		return  success? data:null;
 	}
 	
-	public void update(String id){		
-		WBUserDataDao.getInstance().update(id);
+	public void update(Player player){		
+		String userId = player.getUserId();
+		WBUserDataDao.getInstance().update(userId);
+	
+		WBUserData wbUserData = get(userId);
+		ClientDataSynMgr.synData(player, wbUserData, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
 

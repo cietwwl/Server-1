@@ -42,7 +42,8 @@ public enum LogModule {
 	TeamBattle("组队副本"),
 	BattleVerify("战斗校验"),
 	DataEncode("加密校验"),
-	DataSynService("数据同步服务")
+	DataSynService("数据同步服务"),
+	WorldBoss("世界boss")
 	;
 	
 	private String name;

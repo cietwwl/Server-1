@@ -152,6 +152,16 @@ public class ArmyInfoHelper {
 		return armyInfo;		
 	}
 
+	
+	public static ArmyInfo buildMonsterArmy (String monsterId)
+	{
+		ArmyInfo army = new ArmyInfo ();	
+
+		ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
+		army.addHero(armyHero);
+
+		return army;
+	}
 
 	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList)
 	{
@@ -164,6 +174,8 @@ public class ArmyInfoHelper {
 
 		return army;
 	}
+	
+	
 	
 	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList){
 		
