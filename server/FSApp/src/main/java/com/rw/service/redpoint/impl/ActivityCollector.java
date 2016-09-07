@@ -257,7 +257,7 @@ public class ActivityCollector implements RedPointCollector {
 
 			List<ActivityExchangeTypeSubItem> exchangeSubitemlist = targetItem.getSubItemList();
 			for (ActivityExchangeTypeSubItem subitem : exchangeSubitemlist) {
-				if (exchangeTypeMgr.isCanTaken(player, subitem, false)) {
+				if (exchangeTypeMgr.isCanTaken(player, subitem)) {
 					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
 						continue;
 					}

@@ -109,6 +109,9 @@ public class ActivityTimeCardTypeMgr {
 			addItemList.add(item);
 		}		
 		return addItemList;
+		ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO
+				.newItem(player);
+		dataHolder.addItem(player, newItem);
 	}
 	
 	

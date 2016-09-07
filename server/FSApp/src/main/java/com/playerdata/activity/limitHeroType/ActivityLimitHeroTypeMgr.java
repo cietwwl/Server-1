@@ -20,13 +20,10 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO;
-import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfg;
-import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfg;
@@ -39,7 +36,6 @@ import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
@@ -114,25 +110,12 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			if(boxCfgList == null){
 				boxCfgList = new ArrayList<ActivityLimitHeroBoxCfg>();
 			}
-			for(ActivityLimitHeroBoxCfg boxCfg : boxCfgList){
-				ActivityLimitHeroTypeSubItem subItem = new ActivityLimitHeroTypeSubItem();
-				subItem.setCfgId(boxCfg.getId());
-				subItem.setIntegral(boxCfg.getIntegral());
-				subItem.setRewards(boxCfg.getRewards());
-				subItemList.add(subItem);
-			}			
-			item.setSubList(subItemList);
-			if(addItemList == null){
-				addItemList = new ArrayList<ActivityLimitHeroTypeItem>();
-			}
-			if (addItemList.size() >= 1) {
-				// 同时生成了两条以上数据；
-				GameLog.error(LogModule.ComActivityLimitHero, userid, "同时有多个活动开启", null);
+			targetItem = activityLimitHeroCfgDAO.newItem(player, cfg);// 生成新开启活动的数据
+			if(targetItem == null){
 				continue;
 			}
-			addItemList.add(item);			
+			dataHolder.addItem(player, targetItem);
 		}
-		return addItemList;
 	}
 
 	public boolean isOpen(ActivityLimitHeroCfg cfg) {

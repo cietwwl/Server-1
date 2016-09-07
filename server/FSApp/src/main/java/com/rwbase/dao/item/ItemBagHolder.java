@@ -156,7 +156,7 @@ public class ItemBagHolder implements RecordSynchronization {
 	/**
 	 * 获取道具modelId与数量的映射
 	 * 
-	 * @return
+	 * @return	{key=modelId,value=count}
 	 */
 	public Map<Integer, RefInt> getModelCountMap() {
 		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
@@ -173,6 +173,49 @@ public class ItemBagHolder implements RecordSynchronization {
 			}
 		}
 		return map;
+	}
+	
+	/**
+	 * <pre>
+	 * 检查是否有足够的道具数量
+	 * 
+	 * </pre>
+	 * @param itemsMap	{key=modelId,value=count}
+	 * @return
+	 */
+	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
+		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			//不是要检查的道具跳过
+			if(!itemsMap.containsKey(modelId)){
+				continue;
+			}
+			int count = itemData.getCount();
+			RefInt intValue = map.get(modelId);
+			if (intValue == null) {
+				map.put(modelId, new RefInt(count));
+			} else {
+				intValue.value += count;
+			}
+		}
+		for(Map.Entry<Integer, Integer> entry:itemsMap.entrySet()){
+			int value = entry.getValue();
+			//0或负数跳过
+			if(value <= 0){
+				continue;
+			}
+			RefInt refValue = map.get(entry.getKey());
+			if(refValue == null){
+				return false;
+			}
+			if(refValue.value < value){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	// /**
