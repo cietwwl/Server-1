@@ -110,7 +110,7 @@ public class ActivityLimitHeroTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityLimitHeroTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityLimitHeroTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityLimitHeroTypeItem> cache = MapItemStoreFactory.getActivityLimitHeroTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityLimitHeroTypeItem.class);
 	}

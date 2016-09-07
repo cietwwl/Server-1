@@ -4,14 +4,15 @@ import java.util.List;
 
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 
 public class ExchangeCreator implements MapItemCreator<ActivityExchangeTypeItem>{
 
 	@Override
 	public List<ActivityExchangeTypeItem> create(String userId,
 			MapItemValidateParam param) {
-		// TODO Auto-generated method stub
-		return null;
+		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		return ActivityExchangeTypeMgr.getInstance().createItems(userId, dataHolder.getItemStore(userId));
 	}
 
 	@Override
