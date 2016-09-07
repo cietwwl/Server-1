@@ -13,7 +13,11 @@ public class FSAddExpToAllHeroConsumer implements IHeroConsumer {
 	
 	@Override
 	public void apply(Hero hero) {
-		hero.addHeroExp(_exp);
+		if (hero.isMainRole()) {
+			hero.getPlayer().addUserExp(_exp);
+		} else {
+			hero.addHeroExp(_exp);
+		}
 	}
 
 }

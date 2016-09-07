@@ -434,6 +434,11 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfoIF {
 	@Override
 	public int addHeroExp(long heroExp) {
 		Player player = PlayerMgr.getInstance().find(this.getOwnerUserId());
+		if(this.isMainRole()) {
+			// 2016-09-05 添加主角经验不能走这个流程，因为主角和英雄的添加规则有些不一样。
+			GameLog.info("FSHero", player.getUserId(), "addHeroExp不能添加主角的经验！");
+			return 0;
+		}
 		int maxLevel = player.getLevel();
 		int currentLevel = this.level;
 		int currentExp = this.exp;
