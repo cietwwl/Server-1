@@ -556,7 +556,7 @@ public class RobotManager {
 			int level = getRandom(cfg.getLevel());
 			user.setUserName(userName);
 			user.setSex(sex);
-			user.setAccount(AccoutBM.getInstance().getGuestAccountId());
+			user.setAccount(userId);
 			user.setUserId(userId);
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);

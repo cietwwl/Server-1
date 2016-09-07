@@ -1,25 +1,32 @@
 package com.rw.manager;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
@@ -42,11 +49,15 @@ import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.SimpleThreadFactory;
+import com.rw.fsutil.dao.cache.CacheLogger;
+import com.rw.fsutil.dao.cache.CacheStackTraceEntity;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.log.LogService;
@@ -100,11 +111,10 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
-		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>,Class<? extends MapItemCreator<? extends IMapItem>>>>();
+		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>>();
 		MapItemType[] types = MapItemType.values();
-		for(MapItemType t:types){
-			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = 
-					Pair.<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>Create(t.getMapItemClass(), t.getCreatorClass());	
+		for (MapItemType t : types) {
+			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = Pair.<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> Create(t.getMapItemClass(), t.getCreatorClass());
 			map.put(t.getType(), pair);
 		}
 		MapItemStoreFactory.init(map);
@@ -134,16 +144,16 @@ public class GameManager {
 		/**** 排行初始化 ******/
 		// ArenaBM.getInstance().InitData();
 		// 初始化排行榜系统
-		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("ranking"));
-		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("list_ranking"));
+		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("ranking"));
+		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("list_ranking"));
 		RankingFactory.init(Arrays.asList(RankType.values()), Arrays.asList(ListRankingType.values()), rankingPool, listRankingPool);
 
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		
+
 		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
-		
+
 		RobotManager.getInstance().createRobots();
 		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
@@ -153,7 +163,7 @@ public class GameManager {
 		GameLog.debug("排行排序用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
-		ActivityRankTypeMgr.getInstance().creatMap();//排行榜的活动奖励的配置表初始化
+		ActivityRankTypeMgr.getInstance().creatMap();// 排行榜的活动奖励的配置表初始化
 		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
@@ -164,19 +174,19 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
-		
-		//GM的初始化
+
+		// GM的初始化
 		GmCommandManager.loadCommandClass();
-		
-		//ServerStatus的初始化
+
+		// ServerStatus的初始化
 		ServerStatusMgr.init();
 
-
-		//帮派副本奖励分发数据初始化
+		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
-		
+
 		WorshipMgr.getInstance().getByWorshipedList();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
+		preLoadPlayer();
 	}
 
 	public static void initServerProperties() {
@@ -238,7 +248,8 @@ public class GameManager {
 	// Resource resource = new ClassPathResource("switch.properties");
 	// try {
 	// Properties props = PropertiesLoaderUtils.loadProperties(resource);
-	// boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
+	// boolean serverstatus =
+	// Boolean.parseBoolean(props.getProperty("serverStatus"));
 	// if (serverstatus) {
 	// ServerStatusMgr.setStatus(ServerStatus.OPEN);
 	// } else {
@@ -433,5 +444,40 @@ public class GameManager {
 	 */
 	public static void CheckAllConfig() {
 		CfgCsvReloader.CheckAllConfig();
+	}
+
+	private static void preLoadPlayer() {
+		new Thread("preload") {
+
+			public void run() {
+				long start = System.currentTimeMillis();
+				JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
+				List<Map<String, Object>> lastLoginPlayers = template.queryForList("select userId from user ORDER BY lastLoginTime DESC limit 800");
+				List<Map<String, Object>> highLevelPlayers = template.queryForList("SELECT id from hero where hero_type = 1 ORDER BY level DESC limit 200");
+				HashSet<String> set = new HashSet<String>();
+				fill(set, lastLoginPlayers, "userId");
+				fill(set, highLevelPlayers, "id");
+				System.out.println("preload size:" + set.size());
+				PlayerMgr playerMgr = PlayerMgr.getInstance();
+				for (String id : set) {
+					try {
+						playerMgr.find(id);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.println("preload completed:" + (System.currentTimeMillis() - start));
+			}
+
+		}.start();
+	}
+
+	private static void fill(HashSet<String> set, List<Map<String, Object>> list, String name) {
+		for (Map<String, Object> map : list) {
+			String userId = (String) map.get(name);
+			if (userId != null) {
+				set.add(userId);
+			}
+		}
 	}
 }
