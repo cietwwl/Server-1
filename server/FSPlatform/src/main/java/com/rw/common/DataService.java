@@ -9,9 +9,10 @@ import com.rw.platform.PlatformFactory;
 import com.rwbase.dao.whiteList.TableWhiteListDAO;
 
 public class DataService {
-	public static void initDataService(){
-		DataAccessFactory.init("dataSourcePF", new HashMap<Integer, Class<? extends DataKVDao<?>>>(), new HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>>(), PlatformFactory.getDefaultCapacity());
-		
+	public static void initDataService() {
+		DataAccessFactory.init("dataSourcePF", new HashMap<Integer, Class<? extends DataKVDao<?>>>(), new HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>>(),
+				PlatformFactory.getDefaultCapacity(), new int[0]);
+
 		TableWhiteListDAO.getInstance().queryWhiteList();
 	}
 }

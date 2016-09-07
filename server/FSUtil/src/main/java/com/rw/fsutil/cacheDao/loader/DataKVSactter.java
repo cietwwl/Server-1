@@ -32,14 +32,15 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 			return null;
 		}
 		String sql = "select dbvalue from " + classInfoPojo.getTableName() + " where dbkey=?";
-		String value = null;
 		List<String> result = template.queryForList(sql, String.class, key);
-		if (result != null && result.size() > 0) {
-			value = new String(result.get(0));
-			T t = toT(value);
-			return t;
+
+		if (result == null || result.isEmpty()) {
+			throw new DataNotExistException();
 		}
-		return null;
+//		String value = new String(result.get(0));
+//		T t = toT(value);
+//		return t;
+		return toT(result.get(0));
 	}
 
 	@Override

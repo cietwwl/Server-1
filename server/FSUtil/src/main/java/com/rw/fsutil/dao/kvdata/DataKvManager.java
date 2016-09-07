@@ -46,6 +46,15 @@ public interface DataKvManager {
 	
 	/**
 	 * <pre>
+	 * 获取指定UserId和指定范围的DataKv数据
+	 * </pre>
+	 * @param userId
+	 * @return
+	 */
+	public List<DataKvEntity> getRangeDataKvEntitys(String userId);
+	
+	/**
+	 * <pre>
 	 * 插入一条数据
 	 * </pre>
 	 * @param userId
