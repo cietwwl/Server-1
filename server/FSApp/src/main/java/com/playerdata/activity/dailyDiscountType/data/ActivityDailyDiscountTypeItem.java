@@ -147,7 +147,8 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.lastTime = System.currentTimeMillis();
 		this.cfgId = targetCfg.getId();
 		this.version = targetCfg.getVersion();
-		this.subItemList = ActivityDailyDiscountTypeCfgDAO.getInstance().newSubItemList(targetCfg);
+		this.subItemList = ActivityDailyDiscountTypeCfgDAO.getInstance().newSubItemList(
+						targetCfg);
 		isTouchRedPoint = false;
 	}
 }

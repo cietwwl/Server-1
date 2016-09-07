@@ -105,7 +105,7 @@ public class ActivityExchangeTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityExchangeTypeItem> getItemStore(String userId) {
+	private MapItemStore<ActivityExchangeTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityExchangeTypeItem> cache = MapItemStoreFactory.getActivityExchangeTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityExchangeTypeItem.class);
 	}

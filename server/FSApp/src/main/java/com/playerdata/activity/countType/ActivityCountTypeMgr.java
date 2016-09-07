@@ -29,7 +29,6 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
@@ -77,88 +76,76 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	/**
 	 * 
 	 * @param player
-	 * 同类型活动同时激活两个以上，会add同样主键到数据报错；风险较高，需增加检查配置的方法；
-	 * 也可以将方法里的addlist改为add
+	 *            同类型活动同时激活两个以上，会add同样主键到数据报错；风险较高，需增加检查配置的方法；
+	 *            也可以将方法里的addlist改为add
 	 */
 	private void checkNewOpen(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			for(ActivityCountTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+				.getInstance();
+		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
+		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+		ArrayList<ActivityCountTypeItem> addItemList = null;
+		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (!activityCountTypeCfgDAO.isOpen(
+					activityCountTypeCfg)) {
+				// 活动未开启
+				continue;
 			}
+			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum
+					.getById(activityCountTypeCfg.getEnumId());
+			if (countTypeEnum == null) {
+				continue;
+			}
+			ActivityCountTypeItem targetItem = dataHolder.getItem(
+					player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
+			if (targetItem == null) {
+				targetItem = activityCountTypeCfgDAO.newItem(
+						player, countTypeEnum, activityCountTypeCfg);// 生成新开启活动的数据
+				if (targetItem == null) {
+					continue;
+				}
+				if (addItemList == null) {
+					addItemList = new ArrayList<ActivityCountTypeItem>();
+				}
+				addItemList.add(targetItem);
+			}
+		}
+		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
 
-	public List<ActivityCountTypeItem> creatItems(String userId, MapItemStore<ActivityCountTypeItem> itemStore) {
-		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
-		ArrayList<ActivityCountTypeItem> addItemList = null;
-		for (ActivityCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!activityCountTypeCfgDAO.isOpen(cfg)) {
-				// 活动未开启
-				continue;
-			}
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
-			if (countTypeEnum == null) {
-				continue;
-			}
-			String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
-			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
-					continue;
-				}
-			}
-			ActivityCountTypeItem item = new ActivityCountTypeItem();
-			item.setId(itemId);
-			item.setCfgId(cfg.getId());
-			item.setEnumId(cfg.getEnumId());
-			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());			
-			List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
-			List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
-			for (ActivityCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
-				ActivityCountTypeSubItem subItem = new ActivityCountTypeSubItem();
-				subItem.setCfgId(activityCountTypeSubCfg.getId());
-				subItem.setCount(activityCountTypeSubCfg.getAwardCount());
-				subItemList.add(subItem);
-			}
-			item.setSubItemList(subItemList);
-			if (addItemList == null) {
-				addItemList = new ArrayList<ActivityCountTypeItem>();
-			}
-			addItemList.add(item);
-		}
-		return addItemList;
-	}
-
 	private void checkCfgVersion(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+				.getInstance();
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player
+				.getUserId());
 		for (ActivityCountTypeItem targetItem : itemList) {
 
 			ActivityCountTypeCfg targetCfg = activityCountTypeCfgDAO.getCfgByEnumId(targetItem);
 			if (targetCfg == null) {
 				continue;
 			}
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(targetCfg));
+			if (!StringUtils.equals(targetItem.getVersion(),
+					targetCfg.getVersion())) {
+				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
 	}
 
 	private void checkClose(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+				.getInstance();
+		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player
+				.getUserId());
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
 			String cfgId = activityCountTypeItem.getCfgId();
-			if (isClose(activityCountTypeCfgDAO, cfgId)) {
-				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
+			if (isClose(activityCountTypeCfgDAO,cfgId)) {
+				List<ActivityCountTypeSubItem> list = activityCountTypeItem
+						.getSubItemList();
 				if (!activityCountTypeItem.isClosed()) {
 					sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
 					activityCountTypeItem.setClosed(true);
@@ -169,7 +156,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
-	public boolean isClose(ActivityCountTypeCfgDAO dao, String cfgId) {
+	public boolean isClose(ActivityCountTypeCfgDAO dao ,String cfgId) {
 		ActivityCountTypeCfg cfgById = dao.getCfgById(cfgId);
 		if (cfgById == null) {
 			return false;
@@ -178,8 +165,14 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		long currentTime = System.currentTimeMillis();
 		return currentTime > endTime;
 	}
+	
 
-	private void sendEmailIfGiftNotTaken(Player player, ActivityCountTypeItem activityCountTypeItem, List<ActivityCountTypeSubItem> list) {
+	
+	
+	
+	private void sendEmailIfGiftNotTaken(Player player,
+			ActivityCountTypeItem activityCountTypeItem,
+			List<ActivityCountTypeSubItem> list) {
 		ActivityCountTypeSubCfgDAO activityCountTypeSubCfgDAO = ActivityCountTypeSubCfgDAO.getInstance();
 		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
@@ -187,9 +180,13 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			if (subItemCfg == null) {
 				continue;
 			}
-			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
+			if (!subItem.isTaken()
+					&& activityCountTypeItem.getCount() >= subItemCfg
+							.getAwardCount()) {
 
-				boolean isAdd = comGiftMgr.addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "", subItemCfg.getEmailTitle());
+				boolean isAdd = comGiftMgr.addGiftTOEmailById(
+						player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "",
+						subItemCfg.getEmailTitle());
 				if (isAdd) {
 					subItem.setTaken(true);
 				}
@@ -197,10 +194,15 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
-	public void addCount(Player player, ActivityCountTypeEnum countType, int countadd) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+	
 
-		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
+	public void addCount(Player player, ActivityCountTypeEnum countType,
+			int countadd) {
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+				.getInstance();
+
+		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(),
+				countType);
 		if (dataItem == null) {
 			return;
 		}
@@ -208,10 +210,13 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		dataHolder.updateItem(player, dataItem);
 	}
 
-	public ActivityComResult takeGift(Player player, ActivityCountTypeEnum countType, String subItemId) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+	public ActivityComResult takeGift(Player player,
+			ActivityCountTypeEnum countType, String subItemId) {
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+				.getInstance();
 
-		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
+		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(),
+				countType);
 		ActivityComResult result = ActivityComResult.newInstance(false);
 
 		// 未激活
@@ -221,7 +226,8 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		} else {
 			ActivityCountTypeSubItem targetItem = null;
 
-			List<ActivityCountTypeSubItem> subItemList = dataItem.getSubItemList();
+			List<ActivityCountTypeSubItem> subItemList = dataItem
+					.getSubItemList();
 			for (ActivityCountTypeSubItem itemTmp : subItemList) {
 				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
 					targetItem = itemTmp;
@@ -240,7 +246,8 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void takeGift(Player player, ActivityCountTypeSubItem targetItem) {
-		ActivityCountTypeSubCfg subCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
+		ActivityCountTypeSubCfg subCfg = ActivityCountTypeSubCfgDAO
+				.getInstance().getById(targetItem.getCfgId());
 		targetItem.setTaken(true);
 		if (subCfg == null) {
 			// logger
@@ -257,31 +264,35 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		if (cfg == null) {
 			return;
 		}
-		update(player, cfg, activityCountTypeItemHolder);
-		if (StringUtils.isEmpty(cfg.getGroup())) {
-			// 获取同属一组group的cfg
+		update(player,cfg,activityCountTypeItemHolder);				
+		if(StringUtils.isEmpty(cfg.getGroup())){
+			//获取同属一组group的cfg
 			return;
 		}
-		ActivityCountTypeCfg cfgByGroup = null;
-		for (ActivityCountTypeCfg cfgTmp : activityCountTypeCfgDAO.getAllCfg()) {
-			if (StringUtils.equals(cfg.getGroup(), cfgTmp.getGroup()) && !StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())) {
+		ActivityCountTypeCfg cfgByGroup  = null;
+		for(ActivityCountTypeCfg cfgTmp : activityCountTypeCfgDAO.getAllCfg()){
+			if(StringUtils.equals(cfg.getGroup(), cfgTmp.getGroup())&&!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 				cfgByGroup = cfgTmp;
 				break;
 			}
 		}
-		if (cfgByGroup == null) {
+		if(cfgByGroup == null){
 			return;
 		}
-		update(player, cfgByGroup, activityCountTypeItemHolder);
-
+		update(player,cfgByGroup,activityCountTypeItemHolder);	
+		
+		
 	}
 
-	private void update(Player player, ActivityCountTypeCfg cfg, ActivityCountTypeItemHolder activityCountTypeItemHolder) {
-		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(cfg.getEnumId());
+	private void update(Player player,ActivityCountTypeCfg cfg,
+			ActivityCountTypeItemHolder activityCountTypeItemHolder) {		
+		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(cfg
+				.getEnumId());
 		if (eNum == null) {
 			return;
 		}
-		ActivityCountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(), eNum);
+		ActivityCountTypeItem dataItem = activityCountTypeItemHolder.getItem(
+				player.getUserId(), eNum);
 		if (dataItem == null) {
 			return;
 		}
@@ -289,13 +300,13 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}
-
+		
 	}
 
 	public boolean isOpen(MapItemValidateParam param) {
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (isOpen(cfg, param)) {
+			if (isOpen(cfg,param)) {
 				// 活动未开启
 				return true;
 			}

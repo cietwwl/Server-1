@@ -2,16 +2,16 @@ package com.rw.dataaccess.mapitem;
 
 import java.util.List;
 
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
-import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 
 public class LimitHeroCreator implements MapItemCreator<ActivityLimitHeroTypeItem>{
 
 	@Override
 	public List<ActivityLimitHeroTypeItem> create(String userId, MapItemValidateParam param) {
-		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
-		return ActivityLimitHeroTypeMgr.getInstance().creatItems(userId, dataHolder.getItemStore(userId));
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
