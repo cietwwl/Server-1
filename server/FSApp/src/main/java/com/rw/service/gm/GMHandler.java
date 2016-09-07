@@ -67,8 +67,11 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
@@ -76,6 +79,7 @@ import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -210,6 +214,9 @@ public class GMHandler {
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
+		
+		funcCallBackMap.put("emptybag", "emptyBag");
+		funcCallBackMap.put("addequiptorole", "addEquipToRole");
 	}
 
 	public boolean isActive() {
@@ -1487,5 +1494,63 @@ public class GMHandler {
 		}
 
 		return player.getItemBagMgr().addItem(itemInfoList);
+	}
+	
+	public boolean emptyBag(String[] arrCommandContents, Player player) {
+		List<ItemData> list = new ArrayList<ItemData>();
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.HeroEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.RoleEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.SoulStone));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem));
+		List<IUseItem> items = new ArrayList<IUseItem>(list.size());
+		List<INewItem> newItems = new ArrayList<INewItem>();
+		for(ItemData itemData : list) {
+			items.add(new UseItem(itemData.getId(), itemData.getCount()));
+		}
+		try {
+			player.getItemBagMgr().updateItemBag(player, items, newItems);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean addEquipToRole(String[] arrCommandContents, Player player) {
+		Map<Integer, int[]> map = new HashMap<Integer, int[]>();
+		map.put(0, new int[] { 700112, 700037, 700061, 700148, 700174, 700091 });
+		map.put(1, new int[] { 700113, 700038, 700062, 700149, 700174, 700091 });
+		map.put(2, new int[] { 700114, 700039, 700063, 700149, 700175, 700091 });
+		map.put(3, new int[] { 700115, 700040, 700064, 700150, 700175, 700092 });
+		map.put(4, new int[] { 700116, 700041, 700065, 700151, 700176, 700092 });
+		map.put(5, new int[] { 700117, 700042, 700065, 700151, 700176, 700092 });
+		map.put(6, new int[] { 700117, 700042, 700066, 700153, 700176, 700093 });
+		map.put(7, new int[] { 700118, 700043, 700066, 700153, 700177, 700093 });
+		map.put(8, new int[] { 700118, 700043, 700067, 700153, 700177, 700093 });
+		map.put(9, new int[] { 700119, 700044, 700067, 700153, 700177, 700093 });
+		map.put(10, new int[] { 700119, 700044, 700068, 700154, 700177, 700094 });
+		map.put(11, new int[] { 700120, 700045, 700068, 700154, 700178, 700094 });
+		map.put(12, new int[] { 700120, 700045, 700069, 700154, 700178, 700094 });
+		map.put(13, new int[] { 700121, 700046, 700069, 700155, 700178, 700094 });
+		map.put(14, new int[] { 700121, 700046, 700070, 700155, 700178, 700095 });
+		map.put(15, new int[] { 700122, 700047, 700070, 700155, 700179, 700095 });
+		map.put(16, new int[] { 700122, 700047, 700071, 700156, 700179, 700095 });
+		map.put(17, new int[] { 700123, 700048, 700071, 700156, 700180, 700095 });
+		map.put(18, new int[] { 700123, 700048, 700072, 700156, 700180, 700095 });
+		try {
+			int quality = Integer.parseInt(arrCommandContents[0]);
+			int[] equips = map.get(quality);
+			List<ItemInfo> list = new ArrayList<ItemInfo>(equips.length);
+			for (int i = 0; i < equips.length; i++) {
+				ItemInfo itemInfo = new ItemInfo();
+				itemInfo.setItemID(equips[i]);
+				itemInfo.setItemNum(1);
+				list.add(itemInfo);
+			}
+			player.getItemBagMgr().addItem(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

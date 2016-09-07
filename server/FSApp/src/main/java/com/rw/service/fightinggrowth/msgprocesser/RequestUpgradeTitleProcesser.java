@@ -16,9 +16,6 @@ public class RequestUpgradeTitleProcesser implements IMsgProcesser {
 		UpgradeFightingTitleResponse.Builder resp = UpgradeFightingTitleResponse.newBuilder();
 		resp.setTips(upgradeResult.getT1());
 		resp.setSuccess(upgradeResult.getT2());
-		if (!upgradeResult.getT2()) {
-			player.NotifyCommonMsg(com.rwbase.common.enu.ECommonMsgTypeDef.MsgBox, upgradeResult.getT1());
-		}
 		return resp.build().toByteString();
 	}
 

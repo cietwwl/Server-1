@@ -11,7 +11,6 @@ import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.dao.fighting.FightingWeightCfgDAO;
 import com.rwbase.dao.fighting.pojo.FightingWeightCfg;
 import com.rwbase.dao.item.MagicCfgDAO;
-import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -19,7 +18,6 @@ import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillEffectCfgDAO;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillEffectCfg;
-import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FightingCalculator {
 	private static final String PHYSIC_ATTAK = "physiqueAttack";// 物理攻击
@@ -28,48 +26,46 @@ public class FightingCalculator {
 	private static final String MAGIC_LEVEL = "magicLevel";// 法宝等级
 	private static final float COMMON_ATK_RATE_OLD = 1.5f;// 普通攻击除的系数
 	private static final float COMMON_ATK_RATE = 3.0f;// 普通攻击除的系数 修改于 2016-09-06
-	
-	public static int calFightingNew(Hero roleP) {
+
+	public static int calFighting(Hero roleP, AttrData totalAttrData) {
+//		// 技能的总等级
+//		int skillLevel = 0;
+//		for (SkillItem skill : roleP.getSkillMgr().getSkillList(roleP.getUUId())) {
+//			skillLevel += skill.getLevel();
+//		}
+//
+//		String magicModelId = "";
+//		int magicLevel = 0;
+//		if (roleP.isMainRole()) {
+//			ItemData magic = roleP.getPlayer().getMagic();
+//			if (magic != null) {
+//				magicLevel = magic.getMagicLevel();
+//				magicModelId = String.valueOf(magic.getModelId());
+//			}
+//		}
+//
+//		int fighting = calFighting(roleP.getTemplateId(), skillLevel, magicLevel, magicModelId, totalAttrData);
+//		int fightingNew = calFightingNew(roleP);
+//		System.out.println("hero:[" + roleP.getId() + "," + roleP.getName() + "], 旧战力：" + fighting + ", 新战力：" + fightingNew);
+//		return fighting;
+		
+		// 新的战力计算
 		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
 		int fighting = 0;
 		int singleFighting = 0;
 		for (int i = 0; i < allComponentsOfHero.size(); i++) {
 			singleFighting = allComponentsOfHero.get(i).apply(roleP);
-			System.out.println("hero:[" + roleP.getId() + ", " + roleP.getName() + "], 类型：" + allComponentsOfHero.get(i).getClass() + ", fighting : " + singleFighting);
 			fighting += singleFighting;
 		}
 		if (roleP.isMainRole()) {
+			// 主角独有的
 			Player p = roleP.getPlayer();
 			List<IFunction<Player, Integer>> allComponentsOfPlayer = FightingCalculateComponentType.getAllPlayerComponents();
 			for (int i = 0; i < allComponentsOfPlayer.size(); i++) {
 				singleFighting = allComponentsOfPlayer.get(i).apply(p);
-				System.out.println("hero:[" + roleP.getId() + ", " + roleP.getName() + "], 类型：" + allComponentsOfPlayer.get(i).getClass() + ", fighting : " + singleFighting);
 				fighting += singleFighting;
 			}
 		}
-		return fighting;
-	}
-
-	public static int calFighting(Hero roleP, AttrData totalAttrData) {
-		// 技能的总等级
-		int skillLevel = 0;
-		for (SkillItem skill : roleP.getSkillMgr().getSkillList(roleP.getUUId())) {
-			skillLevel += skill.getLevel();
-		}
-
-		String magicModelId = "";
-		int magicLevel = 0;
-		if (roleP.isMainRole()) {
-			ItemData magic = roleP.getPlayer().getMagic();
-			if (magic != null) {
-				magicLevel = magic.getMagicLevel();
-				magicModelId = String.valueOf(magic.getModelId());
-			}
-		}
-
-		int fighting = calFighting(roleP.getTemplateId(), skillLevel, magicLevel, magicModelId, totalAttrData);
-		int fightingNew = calFightingNew(roleP);
-		System.out.println("hero:[" + roleP.getId() + "," + roleP.getName() + "], 旧战力：" + fighting + ", 新战力：" + fightingNew);
 		return fighting;
 	}
 

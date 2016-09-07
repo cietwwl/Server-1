@@ -2,9 +2,12 @@ package com.rwbase.dao.equipment;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.common.IHeroAction;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -79,6 +82,41 @@ public class EquipItemHolder {
 		}
 		return success;
 	}
+	
+	public boolean removeAllItem(Player player, String heroId, List<EquipItem> items) {
+		// 次方法主要是优化通知notifyChange()的次数
+		if(items.isEmpty()) {
+			return true;
+		} else if (items.size() == 1) {
+			return removeItem(player, heroId, items.get(0));
+		}
+		List<String> idList = new ArrayList<String>();
+		for(int i = 0, size = items.size(); i < size; i++) {
+			idList.add(items.get(i).getId());
+		}
+		List<String> removeIds = getItemStore(heroId).removeItem(idList);
+		boolean success = false;
+		boolean notifyChange = true;
+		boolean syn = true;
+		if(removeIds.size() == idList.size()) {
+			success = true;
+		} else if (removeIds.isEmpty()) {
+			notifyChange = false;
+			syn = false;
+		}
+		if (syn) {
+			for (int i = 0, size = items.size(); i < size; i++) {
+				EquipItem temp = items.get(i);
+				if (removeIds.contains(temp.getId())) {
+					ClientDataSynMgr.synData(player, temp, equipSynType, eSynOpType.REMOVE_SINGLE);
+				}
+			}
+		}
+		if(notifyChange) {
+			notifyChange(player.getUserId(), heroId);
+		}
+		return success;
+	}
 
 //	public boolean wearEquip(Player player, int equipIndex, ItemData itemData) {
 	public boolean wearEquip(Player player, String heroId, int equipIndex, ItemData itemData) {
@@ -102,6 +140,85 @@ public class EquipItemHolder {
 			success = addItem(player, heroId, newItem);
 		}
 		return success;
+	}
+	
+	public boolean wearEquip(Player player, String heroId, int equipIndex, ItemData itemData, boolean notifyChangeToOther) {
+		// TODO 穿装备的逻辑是否有问题？如果原有装备
+		EquipItem equipItemOld = null;
+		MapItemStore<EquipItem> mapItemStore = getItemStore(heroId);
+		Enumeration<EquipItem> mapEnum = mapItemStore.getEnum();
+		while (mapEnum.hasMoreElements()) {
+			EquipItem item = (EquipItem) mapEnum.nextElement();
+			if (item.getEquipIndex() == equipIndex) {
+				equipItemOld = item;
+				break;
+			}
+		}
+
+		boolean success = true;
+		if (equipItemOld != null) {
+			if ((success = mapItemStore.removeItem(equipItemOld.getId()))) {
+				ClientDataSynMgr.updateData(player, equipItemOld, equipSynType, eSynOpType.REMOVE_SINGLE);
+			}
+		}
+		if (success) {
+			EquipItem newItem = EquipItemHelper.toEquip(heroId, equipIndex, itemData);
+			if ((success = mapItemStore.addItem(newItem))) {
+				ClientDataSynMgr.updateData(player, newItem, equipSynType, eSynOpType.ADD_SINGLE);
+			} else {
+				success = equipItemOld != null;
+			}
+		}
+		if (success && notifyChangeToOther) {
+			this.notifyChange(player.getUserId(), heroId);
+		}
+		return success;
+	}
+	
+	public boolean wearEquips(Player player, String heroId, Map<Integer, ItemData> itemDatas) {
+		List<EquipItem> newItems = new ArrayList<EquipItem>();
+		List<String> removeItemIds = new ArrayList<String>();
+		List<EquipItem> removeItems = new ArrayList<EquipItem>();
+		EquipItem equipItemOld = null;
+		MapItemStore<EquipItem> mapItemStore = getItemStore(heroId);
+		Enumeration<EquipItem> mapEnum = mapItemStore.getEnum();
+		int newItemSize = itemDatas.size();
+		while (mapEnum.hasMoreElements()) {
+			equipItemOld = mapEnum.nextElement();
+			if (itemDatas.containsKey(equipItemOld.getEquipIndex())) {
+				removeItemIds.add(equipItemOld.getId());
+				removeItems.add(equipItemOld);
+				if (removeItemIds.size() == newItemSize) {
+					break;
+				}
+			}
+		}
+		int index;
+		for (Iterator<Integer> itr = itemDatas.keySet().iterator(); itr.hasNext();) {
+			index = itr.next();
+			newItems.add(EquipItemHelper.toEquip(heroId, index, itemDatas.get(index)));
+		}
+		if (mapItemStore.removeItem(removeItemIds).size() == removeItemIds.size()) {
+			for(int i = 0, size = removeItems.size(); i < size; i++) {
+				ClientDataSynMgr.updateData(player, removeItems.get(i), equipSynType, eSynOpType.REMOVE_SINGLE);
+			}
+			boolean success = false;
+			try {
+				success = mapItemStore.addItem(newItems);
+				if (success) {
+					for (int i = 0, size = newItems.size(); i < size; i++) {
+						ClientDataSynMgr.updateData(player, newItems.get(i), equipSynType, eSynOpType.ADD_SINGLE);
+					}
+					notifyChange(player.getUserId(), heroId);
+				}
+			} catch (Exception e) {
+				GameLog.error("EquipItemHolder", heroId, "一键穿装异常！", e);
+			}
+			if (!success) {
+				notifyChange(player.getUserId(), heroId);
+			}
+		}
+		return false;
 	}
 
 	private boolean addItem(Player player, String heroId, EquipItem item) {
