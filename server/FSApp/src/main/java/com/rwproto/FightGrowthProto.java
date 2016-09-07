@@ -8,6 +8,315 @@ public final class FightGrowthProto {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public interface EmptyMessageOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code EmptyMessage}
+   */
+  public static final class EmptyMessage extends
+      com.google.protobuf.GeneratedMessage
+      implements EmptyMessageOrBuilder {
+    // Use EmptyMessage.newBuilder() to construct.
+    private EmptyMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private EmptyMessage(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final EmptyMessage defaultInstance;
+    public static EmptyMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public EmptyMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EmptyMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FightGrowthProto.internal_static_EmptyMessage_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FightGrowthProto.internal_static_EmptyMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FightGrowthProto.EmptyMessage.class, com.rwproto.FightGrowthProto.EmptyMessage.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<EmptyMessage> PARSER =
+        new com.google.protobuf.AbstractParser<EmptyMessage>() {
+      public EmptyMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new EmptyMessage(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EmptyMessage> getParserForType() {
+      return PARSER;
+    }
+
+    private void initFields() {
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FightGrowthProto.EmptyMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FightGrowthProto.EmptyMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code EmptyMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FightGrowthProto.EmptyMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FightGrowthProto.internal_static_EmptyMessage_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FightGrowthProto.internal_static_EmptyMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FightGrowthProto.EmptyMessage.class, com.rwproto.FightGrowthProto.EmptyMessage.Builder.class);
+      }
+
+      // Construct using com.rwproto.FightGrowthProto.EmptyMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FightGrowthProto.internal_static_EmptyMessage_descriptor;
+      }
+
+      public com.rwproto.FightGrowthProto.EmptyMessage getDefaultInstanceForType() {
+        return com.rwproto.FightGrowthProto.EmptyMessage.getDefaultInstance();
+      }
+
+      public com.rwproto.FightGrowthProto.EmptyMessage build() {
+        com.rwproto.FightGrowthProto.EmptyMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FightGrowthProto.EmptyMessage buildPartial() {
+        com.rwproto.FightGrowthProto.EmptyMessage result = new com.rwproto.FightGrowthProto.EmptyMessage(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FightGrowthProto.EmptyMessage) {
+          return mergeFrom((com.rwproto.FightGrowthProto.EmptyMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FightGrowthProto.EmptyMessage other) {
+        if (other == com.rwproto.FightGrowthProto.EmptyMessage.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FightGrowthProto.EmptyMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FightGrowthProto.EmptyMessage) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:EmptyMessage)
+    }
+
+    static {
+      defaultInstance = new EmptyMessage(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:EmptyMessage)
+  }
+
   public interface UpgradeFightingTitleResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -16,7 +325,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * 是否成功
+     * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
      * </pre>
      */
     boolean hasSuccess();
@@ -24,7 +333,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * 是否成功
+     * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
      * </pre>
      */
     boolean getSuccess();
@@ -58,6 +367,10 @@ public final class FightGrowthProto {
   }
   /**
    * Protobuf type {@code UpgradeFightingTitleResponse}
+   *
+   * <pre>
+   *MSG_FIGHTING_GROWTH_REQUEST_UPGRADE
+   * </pre>
    */
   public static final class UpgradeFightingTitleResponse extends
       com.google.protobuf.GeneratedMessage
@@ -164,7 +477,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * 是否成功
+     * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
      * </pre>
      */
     public boolean hasSuccess() {
@@ -174,7 +487,7 @@ public final class FightGrowthProto {
      * <code>required bool success = 1;</code>
      *
      * <pre>
-     * 是否成功
+     * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
      * </pre>
      */
     public boolean getSuccess() {
@@ -363,6 +676,10 @@ public final class FightGrowthProto {
     }
     /**
      * Protobuf type {@code UpgradeFightingTitleResponse}
+     *
+     * <pre>
+     *MSG_FIGHTING_GROWTH_REQUEST_UPGRADE
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -504,7 +821,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * 是否成功
+       * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
        * </pre>
        */
       public boolean hasSuccess() {
@@ -514,7 +831,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * 是否成功
+       * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
        * </pre>
        */
       public boolean getSuccess() {
@@ -524,7 +841,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * 是否成功
+       * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
        * </pre>
        */
       public Builder setSuccess(boolean value) {
@@ -537,7 +854,7 @@ public final class FightGrowthProto {
        * <code>required bool success = 1;</code>
        *
        * <pre>
-       * 是否成功
+       * 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
        * </pre>
        */
       public Builder clearSuccess() {
@@ -2746,12 +3063,39 @@ public final class FightGrowthProto {
      */
     com.rwproto.FightGrowthProto.UserFightingGrowthWaySynDataOrBuilder getGrowthWayDataOrBuilder(
         int index);
+
+    // required string currentUpKey = 8;
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    boolean hasCurrentUpKey();
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    java.lang.String getCurrentUpKey();
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getCurrentUpKeyBytes();
   }
   /**
    * Protobuf type {@code UserFightingGrowthSynData}
    *
    * <pre>
-   * 玩家战力提升数据
+   * 玩家战力提升数据 MSG_FIGHTING_GROWTH_REQUEST_UI_DATA
    * </pre>
    */
   public static final class UserFightingGrowthSynData extends
@@ -2841,6 +3185,11 @@ public final class FightGrowthProto {
                 mutable_bitField0_ |= 0x00000040;
               }
               growthWayData_.add(input.readMessage(com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData.PARSER, extensionRegistry));
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000020;
+              currentUpKey_ = input.readBytes();
               break;
             }
           }
@@ -3214,6 +3563,61 @@ public final class FightGrowthProto {
       return growthWayData_.get(index);
     }
 
+    // required string currentUpKey = 8;
+    public static final int CURRENTUPKEY_FIELD_NUMBER = 8;
+    private java.lang.Object currentUpKey_;
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    public boolean hasCurrentUpKey() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    public java.lang.String getCurrentUpKey() {
+      java.lang.Object ref = currentUpKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          currentUpKey_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string currentUpKey = 8;</code>
+     *
+     * <pre>
+     *当前升级配置的ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCurrentUpKeyBytes() {
+      java.lang.Object ref = currentUpKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        currentUpKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       currentTitle_ = "";
@@ -3222,6 +3626,7 @@ public final class FightGrowthProto {
       hasNextTitle_ = false;
       upgradeItemRequired_ = java.util.Collections.emptyList();
       growthWayData_ = java.util.Collections.emptyList();
+      currentUpKey_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3245,6 +3650,10 @@ public final class FightGrowthProto {
         return false;
       }
       if (!hasHasNextTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCurrentUpKey()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3288,6 +3697,9 @@ public final class FightGrowthProto {
       for (int i = 0; i < growthWayData_.size(); i++) {
         output.writeMessage(7, growthWayData_.get(i));
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(8, getCurrentUpKeyBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3324,6 +3736,10 @@ public final class FightGrowthProto {
       for (int i = 0; i < growthWayData_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, growthWayData_.get(i));
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getCurrentUpKeyBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3407,7 +3823,7 @@ public final class FightGrowthProto {
      * Protobuf type {@code UserFightingGrowthSynData}
      *
      * <pre>
-     * 玩家战力提升数据
+     * 玩家战力提升数据 MSG_FIGHTING_GROWTH_REQUEST_UI_DATA
      * </pre>
      */
     public static final class Builder extends
@@ -3469,6 +3885,8 @@ public final class FightGrowthProto {
         } else {
           growthWayDataBuilder_.clear();
         }
+        currentUpKey_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -3535,6 +3953,10 @@ public final class FightGrowthProto {
         } else {
           result.growthWayData_ = growthWayDataBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.currentUpKey_ = currentUpKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3624,6 +4046,11 @@ public final class FightGrowthProto {
             }
           }
         }
+        if (other.hasCurrentUpKey()) {
+          bitField0_ |= 0x00000080;
+          currentUpKey_ = other.currentUpKey_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3646,6 +4073,10 @@ public final class FightGrowthProto {
           return false;
         }
         if (!hasHasNextTitle()) {
+          
+          return false;
+        }
+        if (!hasCurrentUpKey()) {
           
           return false;
         }
@@ -4699,6 +5130,104 @@ public final class FightGrowthProto {
         return growthWayDataBuilder_;
       }
 
+      // required string currentUpKey = 8;
+      private java.lang.Object currentUpKey_ = "";
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public boolean hasCurrentUpKey() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public java.lang.String getCurrentUpKey() {
+        java.lang.Object ref = currentUpKey_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          currentUpKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getCurrentUpKeyBytes() {
+        java.lang.Object ref = currentUpKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          currentUpKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public Builder setCurrentUpKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        currentUpKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public Builder clearCurrentUpKey() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        currentUpKey_ = getDefaultInstance().getCurrentUpKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string currentUpKey = 8;</code>
+       *
+       * <pre>
+       *当前升级配置的ID
+       * </pre>
+       */
+      public Builder setCurrentUpKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        currentUpKey_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:UserFightingGrowthSynData)
     }
 
@@ -4710,6 +5239,11 @@ public final class FightGrowthProto {
     // @@protoc_insertion_point(class_scope:UserFightingGrowthSynData)
   }
 
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_EmptyMessage_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_EmptyMessage_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_UpgradeFightingTitleResponse_descriptor;
   private static
@@ -4739,50 +5273,57 @@ public final class FightGrowthProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021FightGrowth.proto\"=\n\034UpgradeFightingTi" +
-      "tleResponse\022\017\n\007success\030\001 \002(\010\022\014\n\004tips\030\002 \002" +
-      "(\t\";\n\023UpgradeItemRequired\022\021\n\titemCfgId\030\001" +
-      " \002(\007\022\021\n\titemCount\030\002 \002(\007\"\212\001\n\034UserFighting" +
-      "GrowthWaySynData\022\013\n\003key\030\001 \002(\t\022\014\n\004name\030\002 " +
-      "\002(\t\022\027\n\017currentFighting\030\003 \002(\007\022\023\n\013maxFight" +
-      "ing\030\004 \002(\007\022\017\n\007gainWay\030\005 \003(\007\022\020\n\010gotoType\030\006" +
-      " \002(\007\"\355\001\n\031UserFightingGrowthSynData\022\016\n\006us" +
-      "erId\030\001 \002(\t\022\024\n\014currentTitle\030\002 \002(\t\022\021\n\ttitl" +
-      "eIcon\030\003 \002(\t\022\030\n\020fightingRequired\030\004 \002(\007\022\024\n",
-      "\014hasNextTitle\030\005 \002(\010\0221\n\023upgradeItemRequir" +
-      "ed\030\006 \003(\0132\024.UpgradeItemRequired\0224\n\rgrowth" +
-      "WayData\030\007 \003(\0132\035.UserFightingGrowthWaySyn" +
-      "DataB\037\n\013com.rwprotoB\020FightGrowthProto"
+      "\n\021FightGrowth.proto\"\016\n\014EmptyMessage\"=\n\034U" +
+      "pgradeFightingTitleResponse\022\017\n\007success\030\001" +
+      " \002(\010\022\014\n\004tips\030\002 \002(\t\";\n\023UpgradeItemRequire" +
+      "d\022\021\n\titemCfgId\030\001 \002(\007\022\021\n\titemCount\030\002 \002(\007\"" +
+      "\212\001\n\034UserFightingGrowthWaySynData\022\013\n\003key\030" +
+      "\001 \002(\t\022\014\n\004name\030\002 \002(\t\022\027\n\017currentFighting\030\003" +
+      " \002(\007\022\023\n\013maxFighting\030\004 \002(\007\022\017\n\007gainWay\030\005 \003" +
+      "(\007\022\020\n\010gotoType\030\006 \002(\007\"\203\002\n\031UserFightingGro" +
+      "wthSynData\022\016\n\006userId\030\001 \002(\t\022\024\n\014currentTit" +
+      "le\030\002 \002(\t\022\021\n\ttitleIcon\030\003 \002(\t\022\030\n\020fightingR",
+      "equired\030\004 \002(\007\022\024\n\014hasNextTitle\030\005 \002(\010\0221\n\023u" +
+      "pgradeItemRequired\030\006 \003(\0132\024.UpgradeItemRe" +
+      "quired\0224\n\rgrowthWayData\030\007 \003(\0132\035.UserFigh" +
+      "tingGrowthWaySynData\022\024\n\014currentUpKey\030\010 \002" +
+      "(\tB\037\n\013com.rwprotoB\020FightGrowthProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_UpgradeFightingTitleResponse_descriptor =
+          internal_static_EmptyMessage_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_EmptyMessage_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_EmptyMessage_descriptor,
+              new java.lang.String[] { });
+          internal_static_UpgradeFightingTitleResponse_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_UpgradeFightingTitleResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UpgradeFightingTitleResponse_descriptor,
               new java.lang.String[] { "Success", "Tips", });
           internal_static_UpgradeItemRequired_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_UpgradeItemRequired_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UpgradeItemRequired_descriptor,
               new java.lang.String[] { "ItemCfgId", "ItemCount", });
           internal_static_UserFightingGrowthWaySynData_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_UserFightingGrowthWaySynData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UserFightingGrowthWaySynData_descriptor,
               new java.lang.String[] { "Key", "Name", "CurrentFighting", "MaxFighting", "GainWay", "GotoType", });
           internal_static_UserFightingGrowthSynData_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_UserFightingGrowthSynData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UserFightingGrowthSynData_descriptor,
-              new java.lang.String[] { "UserId", "CurrentTitle", "TitleIcon", "FightingRequired", "HasNextTitle", "UpgradeItemRequired", "GrowthWayData", });
+              new java.lang.String[] { "UserId", "CurrentTitle", "TitleIcon", "FightingRequired", "HasNextTitle", "UpgradeItemRequired", "GrowthWayData", "CurrentUpKey", });
           return null;
         }
       };
