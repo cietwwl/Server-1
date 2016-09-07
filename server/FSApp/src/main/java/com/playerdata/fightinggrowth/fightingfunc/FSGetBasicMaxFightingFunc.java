@@ -42,7 +42,12 @@ public class FSGetBasicMaxFightingFunc implements IFunction<Player, Integer> {
 		builder.setQualityId(String.valueOf(cfg.getExpectedQuality()));
 		IComponentCalc componentCalc = AttributeBM.getComponentCalc(AttributeComponentEnum.Hero_Base);
 		AttributeSet calc = componentCalc.calc(builder.build());
-		List<AttributeItem> list = calc != null ? calc.getReadOnlyAttributes() : Collections.emptyList();
+		List<AttributeItem> list;
+		if (calc != null) {
+			list = calc.getReadOnlyAttributes();
+		} else {
+			list = Collections.emptyList();
+		}
 		AttrData data = _formula.convertOne(list, false);
 		return FightingCalculator.calFighting(mainHero.getTemplateId(), 0, 0, "", data) * cfg.getExpectedHeroCount();
 	}

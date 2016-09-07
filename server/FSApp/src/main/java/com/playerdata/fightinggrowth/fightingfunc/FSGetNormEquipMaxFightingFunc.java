@@ -40,18 +40,12 @@ public class FSGetNormEquipMaxFightingFunc implements IFunction<Player, Integer>
 		RoleQualityCfg qualtiyCfg = roleQualityCfgDAO.getConfig(Utils.computeQualityId(player.getModelId(), expectedHeroSatausCfg.getExpectedQuality()));
 		Map<Integer, Integer> attrMap = new HashMap<Integer, Integer>();
 		if (qualtiyCfg != null){
-			int [] tmp = {
-					qualtiyCfg.getEquip1(),
-					qualtiyCfg.getEquip2(),
-					qualtiyCfg.getEquip3(),
-					qualtiyCfg.getEquip4(),
-					qualtiyCfg.getEquip5(),
-					qualtiyCfg.getEquip6()
-					};
-			
+			int[] tmp = { qualtiyCfg.getEquip1(), qualtiyCfg.getEquip2(), qualtiyCfg.getEquip3(), qualtiyCfg.getEquip4(), qualtiyCfg.getEquip5(), qualtiyCfg.getEquip6() };
 			for (int i = 0; i < tmp.length; i++) {
 				HeroEquipCfg cfg = heroEquipCfgDAO.getCfgById(String.valueOf(tmp[i]));
-				if (cfg  == null) continue;
+				if (cfg == null) {
+					continue;
+				}
 				Utils.combineAttrMap(cfg.getAttrDataMap(), attrMap);
 			}
 		}
