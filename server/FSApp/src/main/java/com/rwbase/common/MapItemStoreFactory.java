@@ -721,7 +721,8 @@ public class MapItemStoreFactory {
 			if (data == null) {
 				data = Collections.emptyList();
 			}
-			store.putIfAbsentByDBString(userId, datas);
+			store.putIfAbsentByDBString(userId, data);
 		}
 	}
+	
 }
