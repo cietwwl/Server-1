@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -214,7 +213,6 @@ public class GMHandler {
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
 		
 		funcCallBackMap.put("emptybag", "emptyBag");
-		funcCallBackMap.put("testbag", "testBag");
 	}
 
 	public boolean isActive() {
@@ -1483,11 +1481,6 @@ public class GMHandler {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		return true;
-	}
-	
-	public boolean testBag(String[] arrCommandContents, Player player) {
-		com.rw.test.FSGameTestBagTask.testBag(arrCommandContents[0].trim(), player);
 		return true;
 	}
 }
