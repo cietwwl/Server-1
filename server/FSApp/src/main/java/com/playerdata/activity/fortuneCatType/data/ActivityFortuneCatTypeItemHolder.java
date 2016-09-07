@@ -11,6 +11,8 @@ import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
@@ -55,6 +57,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 	
 	public ActivityFortuneCatTypeItem getItem(String userId){
+		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
 		return getItemStore(userId).getItem(userId);
 	}
 	
