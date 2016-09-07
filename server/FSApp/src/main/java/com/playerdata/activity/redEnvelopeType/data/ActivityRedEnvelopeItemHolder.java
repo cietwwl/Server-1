@@ -10,6 +10,8 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -56,7 +58,8 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 	
 	public ActivityRedEnvelopeTypeItem getItem(String userId){
-		return getItemStore(userId).getItem(userId);
+		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
+		return getItemStore(userId).getItem(itemId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){

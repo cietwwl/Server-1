@@ -32,7 +32,7 @@ public class ActivityTimeCardTypeMgr {
 
 	private void checkTimeIsOver(Player player) {
 		ActivityTimeCardTypeItemHolder activityTimecardHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		ActivityTimeCardTypeItem dataItem = activityTimecardHolder.getItem(player.getUserId(), ActivityTimeCardTypeEnum.Month);
+		ActivityTimeCardTypeItem dataItem = activityTimecardHolder.getItem(player.getUserId());
 		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
 		int dayDistance = DateUtils.getDayDistance(logintime, System.currentTimeMillis());
@@ -54,7 +54,7 @@ public class ActivityTimeCardTypeMgr {
 
 			ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(activityTimeCardTypeCfg.getId());
 			if (typeEnum != null) {
-				ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId(), typeEnum);// 已在之前生成数据的活动
+				ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId());// 已在之前生成数据的活动
 				if (targetItem == null) {
 					ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO.newItem(player, typeEnum);
 					dataHolder.addItem(player, newItem);
@@ -81,7 +81,7 @@ public class ActivityTimeCardTypeMgr {
 
 		ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(timeCardTypeCfgId);
 		if (typeEnum != null) {
-			ActivityTimeCardTypeItem targetItem = dataHolder.getItem(userId, typeEnum);// 已在之前生成数据的活动
+			ActivityTimeCardTypeItem targetItem = dataHolder.getItem(userId);// 已在之前生成数据的活动
 			if (targetItem != null) {
 				List<ActivityTimeCardTypeSubItem> subItemList = targetItem.getSubItemList();
 				for (ActivityTimeCardTypeSubItem activityTimeCardTypeSubItem : subItemList) {

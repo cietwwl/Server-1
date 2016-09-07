@@ -11,6 +11,8 @@ import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroHelper;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
@@ -59,8 +61,9 @@ public class ActivityLimitHeroTypeItemHolder{
 	}
 	
 	
-	public ActivityLimitHeroTypeItem getItem(String userId){		
-		return getItemStore(userId).getItem(userId);
+	public ActivityLimitHeroTypeItem getItem(String userId){	
+		String itemId = ActivityLimitHeroHelper.getItemId(userId, ActivityLimitHeroEnum.LimitHero);
+		return getItemStore(userId).getItem(itemId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){

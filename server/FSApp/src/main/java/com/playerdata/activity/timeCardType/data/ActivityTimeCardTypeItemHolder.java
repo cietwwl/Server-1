@@ -43,8 +43,8 @@ public class ActivityTimeCardTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityTimeCardTypeItem getItem(String userId, ActivityTimeCardTypeEnum typeEnum){		
-		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, typeEnum);
+	public ActivityTimeCardTypeItem getItem(String userId){		
+		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
 		return getItemStore(userId).getItem(itemId);
 	}
 	

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeHelper;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -46,7 +48,8 @@ public class ActivityDailyTypeItemHolder {
 	}
 
 	public ActivityDailyTypeItem getItem(String userId) {
-		return getItemStore(userId).getItem(userId);
+		String itemId = ActivityDailyTypeHelper.getItemId(userId, ActivityDailyTypeEnum.Daily);
+		return getItemStore(userId).getItem(itemId);
 	}	
 
 	public boolean addItem(Player player, ActivityDailyTypeItem item) {
