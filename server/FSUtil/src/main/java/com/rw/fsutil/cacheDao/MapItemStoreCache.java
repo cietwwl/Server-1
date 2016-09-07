@@ -24,6 +24,7 @@ import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.dao.mapitem.MapItemEntity;
+import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 import com.rw.fsutil.util.SpringContextUtil;
 
 /**
@@ -143,7 +144,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		return searchFieldP;
 	}
 
-	public RowMapper<T> getRowMapper() {
+	public MapItemRowBuider<T> getRowMapper() {
 		return this.commonJdbc.getRowMapper();
 	}
 

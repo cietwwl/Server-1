@@ -15,6 +15,7 @@ import com.rw.fsutil.dao.kvdata.DataKvManager;
 import com.rw.fsutil.dao.kvdata.DataKvManagerImpl;
 import com.rw.fsutil.dao.mapitem.MapItemManager;
 import com.rw.fsutil.dao.mapitem.MapItemManagerImpl;
+import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 
 public class DataAccessFactory {
 
@@ -29,7 +30,7 @@ public class DataAccessFactory {
 	}
 
 	public static void init(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
-			int[] selectRangeParam, Map<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos) {
+			int[] selectRangeParam, Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos) {
 		if (!init.compareAndSet(false, true)) {
 			throw new ExceptionInInitializerError("重复初始化DataAccessFactory");
 		}

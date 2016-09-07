@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -26,10 +25,10 @@ public class MapItemManagerImpl implements MapItemManager {
 	private JdbcTemplate template;
 	private PlatformTransactionManager tm;
 	private DefaultTransactionDefinition df;
-	private HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos;
+	private HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos;
 	private final String[] mapItemTableName;
 
-	public MapItemManagerImpl(String dsName, Map<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos) {
+	public MapItemManagerImpl(String dsName, Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
@@ -39,7 +38,7 @@ public class MapItemManagerImpl implements MapItemManager {
 		tm = new DataSourceTransactionManager(dataSource);
 		df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
-		this.storeInfos = new HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>>(storeInfos);
+		this.storeInfos = new HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>>(storeInfos);
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, "map_item_store");
 		mapItemTableName = new String[list.size()];
 		list.toArray(mapItemTableName);
@@ -59,7 +58,7 @@ public class MapItemManagerImpl implements MapItemManager {
 			if (i < last) {
 				sb.append(',');
 			}
-			params[i+1] = typeList.get(i);
+			params[i + 1] = typeList.get(i);
 		}
 
 		sb.append(')');
@@ -78,35 +77,49 @@ public class MapItemManagerImpl implements MapItemManager {
 
 	public List<Pair<CacheKey, List<? extends IMapItem>>> load(List<Pair<CacheKey, String>> searchInfos, String userId) {
 		Object[] param = new Object[] { userId };
-		ArrayList<Tuple<CacheKey, String, RowMapper<? extends IMapItem>>> sqls = new ArrayList<Tuple<CacheKey, String, RowMapper<? extends IMapItem>>>();
+		ArrayList<Tuple<CacheKey, String, MapItemRowBuider<? extends IMapItem>>> sqls = new ArrayList<Tuple<CacheKey, String, MapItemRowBuider<? extends IMapItem>>>();
 		for (int i = 0, size = searchInfos.size(); i < size; i++) {
 			Pair<CacheKey, String> info = searchInfos.get(i);
 			CacheKey pairKey = info.getT1();
-			Pair<String, RowMapper<? extends IMapItem>> tableInfo = storeInfos.get(pairKey);
+			Pair<String, MapItemRowBuider<? extends IMapItem>> tableInfo = storeInfos.get(pairKey);
 			if (tableInfo == null) {
 				continue;
 			}
 			String tableName = info.getT2();
 			String searchKey = tableInfo.getT1();
 			String sql = "select * from " + tableName + " where " + searchKey + "=?";
-			sqls.add(Tuple.<CacheKey, String, RowMapper<? extends IMapItem>> Create(pairKey, sql, tableInfo.getT2()));
+			sqls.add(Tuple.<CacheKey, String, MapItemRowBuider<? extends IMapItem>> Create(pairKey, sql, tableInfo.getT2()));
 		}
 		ArrayList<Pair<CacheKey, List<? extends IMapItem>>> datas = new ArrayList<Pair<CacheKey, List<? extends IMapItem>>>();
-		int size = sqls.size();
+		ArrayList<Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>>> resultMaps = new ArrayList<Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>>>();
+		final int size = sqls.size();
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
 			for (int i = 0; i < size; i++) {
-				Tuple<CacheKey, String, RowMapper<? extends IMapItem>> info = sqls.get(i);
-				List<? extends IMapItem> list = template.query(info.getT2(), info.getT3(), param);
+				Tuple<CacheKey, String, MapItemRowBuider<? extends IMapItem>> info = sqls.get(i);
+				List<Map<String, Object>> list = template.queryForList(info.getT2(), param);
 				if (list != null) {
-					Pair<CacheKey, List<? extends IMapItem>> p = Pair.<CacheKey, List<? extends IMapItem>> Create(info.getT1(), list);
-					datas.add(p);
+					Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> tuple = Tuple.<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> Create(info.getT1(), list, info.getT3());
+					resultMaps.add(tuple);
 				}
 			}
 			tm.commit(ts);
 		} catch (Throwable t) {
 			tm.rollback(ts);
 			t.printStackTrace();
+		}
+		for (int i = resultMaps.size(); --i >= 0;) {
+			Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> resultTuple = resultMaps.get(i);
+			List<Map<String, Object>> result = resultTuple.getT2();
+			int resultSize = result.size();
+			ArrayList<IMapItem> mapItems = new ArrayList<IMapItem>(resultSize);
+			for (int j = 0; j < resultSize; j++) {
+				MapItemRowBuider<? extends IMapItem> builder = resultTuple.getT3();
+				IMapItem item = builder.mapRow(result.get(j));
+				mapItems.add(item);
+			}
+			Pair<CacheKey, List<? extends IMapItem>> pp = Pair.<CacheKey, List<? extends IMapItem>> Create(resultTuple.getT1(), mapItems);
+			datas.add(pp);
 		}
 		return datas;
 	}
