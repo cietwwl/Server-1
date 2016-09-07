@@ -26,10 +26,10 @@ public class MapItemManagerImpl implements MapItemManager {
 	private JdbcTemplate template;
 	private PlatformTransactionManager tm;
 	private DefaultTransactionDefinition df;
-	private HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos;
+	private HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos;
 	private final String[] mapItemTableName;
 
-	public MapItemManagerImpl(String dsName, Map<CacheKey, Pair<String, RowMapper<? extends IMapItem>>> storeInfos) {
+	public MapItemManagerImpl(String dsName, Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
@@ -39,7 +39,7 @@ public class MapItemManagerImpl implements MapItemManager {
 		tm = new DataSourceTransactionManager(dataSource);
 		df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
-		this.storeInfos = new HashMap<CacheKey, Pair<String, RowMapper<? extends IMapItem>>>(storeInfos);
+		this.storeInfos = new HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>>(storeInfos);
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, "map_item_store");
 		mapItemTableName = new String[list.size()];
 		list.toArray(mapItemTableName);
@@ -82,7 +82,7 @@ public class MapItemManagerImpl implements MapItemManager {
 		for (int i = 0, size = searchInfos.size(); i < size; i++) {
 			Pair<CacheKey, String> info = searchInfos.get(i);
 			CacheKey pairKey = info.getT1();
-			Pair<String, RowMapper<? extends IMapItem>> tableInfo = storeInfos.get(pairKey);
+			Pair<String, MapItemRowBuider<? extends IMapItem>> tableInfo = storeInfos.get(pairKey);
 			if (tableInfo == null) {
 				continue;
 			}
