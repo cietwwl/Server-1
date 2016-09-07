@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompDetailInfoDAO;
@@ -26,10 +28,22 @@ public class GCompDetailInfoHolder {
 		GCompDetailInfo detailInfo = _dao.getDetailInfo(matchId);
 		if (detailInfo != null) {
 			ClientDataSynMgr.synData(player, detailInfo, eSynType.GCompDetailInfo, eSynOpType.UPDATE_SINGLE);
-			GCompUtil.log("---------- 同步DetailInfo数据：{} ----------", detailInfo);
+			GCompUtil.log("---------- syn:同步DetailInfo数据：{} ----------", detailInfo);
 			return true;
 		} else {
-			GCompUtil.log("---------- 请求同步数据：{}， 不存在指定matchId的数据 ----------", detailInfo);
+			GCompUtil.log("---------- syn:请求同步数据：{}， 不存在指定matchId的数据 ----------", detailInfo);
+			return false;
+		}
+	}
+	
+	public boolean synPlayers(int matchId, List<Player> players) {
+		GCompDetailInfo detailInfo = _dao.getDetailInfo(matchId);
+		if (detailInfo != null) {
+			ClientDataSynMgr.synDataMutiple(players, detailInfo, eSynType.GCompDetailInfo, eSynOpType.UPDATE_SINGLE);
+			GCompUtil.log("---------- synPlayers:同步DetailInfo数据：{} ----------", detailInfo);
+			return true;
+		} else {
+			GCompUtil.log("---------- synPlayers:请求同步数据：{}， 不存在指定matchId的数据 ----------", detailInfo);
 			return false;
 		}
 	}
