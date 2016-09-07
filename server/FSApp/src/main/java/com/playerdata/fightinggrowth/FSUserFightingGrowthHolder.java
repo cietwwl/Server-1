@@ -109,6 +109,7 @@ public class FSUserFightingGrowthHolder {
 			}
 		}
 		dataBuilder.addAllGrowthWayData(wayInfoList);
+		dataBuilder.setCurrentUpKey(currentTitleCfg.getKey());
 		return dataBuilder.build();
 	}
 	
