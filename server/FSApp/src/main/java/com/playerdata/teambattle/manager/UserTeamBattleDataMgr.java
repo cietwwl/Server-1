@@ -77,9 +77,10 @@ public class UserTeamBattleDataMgr {
 		TeamHardInfo thInfo = utbData.getFinishedHardMap().get(hardID);
 		if(null == thInfo) return true;
 		int totalTimes = teamCfg.getTimes();
+		TBBuyCostCfgDAO tbBuyCostCfgDAO = TBBuyCostCfgDAO.getInstance();
 		for(int i = 1; i <= thInfo.getBuyTimes(); i++){
 			String buyId = hardID + "_" + i;
-			TBBuyCostCfg buyCfg = TBBuyCostCfgDAO.getInstance().getCfgById(buyId);
+			TBBuyCostCfg buyCfg = tbBuyCostCfgDAO.getCfgById(buyId);
 			if(null == buyCfg) continue;
 			totalTimes += buyCfg.getNumbers();
 		}

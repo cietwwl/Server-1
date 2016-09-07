@@ -11,6 +11,7 @@ import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rw.service.redpoint.RedPointType;
 import com.rw.service.redpoint.impl.RedPointCollector;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	private Player m_pPlayer;
@@ -44,7 +45,7 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	}
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		if (isPrimaryOneFree()) {
 			map.put(RedPointType.FISHING_WINDOW_LOW_LEVEL, Collections.<String> emptyList());
 		}
@@ -69,5 +70,10 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	@Override
 	public void init(Player player) {
 		m_pPlayer = player;
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
 	}
 }

@@ -66,7 +66,7 @@ public class PlayerCreateTask implements Runnable {
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
 		String userId = nettyControler.getGameLoginHandler().getUserId(accountId, zoneId);
-		FSTraceLogger.logger("run", executeTime - submitTime, "CREATE", seqID, userId, accountId);
+		FSTraceLogger.logger("run", executeTime - submitTime, "CREATE", seqID, userId, accountId, false);
 		GameWorld world = GameWorldFactory.getGameWorld();
 		if (userId != null) {
 			// author: lida 增加容错 如果已经创建角色则进入主城
@@ -130,8 +130,11 @@ public class PlayerCreateTask implements Runnable {
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneReg(player);
-		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false));
-		FSTraceLogger.logger("login", System.currentTimeMillis() - executeTime, "CREATE", seqID, userId, accountId);
+		long current = System.currentTimeMillis();
+		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false, current));
+		// eGameLoginType
+		FSTraceLogger.logger("run", current - executeTime, "CREATE", seqID, userId, accountId, true);
+
 	}
 
 	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {

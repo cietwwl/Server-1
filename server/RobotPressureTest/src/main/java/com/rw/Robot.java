@@ -1048,7 +1048,11 @@ public class Robot {
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
-
+	
+	public void openGroupSecretMainView(){
+		GroupSecretHandler.getInstance().openMainView(client);
+	}
+	
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);

@@ -289,8 +289,11 @@ public class FresherActivityItemHolder {
 		FresherActivityItem fresherActivityItem = getFresherActivityItemsById(cfgId);
 		fresherActivityItem.setGiftTaken(true);
 		fresherActivityItem.setClosed(true);
+		
+	}
+	
+	public void achieveFresherActivityReward(Player player, FresherActivityItem fresherActivityItem){
 		updateFresherActivityItem(fresherActivityItem);
-
 		synData(player, fresherActivityItem);
 	}
 	

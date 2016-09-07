@@ -10,7 +10,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
@@ -27,9 +26,10 @@ import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwproto.MagicSecretProto.MSItemInfo;
+import com.rwproto.MagicSecretProto.MSScoreRankItem;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msResultType;
-import com.rwproto.MagicSecretProto.msRewardBox;
 
 public class MagicSecretMgr {
 	public final static int STAGE_COUNT_EACH_CHATPER = 8;
@@ -66,7 +66,15 @@ public class MagicSecretMgr {
 		List<MSScoreDataItem> rankList = MSScoreRankMgr.getMSScoreRankList();
 		int size = rankList.size();
 		for(int i = 0; i < size; i++){
-			msRsp.addMsRankData(ClientDataSynMgr.toClientData(rankList.get(i)));
+			MSScoreRankItem.Builder builder = MSScoreRankItem.newBuilder();
+			builder.setUserId(rankList.get(i).getUserId());
+			builder.setTotalScore(rankList.get(i).getTotalScore());
+			builder.setUserName(rankList.get(i).getUserName());
+			builder.setLevel(rankList.get(i).getLevel());
+			builder.setHeadImage(rankList.get(i).getHeadImage());
+			builder.setJob(rankList.get(i).getJob());
+			builder.setTitle(rankList.get(i).getTitle());	
+			msRsp.addMsRankData(builder.build());
 		}
 		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(player.getUserId()));
 		msRsp.setRstType(msResultType.SUCCESS);
@@ -163,13 +171,21 @@ public class MagicSecretMgr {
 			List<? extends ItemInfo> rewardItems = singleDungeonReward(player, fightingDung, finishStar);
 			// 获得的物品
 			for(int i = 0; i < rewardItems.size(); i++){
-				msRsp.addRewardData(ClientDataSynMgr.toClientData(rewardItems.get(i)));
+				MSItemInfo.Builder msItem = MSItemInfo.newBuilder();
+				ItemInfo item = rewardItems.get(i);
+				msItem.setItemID(String.valueOf(item.getItemID()));
+				msItem.setItemCount(item.getItemNum());
+				msRsp.addRewardData(msItem.build());
 			}
 			// 更新最高纪录，添加首次通关章节的奖励(如果刷新了纪录，并且是本章最后一关)
 			if(MSInnerProcessor.updateSelfMaxStage(player, dungeonID) && MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER){
 				MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(chapterID));
 				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
-					msRsp.addRewardData(ClientDataSynMgr.toClientData(mcCfg.getPassBonus().get(i)));
+					MSItemInfo.Builder msItem = MSItemInfo.newBuilder();
+					ItemInfo item = mcCfg.getPassBonus().get(i);
+					msItem.setItemID(String.valueOf(item.getItemID()));
+					msItem.setItemCount(item.getItemNum());
+					msRsp.addRewardData(msItem.build());
 				}
 				MSInnerProcessor.handleDropItem(player, mcCfg.getPassBonus());
 				msRsp.setIsFirstFinish(true);
@@ -205,11 +221,12 @@ public class MagicSecretMgr {
 		giveUpRewardBox(player, chapterID);
 		
 		//获取扫荡奖励
-		ArrayList<ItemInfo> rewardItems = new ArrayList<ItemInfo>();		
+		ArrayList<ItemInfo> rewardItems = new ArrayList<ItemInfo>();
+		DungeonsDataCfgDAO dungeonsDataCfgDAO = DungeonsDataCfgDAO.getInstance();
 		for(int i = 1; i <= STAGE_COUNT_EACH_CHATPER; i++){
 			String dungeonID = (Integer.parseInt(chapterID)*100 + i) + "_" + DUNGEON_MAX_LEVEL;
 			if(!MSConditionJudger.judgeDungeonsCount(player, dungeonID)) continue;
-			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
+			DungeonsDataCfg dungDataCfg = dungeonsDataCfgDAO.getCfgById(dungeonID);
 			if(dungDataCfg == null) {
 				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getMSSweepReward, 扫荡章节[%s]时副本[%s]静态数据不存在", chapterID, dungeonID), null);
 				continue;
@@ -218,8 +235,12 @@ public class MagicSecretMgr {
 			rewardItems.addAll(singleDungeonReward(player, msdInfo, DUNGEON_FINISH_MAX_STAR));
 		}
 		// 获得的物品
-		for(int i = 0; i < rewardItems.size(); i++){
-			msRsp.addRewardData(ClientDataSynMgr.toClientData(rewardItems.get(i)));
+		for(int i = 0; i < rewardItems.size(); i++){	
+			MSItemInfo.Builder msItem = MSItemInfo.newBuilder();
+			ItemInfo item = rewardItems.get(i);
+			msItem.setItemID(String.valueOf(item.getItemID()));
+			msItem.setItemCount(item.getItemNum());
+			msRsp.addRewardData(msItem.build());
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
@@ -262,7 +283,7 @@ public class MagicSecretMgr {
 	 * @param chapterID
 	 * @param msRwdBox
 	 */
-	public void openRewardBox(Player player, MagicSecretRspMsg.Builder msRsp, String chapterID, msRewardBox msRwdBox) {
+	public void openRewardBox(Player player, MagicSecretRspMsg.Builder msRsp, String chapterID, MSItemInfo msRwdBox) {
 		if(!MSConditionJudger.judgeRewardBoxLegal(player, chapterID, msRwdBox)){
 			msRsp.setRstType(msResultType.NO_REWARD_BOX);
 			return;
@@ -271,30 +292,32 @@ public class MagicSecretMgr {
 			msRsp.setRstType(msResultType.NOT_ENOUGH_GOLD);
 			return;
 		}
-		
 		// 扣除箱子数量
 		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		Iterator<ItemInfo> itor = mcInfo.getCanOpenBoxes().iterator();
 		while(itor.hasNext()){
 			ItemInfo itm = itor.next();
-			if(itm.getItemID() == Integer.parseInt(msRwdBox.getBoxID())){
-				itm.setItemNum(itm.getItemNum() - msRwdBox.getBoxCount());
+			if(itm.getItemID() == Integer.parseInt(msRwdBox.getItemID())){
+				itm.setItemNum(itm.getItemNum() - msRwdBox.getItemCount());
 				if(itm.getItemNum() <= 0) itor.remove();
 			}
 		}
-		
 		//箱子打开的物品
 		String firstDungeonID = chapterID + "01_1";
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(firstDungeonID);
 		String dropStr = "";
-		if(msRwdBox.getBoxID().equalsIgnoreCase("1")) dropStr = dungDataCfg.getObjCoBox().getDropStr();
-		if(msRwdBox.getBoxID().equalsIgnoreCase("2")) dropStr = dungDataCfg.getObjHiBox().getDropStr();
+		if(msRwdBox.getItemID().equalsIgnoreCase("1")) dropStr = dungDataCfg.getObjCoBox().getDropStr();
+		if(msRwdBox.getItemID().equalsIgnoreCase("2")) dropStr = dungDataCfg.getObjHiBox().getDropStr();
 		ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
-		for(int i = 0; i < msRwdBox.getBoxCount(); i++)
+		for(int i = 0; i < msRwdBox.getItemCount(); i++)
 			items.addAll(MSInnerProcessor.generateDropItem(player, dropStr));
 		MSInnerProcessor.handleDropItem(player, items);
 		for(int i = 0; i < items.size(); i++){
-			msRsp.addRewardData(ClientDataSynMgr.toClientData(items.get(i)));
+			MSItemInfo.Builder msItem = MSItemInfo.newBuilder();
+			ItemInfo item = items.get(i);
+			msItem.setItemID(String.valueOf(item.getItemID()));
+			msItem.setItemCount(item.getItemNum());
+			msRsp.addRewardData(msItem.build());
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
@@ -340,7 +363,11 @@ public class MagicSecretMgr {
 		}
 		MSInnerProcessor.handleDropItem(player, dungScoreCfg.getRewardList());
 		for(int i = 0; i < dungScoreCfg.getRewardList().size(); i++){
-			msRsp.addRewardData(ClientDataSynMgr.toClientData(dungScoreCfg.getRewardList().get(i)));
+			MSItemInfo.Builder msItem = MSItemInfo.newBuilder();
+			ItemInfo item = dungScoreCfg.getRewardList().get(i);
+			msItem.setItemID(String.valueOf(item.getItemID()));
+			msItem.setItemCount(item.getItemNum());
+			msRsp.addRewardData(msItem.build());
 		}
 		umsData.getGotScoreReward().add(scoreRewardID);
 		msRsp.setRstType(msResultType.SUCCESS);

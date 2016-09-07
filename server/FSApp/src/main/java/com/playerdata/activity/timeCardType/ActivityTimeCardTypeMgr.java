@@ -48,14 +48,15 @@ public class ActivityTimeCardTypeMgr {
 
 	private void checkNewOpen(Player player) {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		List<ActivityTimeCardTypeCfg> allCfgList = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
+		ActivityTimeCardTypeCfgDAO activityTimeCardTypeCfgDAO  =ActivityTimeCardTypeCfgDAO.getInstance();
+		List<ActivityTimeCardTypeCfg> allCfgList = activityTimeCardTypeCfgDAO.getAllCfg();
 		for (ActivityTimeCardTypeCfg activityTimeCardTypeCfg : allCfgList) {
 
 			ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(activityTimeCardTypeCfg.getId());
 			if (typeEnum != null) {
 				ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId(), typeEnum);// 已在之前生成数据的活动
 				if (targetItem == null) {
-					ActivityTimeCardTypeItem newItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player, typeEnum);
+					ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO.newItem(player, typeEnum);
 					dataHolder.addItem(player, newItem);
 				}
 

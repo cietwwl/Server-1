@@ -53,6 +53,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		ActivityRedEnvelopeTypeCfgDAO activityRedEnvelopeTypeCfgDAO = ActivityRedEnvelopeTypeCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeCfg> cfgList = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRedEnvelopeTypeCfg cfg : cfgList){
 			if(!isOpen(cfg)){
@@ -62,7 +63,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			if(targetItem != null){
 				continue;
 			}
-			targetItem = ActivityRedEnvelopeTypeCfgDAO.getInstance().newItem(player, cfg);
+			targetItem = activityRedEnvelopeTypeCfgDAO.newItem(player, cfg);
 			if(targetItem == null){
 				GameLog.error(LogModule.ComActivityRedEnvelope,player.getUserId(), "生成数据失败",null);
 				continue;

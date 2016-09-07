@@ -216,7 +216,9 @@ public class GMHandler {
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
 		
 		funcCallBackMap.put("emptybag", "emptyBag");
+
 		funcCallBackMap.put("addequiptorole", "addEquipToRole");
+
 	}
 
 	public boolean isActive() {
@@ -271,7 +273,9 @@ public class GMHandler {
 		GameLog.info("GM", "reloadConfig", "start", null);
 		boolean result = true;
 		for (int i = 0; i < arrCommandContents.length; i++) {
-			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+			String clname = arrCommandContents[i];
+			clname = CfgCsvReloader.findClassName(clname);
+			result = result && reloadConfigByHelperClass(clname);
 		}
 		GameLog.info("GM", "reloadConfig", "finished", null);
 		return result;
@@ -1515,6 +1519,7 @@ public class GMHandler {
 		}
 		return true;
 	}
+
 	
 	public boolean addEquipToRole(String[] arrCommandContents, Player player) {
 		Map<Integer, int[]> map = new HashMap<Integer, int[]>();
@@ -1553,4 +1558,6 @@ public class GMHandler {
 		}
 		return true;
 	}
+
+
 }

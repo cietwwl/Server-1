@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
@@ -46,6 +44,8 @@ public class ActivityTimeCountTypeMgr {
 
 	private void checkNewOpen(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+		ActivityTimeCountTypeCfgDAO activityTimeCountTypeCfgDAO = ActivityTimeCountTypeCfgDAO.getInstance();
+		BILogMgr biLogMgr = BILogMgr.getInstance();
 		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityTimeCountTypeItem> addItemList = null;
 		for (ActivityTimeCountTypeCfg activityTimeCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -59,7 +59,7 @@ public class ActivityTimeCountTypeMgr {
 			}
 			ActivityTimeCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), TimeCountTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
-				targetItem = ActivityTimeCountTypeCfgDAO.getInstance().newItem(player, TimeCountTypeEnum);// 生成新开启活动的数据
+				targetItem = activityTimeCountTypeCfgDAO.newItem(player, TimeCountTypeEnum);// 生成新开启活动的数据
 				if (targetItem == null) {
 					// logger
 					continue;
@@ -68,10 +68,10 @@ public class ActivityTimeCountTypeMgr {
 					addItemList = new ArrayList<ActivityTimeCountTypeItem>();
 				}
 				addItemList.add(targetItem);
-				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
+				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
 			} else {
 				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
-					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
+					targetItem.reset(activityTimeCountTypeCfg, activityTimeCountTypeCfgDAO.newItemList(player, activityTimeCountTypeCfg));
 					dataHolder.updateItem(player, targetItem);
 				}
 			}
@@ -83,6 +83,8 @@ public class ActivityTimeCountTypeMgr {
 
 	private void checkClose(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+		ActivityTimeCountTypeSubCfgDAO activityTimeCountTypeSubCfgDAO = ActivityTimeCountTypeSubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		List<ActivityTimeCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityTimeCountTypeItem activityTimeCountTypeItem : itemList) {// 每种活动
@@ -90,13 +92,13 @@ public class ActivityTimeCountTypeMgr {
 
 				List<ActivityTimeCountTypeSubItem> list = activityTimeCountTypeItem.getSubItemList();
 				for (ActivityTimeCountTypeSubItem subItem : list) {// 配置表里的每种奖励
-					ActivityTimeCountTypeSubCfg subItemCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+					ActivityTimeCountTypeSubCfg subItemCfg = activityTimeCountTypeSubCfgDAO.getById(subItem.getCfgId());
 					if(subItemCfg == null){
 						continue;
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
+						boolean isAdd = comGiftMgr.addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
 						if (isAdd) {
 							subItem.setTaken(true);
 						}
@@ -174,10 +176,7 @@ public class ActivityTimeCountTypeMgr {
 	
 	
 
-	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {
-		
-	
-		
+	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {		
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 		doTimeCount(player, TimeCountType);
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);

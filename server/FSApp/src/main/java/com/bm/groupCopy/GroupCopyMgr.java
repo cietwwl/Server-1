@@ -25,6 +25,7 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -111,14 +112,6 @@ public class GroupCopyMgr {
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
 	}
 	
-	/**
-	 * 系统加载完所有数据后才可以执行此方法
-	 */
-	public void checkDataFromCfg(){
-		lvRecordHolder.checkAndInitData();
-		mapRecordHolder.checkAndInitData();
-		dropHolder.checkAndInitData();
-	}
 	
 	/**
 	 * 开启副本地图
@@ -172,7 +165,7 @@ public class GroupCopyMgr {
 	public  GroupCopyResult  endFight(Player player, String levelId, 
 			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
 		//获取伤害
-		int damage = getDamage(mData, levelId);
+		long damage = getDamage(mData, levelId);
 		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
 		if(result.isSuccess()){
 			//同步一下副本地图进度
@@ -221,9 +214,14 @@ public class GroupCopyMgr {
 			player.getUserGameDataMgr().addCoin(gold);
 		}
 		if(!rewardList.isEmpty()){
+//			for (CopyRewardStruct struct : rewardList) {
+//				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
+//			}
+			List<ItemInfo> addList = new ArrayList<ItemInfo>(rewardList.size());
 			for (CopyRewardStruct struct : rewardList) {
-				player.getItemBagMgr().addItem(struct.getItemID(), struct.getCount());
+				addList.add(new ItemInfo(struct.getItemID(), struct.getCount()));
 			}
+			player.getItemBagMgr().addItem(addList);
 		}
 		//检查有没有最后一击奖励
 		if(item.getFinalHitPrice() != 0){
@@ -233,14 +231,14 @@ public class GroupCopyMgr {
 	}
 
 	
-	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
+	private long getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
 		
 		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
 		if(record.getProgress().getCurrentHp() == 0){
 			return nowPro.getTotalHp() - nowPro.getCurrentHp();
 		}
-		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		long damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 		if(damage <= 0){
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本["+level+"]战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
 					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp()+",请检查关卡内是否存在加血技能的怪物！！！", null);
@@ -277,7 +275,7 @@ public class GroupCopyMgr {
 	}
 
 
-	private void checkDamageRank(Player player, String levelId, int damage, List<String> heroList) {
+	private void checkDamageRank(Player player, String levelId, long damage, List<String> heroList) {
 		try {
 
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
@@ -939,9 +937,9 @@ public class GroupCopyMgr {
 	 * @param chaterID
 	 * @return
 	 */
-	private int getRoleDamage(String playerID, String chaterID){
+	private long getRoleDamage(String playerID, String chaterID){
 		GroupCopyMapRecord record = mapRecordHolder.getItemByID(chaterID);
-		Integer damage = record.getGroupRoleDamageMap().get(playerID);
+		Long damage = record.getGroupRoleDamageMap().get(playerID);
 		if(damage == null){
 			return 0;
 		}

@@ -162,6 +162,10 @@ public class MapItemStore<T extends IMapItem> {
 	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
 	public synchronized boolean updateItems(List<T> addList, List<String> updateList) throws DuplicatedKeyException {
+		if (addList == null || addList.isEmpty()) {
+			updateItems(updateList);
+			return true;
+		}
 		if (addItem(addList, false)) {
 			return false;
 		}
@@ -183,6 +187,9 @@ public class MapItemStore<T extends IMapItem> {
 	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
 	public synchronized boolean updateItems(List<T> addList, List<String> delList, List<String> updateList) throws DuplicatedKeyException, DataNotExistException {
+		if (delList == null || delList.isEmpty()) {
+			return updateItems(addList, updateList);
+		}
 		checkAddList(addList);
 		checkRemoveList(delList);
 		if (!commonJdbc.insertAndDelete(searchId, addList, delList)) {
@@ -263,6 +270,9 @@ public class MapItemStore<T extends IMapItem> {
 	 */
 	@SuppressWarnings("unchecked")
 	public synchronized List<String> removeItem(List<String> list) {
+		if (list == null || list.isEmpty()) {
+			return Collections.emptyList();
+		}
 		List<String> result;
 		try {
 			result = commonJdbc.delete(searchId, list);

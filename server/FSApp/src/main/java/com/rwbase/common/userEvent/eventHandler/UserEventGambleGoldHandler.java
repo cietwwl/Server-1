@@ -23,15 +23,21 @@ public class UserEventGambleGoldHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(player.getLevel(), ActivityCountTypeEnum.GambleGold)) {
-					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleGold, Integer.parseInt(params.toString()));
+				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(
+						player.getLevel(), ActivityCountTypeEnum.GambleGold)) {
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.GambleGold,
+							Integer.parseInt(params.toString()));
 				}
 			}
 
 			@Override
-			public void logError(Player player, Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.GambleGold.toString()).append(" error");
-				GameLog.error(LogModule.UserEvent, "userId:" + player.getUserId(), reason.toString(), ex);
+			public void logError(Player player, Exception ex) {
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.GambleGold.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
 			}
 		});
 	}

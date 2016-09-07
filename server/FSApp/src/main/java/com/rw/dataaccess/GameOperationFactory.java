@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.dataaccess.impl.PlayerCreatedOperationImpl;
+import com.rw.dataaccess.impl.PlayerLoadOperationImpl;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataCreator;
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
@@ -18,6 +19,7 @@ import com.rw.fsutil.dao.optimize.DataAccessFactory;
 public class GameOperationFactory {
 
 	private static PlayerCreatedOperationImpl operation;
+	private static PlayerLoadOperationImpl loadOperation;
 
 	public static void init(int defaultCapacity) {
 		DataKVType[] array = DataKVType.values();
@@ -56,9 +58,16 @@ public class GameOperationFactory {
 				throw new ExceptionInInitializerError(e);
 			}
 		}
+		List<DataKVType> kvTypeList = PreLoadType.getPreLoadKVType();
+		int kvTypeSize = kvTypeList.size();
+		int[] rangeArray = new int[kvTypeSize];
+		for (int i = 0; i < kvTypeSize; i++) {
+			rangeArray[i] = kvTypeList.get(i).getType();
+		}
 		// 初始化DataAccessFactory
-		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity);
+		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity, rangeArray);
 		// 接着初始化各个DAO实例，这两个有顺序依赖
+		HashMap<Integer, DataKVDao<?>> cacheMap = new HashMap<Integer, DataKVDao<?>>();
 		for (int i = 0; i < size; i++) {
 			DataKVType dataKVType = array[i];
 			try {
@@ -75,6 +84,7 @@ public class GameOperationFactory {
 				if (dao == null) {
 					throw new ExceptionInInitializerError("获取DAO实例失败：" + clz.getName());
 				}
+				cacheMap.put(type, dao);
 				// 构造DataCreator实例
 				DataCreator<?, ?> creator = creatorMap.get(clz);
 				if (creator instanceof DataExtensionCreator<?>) {
@@ -94,10 +104,15 @@ public class GameOperationFactory {
 		}
 		// 初始化PlayerCreatedOperation
 		operation = new PlayerCreatedOperationImpl(coreList, extensionList);
+		loadOperation = new PlayerLoadOperationImpl(cacheMap);
 	}
 
 	public static PlayerCreatedOperation getCreatedOperation() {
 		return operation;
+	}
+	
+	public static PlayerLoadOperation getLoadOperation(){
+		return loadOperation;
 	}
 
 	private static Class<?> getSuperclassGeneric(Class<?> clz) {

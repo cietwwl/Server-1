@@ -51,7 +51,7 @@ public class FSUserFightingGrowthHolder {
 			if (cfg.getFightingOriginFuncId() > 0) {
 				// 检查是否开放
 				eOpenLevelType openLevelType = this.getOpenLevelType(cfg.getFightingOriginFuncId());
-				if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player.getLevel())) {
+				if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player)) {
 					continue;
 				}
 			}

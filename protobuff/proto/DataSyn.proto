@@ -96,6 +96,7 @@ enum eSynType	//数据同步类型
 	ActivityRedEnvelopeType = 73;//活动，开服红包
 	ActivityFortuneCatType = 74;//活动，招财猫
 	ActivityLimitHeroType = 75;//活动，限时神将
+	ActivityDailyRechargeType = 76; //每日充值活动
 
 	QuestionList = 80; //反馈问题列表	
 	GFBiddingData = 81;	//在线帮战个人压标数据
@@ -109,15 +110,15 @@ enum eSynType	//数据同步类型
 	
 	EmbattleInfo = 89;//阵容站位
 	
-	
 	MAGICEQUIP_FETTER = 90; //法宝神器羁绊
 	USER_TEAM_BATTLE = 91;	//组队战斗，玩家信息
 	TEAM_BATTLE_TEAM = 92;	//组队战斗，队伍信息
-
-	ActivityDailyRechargeType = 93; //每日充值活动
 	
-	FIGHTING_GROWTH_DATA = 94; // 战力提升数据
+	WB_DATA = 93;		//世界boss数据
+	WB_USER_DATA = 94;  //世界boss个人数据
+	RANDOM_BOSS_DATA = 95;//随机boss数据
 	
+	FIGHTING_GROWTH_DATA = 96; // 战力提升数据
 }
 
 message MsgDataSynList

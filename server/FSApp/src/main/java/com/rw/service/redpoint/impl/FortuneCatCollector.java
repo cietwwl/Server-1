@@ -12,23 +12,24 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.rw.service.redpoint.RedPointType;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class FortuneCatCollector implements RedPointCollector{
+public class FortuneCatCollector implements RedPointCollector {
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
 		ActivityFortuneCatTypeItemHolder fortuneCatHolder = ActivityFortuneCatTypeItemHolder.getInstance();
 		List<ActivityFortuneCatTypeItem> fortuneCatItemList = fortuneCatHolder.getItemList(player.getUserId());
-		for(ActivityFortuneCatTypeItem item : fortuneCatItemList){
+		for (ActivityFortuneCatTypeItem item : fortuneCatItemList) {
 			ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
-			if(cfg == null){
+			if (cfg == null) {
 				continue;
 			}
-			if(!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)){
+			if (!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)) {
 				continue;
 			}
-			if(!item.isTouchRedPoint()){
+			if (!item.isTouchRedPoint()) {
 				activityList.add(item.getCfgId());
 				continue;
 			}
@@ -36,24 +37,26 @@ public class FortuneCatCollector implements RedPointCollector{
 			times++;
 			List<ActivityFortuneCatTypeSubItem> subItemList = item.getSubItemList();
 			ActivityFortuneCatTypeSubItem sub = null;
-			for(ActivityFortuneCatTypeSubItem subItem : subItemList){
-				if(times == subItem.getNum()&&subItem.getGetGold() == 0){
+			for (ActivityFortuneCatTypeSubItem subItem : subItemList) {
+				if (times == subItem.getNum() && subItem.getGetGold() == 0) {
 					sub = subItem;
 					break;
 				}
 			}
-			if(sub != null&&player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost())&&player.getVip()>=sub.getVip()){
+			if (sub != null && player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost()) && player.getVip() >= sub.getVip()) {
 				activityList.add(item.getCfgId());
 				break;
-			}			
+			}
 		}
-		
-		
+
 		if (!activityList.isEmpty()) {
-		map.put(RedPointType.FORTUNE_CAT, activityList);
+			map.put(RedPointType.FORTUNE_CAT, activityList);
 		}
 	}
 
-	
-	
+	@Override
+	public eOpenLevelType getOpenType() {
+		return null;
+	}
+
 }

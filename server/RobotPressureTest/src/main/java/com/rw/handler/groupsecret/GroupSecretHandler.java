@@ -18,6 +18,7 @@ import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.eAttachItemType;
 import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
+import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg.Builder;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
@@ -44,7 +45,10 @@ public class GroupSecretHandler {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
+		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
 		msg.setSecretCfgId(3);
+		setMainPos(defendSecretIdList,msg);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
@@ -55,35 +59,67 @@ public class GroupSecretHandler {
 			defendHeroList = new ArrayList<String>();
 		}
 		List<String> heroPosList = new ArrayList<String>();
-		int mainRoleIndex = -1;
-		for (int i = 0; i < 1; i++) {
+		int fightHeroNum = 1;//一个坑上雇佣兵数量
+		boolean isOk = false;
+		for (int i = 0; i < fightHeroNum; i++) {
 			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
 				String heroId = (String) iterator.next();
 				if (heroId.equals(client.getUserId())) {
-					if (heroPosList.contains(heroId)) {
-						continue;
-					}
-					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
-					pos.setHeroId(heroId);
-					pos.setPos(0);
-					msg.addTeamHeroId(pos);
-					mainRoleIndex = i;
-					heroPosList.add(heroId);
+					continue;
+				}				
+				if (defendHeroList.contains(heroId)) {
 					continue;
 				}
-
-				if (defendHeroList == null || !defendHeroList.contains(heroId)) {
-					BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
-					pos.setHeroId(heroId);
-					pos.setPos(mainRoleIndex == -1 ? i++ : i);
-					msg.addTeamHeroId(pos);
-					defendHeroList.add(heroId);
-					break;
-				}
+				BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+				pos.setHeroId(heroId);
+				pos.setPos(i);
+				msg.addTeamHeroId(pos);
+				defendHeroList.add(heroId);
+				isOk = true;
+				break;
+			}			
+		}
+		if(!isOk){
+			int sercetNum = 0;
+			if(defendSecretIdList != null){
+				sercetNum = defendSecretIdList.size();
 			}
+			RobotLog.fail("创建秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + defendHeroList.size()  + "     当前秘境数 = " + sercetNum);
+//			return true;
+		}
+		if (!heroPosList.contains(client.getUserId())) {
+			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+			pos.setHeroId(client.getUserId());
+			pos.setPos(fightHeroNum);
+			msg.addTeamHeroId(pos);
+			heroPosList.add(client.getUserId());
 		}
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
+	}
+
+	private void setMainPos(List<SecretBaseInfoSynData> defendSecretIdList,
+			Builder msg) {
+		if(defendSecretIdList == null){
+			return;
+		}
+		if(defendSecretIdList.size() == 0){
+			msg.setMainPos(0);
+			return;
+		}
+		for(int i = 0;i < 5;i++){
+			boolean isThis = true;
+			for(SecretBaseInfoSynData data: defendSecretIdList){
+				if(data.getMainPos() == i){
+					isThis = false;
+					continue;
+				}
+			}
+			if(isThis){
+				msg.setMainPos(i);
+				return;
+			}
+		}		
 	}
 
 	public boolean inviteMemberDefend(Client client) {

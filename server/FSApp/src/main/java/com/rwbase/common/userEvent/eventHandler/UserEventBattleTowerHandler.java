@@ -26,25 +26,34 @@ public class UserEventBattleTowerHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				if (!ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(player.getLevel(), ActivityCountTypeEnum.BattleTower)) {
+				if (!ActivityCountTypeCfgDAO.getInstance()
+						.isOpenAndLevelEnough(player.getLevel(),
+								ActivityCountTypeEnum.BattleTower)) {
 					return;
 				}
-				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-				ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityCountTypeEnum.BattleTower);
+				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
+						.getInstance();
+				ActivityCountTypeItem dataItem = dataHolder.getItem(
+						player.getUserId(), ActivityCountTypeEnum.BattleTower);
 				// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
 				if (dataItem == null) {
 					return;
 				}
-				int addcount = Integer.parseInt(params.toString()) - dataItem.getCount();
+				int addcount = Integer.parseInt(params.toString())
+						- dataItem.getCount();
 				if (addcount > 0) {
-					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.BattleTower, addcount);
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.BattleTower, addcount);
 				}
 			}
 
 			@Override
-			public void logError(Player player, Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.BattleTower.toString()).append(" error");
-				GameLog.error(LogModule.UserEvent, "userId:" + player.getUserId(), reason.toString(), ex);
+			public void logError(Player player, Exception ex) {
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.BattleTower.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
 			}
 		});
 	}

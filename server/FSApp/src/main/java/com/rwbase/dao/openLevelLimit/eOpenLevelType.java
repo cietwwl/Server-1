@@ -54,6 +54,17 @@ public enum eOpenLevelType {
 		this.order = order;
 		this.orderString = String.valueOf(order);
 	}
+	
+	public static eOpenLevelType getByOrder(int order){
+		eOpenLevelType[] lst = eOpenLevelType.values();
+		for (int i = 0; i < lst.length; i++) {
+			eOpenLevelType ty = lst[i];
+			if (ty.getOrder() == order){
+				return ty;
+			}
+		}
+		return null;
+	}
 
 	public int getOrder() {
 		return order;

@@ -1,6 +1,7 @@
 package com.playerdata.activity.limitHeroType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,31 +17,28 @@ public class ActivityLimitHeroBoxCfgDAO extends CfgCsvDao<ActivityLimitHeroBoxCf
 		return SpringContextUtil.getBean(ActivityLimitHeroBoxCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityLimitHeroBoxCfg>> boxCfgListMap ;
 	
 	@Override
 	public Map<String, ActivityLimitHeroBoxCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroBoxCfg.csv", ActivityLimitHeroBoxCfg.class);			
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroBoxCfg.csv", ActivityLimitHeroBoxCfg.class);		
+		HashMap<String, List<ActivityLimitHeroBoxCfg>> boxCfgListMapTmp = new HashMap<String, List<ActivityLimitHeroBoxCfg>>();
+		for(ActivityLimitHeroBoxCfg boxCfg : cfgCacheMap.values()){
+			String parentID = boxCfg.getParentid();
+			List<ActivityLimitHeroBoxCfg> list = boxCfgListMapTmp.get(parentID);
+			if(list == null){
+				list = new ArrayList<ActivityLimitHeroBoxCfg>();
+				boxCfgListMapTmp.put(parentID, list);
+			}			
+			list.add(boxCfg);
+		}
+		this.boxCfgListMap = boxCfgListMapTmp;
+		
 		return cfgCacheMap;
 	}
-
-
 	
-	
-//	/**根据传入的id来查找激活的子活动*/
-//	public ActivityVitalityRewardCfg getById(String subId){
-//		ActivityVitalityRewardCfg target = new ActivityVitalityRewardCfg();
-//		List<ActivityVitalityRewardCfg> allCfg = getAllCfg();
-//		for (ActivityVitalityRewardCfg cfg : allCfg) {
-//			if(StringUtils.equals(cfg.getId(), subId)){
-//				target = cfg;
-//				break;
-//			}
-//		}
-//		return target;		
-//	}
-//	
-	
-	
-	
+	public List<ActivityLimitHeroBoxCfg> getCfgListByParentID(String parentID){
+		return boxCfgListMap.get(parentID);
+	}
 	
 }

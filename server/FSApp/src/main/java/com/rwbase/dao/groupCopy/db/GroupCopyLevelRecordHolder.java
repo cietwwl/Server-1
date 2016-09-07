@@ -83,6 +83,7 @@ public class GroupCopyLevelRecordHolder {
 			try {
 				getItemStore().addItem(addList);
 			} catch (DuplicatedKeyException e) {
+				GameLog.error(LogModule.GroupCopy, GroupCopyLevelRecordHolder.class.getName(), "检查副本数据时发现异常", e);
 				e.printStackTrace();
 			}
 		}
@@ -114,11 +115,11 @@ public class GroupCopyLevelRecordHolder {
 	 */
 	public List<GroupCopyLevelRecord> getItemList() {
 		List<GroupCopyLevelRecord> itemList = new ArrayList<GroupCopyLevelRecord>();
-
+		MapItemStore<GroupCopyLevelRecord> itemStore = getItemStore();
 		List<GroupCopyLevelCfg> allCfg = GroupCopyLevelCfgDao.getInstance().getAllCfg();
 		GroupCopyLevelRecord item;
 		for (GroupCopyLevelCfg cfg : allCfg) {
-			item = getItemStore().getItem(getRecordID(cfg.getId()));
+			item = itemStore.getItem(getRecordID(cfg.getId()));
 			if (item != null) {
 				itemList.add(item);
 			}
