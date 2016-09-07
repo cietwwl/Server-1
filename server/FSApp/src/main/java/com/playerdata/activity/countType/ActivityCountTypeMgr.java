@@ -85,9 +85,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityCountTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}

@@ -57,9 +57,6 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityExchangeTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~exchange.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}

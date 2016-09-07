@@ -29,6 +29,7 @@ public class ActivityRankTypeItemHolder{
 		Enumeration<ActivityRankTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRankTypeItem item = (ActivityRankTypeItem) mapEnum.nextElement();
+			//不需要和客户端通信syn所以不需要对老数据过滤
 			itemList.add(item);
 		}		
 		return itemList;

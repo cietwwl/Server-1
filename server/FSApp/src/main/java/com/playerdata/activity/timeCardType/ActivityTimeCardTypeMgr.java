@@ -65,9 +65,6 @@ public class ActivityTimeCardTypeMgr {
 		List<ActivityTimeCardTypeItem> addItemList = null;
 		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
 		if (addItemList != null) {
-			for(ActivityTimeCardTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}		
 	}

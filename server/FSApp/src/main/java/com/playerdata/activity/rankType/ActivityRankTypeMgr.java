@@ -55,10 +55,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityRankTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			for (ActivityRankTypeItem item : addItemList) {
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
+		if (addItemList != null) {			
 			dataHolder.addItemList(player, addItemList);
 		}
 
@@ -241,6 +238,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					rankList.add(rankInfo);
 				}
 				int num = 0;
+				System.out.println("activityrank打印下榜类型"  + ranktype);
 				for (RankInfo rankInfo : rankList) {// 所有的该榜上榜用户
 					System.out.println("activityrank打印下是否顺序" + rankInfo.getRankingLevel() + " 个数=" + num);
 					num++;

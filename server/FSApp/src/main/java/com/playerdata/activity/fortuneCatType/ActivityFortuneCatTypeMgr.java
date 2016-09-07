@@ -54,9 +54,6 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityFortuneCatTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~fortunecat.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}

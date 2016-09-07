@@ -57,9 +57,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for (ActivityVitalityTypeItem item : addItemList) {
-				System.out.println("~~~~~~~~~~~~~~~vitality.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}

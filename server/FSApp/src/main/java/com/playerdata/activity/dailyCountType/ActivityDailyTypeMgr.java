@@ -56,11 +56,10 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityDailyTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if(addItemList == null)return;
-		for(ActivityDailyTypeItem item : addItemList ){
-			System.out.println("~~~~~~~~~~~~~~~dailycount.id = " + item.getId());
+		if(addItemList != null){
+			dataHolder.addItemList(player, addItemList);
 		}
-		dataHolder.addItem(player, addItemList.get(0));
+		
 	}
 
 	public List<ActivityDailyTypeItem> creatItems(String userId, MapItemStore<ActivityDailyTypeItem> itemStore) {

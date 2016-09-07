@@ -65,12 +65,8 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRateTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityRateTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
-		}
-		
+		}		
 	}
 	
 	public List<ActivityRateTypeItem> creatItems(String userId ,MapItemStore<ActivityRateTypeItem> itemStore){

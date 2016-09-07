@@ -61,9 +61,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
 		
 		if (addItemList != null) {
-			for(ActivityDailyDiscountTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~dailydiscount.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}

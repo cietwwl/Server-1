@@ -63,9 +63,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRedEnvelopeTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityRedEnvelopeTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 		

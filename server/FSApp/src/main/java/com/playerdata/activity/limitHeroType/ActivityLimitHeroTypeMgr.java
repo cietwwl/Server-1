@@ -84,9 +84,6 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		String userId = player.getUserId();
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityLimitHeroTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~limithero.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}		
 	}

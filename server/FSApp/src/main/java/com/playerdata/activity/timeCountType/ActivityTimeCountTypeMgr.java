@@ -57,10 +57,8 @@ public class ActivityTimeCountTypeMgr {
 		String userId = player.getUserId();
 		List<ActivityTimeCountTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));		
-		for(ActivityTimeCountTypeItem item : addItemList ){
-			System.out.println("~~~~~~~~~~~~~~~timecount.id = " + item.getId());
-		}
-		if (addItemList != null) {			
+		
+		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
