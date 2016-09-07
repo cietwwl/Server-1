@@ -110,6 +110,11 @@ enum Command {
 	MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;	//每日充值活动
 	
 	MSG_SYN_DATA_SERVICE = 213;//数据同步请求服务
+	
+	
+	MSG_RANDOM_BOSS = 214;//随机boss
+	
+	
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
