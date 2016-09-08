@@ -321,7 +321,6 @@ public class TaskItemMgr implements TaskMgrIF {
 			for (String reward : rewards) {
 				int itemId = Integer.parseInt(reward.split("_")[0]);
 				int count = Integer.parseInt(reward.split("_")[1]);
-				//m_pPlayer.getItemBagMgr().addItem(itemId, count);
 				Integer haveCount = rewardMap.get(itemId);
 				if(null == haveCount) haveCount = count;
 				else haveCount += count;
