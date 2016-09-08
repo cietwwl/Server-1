@@ -11,10 +11,16 @@ import com.rwbase.dao.item.pojo.GemCfg;
 
 public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
+	private static final FSGetGemCurrentFightingOfSingleFunc _instance = new FSGetGemCurrentFightingOfSingleFunc();
+	
 	private GemFightingCfgDAO gemFightingCfgDAO;
 	
-	public FSGetGemCurrentFightingOfSingleFunc() {
+	protected FSGetGemCurrentFightingOfSingleFunc() {
 		gemFightingCfgDAO = GemFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetGemCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

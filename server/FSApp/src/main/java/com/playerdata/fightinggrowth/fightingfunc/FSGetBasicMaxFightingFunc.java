@@ -27,8 +27,18 @@ import com.rwbase.dao.fighting.pojo.ExpectedHeroStatusCfg;
  *
  */
 public class FSGetBasicMaxFightingFunc implements IFunction<Player, Integer> {
+	
+	private static final FSGetBasicMaxFightingFunc _instance = new FSGetBasicMaxFightingFunc();
 
 	private AttributeFormula _formula = new AttributeFormula();
+	
+	protected FSGetBasicMaxFightingFunc() {
+		
+	}
+	
+	public static final FSGetBasicMaxFightingFunc getInstance() {
+		return _instance;
+	}
 
 	@Override
 	public Integer apply(Player player) {

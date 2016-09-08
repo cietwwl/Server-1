@@ -10,10 +10,16 @@ import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 
 public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
+	private static final FSGetGroupSkillFightingOfSingleFunc _instance = new FSGetGroupSkillFightingOfSingleFunc();
+
 	private GroupSkillFightingCfgDAO groupSkillFightingCfgDAO;
 	
-	public FSGetGroupSkillFightingOfSingleFunc() {
+	protected FSGetGroupSkillFightingOfSingleFunc() {
 		groupSkillFightingCfgDAO = GroupSkillFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetGroupSkillFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

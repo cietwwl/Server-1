@@ -15,12 +15,18 @@ import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
  */
 public class FSGetMagicMaxFightingFunc implements IFunction<Player, Integer>{
 	
+	private static final FSGetMagicMaxFightingFunc _instance = new FSGetMagicMaxFightingFunc();
+
 	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
 	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
 	
-	public FSGetMagicMaxFightingFunc() {
+	protected FSGetMagicMaxFightingFunc() {
 		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
 		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetMagicMaxFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

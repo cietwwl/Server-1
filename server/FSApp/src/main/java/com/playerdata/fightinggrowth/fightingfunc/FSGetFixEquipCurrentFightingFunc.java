@@ -17,10 +17,16 @@ import com.rwbase.common.IFunction;
  */
 public class FSGetFixEquipCurrentFightingFunc implements IFunction<Player, Integer> {
 	
+	private static final FSGetFixEquipCurrentFightingFunc _instance = new FSGetFixEquipCurrentFightingFunc();
+	
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetFixEquipCurrentFightingFunc() {
-		_single = new FSGetFixEquipCurrentFightingOfSingleFunc();
+	protected FSGetFixEquipCurrentFightingFunc() {
+		_single = FSGetFixEquipCurrentFightingOfSingleFunc.getInstance();
+	}
+	
+	public static final FSGetFixEquipCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

@@ -15,14 +15,20 @@ import com.rwbase.dao.fighting.pojo.FixEquipStarFightingCfg;
 
 public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
+	private static final FSGetFixEquipCurrentFightingOfSingleFunc _instance = new FSGetFixEquipCurrentFightingOfSingleFunc();
+	
 	private FixEquipLevelFightingCfgDAO fixEquipLevelFightingCfgDAO;
 	private FixEquipQualityFightingCfgDAO fixEquipQualityFightingCfgDAO;
 	private FixEquipStarFightingCfgDAO fixEquipStarFightingCfgDAO;
 	
-	public FSGetFixEquipCurrentFightingOfSingleFunc() {
+	protected FSGetFixEquipCurrentFightingOfSingleFunc() {
 		fixEquipLevelFightingCfgDAO = FixEquipLevelFightingCfgDAO.getInstance();
 		fixEquipQualityFightingCfgDAO = FixEquipQualityFightingCfgDAO.getInstance();
 		fixEquipStarFightingCfgDAO = FixEquipStarFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetFixEquipCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

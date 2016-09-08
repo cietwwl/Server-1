@@ -6,10 +6,16 @@ import com.rwbase.common.IFunction;
 
 public class FSGetTaoistCurrentFightingFunc implements IFunction<Player, Integer>{
 	
+	private static final FSGetTaoistCurrentFightingFunc _instance = new FSGetTaoistCurrentFightingFunc();
+
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetTaoistCurrentFightingFunc(FSGetTaoistCurrentFightingOfSingleFunc pSingle) {
-		this._single = pSingle;
+	protected FSGetTaoistCurrentFightingFunc() {
+		this._single = FSGetTaoistCurrentFightingOfSingleFunc.getInstance();
+	}
+	
+	public static final FSGetTaoistCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

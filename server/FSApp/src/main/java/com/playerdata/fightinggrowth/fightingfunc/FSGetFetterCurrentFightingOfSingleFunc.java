@@ -31,7 +31,13 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 	private IBIFunction<Integer, Integer, Integer> getMagicFetterFightingFunc;
 	private IBIFunction<Integer, Integer, Integer> getHeroFetterFightingFunc;
 	
-	public FSGetFetterCurrentFightingOfSingleFunc() {
+	private static final FSGetFetterCurrentFightingOfSingleFunc _instance = new FSGetFetterCurrentFightingOfSingleFunc();
+	
+	public static final FSGetFetterCurrentFightingOfSingleFunc getInstnce() {
+		return _instance;
+	}
+	
+	protected FSGetFetterCurrentFightingOfSingleFunc() {
 		fetterMagicEquipCfgDao = FetterMagicEquipCfgDao.getInstance();
 		fettersConditionCfgDao = FettersConditionCfgDAO.getCfgDAO();
 		fetterBaseCfgDao = FettersBaseCfgDAO.getCfgDAO();

@@ -17,15 +17,21 @@ import com.rwbase.dao.item.pojo.MagicCfg;
  *
  */
 public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer> {
+	
+	private static final FSGetMagicCurrentFightingFunc _instance = new FSGetMagicCurrentFightingFunc();
 
 	private MagicCfgDAO magicCfgDAO;
 	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
 	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
 	
-	public FSGetMagicCurrentFightingFunc() {
+	protected FSGetMagicCurrentFightingFunc() {
 		magicCfgDAO = MagicCfgDAO.getInstance();
 		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
 		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetMagicCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

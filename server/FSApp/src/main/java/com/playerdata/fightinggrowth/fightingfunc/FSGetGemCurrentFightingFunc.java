@@ -15,11 +15,17 @@ import com.rwbase.common.IFunction;
  *
  */
 public class FSGetGemCurrentFightingFunc implements IFunction<Player, Integer> {
+	
+	private static final FSGetGemCurrentFightingFunc _instance = new FSGetGemCurrentFightingFunc();
 
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetGemCurrentFightingFunc() {
-		_single = new FSGetGemCurrentFightingOfSingleFunc();
+	protected FSGetGemCurrentFightingFunc() {
+		_single = FSGetGemCurrentFightingOfSingleFunc.getInstance();
+	}
+	
+	public static final FSGetGemCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

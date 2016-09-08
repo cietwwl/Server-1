@@ -6,6 +6,16 @@ import com.rwbase.common.IFunction;
 import com.rwbase.common.attrdata.AttrData;
 
 public class FSGetBasicCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private static final FSGetBasicCurrentFightingOfSingleFunc _instance = new FSGetBasicCurrentFightingOfSingleFunc();
+	
+	public static final FSGetBasicCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
+	}
+	
+	protected FSGetBasicCurrentFightingOfSingleFunc() {
+		
+	}
 
 	@Override
 	public Integer apply(Hero hero) {

@@ -6,11 +6,17 @@ import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.IFunction;
 
 public class FSGetGroupSkillCurrentFightingFunc implements IFunction<Player, Integer> {
+	
+	private static final FSGetGroupSkillCurrentFightingFunc _instance = new FSGetGroupSkillCurrentFightingFunc();
 
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetGroupSkillCurrentFightingFunc() {
-		_single = new FSGetGroupSkillFightingOfSingleFunc();
+	protected FSGetGroupSkillCurrentFightingFunc() {
+		_single = FSGetGroupSkillFightingOfSingleFunc.getInstance();
+	}
+	
+	public static final FSGetGroupSkillCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

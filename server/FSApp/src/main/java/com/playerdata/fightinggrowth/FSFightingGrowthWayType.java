@@ -27,11 +27,11 @@ import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
  */
 public enum FSFightingGrowthWayType {
 
-	BASIC(1, FSGetBasicCurrentFightingFunc.class, FSGetBasicMaxFightingFunc.class), // 英雄自身属性的战斗力获取
-	NORM_EQUIP(2, FSGetNormEquipCurrentFightingFunc.class, FSGetNormEquipMaxFightingFunc.class), // 装备属性的战斗力获取
-	GEM(3, FSGetGemCurrentFightingFunc.class, FSGetGemMaxFightingFunc.class), // 宝石属性的战斗力获取
-	MAGIC(4, FSGetMagicCurrentFightingFunc.class, FSGetMagicMaxFightingFunc.class), // 法宝属性的战斗力获取
-	FIX_EQUIP(5, FSGetFixEquipCurrentFightingFunc.class, FSGetFixEquipMaxFightingFunc.class), // 神器属性的战斗力获取
+	BASIC(1, FSGetBasicCurrentFightingFunc.getInstance(), FSGetBasicMaxFightingFunc.getInstance()), // 英雄自身属性的战斗力获取
+	NORM_EQUIP(2, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 装备属性的战斗力获取
+	GEM(3, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
+	MAGIC(4, FSGetMagicCurrentFightingFunc.getInstance(), FSGetMagicMaxFightingFunc.getInstance()), // 法宝属性的战斗力获取
+	FIX_EQUIP(5, FSGetFixEquipCurrentFightingFunc.getInstance(), FSGetFixEquipMaxFightingFunc.getInstance()), // 神器属性的战斗力获取
 	;
 	private final int _sign;
 	private final IFunction<Player, Integer> _getCurrentFightingFunc;
@@ -53,11 +53,11 @@ public enum FSFightingGrowthWayType {
 	 * @param getCurrentFightingClazz 根据角色等级获取当前该模块的战斗力函数
 	 * @param getMaxFightingClazz 根据角色等级获取当前该模块所能达到的最大战斗力函数
 	 */
-	private FSFightingGrowthWayType(int pSign, Class<? extends IFunction<Player, Integer>> getCurrentFightingClazz, Class<? extends IFunction<Player, Integer>> getMaxFightingClazz) {
+	private FSFightingGrowthWayType(int pSign, IFunction<Player, Integer> getCurrentFightingFunc, IFunction<Player, Integer> getMaxFightingFunc) {
 		this._sign = pSign;
 		try {
-			this._getCurrentFightingFunc = getCurrentFightingClazz.newInstance();
-			this._getMaxFightingFunc = getMaxFightingClazz.newInstance();
+			this._getCurrentFightingFunc = getCurrentFightingFunc;
+			this._getMaxFightingFunc = getMaxFightingFunc;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

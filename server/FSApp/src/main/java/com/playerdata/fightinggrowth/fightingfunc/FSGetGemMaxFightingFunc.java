@@ -16,12 +16,18 @@ import com.rwbase.dao.inlay.InlayItemHelper;
  */
 public class FSGetGemMaxFightingFunc implements IFunction<Player, Integer> {
 	
+	private static final FSGetGemMaxFightingFunc _instance = new FSGetGemMaxFightingFunc();
+
 	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
 	private GemFightingCfgDAO gemFightingCfgDAO;
 	
-	public FSGetGemMaxFightingFunc() {
+	protected FSGetGemMaxFightingFunc() {
 		expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
 		gemFightingCfgDAO = GemFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetGemMaxFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

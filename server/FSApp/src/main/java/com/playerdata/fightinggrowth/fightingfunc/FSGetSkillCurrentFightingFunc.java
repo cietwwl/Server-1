@@ -7,12 +7,20 @@ import com.playerdata.Player;
 import com.rwbase.common.IFunction;
 
 public class FSGetSkillCurrentFightingFunc implements IFunction<Player, Integer>{
+	
+	private static final FSGetSkillCurrentFightingFunc _instance = new FSGetSkillCurrentFightingFunc();
+
 
 	private IFunction<Hero, Integer> _single;
-	public FSGetSkillCurrentFightingFunc() {
-		_single = new FSGetSkillCurrentFightingOfSingleFunc();
+	
+	protected FSGetSkillCurrentFightingFunc() {
+		_single = FSGetSkillCurrentFightingOfSingleFunc.getInstance();
 	}
-
+	
+	public static final FSGetSkillCurrentFightingFunc getInstance() {
+		return _instance;
+	}
+	
 	@Override
 	public Integer apply(Player player) {
 		List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, null);

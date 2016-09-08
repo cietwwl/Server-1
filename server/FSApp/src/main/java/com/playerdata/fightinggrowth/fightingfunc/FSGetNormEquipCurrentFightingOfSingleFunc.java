@@ -13,11 +13,17 @@ import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 
 public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
+	
+	private static final FSGetNormEquipCurrentFightingOfSingleFunc _instance = new FSGetNormEquipCurrentFightingOfSingleFunc();
 
 	private HeroEquipCfgDAO heroEquipCfgDAO;
 	
-	public FSGetNormEquipCurrentFightingOfSingleFunc() {
+	protected FSGetNormEquipCurrentFightingOfSingleFunc() {
 		heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
+	}
+	
+	public static final FSGetNormEquipCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

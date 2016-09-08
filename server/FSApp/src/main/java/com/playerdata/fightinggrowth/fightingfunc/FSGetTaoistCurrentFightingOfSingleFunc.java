@@ -13,12 +13,18 @@ import com.rwbase.dao.fighting.pojo.TaoistFightingCfg;
 
 public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
+	private static final FSGetTaoistCurrentFightingOfSingleFunc _instance = new FSGetTaoistCurrentFightingOfSingleFunc();
+
 	private TaoistMagicCfgHelper taoistMagicCfgHelper;
 	private TaoistFightingCfgDAO taoistFightingCfgDAO;
 	
-	public FSGetTaoistCurrentFightingOfSingleFunc() {
+	protected FSGetTaoistCurrentFightingOfSingleFunc() {
 		taoistMagicCfgHelper = TaoistMagicCfgHelper.getInstance();
 		taoistFightingCfgDAO = TaoistFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetTaoistCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

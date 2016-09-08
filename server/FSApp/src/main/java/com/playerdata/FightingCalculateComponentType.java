@@ -17,15 +17,15 @@ import com.rwbase.common.IFunction;
 
 public enum FightingCalculateComponentType {
 
-	BASIC(new FSGetBasicCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	FETTERS(new FSGetFetterCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	FIX_EQUIP(new FSGetFixEquipCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	GEM(new FSGetGemCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	GROUP_SKILL(new FSGetGroupSkillFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	MAGIC(EmptyHeroComponent.singleton, new FSGetMagicCurrentFightingFunc()),
-	NORM_EQUIP(new FSGetNormEquipCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	SKILL(new FSGetSkillCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
-	TAOIST(new FSGetTaoistCurrentFightingOfSingleFunc(), EmptyPlayerComponent.singleton),
+	BASIC(FSGetBasicCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	FETTERS(FSGetFetterCurrentFightingOfSingleFunc.getInstnce(), EmptyPlayerComponent.singleton),
+	FIX_EQUIP(FSGetFixEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	GEM(FSGetGemCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	GROUP_SKILL(FSGetGroupSkillFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	MAGIC(EmptyHeroComponent.singleton, FSGetMagicCurrentFightingFunc.getInstance()),
+	NORM_EQUIP(FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	SKILL(FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	TAOIST(FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;
 	private final IFunction<Player, Integer> _playerOnlyComponentFunc; // 只针对主角的

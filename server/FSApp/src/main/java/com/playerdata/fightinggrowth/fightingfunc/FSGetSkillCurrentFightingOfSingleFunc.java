@@ -11,10 +11,16 @@ import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
+	private static final FSGetSkillCurrentFightingOfSingleFunc _instance = new FSGetSkillCurrentFightingOfSingleFunc();
+
 	private SkillFightingCfgDAO skillFightingCfgDAO;
 	
-	public FSGetSkillCurrentFightingOfSingleFunc() {
+	protected FSGetSkillCurrentFightingOfSingleFunc() {
 		skillFightingCfgDAO = SkillFightingCfgDAO.getInstance();
+	}
+	
+	public static final FSGetSkillCurrentFightingOfSingleFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

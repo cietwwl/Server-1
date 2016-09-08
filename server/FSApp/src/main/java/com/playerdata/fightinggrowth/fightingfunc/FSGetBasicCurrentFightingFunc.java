@@ -14,11 +14,17 @@ import com.rwbase.common.IFunction;
  *
  */
 public class FSGetBasicCurrentFightingFunc implements IFunction<Player, Integer> {
+	
+	private static final FSGetBasicCurrentFightingFunc _instance = new FSGetBasicCurrentFightingFunc();
 
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetBasicCurrentFightingFunc() {
-		_single = new FSGetBasicCurrentFightingOfSingleFunc();
+	protected FSGetBasicCurrentFightingFunc() {
+		_single = FSGetBasicCurrentFightingOfSingleFunc.getInstance();
+	}
+	
+	public static final FSGetBasicCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

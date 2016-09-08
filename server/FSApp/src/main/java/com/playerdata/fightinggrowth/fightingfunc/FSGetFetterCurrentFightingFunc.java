@@ -10,8 +10,8 @@ public class FSGetFetterCurrentFightingFunc implements IFunction<Player, Integer
 	
 	private IFunction<Hero, Integer> _single;
 	
-	public FSGetFetterCurrentFightingFunc() {
-		this._single = new FSGetFetterCurrentFightingOfSingleFunc();
+	protected FSGetFetterCurrentFightingFunc() {
+		this._single = FSGetFetterCurrentFightingOfSingleFunc.getInstnce();
 	}
 
 	@Override

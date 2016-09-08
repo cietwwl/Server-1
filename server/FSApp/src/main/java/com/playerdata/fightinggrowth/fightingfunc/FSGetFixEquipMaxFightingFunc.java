@@ -19,16 +19,22 @@ import com.rwbase.dao.fighting.pojo.FixEquipStarFightingCfg;
  */
 public class FSGetFixEquipMaxFightingFunc implements IFunction<Player, Integer> {
 	
+	private static final FSGetFixEquipMaxFightingFunc _instance = new FSGetFixEquipMaxFightingFunc();
+	
 	private FixEquipLevelFightingCfgDAO fixEquipLevelFightingCfgDAO;
 	private FixEquipQualityFightingCfgDAO fixEquipQualityFightingCfgDAO;
 	private FixEquipStarFightingCfgDAO fixEquipStarFightingCfgDAO;
 	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
 	
-	public FSGetFixEquipMaxFightingFunc() {
+	protected FSGetFixEquipMaxFightingFunc() {
 		fixEquipLevelFightingCfgDAO = FixEquipLevelFightingCfgDAO.getInstance();
 		fixEquipQualityFightingCfgDAO = FixEquipQualityFightingCfgDAO.getInstance();
 		fixEquipStarFightingCfgDAO = FixEquipStarFightingCfgDAO.getInstance();
 		expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
+	}
+	
+	public static final FSGetFixEquipMaxFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override
