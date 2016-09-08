@@ -22,6 +22,8 @@ import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.role.EquipAttachCfgDAO;
@@ -276,8 +278,8 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData equipItem;
 		ItemData item;
-//		List<IUseItem> removeItems = new ArrayList<IUseItem>(equipMap.size());
-		Map<Integer, Integer> removeItemsMap = new HashMap<Integer, Integer>();
+		List<IUseItem> removeItems = new ArrayList<IUseItem>(equipMap.size());
+		HeroEquipCfgDAO heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
 		for (Iterator<Integer> itr = equipMap.keySet().iterator(); itr.hasNext();) {
 			index = itr.next();
 			slotId = equipMap.get(index);
@@ -287,26 +289,19 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 				equipItem.setModelId(item.getModelId());
 				equipItem.setCount(1);
 				equipItem.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
-				HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipItem.getModelId()));
+				HeroEquipCfg heroEquipCfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipItem.getModelId()));
 				int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
 				equipItem.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
 				equipItemMap.put(index, equipItem);
-//				removeItems.add(new UseItem(slotId, 1));
-				removeItemsMap.put(index, item.getModelId());
+				removeItems.add(new UseItem(slotId, 1));
 			} else {
-				removeItemsMap.clear();
+				removeItems.clear();
 				equipItemMap.clear();
 				return false;
 			}
 		}
-//		itemBagMgr.useLikeBoxItem(removeItems, null);
-//		return equipItemHolder.wearEquips(player, heroId, equipItemMap);
-		for (Iterator<Integer> itr = removeItemsMap.keySet().iterator(); itr.hasNext();) {
-			Integer equipIndex = itr.next();
-			itemBagMgr.useItemByCfgId(removeItemsMap.get(equipIndex), 1);
-			equipItemHolder.wearEquip(player, heroId, equipIndex, equipItemMap.get(equipIndex), !itr.hasNext());
-		}
-		return true;
+		itemBagMgr.useLikeBoxItem(removeItems, null);
+		return equipItemHolder.wearEquips(player, heroId, equipItemMap);
 	}
 	
 	/**

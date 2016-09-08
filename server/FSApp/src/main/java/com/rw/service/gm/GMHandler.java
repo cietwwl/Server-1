@@ -1512,10 +1512,12 @@ public class GMHandler {
 		for(ItemData itemData : list) {
 			items.add(new UseItem(itemData.getId(), itemData.getCount()));
 		}
-		try {
-			player.getItemBagMgr().updateItemBag(player, items, newItems);
-		} catch (Throwable t) {
-			t.printStackTrace();
+		if (items.size() > 0) {
+			try {
+				player.getItemBagMgr().updateItemBag(player, items, newItems);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
 		}
 		return true;
 	}
