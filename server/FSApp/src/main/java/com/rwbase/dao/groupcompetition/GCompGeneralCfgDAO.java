@@ -1,6 +1,5 @@
 package com.rwbase.dao.groupcompetition;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
