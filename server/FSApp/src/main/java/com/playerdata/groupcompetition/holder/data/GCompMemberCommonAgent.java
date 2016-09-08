@@ -1,5 +1,9 @@
 package com.playerdata.groupcompetition.holder.data;
 
+import com.bm.rank.groupCompetition.killRank.GCompKillRankMgr;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreRankMgr;
+import com.bm.rank.groupCompetition.winRank.GCompContinueWinRankMgr;
+import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.holder.GCompMemberHolder;
@@ -16,11 +20,22 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 	@Override
 	public void incWins(GCompMember member) {
 		member.incWinTimes();
+		Player player = PlayerMgr.getInstance().find(member.getUserId());
+		GCompKillRankMgr.addOrUpdateKillRank(PlayerMgr.getInstance().find(member.getUserId()), member.getTotalWinTimes());
+		if (member.getMaxContinueWins() == member.getContinueWins()) {
+			GCompContinueWinRankMgr.addOrUpdateContinueWinRank(player, member.getContinueWins());
+		}
 	}
 
 	@Override
 	public void addScore(GCompMember member, int score) {
 		member.updateScore(score);
+		GCompScoreRankMgr.addOrUpdateScoreRank(PlayerMgr.getInstance().find(member.getUserId()), member.getScore());
+	}
+	
+	@Override
+	public void addGroupScore(GCompMember member, int score) {
+		member.updateGroupScore(score);
 	}
 
 	@Override

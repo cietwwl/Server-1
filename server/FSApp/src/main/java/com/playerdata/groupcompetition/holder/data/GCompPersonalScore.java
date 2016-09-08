@@ -9,6 +9,7 @@ public class GCompPersonalScore {
 	private String headIcon; // 头像
 	private int score; // 分数
 	private int continueWin; // 连胜次数
+	private int groupScore; // 贡献的帮派积分
 	
 	public String getName() {
 		return name;
@@ -40,6 +41,14 @@ public class GCompPersonalScore {
 
 	public void setContinueWin(int continueWin) {
 		this.continueWin = continueWin;
+	}
+	
+	public void setGroupScore(int pGroupScore) {
+		this.groupScore = pGroupScore;
+	}
+	
+	public int getGroupScore() {
+		return groupScore;
 	}
 
 	@Override

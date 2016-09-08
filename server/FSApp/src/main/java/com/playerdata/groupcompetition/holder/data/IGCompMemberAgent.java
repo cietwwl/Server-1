@@ -29,6 +29,15 @@ public interface IGCompMemberAgent {
 	
 	/**
 	 * 
+	 * 增加帮派积分
+	 * 
+	 * @param member
+	 * @param score
+	 */
+	public void addGroupScore(GCompMember member, int score);
+	
+	/**
+	 * 
 	 * 获取连胜次数
 	 * 
 	 * @param member

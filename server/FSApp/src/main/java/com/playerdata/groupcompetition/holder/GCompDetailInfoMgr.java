@@ -35,6 +35,7 @@ public class GCompDetailInfoMgr {
 		mvp.setName(member.getUserName());
 		mvp.setScore(member.getScore());
 		mvp.setHeadIcon(member.getUserId());
+		mvp.setGroupScore(member.getGroupScore());
 	}
 	
 	public void onScoreUpdate(int matchId, String groupId, int currentScore, GCompMember member) {

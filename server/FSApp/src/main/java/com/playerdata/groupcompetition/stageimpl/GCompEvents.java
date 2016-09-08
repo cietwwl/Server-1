@@ -19,6 +19,7 @@ import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
+import com.playerdata.groupcompetition.rank.GCompRankMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompTips;
@@ -106,6 +107,7 @@ public class GCompEvents {
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
+		GCompRankMgr.getInstance().competitionStart();
 	}
 	
 	private void fireEventsEnd() {
@@ -119,6 +121,7 @@ public class GCompEvents {
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
+		GCompRankMgr.getInstance().stageEnd(_type);
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {

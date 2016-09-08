@@ -14,6 +14,7 @@ public class GCompMember implements Comparable<GCompMember>{
 	private int totalWinTimes; // 胜利的次数
 	private int continueWins; // 连胜次数
 	private int maxContinueWins; // 最大连胜次数
+	private int groupScore; // 贡献的帮派积分
 	@IgnoreSynField
 	private int robotContinueWins; // 作为机器人的连胜次数
 	@IgnoreSynField
@@ -69,6 +70,10 @@ public class GCompMember implements Comparable<GCompMember>{
 		return this.robotContinueWins;
 	}
 	
+	void updateGroupScore(int offset) {
+		this.groupScore += offset;
+	}
+	
 	public int getLv() {
 		return lv;
 	}
@@ -91,7 +96,11 @@ public class GCompMember implements Comparable<GCompMember>{
 
 	public int getMaxContinueWins() {
 		return maxContinueWins;
-	}	
+	}
+	
+	public int getGroupScore() {
+		return groupScore;
+	}
 
 	@Override
 	public int compareTo(GCompMember o) {
