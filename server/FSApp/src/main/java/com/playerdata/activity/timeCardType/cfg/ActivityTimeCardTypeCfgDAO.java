@@ -59,6 +59,9 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 	private void newAndAddSubItemList(ActivityTimeCardTypeItem item) {
 		List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 		List<ActivityTimeCardTypeSubCfg> subItemCfgList = ActivityTimeCardTypeSubCfgDAO.getInstance().getByParentCfgId(item.getCfgId());
+		if(subItemCfgList == null){
+			subItemCfgList = new ArrayList<ActivityTimeCardTypeSubCfg>();
+		}
 		for (ActivityTimeCardTypeSubCfg tmpSubCfg : subItemCfgList) {
 			subItemList.add(ActivityTimeCardTypeSubItem.newItem(tmpSubCfg));
 		}

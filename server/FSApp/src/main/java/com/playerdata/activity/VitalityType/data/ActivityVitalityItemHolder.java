@@ -92,7 +92,7 @@ public class ActivityVitalityItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityVitalityTypeItem> cache = MapItemStoreFactory.getActivityVitalityItemCache();
 		return cache.getMapItemStore(userId, ActivityVitalityTypeItem.class);
 	}
