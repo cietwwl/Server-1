@@ -285,7 +285,7 @@ public class FixNormEquipMgr {
 
 	private FixEquipResult checkLevel(Player player, String ownerId, FixNormEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在");
@@ -405,7 +405,7 @@ public class FixNormEquipMgr {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player)) {
 			result.setReason("未到功能开放等级");
 		} if (dataItem == null) {
 			result.setReason("装备不存在");

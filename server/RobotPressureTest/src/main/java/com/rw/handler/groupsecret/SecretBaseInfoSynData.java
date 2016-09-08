@@ -13,6 +13,7 @@ public class SecretBaseInfoSynData implements SynItem{
 	private int getGE;// 被掠夺的帮派经验
 	private int getGS;// 被掠夺的帮派物资
 	private String groupId;// 此秘境所属的帮派Id，对于自己创建的是自己创建那一刻的帮派Id，对于匹配的来说，是自己匹配到那一刻的秘境Id
+	private int mainPos;//矿位
 
 	public String getId() {
 		return id;
@@ -20,6 +21,16 @@ public class SecretBaseInfoSynData implements SynItem{
 
 	public int getCfgId() {
 		return cfgId;
+	}
+
+	
+	
+	public int getMainPos() {
+		return mainPos;
+	}
+
+	public void setMainPos(int mainPos) {
+		this.mainPos = mainPos;
 	}
 
 	public boolean isFinish() {

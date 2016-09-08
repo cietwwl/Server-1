@@ -10,6 +10,7 @@ import com.common.IHeroAction;
 import com.log.GameLog;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.PlayerIF;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
@@ -152,14 +153,19 @@ public class InlayMgr /*extends IDataMgr*/ {
 			return false;
 		}
 		boolean success = true;
+		List<ItemInfo> list = new ArrayList<ItemInfo>(itemList.size());
 		for (InlayItem inlayItem : itemList) {
 			boolean stripSuccess = inlayItemHolder.removeItem(player, inlayItem);
 			if (stripSuccess) {
-				player.getItemBagMgr().addItem(inlayItem.getModelId(), 1);
+//				player.getItemBagMgr().addItem(inlayItem.getModelId(), 1);
+				list.add(new ItemInfo(inlayItem.getModelId(), 1));
 			} else {
 				success = false;
 				break;
 			}
+		}
+		if (list.size() > 0) {
+			player.getItemBagMgr().addItem(list);
 		}
 		return success;
 	}

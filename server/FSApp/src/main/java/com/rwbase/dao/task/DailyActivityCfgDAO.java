@@ -45,7 +45,7 @@ public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg> {
 			List<DailyActivityCfgEntity> list = allEntrisMap.get(cfg.getTaskType());
 			if(list == null){
 				list = new ArrayList<DailyActivityCfgEntity>();
-				allEntrisMap.put(cfg.getTaskClassify(), list);
+				allEntrisMap.put(cfg.getTaskType(), list);
 			}
 			list.add(entity);
 			

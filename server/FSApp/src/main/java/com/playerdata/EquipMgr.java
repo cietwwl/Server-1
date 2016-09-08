@@ -13,6 +13,7 @@ import com.rw.service.Equip.EquipHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.equipment.EquipItemHelper;
 import com.rwbase.dao.equipment.EquipItemHolder;
@@ -236,9 +237,9 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 
 			boolean isOpen = false;
 			if (m_pOwner.getRoleType() == eRoleType.Player) {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, player.getLevel());
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, player);
 			} else {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, player.getLevel());
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, player);
 			}
 			if (!isOpen) {
 				player.NotifyCommonMsg(ErrorType.NOT_ENOUGH_LEVEL);
@@ -389,10 +390,16 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 */
 	public void changeEquip(Player player, String heroId) {
 		List<EquipItem> equipList = getEquipList(heroId);
+//		for (EquipItem equipItem : equipList) {
+//			ItemData equipItemData = EquipItemHelper.toEquipItemData(equipItem);
+//			player.getItemBagMgr().addItem(equipItemData.getModelId(), 1);
+//		}
+		List<ItemInfo> list = new ArrayList<ItemInfo>(equipList.size());
 		for (EquipItem equipItem : equipList) {
 			ItemData equipItemData = EquipItemHelper.toEquipItemData(equipItem);
-			player.getItemBagMgr().addItem(equipItemData.getModelId(), 1);
+			list.add(new ItemInfo(equipItemData.getModelId(), 1));
 		}
+		player.getItemBagMgr().addItem(list);
 		sendBackAttachMaterial(player, equipList);
 		subAllEquip(player, heroId);
 	}

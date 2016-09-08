@@ -16,7 +16,6 @@ public class PeakArenaService implements FsService<MsgArenaRequest, eArenaType> 
 
 	@Override
 	public ByteString doTask(MsgArenaRequest request, Player player) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
 			eArenaType arenaType = request.getArenaType();			
@@ -78,14 +77,12 @@ public class PeakArenaService implements FsService<MsgArenaRequest, eArenaType> 
 
 	@Override
 	public MsgArenaRequest parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
 		MsgArenaRequest msgArenaRequest = MsgArenaRequest.parseFrom(request.getBody().getSerializedContent());
 		return msgArenaRequest;
 	}
 
 	@Override
 	public eArenaType getMsgType(MsgArenaRequest request) {
-		// TODO Auto-generated method stub
 		return request.getArenaType();
 	}
 

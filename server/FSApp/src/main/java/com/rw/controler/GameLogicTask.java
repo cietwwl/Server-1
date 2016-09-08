@@ -20,6 +20,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.netty.UserSession;
 import com.rw.service.FsService;
+import com.rw.service.common.FunctionOpenLogic;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.dao.guide.GuideProgressDAO;
@@ -95,17 +96,27 @@ public class GameLogicTask implements PlayerTask {
 					proceeMsgRequestException(player, userId, "command获取不到对应的service. command:" + command, command, executeTime, seqID);
 					return;
 				}
+				
 				GeneratedMessage msg = serivice.parseMsg(request);
 				if (msg == null) {
-					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command, executeTime, seqID);
+					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command,
+							executeTime, seqID);
 					return;
 				}
 
 				msgType = serivice.getMsgType(msg);
 				registerBehavior(player, serivice, command, msgType, msg, header.getEntranceId());
-				resultContent = serivice.doTask(msg, player);
-				player.getAssistantMgr().doCheck();
-				FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, command, msgType, seqID, userId);
+
+				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
+					resultContent = serivice.doTask(msg, player);
+					player.getAssistantMgr().doCheck();
+					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime) + "," + command + ","
+							+ seqID + ")[" + player.getUserId() + "]");
+				} else {
+					nettyControler.functionNotOpen(userId, request.getHeader());
+					return;
+				}
+
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
