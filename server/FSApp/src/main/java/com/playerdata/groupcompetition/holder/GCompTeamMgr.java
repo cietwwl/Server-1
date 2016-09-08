@@ -13,10 +13,9 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
-import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
+import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
-import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -45,6 +44,19 @@ public class GCompTeamMgr {
 	
 	protected GCompTeamMgr() {
 		
+	}
+	
+	private void sendStartMatchingMsg(GCompTeam team) {
+		List<GCompTeamMember> members = team.getMembers();
+		TeamStatusChange.Builder builder = TeamStatusChange.newBuilder();
+		builder.setStatus(TeamStatusType.StartMatch);
+		for (GCompTeamMember member : members) {
+			if (member.isLeader()) {
+				continue;
+			} else {
+				PlayerMgr.getInstance().find(member.getUserId()).SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, builder.build().toByteString());
+			}
+		}
 	}
 	
 	private IGCAgainst getMatchOfGroup(String groupId) {
@@ -153,6 +165,31 @@ public class GCompTeamMgr {
 		} else {
 			result.setT2(createResult.getT1().getTips());
 			return null;
+		}
+	}
+	
+	private void sendDimiss(List<GCompTeam> teams) {
+		Player player;
+		for (GCompTeam team : teams) {
+			List<GCompTeamMember> members = team.getMembers();
+			for (GCompTeamMember member : members) {
+				if (!PlayerMgr.getInstance().isOnline(member.getUserId())) {
+					continue;
+				}
+				player = PlayerMgr.getInstance().find(member.getUserId());
+				_dataHolder.synRemove(player, team);
+			}
+		}
+	}
+	
+	public void onEventStatusChange(GCompEventsStatus currentStatus) {
+		switch (currentStatus) {
+		case REST:
+			List<GCompTeam> teams = _dataHolder.clearAllTeam(); // 解散所有队伍
+			sendDimiss(teams);
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -594,12 +631,7 @@ public class GCompTeamMgr {
 		team.setMatching(true);
 		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
 		result.setT1(true);
-		List<GCompTeamMember> members = team.getMembers();
-		TeamStatusChange.Builder builder = TeamStatusChange.newBuilder();
-		builder.setStatus(TeamStatusType.StartMatch);
-		for(GCompTeamMember member : members) {
-			
-		}
+		sendStartMatchingMsg(team);
 		return result;
 	}
 	

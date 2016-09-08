@@ -24,6 +24,8 @@ public class GCompTeamMember {
 	private boolean isReady; // 是否准备好
 	@IgnoreSynField
 	private volatile long startBattleTime;// 开始战斗的时间
+	@IgnoreSynField
+	private volatile String enemyName;// 对手的名字
 
 	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
 		this.isLeader = pIsLeader;
@@ -88,6 +90,14 @@ public class GCompTeamMember {
 
 	public void setStartBattleTime(long startBattleTime) {
 		this.startBattleTime = startBattleTime;
+	}
+
+	public String getEnemyName() {
+		return enemyName;
+	}
+
+	public void setEnemyName(String enemyName) {
+		this.enemyName = enemyName;
 	}
 
 	@Override

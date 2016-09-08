@@ -37,8 +37,9 @@ public class GCOnlineMemberHolder {
 	
 	public void syn(Player player, String groupId) {
 		List<GCompOnlineMember> members = _dao.getOnlineMembers(groupId);
-		if (members != null && members.size() > 0) {
-			ClientDataSynMgr.synDataList(player, members, eSynType.GCompOnlineMember, eSynOpType.UPDATE_LIST);
+		if (members != null) {
+			ClientDataSynMgr.updateDataList(player, members, eSynType.GCompOnlineMember, eSynOpType.UPDATE_LIST);
+			GCompUtil.log("同步在线成员给玩家，列表：{}，玩家：{}", members, player);
 		}
 	}
 	
@@ -52,6 +53,7 @@ public class GCOnlineMemberHolder {
 				list.add(PlayerMgr.getInstance().find(temp.getUserId()));
 			}
 		}
+		GCompUtil.log("同步新加的member给所有玩家，member：{}，玩家列表：{}，opType:{}", member, list, opType);
 		ClientDataSynMgr.synDataMutiple(list, member, eSynType.GCompOnlineMember, opType);
 	}
 	

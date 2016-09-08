@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.dao.pojo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,6 +31,16 @@ public class GCompGroupTeamMgr {
 	public void removeTeam(String groupId, String teamId) {
 		GCompTeam team = this._teamDatas.remove(teamId);
 		this._teamDatasByGroup.get(groupId).remove(team);
+	}
+	
+	public List<GCompTeam> removeAll() {
+		List<GCompTeam> teams = new ArrayList<GCompTeam>();
+		for (Iterator<String> keyItr = _teamDatasByGroup.keySet().iterator(); keyItr.hasNext();) {
+			teams.addAll(_teamDatasByGroup.get(keyItr.next()));
+		}
+		_teamDatasByGroup.clear();
+		_teamDatas.clear();
+		return teams;
 	}
 	
 	

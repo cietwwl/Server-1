@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.dao;
 
+import java.util.List;
+
 import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamMgr;
 import com.playerdata.groupcompetition.dao.pojo.GCompMatchTeamData;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
@@ -17,6 +19,10 @@ public class GCompTeamDataDAO {
 	
 	public void clearMatchTeamData() {
 		_matchTeamData.clear();
+	}
+	
+	public List<GCompTeam> removeAllTeam() {
+		return _matchTeamData.removeAllTeam();
 	}
 	
 	public void addGroupTeamData(int matchId, GCompGroupTeamMgr groupTeamData) {
