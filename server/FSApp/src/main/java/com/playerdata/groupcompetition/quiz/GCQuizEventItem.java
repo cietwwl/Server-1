@@ -45,7 +45,7 @@ public class GCQuizEventItem {
 	
 	@IgnoreSynField
 	@NonSave
-	public static float DEFAULT_RATE = 1.1f;
+	public static float DEFAULT_MIN_RATE = 1.1f;
 
 	public GCQuizEventItem(){	}
 	
@@ -125,11 +125,11 @@ public class GCQuizEventItem {
 		long totalCoin = aCoin + bCoin + baseCoin;
 		if(aCoin != 0){
 			float rate = (float)(totalCoin/(aCoin * 1.0));
-			groupA.setRate(rate < DEFAULT_RATE ? DEFAULT_RATE : rate);
+			groupA.setRate(rate < DEFAULT_MIN_RATE ? DEFAULT_MIN_RATE : rate);
 		}
 		if(bCoin != 0){
 			float rate = (float)(totalCoin/(bCoin * 1.0));
-			groupB.setRate(rate < DEFAULT_RATE ? DEFAULT_RATE : rate);
+			groupB.setRate(rate < DEFAULT_MIN_RATE ? DEFAULT_MIN_RATE : rate);
 		}
 		this.isFinalRate = isFinalRate;
 	}
