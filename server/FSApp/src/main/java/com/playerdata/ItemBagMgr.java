@@ -103,14 +103,26 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	
 
 	/**
+	 * <pre>
 	 * 获取道具modelId与数量的映射
-	 * 
-	 * @return
+	 * </pre>
+	 * @return	{key=modelId,value=count}
 	 */
 	public Map<Integer, RefInt> getModelCountMap() {
 		return holder.getModelCountMap();
 	}
 
+	/**
+	 * <pre>
+	 * 检查是否有足够的道具数量
+	 * </pre>
+	 * @param itemsMap	{key=modelId,value=count}
+	 * @return
+	 */
+	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
+		return holder.hasEnoughItems(itemsMap);
+	}
+	
 	/**
 	 *
 	 * 解析某种物品，然后放入到背包中去

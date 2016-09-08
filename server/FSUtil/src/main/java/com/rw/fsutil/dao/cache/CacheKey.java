@@ -4,11 +4,17 @@ public class CacheKey {
 
 	private final Class<?> clazz;
 	private final String name;
+	private final int hash;
 
 	public CacheKey(Class<?> clazz, String name) {
 		super();
 		this.clazz = clazz;
 		this.name = name;
+		int prime = 31;
+		int result = 1;
+		result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		this.hash = result;
 	}
 
 	public Class<?> getClazz() {
@@ -21,11 +27,7 @@ public class CacheKey {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return hash;
 	}
 
 	@Override

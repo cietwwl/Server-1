@@ -220,30 +220,42 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	 */
 	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem,boolean isspend) {
 		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-		if(activityExchangeTypeSubCfg== null){
+		if (activityExchangeTypeSubCfg == null) {
 			return false;
 		}
-		if(targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()){
+		if (targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()) {
 			return false;
-		}	
-		
+		}
+		//临时方案，需要在启动服务器时生成配置相关对象，后续由小飞优化
+		HashMap<Integer, Integer> itemCostMap = new HashMap<Integer, Integer>();
 		Map<String, String> exchangeNeedslist = activityExchangeTypeSubCfg.getChangelist();
-		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
+		for (Map.Entry<String, String> entry : exchangeNeedslist.entrySet()) {
 			int id = Integer.parseInt(entry.getKey());
-			if(id < eSpecialItemId.eSpecial_End.getValue()){
-				if(player.getReward(eSpecialItemId.getDef(id))<Integer.parseInt(entry.getValue())){
+			int count = Integer.parseInt(entry.getValue());
+			if (id < eSpecialItemId.eSpecial_End.getValue()) {
+				if (player.getReward(eSpecialItemId.getDef(id)) < count) {
 					return false;
 				}
-			}else{
-				if(player.getItemBagMgr().getItemCountByModelId(id) < Integer.parseInt(entry.getValue())){
-					return false;
-				}		
+			} else {
+				Integer idValue = id;
+				Integer value = itemCostMap.get(idValue);
+				if(value == null){
+					itemCostMap.put(idValue, value);
+				}else{
+					itemCostMap.put(idValue, value+count);
+				}
+//				if (player.getItemBagMgr().getItemCountByModelId(id) < Integer.parseInt(entry.getValue())) {
+//					return false;
+//				}
 			}
-		}		
-		
-		if(isspend){
-			spendItem(exchangeNeedslist,player);
-		}	
+		}
+		if(player.getItemBagMgr().hasEnoughItems(itemCostMap)){
+			return false;
+		}
+
+		if (isspend) {
+			spendItem(exchangeNeedslist, player);
+		}
 		return true;
 	}
 	

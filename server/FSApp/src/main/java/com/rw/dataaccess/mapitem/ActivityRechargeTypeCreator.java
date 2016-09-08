@@ -15,7 +15,7 @@ public class ActivityRechargeTypeCreator implements MapItemCreator<ActivityDaily
 
 	@Override
 	public boolean isOpen(MapItemValidateParam param) {
-		return !ActivityDetector.getInstance().hasDailyCharge();
+		return ActivityDetector.getInstance().hasDailyCharge();
 	}
 
 }
