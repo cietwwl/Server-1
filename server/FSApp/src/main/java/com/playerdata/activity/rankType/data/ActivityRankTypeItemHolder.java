@@ -47,7 +47,7 @@ public class ActivityRankTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityRankTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityRankTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityRankTypeItem> cache = MapItemStoreFactory.getActivityRankTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityRankTypeItem.class);
 	}

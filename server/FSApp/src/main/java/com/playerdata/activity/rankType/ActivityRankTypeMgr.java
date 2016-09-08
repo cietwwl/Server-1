@@ -23,6 +23,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -49,6 +50,9 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 
 	private void checkNewOpen(Player player) {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityRankTypeItem> addItemList =null;
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		ActivityRankTypeCfgDAO activityRankTypeCfgDAO = ActivityRankTypeCfgDAO.getInstance();
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityRankTypeCfg activityRankTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -70,6 +74,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			}
 		}
 	}
+	
+	public List<ActivityRankTypeItem> creatItems(String userId ,MapItemStore<ActivityRankTypeItem> itemStore){
+		
+		
+		
+		return null;
+	}
+	
 	
 	public boolean isOpen(ActivityRankTypeCfg activityRankTypeCfg) {
 		
@@ -188,9 +200,9 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		for(ActivityRankTypeCfg cfg:cfgList){//所有的配表活动
 			ActivityRankTypeEnum activityRankTypeEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 			if(activityRankTypeEnum==null){
+				//代码没定义配置表里要的活动
 				continue;
-			}
-			
+			}			
 			SendRewardRecord record = sendMap.get(cfg.getEnumId());
 			if(record.isSend()){
 				//已经派发过，避免多次触发
@@ -200,6 +212,11 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 			if(!isCanGift(cfg,record)){
 				//是否为同类型活动里处于激活派发状态的一个
 //				System.out.println("activityrank.活动还未结束。。。。。。。。。。。。。。。。");
+				continue;
+			}
+			List<ActivityRankTypeSubCfg> subCfgList = activityRankTypeSubCfgDAO.getByParentCfgId(cfg.getId());
+			if(subCfgList == null){
+				//父表没在子表找到对应的list
 				continue;
 			}
 			record.setLasttime(System.currentTimeMillis());
@@ -212,8 +229,11 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					RankingLevelData levelData = tableranklist.get(i);
 					RankInfo rankInfo = RankingUtils.createOneRankInfo(levelData, i + 1);
 					rankList.add(rankInfo);
-				}				
+				}
+				int num = 0;
 				for(RankInfo rankInfo:rankList){//所有的该榜上榜用户
+					System.out.println("activityrank打印下是否顺序"  + rankInfo.getRankingLevel() + " 个数=" + num);
+					num++;
 					if(rankInfo.getRankingLevel() > cfg.getRewardNum()){
 						//奖励活动有效位数小于当前榜上用户的排名
 						continue;
@@ -227,14 +247,13 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 						//有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 						continue;
 					}
-					
-					Player player = playerMgr.find(rankInfo.getHeroUUID());
-					if(player == null){
-						//根据排行榜的英雄id找不到用户
+					String userId = rankInfo.getHeroUUID();
+					MapItemStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder.getItemStore(userId);
+					if(itemStore == null){
 						continue;
 					}
+//					if(itemStore.getItem())
 					
-					List<ActivityRankTypeSubCfg> subCfgList = activityRankTypeSubCfgDAO.getByParentCfgId(cfg.getId());
 					String tmpReward= null;
 					String emaiId = null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
@@ -244,10 +263,12 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 							break;
 						}						
 					}
+					
 					if(tmpReward !=null){
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
-						activityRankTypeItemHolder.updateItem(player, targetItem);
+						itemStore.updateItem(targetItem);
+//						activityRankTypeItemHolder.updateItem(player, targetItem);
 //						System.out.println("activityrank.往个人数据库增加奖励信息" + player.getUserId());
 					}
 				}			
