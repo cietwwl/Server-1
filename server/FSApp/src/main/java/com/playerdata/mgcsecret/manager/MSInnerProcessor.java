@@ -47,11 +47,13 @@ class MSInnerProcessor extends MSConditionJudger {
 	 */
 	public static void handleDropItem(Player player, List<ItemInfo> dropItems) {
 		ItemBagMgr bagMgr = player.getItemBagMgr();
-		for (ItemInfo itm : dropItems) {
-			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-			if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-		}
+//		for (ItemInfo itm : dropItems) {
+//			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
+//			if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
+//				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+//		}
+		GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品：%s", dropItems), null);
+		bagMgr.addItem(dropItems);
 	}
 
 	/**

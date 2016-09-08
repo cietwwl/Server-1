@@ -34,6 +34,7 @@ import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -238,10 +239,13 @@ public class FixEquipHelper {
 
 		boolean success = true;
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		List<ItemInfo> list = new ArrayList<ItemInfo>(itemCostMap.size());
 		for (Integer modelId : itemCostMap.keySet()) {
 			Integer count = itemCostMap.get(modelId);
-			itemBagMgr.addItem(modelId, count);
+//			itemBagMgr.addItem(modelId, count);
+			list.add(new ItemInfo(modelId, count));
 		}
+		itemBagMgr.addItem(list);
 
 		return success;
 	}

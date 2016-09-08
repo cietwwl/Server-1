@@ -13,7 +13,6 @@ import com.playerdata.readonly.CopyCfgIF;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.CopyRecordMgrIF;
 import com.playerdata.readonly.CopyRewardsIF;
-import com.playerdata.readonly.ItemInfoIF;
 import com.rw.service.copy.CommonTip;
 import com.rw.service.copy.CopyRewards;
 import com.rw.service.copy.PvECommonHelper;
@@ -241,24 +240,27 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 
 	private void addGiftToItemBag(int mapID, int index) {
 		MapCfg map = MapCfgDAO.getInstance().getCfg(mapID);
-		List<ItemInfoIF> list = getGiftList(map, index);
-		for (int i = 0; i < list.size(); i++) {
-			ItemInfoIF itemInfo = list.get(i);
-			m_pPlayer.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
-		}
+		List<ItemInfo> list = getGiftList(map, index);
+//		for (int i = 0; i < list.size(); i++) {
+//			ItemInfoIF itemInfo = list.get(i);
+//			m_pPlayer.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
+//		}
+		m_pPlayer.getItemBagMgr().addItem(list);
 	}
 
-	private List<ItemInfoIF> getGiftList(MapCfg mapCfg, int index) {
+//	private List<ItemInfoIF> getGiftList(MapCfg mapCfg, int index) {
+	private List<ItemInfo> getGiftList(MapCfg mapCfg, int index) {
 		String str = mapCfg.getRewardGain();
 		String[] arr = str.split(",");
 		str = arr[index];
 		GiftCfg giftCfg = GiftCfgDAO.getInstance().getCfg(str);
-		List<ItemInfoIF> list = departStringToItemInfoList(giftCfg.getReward());
+		List<ItemInfo> list = departStringToItemInfoList(giftCfg.getReward());
 		return list;
 	}
 
-	private List<ItemInfoIF> departStringToItemInfoList(String rewards) {
-		List<ItemInfoIF> list = new ArrayList<ItemInfoIF>();
+//	private List<ItemInfoIF> departStringToItemInfoList(String rewards) {
+	private List<ItemInfo> departStringToItemInfoList(String rewards) {
+		List<ItemInfo> list = new ArrayList<ItemInfo>();
 		String[] rewardArray = rewards.split(",");
 		for (int i = 0; i < rewardArray.length; i++) {
 			String strItem = rewardArray[i];
