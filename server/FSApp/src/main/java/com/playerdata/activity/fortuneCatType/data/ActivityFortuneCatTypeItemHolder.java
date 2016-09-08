@@ -58,7 +58,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	
 	public ActivityFortuneCatTypeItem getItem(String userId){
 		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
-		return getItemStore(userId).getItem(userId);
+		return getItemStore(userId).getItem(itemID);
 	}
 	
 	public boolean addItem(Player player, ActivityFortuneCatTypeItem item){
