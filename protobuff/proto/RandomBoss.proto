@@ -22,6 +22,21 @@ message RandomMsgRequest{
 	optional int64 curHp = 4; //boss当前血量
 }
 
+message RandomBossMsgResponse{
+	required MsgType msgType = 1; 
+	required bool isSuccess = 2; //是否成功
+	optional string tips = 3;
+	optional BattleRewardInfo reward = 4;
+	optional string army = 5;//这是armyinfo 的json字段
+	repeated string battleInfo = 6;//讨伐信息 BattleNewsData json字符串
+}
+
+//推送到前端的消息
+message RandomBossPushMsg{
+	required MsgType msgType = 1;
+	optional string bossID = 2;
+}
+
 message InvitedFriends{
  	repeated string friendID = 1;
 }
