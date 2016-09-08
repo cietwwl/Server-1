@@ -24,8 +24,12 @@ public class DataAccessFactory {
 	private static DataAccessSimpleSupport simpleSupport;
 	private static AtomicBoolean init = new AtomicBoolean();
 	private static RoleExtPropertyManagerImpl roleAttachmentManager;
+	private static RoleExtPropertyManagerImpl heroAttachmentManager;
 	private static TableUpdateCollector tableUpdateCollector;
 	private static ConcurrentHashMap<String, DataAccessSimpleSupport> supportMap;
+	// private static ConcurrentHashMap<String, RoleExtPropertyManagerImpl>
+	// roleExtPropMgrMap;
+	private static String dataSourceName;
 
 	static {
 		// TODO 这里做成配置
@@ -34,9 +38,7 @@ public class DataAccessFactory {
 		supportMap = new ConcurrentHashMap<String, DataAccessSimpleSupport>();
 	}
 
-	public static void init(String dsName, Map<Integer, 
-			Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>,
-					DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
+	public static void init(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
 			int[] selectRangeParam, Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos) {
 		if (!init.compareAndSet(false, true)) {
 			throw new ExceptionInInitializerError("重复初始化DataAccessFactory");
@@ -49,7 +51,9 @@ public class DataAccessFactory {
 			sp = old;
 		}
 		simpleSupport = sp;
-		roleAttachmentManager = new RoleExtPropertyManagerImpl(dsName);
+		dataSourceName = dsName;
+		roleAttachmentManager = new RoleExtPropertyManagerImpl(dsName, DataAccessStaticSupport.getRoleExtPropName());
+		heroAttachmentManager = new RoleExtPropertyManagerImpl(dsName, DataAccessStaticSupport.getHeroExtPropName());
 	}
 
 	public static DataAccessSimpleSupport getSimpleSupport() {
@@ -77,12 +81,15 @@ public class DataAccessFactory {
 		return dataKvManager;
 	}
 
-	public static RoleExtPropertyManager getRoleAttachmentManager() {
-		return roleAttachmentManager;
-	}
-
 	public static TableUpdateCollector getTableUpdateCollector() {
 		return tableUpdateCollector;
 	}
 
+	public static RoleExtPropertyManager getHeroAttachmentManager() {
+		return heroAttachmentManager;
+	}
+	
+	public static RoleExtPropertyManager getRoleAttachmentManager() {
+		return roleAttachmentManager;
+	}
 }

@@ -16,9 +16,7 @@ import java.util.TreeMap;
 
 import org.springframework.util.StringUtils;
 
-import com.rw.dataaccess.PlayerCoreCreation;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
-import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -128,6 +126,9 @@ public class HPCUtil {
 	 * @return
 	 */
 	public static Object[] toMappedArray(Object[] orignalArray, String intField) {
+		if(orignalArray == null || orignalArray.length == 0){
+			return new Object[0];
+		}
 		Object[] array = null;
 		TreeMap<Integer, Object> treeMap = new TreeMap<Integer, Object>();
 		Field field = null;

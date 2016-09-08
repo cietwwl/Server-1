@@ -27,13 +27,13 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	private final String[] deleteArray;
 	private final int tableSize;
 
-	public RoleExtPropertyManagerImpl(String dsName) {
+	public RoleExtPropertyManagerImpl(String dsName, String name) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
 		}
 		this.template = new JdbcTemplate(dataSource);
-		List<String> tableNameList = DataAccessStaticSupport.getTableNameList(template, DataAccessStaticSupport.getAttachmentName());
+		List<String> tableNameList = DataAccessStaticSupport.getTableNameList(template, name);
 		this.tableSize = tableNameList.size();
 		this.selectRangeArray = new String[tableSize];
 		this.updateArray = new String[tableSize];

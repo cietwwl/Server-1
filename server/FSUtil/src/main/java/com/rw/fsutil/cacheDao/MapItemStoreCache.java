@@ -23,6 +23,7 @@ import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.mapitem.MapItemEntity;
 import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
+import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
@@ -35,13 +36,14 @@ import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
  * @author Jamaz
  *
  */
-public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<String, String> {
+public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<String, String>, DAOStoreCache<T, MapItemEntity> {
 
 	private final DataCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
 	private CommonMultiTable<String, T> commonJdbc;
 	private final Integer type;
 	private final ClassInfo classInfo;
+	private final Class<T> entityClass;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", false);
@@ -61,6 +63,7 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 
 	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect, Integer type) {
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
+		this.entityClass = entityClazz;
 		this.searchFieldP = searchFieldP;
 		this.classInfo = new ClassInfo(entityClazz, searchFieldP);
 		this.commonJdbc = new CommonMultiTable<String, T>(datasourceName, classInfo, searchFieldP, type);
@@ -227,6 +230,11 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 
 	public boolean contains(String searchId) {
 		return this.cache.containsKey(searchId);
+	}
+
+	@Override
+	public Class<T> getEntityClass() {
+		return this.entityClass;
 	}
 
 }

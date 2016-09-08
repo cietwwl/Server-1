@@ -34,14 +34,13 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
-import com.rw.dataaccess.attachment.PlayerPropertyParams;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
@@ -210,6 +209,7 @@ public class Player implements PlayerIF {
 		return fresh;
 	}
 
+	//
 	private void notifyCreated() {
 		Field[] fields = Player.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
@@ -260,6 +260,7 @@ public class Player implements PlayerIF {
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
+		//TODO 标记1
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
@@ -269,13 +270,13 @@ public class Player implements PlayerIF {
 		
 		if (!initMgr) {
 			// MapItemStoreFactory.notifyPlayerCreated(userId);
-			this.getHeroMgr().init(this, false);
+			//TODO 标记2
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
+			//TODO 标记3
 			notifyCreated();
-		} else {
-			m_HeroMgr.init(this, true);
-		}
-		PlayerExtPropertyFactory.preloadAndCreateProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
+		} 
+		//TODO 标记4
+		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
 
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
