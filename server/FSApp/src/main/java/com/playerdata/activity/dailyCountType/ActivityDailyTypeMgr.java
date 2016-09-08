@@ -68,8 +68,10 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 		List<ActivityDailyTypeItem> addItemList = null;
 		for (ActivityDailyTypeCfg cfg : activityDailyTypeCfgList) {
+			String itemId = ActivityDailyTypeHelper.getItemId(
+					userId, ActivityDailyTypeEnum.Daily);
 			if (itemStore != null) {
-				if (itemStore.getItem(userId) != null) {
+				if (itemStore.getItem(itemId) != null) {
 					return addItemList;
 				}
 			}
@@ -77,7 +79,8 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
-			item.setId(userId);
+			
+			item.setId(itemId);
 			item.setUserId(userId);
 			item.setCfgid(cfg.getId());
 			item.setVersion(cfg.getVersion());
