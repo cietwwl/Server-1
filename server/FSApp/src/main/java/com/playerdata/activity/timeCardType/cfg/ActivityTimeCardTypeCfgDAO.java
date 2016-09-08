@@ -38,15 +38,14 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 	}
 	
 	public ActivityTimeCardTypeItem newItem(Player player){
-		
-		String cfgId = ActivityTimeCardTypeEnum.Month.getCfgId();
-		ActivityTimeCardTypeCfg cfgById = getCfgById("1" );
+		//在不改配置文件的情况下，只修改itemid方便插入数据库；
+		ActivityTimeCardTypeCfg cfgById = getCfgById("1");
 		if(cfgById!=null){			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
 			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), ActivityTimeCardTypeEnum.Month);
 			item.setId(itemId);
 			item.setUserId(player.getUserId());
-			item.setCfgId(cfgId);
+			item.setCfgId(cfgById.getId());
 			newAndAddSubItemList(item);
 			
 			return item;
