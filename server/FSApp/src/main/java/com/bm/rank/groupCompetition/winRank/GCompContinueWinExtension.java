@@ -26,6 +26,7 @@ public class GCompContinueWinExtension extends RankingJacksonExtension<GCompScor
 		toData.setUserId(player.getUserId());
 		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
 		toData.setUserName(player.getUserName());
+		toData.setHeadImage(player.getHeadImage());
 		return toData;
 	}
 }
