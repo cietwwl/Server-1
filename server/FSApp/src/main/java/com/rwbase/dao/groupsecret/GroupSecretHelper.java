@@ -253,7 +253,7 @@ public class GroupSecretHelper {
 				if (heroLeftInfo == null) {
 //					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
 					AttrData totalData = hero.getAttrMgr().getTotalAttrData();
-					heroLeftInfo = new HeroLeftInfoSynData(totalData.getLife(), 0, totalData.getLife(), totalData.getEnergy());
+					heroLeftInfo = new HeroLeftInfoSynData((int)totalData.getLife(), 0, (int)totalData.getLife(), totalData.getEnergy());
 					isHasLife = true;
 				} else {
 					int leftLife = heroLeftInfo.getLife();
