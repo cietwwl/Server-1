@@ -18,7 +18,7 @@ public class AssistantCheckFixEquipAdvance extends DefaultAssistantChecker {
 		HeroMgr heroMgr = player.getHeroMgr();
 		List<String> heroIdList = heroMgr.getHeroIdList(player);
 		AssistantEventID result = null;
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player)){
 			result = checkQualityUP(player, heroMgr, heroIdList);
 			if (result == null){
 				result = checkLevelUP(player, heroMgr, heroIdList);

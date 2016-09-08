@@ -86,9 +86,10 @@ public class DailyActivityHandler {
 		if(activityMgr.RemoveTaskById(taskId))
 		{
 			List<ItemInfo> rewardList = entity.getReward();
-			for(ItemInfo info:rewardList){
-				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
-			}
+//			for(ItemInfo info:rewardList){
+//				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
+//			}
+			player.getItemBagMgr().addItem(rewardList);
 			response.setTaskId(request.getTaskId());
 			
 			
