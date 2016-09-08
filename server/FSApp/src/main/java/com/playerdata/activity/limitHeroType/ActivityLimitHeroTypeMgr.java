@@ -94,9 +94,10 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	public List<ActivityLimitHeroTypeItem> creatItems(String userid ,MapItemStore<ActivityLimitHeroTypeItem> itemStore){	
 		List<ActivityLimitHeroTypeItem> addItemList = null;
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
+		String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
 		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if(itemStore != null){
-				if(itemStore.getItem(userid) != null){					
+				if(itemStore.getItem(itemId) != null){					
 					return addItemList;
 				}
 			}
@@ -105,7 +106,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 				continue;
 			}			
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();
-			item.setId(userid);
+			item.setId(itemId);
 			item.setCfgId(cfg.getId());
 			item.setUserId(userid);
 			item.setVersion(cfg.getVersion());

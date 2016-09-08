@@ -8,11 +8,15 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.rank.RankType;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -50,36 +54,47 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 
 	private void checkNewOpen(Player player) {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
-//		String userId = player.getUserId();
-//		List<ActivityRankTypeItem> addItemList =null;
-//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		ActivityRankTypeCfgDAO activityRankTypeCfgDAO = ActivityRankTypeCfgDAO.getInstance();
-		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityRankTypeCfg activityRankTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if(!isOpen(activityRankTypeCfg)){
-				continue;
+		String userId = player.getUserId();
+		List<ActivityRankTypeItem> addItemList =null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+		if (addItemList != null) {
+			for(ActivityRankTypeItem item : addItemList ){
+				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
 			}
-			ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum.getById(activityRankTypeCfg.getEnumId());	
-			if(RankTypeEnum == null){
-				
-				continue;
-			}
-			ActivityRankTypeItem targetItem = dataHolder.getItem(player.getUserId(), RankTypeEnum);//已在之前生成数据的活动
-			if(targetItem != null){
-				continue;
-			}
-			targetItem = activityRankTypeCfgDAO.newItem(player, activityRankTypeCfg);//生成新开启活动的数据
-			if(targetItem!=null){
-				dataHolder.addItem(player, targetItem);
-			}
+			dataHolder.addItemList(player, addItemList);
 		}
+		
 	}
 	
 	public List<ActivityRankTypeItem> creatItems(String userId ,MapItemStore<ActivityRankTypeItem> itemStore){
-		
-		
-		
-		return null;
+		List<ActivityRankTypeItem> addItemList  = null;
+		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityRankTypeCfg cfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if(!isOpen(cfg)){
+				continue;
+			}
+			ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());	
+			if(RankTypeEnum == null){				
+				continue;
+			}
+			String itemId = ActivityRankTypeHelper.getItemId(userId, RankTypeEnum);
+			if(itemStore != null){
+				if(itemStore.getItem(itemId)!= null){
+					continue;
+				}
+			}		
+			ActivityRankTypeItem item = new ActivityRankTypeItem();
+			item.setId(itemId);
+			item.setUserId(userId);
+			item.setCfgId(cfg.getId());
+			item.setEnumId(cfg.getEnumId());
+			item.setVersion(cfg.getVersion());
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityRankTypeItem>();
+			}
+			addItemList.add(item);			
+		}		
+		return addItemList;
 	}
 	
 	

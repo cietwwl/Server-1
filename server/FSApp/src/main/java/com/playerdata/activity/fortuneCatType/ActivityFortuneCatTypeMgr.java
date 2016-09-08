@@ -64,9 +64,11 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	public List<ActivityFortuneCatTypeItem> creatItems(String userId, MapItemStore<ActivityFortuneCatTypeItem> itemStore) {
 		List<ActivityFortuneCatTypeItem> addItemList = null;
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
+		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			
 			if (itemStore != null) {
-				if (itemStore.getItem(userId) != null) {
+				if (itemStore.getItem(itemID) != null) {
 					return addItemList;
 				}
 			}
@@ -75,7 +77,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(userId);
+			item.setId(itemID);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());			
