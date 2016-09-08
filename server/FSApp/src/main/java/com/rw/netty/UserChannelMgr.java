@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -234,17 +235,29 @@ public class UserChannelMgr {
 		return synData.setInReq();
 	}
 
-	public static boolean onBSEnd(String userId) {
+//	public static boolean synDataOnBSEnd(String userId) {
+//		ChannelHandlerContext ctx = userChannelMap.get(userId);
+//		if (ctx == null) {
+//			return false;
+//		}
+//
+//		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
+//		if (synData == null) {
+//			return false;
+//		}
+//		return synData.doSyn(ctx, userId);
+//	}
+	public static ByteString getDataOnBSEnd(String userId) {
 		ChannelHandlerContext ctx = userChannelMap.get(userId);
 		if (ctx == null) {
-			return false;
+			return null;
 		}
-
+		
 		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
 		if (synData == null) {
-			return false;
+			return null;
 		}
-		return synData.doSyn(ctx, userId);
+		return synData.getSynData(ctx, userId);
 	}
 
 	/**

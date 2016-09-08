@@ -40,6 +40,6 @@ message RankRecord
 }
 
 message GamebleReward{
-	required int32 rewardId = 1;
+	required string rewardId = 1;
 	required int32 rewardNum = 2;
 }

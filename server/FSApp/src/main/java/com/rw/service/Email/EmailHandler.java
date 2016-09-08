@@ -115,7 +115,6 @@ public class EmailHandler {
 			// 判断是否可以领取
 			String result = isAttachmentCanTake(player, item);
 			if (result.equals("")) {
-				player.getItemBagMgr().addItemByPrizeStr(item.getEmailAttachment());
 				item.setReceive(true);
 				item.setChecked(true);
 				player.getEmailMgr().checkUnread();

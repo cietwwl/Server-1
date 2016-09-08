@@ -46,6 +46,12 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
@@ -326,6 +332,10 @@ public class ActivityCollector implements RedPointCollector{
 		System.out.println();
 		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyChargeList);
+		
+		
+		
+		
 		
 //		if (!activityList.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);

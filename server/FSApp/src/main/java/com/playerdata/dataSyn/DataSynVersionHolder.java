@@ -13,6 +13,7 @@ import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
@@ -321,6 +322,18 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityRedEnvelopeType);
+		
+		versionMap.put(eSynType.ActivityFortuneCatType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityFortuneCatTypeMgr.getInstance().synFortuneCatTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityFortuneCatType);
+		
+		
+		
+		
 		
 		versionMap.put(eSynType.GFightOnlinePersonalData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override

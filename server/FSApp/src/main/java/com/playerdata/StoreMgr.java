@@ -695,6 +695,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				data.setFreeRefreshNum(0);
 			}
 		}
+		m_pPlayer.getSettingMgr().notifyVipUpgrade();
 	}
 	
 	/**

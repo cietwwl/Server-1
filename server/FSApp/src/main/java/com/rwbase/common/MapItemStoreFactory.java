@@ -10,6 +10,7 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
@@ -115,9 +116,13 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
 	
+	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
+	
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 	
-	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
+	
 	
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
@@ -214,6 +219,9 @@ public class MapItemStoreFactory {
 
 		register(activityDailyDiscountTypeItemCache = new MapItemStoreCache<ActivityDailyDiscountTypeItem>(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity));
 
+		register(activityFortuneCatTypeItemCache = new MapItemStoreCache<ActivityFortuneCatTypeItem>(ActivityFortuneCatTypeItem.class, "userId", heroCapacity));
+
+		
 		register(activityRedEnvelopeTypeItemCache = new MapItemStoreCache<ActivityRedEnvelopeTypeItem>(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity));
 
 		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity));
@@ -443,6 +451,10 @@ public class MapItemStoreFactory {
 		return activityDailyRechargeItemCache;
 	}
 	
+	public static MapItemStoreCache<ActivityFortuneCatTypeItem> getActivityFortuneCatTypeItemCache() {
+		return activityFortuneCatTypeItemCache;
+	}
+
 	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
 		return activityRedEnvelopeTypeItemCache;
 	}
