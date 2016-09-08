@@ -15,7 +15,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.hibernate.engine.spi.VersionValue;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fy.SpringContextUtil;
+import com.fy.lua.LuaDao;
+import com.fy.utils.FileUtils;
 import com.sun.tools.javac.resources.version;
 
 public class VersionDao {
@@ -30,31 +34,19 @@ public class VersionDao {
 	
 	private List<String> lastFilePathList = new ArrayList<String>();
 	
-	private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 	
+	public static VersionDao getInstance(){
+		return SpringContextUtil.getBean("versionDao");
+	}
 	
 	public void init(){
-		
 		load();
-		
-		service.scheduleAtFixedRate(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					load();
-				} catch (Throwable e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}, 0, 10, TimeUnit.SECONDS);
 	}
 	
 	public void load(){
 		File verDir = new File(verDirPath);
 		List<File> fileList = new ArrayList<File>();
-		sumFiles(verDir, fileList);
+		FileUtils.sumFiles(verDir, fileList, ".txt");
 		
 		if(isModified(fileList)){
 			
@@ -166,23 +158,6 @@ public class VersionDao {
 			}
 		}
 		return allVerList;
-	}
-	
-	private void sumFiles(File file, List<File> fileList){
-		
-		if(file.isFile()){
-			fileList.add(file);
-		}else if(file.isDirectory()){
-			File[] fileArray = file.listFiles();
-			for (File fileTmp : fileArray) {
-				//筛选指定格式的版本文件（指定格式为txt）
-				if (fileTmp.getName().indexOf(".txt") == -1 && fileTmp.isFile()) {
-					continue;
-				}
-				sumFiles(fileTmp, fileList);
-
-			}
-		}
 	}
 	
 
