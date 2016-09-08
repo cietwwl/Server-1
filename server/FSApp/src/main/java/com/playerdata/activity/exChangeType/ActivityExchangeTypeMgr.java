@@ -240,7 +240,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 				Integer idValue = id;
 				Integer value = itemCostMap.get(idValue);
 				if(value == null){
-					itemCostMap.put(idValue, value);
+					itemCostMap.put(idValue, count);
 				}else{
 					itemCostMap.put(idValue, value+count);
 				}
@@ -248,6 +248,9 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 //					return false;
 //				}
 			}
+		}
+		if(itemCostMap.isEmpty()){
+			return true;
 		}
 		if(player.getItemBagMgr().hasEnoughItems(itemCostMap)){
 			return false;
