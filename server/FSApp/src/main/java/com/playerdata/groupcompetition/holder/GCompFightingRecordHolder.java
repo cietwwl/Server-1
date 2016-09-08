@@ -13,7 +13,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompFightingRecordDAO;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
-import com.playerdata.groupcompetition.holder.data.GCompPersonFightingRecord;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -45,26 +44,6 @@ public class GCompFightingRecordHolder {
 			}
 		}
 		if (!synRecords.isEmpty()) {
-			ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
-		}else{
-			for(int i = 0; i < 6; i++){
-				GCompFightingRecord rc = new GCompFightingRecord();
-				rc.setId(String.valueOf(recordIDCreator.getAndIncrement()));
-				rc.setMatchId(matchId + i%2);
-				List<GCompPersonFightingRecord> recordList = new ArrayList<GCompPersonFightingRecord>();
-				for(int j = 0; j < 3; j++){
-					GCompPersonFightingRecord record = new GCompPersonFightingRecord();
-					record.setOffendName("哈哈哈ss" + j);
-					record.setDefendName("哦哦哦tt" + j);
-					record.setGroupScore(3);
-					record.setPersonalScore(2);
-					record.setContinueWin(3);
-					record.setOffendWin(true);
-					recordList.add(record);
-				}
-				rc.setPersonalFightingRecords(recordList);
-				synRecords.add(rc);
-			}
 			ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
 		}
 	}

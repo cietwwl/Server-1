@@ -73,4 +73,8 @@ public enum GCompEventsStatus {
 	public GCompEventsStatus getNextStatus() {
 		return this._nextStatus;
 	}
+	
+	public int getSign(){
+		return this.sign;
+	}
 }

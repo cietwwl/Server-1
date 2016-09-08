@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.GroupCompetitionProto.GCResultType;
@@ -48,6 +49,12 @@ public class GCompQuizMgr {
 		if(null == quizEvent) {
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("竞猜项目不存在");
+			return;
+		}
+		int currentEventSign = GroupCompetitionMgr.getInstance().getCurrentEventsStatus().getSign();
+		if(currentEventSign > GCompEventsStatus.PREPARE.getSign()){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("已经开战，不可竞猜");
 			return;
 		}
 		if(StringUtils.isNotBlank(quizEvent.getWinGroupId())){

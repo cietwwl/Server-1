@@ -74,26 +74,6 @@ public class GCompUserQuizItemHolder {
 		if(!itemList.isEmpty()){
 			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
 			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
-		}else{
-			GCompUserQuizItem testItem = new GCompUserQuizItem();
-			testItem.setId(player.getUserId() + "_" + 123);
-			testItem.setCoinCount(1000);
-			testItem.setMatchId(123);
-			testItem.setGroupId("99998");
-			testItem.setUserID(player.getUserId());
-			itemList.add(testItem);
-			
-			QuizGroupInfo groupA = new QuizGroupInfo("groupId001", "groupName001", "groupIcon001", 10.0f);
-			QuizGroupInfo groupB = new QuizGroupInfo("groupId002", "groupName002", "groupIcon002", 10.0f);
-			GCQuizEventItem eventItem1 = new GCQuizEventItem();
-			eventItem1.setBaseCoin(50000);
-			eventItem1.setMatchId(123);
-			eventItem1.setWinGroupId("");
-			eventItem1.setGroupA(groupA);
-			eventItem1.setGroupB(groupB);
-			eventList.add(eventItem1);
-			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
-			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	
