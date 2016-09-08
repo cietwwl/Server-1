@@ -85,27 +85,6 @@ public class GCompUserQuizItemHolder {
 		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
 		if(itemList != null && !itemList.isEmpty()) {
 			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
-		}else{
-			QuizGroupInfo groupA = new QuizGroupInfo("groupId001", "groupName001", "groupIcon001", 10.0f);
-			QuizGroupInfo groupB = new QuizGroupInfo("groupId002", "groupName002", "groupIcon002", 10.0f);
-			GCQuizEventItem eventItem1 = new GCQuizEventItem();
-			eventItem1.setBaseCoin(50000);
-			eventItem1.setMatchId(123);
-			eventItem1.setWinGroupId("");
-			eventItem1.setGroupA(groupA);
-			eventItem1.setGroupB(groupB);
-			itemList.add(eventItem1);
-			
-			QuizGroupInfo groupC = new QuizGroupInfo("groupId003", "groupName003", "groupIcon003", 10.0f);
-			QuizGroupInfo groupD = new QuizGroupInfo("groupId004", "groupName004", "groupIcon004", 10.0f);
-			GCQuizEventItem eventItem2 = new GCQuizEventItem();
-			eventItem2.setBaseCoin(50000);
-			eventItem2.setMatchId(124);
-			eventItem2.setWinGroupId("");
-			eventItem2.setGroupA(groupC);
-			eventItem2.setGroupB(groupD);
-			itemList.add(eventItem2);
-			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	
