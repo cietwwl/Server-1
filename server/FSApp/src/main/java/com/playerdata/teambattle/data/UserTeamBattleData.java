@@ -88,7 +88,7 @@ public class UserTeamBattleData {
 		return selfTeamInfo;
 	}
 
-	public void setSelfTeamInfo(StaticMemberTeamInfo selfTeamInfo) {
+	public synchronized void setSelfTeamInfo(StaticMemberTeamInfo selfTeamInfo) {
 		this.selfTeamInfo = selfTeamInfo;
 	}
 
