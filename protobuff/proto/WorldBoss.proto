@@ -7,10 +7,11 @@ package WorldBoss;
 
 enum RequestType{
 
-	Enter = 1;//
-	FightBegin = 2;//
-	FightEnd = 3;//
+	Enter = 1;
+	FightBegin = 2;
+	FightEnd = 3;
 	BuyBuff = 4;
+	SynData = 5;
 
 }
 

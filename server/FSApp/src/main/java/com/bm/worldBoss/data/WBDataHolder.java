@@ -68,8 +68,7 @@ public class WBDataHolder {
 	}
 	 
 	
-	private void update(){
-		
+	private void update(){		
 		WBDataDao.getInstance().update(WB_DATA_ID);
 		version.incrementAndGet();			
 	}

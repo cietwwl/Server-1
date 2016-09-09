@@ -61,18 +61,14 @@ public class WBMgr {
 		
 	}
 	
-	public long decrHp(long hurt){		
+	public void decrHp(Player player, long hurt){		
 		writeLock.lock();
-		long curLife = 0;
-		try {
-			
-			curLife = WBDataHolder.getInstance().decrHp(hurt);
-	
+		try {			
+			WBDataHolder.getInstance().decrHp(hurt);	
 		} finally {
 			writeLock.unlock();			
 		}		
-		
-		return curLife;
+		synWBData(player, -1);	
 		
 	}
 

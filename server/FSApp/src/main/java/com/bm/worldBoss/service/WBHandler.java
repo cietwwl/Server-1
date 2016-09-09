@@ -23,13 +23,9 @@ public class WBHandler {
 
 	public ByteString DoEnter(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
-		response.setReqType(commonReq.getReqType());
+		response.setReqType(commonReq.getReqType());		
 		
-		
-		
-		
-		response.setIsSuccess(true);
-		
+		response.setIsSuccess(true);	
 				
 		return response.build().toByteString();
 	}
@@ -81,7 +77,7 @@ public class WBHandler {
 		WBResult result = checkFightEnd(player, fightEndParam);
 		if(result.isSuccess()){
 			long totalHurt = fightEndParam.getTotalHurt();
-			WBMgr.getInstance().decrHp(totalHurt);
+			WBMgr.getInstance().decrHp(player,totalHurt);
 			
 		}
 		response.setIsSuccess(result.isSuccess());

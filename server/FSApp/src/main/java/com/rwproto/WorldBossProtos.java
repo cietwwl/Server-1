@@ -15,56 +15,46 @@ public final class WorldBossProtos {
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>Enter = 1;</code>
-     *
-     * <pre>
-     * </pre>
      */
     Enter(0, 1),
     /**
      * <code>FightBegin = 2;</code>
-     *
-     * <pre>
-     * </pre>
      */
     FightBegin(1, 2),
     /**
      * <code>FightEnd = 3;</code>
-     *
-     * <pre>
-     * </pre>
      */
     FightEnd(2, 3),
     /**
      * <code>BuyBuff = 4;</code>
      */
     BuyBuff(3, 4),
+    /**
+     * <code>SynData = 5;</code>
+     */
+    SynData(4, 5),
     ;
 
     /**
      * <code>Enter = 1;</code>
-     *
-     * <pre>
-     * </pre>
      */
     public static final int Enter_VALUE = 1;
     /**
      * <code>FightBegin = 2;</code>
-     *
-     * <pre>
-     * </pre>
      */
     public static final int FightBegin_VALUE = 2;
     /**
      * <code>FightEnd = 3;</code>
-     *
-     * <pre>
-     * </pre>
      */
     public static final int FightEnd_VALUE = 3;
     /**
      * <code>BuyBuff = 4;</code>
      */
     public static final int BuyBuff_VALUE = 4;
+    /**
+     * <code>SynData = 5;</code>
+     */
+    public static final int SynData_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -75,6 +65,7 @@ public final class WorldBossProtos {
         case 2: return FightBegin;
         case 3: return FightEnd;
         case 4: return BuyBuff;
+        case 5: return SynData;
         default: return null;
       }
     }
@@ -4748,11 +4739,11 @@ public final class WorldBossProtos {
       "am\"\213\001\n\014CommonRspMsg\022\'\n\007reqType\030\001 \002(\0162\026.W" +
       "orldBoss.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022" +
       "\016\n\006tipMsg\030\003 \001(\t\022/\n\rfightBeginRep\030\004 \001(\0132\030" +
-      ".WorldBoss.FightBeginRep*C\n\013RequestType\022" +
+      ".WorldBoss.FightBeginRep*P\n\013RequestType\022" +
       "\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002\022\014\n\010FightEnd\020\003" +
-      "\022\013\n\007BuyBuff\020\004*$\n\013BuyBuffType\022\010\n\004GOLD\020\001\022\013" +
-      "\n\007DIAMOND\020\002B\036\n\013com.rwprotoB\017WorldBossPro" +
-      "tos"
+      "\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005*$\n\013BuyBuffTyp" +
+      "e\022\010\n\004GOLD\020\001\022\013\n\007DIAMOND\020\002B\036\n\013com.rwprotoB" +
+      "\017WorldBossProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
