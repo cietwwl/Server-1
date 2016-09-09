@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.data;
 
+import com.playerdata.groupcompetition.data.match.CompetitionMatchSource;
+
 /**
  * 
  * 帮派争霸里面，战斗单位的数据接口
@@ -7,7 +9,7 @@ package com.playerdata.groupcompetition.data;
  * @author CHEN.P
  *
  */
-public interface CompetitionUnit {
+public interface CompetitionUnit extends CompetitionMatchSource {
 
 	/**
 	 * 
@@ -72,20 +74,4 @@ public interface CompetitionUnit {
 	 * @return
 	 */
 	public int getCurrentScoreForGroup();
-	
-	/**
-	 * 
-	 * 获取最后一次匹配开始的时间
-	 * 
-	 * @return
-	 */
-	public long getMatchBeginTime();
-	
-	/**
-	 * 
-	 * 设置匹配时间
-	 * 
-	 * @param pTime
-	 */
-	public void setMatchBeginTime(long pTime);
 }

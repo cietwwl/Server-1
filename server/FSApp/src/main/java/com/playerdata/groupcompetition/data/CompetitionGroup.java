@@ -2,6 +2,8 @@ package com.playerdata.groupcompetition.data;
 
 import java.util.List;
 
+import com.playerdata.groupcompetition.data.match.CompetitionMatchSourceProvider;
+
 /**
  * 
  * 参与帮派战的帮派数据接口
@@ -9,7 +11,7 @@ import java.util.List;
  * @author CHEN.P
  *
  */
-public interface CompetitionGroup {
+public interface CompetitionGroup extends CompetitionMatchSourceProvider<CompetitionUnit> {
 
 	/**
 	 * 
@@ -45,9 +47,17 @@ public interface CompetitionGroup {
 	
 	/**
 	 * 
-	 * 获取所有可用的战斗单位
+	 * 获取所有战斗单位
 	 * 
 	 * @return
 	 */
 	public List<CompetitionUnit> getAllUnits();
+	
+	/**
+	 * 
+	 * 添加一个unit到公会中
+	 * 
+	 * @param unit
+	 */
+	public void addUnit(CompetitionUnit unit);
 }

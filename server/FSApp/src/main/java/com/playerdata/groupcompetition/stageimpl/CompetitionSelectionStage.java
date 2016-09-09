@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.stageimpl;
 
+import com.playerdata.groupcompetition.data.CompetitionStage;
+
 /**
  * 
  * 帮派争霸海选阶段
@@ -7,6 +9,16 @@ package com.playerdata.groupcompetition.stageimpl;
  * @author CHEN.P
  *
  */
-public class CompetitionSelectionStage {
+public class CompetitionSelectionStage implements CompetitionStage {
+
+	@Override
+	public void onStart(CompetitionStage preStage) {
+		
+	}
+
+	@Override
+	public void onEnd() {
+		
+	}
 
 }

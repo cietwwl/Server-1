@@ -45,14 +45,22 @@ public class CompetitionTeamUnit implements CompetitionUnit {
 	}
 
 	@Override
-	public long getMatchBeginTime() {
-		// TODO Auto-generated method stub
+	public long getLastMatchTime() {
 		return 0;
 	}
 
 	@Override
-	public void setMatchBeginTime(long pTime) {
-		// TODO Auto-generated method stub
+	public void setLastMatchTime(long time) {
+		
+	}
+
+	@Override
+	public int getTotalMatchTimes() {
+		return 0;
+	}
+
+	@Override
+	public void setTotalMatchTimes(int pTimes) {
 		
 	}
 

@@ -1,5 +1,9 @@
 package com.playerdata.groupcompetition.data;
 
+import java.util.List;
+
+import com.playerdata.groupcompetition.data.match.CompetitionMatcher;
+
 /**
  * 
  * 帮派争霸中的战斗对垒
@@ -8,6 +12,15 @@ package com.playerdata.groupcompetition.data;
  *
  */
 public interface CompetitionAgainst {
+	
+	/**
+	 * 
+	 * 检查公会是否在这场对垒里面
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public boolean isGroupInThisAgainst(String groupId);
 
 	/**
 	 * 
@@ -19,9 +32,17 @@ public interface CompetitionAgainst {
 	
 	/**
 	 * 
+	 * 获取交战记录
+	 * 
+	 * @return
+	 */
+	public List<CompetitionCombatRecord> getHistorys();
+	
+	/**
+	 * 
 	 * 获取匹配器
 	 * 
 	 * @return
 	 */
-	public CompetitionMatcher getMatcher();
+	public CompetitionMatcher<CompetitionUnit> getMatcher();
 }
