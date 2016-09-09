@@ -1,5 +1,6 @@
 package com.rwbase.dao.fightinggrowth;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,6 +21,9 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 	}
 	
 	private Map<Integer, Integer> parseItemString(String str) {
+		if(str == null || (str = str.trim()).length() == 0) {
+			return Collections.emptyMap();
+		}
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		String[] array = str.split(";");
 		for(int i = 0; i < array.length; i++) {
