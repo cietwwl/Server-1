@@ -1,5 +1,6 @@
 package com.playerdata.groupFightOnline.dataForClient;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /**
@@ -12,6 +13,8 @@ public class DefendArmySimpleInfo {
 	private String groupID;		//敌方防守队伍所属于的帮派
 	private String defendArmyID;	//防守队伍的id
 	private long lockArmyTime;	//选中或战斗锁定队伍的时间
+	@IgnoreSynField
+	private int state;	//队伍状态：2，被选中锁定；3，正在被攻击；4，战败
 	
 	public String getGroupID() {
 		return groupID;
@@ -35,5 +38,13 @@ public class DefendArmySimpleInfo {
 
 	public void setLockArmyTime(long lockArmyTime) {
 		this.lockArmyTime = lockArmyTime;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
 	}
 }

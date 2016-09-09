@@ -21,6 +21,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.groupFightOnline.dataException.GFArmyDataException;
+import com.playerdata.groupFightOnline.dataException.HaveFightEnimyException;
 import com.playerdata.groupFightOnline.dataException.HaveSelectEnimyException;
 import com.playerdata.groupFightOnline.dataException.NoSuitableDefenderException;
 import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
@@ -165,12 +166,19 @@ public class GFDefendArmyMgr {
 	 * @throws HaveSelectEnimyException 
 	 * @throws NoSuitableDefenderException 
 	 */
-	public boolean selectEnimyItem(Player player, String groupID, boolean isIgnoreExistEnimy) throws HaveSelectEnimyException, NoSuitableDefenderException{
+	public boolean selectEnimyItem(Player player, String groupID, boolean isIgnoreExistEnimy) throws HaveSelectEnimyException, NoSuitableDefenderException, HaveFightEnimyException{
 		synchronized (GFDefendArmyItem.class) {
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
 			DefendArmySimpleInfo randomDefender = userGFData.getRandomDefender();
-			if(!isIgnoreExistEnimy && randomDefender != null && System.currentTimeMillis() - randomDefender.getLockArmyTime() <= GFightConst.LOCK_ITEM_MAX_TIME) {
-				throw new HaveSelectEnimyException("已经选择过对手");
+			if(!isIgnoreExistEnimy && randomDefender != null){
+				if(GFArmyState.SELECTED.equals(randomDefender.getState())){
+					if(System.currentTimeMillis() - randomDefender.getLockArmyTime() <= GFightConst.LOCK_ITEM_MAX_TIME)
+						throw new HaveSelectEnimyException("已经选择过对手");
+				}
+				if(GFArmyState.FIGHTING.equals(randomDefender.getState())){
+					if(System.currentTimeMillis() - randomDefender.getLockArmyTime() <= GFightConst.FIGHT_LOCK_ITEM_MAX_TIME)
+						throw new HaveFightEnimyException("请您耐心等待上一场挑战的结果");
+				}
 			}
 			GFDefendArmyItem canFightItem = getCanFightItem(groupID);
 			if(canFightItem == null) throw new NoSuitableDefenderException("找不到可以挑战的队伍");
@@ -181,6 +189,7 @@ public class GFDefendArmyMgr {
 			defenderSimple.setGroupID(groupID);
 			defenderSimple.setDefendArmyID(canFightItem.getArmyID());
 			defenderSimple.setLockArmyTime(System.currentTimeMillis());
+			defenderSimple.setState(GFArmyState.SELECTED.getValue());
 			userGFData.setRandomDefender(defenderSimple);
 			
 			UserGFightOnlineHolder.getInstance().update(player, userGFData);
@@ -197,8 +206,9 @@ public class GFDefendArmyMgr {
 	 * @return
 	 * @throws NoSuitableDefenderException 
 	 * @throws HaveSelectEnimyException 
+	 * @throws HaveFightEnimyException 
 	 */
-	public boolean changeEnimyItem(Player player, String groupID) throws HaveSelectEnimyException, NoSuitableDefenderException{
+	public boolean changeEnimyItem(Player player, String groupID) throws HaveSelectEnimyException, NoSuitableDefenderException, HaveFightEnimyException{
 		synchronized (GFDefendArmyItem.class) {
 			//找到之前被选中的
 			UserGFightOnlineData userGFData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
@@ -230,9 +240,14 @@ public class GFDefendArmyMgr {
 			
 			if(GFArmyState.NORMAL.equals(item.getState())){
 				canFightList.add(item);
-			}else if(GFArmyState.SELECTED.equals(item.getState()) || GFArmyState.FIGHTING.equals(item.getState())){
+			}else if(GFArmyState.SELECTED.equals(item.getState())){
 				if(System.currentTimeMillis() - item.getLastOperateTime() > GFightConst.LOCK_ITEM_MAX_TIME){
-					item.setState(GFArmyState.NORMAL.getValue());					
+					item.setState(GFArmyState.NORMAL.getValue());	
+					canFightList.add(item);
+				}
+			}else if(GFArmyState.FIGHTING.equals(item.getState())){
+				if(System.currentTimeMillis() - item.getLastOperateTime() > GFightConst.FIGHT_LOCK_ITEM_MAX_TIME){
+					item.setState(GFArmyState.NORMAL.getValue());
 					canFightList.add(item);
 				}
 			}
