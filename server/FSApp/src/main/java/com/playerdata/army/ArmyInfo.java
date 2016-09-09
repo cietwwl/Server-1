@@ -85,7 +85,7 @@ public class ArmyInfo {
 	public void setArmyFashion(ArmyFashion armyFashion) {
 		this.armyFashion = armyFashion;
 	}
-	public String toJson() throws Exception {		
+	public String toJson() {		
 		String jsonData = ClientDataSynMgr.toClientData(this);
 		return jsonData;
 	}

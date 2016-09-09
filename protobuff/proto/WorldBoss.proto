@@ -28,13 +28,23 @@ message FightEndParam{
 	optional string vCode = 2;
 }
 
+message FightBeginParam{
+	repeated string heroIds = 1; //选中出战的英雄Id列表
+}
+
+message FightBeginRep{
+	required string bossArmy = 1; //boss队伍
+	required string selfArmy = 2; //用户队伍	
+}
+
 message CommonReqMsg{
 
 	required RequestType reqType = 1;
 	optional int32 wbDataVersion = 2;
 	optional int32 wbUserDataVersion = 3;	
 	optional BuyBuffParam buyBuffParam = 4;
-	optional FightEndParam FightEndParam = 5;
+	optional FightBeginParam fightBeginParam = 5;
+	optional FightEndParam fightEndParam = 6;
 
 }
 
@@ -42,4 +52,5 @@ message CommonRspMsg{
 	required RequestType reqType = 1;//回应的功能协议类型
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional FightBeginRep fightBeginRep = 4; //开战返回参数
 }

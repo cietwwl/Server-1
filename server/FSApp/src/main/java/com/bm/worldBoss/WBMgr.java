@@ -1,5 +1,8 @@
 package com.bm.worldBoss;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
+
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
@@ -14,7 +17,17 @@ import com.playerdata.army.CurAttrData;
 
 public class WBMgr {
 	
-	public static WBMgr wbMgr = new WBMgr();
+	private static WBMgr wbMgr = new WBMgr();
+	
+//	private ReadLock readLock;
+	private WriteLock writeLock;
+	
+	public WBMgr(){
+		ReentrantReadWriteLock treeRwLock = new ReentrantReadWriteLock();
+//		this.readLock = treeRwLock.readLock();
+		this.writeLock = treeRwLock.writeLock();
+		
+	}
 	
 	public static WBMgr getInstance(){
 		return wbMgr;
@@ -31,7 +44,7 @@ public class WBMgr {
 		
 	}
 	
-	public ArmyInfo GetBossArmy(){
+	public ArmyInfo getBossArmy(){
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		String wbcfgId = wbData.getWbcfgId();
@@ -40,10 +53,26 @@ public class WBMgr {
 		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(wbCfg.getBossId());
 		ArmyHero armyHero = armyInfo.getHeroList().get(0);
 		CurAttrData curAttrData = new CurAttrData();
-//		curAttrData.setCurLife(wbData.getCurLife());
-//		curAttrData.setMaxLife(wbData.getMaxLife());
-//		
+		curAttrData.setCurLife(wbData.getCurLife());
+		curAttrData.setMaxLife(wbData.getMaxLife());
+		armyHero.setCurAttrData(curAttrData);
+	
 		return armyInfo;
+		
+	}
+	
+	public long decrHp(long hurt){		
+		writeLock.lock();
+		long curLife = 0;
+		try {
+			
+			curLife = WBDataHolder.getInstance().decrHp(hurt);
+	
+		} finally {
+			writeLock.unlock();			
+		}		
+		
+		return curLife;
 		
 	}
 

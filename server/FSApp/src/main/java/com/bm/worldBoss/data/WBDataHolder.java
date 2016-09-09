@@ -6,6 +6,8 @@ import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.battleVerify.MonsterCfg;
+import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -16,6 +18,7 @@ public class WBDataHolder {
 	private static eSynType synType = eSynType.WB_DATA;
 	final private String WB_DATA_ID = "worldBossId";
 	private AtomicInteger version = new AtomicInteger(-1);
+
 	
 	public static WBDataHolder getInstance(){
 		return instance;
@@ -56,8 +59,12 @@ public class WBDataHolder {
 	}
 	
 	private void init(WBData data, WBCfg wbCfg){	
-		
-		
+		String monsterId = wbCfg.getBossId();
+		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig ( monsterId );
+		data.setId(monsterId);
+		int maxLife = monster.getLife();
+		data.setMaxLife(maxLife);
+		data.setCurLife(maxLife);		
 	}
 	 
 	
@@ -65,6 +72,16 @@ public class WBDataHolder {
 		
 		WBDataDao.getInstance().update(WB_DATA_ID);
 		version.incrementAndGet();			
+	}
+	
+	public long decrHp(long delta){
+		
+		WBData wbData = get();
+		long curLifeTmp = wbData.getCurLife() - delta;
+		wbData.setCurLife(curLifeTmp);
+		update();
+		return curLifeTmp;
+		
 	}
 
 	public void update(Player player) {

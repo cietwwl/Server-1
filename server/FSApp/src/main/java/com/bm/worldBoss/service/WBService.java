@@ -38,7 +38,7 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 				break;
 				
 				case FightEnd:
-					byteString = WBHandler.getInstance().DoEnter(player, request);
+					byteString = WBHandler.getInstance().DoFightEnd(player, request);
 				break;
 				
 				default:
