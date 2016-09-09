@@ -15,6 +15,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.fsutil.util.StringUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.common.enu.eSpecialItemId;
 
 
 public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExchangeTypeSubCfg> {
@@ -43,7 +44,10 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 
 	/**解析a_a1,b_b1*/
 	private void parseTime(ActivityExchangeTypeSubCfg cfgTmp) {
-		Map<String, String> changelisttmp = new HashMap<String, String>();
+		HashMap<Integer, Integer> changelisttmp = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> eSpecialItemchangelisttmp = new HashMap<Integer, Integer>();
+		
+		
 		if(StringUtils.isBlank(cfgTmp.getExchangeneed())){
 			GameLog.error(LogModule.ComActivityExchange, "", "配置文件没有exchangeneed字段", null);
 			return;
@@ -51,9 +55,16 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		String[] changeStrs = cfgTmp.getExchangeneed().split(",");
 		for(String tmp :changeStrs){
 			String[] Strs = tmp.split("_");
-			changelisttmp.put(Strs[0],Strs[1] );
+			Integer id = Integer.parseInt(Strs[0]);
+			Integer count = Integer.parseInt(Strs[1]);
+			if(id < eSpecialItemId.eSpecial_End.getValue()){
+				eSpecialItemchangelisttmp.put(id, count);
+			}else{
+				changelisttmp.put(id, count);
+			}
 		}
 		cfgTmp.setChangelist(changelisttmp);
+		cfgTmp.seteSpecialItemChangeList(eSpecialItemchangelisttmp);
 	}
 	
 	public List<ActivityExchangeTypeSubCfg> getByParentCfgId(String parentCfgId){

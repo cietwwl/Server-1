@@ -197,7 +197,8 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 				return result;
 			}
 			
-			if (isCanTaken(player,targetItem,true)) {
+			if (isCanTaken(player,targetItem)) {
+				spendCost(player,targetItem);
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
@@ -211,66 +212,65 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		return result;
 	}
 	
+	
+
 	/**
 	 * 
 	 * @param player
 	 * @param targetItem
-	 * @param isspend 判断并消耗用true；仅判断是否可以触发红点用false
+	 * @param isspend 
 	 * @return
 	 */
-	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem,boolean isspend) {
+	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem) {
 		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if (activityExchangeTypeSubCfg == null) {
 			return false;
 		}
 		if (targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()) {
+			//没有了兑换次数
 			return false;
 		}
 		//临时方案，需要在启动服务器时生成配置相关对象，后续由小飞优化
-		HashMap<Integer, Integer> itemCostMap = new HashMap<Integer, Integer>();
-		Map<String, String> exchangeNeedslist = activityExchangeTypeSubCfg.getChangelist();
-		for (Map.Entry<String, String> entry : exchangeNeedslist.entrySet()) {
-			int id = Integer.parseInt(entry.getKey());
-			int count = Integer.parseInt(entry.getValue());
-			if (id < eSpecialItemId.eSpecial_End.getValue()) {
-				if (player.getReward(eSpecialItemId.getDef(id)) < count) {
-					return false;
-				}
-			} else {
-				Integer idValue = id;
-				Integer value = itemCostMap.get(idValue);
-				if(value == null){
-					itemCostMap.put(idValue, count);
-				}else{
-					itemCostMap.put(idValue, value+count);
-				}
-//				if (player.getItemBagMgr().getItemCountByModelId(id) < Integer.parseInt(entry.getValue())) {
-//					return false;
-//				}
+		HashMap<Integer, Integer> itemCostMap = activityExchangeTypeSubCfg.getChangelist();
+		HashMap<Integer, Integer> eSpecialItemCostMap = activityExchangeTypeSubCfg.geteSpecialItemChangeList();		
+		for (Map.Entry<Integer, Integer> entry : eSpecialItemCostMap.entrySet()) {
+			if (player.getReward(eSpecialItemId.getDef(entry.getKey())) < entry.getValue()) {
+				return false;
 			}
 		}
 		if(itemCostMap.isEmpty()){
 			return true;
 		}
 		if(player.getItemBagMgr().hasEnoughItems(itemCostMap)){
-			return false;
+			return true;
 		}
-
-		if (isspend) {
-			spendItem(exchangeNeedslist, player);
-		}
-		return true;
+		return false;
 	}
 	
-	private void spendItem(Map<String, String> exchangeNeedslist,Player player){
-		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
-			int id = Integer.parseInt(entry.getKey());
+	private void spendCost(Player player, ActivityExchangeTypeSubItem targetItem) {
+		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
+		if (activityExchangeTypeSubCfg == null) {
+			return ;
+		}
+		if (targetItem.getTime() >= activityExchangeTypeSubCfg.getTime()) {
+			//没有了兑换次数
+			return ;
+		}
+		HashMap<Integer, Integer> itemCostMap = activityExchangeTypeSubCfg.getChangelist();
+		HashMap<Integer, Integer> eSpecialItemCostMap = activityExchangeTypeSubCfg.geteSpecialItemChangeList();	
+		spendItem(itemCostMap, player);
+		spendItem(eSpecialItemCostMap, player);
+	}
+	
+	private void spendItem(Map<Integer, Integer> exchangeNeedslist,Player player){
+		for(Map.Entry<Integer, Integer> entry:exchangeNeedslist.entrySet()){
+			int id = entry.getKey();
 			if(id < eSpecialItemId.eSpecial_End.getValue()){
 				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-				map.put(Integer.parseInt(entry.getKey()), -Integer.parseInt(entry.getValue()));
+				map.put(entry.getKey(), -entry.getValue());
 				player.getItemBagMgr().useLikeBoxItem(null, null, map);
 			}else{
-				player.getItemBagMgr().useItemByCfgId(id, Integer.parseInt(entry.getValue()));
+				player.getItemBagMgr().useItemByCfgId(id, entry.getValue());
 			}
 		}
 	}
@@ -384,7 +384,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 		
 		List<ActivityExchangeTypeSubItem> exchangeSubitemlist= dataItem.getSubItemList();
 		for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
-			if(isCanTaken(player, subitem,false)){
+			if(isCanTaken(player, subitem)){
 				if(dataItem.getHistoryRedPoint().contains(subitem.getCfgId())){
 					continue;
 				}
