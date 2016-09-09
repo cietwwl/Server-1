@@ -35,7 +35,7 @@ public class GCompUserQuizItemHolder {
 	 * @param item
 	 */
 	public boolean containsItem(Player player, int matchId){
-		return getItemStore(player.getUserId()).getItem(player.getUserId() + "_" + matchId) == null;
+		return getItemStore(player.getUserId()).getItem(player.getUserId() + "_" + matchId) != null;
 	}
 	
 	/**
