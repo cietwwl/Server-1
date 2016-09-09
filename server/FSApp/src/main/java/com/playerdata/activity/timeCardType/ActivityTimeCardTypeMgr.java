@@ -9,6 +9,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
@@ -109,9 +110,6 @@ public class ActivityTimeCardTypeMgr {
 			addItemList.add(item);
 		}		
 		return addItemList;
-		ActivityTimeCardTypeItem newItem = activityTimeCardTypeCfgDAO
-				.newItem(player);
-		dataHolder.addItem(player, newItem);
 	}
 	
 	

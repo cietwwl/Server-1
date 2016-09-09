@@ -38,9 +38,11 @@ import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDA
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -107,10 +109,22 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 			if(subCfgList == null){
 				subCfgList = new ArrayList<ActivityFortuneCatTypeSubCfg>();
 			}
+			for(ActivityFortuneCatTypeSubCfg subCfg : subCfgList){
+				ActivityFortuneCatTypeSubItem subitem = new ActivityFortuneCatTypeSubItem();
+				subitem.setCfgId(subCfg.getId()+"");
+				subitem.setNum(subCfg.getNum());
+				subitem.setCost(subCfg.getCost()+"");
+				subitem.setVip(subCfg.getVip());
+				subitem.setGetGold(0);
+				subItemList.add(subitem);
+			}
+			item.setSubItemList(subItemList);
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityFortuneCatTypeItem>();
+			}
+			addItemList.add(item);				
 		}
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+		return addItemList;
 	}
 	
 	

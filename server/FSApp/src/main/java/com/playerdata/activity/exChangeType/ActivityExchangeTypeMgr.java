@@ -17,6 +17,7 @@ import com.playerdata.activity.ActivityComResult;
 
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -26,7 +27,10 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -71,33 +75,51 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	 * @param mapItemStore
 	 * @return
 	 */
-	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> mapItemStore) {
+	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> itemStore) {
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
-		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityExchangeTypeCfg)) {
+		ActivityExchangeTypeSubCfgDAO dao = ActivityExchangeTypeSubCfgDAO.getInstance();
+		for (ActivityExchangeTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
 			}
-			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(activityExchangeTypeCfg.getEnumId());
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
-			ActivityExchangeTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);// 已在之前生成数据的活动
-			if (targetItem == null) {						
-				targetItem = activityExchangeTypeCfgDAO.newItem(player, activityExchangeTypeCfg);// 生成新开启活动的数据
-				if (targetItem == null) {					
+			String itemID = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
+			if (itemStore != null) {
+				if (itemStore.getItem(itemID) != null) {
 					continue;
 				}
-				if (addItemList == null) {
-					addItemList = new ArrayList<ActivityExchangeTypeItem>();
-				}
-				addItemList.add(targetItem);
 			}
+			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();	
+			item.setId(itemID);
+			item.setEnumId(cfg.getEnumId());
+			item.setCfgId(cfg.getId());
+			item.setUserId(userId);
+			item.setVersion(cfg.getVersion());			
+			item.setLasttime(System.currentTimeMillis());
+			List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
+			List<ActivityExchangeTypeSubCfg> subItemCfgList = dao.getByParentCfgId(cfg.getId());
+			if(subItemCfgList == null){
+				subItemCfgList = new ArrayList<ActivityExchangeTypeSubCfg>();
+			}
+			for (ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg : subItemCfgList) {
+				ActivityExchangeTypeSubItem subItem = new ActivityExchangeTypeSubItem();
+				subItem.setCfgId(activityExchangeTypeSubCfg.getId());	
+				subItem.setTime(0);
+				subItem.setIsrefresh(activityExchangeTypeSubCfg.isIsrefresh());
+				subItemList.add(subItem);				
+			}			
+			item.setSubItemList(subItemList);				
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityExchangeTypeItem>();
+			}
+			addItemList.add(item);
 		}
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+		return addItemList;
 	}
 	
 	

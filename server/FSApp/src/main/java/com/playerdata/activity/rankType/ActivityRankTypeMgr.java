@@ -17,6 +17,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -55,7 +56,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityRankTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {			
+		if (addItemList != null) {		
 			dataHolder.addItemList(player, addItemList);
 		}
 

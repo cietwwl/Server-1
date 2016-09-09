@@ -20,10 +20,13 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfg;
@@ -35,7 +38,9 @@ import com.playerdata.activity.limitHeroType.gamble.FreeGamble;
 import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
@@ -86,6 +91,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	
 	public List<ActivityLimitHeroTypeItem> creatItems(String userid ,MapItemStore<ActivityLimitHeroTypeItem> itemStore){	
 		List<ActivityLimitHeroTypeItem> addItemList = null;
+		ActivityLimitHeroBoxCfgDAO dao = ActivityLimitHeroBoxCfgDAO.getInstance();
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
 		String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
 		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -105,17 +111,25 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			item.setVersion(cfg.getVersion());
 			item.setLastSingleTime(0);
 			item.setIntegral(0);
-			List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getCfgListByParentID(cfg.getId());			
+			List<ActivityLimitHeroBoxCfg> boxCfgList = dao.getCfgListByParentID(cfg.getId());			
 			List<ActivityLimitHeroTypeSubItem> subItemList = new ArrayList<ActivityLimitHeroTypeSubItem>();
 			if(boxCfgList == null){
 				boxCfgList = new ArrayList<ActivityLimitHeroBoxCfg>();
 			}
-			targetItem = activityLimitHeroCfgDAO.newItem(player, cfg);// 生成新开启活动的数据
-			if(targetItem == null){
-				continue;
+			for(ActivityLimitHeroBoxCfg boxCfg : boxCfgList){
+				ActivityLimitHeroTypeSubItem subItem = new ActivityLimitHeroTypeSubItem();
+				subItem.setCfgId(boxCfg.getId());
+				subItem.setIntegral(boxCfg.getIntegral());
+				subItem.setRewards(boxCfg.getRewards());
+				subItemList.add(subItem);		
 			}
-			dataHolder.addItem(player, targetItem);
+			item.setSubList(subItemList);
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityLimitHeroTypeItem>();
+			}
+			addItemList.add(item);			
 		}
+		return addItemList;
 	}
 
 	public boolean isOpen(ActivityLimitHeroCfg cfg) {

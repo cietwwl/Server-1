@@ -105,7 +105,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityFortuneCatTypeItem> cache = MapItemStoreFactory.getActivityFortuneCatTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityFortuneCatTypeItem.class);
 	}
