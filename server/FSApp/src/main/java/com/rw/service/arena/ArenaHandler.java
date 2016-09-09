@@ -492,8 +492,8 @@ public class ArenaHandler {
 				enemyHurtList.add(createHurtRecord(value, true));
 			}
 			RecordInfo record = new RecordInfo();
-
-			int maxPlace = m_MyArenaData.getMaxPlace();
+			int maxPlace = ArenaBM.getInstance().getMaxPlace(m_MyArenaData);
+//			int maxPlace = m_MyArenaData.getMaxPlace();
 			record.setHurtList(hurtValueList_);
 			record.setUserId(enemyUserId);
 			record.setWin(win);
@@ -797,7 +797,7 @@ public class ArenaHandler {
 		data.setUserId(enemyId);
 		data.setCareer(career);
 		data.setPlace(ArenaBM.getInstance().getOtherArenaPlace(enemyId, career));
-		data.setMaxPlace(arenaData.getMaxPlace());
+		data.setMaxPlace(ArenaBM.getInstance().getMaxPlace(arenaData));
 		int remainCount = arenaData.getRemainCount();
 		data.setRemainCount(remainCount);
 		long lastFightTime = arenaData.getLastFightTime();
@@ -1049,7 +1049,7 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return getHistoryView(request, player);
 		}
-		int maxPlace = arenaData.getMaxPlace();
+		int maxPlace = ArenaBM.getInstance().getMaxPlace(arenaData);
 		int rankRequire = rankEntity.getRank();
 		if (rankRequire < maxPlace) {
 			GameLog.error("ArenaHandler", "#getHistoryReward()", "领取历史排名奖励的名次不够:id = " + id + ",rank=" + rankRequire + ",maxPlace=" + maxPlace);
