@@ -41,6 +41,7 @@ public enum eOpenLevelType {
 	SOUL(42), // 魂石开启
 	COPY_SWEEP(43), // 副本扫荡开放
 	USE_EXP_ITEM(44), // 使用经验丹
+	TAOIST(52),// 道术
 	FIX_EQUIP(53), // 神装
 	FIX_EQUIP_STAR(54), // 神装觉醒
 	FIX_Exp_EQUIP_4(57), // 左下神装开放等级

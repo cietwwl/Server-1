@@ -8,10 +8,16 @@ import com.rwbase.common.IFunction;
 
 public class FSGetFetterCurrentFightingFunc implements IFunction<Player, Integer> {
 	
+	private static final FSGetFetterCurrentFightingFunc _instance = new FSGetFetterCurrentFightingFunc();
+	
 	private IFunction<Hero, Integer> _single;
 	
 	protected FSGetFetterCurrentFightingFunc() {
 		this._single = FSGetFetterCurrentFightingOfSingleFunc.getInstnce();
+	}
+	
+	public static final FSGetFetterCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

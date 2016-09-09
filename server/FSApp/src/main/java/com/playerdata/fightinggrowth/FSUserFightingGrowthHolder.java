@@ -2,6 +2,7 @@ package com.playerdata.fightinggrowth;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,11 @@ public class FSUserFightingGrowthHolder {
 	public static FSUserFightingGrowthHolder getInstance() {
 		return _instance;
 	}
-	
+
 	private eOpenLevelType getOpenLevelType(int type) {
-		eOpenLevelType[] all = eOpenLevelType.values();
-		for (int i = 0; i < all.length; i++) {
-			eOpenLevelType temp = all[i];
+		EnumSet<eOpenLevelType> es = EnumSet.allOf(eOpenLevelType.class);
+		for (Iterator<eOpenLevelType> itr = es.iterator(); itr.hasNext();) {
+			eOpenLevelType temp = itr.next();
 			if (temp.getOrder() == type) {
 				return temp;
 			}
