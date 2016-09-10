@@ -22,7 +22,7 @@ public class FSGetFashionMaxFightingFunc implements IFunction<Player, Integer> {
 	@Override
 	public Integer apply(Player player) {
 		FashionUsedIF usedFashion = player.getFashionMgr().getFashionUsed();
-		if (usedFashion != null) {
+		if (usedFashion != null && usedFashion.getSuitId() > 0) {
 			return _fashionFightingCfgDAO.getCfgById(String.valueOf(usedFashion.getSuitId())).getFighting();
 		} else {
 			// TODO 时装最大战斗力未知如何计算

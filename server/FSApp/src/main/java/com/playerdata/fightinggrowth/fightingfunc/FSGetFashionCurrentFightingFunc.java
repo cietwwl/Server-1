@@ -22,7 +22,7 @@ public class FSGetFashionCurrentFightingFunc implements IFunction<Player, Intege
 	@Override
 	public Integer apply(Player player) {
 		FashionUsedIF usedFashion = player.getFashionMgr().getFashionUsed();
-		if (usedFashion != null) {
+		if (usedFashion != null && usedFashion.getSuitId() > 0) {
 			return _fashionFightingCfgDAO.getCfgById(String.valueOf(usedFashion.getSuitId())).getFighting();
 		}
 		return 0;
