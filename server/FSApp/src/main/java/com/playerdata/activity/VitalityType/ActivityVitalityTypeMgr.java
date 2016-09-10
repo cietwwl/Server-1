@@ -54,6 +54,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityVitalityTypeItem> addItemList = null;
 		for (ActivityVitalityCfg activityVitalityCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -63,14 +64,12 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(activityVitalityCfg.getEnumID());
 			if (acVitalityTypeEnum == null) {
-				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityVitalityCfg.getId());
 				continue;
 			}
 			ActivityVitalityTypeItem targetItem = dataHolder.getItem(player.getUserId(), acVitalityTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
-				targetItem = ActivityVitalityCfgDAO.getInstance().newItem(player, activityVitalityCfg);// 生成新开启活动的数据
+				targetItem = activityVitalityCfgDAO.newItem(player, activityVitalityCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
-					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityVitalityCfg.getId());
 					continue;
 				}
 				if (addItemList == null) {
@@ -94,9 +93,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 	ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+	ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 	List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
-		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItemOfVersion(activityVitalityTypeItem);	
+		ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgByItemOfVersion(activityVitalityTypeItem);	
 		if(cfg == null ){
 			continue;
 		}
@@ -113,14 +113,15 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 }
 
 	private void checkOtherDay(Player player) {
-		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();		
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
 		
 		for(ActivityVitalityTypeItem activityVitalityTypeItem: item){
 			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getEnumId() )){
 				continue;
 			}
-			ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgById(activityVitalityTypeItem.getCfgId());
 			if(cfg == null ){
 				continue;
 			}
@@ -161,7 +162,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	public boolean isHasCfg(ActivityVitalityTypeItem activityVitalityTypeItem){
 		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());	
 		if(cfg == null){
-			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
 			return false;
 		}
 		return true;
@@ -185,22 +185,20 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
+		ActivityVitalitySubCfgDAO activityVitalitySubCfgDAO = ActivityVitalitySubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+			ActivityVitalitySubCfg subItemCfg = activityVitalitySubCfgDAO.getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
-				GameLog.error(LogModule.ComActivityVitality, null,
-						"通用活动找不到配置文件", null);
 				return;
 			}
 			if (subItem.getCount() >= subItemCfg.getCount()
 					&& !subItem.isTaken()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
+				comGiftMgr.addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
-				if (!isAdd)
-					GameLog.error(LogModule.ComActivityVitality,
-							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
+				
 			}
 		}
 	}
@@ -208,31 +206,26 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	private void sendEmailIfBoxGiftNotTaken(Player player,ActivityVitalityTypeItem Item) {		
 		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(Item.getCfgId());
 		if(cfg == null){
-			GameLog.error(LogModule.ComActivityVitality, null,"通用活动找不到配置文件", null);
 			return;
 		}
 		if(!cfg.isCanGetReward()){
 			//不派发宝箱
 			return;
 		}
-		
+		ActivityVitalityRewardCfgDAO activityVitalityRewardCfgDAO = ActivityVitalityRewardCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		List<ActivityVitalityTypeSubBoxItem> subBoxItemList = Item.getSubBoxItemList();		
 		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
-			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getCfgById(subItem.getCfgId());
+			ActivityVitalityRewardCfg subItemCfg = activityVitalityRewardCfgDAO.getCfgById(subItem.getCfgId());
 			if (subItemCfg == null) {
-				GameLog.error(LogModule.ComActivityVitality, null,
-						"通用活动找不到配置文件", null);
 				return;
 			}
 			if (Item.getActiveCount() >= subItemCfg.getActivecount()
 					&& !subItem.isTaken()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
+				comGiftMgr.addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
 						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
-				if (!isAdd)
-					GameLog.error(LogModule.ComActivityVitality,
-							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
 			}
 		}
 	}
@@ -278,7 +271,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalitySubCfg subCfg,ActivityVitalityTypeItem dataItem){		
 		ActivityVitalityTypeSubItem subItem = null;
 		if(subCfg == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
 			return subItem;
 		}		
 		if(dataItem != null){
@@ -289,10 +281,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 					break;
 				}
 			}			
-		}		
-		if(subItem == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
-		}		
+		}	
 		return   subItem;
 	}
 
@@ -398,12 +387,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());//cfg
 		if(vitalityEnum == null){
-			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityVitalityTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),vitalityEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){

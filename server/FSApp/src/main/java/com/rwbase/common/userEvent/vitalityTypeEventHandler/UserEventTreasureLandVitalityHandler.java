@@ -32,7 +32,7 @@ public class UserEventTreasureLandVitalityHandler implements IUserEventHandler{
 					}
 				}
 			@Override
-			public void logError(Player player,Throwable ex) {
+			public void logError(Player player,Exception ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.TreasureLandVitality.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						

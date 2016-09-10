@@ -86,7 +86,7 @@ enum Command {
 	MSG_ACTIVITY_VipDiscount_TYPE = 184;//通用活动七日VIp折扣
 	MSG_ACTIVITY_RedEnvelope_TYPE = 185;//通用活动开服红包
 	MSG_ACTIVITY_FORTUNECAT_TYPE = 210;//通用活动招财猫
-	
+	MSG_ACTIVITY_LimitHero_TYPE = 211;//通用活动限时神将
 	
 	MSG_GROUP_COPY_ADMIN = 186;//帮派副本管理
 	MSG_GROUP_COPY_BATTLE = 187;//帮派副本战斗
@@ -107,6 +107,12 @@ enum Command {
 	MSG_ONE_KEY_REWARD = 208;	//一键领取奖励
 	MSG_BATTLE_COMMON = 209;//保存客户端阵容到服务器
 	
+	MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;	//每日充值活动
+	MSG_SYN_DATA_SERVICE = 213;//数据同步请求服务
+	MSG_RANDOM_BOSS = 214;     //随机boss
+	MSG_WORLD_BOSS = 215;      //世界boss
+	
+
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议

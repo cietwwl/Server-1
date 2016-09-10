@@ -17,7 +17,6 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
-	private final String[] clearSqlArray;
 	private final String[] tableName;
 	private final int tableLength;
 
@@ -44,7 +43,6 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		this.delectSqlArray = new String[size];
 		this.updateSqlArray = new String[size];
 		this.insertSqlArray = new String[size];
-		this.clearSqlArray = new String[size];
 		String insertFieldString = insertFields.toString();
 		String insertHoldsString = insertHolds.toString();
 		String updateFieldsString = updateFields.toString();
@@ -55,14 +53,14 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 			this.delectSqlArray[i] = "delete from " + currentName + " where " + idFieldName + "=?";
 			this.updateSqlArray[i] = "update " + currentName + " set " + updateFieldsString + " where " + idFieldName + " = ?";
 			this.insertSqlArray[i] = "insert into " + currentName + "(" + insertFieldString + ") values (" + insertHoldsString + ")";
-			this.clearSqlArray[i] = "delete from " + currentName + " where " + searchFieldName + "=?";
 		}
 	}
 
-	public void insert(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
+	public void insert_(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
 		super.insert(sql, list);
 	}
+	
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
@@ -79,13 +77,12 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		return super.delete(sql, idList);
 	}
 	
-	public boolean clearAllRecords(String searchId) throws Exception{
-		String sql = getString(clearSqlArray, searchId);
-		super.update(sql, searchId);
-		//不抛异常可以认为成功，因为此searchId可能不存在记录
-		return true;
+	public boolean insertAndDelete(String searchId, List<T> addList,List<String> delList) throws DuplicatedKeyException, DataNotExistException{
+		String insertSql = getString(insertSqlArray, searchId);
+		String deleteSql = getString(delectSqlArray, searchId);
+		return super.insertAndDelete(insertSql, addList, deleteSql, delList);
 	}
-
+	
 	public boolean updateToDB(String searchId, Map<String, T> map) throws Exception{
 		String sql = getString(updateSqlArray, searchId);
 		return super.updateToDB(sql, map);

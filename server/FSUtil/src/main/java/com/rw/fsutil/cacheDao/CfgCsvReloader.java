@@ -44,6 +44,17 @@ public class CfgCsvReloader {
 		cfgCsvDao.reload();			
 	}
 	
+	public static String findClassName(String shortName){
+		Collection<CfgCsvDao> lst = daoMap.values();
+		for (CfgCsvDao cls : lst) {
+			Class<? extends CfgCsvDao> class1 = cls.getClass();
+			if (class1.getSimpleName().equals(shortName)){
+				return class1.getName(); 
+			}
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public synchronized static void reverseByClassName(String className){		
 		CfgCsvDao cfgCsvDao = daoMap.get(className);

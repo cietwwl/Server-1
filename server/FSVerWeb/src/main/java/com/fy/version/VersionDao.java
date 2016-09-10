@@ -15,7 +15,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.hibernate.engine.spi.VersionValue;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.fy.SpringContextUtil;
+import com.fy.address.AddressInfo;
+import com.fy.lua.LuaDao;
+import com.fy.utils.FileUtils;
 import com.sun.tools.javac.resources.version;
 
 public class VersionDao {
@@ -28,33 +33,20 @@ public class VersionDao {
 	
 	private String verDirPath = "";
 	
-	private List<String> lastFilePathList = new ArrayList<String>();
 	
-	private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 	
+	public static VersionDao getInstance(){
+		return SpringContextUtil.getBean("versionDao");
+	}
 	
 	public void init(){
-		
 		load();
-		
-		service.scheduleAtFixedRate(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					load();
-				} catch (Throwable e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}, 0, 10, TimeUnit.SECONDS);
 	}
 	
 	public void load(){
 		File verDir = new File(verDirPath);
 		List<File> fileList = new ArrayList<File>();
-		sumFiles(verDir, fileList);
+		FileUtils.sumFiles(verDir, fileList, ".txt");
 		
 		if(isModified(fileList)){
 			
@@ -78,7 +70,6 @@ public class VersionDao {
 			}
 			
 			channelVersionMap = channelVersionMapTmp;
-			storeFilePath(fileList);
 		}
 		for (File file : fileList) {
 			if (!versionFileMap.containsKey(file.getAbsolutePath())) {
@@ -89,24 +80,8 @@ public class VersionDao {
 			}
 		}
 	}
-	
-
-	private void storeFilePath(List<File> fileList) {
-		List<String> filePathListTmp = getFilePathList(fileList);
-		lastFilePathList = filePathListTmp;
-	}
-
-	private List<String> getFilePathList(List<File> fileList) {
-		List<String> filePathListTmp = new ArrayList<String>();
-		for (File file : fileList) {
-			filePathListTmp.add(file.getAbsolutePath());
-		}
-		return filePathListTmp;
-	}
 
 	private boolean isModified(List<File> fileList) {
-		//List<String> current = getFilePathList(fileList);
-		//boolean result = !(lastFilePathList.containsAll(current) && current.containsAll(lastFilePathList));
 		boolean reault = false;
 		if(fileList.size() < versionFileMap.size()){
 			return true;
@@ -168,30 +143,21 @@ public class VersionDao {
 		return allVerList;
 	}
 	
-	private void sumFiles(File file, List<File> fileList){
-		
-		if(file.isFile()){
-			fileList.add(file);
-		}else if(file.isDirectory()){
-			File[] fileArray = file.listFiles();
-			for (File fileTmp : fileArray) {
-				//筛选指定格式的版本文件（指定格式为txt）
-				if (fileTmp.getName().indexOf(".txt") == -1 && fileTmp.isFile()) {
-					continue;
-				}
-				sumFiles(fileTmp, fileList);
-
-			}
-		}
-	}
-	
 
 	//name=chanel_v.*.*.*_patch(0 完整包, >1 patch)
 	private Version fromFile(File file) throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader(file));
+		String loginServerDomain = AddressInfo.getInstance().getLoginServerDomain();
+		String cdnDomain = AddressInfo.getInstance().getCdnDomain();
+		String cdnBackUpDomain = AddressInfo.getInstance().getCdnBackUpDomain();
+		String logServerAddress = AddressInfo.getInstance().getLogServerAddress();
 		Version version = null;
 		try {
 			version = Version.fromFile(file);
+			version.setLoginServerDomain(loginServerDomain);
+			version.setCdnDomain(cdnDomain);
+			version.setCdnBackUpDomain(cdnBackUpDomain);
+			version.setLogServerAddress(logServerAddress);
 		}catch (Exception e){
 			e.printStackTrace();
 			throw(new RuntimeException("版本配置有错，请检查."));
@@ -201,9 +167,6 @@ public class VersionDao {
 		return version;
 		
 	}
-	
-	
-
 	
 	
 	public void setVerDirPath(String verDirPath) {

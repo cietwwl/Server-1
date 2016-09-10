@@ -20,6 +20,7 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCf
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
@@ -58,6 +59,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;
 		for (ActivityDailyDiscountTypeCfg activityCountTypeCfg : activitydailydiscountcfglist) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -73,7 +75,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			ActivityDailyDiscountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
 						
-				targetItem = ActivityDailyDiscountTypeCfgDAO.getInstance().newItem(player, activityCountTypeCfg);// 生成新开启活动的数据
+				targetItem = activityDailyDiscountTypeCfgDAO.newItem(player, activityCountTypeCfg);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityDailyDisCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
 					continue;
@@ -104,11 +106,11 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		List<ActivityDailyDiscountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityDailyDiscountTypeItem targetItem : itemList) {			
-			ActivityDailyDiscountTypeCfg targetCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgByItem(targetItem);
+			ActivityDailyDiscountTypeCfg targetCfg = activityDailyDiscountTypeCfgDAO.getCfgByItem(targetItem);
 			if(targetCfg == null){
-				GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 				return;
 			}			
 			
@@ -162,8 +164,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 				long endTime = cfgById.getEndTime();
 				long currentTime = System.currentTimeMillis();
 				return currentTime > endTime;
-			}else{
-				GameLog.error("activitydailyDiscounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyDiscountTypeEnum.getById(activityDailyCountTypeItem.getCfgId()));
 			}
 		}
 		return false;
@@ -208,7 +208,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 			}
 			if(itemCfg == null){
 				result.setReason("异常，请联系游戏官方");
-				GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "玩家数据有某个兑换道具的数据，但没有找到对应的折扣商品", null);
 				result.setSuccess(false);
 				return result;		
 			}			
@@ -272,7 +271,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 	private void getItem(Player player, ActivityDailyDiscountTypeSubItem targetItem) {
 		ActivityDailyDiscountItemCfg subCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(targetItem.getCfgId());
 		if(subCfg == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
 			return;
 		}
 		targetItem.setCount(targetItem.getCount()+1);
@@ -288,12 +286,10 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());//cfg
 		if(dailyDiscountEnum == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityDailyDiscountTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),dailyDiscountEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){

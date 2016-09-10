@@ -64,9 +64,4 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 		}
 		return target;		
 	}
-	
-
-	
-
-
 }

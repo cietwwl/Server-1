@@ -1,9 +1,6 @@
 package com.rwbase.dao.task;
 
-import com.playerdata.Player;
-
 public interface DailyStartCondition {
-
 
 	/**
 	 * 检测是否符合开启条件
@@ -11,5 +8,5 @@ public interface DailyStartCondition {
 	 * @param player
 	 * @return
 	 */
-	public boolean isMatchCondition(Player player);
+	public boolean isMatchCondition(String userId, int playerLevel, int playerVip);
 }

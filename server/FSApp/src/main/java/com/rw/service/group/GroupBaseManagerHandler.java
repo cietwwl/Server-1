@@ -75,7 +75,7 @@ public class GroupBaseManagerHandler {
 
 		String playerId = player.getUserId();// 角色的Id
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
 		if (openLevel != -1) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
 		}

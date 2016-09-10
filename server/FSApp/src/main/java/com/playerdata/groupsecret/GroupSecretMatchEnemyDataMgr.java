@@ -245,7 +245,7 @@ public class GroupSecretMatchEnemyDataMgr {
 
 			String heroId = leftInfo.getId();
 //			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
-			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(player, heroId);
+			Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 			if (hero == null) {
 				continue;
 			}
@@ -257,7 +257,7 @@ public class GroupSecretMatchEnemyDataMgr {
 			if (left == null) {
 //				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
 				AttrData totalData = hero.getAttrMgr().getTotalAttrData();
-				enemyData.updateHeroLeftInfo(index, heroId, new HeroInfoData(pos, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy())));
+				enemyData.updateHeroLeftInfo(index, heroId, new HeroInfoData(pos, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), (int)totalData.getLife(), totalData.getEnergy())));
 			} else {
 				enemyData.updateHeroLeftInfo(index, heroId,
 					new HeroInfoData(heroInfoData.getPos(), new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), left.getMaxLife(), left.getMaxEnergy())));

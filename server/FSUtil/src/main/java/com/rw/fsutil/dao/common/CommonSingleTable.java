@@ -52,13 +52,18 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 		return super.update(deleteSql, id) > 0;
 	}
 
-	public boolean updateToDB(String key, T target) throws Exception{
+	public boolean updateToDB(String key, T target) throws Exception {
 		return super.updateToDB(updateSql, key, target);
 	}
 
 	public T load(String key) throws DataNotExistException, Exception {
 		List<T> resultList = template.query(selectSql, rowMapper, key);
-		return resultList.size() > 0 ? resultList.get(0) : null;
+		// return resultList.size() > 0 ? resultList.get(0) : null;
+		if (resultList.size() > 0) {
+			return resultList.get(0);
+		} else {
+			throw new DataNotExistException(key);
+		}
 	}
 
 	@Deprecated

@@ -3,6 +3,7 @@ package com.playerdata.activity.exChangeType.cfg;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -35,12 +37,26 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		return SpringContextUtil.getBean(ActivityExchangeTypeCfgDAO.class);
 	}
 	
+	private HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMap;
+	
 	@Override
 	public Map<String, ActivityExchangeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityExchangeTypeCfg.csv", ActivityExchangeTypeCfg.class);
 		for (ActivityExchangeTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
-		}		
+		}
+		
+		HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeCfg>>();
+		for(ActivityExchangeTypeCfg cfg : cfgCacheMap.values()){
+			String enumId = cfg.getEnumId();
+			List<ActivityExchangeTypeCfg> list = cfgListMapTmp.get(enumId);
+			if(list == null){
+				list = new ArrayList<ActivityExchangeTypeCfg>();
+				cfgListMapTmp.put(enumId, list);
+			}
+			list.add(cfg);
+		}
+		this.cfgListMap = cfgListMapTmp;		
 		return cfgCacheMap;
 	}
 
@@ -59,11 +75,15 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	public ActivityExchangeTypeCfg getCfgListByItem(ActivityExchangeTypeItem item){
 		String id = item.getCfgId();
 		String enumId  = item.getEnumId();
-		List<ActivityExchangeTypeCfg> cfgListByItem = new ArrayList<ActivityExchangeTypeCfg>();
-		List<ActivityExchangeTypeCfg> cfgList = getAllCfg();
+		List<ActivityExchangeTypeCfg> cfgListByItem = new ArrayList<ActivityExchangeTypeCfg>();		
+		ActivityExchangeTypeMgr activityExchangeTypeMgr = ActivityExchangeTypeMgr.getInstance();
+		List<ActivityExchangeTypeCfg> cfgList = cfgListMap.get(enumId);
+		if(cfgList == null){
+			return null;
+		}
 		for (ActivityExchangeTypeCfg cfg : cfgList) {
-			if (StringUtils.equals(enumId, cfg.getEnumId())	&& !StringUtils.equals(id, cfg.getId())
-					&& ActivityExchangeTypeMgr.getInstance().isOpen(cfg)) {
+			if (!StringUtils.equals(id, cfg.getId())
+					&& activityExchangeTypeMgr.isOpen(cfg)) {
 				cfgListByItem.add(cfg);
 			}
 		}
@@ -79,8 +99,10 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	}
 	
 	
-	
-	
+	public boolean isCfgByEnumIdEmpty(String enumId){
+		return cfgListMap.get(enumId)== null ||cfgListMap.get(enumId).isEmpty();
+		
+	}
 	
 	
 	
@@ -104,6 +126,9 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	public List<ActivityExchangeTypeSubItem> newItemList(Player player, ActivityExchangeTypeCfg cfgById) {
 		List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
 		List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(cfgById.getId());
+		if(subItemCfgList == null){
+			return subItemList;
+		}
 		for (ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg : subItemCfgList) {
 			ActivityExchangeTypeSubItem subItem = new ActivityExchangeTypeSubItem();
 			subItem.setCfgId(activityExchangeTypeSubCfg.getId());	

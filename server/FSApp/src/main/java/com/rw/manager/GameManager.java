@@ -27,15 +27,16 @@ import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.gm.task.gmCommand.GmCommandManager;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -55,6 +56,7 @@ import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
+import com.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.gameworld.GameWorldFactory;
 
@@ -119,8 +121,8 @@ public class GameManager {
 		/**** 排行初始化 ******/
 		// ArenaBM.getInstance().InitData();
 		// 初始化排行榜系统
-		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1);
-		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1);
+		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("ranking"));
+		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1,new SimpleThreadFactory("list_ranking"));
 		RankingFactory.init(Arrays.asList(RankType.values()), Arrays.asList(ListRankingType.values()), rankingPool, listRankingPool);
 
 		tempTimers = System.currentTimeMillis();
@@ -152,12 +154,16 @@ public class GameManager {
 		
 		//GM的初始化
 		GmCommandManager.loadCommandClass();
+		
+		//ServerStatus的初始化
+		ServerStatusMgr.init();
 
 
 		//帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
+		TBTeamItemMgr.getInstance().initNotFullTeam();
 		
-		WorshipMgr.getInstance().getByWorshipedInfo();
+		WorshipMgr.getInstance().getByWorshipedList();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 

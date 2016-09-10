@@ -43,6 +43,8 @@ public enum eOpenLevelType {
 	USE_EXP_ITEM(44), // 使用经验丹
 	FIX_EQUIP(53), // 神装
 	FIX_EQUIP_STAR(54), // 神装觉醒
+	FIX_Exp_EQUIP_4(57), // 左下神装开放等级
+	FIX_Exp_EQUIP_5(58), // 右下神装开放等级
 	;
 
 	private int order;
@@ -51,6 +53,17 @@ public enum eOpenLevelType {
 	eOpenLevelType(int order) {
 		this.order = order;
 		this.orderString = String.valueOf(order);
+	}
+	
+	public static eOpenLevelType getByOrder(int order){
+		eOpenLevelType[] lst = eOpenLevelType.values();
+		for (int i = 0; i < lst.length; i++) {
+			eOpenLevelType ty = lst[i];
+			if (ty.getOrder() == order){
+				return ty;
+			}
+		}
+		return null;
 	}
 
 	public int getOrder() {

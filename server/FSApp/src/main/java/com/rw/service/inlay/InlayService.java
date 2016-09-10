@@ -14,28 +14,26 @@ import com.rwproto.MsgErrInfoProtos.EMsgErrorInfoType;
 import com.rwproto.MsgErrInfoProtos.MsgErrorInfoRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class InlayService implements FsService{
+public class InlayService implements FsService<MsgInlayRequest, EInlayType>{
 
-
-	
-	public ByteString doTask(Request request, Player player) {
+	@Override
+	public ByteString doTask(MsgInlayRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			
-			MsgInlayRequest msgRequest = MsgInlayRequest.parseFrom(request.getBody().getSerializedContent());
-			EInlayType type = msgRequest.getType();
+			EInlayType type = request.getType();
 			switch (type) {
 			case Inlay_One:
-				result=InlayHandler.getInstance().InlayOne(player,msgRequest);
+				result=InlayHandler.getInstance().InlayOne(player,request);
 				
 				break;
 				
 	         case Inlay_All:
-	        		result=InlayHandler.getInstance().InlayAll(player,msgRequest);
+	        		result=InlayHandler.getInstance().InlayAll(player,request);
 				break;
 				
 	         case XieXia_All:
-	        	 result=InlayHandler.getInstance().XieXiaAll(player,msgRequest);
+	        	 result=InlayHandler.getInstance().XieXiaAll(player,request);
 					break;
 
 			default:
@@ -43,15 +41,28 @@ public class InlayService implements FsService{
 			}
 			if (result == null){
 				MsgInlayResponse.Builder res = MsgInlayResponse.newBuilder();
-				res.setType(msgRequest.getType());
+				res.setType(request.getType());
 				res.setResult(InlayResult.InlayFailed);
 				result = res.build().toByteString();
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public MsgInlayRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgInlayRequest msgRequest = MsgInlayRequest.parseFrom(request.getBody().getSerializedContent());
+		return msgRequest;
+	}
+
+	@Override
+	public EInlayType getMsgType(MsgInlayRequest request) {
+		// TODO Auto-generated method stub
+		return request.getType();
 	}
 
 }

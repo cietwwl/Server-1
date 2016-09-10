@@ -24,16 +24,16 @@ public class SkillHelper {
 		return ownerId + "_" + skillCfgId;
 	}
 
-	public static List<TagSkillData> getSkillProtoList(List<Skill> skillLIst) {
+	public static List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
 		if (skillLIst == null)
 			return null;
 		List<TagSkillData> list = new ArrayList<TagSkillData>();
-		Collections.sort(skillLIst, new Comparator<Skill>() {
-			public int compare(Skill o1, Skill o2) {
+		Collections.sort(skillLIst, new Comparator<SkillItem>() {
+			public int compare(SkillItem o1, SkillItem o2) {
 				return o1.getOrder() - o2.getOrder();
 			}
 		});
-		for (Skill skill : skillLIst) {
+		for (SkillItem skill : skillLIst) {
 			TagSkillData.Builder tagSkill = TagSkillData.newBuilder();
 			tagSkill.setLevel(skill.getLevel());
 			tagSkill.setSkillId(skill.getSkillId());
@@ -57,11 +57,11 @@ public class SkillHelper {
 	 * @param playerLevel
 	 * @return
 	 */
-	public static List<Skill> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
-		List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
+	public static List<SkillItem> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
+		List<SkillItem> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
 		// 技能buff有相关性，要先一次过加入到列表才行
-		List<Skill> battleSkillList = new ArrayList<Skill>();
-		for (Skill skilltmp : cfgSkillList) {
+		List<SkillItem> battleSkillList = new ArrayList<SkillItem>();
+		for (SkillItem skilltmp : cfgSkillList) {
 			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skilltmp.getSkillId());
 			if (cfg == null) {
 				if (skilltmp.getLevel() != SkillMgr.DIE_SKILL_LEVEL) {
@@ -71,7 +71,7 @@ public class SkillHelper {
 			}
 		}
 
-		for (Skill pSkill : battleSkillList) {
+		for (SkillItem pSkill : battleSkillList) {
 			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
 
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(qualityId);
@@ -91,9 +91,9 @@ public class SkillHelper {
 	 * @param dieSkillId
 	 * @return
 	 */
-	public static List<Skill> getSkillList(List<String> commonSkillList, String attackSkillId, String dieSkillId) {
+	public static List<SkillItem> getSkillList(List<String> commonSkillList, String attackSkillId, String dieSkillId) {
 		int commonSkillSize = commonSkillList.size();
-		List<Skill> skillList = new ArrayList<Skill>(commonSkillSize + 2);
+		List<SkillItem> skillList = new ArrayList<SkillItem>(commonSkillSize + 2);
 
 		// 普通技能
 		for (int i = 0; i < commonSkillSize; i++) {
@@ -103,7 +103,7 @@ public class SkillHelper {
 				continue;
 			}
 
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(skillId);
 			pSkill.setOrder(i);
 			if (i == 0) {
@@ -114,7 +114,7 @@ public class SkillHelper {
 		}
 
 		if (StringUtils.isNotBlank(dieSkillId)) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(dieSkillId);
 			pSkill.setOrder(5);
 			pSkill.setLevel(-2);// 死亡技能等级设为-2
@@ -122,7 +122,7 @@ public class SkillHelper {
 		}
 
 		if (StringUtils.isNotBlank(attackSkillId)) {
-			Skill pSkill = new Skill();
+			SkillItem pSkill = new SkillItem();
 			pSkill.setSkillId(attackSkillId);
 			pSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
 			pSkill.setLevel(1);
@@ -137,11 +137,11 @@ public class SkillHelper {
 	 * 
 	 * @param skillList
 	 */
-	public static void checkAllSkill(List<Skill> skillList) {
+	public static void checkAllSkill(List<SkillItem> skillList) {
 		SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
 		// 相互影响的伤害值
 		for (int i = skillList.size() - 1; i >= 0; --i) {
-			Skill skillInfo = skillList.get(i);
+			SkillItem skillInfo = skillList.get(i);
 			if (skillInfo.getLevel() <= 0) {
 				continue;
 			}
@@ -168,7 +168,7 @@ public class SkillHelper {
 	 * @param skill
 	 * @param skillList
 	 */
-	private static void checkControl(Skill skill, SkillCfg skillCfg, List<Skill> skillList) {
+	private static void checkControl(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
 		String updateSkillId = skill.getSkillId();
 		if (skill.getLevel() <= 0) {
 			return;
@@ -182,7 +182,7 @@ public class SkillHelper {
 
 		// 相互影响的伤害值
 		for (int i = skillList.size() - 1; i >= 0; --i) {
-			Skill skillInfo = skillList.get(i);
+			SkillItem skillInfo = skillList.get(i);
 			if (skillInfo.getLevel() <= 0) {
 				continue;
 			}
@@ -227,7 +227,7 @@ public class SkillHelper {
 	 * @param skillCfg
 	 * @param skillList
 	 */
-	private static void checkSkillBuffs(Skill skill, SkillCfg skillCfg, List<Skill> skillList) {
+	private static void checkSkillBuffs(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
 		String updateSkillId = skill.getSkillId();
 		if (skill.getLevel() <= 0) {
 			return;
@@ -243,7 +243,7 @@ public class SkillHelper {
 
 		// 相互影响的伤害值
 		for (int i = skillList.size() - 1; i >= 0; --i) {
-			Skill skillInfo = skillList.get(i);
+			SkillItem skillInfo = skillList.get(i);
 			if (skillInfo.getLevel() <= 0) {
 				continue;
 			}

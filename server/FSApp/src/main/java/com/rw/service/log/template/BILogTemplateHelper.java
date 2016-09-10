@@ -43,7 +43,6 @@ public class BILogTemplateHelper {
 	private static List<String> repalceOrderList = new ArrayList<String>();
 	
 	static {
-		addTemplateToken("物品code1：数量1&物品code2：数量2: 物品code3：数量3…", "$itemList$");
 		addTemplateToken("activity_time:活动时长（单位秒）(整数)", "activity_time:$activityTime$");
 		addTemplateToken("online_time:本次在线时长（单位秒）(整数)", "online_time:$onlineTime$");
 		addTemplateToken("游戏币新增消耗数量（新增为正数，消耗为负数）", "$coinChanged$");
@@ -68,6 +67,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
 		addTemplateToken("操作系统版本号", "$loginsystemVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
+		addTemplateToken("增加物品及数量", "$itemList_incr$");
+		addTemplateToken("消耗物品及数量", "$itemList_decr$");
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("副本统计信息", "$copyInfo$");
 		addTemplateToken("活动统计信息", "$activityInfo$");
@@ -100,6 +101,14 @@ public class BILogTemplateHelper {
 		addTemplateToken("关卡code", "$copyId$");		
 		addTemplateToken("赠送充值币余额", "$zoneGiftGoldRemain$");
 		addTemplateToken("付费充值币余额", "$zoneChargeGoldRemain$");
+		addTemplateToken("邮件id", "$emailId$");
+		addTemplateToken("操作类型", "$opType$");
+		addTemplateToken("邮件标题", "$emailTitle$");
+		addTemplateToken("邮件内容", "$emailContent$");
+		addTemplateToken("冻结时间", "$coolTime$");
+		addTemplateToken("过期时间", "$expireTime$");
+		addTemplateToken("附件列表", "$attachList$");
+		addTemplateToken("附件道具属性(中文)", "$attachAttr$");
 		
 		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
 		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");

@@ -1,17 +1,17 @@
 package com.rw.service.redpoint;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-
+import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.RedPointMgr;
-import com.playerdata.activity.ActivityRedPointManager;
 import com.rw.service.redpoint.impl.RedPointCollector;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
 import com.rwproto.RedPointProtos.RedPoint;
@@ -21,18 +21,20 @@ public class RedPointManager {
 
 	public static RedPointManager instance = new RedPointManager();
 	private ArrayList<RedPointCollector> list;
+	private final RedPointType[] redPointTypeArray;
 
 	public static RedPointManager getRedPointManager() {
 		return instance;
 	}
 
-	private RedPointManager() {
+	RedPointManager() {
 		try {
 			list = new ArrayList<RedPointCollector>();
-			List<Class<RedPointCollector>> l = getAllAssignedClass(RedPointCollector.class);
-			for (Class<RedPointCollector> c : l) {
+			List<Class<? extends RedPointCollector>> l = HPCUtil.getAllAssignedClass(RedPointCollector.class, RedPointCollector.class.getPackage().getName());
+			for (Class<? extends RedPointCollector> c : l) {
 				list.add(c.newInstance());
 			}
+			this.redPointTypeArray = RedPointType.values();
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -92,10 +94,19 @@ public class RedPointManager {
 	}
 
 	public Map<RedPointType, List<String>> getRedPointMap(Player player) {
+		int level = player.getLevel();
+		CfgOpenLevelLimitDAO levelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 		EnumMap<RedPointType, List<String>> map = new EnumMap<RedPointType, List<String>>(RedPointType.class);
 		for (int i = list.size(); --i >= 0;) {
 			try {
-				list.get(i).fillRedPoints(player, map);
+				RedPointCollector collector = list.get(i);
+				eOpenLevelType openLevelType = collector.getOpenType();
+				if (openLevelType != null) {
+					if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player)) {
+						continue;
+					}
+				}
+				collector.fillRedPoints(player, map, level);
 			} catch (Throwable e) {
 				GameLog.error("RedPointManager", "#getRedPointMap()", "红点刷新异常", e);
 			}
@@ -103,51 +114,8 @@ public class RedPointManager {
 		return map;
 	}
 
-	private static <T> List<Class<T>> getAllAssignedClass(Class<T> cls) throws ClassNotFoundException {
-		List<Class<T>> classes = new ArrayList<Class<T>>();
-		for (Class<T> c : getClass(cls)) {
-			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
-				classes.add(c);
-			}
-		}
-		return classes;
+	public RedPointType getRedPointType(int order) {
+		return redPointTypeArray[order];
 	}
 
-	private static List<Class> getClass(Class cls) throws ClassNotFoundException {
-		String pk = cls.getPackage().getName();
-		String path = pk.replace(".", "/");
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		URL url = classLoader.getResource(path);
-		return getClass(new File(url.getFile()), pk);
-	}
-
-	private static List<Class> getClass(File dir, String pk) throws ClassNotFoundException {
-		List<Class> classes = new ArrayList<Class>();
-		if (!dir.exists()) {
-			return classes;
-		}
-		for (File f : dir.listFiles()) {
-			if (f.isDirectory()) {
-				classes.addAll(getClass(f, pk + "." + f.getName()));
-			}
-			String name = f.getName();
-			if (name.endsWith(".class")) {
-				classes.add(Class.forName(pk + "." + name.substring(0, name.length() - 6)));
-			}
-		}
-		return classes;
-	}
-
-	public boolean reFreshRedPoint(Player player,int id, String extraInfo) {
-		boolean issucce = false;
-		RedPointType eNum = RedPointType.values()[id];
-		switch (eNum) {
-		case HOME_WINDOW_ACTIVITY:
-			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
-			break;
-		default:
-			break;
-		}		
-		return issucce;
-	}
 }

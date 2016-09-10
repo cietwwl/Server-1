@@ -1,13 +1,11 @@
 package com.rw.handler.magicSecret;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
 import com.google.protobuf.ByteString;
@@ -16,12 +14,11 @@ import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RefBoolean;
 import com.rw.common.RobotLog;
+import com.rwproto.MagicSecretProto.MSItemInfo;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msRequestType;
 import com.rwproto.MagicSecretProto.msResultType;
-import com.rwproto.MagicSecretProto.msRewardBox;
-import com.rwproto.MagicSecretProto.msRewardBox.Builder;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
@@ -60,8 +57,17 @@ public class MagicSecretHandler {
 
 	public boolean checkMagicSecretStatus(Client client) {
 		Map<String, MagicChapterInfo> magiChapterInfolist = client.getMagicChapterInfoHolder().getList();
+		if(magiChapterInfolist.size() <= 0){
+			RobotLog.fail("MagicSecretHandler[send]乾坤幻境未开启，没有乾坤幻境数据");
+			return true;
+		}
 		String chapterId = client.getMagicSecretHolder().getChapterId();
-		MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(chapterId);
+		MagicChapterInfo magiChapterInfo;
+		if(chapterId == null){
+			magiChapterInfo = magiChapterInfolist.values().iterator().next();
+		}else{
+			magiChapterInfo = magiChapterInfolist.get(chapterId);
+		}
 		List<ItemInfo> canOpenBoxes = magiChapterInfo.getCanOpenBoxes();
 		String dungeonId = getDungeonId(client);
 		if (canOpenBoxes != null && canOpenBoxes.size() >= 2 && canOpenBoxes.get(0).getItemNum() == 1) {
@@ -99,11 +105,12 @@ public class MagicSecretHandler {
 			return result;
 		}
 		result = getReward(client);
-		if (!result) {
-			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
-			return result;
-		}
-		return openBoxHandler(client, dungeonId);
+		return result;
+//		if (!result) {
+//			RobotLog.fail("MagicSecretHandler[send]领取前的生成奖励反馈结果=" + result);
+//			return result;
+//		}
+//		return openBoxHandler(client, dungeonId);
 	}
 
 	private boolean openBoxHandler(Client client, String dungeonId) {
@@ -123,8 +130,8 @@ public class MagicSecretHandler {
 			RobotLog.fail("MagicSecretHandler[send]放弃道具反馈结果=" + result);
 			return result;
 		}
-
-		return exchangeBuffHandler(client);
+		return result;
+//		return exchangeBuffHandler(client);
 	}
 
 	private boolean exchangeBuffHandler(Client client) {
@@ -387,11 +394,10 @@ public class MagicSecretHandler {
 		String chapter = String.valueOf(stageId / 100);
 		req.setChapterId(chapter);
 
-		Builder box = msRewardBox.newBuilder();
-		box.setBoxID("2");
-		box.setBoxCount(1);
+		MSItemInfo.Builder box = MSItemInfo.newBuilder();
+		box.setItemID("2");
+		box.setItemCount(1);
 		req.setRwdBox(box);
-
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_MAGIC_SECRET, req.build().toByteString(), new MsgReciver() {
 			@Override
 			public Command getCmd() {

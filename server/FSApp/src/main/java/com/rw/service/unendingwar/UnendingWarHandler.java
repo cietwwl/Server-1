@@ -122,6 +122,7 @@ public class UnendingWarHandler {
 	public List<? extends ItemInfo> getJlItem(Player player, int num, int cMap, AtomicInteger unendingCoin) {
 		this.setEnd(player, num, cMap);
 		ArrayList<Integer> dropList = new ArrayList<Integer>();
+		int magicSecretCoin = 0;
 		for (int j = 1; j <= num; j++) {
 			CfgUnendingWar cfgUnendingWar = (CfgUnendingWar) CfgUnendingWarDAO.getInstance().getCfg(cMap, j);
 			if (cfgUnendingWar == null || cfgUnendingWar.jl1 == null) {
@@ -129,7 +130,8 @@ public class UnendingWarHandler {
 			}
 			/*** 加奖励到背包 ****/
 			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz //添加货币
-			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), cfgUnendingWar.uNum);
+//			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), cfgUnendingWar.uNum);
+			magicSecretCoin += cfgUnendingWar.uNum;
 			unendingCoin.addAndGet(cfgUnendingWar.uNum);
 
 			String[] array = cfgUnendingWar.jl1.split(",");
@@ -145,20 +147,32 @@ public class UnendingWarHandler {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		List<ItemInfo> addItems;
 		if (listItemBattle != null) {
-			addJlItem(listItemBattle, player);
-			return listItemBattle;
+//			addJlItem(listItemBattle, player);
+//			return listItemBattle;
+			addItems = new ArrayList<ItemInfo>(listItemBattle.size() + 1);
+			addItems.addAll(listItemBattle);
 		} else {
-			return Collections.EMPTY_LIST;
+//			return Collections.EMPTY_LIST;
+			addItems = new ArrayList<ItemInfo>(1);
+			listItemBattle = Collections.emptyList();
 		}
+		if (magicSecretCoin > 0) {
+			addItems.add(new ItemInfo(eSpecialItemId.MagicSecretCoin.getValue(), magicSecretCoin));
+		}
+		addJlItem(addItems, player);
+		return listItemBattle;
 	}
 
 	/*** 加奖励到背包 ****/
 	private void addJlItem(List<? extends ItemInfo> addList, Player player) {
 
-		for (ItemInfo item : addList) {
-			player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
-		}
+//		for (ItemInfo item : addList) {
+//			player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+//		}
+		List<ItemInfo> list = new ArrayList<ItemInfo>(addList);
+		player.getItemBagMgr().addItem(list);
 
 	}
 

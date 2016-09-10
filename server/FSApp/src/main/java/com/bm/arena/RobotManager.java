@@ -56,7 +56,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.setting.HeadCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
@@ -325,10 +325,10 @@ public class RobotManager {
 		skillLevel.add(getRandom(skill4));
 		skillLevel.add(getRandom(skill5));
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList(hero.getUUId());
+		List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
 		int skillSize = skillList.size();
 		for (int i = 0; i < skillSize; i++) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
 			if (cfg == null) {
 				GameLog.error("RobotManager", "changeSkill", "找不到英雄品质：" + hero.getQualityId());

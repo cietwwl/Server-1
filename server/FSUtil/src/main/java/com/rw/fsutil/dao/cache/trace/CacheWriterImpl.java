@@ -11,7 +11,7 @@ import java.util.Date;
 import com.rw.fsutil.dao.cache.CacheFactory;
 import com.rw.fsutil.dao.cache.CacheStackTraceEntity;
 import com.rw.fsutil.dao.cache.CacheStackTraceMap;
-import com.rw.fsutil.dao.cache.record.LoggerWriteEvent;
+import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 
 public class CacheWriterImpl implements CacheWriter {
 
@@ -26,8 +26,8 @@ public class CacheWriterImpl implements CacheWriter {
 	}
 
 	@Override
-	public void convert(LoggerEvent event, CharArrayBuffer sb) {
-		LoggerWriteEvent cacheValueRecord = event.aysnEvent;
+	public void writeToBuffer(LoggerEvent event, CharArrayBuffer sb) {
+		DataLoggerRecord cacheValueRecord = event.aysnEvent;
 		boolean hasEvent = cacheValueRecord != null;
 		if (hasEvent) {
 			sb.append("id=").append(cacheValueRecord.getKey()).append(this.separator);

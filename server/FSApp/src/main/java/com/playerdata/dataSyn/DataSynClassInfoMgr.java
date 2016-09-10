@@ -3,7 +3,7 @@ package com.playerdata.dataSyn;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DataSynClassInfoMgr {
+class DataSynClassInfoMgr {
 
 	public static Map<Class<?>, ClassInfo4Client> classInfoMap = new ConcurrentHashMap<Class<?>, ClassInfo4Client>();
 	

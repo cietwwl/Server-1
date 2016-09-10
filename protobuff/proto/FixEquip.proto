@@ -16,6 +16,7 @@ enum RequestType{
 	Exp_quality_up = 7;//
 	Exp_star_up = 8;//
 	Exp_star_down = 9;//
+	Open_main_view = 10;//
 
 }
 
@@ -30,10 +31,6 @@ message SelectItem{
 	optional int32 count = 3;  //物品数量
 }
 
-
-
-
-
 message CommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
 	optional string ownerId = 2; //装备英雄id
@@ -47,5 +44,4 @@ message CommonRspMsg{
 	required RequestType reqType = 1;//回应的功能协议类型
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
-
 }
