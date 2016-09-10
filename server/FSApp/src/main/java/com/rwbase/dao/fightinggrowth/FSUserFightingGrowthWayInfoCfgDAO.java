@@ -26,8 +26,8 @@ public class FSUserFightingGrowthWayInfoCfgDAO extends CfgCsvDao<FSUserFightingG
 	@Override
 	protected Map<String, FSUserFightingGrowthWayInfoCfg> initJsonCfg() {
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("fightingGrowth/FightingGrowthWayInfo.csv", FSUserFightingGrowthWayInfoCfg.class);
-		for (Iterator<FSUserFightingGrowthWayInfoCfg> itr = cfgCacheMap.values().iterator(); itr.hasNext();) {
-			FSUserFightingGrowthWayInfoCfg cfg = itr.next();
+		for (Iterator<String> itr = cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			FSUserFightingGrowthWayInfoCfg cfg = cfgCacheMap.get(itr.next());
 			String[] args = cfg.getGrowthWay().split(";");
 			List<Integer> growthWayList = new ArrayList<Integer>(args.length);
 			for (int i = 0; i < args.length; i++) {

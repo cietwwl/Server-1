@@ -33,12 +33,12 @@ public class FSuserFightingGrowthMgr {
 		} 
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
 		if (itemMap.size() > 0) {
-			Map.Entry<Integer, Integer> entry;
-			for (Iterator<Map.Entry<Integer, Integer>> itr = itemMap.entrySet().iterator(); itr.hasNext();) {
-				entry = itr.next();
-				if(player.getItemBagMgr().getItemCountByModelId(entry.getKey()) < entry.getValue()) {
+			for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
+				Integer itemCfgId = keyItr.next();
+				int count = itemMap.get(itemCfgId).intValue();
+				if(player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
 					// 材料数量不符合
-					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(entry.getKey()).getName(), entry.getValue()), false);
+					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
 				}
 			}
 		}
@@ -48,10 +48,10 @@ public class FSuserFightingGrowthMgr {
 	private boolean executeUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 执行晋级条件
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
-		Map.Entry<Integer, Integer> entry;
-		for(Iterator<Map.Entry<Integer, Integer>> itr = itemMap.entrySet().iterator(); itr.hasNext();) {
-			entry = itr.next();
-			if(!player.getItemBagMgr().useItemByCfgId(entry.getKey(), entry.getValue())) {
+		for(Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
+			Integer itemCfgId = keyItr.next();
+			int count = itemMap.get(itemCfgId);
+			if(!player.getItemBagMgr().useItemByCfgId(itemCfgId, count)) {
 				return false;
 			}
 		}
@@ -61,7 +61,7 @@ public class FSuserFightingGrowthMgr {
 	private void sendUpgradeTitleReward(Player player, FSUserFightingGrowthTitleCfg cfg) {
 		// 发送战力提升晋级奖励
 		if (cfg.getItemRewardMap().size() > 0) {
-			String attachment = EmailUtils.createEmailAttachment(cfg.getItemRequiredMap());
+			String attachment = EmailUtils.createEmailAttachment(cfg.getItemRewardMap());
 			EmailUtils.sendEmail(player.getUserId(), cfg.getEmailCfgIdOfReward(), attachment, Arrays.asList(cfg.getFightingTitle()));
 		}
 	}

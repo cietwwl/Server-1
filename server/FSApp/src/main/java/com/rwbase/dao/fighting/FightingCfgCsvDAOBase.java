@@ -27,12 +27,12 @@ public abstract class FightingCfgCsvDAOBase<T extends FightingCfgBase> extends C
 	protected final Map<String, T> initJsonCfg() {
 		String path = String.format(basePathFormat, getFileName());
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map(path, getCfgClazz());
-		for (Iterator<T> itr = cfgCacheMap.values().iterator(); itr.hasNext();) {
-			itr.next().afterInit();
+		for (Iterator<String> itr = cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			cfgCacheMap.get(itr.next()).afterInit();
 		}
 		_sortByRequiredLvList = new ArrayList<T>(cfgCacheMap.size());
-		for (T t : cfgCacheMap.values()) {
-			_sortByRequiredLvList.add(t);
+		for (Iterator<String> itr = cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			_sortByRequiredLvList.add(cfgCacheMap.get(itr.next()));
 		}
 		Collections.sort(_sortByRequiredLvList, _comparator);
 		return cfgCacheMap;

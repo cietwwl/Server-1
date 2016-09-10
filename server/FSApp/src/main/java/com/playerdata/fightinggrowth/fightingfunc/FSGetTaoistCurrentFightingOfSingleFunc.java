@@ -10,6 +10,8 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.TaoistFightingCfgDAO;
 import com.rwbase.dao.fighting.pojo.TaoistFightingCfg;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 	
@@ -17,10 +19,12 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 
 	private TaoistMagicCfgHelper taoistMagicCfgHelper;
 	private TaoistFightingCfgDAO taoistFightingCfgDAO;
+	private CfgOpenLevelLimitDAO _openLevelLimitDAO;
 	
 	protected FSGetTaoistCurrentFightingOfSingleFunc() {
 		taoistMagicCfgHelper = TaoistMagicCfgHelper.getInstance();
 		taoistFightingCfgDAO = TaoistFightingCfgDAO.getInstance();
+		_openLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
 	
 	public static final FSGetTaoistCurrentFightingOfSingleFunc getInstance() {
@@ -29,18 +33,21 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 
 	@Override
 	public Integer apply(Hero hero) {
-		int fighting = 0;
-		TaoistFightingCfg taoistFightingCfg;
-		TaoistMagicCfg taoistMagicCfg;
-		Player player = hero.getPlayer();
-		Iterable<Map.Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
-		for(Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
-			Map.Entry<Integer, Integer> entry = itr.next();
-			taoistFightingCfg = taoistFightingCfgDAO.getByLevel(entry.getValue());
-			taoistMagicCfg = taoistMagicCfgHelper.getCfgById(String.valueOf(entry.getKey()));
-			fighting += taoistFightingCfg.getFightingOfIndex(taoistMagicCfg.getTagNum());
+		if (_openLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, hero.getPlayer())) {
+			int fighting = 0;
+			TaoistFightingCfg taoistFightingCfg;
+			TaoistMagicCfg taoistMagicCfg;
+			Player player = hero.getPlayer();
+			Iterable<Map.Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
+			for (Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
+				Map.Entry<Integer, Integer> entry = itr.next();
+				taoistFightingCfg = taoistFightingCfgDAO.getByLevel(entry.getValue());
+				taoistMagicCfg = taoistMagicCfgHelper.getCfgById(String.valueOf(entry.getKey()));
+				fighting += taoistFightingCfg.getFightingOfIndex(taoistMagicCfg.getTagNum());
+			}
+			return fighting;
 		}
-		return fighting;
+		return 0;
 	}
 
 }

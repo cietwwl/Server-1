@@ -22,6 +22,7 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistCurrentFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistMaxFightingFunc;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
@@ -46,7 +47,7 @@ public enum FSFightingGrowthWayType {
 			return GroupHelper.hasGroup(player.getUserId());
 		}
 	}, // 帮派技能
-	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistCurrentFightingFunc.getInstance()), // 道术战斗力获取
+	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
 	GEM(8, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
 	FASHION(9, FSGetFashionCurrentFightingFunc.getInstance(), FSGetFashionMaxFightingFunc.getInstance()), // 时装战斗力获取
 	;

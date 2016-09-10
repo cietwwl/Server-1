@@ -1,16 +1,24 @@
 package com.rwbase.dao.fighting;
 
-import com.rw.fsutil.util.SpringContextUtil;
+import java.util.Map;
 
-public class FashionFightingCfgDAO extends FightingCfgCsvDAOOneToOneBase {
+import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
+import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.fighting.pojo.FashionFightingCfg;
+
+public class FashionFightingCfgDAO extends CfgCsvDao<FashionFightingCfg> {
 
 	public static final FashionFightingCfgDAO getInstance() {
 		return SpringContextUtil.getBean(FashionFightingCfgDAO.class);
 	}
-	
+
 	@Override
-	protected String getFileName() {
-		return "FashionFighting.csv";
+	protected Map<String, FashionFightingCfg> initJsonCfg() {
+		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("SystemFightingExpected/FashionFighting.csv", FashionFightingCfg.class);
+		return this.cfgCacheMap;
 	}
+	
+	
 
 }

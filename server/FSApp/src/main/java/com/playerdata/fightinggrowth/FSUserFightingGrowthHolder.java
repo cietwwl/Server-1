@@ -29,18 +29,28 @@ public class FSUserFightingGrowthHolder {
 		return _instance;
 	}
 	
+	private FSUserFightingGrowthWayInfoCfgDAO _userFightingGrowthWayInfoCfgDAO;
+	private CfgOpenLevelLimitDAO _cfgOpenLevelLimitDAO;
+	private FSUserFightingGrowthTitleCfgDAO _userFightingGrowthTitleCfgDAO;
+	
+	protected FSUserFightingGrowthHolder() {
+		_userFightingGrowthWayInfoCfgDAO = FSUserFightingGrowthWayInfoCfgDAO.getInstance();
+		_cfgOpenLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
+		_userFightingGrowthTitleCfgDAO = FSUserFightingGrowthTitleCfgDAO.getInstance();
+	}
+	
 	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player) {
-		List<String> wayKeys = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getDisplaySeqRO();
+		List<String> wayKeys = _userFightingGrowthWayInfoCfgDAO.getDisplaySeqRO();
 		List<UserFightingGrowthWaySynData> list = new ArrayList<UserFightingGrowthWaySynData>(wayKeys.size());
 		FSUserFightingGrowthWayInfoCfg cfg;
 		FSFightingGrowthWayType type;
 		UserFightingGrowthWaySynData.Builder builder;
 		for(int i = 0; i < wayKeys.size(); i++) {
-			cfg = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getCfgById(wayKeys.get(i));
+			cfg = _userFightingGrowthWayInfoCfgDAO.getCfgById(wayKeys.get(i));
 			if (cfg.getFightingOriginFuncId() > 0) {
 				// 检查是否开放
 				eOpenLevelType openLevelType = eOpenLevelType.getByOrder(cfg.getFightingOriginFuncId());
-				if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player)) {
+				if (!_cfgOpenLevelLimitDAO.isOpen(openLevelType, player)) {
 					continue;
 				}
 			}
@@ -61,8 +71,6 @@ public class FSUserFightingGrowthHolder {
 	}
 	
 	private UserFightingGrowthSynData genSynData(Player player, FSUserFightingGrowthData userFightingGrowthData, FSUserFightingGrowthTitleCfg currentTitleCfg, FSUserFightingGrowthTitleCfg nextTitleCfg) {
-		FSUserFightingGrowthSynData synData = new FSUserFightingGrowthSynData();
-		synData.userId = userFightingGrowthData.getUserId();
 		int fightingRequired;
 		Map<Integer, Integer> itemsRequired;
 		boolean hasNextTitle = true;
@@ -94,9 +102,10 @@ public class FSUserFightingGrowthHolder {
 		dataBuilder.setHasNextTitle(hasNextTitle);
 		dataBuilder.setFightingRequired(fightingRequired);
 		if (itemsRequired.size() > 0) {
-			for(Iterator<Map.Entry<Integer, Integer>> itr = itemsRequired.entrySet().iterator(); itr.hasNext();) {
-				Map.Entry<Integer, Integer> entry = itr.next();
-				dataBuilder.addUpgradeItemRequired(UpgradeItemRequired.newBuilder().setItemCfgId(entry.getKey()).setItemCount(entry.getValue()));
+			for(Iterator<Integer> keyItr = itemsRequired.keySet().iterator(); keyItr.hasNext();) {
+				Integer itemCfgId = keyItr.next();
+				Integer count = itemsRequired.get(itemCfgId);
+				dataBuilder.addUpgradeItemRequired(UpgradeItemRequired.newBuilder().setItemCfgId(itemCfgId).setItemCount(count));
 			}
 		}
 		dataBuilder.addAllGrowthWayData(wayInfoList);
@@ -130,9 +139,9 @@ public class FSUserFightingGrowthHolder {
 	public UserFightingGrowthSynData createFightingGrowthSynData(Player player) {
 		FSUserFightingGrowthData userFightingGrowthData = this.getUserFightingGrowthData(player);
 		// 当前的称号
-		FSUserFightingGrowthTitleCfg titleCfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
+		FSUserFightingGrowthTitleCfg titleCfg = _userFightingGrowthTitleCfgDAO.getFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
 		// 下一级称号
-		FSUserFightingGrowthTitleCfg nextTitleCfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getNextFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
+		FSUserFightingGrowthTitleCfg nextTitleCfg = _userFightingGrowthTitleCfgDAO.getNextFightingGrowthTitleCfgSafely(userFightingGrowthData.getCurrentTitleKey());
 		return this.genSynData(player, userFightingGrowthData, titleCfg, nextTitleCfg);
 	}
 	

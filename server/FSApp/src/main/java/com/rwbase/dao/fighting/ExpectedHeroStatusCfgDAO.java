@@ -21,8 +21,13 @@ public class ExpectedHeroStatusCfgDAO extends CfgCsvDao<ExpectedHeroStatusCfg> {
 	protected Map<String, ExpectedHeroStatusCfg> initJsonCfg() {
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("SystemFightingExpected/ExpectedHeroStatus.csv", ExpectedHeroStatusCfg.class);
 		this._expectedCountMap = new HashMap<Integer, Integer>(cfgCacheMap.size() + 1, 1.0f);
-		for(Iterator<ExpectedHeroStatusCfg> itr = this.cfgCacheMap.values().iterator(); itr.hasNext();) {
-			ExpectedHeroStatusCfg cfg = itr.next();
+		for(Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			ExpectedHeroStatusCfg cfg = this.cfgCacheMap.get(itr.next());
+			try {
+				cfg.afterInit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			this._expectedCountMap.put(cfg.getLevel(), cfg.getExpectedHeroCount());
 		}
 		return cfgCacheMap;

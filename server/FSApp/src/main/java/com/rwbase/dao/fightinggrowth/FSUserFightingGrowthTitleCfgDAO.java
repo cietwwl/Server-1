@@ -49,8 +49,8 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 	@Override
 	protected Map<String, FSUserFightingGrowthTitleCfg> initJsonCfg() {
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("fightingGrowth/FightingGrowthTitle.csv", FSUserFightingGrowthTitleCfg.class);
-		for (Iterator<FSUserFightingGrowthTitleCfg> itr = this.cfgCacheMap.values().iterator(); itr.hasNext();) {
-			FSUserFightingGrowthTitleCfg temp = itr.next();
+		for (Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			FSUserFightingGrowthTitleCfg temp = cfgCacheMap.get(itr.next());
 			temp.setItemRequiredMap(this.parseItemString(temp.getItemRequired()));
 			temp.setItemRewardMap(this.parseItemString(temp.getRewards()));
 			if (temp.isFirst()) {
