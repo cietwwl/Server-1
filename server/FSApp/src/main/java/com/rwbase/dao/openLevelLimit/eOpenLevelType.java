@@ -1,5 +1,9 @@
 package com.rwbase.dao.openLevelLimit;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum eOpenLevelType {
 	NONE(0), // 空
 	BAG(1), // 背包
@@ -50,6 +54,18 @@ public enum eOpenLevelType {
 
 	private int order;
 	private String orderString;
+	
+	private static final Map<Integer, eOpenLevelType> _mapOfOrder;
+
+	static {
+		eOpenLevelType[] all = values();
+		Map<Integer, eOpenLevelType> map = new HashMap<Integer, eOpenLevelType>();
+		for (int i = 0; i < all.length; i++) {
+			eOpenLevelType temp = all[i];
+			map.put(temp.order, temp);
+		}
+		_mapOfOrder = Collections.unmodifiableMap(map);
+	}
 
 	eOpenLevelType(int order) {
 		this.order = order;
@@ -57,14 +73,15 @@ public enum eOpenLevelType {
 	}
 	
 	public static eOpenLevelType getByOrder(int order){
-		eOpenLevelType[] lst = eOpenLevelType.values();
-		for (int i = 0; i < lst.length; i++) {
-			eOpenLevelType ty = lst[i];
-			if (ty.getOrder() == order){
-				return ty;
-			}
-		}
-		return null;
+//		eOpenLevelType[] lst = eOpenLevelType.values();
+//		for (int i = 0; i < lst.length; i++) {
+//			eOpenLevelType ty = lst[i];
+//			if (ty.getOrder() == order){
+//				return ty;
+//			}
+//		}
+//		return null;
+		return _mapOfOrder.get(order);
 	}
 
 	public int getOrder() {

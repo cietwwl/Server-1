@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicCurrentFightingOfSingleFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetFashionCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetFetterCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetFixEquipCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGemCurrentFightingOfSingleFunc;
@@ -26,6 +27,7 @@ public enum FightingCalculateComponentType {
 	NORM_EQUIP(FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	SKILL(FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	TAOIST(FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	FASHION(EmptyHeroComponent.singleton, FSGetFashionCurrentFightingFunc.getInstance()),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;
 	private final IFunction<Player, Integer> _playerOnlyComponentFunc; // 只针对主角的
@@ -69,9 +71,9 @@ public enum FightingCalculateComponentType {
 		return _allPlayerComponents;
 	}
 	
-	private static class EmptyHeroComponent implements IFunction<Hero, Integer> {
+	private static enum EmptyHeroComponent implements IFunction<Hero, Integer> {
 
-		private static final EmptyHeroComponent singleton = new EmptyHeroComponent();
+		singleton;
 		
 		@Override
 		public Integer apply(Hero hero) {
@@ -80,9 +82,9 @@ public enum FightingCalculateComponentType {
 		
 	}
 	
-	private static class EmptyPlayerComponent implements IFunction<Player, Integer> {
+	private static enum EmptyPlayerComponent implements IFunction<Player, Integer> {
 		
-		private static final EmptyPlayerComponent singleton = new EmptyPlayerComponent();
+		singleton;
 		
 		@Override
 		public Integer apply(Player player) {

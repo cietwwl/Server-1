@@ -2,7 +2,6 @@ package com.playerdata.fightinggrowth;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,17 +28,6 @@ public class FSUserFightingGrowthHolder {
 	public static FSUserFightingGrowthHolder getInstance() {
 		return _instance;
 	}
-
-	private eOpenLevelType getOpenLevelType(int type) {
-		EnumSet<eOpenLevelType> es = EnumSet.allOf(eOpenLevelType.class);
-		for (Iterator<eOpenLevelType> itr = es.iterator(); itr.hasNext();) {
-			eOpenLevelType temp = itr.next();
-			if (temp.getOrder() == type) {
-				return temp;
-			}
-		}
-		return null;
-	}
 	
 	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player) {
 		List<String> wayKeys = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getDisplaySeqRO();
@@ -51,21 +39,23 @@ public class FSUserFightingGrowthHolder {
 			cfg = FSUserFightingGrowthWayInfoCfgDAO.getInstance().getCfgById(wayKeys.get(i));
 			if (cfg.getFightingOriginFuncId() > 0) {
 				// 检查是否开放
-				eOpenLevelType openLevelType = this.getOpenLevelType(cfg.getFightingOriginFuncId());
+				eOpenLevelType openLevelType = eOpenLevelType.getByOrder(cfg.getFightingOriginFuncId());
 				if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player)) {
 					continue;
 				}
 			}
 			type = FSFightingGrowthWayType.getBySign(cfg.getTypeForServer());
-			builder = UserFightingGrowthWaySynData.newBuilder();
-			builder.setKey(cfg.getKey()); // key
-			builder.setName(cfg.getFightingOrigin()); // 名字
-			builder.setGotoType(cfg.getGotoType()); // 打开界面
-			builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
-			builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
-			builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
-			System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
-			list.add(builder.build());
+			if (type.isPlayerCanUse(player)) {
+				builder = UserFightingGrowthWaySynData.newBuilder();
+				builder.setKey(cfg.getKey()); // key
+				builder.setName(cfg.getFightingOrigin()); // 名字
+				builder.setGotoType(cfg.getGotoType()); // 打开界面
+				builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
+				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
+				builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
+				System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
+				list.add(builder.build());
+			}
 		}
 		return list;
 	}

@@ -308,6 +308,8 @@
 	<bean class="com.rwbase.dao.fighting.MagicFetterFightingCfgDAO" init-method="init" />
 	<!-- 道术战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.TaoistFightingCfgDAO" init-method="init" />
+	<!-- 时装战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
