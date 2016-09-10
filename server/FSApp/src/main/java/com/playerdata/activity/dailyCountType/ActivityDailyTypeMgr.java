@@ -20,6 +20,7 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
@@ -56,18 +57,22 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityDailyTypeItem> addItemList = null;
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if(addItemList == null)return;
-		for(ActivityDailyTypeItem item : addItemList ){
-			System.out.println("~~~~~~~~~~~~~~~dailycount.id = " + item.getId());
-		}
-		dataHolder.addItem(player, addItemList.get(0));
+		if(addItemList != null){
+			dataHolder.addItemList(player, addItemList);
+		}		
 	}
 
 	public List<ActivityDailyTypeItem> creatItems(String userId, MapItemStore<ActivityDailyTypeItem> itemStore) {
 		List<ActivityDailyTypeCfg> activityDailyTypeCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
 		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
+		String itemId = ActivityDailyTypeHelper.getItemId(userId, ActivityDailyTypeEnum.Daily);
 		List<ActivityDailyTypeItem> addItemList = null;
-		for (ActivityDailyTypeCfg cfg : activityDailyTypeCfgList) {
+		for (ActivityDailyTypeCfg cfg : activityDailyTypeCfgList) {			
+			if (itemStore != null) {
+				if (itemStore.getItem(itemId) != null) {
+					return addItemList;
+				}
+			}
 			if (itemStore != null) {
 				if (itemStore.getItem(userId) != null) {
 					return addItemList;
@@ -76,8 +81,8 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if (!activityDailyTypeCfgDAO.isOpen(cfg)) {
 				continue;
 			}
-			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
-			item.setId(userId);
+			ActivityDailyTypeItem item = new ActivityDailyTypeItem();			
+			item.setId(itemId);
 			item.setUserId(userId);
 			item.setCfgid(cfg.getId());
 			item.setVersion(cfg.getVersion());
@@ -101,12 +106,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityDailyTypeItem>();
 			}
-			if (addItemList.size() >= 1) {
-				// 同时生成了两条以上数据；
-				GameLog.error(LogModule.ComActivityDailyCount, userId, "通用二同时有多个活动开启", null);
-				continue;
-			}
-			addItemList.add(item);
+			addItemList.add(item);			
 		}
 		return addItemList;
 	}

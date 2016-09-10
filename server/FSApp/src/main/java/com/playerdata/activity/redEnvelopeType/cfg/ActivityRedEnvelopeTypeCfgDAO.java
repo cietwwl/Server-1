@@ -53,9 +53,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public Map<String, ActivityRedEnvelopeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRedEnvelopeTypeCfg.csv", ActivityRedEnvelopeTypeCfg.class);
 		for (ActivityRedEnvelopeTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
-			
-			
+			parseTime(cfgTmp);			
 		}
 		
 		return cfgCacheMap;

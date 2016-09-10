@@ -85,9 +85,6 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityCountTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~count.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
@@ -116,13 +113,16 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			item.setCfgId(cfg.getId());
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());			
+			item.setVersion(cfg.getVersion());
 			List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 			List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
-			for (ActivityCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
+			if (subItemCfgList == null) {
+				subItemCfgList = new ArrayList<ActivityCountTypeSubCfg>();
+			}
+			for (ActivityCountTypeSubCfg subCfg : subItemCfgList) {
 				ActivityCountTypeSubItem subItem = new ActivityCountTypeSubItem();
-				subItem.setCfgId(activityCountTypeSubCfg.getId());
-				subItem.setCount(activityCountTypeSubCfg.getAwardCount());
+				subItem.setCfgId(subCfg.getId());
+				subItem.setCount(subCfg.getAwardCount());
 				subItemList.add(subItem);
 			}
 			item.setSubItemList(subItemList);
@@ -145,7 +145,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(targetCfg));
+				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}

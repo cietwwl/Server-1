@@ -26,6 +26,7 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSu
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
+import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
@@ -59,18 +60,15 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 		List<ActivityDailyDiscountTypeItem> addItemList = null;
 		String userid = player.getUserId();
 		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
-		
 		if (addItemList != null) {
-			for(ActivityDailyDiscountTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~dailydiscount.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
 
 	public List<ActivityDailyDiscountTypeItem> creatItems(String userid, MapItemStore<ActivityDailyDiscountTypeItem> itemStore) {
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
-		List<ActivityDailyDiscountTypeItem> addItemList = null;
+		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;
+		ActivityDailyDiscountItemCfgDao itemDao = ActivityDailyDiscountItemCfgDao.getInstance();
 		for (ActivityDailyDiscountTypeCfg cfg : activitydailydiscountcfglist) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (!isOpen(cfg)) {
 				// 活动未开启
@@ -78,7 +76,6 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityDailyDiscountTypeEnum countTypeEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
 			if (countTypeEnum == null) {
-				GameLog.error("ActivityDailyDisCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + cfg.getId());
 				continue;
 			}
 			String itemId = ActivityDailyDiscountTypeHelper.getItemId(userid, countTypeEnum);
@@ -87,26 +84,25 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 					continue;
 				}
 			}
-			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();			
-			item.setId(itemId);
+			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
+			item.setId(itemID);
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userid);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());
 			item.setLastTime(System.currentTimeMillis());
-			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());		
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());			
 			List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 			List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
 			if(subCfgList == null){
 				subCfgList = new ArrayList<ActivityDailyDiscountTypeSubCfg>();
-			}
-			ActivityDailyDiscountItemCfgDao activityDailyDiscountItemCfgDao = ActivityDailyDiscountItemCfgDao.getInstance();
-			for(ActivityDailyDiscountTypeSubCfg activityVitalitySubCfg : subCfgList){
-				if(activityVitalitySubCfg.getAfterSomeDays() != day){
+			}			
+			for(ActivityDailyDiscountTypeSubCfg subCfg : subCfgList){
+				if(subCfg.getAfterSomeDays() != day){
 					continue;
-				}
-				for(Integer itemcfgId:activityVitalitySubCfg.getItemList()){
-					ActivityDailyDiscountItemCfg itemCfg = activityDailyDiscountItemCfgDao.getCfgById(itemcfgId+"");
+				}				
+				for(Integer itemId:subCfg.getItemList()){
+					ActivityDailyDiscountItemCfg itemCfg = itemDao.getCfgById(itemId+"");
 					if(itemCfg == null){
 						continue;
 					}
@@ -118,8 +114,8 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 					subItemList.add(subitem);
 				}
 				break;//按理只有一个子类				
-			}			
-			item.setSubItemList(subItemList);
+			}
+			item.setSubItemList(subItemList);			
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityDailyDiscountTypeItem>();
 			}

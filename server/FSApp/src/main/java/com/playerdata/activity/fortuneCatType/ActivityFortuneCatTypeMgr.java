@@ -22,8 +22,16 @@ import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDA
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg;
 import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 
@@ -54,9 +62,6 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityFortuneCatTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~fortunecat.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
@@ -64,9 +69,11 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	public List<ActivityFortuneCatTypeItem> creatItems(String userId, MapItemStore<ActivityFortuneCatTypeItem> itemStore) {
 		List<ActivityFortuneCatTypeItem> addItemList = null;
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
+		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			
 			if (itemStore != null) {
-				if (itemStore.getItem(userId) != null) {
+				if (itemStore.getItem(itemID) != null) {
 					return addItemList;
 				}
 			}
@@ -75,7 +82,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(userId);
+			item.setId(itemID);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());			
@@ -98,12 +105,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityFortuneCatTypeItem>();
 			}
-			if (addItemList.size() >= 1) {
-				// 同时生成了两条以上数据；
-				GameLog.error(LogModule.ComActivityFortuneCat, userId, "同时有多个活动开启", null);
-				continue;
-			}
-			addItemList.add(item);
+			addItemList.add(item);				
 		}
 		return addItemList;
 	}

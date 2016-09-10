@@ -24,6 +24,8 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -57,9 +59,6 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		String userId = player.getUserId();
 		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
 		if (addItemList != null) {
-			for(ActivityExchangeTypeItem item : addItemList ){
-				System.out.println("~~~~~~~~~~~~~~~exchange.id = " + item.getId());
-			}
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
@@ -72,44 +71,45 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 * @param mapItemStore
 	 * @return
 	 */
-	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> mapItemStore) {
+	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> itemStore) {
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
-		for (int i = 0,size = allCfgList.size();i<size;i++) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			ActivityExchangeTypeCfg cfg = allCfgList.get(i);
+		ActivityExchangeTypeSubCfgDAO dao = ActivityExchangeTypeSubCfgDAO.getInstance();
+		for (ActivityExchangeTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
 			}
-			ActivityExChangeTypeEnum activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
-			if (mapItemStore != null) {
-				if (mapItemStore.getItem(itemId) != null) {
+			String itemID = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
+			if (itemStore != null) {
+				if (itemStore.getItem(itemID) != null) {
 					continue;
 				}
 			}
-			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
-			item.setId(itemId);
+			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();	
+			item.setId(itemID);
 			item.setEnumId(cfg.getEnumId());
 			item.setCfgId(cfg.getId());
 			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());
-			List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
-			List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
-			if (subItemCfgList != null) {
-				for (ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg : subItemCfgList) {
-					ActivityExchangeTypeSubItem subItem = new ActivityExchangeTypeSubItem();
-					subItem.setCfgId(activityExchangeTypeSubCfg.getId());
-					subItem.setTime(0);
-					subItem.setIsrefresh(activityExchangeTypeSubCfg.isIsrefresh());
-					subItemList.add(subItem);
-				}
-			}
-			item.setSubItemList(subItemList);
+			item.setVersion(cfg.getVersion());			
 			item.setLasttime(System.currentTimeMillis());
+			List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
+			List<ActivityExchangeTypeSubCfg> subItemCfgList = dao.getByParentCfgId(cfg.getId());
+			if(subItemCfgList == null){
+				subItemCfgList = new ArrayList<ActivityExchangeTypeSubCfg>();
+			}
+			for (ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg : subItemCfgList) {
+				ActivityExchangeTypeSubItem subItem = new ActivityExchangeTypeSubItem();
+				subItem.setCfgId(activityExchangeTypeSubCfg.getId());	
+				subItem.setTime(0);
+				subItem.setIsrefresh(activityExchangeTypeSubCfg.isIsrefresh());
+				subItemList.add(subItem);				
+			}			
+			item.setSubItemList(subItemList);				
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityExchangeTypeItem>();
 			}

@@ -36,15 +36,17 @@ public class ActivityRedEnvelopeItemHolder{
 	 * 获取用户已经拥有的时装
 	 */
 	public List<ActivityRedEnvelopeTypeItem> getItemList(String userId)	
-	{
-		
+	{		
+		ActivityRedEnvelopeTypeCfgDAO dao = ActivityRedEnvelopeTypeCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeItem> itemList = new ArrayList<ActivityRedEnvelopeTypeItem>();
 		Enumeration<ActivityRedEnvelopeTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem) mapEnum.nextElement();			
+			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem) mapEnum.nextElement();	
+			if(dao.getCfgById(item.getCfgId()) == null){
+				continue;
+			}
 			itemList.add(item);
-		}
-		
+		}		
 		return itemList;
 	}
 	
@@ -94,9 +96,26 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityRedEnvelopeTypeItem> cache = MapItemStoreFactory.getActivityRedEnvelopeTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityRedEnvelopeTypeItem.class);
+	}
+
+	public boolean addItemList(Player player, List<ActivityRedEnvelopeTypeItem> addItemList) {
+		try {
+			boolean addSuccess = getItemStore(player.getUserId()).addItem(
+					addItemList);
+			if (addSuccess) {
+				ClientDataSynMgr.updateDataList(player,
+						getItemList(player.getUserId()), synType,
+						eSynOpType.UPDATE_LIST);
+			}
+			return addSuccess;
+		} catch (DuplicatedKeyException e) {
+			// handle..
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

@@ -5,11 +5,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
@@ -17,6 +22,7 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -40,49 +46,87 @@ public class ActivityTimeCountTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
+//		checkVersion(player);
 		checkClose(player);
 
 	}
 
+
+
 	private void checkNewOpen(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-		ActivityTimeCountTypeCfgDAO activityTimeCountTypeCfgDAO = ActivityTimeCountTypeCfgDAO.getInstance();
-		BILogMgr biLogMgr = BILogMgr.getInstance();
-		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
-		ArrayList<ActivityTimeCountTypeItem> addItemList = null;
-		for (ActivityTimeCountTypeCfg activityTimeCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityTimeCountTypeCfg)) {
-				// 活动未开启
-				continue;
-			}
-			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(activityTimeCountTypeCfg.getId());
-			if (TimeCountTypeEnum == null) {
-				continue;
-			}
-			ActivityTimeCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), TimeCountTypeEnum);// 已在之前生成数据的活动
-			if (targetItem == null) {
-				targetItem = activityTimeCountTypeCfgDAO.newItem(player, TimeCountTypeEnum);// 生成新开启活动的数据
-				if (targetItem == null) {
-					// logger
-					continue;
-				}
-				if (addItemList == null) {
-					addItemList = new ArrayList<ActivityTimeCountTypeItem>();
-				}
-				addItemList.add(targetItem);
-				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
-			} else {
-				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
-					targetItem.reset(activityTimeCountTypeCfg, activityTimeCountTypeCfgDAO.newItemList(player, activityTimeCountTypeCfg));
-					dataHolder.updateItem(player, targetItem);
-				}
-			}
-		}
+		String userId = player.getUserId();
+		List<ActivityTimeCountTypeItem> addItemList = null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));		
+		
 		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
-
+	
+	public List<ActivityTimeCountTypeItem> creatItems(String userId,MapItemStore<ActivityTimeCountTypeItem> itemStore){		
+		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
+		List<ActivityTimeCountTypeItem> addItemList = null;		
+		BILogMgr biLogMgr = BILogMgr.getInstance();
+		for (ActivityTimeCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据			
+			if (!isOpen(cfg)) {
+				// 活动未开启
+				continue;
+			}
+			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(cfg.getId());
+			if (TimeCountTypeEnum == null) {
+				continue;
+			}
+			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
+			if(itemStore != null){
+				if(itemStore.getItem(itemId)!= null){
+					continue;
+				}
+			}			
+			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
+			item.setId(itemId);
+			item.setCfgId(TimeCountTypeEnum.getCfgId());
+			item.setUserId(userId);
+			item.setVersion(cfg.getVersion());
+			item.setCount(1);
+			List<ActivityTimeCountTypeSubItem> newItemList = new ArrayList<ActivityTimeCountTypeSubItem>();
+			List<ActivityTimeCountTypeSubCfg> subItemCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
+			if(subItemCfgList == null){
+				subItemCfgList = new ArrayList<ActivityTimeCountTypeSubCfg>();
+			}
+			for (ActivityTimeCountTypeSubCfg subCfg : subItemCfgList) {
+				ActivityTimeCountTypeSubItem subItem = new ActivityTimeCountTypeSubItem();
+				subItem.setCfgId(subCfg.getId());	
+				subItem.setTaken(false);
+				newItemList.add(subItem);
+			}	
+			item.setSubItemList(newItemList);
+			
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityTimeCountTypeItem>();
+			}
+			if (addItemList.size() >= 1) {
+				// 同时生成了两条以上数据；
+				GameLog.error(LogModule.ComActivityTimeCount, userId, "同时有多个活动开启", null);
+				continue;
+			}
+			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
+			if(player != null){
+				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+			}			
+			addItemList.add(item);					
+		}		
+		return addItemList;
+	}
+	
+	private void checkVersion(Player player) {
+//		if (!StringUtils.equals(targetItem.getVersion(), cfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
+//			targetItem.reset(cfg, cfgDao.newItemList(player, cfg));
+//			dataHolder.updateItem(player, targetItem);
+//		}
+		
+	}
+	
 	private void checkClose(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 		ActivityTimeCountTypeSubCfgDAO activityTimeCountTypeSubCfgDAO = ActivityTimeCountTypeSubCfgDAO.getInstance();

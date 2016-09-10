@@ -155,4 +155,12 @@ public final class ActivityRateTypeCfgDAO extends
 		return null;
 	}
 
+	public boolean hasCfgByEnumId(String enumId){
+		List<ActivityRateTypeCfg> cfgList = cfgMapByEnumid.get(enumId);
+		if(cfgList == null || cfgList.isEmpty()){
+			return false;
+		}
+		return true;		
+	}
+	
 }
