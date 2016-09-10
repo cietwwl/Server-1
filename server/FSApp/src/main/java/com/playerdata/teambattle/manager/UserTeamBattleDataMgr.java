@@ -51,6 +51,7 @@ public class UserTeamBattleDataMgr {
 				if(null != self){
 					if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
 						teamItem.removeMember(self);
+						TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
 						if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 							TBTeamItemHolder.getInstance().synData(teamItem);
 						}

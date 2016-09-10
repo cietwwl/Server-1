@@ -1069,7 +1069,7 @@ public class Robot {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		boolean isCanSeach = GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 		if(!isCanSeach){
-			RobotLog.fail("搜索敌对秘境时失败，请确认是否全部为找不到秘境");
+			RobotLog.fail("搜索敌对秘境时失败，请确认是否未提前生成被掠夺的秘境");
 			return true;
 		}
 		checkEnoughSecretKeyCount();
@@ -1080,8 +1080,8 @@ public class Robot {
 
 	
 
-	public boolean getGroupSecretReward() {
-		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	public void getGroupMatchSecretReward() {
+		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
 
 	public boolean inviteMemberDefend() {

@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.bm.TeamBattleConst;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
@@ -38,10 +37,6 @@ public class TBTeamItem implements IMapItem{
 	
 	@NonSave
 	private List<StaticMemberTeamInfo> teamMembers = new ArrayList<StaticMemberTeamInfo>();
-	
-	@NonSave
-	@IgnoreSynField
-	private boolean isSelecting = false;
 	
 	@Override
 	public String getId() {
@@ -93,7 +88,6 @@ public class TBTeamItem implements IMapItem{
 	
 	public synchronized boolean isFull(){
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return true;
-		if(members.size() == TeamBattleConst.TEAM_MAX_MEMBER - 1) return isSelecting;
 		return false;
 	}
 	
@@ -145,14 +139,6 @@ public class TBTeamItem implements IMapItem{
 
 	public void setTeamMembers(List<StaticMemberTeamInfo> teamMembers) {
 		this.teamMembers = teamMembers;
-	}
-
-	public boolean isSelecting() {
-		return isSelecting;
-	}
-
-	public void setSelecting(boolean isSelecting) {
-		this.isSelecting = isSelecting;
 	}
 	
 	public boolean removeAble(){
