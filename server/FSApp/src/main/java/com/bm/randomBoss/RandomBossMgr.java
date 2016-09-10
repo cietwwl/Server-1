@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,8 +22,10 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.RandomUtil;
+import com.rwbase.dao.randomBoss.cfg.RBServerCfgDao;
 import com.rwbase.dao.randomBoss.cfg.RandomBossCfg;
 import com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao;
+import com.rwbase.dao.randomBoss.cfg.RandomBossServerCfg;
 import com.rwbase.dao.randomBoss.db.BattleNewsData;
 import com.rwbase.dao.randomBoss.db.RandomBossRecord;
 import com.rwbase.dao.randomBoss.db.RandomBossRecordDAO;
@@ -43,36 +46,20 @@ import com.rwproto.RandomBossProto.RandomBossPushMsg;
  */
 public class RandomBossMgr{
 
-	private final int MAX_BATTLE_COUNT = 15;//每天参加boss战斗上限
+	//数据dao
+	private RandomBossRecordDAO rbDao;
 	
-	private final int OPENLV = 20;//功能开启等级
-	
-	public final static String BOSS_BORN_TIPS = "RandomBossBornTips";
-	
-	public final static String INVITED_TIME_OUT = "RandomBossTimeOut";
-	/**此邀请曾经接受*/
-	public final static String INVITED_HAVE_ACCEPTED = "RandomBossAccepted";
-	
-	public final static String BOSS_EXCAPE = "RandomBossExcape";
-	
-	public final static String BOSS_FIGHTING = "RandomBossInBattle";
-	
-	public final static String BOSS_WAS_KILLED = "BossWasKilled";
-	
-	//你讨伐此魔神已达{0}次，不能再继续啦！
-	public final static String BOSS_FIGHT_MAX = "BossFightMax";
-	//今天已经参与了{0}次讨伐，不能再继续啦！
-	public final static String BOSS_TOTAL_FIGHT_MAX = "RandomBossTotalFightMax";
-	
-	/**最长战斗时间*/
-	public final static long MAX_BATTLE_TIME = 2 * 60 * 1000; 
-	
-	private RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
+	//配置
+	private RandomBossServerCfg rbServerCfg;
 	
 	private static RandomBossMgr instance = new RandomBossMgr();
-	private RandomBossMgr(){}
+	
+	private RandomBossMgr(){
+		rbDao = RandomBossRecordDAO.getInstance();
+		rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
+	}
 
-	public static RandomBossMgr getInstance(){
+	public synchronized static RandomBossMgr getInstance(){
 		return instance;
 	}
 	
@@ -148,14 +135,14 @@ public class RandomBossMgr{
 		RandomBossRecord record = rbDao.get(bossID);
 		if(record == null){
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(INVITED_TIME_OUT, "邀请已过期，不能前往讨伐"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedTimeOutTips(), "邀请已过期，不能前往讨伐"));
 			return;
 		}
 		//检查一下是否已经超时
 		if(record.getExcapeTime() <= System.currentTimeMillis()){
 			rbDao.delete(bossID);
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(INVITED_TIME_OUT, "邀请已过期，不能前往讨伐"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedTimeOutTips(), "邀请已过期，不能前往讨伐"));
 			return;
 		}
 		
@@ -163,7 +150,7 @@ public class RandomBossMgr{
 		List<String> list = player.getUserGameDataMgr().getRandomBossIDs();
 		if(list.contains(bossID)){
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(INVITED_HAVE_ACCEPTED, "邀请之前已经接受"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedAccepted(), "邀请之前已经接受"));
 			return;
 		}
 		
@@ -203,21 +190,23 @@ public class RandomBossMgr{
 		RandomBossRecord record = rbDao.get(bossID);
 		if(record == null){
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(BOSS_EXCAPE, "boss已经离开！"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossExcapeTips(), "boss已经离开！"));
 			return;
 		}
 		//检查是否已经达到上限
 		
 		RandomBossCfg bossCfg = RandomBossCfgDao.getInstance().getCfgById(record.getBossTemplateId());
 		if(bossCfg.getCrusadeNum() <= record.roleFightBossCount(player.getUserId())){
-			String tips = String.format(BOSS_FIGHT_MAX, bossCfg.getCrusadeNum());
+			String t = ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getSingleBossFightLimitTips(), "你讨伐此魔神已达{0}次，不能再继续啦！");
+			String tips = String.format(t, bossCfg.getCrusadeNum());
 			response.setIsSuccess(false);
 			response.setTips(tips);
 			return;
 		}
 		
-		if(player.getUserGameDataMgr().getFightRandomBossCount() >= MAX_BATTLE_COUNT){
-			String tips = String.format(BOSS_TOTAL_FIGHT_MAX, MAX_BATTLE_COUNT);
+		if(player.getUserGameDataMgr().getFightRandomBossCount() >= rbServerCfg.getMaxBattleCount()){
+			String t = ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getTotalFightLimitTips(), "今天已经参与了{0}次讨伐，不能再继续啦！");
+			String tips = String.format(t, rbServerCfg.getMaxBattleCount());
 			response.setIsSuccess(false);
 			response.setTips(tips);
 			return;
@@ -226,7 +215,7 @@ public class RandomBossMgr{
 		//是否已经被击杀
 		if(record.getLeftHp() <= 0){
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(BOSS_EXCAPE, "boss已经被击杀！"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossExcapeTips(), "boss已经被击杀！"));
 			return;
 		}
 		
@@ -234,7 +223,7 @@ public class RandomBossMgr{
 		//检查是否在战斗中
 		if(!record.resetLastBattleTime()){
 			response.setIsSuccess(true);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(BOSS_FIGHTING, "魔神正在被讨伐中，请稍后"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossInBattleTips(), "魔神正在被讨伐中，请稍后"));
 			return;
 		}
 		
@@ -286,9 +275,8 @@ public class RandomBossMgr{
 		//检查伤害值
 		long damage = record.getLeftHp() - curHp;
 		if(damage <= 0){
-			//TODO 没有造成伤害怎么处理
+			//TODO 没有造成伤害怎么处理  现在还是给奖励
 			GameLog.error("RandomBoss", "RandomBossMgr[endBattle]", "随机boss战斗结束，发现伤害值不超过0，原来伤害:"+record.getLeftHp()+"，后来值:" + curHp, null);
-			return null; 
 		}
 
 		
@@ -299,8 +287,9 @@ public class RandomBossMgr{
 		if(StringUtils.equals(record.getOwnerID(), player.getUserId())){
 			rewardMap.putAll(bossCfg.getFindRewardMap());			
 		}
-		
-		if(curHp == 0){
+		//检查最后一击奖励
+		int killBossRewardCount = player.getUserGameDataMgr().getKillBossRewardCount();
+		if(curHp == 0 && killBossRewardCount <= rbServerCfg.getKillBossRewardLimit()){
 			rewardMap.putAll(bossCfg.getKillRewardMap());
 		}
 		
@@ -336,9 +325,22 @@ public class RandomBossMgr{
 	public void findBossBorn(Player player){
 		//检查角色等级
 		int level = player.getLevel();
-		if(level < OPENLV){
+		if(level < rbServerCfg.getOpenLv()){
 			return;
 		}
+		//检查当天创建boss次数
+		int num = player.getUserGameDataMgr().getCreateBossCount();
+		if(num >= rbServerCfg.getCreateBossCountLimit()){
+			return;
+		}
+		
+		//随机机率
+		int r = RandomUtil.getRandonIndexWithoutProb(100);
+		if(r > rbServerCfg.getBossBornRate()){
+			return;
+		}
+		
+		
 		List<RandomBossCfg> list = RandomBossCfgDao.getInstance().getLvCfgs(level);
 		
 		//随机一个
@@ -358,8 +360,8 @@ public class RandomBossMgr{
 			player.getUserGameDataMgr().addRandomBoss(id);
 			player.SendMsg(Command.MSG_RANDOM_BOSS, msg.build().toByteString());
 			
-			String e = DateUtils.getDateTimeFormatString(excapeTime, "yyyy-MM-dd HH:mm:ss");
-			System.out.println("新随机boss生成，离开时间：" + e);
+//			String e = DateUtils.getDateTimeFormatString(excapeTime, "yyyy-MM-dd HH:mm:ss");
+//			System.out.println("新随机boss生成，离开时间：" + e);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -367,6 +369,23 @@ public class RandomBossMgr{
 					+ ",random data size:" + list.size() + ", random index:" + i, e);
 		}
 		
+	}
+
+	public String getBossBornTips() {
+		return ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossBornTips(), "魔神已经出现");
+	}
+
+	public String getBossKilledKey() {
+		return ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossWasKilledTips(), "魔神已经出现");
+	}
+
+	
+	/**
+	 * 获取随机boss战斗时长，返回的ms
+	 * @return
+	 */
+	public long getBattleTimeLimit() {
+		return rbServerCfg.getBattleTimeLimit()  * Timer.ONE_SECOND;
 	}
 
 

@@ -154,6 +154,9 @@ public class NormalCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, times);
+		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player);
 
 		// 黑市或者神秘商店
 		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);

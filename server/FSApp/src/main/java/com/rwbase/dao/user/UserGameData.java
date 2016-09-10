@@ -12,6 +12,7 @@ import org.junit.Ignore;
 
 import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
+import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
@@ -77,7 +78,9 @@ public class UserGameData implements TableUserOtherIF {
 	
 	@IgnoreSynField
 	private int killBossRewardCount;//当天击杀boss领奖次数
-
+	@IgnoreSynField
+	private int createBossCount;//当天发现boss次数
+	
 	public int getExpCoin() {
 		return expCoin;
 	}
@@ -386,6 +389,14 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setKillBossRewardCount(int killBossRewardCount) {
 		this.killBossRewardCount = killBossRewardCount;
+	}
+
+	public int getCreateBossCount() {
+		return createBossCount;
+	}
+
+	public void setCreateBossCount(int createBossCount) {
+		this.createBossCount = createBossCount;
 	}
 	
 }

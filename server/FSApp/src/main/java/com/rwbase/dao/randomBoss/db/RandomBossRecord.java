@@ -263,7 +263,7 @@ public class RandomBossRecord {
 	 */
 	public synchronized boolean resetLastBattleTime() {
 		long nowTime = System.currentTimeMillis();
-		if(nowTime < (lastBattleTime + RandomBossMgr.MAX_BATTLE_TIME)){
+		if(nowTime < (lastBattleTime + RandomBossMgr.getInstance().getBattleTimeLimit())){
 			return false;
 		}
 		lastBattleTime = nowTime;

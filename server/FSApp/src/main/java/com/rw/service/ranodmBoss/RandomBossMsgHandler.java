@@ -85,7 +85,7 @@ public class RandomBossMsgHandler {
 					
 		}
 		try {
-			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.BOSS_BORN_TIPS, bossID, bossID, idList);
+			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornTips(), bossID, bossID, idList);
 			response.setIsSuccess(true);
 		} catch (Exception e) {
 			GameLog.error("RandomBoss", "RandomBossMsgHandler[invitedFriendBattle]", "发送邀请好友战斗聊天信息时出现异常", e);
@@ -137,7 +137,7 @@ public class RandomBossMsgHandler {
 			List<BattleNewsData> infos = RandomBossMgr.getInstance().getBattleInfo(player, bossID);
 			if(infos == null){
 				response.setIsSuccess(false);
-				response.setTips(ChineseStringHelper.getInstance().getLanguageString(RandomBossMgr.BOSS_EXCAPE, "boss已经离开！"));
+				response.setTips(ChineseStringHelper.getInstance().getLanguageString(RandomBossMgr.getInstance().getBossKilledKey(), "boss已经离开！"));
 			}else{
 				response.setIsSuccess(true);
 				for (BattleNewsData data : infos) {

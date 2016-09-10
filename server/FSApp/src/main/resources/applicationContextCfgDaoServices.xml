@@ -281,6 +281,7 @@
 	
 	<!-- 随机boss -->
 	<bean class="com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.randomBoss.cfg.RBServerCfgDao" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

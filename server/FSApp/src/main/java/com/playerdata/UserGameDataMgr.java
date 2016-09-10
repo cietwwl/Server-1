@@ -61,6 +61,7 @@ public class UserGameDataMgr {
 		
 		tableUserOther.setRandomBossFightCount(0);//重置随机boss的战斗次数
 		tableUserOther.setKillBossRewardCount(0);
+		tableUserOther.setCreateBossCount(0);
 		userGameDataHolder.update(player);
 	}
 
@@ -941,6 +942,10 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getKillBossRewardCount();
 	}
 	
+	public int getCreateBossCount(){
+		return userGameDataHolder.get().getCreateBossCount();
+	}
+	
 	public void increaseRandomBossFightCount(){
 		UserGameData data = userGameDataHolder.get();
 		int count = data.getRandomBossFightCount();
@@ -950,7 +955,10 @@ public class UserGameDataMgr {
 	
 	
 	public void addRandomBoss(String id){
-		List<String> list = userGameDataHolder.get().getRandomBossIds();
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getCreateBossCount();
+		data.setCreateBossCount(count + 1);
+		List<String> list = data.getRandomBossIds();
 		list.add(id);
 		userGameDataHolder.update(player);
 	}
@@ -961,5 +969,4 @@ public class UserGameDataMgr {
 		data.setKillBossRewardCount(count + 1);
 		userGameDataHolder.update(player);
 	}
-	
 }
