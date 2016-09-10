@@ -12,10 +12,10 @@ public interface CompetitionStage {
 	/**
 	 * 开始
 	 */
-	public void onStart(CompetitionStage preStage);
+	public void onStageStart(CompetitionStage preStage);
 	
 	/**
-	 * 结束（结束是否应该由Stage自身控制？）
+	 * 阶段是否已经结束
 	 */
-	public void onEnd();
+	public boolean isStageEnd();
 }

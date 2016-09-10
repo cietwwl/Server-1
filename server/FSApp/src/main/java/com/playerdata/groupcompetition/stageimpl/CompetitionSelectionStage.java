@@ -12,13 +12,14 @@ import com.playerdata.groupcompetition.data.CompetitionStage;
 public class CompetitionSelectionStage implements CompetitionStage {
 
 	@Override
-	public void onStart(CompetitionStage preStage) {
+	public void onStageStart(CompetitionStage preStage) {
 		
 	}
 
 	@Override
-	public void onEnd() {
-		
+	public boolean isStageEnd() {
+		return false;
 	}
-
+	
+	
 }
