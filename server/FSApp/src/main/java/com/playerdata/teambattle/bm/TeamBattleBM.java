@@ -36,6 +36,7 @@ import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
 import com.playerdata.teambattle.dataException.JoinTeamException;
+import com.playerdata.teambattle.dataException.NoTeamException;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
@@ -171,6 +172,11 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
 		}
+		if(TBTeamItemHolder.getInstance().isItemCountMax(hardID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("战斗过于火爆，请您试试快速加入");
+			return;
+		}
 		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
@@ -182,7 +188,7 @@ public class TeamBattleBM {
 		teamItem.setHardID(hardID);
 		teamItem.setLeaderID(player.getUserId());
 		teamItem.addMember(tMem);
-		TBTeamItemHolder.getInstance().addNewTeam(teamItem);
+		TBTeamItemMgr.getInstance().addNewTeam(teamItem);
 		utbData.setTeamID(teamID);
 		utbData.setMemPos("");
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
@@ -231,18 +237,14 @@ public class TeamBattleBM {
 				}
 			}
 		}
-		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(player.getUserId(), hardID);
-		if(canJionTeam == null) {
-			createTeam(player, tbRsp, hardID);
-			return;
-		}
 		try {
-			joinTeam(player, canJionTeam);
-			canJionTeam.setSelecting(false);
+			TBTeamItemMgr.getInstance().quickJionTeam(player, hardID);
 			tbRsp.setRstType(TBResultType.SUCCESS);
+		} catch (NoTeamException e) {
+			createTeam(player, tbRsp, hardID);
 		} catch (JoinTeamException e) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg(e.getMessage());
+			tbRsp.setTipMsg("战斗过于火爆，请您待会再来");
 		}
 	}
 
@@ -307,7 +309,7 @@ public class TeamBattleBM {
 		}
 		try {
 			utbData.setSynTeam(true);
-			joinTeam(player, teamItem);
+			TBTeamItemMgr.getInstance().joinTeam(player, teamItem);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
 			utbData.setSynTeam(false);
@@ -574,7 +576,8 @@ public class TeamBattleBM {
 				}
 				finishedHardInfo.setFinishTimes(finishedHardInfo.getFinishTimes() + 1);
 				if(cfg.getMail() != 0){
-					for(TeamMember mem : teamItem.getMembers()){
+					List<TeamMember> members = teamItem.getMembers();
+					for(TeamMember mem : members){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
 							if(null == emailCfg) {
@@ -591,10 +594,9 @@ public class TeamBattleBM {
 			}
 			if(cfg.getReward() != null && cfg.getReward().size() > 0){
 				ItemBagMgr bagMgr = player.getItemBagMgr();
-				for (ItemInfo itm : cfg.getReward()) {
-					GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-					if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-						GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+				List<ItemInfo> rewards = cfg.getReward();
+				if(!bagMgr.addItem(rewards)) {
+					GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品不成功！list的内容：", rewards), null);
 				}
 			}
 			teamMember.setLastFinishBattle(battleTime);
@@ -603,6 +605,7 @@ public class TeamBattleBM {
 			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
+				TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
 			}
 			UserTeamBattleDataHolder.getInstance().update(player, utbData);
 			UserTeamBattleDataHolder.getInstance().synData(player);
@@ -656,32 +659,6 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("购买失败");
 			return;
 		}
-	}
-	
-	/**
-	 * 几种加入队伍方式的通用方法
-	 * @param player
-	 * @param canJionTeam
-	 * @throws JoinTeamException
-	 */
-	private void joinTeam(Player player, TBTeamItem canJionTeam) throws JoinTeamException {
-		//脱离当前的队伍
-		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		TeamMember tMem = new TeamMember();
-		tMem.setUserID(player.getUserId());
-		tMem.setUserName(player.getUserName());
-		tMem.setState(TBMemberState.Ready);
-		if(!canJionTeam.addMember(tMem)){
-			throw new JoinTeamException("加入失败");
-		}
-		utbData.setTeamID(canJionTeam.getTeamID());
-		utbData.setMemPos("");
-		
-		TBTeamItemHolder.getInstance().updateTeam(canJionTeam);
-		UserTeamBattleDataHolder.getInstance().update(player, utbData);
-		UserTeamBattleDataHolder.getInstance().synData(player);
-		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class AssistantHeroLevelUpCheck extends DefaultAssistantChecker {
 		materialId.add(803003);//经验丹id
 		materialId.add(803004);//经验丹id
 		boolean hasMaterail = false; 
-		if(!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player.getLevel())){
+		if(!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player)){
 			return hasMaterail;
 		}
 		for (int i = 0; i < materialId.size(); i++) {

@@ -97,7 +97,7 @@ public class GroupSecretMatchHandler {
 		rsp.setReqType(MatchRequestType.SEARCHING_ENEMY);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
 		if (openLevel != -1) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
 			return rsp.build().toByteString();
@@ -246,7 +246,7 @@ public class GroupSecretMatchHandler {
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_START);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
 		if (openLevel != -1) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
 			return rsp.build().toByteString();
@@ -520,7 +520,7 @@ public class GroupSecretMatchHandler {
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_END);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
 		if (openLevel != -1) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
 			return rsp.build().toByteString();
@@ -627,7 +627,7 @@ public class GroupSecretMatchHandler {
 		rsp.setReqType(MatchRequestType.GET_REWARD);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
 		if (openLevel != -1) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
 			return rsp.build().toByteString();

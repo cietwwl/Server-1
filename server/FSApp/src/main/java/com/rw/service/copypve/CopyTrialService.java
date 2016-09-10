@@ -29,6 +29,9 @@ public class CopyTrialService implements FsService<MsgTrialRequest, eTrialType> 
 			case TRIAL_RESET_COUNT:
 				result = copyTrialHandler.resetTrial(player, request);
 				break;
+			case TRAIL_VALLEY:
+				result = copyTrialHandler.copyTrial(player, request);
+				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

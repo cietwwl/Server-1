@@ -103,6 +103,16 @@ public class CopyLevelRecordHolder {
 		return copyLevelRecord.toClientData();
 	}
 
+	public boolean isCopyLevelPassed(Player player,int levelID){
+		String recordId = getCopyLevelRecordId(levelID);
+		MapItemStore<CopyLevelRecord> levelRecordStore = getCopyLevelRecord();
+		CopyLevelRecord copyLevelRecord = levelRecordStore.getItem(recordId);
+		if (copyLevelRecord == null){
+			return false;
+		}
+		return copyLevelRecord.getPassStar() > 0;
+	}
+	
 	public CopyLevelRecord getLevelRecord(Player player, int levelID) {
 		String recordId = getCopyLevelRecordId(levelID);
 		MapItemStore<CopyLevelRecord> levelRecordStore = getCopyLevelRecord();

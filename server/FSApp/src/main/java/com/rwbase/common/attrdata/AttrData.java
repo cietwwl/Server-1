@@ -97,7 +97,7 @@ public class AttrData implements AttrDataIF {
 	private static final String _KEY_DO_HURT = "40";
 	
 	@JsonProperty(_KEY_LIFE)
-	private int life; // 最大生命值...
+	private long life; // 最大生命值...
 	
 	@JsonProperty(_KEY_ENERGY)
 	private int energy; // 能量值...
@@ -218,7 +218,7 @@ public class AttrData implements AttrDataIF {
 	
 	public AttrData() {}
 
-	public AttrData(int life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
+	public AttrData(long life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
 			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int pAttackGrowUp,
 			int sAttackGrowUp, int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight,
 			float reactionTime, float attackDistance, float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
@@ -352,7 +352,7 @@ public class AttrData implements AttrDataIF {
 	// return data;
 	// }
 
-	public int getLife() {
+	public long getLife() {
 		return life;
 	}
 
@@ -662,7 +662,7 @@ public class AttrData implements AttrDataIF {
 	// }
 
 	public static class Builder {
-		private int life; // 最大生命值...
+		private long life; // 最大生命值...
 		private int energy; // 能量值...
 		private int physiqueAttack; // 物理攻击...
 		private int spiritAttack;// 魔法攻击...
@@ -706,7 +706,7 @@ public class AttrData implements AttrDataIF {
 
 		private float doHurt; // 硬直界限
 
-		public void setLife(int life) {
+		public void setLife(long life) {
 			this.life = life;
 		}
 

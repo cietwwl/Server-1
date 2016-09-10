@@ -208,12 +208,15 @@ public class GroupSecretHandler {
 			if (!defendSecretIdList.get(i).isFinish()) {
 				continue;
 			}
+			if(defendSecretIdList.get(i).getMainPos() == 0){
+				continue;//掠夺的数据，不在此处发送
+			}
 			GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 			req.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
 			GetGroupSecretRewardReqMsg.Builder msg = GetGroupSecretRewardReqMsg.newBuilder();
 			msg.setId(defendSecretIdList.get(i).getId());
 			req.setGetRewardReqMsg(msg);
-			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "领取奖励"));
+			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "普通奖励"));
 
 		}
 	}
