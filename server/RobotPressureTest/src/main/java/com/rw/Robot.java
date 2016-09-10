@@ -58,6 +58,7 @@ import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.GroupCopyAdminProto.RequestType;
+import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
 
 /*
  * 机器人入口
@@ -1045,6 +1046,10 @@ public class Robot {
 
 	public boolean testPeakArena() {
 		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		List<ArenaInfo> listInfoList = client.getPeakArenaDataHolder().getListInfoList();
+		if (listInfoList == null || listInfoList.size() <= 0) {
+			return true;
+		}
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
