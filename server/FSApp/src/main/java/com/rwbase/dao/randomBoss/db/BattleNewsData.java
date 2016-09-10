@@ -1,5 +1,8 @@
 package com.rwbase.dao.randomBoss.db;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 public class BattleNewsData {
 
 	
@@ -11,9 +14,22 @@ public class BattleNewsData {
 	//战斗时刻
 	private long battleTime;
 	
+	private String playerName;
 	
 	
 	public BattleNewsData() {
+	}
+
+
+
+	public BattleNewsData(String roleID, long damage, boolean finalHit,
+			long battleTime, String playerName) {
+		super();
+		this.roleID = roleID;
+		this.damage = damage;
+		this.finalHit = finalHit;
+		this.battleTime = battleTime;
+		this.playerName = playerName;
 	}
 
 
@@ -62,6 +78,18 @@ public class BattleNewsData {
 
 	public void setBattleTime(long battleTime) {
 		this.battleTime = battleTime;
+	}
+
+
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
 	}
 	
 	

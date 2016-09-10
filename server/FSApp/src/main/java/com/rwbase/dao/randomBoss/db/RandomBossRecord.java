@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.bm.randomBoss.RandomBossMgr;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.NonSave;
@@ -25,25 +31,27 @@ public class RandomBossRecord {
 	private String id;//userID+createTime
 	
 	//发现者id
-	private String owerID;
+	private String ownerID;
+	
+	private String ownerName;
 	
 	/**所有攻击过这个boss的角色和次数*/
 	@IgnoreSynField
-	private Map<String, Integer> fightRole = new HashMap<String, Integer>();
+	private ConcurrentHashMap<String, Integer> fightRole = new ConcurrentHashMap<String, Integer>();
 	
 	private long leftHp;
 	
 	@IgnoreSynField
-	private List<BattleNewsData> battleInfo = new ArrayList<BattleNewsData>();
+	private ConcurrentLinkedQueue<BattleNewsData> battleInfo = new ConcurrentLinkedQueue<BattleNewsData>();
 	
 	private String bossTemplateId;
 	
-	
-	private long bornTime;
+	/**boss逃离时间点*/
+	private long excapeTime;
 	
 	/**最后一击角色*/
 	@IgnoreSynField
-	private long finalHitRole;
+	private String finalHitRole;
 	
 	/**
 	 * 角色与此boss战斗的次数，此字段不保存进数据库，只有在和前端同步的时候才赋值
@@ -57,6 +65,19 @@ public class RandomBossRecord {
 	@NonSave
 	private String finalHitRoleName;
 
+	/**
+	 * 上次战斗时间，不保存入数据库，不同步到前端，只是服务器逻辑用
+	 */
+	@IgnoreSynField
+	@NonSave
+	private long lastBattleTime;
+	
+	/**
+	 * 与boss战斗角色id,战斗结束后消除
+	 */
+	@IgnoreSynField
+	@NonSave
+	private String battleRoleID;
 	
 	public RandomBossRecord() {
 	}
@@ -72,23 +93,24 @@ public class RandomBossRecord {
 	}
 
 
-	public String getOwerID() {
-		return owerID;
+	public String getOwnerID() {
+		return ownerID;
 	}
 
 
-	public void setOwerID(String owerID) {
-		this.owerID = owerID;
+	public void setOwnerID(String owerID) {
+		this.ownerID = owerID;
 	}
 
 
 	public Map<String, Integer> getFightRole() {
-		return fightRole;
+		return new HashMap<String, Integer>(fightRole);
 	}
 
 
 	public void setFightRole(Map<String, Integer> fightRole) {
-		this.fightRole = fightRole;
+		this.fightRole.clear();
+		this.fightRole.putAll(fightRole);
 	}
 
 
@@ -96,6 +118,8 @@ public class RandomBossRecord {
 		return leftHp;
 	}
 
+	
+	
 
 	public void setLeftHp(long leftHp) {
 		this.leftHp = leftHp;
@@ -103,12 +127,13 @@ public class RandomBossRecord {
 
 
 	public List<BattleNewsData> getBattleInfo() {
-		return battleInfo;
+		return new ArrayList<BattleNewsData>(battleInfo);
 	}
 
 
 	public void setBattleInfo(List<BattleNewsData> battleInfo) {
-		this.battleInfo = battleInfo;
+		this.battleInfo.clear();
+		this.battleInfo.addAll(battleInfo);
 	}
 
 
@@ -122,22 +147,15 @@ public class RandomBossRecord {
 	}
 
 
-	public long getBornTime() {
-		return bornTime;
-	}
+	
 
 
-	public void setBornTime(long bornTime) {
-		this.bornTime = bornTime;
-	}
-
-
-	public long getFinalHitRole() {
+	public String getFinalHitRole() {
 		return finalHitRole;
 	}
 
 
-	public void setFinalHitRole(long finalHitRole) {
+	public void setFinalHitRole(String finalHitRole) {
 		this.finalHitRole = finalHitRole;
 	}
 
@@ -160,10 +178,117 @@ public class RandomBossRecord {
 	public void setFinalHitRoleName(String finalHitRoleName) {
 		this.finalHitRoleName = finalHitRoleName;
 	}
+
+
+	public long getExcapeTime() {
+		return excapeTime;
+	}
+
+
+	public void setExcapeTime(long excapeTime) {
+		this.excapeTime = excapeTime;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
+	
+	public long getLastBattleTime() {
+		return lastBattleTime;
+	}
+
+
+	public void setLastBattleTime(long time) {
+		this.lastBattleTime = time;
+	}
+	
+	
+	//----------------------------------操作逻辑---------------------------------------------//
+	
+	public RandomBossRecord clone() {
+		RandomBossRecord record = new RandomBossRecord();
+		record.setId(id);
+		record.setOwnerID(ownerID);
+		if(StringUtils.isNotBlank(ownerID)){
+			Player owner = PlayerMgr.getInstance().find(ownerID);
+			if(!StringUtils.equals(ownerName, owner.getUserName())){
+				ownerName = owner.getUserName();
+			}
+		}
+		
+		record.setOwnerName(ownerName);
+		record.setLeftHp(leftHp);
+		record.setBossTemplateId(bossTemplateId);
+		record.setExcapeTime(excapeTime);
+		if(!StringUtils.isBlank(finalHitRole) && leftHp <= 0){
+			Player p = PlayerMgr.getInstance().find(finalHitRole);
+			finalHitRoleName = p.getUserName();
+			record.setFinalHitRoleName(finalHitRoleName);
+		}
+		
+		
+		return record;
+	}
+	
+	/**
+	 * 获取角色与boss战斗次数
+	 * @param userID
+	 * @return
+	 */
+	public int roleFightBossCount(String userID){
+		Integer count = fightRole.get(userID);
+		return count == null ? 0 : count;
+	}
+
+
+	public void addBattleRole(String userId) {
+		battleRoleID = userId;
+		Integer count = fightRole.get(userId);
+		if(count == null){
+			fightRole.put(userId, 1);
+		}else{
+			count ++;
+		}
+	}
+
+
+	/**
+	 * 设置上次战斗时间，如果true，则表示可以进入战斗，如果false,表示上次战斗还没有结束
+	 * @return
+	 */
+	public synchronized boolean resetLastBattleTime() {
+		long nowTime = System.currentTimeMillis();
+		if(nowTime < (lastBattleTime + RandomBossMgr.MAX_BATTLE_TIME)){
+			return false;
+		}
+		lastBattleTime = nowTime;
+		return true;
+	}
+
+	public void battleEnd(){
+		lastBattleTime = 0;
+		battleRoleID = "";
+	}
+
+
+	public String getBattleRoleID() {
+		return battleRoleID;
+	}
+
+	public void addBattleInfo(BattleNewsData e){
+		battleInfo.add(e);
+	}
+
 	
 	
 	
-	
+
+
 	
 	
 }

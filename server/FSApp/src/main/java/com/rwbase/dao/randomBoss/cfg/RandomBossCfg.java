@@ -14,7 +14,7 @@ public class RandomBossCfg {
 	//怪物id
 	private String id;
 	//触发等级
-	private String playerLevel;
+	private String Playerlevel;
 	
 	//等级上限
 	private int upperLv;
@@ -39,9 +39,9 @@ public class RandomBossCfg {
 	
 	
 	public void format(){
-		String[] str = playerLevel.split("_");
+		String[] str = Playerlevel.split("_");
 		if(str.length < 2){
-			new RuntimeException("检查随机boss怪物配置表发现怪物["+id+"]触发等级数据不正确：" + playerLevel);
+			new RuntimeException("检查随机boss怪物配置表发现怪物["+id+"]触发等级数据不正确：" + Playerlevel);
 			return;
 		}
 		
@@ -70,7 +70,7 @@ public class RandomBossCfg {
 		}
 		
 		
-		playerLevel = null;
+		Playerlevel = null;
 		battleReward = null;
 		findReward = null;
 		killReward = null;

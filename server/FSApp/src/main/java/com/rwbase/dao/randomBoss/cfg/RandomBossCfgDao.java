@@ -24,7 +24,7 @@ public class RandomBossCfgDao extends CfgCsvDao<RandomBossCfg>{
 
 	@Override
 	protected Map<String, RandomBossCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("randomBoss/RandomBossData.csv", RandomBossCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("randomBoss/RandomBossCfg.csv", RandomBossCfg.class);
 		return cfgCacheMap;
 	}
 

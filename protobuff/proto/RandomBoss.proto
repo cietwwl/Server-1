@@ -34,7 +34,7 @@ message RandomBossMsgResponse{
 //推送到前端的消息
 message RandomBossPushMsg{
 	required MsgType msgType = 1;
-	optional string bossID = 2;
+	optional string bossID = 2;//这个应该是boss 模板id, 不是服务器生成的id
 }
 
 message InvitedFriends{

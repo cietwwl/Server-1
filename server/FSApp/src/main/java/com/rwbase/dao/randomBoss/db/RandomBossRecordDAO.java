@@ -21,10 +21,11 @@ public class RandomBossRecordDAO extends DataKVDao<RandomBossRecord>{
 	 * @param ownerID
 	 * @param leftHp
 	 * @param bossTemplateId
+	 * @param excapeTime TODO boss离开时间
 	 * @return
 	 */
 	public RandomBossRecord create(String id, String ownerID, long leftHp, 
-			String bossTemplateId){
+			String bossTemplateId, long excapeTime){
 		RandomBossRecord record = super.get(id);
 		if(record != null){
 			GameLog.error(LogModule.COMMON, RandomBossRecordDAO.class.getName(), "创建随机boss时，发现已经存在相同id的boss:" + id, null);
@@ -33,10 +34,10 @@ public class RandomBossRecordDAO extends DataKVDao<RandomBossRecord>{
 		
 		record = new RandomBossRecord();
 		record.setId(id);
-		record.setOwerID(ownerID);
+		record.setOwnerID(ownerID);
 		record.setLeftHp(leftHp);
 		record.setBossTemplateId(bossTemplateId);
-		record.setBornTime(System.currentTimeMillis());
+		record.setExcapeTime(excapeTime);
 		update(record);
 		return record;
 	}

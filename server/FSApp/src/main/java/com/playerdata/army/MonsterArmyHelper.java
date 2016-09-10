@@ -54,12 +54,22 @@ public class MonsterArmyHelper {
 
 	private static List<SkillItem> getSkillList(MonsterCfg monster){
         List<String> tempList = new ArrayList<String>();
-        tempList.add(monster.getSkill01());
-        tempList.add(monster.getSkill02());
-        tempList.add(monster.getSkill03());
-        tempList.add(monster.getSkill04());
-        tempList.add(monster.getSkill05());
-
+        if(StringUtils.isNotBlank(monster.getSkill01())){
+        	tempList.add(monster.getSkill01());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill02())){
+        	tempList.add(monster.getSkill02());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill03())){
+        	tempList.add(monster.getSkill03());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill04())){
+        	tempList.add(monster.getSkill04());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill05())){
+        	tempList.add(monster.getSkill05());
+        }
+        
         return createSkillItems(tempList);
 		
 	}
@@ -149,7 +159,8 @@ public class MonsterArmyHelper {
 
 	private static RoleBaseInfo getRoleBaseInfo(MonsterCfg monster){
 		RoleBaseInfo roleInfo = new RoleBaseInfo();
-        BeanCopyer.copy(monster,roleInfo);
+		roleInfo.setId(monster.getId());
+		roleInfo.setTemplateId(monster.getId());
 		return roleInfo;
 	}
 

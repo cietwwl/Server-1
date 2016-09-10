@@ -111,6 +111,8 @@
 
      			<entry key="MSG_SYN_DATA_SERVICE" value-ref="synDataService" />
      			
+     			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -197,5 +199,7 @@
 	
 	
 	<bean id="synDataService" class="com.playerdata.dataSyn.service.SynDataService"/>
+	
+	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
 </beans>  
