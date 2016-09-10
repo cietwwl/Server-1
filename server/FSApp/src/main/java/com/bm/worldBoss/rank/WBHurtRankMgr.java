@@ -14,6 +14,7 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 public class WBHurtRankMgr {
 	
@@ -94,7 +95,7 @@ public class WBHurtRankMgr {
 		rankInfo.setRankList(rankList);
 		rankInfo.setUserRank(getRankIndex(player.getUserId()));
 		
-		ClientDataSynMgr.synData(player, rankInfo, synType, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.synData(player, rankInfo, eSynType.WB_RANK_DATA, eSynOpType.UPDATE_SINGLE);
 	}
 	
 

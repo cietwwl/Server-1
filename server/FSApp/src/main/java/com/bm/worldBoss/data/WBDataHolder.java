@@ -61,7 +61,7 @@ public class WBDataHolder {
 		String monsterId = wbCfg.getMonsterCfgId();
 		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig ( monsterId );
 		data.setId(monsterId);
-		int maxLife = monster.getLife();
+		long maxLife = monster.getLife();
 		data.setMaxLife(maxLife);
 		data.setCurLife(maxLife);	
 		data.setStartTime(wbCfg.getStartTime());
