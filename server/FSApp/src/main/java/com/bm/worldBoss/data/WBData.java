@@ -5,7 +5,6 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.army.CurAttrData;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -95,6 +94,10 @@ public class WBData {
 
 	public void setLastFightInfo(LastFightInfo lastFightInfo) {
 		this.lastFightInfo = lastFightInfo;
+	}
+
+	public int getVersion() {
+		return version;
 	}
 	
 	

@@ -16,14 +16,16 @@ public class LastFightInfo {
 	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public LastFightInfo setUserId(String userId) {
 		this.userId = userId;
+		return this;
 	}
 	public long getTime() {
 		return time;
 	}
-	public void setTime(long time) {
+	public LastFightInfo setTime(long time) {
 		this.time = time;
+		return this;
 	}
 	
 	

@@ -26,19 +26,27 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
 				case Enter:
-					byteString = WBHandler.getInstance().DoEnter(player, request);
+					byteString = WBHandler.getInstance().getSuccessRep(player, request);
 				break;
 				
+				case SynData:
+					byteString = WBHandler.getInstance().getSuccessRep(player, request);
+					break;
+				
 				case BuyBuff:
-//					byteString = WBHandler.getInstance().DoEnter(player, request);
+					byteString = WBHandler.getInstance().doBuyBuff(player, request);
+				break;
+				
+				case BuyCD:
+					byteString = WBHandler.getInstance().doBuyCD(player, request);
 				break;
 				
 				case FightBegin:
-					byteString = WBHandler.getInstance().DoFightBegin(player, request);
+					byteString = WBHandler.getInstance().doFightBegin(player, request);
 				break;
 				
 				case FightEnd:
-					byteString = WBHandler.getInstance().DoFightEnd(player, request);
+					byteString = WBHandler.getInstance().doFightEnd(player, request);
 				break;
 				
 				default:

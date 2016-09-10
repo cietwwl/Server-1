@@ -7,15 +7,17 @@ import com.bm.rank.RankType;
 import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwproto.DataSynProtos.eSynOpType;
 
 public class WBHurtRankMgr {
 	
-	private static final RankType HURT_RANK = RankType.GF_ONLINE_HURT_RANK;
+	private static final RankType HURT_RANK = RankType.WORLD_BOSS_HURT_RANK;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static int addOrUpdate(Player player) {
@@ -85,6 +87,15 @@ public class WBHurtRankMgr {
 		
 	}
 	
+	public static void syn(Player player){
+		WBRankInfo rankInfo = new WBRankInfo();
+		
+		List<WBHurtItem> rankList = getRankList(50);
+		rankInfo.setRankList(rankList);
+		rankInfo.setUserRank(getRankIndex(player.getUserId()));
+		
+		ClientDataSynMgr.synData(player, rankInfo, synType, eSynOpType.UPDATE_SINGLE);
+	}
 	
 
 	

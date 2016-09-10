@@ -15,6 +15,7 @@ import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.magicsecret.MagicSecretExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
+import com.bm.worldBoss.rank.WBHurtExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
 import com.rw.fsutil.ranking.RankingExtension;
@@ -51,7 +52,8 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	PEAK_ARENA_FIGHTING(26, 100000, "巅峰竞技场", 10, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	GF_ONLINE_GROUP_BID_RANK(27, 2000, "在线帮战竞标排行榜", 1, GFGroupBiddingExtension.class),
 	GF_ONLINE_KILL_RANK(28, 8000, "在线帮战杀敌排行榜", 1, GFOnlineKillExtension.class),
-	GF_ONLINE_HURT_RANK(29, 8000, "在线帮战伤害排行榜", 1, GFOnlineHurtExtension.class);
+	GF_ONLINE_HURT_RANK(29, 8000, "在线帮战伤害排行榜", 1, GFOnlineHurtExtension.class),
+	WORLD_BOSS_HURT_RANK(30, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class);
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);

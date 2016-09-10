@@ -1,72 +1,64 @@
 package com.bm.worldBoss.cfg;
 
+import com.rw.fsutil.util.DateUtils;
+
+
 
 public class WBCfg {
 
 	private String id;
 	
-	private long startTime;
-	
-	private long endTime;
-	
 	private String startTimeStr;
 	
 	private String endTimeStr;
 	
-	private String bossId;
+	private String monsterCfgId;
+	
+	private int weekDay;
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getStartTimeStr() {
 		return startTimeStr;
 	}
 
-	public void setStartTimeStr(String startTimeStr) {
-		this.startTimeStr = startTimeStr;
-	}
-
 	public String getEndTimeStr() {
 		return endTimeStr;
 	}
 
-	public void setEndTimeStr(String endTimeStr) {
-		this.endTimeStr = endTimeStr;
+	public String getMonsterCfgId() {
+		return monsterCfgId;
 	}
 
-	public String getBossId() {
-		return bossId;
-	}
-
-	public void setBossId(String bossId) {
-		this.bossId = bossId;
+	public int getWeekDay() {
+		return weekDay;
 	}
 	
+	public long getStartTime(){
+		return getTime(this.startTimeStr);
+	}
 
+	public long getEndTime(){
+		return getTime(this.endTimeStr);
+	}
+	
+	private long getTime(String cfgTime) {
+		
+		String[] split = cfgTime.split(":");
+		int hour = Integer.parseInt(split[0]);
+		int minute = Integer.parseInt(split[1]);
+		
+		long startTime = DateUtils.getResetTime(hour, minute, 0);
+		
+		return startTime;
+	}
+	
+	
+	
 
-
-
+	
 	
 	
 }

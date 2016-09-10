@@ -11,17 +11,14 @@ enum RequestType{
 	FightBegin = 2;
 	FightEnd = 3;
 	BuyBuff = 4;
-	SynData = 5;
+	SynData = 5;  //请求同步数据
+	BuyCD = 6;   //购买复活	
 
 }
 
-enum BuyBuffType{
-	GOLD = 1;
-	DIAMOND = 2;
-}
 
 message BuyBuffParam{
-	required BuyBuffType buyType = 1;
+	required string cfgId = 1;
 }
 
 message FightEndParam{

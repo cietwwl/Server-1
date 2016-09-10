@@ -8,8 +8,11 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WBHurtItem {
 	private String userId;
+	
 	private String userName;
+	
 	private long totalHurt;	//总伤害值
+	
 	public String getUserId() {
 		return userId;
 	}

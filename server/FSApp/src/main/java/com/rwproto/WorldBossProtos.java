@@ -31,8 +31,20 @@ public final class WorldBossProtos {
     BuyBuff(3, 4),
     /**
      * <code>SynData = 5;</code>
+     *
+     * <pre>
+     *请求同步数据
+     * </pre>
      */
     SynData(4, 5),
+    /**
+     * <code>BuyCD = 6;</code>
+     *
+     * <pre>
+     *购买复活
+     * </pre>
+     */
+    BuyCD(5, 6),
     ;
 
     /**
@@ -53,8 +65,20 @@ public final class WorldBossProtos {
     public static final int BuyBuff_VALUE = 4;
     /**
      * <code>SynData = 5;</code>
+     *
+     * <pre>
+     *请求同步数据
+     * </pre>
      */
     public static final int SynData_VALUE = 5;
+    /**
+     * <code>BuyCD = 6;</code>
+     *
+     * <pre>
+     *购买复活
+     * </pre>
+     */
+    public static final int BuyCD_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -66,6 +90,7 @@ public final class WorldBossProtos {
         case 3: return FightEnd;
         case 4: return BuyBuff;
         case 5: return SynData;
+        case 6: return BuyCD;
         default: return null;
       }
     }
@@ -117,100 +142,23 @@ public final class WorldBossProtos {
     // @@protoc_insertion_point(enum_scope:WorldBoss.RequestType)
   }
 
-  /**
-   * Protobuf enum {@code WorldBoss.BuyBuffType}
-   */
-  public enum BuyBuffType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>GOLD = 1;</code>
-     */
-    GOLD(0, 1),
-    /**
-     * <code>DIAMOND = 2;</code>
-     */
-    DIAMOND(1, 2),
-    ;
-
-    /**
-     * <code>GOLD = 1;</code>
-     */
-    public static final int GOLD_VALUE = 1;
-    /**
-     * <code>DIAMOND = 2;</code>
-     */
-    public static final int DIAMOND_VALUE = 2;
-
-
-    public final int getNumber() { return value; }
-
-    public static BuyBuffType valueOf(int value) {
-      switch (value) {
-        case 1: return GOLD;
-        case 2: return DIAMOND;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<BuyBuffType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<BuyBuffType>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<BuyBuffType>() {
-            public BuyBuffType findValueByNumber(int number) {
-              return BuyBuffType.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.WorldBossProtos.getDescriptor().getEnumTypes().get(1);
-    }
-
-    private static final BuyBuffType[] VALUES = values();
-
-    public static BuyBuffType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private BuyBuffType(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:WorldBoss.BuyBuffType)
-  }
-
   public interface BuyBuffParamOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .WorldBoss.BuyBuffType buyType = 1;
+    // required string cfgId = 1;
     /**
-     * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+     * <code>required string cfgId = 1;</code>
      */
-    boolean hasBuyType();
+    boolean hasCfgId();
     /**
-     * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+     * <code>required string cfgId = 1;</code>
      */
-    com.rwproto.WorldBossProtos.BuyBuffType getBuyType();
+    java.lang.String getCfgId();
+    /**
+     * <code>required string cfgId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getCfgIdBytes();
   }
   /**
    * Protobuf type {@code WorldBoss.BuyBuffParam}
@@ -263,15 +211,9 @@ public final class WorldBossProtos {
               }
               break;
             }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.WorldBossProtos.BuyBuffType value = com.rwproto.WorldBossProtos.BuyBuffType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                buyType_ = value;
-              }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              cfgId_ = input.readBytes();
               break;
             }
           }
@@ -314,31 +256,58 @@ public final class WorldBossProtos {
     }
 
     private int bitField0_;
-    // required .WorldBoss.BuyBuffType buyType = 1;
-    public static final int BUYTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.WorldBossProtos.BuyBuffType buyType_;
+    // required string cfgId = 1;
+    public static final int CFGID_FIELD_NUMBER = 1;
+    private java.lang.Object cfgId_;
     /**
-     * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+     * <code>required string cfgId = 1;</code>
      */
-    public boolean hasBuyType() {
+    public boolean hasCfgId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+     * <code>required string cfgId = 1;</code>
      */
-    public com.rwproto.WorldBossProtos.BuyBuffType getBuyType() {
-      return buyType_;
+    public java.lang.String getCfgId() {
+      java.lang.Object ref = cfgId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          cfgId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string cfgId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCfgIdBytes() {
+      java.lang.Object ref = cfgId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cfgId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
-      buyType_ = com.rwproto.WorldBossProtos.BuyBuffType.GOLD;
+      cfgId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasBuyType()) {
+      if (!hasCfgId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -350,7 +319,7 @@ public final class WorldBossProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, buyType_.getNumber());
+        output.writeBytes(1, getCfgIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -363,7 +332,7 @@ public final class WorldBossProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, buyType_.getNumber());
+          .computeBytesSize(1, getCfgIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -481,7 +450,7 @@ public final class WorldBossProtos {
 
       public Builder clear() {
         super.clear();
-        buyType_ = com.rwproto.WorldBossProtos.BuyBuffType.GOLD;
+        cfgId_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -514,7 +483,7 @@ public final class WorldBossProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.buyType_ = buyType_;
+        result.cfgId_ = cfgId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -531,15 +500,17 @@ public final class WorldBossProtos {
 
       public Builder mergeFrom(com.rwproto.WorldBossProtos.BuyBuffParam other) {
         if (other == com.rwproto.WorldBossProtos.BuyBuffParam.getDefaultInstance()) return this;
-        if (other.hasBuyType()) {
-          setBuyType(other.getBuyType());
+        if (other.hasCfgId()) {
+          bitField0_ |= 0x00000001;
+          cfgId_ = other.cfgId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasBuyType()) {
+        if (!hasCfgId()) {
           
           return false;
         }
@@ -565,38 +536,76 @@ public final class WorldBossProtos {
       }
       private int bitField0_;
 
-      // required .WorldBoss.BuyBuffType buyType = 1;
-      private com.rwproto.WorldBossProtos.BuyBuffType buyType_ = com.rwproto.WorldBossProtos.BuyBuffType.GOLD;
+      // required string cfgId = 1;
+      private java.lang.Object cfgId_ = "";
       /**
-       * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+       * <code>required string cfgId = 1;</code>
        */
-      public boolean hasBuyType() {
+      public boolean hasCfgId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+       * <code>required string cfgId = 1;</code>
        */
-      public com.rwproto.WorldBossProtos.BuyBuffType getBuyType() {
-        return buyType_;
+      public java.lang.String getCfgId() {
+        java.lang.Object ref = cfgId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          cfgId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+       * <code>required string cfgId = 1;</code>
        */
-      public Builder setBuyType(com.rwproto.WorldBossProtos.BuyBuffType value) {
-        if (value == null) {
-          throw new NullPointerException();
+      public com.google.protobuf.ByteString
+          getCfgIdBytes() {
+        java.lang.Object ref = cfgId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cfgId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
         }
-        bitField0_ |= 0x00000001;
-        buyType_ = value;
+      }
+      /**
+       * <code>required string cfgId = 1;</code>
+       */
+      public Builder setCfgId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        cfgId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required .WorldBoss.BuyBuffType buyType = 1;</code>
+       * <code>required string cfgId = 1;</code>
        */
-      public Builder clearBuyType() {
+      public Builder clearCfgId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        buyType_ = com.rwproto.WorldBossProtos.BuyBuffType.GOLD;
+        cfgId_ = getDefaultInstance().getCfgId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string cfgId = 1;</code>
+       */
+      public Builder setCfgIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        cfgId_ = value;
         onChanged();
         return this;
       }
@@ -4724,26 +4733,25 @@ public final class WorldBossProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017WorldBoss.proto\022\tWorldBoss\"7\n\014BuyBuffP" +
-      "aram\022\'\n\007buyType\030\001 \002(\0162\026.WorldBoss.BuyBuf" +
-      "fType\"1\n\rFightEndParam\022\021\n\ttotalHurt\030\001 \002(" +
-      "\003\022\r\n\005vCode\030\002 \001(\t\"\"\n\017FightBeginParam\022\017\n\007h" +
-      "eroIds\030\001 \003(\t\"3\n\rFightBeginRep\022\020\n\010bossArm" +
-      "y\030\001 \002(\t\022\020\n\010selfArmy\030\002 \002(\t\"\376\001\n\014CommonReqM" +
-      "sg\022\'\n\007reqType\030\001 \002(\0162\026.WorldBoss.RequestT" +
-      "ype\022\025\n\rwbDataVersion\030\002 \001(\005\022\031\n\021wbUserData" +
-      "Version\030\003 \001(\005\022-\n\014buyBuffParam\030\004 \001(\0132\027.Wo" +
-      "rldBoss.BuyBuffParam\0223\n\017fightBeginParam\030",
-      "\005 \001(\0132\032.WorldBoss.FightBeginParam\022/\n\rfig" +
-      "htEndParam\030\006 \001(\0132\030.WorldBoss.FightEndPar" +
-      "am\"\213\001\n\014CommonRspMsg\022\'\n\007reqType\030\001 \002(\0162\026.W" +
-      "orldBoss.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022" +
-      "\016\n\006tipMsg\030\003 \001(\t\022/\n\rfightBeginRep\030\004 \001(\0132\030" +
-      ".WorldBoss.FightBeginRep*P\n\013RequestType\022" +
-      "\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002\022\014\n\010FightEnd\020\003" +
-      "\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005*$\n\013BuyBuffTyp" +
-      "e\022\010\n\004GOLD\020\001\022\013\n\007DIAMOND\020\002B\036\n\013com.rwprotoB" +
-      "\017WorldBossProtos"
+      "\n\017WorldBoss.proto\022\tWorldBoss\"\035\n\014BuyBuffP" +
+      "aram\022\r\n\005cfgId\030\001 \002(\t\"1\n\rFightEndParam\022\021\n\t" +
+      "totalHurt\030\001 \002(\003\022\r\n\005vCode\030\002 \001(\t\"\"\n\017FightB" +
+      "eginParam\022\017\n\007heroIds\030\001 \003(\t\"3\n\rFightBegin" +
+      "Rep\022\020\n\010bossArmy\030\001 \002(\t\022\020\n\010selfArmy\030\002 \002(\t\"" +
+      "\376\001\n\014CommonReqMsg\022\'\n\007reqType\030\001 \002(\0162\026.Worl" +
+      "dBoss.RequestType\022\025\n\rwbDataVersion\030\002 \001(\005" +
+      "\022\031\n\021wbUserDataVersion\030\003 \001(\005\022-\n\014buyBuffPa" +
+      "ram\030\004 \001(\0132\027.WorldBoss.BuyBuffParam\0223\n\017fi" +
+      "ghtBeginParam\030\005 \001(\0132\032.WorldBoss.FightBeg",
+      "inParam\022/\n\rfightEndParam\030\006 \001(\0132\030.WorldBo" +
+      "ss.FightEndParam\"\213\001\n\014CommonRspMsg\022\'\n\007req" +
+      "Type\030\001 \002(\0162\026.WorldBoss.RequestType\022\021\n\tis" +
+      "Success\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022/\n\rfightBe" +
+      "ginRep\030\004 \001(\0132\030.WorldBoss.FightBeginRep*[" +
+      "\n\013RequestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002" +
+      "\022\014\n\010FightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005" +
+      "\022\t\n\005BuyCD\020\006B\036\n\013com.rwprotoB\017WorldBossPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4755,7 +4763,7 @@ public final class WorldBossProtos {
           internal_static_WorldBoss_BuyBuffParam_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_BuyBuffParam_descriptor,
-              new java.lang.String[] { "BuyType", });
+              new java.lang.String[] { "CfgId", });
           internal_static_WorldBoss_FightEndParam_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_WorldBoss_FightEndParam_fieldAccessorTable = new

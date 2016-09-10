@@ -36,15 +36,21 @@ public class WBUserDataHolder {
 		if(data==null){
 			data = WBUserData.newInstance(userId);			
 			success = WBUserDataDao.getInstance().update(data);
-		}
+		}	
+		
 		return  success? data:null;
 	}
 	
+
 	public void update(Player player){		
+		WBUserData wbUserData = get(player.getUserId());
+		update(player, wbUserData);
+	}
+	
+	public void update(Player player, WBUserData wbUserData){		
 		String userId = player.getUserId();
 		WBUserDataDao.getInstance().update(userId);
-	
-		WBUserData wbUserData = get(userId);
+		
 		ClientDataSynMgr.synData(player, wbUserData, synType, eSynOpType.UPDATE_SINGLE);
 	}
 

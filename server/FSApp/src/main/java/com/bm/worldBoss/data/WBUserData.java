@@ -1,5 +1,8 @@
 package com.bm.worldBoss.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,13 +20,19 @@ public class WBUserData {
 	private int bossVersion;//校验boss
 	
 	private long lastFightTime;
+	private long fightCdTime;
+	private long lastHurt;
+	private int lastAwardCoin; //
+
 	private long totalHurt;
+	
+	private List<String> buffCfgIdList =new ArrayList<String>();
+	private int cdBuyCount = 0;
 	
 	
 	public static WBUserData newInstance(String userIdP) {
 		WBUserData data = new WBUserData();
-		data.userId = userIdP;
-		
+		data.userId = userIdP;		
 		return data;
 	}
 	
@@ -52,9 +61,56 @@ public class WBUserData {
 		this.totalHurt = totalHurt;
 	}
 
-	
+	public List<String> getBuffCfgIdList() {
+		return buffCfgIdList;
+	}
 
+	public void setBuffCfgIdList(List<String> buffCfgIdList) {
+		this.buffCfgIdList = buffCfgIdList;
+	}
 
+	public void addBuff(String buffCfgId){
+		this.buffCfgIdList.add(buffCfgId);
+	}
+
+	public void addTotalHurt(long hurt){
+		this.totalHurt += hurt;
+	}
+
+	public long getLastHurt() {
+		return lastHurt;
+	}
+
+	public void setLastHurt(long lastHurt) {
+		this.lastHurt = lastHurt;
+	}
+
+	public long getLastAwardCoin() {
+		return lastAwardCoin;
+	}
+
+	public void setLastAwardCoin(int lastAwardCoin) {
+		this.lastAwardCoin = lastAwardCoin;
+	}
+
+	public long getFightCdTime() {
+		return fightCdTime;
+	}
+
+	public void setFightCdTime(long fightCdTime) {
+		this.fightCdTime = fightCdTime;
+	}
+
+	public int getCdBuyCount() {
+		return cdBuyCount;
+	}
+
+	public void setCdBuyCount(int cdBuyCount) {
+		this.cdBuyCount = cdBuyCount;
+	}
+	public void addCdBuyCount() {
+		this.cdBuyCount++;
+	}
 
 	
 

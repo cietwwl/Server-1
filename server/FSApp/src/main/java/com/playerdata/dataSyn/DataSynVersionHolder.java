@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.bm.worldBoss.WBMgr;
+import com.bm.worldBoss.WBUserMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -444,7 +444,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.WB_USER_DATA, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				WBMgr.getInstance().synWBUserData(player, version);
+				WBUserMgr.getInstance().synWBUserData(player, version);
 
 			}
 		}));

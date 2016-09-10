@@ -3,7 +3,6 @@ package com.bm.worldBoss.data;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.worldBoss.cfg.WBCfg;
-import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.battleVerify.MonsterCfg;
@@ -42,7 +41,9 @@ public class WBDataHolder {
 	public WBData get() {
 		return  WBDataDao.getInstance().get(WB_DATA_ID);
 	}
-	public boolean newBoss(String wbCfgId){
+	
+	
+	public boolean newBoss(WBCfg wbCfg){
 		WBData oldData = get();	
 		WBData newData = null;
 		if(oldData == null){
@@ -51,20 +52,21 @@ public class WBDataHolder {
 			newData = oldData.newInstance();
 		}
 		
-		WBCfg wbCfg = WBCfgDAO.getInstance().getCfgById(wbCfgId);
-		init(newData, wbCfg );
-		boolean success = WBDataDao.getInstance().update(newData);
+		boolean success = init(newData, wbCfg );
 		
 		return success;
 	}
 	
-	private void init(WBData data, WBCfg wbCfg){	
-		String monsterId = wbCfg.getBossId();
+	private boolean init(WBData data, WBCfg wbCfg){	
+		String monsterId = wbCfg.getMonsterCfgId();
 		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig ( monsterId );
 		data.setId(monsterId);
 		int maxLife = monster.getLife();
 		data.setMaxLife(maxLife);
-		data.setCurLife(maxLife);		
+		data.setCurLife(maxLife);	
+		data.setStartTime(wbCfg.getStartTime());
+		data.setEndTime(wbCfg.getEndTime());
+		return WBDataDao.getInstance().update(data);
 	}
 	 
 	
@@ -73,11 +75,22 @@ public class WBDataHolder {
 		version.incrementAndGet();			
 	}
 	
-	public long decrHp(long delta){
+	public long decrHp(Player player, long delta){
 		
 		WBData wbData = get();
 		long curLifeTmp = wbData.getCurLife() - delta;
 		wbData.setCurLife(curLifeTmp);
+		
+		if(curLifeTmp <= 0){
+			LastFightInfo lastFightInfo = new LastFightInfo();
+			lastFightInfo.setTime(System.currentTimeMillis())
+							.setUserId(player.getUserId());							
+			
+			wbData.setLastFightInfo(lastFightInfo );
+		}
+		
+		
+		
 		update();
 		return curLifeTmp;
 		

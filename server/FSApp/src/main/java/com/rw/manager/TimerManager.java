@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.groupCopy.GroupCopyMailHelper;
+import com.bm.worldBoss.WBMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -63,6 +64,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
+				WBMgr.getInstance().runOn10Second();
 				GFightStateTransfer.getInstance().checkTransfer();
 				ActivityDetector.getInstance().detectActive();
 			}
