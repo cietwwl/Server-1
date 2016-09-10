@@ -1,6 +1,10 @@
 package com.rw.handler.peakArena;
 
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -58,6 +62,12 @@ public class PeakArenaHandler {
 					if (result == eArenaResultType.ARENA_FAIL) {
 						RobotLog.fail("PeakArenaHandler[send] changeEnemy。服务器处理获取列表消息失败 " + result);
 						return false;
+					}
+					List<ArenaInfo> listInfoList = rsp.getListInfoList();
+					client.getPeakArenaDataHolder().setListInfoList(listInfoList);
+					if(listInfoList == null || listInfoList.size() <=0){
+						RobotLog.fail("PeakArenaHandler[send] changeEnemy。找不到对手");
+						return true;
 					}
 					ArenaInfo arenaInfo = rsp.getListInfo(0);
 					enemyUserid = arenaInfo.getUserId();

@@ -49,7 +49,7 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 	private static final String _KEY_FIGHTING = "41";
 	
 	@JsonProperty(_KEY_LIFE)
-	private int life; // 最大生命值...
+	private long life; // 最大生命值...
 	
 	@JsonProperty(_KEY_ENERGY)
 	private int energy; // 能量值...
@@ -218,7 +218,7 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 	}
 	
 	@Override
-	public int getLife() {
+	public long getLife() {
 		return life;
 	}
 

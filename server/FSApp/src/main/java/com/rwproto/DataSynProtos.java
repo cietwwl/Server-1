@@ -887,6 +887,14 @@ public final class DataSynProtos {
      * </pre>
      */
     RANDOM_BOSS_DATA(87, 95),
+    /**
+     * <code>WB_RANK_DATA = 96;</code>
+     *
+     * <pre>
+     *世界boss排行数据
+     * </pre>
+     */
+    WB_RANK_DATA(88, 96),
     ;
 
     /**
@@ -1593,6 +1601,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int RANDOM_BOSS_DATA_VALUE = 95;
+    /**
+     * <code>WB_RANK_DATA = 96;</code>
+     *
+     * <pre>
+     *世界boss排行数据
+     * </pre>
+     */
+    public static final int WB_RANK_DATA_VALUE = 96;
 
 
     public final int getNumber() { return value; }
@@ -1687,6 +1703,7 @@ public final class DataSynProtos {
         case 93: return WB_DATA;
         case 94: return WB_USER_DATA;
         case 95: return RANDOM_BOSS_DATA;
+        case 96: return WB_RANK_DATA;
         default: return null;
       }
     }
@@ -7571,7 +7588,7 @@ public final class DataSynProtos {
       "g\030\003 \001(\t*{\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021" +
       "\n\rUPDATE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREM" +
       "OVE_SINGLE\020\004\022\020\n\014UPDATE_FIELD\020\005\022\024\n\020UPDATE" +
-      "_PART_LIST\020\006*\206\017\n\010eSynType\022\025\n\021COPY_LEVEL_" +
+      "_PART_LIST\020\006*\230\017\n\010eSynType\022\025\n\021COPY_LEVEL_" +
       "RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\030\n\024SECRETA",
       "REA_BASE_INFO\020\003\022\031\n\025SECRETAREA_DEF_RECORD" +
       "\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\037\n\033SECRETAR" +
@@ -7619,9 +7636,9 @@ public final class DataSynProtos {
       "d\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICEQUIP_FETT" +
       "ER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020TEAM_BATTL" +
       "E_TEAM\020\\\022\013\n\007WB_DATA\020]\022\020\n\014WB_USER_DATA\020^\022" +
-      "\024\n\020RANDOM_BOSS_DATA\020_*\034\n\013RequestType\022\r\n\t" +
-      "SynByType\020\001B\034\n\013com.rwprotoB\rDataSynProto" +
-      "s"
+      "\024\n\020RANDOM_BOSS_DATA\020_\022\020\n\014WB_RANK_DATA\020`*" +
+      "\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com.rwp" +
+      "rotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

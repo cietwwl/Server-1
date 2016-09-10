@@ -16,6 +16,8 @@ import com.fy.constant.Constant;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
 import com.fy.json.JSONUtil;
+import com.fy.lua.LuaInfo;
+import com.fy.lua.LuaMgr;
 import com.fy.utils.DateTimeUtils;
 import com.fy.version.Version;
 import com.fy.version.VersionMgr;
@@ -53,7 +55,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				return;
 			}
 			Version clientVersion = getClientVersion(jsonString);
-
+			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(clientVersion.getChannel());
 			Version updateVersion = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersion == null);
 			if(updateVersion == null){
@@ -62,6 +64,11 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
 				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
 			}
+			if(channelLuaInfo != null){
+				updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
+			}
+			updateVersion.setLuaAction("lua");
+			
 			String verifyUpdateResult = packVerifyVersionResult(updateVersion);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(verifyUpdateResult.getBytes("UTF-8"));
@@ -129,6 +136,8 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			}
 			json.put("loginServerDomain", updateVersion.getLoginServerDomain());
 			json.put("logServerAddress", updateVersion.getLogServerAddress());
+			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
+			json.put("luaAction", updateVersion.getLuaAction());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
