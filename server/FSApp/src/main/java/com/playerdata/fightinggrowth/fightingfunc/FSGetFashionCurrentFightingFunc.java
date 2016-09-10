@@ -4,6 +4,7 @@ import com.playerdata.Player;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.fighting.FashionFightingCfgDAO;
+import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
 
 public class FSGetFashionCurrentFightingFunc implements IFunction<Player, Integer> {
 	
@@ -23,7 +24,8 @@ public class FSGetFashionCurrentFightingFunc implements IFunction<Player, Intege
 	public Integer apply(Player player) {
 		FashionUsedIF usedFashion = player.getFashionMgr().getFashionUsed();
 		if (usedFashion != null) {
-			return _fashionFightingCfgDAO.getCfgById(String.valueOf(usedFashion.getSuitId())).getFighting();
+			OneToOneTypeFightingCfg cfgById = _fashionFightingCfgDAO.getCfgById(String.valueOf(usedFashion.getSuitId()));
+			return cfgById!= null ? cfgById.getFighting() : 0;
 		}
 		return 0;
 	}
