@@ -85,7 +85,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 				}
 			}
 			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-			item.setId(itemID);
+			item.setId(itemId);
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userid);
 			item.setCfgId(cfg.getId());
@@ -101,8 +101,8 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 				if(subCfg.getAfterSomeDays() != day){
 					continue;
 				}				
-				for(Integer itemId:subCfg.getItemList()){
-					ActivityDailyDiscountItemCfg itemCfg = itemDao.getCfgById(itemId+"");
+				for(Integer itemIdTmp:subCfg.getItemList()){
+					ActivityDailyDiscountItemCfg itemCfg = itemDao.getCfgById(itemIdTmp+"");
 					if(itemCfg == null){
 						continue;
 					}

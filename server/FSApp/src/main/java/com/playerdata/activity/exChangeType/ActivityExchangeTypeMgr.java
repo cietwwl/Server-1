@@ -288,6 +288,9 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	}
 	
 	private void spendItem(Map<Integer, Integer> exchangeNeedslist,Player player){
+		if(exchangeNeedslist == null){
+			return;
+		}
 		for(Map.Entry<Integer, Integer> entry:exchangeNeedslist.entrySet()){
 			int id = entry.getKey();
 			if (id < eSpecialItemId.eSpecial_End.getValue()) {

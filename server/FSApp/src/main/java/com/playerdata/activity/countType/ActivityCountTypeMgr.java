@@ -145,7 +145,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(player, targetCfg));
+				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(targetCfg));
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
