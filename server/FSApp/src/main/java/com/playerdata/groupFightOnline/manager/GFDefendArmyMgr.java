@@ -152,8 +152,14 @@ public class GFDefendArmyMgr {
 
 	public void startFight(Player player, GFDefendArmyItem armyItem) {
 		// 逻辑判断都已经在函数调用之前做了
+		long fightLockTime = System.currentTimeMillis();
 		armyItem.setState(GFArmyState.FIGHTING.getValue());
-		armyItem.setLastOperateTime(System.currentTimeMillis());
+		armyItem.setLastOperateTime(fightLockTime);
+		
+		UserGFightOnlineData ugfData = UserGFightOnlineHolder.getInstance().get(player.getUserId());
+		ugfData.getRandomDefender().setState(GFArmyState.FIGHTING.getValue());
+		ugfData.getRandomDefender().setLockArmyTime(fightLockTime);
+		
 		GFDefendArmyItemHolder.getInstance().updateItem(armyItem);
 	}
 	
