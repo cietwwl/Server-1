@@ -67,6 +67,8 @@ public class ActivityRedPointManager {
 			ActivityDailyDiscountTypeMgr.getInstance().updateRedPoint(player,str);
 		}else if (tmp < 100000 && tmp > 90000) {
 			ActivityFortuneCatTypeMgr.getInstance().updateRedPoint(player,str);
+		}else if (tmp < 110000 && tmp > 100000) {
+			//月卡占用编号
 		}else if (tmp < 120000 && tmp > 110000) {
 			ActivityDailyRechargeTypeMgr.getInstance().updateRedPoint(player, str);
 		}else if (tmp < 130000 && tmp > 120000) {

@@ -3,6 +3,7 @@ package com.playerdata.activity.redEnvelopeType;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,14 +17,19 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfg;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
@@ -54,24 +60,61 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
-		ActivityRedEnvelopeTypeCfgDAO activityRedEnvelopeTypeCfgDAO = ActivityRedEnvelopeTypeCfgDAO.getInstance();
+		String userId = player.getUserId();
+		List<ActivityRedEnvelopeTypeItem> addItemList = null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+		if (addItemList != null) {
+			dataHolder.addItemList(player, addItemList);
+		}
+		
+	}
+	
+	public List<ActivityRedEnvelopeTypeItem> creatItems(String userId , MapItemStore<ActivityRedEnvelopeTypeItem> itemStore){
+		List<ActivityRedEnvelopeTypeItem> addItemList = null;
+		ActivityRedEnvelopeTypeSubCfgDAO subDao = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeCfg> cfgList = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
+		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
 		for(ActivityRedEnvelopeTypeCfg cfg : cfgList){
+			if(itemStore != null){
+				if(itemStore.getItem(itemId) != null){
+					continue;
+				}
+			}
 			if(!isOpen(cfg)){
 				continue;
 			}
-			ActivityRedEnvelopeTypeItem targetItem = dataHolder.getItem(player.getUserId());
-			if(targetItem != null){
-				continue;
+			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
+			item.setId(itemId);
+			item.setUserId(userId);
+			item.setCfgId(cfg.getId());
+			item.setVersion(cfg.getVersion());
+			item.setLastTime(System.currentTimeMillis());
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
+			item.setDay(day);
+			List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();			
+			List<ActivityRedEnvelopeTypeSubCfg> subList = subDao.getSubCfgListByParentID(cfg.getId());
+			if(subList == null){
+				subList = new ArrayList<ActivityRedEnvelopeTypeSubCfg>();
 			}
-			targetItem = activityRedEnvelopeTypeCfgDAO.newItem(player, cfg);
-			if(targetItem == null){
-				GameLog.error(LogModule.ComActivityRedEnvelope,player.getUserId(), "生成数据失败",null);
-				continue;
+			for(ActivityRedEnvelopeTypeSubCfg subCfg : subList){
+				if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
+					continue;
+				}
+				ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
+				subItem.setCfgId(subCfg.getId());
+				subItem.setDay(subCfg.getDay());	
+				subItem.setDiscount(subCfg.getDiscount());
+				subItemList.add(subItem);
+			}			
+			item.setSubItemList(subItemList);	
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityRedEnvelopeTypeItem>();
 			}
-			dataHolder.addItem(player, targetItem);
+			addItemList.add(item);
 		}
+		return addItemList;
 	}
+	
 	
 	public boolean isOpen(ActivityRedEnvelopeTypeCfg cfg) {
 		long startTime = cfg.getStartTime();

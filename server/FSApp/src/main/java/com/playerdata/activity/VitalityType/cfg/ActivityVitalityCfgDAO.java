@@ -67,15 +67,15 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	 * @param subdaysNum  无数据记录的玩家根据第几天开始参与活跃之王来生成数据
 	 * @return
 	 */
-	public ActivityVitalityTypeItem newItem(Player player,ActivityVitalityCfg cfgById){
+	public ActivityVitalityTypeItem newItem(String userId,ActivityVitalityCfg cfgById){
 		if(cfgById!=null){
 			int day = ActivityVitalityCfgDAO.getInstance().getday(cfgById) ;
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
-			String itemId = ActivityVitalityTypeHelper.getItemId(player.getUserId(), ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
+			String itemId = ActivityVitalityTypeHelper.getItemId(userId, ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
 			item.setId(itemId);
 			item.setEnumId(cfgById.getEnumID());
 			item.setCfgId(cfgById.getId());
-			item.setUserId(player.getUserId());
+			item.setUserId(userId);
 			item.setVersion(cfgById.getVersion());
 			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day,cfgById));

@@ -16,12 +16,14 @@ import java.util.Map;
 
 
 
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
@@ -51,9 +53,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public Map<String, ActivityRedEnvelopeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRedEnvelopeTypeCfg.csv", ActivityRedEnvelopeTypeCfg.class);
 		for (ActivityRedEnvelopeTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
-			
-			
+			parseTime(cfgTmp);			
 		}
 		
 		return cfgCacheMap;
@@ -81,8 +81,10 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public ActivityRedEnvelopeTypeItem newItem(Player player, ActivityRedEnvelopeTypeCfg cfgById){
 		if(cfgById!=null){
 			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
-			item.setId(player.getUserId());
-			item.setUserId(player.getUserId());
+			String userid = player.getUserId();
+			String itemId = ActivityRedEnvelopeHelper.getItemId(userid, ActivityRedEnvelopeTypeEnum.redEnvelope);
+			item.setId(itemId);
+			item.setUserId(userid);
 			item.setCfgId(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
 			item.setLastTime(System.currentTimeMillis());
@@ -109,8 +111,8 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 			ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
 			subItem.setCfgId(subCfg.getId());
 			subItem.setDay(subCfg.getDay());	
-			subItemList.add(subItem);
 			subItem.setDiscount(subCfg.getDiscount());
+			subItemList.add(subItem);
 		}
 		
 		return subItemList;
