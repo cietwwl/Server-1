@@ -2,6 +2,7 @@ package com.rw.fsutil.dao.annotation;
 
 import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -78,6 +79,10 @@ public class ClassInfo {
 				continue;
 			}
 			if (field.isAnnotationPresent(NonSave.class)) {
+				continue;
+			}
+			int mod = field.getModifiers();
+			if (Modifier.isStatic(mod)) {
 				continue;
 			}
 			field.setAccessible(true);
