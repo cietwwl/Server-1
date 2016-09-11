@@ -1,7 +1,7 @@
 channel=ios
-fileslocation=lua/files.txt
-lualocation=lua/Lua.zip
-filesmd5=5459B1099F0EC55E07043E59AFF51CCF
-filesize=32768
-luamd5=5459B1099F0EC55E07043E59AFF51CCF
-luasize=32768
+fileslocation=lua/ios/files.txt
+lualocation=lua/ios/Lua.zip
+filesmd5=f058c576b2bc0fa8d555ab89835f3c7b
+filesize=1777
+luamd5=63b058a3a39208a018d43e584fa68086
+luasize=59906
