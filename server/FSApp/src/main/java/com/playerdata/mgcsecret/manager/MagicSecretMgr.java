@@ -5,11 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.bm.rank.magicsecret.MSScoreRankMgr;
-import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.army.ArmyInfo;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
@@ -122,10 +120,10 @@ public class MagicSecretMgr {
 		UserMagicSecretHolder.getInstance().update(player);
 		MagicChapterInfoHolder.getInstance().updateItem(player, mcInfo);
 		msRsp.setRstType(msResultType.SUCCESS);
-		ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
+		//ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
 		try {
-			enimyArmy.genVCode();
-			msRsp.setArmyInfo(enimyArmy.toJson());
+			//enimyArmy.genVCode();
+			//msRsp.setArmyInfo(enimyArmy.toJson());
 		} catch (Exception e) {
 			GameLog.error(LogModule.MagicSecret.getName(), player.getUserId(), String.format("enterMSFight, 进入副本[%s]时，enimyArmy转json异常", dungeonID), e);
 		}

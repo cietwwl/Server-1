@@ -81,8 +81,6 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
-			result = tbRsp.build().toByteString();
 		} catch (Exception e) {
 			GameLog.error(LogModule.TeamBattle, player.getUserId(), "出现了Exception异常", e);
 			TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder().setRstType(TBResultType.DATA_ERROR).setTipMsg("服务端数据异常");
