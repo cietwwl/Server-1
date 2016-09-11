@@ -97,8 +97,9 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	public boolean isOpen() {
-		List<ActivityTimeCardTypeCfg> list = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
-		return !(list == null||list.isEmpty());
+//		List<ActivityTimeCardTypeCfg> list = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
+//		return !(list == null||list.isEmpty());
+		return ActivityTimeCardTypeCfgDAO.getInstance().getEntryCount() > 0;
 	}
 
 }

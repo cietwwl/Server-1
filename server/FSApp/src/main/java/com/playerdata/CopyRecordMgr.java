@@ -128,10 +128,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		List<CopyCfgIF> list = new ArrayList<CopyCfgIF>();
 		int start = map.getStartLevelId();
 		int end = map.getEndLevelId();
-
-		CopyCfg copyCfg;
+		CopyCfgDAO cfgDAO = CopyCfgDAO.getInstance();
 		for (int i = start; i <= end; i++) {
-			copyCfg = CopyCfgDAO.getInstance().getCfg(i);
+			CopyCfg copyCfg = cfgDAO.getCfg(i);
 			if (copyCfg != null) {
 				list.add(copyCfg);
 			}
@@ -144,11 +143,12 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	 */
 	public MsgCopyResponse.Builder setMapByGM(MapCfg mapCfg) {
 		int nMapID = mapCfg.getId();
+		MapCfgDAO mapCfgDAO = MapCfgDAO.getInstance();
 		for (int i = 1001; i <= nMapID; i++) {
-			MapCfg map = MapCfgDAO.getInstance().getCfg(i);
+			MapCfg map = mapCfgDAO.getCfg(i);
 			if (map != null) {
 				List<CopyCfgIF> list = GetAllCopyCfgByMap(map);
-				for (int j = 0; j < list.size(); j++) {
+				for (int j = 0, size =  list.size(); j < size; j++) {
 					updateLevelRecord(list.get(j).getLevelID(), 3, 1);
 				}
 			}
@@ -293,10 +293,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		}
 		List<CopyCfgIF> listCopyCfg = GetAllCopyCfgByMap(map);
 		int star = 0;
-		CopyLevelRecordIF copyRecord;
 		for (CopyCfgIF copyCfg : listCopyCfg) {
 			if (ShouldCountStar(copyCfg)) {
-				copyRecord = getLevelRecord(copyCfg.getLevelID());
+				CopyLevelRecordIF copyRecord = getLevelRecord(copyCfg.getLevelID());
 				if (copyRecord != null) {
 					star += copyRecord.getPassStar();
 				}

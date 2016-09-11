@@ -2,6 +2,7 @@ package com.rw.fsutil.dao.common;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -13,21 +14,24 @@ import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 
 public class CommonMultiTable<T> extends BaseJdbc<T> {
 
+	public static long cost;
+	public static long times;
 	private final String[] selectSqlArray;
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
+	private final String[] selectAllSqlArray;
 	private final String[] tableName;
 	private final int tableLength;
 	private final Integer type; // 是否分类型，即同一张表存在不同类型
 
-	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo, String searchFieldName, Integer type) {
-		super(templateP, classInfoPojo);
+	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfo, String searchFieldName, Integer type) {
+		super(templateP, classInfo);
 		String tableName;
-		if(type == null){
-			tableName = classInfoPojo.getTableName();
-		}else{
-			tableName = "map_item_store";
+		if (type == null) {
+			tableName = classInfo.getTableName();
+		} else {
+			tableName = DataAccessStaticSupport.getMapItemTableName();
 		}
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
 		int size = list.size();
@@ -43,13 +47,14 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 		} catch (Throwable t) {
 			throw new ExceptionInInitializerError(t);
 		}
-		String idFieldName = classInfoPojo.getPrimaryKey();
+		String idFieldName = classInfo.getPrimaryKey();
 		this.tableLength = size;
 		this.tableName = new String[size];
 		this.selectSqlArray = new String[size];
 		this.delectSqlArray = new String[size];
 		this.updateSqlArray = new String[size];
 		this.insertSqlArray = new String[size];
+		this.selectAllSqlArray = new String[size];
 		String insertFieldString = insertFields.toString();
 		String insertHoldsString = insertHolds.toString();
 		if (type != null) {
@@ -57,6 +62,16 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 			insertHoldsString = insertHoldsString + ",?";
 		}
 		String updateFieldsString = updateFields.toString();
+		String[] columns = classInfo.getSelectColumns();
+		StringBuilder sb = new StringBuilder();
+		int last = columns.length - 1;
+		for (int i = 0; i <= last; i++) {
+			sb.append(columns[i]);
+			if (i != last) {
+				sb.append(',');
+			}
+		}
+		String allColumns = sb.toString();
 		for (int i = 0; i < size; i++) {
 			String currentName = list.get(i);
 			this.tableName[i] = currentName;
@@ -64,7 +79,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 			this.delectSqlArray[i] = "delete from " + currentName + " where " + idFieldName + "=?";
 			this.updateSqlArray[i] = "update " + currentName + " set " + updateFieldsString + " where " + idFieldName + " = ?";
 			this.insertSqlArray[i] = "insert into " + currentName + "(" + insertFieldString + ") values (" + insertHoldsString + ")";
-
+			this.selectAllSqlArray[i] = "select " + allColumns + " from " + currentName + " where " + searchFieldName + " =?";
 		}
 	}
 
@@ -75,7 +90,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
-		return super.insert(sql, key, target,type);
+		return super.insert(sql, key, target, type);
 	}
 
 	public boolean delete(String searchId, String id) throws DataNotExistException, Exception {
@@ -107,14 +122,26 @@ public class CommonMultiTable<T> extends BaseJdbc<T> {
 	@Deprecated
 	public List<T> findByKey(String key, Object value) throws Exception {
 		// 获得表名
-		String tableName = getTableName(String.valueOf(value));
-		return super.findByKey(tableName, key, value);
+		// String tableName = getTableName(String.valueOf(value));
+		// return super.findByKey(tableName, key, value);
+
+//		long start = System.nanoTime();
+//		String tableName = getTableName(String.valueOf(value));
+//		List<T> l = super.findByKey(tableName, key, value);
+
+		int index = DataAccessFactory.getSimpleSupport().getTableIndex(String.valueOf(value), tableLength);
+		String sql = selectAllSqlArray[index];
+		List<T> l = super.queryForList(sql, new Object[]{value}, value);
+
+//		cost += (System.nanoTime() - start);
+//		times += 1;
+		return l;
 	}
 
-	 public List<T> queryForList(String searchId, Integer type){
-		 String tableName = getTableName(String.valueOf(searchId));
-		 return super.queryForList("select id,userId,extention from "+tableName+" where userId=? and type=?", new Object[]{searchId,type});
-	 }
+	public List<T> queryForList(String searchId, Integer type) {
+		String tableName = getTableName(String.valueOf(searchId));
+		return super.queryForList("select id,userId,extention from " + tableName + " where userId=? and type=?", new Object[] { searchId, type }, searchId);
+	}
 
 	public String getTableName(String searchId) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(searchId, tableLength);

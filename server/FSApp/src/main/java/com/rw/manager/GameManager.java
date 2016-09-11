@@ -1,32 +1,25 @@
 package com.rw.manager;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
@@ -43,21 +36,18 @@ import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.ServerInitialLoading;
 import com.rw.dataaccess.mapitem.MapItemCreator;
 import com.rw.dataaccess.mapitem.MapItemType;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.SimpleThreadFactory;
-import com.rw.fsutil.dao.cache.CacheLogger;
-import com.rw.fsutil.dao.cache.CacheStackTraceEntity;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.log.LogService;
@@ -186,7 +176,7 @@ public class GameManager {
 
 		WorshipMgr.getInstance().getByWorshipedList();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
-		preLoadPlayer();
+		ServerInitialLoading.preLoadPlayers();
 	}
 
 	public static void initServerProperties() {
@@ -446,38 +436,4 @@ public class GameManager {
 		CfgCsvReloader.CheckAllConfig();
 	}
 
-	private static void preLoadPlayer() {
-		new Thread("preload") {
-
-			public void run() {
-				long start = System.currentTimeMillis();
-				JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
-				List<Map<String, Object>> lastLoginPlayers = template.queryForList("select userId from user ORDER BY lastLoginTime DESC limit 800");
-				List<Map<String, Object>> highLevelPlayers = template.queryForList("SELECT id from hero where hero_type = 1 ORDER BY level DESC limit 200");
-				HashSet<String> set = new HashSet<String>();
-				fill(set, lastLoginPlayers, "userId");
-				fill(set, highLevelPlayers, "id");
-				System.out.println("preload size:" + set.size());
-				PlayerMgr playerMgr = PlayerMgr.getInstance();
-				for (String id : set) {
-					try {
-						playerMgr.find(id);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				System.out.println("preload completed:" + (System.currentTimeMillis() - start));
-			}
-
-		}.start();
-	}
-
-	private static void fill(HashSet<String> set, List<Map<String, Object>> list, String name) {
-		for (Map<String, Object> map : list) {
-			String userId = (String) map.get(name);
-			if (userId != null) {
-				set.add(userId);
-			}
-		}
-	}
 }

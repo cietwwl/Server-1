@@ -20,6 +20,7 @@ public class PreLoadType {
 		preLoadList_.add(DataKVType.BATTLE_TOWER);
 		preLoadList_.add(DataKVType.PLOT_PROGRESS);
 		preLoadList_.add(DataKVType.GUIDE_PROGRESS);
+		preLoadList_.add(DataKVType.COPY);
 		preLoadList_.add(DataKVType.GROUP_SECRET_BASE);
 		preLoadList_.add(DataKVType.USER_CHAT);
 		preLoadList_.add(DataKVType.USER_GFIGHT_DATA);

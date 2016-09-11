@@ -275,7 +275,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public boolean isOpen(MapItemValidateParam param) {
-		List<ActivityDailyTypeCfg> allList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
+		List<ActivityDailyTypeCfg> allList = ActivityDailyTypeCfgDAO.getInstance().getReadOnlyAllCfg();
 		for(ActivityDailyTypeCfg cfg : allList){
 			if(isOpen(cfg,param)){
 				return true;

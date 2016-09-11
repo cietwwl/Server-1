@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -69,9 +68,9 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 		}
 		long end = System.currentTimeMillis();
 		FSTraceLogger.recordRun("LOAD_KV", end - start);
-		List<Pair<CacheKey, String>> preloadInfos = MapItemStoreFactory.getPreloadInfos(userId);
-		List<Pair<CacheKey, List<? extends IMapItem>>> datas = DataAccessFactory.getMapItemManager().load(preloadInfos, userId);
-		MapItemStoreFactory.preInsertDatas(userId, datas);
-		FSTraceLogger.recordRun("LOAD_MAP_ITEM", System.currentTimeMillis() - end);
+//		List<Pair<CacheKey, String>> preloadInfos = MapItemStoreFactory.getPreloadInfos(userId);
+//		List<Pair<CacheKey, List<? extends IMapItem>>> datas = DataAccessFactory.getMapItemManager().load(preloadInfos, userId);
+//		MapItemStoreFactory.preInsertDatas(userId, datas);
+//		FSTraceLogger.recordRun("LOAD_MAP_ITEM", System.currentTimeMillis() - end);
 	}
 }

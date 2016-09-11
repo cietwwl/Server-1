@@ -93,14 +93,14 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 	@Deprecated
 	public List<T> findByKey(String key, Object value) throws Exception {
 		// 获得表名
-		String tableName = classInfoPojo.getTableName();
+		String tableName = classInfo.getTableName();
 		String sql = "select * from " + tableName + " where " + key + "=?";
 		List<T> resultList = template.query(sql, rowMapper, value);
 		return resultList;
 	}
 
 	public String getTableName() {
-		return classInfoPojo.getTableName();
+		return classInfo.getTableName();
 	}
 
 }

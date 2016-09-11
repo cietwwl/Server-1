@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -70,7 +69,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-		ClassInfo classInfo = new ClassInfo(entityClazz);
+		ClassInfo classInfo = new ClassInfo(entityClazz, searchFieldP);
 		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP, type);
 		this.writeDirect = writeDirect;
 		this.type = type;
@@ -101,7 +100,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			List<T> list;
 			if (type == null) {
 				list = commonJdbc.findByKey(searchFieldP, key);
-			}else{
+			} else {
 				list = commonJdbc.queryForList(key, type);
 			}
 			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
@@ -145,7 +144,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public MapItemRowBuider<T> getRowMapper() {
-		return this.commonJdbc.getRowMapper();
+		return this.commonJdbc.getRowBuilder();
 	}
 
 	public boolean putIfAbsent(String key, List<T> items) {
@@ -162,13 +161,14 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			}
 		});
 	}
-	
-	private MapItemStore<T> create(String key,List<MapItemEntity> datas){
+
+	private MapItemStore<T> create(String key, List<MapItemEntity> datas) {
 		int size = datas.size();
 		ArrayList<T> items = new ArrayList<T>(size);
+		MapItemRowBuider<T> builder = commonJdbc.getRowBuilder();
 		for (int i = 0; i < size; i++) {
 			MapItemEntity entity = datas.get(i);
-			T t = commonJdbc.getRowBuilder().builde(key, entity);
+			T t = builder.builde(key, entity);
 			if (t == null) {
 				FSUtilLogger.error("create mapitem fail:" + key + "," + type);
 				continue;

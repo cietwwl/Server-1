@@ -21,7 +21,6 @@ public class GameOperationFactory {
 
 	private static PlayerCreatedOperationImpl operation;
 	private static PlayerLoadOperationImpl loadOperation;
-	private static PlayerLoadOperationImpl mapItemLoadOp;
 	
 	public static void init(int defaultCapacity) {
 		DataKVType[] array = DataKVType.values();

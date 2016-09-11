@@ -115,7 +115,7 @@ public class MapItemManagerImpl implements MapItemManager {
 			ArrayList<IMapItem> mapItems = new ArrayList<IMapItem>(resultSize);
 			for (int j = 0; j < resultSize; j++) {
 				MapItemRowBuider<? extends IMapItem> builder = resultTuple.getT3();
-				IMapItem item = builder.mapRow(result.get(j));
+				IMapItem item = builder.mapRow(userId, result.get(j));
 				mapItems.add(item);
 			}
 			Pair<CacheKey, List<? extends IMapItem>> pp = Pair.<CacheKey, List<? extends IMapItem>> Create(resultTuple.getT1(), mapItems);
