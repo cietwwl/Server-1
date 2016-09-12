@@ -73,12 +73,8 @@ public enum FSFightingGrowthWayType {
 	 */
 	private FSFightingGrowthWayType(int pSign, IFunction<Player, Integer> getCurrentFightingFunc, IFunction<Player, Integer> getMaxFightingFunc) {
 		this._sign = pSign;
-		try {
-			this._getCurrentFightingFunc = getCurrentFightingFunc;
-			this._getMaxFightingFunc = getMaxFightingFunc;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		this._getCurrentFightingFunc = getCurrentFightingFunc;
+		this._getMaxFightingFunc = getMaxFightingFunc;
 	}
 	
 	public int getSign() {
