@@ -183,7 +183,7 @@ public class FightingCalculator {
 
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(heroTemplateId);
 		float totalTimePerNormAtk = roleCfg == null ? 0 : roleCfg.getTotalTimePerNormAtk();
-		
+		float tempFighting;
 		for (FightingWeightCfg cfg : listInfo) {
 			float attrValue = 0;
 
@@ -199,15 +199,17 @@ public class FightingCalculator {
 			if (attrName.equals(PHYSIC_ATTAK) || attrName.equals(SPRITE_ATTAK)) {
 
 				/* 1.攻击战力=物理攻击/(普攻总时长/3)*物理攻击权重+法术攻击/（普攻总时长/3）*法术攻击权重 */
-				fighting += attrValue / (totalTimePerNormAtk / COMMON_ATK_RATE) * cfg.getWeight();
+				tempFighting = attrValue / (totalTimePerNormAtk / COMMON_ATK_RATE) * cfg.getWeight();
 
 			} else {
-				fighting += attrValue * cfg.getWeight();
+				tempFighting = attrValue * cfg.getWeight();
 			}
-
+			if(tempFighting > 0) {
+				fighting += tempFighting;
+			}
 		}
 
-		return (int) fighting;
+		return Math.round(fighting);
 	}
 	
 	public static int calculateFighting(String heroTemplateId, Map<Integer, Integer> attrMap) {

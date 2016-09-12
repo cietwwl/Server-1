@@ -31,7 +31,7 @@ public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Inte
 		int fighting = 0;
 		for (String cfgId : gemIdList) {
 			gemCfg = GemCfgDAO.getInstance().getCfgById(cfgId);
-			gemFightingCfg = gemFightingCfgDAO.getByRequiredLv(gemCfg.getLevel());
+			gemFightingCfg = gemFightingCfgDAO.getCfgById(String.valueOf(gemCfg.getGemLevel()));
 			fighting += gemFightingCfg.getFighting();
 		}
 		return fighting;
