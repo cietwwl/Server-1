@@ -214,7 +214,7 @@ public class RandomBossRecord {
 		RandomBossRecord record = new RandomBossRecord();
 		record.setId(id);
 		record.setOwnerID(ownerID);
-		if(StringUtils.isNotBlank(ownerID)){
+		if(StringUtils.isNotBlank(ownerID) && StringUtils.isBlank(ownerName)){
 			Player owner = PlayerMgr.getInstance().find(ownerID);
 			if(!StringUtils.equals(ownerName, owner.getUserName())){
 				ownerName = owner.getUserName();
