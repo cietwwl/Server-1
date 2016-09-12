@@ -42,7 +42,7 @@ public class CompetitionFightingStage implements CompetitionStage {
 	private void moveToStatus(CompetitionEventsStatus status, List<String> groupIds) {
 		// 移到下一个状态
 		_currentFightingStatus = status;
-		_events = new CompetitionEvents(groupIds, _currentFightingStatus);
+		_events = new CompetitionEvents.Builder(groupIds, status).build();
 		_events.start();
 		long delay = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(_competitionCommonCfgDAO.getCfg().getMinutesPerCompetition());
 		CompetitionCommonTask.scheduleCommonTask(_eventsEndControlTask, Boolean.TRUE, delay); // 结束的时效任务，等待回调
