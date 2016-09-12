@@ -9,6 +9,7 @@ import com.playerdata.groupcompetition.cfg.CompetitionCommonCfgDAO;
 import com.playerdata.groupcompetition.data.CompetitionStage;
 import com.playerdata.groupcompetition.util.CompetitionCommonTask;
 import com.playerdata.groupcompetition.util.IConsumer;
+import com.rw.fsutil.common.IReadOnlyPair;
 
 /**
  * 
@@ -25,6 +26,7 @@ public class CompetitionFightingStage implements CompetitionStage {
 	private EventsStatusControlTask _eventsStatusControlTask; // 赛事状态控制任务
 	private EventsEndControlTask _eventsEndControlTask; // 每一轮赛事结束的控制任务
 	private boolean _stageEnd;
+	private long _stageEndTime; // 本阶段结束的时间
 	
 	public CompetitionFightingStage() {
 		_competitionCommonCfgDAO = CompetitionCommonCfgDAO.getInstance();
@@ -56,21 +58,57 @@ public class CompetitionFightingStage implements CompetitionStage {
 			this.createEventsStatusControlTask(this._events.getWinGroups(), _currentFightingStatus.getNex());
 		} else {
 			// 阶段结束
-			this.onStageEnd();
+			this.allEventsFinished();
 		}
 	}
 	
-	private void onStageEnd() {
+	private void allEventsFinished() {
+		// 所有的赛事完结
 		this._stageEnd = true;
 	}
 	
-	private void createEventsStatusControlTask(List<String> groupIds, CompetitionEventsStatus status) {
+	/**
+	 * 
+	 * 计算本阶段的结束时间
+	 * 
+	 * @param startStatus
+	 * @param startOnNextDay
+	 * @return
+	 */
+	private long calculateEndTime(CompetitionEventsStatus startStatus, boolean startOnNextDay) {
+		int lastDays = startStatus.getDaysNeededToFinal();
+		if(startOnNextDay) {
+			lastDays++;
+		}
+		IReadOnlyPair<Integer, Integer> timeInfo = _competitionCommonCfgDAO.getCfg().getFightingStageEndTime();
+		int hour = timeInfo.getT1().intValue();
+		int minute = timeInfo.getT2().intValue();
+		Calendar currentDateTime = Calendar.getInstance();
+		currentDateTime.add(Calendar.DAY_OF_YEAR, lastDays);
+		currentDateTime.set(Calendar.HOUR_OF_DAY, hour);
+		currentDateTime.set(Calendar.MINUTE, 0);
+		if(minute > 0) {
+			currentDateTime.set(Calendar.MINUTE, minute);
+		}
+		return currentDateTime.getTimeInMillis();
+	}
+	
+	/**
+	 * 
+	 * 创建一个赛事开始通知的时效任务
+	 * 
+	 * @param groupIds
+	 * @param status
+	 * @return
+	 */
+	private boolean createEventsStatusControlTask(List<String> groupIds, CompetitionEventsStatus status) {
+		boolean startOnNextDay = false;
 		CompetitionFightingStageContext context = new CompetitionFightingStageContext(groupIds, status);
 		Calendar instance = Calendar.getInstance();
-		List<Integer> timeInfos = _competitionCommonCfgDAO.getCfg().getFightingStartTimeInfos();
-		instance.set(Calendar.HOUR, timeInfos.get(0));
-		if (timeInfos.size() > 1) {
-			instance.set(Calendar.MINUTE, timeInfos.get(1));
+		IReadOnlyPair<Integer, Integer> timeInfos = _competitionCommonCfgDAO.getCfg().getFightingStartTime();
+		instance.set(Calendar.HOUR, timeInfos.getT1());
+		if (timeInfos.getT2() > 0) {
+			instance.set(Calendar.MINUTE, timeInfos.getT2());
 		} else {
 			instance.set(Calendar.MINUTE, 0);
 		}
@@ -78,8 +116,10 @@ public class CompetitionFightingStage implements CompetitionStage {
 		if (millis < System.currentTimeMillis()) {
 			// 如果是过了，则跨一天
 			instance.add(Calendar.DAY_OF_YEAR, 1);
+			startOnNextDay = true;
 		}
 		CompetitionCommonTask.scheduleCommonTask(_eventsStatusControlTask, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
+		return startOnNextDay;
 	}
 
 	@Override
@@ -92,12 +132,18 @@ public class CompetitionFightingStage implements CompetitionStage {
 		} else {
 			status = CompetitionEventsStatus.ROUND_OF_8;
 		}
-		this.createEventsStatusControlTask(topCountGroups, status);
+		boolean startOnNextDay = this.createEventsStatusControlTask(topCountGroups, status);
+		this._stageEndTime = calculateEndTime(status, startOnNextDay);
 	}
-
+	
 	@Override
-	public boolean isStageEnd() {
-		return _stageEnd;
+	public void onStageEnd() {
+		
+	}
+	
+	@Override
+	public long getStageEndTime() {
+		return this._stageEndTime;
 	}
 	
 	/**

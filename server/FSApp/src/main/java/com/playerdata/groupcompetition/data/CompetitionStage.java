@@ -10,12 +10,20 @@ package com.playerdata.groupcompetition.data;
 public interface CompetitionStage {
 
 	/**
-	 * 开始
+	 * 通知此阶段开始
 	 */
 	public void onStageStart(CompetitionStage preStage);
 	
 	/**
-	 * 阶段是否已经结束
+	 * 通知此阶段结束
 	 */
-	public boolean isStageEnd();
+	public void onStageEnd();
+	
+	/**
+	 * 
+	 * 获取阶段本次结束的日期时间的毫秒形式
+	 * 
+	 * @return
+	 */
+	public long getStageEndTime();
 }
