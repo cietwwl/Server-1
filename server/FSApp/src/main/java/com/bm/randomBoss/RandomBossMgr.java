@@ -113,7 +113,7 @@ public class RandomBossMgr{
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
 			clone.setBattleTime(count);
-			System.err.println("boss excape time:" + DateUtils.getDateTimeFormatString(record.getExcapeTime(), "yyyy-MM-dd HH:mm"));
+//			System.err.println("boss excape time:" + DateUtils.getDateTimeFormatString(record.getExcapeTime(), "yyyy-MM-dd HH:mm"));
 			synList.add(clone);
 		}
 		

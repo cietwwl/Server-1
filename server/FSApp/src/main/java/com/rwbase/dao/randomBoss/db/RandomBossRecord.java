@@ -258,7 +258,8 @@ public class RandomBossRecord {
 				ownerName = owner.getUserName();
 			}
 		}
-		
+		record.setLastFriendInvitedTime(lastFriendInvitedTime);
+		record.setLastGroudInvitedTime(lastGroudInvitedTime);
 		record.setOwnerName(ownerName);
 		record.setLeftHp(leftHp);
 		record.setBossTemplateId(bossTemplateId);
