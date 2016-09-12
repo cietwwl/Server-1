@@ -3,9 +3,10 @@ option java_package = "com.rwproto";
 option java_outer_classname = "CopyTrialServiceProtos";
 
 enum eTrialType {
-	TRIAL_TYPE_TRIAL = 0;//试炼之境
+	TRIAL_TYPE_TRIAL = 0;//聚宝之地
 	TRIAL_TYPE_CELESTIAL = 1; // 天界之轮
 	TRIAL_RESET_COUNT = 2; // 重置副本次数
+	TRAIL_VALLEY = 4;//炼气山谷
 }
 enum eTrialResultType {
 	SUCCESS = 1;//成功

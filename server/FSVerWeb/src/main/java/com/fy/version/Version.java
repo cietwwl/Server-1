@@ -50,6 +50,26 @@ public class Version {
 	private String patchInstall = "0";
 	
 	private String packageName = "";
+	
+	private String luaFileMd5 = "";
+	
+	private String luaAction;
+
+	public String getLuaAction() {
+		return luaAction;
+	}
+
+	public void setLuaAction(String luaAction) {
+		this.luaAction = luaAction;
+	}
+
+	public String getLuaFileMd5() {
+		return luaFileMd5;
+	}
+
+	public void setLuaFileMd5(String luaFileMd5) {
+		this.luaFileMd5 = luaFileMd5;
+	}
 
 	public String getPackageName() {
 		return packageName;

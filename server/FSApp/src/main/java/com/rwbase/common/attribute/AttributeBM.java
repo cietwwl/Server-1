@@ -128,7 +128,7 @@ public class AttributeBM {
 			Field f = fields[i];
 			f.setAccessible(true);
 			String name = f.getName();
-			fieldTypeMap.put(name, f.getType() == int.class);
+			fieldTypeMap.put(name, f.getType() != float.class);
 			// System.err.println(name + "," + f.getType() + "," + fieldTypeMap.get(name) + "," + fieldTypeMap.size());
 		}
 

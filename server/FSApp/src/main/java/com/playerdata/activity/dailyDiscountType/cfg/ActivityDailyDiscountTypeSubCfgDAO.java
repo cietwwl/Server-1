@@ -1,11 +1,9 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.playerdata.activity.ActivityTypeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;

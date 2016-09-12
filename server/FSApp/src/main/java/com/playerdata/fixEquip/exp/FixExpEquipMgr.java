@@ -330,15 +330,15 @@ public class FixExpEquipMgr {
 
 	public boolean isOpen(Player player, FixExpEquipDataItem dataItem) {
 		boolean isOpen = false;
-
-		if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())) {
-
+		
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player)){
+			
 			eConsumeTypeDef consumeType = getConsumeType(dataItem);
-
-			if (consumeType == eConsumeTypeDef.Exp4FixEquip_4) {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_4, player.getLevel());
-			} else if (consumeType == eConsumeTypeDef.Exp4FixEquip_5) {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_5, player.getLevel());
+			
+			if(consumeType == eConsumeTypeDef.Exp4FixEquip_4){
+				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_4,player);
+			}else if(consumeType == eConsumeTypeDef.Exp4FixEquip_5){
+				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_5,player);
 			}
 		}
 
@@ -574,7 +574,7 @@ public class FixExpEquipMgr {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在。");

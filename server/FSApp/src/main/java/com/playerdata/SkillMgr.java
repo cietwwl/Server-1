@@ -91,7 +91,7 @@ public class SkillMgr  implements SkillMgrIF, IDataMgrSingletone {
 	
 	private boolean canUpgradeSkill(Player player, String heroId, SkillItem skill, boolean showError) {
 		Hero hero = FSHeroMgr.getInstance().getHeroById(player, heroId);
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SKILL_OPEN, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SKILL_OPEN, player)) {
 			if (showError) {
 				player.NotifyCommonMsg("角色等级不足！");
 			}

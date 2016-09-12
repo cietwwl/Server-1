@@ -1,6 +1,5 @@
 package com.playerdata.activity.exChangeType.cfg;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +31,8 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 			ActivityTypeHelper.add(dropCfg, dropCfg.getParentCfg(), dropCfgListMapTmp);
 		}
 		this.dropCfgListMap = dropCfgListMapTmp;
-		
 		return cfgCacheMap;		
 	}
-	
-	
-	
-	
 	
 	/**解析copytype_几率,copyType_几率*/
 	private void parseTime(ActivityExchangeTypeDropCfg cfgTmp) {
@@ -67,7 +61,5 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 	public List<ActivityExchangeTypeDropCfg> getByParentId(String subId){
 		return dropCfgListMap.get(subId);
 	}
-	
-	
-	
+
 }

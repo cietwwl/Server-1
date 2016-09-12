@@ -22,20 +22,28 @@ public class FrshActAchieveNormalReward implements IFrshActAchieveRewardHandler 
 
 		FresherActivityItem item = holder.getFresherActivityItemsById(cfgId);
 		FresherActivityCfg cfg = (FresherActivityCfg) FresherActivityCfgDao.getInstance().getCfgById(String.valueOf(cfgId));
-		holder.achieveFresherActivityReward(player, cfgId);
+		
+		//普通领奖即立刻标识领取状态
+		FresherActivityItem fresherActivityItem = holder.getFresherActivityItemsById(cfgId);
+		fresherActivityItem.setGiftTaken(true);
+		fresherActivityItem.setClosed(true);
+		holder.achieveFresherActivityReward(player, fresherActivityItem);
+		
 		String reward = cfg.getReward();
 		// 发送奖励
+		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>();
 		String[] split = reward.split(";");
-		List<ItemInfo> itemList = new ArrayList<ItemInfo>(split.length);
 		for (String value : split) {
 			String[] split2 = value.split(":");
 			if (split2.length < 2) {
 				continue;
 			}
-//			player.getItemBagMgr().addItem(Integer.parseInt(split2[0]), Integer.parseInt(split2[1]));
-			itemList.add(new ItemInfo(Integer.parseInt(split2[0]), Integer.parseInt(split2[1])));
+			ItemInfo info = new ItemInfo();
+			info.setItemID(Integer.parseInt(split2[0]));
+			info.setItemNum(Integer.parseInt(split2[1]));
+			itemInfoList.add(info);
 		}
-		player.getItemBagMgr().addItem(itemList);
+		player.getItemBagMgr().addItem(itemInfoList);
 		
 		String rewardInfoActivity="";
 		List<BilogItemInfo> list = BilogItemInfo.fromStrArr(split);

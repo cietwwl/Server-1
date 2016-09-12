@@ -31,7 +31,6 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		for (ActivityExchangeTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}
-
 		HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeCfg>>();
 		for (ActivityExchangeTypeCfg cfg : cfgCacheMap.values()) {
 			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgListMapTmp);
@@ -77,30 +76,14 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	}
 
 	public boolean isCfgByEnumIdEmpty(String enumId) {
-		return cfgListMap.get(enumId) == null || cfgListMap.get(enumId).isEmpty();
-
+		List<ActivityExchangeTypeCfg> typeCfgList = cfgListMap.get(enumId);
+		return typeCfgList == null || typeCfgList.isEmpty();
 	}
-
-//	public ActivityExchangeTypeItem newItem(Player player, ActivityExchangeTypeCfg cfgById) {
-//		if (cfgById != null) {
-//			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
-//			String itemId = ActivityExChangeTypeHelper.getItemId(player.getUserId(), ActivityExChangeTypeEnum.getById(cfgById.getEnumId()));
-//			item.setId(itemId);
-//			item.setEnumId(cfgById.getEnumId());
-//			item.setCfgId(cfgById.getId());
-//			item.setUserId(player.getUserId());
-//			item.setVersion(cfgById.getVersion());
-//			item.setSubItemList(newItemList(cfgById));
-//			item.setLasttime(System.currentTimeMillis());
-//			return item;
-//		} else {
-//			return null;
-//		}
-//	}
-
+	
 	public List<ActivityExchangeTypeSubItem> newItemList(ActivityExchangeTypeCfg cfgById) {
 		List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
 		List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(cfgById.getId());
+
 		if (subItemCfgList == null) {
 			return subItemList;
 		}

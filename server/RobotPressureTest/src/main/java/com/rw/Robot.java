@@ -58,6 +58,7 @@ import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.GroupCopyAdminProto.RequestType;
+import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
 
 /*
  * 机器人入口
@@ -1045,10 +1046,18 @@ public class Robot {
 
 	public boolean testPeakArena() {
 		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		List<ArenaInfo> listInfoList = client.getPeakArenaDataHolder().getListInfoList();
+		if (listInfoList == null || listInfoList.size() <= 0) {
+			return true;
+		}
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
-
+	
+	public void openGroupSecretMainView(){
+		GroupSecretHandler.getInstance().openMainView(client);
+	}
+	
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);
@@ -1065,7 +1074,7 @@ public class Robot {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		boolean isCanSeach = GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 		if(!isCanSeach){
-			RobotLog.fail("搜索敌对秘境时失败，请确认是否全部为找不到秘境");
+			RobotLog.fail("搜索敌对秘境时失败，请确认是否未提前生成被掠夺的秘境");
 			return true;
 		}
 		checkEnoughSecretKeyCount();
@@ -1076,8 +1085,8 @@ public class Robot {
 
 	
 
-	public boolean getGroupSecretReward() {
-		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	public void getGroupMatchSecretReward() {
+		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
 
 	public boolean inviteMemberDefend() {

@@ -16,10 +16,10 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class GroupCopyMonsterSynStruct {
 	
 	private String id;
-	private int totalHP;
-	private int curHP;
-	private int totalMP;
-	private int curMP;
+	private long totalHP;
+	private long curHP;
+	private long totalMP;
+	private long curMP;
 	
 	
 	
@@ -44,28 +44,28 @@ public class GroupCopyMonsterSynStruct {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public int getTotalHP() {
+	public long getTotalHP() {
 		return totalHP;
 	}
-	public void setTotalHP(int totalHP) {
+	public void setTotalHP(long totalHP) {
 		this.totalHP = totalHP;
 	}
-	public int getCurHP() {
+	public long getCurHP() {
 		return curHP;
 	}
-	public void setCurHP(int curHP) {
+	public void setCurHP(long curHP) {
 		this.curHP = curHP;
 	}
-	public int getTotalMP() {
+	public long getTotalMP() {
 		return totalMP;
 	}
-	public void setTotalMP(int totalMP) {
+	public void setTotalMP(long totalMP) {
 		this.totalMP = totalMP;
 	}
-	public int getCurMP() {
+	public long getCurMP() {
 		return curMP;
 	}
-	public void setCurMP(int curMP) {
+	public void setCurMP(long curMP) {
 		this.curMP = curMP;
 	}
 	

@@ -613,8 +613,20 @@ public class Player implements PlayerIF {
 		}
 	}
 
+	public void NotifyCommonMsg(ErrorType error,ECommonMsgTypeDef msgShowType, String message){
+		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();
+		response.setType(msgShowType.getValue());
+		response.setError(error);
+		response.setMessage(message);
+		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
+	}
+	
+	public void NotifyFunctionNotOpen(String message){
+		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN,ECommonMsgTypeDef.MsgTips,message);
+	}
+	
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
-		if (message == null || message.equals("")) {
+		if (StringUtils.isBlank(message)) {
 			return;
 		}
 		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();

@@ -1,24 +1,10 @@
 package com.playerdata.activity.fortuneCatType.cfg;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-
-
-
-
-
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;

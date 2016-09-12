@@ -8,13 +8,10 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -24,8 +21,6 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
-import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
-import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -337,10 +332,10 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(activityExchangeTypeCfg.getId());
-			if (dropCfgList == null) {
+			if(dropCfgList == null){
 				return idAndNumMap;
 			}
-			for (ActivityExchangeTypeDropCfg cfg : dropCfgList) {// 遍历单个活动可能对应的所有掉落道具类型
+			for(ActivityExchangeTypeDropCfg cfg : dropCfgList){//遍历单个活动可能对应的所有掉落道具类型
 				Map<Integer, Integer[]> map = cfg.getDropMap();
 
 				if (map.get(copyCfg.getLevelType()) != null) {// 该掉落配置表的该条记录适合此类战斗场景

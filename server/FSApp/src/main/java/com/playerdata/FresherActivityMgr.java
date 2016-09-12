@@ -3,6 +3,8 @@ package com.playerdata;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
@@ -125,34 +127,19 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		// 检查最终的红点
 		if (finalActItem != null && finalActItem.getStartTime() <= now && !finalActItem.isGiftTaken()) {
 			double result = (double) finishCount / totalCount * 100;
-			int maxprogress = -1;
-			String reward = "";
+			boolean canAchieve = false;
+			int achieveId = StringUtils.isEmpty(finalActItem.getCurrentValue()) ? -1 : Integer.parseInt(finalActItem.getCurrentValue());
 			List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
 			for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
-				int progress = fresherActivityFinalRewardCfg.getProgress();
-				if (progress <= result) {
-					if (progress > maxprogress) {
-						maxprogress = progress;
-						reward = fresherActivityFinalRewardCfg.getReward();
+				if(fresherActivityFinalRewardCfg.getId() > achieveId){
+					if(result >= fresherActivityFinalRewardCfg.getProgress()){
+						canAchieve = true;
 					}
 				}
 			}
 
-			// 检查奖励
-			boolean hasReward = false;
-			String[] split = reward.split(";");
-			for (String value : split) {
-				String[] split2 = value.split(":");
-				if (split2.length < 2) {
-					continue;
-				}
 
-				if (Integer.parseInt(split2[1]) > 0) {
-					hasReward = true;
-				}
-			}
-
-			if (hasReward) {
+			if (canAchieve) {
 				configList.add(String.valueOf(finalActItem.getCfgId()));
 			}
 		}

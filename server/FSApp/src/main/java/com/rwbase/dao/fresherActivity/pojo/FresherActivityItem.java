@@ -10,7 +10,6 @@ import com.rwbase.common.enu.eActivityType;
 public class FresherActivityItem implements FresherActivityItemIF {
 
 	private String currentValue; // 当前值
-
 	private eActivityType type;
 
 	private int cfgId;

@@ -165,7 +165,7 @@ public class GroupCopyMgr {
 	public  GroupCopyResult  endFight(Player player, String levelId, 
 			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
 		//获取伤害
-		int damage = getDamage(mData, levelId);
+		long damage = getDamage(mData, levelId);
 		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
 		if(result.isSuccess()){
 			//同步一下副本地图进度
@@ -231,14 +231,14 @@ public class GroupCopyMgr {
 	}
 
 	
-	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
+	private long getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
 		
 		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
 		if(record.getProgress().getCurrentHp() == 0){
 			return nowPro.getTotalHp() - nowPro.getCurrentHp();
 		}
-		int damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
+		long damage = record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 		if(damage <= 0){
 			GameLog.error(LogModule.GroupCopy, "GroupCopyMgr[getDamage]", "帮派副本["+level+"]战斗结束，客户端同步数据不正确，进入战斗前怪物总HP:"
 					+record.getProgress().getCurrentHp() +",战斗后总HP" + nowPro.getCurrentHp()+",请检查关卡内是否存在加血技能的怪物！！！", null);
@@ -275,7 +275,7 @@ public class GroupCopyMgr {
 	}
 
 
-	private void checkDamageRank(Player player, String levelId, int damage, List<String> heroList) {
+	private void checkDamageRank(Player player, String levelId, long damage, List<String> heroList) {
 		try {
 
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
@@ -937,9 +937,9 @@ public class GroupCopyMgr {
 	 * @param chaterID
 	 * @return
 	 */
-	private int getRoleDamage(String playerID, String chaterID){
+	private long getRoleDamage(String playerID, String chaterID){
 		GroupCopyMapRecord record = mapRecordHolder.getItemByID(chaterID);
-		Integer damage = record.getGroupRoleDamageMap().get(playerID);
+		Long damage = record.getGroupRoleDamageMap().get(playerID);
 		if(damage == null){
 			return 0;
 		}

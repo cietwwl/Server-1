@@ -15,6 +15,7 @@ public class MapCfg {
 	private String levelPicture;
 	private String rewardGain;
 	private String rewardStar;
+	private int godBoxID;
 
 	public int getGroup() {
 		return group;
@@ -82,5 +83,10 @@ public class MapCfg {
 	public void setRewardStar(String rewardStar) {
 		this.rewardStar = rewardStar;
 	}
-	
+	public int getGodBoxID() {
+		return godBoxID;
+	}
+	public void setGodBoxID(int godBoxID) {
+		this.godBoxID = godBoxID;
+	}
 }

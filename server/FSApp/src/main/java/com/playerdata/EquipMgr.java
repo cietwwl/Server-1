@@ -237,9 +237,9 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 
 			boolean isOpen = false;
 			if (m_pOwner.getRoleType() == eRoleType.Player) {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, player.getLevel());
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, player);
 			} else {
-				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, player.getLevel());
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, player);
 			}
 			if (!isOpen) {
 				player.NotifyCommonMsg(ErrorType.NOT_ENOUGH_LEVEL);
