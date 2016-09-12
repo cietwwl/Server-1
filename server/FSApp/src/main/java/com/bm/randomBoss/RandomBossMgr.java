@@ -316,7 +316,7 @@ public class RandomBossMgr{
 		//添加讨伐动态
 		record.addBattleInfo(new BattleNewsData(player.getUserId(), damage, curHp == 0, record.getLastBattleTime(), player.getUserName()));
 		player.getItemBagMgr().addItem(itemList);
-		record.resetLastBattleTime();
+		record.battleEnd();
 		record.setLeftHp(curHp);
 		rbDao.update(record);
 		return rewardInfo;
@@ -419,6 +419,7 @@ public class RandomBossMgr{
 		default:
 			return false;
 		}
+		rbDao.update(record);
 		return true;
 	}
 

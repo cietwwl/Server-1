@@ -288,10 +288,11 @@ public class RandomBossRecord {
 		battleRoleID = userId;
 		Integer count = fightRole.get(userId);
 		if(count == null){
-			fightRole.put(userId, 1);
+			count = 1;
 		}else{
 			count ++;
 		}
+		fightRole.put(userId, count);
 	}
 
 
