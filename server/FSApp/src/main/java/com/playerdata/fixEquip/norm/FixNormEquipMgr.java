@@ -192,17 +192,17 @@ public class FixNormEquipMgr {
 		return levelUpList;
 	}
 
-	public List<String> qualityUpList(Player player, String ownerId) {
+	public List<String> qualityUpList(Player player, String ownerId, FixExpEquipQualityCfgDAO expCfgDAO, FixNormEquipQualityCfgDAO normalCfgDAO) {
 
 		List<String> upIdList = new ArrayList<String>();
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
 
 		for (FixNormEquipDataItem dataItem : itemList) {
 			int level = dataItem.getLevel();
-			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
+			FixExpEquipQualityCfg curQualityCfg = expCfgDAO.getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
 			int nextQualityLevel = curQualityCfg.getLevelNeed();
 			if (level == nextQualityLevel) {
-				FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
+				FixEquipResult result = checkQualityUp(player, ownerId, dataItem, normalCfgDAO);
 				if (result.isSuccess()) {
 					upIdList.add(dataItem.getId());
 				}
@@ -325,7 +325,7 @@ public class FixNormEquipMgr {
 
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
-		FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
+		FixEquipResult result = checkQualityUp(player, ownerId, dataItem, FixNormEquipQualityCfgDAO.getInstance());
 		if (result.isSuccess()) {
 			result = doQualityUp(player, dataItem);
 		}
@@ -333,7 +333,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkQualityUp(Player player, String ownerId, FixNormEquipDataItem dataItem) {
+	private FixEquipResult checkQualityUp(Player player, String ownerId, FixNormEquipDataItem dataItem, FixNormEquipQualityCfgDAO normalCfgDAO) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
 		if (dataItem == null) {
@@ -341,12 +341,12 @@ public class FixNormEquipMgr {
 		} else {
 			int curlevel = dataItem.getLevel();
 			int currentQuality = dataItem.getQuality();
-			FixNormEquipQualityCfg nextQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality + 1);
+			FixNormEquipQualityCfg nextQualityCfg = normalCfgDAO.getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality + 1);
 			if (nextQualityCfg == null) {
 				result.setReason("装备已经达到最品质");
 			} else {
 
-				FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
+				FixNormEquipQualityCfg curQualityCfg = normalCfgDAO.getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
 				Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
 				if (curlevel < curQualityCfg.getLevelNeed()) {
 					result.setReason("装备等级不够");

@@ -1,0 +1,31 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupChampProto";
+
+package groupCompetition;
+
+
+enum RequestType{
+	EnterPrepareArea = 1;	//进入备战区
+	LeavePrepareArea = 2;	//离开备战区
+	InformPreparePosition = 3;	//通知备战区的位置
+}
+
+enum ResultType {
+	SUCCESS = 1; //成功
+	DATA_ERROR = 2; //数据异常
+}
+
+message CommonReqMsg{
+	required RequestType reqType = 1;		//请求功能协议类型
+	optional AreaPosition position = 2;		//玩家当前在备战区的位置
+}
+
+message CommonRspMsg{
+	required ResultType rstType = 1; //是否成功处理
+}
+
+message AreaPosition{
+	required float x = 1;
+	required float y = 2;
+}

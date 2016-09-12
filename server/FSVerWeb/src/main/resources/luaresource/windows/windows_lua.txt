@@ -1,0 +1,7 @@
+channel=windows
+fileslocation=lua/windows/files.txt
+lualocation=lua/windows/Lua.zip
+filesmd5=25520fac15ac3fa2aaad45b0565c5ef1
+filesize=1787
+luamd5=766df820c987a320371c0169cf4e74c4
+luasize=65117

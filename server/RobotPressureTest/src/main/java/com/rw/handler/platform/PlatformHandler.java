@@ -44,7 +44,7 @@ public class PlatformHandler {
 		accountInfo.setPassword(client.getPassword());
 		loginReq.setAccount(accountInfo);
 		
-		ClientPool.put(client);
+		
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_LOGIN_PLATFORM, loginReq.build().toByteString(), new MsgReciver() {
 			
@@ -161,13 +161,14 @@ public class PlatformHandler {
 		String serverIp = lastZone.getServerIp();
 		
 		// 设置角色信息
+		client.setAccountId(accountId);
 		client.setLastServerId(lastZone.getZoneId());
 		ServerInfo serverInfo = new ServerInfo();
 		serverInfo.setZoneId(lastZone.getZoneId());
 		serverInfo.setServerIP(serverIp);
 		serverInfo.setServerPort(port);
 		client.addServerInfo(serverInfo);
-		
+		ClientPool.put(client);
 		RobotLog.info("PlatformHandler[execute] 验证或者创建成功, accoutId:"+accountId+" password:"+password+" lastZondId:"+lastZone.getZoneId() +" address:"+serverIp+":"+port);
 	
 	}

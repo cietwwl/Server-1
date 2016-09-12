@@ -204,18 +204,19 @@ public class FixEquipHelper {
 	}
 
 	public static boolean isItemEnough(Player player, Map<Integer, Integer> itemCostMap) {
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-
-		boolean isItemEnough = true;
-		for (int modelId : itemCostMap.keySet()) {
-			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
-			if (itemCostMap.get(modelId) > countInBag) {
-				isItemEnough = false;
-				break;
-			}
-
-		}
-		return isItemEnough;
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+//
+//		boolean isItemEnough = true;
+//		for (int modelId : itemCostMap.keySet()) {
+//			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
+//			if (itemCostMap.get(modelId) > countInBag) {
+//				isItemEnough = false;
+//				break;
+//			}
+//
+//		}
+//		return isItemEnough;
+		return player.getItemBagMgr().hasEnoughItems(itemCostMap);
 	}
 
 	private static boolean costItemBag(Player player, Map<Integer, Integer> itemCostMap) {

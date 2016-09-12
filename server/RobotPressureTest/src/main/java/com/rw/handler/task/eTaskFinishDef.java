@@ -2,7 +2,6 @@ package com.rw.handler.task;
 
 import java.util.HashMap;
 import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 public enum eTaskFinishDef {	
 	None(0),
@@ -23,8 +22,10 @@ public enum eTaskFinishDef {
 	Challage_BattleTower(15);//挑战封神台到指定层数
 	
 	private int order;
+	private String outputName;
 	eTaskFinishDef(int order){
 		this.order = order;
+		this.outputName = String.valueOf(order);
 	}
 	public int getOrder() {
 		return order;
@@ -38,6 +39,7 @@ public enum eTaskFinishDef {
 		for (int i = 0; i < array.length; i++) {
 			eTaskFinishDef eTask = array[i];
 			nameMapping.put(eTask.name(), eTask);
+			nameMapping.put(eTask.outputName, eTask);
 		}
 		nameMapping.put("Hero_Equip_Quality", Hero_Quality);
 	}
@@ -52,22 +54,13 @@ public enum eTaskFinishDef {
 		return result;
 	}
 	
-	public static eTaskFinishDef getDef(int value){
-		//TODO modify by Franky: fast test to getDef
-		eTaskFinishDef[] values = eTaskFinishDef.values();
-		if (value < values.length){
-			eTaskFinishDef tmp = values[value];
-			if (tmp.getOrder() == value)
-				return tmp;
+	@JsonCreator
+	public static eTaskFinishDef forValue(int value) {
+		//兼容旧数据"Hero_Equip_Quality"，否则会导致Player中的Task初始化失败.
+		eTaskFinishDef result = nameMapping.get(value);
+		if(result == null){
+			throw new ExceptionInInitializerError("can not find enum eTaskFinishDef:"+value);
 		}
-		
-		eTaskFinishDef eAttr = null;
-		for (int i = 0; i < values.length; i++) {
-			eAttr = values[i];
-			if(eAttr.getOrder() == value){
-				break;
-			}
-		}
-		return eAttr;
+		return result;
 	}
 }

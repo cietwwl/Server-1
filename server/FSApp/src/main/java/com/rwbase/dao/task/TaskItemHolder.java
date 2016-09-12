@@ -136,10 +136,10 @@ public class TaskItemHolder {
 	public void synAllData(Player player, int version) {
 		List<TaskItem> itemList = getItemList();
 		List<TaskItem> removeList = new ArrayList<TaskItem>();
-		
+		TaskCfgDAO cfgDAO = TaskCfgDAO.getInstance();
 		for (TaskItem taskItem : itemList) {
 			//检查数据库数据及配置表是否对应,配置表里没有的不发送到前端
-			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(taskItem.getTaskId());
+			TaskCfg cfg = cfgDAO.getCfg(taskItem.getTaskId());
 			if(cfg == null){
 				removeList.add(taskItem);
 				GameLog.error(LogModule.COMMON, "TaskItemHolder[synAllData]", "同步任务数据到客户端，发现任务不存在，任务id:" + taskItem.getTaskId(), null);

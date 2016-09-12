@@ -24,6 +24,10 @@ public class FSTraceLogger {
 			MsgStatFactory.getCollector().addRunCost(command, null, cost);
 		}
 	}
+	
+	public static void recordRun(String command,long cost){
+		MsgStatFactory.getCollector().addRunCost(command, null, cost);
+	}
 
 	public static void logger(String head, long cost, Command command, ProtocolMessageEnum type, long seqId, String userId) {
 		logger(head, cost, command, type, seqId, userId, null);

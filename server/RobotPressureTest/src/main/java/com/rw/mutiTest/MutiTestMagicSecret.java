@@ -52,9 +52,9 @@ public class MutiTestMagicSecret {
 							//boolean success = robot.startTBFight();
 							//boolean success = robot.playerMagicSecret();
 							//success = robot.playerMagicSecret();
-							boolean success = robot.getMagicSecretRank();
+							boolean success = robot.startTBFight();
 //							success = robot.getMagicSecretRank();
-							tmpLog.info("乾坤幻境测试结果:" + success);
+							tmpLog.info("组队测试结果:" + success);
 							long cost = System.currentTimeMillis() - start;
 							timeCost.addAndGet(cost);
 							if(success) successCount.incrementAndGet();
