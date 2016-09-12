@@ -249,8 +249,8 @@ public class ChatHandler {
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 		// 2016-07-29 看不出這段用意，暫時去掉
 		/*
-		 * if (!message.hasSendMessageUserInfo()) { List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId); for (int i =
-		 * 0, size = list.size(); i < size; i++) { msgChatResponse.addListMessage(list.get(i)); } } else
+		 * if (!message.hasSendMessageUserInfo()) { List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId); for (int i = 0, size = list.size(); i < size; i++) {
+		 * msgChatResponse.addListMessage(list.get(i)); } } else
 		 */{
 			// ChatMessageData.Builder data = ChatMessageData.newBuilder();
 			// MessageUserInfo.Builder sendMsgInfo = message.getSendMessageUserInfo().toBuilder();
@@ -392,7 +392,7 @@ public class ChatHandler {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
-//			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+			// System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 				data.setIsRead(true);
@@ -403,7 +403,7 @@ public class ChatHandler {
 			data.setIsRead(false);
 		}
 
-		updatePlayerChatMsg(receiveUserId, data, eChatType.CHAT_PERSON);
+		updatePlayerChatMsg(receiveUserId, data, eChatType.CHANNEL_PERSON);
 
 		// 发送消息给接收者的时候不需要发送接收者的信息
 		MessageUserInfo.Builder receiveUserInfo = this.createMessageUserInfoBuilder(toPlayer, true);
@@ -413,11 +413,45 @@ public class ChatHandler {
 
 		// 存储两个数据
 		data.setIsRead(true);
-		updatePlayerChatMsg(sendUserId, data, eChatType.CHAT_PERSON);
+		updatePlayerChatMsg(sendUserId, data, eChatType.CHANNEL_PERSON);
 		ChatBM.getInstance().updateLastSentPrivateChatTime(sendUserId, currentTimemillis);
 
 		result = msgChatResponseBuilder.setListMessage(0, data.build()).build().toByteString();
 
+		return result;
+	}
+
+	/**
+	 * 发送组队聊天
+	 * 
+	 * @param player
+	 * @param msgChatRequest
+	 * @return
+	 */
+	public ByteString chatTeam(Player player, MsgChatRequest msgChatRequest) {
+		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+		msgChatResponse.setChatType(msgChatRequest.getChatType());
+
+		ChatMessageData message = msgChatRequest.getChatMessageData();
+		long nowTime = System.currentTimeMillis();
+		if (player.getLastTeamChatCahceTime() > 0) {
+			if (nowTime - player.getLastTeamChatCahceTime() < CHAT_DELAY_TIME_MILLIS) {// 间隔10秒
+				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "发言太快");
+				msgChatResponse.setChatResultType(eChatResultType.FAIL);
+				return msgChatResponse.build().toByteString();
+			}
+		}
+
+		player.setLastTeamChatCahceTime(nowTime);// 更新上次聊天的时间
+		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
+
+		msgChatResponse.addListMessage(data);
+		// 聊天日志
+		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+		ByteString result = msgChatResponse.build().toByteString();
+
+		// TODO HC @Modify 这里需要后边支持查到某个角色的队伍Id
+		ChatBM.getInstance().updateTeamList("1", data);
 		return result;
 	}
 
@@ -428,7 +462,7 @@ public class ChatHandler {
 	 * @param data 聊天数据
 	 */
 	private void updatePlayerChatMsg(String userId, ChatMessageData.Builder data, eChatType chatType) {
-		if (chatType == eChatType.CHAT_PERSON) {
+		if (chatType == eChatType.CHANNEL_PERSON) {
 			ChatBM.getInstance().addPrivateChat(userId, data.build());
 		} else if (chatType == eChatType.CHAT_TREASURE) {
 			ChatBM.getInstance().addGroupSecretChat(userId, data.build());
@@ -553,7 +587,7 @@ public class ChatHandler {
 		String targetUserId = request.getUserId();
 		List<ChatMessageData> list = ChatBM.getInstance().getPrivateChatListOfTarget(player.getUserId(), targetUserId);
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-		msgChatResponse.setChatType(eChatType.CHAT_PERSON);
+		msgChatResponse.setChatType(eChatType.CHANNEL_PERSON);
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ChatMessageData chatData;
 		int size = list.size();
@@ -573,7 +607,7 @@ public class ChatHandler {
 	public ByteString setCurrentTargetOfPrivateChat(Player player, MsgChatRequestPrivateChats request) {
 		String targetUserId = request.getUserId();
 		ChatBM.getInstance().updateCurrentTargetUserIdOfPrivateChat(player.getUserId(), targetUserId);
-//		System.out.println("player set current target of private chat, player id : " + player.getUserId() + ", target : " + targetUserId);
+		// System.out.println("player set current target of private chat, player id : " + player.getUserId() + ", target : " + targetUserId);
 		ChatBM.getInstance().setAllChatsReadOfTarget(player.getUserId(), targetUserId);
 		return ByteString.EMPTY;
 	}
@@ -644,7 +678,7 @@ public class ChatHandler {
 
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 		msgChatResponse.setOnLogin(true);
-		msgChatResponse.setChatType(eChatType.CHAT_FAMILY);
+		msgChatResponse.setChatType(eChatType.CHANNEL_GROUP);
 		List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
 		for (int i = 0, size = list.size(); i < size; i++) {
 			ChatMessageData chatMsg = list.get(i).build();
@@ -703,7 +737,7 @@ public class ChatHandler {
 		}
 
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-		msgChatResponse.setChatType(eChatType.CHAT_PERSON);
+		msgChatResponse.setChatType(eChatType.CHANNEL_PERSON);
 		msgChatResponse.setOnLogin(true);
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		for (Iterator<Map.Entry<String, String>> itr = userInfos.entrySet().iterator(); itr.hasNext();) {
@@ -717,7 +751,7 @@ public class ChatHandler {
 			msgChatResponse.addUsersOfPrivateChannel(builder.build());
 		}
 		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
-		
+
 		instance.updateCurrentTargetUserIdOfPrivateChat(userId, "");
 
 		// instance.updatePrivateChatState(userId, unReadList);
