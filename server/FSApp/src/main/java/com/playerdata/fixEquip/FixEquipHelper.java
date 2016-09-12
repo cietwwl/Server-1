@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
@@ -33,9 +34,12 @@ import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rwproto.RequestProtos.Request;
 
 public class FixEquipHelper {
 
@@ -48,7 +52,7 @@ public class FixEquipHelper {
 
 		return heroId + "_" + cfgId;
 	}
-
+	
 	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
 		Map<Integer, Integer> itemsNeed = new HashMap<Integer, Integer>();
 		if (StringUtils.isNotBlank(itemsNeedStr)) {
@@ -200,18 +204,19 @@ public class FixEquipHelper {
 	}
 
 	public static boolean isItemEnough(Player player, Map<Integer, Integer> itemCostMap) {
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-
-		boolean isItemEnough = true;
-		for (int modelId : itemCostMap.keySet()) {
-			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
-			if (itemCostMap.get(modelId) > countInBag) {
-				isItemEnough = false;
-				break;
-			}
-
-		}
-		return isItemEnough;
+//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+//
+//		boolean isItemEnough = true;
+//		for (int modelId : itemCostMap.keySet()) {
+//			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
+//			if (itemCostMap.get(modelId) > countInBag) {
+//				isItemEnough = false;
+//				break;
+//			}
+//
+//		}
+//		return isItemEnough;
+		return player.getItemBagMgr().hasEnoughItems(itemCostMap);
 	}
 
 	private static boolean costItemBag(Player player, Map<Integer, Integer> itemCostMap) {
@@ -235,10 +240,13 @@ public class FixEquipHelper {
 
 		boolean success = true;
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		List<ItemInfo> list = new ArrayList<ItemInfo>(itemCostMap.size());
 		for (Integer modelId : itemCostMap.keySet()) {
 			Integer count = itemCostMap.get(modelId);
-			itemBagMgr.addItem(modelId, count);
+//			itemBagMgr.addItem(modelId, count);
+			list.add(new ItemInfo(modelId, count));
 		}
+		itemBagMgr.addItem(list);
 
 		return success;
 	}

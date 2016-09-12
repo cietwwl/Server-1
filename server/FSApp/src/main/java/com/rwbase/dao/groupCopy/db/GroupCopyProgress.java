@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import com.common.Utils;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -12,8 +13,8 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class GroupCopyProgress {
 
-	private int totalHp;
-	private int currentHp;
+	private long totalHp;
+	private long currentHp;
 	
 	private double progress;//0-1
 	
@@ -45,19 +46,19 @@ public class GroupCopyProgress {
 		progress = Utils.div((totalHp - currentHp), totalHp, 5);
 	}
 
-	public int getTotalHp() {
+	public long getTotalHp() {
 		return totalHp;
 	}
 
-	public void setTotalHp(int totalHp) {
+	public void setTotalHp(long totalHp) {
 		this.totalHp = totalHp;
 	}
 
-	public int getCurrentHp() {
+	public long getCurrentHp() {
 		return currentHp;
 	}
 
-	public void setCurrentHp(int currentHp) {
+	public void setCurrentHp(long currentHp) {
 		this.currentHp = currentHp;
 	}
 
@@ -87,6 +88,12 @@ public class GroupCopyProgress {
 		}
 	}
 
-	
+	//此方法只能在初始化时候调用
+	protected void calculateMonsterFromProgress(double p){
+		this.progress = p;
+		for (GroupCopyMonsterSynStruct struct : mDatas) {
+			struct.setCurHP((long) (struct.getTotalHP() * p));
+		}
+	}
 	
 }

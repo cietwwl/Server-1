@@ -4,17 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.runners.model.InitializationError;
-
-import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.worship.pojo.CfgWorshipReward;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
 public class CfgWorshipRewardHelper extends CfgCsvDao<CfgWorshipReward> {
 

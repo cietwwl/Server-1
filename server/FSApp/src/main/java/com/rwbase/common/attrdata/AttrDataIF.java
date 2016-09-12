@@ -2,7 +2,7 @@ package com.rwbase.common.attrdata;
 
 public interface AttrDataIF {
 
-	public int getLife();
+	public long getLife();
 
 	public int getEnergy();
 

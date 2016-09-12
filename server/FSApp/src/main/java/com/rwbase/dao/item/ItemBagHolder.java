@@ -2,14 +2,18 @@ package com.rwbase.dao.item;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.common.RefInt;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.MapItemStoreFactory;
@@ -17,8 +21,6 @@ import com.rwbase.common.RecordSynchronization;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
-import com.rwbase.dao.item.pojo.itembase.INewItem;
-import com.rwbase.dao.item.pojo.itembase.IUpdateItem;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
@@ -152,78 +154,88 @@ public class ItemBagHolder implements RecordSynchronization {
 	}
 
 	/**
-	 * 更新背包的操作
+	 * 获取道具modelId与数量的映射
 	 * 
-	 * @param player 角色
-	 * @param newItemList 新创建物品的列表
-	 * @param updateItemList 更新物品的列表
+	 * @return {key=modelId,value=count}
 	 */
-	public void updateItemBag(Player player, List<INewItem> newItemList, List<IUpdateItem> updateItemList) {
-		List<ItemData> updateItems = new ArrayList<ItemData>();
-		String userId = player.getUserId();
-		MapItemStore<ItemData> itemDataStore = getItemStore();
-		if (newItemList != null && !newItemList.isEmpty()) {// 新创建物品列表不为空
-			for (int i = 0, size = newItemList.size(); i < size; i++) {
-				INewItem newItem = newItemList.get(i);
-				ItemData itemData = new ItemData();
-				int templateId = newItem.getCfgId();
-
-				// 检测获取的是不是AS级的法宝
-				if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {// 检测是不是法宝
-					MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
-					if (magicCfg != null) {// 是S，A级法宝
-						MainMsgHandler.getInstance().sendPmdFb(player, magicCfg.getName(), magicCfg.getQuality());
-						/** 稀有法宝的获得,B,A、S级 **/
-					}
-				}
-
-				if (itemData.init(templateId, newItem.getCount())) {
-					String slotId = generateSlotId(userId);
-					itemData.setId(slotId);// 设置物品Id
-					itemData.setUserId(userId);// 设置角色Id
-					itemDataStore.addItem(itemData);// 添加新的
-
-					// 回调
-					if (newItem.getCallback() != null) {
-						newItem.getCallback().call(itemData);
-					}
-
-					updateItems.add(itemData);
-				}
+	public Map<Integer, RefInt> getModelCountMap() {
+		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			RefInt intValue = map.get(modelId);
+			int count = itemData.getCount();
+			if (intValue == null) {
+				map.put(modelId, new RefInt(count));
+			} else {
+				intValue.value += count;
 			}
 		}
+		return map;
+	}
 
-		if (updateItemList != null && !updateItemList.isEmpty()) {// 更新物品列表不为空
-			for (int i = 0, size = updateItemList.size(); i < size; i++) {
-				IUpdateItem updateItem = updateItemList.get(i);
-				ItemData itemData = this.getItemData(updateItem.getSlotId());
-				if (itemData == null) {
-					continue;
-				}
-
-				int count = itemData.getCount() + updateItem.getCount();
-				itemData.setCount(count);// 更新数量
-				if (count <= 0) {
-					itemDataStore.removeItem(itemData.getId());// 移除
-				} else {
-					itemDataStore.updateItem(itemData);// 刷新
-					// 回调
-					if (updateItem.getCallback() != null) {
-						updateItem.getCallback().call(itemData);
-					}
-				}
-
-				updateItems.add(itemData);
+	/**
+	 * 获取背包中某模版ID对应的任意一个物品列表
+	 * 
+	 * @return
+	 */
+	public Map<Integer, ItemData> getModelFirstItemDataMap() {
+		HashMap<Integer, ItemData> map = new HashMap<Integer, ItemData>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			ItemData item = map.get(modelId);
+			if (item == null) {
+				map.put(modelId, itemData);
 			}
 		}
+		return map;
+	}
 
-		// 推送数据改变
-		if (!updateItems.isEmpty()) {
-			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
-			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
-			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
-			syncItemData(player, updateItems);
+	/**
+	 * <pre>
+	 * 检查是否有足够的道具数量
+	 * 
+	 * </pre>
+	 * 
+	 * @param itemsMap {key=modelId,value=count}
+	 * @return
+	 */
+	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
+		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			// 不是要检查的道具跳过
+			if (!itemsMap.containsKey(modelId)) {
+				continue;
+			}
+			int count = itemData.getCount();
+			RefInt intValue = map.get(modelId);
+			if (intValue == null) {
+				map.put(modelId, new RefInt(count));
+			} else {
+				intValue.value += count;
+			}
 		}
+		for (Map.Entry<Integer, Integer> entry : itemsMap.entrySet()) {
+			int value = entry.getValue();
+			// 0或负数跳过
+			if (value <= 0) {
+				continue;
+			}
+			RefInt refValue = map.get(entry.getKey());
+			if (refValue == null) {
+				return false;
+			}
+			if (refValue.value < value) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -251,18 +263,6 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @return
 	 */
 	private String generateSlotId(String userId) {
-		// int nSlotId = 1;
-		// String id = userId + "_" + nSlotId;
-		// MapItemStore<ItemData> itemDataStore = getItemStore();
-		// while (nSlotId < 10000) {
-		// if (itemDataStore.getItem(id) == null) {
-		// return id;
-		// }
-		//
-		// id = userId + "_" + ++nSlotId;
-		// }
-		// return id;
-
 		long newId = generateId.incrementAndGet();
 		StringBuilder sb = new StringBuilder();
 		return sb.append(userId).append("_").append(newId).toString();
@@ -314,8 +314,10 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @param addItemList
 	 * @param updateItemList
 	 * @throws DuplicatedKeyException
+	 * @throws DataNotExistException
+	 * @throws ItemNotExistException
 	 */
-	public void updateItemBgData(Player player, List<ItemData> addItemList, List<ItemData> updateItemList) throws DuplicatedKeyException {
+	public void updateItemBgData(Player player, List<ItemData> addItemList, List<ItemData> updateItemList) throws DuplicatedKeyException, DataNotExistException {
 		if ((addItemList == null || addItemList.isEmpty()) && (updateItemList == null || updateItemList.isEmpty())) {
 			return;
 		}
@@ -323,7 +325,7 @@ public class ItemBagHolder implements RecordSynchronization {
 		List<ItemData> synUpdateItemList = new ArrayList<ItemData>();
 		MapItemStore<ItemData> itemStore = getItemStore();
 		if (addItemList != null && !addItemList.isEmpty()) {
-			itemStore.addItem(addItemList);// 新增加
+			// itemStore.addItem(addItemList);// 新增加
 
 			synUpdateItemList.addAll(addItemList);// 修改的数据
 
@@ -341,18 +343,22 @@ public class ItemBagHolder implements RecordSynchronization {
 			}
 		}
 
+		List<String> updateIdList = new ArrayList<String>();
 		List<String> deleteIdList = new ArrayList<String>();
+
 		// 更新
 		if (updateItemList != null && !updateItemList.isEmpty()) {
 			for (int i = 0, size = updateItemList.size(); i < size; i++) {
 				ItemData itemData = updateItemList.get(i);
 				int count = itemData.getCount();
+				String id = itemData.getId();
 				if (count <= 0) {
-					deleteIdList.add(itemData.getId());
-					continue;
+					deleteIdList.add(id);
+				} else {
+					updateIdList.add(id);
 				}
 
-				itemStore.updateItem(itemData);
+				// itemStore.updateItem(itemData);
 			}
 
 			synUpdateItemList.addAll(updateItemList);
@@ -362,6 +368,9 @@ public class ItemBagHolder implements RecordSynchronization {
 		if (deleteIdList != null && !deleteIdList.isEmpty()) {
 			itemStore.removeItem(deleteIdList);
 		}
+
+		// 更新跟增加
+		itemStore.updateItems(addItemList, updateIdList);
 
 		// 推送数据改变
 		if (!synUpdateItemList.isEmpty()) {

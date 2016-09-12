@@ -778,6 +778,24 @@ public final class ResponseProtos {
      */
     com.google.protobuf.ByteString
         getErrorMsgBytes();
+
+    // optional bytes synData = 6;
+    /**
+     * <code>optional bytes synData = 6;</code>
+     *
+     * <pre>
+     *跟随返回的同步数据
+     * </pre>
+     */
+    boolean hasSynData();
+    /**
+     * <code>optional bytes synData = 6;</code>
+     *
+     * <pre>
+     *跟随返回的同步数据
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSynData();
   }
   /**
    * Protobuf type {@code ResponseHeader}
@@ -859,6 +877,11 @@ public final class ResponseProtos {
             case 42: {
               bitField0_ |= 0x00000010;
               errorMsg_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              synData_ = input.readBytes();
               break;
             }
           }
@@ -1055,12 +1078,37 @@ public final class ResponseProtos {
       }
     }
 
+    // optional bytes synData = 6;
+    public static final int SYNDATA_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString synData_;
+    /**
+     * <code>optional bytes synData = 6;</code>
+     *
+     * <pre>
+     *跟随返回的同步数据
+     * </pre>
+     */
+    public boolean hasSynData() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional bytes synData = 6;</code>
+     *
+     * <pre>
+     *跟随返回的同步数据
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSynData() {
+      return synData_;
+    }
+
     private void initFields() {
       token_ = "";
       command_ = com.rwproto.MsgDef.Command.MSG_HeartBeat;
       statusCode_ = 0;
       seqID_ = 0;
       errorMsg_ = "";
+      synData_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1101,6 +1149,9 @@ public final class ResponseProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(5, getErrorMsgBytes());
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, synData_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1129,6 +1180,10 @@ public final class ResponseProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, getErrorMsgBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, synData_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1256,6 +1311,8 @@ public final class ResponseProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         errorMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
+        synData_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1304,6 +1361,10 @@ public final class ResponseProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.errorMsg_ = errorMsg_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.synData_ = synData_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1338,6 +1399,9 @@ public final class ResponseProtos {
           bitField0_ |= 0x00000010;
           errorMsg_ = other.errorMsg_;
           onChanged();
+        }
+        if (other.hasSynData()) {
+          setSynData(other.getSynData());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1668,6 +1732,58 @@ public final class ResponseProtos {
         return this;
       }
 
+      // optional bytes synData = 6;
+      private com.google.protobuf.ByteString synData_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes synData = 6;</code>
+       *
+       * <pre>
+       *跟随返回的同步数据
+       * </pre>
+       */
+      public boolean hasSynData() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bytes synData = 6;</code>
+       *
+       * <pre>
+       *跟随返回的同步数据
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getSynData() {
+        return synData_;
+      }
+      /**
+       * <code>optional bytes synData = 6;</code>
+       *
+       * <pre>
+       *跟随返回的同步数据
+       * </pre>
+       */
+      public Builder setSynData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        synData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes synData = 6;</code>
+       *
+       * <pre>
+       *跟随返回的同步数据
+       * </pre>
+       */
+      public Builder clearSynData() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        synData_ = getDefaultInstance().getSynData();
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ResponseHeader)
     }
 
@@ -1700,11 +1816,12 @@ public final class ResponseProtos {
     java.lang.String[] descriptorData = {
       "\n\016response.proto\032\014MsgDef.proto\"T\n\010Respon" +
       "se\022\037\n\006header\030\001 \002(\0132\017.ResponseHeader\022\032\n\022s" +
-      "erialized_content\030\002 \001(\014\022\013\n\003num\030\003 \001(\005\"v\n\016" +
-      "ResponseHeader\022\r\n\005token\030\001 \002(\t\022 \n\007command" +
-      "\030\002 \002(\0162\017.MsgDef.Command\022\022\n\nStatusCode\030\003 " +
-      "\002(\005\022\r\n\005seqID\030\004 \001(\005\022\020\n\010ErrorMsg\030\005 \001(\tB\035\n\013" +
-      "com.rwprotoB\016ResponseProtos"
+      "erialized_content\030\002 \001(\014\022\013\n\003num\030\003 \001(\005\"\207\001\n" +
+      "\016ResponseHeader\022\r\n\005token\030\001 \002(\t\022 \n\007comman" +
+      "d\030\002 \002(\0162\017.MsgDef.Command\022\022\n\nStatusCode\030\003" +
+      " \002(\005\022\r\n\005seqID\030\004 \001(\005\022\020\n\010ErrorMsg\030\005 \001(\t\022\017\n" +
+      "\007synData\030\006 \001(\014B\035\n\013com.rwprotoB\016ResponseP" +
+      "rotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1722,7 +1839,7 @@ public final class ResponseProtos {
           internal_static_ResponseHeader_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ResponseHeader_descriptor,
-              new java.lang.String[] { "Token", "Command", "StatusCode", "SeqID", "ErrorMsg", });
+              new java.lang.String[] { "Token", "Command", "StatusCode", "SeqID", "ErrorMsg", "SynData", });
           return null;
         }
       };

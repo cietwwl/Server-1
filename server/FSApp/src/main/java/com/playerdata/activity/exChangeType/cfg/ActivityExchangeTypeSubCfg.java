@@ -23,16 +23,13 @@ public class ActivityExchangeTypeSubCfg {
 	
 	private String exchangeneed;	
 	
-	private Map<String, String> changelist = new HashMap<String, String>();
+	private HashMap<Integer, Integer> changelist = new HashMap<Integer, Integer>();
+	
+	private HashMap<Integer,Integer> eSpecialItemChangeList = new HashMap<Integer, Integer>();
+
+	
 
 
-	public Map<String, String> getChangelist() {
-		return changelist;
-	}
-
-	public void setChangelist(Map<String, String> changelist) {
-		this.changelist = changelist;
-	}
 
 	public String getEmailTitle() {
 		return emailTitle;
@@ -100,6 +97,22 @@ public class ActivityExchangeTypeSubCfg {
 
 	public void setExchangeneed(String exchangeneed) {
 		this.exchangeneed = exchangeneed;
+	}
+
+	public HashMap<Integer,Integer> geteSpecialItemChangeList() {
+		return eSpecialItemChangeList;
+	}
+
+	public void seteSpecialItemChangeList(HashMap<Integer,Integer> eSpecialItemChangeList) {
+		this.eSpecialItemChangeList = eSpecialItemChangeList;
+	}
+
+	public HashMap<Integer, Integer> getChangelist() {
+		return changelist;
+	}
+
+	public void setChangelist(HashMap<Integer, Integer> changelist) {
+		this.changelist = changelist;
 	}
 
 		

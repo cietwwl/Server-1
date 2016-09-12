@@ -145,7 +145,7 @@ public class HeroHandler {
 		MsgHeroResponse.Builder msgHeroResponse = MsgHeroResponse.newBuilder();
 		msgHeroResponse.setEventType(eHeroType.USE_EXP);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player)) {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), "还没达到开启的等级", null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.LOW_LEVEL);
 			return msgHeroResponse.build().toByteString();
@@ -327,7 +327,7 @@ public class HeroHandler {
 
 		msgRsp.setEventType(eHeroType.USE_EXP_MAX);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player)) {
 			GameLog.error("佣兵吃经验丹", player.getUserId(), "还没达到开启的等级", null);
 			msgRsp.setEHeroResultType(eHeroResultType.LOW_LEVEL);
 			return msgRsp.build().toByteString();

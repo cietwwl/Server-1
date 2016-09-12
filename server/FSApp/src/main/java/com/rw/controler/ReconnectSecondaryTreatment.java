@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -46,7 +47,7 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 				// 在线情况不处理
 				if (oldCtx == ctx) {
 					GameLog.error("reconnect", userId, "repeat reconnect:"+userId);
-					ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
+					ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request, null);
 					return;
 				}
 			} else {
@@ -63,10 +64,12 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		if (oldCtx != null) {
-			oldCtx.close();
+//			oldCtx.close();
+			UserChannelMgr.KickOffPlayer(oldCtx, nettyControler, userId);
 			GameLog.error("reconnect", userId, "remove old session:" + UserChannelMgr.getCtxInfo(oldCtx));
 		}
 		UserChannelMgr.onBSBegin(userId);
+		ByteString synData = null;
 		try {
 			List<SyncVersion> versionList = reconnectRequest.getVersionListList();
 			if (versionList != null) {
@@ -76,9 +79,9 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 				player.synByVersion(Collections.EMPTY_LIST);
 			}
 		} finally {
-			UserChannelMgr.onBSEnd(userId);
+			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}
-		ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
+		ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request, synData);
 	}
 
 }

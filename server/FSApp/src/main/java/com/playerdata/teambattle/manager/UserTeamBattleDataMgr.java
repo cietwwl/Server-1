@@ -46,12 +46,15 @@ public class UserTeamBattleDataMgr {
 		if(StringUtils.isBlank(utbData.getTeamID())) return;
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 		if(teamItem != null) {
-			TeamMember self = teamItem.findMember(userID);
-			if(null != self){
-				if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
-					teamItem.removeMember(self);
-					if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
-						TBTeamItemHolder.getInstance().synData(teamItem);
+			synchronized (teamItem) {
+				TeamMember self = teamItem.findMember(userID);
+				if(null != self){
+					if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
+						teamItem.removeMember(self);
+						TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
+						if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
+							TBTeamItemHolder.getInstance().synData(teamItem);
+						}
 					}
 				}
 			}
@@ -77,9 +80,10 @@ public class UserTeamBattleDataMgr {
 		TeamHardInfo thInfo = utbData.getFinishedHardMap().get(hardID);
 		if(null == thInfo) return true;
 		int totalTimes = teamCfg.getTimes();
+		TBBuyCostCfgDAO tbBuyCostCfgDAO = TBBuyCostCfgDAO.getInstance();
 		for(int i = 1; i <= thInfo.getBuyTimes(); i++){
 			String buyId = hardID + "_" + i;
-			TBBuyCostCfg buyCfg = TBBuyCostCfgDAO.getInstance().getCfgById(buyId);
+			TBBuyCostCfg buyCfg = tbBuyCostCfgDAO.getCfgById(buyId);
 			if(null == buyCfg) continue;
 			totalTimes += buyCfg.getNumbers();
 		}

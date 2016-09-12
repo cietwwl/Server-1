@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -17,7 +18,7 @@ public class UserMagicSecretData {
 	private String userId; // 用户ID
 
 	@CombineSave
-	private String secretArmy; // 战斗队伍情况
+	private String secretArmy = ""; // 战斗队伍情况
 
 	@CombineSave
 	int historyScore; // 历史积分
@@ -39,6 +40,14 @@ public class UserMagicSecretData {
 
 	@CombineSave
 	private String currentDungeonID = null; // 正在打的副本
+	
+	@CombineSave
+	@IgnoreSynField
+	private boolean isBuffSelectAble;
+	
+	@CombineSave
+	@IgnoreSynField
+	private boolean isBoxOpenAble;
 	
 	public UserMagicSecretData(String userId) {
 		this.userId = userId; 
@@ -120,6 +129,22 @@ public class UserMagicSecretData {
 		this.currentDungeonID = currentDungeonID;
 	}
 	
+	public boolean isBuffSelectAble() {
+		return isBuffSelectAble;
+	}
+
+	public void setBuffSelectAble(boolean isBuffSelectAble) {
+		this.isBuffSelectAble = isBuffSelectAble;
+	}
+
+	public boolean isBoxOpenAble() {
+		return isBoxOpenAble;
+	}
+
+	public void setBoxOpenAble(boolean isBoxOpenAble) {
+		this.isBoxOpenAble = isBoxOpenAble;
+	}
+
 	public void saveDailyScoreData(){
 		historyScore += todayScore;
 		todayScore = 0;

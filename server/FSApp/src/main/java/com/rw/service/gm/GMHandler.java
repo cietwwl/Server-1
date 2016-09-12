@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -15,6 +17,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
@@ -55,6 +58,7 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
@@ -63,8 +67,11 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
@@ -72,6 +79,7 @@ import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -89,7 +97,7 @@ public class GMHandler {
 	}
 
 	private void initMap() {
-		
+
 		funcCallBackMap.put("additem", "addItem");
 		funcCallBackMap.put("addpower", "addPower");
 		funcCallBackMap.put("addcoin", "addCoin");
@@ -173,16 +181,16 @@ public class GMHandler {
 
 		// 道术
 		funcCallBackMap.put("setalltaoist", "setAllTaoist");
-		
+
 		// 设置帮战阶段
 		funcCallBackMap.put("setgfstate", "setGFightState");
 		funcCallBackMap.put("setgfauto", "setGFightAutoState");
-		
-		//添加帮派物资
+
+		// 添加帮派物资
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
-		//添加帮派副本战斗次数    * setgbf 1000
+		// 添加帮派副本战斗次数 * setgbf 1000
 		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
-		
+
 		// 聊天消息测试
 		funcCallBackMap.put("getprivatechatlist", "getPrivateChatList");
 		funcCallBackMap.put("sendinteractivedata", "sendInteractiveData");
@@ -190,16 +198,21 @@ public class GMHandler {
 
 		funcCallBackMap.put("addwakenpiece", "addWakenPiece");
 		funcCallBackMap.put("addwakenkey", "addWakenKey");
-		
+
 		funcCallBackMap.put("shutdown", "shutdownServer");
-		
+
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
-		
+
 		funcCallBackMap.put("adddist", "addDistCount");
-		
+
 		funcCallBackMap.put("speedupscecret", "speedUpSecret");
 		funcCallBackMap.put("finishsecret", "finishSecret");
+
+		// 批量添加物品
+		funcCallBackMap.put("addbatchitem", "addBatchItem");
+		
+		funcCallBackMap.put("emptybag", "emptyBag");
 	}
 
 	public boolean isActive() {
@@ -220,11 +233,11 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
-	public boolean SetGroupSupplier(String[] comd, Player player){
+
+	public boolean SetGroupSupplier(String[] comd, Player player) {
 		boolean result = true;
 		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
-		if(group == null){
+		if (group == null) {
 			return false;
 		}
 		group.getGroupBaseDataMgr().setGroupSupplier(100000);
@@ -237,7 +250,9 @@ public class GMHandler {
 		GameLog.info("GM", "reloadConfig", "start", null);
 		boolean result = true;
 		for (int i = 0; i < arrCommandContents.length; i++) {
-			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+			String clname = arrCommandContents[i];
+			clname = CfgCsvReloader.findClassName(clname);
+			result = result && reloadConfigByHelperClass(clname);
 		}
 		GameLog.info("GM", "reloadConfig", "finished", null);
 		return result;
@@ -263,7 +278,7 @@ public class GMHandler {
 		GameLog.info("GM", "endBTsweep ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean setBattleTowerKey(String[] arrCommandContents, Player player) {
 		GameLog.info("GM", "setBattleTowerKey", "start", null);
 		boolean result = true;
@@ -291,7 +306,7 @@ public class GMHandler {
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean setBattleTowerLeftTime(String[] arrCommandContents, Player player) {
 		GameLog.info("GM", "setBattleTowerLeftTime", "start", null);
 		boolean result = true;
@@ -308,7 +323,7 @@ public class GMHandler {
 		GameLog.info("GM", "setBattleTowerLeftTime " + "finished", null);
 		return result;
 	}
-	
+
 	public boolean setBattleTowerFloor(String[] arrCommandContents, Player player) {
 		GameLog.info("GM", "setBattleTowerFloor", "start", null);
 		boolean result = true;
@@ -385,7 +400,7 @@ public class GMHandler {
 		int fashionId = Integer.parseInt(arrCommandContents[0]);
 		int minutes = Integer.parseInt(arrCommandContents[1]);
 		FashionMgr mgr = player.getFashionMgr();
-		return mgr.giveFashionItem(fashionId,minutes,false,true,TimeUnit.MINUTES);
+		return mgr.giveFashionItem(fashionId, minutes, false, true, TimeUnit.MINUTES);
 	}
 
 	// 钓鱼台配置更新并重新生成热点数据
@@ -503,14 +518,14 @@ public class GMHandler {
 		}
 		String heroId = arrCommandContents[0];
 		if (player != null) {
-//			player.getHeroMgr().addHero(heroId);
+			// player.getHeroMgr().addHero(heroId);
 			player.getHeroMgr().addHero(player, heroId);
 			return true;
 		}
 		return false;
 	}
 
-	public boolean addFixEquipItem(String[] arrCommandContents,Player player){
+	public boolean addFixEquipItem(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -523,9 +538,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	
-	
+
 	public boolean addCoin(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -542,27 +555,24 @@ public class GMHandler {
 		//
 		return false;
 	}
-	
-	public boolean addSecretKeycount(String[] arrCommandContents, Player player){
+
+	public boolean addSecretKeycount(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
 		}
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			
+
 			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 			baseDataMgr.updateBuyKeyData(player, addNum);
-			
+
 			return true;
 		}
 		return false;
 	}
-	
-	
-	
-	
-	public boolean addWakenPiece(String[] arrCommandContents, Player player){
+
+	public boolean addWakenPiece(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -574,8 +584,8 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	public boolean addWakenKey(String[] arrCommandContents, Player player){
+
+	public boolean addWakenKey(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -765,7 +775,7 @@ public class GMHandler {
 		if (arrCommandContents.length == 1) {
 			long addExp = Long.parseLong(arrCommandContents[0]);
 			if (player != null) {
-//				player.getHeroMgr().AddAllHeroExp(addExp);
+				// player.getHeroMgr().AddAllHeroExp(addExp);
 				player.getHeroMgr().AddAllHeroExp(player, addExp);
 				return true;
 			}
@@ -775,7 +785,7 @@ public class GMHandler {
 		int heroId = Integer.parseInt(arrCommandContents[0]);
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
-//			player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
+			// player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
 			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
 			return true;
 		}
@@ -967,7 +977,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean teamBringitSigle(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
 		// return false;
@@ -978,7 +988,7 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean addHero1(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
 		// return false;
@@ -1053,7 +1063,7 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			// hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
 			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
@@ -1099,7 +1109,7 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-//			hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			// hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
 			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
@@ -1241,7 +1251,7 @@ public class GMHandler {
 
 		return true;
 	}
-	
+
 	public boolean setGFightState(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 2) {
 			return false;
@@ -1249,7 +1259,7 @@ public class GMHandler {
 		GFightStateTransfer.getInstance().transferToState(Integer.valueOf(arrCommandContents[0]), Integer.valueOf(arrCommandContents[1]));
 		return true;
 	}
-	
+
 	public boolean setGFightAutoState(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length != 1) {
 			return false;
@@ -1257,7 +1267,7 @@ public class GMHandler {
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
-	
+
 	public boolean getPrivateChatList(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
@@ -1286,7 +1296,7 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
+
 	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
@@ -1299,7 +1309,7 @@ public class GMHandler {
 			int minute = now.get(Calendar.MINUTE);
 			int hour = now.get(Calendar.HOUR_OF_DAY);
 			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
-			if(type.equals("1")) {
+			if (type.equals("1")) {
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(targetUserId));
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
@@ -1308,14 +1318,14 @@ public class GMHandler {
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(player, targetUserId, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
 			}
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
+
 	public boolean receiveInteractiveData(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
@@ -1329,7 +1339,7 @@ public class GMHandler {
 			int hour = now.get(Calendar.HOUR_OF_DAY);
 			String time = (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
 			Player sender = PlayerMgr.getInstance().find(targetUserId);
-			if(type.equals("1")) {
+			if (type.equals("1")) {
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsg(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給幫會", "1", "1;2;3;4", Arrays.asList(player.getUserId()));
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給個人", "4", "01;02;03;04");
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TREASURE, time + " : " + "幫派秘境：發給世界", "3", "TO;THE;WORLD;HAHA");
@@ -1338,7 +1348,7 @@ public class GMHandler {
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToSomeone(sender, player.getUserId(), ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給個人", "4", "01;02;03;04");
 				com.bm.chat.ChatBM.getInstance().sendInteractiveMsgToWorld(sender, ChatInteractiveType.TEAM, time + " : " + "組隊邀請：發給世界", "3", "TO;THE;WORLD;HAHA");
 			}
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1346,46 +1356,46 @@ public class GMHandler {
 		}
 	}
 
-	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
-		
+	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player) {
+
 		int count = Integer.parseInt(arrcomStrings[0]);
-		if(count <= 0){
+		if (count <= 0) {
 			return false;
 		}
-		
+
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
 		return true;
 	}
-	
+
 	public boolean shutdownServer(String[] arrCommandContents, Player player) {
 		com.rw.manager.GameManager.shutdown();
 		return true;
 	}
 
-	public boolean addDistCount(String[] str, Player player){
+	public boolean addDistCount(String[] str, Player player) {
 		int count = Integer.parseInt(str[0]);
-		if(count <= 0){
+		if (count <= 0) {
 			return false;
 		}
-		
+
 		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
-		if(group != null){
-			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		if (group != null) {
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(), count, false);
 		}
 		return true;
 	}
-	
-	public boolean addServerStatusTips(String[] arrCommandContents, Player player){
+
+	public boolean addServerStatusTips(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length != 1) {
 			return false;
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
 		return true;
 	}
-	
+
 	public boolean speedUpSecret(String[] arrCommandContents, Player player) {
 		String targetUserId;
-		if(arrCommandContents != null && arrCommandContents.length > 0) {
+		if (arrCommandContents != null && arrCommandContents.length > 0) {
 			targetUserId = arrCommandContents[0];
 		} else {
 			targetUserId = player.getUserId();
@@ -1399,20 +1409,79 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean finishSecret(String[] arrCommandContents, Player player) {
 		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
 		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
 		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
-//			if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
-//				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
-//			}
-			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
+			// if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
+			// tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+			// }
+			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(
+					tempData.getSecretId());
 			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 			long suppose = tempData.getCreateTime() + millis;
-			if(suppose > System.currentTimeMillis()) {
+			if (suppose > System.currentTimeMillis()) {
 				tempData.setCreateTime(tempData.getCreateTime() - (suppose - System.currentTimeMillis()));
 			}
+		}
+		return true;
+	}
+
+	/**
+	 * 批量添加物品
+	 * 
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean addBatchItem(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+
+		Map<Integer, Integer> map = HPCUtil.parseIntegerMap(arrCommandContents[0], ",", "_");
+		if (map == null || map.isEmpty()) {
+			return false;
+		}
+
+		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(map.size());
+		for (Entry<Integer, Integer> e : map.entrySet()) {
+			int value = e.getValue().intValue();
+			if (value <= 0) {
+				continue;
+			}
+
+			ItemInfo itemInfo = new ItemInfo();
+			itemInfo.setItemID(e.getKey().intValue());
+			itemInfo.setItemNum(value);
+			itemInfoList.add(itemInfo);
+		}
+
+		if (itemInfoList.isEmpty()) {
+			return true;
+		}
+
+		return player.getItemBagMgr().addItem(itemInfoList);
+	}
+	
+	public boolean emptyBag(String[] arrCommandContents, Player player) {
+		List<ItemData> list = new ArrayList<ItemData>();
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.HeroEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.RoleEquip));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.SoulStone));
+		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem));
+		List<IUseItem> items = new ArrayList<IUseItem>(list.size());
+		List<INewItem> newItems = new ArrayList<INewItem>();
+		for(ItemData itemData : list) {
+			items.add(new UseItem(itemData.getId(), itemData.getCount()));
+		}
+		try {
+			player.getItemBagMgr().updateItemBag(player, items, newItems);
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 		return true;
 	}

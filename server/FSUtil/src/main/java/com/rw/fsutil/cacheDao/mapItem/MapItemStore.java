@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.dao.DuplicateKeyException;
-
+import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.ItemNotExistException;
 import com.rw.fsutil.dao.common.CommonMultiTable;
 
 public class MapItemStore<T extends IMapItem> {
@@ -31,8 +29,10 @@ public class MapItemStore<T extends IMapItem> {
 	private final boolean writeDirect; // 写操作立刻更新数据库
 
 	private DataUpdater<String> updater;
+	
+	private final Integer type;
 
-	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater, boolean writeDirect) {
+	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater, boolean writeDirect,Integer type) {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
@@ -46,6 +46,7 @@ public class MapItemStore<T extends IMapItem> {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
 		this.writeDirect = writeDirect;
+		this.type = type;
 	}
 
 	public MapItemStore(String searchFieldP, String searchIdP, Class<T> clazzP) {
@@ -121,22 +122,16 @@ public class MapItemStore<T extends IMapItem> {
 	}
 
 	private boolean addItem(List<T> itemList, boolean record) throws DuplicatedKeyException {
-		int size = itemList.size();
-		for (int i = size; --i >= 0;) {
-			T t = itemList.get(i);
-			if (itemMap.containsKey(t.getId())) {
-				throw new DuplicatedKeyException("item id:" + t.getId());
-			}
-		}
+		checkAddList(itemList);
 		try {
-			commonJdbc.insert(searchId, itemList);
+			commonJdbc.insert_(searchId, itemList, type);
 		} catch (DuplicatedKeyException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		for (int i = size; --i >= 0;) {
+		for (int i = itemList.size(); --i >= 0;) {
 			T t = itemList.get(i);
 			itemMap.put(t.getId(), t);
 		}
@@ -151,12 +146,11 @@ public class MapItemStore<T extends IMapItem> {
 	 * 添加一组数据
 	 * </pre>
 	 * 
-	 * @param itemList
-	 *            添加列表
+	 * @param itemList 添加列表
 	 * @return
 	 * @throws DuplicatedKeyException
 	 */
-	public boolean addItem(List<T> itemList) throws DuplicatedKeyException {
+	public synchronized boolean addItem(List<T> itemList) throws DuplicatedKeyException {
 		return addItem(itemList, true);
 	}
 
@@ -165,14 +159,16 @@ public class MapItemStore<T extends IMapItem> {
 	 * 添加一组数据并更新一组数据，若添加操作失败，则不执行更新操作
 	 * </pre>
 	 * 
-	 * @param addList
-	 *            添加列表
-	 * @param updateList
-	 *            更新列表
+	 * @param addList 添加列表
+	 * @param updateList 更新列表
 	 * @return
 	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
-	public boolean updateItems(List<T> addList, List<String> updateList) throws DuplicatedKeyException {
+	public synchronized boolean updateItems(List<T> addList, List<String> updateList) throws DuplicatedKeyException {
+		if (addList == null || addList.isEmpty()) {
+			updateItems(updateList);
+			return true;
+		}
 		if (addItem(addList, false)) {
 			return false;
 		}
@@ -186,19 +182,28 @@ public class MapItemStore<T extends IMapItem> {
 	 * 批量执行添加、删除、更新操作，其中添加和删除操作保证原子性，若失败则不会执行更新操作
 	 * </pre>
 	 * 
-	 * @param addList
-	 *            添加列表
-	 * @param delList
-	 *            删除列表
-	 * @param updateList
-	 *            更新列表
+	 * @param addList 添加列表
+	 * @param delList 删除列表
+	 * @param updateList 更新列表
 	 * @return
-	 * @throws ItemNotExistException 	删除记录不存在抛出此异常
-	 * @throws DuplicatedKeyException 	重复主键抛出此异常
+	 * @throws ItemNotExistException 删除记录不存在抛出此异常
+	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
-	public boolean updateItems(List<T> addList, List<String> delList, List<String> updateList) throws DuplicatedKeyException, ItemNotExistException {
+	public synchronized boolean updateItems(List<T> addList, List<String> delList, List<String> updateList) throws DuplicatedKeyException, DataNotExistException {
+		if (delList == null || delList.isEmpty()) {
+			return updateItems(addList, updateList);
+		}
+		checkAddList(addList);
+		checkRemoveList(delList);
 		if (!commonJdbc.insertAndDelete(searchId, addList, delList)) {
 			return false;
+		}
+		for (int i = addList.size(); --i >= 0;) {
+			T t = addList.get(i);
+			itemMap.put(t.getId(), t);
+		}
+		for (int i = delList.size(); --i >= 0;) {
+			itemMap.remove(delList.get(i));
 		}
 		updateItems(updateList, true);
 		return true;
@@ -210,7 +215,7 @@ public class MapItemStore<T extends IMapItem> {
 	 * @param item
 	 * @return
 	 */
-	public boolean addItem(T item) {
+	public synchronized boolean addItem(T item) {
 		String key = item.getId();
 		if (itemMap.containsKey(key)) {
 			return false;
@@ -237,7 +242,7 @@ public class MapItemStore<T extends IMapItem> {
 	 * @param id
 	 * @return
 	 */
-	public boolean removeItem(String id) {
+	public synchronized boolean removeItem(String id) {
 		if (!itemMap.containsKey(id)) {
 			return false;
 		}
@@ -267,7 +272,10 @@ public class MapItemStore<T extends IMapItem> {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<String> removeItem(List<String> list) {
+	public synchronized List<String> removeItem(List<String> list) {
+		if (list == null || list.isEmpty()) {
+			return Collections.emptyList();
+		}
 		List<String> result;
 		try {
 			result = commonJdbc.delete(searchId, list);
@@ -294,15 +302,18 @@ public class MapItemStore<T extends IMapItem> {
 		if (size == 0) {
 			return true;
 		}
-		List<String> result;
-		try {
-			result = commonJdbc.delete(searchId, list);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		for (int i = result.size(); --i >= 0;) {
-			itemMap.remove(result.get(i));
+		synchronized (this) {
+			List<String> result;
+			try {
+				result = commonJdbc.delete(searchId, list);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+			for (int i = result.size(); --i >= 0;) {
+				itemMap.remove(result.get(i));
+			}
+			updater.submitRecordTask(searchId);
 		}
 		return true;
 	}
@@ -384,5 +395,23 @@ public class MapItemStore<T extends IMapItem> {
 	 */
 	public List<String> getReadOnlyKeyList() {
 		return new ArrayList<String>(itemMap.keySet());
+	}
+
+	private void checkAddList(List<T> itemList) throws DuplicatedKeyException {
+		for (int i = itemList.size(); --i >= 0;) {
+			T t = itemList.get(i);
+			if (itemMap.containsKey(t.getId())) {
+				throw new DuplicatedKeyException("item id:" + t.getId());
+			}
+		}
+	}
+
+	private void checkRemoveList(List<String> itemList) throws DataNotExistException {
+		for (int i = itemList.size(); --i >= 0;) {
+			String id = itemList.get(i);
+			if (!itemMap.containsKey(id)) {
+				throw new DataNotExistException("item id:" + id);
+			}
+		}
 	}
 }

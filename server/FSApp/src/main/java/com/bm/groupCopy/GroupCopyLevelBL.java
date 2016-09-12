@@ -72,7 +72,7 @@ public class GroupCopyLevelBL {
 			for (CopyMonsterInfoCfg monsterCfg : list) {
 				for (String id : monsterCfg.getEnemyList()) {
 					
-					monster = MonsterCfgDao.getInstance().getCfgById(id);
+					monster = MonsterCfgDao.getInstance().getConfig(id);
 					if(monster == null){
 						GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,找不到关卡：【" + level + "】里的怪物["+id+"]！！", null);
 						continue;
@@ -120,7 +120,7 @@ public class GroupCopyLevelBL {
 				}
 				
 				
-				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  后面要改为==
+				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
@@ -129,8 +129,9 @@ public class GroupCopyLevelBL {
 					lvRecord.setLastBeginFightTime(System.currentTimeMillis());
 					GroupCopyProgress progress = lvRecord.getProgress();
 					if(progress == null){
-						progress = GroupCopyLevelBL.createProgress(lvRecord.getLevelID());
-						lvRecord.setProgress(progress);
+						result.setSuccess(false);
+						result.setTipMsg("数据错误!");
+						return result;
 					}
 					
 					
@@ -224,7 +225,7 @@ public class GroupCopyLevelBL {
 	 */
 	public static GroupCopyResult endFight(Player player, 
 			GroupCopyLevelRecordHolder recordHolder,String level,
-			List<GroupCopyMonsterSynStruct> mData, int damage) {
+			List<GroupCopyMonsterSynStruct> mData, long damage) {
 		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		StringBuilder reason = new StringBuilder();
@@ -317,7 +318,7 @@ public class GroupCopyLevelBL {
 	 * @param damage TODO
 	 */
 	private static Builder calculateAndSendReward(double befPro, double nowPro,
-			String level, Player player, int damage) {
+			String level, Player player, long damage) {
 		if(damage == 0 ){
 			//没有任何伤害不发奖励
 			return null;
@@ -371,9 +372,9 @@ public class GroupCopyLevelBL {
 		}
 		
 		//个人奖励的 金币=min（伤害*0.05，100000）
-		damage = (int)(damage*0.05 > 100000 ? 100000 : damage*0.05);
-		damage = damage > 0 ? damage : 0;
-		rewardInfo.setGold(damage);//暂时这样计算
+		int gold = (int) (damage*0.05 > 100000 ? 100000 : damage*0.05);
+		gold = gold > 0 ? gold : 0;
+		rewardInfo.setGold(gold);//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());

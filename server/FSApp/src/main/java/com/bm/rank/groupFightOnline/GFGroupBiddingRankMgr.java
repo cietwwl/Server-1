@@ -87,7 +87,7 @@ public class GFGroupBiddingRankMgr {
 	public static List<GFGroupBiddingItem> getGFGroupBidRankList(int resourceID, int maxSize) {
 		List<GFGroupBiddingItem> itemList = new ArrayList<GFGroupBiddingItem>();
 		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
-		EnumerateList<? extends MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem>> it = ranking.getEntriesEnumeration();
+		EnumerateList<? extends MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem>> it = ranking.getEntriesEnumeration(1, maxSize);
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = it.nextElement();
 			GFGroupBiddingComparable bidComparable = entry.getComparable();
@@ -99,7 +99,6 @@ public class GFGroupBiddingRankMgr {
 				bidItem.setGroupName(group.getGroupBaseDataMgr().getGroupData().getGroupName());
 			}
 			itemList.add(bidItem);
-			if(itemList.size() >= maxSize) break;
 		}
 		return itemList;
 	}

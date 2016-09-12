@@ -36,7 +36,7 @@ import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipResponse;
 import com.rwproto.EquipProtos.TagMate;
@@ -109,12 +109,12 @@ public class EquipHandler {
 	 * @param skillList
 	 * @return
 	 */
-	private List<SkillBaseInfo> parseSkill2BaseInfoList(List<Skill> skillList, boolean isOld) {
+	private List<SkillBaseInfo> parseSkill2BaseInfoList(List<SkillItem> skillList, boolean isOld) {
 		int size = skillList.size();
 
 		List<SkillBaseInfo> baseInfoList = new ArrayList<SkillBaseInfo>(size);
 		for (int i = 0; i < size; i++) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			int level = skill.getLevel();
 			if ((isOld && level > 0) || (!isOld && level <= 0)) {
 				continue;
@@ -332,11 +332,14 @@ public class EquipHandler {
 			return idMap;
 		}
 
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+
 		for (Entry<Integer, Integer> e : mateMap.entrySet()) {
 			int templateId = e.getKey();// 需要的材料模版Id
 			int count = e.getValue() * needCount;// 需要的数量
 
-			int bagCount = itemBagMgr.getItemCountByModelId(templateId);
+			RefInt refInt = modelCountMap.get(templateId);
+			int bagCount = refInt == null ? 0 : refInt.value;
 			if (bagCount < count) {// 如果数量不足，检查是否还能有其他材料辅助合成
 				int canUseCount = count - bagCount;
 				Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, templateId, canUseCount, out);// 需要的辅助材料实际要消耗数量
@@ -403,10 +406,15 @@ public class EquipHandler {
 			return -1;
 		}
 
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+
 		for (Entry<Integer, Integer> e : composeNeedMateMap.entrySet()) {
 			int mateId = e.getKey().intValue();
 			int needCount = e.getValue().intValue();
-			if (itemBagMgr.getItemCountByModelId(mateId) < needCount) {
+
+			RefInt refInt = modelCountMap.get(mateId);
+			int count = refInt == null ? 0 : refInt.value;
+			if (count < needCount) {
 				return 0;
 			}
 		}

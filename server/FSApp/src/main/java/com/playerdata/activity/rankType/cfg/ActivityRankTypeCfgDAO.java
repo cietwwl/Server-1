@@ -1,6 +1,7 @@
 package com.playerdata.activity.rankType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.rankType.ActivityRankTypeEnum;
 import com.playerdata.activity.rankType.ActivityRankTypeHelper;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
@@ -24,43 +26,34 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @Description 帮派的基础配置表Dao
  */
 public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg> {
-
-
 	
 	public static ActivityRankTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityRankTypeCfgDAO.class);
-	}
+	}	
 	
-	
-	
+	private HashMap<String, List<ActivityRankTypeCfg>> cfgListMapByEnumid;
 	
 	@Override
 	public Map<String, ActivityRankTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRankTypeCfg.csv", ActivityRankTypeCfg.class);
 		for (ActivityRankTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
-			
-			
+			parseTime(cfgTmp);			
 		}
-		
+		HashMap<String, List<ActivityRankTypeCfg>> cfgListMapByEnumidTmp = new HashMap<String, List<ActivityRankTypeCfg>>();
+		for(ActivityRankTypeCfg cfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgListMapByEnumidTmp);
+		}
+		this.cfgListMapByEnumid = cfgListMapByEnumidTmp;
 		return cfgCacheMap;
 	}
 	
 	private void parseTime(ActivityRankTypeCfg cfg){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getStartTimeStr());
-		cfg.setStartTime(startTime);
-		
+		cfg.setStartTime(startTime);		
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getEndTimeStr());
 		cfg.setEndTime(endTime);		
 	}
 	
-	
-	
-//	public ActivityRankTypeCfg getConfig(String id){
-//		ActivityRankTypeCfg cfg = getCfgById(id);
-//		return cfg;
-//	}
-//	
 	public ActivityRankTypeItem newItem(Player player, ActivityRankTypeCfg cfgById){
 		if(cfgById!=null){			
 			ActivityRankTypeItem item = new ActivityRankTypeItem();
@@ -73,22 +66,22 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 			return item;
 		}else{
 			return null;
-		}
-		
+		}		
 	}
-
-
-
 
 	public ActivityRankTypeCfg getCfgById(ActivityRankTypeItem targetItem) {
 		String id = targetItem.getCfgId();
 		String enumId = targetItem.getEnumId();
 		List<ActivityRankTypeCfg> cfgListByItem = new ArrayList<ActivityRankTypeCfg>();
-		List<ActivityRankTypeCfg> cfgList = getAllCfg();
+		List<ActivityRankTypeCfg> cfgList = cfgListMapByEnumid.get(enumId);
+		if(cfgList == null || cfgList.isEmpty()){
+			return null;
+		}
+		ActivityRankTypeMgr activityRankTypeMgr = ActivityRankTypeMgr.getInstance();
 		for(ActivityRankTypeCfg cfg : cfgList){
-			if(!StringUtils.equals(id, cfg.getId())&&StringUtils.equals(enumId, cfg.getEnumId())&&ActivityRankTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(id, cfg.getId())&&activityRankTypeMgr.isOpen(cfg)){
 				cfgListByItem.add(cfg);
-			}			
+			}
 		}
 		if(cfgListByItem.size() > 1){
 			GameLog.error(LogModule.ComActivityRank, null, "发现了两个以上开放的活动,活动枚举为="+ enumId, null);
@@ -96,22 +89,16 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 		}
 		if(cfgListByItem.size() == 1){
 			return cfgListByItem.get(0);
-		}
-		
+		}		
 		return null;
 	}
-
-
 
 	/**根据传来的enumId,找出同类活动里处于派发状态的cfg*/
 	public ActivityRankTypeCfg getCfgByModleCfgEnumId(String enumId) {
 		ActivityRankTypeCfg cfgIsOpen = null;
-		List<ActivityRankTypeCfg> allCfgList = getAllCfg();
-		List<ActivityRankTypeCfg> cfgListByEnumId = new ArrayList<ActivityRankTypeCfg>();
-		for(ActivityRankTypeCfg cfg : allCfgList){
-			if(StringUtils.equals(cfg.getEnumId(), enumId)){
-				cfgListByEnumId.add(cfg);
-			}
+		List<ActivityRankTypeCfg> cfgListByEnumId = cfgListMapByEnumid.get(enumId);
+		if(cfgListByEnumId == null || cfgListByEnumId.isEmpty()){
+			return cfgIsOpen;
 		}
 		long now = System.currentTimeMillis();
 		for(ActivityRankTypeCfg cfg : cfgListByEnumId){//有活动处于激活状态
@@ -144,6 +131,4 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 		}
 		return cfgIsOpen;
 	}
-
-
 }

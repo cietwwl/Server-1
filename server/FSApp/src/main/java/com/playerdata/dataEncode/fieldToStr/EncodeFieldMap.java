@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.dataEncode.ClassInfo4Encode;
 import com.playerdata.dataEncode.DataEncodeHelper;
 import com.playerdata.dataEncode.IFieldToStr;
+import com.playerdata.dataEncode.Node.NodeMaper;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 
@@ -22,14 +23,14 @@ public class EncodeFieldMap implements IFieldToStr {
 	private FieldType keyGenericType;
 	private ClassInfo4Encode genericClassInfo;
 
-	public EncodeFieldMap(Field fieldP) {
+	public EncodeFieldMap(Field fieldP, NodeMaper nodeMaper) {
 		field = fieldP;
 		Class<?> keyGenericClass = FieldTypeHelper.getGenericClass(fieldP);
 		Class<?> valueGenericClass = FieldTypeHelper.getSecondGenericClass(fieldP);
 		keyGenericType = FieldTypeHelper.getFieldType(keyGenericClass);
 		valueGenericType = FieldTypeHelper.getFieldType(valueGenericClass);
 		if(valueGenericType ==  FieldType.Class){
-			genericClassInfo = new ClassInfo4Encode(valueGenericClass);
+			genericClassInfo = new ClassInfo4Encode(valueGenericClass,nodeMaper);
 		}
 	}
 

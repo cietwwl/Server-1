@@ -1,6 +1,10 @@
 package com.playerdata.activity.VitalityType;
 
+import java.util.HashMap;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
 
 public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	Vitality("59999"),
@@ -56,17 +60,19 @@ public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	}
 	
 	
-	public static ActivityVitalityTypeEnum getById(String cfgId){
-		ActivityVitalityTypeEnum target = null;
-		for (ActivityVitalityTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
+	private static HashMap<String, ActivityVitalityTypeEnum> map;
+
+	static {
+		ActivityVitalityTypeEnum[] array = values();
+		map = new HashMap<String, ActivityVitalityTypeEnum>();
+		for (int i = 0; i < array.length; i++) {
+			ActivityVitalityTypeEnum typeEnum = array[i];
+			map.put(typeEnum.getCfgId(), typeEnum);
+		}
 	}
 
+	public static ActivityVitalityTypeEnum getById(String cfgId) {
+		return map.get(cfgId);
+	}
 	
 }

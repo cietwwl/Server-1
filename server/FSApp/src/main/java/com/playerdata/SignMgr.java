@@ -15,6 +15,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
 import com.rwbase.dao.sign.SignStatisticsCfgDAO;
@@ -239,13 +240,29 @@ public class SignMgr implements PlayerEventListener {
 	 * @param count
 	 */
 	private void sendReward(String itemId, int count) {
+		this.sendReward(itemId, count, true);
+	}
+	
+	/**
+	 * 
+	 * 发送奖励物品
+	 * 
+	 * @param itemId
+	 * @param count
+	 * @param sendIfItem 如果是道具，是否也发送
+	 * @return itemId是否道具
+	 */
+	private boolean sendReward(String itemId, int count, boolean sendIfItem) {
 		if (isNumberic(itemId)) {
-			player.getItemBagMgr().addItem(Integer.valueOf(itemId), count);
+			if (sendIfItem) {
+				player.getItemBagMgr().addItem(Integer.valueOf(itemId), count);
+			}
+			return true;
 		} else {
 			for (int i = 0; i < count; i++) {
-//				player.getHeroMgr().addHero(itemId);
 				player.getHeroMgr().addHero(player, itemId);
 			}
+			return false;
 		}
 	}
 
@@ -671,12 +688,22 @@ public class SignMgr implements PlayerEventListener {
 			String reward = cfg.getReward();
 			// 发送奖励
 			String[] split = reward.split(";");
+			String cfgId;
+			int count = 0;
+			List<ItemInfo> list = new ArrayList<ItemInfo>();
 			for (String value : split) {
 				String[] split2 = value.split(",");
 				if (split2.length < 2) {
 					continue;
 				}
-				sendReward(split2[0], Integer.parseInt(split2[1]));
+				cfgId = split2[0];
+				count = Integer.parseInt(split2[1]);
+				if (sendReward(cfgId, count, false)) {
+					list.add(new ItemInfo(Integer.parseInt(cfgId), count));
+				}
+			}
+			if(list.size() > 0) {
+				player.getItemBagMgr().addItem(list);
 			}
 			return null;
 		}else{

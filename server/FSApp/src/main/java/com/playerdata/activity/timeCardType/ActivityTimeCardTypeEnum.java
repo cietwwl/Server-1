@@ -1,9 +1,9 @@
 package com.playerdata.activity.timeCardType;
 
-import org.apache.commons.lang3.StringUtils;
+
 
 public enum ActivityTimeCardTypeEnum { // implements TypeIdentification
-	Month("1");
+	Month("100001");
 
 	private String cfgId;
 
@@ -14,17 +14,12 @@ public enum ActivityTimeCardTypeEnum { // implements TypeIdentification
 	public String getCfgId() {
 		return cfgId;
 	}
-
+	
 	public static ActivityTimeCardTypeEnum getById(String cfgId) {
-		ActivityTimeCardTypeEnum target = null;
-		for (ActivityTimeCardTypeEnum enumTmp : values()) {
-			if (StringUtils.equals(cfgId, enumTmp.getCfgId())) {
-				target = enumTmp;
-				break;
-			}
+		if (Month.cfgId.equals(cfgId)) {
+			return Month;
+		} else {
+			return null;
 		}
-
-		return target;
 	}
-
 }

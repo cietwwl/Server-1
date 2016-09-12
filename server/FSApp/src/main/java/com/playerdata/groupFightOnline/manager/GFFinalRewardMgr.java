@@ -28,10 +28,11 @@ public class GFFinalRewardMgr {
 		GFFinalRewardItem item = GFFinalRewardItemHolder.getInstance().getGFReward(player, resourceID, rewardID);
 		if(item == null) throw new GFRewardItemException("指定的奖励不存在");
 		if(item.getRewardContent() == null) throw new GFRewardItemException("奖励的内容数据有误");
-		for (ItemInfo itm : item.getRewardContent()) {
-			if (!player.getItemBagMgr().addItem(itm.getItemID(), itm.getItemNum()))
-				GameLog.error(LogModule.GroupFightOnline, player.getUserId(), String.format("getFinalReward, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-		}
+//		for (ItemInfo itm : item.getRewardContent()) {
+//			if (!player.getItemBagMgr().addItem(itm.getItemID(), itm.getItemNum()))
+//				GameLog.error(LogModule.GroupFightOnline, player.getUserId(), String.format("getFinalReward, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+//		}
+		player.getItemBagMgr().addItem(item.getRewardContent());
 		//领取奖励后删除
 		removeRewardItemOnResources(player, resourceID, rewardID);
 	}
@@ -45,16 +46,6 @@ public class GFFinalRewardMgr {
 	 */
 	public boolean addGFReward(String userID, int resourceID, GFFinalRewardItem rewardItem){
 		return GFFinalRewardItemHolder.getInstance().addGFReward(userID, resourceID, rewardItem);
-	}
-	
-	/**
-	 * 移除某个资源点所有的奖励
-	 * @param player
-	 * @param resourceID
-	 * @return
-	 */
-	public boolean removeAllRewardItem(Player player, int resourceID){
-		return GFFinalRewardItemHolder.getInstance().removeAllRewardItem(player, resourceID);
 	}
 	
 	/**

@@ -166,8 +166,6 @@ public class FresherActivityItemHolder {
 			return false;
 		}
 		int cfgId = fresherActivityCfg.getCfgId();
-		fresherActivityItem.setId(ownerId+cfgId);
-		fresherActivityItem.setOwnerId(ownerId);
 		fresherActivityItem.setCfgId(cfgId);
 		fresherActivityItem.setType(fresherActivityCfg.geteType());
 		String maxValue = fresherActivityCfg.getMaxValue();
@@ -289,8 +287,11 @@ public class FresherActivityItemHolder {
 		FresherActivityItem fresherActivityItem = getFresherActivityItemsById(cfgId);
 		fresherActivityItem.setGiftTaken(true);
 		fresherActivityItem.setClosed(true);
+		
+	}
+	
+	public void achieveFresherActivityReward(Player player, FresherActivityItem fresherActivityItem){
 		updateFresherActivityItem(fresherActivityItem);
-
 		synData(player, fresherActivityItem);
 	}
 	

@@ -31,7 +31,7 @@ import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.RoleAttrData;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.AttributeCalculator;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -55,7 +55,7 @@ import com.rwbase.dao.user.pojo.LevelCfg;
  */
 @Table(name = "hero")
 @SynClass
-public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
+public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfoIF {
 	
 	@Transient
 	@IgnoreSynField
@@ -200,6 +200,9 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 			if (preFighting != attr.getFighting()) {
 				// 保持那边的战斗力一致
 				owner.getUserGameDataMgr().notifySingleFightingChange(attr.getFighting(), preFighting);
+				// 通知同步
+				owner.getTempAttribute().setHeroFightingChanged();
+				owner.getUserTmpGameDataFlag().setSynFightingAll(true);
 			}
 		}
 	}
@@ -431,6 +434,11 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 	@Override
 	public int addHeroExp(long heroExp) {
 		Player player = PlayerMgr.getInstance().find(this.getOwnerUserId());
+		if(this.isMainRole()) {
+			// 2016-09-05 添加主角经验不能走这个流程，因为主角和英雄的添加规则有些不一样。
+			GameLog.info("FSHero", player.getUserId(), "addHeroExp不能添加主角的经验！");
+			return 0;
+		}
 		int maxLevel = player.getLevel();
 		int currentLevel = this.level;
 		int currentExp = this.exp;
@@ -536,7 +544,7 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfo {
 	}
 	
 	@Override
-	public RoleBaseInfo getBaseInfo() {
+	public RoleBaseInfoIF getBaseInfo() {
 		return this;
 	}
 

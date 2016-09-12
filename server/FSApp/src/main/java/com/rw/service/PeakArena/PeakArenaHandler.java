@@ -46,9 +46,9 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
@@ -217,6 +217,12 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+        
+        PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
+        if (closeCfg.isCloseTime()){
+            return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
+        }
+
 		List<ListRankingEntry<String, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData, player);
 		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
 			ArenaInfo.Builder info = ArenaInfo.newBuilder();
@@ -365,10 +371,6 @@ public class PeakArenaHandler {
 	public ByteString fightStart(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
-		if (closeCfg.isCloseTime()){
-			return sendFailRespon(player, response, closeCfg.getCloseTimeTip());
-		}
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
@@ -653,7 +655,7 @@ public class PeakArenaHandler {
 
 	public HeroData getHeroData(ArmyHero tableHeroData, int teamId) {
 		HeroData.Builder result = HeroData.newBuilder();
-		RoleBaseInfo baseInfo = tableHeroData.getRoleBaseInfo();
+		RoleBaseInfoIF baseInfo = tableHeroData.getRoleBaseInfo();
 		result.setHeroId(baseInfo.getId());
 		result.setTempleteId(baseInfo.getTemplateId());
 		result.setLevel(baseInfo.getLevel());
@@ -663,7 +665,7 @@ public class PeakArenaHandler {
 		result.setExp(baseInfo.getExp());
 		result.setTeamId(teamId);
 
-		for (Skill skill : tableHeroData.getSkillList()) {
+		for (SkillItem skill : tableHeroData.getSkillList()) {
 			result.addSkills(transfrom(skill));
 		}
 		return result.build();
@@ -681,14 +683,14 @@ public class PeakArenaHandler {
 		result.setFighting(baseInfo.getFighting());
 		result.setQualityId(baseInfo.getQualityId());
 
-		List<Skill> lst = baseInfo.getSkillMgr().getSkillList(baseInfo.getUUId());
-		for (Skill skill : lst) {
+		List<SkillItem> lst = baseInfo.getSkillMgr().getSkillList(baseInfo.getUUId());
+		for (SkillItem skill : lst) {
 			result.addSkills(transfrom(skill));
 		}
 		return result.build();
 	}
 
-	private TagSkillData transfrom(Skill skill) {
+	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
 		builder.setId(skill.getId());
 		builder.setOwnerId(skill.getOwnerId());
@@ -901,4 +903,9 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
+    private ByteString sendFailResponPopTip(Player player, MsgArenaResponse.Builder response, String tips) {
+        player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, tips);
+        response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+        return response.build().toByteString();
+    }
 }

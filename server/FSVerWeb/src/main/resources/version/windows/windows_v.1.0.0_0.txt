@@ -1,0 +1,4 @@
+name=windows_v.1.0.0_0
+location=windows/windows_v.1.0.0_0.zip
+md5=5459B1099F0EC55E07043E59AFF51CCF
+size=32768
