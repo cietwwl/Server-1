@@ -39,9 +39,13 @@ public class MapItemManagerImpl implements MapItemManager {
 		df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
 		this.storeInfos = new HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>>(storeInfos);
-		List<String> list = DataAccessStaticSupport.getTableNameList(template, "map_item_store");
-		mapItemTableName = new String[list.size()];
-		list.toArray(mapItemTableName);
+		if (!this.storeInfos.isEmpty()) {
+			List<String> list = DataAccessStaticSupport.getTableNameList(template, DataAccessStaticSupport.getMapItemTableName());
+			mapItemTableName = new String[list.size()];
+			list.toArray(mapItemTableName);
+		}else{
+			mapItemTableName = new String[0];
+		}
 	}
 
 	public List<MapItemEntity> load(String userId, List<Integer> typeList) {
@@ -99,7 +103,8 @@ public class MapItemManagerImpl implements MapItemManager {
 				Tuple<CacheKey, String, MapItemRowBuider<? extends IMapItem>> info = sqls.get(i);
 				List<Map<String, Object>> list = template.queryForList(info.getT2(), param);
 				if (list != null) {
-					Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> tuple = Tuple.<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> Create(info.getT1(), list, info.getT3());
+					Tuple<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> tuple = Tuple.<CacheKey, List<Map<String, Object>>, MapItemRowBuider<? extends IMapItem>> Create(
+							info.getT1(), list, info.getT3());
 					resultMaps.add(tuple);
 				}
 			}
