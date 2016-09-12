@@ -193,6 +193,9 @@ public class MagicHandler {
 		matInfos.unitExps = new int[matListCount];
 		{
 			int i = 0;
+
+			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+
 			for (MagicItemData item : mateList) {
 				String matStoreId = item.getId();
 				matInfos.StoreIDs[i] = matStoreId;
@@ -202,7 +205,9 @@ public class MagicHandler {
 				}
 				int matModelId = magicMaterial.getModelId();
 				matInfos.modelIDs[i] = matModelId;
-				matInfos.materialCounts[i] = itemBagMgr.getItemCountByModelId(matModelId);
+
+				RefInt refInt = modelCountMap.get(matModelId);
+				matInfos.materialCounts[i] = refInt == null ? 0 : refInt.value;
 
 				ConsumeCfg cfg = ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(matModelId));
 				if (cfg == null) {
@@ -333,13 +338,13 @@ public class MagicHandler {
 		itemBagMgr.syncItemData(updateItems);
 
 		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
-		
-		//通知角色日常任务 by Alex
+
+		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
-		
-		//通知法宝神器羁绊
+
+		// 通知法宝神器羁绊
 		player.getMe_FetterMgr().notifyMagicChange(player);
-		
+
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();
 	}
@@ -382,7 +387,7 @@ public class MagicHandler {
 				break;
 			}
 
-			//需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
+			// 需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
 			int uplevel = magicCfg.getUplevel() - 1;
 			if (uplevel <= 0) {
 				// 这个法宝不能进阶
@@ -434,8 +439,8 @@ public class MagicHandler {
 
 			// magic.level <= magic.upLevel and magic.exp < magic.upFullExp
 			result = fullExp - curExp;
-			//需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
-			if (magicCfg.getUplevel() <= playerLevel+1){
+			// 需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
+			if (magicCfg.getUplevel() <= playerLevel + 1) {
 				maxUpLevel.value = magicCfg.getUplevel();
 			}
 			break;
@@ -529,8 +534,7 @@ public class MagicHandler {
 	 * @param itemBagMgr
 	 * @param fullExp
 	 * @param unitExp
-	 * @param accumulation 的增量 == unitExp * (result + useCount) 如果 accumulation >= fullExp（不能再用了）， accumulation - unitExp < fullExp 如果 accumulation <
-	 *            fullExp (用完了)， useCount == itemCount
+	 * @param accumulation 的增量 == unitExp * (result + useCount) 如果 accumulation >= fullExp（不能再用了）， accumulation - unitExp < fullExp 如果 accumulation < fullExp (用完了)， useCount == itemCount
 	 * @return
 	 */
 	private int GenerateEnhancePlanForOneItem(int seed, int itemCount, ItemBagMgr itemBagMgr, int fullExp, int unitExp, RefInt accumulation, RefInt useCount, int magicMaterialModelID) {
@@ -724,8 +728,7 @@ public class MagicHandler {
 
 		msgMagicResponse.setNewMagicModelId(resultId);
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
-		
-		
+
 		return msgMagicResponse.build().toByteString();
 	}
 
@@ -818,16 +821,12 @@ public class MagicHandler {
 				fillResponseInfo(response, false, "无法获取法宝经验值！");
 				break;
 			}
-			
-			//需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
+
+			// 需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
 			/*
-			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel);
-			final Integer upExp = lvlUpPair.getT1();
-			if (curExp < upExp) {
-				fillResponseInfo(response, false, "法宝经验未满！");
-				break;
-			}
-			*/
+			 * final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel); final Integer upExp = lvlUpPair.getT1(); if (curExp < upExp) { fillResponseInfo(response,
+			 * false, "法宝经验未满！"); break; }
+			 */
 
 			// 检查消耗的货币
 			final int cost = magicCfg.getUpMagicCost();
@@ -887,8 +886,8 @@ public class MagicHandler {
 			fillResponseInfo(response, true, "进阶成功！");
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 			TBListenerPlayerChange.heroChangeHandler(player);
-			
-			//通知法宝神器羁绊
+
+			// 通知法宝神器羁绊
 			player.getMe_FetterMgr().notifyMagicChange(player);
 			break;
 		} while (true);
