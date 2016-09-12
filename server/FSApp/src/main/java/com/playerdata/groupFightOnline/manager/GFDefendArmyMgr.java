@@ -187,7 +187,7 @@ public class GFDefendArmyMgr {
 				}
 			}
 			GFDefendArmyItem canFightItem = getCanFightItem(groupID);
-			if(canFightItem == null) throw new NoSuitableDefenderException("找不到可以挑战的队伍");
+			if(canFightItem == null) throw new NoSuitableDefenderException("当前没有可以挑战的队伍");
 			canFightItem.setState(GFArmyState.SELECTED.getValue());
 			canFightItem.setLastOperateTime(System.currentTimeMillis());
 			
