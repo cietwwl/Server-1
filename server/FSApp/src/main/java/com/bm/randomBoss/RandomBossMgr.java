@@ -113,6 +113,7 @@ public class RandomBossMgr{
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
 			clone.setBattleTime(count);
+			System.err.println("boss excape time:" + DateUtils.getDateTimeFormatString(record.getExcapeTime(), "yyyy-MM-dd HH:mm"));
 			synList.add(clone);
 		}
 		
@@ -283,6 +284,9 @@ public class RandomBossMgr{
 			GameLog.error("RandomBoss", "RandomBossMgr[endBattle]", "随机boss战斗结束，发现伤害值不超过0，原来伤害:"+record.getLeftHp()+"，后来值:" + curHp, null);
 		}
 
+		if(curHp <= 0){
+			record.setFinalHitRole(player.getUserId());
+		}
 		
 		Map<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 		RandomBossCfg bossCfg = RandomBossCfgDao.getInstance().getCfgById(record.getBossTemplateId());
