@@ -98,8 +98,8 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 
 	@Override
 	public Integer apply(Hero hero) {
-		int fighting = 0;
 		Player player = hero.getPlayer();
+		int fighting = 0;
 		if (hero.isMainRole()) {
 			// 主角才有法宝羁绊
 			fighting += this.getEquipFetterFighting(player.getMe_FetterMgr().getMagicFetter(), getMagicFetterFightingFunc);

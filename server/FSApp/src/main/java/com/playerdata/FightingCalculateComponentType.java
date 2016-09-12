@@ -18,19 +18,20 @@ import com.rwbase.common.IFunction;
 
 public enum FightingCalculateComponentType {
 
-	BASIC(FSGetBasicCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	FETTERS(FSGetFetterCurrentFightingOfSingleFunc.getInstnce(), EmptyPlayerComponent.singleton),
-	FIX_EQUIP(FSGetFixEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	GEM(FSGetGemCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	GROUP_SKILL(FSGetGroupSkillFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	MAGIC(EmptyHeroComponent.singleton, FSGetMagicCurrentFightingFunc.getInstance()),
-	NORM_EQUIP(FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	SKILL(FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	TAOIST(FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	FASHION(EmptyHeroComponent.singleton, FSGetFashionCurrentFightingFunc.getInstance()),
+	BASIC("基础属性", FSGetBasicCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	FETTERS("羁绊系统", FSGetFetterCurrentFightingOfSingleFunc.getInstnce(), EmptyPlayerComponent.singleton),
+	FIX_EQUIP("神器系统", FSGetFixEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	GEM("宝石系统", FSGetGemCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	GROUP_SKILL("帮派技能", FSGetGroupSkillFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	MAGIC("法宝系统", EmptyHeroComponent.singleton, FSGetMagicCurrentFightingFunc.getInstance()),
+	NORM_EQUIP("装备系统", FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	SKILL("技能战力", FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	TAOIST("道术系统", FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
+	FASHION("时装系统", EmptyHeroComponent.singleton, FSGetFashionCurrentFightingFunc.getInstance()),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;
 	private final IFunction<Player, Integer> _playerOnlyComponentFunc; // 只针对主角的
+	private final String _chineseName;
 	
 	private static final List<IFunction<Hero, Integer>> _allHeroComponents;
 	private static final List<IFunction<Player, Integer>> _allPlayerComponents;
@@ -50,9 +51,14 @@ public enum FightingCalculateComponentType {
 		_allPlayerComponents = Collections.unmodifiableList(allPlayerComponents);
 	}
 	
-	private FightingCalculateComponentType(IFunction<Hero, Integer> pComponentFunc, IFunction<Player, Integer> playerOnlyComponentFunc) {
+	private FightingCalculateComponentType(String pName, IFunction<Hero, Integer> pComponentFunc, IFunction<Player, Integer> playerOnlyComponentFunc) {
 		_componentFunc = pComponentFunc;
 		_playerOnlyComponentFunc = playerOnlyComponentFunc;
+		_chineseName = pName;
+	}
+	
+	public String getChineseName() {
+		return _chineseName;
 	}
 	
 	public IFunction<Hero, Integer> getComponentFunc() {

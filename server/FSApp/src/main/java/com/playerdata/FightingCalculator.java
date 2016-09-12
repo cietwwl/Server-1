@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,41 @@ public class FightingCalculator {
 	private static final String MAGIC_LEVEL = "magicLevel";// 法宝等级
 	private static final float COMMON_ATK_RATE_OLD = 1.5f;// 普通攻击除的系数
 	private static final float COMMON_ATK_RATE = 3.0f;// 普通攻击除的系数 修改于 2016-09-06
+	
+	private static <T> FightingCalculateComponentType getComponentType(IFunction<T, Integer> func, Class<?> clazz) {
+		EnumSet<FightingCalculateComponentType> es = EnumSet.allOf(FightingCalculateComponentType.class);
+		boolean getHeroFunc = false;
+		if (Hero.class.isAssignableFrom(clazz)) {
+			getHeroFunc = true;
+		}
+		FightingCalculateComponentType type;
+		for(Iterator<FightingCalculateComponentType> itr = es.iterator(); itr.hasNext();) {
+			type = itr.next();
+			if(getHeroFunc) {
+				if(type.getComponentFunc() == func) {
+					return type;
+				}
+			} else {
+				if(type.getPlayerOnlyComponentFunc() == func) {
+					return type;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private static <T> int calFighting(T target, List<IFunction<T, Integer>> funcList) {
+		int fighting = 0;
+		IFunction<T, Integer> currentFunc;
+		int currentFighting;
+		for(int i = 0, size = funcList.size(); i < size; i++) {
+			currentFunc = funcList.get(i);
+			currentFighting = currentFunc.apply(target);
+			fighting += currentFighting;
+			System.out.println(String.format("%s, 战力：%d", getComponentType(currentFunc, target.getClass()).getChineseName(), currentFighting));
+		}
+		return fighting;
+	}
 
 	public static int calFighting(Hero roleP, AttrData totalAttrData) {
 //		// 技能的总等级
@@ -50,22 +86,15 @@ public class FightingCalculator {
 //		return fighting;
 		
 		// 新的战力计算
+		System.out.println("----------开始计算[" + roleP.getName() + "]的战斗力----------");
 		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
-		int fighting = 0;
-		int singleFighting = 0;
-		for (int i = 0; i < allComponentsOfHero.size(); i++) {
-			singleFighting = allComponentsOfHero.get(i).apply(roleP);
-			fighting += singleFighting;
-		}
+		int fighting = calFighting(roleP, allComponentsOfHero);
 		if (roleP.isMainRole()) {
 			// 主角独有的
 			Player p = roleP.getPlayer();
-			List<IFunction<Player, Integer>> allComponentsOfPlayer = FightingCalculateComponentType.getAllPlayerComponents();
-			for (int i = 0; i < allComponentsOfPlayer.size(); i++) {
-				singleFighting = allComponentsOfPlayer.get(i).apply(p);
-				fighting += singleFighting;
-			}
+			fighting += calFighting(p, FightingCalculateComponentType.getAllPlayerComponents());
 		}
+		System.out.println("----------结束计算[" + roleP.getName() + "]的战斗力----------");
 		return fighting;
 	}
 
