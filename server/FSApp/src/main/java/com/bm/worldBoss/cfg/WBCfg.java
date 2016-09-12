@@ -15,6 +15,8 @@ public class WBCfg {
 	private String monsterCfgId;
 	
 	private int weekDay;
+	
+	private String killAttackAwardId;//最后一击奖励
 
 	public String getId() {
 		return id;
@@ -53,6 +55,10 @@ public class WBCfg {
 		long startTime = DateUtils.getResetTime(hour, minute, 0);
 		
 		return startTime;
+	}
+
+	public String getKillAttackAwardId() {
+		return killAttackAwardId;
 	}
 	
 	

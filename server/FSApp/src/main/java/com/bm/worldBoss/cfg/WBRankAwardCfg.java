@@ -5,7 +5,9 @@ public class WBRankAwardCfg {
 
 	private String id;
 	
-	private int rank;
+	private int offset;
+	
+	private int size;
 	
 	private String awardId;
 
@@ -13,26 +15,19 @@ public class WBRankAwardCfg {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public int getOffset() {
+		return offset;
 	}
 
-	public int getRank() {
-		return rank;
-	}
-
-	public void setRank(int rank) {
-		this.rank = rank;
+	public int getSize() {
+		return size;
 	}
 
 	public String getAwardId() {
 		return awardId;
 	}
 
-	public void setAwardId(String awardId) {
-		this.awardId = awardId;
-	}
-	
+
 
 	
 

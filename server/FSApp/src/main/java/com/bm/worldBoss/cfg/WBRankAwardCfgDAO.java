@@ -6,7 +6,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
-public final class WBRankAwardCfgDAO extends CfgCsvDao<WBCfg> {	
+public final class WBRankAwardCfgDAO extends CfgCsvDao<WBRankAwardCfg> {	
 
 
 	public static WBRankAwardCfgDAO getInstance() {
@@ -14,8 +14,8 @@ public final class WBRankAwardCfgDAO extends CfgCsvDao<WBCfg> {
 	}
 
 	@Override
-	public Map<String, WBCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("worldBoss/wbCfg.csv", WBCfg.class);
+	public Map<String, WBRankAwardCfg> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("worldBoss/WBRankAwardCfg.csv", WBRankAwardCfg.class);
 		return cfgCacheMap;
 	}
 

@@ -21,6 +21,9 @@ public class WBData {
 	
 	private long curLife;// 当前生命值
 	private long maxLife;// 全部的血量
+
+	private WBState state;
+	
 	
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
 	private int version = 0;
@@ -99,6 +102,18 @@ public class WBData {
 	public int getVersion() {
 		return version;
 	}
+
+
+	public WBState getState() {
+		return state;
+	}
+
+	public void setState(WBState state) {
+		this.state = state;
+	}
+
+	
+
 	
 	
 

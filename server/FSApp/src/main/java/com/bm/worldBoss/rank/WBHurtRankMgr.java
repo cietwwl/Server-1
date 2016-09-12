@@ -62,9 +62,9 @@ public class WBHurtRankMgr {
 		return toItemList(it);
 	}
 	
-	public static List<WBHurtItem> getRankList(int size) {
+	public static List<WBHurtItem> getRankList(int offset, int size) {
 		Ranking<WBHurtComparable, WBHurtItem> ranking = RankingFactory.getRanking(HURT_RANK);
-		EnumerateList<? extends MomentRankingEntry<WBHurtComparable, WBHurtItem>> it = ranking.getEntriesEnumeration(1,size);
+		EnumerateList<? extends MomentRankingEntry<WBHurtComparable, WBHurtItem>> it = ranking.getEntriesEnumeration(offset,size);
 		return toItemList(it);
 	}
 
@@ -91,7 +91,7 @@ public class WBHurtRankMgr {
 	public static void syn(Player player){
 		WBRankInfo rankInfo = new WBRankInfo();
 		
-		List<WBHurtItem> rankList = getRankList(50);
+		List<WBHurtItem> rankList = getRankList(1,50);
 		rankInfo.setRankList(rankList);
 		rankInfo.setUserRank(getRankIndex(player.getUserId()));
 		

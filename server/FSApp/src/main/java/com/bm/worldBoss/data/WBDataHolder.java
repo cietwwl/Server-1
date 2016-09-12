@@ -70,7 +70,7 @@ public class WBDataHolder {
 	}
 	 
 	
-	private void update(){		
+	public void update(){		
 		WBDataDao.getInstance().update(WB_DATA_ID);
 		version.incrementAndGet();			
 	}
@@ -101,6 +101,7 @@ public class WBDataHolder {
 		syn(player,-1);
 	}
 	
+
 
 
 

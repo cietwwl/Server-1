@@ -8,6 +8,7 @@ import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
+import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -59,33 +60,38 @@ public class WBMgr {
 	
 	public void runOn10Second(){
 		try {
-			tryNextBoss();
+			
+			WBStateFSM.getInstance().tranfer();
+			
 		} catch (Throwable e) {
 			GameLog.error(LogModule.WorldBoss, "WBMgr[runOn10Second]", "", e);
 		}
 	}
 	
-	public void tryNextBoss(){
+	public boolean tryNextBoss(){
+		boolean success = false;
 		WBData wbData = WBDataHolder.getInstance().get();
 		long curTime = System.currentTimeMillis();
 		if(wbData == null || wbData.getEndTime() < curTime){
 			WBCfg nextCfg = WBCfgDAO.getInstance().getNextCfg();
 			
 			if(nextCfg!=null){
-				initNewBoss(nextCfg);
+				success = initNewBoss(nextCfg);
 			}
 		}
+		return success;
 		
 	}
 	
-	private void initNewBoss(WBCfg nextCfg ){
-		
+	private boolean initNewBoss(WBCfg nextCfg ){
+		boolean success = false;
 		writeLock.lock();
 		try {			
-			WBDataHolder.getInstance().newBoss(nextCfg);
+			success =WBDataHolder.getInstance().newBoss(nextCfg);
 		} finally {
 			writeLock.unlock();			
 		}		
+		return success;
 	}
 
 	
@@ -135,6 +141,8 @@ public class WBMgr {
 		WBData wbData = WBDataHolder.getInstance().get();
 		return wbData.getVersion() == bossVersion;
 	}
-
+	
+	
+	
 	
 }
