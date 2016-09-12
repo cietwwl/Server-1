@@ -73,6 +73,8 @@ public class RandomBossMsgHandler {
 			RandomMsgRequest request) {
 		String bossID = request.getBossID();
 		InvitedFriends friends = request.getFriends();
+		int type = friends.getType();
+		
 		List<String> idList = friends.getFriendIDList();
 
 		RandomBossMsgResponse.Builder response = RandomBossMsgResponse.newBuilder();
@@ -86,6 +88,7 @@ public class RandomBossMsgHandler {
 		}
 		try {
 			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornTips(), bossID, bossID, idList);
+			RandomBossMgr.getInstance().recordInvitedTime(type, bossID);
 			response.setIsSuccess(true);
 		} catch (Exception e) {
 			GameLog.error("RandomBoss", "RandomBossMsgHandler[invitedFriendBattle]", "发送邀请好友战斗聊天信息时出现异常", e);

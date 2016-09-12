@@ -52,6 +52,10 @@ public class RandomBossMgr{
 	//配置
 	private RandomBossServerCfg rbServerCfg;
 	
+	private final int INVITED_TYPE_FRIEND = 1;
+	private final int INVITED_TYPE_GROUP = 2;
+	
+	
 	private static RandomBossMgr instance = new RandomBossMgr();
 	
 	private RandomBossMgr(){
@@ -386,6 +390,32 @@ public class RandomBossMgr{
 	 */
 	public long getBattleTimeLimit() {
 		return rbServerCfg.getBattleTimeLimit()  * Timer.ONE_SECOND;
+	}
+
+	/**
+	 * 记录邀请好友时间
+	 * @param type
+	 * @param bossId TODO
+	 */
+	public boolean recordInvitedTime(int type, String bossId) {
+		RandomBossRecord record = rbDao.get(bossId);
+		if(record == null){
+			GameLog.error("RandomBoss", "RandomBossMgr[reocrdInvitedTime]", "记录邀请好友时间点时找不到对应记录，bossID:" + bossId, null);
+			return false;
+		}
+		
+		long time = System.currentTimeMillis();
+		switch (type) {
+		case INVITED_TYPE_FRIEND:
+			record.setLastFriendInvitedTime(time);
+			break;
+		case INVITED_TYPE_GROUP:
+			record.setLastGroudInvitedTime(time);
+			break;
+		default:
+			return false;
+		}
+		return true;
 	}
 
 

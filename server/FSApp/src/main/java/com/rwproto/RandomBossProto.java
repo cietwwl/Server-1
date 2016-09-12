@@ -536,6 +536,12 @@ public final class RandomBossProto {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasFriends()) {
+        if (!getFriends().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -795,6 +801,12 @@ public final class RandomBossProto {
         if (!hasMsgType()) {
           
           return false;
+        }
+        if (hasFriends()) {
+          if (!getFriends().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2524,14 +2536,26 @@ public final class RandomBossProto {
     // optional string bossID = 2;
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     boolean hasBossID();
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     java.lang.String getBossID();
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     com.google.protobuf.ByteString
         getBossIDBytes();
@@ -2668,12 +2692,20 @@ public final class RandomBossProto {
     private java.lang.Object bossID_;
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     public boolean hasBossID() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     public java.lang.String getBossID() {
       java.lang.Object ref = bossID_;
@@ -2691,6 +2723,10 @@ public final class RandomBossProto {
     }
     /**
      * <code>optional string bossID = 2;</code>
+     *
+     * <pre>
+     *这个应该是boss 模板id, 不是服务器生成的id
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getBossIDBytes() {
@@ -3004,12 +3040,20 @@ public final class RandomBossProto {
       private java.lang.Object bossID_ = "";
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public boolean hasBossID() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public java.lang.String getBossID() {
         java.lang.Object ref = bossID_;
@@ -3024,6 +3068,10 @@ public final class RandomBossProto {
       }
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getBossIDBytes() {
@@ -3040,6 +3088,10 @@ public final class RandomBossProto {
       }
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public Builder setBossID(
           java.lang.String value) {
@@ -3053,6 +3105,10 @@ public final class RandomBossProto {
       }
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public Builder clearBossID() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3062,6 +3118,10 @@ public final class RandomBossProto {
       }
       /**
        * <code>optional string bossID = 2;</code>
+       *
+       * <pre>
+       *这个应该是boss 模板id, 不是服务器生成的id
+       * </pre>
        */
       public Builder setBossIDBytes(
           com.google.protobuf.ByteString value) {
@@ -3107,6 +3167,24 @@ public final class RandomBossProto {
      */
     com.google.protobuf.ByteString
         getFriendIDBytes(int index);
+
+    // required int32 type = 2;
+    /**
+     * <code>required int32 type = 2;</code>
+     *
+     * <pre>
+     *类型，好友是1，帮派是2 
+     * </pre>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 2;</code>
+     *
+     * <pre>
+     *类型，好友是1，帮派是2 
+     * </pre>
+     */
+    int getType();
   }
   /**
    * Protobuf type {@code RandomBoss.InvitedFriends}
@@ -3167,6 +3245,11 @@ public final class RandomBossProto {
               friendID_.add(input.readBytes());
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              type_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3209,6 +3292,7 @@ public final class RandomBossProto {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated string friendID = 1;
     public static final int FRIENDID_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList friendID_;
@@ -3239,14 +3323,43 @@ public final class RandomBossProto {
       return friendID_.getByteString(index);
     }
 
+    // required int32 type = 2;
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_;
+    /**
+     * <code>required int32 type = 2;</code>
+     *
+     * <pre>
+     *类型，好友是1，帮派是2 
+     * </pre>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 type = 2;</code>
+     *
+     * <pre>
+     *类型，好友是1，帮派是2 
+     * </pre>
+     */
+    public int getType() {
+      return type_;
+    }
+
     private void initFields() {
       friendID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      type_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3256,6 +3369,9 @@ public final class RandomBossProto {
       getSerializedSize();
       for (int i = 0; i < friendID_.size(); i++) {
         output.writeBytes(1, friendID_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(2, type_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3274,6 +3390,10 @@ public final class RandomBossProto {
         }
         size += dataSize;
         size += 1 * getFriendIDList().size();
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, type_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3393,6 +3513,8 @@ public final class RandomBossProto {
         super.clear();
         friendID_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -3420,12 +3542,18 @@ public final class RandomBossProto {
       public com.rwproto.RandomBossProto.InvitedFriends buildPartial() {
         com.rwproto.RandomBossProto.InvitedFriends result = new com.rwproto.RandomBossProto.InvitedFriends(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           friendID_ = new com.google.protobuf.UnmodifiableLazyStringList(
               friendID_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.friendID_ = friendID_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3451,11 +3579,18 @@ public final class RandomBossProto {
           }
           onChanged();
         }
+        if (other.hasType()) {
+          setType(other.getType());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -3567,6 +3702,55 @@ public final class RandomBossProto {
   }
   ensureFriendIDIsMutable();
         friendID_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // required int32 type = 2;
+      private int type_ ;
+      /**
+       * <code>required int32 type = 2;</code>
+       *
+       * <pre>
+       *类型，好友是1，帮派是2 
+       * </pre>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 type = 2;</code>
+       *
+       * <pre>
+       *类型，好友是1，帮派是2 
+       * </pre>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 2;</code>
+       *
+       * <pre>
+       *类型，好友是1，帮派是2 
+       * </pre>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000002;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 2;</code>
+       *
+       * <pre>
+       *类型，好友是1，帮派是2 
+       * </pre>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        type_ = 0;
         onChanged();
         return this;
       }
@@ -4810,15 +4994,15 @@ public final class RandomBossProto {
       ".RandomBoss.BattleRewardInfo\022\014\n\004army\030\005 \001" +
       "(\t\022\022\n\nbattleInfo\030\006 \003(\t\"I\n\021RandomBossPush" +
       "Msg\022$\n\007msgType\030\001 \002(\0162\023.RandomBoss.MsgTyp",
-      "e\022\016\n\006bossID\030\002 \001(\t\"\"\n\016InvitedFriends\022\020\n\010f" +
-      "riendID\030\001 \003(\t\"7\n\020BattleRewardInfo\022#\n\005ite" +
-      "ms\030\001 \003(\0132\024.RandomBoss.ItemInfo\")\n\010ItemIn" +
-      "fo\022\016\n\006itemID\030\001 \002(\005\022\r\n\005count\030\002 \002(\005*\222\001\n\007Ms" +
-      "gType\022\r\n\tFIND_BOSS\020\001\022\021\n\rGET_BOSS_LIST\020\002\022" +
-      "\030\n\024INVITE_FRIEND_BATTLE\020\003\022\024\n\020ACCEPTED_IN" +
-      "VITED\020\004\022\020\n\014APPLY_BATTLE\020\005\022\016\n\nEND_BATTLE\020" +
-      "\006\022\023\n\017GET_BATTLE_INFO\020\007B\036\n\013com.rwprotoB\017R" +
-      "andomBossProto"
+      "e\022\016\n\006bossID\030\002 \001(\t\"0\n\016InvitedFriends\022\020\n\010f" +
+      "riendID\030\001 \003(\t\022\014\n\004type\030\002 \002(\005\"7\n\020BattleRew" +
+      "ardInfo\022#\n\005items\030\001 \003(\0132\024.RandomBoss.Item" +
+      "Info\")\n\010ItemInfo\022\016\n\006itemID\030\001 \002(\005\022\r\n\005coun" +
+      "t\030\002 \002(\005*\222\001\n\007MsgType\022\r\n\tFIND_BOSS\020\001\022\021\n\rGE" +
+      "T_BOSS_LIST\020\002\022\030\n\024INVITE_FRIEND_BATTLE\020\003\022" +
+      "\024\n\020ACCEPTED_INVITED\020\004\022\020\n\014APPLY_BATTLE\020\005\022" +
+      "\016\n\nEND_BATTLE\020\006\022\023\n\017GET_BATTLE_INFO\020\007B\036\n\013" +
+      "com.rwprotoB\017RandomBossProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4848,7 +5032,7 @@ public final class RandomBossProto {
           internal_static_RandomBoss_InvitedFriends_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_InvitedFriends_descriptor,
-              new java.lang.String[] { "FriendID", });
+              new java.lang.String[] { "FriendID", "Type", });
           internal_static_RandomBoss_BattleRewardInfo_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_RandomBoss_BattleRewardInfo_fieldAccessorTable = new

@@ -79,6 +79,15 @@ public class RandomBossRecord {
 	@NonSave
 	private String battleRoleID;
 	
+	//上次发送好友邀请时间
+	@NonSave
+	private long lastFriendInvitedTime;
+	
+	
+	//上次发送帮派邀请时间
+	@NonSave
+	private long lastGroudInvitedTime;
+	
 	public RandomBossRecord() {
 	}
 
@@ -206,7 +215,36 @@ public class RandomBossRecord {
 	public void setLastBattleTime(long time) {
 		this.lastBattleTime = time;
 	}
-	
+
+	public String getBattleRoleID() {
+		return battleRoleID;
+	}
+
+	public void addBattleInfo(BattleNewsData e){
+		battleInfo.add(e);
+	}
+
+
+	public long getLastFriendInvitedTime() {
+		return lastFriendInvitedTime;
+	}
+
+
+	public void setLastFriendInvitedTime(long lastFriendInvitedTime) {
+		this.lastFriendInvitedTime = lastFriendInvitedTime;
+	}
+
+
+	public long getLastGroudInvitedTime() {
+		return lastGroudInvitedTime;
+	}
+
+
+	public void setLastGroudInvitedTime(long lastGroudInvitedTime) {
+		this.lastGroudInvitedTime = lastGroudInvitedTime;
+	}
+
+		
 	
 	//----------------------------------操作逻辑---------------------------------------------//
 	
@@ -276,15 +314,6 @@ public class RandomBossRecord {
 	}
 
 
-	public String getBattleRoleID() {
-		return battleRoleID;
-	}
-
-	public void addBattleInfo(BattleNewsData e){
-		battleInfo.add(e);
-	}
-
-	
 	
 	
 

@@ -39,6 +39,7 @@ message RandomBossPushMsg{
 
 message InvitedFriends{
  	repeated string friendID = 1;
+	required int32 type = 2; //类型，好友是1，帮派是2 
 }
 
 message BattleRewardInfo{
