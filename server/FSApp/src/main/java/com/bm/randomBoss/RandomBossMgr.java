@@ -113,7 +113,7 @@ public class RandomBossMgr{
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
 			clone.setBattleTime(count);
-//			System.err.println("boss excape time:" + DateUtils.getDateTimeFormatString(record.getExcapeTime(), "yyyy-MM-dd HH:mm"));
+//			System.err.println("last invited time:" +record.getLastFriendInvitedTime() + ", " + record.getLastGroudInvitedTime());
 			synList.add(clone);
 		}
 		
@@ -403,12 +403,28 @@ public class RandomBossMgr{
 	 */
 	public boolean recordInvitedTime(int type, String bossId) {
 		RandomBossRecord record = rbDao.get(bossId);
+		
 		if(record == null){
 			GameLog.error("RandomBoss", "RandomBossMgr[reocrdInvitedTime]", "记录邀请好友时间点时找不到对应记录，bossID:" + bossId, null);
 			return false;
 		}
+		long lastInvitedTime = 0;
+		switch (type) {
+		case INVITED_TYPE_FRIEND:
+			lastInvitedTime = record.getLastFriendInvitedTime();
+			break;
+		case INVITED_TYPE_GROUP:
+			lastInvitedTime = record.getLastGroudInvitedTime();
+			break;
+		default:
+			return false;
+		}
 		
 		long time = System.currentTimeMillis();
+		if((lastInvitedTime + (5 * 60 * 1000)) > time){
+			return false;
+		}
+		
 		switch (type) {
 		case INVITED_TYPE_FRIEND:
 			record.setLastFriendInvitedTime(time);

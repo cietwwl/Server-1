@@ -87,9 +87,14 @@ public class RandomBossMsgHandler {
 					
 		}
 		try {
-			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornTips(), bossID, bossID, idList);
-			RandomBossMgr.getInstance().recordInvitedTime(type, bossID);
-			response.setIsSuccess(true);
+			boolean invied = RandomBossMgr.getInstance().recordInvitedTime(type, bossID);
+			if(invied){
+				ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornTips(), bossID, bossID, idList);
+				response.setIsSuccess(true);
+			}else{
+				response.setIsSuccess(false);
+				response.setTips("邀请时间冷却中");
+			}
 		} catch (Exception e) {
 			GameLog.error("RandomBoss", "RandomBossMsgHandler[invitedFriendBattle]", "发送邀请好友战斗聊天信息时出现异常", e);
 			response.setIsSuccess(false);
