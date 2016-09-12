@@ -221,17 +221,10 @@ public class GameManager {
 		Resource rs = new ClassPathResource("serverparam.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
-			int playerCapacity = Integer.parseInt(props.getProperty("playerCapacity"));
-			int heroCapacity = Integer.parseInt(props.getProperty("heroCapacity"));
-			int itemCapacity = Integer.parseInt(props.getProperty("itemCapacity"));
-			ServerPerformanceConfig config = new ServerPerformanceConfig(playerCapacity, heroCapacity, itemCapacity);
+			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			// 使用默认配置
-			ServerPerformanceConfig config = new ServerPerformanceConfig(3000, 20000, 50000);
-			performanceConfig = config;
+			throw new ExceptionInInitializerError(e);
 		}
 	}
 
