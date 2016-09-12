@@ -75,7 +75,7 @@ public class EquipHandler {
 					pEquipMgr.EquipAdvance(pNextCfg.getId(), true);
 					response.setError(ErrorType.SUCCESS);
 					UserEventMgr.getInstance().advanceDaily(player, 1);
-					GFOnlineListenerPlayerChange.heroChangeHandler(player);
+					GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 				}
 			} else {
 				response.setError(ErrorType.FAIL);
