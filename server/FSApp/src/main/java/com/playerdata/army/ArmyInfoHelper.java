@@ -44,9 +44,9 @@ public class ArmyInfoHelper {
 	}
 
 	private static void setCurData(ArmyInfo armyInfo, ArmyInfoSimple armyInfoSimple) {
-		ArmyHero player = armyInfo.getPlayer();
-		if(player!=null){
-			player.setCurAttrData(armyInfoSimple.getPlayer().getCurAttrData());
+		ArmyHero armyHero_ = armyInfo.getPlayer();
+		if(armyHero_!=null){
+			armyHero_.setCurAttrData(armyInfoSimple.getPlayer().getCurAttrData());
 		}
 		
 		List<ArmyHero> heroList = armyInfo.getHeroList();

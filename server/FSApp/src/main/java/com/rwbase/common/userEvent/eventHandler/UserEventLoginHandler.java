@@ -37,7 +37,7 @@ public class UserEventLoginHandler implements IUserEventHandler{
 						isnewday = true;
 					}else{
 						if(!isnewday){
-							isnewday = DateUtils.isNewDayHour(5,player.getUserGameDataMgr().getLastResetTime5Clock());
+							isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
 						}
 					}
 					if(isnewday&&isBetweendays){
