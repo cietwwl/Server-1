@@ -13,7 +13,15 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 
 	@Override
 	public void notifyDataChanged(SignleChangedEvent<ChargeInfo> event) {
+		ChargeInfo currentRecord = event.getCurrentRecord();
+		ChargeInfo oldRecord = event.getOldRecord();
+		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){
+			System.out.println("gold change-------------------------");
+		}
 		
+		if(currentRecord.getTotalChargeMoney() != oldRecord.getTotalChargeMoney()){
+			System.out.println("money change =======================================");
+		}
 		
 	}
 
