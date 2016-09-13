@@ -27,6 +27,9 @@ public class WBData {
 	private WBState state;
 	private String monsterCfgId;
 	
+	private int bossLevel; //boss 等级
+	private int survivalCount;//boss 存活次数
+	
 	
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
 	private int version = 0;
@@ -42,6 +45,8 @@ public class WBData {
 	public WBData newInstance(){
 		WBData data = new WBData();
 		data.id = this.id;
+		data.bossLevel = this.bossLevel;
+		data.survivalCount = this.survivalCount;
 		data.version = this.version+1;
 		return data;
 	}
@@ -136,6 +141,22 @@ public class WBData {
 
 	public void setMonsterCfgId(String monsterCfgId) {
 		this.monsterCfgId = monsterCfgId;
+	}
+
+	public int getBossLevel() {
+		return bossLevel;
+	}
+
+	public void setBossLevel(int bossLevel) {
+		this.bossLevel = bossLevel;
+	}
+
+	public int getSurvivalCount() {
+		return survivalCount;
+	}
+
+	public void setSurvivalCount(int survivalCount) {
+		this.survivalCount = survivalCount;
 	}
 
 	

@@ -72,7 +72,7 @@ public class WBMgr {
 		boolean success = false;
 		writeLock.lock();
 		try {			
-			success =WBDataHolder.getInstance().newBoss(nextCfg);
+			success = WBDataHolder.getInstance().newBoss(nextCfg);
 		} finally {
 			writeLock.unlock();			
 		}		
@@ -116,9 +116,23 @@ public class WBMgr {
 			writeLock.unlock();			
 		}		
 		synWBData(player, -1);	
-		return success;
-		
+		return success;		
 	}
+	
+	public boolean adjustBossLevel(Player player, long hurt){	
+		boolean success = false;
+		writeLock.lock();		
+		try {			
+			// boss update
+			
+		} finally {
+			writeLock.unlock();			
+		}		
+		synWBData(player, -1);	
+		return success;		
+	}
+	
+	
 
 	public boolean isSameBoss(int bossVersion) {
 		WBData wbData = WBDataHolder.getInstance().get();

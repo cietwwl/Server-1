@@ -6,6 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.worldBoss.cfg.WBCfg;
+import com.bm.worldBoss.cfg.WBHPCfg;
+import com.bm.worldBoss.cfg.WBHPCfgDAO;
+import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.battleVerify.MonsterCfg;
@@ -53,6 +56,9 @@ public class WBDataHolder {
 		WBData newData = null;
 		if(oldData == null){
 			newData = WBData.newInstance(WB_DATA_ID);
+			int bossInitLevel = WBSettingCfgDAO.getInstance().getCfg().getBossInitLevel();
+			newData.setBossLevel(bossInitLevel);		
+			
 		}else{			
 			newData = oldData.newInstance();
 		}
@@ -79,7 +85,10 @@ public class WBDataHolder {
 		MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getCfgById(monsterCfgId);
 		if(monsterCfg!=null){
 			data.setMonsterCfgId(monsterCfg.getId());
-			long maxLife = monsterCfg.getLife();
+			WBHPCfg wbHpCfg = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(data.getBossLevel()));
+			float lifeFactor = wbHpCfg.getFactor();
+			long maxLife = (long)(monsterCfg.getLife()*lifeFactor);			
+			
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	
 			data.setPreStartTime(wbCfg.getPreStartTime());

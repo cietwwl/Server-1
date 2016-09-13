@@ -1,12 +1,17 @@
 package com.bm.worldBoss;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
+import com.bm.worldBoss.cfg.WBExAwardCfg;
+import com.bm.worldBoss.cfg.WBExAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBRankAwardCfg;
 import com.bm.worldBoss.cfg.WBRankAwardCfgDAO;
 import com.bm.worldBoss.data.LastFightInfo;
@@ -67,13 +72,36 @@ public class WBAwardServer {
 	
 	private void sendRankAwards(){
 		
+		boolean isBossKilled = WBMgr.getInstance().isBossDie();
+		WBData wbData = WBDataHolder.getInstance().get();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
+			
+			String awardId = wbRankAwardCfg.getAwardId();
+			String award = wbRankAwardCfg.getAward();
+			int survivalCount = wbData.getSurvivalCount();
+			if(isBossKilled && survivalCount > 0){
+				WBExAwardCfg exAwardCfg = WBExAwardCfgDAO.getInstance().getCfgById(String.valueOf(survivalCount));
+				if(exAwardCfg!=null){
+					String exAward = exAwardCfg.getAward();
+					awardId = exAwardCfg.getAwardId();
+					award = StringUtils.join(new String[]{award,exAward});
+				}
+			}		
+			
+			
 			int offset = wbRankAwardCfg.getOffset();
 			int size = wbRankAwardCfg.getSize();
 			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, size);
-			for (WBHurtItem wbHurtItem : rankList) {			
-				EmailUtils.sendEmail(wbHurtItem.getUserId(),wbRankAwardCfg.getAwardId(),wbRankAwardCfg.getAward());
+			List<String> args = new ArrayList<String>();
+			int rankIndex = offset;
+			for (WBHurtItem wbHurtItem : rankList) {
+				args.add(String.valueOf(rankIndex) );
+				
+				EmailUtils.sendEmail(wbHurtItem.getUserId(),awardId,award,args);
+				rankIndex++;
+				
+				args.clear();
 			}		
 		}
 		
