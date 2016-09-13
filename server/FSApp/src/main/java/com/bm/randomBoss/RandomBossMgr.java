@@ -113,7 +113,7 @@ public class RandomBossMgr{
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
 			clone.setBattleTime(count);
-//			System.err.println("last invited time:" +record.getLastFriendInvitedTime() + ", " + record.getLastGroudInvitedTime());
+			System.err.println("last invited time:" +record.getLastFriendInvitedTime() + ", " + record.getLastGroupInvitedTime());
 			synList.add(clone);
 		}
 		
@@ -414,7 +414,7 @@ public class RandomBossMgr{
 			lastInvitedTime = record.getLastFriendInvitedTime();
 			break;
 		case INVITED_TYPE_GROUP:
-			lastInvitedTime = record.getLastGroudInvitedTime();
+			lastInvitedTime = record.getLastGroupInvitedTime();
 			break;
 		default:
 			return false;
@@ -430,7 +430,7 @@ public class RandomBossMgr{
 			record.setLastFriendInvitedTime(time);
 			break;
 		case INVITED_TYPE_GROUP:
-			record.setLastGroudInvitedTime(time);
+			record.setLastGroupInvitedTime(time);
 			break;
 		default:
 			return false;

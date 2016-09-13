@@ -86,7 +86,7 @@ public class RandomBossRecord {
 	
 	//上次发送帮派邀请时间
 	@NonSave
-	private long lastGroudInvitedTime;
+	private long lastGroupInvitedTime;
 	
 	public RandomBossRecord() {
 	}
@@ -235,13 +235,13 @@ public class RandomBossRecord {
 	}
 
 
-	public long getLastGroudInvitedTime() {
-		return lastGroudInvitedTime;
+	public long getLastGroupInvitedTime() {
+		return lastGroupInvitedTime;
 	}
 
 
-	public void setLastGroudInvitedTime(long lastGroudInvitedTime) {
-		this.lastGroudInvitedTime = lastGroudInvitedTime;
+	public void setLastGroupInvitedTime(long lastGroudInvitedTime) {
+		this.lastGroupInvitedTime = lastGroudInvitedTime;
 	}
 
 		
@@ -259,7 +259,7 @@ public class RandomBossRecord {
 			}
 		}
 		record.setLastFriendInvitedTime(lastFriendInvitedTime);
-		record.setLastGroudInvitedTime(lastGroudInvitedTime);
+		record.setLastGroupInvitedTime(lastGroupInvitedTime);
 		record.setOwnerName(ownerName);
 		record.setLeftHp(leftHp);
 		record.setBossTemplateId(bossTemplateId);
