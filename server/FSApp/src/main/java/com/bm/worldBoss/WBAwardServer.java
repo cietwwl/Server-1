@@ -72,8 +72,8 @@ public class WBAwardServer {
 	
 	private void sendRankAwards(){
 		
-		boolean isBossKilled = WBMgr.getInstance().isBossDie();
 		WBData wbData = WBDataHolder.getInstance().get();
+		boolean isBossKilled = wbData.isKilled();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
 			

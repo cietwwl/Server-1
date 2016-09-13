@@ -47,7 +47,9 @@ class WBFinishState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		if(wbData!=null){			
 			wbData.setState(state);
-			WBDataHolder.getInstance().update();		
+			WBDataHolder.getInstance().update();	
+			
+			WBMgr.getInstance().adjustBossLevel();
 		}
 	}
 

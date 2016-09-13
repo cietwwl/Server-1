@@ -95,6 +95,8 @@ public class WBDataHolder {
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
 			data.setFinishTime(wbCfg.getFinishTime());
+			
+			
 			return WBDataDao.getInstance().update(data);
 		}
 		

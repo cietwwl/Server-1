@@ -5,6 +5,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.bm.worldBoss.cfg.WBCfg;
+import com.bm.worldBoss.cfg.WBSettingCfg;
+import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.state.WBStateFSM;
@@ -119,19 +121,51 @@ public class WBMgr {
 		return success;		
 	}
 	
-	public boolean adjustBossLevel(Player player, long hurt){	
+	public boolean adjustBossLevel(){	
 		boolean success = false;
 		writeLock.lock();		
 		try {			
-			// boss update
+			WBData wbData = WBDataHolder.getInstance().get();
+			if(wbData.isKilled()){
+				wbData.setSurvivalCount(0);
+				if(isQuickKilled(wbData)){
+					wbData.addQuickKillCount();
+				}else{
+					wbData.setQuickKillCount(0);
+				}
+			}else{
+				wbData.addSurvivalCount();
+			}
+			
+			WBSettingCfg settingCfg = WBSettingCfgDAO.getInstance().getCfg();
+			
+			int quickKillMax = settingCfg.getQuickKillMax();
+			int survialMax = settingCfg.getSurvialMax();
+			if(wbData.getQuickKillCount() > quickKillMax){
+				wbData.inrcBossLevel();
+			}else if(wbData.getSurvivalCount() > survialMax){
+				wbData.dercBossLevel();
+			}
+			
+			WBDataHolder.getInstance().update();
 			
 		} finally {
 			writeLock.unlock();			
 		}		
-		synWBData(player, -1);	
+		
 		return success;		
 	}
 	
+	private boolean isQuickKilled(WBData wbData){
+		WBSettingCfg settingCfg = WBSettingCfgDAO.getInstance().getCfg();
+		
+		long killTimeCost = wbData.getKilledTimeCost();
+		
+		if(killTimeCost < settingCfg.getQuickKillTimeInMilli()){
+			return true;
+		}
+		return false;
+	}
 	
 
 	public boolean isSameBoss(int bossVersion) {

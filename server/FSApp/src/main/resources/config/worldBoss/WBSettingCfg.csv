@@ -1,2 +1,2 @@
-id,remarks,bossInitLevel,bossDeadTime,quickKill,bossNotDead
+id,remarks,bossInitLevel,quickKillTime,quickKillMax,survialMax
 1,,30,15,3,3

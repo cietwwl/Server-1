@@ -29,8 +29,9 @@ public class WBData {
 	
 	private int bossLevel; //boss 等级
 	private int survivalCount;//boss 存活次数
+	private int quickKillCount;//boss 被快速击杀的次数
 	
-	
+//	private long killedTime;//boss 被杀死的时间
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
 	private int version = 0;
 	//最后一击信息
@@ -150,6 +151,12 @@ public class WBData {
 	public void setBossLevel(int bossLevel) {
 		this.bossLevel = bossLevel;
 	}
+	public void inrcBossLevel() {
+		this.bossLevel++;
+	}
+	public void dercBossLevel() {
+		this.bossLevel--;
+	}
 
 	public int getSurvivalCount() {
 		return survivalCount;
@@ -158,11 +165,34 @@ public class WBData {
 	public void setSurvivalCount(int survivalCount) {
 		this.survivalCount = survivalCount;
 	}
+	public void addSurvivalCount() {
+		this.survivalCount++;
+	}
 
 	
+	public boolean isKilled(){
+		return this.curLife <= 0 && lastFightInfo!=null;
+	}
 
-	
-	
+	public int getQuickKillCount() {
+		return quickKillCount;
+	}
+
+	public void setQuickKillCount(int quickKillCount) {
+		this.quickKillCount = quickKillCount;
+	}
+	public void addQuickKillCount() {
+		this.quickKillCount++;
+	}
+
+	public long getKilledTimeCost() {
+		
+		long killTimeCost = this.lastFightInfo.getTime()-this.startTime;
+		
+		return killTimeCost;
+	}
+
+
 
 	
 	
