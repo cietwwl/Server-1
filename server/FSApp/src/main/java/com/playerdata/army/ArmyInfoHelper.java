@@ -52,7 +52,7 @@ public class ArmyInfoHelper {
 		List<ArmyHero> heroList = armyInfo.getHeroList();
 		for (ArmyHero armyHero : heroList) {
 			String heroId = armyHero.getRoleBaseInfo().getId();
-			ArmyHeroSimple simpleHero = armyInfoSimple.getByHeroId(heroId);
+			ArmyHeroSimple simpleHero = armyInfoSimple.getArmyHeroByID(heroId);
 			armyHero.setCurAttrData(simpleHero.getCurAttrData());
 		}
 		
