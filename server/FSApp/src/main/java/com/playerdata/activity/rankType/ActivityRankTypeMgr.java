@@ -238,11 +238,8 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					RankInfo rankInfo = RankingUtils.createOneRankInfo(levelData, i + 1);
 					rankList.add(rankInfo);
 				}
-				int num = 0;
-				System.out.println("activityrank打印下榜类型"  + ranktype);
 				for (RankInfo rankInfo : rankList) {// 所有的该榜上榜用户
 //					System.out.println("activityrank打印下是否顺序" + rankInfo.getRankingLevel() + " 个数=" + num);
-					num++;
 					if (rankInfo.getRankingLevel() > cfg.getRewardNum()) {
 						// 奖励活动有效位数小于当前榜上用户的排名
 						continue;
@@ -284,6 +281,8 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					}
 				}
 			}
+			
+			
 		}
 	}
 

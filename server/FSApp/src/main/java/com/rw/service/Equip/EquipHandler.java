@@ -574,12 +574,16 @@ public class EquipHandler {
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 
+//		// 准备穿戴装备
+//		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
+//			Integer index = e.getKey();
+//			if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
+//				rsp.addOneKeySuccessIndex(index);
+//			}
+//		}
 		// 准备穿戴装备
-		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
-			Integer index = e.getKey();
-			if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
-				rsp.addOneKeySuccessIndex(index);
-			}
+		if (equipMgr.wearEquips(player, roleId, needEquipMap)) {
+			rsp.addAllOneKeySuccessIndex(needEquipMap.keySet());
 		}
 
 		rsp.setError(ErrorType.SUCCESS);

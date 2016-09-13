@@ -16,6 +16,7 @@ import com.rw.service.copy.PvECommonHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eActivityType;
@@ -69,6 +70,7 @@ public class EliteCopyHandler {
 		}
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
+		GameBehaviorMgr.getInstance().setMapId(player, copyCfg.getLevelID());
 
 		
 		if(!isWin){

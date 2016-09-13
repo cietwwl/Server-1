@@ -1,13 +1,10 @@
 package com.rwbase.dao.fetters.pojo.cfg;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,7 +12,6 @@ import com.common.HPCUtil;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
-import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 
 
 /**
@@ -26,6 +22,7 @@ import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
  */
 public class MagicEquipConditionCfg {
 
+	private static final int _FETTER_TYPE_MAGIC = 1; // 羁绊类型：法宝
 	
 	private int uniqueId; //羁绊条件唯一的id
 	
@@ -53,7 +50,10 @@ public class MagicEquipConditionCfg {
 	
 	private String fettersPrecentAttrData; //羁绊增加万分比属性
 	
-	
+	private int seq; // 羁绊的位置
+
+
+
 	/**
 	 * 条件类型：
 	 * 1：英雄品质 
@@ -158,6 +158,20 @@ public class MagicEquipConditionCfg {
 	public Map<Integer, Map<Integer, Integer>> getConditionMap() {
 		return conditionMap;
 	}
+	
+	public int getSeq() {
+		return seq;
+	}
+	
+	/**
+	 * 
+	 * 判断是否法宝羁绊
+	 * 
+	 * @return
+	 */
+	public boolean isMagicFetter() {
+		return this.type == _FETTER_TYPE_MAGIC;
+	}
 
 
 
@@ -207,11 +221,5 @@ public class MagicEquipConditionCfg {
 		modelIDList = Collections.unmodifiableList(idsList);
 		
 	}
-
-
-
-
-	
-	
 	
 }
