@@ -7,10 +7,10 @@ package WorldBoss;
 
 enum RequestType{
 
-	Enter = 1;
-	FightBegin = 2;
-	FightEnd = 3;
-	BuyBuff = 4;
+	Enter = 1; //首页
+	FightBegin = 2; //开始打
+	FightEnd = 3; //结算
+	BuyBuff = 4; //购买鼓舞
 	SynData = 5;  //请求同步数据
 	BuyCD = 6;   //购买复活	
 
@@ -23,7 +23,7 @@ message BuyBuffParam{
 
 message FightEndParam{
 	required int64 totalHurt = 1;
-	optional string vCode = 2;
+	optional string vCode = 2; // 战斗验证码
 }
 
 message FightBeginParam{
@@ -38,8 +38,8 @@ message FightBeginRep{
 message CommonReqMsg{
 
 	required RequestType reqType = 1;
-	optional int32 wbDataVersion = 2;
-	optional int32 wbUserDataVersion = 3;	
+	optional int32 wbDataVersion = 2;//数据版本：世界boss自己的数据
+	optional int32 wbUserDataVersion = 3;//数据版本：玩家关于世界boss的数据
 	optional BuyBuffParam buyBuffParam = 4;
 	optional FightBeginParam fightBeginParam = 5;
 	optional FightEndParam fightEndParam = 6;
