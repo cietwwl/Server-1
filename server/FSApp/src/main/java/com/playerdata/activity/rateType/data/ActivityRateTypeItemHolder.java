@@ -7,9 +7,11 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeHelper;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -25,16 +27,18 @@ public class ActivityRateTypeItemHolder {
 	final private eSynType synType = eSynType.ActivityRateType;
 
 	public List<ActivityRateTypeItem> getItemList(String userId) {
-
+		ActivityRateTypeCfgDAO dao = ActivityRateTypeCfgDAO.getInstance();
 		List<ActivityRateTypeItem> itemList = new ArrayList<ActivityRateTypeItem>();
 		Enumeration<ActivityRateTypeItem> mapEnum = getItemStore(userId)
 				.getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRateTypeItem item = (ActivityRateTypeItem) mapEnum
 					.nextElement();
+			if(!dao.hasCfgByEnumId(item.getEnumId())){
+				continue;
+			}
 			itemList.add(item);
 		}
-
 		return itemList;
 	}
 
@@ -75,10 +79,27 @@ public class ActivityRateTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	private MapItemStore<ActivityRateTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityRateTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityRateTypeItem> cache = MapItemStoreFactory
 				.getActivityRateTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityRateTypeItem.class);
+	}
+
+	public boolean addItemList(Player player, List<ActivityRateTypeItem> addItemList) {
+		try {
+			boolean addSuccess = getItemStore(player.getUserId()).addItem(
+					addItemList);
+			if (addSuccess) {
+				ClientDataSynMgr.updateDataList(player,
+						getItemList(player.getUserId()), synType,
+						eSynOpType.UPDATE_LIST);
+			}
+			return addSuccess;
+		} catch (DuplicatedKeyException e) {
+			// handle..
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

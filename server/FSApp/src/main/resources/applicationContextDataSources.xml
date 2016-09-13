@@ -49,10 +49,11 @@
 		<!-- maxWait最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。 -->
 		<property name="maxWait" value="60000"></property>
 		<!-- maxIdle最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。 -->
-		<property name="maxIdle" value="2"></property>
+		<property name="initialSize" value="2"></property>
+		<property name="minIdle" value="2"></property>
 		<property name="validationQuery" value="SELECT 1"></property>
-		<property name="testOnBorrow" value="true"></property>
-		<property name="testOnReturn" value="true"></property>
+		<property name="testOnBorrow" value="false"></property>
+		<property name="testOnReturn" value="false"></property>
 		<property name="testWhileIdle" value="true"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
 		<!-- Supported UTF-8 character set -->
@@ -72,11 +73,11 @@
 		<property name="maxActive" value="100"></property>
 
 		<property name="maxWait" value="60000"></property>
-		
-		<property name="maxIdle" value="2"></property>
+		<property name="initialSize" value="2"></property>
+		<property name="minIdle" value="2"></property>
 		<property name="validationQuery" value="SELECT 1"></property>
-		<property name="testOnBorrow" value="true"></property>
-		<property name="testOnReturn" value="true"></property>
+		<property name="testOnBorrow" value="false"></property>
+		<property name="testOnReturn" value="false"></property>
 		<property name="testWhileIdle" value="true"></property>
 		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
 	</bean>	

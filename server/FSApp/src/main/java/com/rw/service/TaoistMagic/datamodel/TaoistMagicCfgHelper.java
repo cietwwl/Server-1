@@ -299,4 +299,19 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 
 		return new ArrayList<TaoistMagicCfg>(tagTaoistMap.get(tagNum));
 	}
+	
+	/**
+	 * 
+	 * 获取分页的道术数量
+	 * 
+	 * @param tagNum
+	 * @return
+	 */
+	public int getCountOfTag(int tagNum) {
+		List<TaoistMagicCfg> list = tagTaoistMap.get(tagNum);
+		if(list != null) {
+			return list.size();
+		}
+		return 0;
+	}
 }

@@ -21,21 +21,27 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 public class DataAccessStaticSupport {
 
 	private static String dataKVName = "table_kvdata";
-	
-	public static List<String> getDataKVTableNameList(JdbcTemplate template){
+	private static String mapItemTableName = "map_item_store";
+
+	public static List<String> getDataKVTableNameList(JdbcTemplate template) {
 		return getTableNameList(template, dataKVName);
 	}
-	
+
+	public static String getMapItemTableName() {
+		return mapItemTableName;
+	}
+
 	/**
 	 * 根据名字获取表名分区
+	 * 
 	 * @param template
 	 * @param tableName
 	 * @return
 	 */
 	public static List<String> getTableNameList(JdbcTemplate template, String tableName) {
-		//这里需要做版本验证
+		// 这里需要做版本验证
 		ArrayList<String> list = new ArrayList<String>();
-		String defaultSql = "select 1 from "+tableName;
+		String defaultSql = "select 1 from " + tableName;
 		try {
 			template.query(defaultSql, rowCall);
 			list.add(tableName);

@@ -105,7 +105,7 @@ public class GameLogicTask implements PlayerTask {
 				}
 
 				msgType = serivice.getMsgType(msg);
-				registerBehavior(player, serivice, command, msgType, msg, header.getEntranceId());
+				registerBehavior(player, serivice, command, msgType, msg, header.getViewId());
 
 				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
 					resultContent = serivice.doTask(msg, player);

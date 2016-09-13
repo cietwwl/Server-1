@@ -95,6 +95,10 @@ enum Command {
 	MSG_CHAT_REQUEST_PRIVATE_CHATS = 189; // 聊天：请求私聊列表
 	MSG_CHAT_SET_CURRENT_TARGET = 190; // 聊天：客戶端通知服務器當前的私聊面板的聊天目標
 	
+	MSG_FIGHTING_GROWTH_REQUEST_UI_DATA = 191; // 首页战力成长：请求UI数据（带一个empty的body即可）
+	MSG_FIGHTING_GROWTH_REQUEST_UPGRADE = 192; // 首页战力成长：请求晋级（带一个empty的body即可）
+	MSG_FIGHTING_PUSH_DATA = 193; // 首页战力成长：推送更新的数据
+	
 	
 	MSG_TAOIST = 200;//道术系统
 	MSG_FIX_EQUIP = 201;//专属装备
@@ -111,6 +115,8 @@ enum Command {
 	MSG_SYN_DATA_SERVICE = 213;//数据同步请求服务
 	MSG_RANDOM_BOSS = 214;     //随机boss
 	MSG_WORLD_BOSS = 215;      //世界boss
+	
+	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
 	
 
 	MSG_FEEDBACK = 995;//客服功能

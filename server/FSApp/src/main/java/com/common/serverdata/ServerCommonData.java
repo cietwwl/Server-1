@@ -1,6 +1,8 @@
 package com.common.serverdata;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 import javax.persistence.Id;
@@ -39,7 +41,8 @@ public class ServerCommonData {
 	
 	//临时存一下，稍后分割出去
 	@CombineSave
-	private TreeMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new TreeMap<Integer, ActivityLimitHeroRankRecord>();	//记录最近的三个摇奖
+	private List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new ArrayList<ActivityLimitHeroRankRecord>();
+//	private TreeMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new TreeMap<Integer, ActivityLimitHeroRankRecord>();	//记录最近的三个摇奖
 		
 	
 	public String getId() {
@@ -99,20 +102,16 @@ public class ServerCommonData {
 		this.activityFortuneCatRecord = activityFortuneCatRecord;
 	}
 
-	
-	
-	
-	
-	
-
-	public TreeMap<Integer, ActivityLimitHeroRankRecord> getActivityLimitHeroRankRecord() {
+	public List<ActivityLimitHeroRankRecord> getActivityLimitHeroRankRecord() {
 		return activityLimitHeroRankRecord;
 	}
 
 	public void setActivityLimitHeroRankRecord(
-			TreeMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
+			List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
 		this.activityLimitHeroRankRecord = activityLimitHeroRankRecord;
 	}
+
+	
 
 	
 

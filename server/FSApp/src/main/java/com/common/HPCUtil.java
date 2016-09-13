@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import org.springframework.util.StringUtils;
 
 import com.rw.dataaccess.PlayerCoreCreation;
+import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
@@ -413,4 +414,18 @@ public class HPCUtil {
 		return (Class<?>) paramType.getActualTypeArguments()[0];
 	}
 
+	/**
+	 * 把指定文本解析成数字,如果解析失败,返回默认值
+	 * @param text
+	 * @param defaultValue
+	 * @return
+	 */
+	public static int optionalParse(String text, int defaultValue) {
+		try {
+			return Integer.parseInt(text);
+		} catch (NumberFormatException e) {
+			FSUtilLogger.error("parse exception:" + text + ",return default value=" + defaultValue);
+			return defaultValue;
+		}
+	}
 }

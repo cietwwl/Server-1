@@ -29,8 +29,10 @@ public class MapItemStore<T extends IMapItem> {
 	private final boolean writeDirect; // 写操作立刻更新数据库
 
 	private DataUpdater<String> updater;
+	
+	private final Integer type;
 
-	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater, boolean writeDirect) {
+	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater, boolean writeDirect,Integer type) {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
@@ -44,6 +46,7 @@ public class MapItemStore<T extends IMapItem> {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
 		this.writeDirect = writeDirect;
+		this.type = type;
 	}
 
 	public MapItemStore(String searchFieldP, String searchIdP, Class<T> clazzP) {
@@ -121,7 +124,7 @@ public class MapItemStore<T extends IMapItem> {
 	private boolean addItem(List<T> itemList, boolean record) throws DuplicatedKeyException {
 		checkAddList(itemList);
 		try {
-			commonJdbc.insert_(searchId, itemList);
+			commonJdbc.insert_(searchId, itemList, type);
 		} catch (DuplicatedKeyException e) {
 			throw e;
 		} catch (Exception e) {

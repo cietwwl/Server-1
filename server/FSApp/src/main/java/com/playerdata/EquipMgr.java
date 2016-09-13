@@ -2,6 +2,7 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.role.EquipAttachCfgDAO;
@@ -256,6 +259,51 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 		return true;
 	}
 	
+	public boolean wearEquips(Player player, String heroId, Map<Integer, String> equipMap) {
+		// 此方法暂时不可用：原因，客户端收到同步道具的消息的时候，会去检查装备有没有同步过来
+		boolean isOpen = false;
+		Hero m_pOwner = player.getHeroMgr().getHeroById(player, heroId);
+		if (m_pOwner.getRoleType() == eRoleType.Player) {
+			isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Player_Wear_Equip, player);
+		} else {
+			isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.Hero_Wear_Equip, player);
+		}
+		if (!isOpen) {
+			player.NotifyCommonMsg(ErrorType.NOT_ENOUGH_LEVEL);
+			return false;
+		}
+		Map<Integer, ItemData> equipItemMap = new HashMap<Integer, ItemData>(equipMap.size() + 1, 1.0f);
+		String slotId;
+		int index;
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemData equipItem;
+		ItemData item;
+		List<IUseItem> removeItems = new ArrayList<IUseItem>(equipMap.size());
+		HeroEquipCfgDAO heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
+		for (Iterator<Integer> itr = equipMap.keySet().iterator(); itr.hasNext();) {
+			index = itr.next();
+			slotId = equipMap.get(index);
+			item = itemBagMgr.findBySlotId(slotId);
+			if (item != null && item.getType() == EItemTypeDef.HeroEquip) {
+				equipItem = new ItemData();
+				equipItem.setModelId(item.getModelId());
+				equipItem.setCount(1);
+				equipItem.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
+				HeroEquipCfg heroEquipCfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipItem.getModelId()));
+				int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
+				equipItem.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
+				equipItemMap.put(index, equipItem);
+				removeItems.add(new UseItem(slotId, 1));
+			} else {
+				removeItems.clear();
+				equipItemMap.clear();
+				return false;
+			}
+		}
+		itemBagMgr.useLikeBoxItem(removeItems, null);
+		return equipItemHolder.wearEquips(player, heroId, equipItemMap);
+	}
+	
 	/**
 	 * 穿装备
 	 * 
@@ -345,9 +393,10 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	 */
 	public void subAllEquip(Player player, String heroId) {
 		List<EquipItem> equipList = getEquipList(heroId);
-		for (EquipItem equipItem : equipList) {
-			equipItemHolder.removeItem(player, heroId, equipItem);
-		}
+//		for (EquipItem equipItem : equipList) {
+//			equipItemHolder.removeItem(player, heroId, equipItem);
+//		}
+		equipItemHolder.removeAllItem(player, heroId, equipList);
 	}
 	
 	/**

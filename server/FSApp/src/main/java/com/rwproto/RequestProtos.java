@@ -966,6 +966,24 @@ public final class RequestProtos {
      * </pre>
      */
     int getEntranceId();
+
+    // optional int32 viewId = 9;
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    boolean hasViewId();
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    int getViewId();
   }
   /**
    * Protobuf type {@code RequestHeader}
@@ -1069,6 +1087,11 @@ public final class RequestProtos {
             case 64: {
               bitField0_ |= 0x00000040;
               entranceId_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000080;
+              viewId_ = input.readInt32();
               break;
             }
           }
@@ -1343,6 +1366,30 @@ public final class RequestProtos {
       return entranceId_;
     }
 
+    // optional int32 viewId = 9;
+    public static final int VIEWID_FIELD_NUMBER = 9;
+    private int viewId_;
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    public boolean hasViewId() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    public int getViewId() {
+      return viewId_;
+    }
+
     private void initFields() {
       command_ = com.rwproto.MsgDef.Command.MSG_HeartBeat;
       userId_ = "";
@@ -1351,6 +1398,7 @@ public final class RequestProtos {
       clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
       redpointVersion_ = 0;
       entranceId_ = 0;
+      viewId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1395,6 +1443,9 @@ public final class RequestProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(8, entranceId_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(9, viewId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1431,6 +1482,10 @@ public final class RequestProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, entranceId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, viewId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1571,6 +1626,8 @@ public final class RequestProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         entranceId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        viewId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -1631,6 +1688,10 @@ public final class RequestProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.entranceId_ = entranceId_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.viewId_ = viewId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1671,6 +1732,9 @@ public final class RequestProtos {
         }
         if (other.hasEntranceId()) {
           setEntranceId(other.getEntranceId());
+        }
+        if (other.hasViewId()) {
+          setViewId(other.getViewId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2241,6 +2305,55 @@ public final class RequestProtos {
         return this;
       }
 
+      // optional int32 viewId = 9;
+      private int viewId_ ;
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public boolean hasViewId() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public int getViewId() {
+        return viewId_;
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public Builder setViewId(int value) {
+        bitField0_ |= 0x00000080;
+        viewId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public Builder clearViewId() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        viewId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RequestHeader)
     }
 
@@ -2678,13 +2791,14 @@ public final class RequestProtos {
       "\n\rrequest.proto\032\020ClientView.proto\032\014MsgDe" +
       "f.proto\"R\n\007Request\022\036\n\006header\030\001 \002(\0132\016.Req" +
       "uestHeader\022\032\n\004body\030\002 \002(\0132\014.RequestBody\022\013" +
-      "\n\003num\030\003 \001(\005\"\301\001\n\rRequestHeader\022 \n\007command" +
+      "\n\003num\030\003 \001(\005\"\321\001\n\rRequestHeader\022 \n\007command" +
       "\030\001 \002(\0162\017.MsgDef.Command\022\016\n\006userId\030\002 \001(\t\022" +
       "\r\n\005token\030\003 \001(\t\022\r\n\005seqID\030\004 \001(\005\0223\n\017clientG" +
       "enerated\030\006 \001(\0132\032.ClientView.ClientViewDa" +
       "ta\022\027\n\017redpointVersion\030\007 \001(\005\022\022\n\nentranceI" +
-      "d\030\010 \001(\005\")\n\013RequestBody\022\032\n\022serialized_con" +
-      "tent\030\001 \001(\014B\034\n\013com.rwprotoB\rRequestProtos"
+      "d\030\010 \001(\005\022\016\n\006viewId\030\t \001(\005\")\n\013RequestBody\022\032" +
+      "\n\022serialized_content\030\001 \001(\014B\034\n\013com.rwprot",
+      "oB\rRequestProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2702,7 +2816,7 @@ public final class RequestProtos {
           internal_static_RequestHeader_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RequestHeader_descriptor,
-              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", "ClientGenerated", "RedpointVersion", "EntranceId", });
+              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", "ClientGenerated", "RedpointVersion", "EntranceId", "ViewId", });
           internal_static_RequestBody_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_RequestBody_fieldAccessorTable = new

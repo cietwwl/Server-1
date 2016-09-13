@@ -10,6 +10,7 @@ import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
 import com.rw.dataaccess.processor.EmailCreator;
+import com.rw.dataaccess.processor.FSUserFightingGrowthDataCreator;
 import com.rw.dataaccess.processor.FriendCreator;
 import com.rw.dataaccess.processor.GuideProgressCreator;
 import com.rw.dataaccess.processor.MagicSecretCreator;
@@ -36,6 +37,7 @@ import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.email.TableEmailDAO;
+import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.groupsecret.creator.GroupSecretDefendRecordDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretMatchEnemyDataCreator;
@@ -87,6 +89,10 @@ public enum DataKVType {
 	// 私聊记录数据
 	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class),
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
+	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
+	// 战力成长数据
+	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
+	;
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	
 	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class);
