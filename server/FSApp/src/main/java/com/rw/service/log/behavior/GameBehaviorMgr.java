@@ -44,6 +44,12 @@ public class GameBehaviorMgr {
 		list.add(viewId); // viewId 待提供
 		list.add(reqType); // 二级协议类型
 		DataEventRecorder.startDataEventCollect(list);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public void setMapId(Player player, int mapId){
+		List<Object> param = (List<Object>)DataEventRecorder.getParam();
+		param.add(mapId);
 	}
 
 	public String getSecondBehavior(Command command, Object obj) {
