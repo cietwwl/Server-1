@@ -3,6 +3,9 @@ package com.rw.trace;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.hero.core.FSHero;
+import com.rw.fsutil.dao.cache.CacheKey;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.dropitem.DropRecord;
 import com.rwbase.dao.equipment.EquipItem;
@@ -16,33 +19,39 @@ import com.rwbase.dao.user.UserGameData;
 
 /**
  * DataTrace注册器
+ * 
  * @author Jamaz
  *
  */
 public enum DataTraceRegistrator {
 
-	ItemData(ItemData.class),
-	DropRecord(DropRecord.class),
-	EquipItem(EquipItem.class),
-	FixExpEquipDataItem(FixExpEquipDataItem.class),
-	FixNormEquipDataItem(FixNormEquipDataItem.class),
-	InlayItem(InlayItem.class),
-	MajorData(MajorData.class),
-	Skill(SkillItem.class),
-	TableCopyData(TableCopyData.class),
-	TableUserHero(TableUserHero.class),
-	UserGameData(UserGameData.class),
-//	ARENA(TableArenaData.class),
-	UserData(User.class),
+	ITEM_DATA(ItemData.class),
+	DROP_RECORD(DropRecord.class),
+	EQUIP_ITEM(EquipItem.class),
+	FIX_EXP_EQUIP_ITEM(FixExpEquipDataItem.class),
+	FIX_NOMR_EQUIP_ITEM(FixNormEquipDataItem.class),
+	INLAY_ITEM(InlayItem.class),
+	MAJOR_DATA(MajorData.class),
+	SKILL(SkillItem.class),
+	COPY_DATA(TableCopyData.class),
+	USER_HERO(TableUserHero.class),
+	USER_GAME_DATA(UserGameData.class),
+	//MAIN_ROLE_HERO(FSHero.class, MapItemStoreFactory.MAIN_ROLE_NAME),
+	USER(User.class)
 	ChargeData(ChargeInfo.class),
 	;
 
- 	DataTraceRegistrator(Class<?> dataTraceClass){
-		this.dataTraceClass = dataTraceClass;
+	DataTraceRegistrator(Class<?> dataTraceClass) {
+		this.dataCacheKey = new CacheKey(dataTraceClass);
 	}
-	private Class<?> dataTraceClass;
-	
-	public Class<?> getDataTraceClass() {
-		return dataTraceClass;
+
+	DataTraceRegistrator(Class<?> dataTraceClass, String name) {
+		this.dataCacheKey = new CacheKey(dataTraceClass, name);
+	}
+
+	private CacheKey dataCacheKey;
+
+	public CacheKey getDataCacheKey() {
+		return dataCacheKey;
 	}
 }
