@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
