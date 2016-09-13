@@ -33,6 +33,7 @@ public enum DataChangeListenRegister {
 	USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
 	MAJOR_DATA(MajorData.class, MajorDataListener.class),
 
+	
 	;
 	private DataChangeListenRegister(Class<?> traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
 		this.traceClass = traceClass;
