@@ -1,7 +1,15 @@
 package com.playerdata.groupcompetition;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import com.playerdata.groupcompetition.data.IGCStage;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
+import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
+import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
+import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
 
@@ -22,7 +30,9 @@ public class GroupCompetitionMgr {
 	
 	private long getServerStartTime() {
 		Calendar instance = Calendar.getInstance();
-		instance.set(Calendar.MONTH, 9);
+		instance.add(Calendar.WEEK_OF_YEAR, -3);
+		instance.set(Calendar.HOUR_OF_DAY, 11);
+		instance.set(Calendar.MINUTE, 0);
 		return instance.getTimeInMillis();
 	}
 	
@@ -31,6 +41,26 @@ public class GroupCompetitionMgr {
 			
 		} else {
 			// 没有举办过
+			GroupCompetitionStageCfgDAO groupCompetitionStageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
+			long serverStartTime = this.getServerStartTime();
+			Calendar instance = Calendar.getInstance();
+			instance.setTimeInMillis(serverStartTime);
+			GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCConstance.CompetitionStartType.START_TYPE_SERVER_TIME_OFFSET);
+			IReadOnlyPair<Integer, Integer> time = cfg.getStartTimeInfo();
+			instance.add(Calendar.WEEK_OF_YEAR, cfg.getStartWeeks());
+			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
+			instance.set(Calendar.HOUR_OF_DAY, time.getT1());
+			if(time.getT2() > 0) {
+				instance.set(Calendar.MINUTE, time.getT2());	
+			}
+			List<Integer> stageDetail = cfg.getStageDetailList();
+			List<IGCStage> stageList = new ArrayList<IGCStage>();
+			for (int i = 0, size = stageDetail.size(); i < size; i++) {
+				GroupCompetitionStageCfg stageCfg = groupCompetitionStageCfgDAO.getCfgById(String.valueOf(stageDetail.get(i)));
+				stageList.add(GCStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
+			}
+			GCStageController controller = new GCStageController(stageList, stageList);
+			controller.start(instance.getTimeInMillis()); // controller开始
 		}
 	}
 	

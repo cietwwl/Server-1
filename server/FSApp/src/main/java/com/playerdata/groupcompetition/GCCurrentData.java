@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.playerdata.groupcompetition.stageimpl.CompetitionEventsStatus;
+import com.playerdata.groupcompetition.stageimpl.GCEventsStatus;
 
 /**
  * 
@@ -19,14 +19,14 @@ import com.playerdata.groupcompetition.stageimpl.CompetitionEventsStatus;
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
-class GroupCompetitionCurrentData {
+class GCCurrentData {
 
 	@JsonProperty("1")
 	private long _heldTime; // 举办的时间
 	@JsonProperty("2")
-	private Map<CompetitionEventsStatus, List<String>> _relativeGroups; // 参与的帮派
+	private Map<GCEventsStatus, List<String>> _relativeGroups; // 参与的帮派
 	@JsonProperty("3")
-	private CompetitionEventsStatus _currentStatus; // 当前的赛事阶段
+	private GCEventsStatus _currentStatus; // 当前的赛事阶段
 	@JsonProperty("4")
 	private boolean _currentStatusFinished; // 当前的赛事阶段是否已经完结
 }

@@ -3,12 +3,12 @@ package com.playerdata.groupcompetition.stageimpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompetitionFightingStageContext {
+public class GCEventsStageContext {
 
 	private List<String> _groupIds;
-	private CompetitionEventsStatus _status;
+	private GCEventsStatus _status;
 	
-	public CompetitionFightingStageContext(List<String> groupIds, CompetitionEventsStatus status) {
+	public GCEventsStageContext(List<String> groupIds, GCEventsStatus status) {
 		this._groupIds = new ArrayList<String>(groupIds);
 		this._status = status;
 	}
@@ -17,7 +17,7 @@ public class CompetitionFightingStageContext {
 		return _groupIds;
 	}
 	
-	public CompetitionEventsStatus getStatus() {
+	public GCEventsStatus getStatus() {
 		return _status;
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.playerdata.groupcompetition.data.CompetitionStage;
+import com.playerdata.groupcompetition.data.IGCStage;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
@@ -20,13 +20,13 @@ import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
  * @author CHEN.P
  *
  */
-public class CompetitionStageController implements IGameTimerTask {
+public class GCStageController implements IGameTimerTask {
 
-	private List<CompetitionStage> _stageQueueOrigin = new ArrayList<CompetitionStage>(); // 原生的阶段队列
-	private LinkedList<CompetitionStage> _stageQueue = new LinkedList<CompetitionStage>(); // 阶段队列
-	private CompetitionStage _currentStage = null; // 当前的阶段
+	private List<IGCStage> _stageQueueOrigin = new ArrayList<IGCStage>(); // 原生的阶段队列
+	private LinkedList<IGCStage> _stageQueue = new LinkedList<IGCStage>(); // 阶段队列
+	private IGCStage _currentStage = null; // 当前的阶段
 	
-	public CompetitionStageController(List<CompetitionStage> stageQueueOrigin, List<CompetitionStage> stageQueue) {
+	public GCStageController(List<IGCStage> stageQueueOrigin, List<IGCStage> stageQueue) {
 		this._stageQueueOrigin.addAll(stageQueueOrigin);
 		this._stageQueue.addAll(stageQueue);
 	}
@@ -73,8 +73,8 @@ public class CompetitionStageController implements IGameTimerTask {
 			return;
 		}
 		// 移到下一个阶段
-		CompetitionStage pre = _currentStage;
-		CompetitionStage next = _stageQueue.removeFirst();
+		IGCStage pre = _currentStage;
+		IGCStage next = _stageQueue.removeFirst();
 		next.onStageStart(pre);
 		_currentStage = pre;
 		long endTime = _currentStage.getStageEndTime();

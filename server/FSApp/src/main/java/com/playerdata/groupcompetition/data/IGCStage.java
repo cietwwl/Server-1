@@ -7,12 +7,12 @@ package com.playerdata.groupcompetition.data;
  * @author CHEN.P
  *
  */
-public interface CompetitionStage {
+public interface IGCStage {
 
 	/**
 	 * 通知此阶段开始
 	 */
-	public void onStageStart(CompetitionStage preStage);
+	public void onStageStart(IGCStage preStage);
 	
 	/**
 	 * 通知此阶段结束

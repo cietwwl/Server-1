@@ -7,6 +7,6 @@ package com.playerdata.groupcompetition.data;
  * @author CHEN.P
  *
  */
-public interface CompetitionCombatRecord {
+public interface GCCombatRecord {
 
 }

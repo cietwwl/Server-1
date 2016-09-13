@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.stageimpl;
 
-import com.playerdata.groupcompetition.data.CompetitionStage;
+import com.playerdata.groupcompetition.data.IGCStage;
+import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
 /**
  * 
@@ -9,12 +10,16 @@ import com.playerdata.groupcompetition.data.CompetitionStage;
  * @author CHEN.P
  *
  */
-public class CompetitionEmptyStage implements CompetitionStage {
+public class GCEmptyStage implements IGCStage {
 
 	private long _stageEndTime;
 	
+	public GCEmptyStage(GroupCompetitionStageCfg cfg) {
+		
+	}
+	
 	@Override
-	public void onStageStart(CompetitionStage preStage) {
+	public void onStageStart(IGCStage preStage) {
 		
 	}
 

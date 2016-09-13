@@ -2,7 +2,7 @@ package com.playerdata.groupcompetition.data;
 
 import java.util.List;
 
-import com.playerdata.groupcompetition.data.match.CompetitionMatcher;
+import com.playerdata.groupcompetition.data.match.GCMatcher;
 
 /**
  * 
@@ -11,7 +11,7 @@ import com.playerdata.groupcompetition.data.match.CompetitionMatcher;
  * @author CHEN.P
  *
  */
-public interface CompetitionAgainst {
+public interface GCAgainst {
 	
 	/**
 	 * 
@@ -28,7 +28,7 @@ public interface CompetitionAgainst {
 	 * 
 	 * @return
 	 */
-	public CompetitionGroup getWinGroup();
+	public GCGroup getWinGroup();
 	
 	/**
 	 * 
@@ -36,7 +36,7 @@ public interface CompetitionAgainst {
 	 * 
 	 * @return
 	 */
-	public List<CompetitionCombatRecord> getHistorys();
+	public List<GCCombatRecord> getHistorys();
 	
 	/**
 	 * 
@@ -44,5 +44,5 @@ public interface CompetitionAgainst {
 	 * 
 	 * @return
 	 */
-	public CompetitionMatcher<CompetitionUnit> getMatcher();
+	public GCMatcher<IGCUnit> getMatcher();
 }

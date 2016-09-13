@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.stageimpl;
 
-public enum CompetitionEventsStatus {
+public enum GCEventsStatus {
 	
 	/**
 	 * 16强
@@ -21,8 +21,8 @@ public enum CompetitionEventsStatus {
 	;
 	
 	static {
-		CompetitionEventsStatus[] all = CompetitionEventsStatus.values();
-		CompetitionEventsStatus status;
+		GCEventsStatus[] all = GCEventsStatus.values();
+		GCEventsStatus status;
 		int totalDays = all.length; // 每个阶段一日
 		for (int i = 0; i < all.length; i++) {
 			int nextIndex = i + 1;
@@ -36,14 +36,14 @@ public enum CompetitionEventsStatus {
 		}
 	}
 	
-	private CompetitionEventsStatus _next;
+	private GCEventsStatus _next;
 	private int daysNeededToFinal; // 本阶段到总决赛需要多少天
 	
 	public boolean hasNext() {
 		return _next != null;
 	}
 	
-	public CompetitionEventsStatus getNex() {
+	public GCEventsStatus getNex() {
 		return _next;
 	}
 	

@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.data;
 
-import com.playerdata.groupcompetition.data.match.CompetitionMatchSource;
+import com.playerdata.groupcompetition.data.match.GCMatchSource;
 
 /**
  * 
@@ -9,7 +9,7 @@ import com.playerdata.groupcompetition.data.match.CompetitionMatchSource;
  * @author CHEN.P
  *
  */
-public interface CompetitionUnit extends CompetitionMatchSource {
+public interface IGCUnit extends GCMatchSource {
 
 	/**
 	 * 

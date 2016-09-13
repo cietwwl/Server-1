@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.playerdata.groupcompetition.cfg.CompetitionCommonCfgDAO;
-import com.playerdata.groupcompetition.data.CompetitionStage;
-import com.playerdata.groupcompetition.util.CompetitionCommonTask;
+import com.playerdata.groupcompetition.cfg.GCCommonCfgDAO;
+import com.playerdata.groupcompetition.data.IGCStage;
+import com.playerdata.groupcompetition.util.GCCommonTask;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
+import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
 /**
  * 
@@ -18,18 +19,18 @@ import com.rw.fsutil.common.IReadOnlyPair;
  * @author CHEN.P
  *
  */
-public class CompetitionFightingStage implements CompetitionStage {
+public class GCEventsStage implements IGCStage {
 	
-	private CompetitionEventsStatus _currentFightingStatus; // 当前的比赛状态
-	private CompetitionCommonCfgDAO _competitionCommonCfgDAO; // 配置读取
-	private CompetitionEvents _events; // 争霸赛事
+	private GCEventsStatus _currentFightingStatus; // 当前的比赛状态
+	private GCCommonCfgDAO _competitionCommonCfgDAO; // 配置读取
+	private GCEvents _events; // 争霸赛事
 	private EventsStatusControlTask _eventsStatusControlTask; // 赛事状态控制任务
 	private EventsEndControlTask _eventsEndControlTask; // 每一轮赛事结束的控制任务
 	private boolean _stageEnd;
 	private long _stageEndTime; // 本阶段结束的时间
 	
-	public CompetitionFightingStage() {
-		_competitionCommonCfgDAO = CompetitionCommonCfgDAO.getInstance();
+	public GCEventsStage(GroupCompetitionStageCfg cfg) {
+		_competitionCommonCfgDAO = GCCommonCfgDAO.getInstance();
 		_eventsStatusControlTask = new EventsStatusControlTask(this);
 		_eventsEndControlTask = new EventsEndControlTask(this);
 	}
@@ -39,13 +40,13 @@ public class CompetitionFightingStage implements CompetitionStage {
 		return Collections.emptyList();
 	}
 	
-	private void moveToStatus(CompetitionEventsStatus status, List<String> groupIds) {
+	private void moveToStatus(GCEventsStatus status, List<String> groupIds) {
 		// 移到下一个状态
 		_currentFightingStatus = status;
-		_events = new CompetitionEvents.Builder(groupIds, status).build();
+		_events = new GCEvents.Builder(groupIds, status).build();
 		_events.start();
 		long delay = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(_competitionCommonCfgDAO.getCfg().getMinutesPerCompetition());
-		CompetitionCommonTask.scheduleCommonTask(_eventsEndControlTask, Boolean.TRUE, delay); // 结束的时效任务，等待回调
+		GCCommonTask.scheduleCommonTask(_eventsEndControlTask, Boolean.TRUE, delay); // 结束的时效任务，等待回调
 	}
 	
 	/**
@@ -75,7 +76,7 @@ public class CompetitionFightingStage implements CompetitionStage {
 	 * @param startOnNextDay
 	 * @return
 	 */
-	private long calculateEndTime(CompetitionEventsStatus startStatus, boolean startOnNextDay) {
+	private long calculateEndTime(GCEventsStatus startStatus, boolean startOnNextDay) {
 		int lastDays = startStatus.getDaysNeededToFinal();
 		if(startOnNextDay) {
 			lastDays++;
@@ -101,9 +102,9 @@ public class CompetitionFightingStage implements CompetitionStage {
 	 * @param status
 	 * @return
 	 */
-	private boolean createEventsStatusControlTask(List<String> groupIds, CompetitionEventsStatus status) {
+	private boolean createEventsStatusControlTask(List<String> groupIds, GCEventsStatus status) {
 		boolean startOnNextDay = false;
-		CompetitionFightingStageContext context = new CompetitionFightingStageContext(groupIds, status);
+		GCEventsStageContext context = new GCEventsStageContext(groupIds, status);
 		Calendar instance = Calendar.getInstance();
 		IReadOnlyPair<Integer, Integer> timeInfos = _competitionCommonCfgDAO.getCfg().getFightingStartTime();
 		instance.set(Calendar.HOUR, timeInfos.getT1());
@@ -118,19 +119,19 @@ public class CompetitionFightingStage implements CompetitionStage {
 			instance.add(Calendar.DAY_OF_YEAR, 1);
 			startOnNextDay = true;
 		}
-		CompetitionCommonTask.scheduleCommonTask(_eventsStatusControlTask, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
+		GCCommonTask.scheduleCommonTask(_eventsStatusControlTask, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
 		return startOnNextDay;
 	}
 
 	@Override
-	public void onStageStart(CompetitionStage preStage) {
+	public void onStageStart(IGCStage preStage) {
 		// 通知阶段开始，但这时候具体的赛事还未开始
 		List<String> topCountGroups = getTopCountGroupsFromRank();
-		CompetitionEventsStatus status;
+		GCEventsStatus status;
 		if (topCountGroups.size() > 8) {
-			status = CompetitionEventsStatus.ROUND_OF_16;
+			status = GCEventsStatus.ROUND_OF_16;
 		} else {
-			status = CompetitionEventsStatus.ROUND_OF_8;
+			status = GCEventsStatus.ROUND_OF_8;
 		}
 		boolean startOnNextDay = this.createEventsStatusControlTask(topCountGroups, status);
 		this._stageEndTime = calculateEndTime(status, startOnNextDay);
@@ -153,16 +154,16 @@ public class CompetitionFightingStage implements CompetitionStage {
 	 * @author CHEN.P
 	 *
 	 */
-	private static class EventsStatusControlTask implements IConsumer<CompetitionFightingStageContext> {
+	private static class EventsStatusControlTask implements IConsumer<GCEventsStageContext> {
 
-		private CompetitionFightingStage _stage;
+		private GCEventsStage _stage;
 		
-		public EventsStatusControlTask(CompetitionFightingStage pStage) {
+		public EventsStatusControlTask(GCEventsStage pStage) {
 			this._stage = pStage;
 		}
 		
 		@Override
-		public void accept(CompetitionFightingStageContext context) {
+		public void accept(GCEventsStageContext context) {
 			_stage.moveToStatus(context.getStatus(), context.getGroupIds());
 		}
 		
@@ -170,9 +171,9 @@ public class CompetitionFightingStage implements CompetitionStage {
 	
 	private static class EventsEndControlTask implements IConsumer<Boolean> {
 
-		private CompetitionFightingStage _stage;
+		private GCEventsStage _stage;
 		
-		public EventsEndControlTask(CompetitionFightingStage pStage) {
+		public EventsEndControlTask(GCEventsStage pStage) {
 			this._stage = pStage;
 		}
 		

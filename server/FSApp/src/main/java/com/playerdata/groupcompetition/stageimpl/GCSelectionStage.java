@@ -2,9 +2,10 @@ package com.playerdata.groupcompetition.stageimpl;
 
 import java.util.Calendar;
 
-import com.playerdata.groupcompetition.cfg.CompetitionCommonCfgDAO;
-import com.playerdata.groupcompetition.data.CompetitionStage;
+import com.playerdata.groupcompetition.cfg.GCCommonCfgDAO;
+import com.playerdata.groupcompetition.data.IGCStage;
 import com.rw.fsutil.common.IReadOnlyPair;
+import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
 /**
  * 
@@ -13,13 +14,13 @@ import com.rw.fsutil.common.IReadOnlyPair;
  * @author CHEN.P
  *
  */
-public class CompetitionSelectionStage implements CompetitionStage {
+public class GCSelectionStage implements IGCStage {
 	
 	private long _stageEndTime; // 阶段结束的时间
-	private CompetitionCommonCfgDAO _competitionCommonCfgDAO;
+	private GCCommonCfgDAO _competitionCommonCfgDAO;
 	
-	public CompetitionSelectionStage() {
-		_competitionCommonCfgDAO = CompetitionCommonCfgDAO.getInstance();
+	public GCSelectionStage(GroupCompetitionStageCfg cfg) {
+		_competitionCommonCfgDAO = GCCommonCfgDAO.getInstance();
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class CompetitionSelectionStage implements CompetitionStage {
 	}
 	
 	@Override
-	public void onStageStart(CompetitionStage preStage) {
+	public void onStageStart(IGCStage preStage) {
 		this._stageEndTime = calculateEndTime(false);
 	}
 

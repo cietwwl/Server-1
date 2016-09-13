@@ -8,7 +8,7 @@ import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-public class CompetitionStageEndCaller implements IGameTimerTask {
+public class GCStageEndCaller implements IGameTimerTask {
 	
 	@Override
 	public String getName() {

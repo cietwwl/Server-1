@@ -10,7 +10,7 @@ import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-public class CompetitionCommonTask<T> implements IGameTimerTask {
+public class GCCommonTask<T> implements IGameTimerTask {
 
 	private IConsumer<T> _task;
 	private T _para;
@@ -20,7 +20,7 @@ public class CompetitionCommonTask<T> implements IGameTimerTask {
 		if (executeTime < systemCurrentMillis) {
 			throw new IllegalArgumentException("executeTime在当前时间之前！");
 		}
-		CompetitionCommonTask<T> task = new CompetitionCommonTask<T>();
+		GCCommonTask<T> task = new GCCommonTask<T>();
 		task._task = consumer;
 		task._para = para;
 		long delay = executeTime - systemCurrentMillis;

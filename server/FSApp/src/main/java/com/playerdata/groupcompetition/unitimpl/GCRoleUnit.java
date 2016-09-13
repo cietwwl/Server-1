@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.unitimpl;
 
-import com.playerdata.groupcompetition.data.CompetitionUnit;
+import com.playerdata.groupcompetition.data.IGCUnit;
 
 /**
  * 
@@ -9,7 +9,7 @@ import com.playerdata.groupcompetition.data.CompetitionUnit;
  * @author CHEN.P
  *
  */
-public class CompetitionRoleUnit implements CompetitionUnit {
+public class GCRoleUnit implements IGCUnit {
 
 	@Override
 	public long getLastMatchTime() {

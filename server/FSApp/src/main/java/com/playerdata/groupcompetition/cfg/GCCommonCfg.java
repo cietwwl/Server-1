@@ -3,7 +3,7 @@ package com.playerdata.groupcompetition.cfg;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 
-public class CompetitionCommonCfg {
+public class GCCommonCfg {
 
 	private int minutesPerCompetitionEvents = 32; // 每一轮争霸赛持续的时间
 	private IReadOnlyPair<Integer, Integer> fightingStartTime = Pair.CreateReadonly(19, 0); // 赛事阶段，每一轮赛事开始的时间

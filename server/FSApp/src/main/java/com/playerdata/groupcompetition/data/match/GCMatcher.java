@@ -9,7 +9,7 @@ import com.rwbase.common.timer.IGameTimerTask;
  * @author CHEN.P
  *
  */
-public interface CompetitionMatcher<T extends CompetitionMatchSource> extends IGameTimerTask {
+public interface GCMatcher<T extends GCMatchSource> extends IGameTimerTask {
 
 
 	/**
@@ -21,6 +21,6 @@ public interface CompetitionMatcher<T extends CompetitionMatchSource> extends IG
 	 * @param providerA
 	 * @param providerB
 	 */
-	public void startMatchTask(CompetitionMatchedAction<T> onMatchedAction, CompetitionMatchSourceProvider<T> providerA, CompetitionMatchSourceProvider<T> providerB);
+	public void startMatchTask(GCMatchedAction<T> onMatchedAction, GCMatchSourceProvider<T> providerA, GCMatchSourceProvider<T> providerB);
 	
 }

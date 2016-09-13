@@ -7,7 +7,7 @@ package com.playerdata.groupcompetition.data.match;
  * @author CHEN.P
  *
  */
-public interface CompetitionMatchSource {
+public interface GCMatchSource {
 
 	/**
 	 * 

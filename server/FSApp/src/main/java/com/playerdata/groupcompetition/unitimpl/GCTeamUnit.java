@@ -1,8 +1,8 @@
 package com.playerdata.groupcompetition.unitimpl;
 
-import com.playerdata.groupcompetition.data.CompetitionUnit;
+import com.playerdata.groupcompetition.data.IGCUnit;
 
-public class CompetitionTeamUnit implements CompetitionUnit {
+public class GCTeamUnit implements IGCUnit {
 
 	@Override
 	public String getId() {

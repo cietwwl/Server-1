@@ -2,7 +2,7 @@ package com.playerdata.groupcompetition.data;
 
 import java.util.List;
 
-import com.playerdata.groupcompetition.data.match.CompetitionMatchSourceProvider;
+import com.playerdata.groupcompetition.data.match.GCMatchSourceProvider;
 
 /**
  * 
@@ -11,7 +11,7 @@ import com.playerdata.groupcompetition.data.match.CompetitionMatchSourceProvider
  * @author CHEN.P
  *
  */
-public interface CompetitionGroup extends CompetitionMatchSourceProvider<CompetitionUnit> {
+public interface GCGroup extends GCMatchSourceProvider<IGCUnit> {
 
 	/**
 	 * 
@@ -51,7 +51,7 @@ public interface CompetitionGroup extends CompetitionMatchSourceProvider<Competi
 	 * 
 	 * @return
 	 */
-	public List<CompetitionUnit> getAllUnits();
+	public List<IGCUnit> getAllUnits();
 	
 	/**
 	 * 
@@ -59,5 +59,5 @@ public interface CompetitionGroup extends CompetitionMatchSourceProvider<Competi
 	 * 
 	 * @param unit
 	 */
-	public void addUnit(CompetitionUnit unit);
+	public void addUnit(IGCUnit unit);
 }

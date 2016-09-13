@@ -7,10 +7,15 @@ import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
 
-public class GroupCompetitionStageControlCfgDAO extends CfgCsvDao<GroupCompetitionStageControlCfg>{
+public class GroupCompetitionStageControlCfgDAO extends CfgCsvDao<GroupCompetitionStageControlCfg> {
+	
+	public static GroupCompetitionStageControlCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GroupCompetitionStageControlCfgDAO.class);
+	}
 
 	@Override
 	protected Map<String, GroupCompetitionStageControlCfg> initJsonCfg() {
@@ -27,6 +32,17 @@ public class GroupCompetitionStageControlCfgDAO extends CfgCsvDao<GroupCompetiti
 			cfg.setStageDetailList(list);
 		}
 		return this.cfgCacheMap;
+	}
+	
+	public GroupCompetitionStageControlCfg getByType(int type) {
+		GroupCompetitionStageControlCfg tempCfg;
+		for(Iterator<String> keyItr = this.cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
+			tempCfg = this.cfgCacheMap.get(keyItr.next());
+			if(tempCfg.getStartType() == type) {
+				return tempCfg;
+			}
+		}
+		return null;
 	}
 
 }

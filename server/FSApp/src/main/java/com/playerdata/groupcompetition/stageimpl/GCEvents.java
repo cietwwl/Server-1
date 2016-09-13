@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.rw.fsutil.common.Pair;
 
-public class CompetitionEvents {
+public class GCEvents {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class CompetitionEvents {
 	 * @param groupIds 涉及的帮派id
 	 * @param status 当前赛事的状态
 	 */
-	private CompetitionEvents(List<String> groupIds, CompetitionEventsStatus status) {
+	private GCEvents(List<String> groupIds, GCEventsStatus status) {
 
 	}
 	
@@ -46,10 +46,10 @@ public class CompetitionEvents {
 	public static class Builder {
 
 		private List<String> _groupIds; // 涉及的groupId
-		private CompetitionEventsStatus _status; // 赛事的状态
+		private GCEventsStatus _status; // 赛事的状态
 		private List<Pair<Integer, Integer>> _againstsInfo; // 对阵信息
 		
-		public Builder(List<String> groupIds, CompetitionEventsStatus status) {
+		public Builder(List<String> groupIds, GCEventsStatus status) {
 			this._groupIds = new ArrayList<String>(groupIds);
 			this._status = status;
 		}
@@ -63,11 +63,11 @@ public class CompetitionEvents {
 			return this;
 		}
 
-		public CompetitionEventsStatus getStatus() {
+		public GCEventsStatus getStatus() {
 			return _status;
 		}
 
-		public Builder setStatus(CompetitionEventsStatus pstatus) {
+		public Builder setStatus(GCEventsStatus pstatus) {
 			this._status = pstatus;
 			return this;
 		}
@@ -81,8 +81,8 @@ public class CompetitionEvents {
 			return this;
 		}
 		
-		public CompetitionEvents build() {
-			CompetitionEvents events = new CompetitionEvents(_groupIds, _status);
+		public GCEvents build() {
+			GCEvents events = new GCEvents(_groupIds, _status);
 			return events;
 		}
 	}

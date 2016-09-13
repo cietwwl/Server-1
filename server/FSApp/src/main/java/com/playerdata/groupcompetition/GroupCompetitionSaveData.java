@@ -1,12 +1,14 @@
 package com.playerdata.groupcompetition;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.playerdata.groupcompetition.util.ChampionGroupData;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 /**
@@ -23,11 +25,13 @@ class GroupCompetitionSaveData {
 	private static final GroupCompetitionSaveData _INSTANCE = new GroupCompetitionSaveData();
 	
 	@JsonProperty("1")
-	private int heldTimes; // 已经举办的次数
+	private int _heldTimes; // 已经举办的次数
 	@JsonProperty("2")
-	private long lastHeldTimeMillis; // 最后一次举办的时间
+	private long _lastHeldTimeMillis; // 最后一次举办的时间
 	@JsonProperty("3")
-	private GroupCompetitionCurrentData currentData; // 当前的赛事的保存数据
+	private GCCurrentData _currentData; // 当前的赛事的保存数据
+	@JsonProperty("4")
+	private List<ChampionGroupData> _championGroups; // 历届冠军
 	
 	static void initDataFromDB(String attribute) {
 		GroupCompetitionSaveData data = JsonUtil.readValue(attribute, GroupCompetitionSaveData.class);
@@ -53,7 +57,7 @@ class GroupCompetitionSaveData {
 	 * 更新举办次数，使举办次数+1
 	 */
 	public void increaseHeldTimes() {
-		this.heldTimes++;
+		this._heldTimes++;
 	}
 
 	/**
@@ -63,7 +67,7 @@ class GroupCompetitionSaveData {
 	 * @return
 	 */
 	public int getHeldTimes() {
-		return heldTimes;
+		return _heldTimes;
 	}
 	
 	/**
@@ -73,7 +77,7 @@ class GroupCompetitionSaveData {
 	 * @param timeMillis
 	 */
 	public void updateLastHeldTime(long timeMillis) {
-		lastHeldTimeMillis = timeMillis;
+		_lastHeldTimeMillis = timeMillis;
 	}
 	
 	/**
@@ -83,6 +87,6 @@ class GroupCompetitionSaveData {
 	 * @return
 	 */
 	public long getLastHeldTimeMillis() {
-		return lastHeldTimeMillis;
+		return _lastHeldTimeMillis;
 	}
 }
