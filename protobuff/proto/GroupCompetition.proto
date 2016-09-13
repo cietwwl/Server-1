@@ -1,0 +1,31 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCompetitionProto";
+
+package groupCompetition;
+
+
+enum GCRequestType{
+	EnterPrepareArea = 1;	//进入备战区
+	LeavePrepareArea = 2;	//离开备战区
+	InformPreparePosition = 3;	//通知备战区的位置
+}
+
+enum GCResultType {
+	SUCCESS = 1; //成功
+	DATA_ERROR = 2; //数据异常
+}
+
+message CommonReqMsg{
+	required GCRequestType reqType = 1;		//请求功能协议类型
+	optional AreaPosition position = 2;		//玩家当前在备战区的位置
+}
+
+message CommonRspMsg{
+	required GCResultType rstType = 1; //是否成功处理
+}
+
+message AreaPosition{
+	required float x = 1;
+	required float y = 2;
+}

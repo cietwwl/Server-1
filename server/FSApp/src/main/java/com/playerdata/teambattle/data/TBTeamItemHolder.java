@@ -12,66 +12,78 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class TBTeamItemHolder{
+public class TBTeamItemHolder {
 	
+	
+	private int MAX_TEAM_ITEM_COUNT = 2000;
 	private static TBTeamItemHolder instance = new TBTeamItemHolder();
 	
-	public static TBTeamItemHolder getInstance(){
+	public static TBTeamItemHolder getInstance() {
 		return instance;
 	}
 
 	final private eSynType synType = eSynType.TEAM_BATTLE_TEAM;
-	
-	public boolean addNewTeam(TBTeamItem teamItem){
-		if(StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID())) return false;
+
+	public boolean addNewTeam(TBTeamItem teamItem) {
+		if (StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID()))
+			return false;
 		return getItemStore(teamItem.getHardID()).addItem(teamItem);
 	}
-	
-	public boolean updateTeam(TBTeamItem teamItem){
-		if(StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID())) return false;
+
+	public boolean updateTeam(TBTeamItem teamItem) {
+		if (StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID()))
+			return false;
 		return getItemStore(teamItem.getHardID()).updateItem(teamItem);
 	}
-	
-	public boolean removeTeam(TBTeamItem teamItem){
-		if(StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID())) return false;
+
+	public boolean removeTeam(TBTeamItem teamItem) {
+		if (StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID()))
+			return false;
 		return getItemStore(teamItem.getHardID()).removeItem(teamItem.getTeamID());
 	}
-	
-	public TBTeamItem getItem(String hardID, String teamID){
+
+	public TBTeamItem getItem(String hardID, String teamID) {
 		return getItemStore(hardID).getItem(teamID);
 	}
-	
-	public void synData(Player player, String teamID){
+
+	public void synData(Player player, String teamID) {
 		String hardID = getHardIDFromTeamID(teamID);
-		if(StringUtils.isBlank(hardID)) return;
+		if (StringUtils.isBlank(hardID))
+			return;
 		TBTeamItem teamItem = getItemStore(hardID).getItem(teamID);
 		synData(player, teamItem);
 	}
-	
-	public void synData(Player player, TBTeamItem teamItem){
-		if(teamItem == null) return;
+
+	public void synData(Player player, TBTeamItem teamItem) {
+		if (teamItem == null)
+			return;
 		ClientDataSynMgr.synData(player, teamItem, synType, eSynOpType.UPDATE_SINGLE);
 	}
-	
-	public void synData(TBTeamItem teamItem){
-		for(TeamMember member : teamItem.getMembers()){
+
+	public void synData(TBTeamItem teamItem) {
+		for (TeamMember member : teamItem.getMembers()) {
 			Player player = PlayerMgr.getInstance().find(member.getUserID());
-			if(player!= null && !member.getState().equals(TBMemberState.Finish) && 
-					!member.getState().equals(TBMemberState.Leave)) {
+			if (player != null && !member.getState().equals(TBMemberState.Finish) && !member.getState().equals(TBMemberState.Leave)) {
 				synData(player, teamItem);
 			}
 		}
 	}
-	
+
 	public MapItemStore<TBTeamItem> getItemStore(String hardID) {
 		MapItemStoreCache<TBTeamItem> cache = MapItemStoreFactory.getTBTeamItemCache();
 		return cache.getMapItemStore(hardID, TBTeamItem.class);
 	}
 	
-	public String getHardIDFromTeamID(String teamID){
-		if(StringUtils.isBlank(teamID)) return null;
+	public boolean isItemCountMax(String hardID) {
+		return getItemStore(hardID).getSize() >= MAX_TEAM_ITEM_COUNT;
+	}
+
+	public String getHardIDFromTeamID(String teamID) {
+		if (StringUtils.isBlank(teamID))
+			return null;
 		String[] strArr = teamID.split("_");
-		if(strArr.length != 2) return null;
+		if (strArr.length != 2)
+			return null;
 		return strArr[0];
 	}
 }

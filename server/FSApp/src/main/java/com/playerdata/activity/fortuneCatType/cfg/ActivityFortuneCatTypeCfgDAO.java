@@ -22,7 +22,9 @@ import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -60,7 +62,8 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 	public ActivityFortuneCatTypeItem newItem(Player player, ActivityFortuneCatTypeCfg cfg) {
 		if(cfg!=null){
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(player.getUserId());
+			String itemID = ActivityFortuneCatHelper.getItemId(player.getUserId(), ActivityFortuneTypeEnum.FortuneCat);
+			item.setId(itemID);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());

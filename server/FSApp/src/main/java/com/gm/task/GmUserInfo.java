@@ -73,10 +73,10 @@ public class GmUserInfo implements IGmTask{
 
 	private void setInfo(Player player, Map<String, Object> resultMap){
 		UserDataMgr userDataMgr = player.getUserDataMgr();
-		resultMap.put("account", userDataMgr.getAccount());
+		resultMap.put("account", userDataMgr.getAccount()); 
 		resultMap.put("roleId", player.getUserId());
 		resultMap.put("roleName", player.getUserName());
-		resultMap.put("level", player.getLevel());
+		resultMap.put("level", userDataMgr.getUser().getLevel());
 		resultMap.put("exp", player.getExp());
 		resultMap.put("money", player.getUserGameDataMgr().getCoin());
 		resultMap.put("coin", player.getUserGameDataMgr().getGold());

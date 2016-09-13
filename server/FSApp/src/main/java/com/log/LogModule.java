@@ -20,6 +20,7 @@ public enum LogModule {
 	ComActivityDailyCount("通用活动_DailyCountType"),
 	ComActivityRate("通用活动_RateType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),	
+	ComActivityTimeCard("通用活动_TimeCard"),
 	ComActivityExchange("通用活动_ExchangeType"),
 	ComActivityDailyRecharge("通用活动_DailyRechargeType"),
 	
@@ -37,6 +38,7 @@ public enum LogModule {
 	GroupSecret("帮派秘境"),
 	MagicSecret("法宝秘境"),
 	GroupFightOnline("在线帮派战斗"), 
+	GroupCompetition("帮派争霸赛"), 
 	RedPoint("红点"),
 	GroupCopy("帮派副本"),
 	TeamBattle("组队副本"),

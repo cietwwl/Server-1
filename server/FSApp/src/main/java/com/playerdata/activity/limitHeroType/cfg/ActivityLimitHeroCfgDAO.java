@@ -17,11 +17,15 @@ import java.util.Map;
 
 
 
+
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroHelper;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
@@ -70,9 +74,11 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	public ActivityLimitHeroTypeItem newItem(Player player,ActivityLimitHeroCfg cfg){
 		if(cfg!=null){
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();	
-			item.setId(player.getUserId());
+			String userid = player.getUserId();
+			String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
+			item.setId(itemId);
 			item.setCfgId(cfg.getId());
-			item.setUserId(player.getUserId());
+			item.setUserId(userid);
 			item.setVersion(cfg.getVersion());
 			item.setLastSingleTime(0);
 			item.setSubList(newSubItemList(cfg));

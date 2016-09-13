@@ -1,6 +1,8 @@
 package com.rwbase.dao.task;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,42 +16,41 @@ public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
 		return SpringContextUtil.getBean(TaskCfgDAO.class);
 	}
 
+	private List<TaskCfg> initTask;
+	private HashMap<Integer, TaskCfg> map;
+	private HashMap<Integer, TaskCfg> preIdMap;
+
 	@Override
 	public Map<String, TaskCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("task/taskCfg.csv",TaskCfg.class);
-		return cfgCacheMap;
-	}	
-	
-
-
-	public List<TaskCfg> getInitList(){
-		List<TaskCfg> allarr = super.getAllCfg();
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("task/taskCfg.csv", TaskCfg.class);
+		// 初始化好运行时要使用的集合
 		List<TaskCfg> list = new ArrayList<TaskCfg>();
-		for (TaskCfg cfg : allarr) {
-			if(cfg.getPreTask() < 0){
+		HashMap<Integer, TaskCfg> map = new HashMap<Integer, TaskCfg>();
+		HashMap<Integer, TaskCfg> preIdMap = new HashMap<Integer, TaskCfg>();
+		for (Map.Entry<String, TaskCfg> entry : cfgCacheMap.entrySet()) {
+			TaskCfg cfg = entry.getValue();
+			//TODO 这里可能有未初始化的preId
+			map.put(cfg.getId(), cfg);
+			preIdMap.put(cfg.getPreTask(), cfg);
+			if (cfg.getPreTask() < 0) {
 				list.add(cfg);
 			}
 		}
-		return list;
+		this.map = map;
+		this.preIdMap = preIdMap;
+		this.initTask = Collections.unmodifiableList(list);
+		return cfgCacheMap;
 	}
-	
-	public TaskCfg getCfg(int id){
-		List<TaskCfg> allarr = super.getAllCfg();
-		for (TaskCfg cfg : allarr) {
-			if(cfg.getId() == id){
-				return cfg;
-			}
-		}
-		return null;
+
+	public List<TaskCfg> getInitList() {
+		return initTask;
 	}
-	
-	public TaskCfg getCfgByPreId(int id){
-		List<TaskCfg> allarr = super.getAllCfg();
-		for (TaskCfg cfg : allarr) {
-			if(cfg.getPreTask() == id){
-				return cfg;
-			}
-		}
-		return null;
+
+	public TaskCfg getCfg(int id) {
+		return this.map.get(id);
+	}
+
+	public TaskCfg getCfgByPreId(int id) {
+		return preIdMap.get(id);
 	}
 }
