@@ -92,8 +92,6 @@ public enum DataKVType {
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
-	;
-	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	
 	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class);
 	

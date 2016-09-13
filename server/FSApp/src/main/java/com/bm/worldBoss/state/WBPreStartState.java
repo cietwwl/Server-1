@@ -30,5 +30,7 @@ class WBPreStartState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		wbData.setState(state);
 		WBDataHolder.getInstance().update();		
+		
+		
 	}
 }
