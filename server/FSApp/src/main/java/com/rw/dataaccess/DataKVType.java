@@ -1,5 +1,7 @@
 package com.rw.dataaccess;
 
+import com.bm.worldBoss.data.WBUserDataCreator;
+import com.bm.worldBoss.data.WBUserDataDao;
 import com.common.HPCUtil;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
@@ -85,7 +87,10 @@ public enum DataKVType {
 	// 私聊记录数据
 	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class),
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
-	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class);
+	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
+	
+	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class);
+	
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

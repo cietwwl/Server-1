@@ -5,7 +5,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.bm.worldBoss.cfg.WBCfg;
-import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.state.WBStateFSM;
@@ -29,8 +28,7 @@ public class WBMgr {
 	public WBMgr(){
 		ReentrantReadWriteLock treeRwLock = new ReentrantReadWriteLock();
 		this.readLock = treeRwLock.readLock();
-		this.writeLock = treeRwLock.writeLock();
-		tryNextBoss();
+		this.writeLock = treeRwLock.writeLock();		
 	}
 	
 	public static WBMgr getInstance(){
@@ -68,22 +66,9 @@ public class WBMgr {
 		}
 	}
 	
-	public boolean tryNextBoss(){
-		boolean success = false;
-		WBData wbData = WBDataHolder.getInstance().get();
-		long curTime = System.currentTimeMillis();
-		if(wbData == null || wbData.getEndTime() < curTime){
-			WBCfg nextCfg = WBCfgDAO.getInstance().getNextCfg();
-			
-			if(nextCfg!=null){
-				success = initNewBoss(nextCfg);
-			}
-		}
-		return success;
-		
-	}
+
 	
-	private boolean initNewBoss(WBCfg nextCfg ){
+	public boolean initNewBoss(WBCfg nextCfg ){
 		boolean success = false;
 		writeLock.lock();
 		try {			
@@ -98,10 +83,9 @@ public class WBMgr {
 	public ArmyInfo getBossArmy(){
 		
 		WBData wbData = WBDataHolder.getInstance().get();
-		String wbcfgId = wbData.getWbcfgId();
-		WBCfg wbCfg = WBCfgDAO.getInstance().getCfgById(wbcfgId);
+		ArmyInfo armyInfo = null;
 		
-		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(wbCfg.getMonsterCfgId());
+		armyInfo = ArmyInfoHelper.buildMonsterArmy(wbData.getMonsterCfgId());
 		ArmyHero armyHero = armyInfo.getHeroList().get(0);
 		CurAttrData curAttrData = new CurAttrData();
 		
@@ -115,8 +99,7 @@ public class WBMgr {
 		
 		armyHero.setCurAttrData(curAttrData);
 	
-		return armyInfo;
-		
+		return armyInfo;		
 	}
 	
 	public boolean decrHp(Player player, long hurt){	

@@ -1,19 +1,19 @@
 package com.bm.worldBoss.service;
 
-import com.bm.worldBoss.cfg.WBCostType;
 import com.playerdata.Player;
+import com.rwbase.common.enu.eSpecialItemId;
 
 public class WBHelper {
 
 	
 	
 	
-	public static WBResult checkCost(Player player, WBCostType costType, int count) {
+	public static WBResult checkCost(Player player, eSpecialItemId costType, int count) {
 
 		WBResult result = WBResult.newInstance(false);
 
 		switch (costType) {
-		case COIN:
+		case Coin:
 			if (checkCoin(player, count)) {
 				result.setSuccess(true);
 			} else {
@@ -21,7 +21,7 @@ public class WBHelper {
 				result.setReason("金币不足");
 			}
 			break;
-		case GOLD:
+		case Gold:
 			if (checkGold(player, count)) {
 				result.setSuccess(true);
 			} else {
@@ -36,12 +36,12 @@ public class WBHelper {
 		return result;
 	}
 
-	public static WBResult takeCost(Player player, WBCostType costType, int count) {
+	public static WBResult takeCost(Player player, eSpecialItemId costType, int count) {
 
 		WBResult result = WBResult.newInstance(false);
 
 		switch (costType) {
-		case COIN:
+		case Coin:
 			if (costCoin(player, count)) {
 				result.setSuccess(true);
 			} else {
@@ -49,7 +49,7 @@ public class WBHelper {
 				result.setReason("金币不足");
 			}
 			break;
-		case GOLD:
+		case Gold:
 			if (costGold(player, count)) {
 				result.setSuccess(true);
 			} else {

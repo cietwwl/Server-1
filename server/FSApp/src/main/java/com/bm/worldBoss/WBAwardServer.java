@@ -73,7 +73,7 @@ public class WBAwardServer {
 			int size = wbRankAwardCfg.getSize();
 			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, size);
 			for (WBHurtItem wbHurtItem : rankList) {			
-				EmailUtils.sendEmail(wbHurtItem.getUserId(),wbRankAwardCfg.getAwardId());
+				EmailUtils.sendEmail(wbHurtItem.getUserId(),wbRankAwardCfg.getAwardId(),wbRankAwardCfg.getAward());
 			}		
 		}
 		
@@ -87,8 +87,9 @@ public class WBAwardServer {
 			String wbcfgId = wbData.getWbcfgId();
 			WBCfg wbCfg = WBCfgDAO.getInstance().getCfgById(wbcfgId);
 			String killAttackAwardId = wbCfg.getKillAttackAwardId();
+			String awardContent = wbCfg.getKillAttackAward();
 			String userId = lastFightInfo.getUserId();
-			EmailUtils.sendEmail(userId, killAttackAwardId);
+			EmailUtils.sendEmail(userId, killAttackAwardId,awardContent);
 		}		
 		
 	}

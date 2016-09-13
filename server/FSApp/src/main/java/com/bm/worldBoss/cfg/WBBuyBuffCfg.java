@@ -1,48 +1,41 @@
 package com.bm.worldBoss.cfg;
 
+import com.rwbase.common.enu.eSpecialItemId;
+
 
 public class WBBuyBuffCfg {
 
 	private String id;
 	
-	private WBCostType costType;
+	private eSpecialItemId costType;
 	
-	private int costCount;
+	private int costCount;		//消耗数量
 
-	private String attrData;
+	private String attrData;	//buff属性
+	
+	private String precentAttrData;//buff属性
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public WBCostType getCostType() {
+	public eSpecialItemId getCostType() {
 		return costType;
-	}
-
-	public void setCostType(WBCostType costType) {
-		this.costType = costType;
 	}
 
 	public int getCostCount() {
 		return costCount;
 	}
 
-	public void setCostCount(int costCount) {
-		this.costCount = costCount;
-	}
-
 	public String getAttrData() {
 		return attrData;
 	}
 
-	public void setAttrData(String attrData) {
-		this.attrData = attrData;
+	public String getPrecentAttrData() {
+		return precentAttrData;
 	}
 
+	
 	
 	
 

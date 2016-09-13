@@ -1,6 +1,9 @@
 package com.bm.worldBoss.data;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.bm.worldBoss.cfg.WBCfg;
 import com.log.GameLog;
@@ -8,6 +11,8 @@ import com.playerdata.Player;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rwbase.dao.battle.pojo.BattleCfgDAO;
+import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -58,15 +63,35 @@ public class WBDataHolder {
 	}
 	
 	private boolean init(WBData data, WBCfg wbCfg){	
-		String monsterId = wbCfg.getMonsterCfgId();
-		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig ( monsterId );
-		data.setId(monsterId);
-		long maxLife = monster.getLife();
-		data.setMaxLife(maxLife);
-		data.setCurLife(maxLife);	
-		data.setStartTime(wbCfg.getStartTime());
-		data.setEndTime(wbCfg.getEndTime());
-		return WBDataDao.getInstance().update(data);
+		
+		List<CopyMonsterInfoCfg> monsterBattleList = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+		String monsterCfgId=null;
+		if(monsterBattleList.size() > 0 ){
+			List<String> enemyList = monsterBattleList.get(0).getEnemyList();
+			for (String monsterId : enemyList) {
+				if(StringUtils.isNotBlank(monsterId)){
+					monsterCfgId = monsterId;
+					break;
+				}
+			}			
+		}		
+		
+		MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getCfgById(monsterCfgId);
+		if(monsterCfg!=null){
+			data.setMonsterCfgId(monsterCfg.getId());
+			long maxLife = monsterCfg.getLife();
+			data.setMaxLife(maxLife);
+			data.setCurLife(maxLife);	
+			data.setPreStartTime(wbCfg.getPreStartTime());
+			data.setStartTime(wbCfg.getStartTime());
+			data.setEndTime(wbCfg.getEndTime());
+			data.setFinishTime(wbCfg.getFinishTime());
+			return WBDataDao.getInstance().update(data);
+		}
+		
+		return false;
+		
+	
 	}
 	 
 	

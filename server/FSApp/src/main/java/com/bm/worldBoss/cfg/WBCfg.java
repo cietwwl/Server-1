@@ -8,15 +8,20 @@ public class WBCfg {
 
 	private String id;
 	
-	private String startTimeStr;
+	private String preStartTimeStr; //可以进入的时间
 	
-	private String endTimeStr;
+	private String startTimeStr;	//开始时间 格式 9:30
 	
-	private String monsterCfgId;
+	private String endTimeStr;		//结束时间 格式 9:30
 	
-	private int weekDay;
+	private String finishTimeStr; //整整结束的时间
+	
+	private String copyId;	//对应怪物的id
+	
+	private int weekDay;			//对应有效的星期
 	
 	private String killAttackAwardId;//最后一击奖励
+	private String killAttackAward;//最后一击奖励
 
 	public String getId() {
 		return id;
@@ -30,8 +35,9 @@ public class WBCfg {
 		return endTimeStr;
 	}
 
-	public String getMonsterCfgId() {
-		return monsterCfgId;
+
+	public String getCopyId() {
+		return copyId;
 	}
 
 	public int getWeekDay() {
@@ -46,6 +52,23 @@ public class WBCfg {
 		return getTime(this.endTimeStr);
 	}
 	
+	public long getPreStartTime(){
+		return getTime(this.preStartTimeStr);
+	}
+	
+	public long getFinishTime(){
+		return getTime(this.finishTimeStr);
+	}
+		
+	
+	public String getPreStartTimeStr() {
+		return preStartTimeStr;
+	}
+
+	public String getFinishTimeStr() {
+		return finishTimeStr;
+	}
+
 	private long getTime(String cfgTime) {
 		
 		String[] split = cfgTime.split(":");
@@ -59,6 +82,10 @@ public class WBCfg {
 
 	public String getKillAttackAwardId() {
 		return killAttackAwardId;
+	}
+
+	public String getKillAttackAward() {
+		return killAttackAward;
 	}
 	
 	

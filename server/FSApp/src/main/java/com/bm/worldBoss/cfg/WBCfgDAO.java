@@ -39,8 +39,7 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 				if(targetStartTime == 0 || tmpStartTime < targetStartTime){
 					targetStartTime = tmpStartTime;
 					target = wbCfgTmp;
-				}
-				
+				}				
 			}
 			
 		}

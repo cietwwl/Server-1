@@ -8,11 +8,11 @@ import com.bm.worldBoss.cfg.WBAwardCfg;
 import com.bm.worldBoss.cfg.WBAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
-import com.bm.worldBoss.cfg.WBCostType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.WorldBossProtos.BuyBuffParam;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.CommonRspMsg;
@@ -169,7 +169,7 @@ public class WBHandler {
 		if(buyBuffCfg == null){
 			result.setReason("配置不存在。");
 		}else{
-			WBCostType costType = buyBuffCfg.getCostType();
+			eSpecialItemId costType = buyBuffCfg.getCostType();
 			int costCount = buyBuffCfg.getCostCount();			
 			result = WBHelper.takeCost(player, costType, costCount);
 			if(result.isSuccess()){
@@ -188,7 +188,7 @@ public class WBHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		WBResult result = WBHelper.takeCost(player, WBCostType.GOLD, getBuyCDCost());
+		WBResult result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost());
 		if(result.isSuccess()){
 			WBUserMgr.getInstance().cleanCD(player);
 		}

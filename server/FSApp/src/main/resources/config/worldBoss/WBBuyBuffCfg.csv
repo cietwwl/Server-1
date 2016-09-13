@@ -1,0 +1,3 @@
+id,remarks,costType,costCount,attrData,precentAttrData
+101,,Gold,200000,生命_1728,物理攻击_500;法术攻击_500
+102,,Coin,50,生命_3456,物理攻击_1200;法术攻击_1200

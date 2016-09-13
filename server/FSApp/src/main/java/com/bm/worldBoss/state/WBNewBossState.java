@@ -6,16 +6,14 @@ import com.bm.worldBoss.data.WBState;
 
 class WBNewBossState implements  IwbState{
 
-	final private WBState state = WBState.NewBoss;
-	
-	final long PREPARE_TIME = 5*60*1000; //备战5分钟
+	final private WBState state = WBState.NewBoss;	
 	
 	@Override
 	public IwbState doTransfer() {
 		WBData wbData = WBDataHolder.getInstance().get();
 		
-		long currentTimeMillis = System.currentTimeMillis();
-		if(wbData.getStartTime() < currentTimeMillis + PREPARE_TIME){
+		long curTime = System.currentTimeMillis();
+		if(wbData.getPreStartTime() > curTime){
 			return new WBPreStartState();
 		}
 		

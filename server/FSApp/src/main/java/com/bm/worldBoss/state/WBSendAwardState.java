@@ -11,7 +11,10 @@ class WBSendAwardState implements  IwbState{
 	
 	@Override
 	public IwbState doTransfer() {
-		if(!WBAwardServer.getInstance().isRunning()){			
+		boolean isSendAwardFinish = !WBAwardServer.getInstance().isRunning();
+		long curTime = System.currentTimeMillis();
+		WBData wbData = WBDataHolder.getInstance().get();
+		if(isSendAwardFinish && wbData.getFinishTime() < curTime){			
 			return new WBFinishState();	
 		}
 		return null;

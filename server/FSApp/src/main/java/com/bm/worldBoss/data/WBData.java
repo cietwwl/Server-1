@@ -16,13 +16,16 @@ public class WBData {
 	private String id;
 	private String wbcfgId;	
 	
+	private long preStartTime;
 	private long startTime;
 	private long endTime;
+	private long finishTime;
 	
 	private long curLife;// 当前生命值
 	private long maxLife;// 全部的血量
 
 	private WBState state;
+	private String monsterCfgId;
 	
 	
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
@@ -47,9 +50,6 @@ public class WBData {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getWbcfgId() {
 		return wbcfgId;
@@ -73,6 +73,24 @@ public class WBData {
 
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
+	}
+	
+	
+
+	public long getPreStartTime() {
+		return preStartTime;
+	}
+
+	public void setPreStartTime(long preStartTime) {
+		this.preStartTime = preStartTime;
+	}
+
+	public long getFinishTime() {
+		return finishTime;
+	}
+
+	public void setFinishTime(long finishTime) {
+		this.finishTime = finishTime;
 	}
 
 	public long getCurLife() {
@@ -110,6 +128,14 @@ public class WBData {
 
 	public void setState(WBState state) {
 		this.state = state;
+	}
+
+	public String getMonsterCfgId() {
+		return monsterCfgId;
+	}
+
+	public void setMonsterCfgId(String monsterCfgId) {
+		this.monsterCfgId = monsterCfgId;
 	}
 
 	
