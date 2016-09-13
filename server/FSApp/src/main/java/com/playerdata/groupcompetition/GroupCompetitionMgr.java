@@ -9,4 +9,11 @@ public class GroupCompetitionMgr {
 	public static final GroupCompetitionMgr getInstance() {
 		return _instance;
 	}
+	
+	/**
+	 * 服务器启动完毕的通知
+	 */
+	public void serverStartComplete() {
+		
+	}
 }
