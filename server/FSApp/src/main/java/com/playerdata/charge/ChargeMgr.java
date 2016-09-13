@@ -46,7 +46,7 @@ public class ChargeMgr {
 	
 	public boolean isValid(Player player,ChargeTypeEnum monthCardType){
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){
 //			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
 			return false;
@@ -355,9 +355,9 @@ public class ChargeMgr {
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
 		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){//首次读取创建记录
-			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player,ActivityTimeCardTypeEnum.Month);
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player);
 			if(dataItem != null){
 				dataHolder.addItem(player, dataItem);
 				}

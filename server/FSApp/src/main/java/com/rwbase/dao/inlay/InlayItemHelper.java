@@ -1,6 +1,11 @@
 package com.rwbase.dao.inlay;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.rwbase.dao.item.pojo.ItemData;
@@ -26,6 +31,7 @@ public class InlayItemHelper {
 	}
 
 	final static private Map<Integer, Integer> openLvMap = new HashMap<Integer, Integer>();
+	private static final Map<Integer, Integer> openCountOfLevel = new LinkedHashMap<Integer, Integer>();
 	static {
 		openLvMap.put(0, 10);
 		openLvMap.put(1, 20);
@@ -33,6 +39,18 @@ public class InlayItemHelper {
 		openLvMap.put(3, 40);
 		openLvMap.put(4, 50);
 		openLvMap.put(5, 60);
+		
+		List<Integer> list = new ArrayList<Integer>(openLvMap.values());
+		Collections.sort(list);
+		
+		for(int i = 0; i < list.size(); i++) {
+			openCountOfLevel.put(list.get(i), 0);
+		}
+		
+		for (Iterator<Map.Entry<Integer, Integer>> itr = openLvMap.entrySet().iterator(); itr.hasNext();) {
+			Map.Entry<Integer, Integer> entry = itr.next();
+			openCountOfLevel.put(entry.getValue(), entry.getKey() + 1);
+		}
 	}
 
 	// public static AttrData getInlayAttrData(List<InlayItem> inlayList, String heroModelId) {
@@ -109,6 +127,20 @@ public class InlayItemHelper {
 		}
 		int openLevel = Integer.valueOf(cfg.getOpenLv().split(",")[i]);
 		return level >= openLevel;
+	}
+	
+	public static int getOpenCount(int lv) {
+		Map.Entry<Integer, Integer> entry;
+		int count = 0;
+		for(Iterator<Map.Entry<Integer, Integer>> itr = openCountOfLevel.entrySet().iterator(); itr.hasNext();) {
+			entry = itr.next();
+			if(entry.getKey() > lv) {
+				break;
+			} else {
+				count = entry.getValue();
+			}
+		}
+		return count;
 	}
 
 }

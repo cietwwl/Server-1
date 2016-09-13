@@ -94,7 +94,7 @@ public class ActivityCountTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	private MapItemStore<ActivityCountTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityCountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityCountTypeItem> cache = MapItemStoreFactory
 				.getActivityCountTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityCountTypeItem.class);

@@ -2,6 +2,8 @@ package com.playerdata.activity.fortuneCatType;
 
 import java.util.Random;
 
+import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
+
 public class ActivityFortuneCatHelper {
 	private static Random r = new Random();
 	/**
@@ -84,7 +86,10 @@ public class ActivityFortuneCatHelper {
 		return r;
 	}
 	
-	
+	public static String getItemId(String userId, ActivityFortuneTypeEnum countTypeEnum){
+		
+		return userId+"_"+countTypeEnum.getCfgId();
+	}
 	
 	public static void main(String[] args) throws InterruptedException {
 //		gaussianDistribution(10, 20);

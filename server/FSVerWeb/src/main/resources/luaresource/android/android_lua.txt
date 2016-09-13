@@ -1,0 +1,9 @@
+channel=android
+fileslocation=lua/android/files.txt
+lualocation=lua/android/Lua.zip
+luaFileMapName=files.txt
+filesmd5=cfb86e1e1362678d60cae906e513dc83
+filesize=1777
+luaFilesName=Lua.zip
+luamd5=f4cb4829f852c857bcda85ed5c63f327
+luasize=59659

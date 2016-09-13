@@ -750,6 +750,16 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 		return result;
 	}
+	
+	/**
+	 * 
+	 * 获取用户拥有，并且没有过期的时装
+	 * 
+	 * @return
+	 */
+	public List<FashionItem> getOwnedFashions() {
+		return fashionItemHolder.getBroughtItemList();
+	}
 
 	private FashionBeingUsed getFashionBeingUsed() {
 		FashionBeingUsed result = fashionUsedHolder.get(m_player.getUserId());

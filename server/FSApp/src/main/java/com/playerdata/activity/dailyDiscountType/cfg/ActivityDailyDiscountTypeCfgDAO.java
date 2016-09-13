@@ -9,10 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
@@ -42,13 +39,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		}
 		HashMap<String, List<ActivityDailyDiscountTypeCfg>> enumIdCfgMapping_ = new HashMap<String, List<ActivityDailyDiscountTypeCfg>>();
 		for (ActivityDailyDiscountTypeCfg typeCfg : cfgCacheMap.values()) {
-			String enumId = typeCfg.getEnumId();
-			List<ActivityDailyDiscountTypeCfg> list = enumIdCfgMapping_.get(enumId);
-			if (list == null) {
-				list = new ArrayList<ActivityDailyDiscountTypeCfg>();
-				enumIdCfgMapping_.put(enumId, list);
-			}
-			list.add(typeCfg);
+			ActivityTypeHelper.add(typeCfg, typeCfg.getEnumId(), enumIdCfgMapping_);
 		}
 		this.enumIdCfgMapping = enumIdCfgMapping_;
 		
@@ -64,22 +55,22 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);	
 	}
 
-	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
-		if(cfg!=null){
-			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
-			item.setId(itemId);
-			item.setEnumId(cfg.getEnumId());
-			item.setUserId(player.getUserId());
-			item.setCfgId(cfg.getId());
-			item.setVersion(cfg.getVersion());
-			item.setLastTime(System.currentTimeMillis());
-			item.setSubItemList(newSubItemList(cfg));
-			return item;
-		}else{
-			return null;
-		}	
-	}
+//	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
+//		if(cfg!=null){
+//			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
+//			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
+//			item.setId(itemId);
+//			item.setEnumId(cfg.getEnumId());
+//			item.setUserId(player.getUserId());
+//			item.setCfgId(cfg.getId());
+//			item.setVersion(cfg.getVersion());
+//			item.setLastTime(System.currentTimeMillis());
+//			item.setSubItemList(newSubItemList(cfg));
+//			return item;
+//		}else{
+//			return null;
+//		}	
+//	}
 	
 	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeCfg cfg) {
 		int day ;
@@ -87,9 +78,7 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 			day = 0;
 		}else{
 			day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
-		}
-		
-		
+		}		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
 		if(subCfgList == null){
