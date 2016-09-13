@@ -60,7 +60,7 @@ public class WBDataHolder {
 			newData.setBossLevel(bossInitLevel);		
 			
 		}else{			
-			newData = oldData.newInstance();
+			newData = oldData.nextInstance();
 		}
 		
 		boolean success = init(newData, wbCfg );

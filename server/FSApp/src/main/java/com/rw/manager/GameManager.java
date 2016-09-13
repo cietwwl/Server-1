@@ -20,7 +20,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -28,6 +27,7 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.worldBoss.state.WBStateFSM;
 import com.gm.task.gmCommand.GmCommandManager;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -178,6 +178,9 @@ public class GameManager {
 		WorshipMgr.getInstance().getByWorshipedList();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
+		
+		//世界boss 初始化
+		WBStateFSM.getInstance().init();
 	}
 
 	public static void initServerProperties() {

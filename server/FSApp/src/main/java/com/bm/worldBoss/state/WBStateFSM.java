@@ -14,7 +14,7 @@ public class WBStateFSM {
 
 	private IwbState curState;
 	
-	public WBStateFSM(){		
+	public void init(){		
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		

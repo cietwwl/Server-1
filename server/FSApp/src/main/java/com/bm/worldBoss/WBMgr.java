@@ -159,7 +159,7 @@ public class WBMgr {
 	private boolean isQuickKilled(WBData wbData){
 		WBSettingCfg settingCfg = WBSettingCfgDAO.getInstance().getCfg();
 		
-		long killTimeCost = wbData.getKilledTimeCost();
+		long killTimeCost = wbData.killedTimeCost();
 		
 		if(killTimeCost < settingCfg.getQuickKillTimeInMilli()){
 			return true;

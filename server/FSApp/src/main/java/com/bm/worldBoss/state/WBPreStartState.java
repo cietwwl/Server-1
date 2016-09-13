@@ -3,6 +3,7 @@ package com.bm.worldBoss.state;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
+import com.bm.worldBoss.rank.WBHurtRankMgr;
 
 class WBPreStartState implements  IwbState{
 
@@ -29,8 +30,9 @@ class WBPreStartState implements  IwbState{
 	public void doEnter() {
 		WBData wbData = WBDataHolder.getInstance().get();
 		wbData.setState(state);
-		WBDataHolder.getInstance().update();		
+		WBDataHolder.getInstance().update();
 		
+		WBHurtRankMgr.clearRank();	
 		
 	}
 }

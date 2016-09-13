@@ -24,7 +24,7 @@ public class WBData {
 	private long curLife;// 当前生命值
 	private long maxLife;// 全部的血量
 
-	private WBState state;
+	private WBState state = WBState.Finish;
 	private String monsterCfgId;
 	
 	private int bossLevel; //boss 等级
@@ -43,11 +43,12 @@ public class WBData {
 		return data;
 	}
 	
-	public WBData newInstance(){
+	public WBData nextInstance(){
 		WBData data = new WBData();
 		data.id = this.id;
 		data.bossLevel = this.bossLevel;
 		data.survivalCount = this.survivalCount;
+		data.quickKillCount = this.quickKillCount;
 		data.version = this.version+1;
 		return data;
 	}
@@ -185,7 +186,7 @@ public class WBData {
 		this.quickKillCount++;
 	}
 
-	public long getKilledTimeCost() {
+	public long killedTimeCost() {
 		
 		long killTimeCost = this.lastFightInfo.getTime()-this.startTime;
 		

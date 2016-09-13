@@ -316,6 +316,9 @@
 	<bean class="com.bm.worldBoss.cfg.WBAwardCfgDAO" init-method="init" />
 	<bean class="com.bm.worldBoss.cfg.WBBuyBuffCfgDAO" init-method="init" />
 	<bean class="com.bm.worldBoss.cfg.WBRankAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBSettingCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBExAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBHPCfgDAO" init-method="init" />
 	
 	
 	<!-- 
