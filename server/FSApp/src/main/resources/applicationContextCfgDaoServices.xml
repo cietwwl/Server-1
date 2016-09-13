@@ -310,6 +310,14 @@
 	<bean class="com.rwbase.dao.fighting.TaoistFightingCfgDAO" init-method="init" />
 	<!-- 时装战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
+	
+	<!-- 世界boss配置表 -->
+	<bean class="com.bm.worldBoss.cfg.WBCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBBuyBuffCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBRankAwardCfgDAO" init-method="init" />
+	
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

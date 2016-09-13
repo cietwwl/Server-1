@@ -1,5 +1,7 @@
 package com.bm.worldBoss.cfg;
 
+import java.util.Calendar;
+
 import com.rw.fsutil.util.DateUtils;
 
 
@@ -75,7 +77,13 @@ public class WBCfg {
 		int hour = Integer.parseInt(split[0]);
 		int minute = Integer.parseInt(split[1]);
 		
-		long startTime = DateUtils.getResetTime(hour, minute, 0);
+		Calendar current = DateUtils.getCurrent();
+		current.set(Calendar.HOUR_OF_DAY, hour);
+		current.set(Calendar.MINUTE, minute);
+		current.set(Calendar.SECOND, 0);
+		current.set(Calendar.MILLISECOND, 0);
+		
+		long startTime = current.getTimeInMillis();
 		
 		return startTime;
 	}

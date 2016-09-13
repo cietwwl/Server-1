@@ -45,8 +45,10 @@ class WBFinishState implements  IwbState{
 	@Override
 	public void doEnter() {
 		WBData wbData = WBDataHolder.getInstance().get();
-		wbData.setState(state);
-		WBDataHolder.getInstance().update();		
+		if(wbData!=null){			
+			wbData.setState(state);
+			WBDataHolder.getInstance().update();		
+		}
 	}
 
 }

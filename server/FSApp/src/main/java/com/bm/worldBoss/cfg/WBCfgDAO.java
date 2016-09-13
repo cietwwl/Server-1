@@ -19,7 +19,7 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 
 	@Override
 	public Map<String, WBCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("worldBoss/wbCfg.csv", WBCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("worldBoss/WBCfg.csv", WBCfg.class);
 		return cfgCacheMap;
 	}
 
@@ -30,14 +30,14 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 		List<WBCfg> todayCfgs = getTodayCfgs(weekDay);
 		
 		WBCfg target = null;
-		long targetStartTime = 0;
+		long targetPreStartTime = 0;
 		long curTime = System.currentTimeMillis();
 
 		for (WBCfg wbCfgTmp : todayCfgs) {
-			long tmpStartTime = wbCfgTmp.getStartTime();
-			if(tmpStartTime > curTime){
-				if(targetStartTime == 0 || tmpStartTime < targetStartTime){
-					targetStartTime = tmpStartTime;
+			long tmpPreStartTime = wbCfgTmp.getPreStartTime();
+			if(tmpPreStartTime > curTime){
+				if(targetPreStartTime == 0 || tmpPreStartTime < targetPreStartTime){
+					targetPreStartTime = tmpPreStartTime;
 					target = wbCfgTmp;
 				}				
 			}
@@ -48,17 +48,15 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 	}
 	
 	
-
-
-
 	public List<WBCfg> getTodayCfgs(int weekDay){
 		
 		List<WBCfg> todayCfgs = new ArrayList<WBCfg>();
 		List<WBCfg> allCfg = getAllCfg();
 		
-		
+		//配置的weekday是从0开始，（星期天就是1-1=0），策划要求
+		int cfgWeekDay = weekDay-1;
 		for (WBCfg wbCfg : allCfg) {
-			if(weekDay == wbCfg.getWeekDay()){
+			if(cfgWeekDay == wbCfg.getWeekDay()){
 				todayCfgs.add(wbCfg);
 			}
 		}
