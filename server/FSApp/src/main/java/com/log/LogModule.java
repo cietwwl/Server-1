@@ -44,7 +44,8 @@ public enum LogModule {
 	BattleVerify("战斗校验"),
 	DataEncode("加密校验"),
 	DataSynService("数据同步服务"),
-	WorldBoss("世界boss")
+	GameWorld("公用对象模块"),
+	WorldBoss("世界boss"),
 	;
 	
 	private String name;
