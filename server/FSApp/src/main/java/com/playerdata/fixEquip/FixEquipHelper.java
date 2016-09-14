@@ -349,6 +349,7 @@ public class FixEquipHelper {
 			fixInfo.setLevel(fixExp.getLevel());
 			fixInfo.setQuality(fixExp.getQuality());
 			fixInfo.setStar(fixExp.getStar());
+			fixInfo.setSlot(fixExp.getSlot());
 
 			fixInfoList.add(fixInfo);
 		}
@@ -380,6 +381,7 @@ public class FixEquipHelper {
 			fixInfo.setLevel(fixNorm.getLevel());
 			fixInfo.setQuality(fixNorm.getQuality());
 			fixInfo.setStar(fixNorm.getStar());
+			fixInfo.setSlot(fixNorm.getSlot());
 
 			fixInfoList.add(fixInfo);
 		}

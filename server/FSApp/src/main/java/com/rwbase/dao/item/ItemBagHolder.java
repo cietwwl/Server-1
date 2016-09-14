@@ -156,7 +156,7 @@ public class ItemBagHolder implements RecordSynchronization {
 	/**
 	 * 获取道具modelId与数量的映射
 	 * 
-	 * @return	{key=modelId,value=count}
+	 * @return {key=modelId,value=count}
 	 */
 	public Map<Integer, RefInt> getModelCountMap() {
 		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
@@ -174,13 +174,33 @@ public class ItemBagHolder implements RecordSynchronization {
 		}
 		return map;
 	}
-	
+
+	/**
+	 * 获取背包中某模版ID对应的任意一个物品列表
+	 * 
+	 * @return
+	 */
+	public Map<Integer, ItemData> getModelFirstItemDataMap() {
+		HashMap<Integer, ItemData> map = new HashMap<Integer, ItemData>();
+		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			Integer modelId = itemData.getModelId();
+			ItemData item = map.get(modelId);
+			if (item == null) {
+				map.put(modelId, itemData);
+			}
+		}
+		return map;
+	}
+
 	/**
 	 * <pre>
 	 * 检查是否有足够的道具数量
 	 * 
 	 * </pre>
-	 * @param itemsMap	{key=modelId,value=count}
+	 * 
+	 * @param itemsMap {key=modelId,value=count}
 	 * @return
 	 */
 	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
@@ -189,8 +209,8 @@ public class ItemBagHolder implements RecordSynchronization {
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			Integer modelId = itemData.getModelId();
-			//不是要检查的道具跳过
-			if(!itemsMap.containsKey(modelId)){
+			// 不是要检查的道具跳过
+			if (!itemsMap.containsKey(modelId)) {
 				continue;
 			}
 			int count = itemData.getCount();
@@ -201,101 +221,22 @@ public class ItemBagHolder implements RecordSynchronization {
 				intValue.value += count;
 			}
 		}
-		for(Map.Entry<Integer, Integer> entry:itemsMap.entrySet()){
+		for (Map.Entry<Integer, Integer> entry : itemsMap.entrySet()) {
 			int value = entry.getValue();
-			//0或负数跳过
-			if(value <= 0){
+			// 0或负数跳过
+			if (value <= 0) {
 				continue;
 			}
 			RefInt refValue = map.get(entry.getKey());
-			if(refValue == null){
+			if (refValue == null) {
 				return false;
 			}
-			if(refValue.value < value){
+			if (refValue.value < value) {
 				return false;
 			}
 		}
 		return true;
 	}
-
-	// /**
-	// * 更新背包的操作
-	// *
-	// * @param player 角色
-	// * @param newItemList 新创建物品的列表
-	// * @param updateItemList 更新物品的列表
-	// */
-	// public void updateItemBag(Player player, List<INewItem> newItemList,
-	// List<IUpdateItem> updateItemList) {
-	// List<ItemData> updateItems = new ArrayList<ItemData>();
-	// String userId = player.getUserId();
-	// MapItemStore<ItemData> itemDataStore = getItemStore();
-	// if (newItemList != null && !newItemList.isEmpty()) {// 新创建物品列表不为空
-	// for (int i = 0, size = newItemList.size(); i < size; i++) {
-	// INewItem newItem = newItemList.get(i);
-	// ItemData itemData = new ItemData();
-	// int templateId = newItem.getCfgId();
-	//
-	// // 检测获取的是不是AS级的法宝
-	// if (ItemCfgHelper.getItemType(templateId) == EItemTypeDef.Magic) {//
-	// 检测是不是法宝
-	// MagicCfg magicCfg = (MagicCfg)
-	// MagicCfgDAO.getInstance().getCfgById(String.valueOf(templateId));
-	// if (magicCfg != null) {// 是S，A级法宝
-	// MainMsgHandler.getInstance().sendPmdFb(player, magicCfg.getName(),
-	// magicCfg.getQuality());
-	// /** 稀有法宝的获得,B,A、S级 **/
-	// }
-	// }
-	//
-	// if (itemData.init(templateId, newItem.getCount())) {
-	// String slotId = generateSlotId(userId);
-	// itemData.setId(slotId);// 设置物品Id
-	// itemData.setUserId(userId);// 设置角色Id
-	// itemDataStore.addItem(itemData);// 添加新的
-	//
-	// // 回调
-	// if (newItem.getCallback() != null) {
-	// newItem.getCallback().call(itemData);
-	// }
-	//
-	// updateItems.add(itemData);
-	// }
-	// }
-	// }
-	//
-	// if (updateItemList != null && !updateItemList.isEmpty()) {// 更新物品列表不为空
-	// for (int i = 0, size = updateItemList.size(); i < size; i++) {
-	// IUpdateItem updateItem = updateItemList.get(i);
-	// ItemData itemData = this.getItemData(updateItem.getSlotId());
-	// if (itemData == null) {
-	// continue;
-	// }
-	//
-	// int count = itemData.getCount() + updateItem.getCount();
-	// itemData.setCount(count);// 更新数量
-	// if (count <= 0) {
-	// itemDataStore.removeItem(itemData.getId());// 移除
-	// } else {
-	// itemDataStore.updateItem(itemData);// 刷新
-	// // 回调
-	// if (updateItem.getCallback() != null) {
-	// updateItem.getCallback().call(itemData);
-	// }
-	// }
-	//
-	// updateItems.add(itemData);
-	// }
-	// }
-	//
-	// // 推送数据改变
-	// if (!updateItems.isEmpty()) {
-	// player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
-	// player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
-	// player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
-	// syncItemData(player, updateItems);
-	// }
-	// }
 
 	/**
 	 * 更新数据
@@ -322,18 +263,6 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @return
 	 */
 	private String generateSlotId(String userId) {
-		// int nSlotId = 1;
-		// String id = userId + "_" + nSlotId;
-		// MapItemStore<ItemData> itemDataStore = getItemStore();
-		// while (nSlotId < 10000) {
-		// if (itemDataStore.getItem(id) == null) {
-		// return id;
-		// }
-		//
-		// id = userId + "_" + ++nSlotId;
-		// }
-		// return id;
-
 		long newId = generateId.incrementAndGet();
 		StringBuilder sb = new StringBuilder();
 		return sb.append(userId).append("_").append(newId).toString();

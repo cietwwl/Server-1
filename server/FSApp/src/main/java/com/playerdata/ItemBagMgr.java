@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,29 +99,39 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	public int getItemCountByModelId(int modelId) {
 		return holder.getItemCountByModelId(modelId);
 	}
-	
 
 	/**
 	 * <pre>
 	 * 获取道具modelId与数量的映射
 	 * </pre>
-	 * @return	{key=modelId,value=count}
+	 * 
+	 * @return {key=modelId,value=count}
 	 */
 	public Map<Integer, RefInt> getModelCountMap() {
 		return holder.getModelCountMap();
 	}
 
 	/**
+	 * 获取道具ModelId于任意一个ItemData的映射
+	 * 
+	 * @return
+	 */
+	public Map<Integer, ItemData> getModelFirstItemDataMap() {
+		return holder.getModelFirstItemDataMap();
+	}
+
+	/**
 	 * <pre>
 	 * 检查是否有足够的道具数量
 	 * </pre>
-	 * @param itemsMap	{key=modelId,value=count}
+	 * 
+	 * @param itemsMap {key=modelId,value=count}
 	 * @return
 	 */
 	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
 		return holder.hasEnoughItems(itemsMap);
 	}
-	
+
 	/**
 	 *
 	 * 解析某种物品，然后放入到背包中去
@@ -152,7 +161,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				newItemList.add(newItem);
 			}
 		}
-		if(!items.isEmpty()){
+		if (!items.isEmpty()) {
 			addItem(items);
 		}
 		// 增加新的道具
@@ -278,84 +287,6 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		}
 
 		return updateItemBg(player, useItemList, addItemList);
-		// List<IUpdateItem> updateItemList = new ArrayList<IUpdateItem>();// 更新的物品列表
-		// List<INewItem> newItemList = new ArrayList<INewItem>();// 要增加的物品
-		//
-		// // 要使用的物品
-		// if (useItemList != null && !useItemList.isEmpty()) {
-		// // 验证重复
-		// Map<String, Integer> tempMap = new HashMap<String, Integer>();
-		// Map<Integer, String> cacheSlotMap = new HashMap<Integer, String>();
-		// for (int i = 0, size = useItemList.size(); i < size; i++) {
-		// IUseItem useItem = useItemList.get(i);
-		// int useCount = useItem.getUseCount();
-		// if (useCount < 0) {
-		// return false;
-		// }
-		//
-		// String slotId = useItem.getSlotId();
-		// ItemData itemData = findBySlotId(slotId);
-		// if (itemData == null) {
-		// return false;
-		// }
-		//
-		// ItemBaseCfg baseCfg = ItemCfgHelper.GetConfig(itemData.getModelId());
-		// int stackNum = baseCfg.getStackNum();
-		//
-		// if (stackNum > 1) {
-		// if (!cacheSlotMap.containsKey(itemData.getModelId())) {
-		// cacheSlotMap.put(itemData.getModelId(), slotId);
-		// } else {
-		// slotId = cacheSlotMap.get(itemData.getModelId());
-		// }
-		// }
-		//
-		// Integer hasValue = tempMap.get(slotId);
-		// if (hasValue == null) {
-		// tempMap.put(slotId, useCount);
-		// } else {
-		// tempMap.put(slotId, useCount + hasValue);
-		// }
-		// }
-		//
-		// for (Entry<String, Integer> e : tempMap.entrySet()) {
-		// if (!useItem0(e.getKey(), e.getValue(), newItemList, updateItemList, false)) {
-		// return false;
-		// }
-		// }
-		// }
-		//
-		// // 要增加的物品
-		// if (addItemList != null && !addItemList.isEmpty()) {
-		// Map<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
-		// for (int i = 0, size = addItemList.size(); i < size; i++) {
-		// INewItem newItem = addItemList.get(i);
-		// int count = newItem.getCount();
-		// if (count < 0) {
-		// return false;
-		// }
-		//
-		// int cfgId = newItem.getCfgId();
-		// Integer hasValue = tempMap.get(cfgId);
-		// if (hasValue == null) {
-		// tempMap.put(cfgId, count);
-		// } else {
-		// tempMap.put(cfgId, count + hasValue);
-		// }
-		// }
-		//
-		// for (Entry<Integer, Integer> e : tempMap.entrySet()) {
-		// if (!addItem0(e.getKey(), e.getValue(), newItemList, updateItemList, false)) {
-		// return false;
-		// }
-		// }
-		// }
-		//
-		// // 两个任意一个不为空就可以走下去更新背包处理
-		// if (!updateItemList.isEmpty() || !newItemList.isEmpty()) {
-		// holder.updateItemBag(player, newItemList, updateItemList);
-		// return true;
-		// }
 	}
 
 	/**
@@ -454,57 +385,6 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			newItemList.add(new NewItem(cfgId, count, null));
 
 			return updateItemBg(player, null, newItemList);
-
-			// ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(cfgId);// 检查物品的基础模版
-			// if (itemBaseCfg == null) {
-			// return false;
-			// }
-			//
-			// if (newItemList == null) {
-			// newItemList = new ArrayList<INewItem>();
-			// }
-			//
-			// if (updateItemList == null) {
-			// updateItemList = new ArrayList<IUpdateItem>();
-			// }
-			//
-			// final int stackNum = itemBaseCfg.getStackNum();
-			// if (stackNum > 1) {
-			// List<ItemData> itemList = holder.getItemDataByCfgId(cfgId);
-			// if (!itemList.isEmpty()) {// 不空
-			//
-			// // 排序
-			// Collections.sort(itemList, comparator);
-			//
-			// // 选中数量最少的一组道具
-			// ItemData minItem = itemList.get(0);
-			//
-			// int itemCount = minItem.getCount();
-			// int leftCount = stackNum - itemCount;// 剩余的空间
-			// if (leftCount > 0) {
-			// int offAddCount = count > leftCount ? leftCount : count;// 实际增加多少
-			// IUpdateItem updateItem = new UpdateItem(minItem.getId(), offAddCount, null);
-			// updateItemList.add(updateItem);
-			// count -= offAddCount;// 还有多少个没添加的
-			// }
-			// } else {
-			// int newCount = count > stackNum ? stackNum : count;
-			//
-			// INewItem newItem = new NewItem(cfgId, newCount, null);
-			// newItemList.add(newItem);
-			//
-			// }
-			// } else {
-			// for (int i = 0; i < count; i++) {
-			// INewItem newItem = new NewItem(cfgId, 1, null);
-			// newItemList.add(newItem);
-			// }
-			// }
-			//
-			// // 直接处理
-			// if (bagOperation && ((newItemList != null && !newItemList.isEmpty()) || (updateItemList != null && !updateItemList.isEmpty()))) {
-			// holder.updateItemBag(player, newItemList, updateItemList);
-			// }
 		}
 
 		// 通知羁绊检查法宝
@@ -538,72 +418,6 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		useItemList.add(new UseItem(slotId, count));
 
 		return updateItemBg(player, useItemList, null);
-
-		// int cfgId = item.getModelId();
-		// ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(cfgId);// 检查物品的基础模版
-		// if (itemBaseCfg == null) {
-		// return false;
-		// }
-		//
-		// if (newItemList == null) {
-		// newItemList = new ArrayList<INewItem>();
-		// }
-		//
-		// if (updateItemList == null) {
-		// updateItemList = new ArrayList<IUpdateItem>();
-		// }
-		//
-		// final int stackNum = itemBaseCfg.getStackNum();// 判断物品是否是可以叠加的
-		// if (stackNum > 1) {// 可叠加
-		// List<ItemData> itemList = holder.getItemDataByCfgId(cfgId);
-		// if (itemList.isEmpty()) {// 空的
-		// return false;
-		// }
-		//
-		// // 排序
-		// Collections.sort(itemList, comparator);
-		//
-		// // 开始处理
-		// for (int i = 0, size = itemList.size(); i < size; i++) {
-		// if (count <= 0) {
-		// break;
-		// }
-		//
-		// ItemData itemData = itemList.get(i);
-		// int itemCount = itemData.getCount();
-		// int offCount = count > itemCount ? itemCount : count;// 要扣掉的道具数量
-		// count -= offCount;
-		//
-		// // 增加更新物品
-		// IUpdateItem updateItem = new UpdateItem(itemData.getId(), -offCount, null);
-		// updateItemList.add(updateItem);
-		// }
-		//
-		// if (count > 0) {// 物品数量不足
-		// return false;
-		// }
-		//
-		// // 直接处理
-		// if (bagOperation && ((newItemList != null && !newItemList.isEmpty()) || (updateItemList != null && !updateItemList.isEmpty()))) {
-		// holder.updateItemBag(player, newItemList, updateItemList);
-		// }
-		// return true;
-		// }
-		//
-		// // 不可叠加的物品
-		// int itemCount = item.getCount();
-		// if (count > itemCount) {
-		// return false;
-		// }
-		//
-		// IUpdateItem updateItem = new UpdateItem(slotId, -count, null);
-		// updateItemList.add(updateItem);
-		//
-		// // 直接处理
-		// if (bagOperation && ((newItemList != null && !newItemList.isEmpty()) || (updateItemList != null && !updateItemList.isEmpty()))) {
-		// holder.updateItemBag(player, newItemList, updateItemList);
-		// }
-		// return true;
 	}
 
 	/**
@@ -790,6 +604,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws DataNotExistException, ItemCountNotEnoughException {
 		int size = useItemList.size();
 
+		Map<Integer, RefInt> modelCountMap = getModelCountMap();
 		HashMap<String, Integer> tempMap = new HashMap<String, Integer>(size);
 		Map<Integer, String> cacheSlotMap = new HashMap<Integer, String>(size);
 		for (int i = 0; i < size; i++) {
@@ -820,7 +635,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 					slotId = cacheSlotMap.get(modelId);
 				}
 
-				itemCount = getItemCountByModelId(modelId);
+				RefInt refInt = modelCountMap.get(modelId);
+				itemCount = refInt == null ? 0 : refInt.value;
 			}
 
 			// 检查使用数量
