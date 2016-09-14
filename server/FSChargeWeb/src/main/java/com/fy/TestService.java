@@ -23,15 +23,15 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1028");
+		content.setCpTradeNo("1030");
 		content.setGameId(3);
 		content.setUserId("100100000455");
-		content.setRoleId("100100000756");
+		content.setRoleId("100100007335");
 		
 		content.setServerId(27);
 		content.setChannelId("0");
 		
-		content.setItemId("1");
+		content.setItemId("com.yh.dzfs101");
 		content.setItemAmount(1);
 		content.setPrivateField("");
 		content.setMoney(600);

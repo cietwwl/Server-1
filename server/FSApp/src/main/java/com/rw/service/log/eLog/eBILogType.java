@@ -29,6 +29,7 @@ public enum eBILogType {
 	Chat(26,"聊天日志","Chat"),
 	GoldChange(27, "充值币变动", "GoldChanged"),
 	Email(28, "邮件监控", "Email"),
+	Pay(29, "付费", "Pay"),
 	;
 	
 	

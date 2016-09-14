@@ -29,6 +29,7 @@ public class LogTemplate {
 	final static public String ZoneLoginLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_act|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_login||$result$||$loginadLinkId$";
 	final static public String ZoneLogoutLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_act|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_logout||$result$|$statInfo$|$loginadLinkId$";
 	final static public String ZoneRegLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_reg|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_reg||1||$loginadLinkId$";
+	final static public String PayLogTemplate="$logTime$|core_pay|$loginZoneId$|$logTime$|pay|$loginZoneId$|$regChannelId_uid$|$userId$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$roleCreatedTime$|$clientVersion$|$vip$|$level$|$fighting$|$careerType$||充值币数量|充值金额|充值入口|订单id||pay_finish||1||$loginadLinkId$";
 
 
 

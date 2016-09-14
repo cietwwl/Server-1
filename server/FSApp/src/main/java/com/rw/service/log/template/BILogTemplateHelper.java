@@ -101,6 +101,17 @@ public class BILogTemplateHelper {
 		addTemplateToken("关卡code", "$copyId$");		
 		addTemplateToken("赠送充值币余额", "$zoneGiftGoldRemain$");
 		addTemplateToken("付费充值币余额", "$zoneChargeGoldRemain$");
+		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
+		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
+		addTemplateToken("附件道具属性(中文)", "$attachAttr$");
+		
+		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
+		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
+		addTemplateToken("充值币数量", "$emailId$");
+		addTemplateToken("充值金额", "$emailId$");
+		addTemplateToken("充值入口", "$emailId$");
+		addTemplateToken("订单id", "$emailId$");
+		
 		addTemplateToken("邮件id", "$emailId$");
 		addTemplateToken("操作类型", "$opType$");
 		addTemplateToken("邮件标题", "$emailTitle$");
@@ -108,17 +119,13 @@ public class BILogTemplateHelper {
 		addTemplateToken("冻结时间", "$coolTime$");
 		addTemplateToken("过期时间", "$expireTime$");
 		addTemplateToken("附件列表", "$attachList$");
-		addTemplateToken("附件道具属性(中文)", "$attachAttr$");
 		
-		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
-		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		
 		addTemplateToken("发送者账号", "$chatSenderAccount$");
-		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
-		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
+		
 		addTemplateToken("活动入口", "$activityEntry$");
 		
 		addTemplateToken("聊天内容", "$chatContent$");

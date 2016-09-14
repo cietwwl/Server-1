@@ -16,6 +16,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
@@ -49,6 +50,7 @@ import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
 import com.rw.service.log.template.OnlineCountLogTemplate;
+import com.rw.service.log.template.PayLogTemplate;
 import com.rw.service.log.template.RoleCreatedLogTemplate;
 import com.rw.service.log.template.RoleLoginLogTemplate;
 import com.rw.service.log.template.RoleLogoutLogTemplate;
@@ -122,7 +124,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
 		templateMap.put(eBILogType.GoldChange, new GoldChangeLogTemplate());
 		templateMap.put(eBILogType.Email, new EmailLogTemplate());
-
+		templateMap.put(eBILogType.Pay, new PayLogTemplate());
 	}
 	
 	private Logger getLogger(eBILogType type){
@@ -674,7 +676,6 @@ public class BILogMgr {
 					}
 				}
 			}
-
 			moreInfo.put("attachList", sbAttachList.toString());
 			moreInfo.put("attachAttr", sbAttachAttr.toString());
 
@@ -684,6 +685,17 @@ public class BILogMgr {
 		}
 	}
 
+	public void logPayFinish(Player player, ChargeContentPojo chargeContentPojo, int vipBefore) {
+//		Map<String, String> moreInfo = new HashMap<String, String>();
+//		moreInfo.put("levelBeforeUp", oldlevel + "");
+//		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
+//		moreInfo.put("mapid", String.valueOf(changeReason.getMapId()));
+//		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
+		
+	}
+	
+	
+	
 	private String getItemListLog(List<ItemData> itemList) {
 		if (itemList == null) {
 			return null;
@@ -703,7 +715,6 @@ public class BILogMgr {
 		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player,moreInfo);
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
-
 	}
 	
 	/**
@@ -744,5 +755,7 @@ public class BILogMgr {
 		}
 
 	}
+
+	
 
 }
