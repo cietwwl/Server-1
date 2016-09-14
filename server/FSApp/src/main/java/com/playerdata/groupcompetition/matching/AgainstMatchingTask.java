@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Hero;
 import com.playerdata.PlayerMgr;
@@ -19,16 +19,12 @@ import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
-import com.playerdata.groupcompetition.holder.GCompTeamMgr.CreateTeamMemberResultStatus;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
-import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
-import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.hero.core.FSHeroMgr;
-import com.rw.fsutil.common.Pair;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
@@ -55,6 +51,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 //	private GCEventsType eventsType; // 当前的赛事类型
 	private GCompEventsStatus currentEventsStatus;
 	private int memberCountOfCurrent;
+	private long intervalMillis;
 	
 	AgainstMatchingTask(int pAgainstId, String pIdOfGroupA, String pIdOfGroupB) {
 		groupMatchingDatas = new HashMap<String, GroupMatchingData>(2, 1.5f);
@@ -65,6 +62,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 		this.idOfGroupA = pIdOfGroupA;
 		this.idOfGroupB = pIdOfGroupB;
 		this.nameOfTimerTask = "帮派争霸匹配任务：" + againstId;
+		this.intervalMillis = TimeUnit.SECONDS.toMillis(GCompCommonConfig.getMatchingIntervalSeconds());
 //		this.eventsType = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 	
@@ -80,6 +78,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			synchronized (submitQueue) {
 				MatchingData md = groupMatchingData.get(team);
 				md.setCancel(false);
+				md.setDeadline(System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis());
 			}
 		}
 	}
@@ -107,7 +106,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	void start() {
-		GCompUtil.log("---------- 帮派争霸，匹配任务开始，负责帮派：{}", this.groupMatchingDatas.keySet().toString());
+		GCompUtil.log("---------- 帮派争霸，匹配任务开始，赛事id：{}，负责帮派：{}", this.againstId, this.groupMatchingDatas.keySet().toString());
 		if (this.idOfGroupA.length() == 0 || this.idOfGroupB.length() == 0) {
 			GCompUtil.log("---------- 帮派争霸，检测到轮空的情况，不提交匹配任务！负责帮派：{}", this.groupMatchingDatas.keySet().toString());
 			return;
@@ -149,39 +148,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 		GCompTeam team2 = GCompTeamMgr.getInstance().getTeam(this.againstId, md2.getGroupId(), md2.getTeamId());
 		this.submitToMatchDataHolder(team1, team2);
 	}
-
-	private GCompTeam createRandomTeam(List<RandomMatchingData> dataList) {
-		RandomMatchingData r = dataList.get(0);
-		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = GCompTeamMgr.getInstance().createTeamMember(PlayerMgr.getInstance().find(r.getUserId()), r.getHeroIds(), true);
-		if (createResult.getT1() != CreateTeamMemberResultStatus.SUCCESS) {
-			return null;
-		}
-		GCompTeamMember leader = createResult.getT2();
-		if(r.isRobot()) {
-			leader.setRobot(true);
-		}
-		if (dataList.size() > 1) {
-			GCompTeamMember[] members = new GCompTeamMember[dataList.size() - 1];
-			for (int i = 1, size = dataList.size(); i < size; i++) {
-				r = dataList.get(i);
-				createResult = GCompTeamMgr.getInstance().createTeamMember(PlayerMgr.getInstance().find(r.getUserId()), r.getHeroIds(), false);
-				if (createResult.getT1() != CreateTeamMemberResultStatus.SUCCESS) {
-					return null;
-				}
-				if(r.isRobot()) {
-					createResult.getT2().setRobot(true);
-				}
-				members[i - 1] = createResult.getT2();
-			}
-			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.MULTIPLE_PLAYERS, leader, members);
-		} else {
-			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.SINGLE_PLAYER, leader);
-		}
-	}
 	
 	private void onRandomMatch(List<RandomMatchingData> list1, List<RandomMatchingData> list2) {
-		GCompTeam team1 = this.createRandomTeam(list1);
-		GCompTeam team2 = this.createRandomTeam(list2);
+		GCompTeam team1 = GCompTeamMgr.getInstance().createRandomTeam(list1);
+		GCompTeam team2 =  GCompTeamMgr.getInstance().createRandomTeam(list2);
 		if (team1 != null && team2 != null) {
 			this.submitToMatchDataHolder(team1, team2);
 		}
@@ -217,6 +187,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 		GCompMemberMgr.getInstance().getCopyOfAllMembers(groupId, allMembersOfGroup);
 		return allMembersOfGroup;
 	}
+	
+	private boolean isNotTimeout(long currentTimeMillis, long deadline) {
+		return currentTimeMillis < deadline && (deadline - currentTimeMillis) > intervalMillis;
+	}
 
 	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, Queue<GCompMember> allMembersOfGroup, int maxMemberSize) {
 		// 从帮派的随机匹配列表中获取匹配数据
@@ -233,11 +207,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 		int sizeOfList = list.size();
 		if (sizeOfList > 0 && sizeOfList < memberCountOfCurrent) {
 			// 只有一个人的时候
-			long currentTimeMillis = System.currentTimeMillis();
 			RandomMatchingData data = list.get(0); // 只需要检查第一个有没有超时，因为只要有一个人超时，就必须给他组成一个队伍
-			if (currentTimeMillis < data.getDeadline()) {
+			if (isNotTimeout(System.currentTimeMillis(), data.getDeadline())) {
 				if (sizeOfList == 1) {
-					GCompUtil.log("未到时间，移除：{}", data.getUserId());
+//					GCompUtil.log("未到时间，移除：{}", data.getUserId());
 					groupMatchingData.turnBackRandomMatchingData(data);
 					list.remove(data);
 				} else {
@@ -326,7 +299,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			list.add(this.createRandomMatchingData(member));
 		}
 		GCompTeam team1 = GCompTeamMgr.getInstance().getTeam(matchingData.getMatchId(), matchingData.getGroupId(), matchingData.getTeamId());
-		GCompTeam team2 = createRandomTeam(list);
+		GCompTeam team2 = GCompTeamMgr.getInstance().createRandomTeam(list);
 		this.submitToMatchDataHolder(team1, team2);
 		return true;
 	}
@@ -364,7 +337,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 						}
 					}
 					if (dataMatched == null) {
-						if(currentMillis < md.getDeadline()) {
+						if(isNotTimeout(currentMillis, md.getDeadline())) {
 							// 没有超时，等待下一轮
 							continue;
 						}

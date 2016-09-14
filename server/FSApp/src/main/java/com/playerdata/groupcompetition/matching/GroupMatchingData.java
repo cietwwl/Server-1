@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
+import com.playerdata.groupcompetition.util.GCompUtil;
 
 /**
  * 
@@ -89,6 +90,7 @@ class GroupMatchingData {
 				if (temp.getUserId().equals(data.getUserId())) {
 					temp.setHeroIds(data.getHeroIds());
 					temp.setCancel(false);
+					temp.setDeadline(System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis());
 					return;
 				}
 			}

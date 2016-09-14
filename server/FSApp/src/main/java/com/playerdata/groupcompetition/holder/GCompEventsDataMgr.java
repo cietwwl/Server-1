@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.dao.GCompHistoryDataDAO;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
+import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.rw.fsutil.common.IReadOnlyPair;
 
 public class GCompEventsDataMgr {
 
@@ -22,7 +25,7 @@ public class GCompEventsDataMgr {
 	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 
 	public void onEventStageStart(GCEventsType startEventsType) {
-		GCompEventsGlobalData globalData = _dataHolder.get(false);
+		GCompEventsGlobalData globalData = _dataHolder.get();
 		globalData.clear();
 		globalData.setMatchNumType(startEventsType);
 	}
@@ -35,7 +38,7 @@ public class GCompEventsDataMgr {
 	 * @param eventsType
 	 */
 	public void addEvents(GCompEventsData eventsData, GCEventsType eventsType) {
-		_dataHolder.get(false).add(eventsType, eventsData);
+		_dataHolder.get().add(eventsType, eventsData);
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public GCompEventsData getEventsData(GCEventsType eventType) {
-		return _dataHolder.get(false).getEventsData(eventType);
+		return _dataHolder.get().getEventsData(eventType);
 	}
 
 	/**
@@ -69,7 +72,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public int getMatchIdOfGroup(String groupId, GCEventsType eventsType) {
-		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(eventsType);
+		GCompEventsData eventsData = _dataHolder.get().getEventsData(eventsType);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -90,7 +93,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public IGCAgainst getGCAgainstOfGroup(String groupId, GCEventsType eventsType) {
-		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(eventsType);
+		GCompEventsData eventsData = _dataHolder.get().getEventsData(eventsType);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -105,7 +108,7 @@ public class GCompEventsDataMgr {
 	
 	public GCGroup getGCGroupOfCurrentEvents(String groupId) {
 		GCEventsType type = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(type);
+		GCompEventsData eventsData = _dataHolder.get().getEventsData(type);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -121,6 +124,9 @@ public class GCompEventsDataMgr {
 	}
 	
 	public void notifyAllEventsFinished() {
-		this._dataHolder.saveCurrentToLast();
+		GCompHistoryData historyData = GCompHistoryDataDAO.getInstance().get();
+		IReadOnlyPair<Long, Long> pair = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
+		historyData.copy(this._dataHolder.get(), pair.getT1(), pair.getT2());
+		GCompHistoryDataDAO.getInstance().update();
 	}
 }

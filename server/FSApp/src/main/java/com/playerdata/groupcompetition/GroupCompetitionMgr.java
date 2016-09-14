@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
-import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
+import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
@@ -22,6 +22,8 @@ import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
@@ -137,6 +139,12 @@ public class GroupCompetitionMgr {
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
+	void updateEndTimeOfCurrentSession(long endTime) {
+		GroupCompetitionGlobalData saveData = _dataHolder.get();
+		saveData.setEndTimeOfCurrentSession(endTime);
+		_dataHolder.update();
+	}
+	
 	/**
 	 * 
 	 * 玩家登录游戏
@@ -165,8 +173,8 @@ public class GroupCompetitionMgr {
 				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsRecord().getCurrentEventsType());
 				if (matchId > 0) {
 					GCompTeamMgr.getInstance().sendTeamData(matchId, player);
-					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
-					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
+					GCompOnlineMemberMgr.getInstance().addToOnlineMembers(player);
+					GCompOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
 					GCompMemberMgr.getInstance().onPlayerEnterPrepareArea(player);
 				}
@@ -184,7 +192,7 @@ public class GroupCompetitionMgr {
 	 */
 	public void onPlayerLeavePrepareArea(Player player) {
 		try {
-			GCOnlineMemberMgr.getInstance().removeOnlineMembers(player);
+			GCompOnlineMemberMgr.getInstance().removeOnlineMembers(player);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -232,11 +240,15 @@ public class GroupCompetitionMgr {
 	public void updateCurrenEventstData(GCEventsType eventsType, List<String> relativeGroupIds) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		GCompEventsRecord currentEventsData = globalData.getCurrentEventsRecord();
-		if(currentEventsData == null) {
+		if (currentEventsData == null) {
 			currentEventsData = new GCompEventsRecord();
 			currentEventsData.setHeldTime(globalData.getLastHeldTimeMillis());
 			currentEventsData.setFirstEventsType(eventsType);
 			globalData.setCurrentRecord(currentEventsData);
+		} else if (currentEventsData.getHeldTime() != globalData.getLastHeldTimeMillis()) {
+			currentEventsData.reset();
+			currentEventsData.setHeldTime(globalData.getLastHeldTimeMillis());
+			currentEventsData.setFirstEventsType(eventsType);
 		}
 		currentEventsData.setCurrentEventsType(eventsType);
 		currentEventsData.setCurrentStatusFinished(false);
@@ -290,6 +302,28 @@ public class GroupCompetitionMgr {
 	 */
 	public long getCurrentStageEndTime() {
 		return this._dataHolder.get().getCurrentStageEndTime();
+	}
+	
+	/**
+	 * 
+	 * 获取本届赛事的起始时间
+	 * 
+	 * @return
+	 */
+	public IReadOnlyPair<Long, Long> getCurrentSessionTimeInfo() {
+		GroupCompetitionGlobalData globalData = this._dataHolder.get();
+		return Pair.Create(globalData.getLastHeldTimeMillis(), globalData.getEndTimeOfCurrentSession());
+	}
+	
+	/**
+	 * 
+	 * 获取当前是第几届
+	 * 
+	 * @return
+	 */
+	public int getCurrentSessionId() {
+		GroupCompetitionGlobalData globalData = this._dataHolder.get();
+		return globalData.getHeldTimes();
 	}
 	
 	/**

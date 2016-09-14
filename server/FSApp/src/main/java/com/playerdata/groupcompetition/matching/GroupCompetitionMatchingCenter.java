@@ -29,6 +29,7 @@ public class GroupCompetitionMatchingCenter {
 	}
 	
 	public void onEventsStart(List<GCompAgainst> againsts) {
+		_matchingDataMap.clear();
 		for (GCompAgainst against : againsts) {
 			IGCGroup groupA = against.getGroupA();
 			IGCGroup groupB = against.getGroupB();

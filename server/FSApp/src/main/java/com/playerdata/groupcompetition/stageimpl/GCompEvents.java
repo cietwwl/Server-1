@@ -9,14 +9,13 @@ import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.GroupCompetitionRewardCenter;
 import com.playerdata.groupcompetition.data.IGCGroup;
-import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
-import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
-import com.playerdata.groupcompetition.holder.GCompTeamMgr;
-import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
-import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
@@ -101,7 +100,7 @@ public class GCompEvents {
 	private void fireEventsStart() {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
-		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
+		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
 		GCompMemberMgr.getInstance().notifyEventsStart(eventsData.getRelativeGroupIds()); // 通知成员管理器
 		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
@@ -117,7 +116,7 @@ public class GCompEvents {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
 		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
-		GCOnlineMemberMgr.getInstance().onEventsEnd(_type);
+		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();

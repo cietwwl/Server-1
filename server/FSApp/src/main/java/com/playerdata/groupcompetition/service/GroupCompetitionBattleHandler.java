@@ -12,6 +12,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.battle.GCompMatchBattleCmdHelper;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
@@ -30,7 +31,6 @@ import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleStartRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCMatchGroupInfo;
 import com.rwproto.GroupCompetitionBattleProto.GCMatchGroupScoreRspMsg;
-import com.rwproto.GroupCompetitionBattleProto.GCPushHpInfoRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCUploadHpInfoReqMsg;
 import com.rwproto.MsgDef.Command;
 
@@ -219,16 +219,8 @@ public class GroupCompetitionBattleHandler {
 
 		// 如果有人
 		if (!playerIdList.isEmpty()) {
-			GCBattleCommonRspMsg.Builder memberRsp = GCBattleCommonRspMsg.newBuilder();
-			memberRsp.setReqType(GCBattleReqType.UPLOAD_HP_INFO);
-
-			GCPushHpInfoRspMsg.Builder pushRsp = GCPushHpInfoRspMsg.newBuilder();
-			pushRsp.setIndex(mineIndex);
-			pushRsp.setMineHpPercent(req.getMineHpPercent());
-			pushRsp.setEnemyHpPercent(req.getEnemyHpPercent());
-
-			memberRsp.setPushHpInfoRsp(pushRsp);
-
+			ByteString hpMsg = GCompMatchBattleCmdHelper.buildPushHpInfoMsg(mineIndex, req.getMineHpPercent(), req.getEnemyHpPercent());
+			
 			PlayerMgr playerMgr = PlayerMgr.getInstance();
 			for (int i = 0, size = playerIdList.size(); i < size; i++) {
 				Player p = playerMgr.find(playerIdList.get(i));
@@ -236,7 +228,7 @@ public class GroupCompetitionBattleHandler {
 					continue;
 				}
 
-				p.SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, memberRsp.setIsSuccess(true).build().toByteString());
+				p.SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, hpMsg);
 			}
 		}
 

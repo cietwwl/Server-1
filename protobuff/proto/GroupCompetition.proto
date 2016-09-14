@@ -213,6 +213,7 @@ message TeamStatusChange {
 	required TeamStatusType status = 1;
 }
 
+
 // 赛事直播的参数
 message ParaForLiveMsg{
 	required fixed32 matchId = 1;		//赛事阶段的id
@@ -236,4 +237,9 @@ message GCompRankItem{
 	required string headImage = 3;	//头像
 	required int32 value = 4;	//击杀数、或连胜数、或积分
 	required string groupName = 5;
+}
+
+// 胜利的帮派id
+message EventsResult {
+	required string winGroupId = 1;
 }

@@ -11,6 +11,7 @@ public class GCompCommonConfig {
 	private static int machingTimeoutMillis = (int)TimeUnit.SECONDS.toMillis(20); // 匹配超时的时间
 	private static int topCountGroups = 8; // 入围的帮派数量
 	private static int minMemberCountOfGroup = 3; // 最少的帮派成员数量
+	private static int onlineMemberMonitorTaskInterval = 15; // 在线成员监控的时效间隔
 
 	/**
 	 * 
@@ -72,5 +73,15 @@ public class GCompCommonConfig {
 	 */
 	public static int getMinMemberCountOfGroup() {
 		return minMemberCountOfGroup;
+	}
+
+	/**
+	 * 
+	 * 获取在线成员监控的时效间隔（单位：秒）
+	 * 
+	 * @return
+	 */
+	public static int getOnlineMemberMonitorTaskInterval() {
+		return onlineMemberMonitorTaskInterval;
 	}
 }

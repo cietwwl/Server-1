@@ -151,8 +151,10 @@ public class GCompUtil {
 		int randomSecond = matchingTimeoutRandom.nextInt(5);
 		int millis = GCompCommonConfig.getMachingTimeoutMillis();
 		if(randomSecond != 0) {
+			// 随机偏移一定的秒数
 			millis -= TimeUnit.SECONDS.toMillis(randomSecond);
 		}
+		GCompUtil.log("---------- timeout millis : {} ----------", millis);
 		return millis;
 	}
 	

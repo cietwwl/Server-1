@@ -1,20 +1,20 @@
 package com.rw.dataaccess.attachment;
 
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
 
 	;
 
-	private final Class<? extends PlayerExtProperty> propertyClass;
+	private final Class<? extends RoleExtProperty> propertyClass;
 	private final Class<? extends PlayerExtPropertyCreator<?>> creatorClass;
 	private final String propertyName;
 	private final CacheKey cacheKey;
 	private final short type;
 	private final int capacity;
 
-	<T extends PlayerExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, String name, Class<? extends PlayerExtPropertyCreator<T>> creatorClass, int capacity) {
+	<T extends RoleExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, String name, Class<? extends PlayerExtPropertyCreator<T>> creatorClass, int capacity) {
 		if (type > Short.MAX_VALUE) {
 			throw new ExceptionInInitializerError("out of range:" + type + ",max=" + Short.MAX_VALUE);
 		}
@@ -26,15 +26,15 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 		this.cacheKey = new CacheKey(attachmentClass, name);
 	}
 
-	<T extends PlayerExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, Class<? extends PlayerExtPropertyCreator<T>> creatorClass, int capacity) {
+	<T extends RoleExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, Class<? extends PlayerExtPropertyCreator<T>> creatorClass, int capacity) {
 		this(type, attachmentClass, attachmentClass.getSimpleName(), creatorClass, capacity);
 	}
 
-	<T extends PlayerExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, Class<? extends PlayerExtPropertyCreator<T>> creatorClass) {
+	<T extends RoleExtProperty> PlayerExtPropertyType(int type, Class<T> attachmentClass, Class<? extends PlayerExtPropertyCreator<T>> creatorClass) {
 		this(type, attachmentClass, attachmentClass.getSimpleName(), creatorClass, 0);
 	}
 
-	public Class<? extends PlayerExtProperty> getPropertyClass() {
+	public Class<? extends RoleExtProperty> getPropertyClass() {
 		return propertyClass;
 	}
 

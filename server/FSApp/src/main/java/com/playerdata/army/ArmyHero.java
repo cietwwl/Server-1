@@ -29,6 +29,9 @@ public class ArmyHero {
 	private boolean isPlayer = false;
 	private int fighting;// 佣兵战斗力
 	private int position;// 英雄的站位
+	
+	//坐标，一般只用于怪物  ---------by Alex
+	private ArmyVector3 positionOffset;
 
 	public ArmyHero() {
 	}
@@ -94,4 +97,14 @@ public class ArmyHero {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+
+	public ArmyVector3 getPositionOffset() {
+		return positionOffset;
+	}
+
+	public void setPositionOffset(ArmyVector3 p) {
+		this.positionOffset = p;
+	}
+	
+	
 }

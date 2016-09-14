@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.data;
 
-import com.playerdata.groupcompetition.data.match.IGCMatchSource;
+import java.util.List;
 
 /**
  * 
@@ -9,61 +9,29 @@ import com.playerdata.groupcompetition.data.match.IGCMatchSource;
  * @author CHEN.P
  *
  */
-public interface IGCUnit extends IGCMatchSource {
-
-	/**
-	 * 
-	 * 战斗单位的唯一id
-	 * 
-	 * @return
-	 */
-	public String getId();
+public interface IGCUnit {
 	
 	/**
 	 * 
-	 * 获取战斗单位的等级
+	 * 获取玩家的userId
 	 * 
 	 * @return
 	 */
-	public int getLevel();
+	public String getUserId();
 	
 	/**
 	 * 
-	 * 获取总共胜利的次数
+	 * 获取出战的英雄id列表
 	 * 
 	 * @return
 	 */
-	public int getTotalWinTimes();
+	public List<String> getHeroIds();
 	
 	/**
 	 * 
-	 * 获取最高的连胜次数
+	 * 是否机器人
 	 * 
 	 * @return
 	 */
-	public int getHighestContinuousWinTimes();
-	
-	/**
-	 * 
-	 * 获取当前连胜的次数
-	 * 
-	 * @return
-	 */
-	public int getCurrentContinousWinTimes();
-	
-	/**
-	 * 
-	 * 获取当前的积分
-	 * 
-	 * @return
-	 */
-	public int getCurrentScore();
-	
-	/**
-	 * 
-	 * 获取当前添加到帮派的积分
-	 * 
-	 * @return
-	 */
-	public int getCurrentScoreForGroup();
+	public boolean isRobot();
 }
