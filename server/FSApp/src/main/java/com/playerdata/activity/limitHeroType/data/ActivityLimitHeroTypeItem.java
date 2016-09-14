@@ -1,10 +1,14 @@
 package com.playerdata.activity.limitHeroType.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -34,6 +38,23 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 	
 	@CombineSave
 	private long lastSingleTime;//上一次免费单抽时间
+	
+	@CombineSave
+	private String rankRewards;//积分排行榜奖励，有数据代表上榜了且领取
+	
+	@CombineSave
+	private List<ActivityLimitHeroTypeSubItem> subList = new ArrayList<ActivityLimitHeroTypeSubItem>();
+	
+	public void reset(ActivityLimitHeroCfg cfg,List<ActivityLimitHeroTypeSubItem> subList){
+		this.cfgId = cfg.getId();
+		this.closed = false;
+		this.version = cfg.getVersion();
+		this.isTouchRedPoint = false;
+		this.integral  = 25;//和初始化区分，测试完变为0；
+		this.lastSingleTime = 666;//0.0 和初始化区分
+		this.rankRewards = "";
+		this.subList = subList;
+	}
 
 	public String getId() {
 		return id;
@@ -97,7 +118,21 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 
 	public void setLastSingleTime(long lastSingleTime) {
 		this.lastSingleTime = lastSingleTime;
+	}	
+
+	public String getRankRewards() {
+		return rankRewards;
 	}
-	
-	
+
+	public void setRankRewards(String rankRewards) {
+		this.rankRewards = rankRewards;
+	}
+
+	public List<ActivityLimitHeroTypeSubItem> getSubList() {
+		return subList;
+	}
+
+	public void setSubList(List<ActivityLimitHeroTypeSubItem> subList) {
+		this.subList = subList;
+	}	
 }

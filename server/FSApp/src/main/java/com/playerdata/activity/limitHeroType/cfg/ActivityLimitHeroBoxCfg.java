@@ -9,7 +9,7 @@ public class ActivityLimitHeroBoxCfg {
 	
 	
 	//箱子序列
-	private int num;
+	private int integral;
 	
 	//奖励
 	private String rewards;	
@@ -30,15 +30,14 @@ public class ActivityLimitHeroBoxCfg {
 	}
 
 
-
-	public int getNum() {
-		return num;
+	public int getIntegral() {
+		return integral;
 	}
 
 
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setIntegral(int integral) {
+		this.integral = integral;
 	}
 
 

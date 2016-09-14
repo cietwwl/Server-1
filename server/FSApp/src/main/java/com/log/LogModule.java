@@ -28,6 +28,7 @@ public enum LogModule {
 	ComActivityDailyDisCount("通用活动_DailyDisCountType"),
 	ComActivityRedEnvelope("通用活动_RedEnvelope"),
 	
+	ComActivityLimitHero("通用活动_LimitHero"),
 	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),

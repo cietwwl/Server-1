@@ -22,6 +22,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
@@ -57,6 +58,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 		ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityLimitHeroTypeMgr.getInstance().checkActivityOpen(player);
 	}
 
 

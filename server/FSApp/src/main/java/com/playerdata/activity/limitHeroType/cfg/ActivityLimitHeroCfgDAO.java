@@ -2,14 +2,29 @@ package com.playerdata.activity.limitHeroType.cfg;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
 
 
 
+
+
+
+
+
+
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -58,146 +73,45 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 			item.setUserId(player.getUserId());
 			item.setVersion(cfg.getVersion());
 			item.setLastSingleTime(0);
+			item.setSubList(newSubItemList(cfg));
+			item.setIntegral(20);
 			return item;
 		}else{
 			return null;
 		}		
 	}
-//	
-//
-//
-//	
-//
-//	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityLimitHeroCfg cfg) {
-//		List<ActivityVitalityTypeSubItem> subItemList = null;
-//		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-//		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID()) == ActivityVitalityTypeEnum.Vitality){
-//			subItemList = newItemListOne(day,cfg,allsubCfgList);	
-//		}			
-//		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID()) == ActivityVitalityTypeEnum.VitalityTwo){
-//			subItemList = newItemListTwo(day,cfg,allsubCfgList);
-//		}
-//		return subItemList;
-//	}
-//
-//	private List<ActivityVitalityTypeSubItem> newItemListOne(int day,
-//			ActivityLimitHeroCfg cfg,
-//			List<ActivityVitalitySubCfg> allsubCfgList) {
-//		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
-//		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-//			if(activityVitalitySubCfg.getDay() != day||(!StringUtils.equals(activityVitalitySubCfg.getActiveType()+"", cfg.getId()))){
-//				continue;
-//			}			
-//			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
-//			subitem.setCfgId(activityVitalitySubCfg.getId());
-//			subitem.setCount(0);
-//			subitem.setTaken(false);
-//			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-//			subitem.setType(activityVitalitySubCfg.getType());
-//			subItemList.add(subitem);
-//		}	
-//		return subItemList;
-//	}
-//	
-//	private List<ActivityVitalityTypeSubItem> newItemListTwo(int day,
-//			ActivityLimitHeroCfg cfg,
-//			List<ActivityVitalitySubCfg> allsubCfgList) {
-//		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
-//		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-//			if(!StringUtils.equals(cfg.getId(), activityVitalitySubCfg.getActiveType()+"")){
-//				
-//				continue;
-//			}			
-//			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
-//			subitem.setCfgId(activityVitalitySubCfg.getId());
-//			subitem.setCount(0);
-//			subitem.setTaken(false);
-//			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-//			subitem.setType(activityVitalitySubCfg.getType());
-//			subItemList.add(subitem);
-//		}	
-//		return subItemList;
-//	}
-//	
-//
-//	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day,ActivityLimitHeroCfg cfg) {
-//		List<ActivityVitalityTypeSubBoxItem> subItemList = null;
-//		List<ActivityLimitHeroBoxCfg> allsubCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getAllCfg();
-//		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID())  == ActivityVitalityTypeEnum.Vitality){
-//			subItemList = newBoxItemListOne(day,cfg,allsubCfgList);	
-//		}			
-//		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID())  == ActivityVitalityTypeEnum.VitalityTwo){
-//			subItemList = newBoxItemListTwo(day,cfg,allsubCfgList);
-//		}
-//		return subItemList;
-//	}	
-//
-//	private List<ActivityVitalityTypeSubBoxItem> newBoxItemListOne(int day,
-//			ActivityLimitHeroCfg cfg,
-//			List<ActivityLimitHeroBoxCfg> allsubCfgList) {
-//		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
-//		if(allsubCfgList == null){
-//			return subItemList;
-//		}
-//		
-//		for(ActivityLimitHeroBoxCfg activityVitalityRewardCfg : allsubCfgList){
-//			if(activityVitalityRewardCfg.getDay() != day||(!StringUtils.equals(activityVitalityRewardCfg.getActiveType()+"", cfg.getId()))){
-//				continue;
-//			}			
-//			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
-//			subitem.setCfgId(activityVitalityRewardCfg.getId());
-//			subitem.setCount(activityVitalityRewardCfg.getActivecount());
-//			subitem.setTaken(false);
-//			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
-//			subItemList.add(subitem);
-//		}
-//		return subItemList;
-//	}
-//	
-//	private List<ActivityVitalityTypeSubBoxItem> newBoxItemListTwo(int day,
-//			ActivityLimitHeroCfg cfg,
-//			List<ActivityLimitHeroBoxCfg> allsubCfgList) {
-//		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
-//		if(allsubCfgList == null){
-//			return subItemList;
-//		}
-//		for(ActivityLimitHeroBoxCfg activityVitalitySubCfg : allsubCfgList){
-//			if(!StringUtils.equals(cfg.getId(), activityVitalitySubCfg.getActiveType()+"")){
-//				
-//				continue;
-//			}			
-//			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
-//			subitem.setCfgId(activityVitalitySubCfg.getId());
-//			subitem.setCount(activityVitalitySubCfg.getActivecount());
-//			subitem.setTaken(false);
-//			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
-//			subItemList.add(subitem);
-//		}	
-//		return subItemList;
-//	}
-//
-//
-//	
-//
-//	public ActivityLimitHeroCfg getCfgByItemOfVersion(ActivityVitalityTypeItem item) {
-//		List<ActivityLimitHeroCfg> openCfgList = new ArrayList<ActivityLimitHeroCfg>();
-//		for(ActivityLimitHeroCfg cfg : getAllCfg()){
-//			if (StringUtils.equals(item.getEnumId(), cfg.getEnumID())
-//					&& !StringUtils.equals(item.getCfgId(), cfg.getId())
-//					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
-//				openCfgList.add(cfg);
-//			}
-//			
-//		}
-//		if(openCfgList.size() > 1){
-//			GameLog.error(LogModule.ComActivityVitality, null, "单个类型出现多个同时激活的cfg", null);
-//			return null;
-//		}else if(openCfgList.size() == 1){
-//			
-//			return openCfgList.get(0);
-//		}
-//		return null;
-//	}
+
+	public List<ActivityLimitHeroTypeSubItem> newSubItemList(ActivityLimitHeroCfg cfg){
+		List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getAllCfg();
+		List<ActivityLimitHeroTypeSubItem> subItemList = new ArrayList<ActivityLimitHeroTypeSubItem>();
+		for(ActivityLimitHeroBoxCfg boxCfg : boxCfgList){
+			if(StringUtils.equals(cfg.getId(), boxCfg.getParentid())){
+				ActivityLimitHeroTypeSubItem subItem = new ActivityLimitHeroTypeSubItem();
+				subItem.setCfgId(boxCfg.getId());
+				subItem.setIntegral(boxCfg.getIntegral());
+				subItem.setRewards(boxCfg.getRewards());
+				subItemList.add(subItem);				
+			}			
+		}		
+		return subItemList;
+	}
+	
+
+	public ActivityLimitHeroCfg getCfgListByItem(ActivityLimitHeroTypeItem item) {
+		List<ActivityLimitHeroCfg> openCfgList = new ArrayList<ActivityLimitHeroCfg>();
+		for(ActivityLimitHeroCfg cfg : getAllCfg()){
+			if (!StringUtils.equals(item.getCfgId(),cfg.getId())&&ActivityLimitHeroTypeMgr.getInstance().isOpen(cfg)) {
+				openCfgList.add(cfg);
+			}			
+		}
+		if(openCfgList.size() > 1){
+			GameLog.error(LogModule.ComActivityLimitHero, null, "单个类型出现多个同时激活的cfg", null);
+			return null;
+		}else if(openCfgList.size() == 1){			
+			return openCfgList.get(0);
+		}
+		return null;
+	}
 	
 
 }

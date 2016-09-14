@@ -1,16 +1,13 @@
 package com.playerdata.activity.limitHeroType;
 
-import java.util.ArrayList;
+
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
@@ -25,10 +22,12 @@ public class ActivityLimitHeroTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-//		checkCfgVersion(player);
-//		checkClose(player);
+		checkCfgVersion(player);
+		checkClose(player);
 	}
 	
+	
+
 	private void checkNewOpen(Player player) {
 		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
@@ -45,11 +44,11 @@ public class ActivityLimitHeroTypeMgr {
 			if(targetItem == null){
 				continue;
 			}
-			dataHolder.updateItem(player, targetItem);
+			dataHolder.addItem(player, targetItem);
 		}
 	}
 
-	private boolean isOpen(ActivityLimitHeroCfg cfg) {
+	public boolean isOpen(ActivityLimitHeroCfg cfg) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
@@ -59,7 +58,48 @@ public class ActivityLimitHeroTypeMgr {
 		return false;
 	}
 	
-	
-	
+	private void checkCfgVersion(Player player) {
+		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
+		List<ActivityLimitHeroTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		for (ActivityLimitHeroTypeItem targetItem : itemList) {			
+			ActivityLimitHeroCfg targetCfg = ActivityLimitHeroCfgDAO.getInstance().getCfgListByItem(targetItem);
+			if(targetCfg == null){
+				continue;
+			}			
+			
+			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
+				targetItem.reset(targetCfg,ActivityLimitHeroCfgDAO.getInstance().newSubItemList(targetCfg));
+				dataHolder.updateItem(player, targetItem);
+			}
+		}
+		
+	}
+
+	private void checkClose(Player player) {
+		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
+		List<ActivityLimitHeroTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		for(ActivityLimitHeroTypeItem item : itemList){
+			if(item.isClosed()){
+				continue;			
+			}
+			ActivityLimitHeroCfg cfg =ActivityLimitHeroCfgDAO.getInstance().getCfgById(item.getCfgId());
+			if(cfg == null){
+				GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
+				continue;
+			}
+			if(isOpen(cfg)){
+				continue;
+			}
+			checkRankRewards(player,item);
+			item.setClosed(true);
+			item.setTouchRedPoint(true);
+			dataHolder.updateItem(player, item);			
+		}
+	}
+
+	private void checkRankRewards(Player player, ActivityLimitHeroTypeItem item) {
+		// TODO Auto-generated method stub
+		
+	}	
 	
 }
