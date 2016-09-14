@@ -20,6 +20,7 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
         fixExpEquipDataItemCopy.setQuality(entity.getQuality());
         fixExpEquipDataItemCopy.setStar(entity.getStar());
         fixExpEquipDataItemCopy.setSlot(entity.getSlot());
+        fixExpEquipDataItemCopy.setStoredExp(entity.getStoredExp());
         return fixExpEquipDataItemCopy;
     }
 
@@ -74,6 +75,12 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
             entity1.setSlot(slot2);
             jsonMap = writer.write(jsonMap, "slot", slot2);
         }
+        int storedExp1 = entity1.getStoredExp();
+        int storedExp2 = entity2.getStoredExp();
+        if (storedExp1 != storedExp2) {
+            entity1.setStoredExp(storedExp2);
+            jsonMap = writer.write(jsonMap, "storedExp", storedExp2);
+        }
         return jsonMap;
     }
 
@@ -103,12 +110,15 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
         if (entity1.getSlot() != entity2.getSlot()) {
             return true;
         }
+        if (entity1.getStoredExp() != entity2.getStoredExp()) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public JSONObject toJson(FixExpEquipDataItem entity) {
-        JSONObject json = new JSONObject(8);
+        JSONObject json = new JSONObject(9);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("cfgId", entity.getCfgId());
@@ -117,6 +127,7 @@ public class FixExpEquipDataItemParser implements DataValueParser<FixExpEquipDat
         json.put("quality", entity.getQuality());
         json.put("star", entity.getStar());
         json.put("slot", entity.getSlot());
+        json.put("storedExp", entity.getStoredExp());
         return json;
     }
 

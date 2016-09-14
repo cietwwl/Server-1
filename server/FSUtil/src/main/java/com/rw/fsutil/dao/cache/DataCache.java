@@ -50,9 +50,9 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final AtomicLong generator;
 	private final ArrayList<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners;
 
-	public DataCache(Class clazz, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
+	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
 			List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
-		this.name = clazz.getSimpleName();
+		this.name = key.getName();
 		this.capacity = maxCapacity;
 		this.logger = CacheFactory.getLogger(name);
 		this.lock = new ReentrantLock();
