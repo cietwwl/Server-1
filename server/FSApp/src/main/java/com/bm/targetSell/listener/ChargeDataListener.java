@@ -16,11 +16,13 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 		ChargeInfo currentRecord = event.getCurrentRecord();
 		ChargeInfo oldRecord = event.getOldRecord();
 		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){
-			System.out.println("gold change-------------------------");
+			System.err.println("gold change-------------------------old charge:" + oldRecord.getTotalChargeGold()
+					+ ",cur charge:" + currentRecord.getTotalChargeGold());
 		}
 		
 		if(currentRecord.getTotalChargeMoney() != oldRecord.getTotalChargeMoney()){
-			System.out.println("money change =======================================");
+			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
+					+ ", cur money:" + currentRecord.getTotalChargeMoney());
 		}
 		
 	}

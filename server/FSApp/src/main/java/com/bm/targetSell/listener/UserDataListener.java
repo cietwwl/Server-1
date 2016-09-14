@@ -16,13 +16,16 @@ public class UserDataListener implements SingleChangedListener<User>{
 		User oldRecord = event.getOldRecord();
 		User currentRecord = event.getCurrentRecord();
 		if(oldRecord.getLevel() != currentRecord.getLevel()){
-			System.out.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
+					+", new level:" + currentRecord.getLevel());
 		}
 		if(oldRecord.getExp() != currentRecord.getExp()){
-			System.out.println("role exp change######################################");
+			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
+					+ ",new exp"+ currentRecord.getExp());
 		}
 		if(oldRecord.getVip() != currentRecord.getVip()){
-			System.out.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			System.err.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ old vip:" + oldRecord.getVip() 
+					+ ",new vip:" + currentRecord.getVip());
 		}
 	}
 

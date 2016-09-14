@@ -226,6 +226,8 @@ public class ChargeMgr {
 		player.getUserGameDataMgr().addReCharge(addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+		chargeInfo.setLastChargeTime(System.currentTimeMillis());
+		chargeInfo.setLastCharge(money);
 		
 		//派发限购的钻石奖励
 		ChargeInfoSubRecording sublist = null;
