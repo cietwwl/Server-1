@@ -57,8 +57,9 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 	public ActivityRankTypeItem newItem(Player player, ActivityRankTypeCfg cfgById){
 		if(cfgById!=null){			
 			ActivityRankTypeItem item = new ActivityRankTypeItem();
-			String itemId = ActivityRankTypeHelper.getItemId(player.getUserId(), ActivityRankTypeEnum.getById(cfgById.getEnumId()));
-			item.setId(itemId);
+//			String itemId = ActivityRankTypeHelper.getItemId(player.getUserId(), ActivityRankTypeEnum.getById(cfgById.getEnumId()));
+			int id = Integer.parseInt(cfgById.getEnumId());
+			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgById.getId());
 			item.setEnumId(cfgById.getEnumId());

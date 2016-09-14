@@ -20,7 +20,7 @@ public class UserFeatruesBreakfast implements IUserFeatruesHandler{
 	
 	//吃早饭这么天经地义的事，肯定是各种写死啦啦啦；写的挫了点，有时间4抽1
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem = ActivityRetrieveTypeHelper.getInstance().doEatEvent(UserFeaturesEnum.breakfast);
 		

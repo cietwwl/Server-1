@@ -9,30 +9,20 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-
-
-
-
-
-
-
-
-import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_vitalitytype_item")
-public class ActivityVitalityTypeItem implements  IMapItem {
+public class ActivityVitalityTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private int id;
 	
 	private String userId;// 对应的角色Id
 
@@ -144,14 +134,16 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.lastTime = lastTime;
 	}
 
-	public String getId() {
+
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public List<ActivityVitalityTypeSubItem> getSubItemList() {
 		return subItemList;

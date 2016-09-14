@@ -12,7 +12,11 @@ import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -37,7 +41,7 @@ public class ActivityVitalityItemHolder{
 	{
 		
 		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
-		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();	
 			if(ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
@@ -54,13 +58,14 @@ public class ActivityVitalityItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityVitalityTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityVitalityTypeItem getItem(String userId, ActivityVitalityTypeEnum acVitalityTypeEnum){
-		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
+		int id = Integer.parseInt(acVitalityTypeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}	
 
 	public boolean addItem(Player player, ActivityVitalityTypeItem item){
@@ -92,9 +97,20 @@ public class ActivityVitalityItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityVitalityTypeItem> cache = MapItemStoreFactory.getActivityVitalityItemCache();
-		return cache.getMapItemStore(userId, ActivityVitalityTypeItem.class);
+	public PlayerExtPropertyStore<ActivityVitalityTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
+//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityVitalityTypeItem.class);
+		
+		try {
+			return cach.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

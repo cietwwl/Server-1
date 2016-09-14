@@ -20,7 +20,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class UserFeatruesLxsg implements IUserFeatruesHandler{
 
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.lxsg.getId());
 		subItem.setCount(0);

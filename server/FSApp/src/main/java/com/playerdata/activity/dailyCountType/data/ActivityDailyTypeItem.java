@@ -9,9 +9,11 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
+
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -19,10 +21,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_dailycounttype_item")
-public class ActivityDailyTypeItem implements  IMapItem {
+public class ActivityDailyTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private Integer id;
 	
 	private String userId;// 对应的角色Id
 	@CombineSave
@@ -104,14 +106,16 @@ public class ActivityDailyTypeItem implements  IMapItem {
 		this.lastTime = lastTime;
 	}
 
-	public String getId() {
+
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public List<ActivityDailyTypeSubItem> getSubItemList() {
 		return subItemList;

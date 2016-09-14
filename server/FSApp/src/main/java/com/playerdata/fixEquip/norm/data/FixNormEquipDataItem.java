@@ -8,17 +8,17 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
+import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fix_norm_equip_item")
-public class FixNormEquipDataItem  implements  RoleExtProperty  {
+public class FixNormEquipDataItem implements  IMapItem {
 
 	@Id
-	private Integer id;
+	private String id;
 	
 	private String ownerId;
 
@@ -35,15 +35,13 @@ public class FixNormEquipDataItem  implements  RoleExtProperty  {
 	@CombineSave
 	private int slot;
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public String strId() {
-		return String.valueOf(id);
-	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+	
 	public String getOwnerId() {
 		return ownerId;
 	}
