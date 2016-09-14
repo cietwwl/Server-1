@@ -193,6 +193,9 @@ public class MagicHandler {
 		matInfos.unitExps = new int[matListCount];
 		{
 			int i = 0;
+
+			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+
 			for (MagicItemData item : mateList) {
 				String matStoreId = item.getId();
 				matInfos.StoreIDs[i] = matStoreId;
@@ -202,7 +205,9 @@ public class MagicHandler {
 				}
 				int matModelId = magicMaterial.getModelId();
 				matInfos.modelIDs[i] = matModelId;
-				matInfos.materialCounts[i] = itemBagMgr.getItemCountByModelId(matModelId);
+
+				RefInt refInt = modelCountMap.get(matModelId);
+				matInfos.materialCounts[i] = refInt == null ? 0 : refInt.value;
 
 				ConsumeCfg cfg = ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(matModelId));
 				if (cfg == null) {
@@ -333,13 +338,13 @@ public class MagicHandler {
 		itemBagMgr.syncItemData(updateItems);
 
 		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
-		
-		//通知角色日常任务 by Alex
+
+		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
-		
-		//通知法宝神器羁绊
+
+		// 通知法宝神器羁绊
 		player.getMe_FetterMgr().notifyMagicChange(player);
-		
+
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();
 	}
@@ -382,7 +387,7 @@ public class MagicHandler {
 				break;
 			}
 
-			//需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
+			// 需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
 			int uplevel = magicCfg.getUplevel() - 1;
 			if (uplevel <= 0) {
 				// 这个法宝不能进阶
@@ -434,8 +439,8 @@ public class MagicHandler {
 
 			// magic.level <= magic.upLevel and magic.exp < magic.upFullExp
 			result = fullExp - curExp;
-			//需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
-			if (magicCfg.getUplevel() <= playerLevel+1){
+			// 需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
+			if (magicCfg.getUplevel() <= playerLevel + 1) {
 				maxUpLevel.value = magicCfg.getUplevel();
 			}
 			break;
@@ -529,8 +534,7 @@ public class MagicHandler {
 	 * @param itemBagMgr
 	 * @param fullExp
 	 * @param unitExp
-	 * @param accumulation 的增量 == unitExp * (result + useCount) 如果 accumulation >= fullExp（不能再用了）， accumulation - unitExp < fullExp 如果 accumulation <
-	 *            fullExp (用完了)， useCount == itemCount
+	 * @param accumulation 的增量 == unitExp * (result + useCount) 如果 accumulation >= fullExp（不能再用了）， accumulation - unitExp < fullExp 如果 accumulation < fullExp (用完了)， useCount == itemCount
 	 * @return
 	 */
 	private int GenerateEnhancePlanForOneItem(int seed, int itemCount, ItemBagMgr itemBagMgr, int fullExp, int unitExp, RefInt accumulation, RefInt useCount, int magicMaterialModelID) {
@@ -724,8 +728,7 @@ public class MagicHandler {
 
 		msgMagicResponse.setNewMagicModelId(resultId);
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
-		
-		
+
 		return msgMagicResponse.build().toByteString();
 	}
 
@@ -740,159 +743,169 @@ public class MagicHandler {
 		MsgMagicResponse.Builder response = MsgMagicResponse.newBuilder();
 		response.setMagicType(msgMagicRequest.getMagicType());
 
-		do {// do-while-break 模拟goto
-			final String magicStoreId = msgMagicRequest.getId();
-			final ItemBagMgr bagMgr = player.getItemBagMgr();
-			final ItemData item = bagMgr.findBySlotId(magicStoreId);
-			if (item == null) {
-				fillResponseInfo(response, false, "找不到物品！");
-				break;
-			}
+		final ItemBagMgr bagMgr = player.getItemBagMgr();
+		final String magicStoreId = msgMagicRequest.getId();
+		final ItemData item = bagMgr.findBySlotId(magicStoreId);
+		if (item == null) {
+			fillResponseInfo(response, false, "找不到物品！");
+			return response.build().toByteString();
+		}
 
-			if (EItemTypeDef.Magic != item.getType()) {
-				fillResponseInfo(response, false, "不是法宝，不能进阶！");
-				break;
-			}
+		if (EItemTypeDef.Magic != item.getType()) {
+			fillResponseInfo(response, false, "不是法宝，不能进阶！");
+			return response.build().toByteString();
+		}
 
-			// 法宝配置
-			final int itemModelId = item.getModelId();
-			final MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemModelId));
-			if (magicCfg == null) {
-				fillResponseInfo(response, false, "无法找到法宝配置！");
-				break;
-			}
+		// 法宝配置
+		final int itemModelId = item.getModelId();
+		final MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemModelId));
+		if (magicCfg == null) {
+			fillResponseInfo(response, false, "无法找到法宝配置！");
+			return response.build().toByteString();
+		}
 
-			// 配置是否可进阶
-			final String upgradeToModel = magicCfg.getUpMagic();
-			final MagicCfg upToCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(upgradeToModel));
-			if (upToCfg == null) {
-				fillResponseInfo(response, false, "这个法宝不能进阶！");
-				break;
-			}
+		final int uplevel = magicCfg.getUplevel();
+		if (uplevel <= 0) {
+			fillResponseInfo(response, false, "这个法宝不能进阶！");
+			return response.build().toByteString();
+		}
 
-			// 检查等级
-			final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
-			int lvl = -1;
-			try {
-				lvl = Integer.parseInt(lvlStr);
-				if (lvl < 0) {
-					fillResponseInfo(response, false, "无法获取法宝等级！");
-					break;
-				}
-			} catch (Exception ex) {
+		// 配置是否可进阶
+		final String upgradeToModel = magicCfg.getUpMagic();
+		final MagicCfg upToCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(upgradeToModel));
+		if (upToCfg == null) {
+			fillResponseInfo(response, false, "这个法宝不能进阶！");
+			return response.build().toByteString();
+		}
+
+		// 检查等级
+		final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
+		int lvl = -1;
+		try {
+			lvl = Integer.parseInt(lvlStr);
+			if (lvl < 0) {
 				fillResponseInfo(response, false, "无法获取法宝等级！");
-				break;
+				return response.build().toByteString();
 			}
+		} catch (Exception ex) {
+			fillResponseInfo(response, false, "无法获取法宝等级！");
+			return response.build().toByteString();
+		}
 
-			final int uplevel = magicCfg.getUplevel();
-			if (uplevel <= 0) {
-				fillResponseInfo(response, false, "这个法宝不能进阶！");
-				break;
-			}
+		if (lvl < uplevel) {
+			fillResponseInfo(response, false, "法宝没有达到进阶等级！");
+			return response.build().toByteString();
+		}
 
-			if (lvl < uplevel) {
-				fillResponseInfo(response, false, "法宝没有达到进阶等级！");
-				break;
-			}
+		if (lvl > uplevel) {
+			fillResponseInfo(response, false, "数据异常，这个法宝不能进阶！");
+			return response.build().toByteString();
+		}
 
-			if (lvl > uplevel) {
-				fillResponseInfo(response, false, "数据异常，这个法宝不能进阶！");
-				break;
-			}
+		if (player.getLevel() < uplevel) {
+			fillResponseInfo(response, false, "玩家没有达到法宝进阶等级！");
+			return response.build().toByteString();
+		}
 
-			if (player.getLevel() < uplevel) {
-				fillResponseInfo(response, false, "玩家没有达到法宝进阶等级！");
-				break;
-			}
-
-			// 检查经验是否已满
-			final String expStr = item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
-			int curExp = -1;
-			try {
-				curExp = Integer.parseInt(expStr);
-				if (curExp < 0) {
-					fillResponseInfo(response, false, "无法获取法宝经验值！");
-					break;
-				}
-			} catch (Exception ex) {
+		// 检查经验是否已满
+		final String expStr = item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
+		int curExp = -1;
+		try {
+			curExp = Integer.parseInt(expStr);
+			if (curExp < 0) {
 				fillResponseInfo(response, false, "无法获取法宝经验值！");
-				break;
+				return response.build().toByteString();
 			}
-			
-			//需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
-			/*
-			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel);
-			final Integer upExp = lvlUpPair.getT1();
-			if (curExp < upExp) {
-				fillResponseInfo(response, false, "法宝经验未满！");
-				break;
-			}
-			*/
+		} catch (Exception ex) {
+			fillResponseInfo(response, false, "无法获取法宝经验值！");
+			return response.build().toByteString();
+		}
 
-			// 检查消耗的货币
-			final int cost = magicCfg.getUpMagicCost();
-			if (cost <= 0) {
-				fillResponseInfo(response, false, "法宝进阶配置的货币数量无效！");
-				break;
-			}
+		// 需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
+		/*
+		 * final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel); final Integer upExp = lvlUpPair.getT1(); if (curExp < upExp) { fillResponseInfo(response, false,
+		 * "法宝经验未满！"); break; }
+		 */
 
-			final eSpecialItemId currencyType = eSpecialItemId.getDef(magicCfg.getUpMagicMoneyType());
-			if (currencyType == null) {
-				fillResponseInfo(response, false, "法宝进阶配置的货币类型无效！");
-				break;
-			}
+		// 检查消耗的货币
+		final int cost = magicCfg.getUpMagicCost();
+		if (cost <= 0) {
+			fillResponseInfo(response, false, "法宝进阶配置的货币数量无效！");
+			return response.build().toByteString();
+		}
 
-			// 检查材料
-			boolean enoughMat = true;
-			final List<Pair<Integer, Integer>> lst = magicCfg.getUpgradeNeedGoodList();
-			for (Pair<Integer, Integer> pair : lst) {
-				if (bagMgr.getItemCountByModelId(pair.getT1()) < pair.getT2()) {
-					enoughMat = false;
-					break;
-				}
-			}
-			if (!enoughMat) {
+		final eSpecialItemId currencyType = eSpecialItemId.getDef(magicCfg.getUpMagicMoneyType());
+		if (currencyType == null) {
+			fillResponseInfo(response, false, "法宝进阶配置的货币类型无效！");
+			return response.build().toByteString();
+		}
+
+		// 检查材料
+		Map<Integer, RefInt> modelCountMap = bagMgr.getModelCountMap();
+		Map<Integer, ItemData> modelFirstItemDataMap = bagMgr.getModelFirstItemDataMap();
+
+		final List<Pair<Integer, Integer>> lst = magicCfg.getUpgradeNeedGoodList();
+
+		List<IUseItem> useItemList = new ArrayList<IUseItem>(lst.size());
+
+		for (Pair<Integer, Integer> pair : lst) {
+			Integer modelId = pair.getT1();
+			ItemData itemData = modelFirstItemDataMap.get(modelId);
+			if (itemData == null) {
 				fillResponseInfo(response, false, "法宝进阶材料不足！");
-				break;
+				return response.build().toByteString();
 			}
 
-			// 扣金币和扣材料
-			if (!player.getUserGameDataMgr().deductCurrency(currencyType, cost)) {
-				fillResponseInfo(response, false, "货币不足！");
-				break;
+			RefInt refInt = modelCountMap.get(modelId);
+			int count = refInt == null ? 0 : refInt.value;
+			if (count < pair.getT2()) {
+				fillResponseInfo(response, false, "法宝进阶材料不足！");
+				return response.build().toByteString();
 			}
 
-			for (Pair<Integer, Integer> pair : lst) {
-				final boolean useItemResult = bagMgr.useItemByCfgId(pair.getT1(), pair.getT2());
-				if (!useItemResult) {
-					GameLog.error("法宝", "进阶", "扣除背包物品失败！物品ID：" + pair.getT1());
-				}
-			}
+			useItemList.add(new UseItem(itemData.getId(), pair.getT2()));
+		}
 
-			// 换modelID
-			item.setModelId(upToCfg.getId());
+		// 扣金币和扣材料
+		long curValue = player.getReward(currencyType);
+		if (cost > curValue) {
+			fillResponseInfo(response, false, "货币不足！");
+			return response.build().toByteString();
+		}
 
-			// 通知背包模块属性被更改
-			final List<ItemData> updateItems = new ArrayList<ItemData>(1);
-			updateItems.add(item);
-			bagMgr.syncItemData(updateItems);
+		Map<Integer, Integer> modifyMoneyMap = new HashMap<Integer, Integer>(1);
+		modifyMoneyMap.put(currencyType.getValue(), -cost);
 
-			int state = getItemMagicState(item);
+		if (!bagMgr.useLikeBoxItem(useItemList, null, modifyMoneyMap)) {
+			fillResponseInfo(response, false, "进阶失败！");
+			return response.build().toByteString();
+		}
 
-			if (state == 1) {
-				player.getMagicMgr().updateMagic();
-			}
+		// 换modelID
+		item.setModelId(upToCfg.getId());
+		bagMgr.updateItem(item);
 
-			response.setNewMagicModelId(upToCfg.getId());
-			fillResponseInfo(response, true, "进阶成功！");
-			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
-			TBListenerPlayerChange.heroChangeHandler(player);
-			
-			//通知法宝神器羁绊
-			player.getMe_FetterMgr().notifyMagicChange(player);
-			break;
-		} while (true);
+		// 通知背包模块属性被更改
+		final List<ItemData> updateItems = new ArrayList<ItemData>(1);
+		updateItems.add(item);
+		bagMgr.syncItemData(updateItems);
 
+		int state = getItemMagicState(item);
+		if (state == 1) {
+			player.getMagicMgr().updateMagic();
+		}
+
+		response.setNewMagicModelId(upToCfg.getId());
+
+		GFOnlineListenerPlayerChange.defenderChangeHandler(player);
+		TBListenerPlayerChange.heroChangeHandler(player);
+
+		// 通知法宝神器羁绊
+		player.getMe_FetterMgr().notifyMagicChange(player);
+		// break;
+		// } while (true);
+
+		fillResponseInfo(response, true, "进阶成功！");
 		return response.build().toByteString();
 	}
 

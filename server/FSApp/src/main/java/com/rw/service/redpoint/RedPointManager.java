@@ -102,7 +102,7 @@ public class RedPointManager {
 				RedPointCollector collector = list.get(i);
 				eOpenLevelType openLevelType = collector.getOpenType();
 				if (openLevelType != null) {
-					if (!CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, player)) {
+					if (!levelLimitDAO.isOpen(openLevelType, player)) {
 						continue;
 					}
 				}

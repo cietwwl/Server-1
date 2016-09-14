@@ -3,15 +3,14 @@ package com.rw.trace;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.DataRdbDao;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
-import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
+import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
+import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
+import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.trace.listener.ItemDataListener;
 import com.rw.trace.listener.MajorDataListener;
 import com.rw.trace.listener.UserGameDataListener;
-import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.majorDatas.pojo.MajorData;
-import com.rwbase.dao.user.UserGameData;
 
 /**
  * <pre>
@@ -29,20 +28,19 @@ import com.rwbase.dao.user.UserGameData;
  */
 public enum DataChangeListenRegister {
 
-	ITEM_DATA(ItemData.class, ItemDataListener.class), 
-	USER_GAME_DATA(UserGameData.class, UserGameDataListener.class),
-	MAJOR_DATA(MajorData.class, MajorDataListener.class),
-
+	ITEM_DATA(DataTraceRegistrator.ITEM_DATA, ItemDataListener.class), 
+	USER_GAME_DATA(DataTraceRegistrator.USER_GAME_DATA, UserGameDataListener.class),
+	MAJOR_DATA(DataTraceRegistrator.MAJOR_DATA, MajorDataListener.class),
 	;
-	private DataChangeListenRegister(Class<?> traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
+	private DataChangeListenRegister(DataTraceRegistrator traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
 		this.traceClass = traceClass;
 		this.listenerClass = listenerClass;
 	}
 
-	private Class<?> traceClass;// 被监听数据类，必须在DataTraceRegistrator中有注册
+	private DataTraceRegistrator traceClass;// 被监听数据类，必须在DataTraceRegistrator中有注册
 	private Class<? extends DataChangedVisitor<?>> listenerClass;// 必须有一个参数为空的构造函数，而且监听器本身不应有实例变量
 
-	public Class<?> getTraceClass() {
+	public DataTraceRegistrator getTraceClass() {
 		return traceClass;
 	}
 

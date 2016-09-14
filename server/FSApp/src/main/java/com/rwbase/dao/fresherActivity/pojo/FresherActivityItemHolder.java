@@ -166,8 +166,6 @@ public class FresherActivityItemHolder {
 			return false;
 		}
 		int cfgId = fresherActivityCfg.getCfgId();
-		fresherActivityItem.setId(ownerId+cfgId);
-		fresherActivityItem.setOwnerId(ownerId);
 		fresherActivityItem.setCfgId(cfgId);
 		fresherActivityItem.setType(fresherActivityCfg.geteType());
 		String maxValue = fresherActivityCfg.getMaxValue();

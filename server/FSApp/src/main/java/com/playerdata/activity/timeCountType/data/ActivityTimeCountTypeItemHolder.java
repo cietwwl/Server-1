@@ -76,7 +76,7 @@ public class ActivityTimeCountTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityTimeCountTypeItem> cache = MapItemStoreFactory.getActivityTimeCountTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityTimeCountTypeItem.class);
 	}

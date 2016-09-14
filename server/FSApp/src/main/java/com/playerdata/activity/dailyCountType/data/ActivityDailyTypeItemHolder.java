@@ -6,10 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeHelper;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -34,6 +37,10 @@ public class ActivityDailyTypeItemHolder {
 		while (mapEnum.hasMoreElements()) {
 			ActivityDailyTypeItem item = (ActivityDailyTypeItem) mapEnum
 					.nextElement();
+			if (ActivityDailyTypeCfgDAO.getInstance().getCfgById(
+					item.getCfgid()) == null) {
+				continue;
+			}
 			itemList.add(item);
 		}
 		return itemList;
@@ -46,7 +53,8 @@ public class ActivityDailyTypeItemHolder {
 	}
 
 	public ActivityDailyTypeItem getItem(String userId) {
-		return getItemStore(userId).getItem(userId);
+		String itemId = ActivityDailyTypeHelper.getItemId(userId, ActivityDailyTypeEnum.Daily);
+		return getItemStore(userId).getItem(itemId);
 	}	
 
 	public boolean addItem(Player player, ActivityDailyTypeItem item) {
@@ -61,22 +69,33 @@ public class ActivityDailyTypeItemHolder {
 
 	public void synAllData(Player player) {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
-		Iterator<ActivityDailyTypeItem> it = itemList.iterator();
-		while (it.hasNext()) {
-			ActivityDailyTypeItem item = it.next();
-			if (ActivityDailyTypeCfgDAO.getInstance().getCfgById(
-					item.getCfgid()) == null) {
-				it.remove();
-			}
-		}
+			
 		ClientDataSynMgr.synDataList(player, itemList, synType,
 				eSynOpType.UPDATE_LIST);
 	}
 
-	private MapItemStore<ActivityDailyTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityDailyTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityDailyTypeItem> cache = MapItemStoreFactory
 				.getActivityDailyCountTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityDailyTypeItem.class);
+	}
+
+	public boolean addItemList(Player player, List<ActivityDailyTypeItem> addItemList) {
+		try {
+			boolean addSuccess = getItemStore(player.getUserId()).addItem(
+					addItemList);
+			if (addSuccess) {
+				ClientDataSynMgr.updateDataList(player,
+						getItemList(player.getUserId()), synType,
+						eSynOpType.UPDATE_LIST);
+			}
+			return addSuccess;
+		} catch (DuplicatedKeyException e) {
+			// handle..
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 
 }

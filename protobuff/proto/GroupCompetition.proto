@@ -1,31 +1,95 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
-option java_outer_classname = "GroupChampProto";
+option java_outer_classname = "GroupCompetitionProto";
 
 package groupCompetition;
 
 
-enum RequestType{
+enum GCRequestType{
 	EnterPrepareArea = 1;	//进入备战区
 	LeavePrepareArea = 2;	//离开备战区
 	InformPreparePosition = 3;	//通知备战区的位置
+	LiveMsg = 4; //赛事直播
+	PlaybackMsg = 5; //赛事回放
+	AllGuess = 6; //所有竞猜信息
+	NewGuess = 7; //发起新的竞猜
 }
 
-enum ResultType {
+enum GCResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
 }
 
 message CommonReqMsg{
-	required RequestType reqType = 1;		//请求功能协议类型
+	required GCRequestType reqType = 1;		//请求功能协议类型
 	optional AreaPosition position = 2;		//玩家当前在备战区的位置
 }
 
 message CommonRspMsg{
-	required ResultType rstType = 1; //是否成功处理
+	required GCResultType rstType = 1; //是否成功处理
 }
 
 message AreaPosition{
 	required float x = 1;
 	required float y = 2;
 }
+
+//赛事直播回放
+message LiveAndPlaybackInfo{
+	required string test = 1; //内容
+	required int32 continueWin = 2; //连胜
+	required int32 personalScore = 3; //个人积分
+	required int32 groupScore = 4; //帮派积分
+}
+
+//请求赛事直播
+message ReqLiveAndPlaybackMsg{
+	required GCRequestType reqType = 1; //请求类型
+}
+//回应赛事直播
+message RspLiveAndPlaybackMsg{
+	required GCResultType rstType = 1; //是否成功处理
+	repeated LiveAndPlaybackInfo msgs = 2; //消息列表:个人战有1条，组队战有3条
+}
+
+//赛事竞猜
+message MatchGuessInfo{
+	required int32 session = 1; //第几届
+	required int32 topN = 2; //几强
+	required int32 groupNum = 3; //第几组
+	repeated GroupInfo groups = 4; //两个帮派的信息
+	required int32 guessNum = 5; //竞猜人数
+	required bool hasGuess = 6; //是否参与竞猜了
+}
+
+//帮派信息
+message GroupInfo{
+	required string groupId = 1; //帮派id
+	required string groupIcon = 2; //帮派图标
+	required string groupName = 3; //帮派名字
+	optional float betRate = 4; //赔率
+}
+
+//请求竞猜
+message ReqAllGuessInfo{
+	required GCRequestType reqType = 1; //请求类型
+}
+
+//回应赛事竞猜
+message RspAllGuessInfo{
+	required GCResultType rstType = 1; //是否成功处理
+	repeated MatchGuessInfo guessInfo = 2;
+}
+
+//请求押注
+message ReqNewGuess{
+	required GCRequestType reqType = 1; //请求类型
+	required string groupId = 2; //帮派id
+	required int32 coin = 3; //押注金币
+}
+
+//回应押注
+message RsqNewGuess{
+	required GCResultType rstType = 1; //是否成功处理
+}
+

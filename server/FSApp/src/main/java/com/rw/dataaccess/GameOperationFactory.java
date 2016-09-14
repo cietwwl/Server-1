@@ -14,13 +14,14 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataCreator;
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rwbase.common.MapItemStoreFactory;
 
 @SuppressWarnings("rawtypes")
 public class GameOperationFactory {
 
 	private static PlayerCreatedOperationImpl operation;
 	private static PlayerLoadOperationImpl loadOperation;
-
+	
 	public static void init(int defaultCapacity) {
 		DataKVType[] array = DataKVType.values();
 
@@ -65,7 +66,7 @@ public class GameOperationFactory {
 			rangeArray[i] = kvTypeList.get(i).getType();
 		}
 		// 初始化DataAccessFactory
-		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity, rangeArray);
+		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity, rangeArray,MapItemStoreFactory.getItemStoreInofs());
 		// 接着初始化各个DAO实例，这两个有顺序依赖
 		HashMap<Integer, DataKVDao<?>> cacheMap = new HashMap<Integer, DataKVDao<?>>();
 		for (int i = 0; i < size; i++) {

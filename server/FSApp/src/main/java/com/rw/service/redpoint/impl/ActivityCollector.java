@@ -24,6 +24,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
@@ -256,7 +257,7 @@ public class ActivityCollector implements RedPointCollector {
 
 			List<ActivityExchangeTypeSubItem> exchangeSubitemlist = targetItem.getSubItemList();
 			for (ActivityExchangeTypeSubItem subitem : exchangeSubitemlist) {
-				if (exchangeTypeMgr.isCanTaken(player, subitem, false)) {
+				if (exchangeTypeMgr.isCanTaken(player, subitem)) {
 					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
 						continue;
 					}

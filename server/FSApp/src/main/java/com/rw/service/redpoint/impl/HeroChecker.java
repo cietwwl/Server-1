@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.common.RefInt;
 import com.playerdata.EquipMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -36,15 +37,19 @@ public class HeroChecker implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> heroRedPointList = new ArrayList<String>();
-//		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+		// List<String> heroIdList = player.getHeroMgr().getHeroIdList();
 		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		ArrayList<String> heroEquipList = new ArrayList<String>();
 		ArrayList<String> upgradeStarList = new ArrayList<String>();
 		HeroMgr heroMgr = player.getHeroMgr();
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+
 		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
 		for (String id : heroIdList) {
-//			Hero hero = heroMgr.getHeroById(id);
+			// Hero hero = heroMgr.getHeroById(id);
 			Hero hero = heroMgr.getHeroById(player, id);
 			String templateId = hero.getTemplateId();
 			// roleCfgCopys.remove(roleCfgCopys.get(String.valueOf(hero.getModelId())));
@@ -79,7 +84,8 @@ public class HeroChecker implements RedPointCollector {
 					if (equipCfg.getLevel() > hero.getLevel()) {
 						continue;
 					}
-					ItemData itemData = itemBagMgr.getFirstItemByModelId(equipCfgId);
+
+					ItemData itemData = modelFirstItemDataMap.get(equipCfgId);
 					// if (itemData == null) {
 					// HashMap<Integer, Integer> composeItems =
 					// ComposeCfgDAO.getInstance().getMate(equipCfgId);
@@ -116,7 +122,9 @@ public class HeroChecker implements RedPointCollector {
 			if (nextRoleId == null || nextRoleId.isEmpty()) {
 				continue;
 			}
-			int soulStoneCount = itemBagMgr.getItemCountByModelId(heroCfg.getSoulStoneId());
+
+			RefInt refInt = modelCountMap.get(heroCfg.getSoulStoneId());
+			int soulStoneCount = refInt == null ? 0 : refInt.value;
 			if (soulStoneCount >= risingNumber) {
 				upgradeStarList.add(templateId);
 			}
@@ -133,11 +141,13 @@ public class HeroChecker implements RedPointCollector {
 		}
 
 		ArrayList<String> summonHeroList = new ArrayList<String>();
+
 		// 检查可召唤佣兵
 		for (RoleCfg roleCfg : roleCfgCopys.values()) {
 			int soulStoneId = roleCfg.getSoulStoneId();
 			int summonNumber = roleCfg.getSummonNumber();
-			if (itemBagMgr.getItemCountByModelId(soulStoneId) >= summonNumber) {
+			RefInt intValue = modelCountMap.get(soulStoneId);
+			if (intValue != null && intValue.value >= summonNumber) {
 				summonHeroList.add(roleCfg.getRoleId());
 			}
 		}
