@@ -122,7 +122,7 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 		
 		@Override
 		public Integer apply(Integer level, Integer seq) {
-			FightingCfgBase fightingCfg = fightingCfgDAO.getCfgById(String.valueOf(level));
+			FightingCfgBase fightingCfg = fightingCfgDAO.getByLevel(level);
 			return fightingCfg.getFightingOfIndex(seq);
 		}
 		
