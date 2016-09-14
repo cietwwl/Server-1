@@ -65,7 +65,7 @@ public class GameWorldObjDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T get(String key, T clazz ){
+	public <T> T get(String key, Class<T> clazz ){
 		Object target = null;
 		readLock.lock();
 		try {			
@@ -85,7 +85,7 @@ public class GameWorldObjDAO {
 		return null;
 	}
 
-	private <T> T getFromDB(String key, T clazz) {
+	private <T> T getFromDB(String key, Class<T> clazz) {
 		GameWorldAttributeData target = GameWorldDAO.getInstance().get(key);
 		String value = null;
 		if(target!=null){
