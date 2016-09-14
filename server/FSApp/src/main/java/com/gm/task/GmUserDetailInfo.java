@@ -16,6 +16,7 @@ import com.playerdata.UserDataMgr;
 import com.playerdata.UserGameDataMgr;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 
@@ -72,10 +73,10 @@ public class GmUserDetailInfo implements IGmTask {
 			map.put("channel", zoneRegInfo.getRegChannelId());
 		}
 		map.put("vipLevel", player.getVip());
-//		map.put("fight", player.getHeroMgr().getFightingAll());
 		map.put("fight", player.getHeroMgr().getFightingAll(player));
-		//map.put("faction_id", player.getGuildUserMgr().getGuildId());
-		map.put("faction_id", "");
+		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String faction_id = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupId();
+		map.put("faction_id", faction_id);
 		String carrer = ECareer.getCarrer(player.getCareer());
 		map.put("job", carrer);
 		
