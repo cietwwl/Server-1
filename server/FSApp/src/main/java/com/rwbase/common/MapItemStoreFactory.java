@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.RowMapper;
-
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
@@ -173,6 +171,8 @@ public class MapItemStoreFactory {
 	private static List<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> integrationList;
 	private static HashMap<Integer, MapItemStoreCache<? extends IMapItem>> integrationMap;
 
+	public static final String MAIN_ROLE_NAME = "main";
+	
 	public static void init(Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map) {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
@@ -288,7 +288,7 @@ public class MapItemStoreFactory {
 
 		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity);
 
-		mainHeroItemCache = createForPerload(FSHero.class, "main", "id", heroCapacity);
+		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity);
 
 		register(magicEquipFetterCache = new MapItemStoreCache<MagicEquipFetterRecord>(MagicEquipFetterRecord.class, "userID", heroCapacity));
 

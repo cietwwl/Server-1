@@ -52,11 +52,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect) {
-		this(entityClazz, entityClazz.getName(), searchFieldP, itemBagCount, datasourceName, writeDirect, null);
-	}
-
-	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, boolean writeDirect) {
-		this(entityClazz, cacheName, searchFieldP, itemBagCount, "dataSourceMT", writeDirect, null);
+		this(entityClazz, entityClazz.getSimpleName(), searchFieldP, itemBagCount, datasourceName, writeDirect, null);
 	}
 
 	public MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, Integer type) {
