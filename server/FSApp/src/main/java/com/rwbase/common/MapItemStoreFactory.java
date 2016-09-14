@@ -80,8 +80,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FashionItem> fashionCache;
 	// new guide
 	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
-	// FresherActivityItem
-	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
 	// InlayItem
 	private static MapItemStoreCache<InlayItem> inlayItemCache;
 	// Magic
@@ -222,8 +220,6 @@ public class MapItemStoreFactory {
 		fashionCache = createForPerload(FashionItem.class, "userId", heroCapacity);
 
 		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
-
-		fresherActivityCache = createForPerload(FresherActivityBigItem.class, "ownerId", heroCapacity);
 
 		inlayItemCache = createForPerload(InlayItem.class, "ownerId", actualHeroCapacity);
 
@@ -382,15 +378,6 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<FashionItem> getFashionCache() {
 		return fashionCache;
-	}
-
-	/**
-	 * 获取开服活动缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<FresherActivityBigItem> getFresherActivityCache() {
-		return fresherActivityCache;
 	}
 
 	/**

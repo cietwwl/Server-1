@@ -28,6 +28,8 @@ import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
 
@@ -44,6 +46,7 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_TIMECARD(11,ActivityTimeCardTypeItem.class,ActivityTimeCardCreator.class),
 	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
 	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
+	FRESHER_ACTIVITY(15, FresherActivityBigItem.class, FresherActivityCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;
