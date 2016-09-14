@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.playerdata.groupcompetition.util.GCEventsStatus;
 import com.rw.fsutil.common.Pair;
 
 public class GCEvents {

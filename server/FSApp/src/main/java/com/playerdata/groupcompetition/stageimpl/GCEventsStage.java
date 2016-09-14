@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import com.playerdata.groupcompetition.cfg.GCCommonCfgDAO;
 import com.playerdata.groupcompetition.data.IGCStage;
 import com.playerdata.groupcompetition.util.GCCommonTask;
+import com.playerdata.groupcompetition.util.GCEventsStatus;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;

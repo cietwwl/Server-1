@@ -1,4 +1,4 @@
-package com.playerdata.groupcompetition.stageimpl;
+package com.playerdata.groupcompetition.util;
 
 public enum GCEventsStatus {
 	

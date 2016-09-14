@@ -3,6 +3,8 @@ package com.playerdata.groupcompetition.stageimpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.groupcompetition.util.GCEventsStatus;
+
 public class GCEventsStageContext {
 
 	private List<String> _groupIds;

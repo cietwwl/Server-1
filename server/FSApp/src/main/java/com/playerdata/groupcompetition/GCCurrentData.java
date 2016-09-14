@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
+import com.playerdata.groupcompetition.util.GCEventsStatus;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import com.playerdata.groupcompetition.stageimpl.GCEventsStatus;
 
 /**
  * 
