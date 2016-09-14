@@ -35,6 +35,7 @@ enum GCRequestType{
 	GetKillRank = 26;	//个人击杀排行榜
 	GetWinRank = 27;	//连胜排行榜
 	GetScoreRank = 28;	//积分排行榜
+	GetGroupScoreRank = 29; // 帮派积分排行榜
 }
 
 enum TeamStatusType {
@@ -75,6 +76,7 @@ message CommonGetDataRspMsg {
 	optional string tipMsg = 2; // 提示消息
 	optional SelectionRspData selectionData = 3; // 海选信息（对于GCRequestType.GetSelectionData可用）
 	repeated GCompRankItem rankData = 4;	//排行榜数据
+	optional GCompGroupScoreRankRspData groupScoreRankRspData = 5; // 帮派积分排行榜数据
 }
 
 //备战区同屏玩家坐标
@@ -238,6 +240,30 @@ message GCompRankItem{
 	required string headImage = 3;	//头像
 	required int32 value = 4;	//击杀数、或连胜数、或积分
 	required string groupName = 5;
+}
+
+// 帮派积分排行榜请求的响应数据
+message GCompGroupScoreRankRspData {
+	repeated GCompGroupScoreRankItem scoreRankItem = 1;
+	repeated GCompHistoryChampion historyChampion = 2;
+}
+
+// 帮派积分排行榜数据
+message GCompGroupScoreRankItem {
+	required string groupName = 1; // 帮派名字
+	required string groupIcon = 2; // 帮派的icon
+	required fixed64 fighting = 3; // 战斗力
+	required fixed32 currentScore = 4; // 帮派的当前积分
+	required fixed32 totalScore = 5; // 帮派的总积分
+}
+
+// 帮战历史冠军数据
+message GCompHistoryChampion {
+	required string groupName = 1;
+	required string groupIconId = 2;
+	required string leaderName = 3;
+	repeated string assistantName = 4; // 副帮主的名字
+	required fixed32 score = 5; // 赛事总结分
 }
 
 // 胜利的帮派id
