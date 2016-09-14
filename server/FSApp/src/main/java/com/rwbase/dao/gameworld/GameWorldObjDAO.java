@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.dao.annotation.ClassInfo;
+import com.rwbase.gameworld.GameWorldKey;
 
 
 public class GameWorldObjDAO {
@@ -39,8 +40,9 @@ public class GameWorldObjDAO {
 		return instance;
 	}
 	
-	public boolean update(String key, Object value){
+	public boolean update(GameWorldKey gwKey, Object value){
 		
+		String key = gwKey.getName();
 		ClassInfo classInfo = classInfoMap.get(value.getClass());
 		boolean success = false;
 		writeLock.lock();
@@ -65,7 +67,8 @@ public class GameWorldObjDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T get(String key, Class<T> clazz ){
+	public <T> T get(GameWorldKey gwKey, Class<T> clazz ){
+		String key = gwKey.getName();
 		Object target = null;
 		readLock.lock();
 		try {			
@@ -86,6 +89,7 @@ public class GameWorldObjDAO {
 	}
 
 	private <T> T getFromDB(String key, Class<T> clazz) {
+		
 		GameWorldAttributeData target = GameWorldDAO.getInstance().get(key);
 		String value = null;
 		if(target!=null){
