@@ -43,7 +43,8 @@ public enum LogModule {
 	TeamBattle("组队副本"),
 	BattleVerify("战斗校验"),
 	DataEncode("加密校验"),
-	DataSynService("数据同步服务")
+	DataSynService("数据同步服务"),
+	GameWorld("公用对象模块")
 	;
 	
 	private String name;

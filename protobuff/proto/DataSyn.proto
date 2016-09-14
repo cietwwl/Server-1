@@ -120,6 +120,14 @@ enum eSynType	//数据同步类型
 	WB_RANK_DATA = 96;//世界boss排行数据
 	GC_PREPARE_POSITION = 97;	//帮派争霸赛，备战区的位置信息同步
 	FIGHTING_GROWTH_DATA = 98; // 战力提升数据
+
+	GCompBase = 100; //帮派争霸基本信息
+	GCompAudition = 101; //帮派争霸海选
+	GCompDetailInfo = 102; //帮派争霸直播
+	GCompFightingRecord = 103; //帮派争霸战斗记录
+	GCompMatch = 104; //帮派争霸对阵信息
+	GCompOnlineMember = 105; //帮派争霸在线成员
+	GCompTeamHolder = 106; //帮派争霸组队
 }
 
 message MsgDataSynList
