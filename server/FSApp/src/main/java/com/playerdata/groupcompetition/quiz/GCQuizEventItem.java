@@ -40,6 +40,9 @@ public class GCQuizEventItem {
 	private int sessionId;	//第几届
 	
 	@CombineSave
+	private String eventsType;	//赛事阶段
+	
+	@CombineSave
 	private int fightNum;	//第几场
 	
 	@IgnoreSynField
@@ -52,7 +55,7 @@ public class GCQuizEventItem {
 
 	public GCQuizEventItem(){	}
 	
-	public GCQuizEventItem(int sessionId, int fightNum, int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
+	public GCQuizEventItem(int sessionId, String eventsType, int fightNum, int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
 		this.sessionId = sessionId;
 		this.fightNum = fightNum;
 		this.matchId = matchId;
@@ -67,6 +70,38 @@ public class GCQuizEventItem {
 
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
+	}
+	
+	public int getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(int sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getEventsType() {
+		return eventsType;
+	}
+
+	public void setEventsType(String eventsType) {
+		this.eventsType = eventsType;
+	}
+
+	public int getFightNum() {
+		return fightNum;
+	}
+
+	public void setFightNum(int fightNum) {
+		this.fightNum = fightNum;
+	}
+
+	public boolean isFinalRate() {
+		return isFinalRate;
+	}
+
+	public void setFinalRate(boolean isFinalRate) {
+		this.isFinalRate = isFinalRate;
 	}
 
 	public QuizGroupInfo getGroupA() {

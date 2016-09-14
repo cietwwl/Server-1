@@ -123,7 +123,7 @@ public class GCompQuizMgr {
 			if(StringUtils.isBlank(groupA.getGroupId()) || StringUtils.isBlank(groupB.getGroupId())){
 				continue;
 			}
-			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, ++fightNum, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
+			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, currentEvent.chineseName, ++fightNum, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
 			GroupQuizEventItemDAO.getInstance().update(quizEvent);
 		}
 	}
