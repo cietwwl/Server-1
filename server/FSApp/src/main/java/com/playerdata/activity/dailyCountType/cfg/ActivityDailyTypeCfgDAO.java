@@ -9,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeHelper;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -64,7 +67,9 @@ public final class ActivityDailyTypeCfgDAO extends
 	public ActivityDailyTypeItem newItem(Player player, ActivityDailyTypeCfg cfg) {
 		if (cfg != null) {
 			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
-			item.setId(player.getUserId());
+			String itemId = ActivityDailyTypeHelper.getItemId(
+					player.getUserId(), ActivityDailyTypeEnum.Daily);
+			item.setId(itemId);
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfg.getId());
 			item.setVersion(cfg.getVersion());

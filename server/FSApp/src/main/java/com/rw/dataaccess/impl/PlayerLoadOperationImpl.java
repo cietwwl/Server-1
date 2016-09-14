@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.rw.dataaccess.PlayerLoadOperation;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
+import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.dao.cache.CacheKey;
 import com.rw.fsutil.dao.kvdata.DataKvEntity;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rwbase.common.MapItemStoreFactory;
 
 /**
  * <pre>
@@ -26,7 +29,6 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 
 	private final DataKVDao<?>[] dataKVArray;
 	private final int maxType;
-	private final AtomicInteger generator = new AtomicInteger();
 
 	public PlayerLoadOperationImpl(HashMap<Integer, DataKVDao<?>> map) {
 		if (map.isEmpty()) {
@@ -64,7 +66,11 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 			}
 			kvDao.putIntoCacheByDBString(entity.getUserId(), entity.getValue());
 		}
-		int seqId = generator.incrementAndGet();
-		FSTraceLogger.logger("LOAD_KV", System.currentTimeMillis() - start, "LOAD_KV", seqId, userId, null, true);
+		long end = System.currentTimeMillis();
+		FSTraceLogger.recordRun("LOAD_KV", end - start);
+//		List<Pair<CacheKey, String>> preloadInfos = MapItemStoreFactory.getPreloadInfos(userId);
+//		List<Pair<CacheKey, List<? extends IMapItem>>> datas = DataAccessFactory.getMapItemManager().load(preloadInfos, userId);
+//		MapItemStoreFactory.preInsertDatas(userId, datas);
+//		FSTraceLogger.recordRun("LOAD_MAP_ITEM", System.currentTimeMillis() - end);
 	}
 }

@@ -28,6 +28,7 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwproto.ChatServiceProtos.ChatAttachItem;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
@@ -69,11 +70,12 @@ public class ChatHandler {
 	 */
 	public MessageUserInfo.Builder createMessageUserInfoBuilder(PlayerIF player, boolean appendBasic) {
 		MessageUserInfo.Builder messageUserInfoBuilder = MessageUserInfo.newBuilder();
-		messageUserInfoBuilder.setUserId(player.getTableUserOther().getUserId());
+		messageUserInfoBuilder.setUserId(player.getUserId());
 		if (appendBasic) {
+			TableUserIF tableUser = player.getTableUser();
 			messageUserInfoBuilder.setLevel(player.getLevel());// 等级
-			messageUserInfoBuilder.setHeadImage(player.getTableUser().getHeadImageWithDefault());// 头像Id
-			messageUserInfoBuilder.setUserName(player.getTableUser().getUserName());// 角色名字
+			messageUserInfoBuilder.setHeadImage(tableUser.getHeadImageWithDefault());// 头像Id
+			messageUserInfoBuilder.setUserName(tableUser.getUserName());// 角色名字
 			messageUserInfoBuilder.setHeadbox(player.getHeadFrame());// 头像品质框
 			messageUserInfoBuilder.setCareerType(player.getCareer()); // 职业类型
 			messageUserInfoBuilder.setGender(player.getSex()); // 性别
@@ -391,7 +393,7 @@ public class ChatHandler {
 		if (isOnline) {
 			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 
-			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getTableUser().getUserId());
+			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getUserId());
 //			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀

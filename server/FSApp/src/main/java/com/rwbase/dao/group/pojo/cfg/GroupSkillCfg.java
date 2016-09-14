@@ -7,7 +7,7 @@ package com.rwbase.dao.group.pojo.cfg;
  */
 public class GroupSkillCfg {
 	private int skillId;// 技能Id
-	private String skillType;// 技能类型
+	private int skillType;// 技能类型
 	private String skillName;// 技能名字
 
 	// private int isStartSkill;// 是否是研发起点技能
@@ -26,7 +26,7 @@ public class GroupSkillCfg {
 	 * 
 	 * @return
 	 */
-	public String getSkillType() {
+	public int getSkillType() {
 		return skillType;
 	}
 

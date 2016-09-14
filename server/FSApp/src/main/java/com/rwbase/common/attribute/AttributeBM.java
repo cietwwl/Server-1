@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.army.ArmyMagic;
+import com.playerdata.fightinggrowth.FSUserFightingGrowthTitleAttributeComponent;
 import com.playerdata.fixEquip.attr.FixExpEquipAttributeComponent;
 import com.playerdata.fixEquip.attr.FixNormEquipAttributeComponent;
 import com.playerdata.team.FashionInfo;
@@ -86,6 +87,7 @@ public class AttributeBM {
 		componentList.add(new FixNormEquipAttributeComponent());
 		componentList.add(new HeroExtraAttributeComponent());
 		componentList.add(new HeroMagicEquipFetterAttriComponent());
+		componentList.add(new FSUserFightingGrowthTitleAttributeComponent()); // 战力成长称号属性计算
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
