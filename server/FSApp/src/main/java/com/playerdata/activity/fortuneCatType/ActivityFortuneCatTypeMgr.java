@@ -222,7 +222,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 	public ActivityComResult getRecord(Player player, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(true);
 		result.setReason("");
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if(scdData == null){
 			result.setSuccess(false);
 			return result;
@@ -247,7 +247,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate{
 	 * @param tmp   保存三条  {666,uid+gold        667,uid+gold      668,uid+gold}格式的摇奖数据
 	 */
 	private void reFreshRecord(Player player,int getGold) {
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if(scdData == null){
 			return;
 		}
