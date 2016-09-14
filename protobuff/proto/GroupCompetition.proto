@@ -48,6 +48,7 @@ enum GCResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
 	COIN_NOT_ENOUGH = 3;	//金币不足
+	NO_SAME_SCENE = 4;		//同屏场景不存在
 }
 
 message CommonReqMsg{
