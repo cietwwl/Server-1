@@ -1,5 +1,9 @@
 package com.bm.worldBoss;
 
+import com.bm.worldBoss.cfg.WBSettingCfg;
+import com.bm.worldBoss.cfg.WBSettingCfgDAO;
+import com.bm.worldBoss.data.WBData;
+import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
@@ -38,23 +42,24 @@ public class WBUserMgr {
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		
+		WBSettingCfg settingCfg = WBSettingCfgDAO.getInstance().getCfg();
 		
 		wbUserData.setLastHurt(hurt);
 		wbUserData.addTotalHurt(hurt);
 		long curTime = System.currentTimeMillis();
 		wbUserData.setLastFightTime(curTime);
 		wbUserData.setLastAwardCoin(awardCoin);
-		wbUserData.setFightCdTime(curTime + CD );
+		wbUserData.setFightCdTime(curTime + settingCfg.getCDInMilli());
 		
 		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
 	}
 	
-	final private int CD = 30000;  //用户攻击的时间间隔。
 	public boolean isInCD(Player player) {
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());		
-		return wbUserData.getFightCdTime() < System.currentTimeMillis();
+		long fightCdTime = wbUserData.getFightCdTime();
+		return fightCdTime!=0 && fightCdTime < System.currentTimeMillis();
 	}
 	
 
@@ -66,4 +71,15 @@ public class WBUserMgr {
 		WBUserDataHolder.getInstance().update(player);
 	}
 	
+	
+	public void resetUserDataIfNeed(Player player){
+		
+		WBData wbData = WBDataHolder.getInstance().get();
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
+		if(wbData!=null && wbUserData!=null && wbData.getVersion() != wbUserData.getBossVersion()){
+			wbUserData = wbUserData.nextInstance(wbData.getVersion());
+			WBUserDataHolder.getInstance().update(player, wbUserData);
+		}
+		
+	}
 }

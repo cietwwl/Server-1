@@ -36,6 +36,13 @@ public class WBUserData {
 		return data;
 	}
 	
+	public WBUserData nextInstance(int bossVersion){
+		WBUserData data = new WBUserData();
+		data.userId = this.userId;		
+		data.bossVersion = bossVersion;
+		return data;
+	}
+	
 	public String getUserId() {
 		return userId;
 	}

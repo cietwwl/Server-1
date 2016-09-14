@@ -5,6 +5,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.bm.worldBoss.cfg.WBCfg;
+import com.bm.worldBoss.cfg.WBHPCfg;
+import com.bm.worldBoss.cfg.WBHPCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBData;
@@ -75,6 +77,7 @@ public class WBMgr {
 		writeLock.lock();
 		try {			
 			success = WBDataHolder.getInstance().newBoss(nextCfg);
+			
 		} finally {
 			writeLock.unlock();			
 		}		
@@ -142,9 +145,19 @@ public class WBMgr {
 			int quickKillMax = settingCfg.getQuickKillMax();
 			int survialMax = settingCfg.getSurvialMax();
 			if(wbData.getQuickKillCount() > quickKillMax){
-				wbData.inrcBossLevel();
+				
+				WBHPCfg nextLevel = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(wbData.getBossLevel()+1));
+				if(nextLevel!=null){					
+					wbData.inrcBossLevel();
+					GameLog.info(LogModule.WorldBoss.getName(), "WBMgr[adjustBossLevel]", "boss 升级:"+wbData.getBossLevel());
+				}
+				
 			}else if(wbData.getSurvivalCount() > survialMax){
-				wbData.dercBossLevel();
+				WBHPCfg nextLevel = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(wbData.getBossLevel()-1));
+				if(nextLevel!=null){						
+					wbData.dercBossLevel();
+					GameLog.info(LogModule.WorldBoss.getName(), "WBMgr[adjustBossLevel]", "boss 降级:"+wbData.getBossLevel());
+				}
 			}
 			
 			WBDataHolder.getInstance().update();

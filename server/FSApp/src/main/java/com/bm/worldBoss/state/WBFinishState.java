@@ -6,6 +6,8 @@ import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
+import com.log.GameLog;
+import com.log.LogModule;
 
 class WBFinishState implements  IwbState{
 
@@ -31,6 +33,7 @@ class WBFinishState implements  IwbState{
 			
 			if(nextCfg!=null){
 				success = WBMgr.getInstance().initNewBoss(nextCfg);
+				GameLog.info(LogModule.WorldBoss.getName(), "WBFinishState[tryNextBoss]", "result: " + success);
 			}
 		}
 		return success;

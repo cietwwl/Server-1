@@ -12,6 +12,10 @@ public class WBSettingCfg {
 	private int quickKillMax;		//快速击杀导致升级次数
 	
 	private int	survialMax;			//存活导致降级次数
+	
+	private int cdInSecond = 30;	//复活cd 默认30秒
+	
+	private int cdCost = 30;		//复活cd 花费
 
 
 	public String getId() {
@@ -36,7 +40,18 @@ public class WBSettingCfg {
 	public int getSurvialMax() {
 		return survialMax;
 	}
+
+	public int getCdInSecond() {
+		return cdInSecond;
+	}
 	
+	public int getCDInMilli(){
+		return cdInSecond*1000;
+	}
+
+	public int getCdCost() {
+		return cdCost;
+	}
 	
 	
 

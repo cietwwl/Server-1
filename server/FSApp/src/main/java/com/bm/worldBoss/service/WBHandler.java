@@ -8,6 +8,9 @@ import com.bm.worldBoss.cfg.WBAwardCfg;
 import com.bm.worldBoss.cfg.WBAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
+import com.bm.worldBoss.cfg.WBSettingCfgDAO;
+import com.bm.worldBoss.data.WBState;
+import com.bm.worldBoss.state.WBStateFSM;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
@@ -39,6 +42,8 @@ public class WBHandler {
 	}
 
 	public ByteString doFightBegin(Player player, CommonReqMsg commonReq) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
@@ -68,7 +73,7 @@ public class WBHandler {
 	private WBResult checkFightBegin(Player player, FightBeginParam fightBeginParam){
 		WBResult result = checkBoss();
 		if(result.isSuccess()){
-			result = checkUser(player);
+			result = checkCD(player);
 		}
 		if(result.isSuccess()){			
 			List<String> heroIdsList = fightBeginParam.getHeroIdsList();	
@@ -81,6 +86,8 @@ public class WBHandler {
 	}
 
 	public ByteString doFightEnd(Player player, CommonReqMsg commonReq) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
@@ -124,9 +131,6 @@ public class WBHandler {
 
 	private WBResult checkFightEnd(Player player, FightEndParam fightEndParam){
 		WBResult result = checkBoss();
-		if(result.isSuccess()){
-			result = checkUser(player);
-		}
 		
 		return result;
 	}
@@ -134,7 +138,11 @@ public class WBHandler {
 
 	private WBResult checkBoss() {
 		WBResult result = WBResult.newInstance(true);
-		if(WBMgr.getInstance().isBossDie()){
+		WBState state = WBStateFSM.getInstance().getState();
+		if(state!=WBState.FightStart){
+			result.setSuccess(false);
+			result.setReason("世界boss尚未开始。");	
+		}else if(WBMgr.getInstance().isBossDie()){
 			result.setSuccess(false);
 			result.setReason("世界boss已被击杀。");				
 		}else if(!WBMgr.getInstance().isAfterBossStartTime()){
@@ -147,7 +155,7 @@ public class WBHandler {
 		return result;
 	}
 	
-	private WBResult checkUser(Player player) {
+	private WBResult checkCD(Player player) {
 		WBResult result = WBResult.newInstance(true);
 		if(WBUserMgr.getInstance().isInCD(player)){
 			result.setSuccess(false);
@@ -156,26 +164,32 @@ public class WBHandler {
 		return result;
 	}
 	
+	
 
 	public ByteString doBuyBuff(Player player, CommonReqMsg commonReq) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
 		BuyBuffParam buyBuffParam = commonReq.getBuyBuffParam();
 		String bufBuffCfgId = buyBuffParam.getCfgId();
-		WBBuyBuffCfg buyBuffCfg = WBBuyBuffCfgDAO.getInstance().getCfgById(bufBuffCfgId);
 		
-		WBResult result = WBResult.newInstance(false);
-		if(buyBuffCfg == null){
-			result.setReason("配置不存在。");
-		}else{
-			eSpecialItemId costType = buyBuffCfg.getCostType();
-			int costCount = buyBuffCfg.getCostCount();			
-			result = WBHelper.takeCost(player, costType, costCount);
-			if(result.isSuccess()){
-				WBUserMgr.getInstance().addBuff(player, buyBuffCfg.getId());
-			}
+		WBResult result = checkBoss();
+		if(result.isSuccess()){
 			
+			WBBuyBuffCfg buyBuffCfg = WBBuyBuffCfgDAO.getInstance().getCfgById(bufBuffCfgId);
+			if(buyBuffCfg == null){
+				result.setReason("配置不存在。");
+			}else{
+				eSpecialItemId costType = buyBuffCfg.getCostType();
+				int costCount = buyBuffCfg.getCostCount();			
+				result = WBHelper.takeCost(player, costType, costCount);
+				if(result.isSuccess()){
+					WBUserMgr.getInstance().addBuff(player, buyBuffCfg.getId());
+				}
+				
+			}
 		}
 
 		response.setIsSuccess(result.isSuccess());
@@ -185,12 +199,18 @@ public class WBHandler {
 	}
 
 	public ByteString doBuyCD(Player player, CommonReqMsg commonReq) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
+		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		WBResult result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost());
-		if(result.isSuccess()){
-			WBUserMgr.getInstance().cleanCD(player);
+		WBResult result = checkBoss();
+		if(result.isSuccess()){			
+			result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost());
+			if(result.isSuccess()){
+				WBUserMgr.getInstance().cleanCD(player);
+			}
 		}
 
 		response.setIsSuccess(result.isSuccess());
@@ -200,7 +220,8 @@ public class WBHandler {
 	}
 	
 	private int getBuyCDCost(){
-		return 30;
+		int cdCost = WBSettingCfgDAO.getInstance().getCfg().getCdCost();		
+		return cdCost;
 	}
 
 

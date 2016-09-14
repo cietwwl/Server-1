@@ -29,6 +29,7 @@ import com.bm.worldBoss.data.WBState;
 	
 	@Override
 	public void doEnter() {
+		
 		WBData wbData = WBDataHolder.getInstance().get();
 		wbData.setState(state);
 		WBDataHolder.getInstance().update();		

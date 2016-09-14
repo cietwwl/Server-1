@@ -3,6 +3,8 @@ package com.bm.worldBoss.state;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
+import com.log.GameLog;
+import com.log.LogModule;
 
 public class WBStateFSM {
 	
@@ -24,6 +26,7 @@ public class WBStateFSM {
 			curState = initFromWbData(wbData);
 		}
 		curState.doEnter();
+		GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[init]", "world boss init finish");
 	}
 	
 	private IwbState initFromWbData(WBData wbData) {
@@ -65,9 +68,11 @@ public class WBStateFSM {
 		
 		IwbState nextState = curState.doTransfer();		
 		if(nextState!=null){	
+			GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[tranfer]", "world boss state transfer to " + nextState);
 			nextState.doEnter();
 			curState = nextState;
-		}		
+		}	
+		
 	}
 
 	

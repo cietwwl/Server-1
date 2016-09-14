@@ -10,6 +10,7 @@ import com.bm.worldBoss.cfg.WBHPCfg;
 import com.bm.worldBoss.cfg.WBHPCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
@@ -68,7 +69,8 @@ public class WBDataHolder {
 		return success;
 	}
 	
-	private boolean init(WBData data, WBCfg wbCfg){	
+	private boolean init(WBData data, WBCfg wbCfg){
+		
 		
 		List<CopyMonsterInfoCfg> monsterBattleList = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
 		String monsterCfgId=null;
@@ -96,8 +98,10 @@ public class WBDataHolder {
 			data.setEndTime(wbCfg.getEndTime());
 			data.setFinishTime(wbCfg.getFinishTime());
 			
+			boolean update = WBDataDao.getInstance().update(data);
 			
-			return WBDataDao.getInstance().update(data);
+			GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);
+			return update;
 		}
 		
 		return false;

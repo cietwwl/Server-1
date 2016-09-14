@@ -65,8 +65,8 @@ public class WBAwardServer {
 	
 	
 	private  void doWBSendAward(){
-		sendRankAwards();
 		sendKillAttackAward();
+		sendRankAwards();
 	}
 
 	
@@ -76,6 +76,7 @@ public class WBAwardServer {
 		boolean isBossKilled = wbData.isKilled();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
+			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
 			
 			String awardId = wbRankAwardCfg.getAwardId();
 			String award = wbRankAwardCfg.getAward();
@@ -92,6 +93,9 @@ public class WBAwardServer {
 			
 			int offset = wbRankAwardCfg.getOffset();
 			int size = wbRankAwardCfg.getSize();
+			
+			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, offset: " + offset+" size:"+size);
+			
 			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, size);
 			List<String> args = new ArrayList<String>();
 			int rankIndex = offset;
@@ -102,7 +106,9 @@ public class WBAwardServer {
 				rankIndex++;
 				
 				args.clear();
-			}		
+			}	
+			
+			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward finish, offset: " + offset+" size:"+size);
 		}
 		
 	}
