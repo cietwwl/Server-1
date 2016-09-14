@@ -74,7 +74,9 @@ public class GameWorldObjDAO {
 		try {			
 			if(!cacheMap.containsKey(key)){
 				T fromDB = getFromDB(key, clazz);
-				cacheMap.put(key, fromDB);
+				if(fromDB!=null){
+					cacheMap.put(key, fromDB);
+				}
 			}
 			
 			target = cacheMap.get(key);
