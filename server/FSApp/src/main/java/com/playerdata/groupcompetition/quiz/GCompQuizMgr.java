@@ -37,6 +37,14 @@ public class GCompQuizMgr {
 	}
 	
 	/**
+	 * 删除上届比赛所有可竞猜项目
+	 * @param matchList
+	 */
+	public void deleteLastCompQuiz(List<Integer> matchList){
+		GroupQuizEventItemDAO.getInstance().removeAllRecord(matchList);
+	}
+	
+	/**
 	 * 发起一个竞猜
 	 * @param player
 	 * @param gcRsp
@@ -44,7 +52,7 @@ public class GCompQuizMgr {
 	 * @param groupId
 	 * @param coin
 	 */
-	public void createNewGuiz(Player player, Builder gcRsp, int matchId, String groupId, int coin) {
+	public void createNewQuiz(Player player, Builder gcRsp, int matchId, String groupId, int coin) {
 		GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(matchId);
 		if(null == quizEvent) {
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
@@ -82,7 +90,7 @@ public class GCompQuizMgr {
 		boolean quizResult = quizForCompetion(player, matchId, groupId, coin);
 		if(!quizResult){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("竞猜失败");
+			gcRsp.setTipMsg("竞猜失败，不要重复竞猜");
 			return;
 		}
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -coin);
@@ -95,7 +103,7 @@ public class GCompQuizMgr {
 	 * @param player
 	 * @param gcRsp
 	 */
-	public void getCanGuizMatch(Player player, com.rwproto.GroupCompetitionProto.RspAllGuessInfo.Builder gcRsp) {
+	public void getCanQuizMatch(Player player, com.rwproto.GroupCompetitionProto.RspAllGuessInfo.Builder gcRsp) {
 		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
@@ -106,15 +114,16 @@ public class GCompQuizMgr {
 	public void groupCompEventsStart(){
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
-		final int currentSession = 1;
+		final int currentSession = GroupCompetitionMgr.getInstance().getCurrentSessionId();
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
+		int fightNum = 0;
 		for(GCompAgainst against :currentAgainst){
 			IGCGroup groupA = against.getGroupA();
 			IGCGroup groupB = against.getGroupB();
 			if(StringUtils.isBlank(groupA.getGroupId()) || StringUtils.isBlank(groupB.getGroupId())){
 				continue;
 			}
-			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
+			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, ++fightNum, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
 			GroupQuizEventItemDAO.getInstance().update(quizEvent);
 		}
 	}
@@ -158,7 +167,7 @@ public class GCompQuizMgr {
 				float finalRate = quizEvent.getWinQuizGroup().getRate();
 				int rewardCount = (int)(finalRate * item.getCoinCount());
 				//猜对，发放奖励
-				EmailUtils.sendEmail(player.getUserId(), REWARD_EMAIL_ID, eSpecialItemId.Coin + "~" + rewardCount);
+				EmailUtils.sendEmail(player.getUserId(), REWARD_EMAIL_ID, eSpecialItemId.Coin.getValue() + "~" + rewardCount);
 			}
 			item.setGetReward(true);
 		}
