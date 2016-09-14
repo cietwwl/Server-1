@@ -44,7 +44,7 @@ public class CreateTrace {
 	public static void main(String[] args) {
 		DataTraceRegistrator[] classArray = DataTraceRegistrator.values();
 		for (DataTraceRegistrator trace : classArray) {
-			Class<?> clazz = trace.getDataTraceClass();
+			Class<?> clazz = trace.getDataCacheKey().getClazz();
 			if (parserSet.contains(clazz.getName())) {
 				continue;
 			}

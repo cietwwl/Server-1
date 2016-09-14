@@ -191,6 +191,7 @@ public class FSHero implements Hero, RoleBaseInfoMgr, AttrMgr, RoleBaseInfoIF {
 	
 	private void calculateAttrsInternal(Player owner, boolean syncToClient) {
 		int preFighting = attr.getFighting();
+		initAttrCalc(owner.getUserId());
 		_calc.updateAttribute();
 		attr.updateRoleBaseTotalData(_calc.getBaseResult());
 		attr.updateTotalData(_calc.getResult());

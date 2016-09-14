@@ -6,32 +6,40 @@
 	<formats>
 		<format>dir</format>
 	</formats>
-    <fileSets>
-    	
-        <fileSet>
-	            <directory>src/main/resources</directory>       
-               <includes>
-               	<include>server.properties</include>
-                <include>config.properties</include>
-               </includes>
-               <outputDirectory>/config</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>target/classes</directory>
-            <excludes>
-            	<exclude>server.properties</exclude>
-            	<exclude>config.properties</exclude>
-            	<exclude>applicationContext4DaoTest.xml</exclude>
-            	<exclude>zip.xml</exclude>
-            </excludes>	
-            <outputDirectory>game</outputDirectory>
-        </fileSet>
-    </fileSets>
-    <dependencySets>
-        <dependencySet>
-       		<useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>lib</outputDirectory>
-            <scope>runtime</scope>
-        </dependencySet>
-    </dependencySets>
+	<fileSets>
+
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>server.properties</include>
+				<include>config.properties</include>
+			</includes>
+			<outputDirectory>/config</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>target/classes</directory>
+			<excludes>
+				<exclude>server.properties</exclude>
+				<exclude>config.properties</exclude>
+				<exclude>applicationContext4DaoTest.xml</exclude>
+				<exclude>zip.xml</exclude>
+				<exclude>tips.jar</exclude>
+			</excludes>
+			<outputDirectory>game</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>target/classes</directory>
+			<includes>
+				<include>tips.jar</include>
+			</includes>
+			<outputDirectory>./</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>lib</outputDirectory>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
 </assembly>

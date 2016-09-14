@@ -19,7 +19,10 @@ public class ExpectedHeroStatusCfg {
 	private int levelOfTaoist2;
 	@FightingIndexKey(1)
 	private int levelOfTaoist3;
-	private int fashionCount;
+	private int fashionSuitCount;
+	private int fashionWingCount;
+	private int fashionPetCount;
+
 	private Map<Integer, Integer> expectedLevelOfTag;
 	
 	public void afterInit() throws Exception {
@@ -63,8 +66,16 @@ public class ExpectedHeroStatusCfg {
 		return levelOfTaoist3;
 	}
 
-	public int getFashionCount() {
-		return fashionCount;
+	public int getFashionSuitCount() {
+		return fashionSuitCount;
+	}
+	
+	public int getFashionWingCount() {
+		return fashionWingCount;
+	}
+	
+	public int getFashionPetCount() {
+		return fashionPetCount;
 	}
 
 	public Map<Integer, Integer> getExpectedLevelOfTag() {

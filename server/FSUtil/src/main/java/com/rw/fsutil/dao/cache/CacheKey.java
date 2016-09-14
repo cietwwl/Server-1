@@ -5,6 +5,10 @@ public class CacheKey {
 	private final Class<?> clazz;
 	private final String name;
 	private final int hash;
+	
+	public CacheKey(Class<?> clazz){
+		this(clazz, clazz.getSimpleName());
+	}
 
 	public CacheKey(Class<?> clazz, String name) {
 		super();
