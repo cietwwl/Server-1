@@ -1,14 +1,12 @@
 package com.bm.worldBoss.data;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "wbdata")
 @SynClass
 public class WBData {
 
@@ -37,9 +35,8 @@ public class WBData {
 	//最后一击信息
 	private LastFightInfo lastFightInfo;
 	
-	public static WBData newInstance(String idP){
+	public static WBData newInstance(){
 		WBData data = new WBData();
-		data.id = idP;
 		return data;
 	}
 	

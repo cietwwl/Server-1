@@ -24,7 +24,6 @@ public class WBDataHolder {
 	private static WBDataHolder instance = new WBDataHolder();
 	
 	private static eSynType synType = eSynType.WB_DATA;
-	final private String WB_DATA_ID = "worldBossId";
 	private AtomicInteger version = new AtomicInteger(-1);
 
 	
@@ -39,16 +38,16 @@ public class WBDataHolder {
 			
 			WBData wbData = get();
 			if (wbData != null) {
-				ClientDataSynMgr.synData(player, wbData, synType, eSynOpType.UPDATE_SINGLE);
+				ClientDataSynMgr.synData(player, wbData, synType, eSynOpType.UPDATE_SINGLE,version.get());
 			} else {
-				GameLog.error("WBDataHolder", "#syn()", "find wbData fail:" + WB_DATA_ID);
+				GameLog.error("WBDataHolder", "#syn()", "find wbData fail");
 			}
 		}
 		
 	}
 
-	public WBData get() {
-		return  WBDataDao.getInstance().get(WB_DATA_ID);
+	public WBData get() {		
+		return  WBDataDao.getInstance().get();
 	}
 	
 	
@@ -56,7 +55,7 @@ public class WBDataHolder {
 		WBData oldData = get();	
 		WBData newData = null;
 		if(oldData == null){
-			newData = WBData.newInstance(WB_DATA_ID);
+			newData = WBData.newInstance();
 			int bossInitLevel = WBSettingCfgDAO.getInstance().getCfg().getBossInitLevel();
 			newData.setBossLevel(bossInitLevel);		
 			
@@ -110,8 +109,9 @@ public class WBDataHolder {
 	}
 	 
 	
-	public void update(){		
-		WBDataDao.getInstance().update(WB_DATA_ID);
+	public void update(){	
+		WBData wbData = get();
+		WBDataDao.getInstance().update(wbData);
 		version.incrementAndGet();			
 	}
 	
