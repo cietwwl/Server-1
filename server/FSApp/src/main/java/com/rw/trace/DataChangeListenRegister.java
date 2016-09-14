@@ -2,7 +2,6 @@ package com.rw.trace;
 
 import com.bm.targetSell.listener.ChargeDataListener;
 import com.bm.targetSell.listener.UserDataListener;
-import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.DataRdbDao;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -14,10 +13,6 @@ import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.trace.listener.ItemDataListener;
 import com.rw.trace.listener.MajorDataListener;
 import com.rw.trace.listener.UserGameDataListener;
-import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.majorDatas.pojo.MajorData;
-import com.rwbase.dao.user.User;
-import com.rwbase.dao.user.UserGameData;
 
 /**
  * <pre>
@@ -38,8 +33,8 @@ public enum DataChangeListenRegister {
 	ITEM_DATA(DataTraceRegistrator.ITEM_DATA, ItemDataListener.class), 
 	USER_GAME_DATA(DataTraceRegistrator.USER_GAME_DATA, UserGameDataListener.class),
 	MAJOR_DATA(DataTraceRegistrator.MAJOR_DATA, MajorDataListener.class),
-	USERDATA(User.class, UserDataListener.class),
-	CHARGEDATA(ChargeInfo.class, ChargeDataListener.class),
+	USERDATA(DataTraceRegistrator.USER, UserDataListener.class),
+	CHARGEDATA(DataTraceRegistrator.CHARGE_DATA, ChargeDataListener.class),
 	;
 	private DataChangeListenRegister(DataTraceRegistrator traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
 		this.traceClass = traceClass;

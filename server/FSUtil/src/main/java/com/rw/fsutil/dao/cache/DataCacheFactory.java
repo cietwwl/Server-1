@@ -56,10 +56,12 @@ public class DataCacheFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
 			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
 		if (name == null || name.isEmpty()) {
