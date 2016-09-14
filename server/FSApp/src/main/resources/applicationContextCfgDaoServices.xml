@@ -310,6 +310,8 @@
 	<bean class="com.rwbase.dao.fighting.TaoistFightingCfgDAO" init-method="init" />
 	<!-- 时装战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
+	<!-- 技能监听Id修改配置表  -->
+	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
 	
 	<!-- 世界boss配置表 -->
 	<bean class="com.bm.worldBoss.cfg.WBCfgDAO" init-method="init" />
