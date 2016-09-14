@@ -34,6 +34,8 @@ class WBFinishState implements  IwbState{
 			if(nextCfg!=null){
 				success = WBMgr.getInstance().initNewBoss(nextCfg);
 				GameLog.info(LogModule.WorldBoss.getName(), "WBFinishState[tryNextBoss]", "result: " + success);
+			}else{
+				GameLog.info(LogModule.WorldBoss.getName(), "WBFinishState[tryNextBoss]", "no wbcfg for today ");
 			}
 		}
 		return success;
