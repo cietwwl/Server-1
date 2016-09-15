@@ -12,6 +12,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
@@ -135,8 +136,8 @@ public class ArmyInfoHelper {
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
-		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
-		ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);
+//		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
+		ArmyHero armyHero = new ArmyHero(role, totalAttrData, skillList);
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
 	}

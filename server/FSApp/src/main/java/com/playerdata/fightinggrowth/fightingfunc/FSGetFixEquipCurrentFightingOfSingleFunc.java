@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Hero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.FixEquipLevelFightingCfgDAO;
@@ -38,7 +39,7 @@ public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero,
 	@Override
 	public Integer apply(Hero hero) {
 		int fighting = 0;
-		if (openLevelLimitDAO.isOpen(eOpenLevelType.FIX_EQUIP, hero.getPlayer())) {
+		if (openLevelLimitDAO.isOpen(eOpenLevelType.FIX_EQUIP, FSHeroMgr.getInstance().getOwnerOfHero(hero))) {
 			List<HeroFixEquipInfo> fixEquipInfos = new ArrayList<HeroFixEquipInfo>();
 			fixEquipInfos.addAll(hero.getFixExpEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 特殊神器
 			fixEquipInfos.addAll(hero.getFixNormEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 普通神器

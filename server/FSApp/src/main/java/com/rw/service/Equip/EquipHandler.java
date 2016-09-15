@@ -74,6 +74,7 @@ public class EquipHandler {
 			RoleQualityCfg pNextCfg = RoleQualityCfgDAO.getInstance().getNextConfig(role.getQualityId());
 			if (pNextCfg != null) {
 				if (roleId.equals(player.getUserId()) && player.getCareer() == ECareer.None.ordinal() && pNextCfg.getQuality() > EHeroQuality.Green.ordinal()) {
+					response.setError(ErrorType.NOT_EQUIP_ADVANCE);
 					player.NotifyCommonMsg("没有职业不能进下一阶！");
 				} else {
 					SkillMgr skillMgr = SkillMgr.getInstance();
