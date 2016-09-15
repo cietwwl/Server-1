@@ -159,6 +159,8 @@ message PlayerBaseInfo{
 	required int32 fightingAll = 8;//总战斗力
 	optional int32 modelId = 9;//模型ID
 	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	required int32 starLevel = 11;
+	required string qualityId = 12;
 }
 
 // 海选响应数据

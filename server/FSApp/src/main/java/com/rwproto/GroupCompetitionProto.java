@@ -14164,6 +14164,31 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+
+    // required int32 starLevel = 11;
+    /**
+     * <code>required int32 starLevel = 11;</code>
+     */
+    boolean hasStarLevel();
+    /**
+     * <code>required int32 starLevel = 11;</code>
+     */
+    int getStarLevel();
+
+    // required string qualityId = 12;
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    boolean hasQualityId();
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    java.lang.String getQualityId();
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    com.google.protobuf.ByteString
+        getQualityIdBytes();
   }
   /**
    * Protobuf type {@code groupCompetition.PlayerBaseInfo}
@@ -14276,6 +14301,16 @@ public final class GroupCompetitionProto {
                 fashionUsage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000200;
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              starLevel_ = input.readInt32();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              qualityId_ = input.readBytes();
               break;
             }
           }
@@ -14661,6 +14696,65 @@ public final class GroupCompetitionProto {
       return fashionUsage_;
     }
 
+    // required int32 starLevel = 11;
+    public static final int STARLEVEL_FIELD_NUMBER = 11;
+    private int starLevel_;
+    /**
+     * <code>required int32 starLevel = 11;</code>
+     */
+    public boolean hasStarLevel() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>required int32 starLevel = 11;</code>
+     */
+    public int getStarLevel() {
+      return starLevel_;
+    }
+
+    // required string qualityId = 12;
+    public static final int QUALITYID_FIELD_NUMBER = 12;
+    private java.lang.Object qualityId_;
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    public boolean hasQualityId() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    public java.lang.String getQualityId() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          qualityId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string qualityId = 12;</code>
+     */
+    public com.google.protobuf.ByteString
+        getQualityIdBytes() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        qualityId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -14672,6 +14766,8 @@ public final class GroupCompetitionProto {
       fightingAll_ = 0;
       modelId_ = 0;
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      starLevel_ = 0;
+      qualityId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -14707,6 +14803,14 @@ public final class GroupCompetitionProto {
         return false;
       }
       if (!hasFightingAll()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStarLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasQualityId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -14746,6 +14850,12 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeMessage(10, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, starLevel_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getQualityIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -14795,6 +14905,14 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, starLevel_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getQualityIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -14941,6 +15059,10 @@ public final class GroupCompetitionProto {
           fashionUsageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000200);
+        starLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        qualityId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -15013,6 +15135,14 @@ public final class GroupCompetitionProto {
         } else {
           result.fashionUsage_ = fashionUsageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.starLevel_ = starLevel_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.qualityId_ = qualityId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -15065,6 +15195,14 @@ public final class GroupCompetitionProto {
         if (other.hasFashionUsage()) {
           mergeFashionUsage(other.getFashionUsage());
         }
+        if (other.hasStarLevel()) {
+          setStarLevel(other.getStarLevel());
+        }
+        if (other.hasQualityId()) {
+          bitField0_ |= 0x00000800;
+          qualityId_ = other.qualityId_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -15099,6 +15237,14 @@ public final class GroupCompetitionProto {
           return false;
         }
         if (!hasFightingAll()) {
+          
+          return false;
+        }
+        if (!hasStarLevel()) {
+          
+          return false;
+        }
+        if (!hasQualityId()) {
           
           return false;
         }
@@ -15863,6 +16009,113 @@ public final class GroupCompetitionProto {
           fashionUsage_ = null;
         }
         return fashionUsageBuilder_;
+      }
+
+      // required int32 starLevel = 11;
+      private int starLevel_ ;
+      /**
+       * <code>required int32 starLevel = 11;</code>
+       */
+      public boolean hasStarLevel() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>required int32 starLevel = 11;</code>
+       */
+      public int getStarLevel() {
+        return starLevel_;
+      }
+      /**
+       * <code>required int32 starLevel = 11;</code>
+       */
+      public Builder setStarLevel(int value) {
+        bitField0_ |= 0x00000400;
+        starLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 starLevel = 11;</code>
+       */
+      public Builder clearStarLevel() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        starLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string qualityId = 12;
+      private java.lang.Object qualityId_ = "";
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public boolean hasQualityId() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public java.lang.String getQualityId() {
+        java.lang.Object ref = qualityId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          qualityId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public com.google.protobuf.ByteString
+          getQualityIdBytes() {
+        java.lang.Object ref = qualityId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          qualityId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public Builder setQualityId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public Builder clearQualityId() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        qualityId_ = getDefaultInstance().getQualityId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 12;</code>
+       */
+      public Builder setQualityIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        qualityId_ = value;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:groupCompetition.PlayerBaseInfo)
@@ -29346,69 +29599,70 @@ public final class GroupCompetitionProto {
       "e\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004c" +
       "oin\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002(" +
       "\0162\036.groupCompetition.GCResultType\022\016\n\006tip" +
-      "Msg\030\002 \001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030\001" +
+      "Msg\030\002 \001(\t\"\203\002\n\016PlayerBaseInfo\022\016\n\006userId\030\001" +
       " \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n" +
       "\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 " +
       "\002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030" +
       "\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030\n",
-      " \001(\0132\033.FashionService.FashionUsed\"\240\001\n\020Se" +
-      "lectionRspData\0226\n\010rankings\030\001 \003(\0132$.group" +
-      "Competition.SelectionGroupData\022:\n\014ownGro" +
-      "upData\030\002 \001(\0132$.groupCompetition.Selectio" +
-      "nGroupData\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n\022" +
-      "SelectionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004n" +
-      "ame\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 \002" +
-      "(\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.gro" +
-      "upCompetition.GCRequestType\022\016\n\006heroId\030\002 " +
-      "\003(\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\t\022\016\n\006he",
-      "roId\030\002 \003(\t\"[\n\021TeamMemberRequest\0220\n\007reqTy" +
-      "pe\030\001 \002(\0162\037.groupCompetition.GCRequestTyp" +
-      "e\022\024\n\014targetUserId\030\002 \002(\t\"E\n\021TeamStatusReq" +
-      "uest\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition" +
-      ".GCRequestType\".\n\016TeamInvitation\022\016\n\006team" +
-      "Id\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\nr" +
-      "esultType\030\001 \002(\0162\036.groupCompetition.GCRes" +
-      "ultType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChang" +
-      "e\0220\n\006status\030\001 \002(\0162 .groupCompetition.Tea" +
-      "mStatusType\"5\n\016ParaForLiveMsg\022\017\n\007matchId",
-      "\030\001 \002(\007\022\022\n\nlatestTime\030\002 \001(\006\"\"\n\017ParaForPla" +
-      "yBack\022\017\n\007matchId\030\001 \002(\007\"$\n\016ParaForGetRank" +
-      "\022\022\n\neventsType\030\001 \002(\005\"f\n\rGCompRankItem\022\016\n" +
-      "\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\021\n\theadI" +
-      "mage\030\003 \002(\t\022\r\n\005value\030\004 \002(\005\022\021\n\tgroupName\030\005" +
-      " \002(\t\"\300\001\n\032GCompGroupScoreRankRspData\022@\n\rs" +
-      "coreRankItem\030\001 \003(\0132).groupCompetition.GC" +
-      "ompGroupScoreRankItem\022?\n\017historyChampion" +
-      "\030\002 \003(\0132&.groupCompetition.GCompHistoryCh" +
-      "ampion\022\037\n\027totalScoreRankItemCount\030\003 \002(\007\"",
-      "\214\001\n\027GCompGroupScoreRankItem\022\021\n\tgroupName" +
-      "\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\020\n\010fighting\030\003 " +
-      "\002(\006\022\024\n\014currentScore\030\004 \002(\007\022\022\n\ntotalScore\030" +
-      "\005 \002(\007\022\017\n\007ranking\030\006 \002(\007\"\211\001\n\024GCompHistoryC" +
-      "hampion\022\021\n\tgroupName\030\001 \002(\t\022\023\n\013groupIconI" +
-      "d\030\002 \002(\t\022\022\n\nleaderName\030\003 \002(\t\022\025\n\rassistant" +
-      "Name\030\004 \003(\t\022\r\n\005score\030\005 \002(\007\022\017\n\007session\030\006 \002" +
-      "(\007\"\"\n\014EventsResult\022\022\n\nwinGroupId\030\001 \002(\t*\315" +
-      "\004\n\rGCRequestType\022\024\n\020EnterPrepareArea\020\001\022\024" +
-      "\n\020LeavePrepareArea\020\002\022\031\n\025InformPreparePos",
-      "ition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n" +
-      "\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersB" +
-      "aseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelect" +
-      "ionData\020\n\022\024\n\020GetCanGuessMatch\020\013\022\020\n\014SetTe" +
-      "amReady\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n\tLeaveT" +
-      "eam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMember\020\020\022" +
-      "\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n" +
-      "\rStartMatching\020\023\022\022\n\016CancelMatching\020\024\022\027\n\023" +
-      "StartRandomMatching\020\025\022\030\n\024CancelRandomMat" +
-      "ching\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026Persona",
-      "lCancelMatching\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013" +
-      "GetKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScor" +
-      "eRank\020\034\022\025\n\021GetGroupScoreRank\020\035*L\n\016TeamSt" +
-      "atusType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014" +
-      "\n\010CanMatch\020\003\022\016\n\nStartMatch\020\004*S\n\014GCResult" +
-      "Type\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COI" +
-      "N_NOT_ENOUGH\020\003\022\021\n\rNO_SAME_SCENE\020\004B$\n\013com" +
-      ".rwprotoB\025GroupCompetitionProto"
+      " \001(\0132\033.FashionService.FashionUsed\022\021\n\tsta" +
+      "rLevel\030\013 \002(\005\022\021\n\tqualityId\030\014 \002(\t\"\240\001\n\020Sele" +
+      "ctionRspData\0226\n\010rankings\030\001 \003(\0132$.groupCo" +
+      "mpetition.SelectionGroupData\022:\n\014ownGroup" +
+      "Data\030\002 \001(\0132$.groupCompetition.SelectionG" +
+      "roupData\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n\022Se" +
+      "lectionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004nam" +
+      "e\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 \002(\007" +
+      "\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.group" +
+      "Competition.GCRequestType\022\016\n\006heroId\030\002 \003(",
+      "\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\t\022\016\n\006hero" +
+      "Id\030\002 \003(\t\"[\n\021TeamMemberRequest\0220\n\007reqType" +
+      "\030\001 \002(\0162\037.groupCompetition.GCRequestType\022" +
+      "\024\n\014targetUserId\030\002 \002(\t\"E\n\021TeamStatusReque" +
+      "st\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.G" +
+      "CRequestType\".\n\016TeamInvitation\022\016\n\006teamId" +
+      "\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\nres" +
+      "ultType\030\001 \002(\0162\036.groupCompetition.GCResul" +
+      "tType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChange\022" +
+      "0\n\006status\030\001 \002(\0162 .groupCompetition.TeamS",
+      "tatusType\"5\n\016ParaForLiveMsg\022\017\n\007matchId\030\001" +
+      " \002(\007\022\022\n\nlatestTime\030\002 \001(\006\"\"\n\017ParaForPlayB" +
+      "ack\022\017\n\007matchId\030\001 \002(\007\"$\n\016ParaForGetRank\022\022" +
+      "\n\neventsType\030\001 \002(\005\"f\n\rGCompRankItem\022\016\n\006u" +
+      "serId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\021\n\theadIma" +
+      "ge\030\003 \002(\t\022\r\n\005value\030\004 \002(\005\022\021\n\tgroupName\030\005 \002" +
+      "(\t\"\300\001\n\032GCompGroupScoreRankRspData\022@\n\rsco" +
+      "reRankItem\030\001 \003(\0132).groupCompetition.GCom" +
+      "pGroupScoreRankItem\022?\n\017historyChampion\030\002" +
+      " \003(\0132&.groupCompetition.GCompHistoryCham",
+      "pion\022\037\n\027totalScoreRankItemCount\030\003 \002(\007\"\214\001" +
+      "\n\027GCompGroupScoreRankItem\022\021\n\tgroupName\030\001" +
+      " \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\020\n\010fighting\030\003 \002(" +
+      "\006\022\024\n\014currentScore\030\004 \002(\007\022\022\n\ntotalScore\030\005 " +
+      "\002(\007\022\017\n\007ranking\030\006 \002(\007\"\211\001\n\024GCompHistoryCha" +
+      "mpion\022\021\n\tgroupName\030\001 \002(\t\022\023\n\013groupIconId\030" +
+      "\002 \002(\t\022\022\n\nleaderName\030\003 \002(\t\022\025\n\rassistantNa" +
+      "me\030\004 \003(\t\022\r\n\005score\030\005 \002(\007\022\017\n\007session\030\006 \002(\007" +
+      "\"\"\n\014EventsResult\022\022\n\nwinGroupId\030\001 \002(\t*\315\004\n" +
+      "\rGCRequestType\022\024\n\020EnterPrepareArea\020\001\022\024\n\020",
+      "LeavePrepareArea\020\002\022\031\n\025InformPreparePosit" +
+      "ion\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010A" +
+      "llGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersBas" +
+      "eInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelectio" +
+      "nData\020\n\022\024\n\020GetCanGuessMatch\020\013\022\020\n\014SetTeam" +
+      "Ready\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n\tLeaveTea" +
+      "m\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMember\020\020\022\016\n" +
+      "\nCreateTeam\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n\rS" +
+      "tartMatching\020\023\022\022\n\016CancelMatching\020\024\022\027\n\023St" +
+      "artRandomMatching\020\025\022\030\n\024CancelRandomMatch",
+      "ing\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026PersonalC" +
+      "ancelMatching\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013Ge" +
+      "tKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScoreR" +
+      "ank\020\034\022\025\n\021GetGroupScoreRank\020\035*L\n\016TeamStat" +
+      "usType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010" +
+      "CanMatch\020\003\022\016\n\nStartMatch\020\004*S\n\014GCResultTy" +
+      "pe\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_" +
+      "NOT_ENOUGH\020\003\022\021\n\rNO_SAME_SCENE\020\004B$\n\013com.r" +
+      "wprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -29504,7 +29758,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_PlayerBaseInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_PlayerBaseInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "ModelId", "FashionUsage", });
+              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "ModelId", "FashionUsage", "StarLevel", "QualityId", });
           internal_static_groupCompetition_SelectionRspData_descriptor =
             getDescriptor().getMessageTypes().get(15);
           internal_static_groupCompetition_SelectionRspData_fieldAccessorTable = new
