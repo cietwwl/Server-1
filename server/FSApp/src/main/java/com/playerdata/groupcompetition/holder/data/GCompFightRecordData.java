@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.holder.data;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,7 +17,7 @@ public class GCompFightRecordData {
 	private int matchId;
 	
 	@CombineSave
-	private LinkedList<GCompFightingRecord> record;
+	private ArrayList<GCompFightingRecord> record;
 
 	public int getMatchId() {
 		return matchId;
@@ -27,11 +27,11 @@ public class GCompFightRecordData {
 		this.matchId = matchId;
 	}
 
-	public LinkedList<GCompFightingRecord> getRecord() {
+	public ArrayList<GCompFightingRecord> getRecord() {
 		return record;
 	}
 
-	public void setRecord(LinkedList<GCompFightingRecord> record) {
+	public void setRecord(ArrayList<GCompFightingRecord> record) {
 		this.record = record;
 	}
 }
