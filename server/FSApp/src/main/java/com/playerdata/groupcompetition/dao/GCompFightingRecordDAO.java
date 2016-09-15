@@ -45,5 +45,6 @@ public class GCompFightingRecordDAO extends DataKVDao<GCompFightRecordData>{
 			}
 			list.add(record);
 		}
+		update(String.valueOf(matchId));
 	}
 }

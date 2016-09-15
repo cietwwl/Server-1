@@ -109,7 +109,6 @@ public class GCompEvents {
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
-		GCompRankMgr.getInstance().competitionStart();
 	}
 	
 	// 通知赛事结束
