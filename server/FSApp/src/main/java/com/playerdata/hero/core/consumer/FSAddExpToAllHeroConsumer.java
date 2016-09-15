@@ -2,6 +2,7 @@ package com.playerdata.hero.core.consumer;
 
 import com.playerdata.Hero;
 import com.playerdata.hero.IHeroConsumer;
+import com.playerdata.hero.core.FSHeroMgr;
 
 public class FSAddExpToAllHeroConsumer implements IHeroConsumer {
 
@@ -14,9 +15,9 @@ public class FSAddExpToAllHeroConsumer implements IHeroConsumer {
 	@Override
 	public void apply(Hero hero) {
 		if (hero.isMainRole()) {
-			hero.getPlayer().addUserExp(_exp);
+			FSHeroMgr.getInstance().getOwnerOfHero(hero).addUserExp(_exp);
 		} else {
-			hero.addHeroExp(_exp);
+			FSHeroMgr.getInstance().addHeroExp(hero, _exp);
 		}
 	}
 

@@ -5,7 +5,6 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
-import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 /*
  * @author HC
@@ -23,12 +22,13 @@ public class HeroLevelCheckImpl implements IFettersSubCondition {
 			return false;
 		}
 
-		RoleBaseInfoIF baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
-		if (baseInfo == null) {
-			return false;
-		}
-
-		return baseInfo.getLevel() >= value;
+//		RoleBaseInfoIF baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//		if (baseInfo == null) {
+//			return false;
+//		}
+//
+//		return baseInfo.getLevel() >= value;
+		return hero.getLevel() >= value;
 	}
 
 	@Override

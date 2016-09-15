@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.BeanOperationHelper;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.IFunction;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeType;
@@ -90,7 +91,7 @@ public class FightingCalculator {
 		int fighting = calFighting(roleP, allComponentsOfHero);
 		if (roleP.isMainRole()) {
 			// 主角独有的
-			Player p = roleP.getPlayer();
+			Player p = FSHeroMgr.getInstance().getOwnerOfHero(roleP);
 			fighting += calFighting(p, FightingCalculateComponentType.getAllPlayerComponents());
 		}
 //		System.out.println("----------结束计算[" + roleP.getName() + "]的战斗力----------");

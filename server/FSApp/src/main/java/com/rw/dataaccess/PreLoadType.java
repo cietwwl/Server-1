@@ -11,7 +11,7 @@ public class PreLoadType {
 	static {
 		ArrayList<DataKVType> preLoadList_ = new ArrayList<DataKVType>();
 		preLoadList_.add(DataKVType.USER_GAME_DATA);
-		preLoadList_.add(DataKVType.USER_HERO);
+//		preLoadList_.add(DataKVType.USER_HERO);
 		preLoadList_.add(DataKVType.SIGN);
 		preLoadList_.add(DataKVType.EMAIL);
 		preLoadList_.add(DataKVType.GAMBLE);

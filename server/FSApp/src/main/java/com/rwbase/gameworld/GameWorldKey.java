@@ -57,7 +57,13 @@ public enum GameWorldKey {
 	 * 帮派争霸保存的数据
 	 */
 	GROUP_COMPETITION("GROUP_COMPETITION"),
+	/**
+	 * 世界boss 
+	 */
+	WORLD_BOSS("WORLD_BOSS"),
 	;
+	
+	
 
 	GameWorldKey(String name) {
 		this.name = name;

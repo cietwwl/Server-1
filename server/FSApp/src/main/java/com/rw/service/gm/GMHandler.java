@@ -809,7 +809,8 @@ public class GMHandler {
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
 			// player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
-			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
+			Hero h = player.getHeroMgr().getHeroByModerId(player, heroId);
+			player.getHeroMgr().addHeroExp(h, addExp);
 			return true;
 		}
 		return false;
