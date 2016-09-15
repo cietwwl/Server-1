@@ -12,6 +12,7 @@ public class GCompBaseInfo {
 	private GCompStageType currentStageType = GCompStageType.EMPTY; // 当前的阶段状态
 	private long startTime; // 本次帮战的开始时间
 	private long endTime; // 本阶段的结束时间
+	private int session; // 当前是第几届
 	
 	public boolean isStart() {
 		return this.isStart;
@@ -51,6 +52,14 @@ public class GCompBaseInfo {
 
 	public void setEndTime(long pEndTime) {
 		this.endTime = pEndTime;
+	}
+	
+	public int getSession() {
+		return session;
+	}
+
+	public void setSession(int session) {
+		this.session = session;
 	}
 
 	@Override

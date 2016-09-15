@@ -2,7 +2,7 @@ package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
-import com.playerdata.groupcompetition.holder.data.GCompGroupScore;
+import com.playerdata.groupcompetition.holder.data.GCompGroupScoreRecord;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompPersonalScore;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -18,7 +18,7 @@ public class GCompDetailInfoMgr {
 	private GCompDetailInfoHolder _dataHolder;
 	
 	protected GCompDetailInfoMgr() {
-		_dataHolder = new GCompDetailInfoHolder();
+		_dataHolder = GCompDetailInfoHolder.getInstance();
 	}
 
 	public void onEventsAgainstAssign(int matchId, String idOfGroupA, String idOfGroupB) {
@@ -44,9 +44,9 @@ public class GCompDetailInfoMgr {
 	
 	public void onScoreUpdate(int matchId, String groupId, int currentScore, GCompMember member) {
 		GCompDetailInfo detailInfo = _dataHolder.get(matchId);
-		GCompGroupScore groupScore = detailInfo.getByGroupId(groupId);
-		synchronized (groupScore) {
-			groupScore.setScore(currentScore);
+		GCompGroupScoreRecord groupScoreRecord = detailInfo.getByGroupId(groupId);
+		synchronized (groupScoreRecord) {
+			groupScoreRecord.setScore(currentScore);
 		}
 		if (member == null) {
 			return;

@@ -12,6 +12,7 @@ import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
+import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
@@ -107,6 +108,7 @@ public class GCompEvents {
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
 		GCompRankMgr.getInstance().competitionStart();
+		GCompGroupScoreRankingMgr.getInstance().onEventsStart(eventsData.getRelativeGroupIds());
 	}
 	
 	private void fireEventsEnd() {
@@ -116,11 +118,12 @@ public class GCompEvents {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
 		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
-		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type);
+		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type, againsts);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 		GCompRankMgr.getInstance().stageEnd(_type);
+		GCompGroupScoreRankingMgr.getInstance().onEvnetsEnd();
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {

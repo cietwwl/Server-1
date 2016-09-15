@@ -72,7 +72,7 @@ public class GCompStageController {
 	private void notifyCurrentStageEnd() {
 		// 通知当前阶段结束
 		if (_currentStage != null) {
-			GCompUtil.log("---------- 阶段结束：{} ----------", _currentStage.getStageType());
+			GCompUtil.log("---------- 阶段结束：{} ----------", _currentStage.getStageType().getDisplayName());
 			_currentStage.onStageEnd();
 		}
 	}
@@ -114,7 +114,7 @@ public class GCompStageController {
 			IGCompStage pre = _currentStage;
 			_currentStage = _stageQueue.removeFirst();
 			_currentStage.onStageStart(pre);
-			GCompUtil.log("---------- 新阶段开始，当前阶段：{} ----------",  _currentStage.getStageType());
+			GCompUtil.log("---------- 新阶段开始，当前阶段：{} ----------",  _currentStage.getStageType().getDisplayName());
 			long endTime = _currentStage.getStageEndTime();
 			createTimerTask(new StageEndMonitorConsumer(), endTime);
 			scheduleNextStageStartTask();

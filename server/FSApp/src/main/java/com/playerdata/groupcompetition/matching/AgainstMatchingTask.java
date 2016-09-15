@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleHeroPosition;
@@ -96,7 +97,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	void beforePersonalEvents() {
-		GCompUtil.log("---------- 帮派争霸，个人匹配任务前的通知！ ----------");
+//		GCompUtil.log("---------- 帮派争霸，个人匹配任务前的通知！ ----------");
 		_randomMatchingOn = false;
 		submitQueue.clear();
 		Set<String> keySet = groupMatchingDatas.keySet();
@@ -106,9 +107,9 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	void start() {
-		GCompUtil.log("---------- 帮派争霸，匹配任务开始，赛事id：{}，负责帮派：{}", this.againstId, this.groupMatchingDatas.keySet().toString());
+//		GCompUtil.log("---------- 帮派争霸，匹配任务开始，赛事id：{}，负责帮派：{}", this.againstId, this.groupMatchingDatas.keySet().toString());
 		if (this.idOfGroupA.length() == 0 || this.idOfGroupB.length() == 0) {
-			GCompUtil.log("---------- 帮派争霸，检测到轮空的情况，不提交匹配任务！负责帮派：{}", this.groupMatchingDatas.keySet().toString());
+//			GCompUtil.log("---------- 帮派争霸，检测到轮空的情况，不提交匹配任务！负责帮派：{}", this.groupMatchingDatas.keySet().toString());
 			return;
 		}
 		this._on = true;
@@ -373,7 +374,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 				this.processMatching();
 				this.processRandomMatching();
 			} catch (Exception e) {
-				e.printStackTrace();
+				GameLog.error("帮派争霸匹配", "匹配扫描", "异常情况！负责帮派：" + this.idOfGroupA + ", " + this.idOfGroupB + ", 赛事id：" + this.againstId, e);
 			}
 		}
 		return "SUCCESS";

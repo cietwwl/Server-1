@@ -20,7 +20,7 @@ public class GCompHistoryDataDAO {
 			synchronized (this) {
 				if (_data == null) {
 					String data = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_LAST);
-					if(data != null) {
+					if(data != null && data.length() > 0) {
 						_data = JsonUtil.readValue(data, GCompHistoryData.class);
 					}  else {
 						_data = GCompHistoryData.createNew();
@@ -32,6 +32,6 @@ public class GCompHistoryDataDAO {
 	}
 	
 	public void update() {
-//		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_LAST, JsonUtil.writeValue(_data));
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_LAST, JsonUtil.writeValue(_data));
 	}
 }

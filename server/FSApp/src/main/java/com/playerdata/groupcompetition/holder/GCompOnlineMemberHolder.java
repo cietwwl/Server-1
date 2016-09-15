@@ -121,6 +121,10 @@ public class GCompOnlineMemberHolder {
 		this._monitor._on = false;
 	}
 	
+	List<GCompOnlineMember> getAllOnlineMembers(String groupId) {
+		return _dao.getOnlineMembers(groupId);
+	}
+	
 	private class GCompOnlineMemberMonitor implements IGameTimerTask {
 		
 		private boolean _on = true;

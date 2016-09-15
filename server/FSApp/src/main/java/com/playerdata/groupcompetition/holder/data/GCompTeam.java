@@ -50,10 +50,15 @@ public class GCompTeam {
 	@IgnoreSynField
 	private boolean inBattle; // 是否正在战斗中
 	private String leaderId; // 队长的id，需要同步到客户端
+	@IgnoreSynField
 	private int lv; // 等级，取队长等级
+	@IgnoreSynField
 	private int battleTimes;
+	@IgnoreSynField
 	private GCompTeamType teamType;
+	@IgnoreSynField
 	private String descr;
+	private boolean randomTeam;
 
 	public static GCompTeam createNewTeam(String teamId, GCompTeamType pType, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
@@ -144,6 +149,14 @@ public class GCompTeam {
 
 	public boolean isPersonal() {
 		return GCompTeamType.SINGLE_PLAYER == this.teamType;
+	}
+	
+	public boolean isRandomTeam() {
+		return randomTeam;
+	}
+
+	public void setRandomTeam(boolean randomTeam) {
+		this.randomTeam = randomTeam;
 	}
 
 	@Override
