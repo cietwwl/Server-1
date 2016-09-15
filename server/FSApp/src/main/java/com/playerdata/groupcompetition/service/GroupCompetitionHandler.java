@@ -439,7 +439,7 @@ public class GroupCompetitionHandler {
 				GCGroup gcG = list.get(i);
 				championBuilder = GCompHistoryChampion.newBuilder();
 				championBuilder.setGroupIconId(gcG.getIcon());
-				championBuilder.setGroupName(gcG.getLeaderName());
+				championBuilder.setGroupName(gcG.getGroupName());
 				championBuilder.setLeaderName(gcG.getLeaderName());
 				if (gcG.getAssistantName() != null && gcG.getAssistantName().length() > 0) {
 					championBuilder.addAssistantName(gcG.getAssistantName());

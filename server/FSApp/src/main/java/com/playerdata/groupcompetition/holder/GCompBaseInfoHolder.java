@@ -32,7 +32,7 @@ public class GCompBaseInfoHolder {
 
 	public void synToAll() {
 		GCompBaseInfo baseInfo = createBaseInfo();
-		GCompUtil.log("----------同步数据给所有玩家，baseInfo：{}----------", baseInfo);
+//		GCompUtil.log("----------同步数据给所有玩家，baseInfo：{}----------", baseInfo);
 		SynToAllTask.createNewTaskAndSubmit(baseInfo, _synType, eSynOpType.UPDATE_SINGLE);
 	}
 }
