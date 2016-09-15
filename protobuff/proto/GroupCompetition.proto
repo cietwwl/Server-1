@@ -246,6 +246,7 @@ message GCompRankItem{
 message GCompGroupScoreRankRspData {
 	repeated GCompGroupScoreRankItem scoreRankItem = 1;
 	repeated GCompHistoryChampion historyChampion = 2;
+	required fixed32 totalScoreRankItemCount = 3; // 积分榜总共的条目数量
 }
 
 // 帮派积分排行榜数据

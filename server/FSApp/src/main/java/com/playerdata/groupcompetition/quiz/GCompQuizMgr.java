@@ -10,6 +10,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -113,6 +114,14 @@ public class GCompQuizMgr {
 	 * 阶段开始时，创建竞猜项目
 	 */
 	public void groupCompEventsStart(){
+		List<GCompAgainst> list = GCompHistoryDataMgr.getInstance().getHistoryData().getAgainsts();
+		if (list.size() > 0) {
+			List<Integer> matchIds = new ArrayList<Integer>();
+			for(int i = 0, size = list.size(); i < size; i++) {
+				matchIds.add(list.get(i).getId());
+			}
+			deleteLastCompQuiz(matchIds);
+		}
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
 		final int currentSession = GroupCompetitionMgr.getInstance().getCurrentSessionId();

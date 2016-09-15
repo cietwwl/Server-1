@@ -6,7 +6,6 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
-import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -50,6 +49,6 @@ public class GCompEventsDataHolder {
 			synData.setMatchId(matchId);
 		}
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
-		GCompUtil.log("同步数据：{}", synData);
+//		GCompUtil.log("同步数据：{}", synData);
 	}
 }

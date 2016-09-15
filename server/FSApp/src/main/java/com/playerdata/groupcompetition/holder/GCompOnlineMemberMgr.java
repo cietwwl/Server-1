@@ -12,6 +12,7 @@ import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.GroupCompetitionProto.EventsResult;
 import com.rwproto.MsgDef.Command;
 
@@ -43,7 +44,7 @@ public class GCompOnlineMemberMgr {
 	public boolean isMemberOnline(Player player) {
 		Group group = GroupHelper.getGroup(player);
 		if (group != null) {
-			return _dataHolder.getOnlineMember(player, group.getGroupBaseDataMgr().getGroupData().getGroupId()) != null;
+			return _dataHolder.getOnlineMember(player.getUserId(), group.getGroupBaseDataMgr().getGroupData().getGroupId()) != null;
 		}
 		return false;
 	}
@@ -79,6 +80,15 @@ public class GCompOnlineMemberMgr {
 	public void onEventsEnd(GCEventsType type, List<GCompAgainst> againsts) {
 		this._dataHolder.onEventsEnd();
 		this.createAndSendEndMsg(againsts);
+	}
+	
+	public void changeUserTeamStatus(String userId, boolean inTeam) {
+		String groupId = GroupHelper.getUserGroupId(userId);
+		GCompOnlineMember member = _dataHolder.getOnlineMember(userId, groupId);
+		if (member != null) {
+			member.setInTeam(inTeam);
+			_dataHolder.synToAll(groupId, member, eSynOpType.UPDATE_SINGLE);
+		}
 	}
 	
 	private static class SendWinGroupMsgTask implements IConsumer<EventsResult> {

@@ -82,7 +82,7 @@ public class GCompEventsStage implements IGCompStage {
 			groupIds = new ArrayList<String>(groupIds);
 			groupIds.addAll(loseGroupIds);
 		}
-		this.beforeEventsStart(eventsType, groupIds);
+		beforeEventsStart(eventsType, groupIds);
 		_currentEventsType = eventsType;
 		_events = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo).build();
 		_events.start();
@@ -188,7 +188,7 @@ public class GCompEventsStage implements IGCompStage {
 
 	@Override
 	public void onStageStart(IGCompStage preStage) {
-		// 通知阶段开始，但这时候具体的赛事还未开始
+		// 通知阶段开始，跳转到8强或者16强的准备阶段
 		List<String> topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
 		GCEventsType startType;
 		if (topCountGroups.size() > 8) {

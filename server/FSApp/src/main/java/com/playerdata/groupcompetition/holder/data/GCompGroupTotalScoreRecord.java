@@ -5,6 +5,15 @@ public class GCompGroupTotalScoreRecord implements Comparable<GCompGroupTotalSco
 	private GCompGroupScoreRecord _currentRecord; // 当前
 	private int _totalScore; // 总积分
 	private long _fighting; // 战斗力
+	private int _ranking; 
+	
+	public static GCompGroupTotalScoreRecord createEmpty() {
+		GCompGroupTotalScoreRecord instance = new GCompGroupTotalScoreRecord();
+		instance._currentRecord = GCompGroupScoreRecord.createNew("", "", "");
+		instance._totalScore = 0;
+		instance._fighting = 0l;
+		return instance;
+	}
 
 	public GCompGroupScoreRecord getCurrentRecord() {
 		return _currentRecord;
@@ -30,6 +39,14 @@ public class GCompGroupTotalScoreRecord implements Comparable<GCompGroupTotalSco
 		this._fighting = pFighting;
 	}
 
+	public int getRanking() {
+		return _ranking;
+	}
+
+	public void setRanking(int pRanking) {
+		this._ranking = pRanking;
+	}
+	
 	@Override
 	public int compareTo(GCompGroupTotalScoreRecord o) {
 		if (o == null) {

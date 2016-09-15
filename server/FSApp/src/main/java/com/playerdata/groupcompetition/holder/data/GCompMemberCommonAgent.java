@@ -29,6 +29,7 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 	@Override
 	public void incWins(GCompMember member) {
 		member.incWinTimes();
+		UpdateWinTimesToRankingTask.submit(member);
 	}
 
 	@Override

@@ -274,6 +274,9 @@ public class GroupCompetitionMgr {
 	
 	public void updateEventsStatus(GCompEventsStatus status) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
+		if (globalData.getCurrentStageType() != GCompStageType.EVENTS) {
+			globalData.setCurrentStageType(GCompStageType.EVENTS);
+		}
 		GCompEventsRecord record = globalData.getCurrentEventsRecord();
 		record.setCurrentStatus(status);
 		record.setCurrentEventsStatusStartTime(System.currentTimeMillis());

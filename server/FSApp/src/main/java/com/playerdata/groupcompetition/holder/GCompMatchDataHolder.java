@@ -713,7 +713,6 @@ public class GCompMatchDataHolder {
 		public void run() {
 			try {
 				GCompDetailInfoMgr.getInstance().onScoreUpdate(matchId, groupId, currentScore, bestMember);
-				GCompGroupScoreRankingMgr.getInstance().onScoreUpdate(groupId, currentScore);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
