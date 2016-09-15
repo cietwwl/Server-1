@@ -57,6 +57,7 @@ public class GCQuizEventItem {
 	
 	public GCQuizEventItem(int sessionId, String eventsType, int fightNum, int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
 		this.sessionId = sessionId;
+		this.eventsType = eventsType;
 		this.fightNum = fightNum;
 		this.matchId = matchId;
 		this.baseCoin = baseCoin;

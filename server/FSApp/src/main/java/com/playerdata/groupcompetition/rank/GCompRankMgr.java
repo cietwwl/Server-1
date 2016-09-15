@@ -117,6 +117,9 @@ public class GCompRankMgr {
 
 	public void getKillRank(Builder builder, GCEventsType eventsType) {
 		List<GCompKillItem> killRank = getKillRank(eventsType);
+		if(null == killRank){
+			return;
+		}
 		for(GCompKillItem item : killRank){
 			builder.addRankData(toClientRankItem(item));
 		}
@@ -124,6 +127,9 @@ public class GCompRankMgr {
 	
 	public void getWinRank(Builder builder, GCEventsType eventsType) {
 		List<GCompContinueWinItem> winRank = getWinRank(eventsType);
+		if(null == winRank){
+			return;
+		}
 		for(GCompContinueWinItem item : winRank){
 			builder.addRankData(toClientRankItem(item));
 		}
@@ -131,6 +137,9 @@ public class GCompRankMgr {
 	
 	public void getScoreRank(Builder builder, GCEventsType eventsType) {
 		List<GCompScoreItem> scoreRank = getScoreRank(eventsType);
+		if(null == scoreRank){
+			return;
+		}
 		for(GCompScoreItem item : scoreRank){
 			builder.addRankData(toClientRankItem(item));
 		}

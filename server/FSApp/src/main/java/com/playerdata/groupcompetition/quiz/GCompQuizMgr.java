@@ -95,6 +95,7 @@ public class GCompQuizMgr {
 		}
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -coin);
 		GCompUserQuizItemHolder.getInstance().synAllData(player);
+		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 
@@ -123,7 +124,8 @@ public class GCompQuizMgr {
 			if(StringUtils.isBlank(groupA.getGroupId()) || StringUtils.isBlank(groupB.getGroupId())){
 				continue;
 			}
-			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, currentEvent.chineseName, ++fightNum, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
+			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, currentEvent.chineseName, 
+					++fightNum, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
 			GroupQuizEventItemDAO.getInstance().update(quizEvent);
 		}
 	}
@@ -146,6 +148,8 @@ public class GCompQuizMgr {
 		for(Player player : onlinePlayers){
 			GCompUserQuizItem userQuizItem = GCompUserQuizItemHolder.getInstance().getItem(player, matchId);
 			sendQuizReward(player, userQuizItem);
+			GCompUserQuizItemHolder.getInstance().synAllData(player);
+			GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
 		}
 	}
 	
