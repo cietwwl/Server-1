@@ -19,6 +19,9 @@ public class GCompKillRankMgr {
 	public static int MAX_RANK_COUNT = 50;
 	
 	public static int addOrUpdateKillRank(Player player, int currentKillCount) {
+		if(currentKillCount <= 0){
+			return -1;
+		}
 		Ranking<GCompKillComparable, GCompKillItem> ranking = RankingFactory.getRanking(RankType.GCOMP_KILL_RANK);
 		if (ranking == null) {
 			return -1;

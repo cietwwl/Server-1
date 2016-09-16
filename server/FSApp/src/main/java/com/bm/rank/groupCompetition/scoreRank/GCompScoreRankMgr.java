@@ -19,6 +19,9 @@ public class GCompScoreRankMgr {
 	public static int MAX_RANK_COUNT = 50;
 	
 	public static int addOrUpdateScoreRank(Player player, int currentScore) {
+		if(currentScore <= 0){
+			return -1;
+		}
 		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
 		if (ranking == null) {
 			return -1;
