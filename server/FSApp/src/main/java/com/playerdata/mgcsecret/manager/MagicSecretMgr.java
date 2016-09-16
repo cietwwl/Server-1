@@ -41,7 +41,7 @@ public class MagicSecretMgr {
 	public final static float TWO_STAR_SCORE_COEFFICIENT = 1.5f;
 	public final static float THREE_STAR_SCORE_COEFFICIENT = 2.5f;
 	
-	public final  int MS_RANK_FETCH_COUNT = 10;
+	public final static int MS_RANK_FETCH_COUNT = 50;
 	
 	public final static String CHAPTER_INIT_ID = "1";
 	public final static int MS_STAR_ID = -301;
