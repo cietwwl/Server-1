@@ -19,8 +19,8 @@ public class Test {
 		 }else{
 			 //boolean issucc = robot.startTBCreateTeam();
 //			 robot.upgrade(33);
-			 robot.checkEnoughMoney();
-			 robot.gambleByGold();
+//			 robot.checkEnoughMoney();
+//			 robot.gambleByGold();
 //			 robot.addFixEquip();
 //			 robot.addGold(9999);
 //			 robot.addCoin(9999);
@@ -31,7 +31,10 @@ public class Test {
 //			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
 			 //robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
-			 robot.startTBFight();
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
+			 robot.playerMagicSecret();
 //			 System.out.println("@@@@@@@@@@@test：" + issucc);
 		 }
 		 

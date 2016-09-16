@@ -46,20 +46,25 @@ public class MutiTestMagicSecret {
 				@Override
 				public void run() {
 					try {
-						while (true) {
-							Thread.sleep(span);
+						while (executeCount.get() < totalCount) {
+							Thread.sleep(span/10);
 							long start = System.currentTimeMillis();
-							boolean success = robot.playerMagicSecret();
-							//boolean success = robot.getMagicSecretRank();
+							//boolean success = robot.startTBFight();
+							//boolean success = robot.playerMagicSecret();
+							//success = robot.playerMagicSecret();
+							boolean success = robot.getMagicSecretRank();
+//							success = robot.getMagicSecretRank();
 							tmpLog.info("乾坤幻境测试结果:" + success);
 							long cost = System.currentTimeMillis() - start;
 							timeCost.addAndGet(cost);
-							executeCount.incrementAndGet();
+							if(success) successCount.incrementAndGet();
+							else failCount.incrementAndGet();
 							if (maxTimecost.get() < cost) {
 								maxTimecost.set(cost);
 							}
+							executeCount.incrementAndGet();
 						}
-						// robot.close();
+						robot.close();
 					} catch (Throwable e) {
 						e.printStackTrace();
 					} finally {
@@ -69,7 +74,7 @@ public class MutiTestMagicSecret {
 			});
 			Thread.sleep(100l);
 		}
-		while (finishCount.get() < totalCount) {
+		while (executeCount.get() < totalCount) {
 			Thread.sleep(span);
 		}
 		long avgTimeCost = timeCost.get() / executeCount.get();
@@ -89,7 +94,7 @@ public class MutiTestMagicSecret {
 		final AtomicInteger finishLoginCount = new AtomicInteger();
 
 		ExecutorService loginService = Executors.newFixedThreadPool(threadCount);
-		for (int i = start; i < start + totalCount; i++) {
+		for (int i = start; i < start + threadCount * 3; i++) {
 			final int index = i;
 			loginService.submit(new Runnable() {
 				@Override
@@ -109,12 +114,12 @@ public class MutiTestMagicSecret {
 			});
 			Thread.sleep(100l);
 		}
-		while(finishLoginCount.get() < totalCount){
+		while(finishLoginCount.get() < threadCount * 3){
 			Thread.sleep(span);
 		}
 		loginService.shutdownNow();
 		tmpLog.info("+++++++++++++++++++++++++++++++++ login success:"
-				+ robotList.size() + " total:" + totalCount);
+				+ robotList.size() + " total:" + threadCount);
 		return robotList;
 	}
 
