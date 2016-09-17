@@ -40,7 +40,7 @@ public class ActivityCountTypeItemHolder{
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();			
-			if(typeCfgDAO.hasCfgListByEnumId(item.getEnumId())){
+			if(!typeCfgDAO.hasCfgListByEnumId(item.getEnumId())){
 				continue;
 			}
 			itemList.add(item);

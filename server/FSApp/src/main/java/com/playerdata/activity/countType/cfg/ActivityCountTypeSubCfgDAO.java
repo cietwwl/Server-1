@@ -1,6 +1,7 @@
 package com.playerdata.activity.countType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +22,23 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 	public static ActivityCountTypeSubCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeSubCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMapping = new HashMap<String, List<ActivityCountTypeSubCfg>>();
 	
 	@Override
 	public Map<String, ActivityCountTypeSubCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeSubCfg.csv", ActivityCountTypeSubCfg.class);	
+		HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMappingTmp = new HashMap<String, List<ActivityCountTypeSubCfg>>();
+		for(ActivityCountTypeSubCfg subCfg : cfgCacheMap.values()){
+			String parentid = subCfg.getParentCfg();
+			List<ActivityCountTypeSubCfg> list = parentCfgMappingTmp.get(parentid);
+			if(list == null){
+				list = new ArrayList<ActivityCountTypeSubCfg>();
+				parentCfgMappingTmp.put(parentid, list);
+			}
+			list.add(subCfg);
+		}
+		this.parentCfgMapping = parentCfgMappingTmp;
 		return cfgCacheMap;
 	}
 	
@@ -33,8 +46,11 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 
 	public List<ActivityCountTypeSubCfg> getByParentCfgId(String parentCfgId){
 		List<ActivityCountTypeSubCfg> targetList = new ArrayList<ActivityCountTypeSubCfg>();
-		List<ActivityCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityCountTypeSubCfg subCfg : allCfg) {
+		List<ActivityCountTypeSubCfg> parentCfgList = parentCfgMapping.get(parentCfgId);
+		if(parentCfgList == null || parentCfgList.isEmpty()){
+			return targetList;
+		}
+		for (ActivityCountTypeSubCfg subCfg : parentCfgList) {
 			if(StringUtils.equals(subCfg.getParentCfg(), parentCfgId)){
 				targetList.add(subCfg);
 			}
@@ -43,13 +59,7 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 	}
 	
 	public ActivityCountTypeSubCfg getById(String subId){
-		ActivityCountTypeSubCfg target = new ActivityCountTypeSubCfg();
-		List<ActivityCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getId(), subId)){
-				target = tmpItem;
-			}
-		}
+		ActivityCountTypeSubCfg target = cfgCacheMap.get(subId);
 		return target;
 		
 	}
