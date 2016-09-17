@@ -221,11 +221,12 @@ public class MagicSecretMgr {
 		giveUpRewardBox(player, chapterID);
 		
 		//获取扫荡奖励
-		ArrayList<ItemInfo> rewardItems = new ArrayList<ItemInfo>();		
+		ArrayList<ItemInfo> rewardItems = new ArrayList<ItemInfo>();
+		DungeonsDataCfgDAO dungeonsDataCfgDAO = DungeonsDataCfgDAO.getInstance();
 		for(int i = 1; i <= STAGE_COUNT_EACH_CHATPER; i++){
 			String dungeonID = (Integer.parseInt(chapterID)*100 + i) + "_" + DUNGEON_MAX_LEVEL;
 			if(!MSConditionJudger.judgeDungeonsCount(player, dungeonID)) continue;
-			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
+			DungeonsDataCfg dungDataCfg = dungeonsDataCfgDAO.getCfgById(dungeonID);
 			if(dungDataCfg == null) {
 				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getMSSweepReward, 扫荡章节[%s]时副本[%s]静态数据不存在", chapterID, dungeonID), null);
 				continue;
