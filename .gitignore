@@ -21,6 +21,7 @@ client/Temp/
 DZFS_RES/
 .svn/
 
+
 server.properties
 ArtTemp/
 Assembly-CSharp-Editor-vs.csproj
@@ -68,3 +69,4 @@ Thumbs.db
 /server/FSApp/datalogs/methodtrace/*.log
 datalogs
 /server/FSApp/src/main/resources/config.properties
+/server/FSApp/src/main/resources/server.properties
