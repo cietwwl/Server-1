@@ -38,6 +38,12 @@ public class GCompFightingComparable implements Comparable<GCompFightingComparab
 		if(groupLevel < o.groupLevel){
 			return -1;
 		}
+		if(lastRank < o.lastRank){
+			return 1;
+		}
+		if(lastRank > o.lastRank){
+			return -1;
+		}
 		return 0;
 	}
 }
