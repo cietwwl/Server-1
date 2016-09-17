@@ -344,10 +344,6 @@ public class GMHeroProcesser {
 						if (equipId != null) {
 							GMHeroBase.gmHeroEequip(hero, i, player);
 						}
-//						if(heroLevel < equipLv){
-//							equipLv = heroLevel;
-//						}
-//						GMHeroBase.gmUpgradeHeroEquipment(hero, i, equipLv, player);
 					}
 					//镶嵌指定宝石
 					GMHeroBase.gmUnloadGem(hero, player);
@@ -381,7 +377,7 @@ public class GMHeroProcesser {
 				if (cfg.getQuality() >= quality) {
 					break;
 				} else {
-					List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(cfg.getNextId());
+					List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(cfg.getId());
 					int min = Integer.MAX_VALUE;
 					int max = Integer.MIN_VALUE;
 					for (Integer equipId : equips) {
