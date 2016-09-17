@@ -12,6 +12,7 @@ import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 /*
  * @author HC
@@ -21,7 +22,7 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 public class BattleTowerCollector implements RedPointCollector {
 
 	@Override
-	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
+	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
 		TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
 		if (tableBattleTower == null) {
@@ -46,5 +47,10 @@ public class BattleTowerCollector implements RedPointCollector {
 		if (tableBattleTower.getSweepState() && tableBattleTower.getSweepStartTime() + needTime <= now) {
 			map.put(RedPointType.BATTLE_TOWER_SWEEP_END, Collections.EMPTY_LIST);
 		}
+	}
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return eOpenLevelType.BATTLETOWER;
 	}
 }
