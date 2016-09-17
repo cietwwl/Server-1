@@ -23,17 +23,16 @@ public class GCompAgainst implements IGCAgainst {
 	@JsonProperty("3")
 	private GCGroup groupB; // 帮派B
 	@IgnoreSynField
-	@JsonProperty("4")
 	private GCGroup winGroup; // 胜利的帮派
-	@JsonIgnore
+	@JsonProperty("4")
 	private String winner; // 胜利的帮派id
-	@JsonIgnore
-	private GCompEventsStatus curStatus; // 当前的战斗状态（同步客户端需要）
-	@JsonIgnore
-	private GCEventsType topType; // 处在哪个阶段（16强、8强。。。）（同步客户端需要）
 	@JsonProperty("5")
-	private int position; // 位置（同步客户端需要）
+	private GCompEventsStatus curStatus; // 当前的战斗状态（同步客户端需要）
 	@JsonProperty("6")
+	private GCEventsType topType; // 处在哪个阶段（16强、8强。。。）（同步客户端需要）
+	@JsonProperty("7")
+	private int position; // 位置（同步客户端需要）
+	@JsonProperty("8")
 	private boolean championEvents; // 是否冠军争夺战，因为Final的时候，会有3、4名争夺，所以这里要判断哪一场是冠军争夺
 
 	public GCompAgainst() {}
@@ -96,12 +95,18 @@ public class GCompAgainst implements IGCAgainst {
 
 	@Override
 	public GCGroup getWinGroup() {
+		if(this.winGroup == null) {
+			synchronized(this) {
+				if(this.winGroup == null) {
+					this.winGroup = this.winner.equals(groupA.getGroupId()) ? groupA : groupB;
+				}
+			}
+		}
 		return winGroup;
 	}
 
 	@Override
 	public String toString() {
-		return "GCompAgainst [matchId=" + matchId + ", groupA=" + groupA + ", groupB=" + groupB + "]";
+		return "GCompAgainst [matchId=" + matchId + ", groupA=" + groupA + ", groupB=" + groupB + ", winner=" + winner + "]";
 	}
-
 }

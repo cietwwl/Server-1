@@ -78,6 +78,11 @@ public class PrepareAreaMgr {
 		default:
 			break;
 		}
+		if (player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getJoinTime() > GroupCompetitionMgr.getInstance().getEndTimeOfSelection()) {
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("海选期结束之后加入的成员不能参与帮战！");
+			return;
+		}
 //		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);

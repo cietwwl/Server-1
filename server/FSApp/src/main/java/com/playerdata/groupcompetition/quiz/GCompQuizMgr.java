@@ -130,7 +130,11 @@ public class GCompQuizMgr {
 		final int currentSession = GroupCompetitionMgr.getInstance().getCurrentSessionId();
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		int fightNum = 0;
+		GroupQuizEventItemDAO dao = GroupQuizEventItemDAO.getInstance();
 		for(GCompAgainst against :currentAgainst){
+			if (dao.getQuizInfo(against.getId()) != null) {
+				continue;
+			}
 			IGCGroup groupA = against.getGroupA();
 			IGCGroup groupB = against.getGroupB();
 			if(StringUtils.isBlank(groupA.getGroupId()) || StringUtils.isBlank(groupB.getGroupId())){

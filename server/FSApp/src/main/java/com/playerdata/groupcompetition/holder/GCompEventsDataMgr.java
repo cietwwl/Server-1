@@ -29,6 +29,10 @@ public class GCompEventsDataMgr {
 		globalData.clear();
 		globalData.setMatchNumType(startEventsType);
 	}
+	
+	public void loadEventsGlobalData() {
+		_dataHolder.loadEventsGlobalData();
+	}
 
 	/**
 	 * 
@@ -38,7 +42,8 @@ public class GCompEventsDataMgr {
 	 * @param eventsType
 	 */
 	public void addEvents(GCompEventsData eventsData, GCEventsType eventsType) {
-		_dataHolder.get().add(eventsType, eventsData);
+		GCompEventsGlobalData globalData = _dataHolder.get();
+		globalData.add(eventsType, eventsData);
 		_dataHolder.update();
 	}
 
@@ -49,6 +54,13 @@ public class GCompEventsDataMgr {
 	 */
 	public GCompEventsData getEventsData(GCEventsType eventType) {
 		return _dataHolder.get().getEventsData(eventType);
+	}
+	
+	/**
+	 * 保存数据
+	 */
+	public void save() {
+		this._dataHolder.update();
 	}
 
 	/**

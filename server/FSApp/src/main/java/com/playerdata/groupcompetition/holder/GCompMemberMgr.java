@@ -10,7 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.bm.group.GroupBM;
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -43,6 +45,7 @@ public class GCompMemberMgr {
 	
 	public void notifyEventsStart(List<String> groupIds) {
 		this._allMembers.clear();
+		long startTime = GroupCompetitionMgr.getInstance().getEndTimeOfSelection();
 		for (String groupId : groupIds) {
 			if (groupId == null || groupId.length() == 0) {
 				continue;
@@ -54,6 +57,10 @@ public class GCompMemberMgr {
 			Group group = GroupBM.get(groupId);
 			List<? extends GroupMemberDataIF> allMembers = group.getGroupMemberMgr().getMemberSortList(null);
 			for (GroupMemberDataIF member : allMembers) {
+				if (member.getReceiveTime() > startTime) {
+					GCompUtil.log("成员：{}，加入帮派的时间：{}，比海选结束的时间要晚，不能参与帮战！帮派id：{}", member.getName(), member.getReceiveTime(), groupId);
+					continue;
+				}
 				GCompMember gcompMember = new GCompMember(member.getUserId(), member.getName(), member.getLevel(), member.getHeadId());
 				map.put(gcompMember.getUserId(), gcompMember);
 				list.add(gcompMember);
