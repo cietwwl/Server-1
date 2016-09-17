@@ -116,7 +116,7 @@ public class ActivityCollector implements RedPointCollector{
 			
 		}else{		
 			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
-			if(activityDailyTypeCfg != null&&ActivityDailyTypeMgr.getInstance().isOpen(activityDailyTypeCfg)){
+			if(activityDailyTypeCfg != null&&ActivityDailyTypeCfgDAO.getInstance().isOpen(activityDailyTypeCfg)){
 				if(!dailyTargetItem.isTouchRedPoint()){
 					activityList.add(activityDailyTypeCfg.getId());
 				}else {

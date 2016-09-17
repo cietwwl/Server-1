@@ -120,7 +120,7 @@ public class GroupCopyLevelBL {
 				}
 				
 				
-				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  后面要改为==
+				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
@@ -129,8 +129,9 @@ public class GroupCopyLevelBL {
 					lvRecord.setLastBeginFightTime(System.currentTimeMillis());
 					GroupCopyProgress progress = lvRecord.getProgress();
 					if(progress == null){
-						progress = GroupCopyLevelBL.createProgress(lvRecord.getLevelID());
-						lvRecord.setProgress(progress);
+						result.setSuccess(false);
+						result.setTipMsg("数据错误!");
+						return result;
 					}
 					
 					
