@@ -349,7 +349,7 @@ public class GroupCompetitionHandler {
 	 */
 	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		GCompFightingRecordMgr.getInstance().getFightRecord(player, builder, request.getPlayBackPara().getMatchId(), 0);
+		GCompFightingRecordMgr.getInstance().getFightRecord(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());
 		GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getLivePara().getMatchId(), player);
 		return builder.build().toByteString();
 	}
