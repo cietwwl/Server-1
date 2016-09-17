@@ -72,12 +72,14 @@ public class BILogTemplateHelper {
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("副本统计信息", "$copyInfo$");
 		addTemplateToken("活动统计信息", "$activityInfo$");
-		addTemplateToken("任务统计信息", "$taskInfo$");
+		addTemplateToken("任务统计信息", "$taskInfo$");		
+		addTemplateToken("付费单笔信息", "$payInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
 		addTemplateToken("参考操作码对照表", "$optype$");
 		addTemplateToken("区UID创建时间", "$userCreatedTime$");
 		addTemplateToken("账号唯一识别符", "$regChannelId_uid$");
+		addTemplateToken("统计唯一识别符", "$loginZoneId_regChannelId$");
 		addTemplateToken("用户注册子渠道", "$regSubChannelId$");
 		addTemplateToken("同时在线用户数", "$onlineCount$");
 		addTemplateToken("UID创建时间", "$userCreatedTime$");
@@ -107,10 +109,13 @@ public class BILogTemplateHelper {
 		
 		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
 		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
-		addTemplateToken("充值币数量", "$emailId$");
-		addTemplateToken("充值金额", "$emailId$");
-		addTemplateToken("充值入口", "$emailId$");
-		addTemplateToken("订单id", "$emailId$");
+		addTemplateToken("充值币增加量", "$mainGoldGountAdd$");//一笔付费的付费获得额度，不要加入首购的赠送和月卡延迟获得
+		addTemplateToken("充值币消耗量", "$mainGoldGountconsume$");//一笔付费的付费获得额度，不要加入首购的赠送和月卡延迟获得
+		addTemplateToken("充值币持有量", "$mainGoldGount$");//一笔付费的付费获得额度，不要加入首购的赠送和月卡延迟获得
+		
+		addTemplateToken("充值金额", "$payMoney$");
+		addTemplateToken("充值入口", "$payEntrance$");
+		addTemplateToken("订单id", "$CpTradeNo$");
 		
 		addTemplateToken("邮件id", "$emailId$");
 		addTemplateToken("操作类型", "$opType$");

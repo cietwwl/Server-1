@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
@@ -31,10 +32,15 @@ import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rw.service.log.BILogMgr;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
+import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsgOrBuilder;
+import com.rwproto.ChargeServiceProto.RequestType;
+import com.rwproto.MsgDef.Command;
 
 public class ChargeMgr {
 
@@ -154,6 +160,7 @@ public class ChargeMgr {
 	}
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
+		int vipBefore = player.getVip();
 		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
 		if(target == null){//ios
@@ -184,13 +191,16 @@ public class ChargeMgr {
 					}
 				}
 			}
-			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
+			
 			
 			if(success){
-				int vipBefore = player.getVip();
+				UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
+				
+				registerBehavior(player);
+				BILogMgr.getInstance().logPayFinish(player,chargeContentPojo,vipBefore,target);
 				GameLog.info("chargemgr", player.getUserId(), "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo(), null);
-				BILogMgr.getInstance().logPayFinish(player,chargeContentPojo,vipBefore);
+				
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}
@@ -205,6 +215,18 @@ public class ChargeMgr {
 	
 
 
+	/**
+	 * 充值界面的场景id默认传0
+	 * @param player 模拟充值commond，传入变动原因到监听器
+	 */
+	private void registerBehavior(Player player) {
+		final Command command = Command.MSG_CHARGE;
+		ChargeServiceCommonReqMsg.Builder req = ChargeServiceCommonReqMsg.newBuilder();
+		req.setReqType(RequestType.Charge);
+		ProtocolMessageEnum type = req.getReqType();
+		String value = String.valueOf(type.getNumber());
+		GameBehaviorMgr.getInstance().registerBehavior(player, command, type, value, 0);
+	}
 
 	public ChargeResult charge(Player player, String itemId){
 		

@@ -37,6 +37,7 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		int newChargeGold = newRecord.getChargeGold();
 		if(oldChargeGold != newChargeGold){
 			BILogMgr.getInstance().logGoldChanged(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
+			BILogMgr.getInstance().logFinanceMainCoinConsume(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
 		}
 	}
 
