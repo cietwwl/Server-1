@@ -1,9 +1,5 @@
 package com.playerdata.groupFightOnline.data;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 

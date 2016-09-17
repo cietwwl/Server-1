@@ -244,6 +244,7 @@
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineCostDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
