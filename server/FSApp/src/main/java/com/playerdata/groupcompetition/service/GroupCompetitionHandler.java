@@ -221,26 +221,6 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
-	/**
-	 * 
-	 * 获取赛事的详细信息
-	 * 
-	 * @param player
-	 * @param request
-	 * @return
-	 */
-	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
-		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getPlayBackPara().getMatchId(), player);
-		GCResultType resultType ;
-		if(success) {
-			resultType = GCResultType.SUCCESS;
-		} else {
-			resultType = GCResultType.DATA_ERROR;
-		}
-		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNoMatchDetailData() : null);
-		return builder.build().toByteString();
-	}
-	
 	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
 		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
 		GCompQuizMgr.getInstance().createNewQuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
@@ -357,6 +337,21 @@ public class GroupCompetitionHandler {
 		}
 		GCompUtil.log("帮派争霸，teamStatusRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	/**
+	 * 
+	 * 获取赛事的详细信息
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
+	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCompFightingRecordMgr.getInstance().getFightRecord(player, builder, request.getPlayBackPara().getMatchId(), 0);
+		GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getLivePara().getMatchId(), player);
+		return builder.build().toByteString();
 	}
 	
 	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
