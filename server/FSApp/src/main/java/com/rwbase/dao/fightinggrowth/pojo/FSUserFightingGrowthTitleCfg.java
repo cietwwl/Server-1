@@ -16,6 +16,7 @@ public class FSUserFightingGrowthTitleCfg {
 	private String rewards; // 晋级奖励（原生的字符串）
 	private String emailCfgIdOfReward; // 奖励
 	private String privilege; // 特权
+	private int frameIconId; // 解锁头像框
 	private String nextTitleKey; // 下一个title的key
 	private boolean isFirst; // 是否第一个title
 	private Map<Integer, Integer> _itemRequiredMap; // 通过itemRequired解析过来的{key=道具的cfgId，value=需求的数量}
@@ -114,5 +115,13 @@ public class FSUserFightingGrowthTitleCfg {
 	 */
 	public String getPrivilege() {
 		return privilege;
+	}
+	
+	/**
+	 * 获取解锁的头像资源框id
+	 * @return
+	 */
+	public int getFrameIconId() {
+		return frameIconId;
 	}
 }

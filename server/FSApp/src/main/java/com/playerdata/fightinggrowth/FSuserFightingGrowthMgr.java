@@ -14,6 +14,8 @@ import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
+import com.rwbase.dao.setting.HeadBoxCfgDAO;
+import com.rwbase.dao.setting.pojo.HeadBoxCfg;
 
 public class FSuserFightingGrowthMgr {
 
@@ -137,6 +139,10 @@ public class FSuserFightingGrowthMgr {
 			_holder.updateToDB(player);
 			// 同步数据
 			_holder.synData(player);
+			if (nextTitleCfg.getFrameIconId() > 0) {
+				HeadBoxCfg cfg = HeadBoxCfgDAO.getInstance().getCfgById(String.valueOf(nextTitleCfg.getFrameIconId()));
+				player.getSettingMgr().addHeadBox(cfg.getSpriteId());
+			}
 		}
 		Pair<String, Boolean> result = Pair.Create(tips, success);
 		return result;
