@@ -2673,9 +2673,36 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getArmyInfoBytes();
 
-    // optional bool isFirstFinish = 7;
+    // optional string selfArmy = 7;
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    boolean hasSelfArmy();
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    java.lang.String getSelfArmy();
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getSelfArmyBytes();
+
+    // optional bool isFirstFinish = 8;
+    /**
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -2683,7 +2710,7 @@ public final class MagicSecretProto {
      */
     boolean hasIsFirstFinish();
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -2691,9 +2718,9 @@ public final class MagicSecretProto {
      */
     boolean getIsFirstFinish();
 
-    // optional string herosFighting = 8;
+    // optional string herosFighting = 9;
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -2701,7 +2728,7 @@ public final class MagicSecretProto {
      */
     boolean hasHerosFighting();
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -2709,7 +2736,7 @@ public final class MagicSecretProto {
      */
     java.lang.String getHerosFighting();
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -2718,9 +2745,9 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getHerosFightingBytes();
 
-    // optional string magicFighting = 9;
+    // optional string magicFighting = 10;
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -2728,7 +2755,7 @@ public final class MagicSecretProto {
      */
     boolean hasMagicFighting();
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -2736,7 +2763,7 @@ public final class MagicSecretProto {
      */
     java.lang.String getMagicFighting();
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -2844,18 +2871,23 @@ public final class MagicSecretProto {
               armyInfo_ = input.readBytes();
               break;
             }
-            case 56: {
+            case 58: {
               bitField0_ |= 0x00000010;
-              isFirstFinish_ = input.readBool();
+              selfArmy_ = input.readBytes();
               break;
             }
-            case 66: {
+            case 64: {
               bitField0_ |= 0x00000020;
-              herosFighting_ = input.readBytes();
+              isFirstFinish_ = input.readBool();
               break;
             }
             case 74: {
               bitField0_ |= 0x00000040;
+              herosFighting_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000080;
               magicFighting_ = input.readBytes();
               break;
             }
@@ -3144,21 +3176,76 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional bool isFirstFinish = 7;
-    public static final int ISFIRSTFINISH_FIELD_NUMBER = 7;
+    // optional string selfArmy = 7;
+    public static final int SELFARMY_FIELD_NUMBER = 7;
+    private java.lang.Object selfArmy_;
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public boolean hasSelfArmy() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public java.lang.String getSelfArmy() {
+      java.lang.Object ref = selfArmy_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          selfArmy_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string selfArmy = 7;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getSelfArmyBytes() {
+      java.lang.Object ref = selfArmy_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        selfArmy_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional bool isFirstFinish = 8;
+    public static final int ISFIRSTFINISH_FIELD_NUMBER = 8;
     private boolean isFirstFinish_;
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
      * </pre>
      */
     public boolean hasIsFirstFinish() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional bool isFirstFinish = 7;</code>
+     * <code>optional bool isFirstFinish = 8;</code>
      *
      * <pre>
      *是否首次通关章节
@@ -3168,21 +3255,21 @@ public final class MagicSecretProto {
       return isFirstFinish_;
     }
 
-    // optional string herosFighting = 8;
-    public static final int HEROSFIGHTING_FIELD_NUMBER = 8;
+    // optional string herosFighting = 9;
+    public static final int HEROSFIGHTING_FIELD_NUMBER = 9;
     private java.lang.Object herosFighting_;
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
      * </pre>
      */
     public boolean hasHerosFighting() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -3203,7 +3290,7 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string herosFighting = 8;</code>
+     * <code>optional string herosFighting = 9;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -3223,21 +3310,21 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional string magicFighting = 9;
-    public static final int MAGICFIGHTING_FIELD_NUMBER = 9;
+    // optional string magicFighting = 10;
+    public static final int MAGICFIGHTING_FIELD_NUMBER = 10;
     private java.lang.Object magicFighting_;
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
      * </pre>
      */
     public boolean hasMagicFighting() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -3258,7 +3345,7 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string magicFighting = 9;</code>
+     * <code>optional string magicFighting = 10;</code>
      *
      * <pre>
      *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -3285,6 +3372,7 @@ public final class MagicSecretProto {
       selfRank_ = 0;
       rewardData_ = java.util.Collections.emptyList();
       armyInfo_ = "";
+      selfArmy_ = "";
       isFirstFinish_ = false;
       herosFighting_ = "";
       magicFighting_ = "";
@@ -3340,13 +3428,16 @@ public final class MagicSecretProto {
         output.writeBytes(6, getArmyInfoBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBool(7, isFirstFinish_);
+        output.writeBytes(7, getSelfArmyBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(8, getHerosFightingBytes());
+        output.writeBool(8, isFirstFinish_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBytes(9, getMagicFightingBytes());
+        output.writeBytes(9, getHerosFightingBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(10, getMagicFightingBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -3383,15 +3474,19 @@ public final class MagicSecretProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, isFirstFinish_);
+          .computeBytesSize(7, getSelfArmyBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getHerosFightingBytes());
+          .computeBoolSize(8, isFirstFinish_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(9, getMagicFightingBytes());
+          .computeBytesSize(9, getHerosFightingBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getMagicFightingBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3531,12 +3626,14 @@ public final class MagicSecretProto {
         }
         armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
-        isFirstFinish_ = false;
+        selfArmy_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
-        herosFighting_ = "";
+        isFirstFinish_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
-        magicFighting_ = "";
+        herosFighting_ = "";
         bitField0_ = (bitField0_ & ~0x00000100);
+        magicFighting_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -3602,13 +3699,17 @@ public final class MagicSecretProto {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.isFirstFinish_ = isFirstFinish_;
+        result.selfArmy_ = selfArmy_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.herosFighting_ = herosFighting_;
+        result.isFirstFinish_ = isFirstFinish_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000040;
+        }
+        result.herosFighting_ = herosFighting_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000080;
         }
         result.magicFighting_ = magicFighting_;
         result.bitField0_ = to_bitField0_;
@@ -3693,16 +3794,21 @@ public final class MagicSecretProto {
           armyInfo_ = other.armyInfo_;
           onChanged();
         }
+        if (other.hasSelfArmy()) {
+          bitField0_ |= 0x00000040;
+          selfArmy_ = other.selfArmy_;
+          onChanged();
+        }
         if (other.hasIsFirstFinish()) {
           setIsFirstFinish(other.getIsFirstFinish());
         }
         if (other.hasHerosFighting()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
           herosFighting_ = other.herosFighting_;
           onChanged();
         }
         if (other.hasMagicFighting()) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000200;
           magicFighting_ = other.magicFighting_;
           onChanged();
         }
@@ -4628,20 +4734,118 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // optional bool isFirstFinish = 7;
+      // optional string selfArmy = 7;
+      private java.lang.Object selfArmy_ = "";
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public boolean hasSelfArmy() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public java.lang.String getSelfArmy() {
+        java.lang.Object ref = selfArmy_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          selfArmy_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getSelfArmyBytes() {
+        java.lang.Object ref = selfArmy_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          selfArmy_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setSelfArmy(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        selfArmy_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder clearSelfArmy() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        selfArmy_ = getDefaultInstance().getSelfArmy();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string selfArmy = 7;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setSelfArmyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        selfArmy_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool isFirstFinish = 8;
       private boolean isFirstFinish_ ;
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public boolean hasIsFirstFinish() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
@@ -4651,46 +4855,46 @@ public final class MagicSecretProto {
         return isFirstFinish_;
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public Builder setIsFirstFinish(boolean value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         isFirstFinish_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool isFirstFinish = 7;</code>
+       * <code>optional bool isFirstFinish = 8;</code>
        *
        * <pre>
        *是否首次通关章节
        * </pre>
        */
       public Builder clearIsFirstFinish() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         isFirstFinish_ = false;
         onChanged();
         return this;
       }
 
-      // optional string herosFighting = 8;
+      // optional string herosFighting = 9;
       private java.lang.Object herosFighting_ = "";
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public boolean hasHerosFighting() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -4708,7 +4912,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -4728,7 +4932,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -4739,26 +4943,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         herosFighting_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
        * </pre>
        */
       public Builder clearHerosFighting() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         herosFighting_ = getDefaultInstance().getHerosFighting();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string herosFighting = 8;</code>
+       * <code>optional string herosFighting = 9;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;英雄id, 英雄战力&gt;）
@@ -4769,26 +4973,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         herosFighting_ = value;
         onChanged();
         return this;
       }
 
-      // optional string magicFighting = 9;
+      // optional string magicFighting = 10;
       private java.lang.Object magicFighting_ = "";
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
        * </pre>
        */
       public boolean hasMagicFighting() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -4806,7 +5010,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -4826,7 +5030,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -4837,26 +5041,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000200;
         magicFighting_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
        * </pre>
        */
       public Builder clearMagicFighting() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         magicFighting_ = getDefaultInstance().getMagicFighting();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string magicFighting = 9;</code>
+       * <code>optional string magicFighting = 10;</code>
        *
        * <pre>
        *所有英雄的战斗力（HashMap&lt;String,Integer&gt;......HashMap&lt;法宝id, 法宝战力&gt;）
@@ -4867,7 +5071,7 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000200;
         magicFighting_ = value;
         onChanged();
         return this;
@@ -6998,33 +7202,33 @@ public final class MagicSecretProto {
       "\n\006buffId\030\005 \001(\t\022\'\n\006rwdBox\030\006 \001(\0132\027.magicSe" +
       "cret.MSItemInfo\022\020\n\010armyInfo\030\007 \001(\t\022\025\n\rsco" +
       "reRewardID\030\010 \001(\005\022\025\n\rbuffOrBoxAble\030\t \001(\010\"" +
-      "\264\002\n\021MagicSecretRspMsg\022+\n\007reqType\030\001 \002(\0162\032" +
+      "\306\002\n\021MagicSecretRspMsg\022+\n\007reqType\030\001 \002(\0162\032" +
       ".magicSecret.msRequestType\022*\n\007rstType\030\002 " +
       "\002(\0162\031.magicSecret.msResultType\0220\n\nmsRank",
       "Data\030\003 \003(\0132\034.magicSecret.MSScoreRankItem" +
       "\022\020\n\010selfRank\030\004 \001(\005\022+\n\nrewardData\030\005 \003(\0132\027" +
       ".magicSecret.MSItemInfo\022\020\n\010armyInfo\030\006 \001(" +
-      "\t\022\025\n\risFirstFinish\030\007 \001(\010\022\025\n\rherosFightin" +
-      "g\030\010 \001(\t\022\025\n\rmagicFighting\030\t \001(\t\"/\n\nMSItem" +
-      "Info\022\016\n\006itemID\030\001 \002(\t\022\021\n\titemCount\030\002 \002(\005\"" +
-      "\205\001\n\017MSScoreRankItem\022\016\n\006userId\030\001 \002(\t\022\022\n\nt" +
-      "otalScore\030\002 \002(\005\022\020\n\010userName\030\003 \002(\t\022\r\n\005lev" +
-      "el\030\004 \002(\005\022\021\n\theadImage\030\005 \002(\t\022\013\n\003job\030\006 \002(\005" +
-      "\022\r\n\005title\030\007 \002(\t*\274\002\n\rmsRequestType\022\017\n\013GET",
-      "_MS_RANK\020\001\022\022\n\016ENTER_MS_FIGHT\020\002\022\030\n\024GET_MS" +
-      "_SINGLE_REWARD\020\003\022\027\n\023GET_MS_SWEEP_REWARD\020" +
-      "\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023\n\017OPEN_REWARD_BOX\020" +
-      "\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020GET_SCORE_REWARD\020\010" +
-      "\022\024\n\020GET_SELF_MS_RANK\020\t\022\026\n\022GIVE_UP_REWARD" +
-      "_BOX\020\n\022\020\n\014GIVE_UP_BUFF\020\013\022\030\n\024SET_BUFF_SEL" +
-      "ECT_ABLE\020\014\022\025\n\021SET_BOX_OPEN_ABLE\020\r\022\023\n\017GET" +
-      "_HEROS_FIGHT\020\016*\321\001\n\014msResultType\022\013\n\007SUCCE" +
-      "SS\020\001\022\024\n\020TIMES_NOT_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020" +
-      "\003\022\025\n\021CONDITION_UNREACH\020\004\022\025\n\021NO_REWARD_CA",
-      "N_GET\020\005\022\021\n\rNO_REWARD_BOX\020\006\022\023\n\017NOT_ENOUGH" +
-      "_GOLD\020\007\022\023\n\017NOT_ENOUGH_STAR\020\010\022\024\n\020NO_EXCHA" +
-      "NGE_BUFF\020\t\022\016\n\nDATA_ERROR\020\nB\037\n\013com.rwprot" +
-      "oB\020MagicSecretProto"
+      "\t\022\020\n\010selfArmy\030\007 \001(\t\022\025\n\risFirstFinish\030\010 \001" +
+      "(\010\022\025\n\rherosFighting\030\t \001(\t\022\025\n\rmagicFighti" +
+      "ng\030\n \001(\t\"/\n\nMSItemInfo\022\016\n\006itemID\030\001 \002(\t\022\021" +
+      "\n\titemCount\030\002 \002(\005\"\205\001\n\017MSScoreRankItem\022\016\n" +
+      "\006userId\030\001 \002(\t\022\022\n\ntotalScore\030\002 \002(\005\022\020\n\010use" +
+      "rName\030\003 \002(\t\022\r\n\005level\030\004 \002(\005\022\021\n\theadImage\030" +
+      "\005 \002(\t\022\013\n\003job\030\006 \002(\005\022\r\n\005title\030\007 \002(\t*\274\002\n\rms",
+      "RequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS" +
+      "_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GE" +
+      "T_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023" +
+      "\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020" +
+      "GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t" +
+      "\022\026\n\022GIVE_UP_REWARD_BOX\020\n\022\020\n\014GIVE_UP_BUFF" +
+      "\020\013\022\030\n\024SET_BUFF_SELECT_ABLE\020\014\022\025\n\021SET_BOX_" +
+      "OPEN_ABLE\020\r\022\023\n\017GET_HEROS_FIGHT\020\016*\321\001\n\014msR" +
+      "esultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOU" +
+      "GH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UNREACH",
+      "\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_REWARD_B" +
+      "OX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_" +
+      "STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERR" +
+      "OR\020\nB\037\n\013com.rwprotoB\020MagicSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7042,7 +7246,7 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", "IsFirstFinish", "HerosFighting", "MagicFighting", });
+              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", "SelfArmy", "IsFirstFinish", "HerosFighting", "MagicFighting", });
           internal_static_magicSecret_MSItemInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_magicSecret_MSItemInfo_fieldAccessorTable = new
