@@ -16,6 +16,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
@@ -512,9 +513,17 @@ public class BILogMgr {
 		Object viewId = typeList.get(2);
 		Object secondType = typeList.get(3);
 		
+		String mapId;
+		if(typeList.size() >= 5){
+			Object oMapId = typeList.get(4);
+			mapId = oMapId.toString();
+		}else{
+			mapId = viewId.toString();
+		}
+		
 		String secondBehavior = GameBehaviorMgr.getInstance().getSecondBehavior(command, secondType);
 		
-		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString());
+		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString(), mapId);
 		return reason;
 		
 	}
@@ -609,10 +618,16 @@ public class BILogMgr {
 		logPlayer(eBILogType.GoldChange, player, moreInfo);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
+		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		DataChangeReason changeReason = parseChangeReason(list);
+		
+		
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("levelBeforeUp", oldlevel + "");
 		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
+		moreInfo.put("mapid", String.valueOf(changeReason.getMapId()));
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
 	}

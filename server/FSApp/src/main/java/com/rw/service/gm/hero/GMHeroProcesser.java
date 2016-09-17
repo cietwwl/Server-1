@@ -154,13 +154,14 @@ public class GMHeroProcesser {
 	private static void bringitMainHero(Player player, int maxLevel, int maxQuality) {
 		Hero mainRoleHero = player.getMainRoleHero();
 		String templateId = mainRoleHero.getTemplateId();
-		RoleCfg roleCfg = (RoleCfg)RoleCfgDAO.getInstance().getCfgById(templateId);
+//		RoleCfg roleCfg = (RoleCfg)RoleCfgDAO.getInstance().getCfgById(templateId);
 		int maxStar = GMHeroBase.gmGetMaxStar(templateId);
 //		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
 		Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 		int star = GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
 		GMHeroBase.gmUpdateTemplateId(player.getSex(), player.getCareer(), star, hero);
-		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+//		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
+		player.setLevelByGM(GMHeroBase.gmGetMaxLevel());
 		String qualityId = getQualityId(hero, maxQuality,false);
 		GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
 		List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.common.EquipHelper;
 import com.common.IHeroAction;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.refactor.IDataMgrSingletone;
 import com.rw.service.Equip.EquipHandler;
@@ -409,7 +410,8 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 	public void EquipAdvance(Player player, String heroId, String nextId, final boolean isSubEquip) {
 		Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 		String preQualityId = hero.getQualityId();
-		hero.setQualityId(nextId);
+//		hero.setQualityId(nextId);
+		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, nextId);
 		// 任务
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Quality);
 		boolean subEquip = isSubEquip;
