@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
@@ -45,5 +47,9 @@ public class GCompFightingRecordMgr {
 	public void leaveLivePage(Player player, Builder builder, int matchId) {
 		_dataHolder.leaveLivePage(player, matchId);
 		builder.setRstType(GCResultType.SUCCESS);
+	}
+	
+	public void deleteLastFightRecord(List<Integer> matchList){
+		_dataHolder.deleteLastSessionRecord(matchList);
 	}
 }
