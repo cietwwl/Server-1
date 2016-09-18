@@ -30,7 +30,7 @@ message CommonReqMsg{
 
 message CommonRspMsg{
 	required GCResultType rstType = 1; //是否成功处理
-	required string rstTip = 2;	//信息提示
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
 	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
 }
 
