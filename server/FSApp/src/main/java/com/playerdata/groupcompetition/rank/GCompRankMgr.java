@@ -167,6 +167,7 @@ public class GCompRankMgr {
 		builder.setUserId(rankData.getUserId());
 		builder.setUserName(rankData.getUserName());
 		builder.setValue(rankData.getValue());
+		builder.setRank(rankData.getRank());
 		return builder.build();
 	}
 	

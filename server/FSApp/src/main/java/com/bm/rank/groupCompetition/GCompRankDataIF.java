@@ -11,4 +11,6 @@ public interface GCompRankDataIF {
 	public int getValue();
 
 	public String getGroupName();
+	
+	public int getRank();
 }

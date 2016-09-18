@@ -62,11 +62,13 @@ public class GCompKillRankMgr {
 		List<GCompKillItem> itemList = new ArrayList<GCompKillItem>();
 		Ranking<GCompKillComparable, GCompKillItem> ranking = RankingFactory.getRanking(RankType.GCOMP_KILL_RANK);
 		EnumerateList<? extends MomentRankingEntry<GCompKillComparable, GCompKillItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
+		int rank = 1;
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GCompKillComparable, GCompKillItem> entry = it.nextElement();
 			GCompKillComparable killComparable = entry.getComparable();
 			GCompKillItem killItem = entry.getExtendedAttribute();
 			killItem.setTotalKill(killComparable.getTotalKill());
+			killItem.setRank(rank++);
 			itemList.add(killItem);
 		}
 		return itemList;

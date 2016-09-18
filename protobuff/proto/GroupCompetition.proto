@@ -245,6 +245,7 @@ message GCompRankItem{
 	required string headImage = 3;	//头像
 	required int32 value = 4;	//击杀数、或连胜数、或积分
 	required string groupName = 5;
+	optional int32 rank = 6;	//排名，如果代表个人项，就没有该字段
 }
 
 // 帮派积分排行榜请求的响应数据

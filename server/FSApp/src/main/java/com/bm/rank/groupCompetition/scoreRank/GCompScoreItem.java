@@ -18,6 +18,8 @@ public class GCompScoreItem implements GCompRankDataIF{
 	private int totalScore;	//总伤害值
 	
 	private String groupName;
+	
+	private int rank;
 
 	public String getUserId() {
 		return userId;
@@ -58,7 +60,15 @@ public class GCompScoreItem implements GCompRankDataIF{
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
 	@Override
 	public int getValue() {
 		return totalScore;

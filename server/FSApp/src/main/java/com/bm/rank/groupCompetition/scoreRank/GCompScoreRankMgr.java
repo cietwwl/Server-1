@@ -62,11 +62,13 @@ public class GCompScoreRankMgr {
 		List<GCompScoreItem> itemList = new ArrayList<GCompScoreItem>();
 		Ranking<GCompScoreComparable, GCompScoreItem> ranking = RankingFactory.getRanking(RankType.GCOMP_SCORE_RANK);
 		EnumerateList<? extends MomentRankingEntry<GCompScoreComparable, GCompScoreItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
+		int rank = 1;
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GCompScoreComparable, GCompScoreItem> entry = it.nextElement();
 			GCompScoreComparable scoreComparable = entry.getComparable();
 			GCompScoreItem scoreItem = entry.getExtendedAttribute();
 			scoreItem.setTotalScore(scoreComparable.getTotalScore());
+			scoreItem.setRank(rank++);
 			itemList.add(scoreItem);
 		}
 		return itemList;
