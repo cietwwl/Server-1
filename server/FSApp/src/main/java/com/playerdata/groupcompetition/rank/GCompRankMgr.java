@@ -9,8 +9,11 @@ import com.bm.rank.groupCompetition.scoreRank.GCompScoreItem;
 import com.bm.rank.groupCompetition.scoreRank.GCompScoreRankMgr;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinItem;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinRankMgr;
+import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionScoreRecord;
 import com.rwproto.GroupCompetitionProto.GCompRankItem;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder;
 
@@ -119,7 +122,7 @@ public class GCompRankMgr {
 		return GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 
-	public void getKillRank(Builder builder, GCEventsType eventsType) {
+	public void getKillRank(Player player, Builder builder, GCEventsType eventsType) {
 		List<GCompKillItem> killRank = getKillRank(eventsType);
 		if(null == killRank){
 			return;
@@ -127,9 +130,10 @@ public class GCompRankMgr {
 		for(GCompKillItem item : killRank){
 			builder.addRankData(toClientRankItem(item));
 		}
+		getSelfRankItem(player, builder, eventsType, GCompRankType.Kill);
 	}
 	
-	public void getWinRank(Builder builder, GCEventsType eventsType) {
+	public void getWinRank(Player player, Builder builder, GCEventsType eventsType) {
 		List<GCompContinueWinItem> winRank = getWinRank(eventsType);
 		if(null == winRank){
 			return;
@@ -137,9 +141,10 @@ public class GCompRankMgr {
 		for(GCompContinueWinItem item : winRank){
 			builder.addRankData(toClientRankItem(item));
 		}
+		getSelfRankItem(player, builder, eventsType, GCompRankType.Win);
 	}
 	
-	public void getScoreRank(Builder builder, GCEventsType eventsType) {
+	public void getScoreRank(Player player, Builder builder, GCEventsType eventsType) {
 		List<GCompScoreItem> scoreRank = getScoreRank(eventsType);
 		if(null == scoreRank){
 			return;
@@ -147,6 +152,7 @@ public class GCompRankMgr {
 		for(GCompScoreItem item : scoreRank){
 			builder.addRankData(toClientRankItem(item));
 		}
+		getSelfRankItem(player, builder, eventsType, GCompRankType.Score);
 	}
 	
 	/**
@@ -162,5 +168,36 @@ public class GCompRankMgr {
 		builder.setUserName(rankData.getUserName());
 		builder.setValue(rankData.getValue());
 		return builder.build();
+	}
+	
+	/**
+	 * 获取个人的排行
+	 * @param player
+	 * @param builder
+	 * @param eventsType
+	 * @param rankType
+	 */
+	private void getSelfRankItem(Player player, Builder builder, GCEventsType eventsType, GCompRankType rankType){
+		UserGroupCompetitionScoreRecord gcRecord = GCompMemberMgr.getInstance().getRecord(player.getUserId(), eventsType);
+		if(null == gcRecord) return;
+		GCompRankItem.Builder selfRankbuilder = GCompRankItem.newBuilder();
+		selfRankbuilder.setGroupName(gcRecord.getGroupName());
+		selfRankbuilder.setHeadImage(player.getHeadImage());
+		selfRankbuilder.setUserId(player.getUserId());
+		selfRankbuilder.setUserName(player.getUserName());
+		switch (rankType) {
+		case Kill:
+			selfRankbuilder.setValue(gcRecord.getTotalWinTimes());
+			break;
+		case Score:
+			selfRankbuilder.setValue(gcRecord.getScore());
+			break;
+		case Win:
+			selfRankbuilder.setValue(gcRecord.getMaxContinueWins());
+			break;
+		default:
+			break;
+		}
+		builder.setSelfRankData(selfRankbuilder.build());
 	}
 }

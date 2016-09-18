@@ -79,6 +79,7 @@ message CommonGetDataRspMsg {
 	optional SelectionRspData selectionData = 3; // 海选信息（对于GCRequestType.GetSelectionData可用）
 	repeated GCompRankItem rankData = 4;	//排行榜数据
 	optional GCompGroupScoreRankRspData groupScoreRankRspData = 5; // 帮派积分排行榜数据
+	optional GCompRankItem selfRankData = 6;	//自己的排行数据
 }
 
 //备战区同屏玩家坐标
