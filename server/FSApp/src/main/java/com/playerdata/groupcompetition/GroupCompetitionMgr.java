@@ -244,7 +244,7 @@ public class GroupCompetitionMgr {
 	
 	void notifyStageChange(IGCompStage currentStage, int sessionId) {
 		GroupCompetitionGlobalData saveData = _dataHolder.get();
-		if (currentStage.getStageType() == GCompStageType.SELECTION && sessionId != saveData.getHeldTimes()) {
+		if (currentStage.getStageType() == GCompStageType.SELECTION && saveData.getCurrentStageType() != GCompStageType.SELECTION) {
 			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());
