@@ -127,8 +127,9 @@ public class GCompRankMgr {
 		if(null == killRank){
 			return;
 		}
+		int rank = 1;
 		for(GCompKillItem item : killRank){
-			builder.addRankData(toClientRankItem(item));
+			builder.addRankData(toClientRankItem(item, rank++));
 		}
 		getSelfRankItem(player, builder, eventsType, GCompRankType.Kill);
 	}
@@ -138,8 +139,9 @@ public class GCompRankMgr {
 		if(null == winRank){
 			return;
 		}
+		int rank = 1;
 		for(GCompContinueWinItem item : winRank){
-			builder.addRankData(toClientRankItem(item));
+			builder.addRankData(toClientRankItem(item, rank++));
 		}
 		getSelfRankItem(player, builder, eventsType, GCompRankType.Win);
 	}
@@ -149,8 +151,9 @@ public class GCompRankMgr {
 		if(null == scoreRank){
 			return;
 		}
+		int rank = 1;
 		for(GCompScoreItem item : scoreRank){
-			builder.addRankData(toClientRankItem(item));
+			builder.addRankData(toClientRankItem(item, rank++));
 		}
 		getSelfRankItem(player, builder, eventsType, GCompRankType.Score);
 	}
@@ -160,14 +163,14 @@ public class GCompRankMgr {
 	 * @param rankData
 	 * @return
 	 */
-	private GCompRankItem toClientRankItem(GCompRankDataIF rankData){
+	private GCompRankItem toClientRankItem(GCompRankDataIF rankData, int rank){
 		GCompRankItem.Builder builder = GCompRankItem.newBuilder();
 		builder.setGroupName(rankData.getGroupName());
 		builder.setHeadImage(rankData.getHeadImage());
 		builder.setUserId(rankData.getUserId());
 		builder.setUserName(rankData.getUserName());
 		builder.setValue(rankData.getValue());
-		builder.setRank(rankData.getRank());
+		builder.setRank(rank);
 		return builder.build();
 	}
 	

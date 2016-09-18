@@ -62,13 +62,11 @@ public class GCompContinueWinRankMgr {
 		List<GCompContinueWinItem> itemList = new ArrayList<GCompContinueWinItem>();
 		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
 		EnumerateList<? extends MomentRankingEntry<GCompContinueWinComparable, GCompContinueWinItem>> it = ranking.getEntriesEnumeration(1, MAX_RANK_COUNT);
-		int rank = 1;
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GCompContinueWinComparable, GCompContinueWinItem> entry = it.nextElement();
 			GCompContinueWinComparable continueWinComparable = entry.getComparable();
 			GCompContinueWinItem winItem = entry.getExtendedAttribute();
 			winItem.setContinueWin(continueWinComparable.getContinueWin());
-			winItem.setRank(rank++);
 			itemList.add(winItem);
 		}
 		return itemList;

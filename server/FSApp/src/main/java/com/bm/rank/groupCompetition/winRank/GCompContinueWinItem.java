@@ -18,8 +18,6 @@ public class GCompContinueWinItem implements GCompRankDataIF{
 	private int continueWin;	//最高连胜次数
 	
 	private String groupName;
-	
-	private int rank;
 
 	public String getUserId() {
 		return userId;
@@ -59,14 +57,6 @@ public class GCompContinueWinItem implements GCompRankDataIF{
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
-	}
-	
-	public int getRank() {
-		return rank;
-	}
-
-	public void setRank(int rank) {
-		this.rank = rank;
 	}
 
 	@Override
