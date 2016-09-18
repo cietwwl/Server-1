@@ -620,7 +620,11 @@ public class BILogMgr {
 
 	@SuppressWarnings("unchecked")
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
-		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		Object param = DataEventRecorder.getParam();
+		if(param == null){
+			return;
+		}
+		List<Object> list = (List<Object>)param;
 		DataChangeReason changeReason = parseChangeReason(list);
 		
 		
