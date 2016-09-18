@@ -36,6 +36,7 @@ enum GCRequestType{
 	GetWinRank = 27;	//连胜排行榜
 	GetScoreRank = 28;	//积分排行榜
 	GetGroupScoreRank = 29; // 帮派积分排行榜
+	InPrepareArea = 30;		//加载完了备战区
 }
 
 enum TeamStatusType {

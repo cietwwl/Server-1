@@ -52,7 +52,6 @@ public class PrepareAreaMgr {
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
 			}
-			GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 		}
 	}
 
@@ -250,5 +249,13 @@ public class PrepareAreaMgr {
 			}
 		}
 		return onlineUsers;
+	}
+
+	/**
+	 * 完成加载界面，进入备战区
+	 * @param player
+	 */
+	public void inPrepareArea(Player player) {
+		GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 	}
 }
