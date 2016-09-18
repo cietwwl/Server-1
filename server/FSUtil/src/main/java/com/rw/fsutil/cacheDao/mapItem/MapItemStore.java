@@ -67,7 +67,6 @@ public class MapItemStore<T extends IMapItem> {
 			ex.printStackTrace();
 			return false;
 		}
-		System.out.println();
 		return true;
 	}
 
