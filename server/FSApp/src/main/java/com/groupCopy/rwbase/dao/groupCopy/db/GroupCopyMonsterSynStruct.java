@@ -1,5 +1,8 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+import com.common.GameUtil;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.monster.cfg.CopyMonsterCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -29,6 +32,9 @@ public class GroupCopyMonsterSynStruct {
 		curHP = totalHP;
 		totalMP = monsterCfg.getEnergy();
 		curMP = totalMP;
+		if(totalHP == 0){
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMonsterSynStruct", "创建怪物时发现怪物["+id+"]的总血量为0", null);
+		}
 	}
 	
 	
