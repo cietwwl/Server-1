@@ -10,6 +10,8 @@ import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
@@ -70,6 +72,8 @@ public class GroupCopyAdminHandler {
 			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
 			
 			if(cfg.getOpenCost() > supplies){
+				GameLog.error(LogModule.GroupCopy, "GroupCopyAdminHandler[open]", "角色尝试开启帮派副本，物资不足，开启消耗["+cfg.getOpenCost()
+						+ "],目前物资："+ supplies, null);
 				commonRsp.setTipMsg("帮派物资不足");
 			}else{
 				openResult = group.getGroupCopyMgr().openMap(player, mapId );
