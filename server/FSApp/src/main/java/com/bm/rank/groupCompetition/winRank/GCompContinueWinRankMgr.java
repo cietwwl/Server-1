@@ -95,4 +95,14 @@ public class GCompContinueWinRankMgr {
 			ranking.subimitUpdatedTask(entry);
 		}
 	}
+	
+	/**
+	 * 阶段结束的时候，保存排行榜数据，并清空排行榜
+	 * @return
+	 */
+	public static List<GCompContinueWinItem> stageEnd(){
+		List<GCompContinueWinItem> needKeepRank = getContinueWinRankList();
+		clearRank();
+		return needKeepRank;
+	}
 }
