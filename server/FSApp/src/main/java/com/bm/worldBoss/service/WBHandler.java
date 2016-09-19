@@ -206,6 +206,9 @@ public class WBHandler {
 		response.setReqType(commonReq.getReqType());
 		
 		WBResult result = checkBoss();
+		if(result.isSuccess()){
+			result = checkUser(player);
+		}
 		if(result.isSuccess()){			
 			result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost());
 			if(result.isSuccess()){
@@ -217,6 +220,15 @@ public class WBHandler {
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
+	}
+	
+	private WBResult checkUser(Player player){
+		WBResult result = WBResult.newInstance(true);
+		if(!WBUserMgr.getInstance().canBuyCd(player)){
+			result.setSuccess(false);
+			result.setReason("购买次数已满，升级vip可以获得更多购买次数。");
+		}
+		return result;
 	}
 	
 	private int getBuyCDCost(){

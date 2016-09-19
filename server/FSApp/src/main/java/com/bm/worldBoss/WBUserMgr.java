@@ -8,6 +8,7 @@ import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
 import com.playerdata.Player;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
 
 public class WBUserMgr {
@@ -81,5 +82,12 @@ public class WBUserMgr {
 			WBUserDataHolder.getInstance().update(player, wbUserData);
 		}
 		
+	}
+	public boolean canBuyCd(Player player) {
+
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
+		int maxCdCanBuy = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.worldBossMaxBuyBuffCount);
+		
+		return wbUserData.getCdBuyCount() < maxCdCanBuy;
 	}
 }

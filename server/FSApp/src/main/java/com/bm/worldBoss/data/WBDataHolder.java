@@ -124,7 +124,8 @@ public class WBDataHolder {
 		if(curLifeTmp <= 0){
 			LastFightInfo lastFightInfo = new LastFightInfo();
 			lastFightInfo.setTime(System.currentTimeMillis())
-							.setUserId(player.getUserId());							
+							.setUserId(player.getUserId())
+							.setUserName(player.getUserName());;							
 			
 			wbData.setLastFightInfo(lastFightInfo );
 		}

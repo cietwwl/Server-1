@@ -2,6 +2,7 @@ package com.bm.worldBoss.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
@@ -9,7 +10,10 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class LastFightInfo {
 	
+	@IgnoreSynField
 	private String userId;
+	
+	private String userName;
 	private long time;
 	
 	
@@ -26,6 +30,12 @@ public class LastFightInfo {
 	public LastFightInfo setTime(long time) {
 		this.time = time;
 		return this;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	
