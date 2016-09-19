@@ -1,5 +1,6 @@
 package com.bm.targetSell.listener;
 
+import com.bm.targetSell.TargetSellManager;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
@@ -20,9 +21,10 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 					+ ",cur charge:" + currentRecord.getTotalChargeGold());
 		}
 		
-		if(currentRecord.getTotalChargeMoney() != oldRecord.getTotalChargeMoney()){
+		if(currentRecord.getTotalChargeMoney() > oldRecord.getTotalChargeMoney()){
 			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
 					+ ", cur money:" + currentRecord.getTotalChargeMoney());
+			TargetSellManager.getInstance().increaseChargeMoney(currentRecord.getUserId(), currentRecord.getTotalChargeMoney());
 		}
 		
 	}
