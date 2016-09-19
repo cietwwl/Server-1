@@ -20,7 +20,6 @@ import com.rw.dataaccess.processor.StoreCreator;
 import com.rw.dataaccess.processor.UnendingWarCreator;
 import com.rw.dataaccess.processor.UserGFightDataCreator;
 import com.rw.dataaccess.processor.UserGameDataProcessor;
-import com.rw.dataaccess.processor.UserHeroCreator;
 import com.rw.dataaccess.processor.UserTeamBattleDataCreator;
 import com.rw.dataaccess.processor.VipCreator;
 import com.rw.fsutil.cacheDao.DataKVDao;
@@ -49,7 +48,6 @@ import com.rwbase.dao.groupsecret.pojo.db.dao.UserCreateGroupSecretDataDAO;
 import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretBaseDataDAO;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
-import com.rwbase.dao.hero.UserHeroDAO;
 import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.store.TableStoreDao;
@@ -63,7 +61,7 @@ import com.rwbase.dao.vip.TableVipDAO;
 public enum DataKVType {
 
 	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class),
-	USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
+//	USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
 	FRIEND(4, TableFriendDAO.class, FriendCreator.class),
 	SIGN(5, TableSignDataDAO.class, SignCreator.class),
 	VIP(6, TableVipDAO.class, VipCreator.class),

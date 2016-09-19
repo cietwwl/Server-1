@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -38,7 +39,7 @@ public class FSHeroHolder {
 		return _INSTANCE;
 	}
 	
-	private void notifyBaseInfoChange(FSHero hero) {
+	private void notifyBaseInfoChange(Hero hero) {
 		for(IHeroCallbackAction action : _baseInfoChangeCallbackList) {
 			action.doAction(hero);
 		}
@@ -48,12 +49,12 @@ public class FSHeroHolder {
 		_baseInfoChangeCallbackList.add(action);
 	}
 	
-	public void syncAttributes(FSHero hero, int version) {
+	public void syncAttributes(Hero hero, int version) {
 		Player player = PlayerMgr.getInstance().find(hero.getOwnerUserId());
 		ClientDataSynMgr.synData(player, hero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, version);
 	}
 	
-	public void synBaseInfo(Player player, FSHero hero) {
+	public void synBaseInfo(Player player, Hero hero) {
 		FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
 		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
 		this.notifyBaseInfoChange(hero);

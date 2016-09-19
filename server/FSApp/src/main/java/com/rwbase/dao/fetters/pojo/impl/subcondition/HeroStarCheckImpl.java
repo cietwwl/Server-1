@@ -3,6 +3,7 @@ package com.rwbase.dao.fetters.pojo.impl.subcondition;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
@@ -23,12 +24,13 @@ public class HeroStarCheckImpl implements IFettersSubCondition {
 			return false;
 		}
 
-		RoleBaseInfoIF baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
-		if (baseInfo == null) {
-			return false;
-		}
-
-		return baseInfo.getStarLevel() >= value;
+//		RoleBaseInfoIF baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//		if (baseInfo == null) {
+//			return false;
+//		}
+//
+//		return baseInfo.getStarLevel() >= value;
+		return hero.getStarLevel() >= value;
 	}
 
 	@Override

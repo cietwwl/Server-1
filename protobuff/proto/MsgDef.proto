@@ -117,6 +117,9 @@ enum Command {
 	MSG_WORLD_BOSS = 215;      //世界boss
 	
 	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
+	MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL = 217; // 帮派争霸：获取某场对战的详细信息（带一个empty的body即可）
+	MSG_GROUP_COMPETITION_GET_MATCH_VIEW = 218; // 帮派争霸：获取对阵信息（带一个empty的body即可）
+	MSG_GROUP_COMPETITION_GET_SELECTION_VIEW = 219; // 帮派争霸：获取海选榜数据
 	
 
 	MSG_FEEDBACK = 995;//客服功能
