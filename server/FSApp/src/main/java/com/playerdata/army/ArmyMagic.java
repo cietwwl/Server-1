@@ -14,6 +14,7 @@ public class ArmyMagic {
 	private String id;
 	private int modelId;
 	private int level;
+	private float magicPer;// 初始能量
 
 	public ArmyMagic() {
 	}
@@ -49,4 +50,11 @@ public class ArmyMagic {
 		this.level = level;
 	}
 
+	public float getMagicPer() {
+		return magicPer;
+	}
+
+	public void setMagicPer(float magicPer) {
+		this.magicPer = magicPer;
+	}
 }
