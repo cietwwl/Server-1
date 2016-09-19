@@ -10,7 +10,7 @@ import com.rwbase.dao.targetSell.BenefitItems;
  * @author Alex
  * 2016年9月17日 下午6:18:57
  */
-public class TargetSellSendRoleItems extends TargetSellAbsArgs{
+public class TargetSellSendRoleItems extends TargetSellAbsArgs {
 	
 	private String actionName;
 	
@@ -33,7 +33,7 @@ public class TargetSellSendRoleItems extends TargetSellAbsArgs{
 	}
 
 	@Override
-	public void handlerMsg() {
+	public void handlerMsg(int msgType) {
 		TargetSellManager.getInstance().updateRoleItems(this);
 	}
 

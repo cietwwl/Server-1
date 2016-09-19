@@ -1,6 +1,5 @@
 package com.bm.targetSell.param;
 
-import com.bm.targetSell.TargetSellManager;
 
 
 /**
@@ -8,7 +7,7 @@ import com.bm.targetSell.TargetSellManager;
  * @author Alex
  * 2016年9月17日 下午5:44:41
  */
-public class TargetSellServerErrorParam extends TargetSellHeartBeatParam{
+public class TargetSellServerErrorParam extends TargetSellHeartBeatParam {
 
 	/**发现错误的操作码*/
 	private int errorOpType;
@@ -72,8 +71,8 @@ public class TargetSellServerErrorParam extends TargetSellHeartBeatParam{
 
 
 	@Override
-	public void handlerMsg() {
-		TargetSellManager.getInstance().processError(this);
+	public void handlerMsg(int msgType) {
+		//精准服返回的错误信息，只要记录下就可以了
 	}
 
 	

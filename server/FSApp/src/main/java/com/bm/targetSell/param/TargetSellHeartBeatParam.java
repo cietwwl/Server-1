@@ -1,6 +1,7 @@
 package com.bm.targetSell.param;
 
 import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.net.ITargetSellData;
 import com.rw.fsutil.util.MD5;
 
 /**
@@ -36,8 +37,11 @@ public class TargetSellHeartBeatParam implements ITargetSellData {
 	}
 
 	@Override
-	public void handlerMsg() {
+	public void handlerMsg(int msgType) {
+		
 	}
+
+
 	
 	
 }

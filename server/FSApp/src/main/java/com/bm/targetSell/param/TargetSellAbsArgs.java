@@ -10,9 +10,9 @@ import com.rw.fsutil.util.MD5;
  * @author Alex
  * 2016年9月17日 下午5:54:31
  */
-public class TargetSellAbsArgs extends TargetSellHeartBeatParam{
+public class TargetSellAbsArgs extends TargetSellHeartBeatParam {
 
-	private String userId;
+	private String userId;//这个是玩家的账号
 	private String channelId;
 	private String roleId;
 	
@@ -43,8 +43,8 @@ public class TargetSellAbsArgs extends TargetSellHeartBeatParam{
 				+channelId+"&roleId="+roleId+"||"+ TargetSellManager.appKey);
 	}
 	@Override
-	public void handlerMsg() {
-		TargetSellManager.getInstance().pushRoleAttrOrCleanItems(this);
+	public void handlerMsg(int msgType) {
+		TargetSellManager.getInstance().pushRoleAttrOrCleanItems(this, msgType);
 	}
 	
 

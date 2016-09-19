@@ -11,6 +11,10 @@ public class RoleAttrs {
 	
 	private int power;
 
+	
+	public RoleAttrs() {
+	}
+
 	public int getLevel() {
 		return level;
 	}

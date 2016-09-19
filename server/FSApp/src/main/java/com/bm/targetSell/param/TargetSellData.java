@@ -11,6 +11,12 @@ public class TargetSellData {
 	
 	private JSONObject args;
 
+	public static TargetSellData create(int opType){
+		TargetSellData data = new TargetSellData();
+		data.opType = opType;
+		return data;
+	}
+	
 	public int getOpType() {
 		return opType;
 	}

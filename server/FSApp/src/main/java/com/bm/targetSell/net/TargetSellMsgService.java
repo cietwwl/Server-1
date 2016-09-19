@@ -3,7 +3,7 @@ package com.bm.targetSell.net;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bm.targetSell.param.ITargetSellData;
+import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.TargetSellAbsArgs;
 import com.bm.targetSell.param.TargetSellData;
 import com.bm.targetSell.param.TargetSellHeartBeatParam;
@@ -18,24 +18,24 @@ import com.rw.fsutil.util.fastjson.FastJsonUtil;
  *
  * 2016年8月25日 下午9:58:34
  */
-public class TargetSellMsgHandler {
+public class TargetSellMsgService {
 	
-	private static TargetSellMsgHandler handler = new TargetSellMsgHandler();
+	private static TargetSellMsgService handler = new TargetSellMsgService();
 
-	public static TargetSellMsgHandler getHandler(){
+	public static TargetSellMsgService getHandler(){
 		return handler;
 	}
 	
-	private TargetSellMsgHandler() {
+	private TargetSellMsgService() {
 	}
 	
 	public void doTask(String jsonStr){
 		TargetSellData sellData = FastJsonUtil.deserialize(jsonStr, TargetSellData.class);
 		
+		int type = sellData.getOpType();
 		try {
 			
 			ITargetSellData args = null;
-			int type = sellData.getOpType();
 			switch (type) {
 			case TargetSellOpType.OPTYPE_5003:
 			case TargetSellOpType.OPTYPE_5005:
@@ -54,6 +54,7 @@ public class TargetSellMsgHandler {
 
 			if(args == null){
 				//201 参数有误
+				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_201, type, jsonStr);
 				return;
 			}
 			
@@ -61,13 +62,13 @@ public class TargetSellMsgHandler {
 			boolean sign = checkSign(sellData, args);
 			if(!sign){
 				//202 签名错误
+				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_202, type, jsonStr);
 				return;
 			}
-			args.handlerMsg();
+			args.handlerMsg(type);
 			
 		} catch (Exception e) {
-			//101 系统内部错误
-			
+			GameLog.error("TargetSell", "TargetSellMsgService[doTask]", "解析精准服推送到的消息出现异常", e);
 		}
 		
 	}
