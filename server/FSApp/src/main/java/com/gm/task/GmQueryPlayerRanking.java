@@ -66,14 +66,31 @@ public class GmQueryPlayerRanking implements IGmTask {
 		return response;
 	}
 	
-	private void processCommonRank(RankType rankType, GmResponse response){
+	private void processCommonRank(RankType rankType, GmResponse response) {
 		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		for (RankInfo rankInfo : rankList) {
 
 			int rank = rankInfo.getRankingLevel();
 			String userId = rankInfo.getHeroUUID();
 			String userName = rankInfo.getHeroName();
-			int value = rankInfo.getRankingLevel();
+			int value;
+			switch (rankType) {
+			case WARRIOR_ARENA:
+			case SWORDMAN_ARENA:
+			case MAGICAN_ARENA:
+			case PRIEST_ARENA:
+				value = rankInfo.getRankingLevel();
+				break;
+			case FIGHTING_ALL:
+				value = rankInfo.getFightingAll();
+				break;
+			case TEAM_FIGHTING:
+				value = rankInfo.getFightingTeam();
+				break;
+			default:
+				value = 0;
+				break;
+			}
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("rank", rank);

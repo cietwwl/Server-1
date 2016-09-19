@@ -5,8 +5,10 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -39,6 +41,10 @@ public class PlatformService {
 	 * 服务器列表信息
 	 */
 	private final static ConcurrentHashMap<Integer, ZoneInfoCache> ZoneMap = new ConcurrentHashMap<Integer, ZoneInfoCache>();
+	/**
+	 * <subZoneId, ZoneInfoCache> 
+	 */
+	private final static ConcurrentHashMap<Integer, Map<Integer, ZoneInfoCache>> SubZoneMap = new ConcurrentHashMap<Integer, Map<Integer,ZoneInfoCache>>();
 	/**
 	 * 推荐的服务器
 	 */
@@ -94,13 +100,27 @@ public class PlatformService {
 		allZoneList = zoneDataHolder.getZoneList();
 		RecommandZoneMap.clear();
 		for (TableZoneInfo tableZoneInfo : allZoneList) {
-			ZoneInfoCache zoneInfoCache = ZoneMap.get(tableZoneInfo.getZoneId());
+			int subZoneId = tableZoneInfo.getSubZone();
+			int zoneId = tableZoneInfo.getZoneId();
+			ZoneInfoCache zoneInfoCache = ZoneMap.get(zoneId);
 			if(zoneInfoCache == null){
 				zoneInfoCache = new ZoneInfoCache(tableZoneInfo);
 			}else{
 				zoneInfoCache.updateZoneCache(tableZoneInfo);
 			}
-			ZoneMap.put(tableZoneInfo.getZoneId(), zoneInfoCache);
+			ZoneMap.put(zoneId, zoneInfoCache);
+			
+			
+			
+			if (SubZoneMap.containsKey(subZoneId)) {
+				Map<Integer, ZoneInfoCache> map = SubZoneMap.get(subZoneId);
+				map.put(zoneId, zoneInfoCache);
+			} else {
+				Map<Integer, ZoneInfoCache> map = new HashMap<Integer, ZoneInfoCache>();
+				map.put(zoneId, zoneInfoCache);
+				SubZoneMap.put(subZoneId, map);
+			}
+			
 			if (tableZoneInfo.getRecommand() == PlatformService.SERVER_RECOMMAND) {
 				RecommandZoneMap.add(zoneInfoCache);
 			}
@@ -119,6 +139,11 @@ public class PlatformService {
 	public ZoneInfoCache getZoneInfo(int zoneId) {
 		ZoneInfoCache zoneInfoCache = ZoneMap.get(zoneId);
 		return zoneInfoCache;
+	}
+	
+	public Map<Integer, ZoneInfoCache> getZoneInfoBySubZoneId(int subZoneId){
+		Map<Integer, ZoneInfoCache> map = SubZoneMap.get(subZoneId);
+		return map;
 	}
 
 	/**
