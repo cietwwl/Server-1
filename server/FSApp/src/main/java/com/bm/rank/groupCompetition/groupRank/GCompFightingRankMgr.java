@@ -79,7 +79,7 @@ public class GCompFightingRankMgr {
 			}
 			Player player = PlayerMgr.getInstance().find(member.getUserId());
 			if(null != player){
-				totalFighting += player.getUserGameDataMgr().getFightingAll();
+				totalFighting += player.getHeroMgr().getFightingTeam(player);
 			}
 		}
 		return totalFighting;
