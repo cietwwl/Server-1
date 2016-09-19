@@ -99,8 +99,11 @@ public class CommonRowMapper<T> implements RowMapper<T> {
 	protected void handleSingleSave(T newInstance, FieldEntry fieldEntry, Object value) {
 		try {
 			if (fieldEntry.saveAsJson) {
-				value = readJsonValue((String) value, fieldEntry);
-				fieldEntry.field.set(newInstance, value);
+				String convert = (String) value;
+				if (!StringUtils.isBlank(convert)) {
+					value = readJsonValue(convert, fieldEntry);
+					fieldEntry.field.set(newInstance, value);
+				}
 			} else {
 				fieldEntry.field.set(newInstance, value);
 			}
