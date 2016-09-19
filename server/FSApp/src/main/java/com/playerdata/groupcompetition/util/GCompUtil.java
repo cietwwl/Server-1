@@ -59,6 +59,7 @@ public class GCompUtil {
 		if (time.getT2() > 0) {
 			instance.set(Calendar.MINUTE, time.getT2());
 		}
+		instance.set(Calendar.SECOND, 0);
 		return instance.getTimeInMillis();
 	}
 }

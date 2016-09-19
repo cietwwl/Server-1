@@ -179,7 +179,7 @@ public class GameManager {
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		PrepareAreaMgr.getInstance().prepareStart();
 		WorshipMgr.getInstance().getByWorshipedList();
-		GroupCompetitionMgr.getInstance().serverStartComplete();
+//		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}

@@ -1,7 +1,5 @@
 package com.rwbase.dao.groupcompetition;
 
-import java.io.File;
-
 public enum GroupCompetitionConfigDir {
 
 	DIR("GroupCompetition");
@@ -9,7 +7,7 @@ public enum GroupCompetitionConfigDir {
 	private final String _pathFormat;
 
 	private GroupCompetitionConfigDir(String path) {
-		this._pathFormat = path + File.separator + "%s";
+		this._pathFormat = path + "/" + "%s";
 	}
 
 	public String getFullPath(String fileName) {

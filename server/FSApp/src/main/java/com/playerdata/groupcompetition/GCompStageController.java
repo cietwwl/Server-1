@@ -48,7 +48,7 @@ public class GCompStageController implements IGameTimerTask {
 	
 	private void createTimerTask(long deadline) {
 		// 开始一个时效任务
-		long delay = System.currentTimeMillis() - deadline;
+		long delay = deadline - System.currentTimeMillis();
 		int second = (int) TimeUnit.MILLISECONDS.toSeconds(delay);
 		long millis = TimeUnit.SECONDS.toMillis(second);
 		if (delay - millis > 500) {
@@ -82,7 +82,7 @@ public class GCompStageController implements IGameTimerTask {
 		IGCStage pre = _currentStage;
 		IGCStage next = _stageQueue.removeFirst();
 		next.onStageStart(pre);
-		_currentStage = pre;
+		_currentStage = next;
 		long endTime = _currentStage.getStageEndTime();
 		createTimerTask(endTime);
 		GCompStageType currentStageType = _currentStage.getStageType();

@@ -11,6 +11,7 @@ import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 
 /**
@@ -31,21 +32,21 @@ public class GCompEvents {
 	 * @param groupIds 涉及的帮派id
 	 * @param eventsType 当前赛事的状态
 	 */
-	private GCompEvents(List<String> groupIds, List<Pair<Integer, Integer>> againsts, GCEventsType eventsType) {
+	private GCompEvents(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
 		this.initEventsData(groupIds, againsts, eventsType);
 	}
 	
-	private void initEventsData(List<String> groupIds, List<Pair<Integer, Integer>> againsts, GCEventsType eventsType) {
+	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
 		// 初始化对阵关系
 		if(againsts == null || againsts.isEmpty()) {
-			againsts = new ArrayList<Pair<Integer,Integer>>();
+			againsts = new ArrayList<IReadOnlyPair<Integer,Integer>>();
 			for (int i = 0, size = groupIds.size(); i < size; i++) {
 				againsts.add(Pair.Create(i + 1, (++i) + 1));
 			}
 		}
 		List<GCompAgainst> againstList = new ArrayList<GCompAgainst>(againsts.size());
 		int beginPos = GCompUtil.computeBeginIndex(eventsType);
-		Pair<Integer, Integer> pair;
+		IReadOnlyPair<Integer, Integer> pair;
 		int index1;
 		int index2;
 		String groupId1;
@@ -140,7 +141,7 @@ public class GCompEvents {
 
 		private List<String> _groupIds; // 涉及的groupId
 		private GCEventsType _status; // 赛事的状态
-		private List<Pair<Integer, Integer>> _againstsInfo; // 对阵信息
+		private List<IReadOnlyPair<Integer, Integer>> _againstsInfo; // 对阵信息
 		
 		public Builder(List<String> groupIds, GCEventsType status) {
 			this._groupIds = new ArrayList<String>(groupIds);
@@ -165,12 +166,12 @@ public class GCompEvents {
 			return this;
 		}
 
-		public List<Pair<Integer, Integer>> getAgainstsInfo() {
+		public List<IReadOnlyPair<Integer, Integer>> getAgainstsInfo() {
 			return _againstsInfo;
 		}
 
-		public Builder setAgainstsInfo(List<Pair<Integer, Integer>> pAgainstsInfo) {
-			this._againstsInfo = pAgainstsInfo;
+		public Builder setAgainstsInfo(List<? extends IReadOnlyPair<Integer, Integer>> pAgainstsInfo) {
+			this._againstsInfo = new ArrayList<IReadOnlyPair<Integer, Integer>>(pAgainstsInfo);
 			return this;
 		}
 		

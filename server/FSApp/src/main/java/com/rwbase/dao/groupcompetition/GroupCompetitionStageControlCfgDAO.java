@@ -19,7 +19,7 @@ public class GroupCompetitionStageControlCfgDAO extends CfgCsvDao<GroupCompetiti
 
 	@Override
 	protected Map<String, GroupCompetitionStageControlCfg> initJsonCfg() {
-		this.cfgCacheMap = CfgCsvHelper.readCsv2Map(GroupCompetitionConfigDir.DIR.getFullPath("CompetitionStage.csv"), GroupCompetitionStageControlCfg.class);
+		this.cfgCacheMap = CfgCsvHelper.readCsv2Map(GroupCompetitionConfigDir.DIR.getFullPath("CompetitionStageControl.csv"), GroupCompetitionStageControlCfg.class);
 		for (Iterator<String> keyItr = this.cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
 			GroupCompetitionStageControlCfg cfg = this.cfgCacheMap.get(keyItr.next());
 			String[] startTimeInfo = cfg.getStartTime().split(":");

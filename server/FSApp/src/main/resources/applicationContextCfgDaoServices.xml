@@ -312,6 +312,12 @@
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
 	<!-- 技能监听Id修改配置表  -->
 	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
+	<!-- 帮派争霸对阵信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionAgainstCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段控制信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

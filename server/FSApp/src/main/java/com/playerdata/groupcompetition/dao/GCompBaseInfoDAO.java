@@ -13,7 +13,7 @@ public class GCompBaseInfoDAO {
 	
 	private GCompBaseInfo baseInfoTemplate;
 	
-	public GCompBaseInfo getBaseInfo() {
+	public GCompBaseInfo getBaseInfoTemplate() {
 		if(this.baseInfoTemplate == null) {
 			synchronized(this) {
 				if(this.baseInfoTemplate == null) {
@@ -22,6 +22,11 @@ public class GCompBaseInfoDAO {
 				}
 			}
 		}
+		return baseInfoTemplate;
+	}
+	
+	public GCompBaseInfo getBaseInfo() {
+		getBaseInfoTemplate();
 		GCompBaseInfo baseInfo = new GCompBaseInfo();
 		baseInfo.setCurrentStageType(baseInfoTemplate.getCurrentStageType());
 		baseInfo.setEventStatus(baseInfoTemplate.getEventStatus());
@@ -32,14 +37,14 @@ public class GCompBaseInfoDAO {
 	}
 	
 	public void updateStartTime(long startTime) {
-		this.baseInfoTemplate.setStartTime(startTime);
+		this.getBaseInfoTemplate().setStartTime(startTime);
 	}
 	
 	public void update(boolean start) {
-		this.baseInfoTemplate.setStart(start);
+		this.getBaseInfoTemplate().setStart(start);
 	}
 
 	public void updateStage(GCompStageType currentStage) {
-		this.baseInfoTemplate.setCurrentStageType(currentStage);
+		this.getBaseInfoTemplate().setCurrentStageType(currentStage);
 	}
 }

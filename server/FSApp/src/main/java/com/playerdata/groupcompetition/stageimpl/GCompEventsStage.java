@@ -8,10 +8,10 @@ import java.util.concurrent.TimeUnit;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.cfg.GCCommonCfgDAO;
 import com.playerdata.groupcompetition.data.IGCStage;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
-import com.playerdata.groupcompetition.util.GCompCommonTask;
+import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -113,14 +113,14 @@ public class GCompEventsStage implements IGCStage {
 	 * 
 	 * @param groupIds
 	 * @param eventsType
-	 * @return
+	 * @return 是否在隔天开始
 	 */
 	private boolean createEventsTypeControlTask(List<String> groupIds, GCEventsType eventsType) {
 		boolean startOnNextDay = false;
 		GCompEventsStageContext context = new GCompEventsStageContext(groupIds, eventsType);
 		Calendar instance = Calendar.getInstance();
 		IReadOnlyPair<Integer, Integer> timeInfos = _competitionCommonCfgDAO.getCfg().getFightingStartTime();
-		instance.set(Calendar.HOUR, timeInfos.getT1());
+		instance.set(Calendar.HOUR_OF_DAY, timeInfos.getT1());
 		if (timeInfos.getT2() > 0) {
 			instance.set(Calendar.MINUTE, timeInfos.getT2());
 		} else {
