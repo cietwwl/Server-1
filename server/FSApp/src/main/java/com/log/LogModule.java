@@ -34,6 +34,7 @@ public enum LogModule {
 	MagicSecret("法宝秘境"),
 	GroupFightOnline("在线帮派战斗"),
 	GroupCopy("帮派副本"),
+	TeamBattle("组队副本"),
 	;
 	
 	private String name;

@@ -12,7 +12,7 @@ public class UserTeamBattleDataHolder {
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.GFightOnlinePersonalData;
+	final private eSynType synType = eSynType.TEAM_BATTLE;
 	
 	public UserTeamBattleData get(String userID) {
 		return UserTeamBattleDAO.getInstance().get(userID);

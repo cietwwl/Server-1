@@ -15,7 +15,7 @@ public class TBTeamItemHolder{
 		return instance;
 	}
 
-	final private eSynType synSelfType = eSynType.GFDefendArmyData;
+	final private eSynType synType = eSynType.TEAM_BATTLE;
 	
 	public boolean addNewTeam(TBTeamItem teamItem){
 		if(StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID())) return false;
