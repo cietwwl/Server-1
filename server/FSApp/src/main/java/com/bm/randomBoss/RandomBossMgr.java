@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.management.timer.Timer;
 
@@ -19,6 +20,7 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.RandomUtil;
@@ -113,7 +115,7 @@ public class RandomBossMgr{
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
 			clone.setBattleTime(count);
-			System.err.println("last invited time:" +record.getLastFriendInvitedTime() + ", " + record.getLastGroupInvitedTime());
+//			System.err.println("last invited time:" +record.getLastFriendInvitedTime() + ", " + record.getLastGroupInvitedTime());
 			synList.add(clone);
 		}
 		
@@ -348,13 +350,20 @@ public class RandomBossMgr{
 			return;
 		}
 		
+		//这里要根据权重进行随机
 		
-		List<RandomBossCfg> list = RandomBossCfgDao.getInstance().getLvCfgs(level);
+		Pair<Integer, Map<Pair<Integer, Integer>, RandomBossCfg>> pair = RandomBossCfgDao.getInstance().getLvCfgs(level);
+		if(pair == null){
+			GameLog.error("RandomBoss", "RandomBossMgr[findBossBorn]", "检查随机boss生成时，没有找到对应等级["+level+"]的数据", null);
+			return;
+		}
 		
 		//随机一个
-		int i = RandomUtil.getRandonIndexWithoutProb(list.size());
+		int i = RandomUtil.getRandonIndexWithoutProb(pair.getT1());
 		try {
-			RandomBossCfg cfg = list.get(i);
+			
+			
+			RandomBossCfg cfg = getTargetCfg(i, pair.getT2());
 			
 			MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getConfig(cfg.getId());
 			String id = player.getUserId()+"-"+System.currentTimeMillis();
@@ -374,9 +383,23 @@ public class RandomBossMgr{
 		} catch (Exception e) {
 			e.printStackTrace();
 			GameLog.error("随机boss", "RandomBossMgr[findBossBorn]", "随机boss生成boss时出现异常，角色等级：" + level 
-					+ ",random data size:" + list.size() + ", random index:" + i, e);
+					+ ",random data size:" + pair.getT2().size() + ", random index:" + i, e);
 		}
 		
+	}
+	
+	private RandomBossCfg getTargetCfg(int weight, Map<Pair<Integer, Integer>, RandomBossCfg> pair){
+		RandomBossCfg cfg = null;
+		
+		for (Iterator<Entry<Pair<Integer, Integer>, RandomBossCfg>> itr = pair.entrySet().iterator(); itr.hasNext();) {
+			Entry<Pair<Integer, Integer>, RandomBossCfg> entry =  itr.next();
+			Pair<Integer,Integer> key = entry.getKey();
+			if(key.getT1() < weight && key.getT2() >= weight){
+				cfg = entry.getValue();
+				break;
+			}
+		}
+		return cfg;
 	}
 
 	public String getBossBornTips() {

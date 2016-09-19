@@ -1,20 +1,20 @@
 package com.rwbase.dao.randomBoss.cfg;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class RandomBossCfgDao extends CfgCsvDao<RandomBossCfg>{
 	
-	private Map<RandomBossLevelKey, List<RandomBossCfg>> levelMap = new HashMap<RandomBossLevelKey, List<RandomBossCfg>>(); 
+	
+	/**Map<key,Pair<总权重，Map<Pair<权重下限，权重上限>，配置>>*/
+	private Map<RandomBossLevelKey, Pair<Integer, Map<Pair<Integer, Integer>, RandomBossCfg>>> levelMap = new HashMap<RandomBossLevelKey, Pair<Integer,Map<Pair<Integer,Integer>,RandomBossCfg>>>();
 	
 	public static RandomBossCfgDao getInstance(){
 		return SpringContextUtil.getBean(RandomBossCfgDao.class);
@@ -38,12 +38,21 @@ public class RandomBossCfgDao extends CfgCsvDao<RandomBossCfg>{
 			
 			
 			RandomBossLevelKey key = new RandomBossLevelKey(cfg.getUpperLv(), cfg.getLowerLv());
-			List<RandomBossCfg> list = levelMap.get(key);
-			if(list == null){
-				list = new ArrayList<RandomBossCfg>();
-				levelMap.put(key, list);
+			Pair<Integer, Map<Pair<Integer, Integer>, RandomBossCfg>> pair = levelMap.get(key);
+			if(pair == null){
+				Map<Pair<Integer, Integer>, RandomBossCfg> map = new HashMap<Pair<Integer,Integer>, RandomBossCfg>();
+				Pair<Integer, Integer> innerPair = Pair.Create(0, cfg.getWeight());
+				map.put(innerPair, cfg);
+				pair = Pair.Create(cfg.getWeight(), map);
+				levelMap.put(key, pair);
+			}else{
+				Integer t1 = pair.getT1();
+				Map<Pair<Integer, Integer>, RandomBossCfg> map = pair.getT2();
+				Pair<Integer, Integer> innerPair = Pair.Create(t1 + 1, t1 + cfg.getWeight());
+				map.put(innerPair, cfg);
+				pair.setT1(t1 + cfg.getWeight());
 			}
-			list.add(cfg);
+			
 		}
 		
 	}
@@ -54,7 +63,7 @@ public class RandomBossCfgDao extends CfgCsvDao<RandomBossCfg>{
 	 * @param level
 	 * @return
 	 */
-	public List<RandomBossCfg> getLvCfgs(int level){
+	public Pair<Integer,Map<Pair<Integer,Integer>,RandomBossCfg>> getLvCfgs(int level){
 		Set<RandomBossLevelKey> keySet = levelMap.keySet();
 		RandomBossLevelKey cfgKey = null;
 		for (RandomBossLevelKey key : keySet) {
@@ -65,7 +74,7 @@ public class RandomBossCfgDao extends CfgCsvDao<RandomBossCfg>{
 		}
 		
 		if(cfgKey == null){
-			return Collections.emptyList();
+			return null;
 		}
 		return levelMap.get(cfgKey);
 	}
