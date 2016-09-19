@@ -50,26 +50,6 @@ public class PrepareAreaMgr {
 	 * @param position
 	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
-		informPreparePosition(player, gcRsp, position);
-		if(gcRsp.getRstType() == GCResultType.SUCCESS){
-			String groupId = GroupHelper.getGroupId(player);
-			long sceneId = groupScene.get(groupId);
-			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
-			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
-			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
-			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
-				gcRsp.addAllPlayers(allBaseInfo);
-			}
-		}
-	}
-
-	/**
-	 * 变更自己在备战区的位置
-	 * @param player
-	 * @param gcRsp
-	 * @param position
-	 */
-	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
 		String groupId = GroupHelper.getGroupId(player);
 		if (GroupCompetitionMgr.getInstance().getCurrentStageType() != GCompStageType.EVENTS) {
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
@@ -98,6 +78,31 @@ public class PrepareAreaMgr {
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
+			return;
+		}
+		informPreparePosition(player, gcRsp, position);
+		if(gcRsp.getRstType() == GCResultType.SUCCESS){
+			long sceneId = groupScene.get(groupId);
+			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
+			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
+			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
+			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
+				gcRsp.addAllPlayers(allBaseInfo);
+			}
+		}
+	}
+
+	/**
+	 * 变更自己在备战区的位置
+	 * @param player
+	 * @param gcRsp
+	 * @param position
+	 */
+	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
+		String groupId = GroupHelper.getGroupId(player);
+		if(StringUtils.isBlank(groupId)){
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
