@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +29,7 @@ import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
 public class PrepareAreaMgr {
 	
 	public static eSynType synType = eSynType.GC_PREPARE_POSITION;
+	public static long SCENE_KEEP_TIME = 5 * 60 * 1000l;
 	private HashMap<String, Long> groupScene;
 	
 	private static PrepareAreaMgr instance = new PrepareAreaMgr();
@@ -34,6 +37,11 @@ public class PrepareAreaMgr {
 	public static PrepareAreaMgr getInstance() {
 		return instance;
 	}
+	
+	/**
+	 * 因为GM命令，中间本来该有的空间没有了，所以需要这个变量
+	 */
+	private volatile boolean needRemoveScene = true;
 	
 	/**
 	 * 加入备战区
@@ -82,7 +90,6 @@ public class PrepareAreaMgr {
 			gcRsp.setTipMsg("海选期结束之后加入的成员不能参与帮战！");
 			return;
 		}
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("请先加入帮派");
@@ -107,7 +114,6 @@ public class PrepareAreaMgr {
 	 */
 	public void leavePrepareArea(Player player, Builder gcRsp) {
 		String groupId = GroupHelper.getGroupId(player);
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.SUCCESS);
 			gcRsp.setTipMsg("没有帮派");
@@ -131,7 +137,6 @@ public class PrepareAreaMgr {
 	 */
 	public void applyUsersBaseInfo(Player player, Builder gcRsp, List<String> idList) {
 		String groupId = GroupHelper.getGroupId(player);
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("请先加入帮派");
@@ -172,6 +177,14 @@ public class PrepareAreaMgr {
 		if(null == prepareGroups || prepareGroups.isEmpty()){
 			return;
 		}
+		if(needRemoveScene){
+			if(null != groupScene && !groupScene.isEmpty()){
+				for(Long sceneId : groupScene.values()){
+					DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+				}
+			}
+			needRemoveScene = false;
+		}
 		groupScene = new HashMap<String, Long>();
 		//为每个帮派生成一个准备区
 		for(String groupId : prepareGroups){
@@ -185,14 +198,24 @@ public class PrepareAreaMgr {
 	 * 清除所有的备战区
 	 */
 	public void prepareEnd(){
-		if(null == groupScene){
+		if(null == groupScene || groupScene.isEmpty()){
 			return;
 		}
-		//清除每个帮派的准备区
-		for(Long sceneId : groupScene.values()){
-			SameSceneContainer.getInstance().removeScene(sceneId);
-		}
-		groupScene = null;
+		needRemoveScene = true;
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				if(needRemoveScene){
+					//延时清除每个帮派的准备区
+					for(Long sceneId : groupScene.values()){
+						DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+					}
+					groupScene = null;
+				}
+			}
+		}, SCENE_KEEP_TIME);
 	}
 	
 	/**
