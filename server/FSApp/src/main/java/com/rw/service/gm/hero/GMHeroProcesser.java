@@ -253,7 +253,7 @@ public class GMHeroProcesser {
 							continue;
 						}
 						SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
-						String skillId = GMHeroBase.gmGetSkillIdByLevel(cfg.getSkillEffectId()+"_1", skillLevel);
+						String skillId = GMHeroBase.gmGetSkillIdByLevel(skill.getSkillId(), skillLevel);
 						GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), skillId, player);
 					}
 					GMHeroBase.gmRemoveHeroEquip(hero, player);
@@ -330,7 +330,7 @@ public class GMHeroProcesser {
 						if(heroLevel < skillLevel){
 							skillLevel = heroLevel;
 						}
-						String skillId = GMHeroBase.gmGetSkillIdByLevel(cfg.getSkillEffectId()+"_1", skillLevel);
+						String skillId = GMHeroBase.gmGetSkillIdByLevel(skill.getSkillId(), skillLevel);
 						GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), skillId, player);
 					}
 					GMHeroBase.gmRemoveHeroEquip(hero, player);

@@ -36,6 +36,8 @@ public class GroupCompetitionService implements FsService<CommonReqMsg, GCReques
 			case InformPreparePosition:
 				result = mHandler.informPreparePosition(player, request);
 				break;
+			case GetPlayersBaseInfo:
+				result = mHandler.getPlayersBaseInfo(player, request);
 			default:
 				GameLog.error(LogModule.GroupCompetition, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;

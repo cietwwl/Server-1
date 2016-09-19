@@ -37,4 +37,10 @@ public class GroupCompetitionHandler {
 		PrepareAreaMgr.getInstance().leavePrepareArea(player, gcRsp);
 		return gcRsp.build().toByteString();
 	}
+
+	public ByteString getPlayersBaseInfo(Player player, CommonReqMsg request) {
+		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
+		PrepareAreaMgr.getInstance().applyUsersBaseInfo(player, gcRsp, request.getPlayersIdListList());
+		return gcRsp.build().toByteString();
+	}
 }
