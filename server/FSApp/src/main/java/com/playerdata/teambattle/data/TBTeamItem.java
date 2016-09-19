@@ -16,7 +16,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @Table(name = "tb_team_item")
 public class TBTeamItem implements IMapItem{
 	@Id
-	private String teamID;  // armyID = userID_teamID
+	private String teamID;  // armyID = hardID_UUID
 	
 	private String hardID;
 	

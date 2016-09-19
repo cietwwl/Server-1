@@ -1,5 +1,8 @@
 package com.playerdata.teambattle.manager;
 
+import com.playerdata.Player;
+import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
+
 public class UserTeamBattleDataMgr {
 	private static UserTeamBattleDataMgr instance = new UserTeamBattleDataMgr();
 	
@@ -7,5 +10,8 @@ public class UserTeamBattleDataMgr {
 		return instance;
 	}
 	
-	
+	public void synData(Player player){
+		UserTeamBattleDataHolder.getInstance().synData(player);
+		TBTeamItemMgr.getInstance().synData(player);
+	}
 }

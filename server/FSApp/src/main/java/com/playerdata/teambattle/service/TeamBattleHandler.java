@@ -1,8 +1,13 @@
 package com.playerdata.teambattle.service;
 
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.teambattle.bm.TeamBattleBM;
+import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
@@ -24,7 +29,12 @@ public class TeamBattleHandler {
 	public ByteString saveTeamInfo(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.saveTeamInfo(player, tbRsp);
+		try {
+			TBArmyHerosInfo heros = (TBArmyHerosInfo)ClientDataSynMgr.fromClientJson2Data(TBArmyHerosInfo.class, msgTBRequest.getArmyHeros());
+			tbBM.saveTeamInfo(player, tbRsp, heros);
+		} catch (Exception ex) {
+			GameLog.error(LogModule.TeamBattle.getName(), player.getUserId(), String.format("saveTeamInfo，无法将客户端json转成object"), ex);
+		}
 		return tbRsp.build().toByteString();
 	}
 

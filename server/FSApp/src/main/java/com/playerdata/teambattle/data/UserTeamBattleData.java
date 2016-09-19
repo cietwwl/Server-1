@@ -1,6 +1,6 @@
 package com.playerdata.teambattle.data;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -23,9 +23,6 @@ public class UserTeamBattleData {
 	
 	@CombineSave
 	private int score;
-	
-	@CombineSave
-	private ArrayList<String> gotScoreReward = new ArrayList<String>(); // 已经获取过的积分奖励
 
 	@CombineSave
 	private int tbGold; // 组队战货币
@@ -41,6 +38,9 @@ public class UserTeamBattleData {
 	
 	@CombineSave
 	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
+	
+	@CombineSave
+	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
 	
 	public String getId() {
 		return id;
@@ -90,14 +90,6 @@ public class UserTeamBattleData {
 		this.score = score;
 	}
 
-	public ArrayList<String> getGotScoreReward() {
-		return gotScoreReward;
-	}
-
-	public void setGotScoreReward(ArrayList<String> gotScoreReward) {
-		this.gotScoreReward = gotScoreReward;
-	}
-
 	public int getTbGold() {
 		return tbGold;
 	}
@@ -112,5 +104,23 @@ public class UserTeamBattleData {
 
 	public void setFinishedHards(List<String> finishedHards) {
 		this.finishedHards = finishedHards;
+	}
+	
+	public HashMap<String, String> getEnimyMap() {
+		return enimyMap;
+	}
+
+	public void setEnimyMap(HashMap<String, String> enimyMap) {
+		this.enimyMap = enimyMap;
+	}
+
+	public void clearCurrentTeam(){
+		teamMembers = null;
+		finishedLoops = null;
+		teamID = null;
+	}
+	
+	public void dailyReset(){
+		
 	}
 }

@@ -1,6 +1,14 @@
 package com.playerdata.teambattle.bm;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.teambattle.data.UserTeamBattleData;
+import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
+import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
+import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
+import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
+import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
 
 
@@ -21,15 +29,30 @@ public class TeamBattleBM {
 	}
 
 	public void synTeamBattle(Player player, Builder tbRsp) {
-		
+		UserTeamBattleDataMgr.getInstance().synData(player);
 	}
 
-	public void saveTeamInfo(Player player, Builder tbRsp) {
-		
+	public void saveTeamInfo(Player player, Builder tbRsp, TBArmyHerosInfo item) {
+		ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), item.getMagicID(), item.getHeroIDs());
+		if(simpleArmy == null) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			return;
+		}
+		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
+		staticMemInfo.setUserID(player.getUserId());
+		staticMemInfo.setUserStaticTeam(simpleArmy);
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		utbData.setSelfTeamInfo(staticMemInfo);
+		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
 
 	public void createTeam(Player player, Builder tbRsp) {
+		//判断是否可以创建队伍
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		utbData.clearCurrentTeam();
 		
+		//utbData.setSelfTeamInfo(staticMemInfo);
+		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
 
 	public void joinTeam(Player player, Builder tbRsp) {
