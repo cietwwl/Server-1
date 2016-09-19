@@ -20,6 +20,7 @@ public enum LogModule {
 	ComActivityDailyCount("通用活动_DailyCountType"),
 	ComActivityRate("通用活动_RateType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),	
+	ComActivityTimeCard("通用活动_TimeCard"),
 	ComActivityExchange("通用活动_ExchangeType"),
 	ComActivityDailyRecharge("通用活动_DailyRechargeType"),
 	
@@ -42,7 +43,8 @@ public enum LogModule {
 	TeamBattle("组队副本"),
 	BattleVerify("战斗校验"),
 	DataEncode("加密校验"),
-	DataSynService("数据同步服务")
+	DataSynService("数据同步服务"),
+	GameWorld("公用对象模块")
 	;
 	
 	private String name;

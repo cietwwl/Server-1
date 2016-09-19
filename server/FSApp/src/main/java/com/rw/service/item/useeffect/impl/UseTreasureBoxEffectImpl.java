@@ -18,6 +18,7 @@ import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
@@ -50,6 +51,9 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {
+
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
 				Integer value = e.getValue();
@@ -66,7 +70,14 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 						useMoneyMap.put(key, hasValue + (-value * useCount));
 					}
 				} else {
-					useItemList.add(new UseItem(itemBagMgr.getFirstItemByModelId(key).getId(), value * useCount));
+					ItemData item = modelFirstItemDataMap.get(key);
+					if (item == null) {
+						GameLog.error("使用宝箱类道具", "宝箱模版Id：" + modelId, "在背包中找不到要使用的物品");
+						rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
+						return rsp.build().toByteString();
+					}
+
+					useItemList.add(new UseItem(item.getId(), value * useCount));
 				}
 			}
 		}

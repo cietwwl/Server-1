@@ -13,13 +13,15 @@ public class DataChangeReason {
 	private String eventTypeSecond;
 	
 	private String currentViewId;
+	private String mapId;
 
-	public DataChangeReason(Player player, String eventTypeFirst, String eventTypeSecond, String currentViewId) {
+	public DataChangeReason(Player player, String eventTypeFirst, String eventTypeSecond, String currentViewId, String mapId) {
 		super();
 		this.player = player;
 		this.eventTypeFirst = eventTypeFirst;
 		this.eventTypeSecond = eventTypeSecond;
 		this.currentViewId = currentViewId;
+		this.mapId = mapId;
 	}
 
 	public Player getPlayer() {
@@ -36,5 +38,9 @@ public class DataChangeReason {
 
 	public String getCurrentViewId() {
 		return currentViewId;
+	}
+
+	public String getMapId() {
+		return mapId;
 	}
 }

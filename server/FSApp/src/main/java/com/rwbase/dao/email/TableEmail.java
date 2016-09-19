@@ -8,8 +8,11 @@ import java.util.Map;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.junit.Ignore;
 
+import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
@@ -38,6 +41,7 @@ public class TableEmail {
 		this.emailList.put(email.getEmailId(), email);
 	}
 	
+	@JsonIgnore
 	public List<EmailItem> getEmailArrayList(){
 		return new ArrayList<EmailItem>(emailList.values());
 	}

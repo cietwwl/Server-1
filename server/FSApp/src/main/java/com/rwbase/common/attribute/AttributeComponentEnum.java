@@ -30,6 +30,8 @@ public enum AttributeComponentEnum {
 	Hero_Taoist,
 	/** 新增的法宝神器羁绊 */
 	Hero_Magic_Equip_Fetter,
+	/** 战力成长称号 */
+	Hero_Fight_Growth_Title,
 
 	/** 额外属性 */
 	Hero_Extra;

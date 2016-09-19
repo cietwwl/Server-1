@@ -18,10 +18,12 @@ public class FettersBaseTemplate {
 	private final int heroModelId;// 英雄的ModelId
 	private final List<Integer> fettersConditionList;// 羁绊的条件列表
 	private final List<Integer> fettersHeroIdList;// 羁绊的英雄Id列表
+	private final int seq; // 羁绊在面板的位置，相当于一个部位概念，用于战斗力运算
 
 	public FettersBaseTemplate(FettersBaseCfg cfg) {
 		this.fettersId = cfg.getFettersId();
 		this.heroModelId = cfg.getHeroModelId();
+		this.seq = cfg.getSeq();
 
 		// ===================================条件
 		String fettersConditions = cfg.getFettersConditions();
@@ -74,5 +76,15 @@ public class FettersBaseTemplate {
 	 */
 	public List<Integer> getFettersHeroIdList() {
 		return fettersHeroIdList;
+	}
+	
+	/**
+	 * 
+	 * 羁绊在面板的位置，相当于一个部位概念，用于战斗力运算
+	 * 
+	 * @return
+	 */
+	public int getSeq() {
+		return seq;
 	}
 }

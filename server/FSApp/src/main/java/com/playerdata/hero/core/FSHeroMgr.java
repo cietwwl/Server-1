@@ -7,9 +7,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.hero.IHeroConsumer;
@@ -22,14 +26,18 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwbase.dao.role.pojo.RoleQualityCfg;
+import com.rwbase.dao.user.LevelCfgDAO;
+import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
 import com.rwproto.HeroServiceProtos.eHeroResultType;
 import com.rwproto.MsgDef.Command;
 
 public class FSHeroMgr implements HeroMgr {
 	
-	public static final FSHeroMgr _INSTANCE = new FSHeroMgr();
+	private static final FSHeroMgr _INSTANCE = new FSHeroMgr();
 	
 	public static final FSHeroMgr getInstance() {
 		return _INSTANCE;
@@ -43,7 +51,7 @@ public class FSHeroMgr implements HeroMgr {
 	}
 	
 	private List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator, boolean includeMain) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(includeMain);
 		this.loopAll(userId, consumer);
 		List<Hero> list = consumer.getResultList();
@@ -56,9 +64,9 @@ public class FSHeroMgr implements HeroMgr {
 	private FSHero createAndAddHeroToItemStore(Player player, eRoleType heroType, RoleCfg cfg, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
 		if (heroType == eRoleType.Hero) {
-			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getTableUser().getUserId());
+			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getUserId());
 		} else {
-			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(player.getTableUser().getUserId());
+			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(player.getUserId());
 		}
 		FSHero hero = new FSHero(player, heroType, cfg, uuid);
 		mapItemStore.addItem(hero);
@@ -94,9 +102,22 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero hero = this.createAndAddHeroToItemStore(player, eRoleType.Hero, heroCfg, roleUUId);
 
 		FSHeroHolder.getInstance().syncUserHeros(player, this.getHeroIdList(player));
-		hero.syn(-1);
+		this.synHero(hero, -1);
 		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
 		return hero;
+	}
+	
+	void syncFighting(Hero hero, int preFighting) {
+		Player owner = this.getOwnerOfHero(hero);
+		FSHeroHolder.getInstance().syncAttributes(hero, FSHero.CURRENT_SYNC_ATTR_VERSION);
+		int nowFighting = hero.getFighting();
+		if (preFighting != nowFighting) {
+			// 保持那边的战斗力一致
+			owner.getUserGameDataMgr().notifySingleFightingChange(nowFighting, preFighting);
+			// 通知同步
+			owner.getTempAttribute().setHeroFightingChanged();
+			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
+		}
 	}
 
 	@Override
@@ -133,7 +154,7 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public int getHerosSize(PlayerIF player) {
-		return FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getTableUser().getUserId()).getSize() + 1;
+		return FSHeroDAO.getInstance().getOtherHeroMapItemStore(player.getUserId()).getSize() + 1;
 	}
 	
 	@Override
@@ -151,7 +172,7 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public List<String> getHeroIdList(PlayerIF player) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(userId);
 		List<String> idsOfOtherHeros = mapItemStore.getReadOnlyKeyList();
 		List<String> list = new ArrayList<String>(idsOfOtherHeros);
@@ -161,12 +182,12 @@ public class FSHeroMgr implements HeroMgr {
 	
 	@Override
 	public void AddAllHeroExp(PlayerIF player, long exp) {
-		this.loopAll(player.getTableUser().getUserId(), new FSAddExpToAllHeroConsumer(exp));
+		this.loopAll(player.getUserId(), new FSAddExpToAllHeroConsumer(exp));
 	}
 	
 	@Override
 	public FSHero getHeroByModerId(PlayerIF player, int moderId) {
-		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(player.getTableUser().getUserId());
+		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(player.getUserId());
 		FSHero data;
 		while (itr.hasMoreElements()) {
 			data = itr.nextElement();
@@ -180,7 +201,7 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public FSHero getHeroById(PlayerIF player, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
-		String playerUserId = player.getTableUser().getUserId();
+		String playerUserId = player.getUserId();
 		if (playerUserId.equals(uuid)) {
 			mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(playerUserId);
 		} else {
@@ -248,20 +269,20 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public int isHasStar(PlayerIF player, int star) {
 		FSCountMatchTargetStarConsumer consumer = new FSCountMatchTargetStarConsumer(star);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		return consumer.getCountResult();
 	}
 
 	@Override
 	public int checkQuality(PlayerIF player, int quality) {
 		FSCountQualityConsumer consumer = new FSCountQualityConsumer(quality);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		return consumer.getCountResult();
 	}
 	
 	public List<Hero> getMaxFightingHeros(PlayerIF player) {
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(false);
-		this.loopAll(player.getTableUser().getUserId(), consumer);
+		this.loopAll(player.getUserId(), consumer);
 		List<Hero> targetList = consumer.getResultList();
 		int size = targetList.size();
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
@@ -287,12 +308,12 @@ public class FSHeroMgr implements HeroMgr {
 
 	@Override
 	public Enumeration<FSHero> getHerosEnumeration(PlayerIF player) {
-		return FSHeroDAO.getInstance().getEnumeration(player.getTableUser().getUserId());
+		return FSHeroDAO.getInstance().getEnumeration(player.getUserId());
 	}
 
 	@Override
 	public Hero getMainRoleHero(PlayerIF player) {
-		String userId = player.getTableUser().getUserId();
+		String userId = player.getUserId();
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(userId);
 		return mapItemStore.getItem(userId);
 	}
@@ -315,11 +336,119 @@ public class FSHeroMgr implements HeroMgr {
 		}
 		FSHeroHolder.getInstance().syncUserHeros(player, allIds);
 		for (Hero hero : allHeros) {
-			hero.syn(-1);
+			this.synHero(hero, -1);
 			fightingAll += hero.getFighting();
 			starAll += hero.getStarLevel();
 		}
 		player.getUserGameDataMgr().setFightingAll(fightingAll);
 		player.getUserGameDataMgr().setStarAll(starAll);
+	}
+	
+	@Override
+	public int addHeroExp(Hero hero, long heroExp) {
+		Player player = this.getOwnerOfHero(hero);
+		if(hero.isMainRole()) {
+			// 2016-09-05 添加主角经验不能走这个流程，因为主角和英雄的添加规则有些不一样。
+			GameLog.info("FSHero", player.getUserId(), "addHeroExp不能添加主角的经验！");
+			return 0;
+		}
+		int maxLevel = player.getLevel();
+		int currentLevel = hero.getLevel();
+		long currentExp = hero.getExp();
+		int oldLevel = currentLevel;
+		LevelCfgDAO levelCfgDAO = LevelCfgDAO.getInstance();
+		for (;;) {
+			LevelCfg currentCfg = levelCfgDAO.getByLevel(currentLevel);
+			if (currentCfg == null) {
+				GameLog.error("hero", "addExp", "获取等级配置失败：" + currentLevel, null);
+				break;
+			}
+			int upgradeExp = currentCfg.getHeroUpgradeExp();
+			if (upgradeExp > currentExp) {
+				long needExp = upgradeExp - currentExp;
+				if (heroExp >= needExp) {
+					// 升级并消耗部分经验
+					heroExp -= needExp;
+					currentExp = upgradeExp;
+				} else {
+					// 不能升级，把剩余经验用完
+					currentExp += (int) heroExp;
+					heroExp = 0;
+					break;
+				}
+			}
+			// 对等级进行判断
+			if (currentLevel >= maxLevel) {
+				currentExp = upgradeExp;
+				break;
+			}
+			currentLevel++;
+			currentExp = 0;
+		}
+		FSHeroBaseInfoMgr.getInstance().updateHeroLevelAndExp(player, (FSHero)hero, currentLevel, currentExp);
+		return oldLevel == currentLevel ? 0 : 1;
+	}
+	
+	@Override
+	public int canUpgradeStar(Hero hero) {
+		Player player = this.getOwnerOfHero(hero);
+		int result = 0;
+		RoleCfg rolecfg = this.getHeroCfg(hero);
+		int soulStoneCount = player.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
+		if (soulStoneCount < rolecfg.getRisingNumber()) {
+			result = -1;
+		} else if (player.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {
+			result = -2;
+		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
+			result = -3;
+		}
+
+		return result;
+	}
+	
+	@Override
+	public void gmEditHeroLevel(Hero hero, int pLevel) {
+		FSHeroBaseInfoMgr.getInstance().updateHeroLevelAndExp(this.getOwnerOfHero(hero), (FSHero)hero, pLevel, hero.getExp());
+	}
+	
+	@Override
+	public void gmCheckActiveSkill(Hero hero) {
+		RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
+		FSHeroThirdPartyDataMgr.getInstance().activeSkill(this.getOwnerOfHero(hero), hero.getId(), hero.getLevel(), cfg.getQuality());
+	}
+	
+	@Override
+	public RoleCfg getHeroCfg(Hero hero) {
+		return RoleCfgDAO.getInstance().getCfgById(hero.getTemplateId());
+	}
+	
+	@Override
+	public LevelCfg getLevelCfg(Hero hero) {
+		return LevelCfgDAO.getInstance().getCfgById(String.valueOf(hero.getLevel()));
+	}
+	
+	@Override
+	public void synHero(Hero hero, int version) {
+		FSHero fshero = (FSHero) hero;
+		Player player = this.getOwnerOfHero(fshero);
+		fshero.firstInit();
+		FSHeroHolder.getInstance().synBaseInfo(player, hero);
+		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, fshero, version);
+		FSHeroHolder.getInstance().syncAttributes(fshero, version);
+	}
+	
+	@Override
+	public Player getOwnerOfHero(Hero hero) {
+		return PlayerMgr.getInstance().find(hero.getOwnerUserId());
+	}
+	
+	@Override
+	public int getHeroQuality(Hero hero) {
+		RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
+		if (cfg != null) {
+			return cfg.getQuality();
+		} else {
+			return 0;
+		}
 	}
 }

@@ -278,6 +278,40 @@
 	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
 	<!-- 背包容量配置表  -->
 	<bean class="com.rwbase.dao.item.ItemBagCapacityCfgDAO" init-method="init" />
+	<!-- 玩家战力提升称号配置表 -->
+	<bean class="com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO" init-method="init" />
+	<!-- 玩家战力提升获取途径配置表 -->
+	<bean class="com.rwbase.dao.fightinggrowth.FSUserFightingGrowthWayInfoCfgDAO" init-method="init" />
+	<!--  玩家每个等级的期望英雄数量配置表 -->
+	<bean class="com.rwbase.dao.fighting.ExpectedHeroStatusCfgDAO" init-method="init" />
+	<!--  神器等级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipLevelFightingCfgDAO" init-method="init" />
+	<!--  神器品质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipQualityFightingCfgDAO" init-method="init" />
+	<!--  神器星级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipStarFightingCfgDAO" init-method="init" />
+	<!--  宝石战斗力配置表 -->
+	<bean class="com.rwbase.dao.fighting.GemFightingCfgDAO" init-method="init" />
+	<!--  帮派技能战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.GroupSkillFightingCfgDAO" init-method="init" />
+	<!--  法宝等级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicLevelFightingCfgDAO" init-method="init" />
+	<!--  法宝品质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicQualityFightingCfgDAO" init-method="init" />
+	<!--  技能战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.SkillFightingCfgDAO" init-method="init" />
+	<!--  神器羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipFetterFightingCfgDAO" init-method="init" />
+	<!--  英雄羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.HeroFetterFightingCfgDAO" init-method="init" />
+	<!--  法宝羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicFetterFightingCfgDAO" init-method="init" />
+	<!-- 道术战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.TaoistFightingCfgDAO" init-method="init" />
+	<!-- 时装战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
+	<!-- 技能监听Id修改配置表  -->
+	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
 	
 	<!-- 随机boss -->
 	<bean class="com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao" init-method="init" />

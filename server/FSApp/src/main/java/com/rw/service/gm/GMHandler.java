@@ -208,11 +208,17 @@ public class GMHandler {
 
 		funcCallBackMap.put("speedupscecret", "speedUpSecret");
 		funcCallBackMap.put("finishsecret", "finishSecret");
+		
+		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
+		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
 		
 		funcCallBackMap.put("emptybag", "emptyBag");
+
+		funcCallBackMap.put("addequiptorole", "addEquipToRole");
+
 	}
 
 	public boolean isActive() {
@@ -233,8 +239,25 @@ public class GMHandler {
 			return false;
 		}
 	}
-
-	public boolean SetGroupSupplier(String[] comd, Player player) {
+	
+	private boolean assumeSendRequest(Player player, com.rwproto.RequestProtos.Request request) {
+		try {
+			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
+			fUserChannelMap.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
+			fUserChannelMap.setAccessible(false);
+			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
+			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, request));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
 		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if (group == null) {
@@ -786,7 +809,8 @@ public class GMHandler {
 		long addExp = Long.parseLong(arrCommandContents[1]);
 		if (player != null) {
 			// player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
-			player.getHeroMgr().getHeroByModerId(player, heroId).addHeroExp(addExp);
+			Hero h = player.getHeroMgr().getHeroByModerId(player, heroId);
+			player.getHeroMgr().addHeroExp(h, addExp);
 			return true;
 		}
 		return false;
@@ -1273,28 +1297,15 @@ public class GMHandler {
 			return false;
 		}
 		String targetUserId = arrCommandContents[0];
-		try {
-			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
-			fUserChannelMap.setAccessible(true);
-			@SuppressWarnings("unchecked")
-			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
-			fUserChannelMap.setAccessible(false);
-			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
-			com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
-			com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
-			headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
-			headerBuilder.setUserId(player.getUserId());
-			requestBuilder.setHeader(headerBuilder.build());
-			com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
-			bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
-			requestBuilder.setBody(bodyBuilder.build());
-			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, requestBuilder.build()));
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT_REQUEST_PRIVATE_CHATS);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats.newBuilder().setUserId(targetUserId).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 
 	public boolean sendInteractiveData(String[] arrCommandContents, Player player) {
@@ -1427,6 +1438,30 @@ public class GMHandler {
 		}
 		return true;
 	}
+	
+	public boolean requestFightingGrowthData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_FIGHTING_GROWTH_REQUEST_UI_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestFightingGrowthUpgrade(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_FIGHTING_GROWTH_REQUEST_UPGRADE);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
 
 	/**
 	 * 批量添加物品
@@ -1478,11 +1513,54 @@ public class GMHandler {
 		for(ItemData itemData : list) {
 			items.add(new UseItem(itemData.getId(), itemData.getCount()));
 		}
-		try {
-			player.getItemBagMgr().updateItemBag(player, items, newItems);
-		} catch (Throwable t) {
-			t.printStackTrace();
+		if (items.size() > 0) {
+			try {
+				player.getItemBagMgr().updateItemBag(player, items, newItems);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
 		}
 		return true;
 	}
+
+	
+	public boolean addEquipToRole(String[] arrCommandContents, Player player) {
+		Map<Integer, int[]> map = new HashMap<Integer, int[]>();
+		map.put(0, new int[] { 700112, 700037, 700061, 700148, 700174, 700091 });
+		map.put(1, new int[] { 700113, 700038, 700062, 700149, 700174, 700091 });
+		map.put(2, new int[] { 700114, 700039, 700063, 700149, 700175, 700091 });
+		map.put(3, new int[] { 700115, 700040, 700064, 700150, 700175, 700092 });
+		map.put(4, new int[] { 700116, 700041, 700065, 700151, 700176, 700092 });
+		map.put(5, new int[] { 700117, 700042, 700065, 700151, 700176, 700092 });
+		map.put(6, new int[] { 700117, 700042, 700066, 700153, 700176, 700093 });
+		map.put(7, new int[] { 700118, 700043, 700066, 700153, 700177, 700093 });
+		map.put(8, new int[] { 700118, 700043, 700067, 700153, 700177, 700093 });
+		map.put(9, new int[] { 700119, 700044, 700067, 700153, 700177, 700093 });
+		map.put(10, new int[] { 700119, 700044, 700068, 700154, 700177, 700094 });
+		map.put(11, new int[] { 700120, 700045, 700068, 700154, 700178, 700094 });
+		map.put(12, new int[] { 700120, 700045, 700069, 700154, 700178, 700094 });
+		map.put(13, new int[] { 700121, 700046, 700069, 700155, 700178, 700094 });
+		map.put(14, new int[] { 700121, 700046, 700070, 700155, 700178, 700095 });
+		map.put(15, new int[] { 700122, 700047, 700070, 700155, 700179, 700095 });
+		map.put(16, new int[] { 700122, 700047, 700071, 700156, 700179, 700095 });
+		map.put(17, new int[] { 700123, 700048, 700071, 700156, 700180, 700095 });
+		map.put(18, new int[] { 700123, 700048, 700072, 700156, 700180, 700095 });
+		try {
+			int quality = Integer.parseInt(arrCommandContents[0]);
+			int[] equips = map.get(quality);
+			List<ItemInfo> list = new ArrayList<ItemInfo>(equips.length);
+			for (int i = 0; i < equips.length; i++) {
+				ItemInfo itemInfo = new ItemInfo();
+				itemInfo.setItemID(equips[i]);
+				itemInfo.setItemNum(1);
+				list.add(itemInfo);
+			}
+			player.getItemBagMgr().addItem(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwbase.dao.user.pojo.LevelCfg;
 
 //public class HeroMgr implements HeroMgrIF {
 //	
@@ -568,6 +569,8 @@ public interface HeroMgr {
 	
 	/**
 	 * 
+	 * 为所有英雄添加经验
+	 * 
 	 * @param player
 	 * @param exp
 	 */
@@ -575,9 +578,92 @@ public interface HeroMgr {
 	
 	/**
 	 * 
+	 * 根据模板id获取英雄
+	 * 
 	 * @param player
 	 * @param templateId
 	 * @return
 	 */
 	public Hero getHeroByTemplateId(Player player, String templateId);
+	
+	/**
+	 * 
+	 * 为英雄添加经验
+	 * 
+	 * @param hero
+	 * @param heroExp
+	 * @return
+	 */
+	public int addHeroExp(Hero hero, long heroExp);
+	
+	/**
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public int canUpgradeStar(Hero hero);
+	
+	/**
+	 * 
+	 * gm編輯英雄的等級
+	 * 
+	 * @param hero
+	 * @param pLevel
+	 */
+	public void gmEditHeroLevel(Hero hero, int pLevel);
+	
+	/**
+	 * 
+	 * gm檢查英雄是否激活技能
+	 * 
+	 * @param hero
+	 */
+	public void gmCheckActiveSkill(Hero hero);
+	
+	/**
+	 * 
+	 * 获取英雄的模板数据
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public RoleCfg getHeroCfg(Hero hero);
+	
+	/**
+	 * 
+	 * 获取英雄的升级经验信息
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public LevelCfg getLevelCfg(Hero hero);
+	
+	/**
+	 * 
+	 * <pre>
+	 * 同步英雄信息到客户端
+	 * </pre>
+	 * 
+	 * @param version
+	 */
+	public void synHero(Hero hero, int version);
+	
+	/**
+	 * 
+	 * <pre>
+	 * 获取英雄的主人
+	 * </pre>
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public Player getOwnerOfHero(Hero hero);
+	
+	/**
+	 * 获取佣兵品质
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public int getHeroQuality(Hero hero);
 }

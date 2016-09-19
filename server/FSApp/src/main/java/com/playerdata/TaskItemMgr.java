@@ -40,8 +40,8 @@ public class TaskItemMgr implements TaskMgrIF {
 
 	public void initTask() {
 		List<TaskCfg> cfgList = TaskCfgDAO.getInstance().getInitList();
-		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(cfgList.size());
 		int size = cfgList.size();
+		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(size);
 		for (int i = 0; i < size; i++) {
 			TaskCfg cfg = cfgList.get(i);
 			
