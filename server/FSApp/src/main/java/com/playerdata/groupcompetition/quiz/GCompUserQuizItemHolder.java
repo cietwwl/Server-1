@@ -142,7 +142,12 @@ public class GCompUserQuizItemHolder {
 	private List<GCQuizEventItem> getCurrentFightForQuiz(){
 		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
+		GCompEventsData envetsData = null;
+		if(GroupCompetitionMgr.getInstance().isCurrentEventsEnd() && currentEvent.hasNext()) {
+			envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent.getNext());
+		} else {
+			envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
+		}
 		if(null == envetsData) return result;
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		for(GCompAgainst against :currentAgainst){

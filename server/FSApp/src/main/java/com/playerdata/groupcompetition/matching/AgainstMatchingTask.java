@@ -187,10 +187,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 	
 	private void getRandomMember(LinkedList<GCompMember> memberList, List<RandomMatchingData> targetList) {
 		int size = memberList.size();
-		int maxSize = GCompCommonConfig.getMaxMemberCountOfTeam();
+		int maxSize = memberCountOfCurrent;
 		if (targetList.size() < maxSize) {
 			while (size > 0) {
-				GCompMember member = memberList.get(random.nextInt(size));
+				GCompMember member = memberList.remove(random.nextInt(size));
 				size--;
 				memberList.add(member); // 放回去
 				boolean duplicate = false;
@@ -220,7 +220,15 @@ class AgainstMatchingTask implements IGameTimerTask {
 		return currentTimeMillis < deadline && (deadline - currentTimeMillis) > intervalMillis;
 	}
 
-	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, LinkedList<GCompMember> allMembersOfGroup, int maxMemberSize) {
+	/**
+	 * 
+	 * @param groupMatchingData
+	 * @param allMembersOfGroup
+	 * @param maxMemberSize
+	 * @param force 如果不够人数，是否也强制获取这个列表
+	 * @return
+	 */
+	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, LinkedList<GCompMember> allMembersOfGroup, int maxMemberSize, boolean force) {
 		// 从帮派的随机匹配列表中获取匹配数据
 		// 如果有人已经等到匹配超时，会出现以下的情况：
 		// 1、如果同一方的等待列表中超过3人，则组成一个队伍
@@ -236,7 +244,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 		if (sizeOfList > 0 && sizeOfList < memberCountOfCurrent) {
 			// 只有一个人的时候
 			RandomMatchingData data = list.get(0); // 只需要检查第一个有没有超时，因为只要有一个人超时，就必须给他组成一个队伍
-			if (isNotTimeout(System.currentTimeMillis(), data.getDeadline())) {
+			if (isNotTimeout(System.currentTimeMillis(), data.getDeadline()) && !force) {
 				if (sizeOfList == 1) {
 //					GCompUtil.log("未到时间，移除：{}", data.getUserId());
 					groupMatchingData.turnBackRandomMatchingData(data);
@@ -271,8 +279,11 @@ class AgainstMatchingTask implements IGameTimerTask {
 		LinkedList<GCompMember> allMemberOfGroupA = this.getAllMembersOfGroup(idOfGroupA);
 		LinkedList<GCompMember> allMemberOfGroupB = this.getAllMembersOfGroup(idOfGroupB);
 		while (groupMatchingDataA.getRandomMatchingSize() > 0 || groupMatchingDataB.getRandomMatchingSize() > 0) {
-			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount);
-			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount);
+			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, false);
+			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount, listOfGroupMatchingDataA.size() > 0);
+			if (listOfGroupMatchingDataB.size() > 0 && listOfGroupMatchingDataA.isEmpty() && groupMatchingDataA.getRandomMatchingSize() > 0) {
+				listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, true); // 强制获取对方的玩家
+			}
 			if (listOfGroupMatchingDataA.isEmpty() && listOfGroupMatchingDataB.isEmpty()) {
 				break;
 			}

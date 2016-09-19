@@ -104,6 +104,7 @@ public class GCompOnlineMemberHolder {
 	}
 	
 	void synEmptyList(List<Player> players) {
+		com.playerdata.groupcompetition.util.GCompUtil.log("发送一个空的在线列表给玩家：{}", players.size() > 5 ? players.subList(0, 4) : players);
 		ClientDataSynMgr.synDataMutiple(players, Collections.emptyList(), eSynType.GCompOnlineMember, eSynOpType.UPDATE_LIST);
 	}
 	
