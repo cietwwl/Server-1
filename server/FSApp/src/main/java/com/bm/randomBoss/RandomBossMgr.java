@@ -345,7 +345,7 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-		int r = RandomUtil.getRandonIndexWithoutProb(100);
+		int r = RandomUtil.getRandonIndexWithoutProb(10000);
 		if(r > rbServerCfg.getBossBornRate()){
 			return;
 		}
