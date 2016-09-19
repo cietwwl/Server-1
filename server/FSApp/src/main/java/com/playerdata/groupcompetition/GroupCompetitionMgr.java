@@ -3,16 +3,24 @@ package com.playerdata.groupcompetition;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.groupcompetition.data.IGCStage;
-import com.rw.fsutil.common.IReadOnlyPair;
+import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompStartType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwbase.gameworld.GameWorldKey;
 
+/**
+ * 
+ * 帮派争霸管理器
+ * 
+ * @author CHEN.P
+ *
+ */
 public class GroupCompetitionMgr {
 
 	private static final GroupCompetitionMgr _instance = new GroupCompetitionMgr();
@@ -23,10 +31,8 @@ public class GroupCompetitionMgr {
 		return _instance;
 	}
 	
-	private void loadGroupCompetitionSaveData() {
-		String attrData = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION);
-		GroupCompetitionSaveData.initDataFromDB(attrData);
-	}
+	private GroupCompetitionDataHolder _dataHolder = GroupCompetitionDataHolder.getInstance();
+	private final AtomicInteger _againstIdGenerator = new AtomicInteger();
 	
 	private long getServerStartTime() {
 		Calendar instance = Calendar.getInstance();
@@ -37,30 +43,23 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void checkStartGroupCompetition() {
-		if(GroupCompetitionSaveData.getInstance().getHeldTimes() > 0) {
-			
+		GroupCompetitionSaveData data = _dataHolder.get();
+		if(data.getHeldTimes() > 0) {
+			// 有举办过赛事
+			GroupCompetitionSaveData saveData = _dataHolder.get();
 		} else {
 			// 没有举办过
 			GroupCompetitionStageCfgDAO groupCompetitionStageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
-			long serverStartTime = this.getServerStartTime();
-			Calendar instance = Calendar.getInstance();
-			instance.setTimeInMillis(serverStartTime);
-			GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCConstance.CompetitionStartType.START_TYPE_SERVER_TIME_OFFSET);
-			IReadOnlyPair<Integer, Integer> time = cfg.getStartTimeInfo();
-			instance.add(Calendar.WEEK_OF_YEAR, cfg.getStartWeeks());
-			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
-			instance.set(Calendar.HOUR_OF_DAY, time.getT1());
-			if(time.getT2() > 0) {
-				instance.set(Calendar.MINUTE, time.getT2());	
-			}
+			long startTimeMillis = GCompUtil.calculateGroupCompetitionStartTime(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
+			GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCompStartType.SERVER_TIME_OFFSET.sign);
 			List<Integer> stageDetail = cfg.getStageDetailList();
 			List<IGCStage> stageList = new ArrayList<IGCStage>();
 			for (int i = 0, size = stageDetail.size(); i < size; i++) {
 				GroupCompetitionStageCfg stageCfg = groupCompetitionStageCfgDAO.getCfgById(String.valueOf(stageDetail.get(i)));
-				stageList.add(GCStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
+				stageList.add(GCompStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
 			}
-			GCStageController controller = new GCStageController(stageList, stageList);
-			controller.start(instance.getTimeInMillis()); // controller开始
+			GCompStageController controller = new GCompStageController(stageList, stageList);
+			controller.start(startTimeMillis); // controller开始
 		}
 	}
 	
@@ -68,7 +67,59 @@ public class GroupCompetitionMgr {
 	 * 服务器启动完毕的通知
 	 */
 	public void serverStartComplete() {
-		this.loadGroupCompetitionSaveData();
+		this._againstIdGenerator.set(this._dataHolder.get().getAgainstIdRecord());
 		this.checkStartGroupCompetition();
+	}
+	
+	/**
+	 * 
+	 * <pre>
+	 * 获取本次帮派争霸开始的比赛类型（16强、8强）
+	 * 通过此返回值，可以判断本次帮派争霸是从个16强还是8强开始的
+	 * </pre>
+	 * 
+	 * @return 本次帮派争霸开始的比赛类型
+	 */
+	public GCEventsType getFisrtTypeOfCurrent() {
+		return _dataHolder.get().getCurrentData().getFirstEventsType();
+	}
+	
+	/**
+	 * 
+	 * 更新最后一次举办时间
+	 * 
+	 * @param time
+	 */
+	void updateLaseHeldTime(long time) {
+		GroupCompetitionSaveData saveData = _dataHolder.get();
+		saveData.increaseHeldTimes();
+		saveData.updateLastHeldTime(time);
+		GCompCurrentData currentData = saveData.getCurrentData();
+		if(currentData != null) {
+			currentData.reset();
+		}
+		this._dataHolder.update();
+	}
+	
+	public void updateCurrentData(GCEventsType startType, List<String> relativeGroupIds) {
+		GroupCompetitionSaveData saveData = _dataHolder.get();
+		GCompCurrentData currentData = saveData.getCurrentData();
+		if(currentData == null) {
+			currentData = new GCompCurrentData();
+			currentData.setHeldTime(saveData.getLastHeldTimeMillis());
+			currentData.setFirstEventsType(startType);
+			saveData.setCurrentData(currentData);
+		}
+		currentData.setCurrentStatus(startType);
+		currentData.setCurrentStatusFinished(false);
+		currentData.addRelativeGroups(startType, relativeGroupIds);
+		this._dataHolder.update();
+	}
+	
+	public int getNextAgainstId() {
+		int id = _againstIdGenerator.incrementAndGet();
+		this._dataHolder.get().setAgainstIdRecord(id);
+		this._dataHolder.update();
+		return id;
 	}
 }

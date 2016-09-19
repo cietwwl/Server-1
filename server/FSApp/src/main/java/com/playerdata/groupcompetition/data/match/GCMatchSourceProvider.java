@@ -9,7 +9,7 @@ import java.util.List;
  * @author CHEN.P
  *
  */
-public interface GCMatchSourceProvider<T extends GCMatchSource> {
+public interface GCMatchSourceProvider<T extends IGCMatchSource> {
 
 	/**
 	 * 

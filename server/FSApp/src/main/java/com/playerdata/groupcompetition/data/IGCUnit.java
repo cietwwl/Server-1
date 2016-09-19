@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.data;
 
-import com.playerdata.groupcompetition.data.match.GCMatchSource;
+import com.playerdata.groupcompetition.data.match.IGCMatchSource;
 
 /**
  * 
@@ -9,7 +9,7 @@ import com.playerdata.groupcompetition.data.match.GCMatchSource;
  * @author CHEN.P
  *
  */
-public interface IGCUnit extends GCMatchSource {
+public interface IGCUnit extends IGCMatchSource {
 
 	/**
 	 * 
@@ -26,14 +26,6 @@ public interface IGCUnit extends GCMatchSource {
 	 * @return
 	 */
 	public int getLevel();
-	
-	/**
-	 * 
-	 * 获取最后一个挑战单位的id
-	 * 
-	 * @return
-	 */
-	public String getIdOfLastCompetitor();
 	
 	/**
 	 * 

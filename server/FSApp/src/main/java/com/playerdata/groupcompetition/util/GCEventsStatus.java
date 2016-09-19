@@ -1,59 +1,61 @@
 package com.playerdata.groupcompetition.util;
 
+/**
+ * 
+ * 单场赛事的状态
+ * 
+ * @author CHEN.P
+ *
+ */
 public enum GCEventsStatus {
 	
+
 	/**
-	 * 16强
+	 * 未开始
 	 */
-	ROUND_OF_16,
+	NONE(0, 0),
 	/**
-	 * 8强
+	 * 比赛准备阶段
 	 */
-	ROUND_OF_8,
+	PREPARE(1, 3),
 	/**
-	 * 4强
+	 * 组队赛阶段
 	 */
-	QUATER,
+	TEAM_EVENTS(2, 15),
 	/**
-	 * 决赛
+	 * 中场休息阶段
 	 */
-	FINAL,
-	;
+	REST(3, 3),
+	/**
+	 * 个人赛阶段
+	 */
+	PERSONAL_EVENTS(4, 15),
+	/**
+	 * 结束
+	 */
+	FINISH(5, 0);
+	
+	public final int sign;
+	private int _lastMinutes; // 持续的时间（分钟）
+	private GCEventsStatus _nextStatus;
 	
 	static {
-		GCEventsStatus[] all = GCEventsStatus.values();
-		GCEventsStatus status;
-		int totalDays = all.length; // 每个阶段一日
-		for (int i = 0; i < all.length; i++) {
-			int nextIndex = i + 1;
-			status = all[i];
-			status.daysNeededToFinal = (--totalDays);
-			if (nextIndex == all.length) {
-				break;
-			} else {
-				status._next = all[nextIndex];
-			}
+		GCEventsStatus[] all = values();
+		for(int i = 0, length = all.length, next = 1; i < length && next != length; i++, next++) {
+			all[i]._nextStatus = all[next];
 		}
 	}
 	
-	private GCEventsStatus _next;
-	private int daysNeededToFinal; // 本阶段到总决赛需要多少天
-	
-	public boolean hasNext() {
-		return _next != null;
+	private GCEventsStatus(int sign, int pLastMinutes) {
+		this.sign = sign;
+		this._lastMinutes = pLastMinutes;
 	}
 	
-	public GCEventsStatus getNex() {
-		return _next;
+	public int getLastMinutes() {
+		return _lastMinutes;
 	}
 	
-	/**
-	 * 
-	 * 获取本阶段需要多少天才能到总决赛
-	 * 
-	 * @return
-	 */
-	public int getDaysNeededToFinal() {
-		return daysNeededToFinal;
+	public GCEventsStatus getNextStatus() {
+		return this._nextStatus;
 	}
 }

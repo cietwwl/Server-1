@@ -35,6 +35,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -176,6 +177,7 @@ public class GameManager {
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
+		GroupCompetitionMgr.getInstance().serverStartComplete();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}
