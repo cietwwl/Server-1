@@ -530,9 +530,27 @@ public final class TeamBattleProto {
     com.google.protobuf.ByteString
         getRewardIDBytes();
 
-    // optional int32 fightResult = 7;
+    // optional int32 count = 7;
     /**
-     * <code>optional int32 fightResult = 7;</code>
+     * <code>optional int32 count = 7;</code>
+     *
+     * <pre>
+     *要兑换的积分奖励数量
+     * </pre>
+     */
+    boolean hasCount();
+    /**
+     * <code>optional int32 count = 7;</code>
+     *
+     * <pre>
+     *要兑换的积分奖励数量
+     * </pre>
+     */
+    int getCount();
+
+    // optional int32 fightResult = 8;
+    /**
+     * <code>optional int32 fightResult = 8;</code>
      *
      * <pre>
      *战斗结果
@@ -540,7 +558,7 @@ public final class TeamBattleProto {
      */
     boolean hasFightResult();
     /**
-     * <code>optional int32 fightResult = 7;</code>
+     * <code>optional int32 fightResult = 8;</code>
      *
      * <pre>
      *战斗结果
@@ -637,6 +655,11 @@ public final class TeamBattleProto {
             }
             case 56: {
               bitField0_ |= 0x00000040;
+              count_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
               fightResult_ = input.readInt32();
               break;
             }
@@ -979,21 +1002,45 @@ public final class TeamBattleProto {
       }
     }
 
-    // optional int32 fightResult = 7;
-    public static final int FIGHTRESULT_FIELD_NUMBER = 7;
+    // optional int32 count = 7;
+    public static final int COUNT_FIELD_NUMBER = 7;
+    private int count_;
+    /**
+     * <code>optional int32 count = 7;</code>
+     *
+     * <pre>
+     *要兑换的积分奖励数量
+     * </pre>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 count = 7;</code>
+     *
+     * <pre>
+     *要兑换的积分奖励数量
+     * </pre>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    // optional int32 fightResult = 8;
+    public static final int FIGHTRESULT_FIELD_NUMBER = 8;
     private int fightResult_;
     /**
-     * <code>optional int32 fightResult = 7;</code>
+     * <code>optional int32 fightResult = 8;</code>
      *
      * <pre>
      *战斗结果
      * </pre>
      */
     public boolean hasFightResult() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional int32 fightResult = 7;</code>
+     * <code>optional int32 fightResult = 8;</code>
      *
      * <pre>
      *战斗结果
@@ -1010,6 +1057,7 @@ public final class TeamBattleProto {
       userID_ = "";
       armyHeros_ = "";
       rewardID_ = "";
+      count_ = 0;
       fightResult_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -1047,7 +1095,10 @@ public final class TeamBattleProto {
         output.writeBytes(6, getRewardIDBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(7, fightResult_);
+        output.writeInt32(7, count_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, fightResult_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1084,7 +1135,11 @@ public final class TeamBattleProto {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, fightResult_);
+          .computeInt32Size(7, count_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, fightResult_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1214,8 +1269,10 @@ public final class TeamBattleProto {
         bitField0_ = (bitField0_ & ~0x00000010);
         rewardID_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
-        fightResult_ = 0;
+        count_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        fightResult_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -1271,6 +1328,10 @@ public final class TeamBattleProto {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
+        result.count_ = count_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
         result.fightResult_ = fightResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1315,6 +1376,9 @@ public final class TeamBattleProto {
           bitField0_ |= 0x00000020;
           rewardID_ = other.rewardID_;
           onChanged();
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
         }
         if (other.hasFightResult()) {
           setFightResult(other.getFightResult());
@@ -1892,20 +1956,69 @@ public final class TeamBattleProto {
         return this;
       }
 
-      // optional int32 fightResult = 7;
+      // optional int32 count = 7;
+      private int count_ ;
+      /**
+       * <code>optional int32 count = 7;</code>
+       *
+       * <pre>
+       *要兑换的积分奖励数量
+       * </pre>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 count = 7;</code>
+       *
+       * <pre>
+       *要兑换的积分奖励数量
+       * </pre>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>optional int32 count = 7;</code>
+       *
+       * <pre>
+       *要兑换的积分奖励数量
+       * </pre>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000040;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 count = 7;</code>
+       *
+       * <pre>
+       *要兑换的积分奖励数量
+       * </pre>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 fightResult = 8;
       private int fightResult_ ;
       /**
-       * <code>optional int32 fightResult = 7;</code>
+       * <code>optional int32 fightResult = 8;</code>
        *
        * <pre>
        *战斗结果
        * </pre>
        */
       public boolean hasFightResult() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional int32 fightResult = 7;</code>
+       * <code>optional int32 fightResult = 8;</code>
        *
        * <pre>
        *战斗结果
@@ -1915,27 +2028,27 @@ public final class TeamBattleProto {
         return fightResult_;
       }
       /**
-       * <code>optional int32 fightResult = 7;</code>
+       * <code>optional int32 fightResult = 8;</code>
        *
        * <pre>
        *战斗结果
        * </pre>
        */
       public Builder setFightResult(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         fightResult_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 fightResult = 7;</code>
+       * <code>optional int32 fightResult = 8;</code>
        *
        * <pre>
        *战斗结果
        * </pre>
        */
       public Builder clearFightResult() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         fightResult_ = 0;
         onChanged();
         return this;
@@ -1973,9 +2086,36 @@ public final class TeamBattleProto {
      */
     com.rwproto.TeamBattleProto.TBResultType getRstType();
 
-    // repeated string armyInfo = 2;
+    // optional string tipMsg = 2;
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
+
+    // repeated string armyInfo = 3;
+    /**
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -1984,7 +2124,7 @@ public final class TeamBattleProto {
     java.util.List<java.lang.String>
     getArmyInfoList();
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -1992,7 +2132,7 @@ public final class TeamBattleProto {
      */
     int getArmyInfoCount();
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2000,7 +2140,7 @@ public final class TeamBattleProto {
      */
     java.lang.String getArmyInfo(int index);
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2008,6 +2148,24 @@ public final class TeamBattleProto {
      */
     com.google.protobuf.ByteString
         getArmyInfoBytes(int index);
+
+    // optional bool freeJoin = 4;
+    /**
+     * <code>optional bool freeJoin = 4;</code>
+     *
+     * <pre>
+     *组队当前是否可以自由加入
+     * </pre>
+     */
+    boolean hasFreeJoin();
+    /**
+     * <code>optional bool freeJoin = 4;</code>
+     *
+     * <pre>
+     *组队当前是否可以自由加入
+     * </pre>
+     */
+    boolean getFreeJoin();
   }
   /**
    * Protobuf type {@code teamBattle.TeamBattleRspMsg}
@@ -2072,11 +2230,21 @@ public final class TeamBattleProto {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              bitField0_ |= 0x00000002;
+              tipMsg_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 armyInfo_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               armyInfo_.add(input.readBytes());
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              freeJoin_ = input.readBool();
               break;
             }
           }
@@ -2087,7 +2255,7 @@ public final class TeamBattleProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           armyInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(armyInfo_);
         }
         this.unknownFields = unknownFields.build();
@@ -2146,11 +2314,66 @@ public final class TeamBattleProto {
       return rstType_;
     }
 
-    // repeated string armyInfo = 2;
-    public static final int ARMYINFO_FIELD_NUMBER = 2;
+    // optional string tipMsg = 2;
+    public static final int TIPMSG_FIELD_NUMBER = 2;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated string armyInfo = 3;
+    public static final int ARMYINFO_FIELD_NUMBER = 3;
     private com.google.protobuf.LazyStringList armyInfo_;
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2161,7 +2384,7 @@ public final class TeamBattleProto {
       return armyInfo_;
     }
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2171,7 +2394,7 @@ public final class TeamBattleProto {
       return armyInfo_.size();
     }
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2181,7 +2404,7 @@ public final class TeamBattleProto {
       return armyInfo_.get(index);
     }
     /**
-     * <code>repeated string armyInfo = 2;</code>
+     * <code>repeated string armyInfo = 3;</code>
      *
      * <pre>
      *队友队伍详情
@@ -2192,9 +2415,35 @@ public final class TeamBattleProto {
       return armyInfo_.getByteString(index);
     }
 
+    // optional bool freeJoin = 4;
+    public static final int FREEJOIN_FIELD_NUMBER = 4;
+    private boolean freeJoin_;
+    /**
+     * <code>optional bool freeJoin = 4;</code>
+     *
+     * <pre>
+     *组队当前是否可以自由加入
+     * </pre>
+     */
+    public boolean hasFreeJoin() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bool freeJoin = 4;</code>
+     *
+     * <pre>
+     *组队当前是否可以自由加入
+     * </pre>
+     */
+    public boolean getFreeJoin() {
+      return freeJoin_;
+    }
+
     private void initFields() {
       rstType_ = com.rwproto.TeamBattleProto.TBResultType.SUCCESS;
+      tipMsg_ = "";
       armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      freeJoin_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2215,8 +2464,14 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, rstType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipMsgBytes());
+      }
       for (int i = 0; i < armyInfo_.size(); i++) {
-        output.writeBytes(2, armyInfo_.getByteString(i));
+        output.writeBytes(3, armyInfo_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(4, freeJoin_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2231,6 +2486,10 @@ public final class TeamBattleProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, rstType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipMsgBytes());
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < armyInfo_.size(); i++) {
@@ -2239,6 +2498,10 @@ public final class TeamBattleProto {
         }
         size += dataSize;
         size += 1 * getArmyInfoList().size();
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, freeJoin_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2358,8 +2621,12 @@ public final class TeamBattleProto {
         super.clear();
         rstType_ = com.rwproto.TeamBattleProto.TBResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
-        armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        freeJoin_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2392,12 +2659,20 @@ public final class TeamBattleProto {
           to_bitField0_ |= 0x00000001;
         }
         result.rstType_ = rstType_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tipMsg_ = tipMsg_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           armyInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
               armyInfo_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.armyInfo_ = armyInfo_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.freeJoin_ = freeJoin_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2417,15 +2692,23 @@ public final class TeamBattleProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000002;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
         if (!other.armyInfo_.isEmpty()) {
           if (armyInfo_.isEmpty()) {
             armyInfo_ = other.armyInfo_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensureArmyInfoIsMutable();
             armyInfo_.addAll(other.armyInfo_);
           }
           onChanged();
+        }
+        if (other.hasFreeJoin()) {
+          setFreeJoin(other.getFreeJoin());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2510,16 +2793,114 @@ public final class TeamBattleProto {
         return this;
       }
 
-      // repeated string armyInfo = 2;
+      // optional string tipMsg = 2;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string armyInfo = 3;
       private com.google.protobuf.LazyStringList armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureArmyInfoIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           armyInfo_ = new com.google.protobuf.LazyStringArrayList(armyInfo_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2530,7 +2911,7 @@ public final class TeamBattleProto {
         return java.util.Collections.unmodifiableList(armyInfo_);
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2540,7 +2921,7 @@ public final class TeamBattleProto {
         return armyInfo_.size();
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2550,7 +2931,7 @@ public final class TeamBattleProto {
         return armyInfo_.get(index);
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2561,7 +2942,7 @@ public final class TeamBattleProto {
         return armyInfo_.getByteString(index);
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2578,7 +2959,7 @@ public final class TeamBattleProto {
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2595,7 +2976,7 @@ public final class TeamBattleProto {
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2609,7 +2990,7 @@ public final class TeamBattleProto {
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2617,12 +2998,12 @@ public final class TeamBattleProto {
        */
       public Builder clearArmyInfo() {
         armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 2;</code>
+       * <code>repeated string armyInfo = 3;</code>
        *
        * <pre>
        *队友队伍详情
@@ -2635,6 +3016,55 @@ public final class TeamBattleProto {
   }
   ensureArmyInfoIsMutable();
         armyInfo_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional bool freeJoin = 4;
+      private boolean freeJoin_ ;
+      /**
+       * <code>optional bool freeJoin = 4;</code>
+       *
+       * <pre>
+       *组队当前是否可以自由加入
+       * </pre>
+       */
+      public boolean hasFreeJoin() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool freeJoin = 4;</code>
+       *
+       * <pre>
+       *组队当前是否可以自由加入
+       * </pre>
+       */
+      public boolean getFreeJoin() {
+        return freeJoin_;
+      }
+      /**
+       * <code>optional bool freeJoin = 4;</code>
+       *
+       * <pre>
+       *组队当前是否可以自由加入
+       * </pre>
+       */
+      public Builder setFreeJoin(boolean value) {
+        bitField0_ |= 0x00000008;
+        freeJoin_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool freeJoin = 4;</code>
+       *
+       * <pre>
+       *组队当前是否可以自由加入
+       * </pre>
+       */
+      public Builder clearFreeJoin() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        freeJoin_ = false;
         onChanged();
         return this;
       }
@@ -2669,22 +3099,23 @@ public final class TeamBattleProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020TeamBattle.proto\022\nteamBattle\"\250\001\n\020TeamB" +
+      "\n\020TeamBattle.proto\022\nteamBattle\"\267\001\n\020TeamB" +
       "attleReqMsg\022*\n\007reqType\030\001 \002(\0162\031.teamBattl" +
       "e.TBRequestType\022\016\n\006hardID\030\002 \001(\t\022\016\n\006teamI" +
       "D\030\003 \001(\t\022\016\n\006userID\030\004 \001(\t\022\021\n\tarmyHeros\030\005 \001" +
-      "(\t\022\020\n\010rewardID\030\006 \001(\t\022\023\n\013fightResult\030\007 \001(" +
-      "\005\"O\n\020TeamBattleRspMsg\022)\n\007rstType\030\001 \002(\0162\030" +
-      ".teamBattle.TBResultType\022\020\n\010armyInfo\030\002 \003" +
-      "(\t*\371\001\n\rTBRequestType\022\023\n\017SYN_TEAM_BATTLE\020" +
-      "\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE_TEAM\020\003\022\r" +
-      "\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021\n\rACCEPT_",
-      "INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020\007\022\023\n\017KICK" +
-      "_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020\t\022\017\n\013STAR" +
-      "T_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESULT\020\013\022\022\n\016SC" +
-      "ORE_EXCHANGE\020\014*+\n\014TBResultType\022\013\n\007SUCCES" +
-      "S\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwprotoB\017Team" +
-      "BattleProto"
+      "(\t\022\020\n\010rewardID\030\006 \001(\t\022\r\n\005count\030\007 \001(\005\022\023\n\013f" +
+      "ightResult\030\010 \001(\005\"q\n\020TeamBattleRspMsg\022)\n\007" +
+      "rstType\030\001 \002(\0162\030.teamBattle.TBResultType\022" +
+      "\016\n\006tipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010fre" +
+      "eJoin\030\004 \001(\010*\371\001\n\rTBRequestType\022\023\n\017SYN_TEA" +
+      "M_BATTLE\020\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE",
+      "_TEAM\020\003\022\r\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021" +
+      "\n\rACCEPT_INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020" +
+      "\007\022\023\n\017KICK_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020" +
+      "\t\022\017\n\013START_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESUL" +
+      "T\020\013\022\022\n\016SCORE_EXCHANGE\020\014*+\n\014TBResultType\022" +
+      "\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwpr" +
+      "otoB\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2696,13 +3127,13 @@ public final class TeamBattleProto {
           internal_static_teamBattle_TeamBattleReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "FightResult", });
+              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "Count", "FightResult", });
           internal_static_teamBattle_TeamBattleRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "ArmyInfo", });
+              new java.lang.String[] { "RstType", "TipMsg", "ArmyInfo", "FreeJoin", });
           return null;
         }
       };
