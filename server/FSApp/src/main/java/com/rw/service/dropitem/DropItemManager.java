@@ -11,10 +11,14 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
+import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.dropitem.DropAdjustmentCfg;
 import com.rwbase.dao.dropitem.DropAdjustmentCfgDAO;
@@ -242,20 +246,34 @@ public class DropItemManager {
 					}
 				}
 			}
-
-			if (!firstDrop && copyCfg != null) {
-				// int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);
-				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
-				int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
-
-				for (ItemInfo iteminfo : dropItemInfoList) {
-					iteminfo.setItemNum(iteminfo.getItemNum() * multipleItem);
+			
+			if(!firstDrop&&copyCfg != null){
+				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+				//int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+				int multipleItem = ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
+				
+				List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+				if(multipleItem >= 0.001f || multipleItem <= -0.001f){
+					PrivilegeDescItem privDescItem = new PrivilegeDescItem(0, multipleItem);
+					totalPriv.add(privDescItem);
 				}
-				// 上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
-				int tmp = dropItemInfoList.size();
-				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player, copyCfg, dropItemInfoList);
+				List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+				if(null != privList && !privList.isEmpty()) {
+					totalPriv.addAll(privList);
+				}
+				if(!totalPriv.isEmpty()){
+					ArrayList<ItemInfo> privDropItemInfoList = new ArrayList<ItemInfo>();
+					for(ItemInfo iteminfo : dropItemInfoList){
+						ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+						privDropItemInfoList.add(ItemPrivilegeFactory.getItemInfo(newItemIF));
+						// iteminfo.setItemNum(iteminfo.getItemNum()*multipleItem);
+					}
+					dropItemInfoList = privDropItemInfoList;
+				}
+				//上边为通用活动3的多倍奖励，下边为通用活动9的活动掉落--------------------------------------------------
+				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivityBefore(player,copyCfg,dropItemInfoList);		
 			}
-
+				
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
 				record.putPretreatDropList(copyId, new DropResult(result, adjustmentMap, firstDrop));
@@ -266,7 +284,6 @@ public class DropItemManager {
 		} catch (Throwable t) {
 			GameLog.error(t);
 		}
-
 		return dropItemInfoList;
 	}
 
