@@ -117,7 +117,7 @@ enum Command {
 	MSG_WORLD_BOSS = 215;      //世界boss
 	
 	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
-	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（GCRequestType，body为emptyBody即可）
+	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
 	
 
 	MSG_FEEDBACK = 995;//客服功能
