@@ -13,6 +13,8 @@ enum GCRequestType{
 	PlaybackMsg = 5; //赛事回放
 	AllGuess = 6; //所有竞猜信息
 	NewGuess = 7; //发起新的竞猜
+	GetMatchView = 8; // 获取对阵信息
+	GetSelectionData = 9; // 获取海选信息
 }
 
 enum GCResultType {
