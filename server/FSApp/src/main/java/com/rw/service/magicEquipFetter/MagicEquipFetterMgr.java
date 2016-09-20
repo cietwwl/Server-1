@@ -216,7 +216,7 @@ public class MagicEquipFetterMgr {
 		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON);
 		
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
-		if(list.isEmpty()){
+		if(list.isEmpty() && !player.isRobot()){
 			GameLog.error(LogModule.COMMON, "MagicEquipFetterMgr[checkAndAddMagicFetter]", String.format("检查角色[%s]法宝羁绊数据，发现角色没有法宝道具！", player.getUserName()), null);
 			return;
 		}

@@ -77,8 +77,32 @@ public class DropItemManager {
 			return Collections.EMPTY_LIST;
 		}
 	}
-	
-	/**聚宝之地 ！炼息山谷！生存幻境,无尽战火；普通本精英本,扫荡，道具预计掉落*/
+
+	/**
+	 * 获取掉落的物品信息
+	 * 
+	 * @param player
+	 * @param copyCfg
+	 * @return
+	 * @throws DataAccessTimeoutException
+	 */
+	public List<? extends ItemInfo> getPretreatDrop(Player player, CopyCfg copyCfg) {
+		String userId = player.getUserId();
+		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
+		DropRecord record;
+		try {
+			record = dropRecordDAO.getDropRecord(userId);
+			DropResult result = record.getPretreatDropList(copyCfg.getLevelID());
+			if (result == null) {
+				return null;
+			}
+			return result.getItemInfos();
+		} catch (DataAccessTimeoutException e) {
+			return null;
+		}
+	}
+
+	/** 聚宝之地 ！炼息山谷！生存幻境,无尽战火；普通本精英本,扫荡，道具预计掉落 */
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -114,7 +138,7 @@ public class DropItemManager {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 预处理掉落
 	 * 
@@ -134,7 +158,7 @@ public class DropItemManager {
 				int dropRuleId = dropRuleList.get(j);
 				List<DropCfg> dropGroupList = DropCfgDAO.getInstance().getDropCfg(dropRuleId);
 				if (dropGroupList == null) {
-					GameLog.error("DropItemManager", "#pretreatDrop", "找不到掉落规则：" + dropRuleId +",copyId = "+copyId+ ",userId = " + userId);
+					GameLog.error("DropItemManager", "#pretreatDrop", "找不到掉落规则：" + dropRuleId + ",copyId = " + copyId + ",userId = " + userId);
 					continue;
 				}
 
@@ -260,13 +284,11 @@ public class DropItemManager {
 		} catch (Throwable t) {
 			GameLog.error(t);
 		}
-		
 		return dropItemInfoList;
 	}
-	
+
 	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg) {
-		
-		
+
 		int id = dropCfg.getItemCfgId();
 		for (int i = list.size(); --i >= 0;) {
 			ItemInfo info = list.get(i);
@@ -355,7 +377,7 @@ public class DropItemManager {
 		if (isFirstDrop && copyId > 0) {
 			record.addFirstDrop(copyId);
 			needUpdate = true;
-			GameLog.error("DropItemManaer", "#trace", "记录首掉："+record.getUserId()+","+copyId);
+			GameLog.error("DropItemManaer", "#trace", "记录首掉：" + record.getUserId() + "," + copyId);
 		}
 		if (needUpdate) {
 			DropRecordDAO.getInstance().update(record);
