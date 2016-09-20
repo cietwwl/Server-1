@@ -804,29 +804,13 @@ public final class MsgDef {
      */
     MSG_GROUP_COMPETITION(105, 216),
     /**
-     * <code>MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL = 217;</code>
+     * <code>MSG_GROUP_COMPETITION_GET_DATA = 217;</code>
      *
      * <pre>
-     * 帮派争霸：获取某场对战的详细信息（带一个empty的body即可）
+     * 帮派争霸：获取数据通用协议（GCRequestType，body为emptyBody即可）
      * </pre>
      */
-    MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL(106, 217),
-    /**
-     * <code>MSG_GROUP_COMPETITION_GET_MATCH_VIEW = 218;</code>
-     *
-     * <pre>
-     * 帮派争霸：获取对阵信息（带一个empty的body即可）
-     * </pre>
-     */
-    MSG_GROUP_COMPETITION_GET_MATCH_VIEW(107, 218),
-    /**
-     * <code>MSG_GROUP_COMPETITION_GET_SELECTION_VIEW = 219;</code>
-     *
-     * <pre>
-     * 帮派争霸：获取海选榜数据
-     * </pre>
-     */
-    MSG_GROUP_COMPETITION_GET_SELECTION_VIEW(108, 219),
+    MSG_GROUP_COMPETITION_GET_DATA(106, 217),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -834,7 +818,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(109, 995),
+    MSG_FEEDBACK(107, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -842,7 +826,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(110, 996),
+    MSG_SDK_VERIFY(108, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -850,7 +834,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(111, 997),
+    MSG_NUMERIC_ANALYSIS(109, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -858,7 +842,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(112, 998),
+    MSG_PLATFORMGS(110, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -866,7 +850,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(113, 999),
+    MSG_GAMEPRESS(111, 999),
     ;
 
     /**
@@ -1660,29 +1644,13 @@ public final class MsgDef {
      */
     public static final int MSG_GROUP_COMPETITION_VALUE = 216;
     /**
-     * <code>MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL = 217;</code>
+     * <code>MSG_GROUP_COMPETITION_GET_DATA = 217;</code>
      *
      * <pre>
-     * 帮派争霸：获取某场对战的详细信息（带一个empty的body即可）
+     * 帮派争霸：获取数据通用协议（GCRequestType，body为emptyBody即可）
      * </pre>
      */
-    public static final int MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL_VALUE = 217;
-    /**
-     * <code>MSG_GROUP_COMPETITION_GET_MATCH_VIEW = 218;</code>
-     *
-     * <pre>
-     * 帮派争霸：获取对阵信息（带一个empty的body即可）
-     * </pre>
-     */
-    public static final int MSG_GROUP_COMPETITION_GET_MATCH_VIEW_VALUE = 218;
-    /**
-     * <code>MSG_GROUP_COMPETITION_GET_SELECTION_VIEW = 219;</code>
-     *
-     * <pre>
-     * 帮派争霸：获取海选榜数据
-     * </pre>
-     */
-    public static final int MSG_GROUP_COMPETITION_GET_SELECTION_VIEW_VALUE = 219;
+    public static final int MSG_GROUP_COMPETITION_GET_DATA_VALUE = 217;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1835,9 +1803,7 @@ public final class MsgDef {
         case 214: return MSG_RANDOM_BOSS;
         case 215: return MSG_WORLD_BOSS;
         case 216: return MSG_GROUP_COMPETITION;
-        case 217: return MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL;
-        case 218: return MSG_GROUP_COMPETITION_GET_MATCH_VIEW;
-        case 219: return MSG_GROUP_COMPETITION_GET_SELECTION_VIEW;
+        case 217: return MSG_GROUP_COMPETITION_GET_DATA;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1903,7 +1869,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022proto/MsgDef.proto\022\006MsgDef*\331\024\n\007Command" +
+      "\n\022proto/MsgDef.proto\022\006MsgDef*\367\023\n\007Command" +
       "\022\021\n\rMSG_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026" +
       "MSG_DO_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE" +
       "_LIST\020h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022" +
@@ -1963,14 +1929,12 @@ public final class MsgDef {
       "\n\021MSG_BATTLE_COMMON\020\321\001\022#\n\036MSG_ACTIVITY_D" +
       "AILY_CHARGE_TYPE\020\324\001\022\031\n\024MSG_SYN_DATA_SERV" +
       "ICE\020\325\001\022\024\n\017MSG_RANDOM_BOSS\020\326\001\022\023\n\016MSG_WORL",
-      "D_BOSS\020\327\001\022\032\n\025MSG_GROUP_COMPETITION\020\330\001\022+\n" +
-      "&MSG_GROUP_COMPETITION_GET_EVENTS_DEAIL\020" +
-      "\331\001\022)\n$MSG_GROUP_COMPETITION_GET_MATCH_VI" +
-      "EW\020\332\001\022-\n(MSG_GROUP_COMPETITION_GET_SELEC" +
-      "TION_VIEW\020\333\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_S" +
-      "DK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022" +
-      "\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007" +
-      "B\025\n\013com.rwprotoB\006MsgDef"
+      "D_BOSS\020\327\001\022\032\n\025MSG_GROUP_COMPETITION\020\330\001\022#\n" +
+      "\036MSG_GROUP_COMPETITION_GET_DATA\020\331\001\022\021\n\014MS" +
+      "G_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MS" +
+      "G_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020" +
+      "\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006M" +
+      "sgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

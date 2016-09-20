@@ -15,6 +15,8 @@ enum GCRequestType{
 	AllGuess = 6; //所有竞猜信息
 	NewGuess = 7; //发起新的竞猜
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
+	GetMatchView = 9; // 获取对阵信息
+	GetSelectionData = 10; // 获取海选信息
 }
 
 enum GCResultType {

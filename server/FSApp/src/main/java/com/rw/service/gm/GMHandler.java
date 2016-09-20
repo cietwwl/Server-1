@@ -133,8 +133,8 @@ public class GMHandler {
 		funcCallBackMap.put("teambringit", "teamBringit");
 		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
-		funcCallBackMap.put("setteam1", "setTeam1");
-		funcCallBackMap.put("setteam2", "setTeam2");
+		// funcCallBackMap.put("setteam1", "setTeam1");
+		// funcCallBackMap.put("setteam2", "setTeam2");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
@@ -208,13 +208,13 @@ public class GMHandler {
 
 		funcCallBackMap.put("speedupscecret", "speedUpSecret");
 		funcCallBackMap.put("finishsecret", "finishSecret");
-		
+
 		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
-		
+
 		funcCallBackMap.put("emptybag", "emptyBag");
 
 		funcCallBackMap.put("addequiptorole", "addEquipToRole");
@@ -239,7 +239,7 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
+
 	private boolean assumeSendRequest(Player player, com.rwproto.RequestProtos.Request request) {
 		try {
 			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
@@ -256,8 +256,8 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
-	public boolean SetGroupSupplier(String[] comd, Player player){
+
+	public boolean SetGroupSupplier(String[] comd, Player player) {
 		boolean result = true;
 		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if (group == null) {
@@ -1428,8 +1428,7 @@ public class GMHandler {
 			// if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
 			// tempData.setCreateTime(tempData.getCreateTime() - 1800000);
 			// }
-			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(
-					tempData.getSecretId());
+			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
 			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 			long suppose = tempData.getCreateTime() + millis;
 			if (suppose > System.currentTimeMillis()) {
@@ -1438,7 +1437,7 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean requestFightingGrowthData(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1450,7 +1449,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestFightingGrowthUpgrade(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1500,7 +1499,7 @@ public class GMHandler {
 
 		return player.getItemBagMgr().addItem(itemInfoList);
 	}
-	
+
 	public boolean emptyBag(String[] arrCommandContents, Player player) {
 		List<ItemData> list = new ArrayList<ItemData>();
 		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume));
@@ -1510,7 +1509,7 @@ public class GMHandler {
 		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem));
 		List<IUseItem> items = new ArrayList<IUseItem>(list.size());
 		List<INewItem> newItems = new ArrayList<INewItem>();
-		for(ItemData itemData : list) {
+		for (ItemData itemData : list) {
 			items.add(new UseItem(itemData.getId(), itemData.getCount()));
 		}
 		if (items.size() > 0) {
@@ -1523,7 +1522,6 @@ public class GMHandler {
 		return true;
 	}
 
-	
 	public boolean addEquipToRole(String[] arrCommandContents, Player player) {
 		Map<Integer, int[]> map = new HashMap<Integer, int[]>();
 		map.put(0, new int[] { 700112, 700037, 700061, 700148, 700174, 700091 });
@@ -1561,6 +1559,5 @@ public class GMHandler {
 		}
 		return true;
 	}
-
 
 }

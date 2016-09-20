@@ -77,6 +77,22 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     GetPlayersBaseInfo(7, 8),
+    /**
+     * <code>GetMatchView = 9;</code>
+     *
+     * <pre>
+     * 获取对阵信息
+     * </pre>
+     */
+    GetMatchView(8, 9),
+    /**
+     * <code>GetSelectionData = 10;</code>
+     *
+     * <pre>
+     * 获取海选信息
+     * </pre>
+     */
+    GetSelectionData(9, 10),
     ;
 
     /**
@@ -143,6 +159,22 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int GetPlayersBaseInfo_VALUE = 8;
+    /**
+     * <code>GetMatchView = 9;</code>
+     *
+     * <pre>
+     * 获取对阵信息
+     * </pre>
+     */
+    public static final int GetMatchView_VALUE = 9;
+    /**
+     * <code>GetSelectionData = 10;</code>
+     *
+     * <pre>
+     * 获取海选信息
+     * </pre>
+     */
+    public static final int GetSelectionData_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -157,6 +189,8 @@ public final class GroupCompetitionProto {
         case 6: return AllGuess;
         case 7: return NewGuess;
         case 8: return GetPlayersBaseInfo;
+        case 9: return GetMatchView;
+        case 10: return GetSelectionData;
         default: return null;
       }
     }
@@ -12231,11 +12265,12 @@ public final class GroupCompetitionProto {
       "\002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n" +
       "\013fightingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014f" +
       "ashionUsage\030\n \001(\0132\033.FashionService.Fashi" +
-      "onUsed*\250\001\n\rGCRequestType\022\024\n\020EnterPrepare" +
+      "onUsed*\320\001\n\rGCRequestType\022\024\n\020EnterPrepare" +
       "Area\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPr" +
       "eparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Playback",
       "Msg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022Get" +
-      "PlayersBaseInfo\020\010*+\n\014GCResultType\022\013\n\007SUC" +
+      "PlayersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020G" +
+      "etSelectionData\020\n*+\n\014GCResultType\022\013\n\007SUC" +
       "CESS\020\001\022\016\n\nDATA_ERROR\020\002B$\n\013com.rwprotoB\025G" +
       "roupCompetitionProto"
     };
