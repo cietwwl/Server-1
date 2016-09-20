@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
@@ -36,24 +37,17 @@ public class PrepareAreaMgr {
 	 * @param position
 	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
-		//String groupId = GroupHelper.getGroupId(player);
 		String groupId = "9899";
-		if(StringUtils.isBlank(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("请先加入帮派");
-			return;
-		}
-		if(groupScene == null || !groupScene.containsKey(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
-			gcRsp.setTipMsg("场景未开启");
-			return;
-		}
-		List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(groupScene.get(groupId));
-		List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
-		if(null != allBaseInfo && !allBaseInfo.isEmpty()){
-			gcRsp.addAllPlayers(allBaseInfo);
-		}
 		informPreparePosition(player, gcRsp, position);
+		if(gcRsp.getRstType() == GCResultType.SUCCESS){
+			long sceneId = groupScene.get(groupId);
+			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
+			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
+			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
+			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
+				gcRsp.addAllPlayers(allBaseInfo);
+			}
+		}
 	}
 
 	/**
@@ -76,8 +70,8 @@ public class PrepareAreaMgr {
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
-		pInfo.setPx(position.getX() > 0.01f ? position.getX() : 0.01f);
-		pInfo.setPy(position.getY() > 0.01f ? position.getY() : 0.01f);
+		pInfo.setPx(position.getX());
+		pInfo.setPy(position.getY());
 		SameSceneContainer.getInstance().putUserToScene(groupScene.get(groupId), player.getUserId(), pInfo);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
