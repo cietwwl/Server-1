@@ -90,4 +90,9 @@ public class TBTeamItemMgr{
 		result.setSelecting(true);
 		return result;
 	}
+	
+	public boolean removeTeam(TBTeamItem teamItem){
+		if(!teamItem.removeAble()) return false;
+		return TBTeamItemHolder.getInstance().removeTeam(teamItem);
+	}
 }

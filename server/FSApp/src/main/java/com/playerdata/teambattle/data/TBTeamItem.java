@@ -7,12 +7,14 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.bm.TeamBattleConst;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
+import com.playerdata.teambattle.enums.TBMemberState;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
@@ -75,6 +77,13 @@ public class TBTeamItem implements IMapItem{
 		return Collections.unmodifiableList(members);
 	}
 	
+	public TeamMember findMember(String userID){
+		for(TeamMember mem : members){
+			if(StringUtils.equals(mem.getUserID(), userID)) return mem;
+		}
+		return null;
+	}
+	
 	public synchronized boolean isFull(){
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return true;
 		if(members.size() == TeamBattleConst.TEAM_MAX_MEMBER - 1) return isSelecting;
@@ -85,6 +94,15 @@ public class TBTeamItem implements IMapItem{
 		if(members.size() >= TeamBattleConst.TEAM_MAX_MEMBER) return false;
 		members.add(member);
 		return true;
+	}
+	
+	public synchronized boolean removeMember(TeamMember member){
+		boolean result = members.remove(member);
+		if(members.size() == 0) return true;
+		if(StringUtils.equals(member.getUserID(), leaderID)){
+			leaderID = members.get(0).getUserID();
+		}
+		return result;
 	}
 
 	public boolean isCanFreeJion() {
@@ -109,5 +127,15 @@ public class TBTeamItem implements IMapItem{
 
 	public void setSelecting(boolean isSelecting) {
 		this.isSelecting = isSelecting;
+	}
+	
+	public boolean removeAble(){
+		if(members.size() == 0) return true;
+		for(TeamMember member : members){
+			if(member.getState().equals(TBMemberState.Fight)) return false;
+			if(member.getState().equals(TBMemberState.HalfFinish)) return false;
+			if(member.getState().equals(TBMemberState.Ready)) return false;
+		}
+		return true;
 	}
 }

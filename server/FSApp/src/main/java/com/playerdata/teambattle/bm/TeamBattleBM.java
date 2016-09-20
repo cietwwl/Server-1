@@ -32,7 +32,6 @@ public class TeamBattleBM {
 	private static class InstanceHolder{
 		private static TeamBattleBM instance = new TeamBattleBM();
 		private static AtomicLong atoTeamID = new AtomicLong(System.nanoTime());
-		private static TeamBattleJudger tbJudger = TeamBattleJudger.getInstance();
 	}
 	
 	public static TeamBattleBM getInstance(){
@@ -51,6 +50,7 @@ public class TeamBattleBM {
 		ArmyInfoSimple simpleArmy = ArmyInfoHelper.getSimpleInfo(player.getUserId(), item.getMagicID(), item.getHeroIDs());
 		if(simpleArmy == null) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("队伍数据异常，保存失败");
 			return;
 		}
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
@@ -64,8 +64,8 @@ public class TeamBattleBM {
 
 	public void createTeam(Player player, Builder tbRsp, String hardID) {
 		//TODO 判断是否可以创建队伍
-		
-		UserTeamBattleDataMgr.getInstance().leaveTeam(player);
+
+		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
@@ -97,6 +97,7 @@ public class TeamBattleBM {
 			canJionTeam.setSelecting(false);
 		} catch (JoinTeamException e) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg(e.getMessage());
 		}
 	}
 
@@ -106,10 +107,12 @@ public class TeamBattleBM {
 		TBTeamItem teamItem = TBTeamItemHolder.getInstance().getItem(hardID, teamID);
 		if(teamItem == null) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("队伍不存在");
 			return;
 		}
 		if(teamItem.isFull()) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("队伍已满");
 			return;
 		}
 		try {
@@ -117,6 +120,7 @@ public class TeamBattleBM {
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg(e.getMessage());
 		}
 	}
 
@@ -124,15 +128,35 @@ public class TeamBattleBM {
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(teamID);
 		if(!StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("权限不足");
 			return;
 		}
 		teamItem.setCanFreeJion(!teamItem.isCanFreeJion());
-		
+		tbRsp.setFreeJoin(teamItem.isCanFreeJion());
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void kickoffMember(Player player, Builder tbRsp) {
-		
+	public void kickoffMember(Player player, Builder tbRsp, String userID, String teamID) {
+		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(teamID);
+		if(!StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("权限不足");
+			return;
+		}
+		TeamMember kickMember = teamItem.findMember(userID);
+		if(!kickMember.getState().equals(TBMemberState.Ready)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能踢出非空闲状态的玩家");
+			return;
+		}
+		UserTeamBattleDataMgr.getInstance().leaveTeam(userID);
+		UserTeamBattleDataMgr.getInstance().synData(userID);
+		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+	
+	public void leaveTeam(Player player, Builder tbRsp) {
+		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
+		UserTeamBattleDataMgr.getInstance().synData(player);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
@@ -151,11 +175,6 @@ public class TeamBattleBM {
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void leaveTeam(Player player, Builder tbRsp) {
-		
-		tbRsp.setRstType(TBResultType.SUCCESS);
-	}
-
 	public void scoreExchage(Player player, Builder tbRsp) {
 		
 		tbRsp.setRstType(TBResultType.SUCCESS);
@@ -163,7 +182,7 @@ public class TeamBattleBM {
 	
 	private void joinTeam(Player player, TBTeamItem canJionTeam) throws JoinTeamException {
 		//脱离当前的队伍
-		UserTeamBattleDataMgr.getInstance().leaveTeam(player);
+		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());

@@ -31,6 +31,11 @@ public class TBTeamItemHolder{
 		return getItemStore(teamItem.getHardID()).updateItem(teamItem);
 	}
 	
+	public boolean removeTeam(TBTeamItem teamItem){
+		if(StringUtils.isBlank(teamItem.getHardID()) || StringUtils.isBlank(teamItem.getTeamID())) return false;
+		return getItemStore(teamItem.getHardID()).removeItem(teamItem.getTeamID());
+	}
+	
 	public TBTeamItem getItem(String hardID, String teamID){
 		return getItemStore(hardID).getItem(teamID);
 	}
@@ -50,7 +55,7 @@ public class TBTeamItemHolder{
 	public void synData(TBTeamItem teamItem){
 		for(TeamMember member : teamItem.getMembers()){
 			Player player = PlayerMgr.getInstance().find(member.getUserID());
-			synData(player, teamItem);
+			if(player!= null) synData(player, teamItem);
 		}
 	}
 	

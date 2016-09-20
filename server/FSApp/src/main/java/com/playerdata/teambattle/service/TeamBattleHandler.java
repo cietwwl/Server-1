@@ -68,7 +68,7 @@ public class TeamBattleHandler {
 	public ByteString kickoffMember(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.kickoffMember(player, tbRsp);
+		tbBM.kickoffMember(player, tbRsp, msgTBRequest.getUserID(), msgTBRequest.getTeamID());
 		return tbRsp.build().toByteString();
 	}
 
