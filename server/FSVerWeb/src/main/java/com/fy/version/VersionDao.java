@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.engine.spi.VersionValue;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -154,10 +155,12 @@ public class VersionDao {
 		Version version = null;
 		try {
 			version = Version.fromFile(file);
-			version.setLoginServerDomain(loginServerDomain);
-			version.setCdnDomain(cdnDomain);
-			version.setCdnBackUpDomain(cdnBackUpDomain);
-			version.setLogServerAddress(logServerAddress);
+			if (StringUtils.isBlank(version.getLoginServerDomain()) || StringUtils.isBlank(version.getCdnDomain()) || StringUtils.isBlank(version.getCdnBackUpDomain()) || StringUtils.isBlank(version.getLogServerAddress())) {
+				version.setLoginServerDomain(loginServerDomain);
+				version.setCdnDomain(cdnDomain);
+				version.setCdnBackUpDomain(cdnBackUpDomain);
+				version.setLogServerAddress(logServerAddress);
+			}
 		}catch (Exception e){
 			e.printStackTrace();
 			throw(new RuntimeException("版本配置有错，请检查."));
