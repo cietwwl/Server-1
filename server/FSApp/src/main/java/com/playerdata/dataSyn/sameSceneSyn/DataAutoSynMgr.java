@@ -63,6 +63,13 @@ public class DataAutoSynMgr {
 		}
 	}
 	
+	/**
+	 * 给一个场景内的所有玩家同步最新的数据（只同步有改变的数据）
+	 * @param sceneId
+	 * @param synType
+	 * @param synObject
+	 * @return
+	 */
 	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
 		int synCount = 0;
 		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
@@ -77,15 +84,13 @@ public class DataAutoSynMgr {
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
 			Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
-			if(null == player){
-				//获取的map是单独创建的，所以，这里没有用迭代的remove删除
+			if (null == player) {
 				//把玩家标记为离开
-				SameSceneContainer.getInstance().removeUserFromScene(sceneId, entry.getKey());
-				continue;
+				entry.getValue().setRemoved(true);
+			}else{
+				synCount++;
+				players.add(player);
 			}
-			synCount++;
-			players.add(player);
-			
 			if(entry.getValue().isRemoved()){
 				//元素是否被删除
 				removedPlayers.add(entry.getKey());
@@ -114,6 +119,13 @@ public class DataAutoSynMgr {
 		return synCount;
 	}
 	
+	/**
+	 * 给一个玩家同步全部数据（包括旧的没改变的数据）
+	 * @param player
+	 * @param sceneId
+	 * @param synType
+	 * @param synObject
+	 */
 	public <T extends SameSceneDataBaseIF> void synDataToOnePlayer(Player player, long sceneId, eSynType synType, SameSceneSynDataIF synObject){
 		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
 		if(null == player || null == synData || synData.isEmpty() || sceneId <= 0){

@@ -53,12 +53,10 @@ public class SameSceneContainer {
 			return false;
 		}
 		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
-
 		SameSceneDataBaseIF data = scene.get(userId);
 		if(null != data){
 			value.setNewAdd(data.isNewAdd());
 			value.setRemoved(data.isRemoved());
-			// data = value;
 		}
 		scene.put(userId, value);
 		return true;
