@@ -3,7 +3,7 @@ package com.playerdata.activity.rateType;
 import com.playerdata.dataSyn.annotation.SynClass;
 /**
  * 
- * @author 阳小飞  发给客户端的合货币相关的倍数信心，在战斗前发送
+ * @author 阳小飞  发给客户端的合货币相关的倍数信息，在战斗前发送
  *
  */
 @SynClass
@@ -23,7 +23,4 @@ public class eSpecialItemIDUserInfo {
 	public void setPlayerExp(int playerExp) {
 		this.playerExp = playerExp;
 	}
-
-	
-	
 }
