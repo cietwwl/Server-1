@@ -14,6 +14,10 @@ import com.rwbase.dao.battle.pojo.BufferCfgDAO;
 import com.rwbase.dao.battle.pojo.cfg.BufferCfg;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.skill.SkillCfgDAO;
+import com.rwbase.dao.skill.SkillListenerCfgDAO;
+import com.rwbase.dao.skill.pojo.SkillCfg;
+import com.rwbase.dao.skill.pojo.SkillListenerCfg;
 
 /*
  * @author HC
@@ -43,16 +47,43 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 		// 计算buffer加成
 		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 
-		BufferCfgDAO cfgDAO = BufferCfgDAO.getCfgDAO();
+		SkillCfgDAO skillCfgDAO = SkillCfgDAO.getInstance();
+		BufferCfgDAO buffCfgDAO = BufferCfgDAO.getCfgDAO();
+		SkillListenerCfgDAO skillListenerCfgDAO = SkillListenerCfgDAO.getCfgDAO();
+
 		for (int i = 0, size = passiveSkillIdList.size(); i < size; i++) {
-			String bufferId = passiveSkillIdList.get(i) + "_" + magicLevel;
-			BufferCfg bufferCfg = cfgDAO.getCfgById(bufferId);
-			if (bufferCfg == null) {
-				// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的被动技能[%s]找不到BufferCfg的配置表", magicId, bufferId));
+			String skillId = passiveSkillIdList.get(i) + "_" + magicLevel;
+			SkillCfg skillCfg = skillCfgDAO.getCfgById(skillId);
+			if (skillCfg == null) {
 				continue;
 			}
 
-			AttributeUtils.calcAttribute(bufferCfg.getAttrDataMap(), bufferCfg.getPrecentAttrDataMap(), map);
+			List<String> listenerIdList = skillCfg.getListenerIdList();
+			if (listenerIdList == null || listenerIdList.isEmpty()) {
+				continue;
+			}
+
+			for (int j = 0, lSize = listenerIdList.size(); j < lSize; j++) {
+				SkillListenerCfg skillListenerCfg = skillListenerCfgDAO.getCfgById(listenerIdList.get(j));
+				if (skillListenerCfg == null) {
+					continue;
+				}
+
+				List<String> buffIdList = skillListenerCfg.getBuffIdList();
+				if (buffIdList == null || buffIdList.isEmpty()) {
+					continue;
+				}
+
+				for (int k = 0, bSize = buffIdList.size(); k < bSize; k++) {
+					BufferCfg bufferCfg = buffCfgDAO.getCfgById(buffIdList.get(k) + "_" + magicLevel);
+					if (bufferCfg == null) {
+						// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的被动技能[%s]找不到BufferCfg的配置表", magicId, bufferId));
+						continue;
+					}
+
+					AttributeUtils.calcAttribute(bufferCfg.getAttrDataMap(), bufferCfg.getPrecentAttrDataMap(), map);
+				}
+			}
 		}
 
 		if (map.isEmpty()) {

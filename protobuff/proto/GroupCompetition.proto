@@ -1,6 +1,7 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "GroupCompetitionProto";
+import "FashionService.proto";
 
 package groupCompetition;
 
@@ -13,8 +14,9 @@ enum GCRequestType{
 	PlaybackMsg = 5; //赛事回放
 	AllGuess = 6; //所有竞猜信息
 	NewGuess = 7; //发起新的竞猜
-	GetMatchView = 8; // 获取对阵信息
-	GetSelectionData = 9; // 获取海选信息
+	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
+	GetMatchView = 9; // 获取对阵信息
+	GetSelectionData = 10; // 获取海选信息
 }
 
 enum GCResultType {
@@ -25,10 +27,13 @@ enum GCResultType {
 message CommonReqMsg{
 	required GCRequestType reqType = 1;		//请求功能协议类型
 	optional AreaPosition position = 2;		//玩家当前在备战区的位置
+	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
 }
 
 message CommonRspMsg{
 	required GCResultType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
+	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
 }
 
 message AreaPosition{
@@ -93,5 +98,19 @@ message ReqNewGuess{
 //回应押注
 message RsqNewGuess{
 	required GCResultType rstType = 1; //是否成功处理
+}
+
+//用于同屏的玩家基本信息
+message PlayerBaseInfo{
+	required string userId = 1;//玩家ID
+	required string userName = 2;//玩家名字
+	required int32 level = 3;//玩家等级
+	required string imageId = 4;//头像ID
+	required int32 career = 5;//职业
+	required int32 sex = 6;//性别
+	required int32 careerLevel = 7;//职业等级
+	required int32 fightingAll = 8;//总战斗力
+	optional int32 modelId = 9;//模型ID
+	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 

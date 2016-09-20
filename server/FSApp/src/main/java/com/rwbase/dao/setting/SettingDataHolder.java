@@ -34,6 +34,7 @@ public class SettingDataHolder {
 		TableSettingData m_SettingTable = get();
 		if (m_SettingTable != null) {
 			ClientDataSynMgr.updateData(player, m_SettingTable, synType, eSynOpType.UPDATE_SINGLE);
+			m_SettingTableDAO.update(m_SettingTable);
 		} else {
 			GameLog.error("SettingDataHolder", "#update()", "find TableSettingData fail:" + userId);
 		}

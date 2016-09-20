@@ -10,6 +10,9 @@ import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.RankingMgr;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
@@ -17,7 +20,9 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.ranking.RankingUtils;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.RankServiceProtos.RankInfo;
 
 public class GmQueryPlayerRanking implements IGmTask {
@@ -66,20 +71,38 @@ public class GmQueryPlayerRanking implements IGmTask {
 		return response;
 	}
 	
-	private void processCommonRank(RankType rankType, GmResponse response){
+	private void processCommonRank(RankType rankType, GmResponse response) {
 		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		for (RankInfo rankInfo : rankList) {
 
 			int rank = rankInfo.getRankingLevel();
 			String userId = rankInfo.getHeroUUID();
 			String userName = rankInfo.getHeroName();
-			int value = rankInfo.getRankingLevel();
+			int value;
+			int levOrPoint = rankInfo.getLevel();
+			switch (rankType) {
+			case WARRIOR_ARENA:
+			case SWORDMAN_ARENA:
+			case MAGICAN_ARENA:
+			case PRIEST_ARENA:
+			case TEAM_FIGHTING:
+			case LEVEL_ALL:
+				value = rankInfo.getFightingTeam();
+				break;
+			case FIGHTING_ALL:
+				value = rankInfo.getFightingAll();
+				break;
+			default:
+				value = 0;
+				break;
+			}
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("rank", rank);
 			map.put("roleId", userId);
 			map.put("roleName", userName);
-			map.put("value", value);
+			map.put("levOrPoint", levOrPoint);
+			map.put("fight", value);
 
 			response.addResult(map);
 		}
@@ -96,13 +119,25 @@ public class GmQueryPlayerRanking implements IGmTask {
 			MSScoreDataItem extendedAttribute = entry.getExtendedAttribute();
 			String userId = extendedAttribute.getUserId();
 			String userName = extendedAttribute.getUserName();
-			int value = extendedAttribute.getTotalScore();
+			int levOrPoint = extendedAttribute.getTotalScore();
+			int fight = 0;
+			RankingLevelData rankLevelData = RankingMgr.getInstance().getRankLevelData(RankType.LEVEL_ALL, userId);
+			if(rankLevelData != null){
+				fight = rankLevelData.getFightingTeam();
+			}else{
+				Player player = PlayerMgr.getInstance().find(userId);
+				if(player != null){
+					fight = player.getHeroMgr().getFightingTeam(player);
+				}
+			}
+			
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("rank", rank);
 			map.put("roleId", userId);
 			map.put("roleName", userName);
-			map.put("value", value);
+			map.put("levOrPoint", levOrPoint);
+			map.put("fight", fight);
 
 			response.addResult(map);
 			rank++;

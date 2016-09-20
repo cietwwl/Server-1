@@ -6,7 +6,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 1000032,,1000032,物攻,fx_200001_skill02_begin,bind_root,1.2,fx_200001_skill02_loop,bind_hp,,,
 100004,,100004,物攻,fx_200001_skill02_begin,bind_root,1.2,fx_200001_skill02_loop,bind_hp,,,
 200001021,,200001021,,fx_200001_skill02_begin,bind_root,1.2,fx_200001_skill02_loop,bind_hp,,,
-200001031,,200001031,,,,,,,,,0.5
+200001031,,200001031,,,,,fx_200001_skill03_loop,bind_hp,,,0.5
 200001032,,200001032,,,,,500008_loop,bind_hp,,,
 201001031,,201001031,,,,,,,,,
 201001041,,201001041,,,,,,,,,
@@ -48,7 +48,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 204006011,,204006011,,,,,,,,,
 204006021,,204006021,,,,,,,,,
 204006031,,204006031,,,,,500025_loop,hit,,,0.6
-200004011,,200004011,,,,,500001_loop,bind_hp,,,
+200004011,,200004011,,,,,fx_200004_skill01_buff,bind_hp,,,
 200004021,,200004021,,,,,500002_loop,bind_hp,,,
 200004031,,200004031,,fx_200001_skill02_begin,bind_root,1.2,fx_200001_skill02_loop,bind_hp,,,
 200004041,,200004041,,,,,,,,,
@@ -77,7 +77,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 203002042,,203002042,,,,,,,,,
 203002043,,203002043,,,,,,,,,
 201005011,,201005011,,,,,,,,,
-201005021,,201005021,,,,,,,,,
+201005021,,201005021,,,,,fx_201005_skill02_loop,bind_hp,,,
 201005031,,201005031,,,,,,,,,
 204004011,,204004011,,,,,,,,,
 204004021,,204004021,,,,,fx_204004_skill02buff_loop,bind_hp,,,
@@ -108,6 +108,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 203011031,,203011031,,,,,,,,,
 203011041,,203011041,生命,,,,,,,,
 203011042,,203011042,,,,,,,,,
+202010021,,202010021,,,,,,,,,
 202010031,,202010031,,,,,500001_loop,bind_hp,,,
 202010041,,202010041,,,,,,,,,
 200009011,,200009011,,fx_200010_buff_begin,hit,0.5,fx_200010_buff_loop,hit,fx_200010_buff_end,hit,0.5

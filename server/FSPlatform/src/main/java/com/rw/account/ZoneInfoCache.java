@@ -13,7 +13,7 @@ public class ZoneInfoCache {
 	private String zoneName;
 	//subzone 是用户注册的时候分配的，一个zone有一个或椟个subZone组成
 	private String channelId; //渠道id
-	private String subZone;
+	private int subZone;
 	private int enabled;  //分区是否已开启. 0 否 1 是
 	private int status;  //状态  参考 LoginServiceProtos.java ZoneStatusType  0 hot 1 recommanded 2 new
 	private int recommand;  //是否推荐  1是0否
@@ -87,11 +87,6 @@ public class ZoneInfoCache {
 	}
 
 
-	public void setSubZone(String subZone) {
-		this.subZone = subZone;
-	}
-
-
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
@@ -152,10 +147,13 @@ public class ZoneInfoCache {
 	}
 
 
-	public String getSubZone() {
+	public int getSubZone() {
 		return subZone;
 	}
 
+	public void setSubZone(int subZone) {
+		this.subZone = subZone;
+	}
 
 	public int getEnabled() {
 		return enabled;
