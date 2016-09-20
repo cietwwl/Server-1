@@ -8,8 +8,14 @@ import com.rw.service.TaoistMagic.datamodel.TaoistConsumeCfgHelper;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class AssistantCheckTaoist extends DefaultAssistantChecker {
+
+	@Override
+	public eOpenLevelType getOpenType() {
+		return eOpenLevelType.TAOIST;
+	}
 
 	@Override
 	public AssistantEventID doCheck(Player player) {
