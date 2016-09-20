@@ -553,10 +553,18 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 					continue;
 				}
 
+				if (skill.getOrder() != SkillConstant.NORMAL_SKILL_ORDER) {
+					continue;
+				}
+
 				if (skill.getSkillId().equals(attackId)) {
 					hasNormalSkill = true;
 					break;
 				}
+
+				skill.setSkillId(attackId);
+				skillItemHolder.updateItem(player, heroId, skill);
+				hasNormalSkill = true;
 			}
 
 			if (!hasNormalSkill) {
