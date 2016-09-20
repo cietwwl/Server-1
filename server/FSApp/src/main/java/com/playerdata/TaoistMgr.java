@@ -141,4 +141,15 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		return getEffects(record);
 	}
+
+	/**
+	 * 获取当前所有的道术信息
+	 * 
+	 * @return
+	 */
+	public Iterable<Entry<Integer, Integer>> getAllTaoist() {
+		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		return record.getAll();
+	}
 }

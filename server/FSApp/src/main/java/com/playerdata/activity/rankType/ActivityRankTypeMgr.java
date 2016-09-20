@@ -14,6 +14,11 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.activity.ActivityRedPointEnum;
+import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -29,7 +34,7 @@ import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.RankServiceProtos.RankInfo;
 
 
-public class ActivityRankTypeMgr {
+public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 	
 	private static ActivityRankTypeMgr instance = new ActivityRankTypeMgr();
 	
@@ -119,7 +124,7 @@ public class ActivityRankTypeMgr {
 					sendtime = nowtime;
 					nowtime = tmp;					
 				}
-				if(DateUtils.getHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
+				if(DateUtils.getAbsoluteHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
 					activityRankTypeItem.setClosed(true);
 					dataHolder.updateItem(player, activityRankTypeItem);
 				}				
@@ -285,6 +290,28 @@ public class ActivityRankTypeMgr {
 				sendMap.put(cfg.getId(), record);//替换
 			}			
 		}		
+	}
+
+
+
+	@Override
+	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+		ActivityRankTypeItemHolder activityCountTypeItemHolder = new ActivityRankTypeItemHolder();
+		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(eNum.getCfgId());
+		if(rankEnum == null){
+			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
+			return;
+		}
+		ActivityRankTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rankEnum);
+		if(dataItem == null){
+			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			return;
+		}
+		if(!dataItem.isTouchRedPoint()){
+			dataItem.setTouchRedPoint(true);
+			activityCountTypeItemHolder.updateItem(player, dataItem);
+		}	
+		
 	}
 	
 	

@@ -204,7 +204,7 @@ public final class GroupSecretProto {
      * <code>GET_INVITE_SECRET_INFO = 9;</code>
      *
      * <pre>
-     *请求邀请驻守秘境的信息
+     *获取要进入邀请秘境的信息
      * </pre>
      */
     GET_INVITE_SECRET_INFO(8, 9),
@@ -278,7 +278,7 @@ public final class GroupSecretProto {
      * <code>GET_INVITE_SECRET_INFO = 9;</code>
      *
      * <pre>
-     *请求邀请驻守秘境的信息
+     *获取要进入邀请秘境的信息
      * </pre>
      */
     public static final int GET_INVITE_SECRET_INFO_VALUE = 9;
@@ -369,18 +369,26 @@ public final class GroupSecretProto {
      */
     int getSecretCfgId();
 
-    // repeated string teamHeroId = 2;
+    // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getTeamHeroIdList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getTeamHeroIdList();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+     *
+     * <pre>
+     *防守阵容的英雄列表Id
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
@@ -388,22 +396,23 @@ public final class GroupSecretProto {
      */
     int getTeamHeroIdCount();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    java.lang.String getTeamHeroId(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getTeamHeroIdOrBuilderList();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getTeamHeroIdBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code groupSecret.CreateGroupSecretReqMsg}
@@ -467,10 +476,10 @@ public final class GroupSecretProto {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                teamHeroId_ = new com.google.protobuf.LazyStringArrayList();
+                teamHeroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              teamHeroId_.add(input.readBytes());
+              teamHeroId_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
           }
@@ -482,7 +491,7 @@ public final class GroupSecretProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(teamHeroId_);
+          teamHeroId_ = java.util.Collections.unmodifiableList(teamHeroId_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -540,22 +549,32 @@ public final class GroupSecretProto {
       return secretCfgId_;
     }
 
-    // repeated string teamHeroId = 2;
+    // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
     public static final int TEAMHEROID_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList teamHeroId_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> teamHeroId_;
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getTeamHeroIdList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getTeamHeroIdList() {
       return teamHeroId_;
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+     *
+     * <pre>
+     *防守阵容的英雄列表Id
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getTeamHeroIdOrBuilderList() {
+      return teamHeroId_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
@@ -565,30 +584,30 @@ public final class GroupSecretProto {
       return teamHeroId_.size();
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    public java.lang.String getTeamHeroId(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index) {
       return teamHeroId_.get(index);
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *防守阵容的英雄列表Id
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getTeamHeroIdBytes(int index) {
-      return teamHeroId_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+        int index) {
+      return teamHeroId_.get(index);
     }
 
     private void initFields() {
       secretCfgId_ = 0;
-      teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      teamHeroId_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -598,6 +617,12 @@ public final class GroupSecretProto {
       if (!hasSecretCfgId()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getTeamHeroIdCount(); i++) {
+        if (!getTeamHeroId(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -610,7 +635,7 @@ public final class GroupSecretProto {
         output.writeInt32(1, secretCfgId_);
       }
       for (int i = 0; i < teamHeroId_.size(); i++) {
-        output.writeBytes(2, teamHeroId_.getByteString(i));
+        output.writeMessage(2, teamHeroId_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -625,14 +650,9 @@ public final class GroupSecretProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, secretCfgId_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < teamHeroId_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(teamHeroId_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getTeamHeroIdList().size();
+      for (int i = 0; i < teamHeroId_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, teamHeroId_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -746,6 +766,7 @@ public final class GroupSecretProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTeamHeroIdFieldBuilder();
         }
       }
       private static Builder create() {
@@ -756,8 +777,12 @@ public final class GroupSecretProto {
         super.clear();
         secretCfgId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          teamHeroIdBuilder_.clear();
+        }
         return this;
       }
 
@@ -790,12 +815,15 @@ public final class GroupSecretProto {
           to_bitField0_ |= 0x00000001;
         }
         result.secretCfgId_ = secretCfgId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              teamHeroId_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (teamHeroIdBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            teamHeroId_ = java.util.Collections.unmodifiableList(teamHeroId_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.teamHeroId_ = teamHeroId_;
+        } else {
+          result.teamHeroId_ = teamHeroIdBuilder_.build();
         }
-        result.teamHeroId_ = teamHeroId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -815,15 +843,31 @@ public final class GroupSecretProto {
         if (other.hasSecretCfgId()) {
           setSecretCfgId(other.getSecretCfgId());
         }
-        if (!other.teamHeroId_.isEmpty()) {
-          if (teamHeroId_.isEmpty()) {
-            teamHeroId_ = other.teamHeroId_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureTeamHeroIdIsMutable();
-            teamHeroId_.addAll(other.teamHeroId_);
+        if (teamHeroIdBuilder_ == null) {
+          if (!other.teamHeroId_.isEmpty()) {
+            if (teamHeroId_.isEmpty()) {
+              teamHeroId_ = other.teamHeroId_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTeamHeroIdIsMutable();
+              teamHeroId_.addAll(other.teamHeroId_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.teamHeroId_.isEmpty()) {
+            if (teamHeroIdBuilder_.isEmpty()) {
+              teamHeroIdBuilder_.dispose();
+              teamHeroIdBuilder_ = null;
+              teamHeroId_ = other.teamHeroId_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              teamHeroIdBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTeamHeroIdFieldBuilder() : null;
+            } else {
+              teamHeroIdBuilder_.addAllMessages(other.teamHeroId_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -833,6 +877,12 @@ public final class GroupSecretProto {
         if (!hasSecretCfgId()) {
           
           return false;
+        }
+        for (int i = 0; i < getTeamHeroIdCount(); i++) {
+          if (!getTeamHeroId(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -905,133 +955,316 @@ public final class GroupSecretProto {
         return this;
       }
 
-      // repeated string teamHeroId = 2;
-      private com.google.protobuf.LazyStringList teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> teamHeroId_ =
+        java.util.Collections.emptyList();
       private void ensureTeamHeroIdIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.LazyStringArrayList(teamHeroId_);
+          teamHeroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(teamHeroId_);
           bitField0_ |= 0x00000002;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> teamHeroIdBuilder_;
+
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getTeamHeroIdList() {
-        return java.util.Collections.unmodifiableList(teamHeroId_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getTeamHeroIdList() {
+        if (teamHeroIdBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(teamHeroId_);
+        } else {
+          return teamHeroIdBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
       public int getTeamHeroIdCount() {
-        return teamHeroId_.size();
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.size();
+        } else {
+          return teamHeroIdBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
-      public java.lang.String getTeamHeroId(int index) {
-        return teamHeroId_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index) {
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.get(index);
+        } else {
+          return teamHeroIdBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
-       *
-       * <pre>
-       *防守阵容的英雄列表Id
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getTeamHeroIdBytes(int index) {
-        return teamHeroId_.getByteString(index);
-      }
-      /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
       public Builder setTeamHeroId(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.set(index, value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public Builder setTeamHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public Builder addTeamHeroId(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
       public Builder addTeamHeroId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(index, value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public Builder addTeamHeroId(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public Builder addTeamHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
       public Builder addAllTeamHeroId(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureTeamHeroIdIsMutable();
-        super.addAll(values, teamHeroId_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          super.addAll(values, teamHeroId_);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
       public Builder clearTeamHeroId() {
-        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *防守阵容的英雄列表Id
        * </pre>
        */
-      public Builder addTeamHeroIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.add(value);
-        onChanged();
+      public Builder removeTeamHeroId(int index) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.remove(index);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getTeamHeroIdBuilder(
+          int index) {
+        return getTeamHeroIdFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+          int index) {
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.get(index);  } else {
+          return teamHeroIdBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getTeamHeroIdOrBuilderList() {
+        if (teamHeroIdBuilder_ != null) {
+          return teamHeroIdBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(teamHeroId_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addTeamHeroIdBuilder() {
+        return getTeamHeroIdFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addTeamHeroIdBuilder(
+          int index) {
+        return getTeamHeroIdFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *防守阵容的英雄列表Id
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getTeamHeroIdBuilderList() {
+        return getTeamHeroIdFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getTeamHeroIdFieldBuilder() {
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroIdBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  teamHeroId_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          teamHeroId_ = null;
+        }
+        return teamHeroIdBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.CreateGroupSecretReqMsg)
@@ -2145,18 +2378,26 @@ public final class GroupSecretProto {
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // repeated string teamHeroId = 2;
+    // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getTeamHeroIdList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getTeamHeroIdList();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+     *
+     * <pre>
+     *请求更换的阵容信息
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -2164,22 +2405,23 @@ public final class GroupSecretProto {
      */
     int getTeamHeroIdCount();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    java.lang.String getTeamHeroId(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getTeamHeroIdOrBuilderList();
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getTeamHeroIdBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code groupSecret.ChangeDefendTeamReqMsg}
@@ -2243,10 +2485,10 @@ public final class GroupSecretProto {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                teamHeroId_ = new com.google.protobuf.LazyStringArrayList();
+                teamHeroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              teamHeroId_.add(input.readBytes());
+              teamHeroId_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
           }
@@ -2258,7 +2500,7 @@ public final class GroupSecretProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(teamHeroId_);
+          teamHeroId_ = java.util.Collections.unmodifiableList(teamHeroId_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2347,22 +2589,32 @@ public final class GroupSecretProto {
       }
     }
 
-    // repeated string teamHeroId = 2;
+    // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
     public static final int TEAMHEROID_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList teamHeroId_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> teamHeroId_;
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getTeamHeroIdList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getTeamHeroIdList() {
       return teamHeroId_;
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+     *
+     * <pre>
+     *请求更换的阵容信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getTeamHeroIdOrBuilderList() {
+      return teamHeroId_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -2372,30 +2624,30 @@ public final class GroupSecretProto {
       return teamHeroId_.size();
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    public java.lang.String getTeamHeroId(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index) {
       return teamHeroId_.get(index);
     }
     /**
-     * <code>repeated string teamHeroId = 2;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getTeamHeroIdBytes(int index) {
-      return teamHeroId_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+        int index) {
+      return teamHeroId_.get(index);
     }
 
     private void initFields() {
       id_ = "";
-      teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      teamHeroId_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2405,6 +2657,12 @@ public final class GroupSecretProto {
       if (!hasId()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getTeamHeroIdCount(); i++) {
+        if (!getTeamHeroId(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2417,7 +2675,7 @@ public final class GroupSecretProto {
         output.writeBytes(1, getIdBytes());
       }
       for (int i = 0; i < teamHeroId_.size(); i++) {
-        output.writeBytes(2, teamHeroId_.getByteString(i));
+        output.writeMessage(2, teamHeroId_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2432,14 +2690,9 @@ public final class GroupSecretProto {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getIdBytes());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < teamHeroId_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(teamHeroId_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getTeamHeroIdList().size();
+      for (int i = 0; i < teamHeroId_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, teamHeroId_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2553,6 +2806,7 @@ public final class GroupSecretProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTeamHeroIdFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2563,8 +2817,12 @@ public final class GroupSecretProto {
         super.clear();
         id_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          teamHeroIdBuilder_.clear();
+        }
         return this;
       }
 
@@ -2597,12 +2855,15 @@ public final class GroupSecretProto {
           to_bitField0_ |= 0x00000001;
         }
         result.id_ = id_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              teamHeroId_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (teamHeroIdBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            teamHeroId_ = java.util.Collections.unmodifiableList(teamHeroId_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.teamHeroId_ = teamHeroId_;
+        } else {
+          result.teamHeroId_ = teamHeroIdBuilder_.build();
         }
-        result.teamHeroId_ = teamHeroId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2624,15 +2885,31 @@ public final class GroupSecretProto {
           id_ = other.id_;
           onChanged();
         }
-        if (!other.teamHeroId_.isEmpty()) {
-          if (teamHeroId_.isEmpty()) {
-            teamHeroId_ = other.teamHeroId_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureTeamHeroIdIsMutable();
-            teamHeroId_.addAll(other.teamHeroId_);
+        if (teamHeroIdBuilder_ == null) {
+          if (!other.teamHeroId_.isEmpty()) {
+            if (teamHeroId_.isEmpty()) {
+              teamHeroId_ = other.teamHeroId_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTeamHeroIdIsMutable();
+              teamHeroId_.addAll(other.teamHeroId_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.teamHeroId_.isEmpty()) {
+            if (teamHeroIdBuilder_.isEmpty()) {
+              teamHeroIdBuilder_.dispose();
+              teamHeroIdBuilder_ = null;
+              teamHeroId_ = other.teamHeroId_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              teamHeroIdBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTeamHeroIdFieldBuilder() : null;
+            } else {
+              teamHeroIdBuilder_.addAllMessages(other.teamHeroId_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2642,6 +2919,12 @@ public final class GroupSecretProto {
         if (!hasId()) {
           
           return false;
+        }
+        for (int i = 0; i < getTeamHeroIdCount(); i++) {
+          if (!getTeamHeroId(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2763,133 +3046,316 @@ public final class GroupSecretProto {
         return this;
       }
 
-      // repeated string teamHeroId = 2;
-      private com.google.protobuf.LazyStringList teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> teamHeroId_ =
+        java.util.Collections.emptyList();
       private void ensureTeamHeroIdIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          teamHeroId_ = new com.google.protobuf.LazyStringArrayList(teamHeroId_);
+          teamHeroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(teamHeroId_);
           bitField0_ |= 0x00000002;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> teamHeroIdBuilder_;
+
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getTeamHeroIdList() {
-        return java.util.Collections.unmodifiableList(teamHeroId_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getTeamHeroIdList() {
+        if (teamHeroIdBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(teamHeroId_);
+        } else {
+          return teamHeroIdBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
       public int getTeamHeroIdCount() {
-        return teamHeroId_.size();
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.size();
+        } else {
+          return teamHeroIdBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
-      public java.lang.String getTeamHeroId(int index) {
-        return teamHeroId_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getTeamHeroId(int index) {
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.get(index);
+        } else {
+          return teamHeroIdBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
-       *
-       * <pre>
-       *请求更换的阵容信息
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getTeamHeroIdBytes(int index) {
-        return teamHeroId_.getByteString(index);
-      }
-      /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
       public Builder setTeamHeroId(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.set(index, value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public Builder setTeamHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public Builder addTeamHeroId(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
       public Builder addTeamHeroId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (teamHeroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(index, value);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public Builder addTeamHeroId(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public Builder addTeamHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
       public Builder addAllTeamHeroId(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureTeamHeroIdIsMutable();
-        super.addAll(values, teamHeroId_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          super.addAll(values, teamHeroId_);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
       public Builder clearTeamHeroId() {
-        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 2;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
        * </pre>
        */
-      public Builder addTeamHeroIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureTeamHeroIdIsMutable();
-        teamHeroId_.add(value);
-        onChanged();
+      public Builder removeTeamHeroId(int index) {
+        if (teamHeroIdBuilder_ == null) {
+          ensureTeamHeroIdIsMutable();
+          teamHeroId_.remove(index);
+          onChanged();
+        } else {
+          teamHeroIdBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getTeamHeroIdBuilder(
+          int index) {
+        return getTeamHeroIdFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getTeamHeroIdOrBuilder(
+          int index) {
+        if (teamHeroIdBuilder_ == null) {
+          return teamHeroId_.get(index);  } else {
+          return teamHeroIdBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getTeamHeroIdOrBuilderList() {
+        if (teamHeroIdBuilder_ != null) {
+          return teamHeroIdBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(teamHeroId_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addTeamHeroIdBuilder() {
+        return getTeamHeroIdFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addTeamHeroIdBuilder(
+          int index) {
+        return getTeamHeroIdFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition teamHeroId = 2;</code>
+       *
+       * <pre>
+       *请求更换的阵容信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getTeamHeroIdBuilderList() {
+        return getTeamHeroIdFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getTeamHeroIdFieldBuilder() {
+        if (teamHeroIdBuilder_ == null) {
+          teamHeroIdBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  teamHeroId_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          teamHeroId_ = null;
+        }
+        return teamHeroIdBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.ChangeDefendTeamReqMsg)
@@ -2974,7 +3440,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     boolean hasMessage();
@@ -2982,7 +3448,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     java.lang.String getMessage();
@@ -2990,7 +3456,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3220,7 +3686,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     public boolean hasMessage() {
@@ -3230,7 +3696,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     public java.lang.String getMessage() {
@@ -3251,7 +3717,7 @@ public final class GroupSecretProto {
      * <code>optional string message = 3;</code>
      *
      * <pre>
-     *发送的请求自定义消息
+     *附加信息
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3792,7 +4258,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public boolean hasMessage() {
@@ -3802,7 +4268,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public java.lang.String getMessage() {
@@ -3820,7 +4286,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3840,7 +4306,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public Builder setMessage(
@@ -3857,7 +4323,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public Builder clearMessage() {
@@ -3870,7 +4336,7 @@ public final class GroupSecretProto {
        * <code>optional string message = 3;</code>
        *
        * <pre>
-       *发送的请求自定义消息
+       *附加信息
        * </pre>
        */
       public Builder setMessageBytes(
@@ -3943,18 +4409,26 @@ public final class GroupSecretProto {
      */
     com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
 
-    // repeated string heroId = 3;
+    // repeated .BattleCommon.BattleHeroPosition heroId = 3;
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getHeroIdList();
+    java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> 
+        getHeroIdList();
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    com.rwproto.BattleCommon.BattleHeroPosition getHeroId(int index);
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
@@ -3962,22 +4436,23 @@ public final class GroupSecretProto {
      */
     int getHeroIdCount();
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    java.lang.String getHeroId(int index);
+    java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroIdOrBuilderList();
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getHeroIdBytes(int index);
+    com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code groupSecret.JoinSecretDefendReqMsg}
@@ -4052,10 +4527,10 @@ public final class GroupSecretProto {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                heroId_ = new com.google.protobuf.LazyStringArrayList();
+                heroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              heroId_.add(input.readBytes());
+              heroId_.add(input.readMessage(com.rwproto.BattleCommon.BattleHeroPosition.PARSER, extensionRegistry));
               break;
             }
           }
@@ -4067,7 +4542,7 @@ public final class GroupSecretProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(heroId_);
+          heroId_ = java.util.Collections.unmodifiableList(heroId_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4180,22 +4655,32 @@ public final class GroupSecretProto {
       return index_;
     }
 
-    // repeated string heroId = 3;
+    // repeated .BattleCommon.BattleHeroPosition heroId = 3;
     public static final int HEROID_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList heroId_;
+    private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroId_;
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getHeroIdList() {
+    public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroIdList() {
       return heroId_;
     }
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+        getHeroIdOrBuilderList() {
+      return heroId_;
+    }
+    /**
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
@@ -4205,31 +4690,31 @@ public final class GroupSecretProto {
       return heroId_.size();
     }
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    public java.lang.String getHeroId(int index) {
+    public com.rwproto.BattleCommon.BattleHeroPosition getHeroId(int index) {
       return heroId_.get(index);
     }
     /**
-     * <code>repeated string heroId = 3;</code>
+     * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
      *
      * <pre>
      *驻守的阵容信息
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getHeroIdBytes(int index) {
-      return heroId_.getByteString(index);
+    public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdOrBuilder(
+        int index) {
+      return heroId_.get(index);
     }
 
     private void initFields() {
       id_ = "";
       index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-      heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      heroId_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4243,6 +4728,12 @@ public final class GroupSecretProto {
       if (!hasIndex()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getHeroIdCount(); i++) {
+        if (!getHeroId(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -4258,7 +4749,7 @@ public final class GroupSecretProto {
         output.writeEnum(2, index_.getNumber());
       }
       for (int i = 0; i < heroId_.size(); i++) {
-        output.writeBytes(3, heroId_.getByteString(i));
+        output.writeMessage(3, heroId_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -4277,14 +4768,9 @@ public final class GroupSecretProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, index_.getNumber());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < heroId_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(heroId_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getHeroIdList().size();
+      for (int i = 0; i < heroId_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, heroId_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4398,6 +4884,7 @@ public final class GroupSecretProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHeroIdFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4410,8 +4897,12 @@ public final class GroupSecretProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
         bitField0_ = (bitField0_ & ~0x00000002);
-        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        if (heroIdBuilder_ == null) {
+          heroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          heroIdBuilder_.clear();
+        }
         return this;
       }
 
@@ -4448,12 +4939,15 @@ public final class GroupSecretProto {
           to_bitField0_ |= 0x00000002;
         }
         result.index_ = index_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              heroId_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (heroIdBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            heroId_ = java.util.Collections.unmodifiableList(heroId_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.heroId_ = heroId_;
+        } else {
+          result.heroId_ = heroIdBuilder_.build();
         }
-        result.heroId_ = heroId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4478,15 +4972,31 @@ public final class GroupSecretProto {
         if (other.hasIndex()) {
           setIndex(other.getIndex());
         }
-        if (!other.heroId_.isEmpty()) {
-          if (heroId_.isEmpty()) {
-            heroId_ = other.heroId_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureHeroIdIsMutable();
-            heroId_.addAll(other.heroId_);
+        if (heroIdBuilder_ == null) {
+          if (!other.heroId_.isEmpty()) {
+            if (heroId_.isEmpty()) {
+              heroId_ = other.heroId_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureHeroIdIsMutable();
+              heroId_.addAll(other.heroId_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.heroId_.isEmpty()) {
+            if (heroIdBuilder_.isEmpty()) {
+              heroIdBuilder_.dispose();
+              heroIdBuilder_ = null;
+              heroId_ = other.heroId_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              heroIdBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroIdFieldBuilder() : null;
+            } else {
+              heroIdBuilder_.addAllMessages(other.heroId_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4500,6 +5010,12 @@ public final class GroupSecretProto {
         if (!hasIndex()) {
           
           return false;
+        }
+        for (int i = 0; i < getHeroIdCount(); i++) {
+          if (!getHeroId(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4673,133 +5189,316 @@ public final class GroupSecretProto {
         return this;
       }
 
-      // repeated string heroId = 3;
-      private com.google.protobuf.LazyStringList heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      // repeated .BattleCommon.BattleHeroPosition heroId = 3;
+      private java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> heroId_ =
+        java.util.Collections.emptyList();
       private void ensureHeroIdIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          heroId_ = new com.google.protobuf.LazyStringArrayList(heroId_);
+          heroId_ = new java.util.ArrayList<com.rwproto.BattleCommon.BattleHeroPosition>(heroId_);
           bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> heroIdBuilder_;
+
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getHeroIdList() {
-        return java.util.Collections.unmodifiableList(heroId_);
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition> getHeroIdList() {
+        if (heroIdBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroId_);
+        } else {
+          return heroIdBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
       public int getHeroIdCount() {
-        return heroId_.size();
+        if (heroIdBuilder_ == null) {
+          return heroId_.size();
+        } else {
+          return heroIdBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
-      public java.lang.String getHeroId(int index) {
-        return heroId_.get(index);
+      public com.rwproto.BattleCommon.BattleHeroPosition getHeroId(int index) {
+        if (heroIdBuilder_ == null) {
+          return heroId_.get(index);
+        } else {
+          return heroIdBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string heroId = 3;</code>
-       *
-       * <pre>
-       *驻守的阵容信息
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getHeroIdBytes(int index) {
-        return heroId_.getByteString(index);
-      }
-      /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
       public Builder setHeroId(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdIsMutable();
-        heroId_.set(index, value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdIsMutable();
+          heroId_.set(index, value);
+          onChanged();
+        } else {
+          heroIdBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder setHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdBuilder_ == null) {
+          ensureHeroIdIsMutable();
+          heroId_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroIdBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addHeroId(com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdIsMutable();
+          heroId_.add(value);
+          onChanged();
+        } else {
+          heroIdBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
       public Builder addHeroId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdIsMutable();
-        heroId_.add(value);
-        onChanged();
+          int index, com.rwproto.BattleCommon.BattleHeroPosition value) {
+        if (heroIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroIdIsMutable();
+          heroId_.add(index, value);
+          onChanged();
+        } else {
+          heroIdBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addHeroId(
+          com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdBuilder_ == null) {
+          ensureHeroIdIsMutable();
+          heroId_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroIdBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addHeroId(
+          int index, com.rwproto.BattleCommon.BattleHeroPosition.Builder builderForValue) {
+        if (heroIdBuilder_ == null) {
+          ensureHeroIdIsMutable();
+          heroId_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroIdBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
       public Builder addAllHeroId(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureHeroIdIsMutable();
-        super.addAll(values, heroId_);
-        onChanged();
+          java.lang.Iterable<? extends com.rwproto.BattleCommon.BattleHeroPosition> values) {
+        if (heroIdBuilder_ == null) {
+          ensureHeroIdIsMutable();
+          super.addAll(values, heroId_);
+          onChanged();
+        } else {
+          heroIdBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
       public Builder clearHeroId() {
-        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
+        if (heroIdBuilder_ == null) {
+          heroId_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          heroIdBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string heroId = 3;</code>
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
        *
        * <pre>
        *驻守的阵容信息
        * </pre>
        */
-      public Builder addHeroIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureHeroIdIsMutable();
-        heroId_.add(value);
-        onChanged();
+      public Builder removeHeroId(int index) {
+        if (heroIdBuilder_ == null) {
+          ensureHeroIdIsMutable();
+          heroId_.remove(index);
+          onChanged();
+        } else {
+          heroIdBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder getHeroIdBuilder(
+          int index) {
+        return getHeroIdFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPositionOrBuilder getHeroIdOrBuilder(
+          int index) {
+        if (heroIdBuilder_ == null) {
+          return heroId_.get(index);  } else {
+          return heroIdBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+           getHeroIdOrBuilderList() {
+        if (heroIdBuilder_ != null) {
+          return heroIdBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroId_);
+        }
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroIdBuilder() {
+        return getHeroIdFieldBuilder().addBuilder(
+            com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public com.rwproto.BattleCommon.BattleHeroPosition.Builder addHeroIdBuilder(
+          int index) {
+        return getHeroIdFieldBuilder().addBuilder(
+            index, com.rwproto.BattleCommon.BattleHeroPosition.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleCommon.BattleHeroPosition heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleCommon.BattleHeroPosition.Builder> 
+           getHeroIdBuilderList() {
+        return getHeroIdFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder> 
+          getHeroIdFieldBuilder() {
+        if (heroIdBuilder_ == null) {
+          heroIdBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleCommon.BattleHeroPosition, com.rwproto.BattleCommon.BattleHeroPosition.Builder, com.rwproto.BattleCommon.BattleHeroPositionOrBuilder>(
+                  heroId_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          heroId_ = null;
+        }
+        return heroIdBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.JoinSecretDefendReqMsg)
@@ -5822,7 +6521,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     boolean hasId();
@@ -5830,7 +6529,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     java.lang.String getId();
@@ -5838,7 +6537,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -5848,7 +6547,7 @@ public final class GroupSecretProto {
    * Protobuf type {@code groupSecret.GetInviteSecretInfoReqMsg}
    *
    * <pre>
-   *请求邀请驻守的秘境信息的消息
+   *请求获取秘境的邀请信息
    * </pre>
    */
   public static final class GetInviteSecretInfoReqMsg extends
@@ -5951,7 +6650,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     public boolean hasId() {
@@ -5961,7 +6660,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     public java.lang.String getId() {
@@ -5982,7 +6681,7 @@ public final class GroupSecretProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *请求的秘境Id
+     *邀请的秘境的Id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -6116,7 +6815,7 @@ public final class GroupSecretProto {
      * Protobuf type {@code groupSecret.GetInviteSecretInfoReqMsg}
      *
      * <pre>
-     *请求邀请驻守的秘境信息的消息
+     *请求获取秘境的邀请信息
      * </pre>
      */
     public static final class Builder extends
@@ -6246,7 +6945,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public boolean hasId() {
@@ -6256,7 +6955,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public java.lang.String getId() {
@@ -6274,7 +6973,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6294,7 +6993,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder setId(
@@ -6311,7 +7010,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder clearId() {
@@ -6324,7 +7023,7 @@ public final class GroupSecretProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *请求的秘境Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder setIdBytes(
@@ -6352,28 +7051,28 @@ public final class GroupSecretProto {
   public interface GetInviteSecretInfoRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string id = 2;
+    // required string id = 1;
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     boolean hasId();
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     java.lang.String getId();
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -6383,7 +7082,7 @@ public final class GroupSecretProto {
    * Protobuf type {@code groupSecret.GetInviteSecretInfoRspMsg}
    *
    * <pre>
-   *请求邀请驻守的秘境信息的响应消息
+   *请求获取邀请秘境的邀请信息的响应信息
    * </pre>
    */
   public static final class GetInviteSecretInfoRspMsg extends
@@ -6434,7 +7133,7 @@ public final class GroupSecretProto {
               }
               break;
             }
-            case 18: {
+            case 10: {
               bitField0_ |= 0x00000001;
               id_ = input.readBytes();
               break;
@@ -6479,24 +7178,24 @@ public final class GroupSecretProto {
     }
 
     private int bitField0_;
-    // required string id = 2;
-    public static final int ID_FIELD_NUMBER = 2;
+    // required string id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     public java.lang.String getId() {
@@ -6514,10 +7213,10 @@ public final class GroupSecretProto {
       }
     }
     /**
-     * <code>required string id = 2;</code>
+     * <code>required string id = 1;</code>
      *
      * <pre>
-     *秘境的Id
+     *邀请的秘境的Id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -6554,7 +7253,7 @@ public final class GroupSecretProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(2, getIdBytes());
+        output.writeBytes(1, getIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -6567,7 +7266,7 @@ public final class GroupSecretProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getIdBytes());
+          .computeBytesSize(1, getIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6651,7 +7350,7 @@ public final class GroupSecretProto {
      * Protobuf type {@code groupSecret.GetInviteSecretInfoRspMsg}
      *
      * <pre>
-     *请求邀请驻守的秘境信息的响应消息
+     *请求获取邀请秘境的邀请信息的响应信息
      * </pre>
      */
     public static final class Builder extends
@@ -6775,23 +7474,23 @@ public final class GroupSecretProto {
       }
       private int bitField0_;
 
-      // required string id = 2;
+      // required string id = 1;
       private java.lang.Object id_ = "";
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public java.lang.String getId() {
@@ -6806,10 +7505,10 @@ public final class GroupSecretProto {
         }
       }
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6826,10 +7525,10 @@ public final class GroupSecretProto {
         }
       }
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder setId(
@@ -6843,10 +7542,10 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder clearId() {
@@ -6856,10 +7555,10 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>required string id = 2;</code>
+       * <code>required string id = 1;</code>
        *
        * <pre>
-       *秘境的Id
+       *邀请的秘境的Id
        * </pre>
        */
       public Builder setIdBytes(
@@ -7088,31 +7787,31 @@ public final class GroupSecretProto {
      */
     com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder getGetDefendRewardReqMsgOrBuilder();
 
-    // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;
+    // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    boolean hasInviteSecretInfoResMsg();
+    boolean hasInviteSecretInfoReqMsg();
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoResMsg();
+    com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoReqMsg();
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoResMsgOrBuilder();
+    com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoReqMsgOrBuilder();
   }
   /**
    * Protobuf type {@code groupSecret.GroupSecretCommonReqMsg}
@@ -7262,12 +7961,12 @@ public final class GroupSecretProto {
             case 74: {
               com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder subBuilder = null;
               if (((bitField0_ & 0x00000100) == 0x00000100)) {
-                subBuilder = inviteSecretInfoResMsg_.toBuilder();
+                subBuilder = inviteSecretInfoReqMsg_.toBuilder();
               }
-              inviteSecretInfoResMsg_ = input.readMessage(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.PARSER, extensionRegistry);
+              inviteSecretInfoReqMsg_ = input.readMessage(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(inviteSecretInfoResMsg_);
-                inviteSecretInfoResMsg_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(inviteSecretInfoReqMsg_);
+                inviteSecretInfoReqMsg_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000100;
               break;
@@ -7595,38 +8294,38 @@ public final class GroupSecretProto {
       return getDefendRewardReqMsg_;
     }
 
-    // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;
-    public static final int INVITESECRETINFORESMSG_FIELD_NUMBER = 9;
-    private com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg_;
+    // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;
+    public static final int INVITESECRETINFOREQMSG_FIELD_NUMBER = 9;
+    private com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg_;
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    public boolean hasInviteSecretInfoResMsg() {
+    public boolean hasInviteSecretInfoReqMsg() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoResMsg() {
-      return inviteSecretInfoResMsg_;
+    public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoReqMsg() {
+      return inviteSecretInfoReqMsg_;
     }
     /**
-     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+     * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
      *
      * <pre>
-     *请求邀请秘境的信息
+     *秘境邀请的请求消息
      * </pre>
      */
-    public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoResMsgOrBuilder() {
-      return inviteSecretInfoResMsg_;
+    public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoReqMsgOrBuilder() {
+      return inviteSecretInfoReqMsg_;
     }
 
     private void initFields() {
@@ -7638,7 +8337,7 @@ public final class GroupSecretProto {
       inviteReqMsg_ = com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
       joinReqMsg_ = com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
       getDefendRewardReqMsg_ = com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
-      inviteSecretInfoResMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
+      inviteSecretInfoReqMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7679,8 +8378,8 @@ public final class GroupSecretProto {
           return false;
         }
       }
-      if (hasInviteSecretInfoResMsg()) {
-        if (!getInviteSecretInfoResMsg().isInitialized()) {
+      if (hasInviteSecretInfoReqMsg()) {
+        if (!getInviteSecretInfoReqMsg().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -7717,7 +8416,7 @@ public final class GroupSecretProto {
         output.writeMessage(8, getDefendRewardReqMsg_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(9, inviteSecretInfoResMsg_);
+        output.writeMessage(9, inviteSecretInfoReqMsg_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7762,7 +8461,7 @@ public final class GroupSecretProto {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, inviteSecretInfoResMsg_);
+          .computeMessageSize(9, inviteSecretInfoReqMsg_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7878,7 +8577,7 @@ public final class GroupSecretProto {
           getInviteReqMsgFieldBuilder();
           getJoinReqMsgFieldBuilder();
           getGetDefendRewardReqMsgFieldBuilder();
-          getInviteSecretInfoResMsgFieldBuilder();
+          getInviteSecretInfoReqMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -7927,10 +8626,10 @@ public final class GroupSecretProto {
           getDefendRewardReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000080);
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          inviteSecretInfoResMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          inviteSecretInfoReqMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
         } else {
-          inviteSecretInfoResMsgBuilder_.clear();
+          inviteSecretInfoReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000100);
         return this;
@@ -8020,10 +8719,10 @@ public final class GroupSecretProto {
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          result.inviteSecretInfoResMsg_ = inviteSecretInfoResMsg_;
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          result.inviteSecretInfoReqMsg_ = inviteSecretInfoReqMsg_;
         } else {
-          result.inviteSecretInfoResMsg_ = inviteSecretInfoResMsgBuilder_.build();
+          result.inviteSecretInfoReqMsg_ = inviteSecretInfoReqMsgBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -8067,8 +8766,8 @@ public final class GroupSecretProto {
         if (other.hasGetDefendRewardReqMsg()) {
           mergeGetDefendRewardReqMsg(other.getGetDefendRewardReqMsg());
         }
-        if (other.hasInviteSecretInfoResMsg()) {
-          mergeInviteSecretInfoResMsg(other.getInviteSecretInfoResMsg());
+        if (other.hasInviteSecretInfoReqMsg()) {
+          mergeInviteSecretInfoReqMsg(other.getInviteSecretInfoReqMsg());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8109,8 +8808,8 @@ public final class GroupSecretProto {
             return false;
           }
         }
-        if (hasInviteSecretInfoResMsg()) {
-          if (!getInviteSecretInfoResMsg().isInitialized()) {
+        if (hasInviteSecretInfoReqMsg()) {
+          if (!getInviteSecretInfoReqMsg().isInitialized()) {
             
             return false;
           }
@@ -9205,157 +9904,157 @@ public final class GroupSecretProto {
         return getDefendRewardReqMsgBuilder_;
       }
 
-      // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;
-      private com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
+      // optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;
+      private com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder> inviteSecretInfoResMsgBuilder_;
+          com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder> inviteSecretInfoReqMsgBuilder_;
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public boolean hasInviteSecretInfoResMsg() {
+      public boolean hasInviteSecretInfoReqMsg() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoResMsg() {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          return inviteSecretInfoResMsg_;
+      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg getInviteSecretInfoReqMsg() {
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          return inviteSecretInfoReqMsg_;
         } else {
-          return inviteSecretInfoResMsgBuilder_.getMessage();
+          return inviteSecretInfoReqMsgBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public Builder setInviteSecretInfoResMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg value) {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
+      public Builder setInviteSecretInfoReqMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg value) {
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          inviteSecretInfoResMsg_ = value;
+          inviteSecretInfoReqMsg_ = value;
           onChanged();
         } else {
-          inviteSecretInfoResMsgBuilder_.setMessage(value);
+          inviteSecretInfoReqMsgBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public Builder setInviteSecretInfoResMsg(
+      public Builder setInviteSecretInfoReqMsg(
           com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder builderForValue) {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          inviteSecretInfoResMsg_ = builderForValue.build();
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          inviteSecretInfoReqMsg_ = builderForValue.build();
           onChanged();
         } else {
-          inviteSecretInfoResMsgBuilder_.setMessage(builderForValue.build());
+          inviteSecretInfoReqMsgBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public Builder mergeInviteSecretInfoResMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg value) {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
+      public Builder mergeInviteSecretInfoReqMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg value) {
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
           if (((bitField0_ & 0x00000100) == 0x00000100) &&
-              inviteSecretInfoResMsg_ != com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance()) {
-            inviteSecretInfoResMsg_ =
-              com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.newBuilder(inviteSecretInfoResMsg_).mergeFrom(value).buildPartial();
+              inviteSecretInfoReqMsg_ != com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance()) {
+            inviteSecretInfoReqMsg_ =
+              com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.newBuilder(inviteSecretInfoReqMsg_).mergeFrom(value).buildPartial();
           } else {
-            inviteSecretInfoResMsg_ = value;
+            inviteSecretInfoReqMsg_ = value;
           }
           onChanged();
         } else {
-          inviteSecretInfoResMsgBuilder_.mergeFrom(value);
+          inviteSecretInfoReqMsgBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public Builder clearInviteSecretInfoResMsg() {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          inviteSecretInfoResMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
+      public Builder clearInviteSecretInfoReqMsg() {
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          inviteSecretInfoReqMsg_ = com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.getDefaultInstance();
           onChanged();
         } else {
-          inviteSecretInfoResMsgBuilder_.clear();
+          inviteSecretInfoReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder getInviteSecretInfoResMsgBuilder() {
+      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder getInviteSecretInfoReqMsgBuilder() {
         bitField0_ |= 0x00000100;
         onChanged();
-        return getInviteSecretInfoResMsgFieldBuilder().getBuilder();
+        return getInviteSecretInfoReqMsgFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
-      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoResMsgOrBuilder() {
-        if (inviteSecretInfoResMsgBuilder_ != null) {
-          return inviteSecretInfoResMsgBuilder_.getMessageOrBuilder();
+      public com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder getInviteSecretInfoReqMsgOrBuilder() {
+        if (inviteSecretInfoReqMsgBuilder_ != null) {
+          return inviteSecretInfoReqMsgBuilder_.getMessageOrBuilder();
         } else {
-          return inviteSecretInfoResMsg_;
+          return inviteSecretInfoReqMsg_;
         }
       }
       /**
-       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoResMsg = 9;</code>
+       * <code>optional .groupSecret.GetInviteSecretInfoReqMsg inviteSecretInfoReqMsg = 9;</code>
        *
        * <pre>
-       *请求邀请秘境的信息
+       *秘境邀请的请求消息
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder> 
-          getInviteSecretInfoResMsgFieldBuilder() {
-        if (inviteSecretInfoResMsgBuilder_ == null) {
-          inviteSecretInfoResMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getInviteSecretInfoReqMsgFieldBuilder() {
+        if (inviteSecretInfoReqMsgBuilder_ == null) {
+          inviteSecretInfoReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsg.Builder, com.rwproto.GroupSecretProto.GetInviteSecretInfoReqMsgOrBuilder>(
-                  inviteSecretInfoResMsg_,
+                  inviteSecretInfoReqMsg_,
                   getParentForChildren(),
                   isClean());
-          inviteSecretInfoResMsg_ = null;
+          inviteSecretInfoReqMsg_ = null;
         }
-        return inviteSecretInfoResMsgBuilder_;
+        return inviteSecretInfoReqMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.GroupSecretCommonReqMsg)
@@ -9492,7 +10191,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     boolean hasInviteSecretInfoRspMsg();
@@ -9500,7 +10199,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg getInviteSecretInfoRspMsg();
@@ -9508,7 +10207,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsgOrBuilder getInviteSecretInfoRspMsgOrBuilder();
@@ -9842,7 +10541,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     public boolean hasInviteSecretInfoRspMsg() {
@@ -9852,7 +10551,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     public com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg getInviteSecretInfoRspMsg() {
@@ -9862,7 +10561,7 @@ public final class GroupSecretProto {
      * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
      *
      * <pre>
-     *请求邀请秘境的响应消息
+     *秘境邀请的响应消息
      * </pre>
      */
     public com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsgOrBuilder getInviteSecretInfoRspMsgOrBuilder() {
@@ -10775,7 +11474,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public boolean hasInviteSecretInfoRspMsg() {
@@ -10785,7 +11484,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg getInviteSecretInfoRspMsg() {
@@ -10799,7 +11498,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public Builder setInviteSecretInfoRspMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg value) {
@@ -10819,7 +11518,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public Builder setInviteSecretInfoRspMsg(
@@ -10837,7 +11536,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public Builder mergeInviteSecretInfoRspMsg(com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg value) {
@@ -10860,7 +11559,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public Builder clearInviteSecretInfoRspMsg() {
@@ -10877,7 +11576,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsg.Builder getInviteSecretInfoRspMsgBuilder() {
@@ -10889,7 +11588,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       public com.rwproto.GroupSecretProto.GetInviteSecretInfoRspMsgOrBuilder getInviteSecretInfoRspMsgOrBuilder() {
@@ -10903,7 +11602,7 @@ public final class GroupSecretProto {
        * <code>optional .groupSecret.GetInviteSecretInfoRspMsg inviteSecretInfoRspMsg = 6;</code>
        *
        * <pre>
-       *请求邀请秘境的响应消息
+       *秘境邀请的响应消息
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -11000,52 +11699,55 @@ public final class GroupSecretProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021GroupSecret.proto\022\013groupSecret\"B\n\027Crea" +
-      "teGroupSecretReqMsg\022\023\n\013secretCfgId\030\001 \002(\005" +
-      "\022\022\n\nteamHeroId\030\002 \003(\t\"%\n\027CreateGroupSecre" +
-      "tRspMsg\022\n\n\002id\030\001 \002(\t\"(\n\032GetGroupSecretRew" +
-      "ardReqMsg\022\n\n\002id\030\001 \002(\t\"8\n\026ChangeDefendTea" +
-      "mReqMsg\022\n\n\002id\030\001 \002(\t\022\022\n\nteamHeroId\030\002 \003(\t\"" +
-      "N\n\035InviteGroupMemberDefendReqMsg\022\n\n\002id\030\001" +
-      " \002(\t\022\020\n\010memberId\030\002 \003(\t\022\017\n\007message\030\003 \001(\t\"" +
-      "b\n\026JoinSecretDefendReqMsg\022\n\n\002id\030\001 \002(\t\022,\n" +
-      "\005index\030\002 \002(\0162\035.groupSecret.GroupSecretIn",
-      "dex\022\016\n\006heroId\030\003 \003(\t\")\n\033GetDefendRecordRe" +
-      "wardReqMsg\022\n\n\002id\030\001 \001(\005\"Q\n\033GetDefendRecor" +
-      "dRewardRspMsg\022\023\n\013defendTimes\030\001 \002(\005\022\035\n\025ge" +
-      "tDefendRewardKeyNum\030\002 \002(\005\"\'\n\031GetInviteSe" +
-      "cretInfoReqMsg\022\n\n\002id\030\001 \002(\t\"\'\n\031GetInviteS" +
-      "ecretInfoRspMsg\022\n\n\002id\030\002 \002(\t\"\236\004\n\027GroupSec" +
-      "retCommonReqMsg\022)\n\007reqType\030\001 \002(\0162\030.group" +
-      "Secret.RequestType\022\017\n\007version\030\002 \001(\t\022:\n\014c" +
-      "reateReqMsg\030\003 \001(\0132$.groupSecret.CreateGr" +
-      "oupSecretReqMsg\022@\n\017getRewardReqMsg\030\004 \001(\013",
-      "2\'.groupSecret.GetGroupSecretRewardReqMs" +
-      "g\022=\n\020changeTeamReqMsg\030\005 \001(\0132#.groupSecre" +
-      "t.ChangeDefendTeamReqMsg\022@\n\014inviteReqMsg" +
-      "\030\006 \001(\0132*.groupSecret.InviteGroupMemberDe" +
-      "fendReqMsg\0227\n\njoinReqMsg\030\007 \001(\0132#.groupSe" +
-      "cret.JoinSecretDefendReqMsg\022G\n\025getDefend" +
-      "RewardReqMsg\030\010 \001(\0132(.groupSecret.GetDefe" +
-      "ndRecordRewardReqMsg\022F\n\026inviteSecretInfo" +
-      "ResMsg\030\t \001(\0132&.groupSecret.GetInviteSecr" +
-      "etInfoReqMsg\"\264\002\n\027GroupSecretCommonRspMsg",
-      "\022)\n\007reqType\030\001 \002(\0162\030.groupSecret.RequestT" +
-      "ype\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022:" +
-      "\n\014createRspMsg\030\004 \001(\0132$.groupSecret.Creat" +
-      "eGroupSecretRspMsg\022G\n\025getDefendRewardRsp" +
-      "Msg\030\005 \001(\0132(.groupSecret.GetDefendRecordR" +
-      "ewardRspMsg\022F\n\026inviteSecretInfoRspMsg\030\006 " +
-      "\001(\0132&.groupSecret.GetInviteSecretInfoRsp" +
-      "Msg*1\n\020GroupSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004LEF" +
-      "T\020\002\022\t\n\005RIGHT\020\003*\350\001\n\013RequestType\022\022\n\016OPEN_M" +
-      "AIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033\n\027G",
-      "ET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHANGE_DEFEN" +
-      "D_TEAM\020\004\022\030\n\024INVITE_MEMBER_DEFEND\020\005\022\025\n\021GE" +
-      "T_DEFEDN_REWARD\020\006\022\022\n\016BUY_SECRET_KEY\020\007\022\026\n" +
-      "\022JOIN_SECRET_DEFEND\020\010\022\032\n\026GET_INVITE_SECR" +
-      "ET_INFO\020\tB\037\n\013com.rwprotoB\020GroupSecretPro" +
-      "to"
+      "\n\021GroupSecret.proto\022\013groupSecret\032\022Battle" +
+      "Common.proto\"d\n\027CreateGroupSecretReqMsg\022" +
+      "\023\n\013secretCfgId\030\001 \002(\005\0224\n\nteamHeroId\030\002 \003(\013" +
+      "2 .BattleCommon.BattleHeroPosition\"%\n\027Cr" +
+      "eateGroupSecretRspMsg\022\n\n\002id\030\001 \002(\t\"(\n\032Get" +
+      "GroupSecretRewardReqMsg\022\n\n\002id\030\001 \002(\t\"Z\n\026C" +
+      "hangeDefendTeamReqMsg\022\n\n\002id\030\001 \002(\t\0224\n\ntea" +
+      "mHeroId\030\002 \003(\0132 .BattleCommon.BattleHeroP" +
+      "osition\"N\n\035InviteGroupMemberDefendReqMsg" +
+      "\022\n\n\002id\030\001 \002(\t\022\020\n\010memberId\030\002 \003(\t\022\017\n\007messag",
+      "e\030\003 \001(\t\"\204\001\n\026JoinSecretDefendReqMsg\022\n\n\002id" +
+      "\030\001 \002(\t\022,\n\005index\030\002 \002(\0162\035.groupSecret.Grou" +
+      "pSecretIndex\0220\n\006heroId\030\003 \003(\0132 .BattleCom" +
+      "mon.BattleHeroPosition\")\n\033GetDefendRecor" +
+      "dRewardReqMsg\022\n\n\002id\030\001 \001(\005\"Q\n\033GetDefendRe" +
+      "cordRewardRspMsg\022\023\n\013defendTimes\030\001 \002(\005\022\035\n" +
+      "\025getDefendRewardKeyNum\030\002 \002(\005\"\'\n\031GetInvit" +
+      "eSecretInfoReqMsg\022\n\n\002id\030\001 \002(\t\"\'\n\031GetInvi" +
+      "teSecretInfoRspMsg\022\n\n\002id\030\001 \002(\t\"\236\004\n\027Group" +
+      "SecretCommonReqMsg\022)\n\007reqType\030\001 \002(\0162\030.gr",
+      "oupSecret.RequestType\022\017\n\007version\030\002 \001(\t\022:" +
+      "\n\014createReqMsg\030\003 \001(\0132$.groupSecret.Creat" +
+      "eGroupSecretReqMsg\022@\n\017getRewardReqMsg\030\004 " +
+      "\001(\0132\'.groupSecret.GetGroupSecretRewardRe" +
+      "qMsg\022=\n\020changeTeamReqMsg\030\005 \001(\0132#.groupSe" +
+      "cret.ChangeDefendTeamReqMsg\022@\n\014inviteReq" +
+      "Msg\030\006 \001(\0132*.groupSecret.InviteGroupMembe" +
+      "rDefendReqMsg\0227\n\njoinReqMsg\030\007 \001(\0132#.grou" +
+      "pSecret.JoinSecretDefendReqMsg\022G\n\025getDef" +
+      "endRewardReqMsg\030\010 \001(\0132(.groupSecret.GetD",
+      "efendRecordRewardReqMsg\022F\n\026inviteSecretI" +
+      "nfoReqMsg\030\t \001(\0132&.groupSecret.GetInviteS" +
+      "ecretInfoReqMsg\"\264\002\n\027GroupSecretCommonRsp" +
+      "Msg\022)\n\007reqType\030\001 \002(\0162\030.groupSecret.Reque" +
+      "stType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(" +
+      "\t\022:\n\014createRspMsg\030\004 \001(\0132$.groupSecret.Cr" +
+      "eateGroupSecretRspMsg\022G\n\025getDefendReward" +
+      "RspMsg\030\005 \001(\0132(.groupSecret.GetDefendReco" +
+      "rdRewardRspMsg\022F\n\026inviteSecretInfoRspMsg" +
+      "\030\006 \001(\0132&.groupSecret.GetInviteSecretInfo",
+      "RspMsg*1\n\020GroupSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004" +
+      "LEFT\020\002\022\t\n\005RIGHT\020\003*\350\001\n\013RequestType\022\022\n\016OPE" +
+      "N_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033" +
+      "\n\027GET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHANGE_DE" +
+      "FEND_TEAM\020\004\022\030\n\024INVITE_MEMBER_DEFEND\020\005\022\025\n" +
+      "\021GET_DEFEDN_REWARD\020\006\022\022\n\016BUY_SECRET_KEY\020\007" +
+      "\022\026\n\022JOIN_SECRET_DEFEND\020\010\022\032\n\026GET_INVITE_S" +
+      "ECRET_INFO\020\tB\037\n\013com.rwprotoB\020GroupSecret" +
+      "Proto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -11117,7 +11819,7 @@ public final class GroupSecretProto {
           internal_static_groupSecret_GroupSecretCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", "ChangeTeamReqMsg", "InviteReqMsg", "JoinReqMsg", "GetDefendRewardReqMsg", "InviteSecretInfoResMsg", });
+              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", "ChangeTeamReqMsg", "InviteReqMsg", "JoinReqMsg", "GetDefendRewardReqMsg", "InviteSecretInfoReqMsg", });
           internal_static_groupSecret_GroupSecretCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_groupSecret_GroupSecretCommonRspMsg_fieldAccessorTable = new
@@ -11130,6 +11832,7 @@ public final class GroupSecretProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.BattleCommon.getDescriptor(),
         }, assigner);
   }
 
