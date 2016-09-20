@@ -63,7 +63,7 @@ public class DataAutoSynMgr {
 		}
 	}
 	
-	public <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
+	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
 		int synCount = 0;
 		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
@@ -79,7 +79,8 @@ public class DataAutoSynMgr {
 			Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
 			if(null == player){
 				//获取的map是单独创建的，所以，这里没有用迭代的remove删除
-				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
+				//把玩家标记为离开
+				SameSceneContainer.getInstance().removeUserFromScene(sceneId, entry.getKey());
 				continue;
 			}
 			synCount++;
@@ -89,6 +90,7 @@ public class DataAutoSynMgr {
 				//元素是否被删除
 				removedPlayers.add(entry.getKey());
 				entryIterator.remove();
+				//从场景中删除
 				SameSceneContainer.getInstance().deleteUserFromScene(sceneId, entry.getKey());
 			}else if(entry.getValue().isNewAdd()){
 				//是否新添加
@@ -110,5 +112,25 @@ public class DataAutoSynMgr {
 			ClientDataSynMgr.synDataMutiple(players, synObject, synType, eSynOpType.UPDATE_SINGLE);
 		}
 		return synCount;
+	}
+	
+	public <T extends SameSceneDataBaseIF> void synDataToOnePlayer(Player player, long sceneId, eSynType synType, SameSceneSynDataIF synObject){
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		if(null == player || null == synData || synData.isEmpty() || sceneId <= 0){
+			return;
+		}
+		Iterator<Entry<String, T>> entryIterator = synData.entrySet().iterator();
+		while(entryIterator.hasNext()){
+			Entry<String, T> entry = entryIterator.next();
+			if(entry.getValue().isRemoved()){
+				//元素是否被删除
+				entryIterator.remove();
+			}
+		}
+		//用来同步数据的结构
+		synObject.setId(String.valueOf(sceneId));
+		synObject.setSynData(synData);
+		//多个用户同步相同的数据
+		ClientDataSynMgr.synData(player, synObject, synType, eSynOpType.UPDATE_SINGLE);
 	}
 }
