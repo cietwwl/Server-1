@@ -3,12 +3,14 @@ package com.playerdata.groupcompetition.stageimpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
-import com.playerdata.groupcompetition.util.GCEventsStatus;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -23,7 +25,7 @@ import com.rw.fsutil.common.Pair;
  */
 public class GCompEvents {
 
-	private GCEventsType _type;
+	private GCEventsType _type; // 赛事类型
 	
 	/**
 	 * 
@@ -36,38 +38,48 @@ public class GCompEvents {
 		this.initEventsData(groupIds, againsts, eventsType);
 	}
 	
-	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
-		// 初始化对阵关系
-		if(againsts == null || againsts.isEmpty()) {
-			againsts = new ArrayList<IReadOnlyPair<Integer,Integer>>();
-			for (int i = 0, size = groupIds.size(); i < size; i++) {
+	private String getSafely(int index, List<String> list) {
+		if (index < list.size()) {
+			return list.get(index);
+		} else {
+			return "";
+		}
+	}
+	
+	private List<IReadOnlyPair<Integer, Integer>> checkAgainstAssignment(List<IReadOnlyPair<Integer, Integer>> againsts, int sizeOfGroup) {
+		// 检查againsts是否有内容
+		if (againsts == null || againsts.isEmpty()) {
+			againsts = new ArrayList<IReadOnlyPair<Integer, Integer>>();
+			for (int i = 0; i < sizeOfGroup; i++) {
 				againsts.add(Pair.Create(i + 1, (++i) + 1));
 			}
 		}
+		return againsts;
+	}
+	
+	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
+		// 初始化对阵关系
+		_type = eventsType;
+		againsts = this.checkAgainstAssignment(againsts, groupIds.size()); // 检查对阵关系的安排
 		List<GCompAgainst> againstList = new ArrayList<GCompAgainst>(againsts.size());
-		int beginPos = GCompUtil.computeBeginIndex(eventsType);
+		int beginPos = GCompUtil.computeBeginIndex(eventsType); // 计算开始索引
 		IReadOnlyPair<Integer, Integer> pair;
-		int index1;
-		int index2;
-		String groupId1;
-		String groupId2;
+		String groupId1, groupId2; // 临时变量
 		for (int i = 0, size = againsts.size(); i < size; i++) {
-			pair = againsts.get(i);
-			index1 = pair.getT1() - 1;
-			index2 = pair.getT2() - 1;
-			groupId1 = groupIds.get(index1);
-			groupId2 = groupIds.get(index2);
+			pair = againsts.get(i); // 对阵安排
+			// 有可能会轮空；对阵信息是从1开始，而list的索引是从0开始，所以要-1
+			groupId1 = this.getSafely(pair.getT1() - 1, groupIds);
+			groupId2 = this.getSafely(pair.getT2() - 1, groupIds);
 			GCompAgainst against = new GCompAgainst(groupId1, groupId2, eventsType, beginPos);
 			againstList.add(against);
-			GCompDetailInfoMgr.getInstance().onEventsStart(against.getId(), groupId1, groupId2);
+			GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(against.getId(), groupId1, groupId2);
 			GCompFightingRecordMgr.getInstance().initRecordList(against.getId());
 		}
 		GCompEventsData eventsData = new GCompEventsData();
 		eventsData.setAgainsts(againstList);
-		eventsData.setCurrentStatus(GCEventsStatus.NONE);
+		eventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		eventsData.setEventsType(eventsType);
 		GCompMatchDataMgr.getInstance().addEvents(eventsData, eventsType);
-		_type = eventsType;
 	}
 	
 	/**
@@ -78,7 +90,7 @@ public class GCompEvents {
 	 */
 	boolean switchToNextStatus() {
 		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
-		GCEventsStatus nextStatus = eventsData.getCurrentStatus().getNextStatus();
+		GCompEventsStatus nextStatus = eventsData.getCurrentStatus().getNextStatus();
 		if (nextStatus != null) {
 			eventsData.setCurrentStatus(nextStatus);
 			List<GCompAgainst> againsts = eventsData.getAgainsts();
@@ -110,7 +122,15 @@ public class GCompEvents {
 			IGCAgainst against = list.get(i);
 			IGCGroup groupA = against.getGroupA();
 			IGCGroup groupB = against.getGroupB();
-			winGroupIds.add(groupA.getGCompScore() > groupB.getGCompScore() ? groupA.getGroupId() : groupB.getGroupId());
+			if (StringUtils.isEmpty(groupA.getGroupId())) {
+				// 帮派B轮空
+				winGroupIds.add(groupB.getGroupId());
+			} else if (StringUtils.isEmpty(groupB.getGroupId())) {
+				// 帮派A轮空
+				winGroupIds.add(groupA.getGroupId());
+			} else {
+				winGroupIds.add(groupA.getGCompScore() > groupB.getGCompScore() ? groupA.getGroupId() : groupB.getGroupId());
+			}
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 	}
@@ -132,7 +152,7 @@ public class GCompEvents {
 	 * 
 	 * @return
 	 */
-	public GCEventsStatus getCurrentStatus() {
+	public GCompEventsStatus getCurrentStatus() {
 		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
 		return eventsData.getCurrentStatus();
 	}

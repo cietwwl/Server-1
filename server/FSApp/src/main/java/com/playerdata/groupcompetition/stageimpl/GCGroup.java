@@ -24,13 +24,21 @@ public class GCGroup implements IGCGroup {
 	private int upNum;
 	
 	GCGroup(String groupId) {
-		Group group = GroupBM.get(groupId);
-		GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
-		this.groupId = groupId;
-		this.groupName = baseData.getGroupName();
-		this.leaderName = group.getGroupMemberMgr().getGroupLeader().getName();
-		this._groupIcon = baseData.getIconId();
-		this.assistantName = "";
+		if (groupId == null || groupId.length() == 0) {
+			this.groupId = "";
+			this.groupName = "";
+			this.leaderName = "";
+			this._groupIcon = "";
+			this.assistantName = "";
+		} else {
+			Group group = GroupBM.get(groupId);
+			GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
+			this.groupId = groupId;
+			this.groupName = baseData.getGroupName();
+			this.leaderName = group.getGroupMemberMgr().getGroupLeader().getName();
+			this._groupIcon = baseData.getIconId();
+			this.assistantName = "";
+		}
 	}
 
 	@Override

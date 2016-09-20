@@ -10,7 +10,7 @@ import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.data.IGCUnit;
 import com.playerdata.groupcompetition.data.match.IGCMatcher;
-import com.playerdata.groupcompetition.util.GCEventsStatus;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 @SynClass
@@ -22,7 +22,7 @@ public class GCompAgainst implements IGCAgainst {
 	@IgnoreSynField
 	private GCGroup winGroup; // 胜利的帮派
 	private String winner; // 胜利的帮派id
-	private GCEventsStatus curStatus; // 当前的战斗状态
+	private GCompEventsStatus curStatus; // 当前的战斗状态
 	private GCEventsType topType; // 处在哪个阶段（16强、8强。。。）
 	private int position; // 位置
 	
@@ -30,7 +30,7 @@ public class GCompAgainst implements IGCAgainst {
 		this.matchId = GroupCompetitionMgr.getInstance().getNextAgainstId();
 		this.groupA = new GCGroup(idOfGroupA);
 		this.groupB = new GCGroup(idOfGroupB);
-		this.curStatus = GCEventsStatus.NONE;
+		this.curStatus = GCompEventsStatus.NONE;
 		this.topType = pTopType;
 		this.position = pPosition;
 	}
@@ -41,7 +41,7 @@ public class GCompAgainst implements IGCAgainst {
 	}
 	
 	@Override
-	public void setCurrentStatus(GCEventsStatus currentStatus) {
+	public void setCurrentStatus(GCompEventsStatus currentStatus) {
 		this.curStatus = currentStatus;
 	}
 

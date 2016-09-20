@@ -16,7 +16,7 @@ public class GCompDetailInfoMgr {
 		_dataHolder = new GCompDetailInfoHolder();
 	}
 
-	public void onEventsStart(int matchId, String idOfGroupA, String idOfGroupB) {
+	public void onEventsAgainstAssign(int matchId, String idOfGroupA, String idOfGroupB) {
 		GCompDetailInfo detailInfo = GCompDetailInfo.createNew(matchId, idOfGroupA, idOfGroupB);
 		_dataHolder.add(detailInfo);
 	}

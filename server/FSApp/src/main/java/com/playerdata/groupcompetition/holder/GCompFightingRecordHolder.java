@@ -20,7 +20,7 @@ public class GCompFightingRecordHolder {
 	private GCompFightingRecordDAO _dao;
 	
 	protected GCompFightingRecordHolder() {
-		
+		this._dao = GCompFightingRecordDAO.getInstance();
 	}
 	
 	public void syn(Player player, int matchId) {
