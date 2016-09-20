@@ -5,7 +5,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupFightOnline.dataForClient.DefendArmyHerosInfo;
 import com.playerdata.teambattle.bm.TeamBattleBM;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
@@ -41,28 +40,28 @@ public class TeamBattleHandler {
 	public ByteString createTeam(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.createTeam(player, tbRsp);
+		tbBM.createTeam(player, tbRsp, msgTBRequest.getHardID());
 		return tbRsp.build().toByteString();
 	}
 
 	public ByteString joinTeam(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.joinTeam(player, tbRsp);
+		tbBM.joinTeam(player, tbRsp, msgTBRequest.getHardID());
 		return tbRsp.build().toByteString();
 	}
 
 	public ByteString acceptInvite(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.acceptInvite(player, tbRsp);
+		tbBM.acceptInvite(player, tbRsp, msgTBRequest.getHardID(), msgTBRequest.getTeamID());
 		return tbRsp.build().toByteString();
 	}
 
 	public ByteString setTeamFreeJion(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.setTeamFreeJion(player, tbRsp);
+		tbBM.setTeamFreeJion(player, tbRsp, msgTBRequest.getTeamID());
 		return tbRsp.build().toByteString();
 	}
 
@@ -91,6 +90,20 @@ public class TeamBattleHandler {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
 		tbBM.informFightResult(player, tbRsp);
+		return tbRsp.build().toByteString();
+	}
+
+	public ByteString leaveTeam(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.leaveTeam(player, tbRsp);
+		return tbRsp.build().toByteString();
+	}
+
+	public ByteString scoreExchage(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.scoreExchage(player, tbRsp);
 		return tbRsp.build().toByteString();
 	}
 }

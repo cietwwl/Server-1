@@ -3,6 +3,7 @@ package com.playerdata.teambattle.data;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -30,20 +31,38 @@ public class TBTeamItemHolder{
 		return getItemStore(teamItem.getHardID()).updateItem(teamItem);
 	}
 	
-	public TBTeamItem getItem(String hardID, String teamId){
-		return getItemStore(hardID).getItem(teamId);
+	public TBTeamItem getItem(String hardID, String teamID){
+		return getItemStore(hardID).getItem(teamID);
 	}
 	
 	public void synData(Player player, String teamID){
-		String[] strArr = teamID.split("_");
-		if(strArr.length != 2) return;
-		String hardID = strArr[0];
+		String hardID = getHardIDFromTeamID(teamID);
+		if(StringUtils.isBlank(hardID)) return;
 		TBTeamItem teamItem = getItemStore(hardID).getItem(teamID);
+		synData(player, teamItem);
+	}
+	
+	public void synData(Player player, TBTeamItem teamItem){
+		if(teamItem == null) return;
 		ClientDataSynMgr.synData(player, teamItem, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	private MapItemStore<TBTeamItem> getItemStore(String hardID) {
+	public void synData(TBTeamItem teamItem){
+		for(TeamMember member : teamItem.getMembers()){
+			Player player = PlayerMgr.getInstance().find(member.getUserID());
+			synData(player, teamItem);
+		}
+	}
+	
+	public MapItemStore<TBTeamItem> getItemStore(String hardID) {
 		MapItemStoreCache<TBTeamItem> cache = MapItemStoreFactory.getTBTeamItemCache();
 		return cache.getMapItemStore(hardID, TBTeamItem.class);
+	}
+	
+	public String getHardIDFromTeamID(String teamID){
+		if(StringUtils.isBlank(teamID)) return null;
+		String[] strArr = teamID.split("_");
+		if(strArr.length != 2) return null;
+		return strArr[0];
 	}
 }

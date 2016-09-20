@@ -14,4 +14,8 @@ public class UserTeamBattleDataMgr {
 		UserTeamBattleDataHolder.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
 	}
+	
+	public void leaveTeam(Player player){
+		
+	}
 }

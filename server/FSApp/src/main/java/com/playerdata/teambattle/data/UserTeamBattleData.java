@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -28,15 +29,13 @@ public class UserTeamBattleData {
 	private int tbGold; // 组队战货币
 	
 	@CombineSave
-	private List<StaticMemberTeamInfo> teamMembers;
-	
-	@CombineSave
 	private List<String> finishedLoops;	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
 	
 	@CombineSave
 	private List<String> finishedHards;	//已经完成的章节
 	
 	@CombineSave
+	@IgnoreSynField
 	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
 	
 	@CombineSave
@@ -56,14 +55,6 @@ public class UserTeamBattleData {
 
 	public void setTeamID(String teamID) {
 		this.teamID = teamID;
-	}
-
-	public List<StaticMemberTeamInfo> getTeamMembers() {
-		return teamMembers;
-	}
-
-	public void setTeamMembers(List<StaticMemberTeamInfo> teamMembers) {
-		this.teamMembers = teamMembers;
 	}
 
 	public List<String> getFinishedLoops() {
@@ -115,7 +106,6 @@ public class UserTeamBattleData {
 	}
 
 	public void clearCurrentTeam(){
-		teamMembers = null;
 		finishedLoops = null;
 		teamID = null;
 	}
