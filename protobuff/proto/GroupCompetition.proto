@@ -30,6 +30,10 @@ message CommonReqMsg{
 	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
 }
 
+message CommonGetDataReqMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+}
+
 message CommonRspMsg{
 	required GCResultType rstType = 1; //是否成功处理
 	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
