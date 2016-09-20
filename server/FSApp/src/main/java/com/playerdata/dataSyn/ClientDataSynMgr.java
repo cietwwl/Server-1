@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
@@ -53,8 +54,9 @@ public class ClientDataSynMgr {
 			
 			player.getDataSynVersionHolder().addVersion(synType);
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			JsonOpt jsonOpt = JsonOpt.newWithOpt();
 			for (Object serverData : serverDataList) {
-				SynData.Builder synData = transferToClientData(serverData);
+				SynData.Builder synData = transferToClientData(serverData,jsonOpt);
 				msgDataSyn.addSynData(synData);
 			}
 			msgDataSyn.setSynOpType(synOpType);
@@ -87,9 +89,11 @@ public class ClientDataSynMgr {
 		try {
 			
 			player.getDataSynVersionHolder().addVersion(synType);
+			
+			JsonOpt jsonOpt = JsonOpt.newWithOpt();
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			for (Object serverData : serverDataList) {
-				SynData.Builder synData = transferToClientData(serverData);
+				SynData.Builder synData = transferToClientData(serverData,jsonOpt);
 				msgDataSyn.addSynData(synData);
 			}
 			msgDataSyn.setSynOpType(synOpType);
@@ -133,8 +137,9 @@ public class ClientDataSynMgr {
 	public static void synData(Player player, Object serverData, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
 			
+			JsonOpt jsonOpt = JsonOpt.newWithOpt();
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
-			SynData.Builder synData = transferToClientData(serverData);
+			SynData.Builder synData = transferToClientData(serverData, jsonOpt);
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -148,7 +153,8 @@ public class ClientDataSynMgr {
 	public static void synDataFiled(Player player, Object serverData, eSynType synType, eSynOpType synOpType, List<String> fieldNameList) {
 		try {
 			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
-			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
+			JsonOpt jsonOpt = JsonOpt.newWithOpt();
+			SynData.Builder synData = transferToClientData(serverData, fieldNameList,jsonOpt);
 
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			msgDataSyn.addSynData(synData);
@@ -166,7 +172,8 @@ public class ClientDataSynMgr {
 		try {
 		
 			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
-			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
+			JsonOpt jsonOpt = JsonOpt.newWithOpt();
+			SynData.Builder synData = transferToClientData(serverData, fieldNameList, jsonOpt);
 
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			msgDataSyn.addSynData(synData);
@@ -218,25 +225,26 @@ public class ClientDataSynMgr {
 
 		String jsonData = null;
 		try {
-			jsonData = serverClassInfo.toJson(serverData);
+			JsonOpt noOpt = JsonOpt.newNoOpt();
+			jsonData = serverClassInfo.toJson(serverData,noOpt);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), serverData.getClass().toString(), "ClientDataSynMgr[toClientData]", e);
 		}
 		return jsonData;
 	}
 
-	public static SynData.Builder transferToClientData(Object serverData) throws Exception {
-		return transferToClientData(serverData, null);
+	public static SynData.Builder transferToClientData(Object serverData,JsonOpt jsonOpt) throws Exception {
+		return transferToClientData(serverData, null,jsonOpt);
 	}
 
-	private static SynData.Builder transferToClientData(Object serverData, List<String> synFieldList) throws Exception {
+	private static SynData.Builder transferToClientData(Object serverData, List<String> synFieldList, JsonOpt jsonOpt) throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
 
 		String jsonData = null;
 		if (synFieldList != null) {
-			jsonData = serverClassInfo.toJson(serverData, synFieldList);
+			jsonData = serverClassInfo.toJson(serverData, synFieldList,jsonOpt);
 		} else {
-			jsonData = serverClassInfo.toJson(serverData);
+			jsonData = serverClassInfo.toJson(serverData,jsonOpt);
 		}
 
 		String id = serverClassInfo.getId(serverData);
