@@ -16,21 +16,23 @@ public class RewardBackCfg {
 	
 	private int normalCostType;	
 	
-	private String normalCost;
+	private int normalCost;	
 	
-	private HashMap<Integer, Integer> normalCostMap = new HashMap<Integer, Integer>();
+	private String normalCost2;
+	
+	private HashMap<Integer, Integer> normalCost2Map = new HashMap<Integer, Integer>();
 	
 	private String perfectRewards;
 	
 	private HashMap<Integer, Integer> perfectRewardsMap = new HashMap<Integer, Integer>();
 	
-	private int perfectCostType;
+	private int perfectCostType;	
 	
-	private eSpecialItemId ePerfectCostType;
+	private int perfectCost;
 	
-	private String perfectCost;
+	private String perfectCost2;	
 	
-	private HashMap<Integer, Integer> perfectCostMap = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> perfectCost2Map = new HashMap<Integer, Integer>();
 
 	public String getId() {
 		return id;
@@ -72,22 +74,6 @@ public class RewardBackCfg {
 		this.normalCostType = normalCostType;
 	}
 
-	public String getNormalCost() {
-		return normalCost;
-	}
-
-	public void setNormalCost(String normalCost) {
-		this.normalCost = normalCost;
-	}
-
-	public HashMap<Integer, Integer> getNormalCostMap() {
-		return normalCostMap;
-	}
-
-	public void setNormalCostMap(HashMap<Integer, Integer> normalCostMap) {
-		this.normalCostMap = normalCostMap;
-	}
-
 	public String getPerfectRewards() {
 		return perfectRewards;
 	}
@@ -112,30 +98,53 @@ public class RewardBackCfg {
 		this.perfectCostType = perfectCostType;
 	}
 
-	public eSpecialItemId getePerfectCostType() {
-		return ePerfectCostType;
+	public String getNormalCost2() {
+		return normalCost2;
 	}
 
-	public void setePerfectCostType(eSpecialItemId ePerfectCostType) {
-		this.ePerfectCostType = ePerfectCostType;
+	public void setNormalCost2(String normalCost2) {
+		this.normalCost2 = normalCost2;
 	}
 
-	public String getPerfectCost() {
+	public HashMap<Integer, Integer> getNormalCost2Map() {
+		return normalCost2Map;
+	}
+
+	public void setNormalCost2Map(HashMap<Integer, Integer> normalCost2Map) {
+		this.normalCost2Map = normalCost2Map;
+	}
+
+	public String getPerfectCost2() {
+		return perfectCost2;
+	}
+
+	public void setPerfectCost2(String perfectCost2) {
+		this.perfectCost2 = perfectCost2;
+	}
+
+	public HashMap<Integer, Integer> getPerfectCost2Map() {
+		return perfectCost2Map;
+	}
+
+	public void setPerfectCost2Map(HashMap<Integer, Integer> perfectCost2Map) {
+		this.perfectCost2Map = perfectCost2Map;
+	}
+
+	public int getNormalCost() {
+		return normalCost;
+	}
+
+	public void setNormalCost(int normalCost) {
+		this.normalCost = normalCost;
+	}
+
+	public int getPerfectCost() {
 		return perfectCost;
 	}
 
-	public void setPerfectCost(String perfectCost) {
+	public void setPerfectCost(int perfectCost) {
 		this.perfectCost = perfectCost;
-	}
-
-	public HashMap<Integer, Integer> getPerfectCostMap() {
-		return perfectCostMap;
-	}
-
-	public void setPerfectCostMap(HashMap<Integer, Integer> perfectCostMap) {
-		this.perfectCostMap = perfectCostMap;
-	}
-	
+	}	
 	
 	
 }
