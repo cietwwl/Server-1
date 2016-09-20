@@ -130,6 +130,8 @@ enum eSynType	//数据同步类型
 	GCompTeamHolder = 106; //帮派争霸组队
 	
 	BENEFIT_SELL_DATA = 107;//精准营销数据
+	
+	ACHIEVEMENT_DATA = 108;//成就数据
 }
 
 message MsgDataSynList
