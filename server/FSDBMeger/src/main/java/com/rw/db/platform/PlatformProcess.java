@@ -22,7 +22,7 @@ public class PlatformProcess {
 		List<TableZoneInfo> query2 = DBMgr.getInstance().query(platformDBInfo.getDBName(), sql2, new Object[]{}, TableZoneInfo.class);
 		
 		
-		if(query1 == null || query1 == null){
+		if(query1 == null || query2 == null || query1.size() <= 0 || query2.size() <= 0){
 			DBLog.LogError("PlatformProcess", "can not find the zone info");
 			return;
 		}
@@ -43,7 +43,7 @@ public class PlatformProcess {
 		tarZoneInfo.setSubZone(tarZoneInfo.getZoneId());
 		tarZoneInfo.setSubZone(1);		
 		Map<String, TableZoneInfo> map = new HashMap<String, TableZoneInfo>();
-		map.put(String.valueOf(tarZoneId), tarZoneInfo);
+		map.put(String.valueOf(tarZoneInfo.getId()), tarZoneInfo);
 		DBMgr.getInstance().update(platformDBInfo.getDBName(), map, TableZoneInfo.class);
 		
 	}

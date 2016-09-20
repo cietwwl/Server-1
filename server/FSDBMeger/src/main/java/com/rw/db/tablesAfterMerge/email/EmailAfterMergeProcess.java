@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.rw.DBMergeMgr;
+import com.rw.config.email.EmailCfg;
+import com.rw.config.email.EmailCfgDao;
 import com.rw.db.DBInfo;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.dao.kv.DataKvEntity;
@@ -25,6 +27,9 @@ public class EmailAfterMergeProcess extends AbsAfterMergeProcess{
 	private static String[] updateSqlArray = new String[10];
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 	
+	private static String userRenameMailId = "1";
+	private static String groupRenameMailId = "2";
+	
 	static{
 		for (int i = 0; i < sqlArray.length; i++) {
 			String sql1 = "select dbvalue, type from table_kvdata0" + i +" where dbkey=? and type = 9";
@@ -38,8 +43,18 @@ public class EmailAfterMergeProcess extends AbsAfterMergeProcess{
 	protected void exec(DBInfo dbInfo) {
 		long start = System.currentTimeMillis();
 		DBLog.LogInfo("EmailAfterMergeProcess", "EmailAfterMergeProcess start process");
+		
+		EmailCfg userRenameMail = EmailCfgDao.getInstance().getCfgById(userRenameMailId);
+		EmailCfg groupRenameMail = EmailCfgDao.getInstance().getCfgById(groupRenameMailId);
+		
+		
 		//角色重名补偿
 		Map<String, RenameInfo> renameUserMap = DBMergeMgr.getInstance().getRenameUserMap();
+		
+		String userRenameSender = userRenameMail.getSender();
+		String userRenameTitle = userRenameMail.getTitle();
+		String userRenameContent = userRenameMail.getContent();
+		String userRenameAttachment = userRenameMail.getAttachment();
 		
 		for (Iterator<Entry<String, RenameInfo>> iterator = renameUserMap.entrySet().iterator(); iterator.hasNext();) {
 			Entry<String, RenameInfo> entry = iterator.next();
@@ -59,12 +74,17 @@ public class EmailAfterMergeProcess extends AbsAfterMergeProcess{
 			if (dataKvEntity != null) {
 				String value = dataKvEntity.getDbvalue();
 				TableEmail tableEmail = JsonUtil.readValue(value, TableEmail.class);
-				sendEmail(dbInfo, tableEmail, userId, "小狐仙", "重名补偿", "重名补偿，补偿砖石100", "2~100");
+				sendEmail(dbInfo, tableEmail, userId, userRenameSender, userRenameTitle, userRenameContent, userRenameAttachment);
 
 			} else {
 				DBLog.LogError("EmailAfterMergeProcess", "send duplicate name user compensate and can not find the email list:" + userId);
 			}
 		}
+		
+		String groupRenameSender = groupRenameMail.getSender();
+		String groupRenameTitle = groupRenameMail.getTitle();
+		String groupRenameContent = groupRenameMail.getContent();
+		String groupRenameAttachment = groupRenameMail.getAttachment();
 		
 		//帮派重名补偿
 		Map<String, RenameInfo> renameGroupMap = DBMergeMgr.getInstance().getRenameGroupMap();
@@ -94,7 +114,7 @@ public class EmailAfterMergeProcess extends AbsAfterMergeProcess{
 				if (dataKvEntity != null) {
 					String value = dataKvEntity.getDbvalue();
 					TableEmail tableEmail = JsonUtil.readValue(value, TableEmail.class);
-					sendEmail(dbInfo, tableEmail, userId, "小狐仙", "帮派重名补偿", "帮派重名补偿，补偿砖石500", "2~500");
+					sendEmail(dbInfo, tableEmail, userId, groupRenameSender, groupRenameTitle, groupRenameContent, groupRenameAttachment);
 				} else {
 					DBLog.LogError("EmailAfterMergeProcess", "send duplicate group name compensate and can not find the email list:" + userId);
 				}

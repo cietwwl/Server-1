@@ -52,4 +52,6 @@
 		<property name="port" value="${jdbc_meger_db_5.port}" />
 		<property name="url" value="${jdbc_meger_db_5.url}" />
 	</bean>
+	
+	<bean class="com.rw.config.email.EmailCfgDao"  init-method="init" />
 </beans>
