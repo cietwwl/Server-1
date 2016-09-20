@@ -6726,7 +6726,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+ArmyInfo: TeamInfo",
+											"text": "+TeamInfo: TeamInfo",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -9427,10 +9427,10 @@
 							"containerExtending": false,
 							"left": 544,
 							"top": 624,
-							"width": 189.7490234375,
+							"width": 252.57177734375,
 							"height": 40,
 							"autoResize": false,
-							"text": "SimpleArmyInfo是已存在的类",
+							"text": "TeamInfo是已存在的类(乾坤幻境中定义)",
 							"wordWrap": true
 						},
 						{
@@ -9455,7 +9455,7 @@
 								"$ref": "AAAAAAFXIn6o7cVAcAk="
 							},
 							"lineStyle": 1,
-							"points": "642:664;647:687"
+							"points": "666:664;663:687"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -17202,7 +17202,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFXImkbC3hG8pc="
 							},
-							"name": "ArmyInfo",
+							"name": "TeamInfo",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,
