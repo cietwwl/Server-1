@@ -8,57 +8,52 @@ import com.rwproto.HeroServiceProtos.MsgHeroRequest;
 import com.rwproto.HeroServiceProtos.eHeroType;
 import com.rwproto.RequestProtos.Request;
 
-public class HeroService implements FsService {
+public class HeroService implements FsService<MsgHeroRequest, eHeroType> {
 
-	// private static MainService instance = new MainService();
 	private HeroHandler heroHandler = HeroHandler.getInstance();
 
-	// private MainService(){}
-	// public static MainService getInstance(){
-	// return instance;
-	// }
-	public ByteString doTask(Request request, Player player) {
+
+	@Override
+	public ByteString doTask(MsgHeroRequest request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		// TODO Auto-generated method stub
 		try {
-			MsgHeroRequest msgHeroRequest = MsgHeroRequest.parseFrom(request.getBody().getSerializedContent());
-			eHeroType eHeroType = msgHeroRequest.getHeroType();
+			eHeroType eHeroType = request.getHeroType();
 			switch (eHeroType) {
-			// case UPGRADE_QUALITY:
-			// result = heroHandler.upgradeQuality(player, msgHeroRequest);
-			// break;
-			// case USE_EQUIPMENT:
-			// result = heroHandler.useEquipMent(player, msgHeroRequest);
-			// break;
 			case SUMMON_HERO:
-				result = heroHandler.summonHero(player, msgHeroRequest);
+				result = heroHandler.summonHero(player, request);
 				break;
 			case EVOLUTION_HERO:
-				result = heroHandler.upgradeHeroStar(player, msgHeroRequest.getHeroId());
+				result = heroHandler.upgradeHeroStar(player, request.getHeroId());
 				break;
-			// case EQUIP_STRENGTH:
-			// result = heroHandler.strenghEquipMent(player, msgHeroRequest);
-			// break;
-			// case ONEKEY_STRENGTH:
-			// result = heroHandler.oneKeytrenghEquipMent(player, msgHeroRequest);
-			// break;
-
 			case USE_EXP:
-				result = heroHandler.useHeroExp(player, msgHeroRequest);
+				result = heroHandler.useHeroExp(player, request);
 				break;
 			case USE_EXP_MAX:// 一键升级到上限
-				result = heroHandler.useHeroExpMax(player, msgHeroRequest);
+				result = heroHandler.useHeroExpMax(player, request);
 				break;
-			// case BUY_SKILL_POINT:
-			// result = heroHandler.buyHeroSkill(player, msgHeroRequest);
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public MsgHeroRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		MsgHeroRequest msgHeroRequest = MsgHeroRequest.parseFrom(request.getBody().getSerializedContent());
+		return msgHeroRequest;
+	}
+
+	@Override
+	public eHeroType getMsgType(MsgHeroRequest request) {
+		// TODO Auto-generated method stub
+		return request.getHeroType();
 	}
 
 }

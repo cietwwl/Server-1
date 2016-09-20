@@ -16,9 +16,9 @@ message TagSkillData{
 	optional string skillId = 3;//技能
 	optional int32 level =4;//技能等级
 	optional int32 order = 5;//位置
-	repeated int32 buffId	= 6;
-	optional float skillRate =7;
-	optional int32 extraDamage = 8;
+	//repeated int32 buffId	= 6;
+	optional float skillRate =6;
+	optional int32 extraDamage = 7;
 }
 
 message SkillData{

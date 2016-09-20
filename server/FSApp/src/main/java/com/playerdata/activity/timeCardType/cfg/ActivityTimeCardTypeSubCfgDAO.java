@@ -1,11 +1,13 @@
 package com.playerdata.activity.timeCardType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -22,25 +24,26 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 	public static ActivityTimeCardTypeSubCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityTimeCardTypeSubCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityTimeCardTypeSubCfg>> subCfgListMap;
 	
 	@Override
 	public Map<String, ActivityTimeCardTypeSubCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCardTypeSubCfg.csv", ActivityTimeCardTypeSubCfg.class);
+		HashMap<String, List<ActivityTimeCardTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityTimeCardTypeSubCfg>>();
+		for(ActivityTimeCardTypeSubCfg subCfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(subCfg, subCfg.getParentCfgId(), subCfgListMapTmp);
+		}
+		
+		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
-
+	
 
 	public List<ActivityTimeCardTypeSubCfg> getByParentCfgId(String parentCfgId){
-		List<ActivityTimeCardTypeSubCfg> targetList = new ArrayList<ActivityTimeCardTypeSubCfg>();
-		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityTimeCardTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
-				targetList.add(tmpItem);
-			}
-		}
-		return targetList;
+		return subCfgListMap.get(parentCfgId);
+		
 		
 	}
 	public ActivityTimeCardTypeSubCfg getById(String subId){
@@ -64,9 +67,4 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 		}
 		return target;		
 	}
-	
-
-	
-
-
 }

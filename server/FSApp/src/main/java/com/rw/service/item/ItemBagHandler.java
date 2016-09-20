@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
@@ -16,6 +17,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
@@ -328,60 +330,12 @@ public class ItemBagHandler {
 			return rsp.build().toByteString();
 		}
 
-		// int consumeType = itemBaseCfg.getConsumeType();
-		// if (consumeType != eConsumeTypeDef.PowerConsume.getOrder() && consumeType != eConsumeTypeDef.VipExpConsume.getOrder()) {
-		// GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具不能被使用", itemTemplateId));
-		// rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
-		// return rsp.build().toByteString();
-		// }
-
 		ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(itemTemplateId);
 		if (consumeCfg == null) {
 			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
 		}
-
-		// RoleUpgradeCfg roleUpgradeCfg = RoleUpgradeCfgDAO.getInstance().getCfg(player.getLevel());
-		// if (roleUpgradeCfg == null) {
-		// GameLog.error("背包道具使用", player.getUserId(), String.format("角色的等级为[%s]的RoleUpgradeCfg模版找不到", player.getLevel()));
-		// rsp.setRspInfo(fillResponseInfo(false, "数据异常"));
-		// return rsp.build().toByteString();
-		// }
-		//
-		// int addValue = consumeCfg.getValue();
-		// // 体力判断
-		// if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
-		// int mostPower = roleUpgradeCfg.getMostPower();
-		// if (player.getUserGameDataMgr().getPower() >= mostPower) {// 超过上限
-		// rsp.setRspInfo(fillResponseInfo(false, "体力已达上限"));
-		// return rsp.build().toByteString();
-		// }
-		// } else if (consumeType == eConsumeTypeDef.VipExpConsume.getOrder()) {
-		// if (PrivilegeCfgDAO.getInstance().getCfg(addValue) == null) {
-		// GameLog.error("背包道具使用", player.getUserId(), String.format("使用VIP卡的等级是[%s]并无PrivilegeCfg配置", addValue));
-		// rsp.setRspInfo(fillResponseInfo(false, "当前没有VIP" + addValue));
-		// return rsp.build().toByteString();
-		// }
-		//
-		// int curVipLevel = player.getVip();
-		// if (addValue <= curVipLevel) {
-		// rsp.setRspInfo(fillResponseInfo(false, "您已经是尊贵的VIP" + curVipLevel + "用户"));
-		// return rsp.build().toByteString();
-		// }
-		// }
-		//
-		// // 使用道具
-		// if (!itemBagMgr.useItemBySlotId(id, count)) {
-		// rsp.setRspInfo(fillResponseInfo(false, "使用失败"));
-		// return rsp.build().toByteString();
-		// }
-		//
-		// if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
-		// player.addPower(addValue);
-		// } else {
-		// player.setVip(addValue);
-		// }
 
 		ItemUseEffectCfgDAO cfgDAO = ItemUseEffectCfgDAO.getCfgDAO();
 		ItemUseEffectTemplate tmp = cfgDAO.getUseEffectTemplateByModelId(itemTemplateId);
@@ -393,6 +347,9 @@ public class ItemBagHandler {
 
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {// 有要结合的数据
+
+			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+
 			SpecialItemCfgDAO specialCfgDAO = SpecialItemCfgDAO.getDAO();
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
@@ -407,7 +364,8 @@ public class ItemBagHandler {
 						resourceName = cfg.getName();
 					}
 				} else {
-					value = itemBagMgr.getItemCountByModelId(key);
+					RefInt refInt = modelCountMap.get(key);
+					value = refInt == null ? 0 : refInt.value;
 					ItemBaseCfg needItemCfg = ItemCfgHelper.GetConfig(itemTemplateId);
 					if (needItemCfg != null) {
 						resourceName = needItemCfg.getName();
@@ -599,11 +557,16 @@ public class ItemBagHandler {
 				}
 
 				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
 				for (Pair<Integer, Integer> pair : lst) {
-					final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue() * useCount);
-					if (!addItemResult) {
-						GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
-					}
+					// final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue() * useCount);
+					// if (!addItemResult) {
+					// GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
+					// }
+					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue() * useCount));
+				}
+				if (!bagMgr.addItem(itemInfoList)) {
+					GameLog.error("背包", "法宝", "添加背包物品失败！物品列表：" + itemInfoList);
 				}
 
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
@@ -687,11 +650,16 @@ public class ItemBagHandler {
 				}
 
 				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
 				for (Pair<Integer, Integer> pair : lst) {
-					boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue());
-					if (!addItemResult) {
-						GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" + pair.getT1().intValue());
-					}
+					// boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue());
+					// if (!addItemResult) {
+					// GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" + pair.getT1().intValue());
+					// }
+					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue()));
+				}
+				if (!bagMgr.addItem(itemInfoList)) {
+					GameLog.error("背包", "法宝", "分解法宝时添加材料失败！道具列表:" + itemInfoList);
 				}
 
 				if (addedCount > 0) {

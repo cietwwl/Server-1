@@ -3,6 +3,7 @@ package com.playerdata.activity.redEnvelopeType;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,19 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfg;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
@@ -53,23 +60,61 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkNewOpen(Player player) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+		String userId = player.getUserId();
+		List<ActivityRedEnvelopeTypeItem> addItemList = null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+		if (addItemList != null) {
+			dataHolder.addItemList(player, addItemList);
+		}
+		
+	}
+	
+	public List<ActivityRedEnvelopeTypeItem> creatItems(String userId , MapItemStore<ActivityRedEnvelopeTypeItem> itemStore){
+		List<ActivityRedEnvelopeTypeItem> addItemList = null;
+		ActivityRedEnvelopeTypeSubCfgDAO subDao = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeCfg> cfgList = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
+		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
 		for(ActivityRedEnvelopeTypeCfg cfg : cfgList){
+			if(itemStore != null){
+				if(itemStore.getItem(itemId) != null){
+					continue;
+				}
+			}
 			if(!isOpen(cfg)){
 				continue;
 			}
-			ActivityRedEnvelopeTypeItem targetItem = dataHolder.getItem(player.getUserId());
-			if(targetItem != null){
-				continue;
+			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
+			item.setId(itemId);
+			item.setUserId(userId);
+			item.setCfgId(cfg.getId());
+			item.setVersion(cfg.getVersion());
+			item.setLastTime(System.currentTimeMillis());
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
+			item.setDay(day);
+			List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();			
+			List<ActivityRedEnvelopeTypeSubCfg> subList = subDao.getSubCfgListByParentID(cfg.getId());
+			if(subList == null){
+				subList = new ArrayList<ActivityRedEnvelopeTypeSubCfg>();
 			}
-			targetItem = ActivityRedEnvelopeTypeCfgDAO.getInstance().newItem(player, cfg);
-			if(targetItem == null){
-				GameLog.error(LogModule.ComActivityRedEnvelope,player.getUserId(), "生成数据失败",null);
-				continue;
+			for(ActivityRedEnvelopeTypeSubCfg subCfg : subList){
+				if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
+					continue;
+				}
+				ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
+				subItem.setCfgId(subCfg.getId());
+				subItem.setDay(subCfg.getDay());	
+				subItem.setDiscount(subCfg.getDiscount());
+				subItemList.add(subItem);
+			}			
+			item.setSubItemList(subItemList);	
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityRedEnvelopeTypeItem>();
 			}
-			dataHolder.addItem(player, targetItem);
+			addItemList.add(item);
 		}
+		return addItemList;
 	}
+	
 	
 	public boolean isOpen(ActivityRedEnvelopeTypeCfg cfg) {
 		long startTime = cfg.getStartTime();
@@ -125,6 +170,9 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	private void checkClose(Player player) {
 		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
 		ActivityRedEnvelopeTypeItem item = dataHolder.getItem(player.getUserId());
+		if(item == null){
+			return;
+		}
 		if (!isClose(item)) {			
 			return;	
 		}
@@ -143,7 +191,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 
 		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if(cfg == null){
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "派发奖励替换文字的时候取不到cfg", null);
 			return;
 		}		
 		String reward = eSpecialItemId.Gold.getValue() +"_"+item.getGoldCount();
@@ -158,17 +205,14 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 
 	public boolean isClose(ActivityRedEnvelopeTypeItem activityVitalityTypeItem) {
-		if (activityVitalityTypeItem != null) {
-			ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());			
-			if(cfg == null){
-				GameLog.error("activityRedEnvelopetypemgr","" , "配置文件找不到数据奎对应的活动");
-				return false;
-			}						
-			long endTime = cfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime >= endTime;//此活动的特殊两个时间段导致中间的时间段也需要用=号附加判断
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO
+				.getInstance().getCfgById(activityVitalityTypeItem.getCfgId());
+		if (cfg == null) {
+			return false;
 		}
-		return false;
+		long endTime = cfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime >= endTime;
 	}
 	
 	public boolean isCanTakeGift(ActivityRedEnvelopeTypeItem item) {
@@ -187,7 +231,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = dataItem.getSubItemList();
 		if(ActivityTypeHelper.getDayBy5Am(Cfg.getStartTime())>subItemList.size()){
 			//活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "活动开了n天，但子项只有m<n个；在m天之后n天之前的消费会到这里", null);
 			return;
 		}
 		for(ActivityRedEnvelopeTypeSubItem subItem: subItemList){
@@ -244,7 +287,6 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		}		
 		ActivityRedEnvelopeTypeItem dataItem = activityRedEnvelopeTypeItemHolder.getItem(player.getUserId());
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
@@ -252,6 +294,27 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			activityRedEnvelopeTypeItemHolder.updateItem(player, dataItem);
 		}	
 		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityRedEnvelopeTypeCfg> list = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRedEnvelopeTypeCfg cfg : list){
+			if(isOpen(cfg,param)){
+				return true;
+			}
+		}				
+		return false;
+	}
+
+	private boolean isOpen(ActivityRedEnvelopeTypeCfg cfg,
+			MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}	
 
 }

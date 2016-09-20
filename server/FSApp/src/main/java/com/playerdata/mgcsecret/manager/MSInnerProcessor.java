@@ -47,11 +47,13 @@ class MSInnerProcessor extends MSConditionJudger {
 	 */
 	public static void handleDropItem(Player player, List<ItemInfo> dropItems) {
 		ItemBagMgr bagMgr = player.getItemBagMgr();
-		for (ItemInfo itm : dropItems) {
-			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-			if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-		}
+//		for (ItemInfo itm : dropItems) {
+//			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
+//			if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
+//				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+//		}
+		GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品：%s", dropItems), null);
+		bagMgr.addItem(dropItems);
 	}
 
 	/**
@@ -125,8 +127,9 @@ class MSInnerProcessor extends MSConditionJudger {
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(nextDungeonID);
 		if (dungDataCfg != null) {
 			String[] strLayerArr = dungDataCfg.getBuffBonus().split(",");
+			BuffBonusCfgDAO buffBonusCfgDAO = BuffBonusCfgDAO.getInstance();
 			for (String layerID : strLayerArr) {
-				BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getRandomBuffByLayerID(Integer.parseInt(layerID));
+				BuffBonusCfg buffCfg = buffBonusCfgDAO.getRandomBuffByLayerID(Integer.parseInt(layerID));
 				mcInfo.getUnselectedBuff().add(Integer.parseInt(buffCfg.getKey()));
 			}
 		} else {
@@ -151,9 +154,10 @@ class MSInnerProcessor extends MSConditionJudger {
 		mcInfo.setSelectedDungeonIndex(-1); // -1表示未选择
 		List<MSDungeonInfo> selectableDungeons = new ArrayList<MSDungeonInfo>();
 		int nextStageID = stageID + 1;
+		DungeonsDataCfgDAO dungeonsDataCfgDAO = DungeonsDataCfgDAO.getInstance();
 		for (int i = 1; i <= MagicSecretMgr.DUNGEON_MAX_LEVEL; i++) {
 			String dungID = nextStageID + "_" + i;
-			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungID);
+			DungeonsDataCfg dungDataCfg = dungeonsDataCfgDAO.getCfgById(dungID);
 			if (dungDataCfg == null)
 				continue;
 			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player,
@@ -206,8 +210,9 @@ class MSInnerProcessor extends MSConditionJudger {
 	private static ArrayList<Integer> provideNextFabaoBuff(String fabaoBuffStr) {
 		ArrayList<Integer> resultBuff = new ArrayList<Integer>();
 		String[] strLayerArr = fabaoBuffStr.split(",");
+		FabaoBuffCfgDAO fabaoBuffCfgDAO = FabaoBuffCfgDAO.getInstance();
 		for (String layerID : strLayerArr) {
-			FabaoBuffCfg buffCfg = FabaoBuffCfgDAO.getInstance().getRandomBuffByLayerID(Integer.parseInt(layerID));
+			FabaoBuffCfg buffCfg = fabaoBuffCfgDAO.getRandomBuffByLayerID(Integer.parseInt(layerID));
 			resultBuff.add(Integer.parseInt(buffCfg.getKey()));
 		}
 		return resultBuff;

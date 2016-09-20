@@ -59,8 +59,8 @@ enum eBattlePositionType{
 	TowerBattle = 12;//封神台
 	TeamBattle = 13;//心魔录，组队战
 	GroupCopy= 14;//帮派副本
-	
-
+	WorldBoss = 15;//世界Boss
+	GroupCompetition = 16; //帮派争霸
 
 }
 

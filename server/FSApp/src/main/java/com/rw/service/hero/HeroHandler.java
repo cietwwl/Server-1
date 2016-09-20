@@ -16,6 +16,8 @@ import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.item.useeffect.impl.UseItemDataComparator;
 import com.rw.service.item.useeffect.impl.UseItemTempData;
@@ -103,16 +105,19 @@ public class HeroHandler {
 			return rsp.build().toByteString();
 		}
 
-		int canUpgrade = role.canUpgradeStar();
+		int canUpgrade = FSHeroMgr.getInstance().canUpgradeStar(role);
 		switch (canUpgrade) {
 		case 0:
-			RoleCfg heroCfg = role.getHeroCfg();
+//			RoleCfg heroCfg = role.getHeroCfg();
+			RoleCfg heroCfg = FSHeroMgr.getInstance().getHeroCfg(role);
 			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -heroCfg.getUpNeedCoin());// 扣除金币
 			player.getItemBagMgr().useItemByCfgId(heroCfg.getSoulStoneId(), heroCfg.getRisingNumber());// 扣除魂石
 			RoleCfg nextHeroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(heroCfg.getNextRoleId());
 			// 佣兵升星
-			role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
-			role.setStarLevel(nextHeroCfg.getStarLevel());
+//			role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
+			FSHeroBaseInfoMgr.getInstance().setTemplateId(role, nextHeroCfg.getRoleId());
+//			role.setStarLevel(nextHeroCfg.getStarLevel());
+			FSHeroBaseInfoMgr.getInstance().setStarLevel(role, nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
 			GFOnlineListenerPlayerChange.defenderChangeHandler(player);
@@ -145,7 +150,7 @@ public class HeroHandler {
 		MsgHeroResponse.Builder msgHeroResponse = MsgHeroResponse.newBuilder();
 		msgHeroResponse.setEventType(eHeroType.USE_EXP);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player)) {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), "还没达到开启的等级", null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.LOW_LEVEL);
 			return msgHeroResponse.build().toByteString();
@@ -287,7 +292,8 @@ public class HeroHandler {
 		}
 
 		if (player.getItemBagMgr().useItemByCfgId(itemId, useCount)) {// 消耗卡
-			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
+//			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
+			FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
 
 			GameLog.info("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s],吞卡后浪费经验值[%s],等级[%s],当前经验[%s]\n吞卡数量[%s][%s]", heroUUID, addExp, curLevel, curExp, itemId, useCount), null);
 			msgHeroResponse.setModerId(heroUUID);
@@ -327,7 +333,7 @@ public class HeroHandler {
 
 		msgRsp.setEventType(eHeroType.USE_EXP_MAX);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player.getLevel())) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.USE_EXP_ITEM, player)) {
 			GameLog.error("佣兵吃经验丹", player.getUserId(), "还没达到开启的等级", null);
 			msgRsp.setEHeroResultType(eHeroResultType.LOW_LEVEL);
 			return msgRsp.build().toByteString();
@@ -487,7 +493,8 @@ public class HeroHandler {
 		// System.out.println("------curlevel:" + curLevel + ", curExp:" + curExp + ",levelExp" + levelExp);
 		if (!usedMap.isEmpty()) {
 			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
-			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
+//			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
+			FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
 		}
 		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
 		return msgRsp.build().toByteString();

@@ -91,13 +91,13 @@ public class GFOnlineHurtRankMgr {
 	public static List<GFOnlineHurtItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
 		List<GFOnlineHurtItem> result = new ArrayList<GFOnlineHurtItem>();
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
-		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration();
+		EnumerateList<? extends MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem>> it = ranking.getEntriesEnumeration(1, size);
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
 			GFOnlineHurtComparable hurtComparable = entry.getComparable();
 			if(hurtComparable.getResourceID() != resourceID) continue;
 			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
-			if(StringUtils.equals(hurtItem.getGroupID(), groupID) && result.size() < size){
+			if(StringUtils.equals(hurtItem.getGroupID(), groupID)){
 				hurtItem.setTotalHurt(hurtComparable.getTotalHurt());
 				result.add(hurtItem);
 			}
@@ -115,12 +115,14 @@ public class GFOnlineHurtRankMgr {
 		try {
 			List<GFOnlineHurtItem> hurtRank = getGFHurtRankList(resourceID);
 			Iterator<GFOnlineHurtItem> it = hurtRank.iterator();
-			int rewardCfgCount = GFightOnlineDamageRankDAO.getInstance().getEntryCount();
+			
+			GFightOnlineDamageRankDAO damageRankDAO = GFightOnlineDamageRankDAO.getInstance();
+			int rewardCfgCount = damageRankDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
 				if (i != 1)
-					startRank = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				GFightOnlineDamageRankCfg rewardCfg = GFightOnlineDamageRankDAO.getInstance().getCfgById(String.valueOf(i));
+					startRank = damageRankDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				GFightOnlineDamageRankCfg rewardCfg = damageRankDAO.getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;

@@ -40,8 +40,8 @@ public class TaskItemMgr implements TaskMgrIF {
 
 	public void initTask() {
 		List<TaskCfg> cfgList = TaskCfgDAO.getInstance().getInitList();
-		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(cfgList.size());
 		int size = cfgList.size();
+		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(size);
 		for (int i = 0; i < size; i++) {
 			TaskCfg cfg = cfgList.get(i);
 			
@@ -244,7 +244,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 
 		String[] rewards = cfg.getReward().split(",");
-		List<ItemInfo> items = new ArrayList<ItemInfo>();
+		List<ItemInfo> items = new ArrayList<ItemInfo>(rewards.length);
 		for (String reward : rewards) {
 			ItemInfo item = new ItemInfo();
 			item.setItemID(Integer.parseInt(reward.split("_")[0]));

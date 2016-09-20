@@ -14,13 +14,13 @@ public class GroupCopyArmyDamageInfo {
 	//击杀时间
 	private long time;
 	
-	private int damage;
+	private long damage;
 	
 	
 	public GroupCopyArmyDamageInfo() {
 	}
 	
-	public void setDamage(int damage) {
+	public void setDamage(long damage) {
 		this.damage = damage;
 	}
 	public void setPlayerID(String id) {
@@ -45,7 +45,7 @@ public class GroupCopyArmyDamageInfo {
 	public long getTime() {
 		return time;
 	}
-	public int getDamage() {
+	public long getDamage() {
 		return damage;
 	}
 

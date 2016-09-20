@@ -25,6 +25,8 @@ import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.enu.eStoreExistType;
 import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.store.TableStoreDao;
@@ -124,7 +126,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-				boolean hasGroup = StringUtils.isNotBlank(groupData.getGroupId());
+				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}
@@ -200,8 +202,13 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		case WarCopy:
 			List<Integer> storeTypes = new ArrayList<Integer>();
 			// 暂时不刷新黑市商人和神秘商人
-			storeTypes.add(eStoreType.Secret.getOrder());// 概率
-			storeTypes.add(eStoreType.Blackmark.getOrder());
+			CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
+			if (helper.isOpen(eOpenLevelType.SECRET_SHOP, m_pPlayer)){
+				storeTypes.add(eStoreType.Secret.getOrder());// 概率
+			}
+			if (helper.isOpen(eOpenLevelType.Blackmark_SHOP, m_pPlayer)){
+				storeTypes.add(eStoreType.Blackmark.getOrder());
+			}
 			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 			for (Integer storetype : storeTypes) {
 				if (m_StoreData.containsKey(storetype)) {

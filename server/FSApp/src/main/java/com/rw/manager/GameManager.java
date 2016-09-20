@@ -3,7 +3,9 @@ package com.rw.manager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -33,8 +35,15 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.ServerInitialLoading;
+import com.rw.dataaccess.mapitem.MapItemCreator;
+import com.rw.dataaccess.mapitem.MapItemType;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -90,11 +99,18 @@ public class GameManager {
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
-		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
-		MapItemStoreFactory.init();
+		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>>();
+		MapItemType[] types = MapItemType.values();
+		for (MapItemType t : types) {
+			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = Pair.<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> Create(t.getMapItemClass(), t.getCreatorClass());
+			map.put(t.getType(), pair);
+		}
+		MapItemStoreFactory.init(map);
+
+		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 
 		// initServerProperties();
 		initServerOpenTime();
@@ -119,16 +135,16 @@ public class GameManager {
 		/**** 排行初始化 ******/
 		// ArenaBM.getInstance().InitData();
 		// 初始化排行榜系统
-		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1);
-		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1);
+		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("ranking"));
+		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("list_ranking"));
 		RankingFactory.init(Arrays.asList(RankType.values()), Arrays.asList(ListRankingType.values()), rankingPool, listRankingPool);
 
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		
+
 		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
-		
+
 		RobotManager.getInstance().createRobots();
 		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
@@ -138,7 +154,7 @@ public class GameManager {
 		GameLog.debug("排行排序用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
-		ActivityRankTypeMgr.getInstance().creatMap();//排行榜的活动奖励的配置表初始化
+		ActivityRankTypeMgr.getInstance().creatMap();// 排行榜的活动奖励的配置表初始化
 		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
@@ -149,16 +165,19 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
-		
-		//GM的初始化
+
+		// GM的初始化
 		GmCommandManager.loadCommandClass();
 
+		// ServerStatus的初始化
+		ServerStatusMgr.init();
 
-		//帮派副本奖励分发数据初始化
+		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
-		
-//		WorshipMgr.getInstance().getByWorshipedInfo();
+		TBTeamItemMgr.getInstance().initNotFullTeam();
+		WorshipMgr.getInstance().getByWorshipedList();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
+		ServerInitialLoading.preLoadPlayers();
 	}
 
 	public static void initServerProperties() {
@@ -202,17 +221,10 @@ public class GameManager {
 		Resource rs = new ClassPathResource("serverparam.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
-			int playerCapacity = Integer.parseInt(props.getProperty("playerCapacity"));
-			int heroCapacity = Integer.parseInt(props.getProperty("heroCapacity"));
-			int itemCapacity = Integer.parseInt(props.getProperty("itemCapacity"));
-			ServerPerformanceConfig config = new ServerPerformanceConfig(playerCapacity, heroCapacity, itemCapacity);
+			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			// 使用默认配置
-			ServerPerformanceConfig config = new ServerPerformanceConfig(3000, 20000, 50000);
-			performanceConfig = config;
+			throw new ExceptionInInitializerError(e);
 		}
 	}
 
@@ -220,7 +232,8 @@ public class GameManager {
 	// Resource resource = new ClassPathResource("switch.properties");
 	// try {
 	// Properties props = PropertiesLoaderUtils.loadProperties(resource);
-	// boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
+	// boolean serverstatus =
+	// Boolean.parseBoolean(props.getProperty("serverStatus"));
 	// if (serverstatus) {
 	// ServerStatusMgr.setStatus(ServerStatus.OPEN);
 	// } else {
@@ -416,4 +429,5 @@ public class GameManager {
 	public static void CheckAllConfig() {
 		CfgCsvReloader.CheckAllConfig();
 	}
+
 }

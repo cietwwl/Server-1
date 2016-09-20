@@ -18,6 +18,8 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
@@ -38,10 +40,14 @@ public class ActivityCfgChecker {
 		checkRank();//
 		checkDailyDiscount();//8
 		checkFortuneCat();//9
-		
+		checkLimitHero();//10
 	}
 
 	
+
+	
+
+
 
 	private static void checkCount() {
 		List<ActivityCountTypeCfg> allCfg = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
@@ -56,7 +62,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityCount, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -78,7 +84,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityDailyCount, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -101,7 +107,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityRate, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -125,7 +131,7 @@ public class ActivityCfgChecker {
 //				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 //					continue;
 //				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityRedEnvelope, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -148,7 +154,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumID(), cfgTmp.getEnumID())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityVitality, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -170,7 +176,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getChangeStartTime()>cfgTmp.getChangeEndTime()||cfgTmp.getChangeStartTime()>cfg.getChangeEndTime()){
+				if(cfg.getChangeStartTime()>=cfgTmp.getChangeEndTime()||cfgTmp.getChangeStartTime()>=cfg.getChangeEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityExchange, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -192,7 +198,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityRank, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -214,7 +220,7 @@ public class ActivityCfgChecker {
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityDailyDisCount, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
@@ -233,13 +239,33 @@ public class ActivityCfgChecker {
 				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
 					continue;
 				}
-				if(cfg.getStartTime()>cfgTmp.getEndTime()||cfgTmp.getStartTime()>cfg.getEndTime()){
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
 					continue;
 				}
 				GameLog.cfgError(LogModule.ComActivityFortuneCat, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
 			}
 			
-		}
+		}		
+	}
+	
+	private static void checkLimitHero() {
+		List<ActivityLimitHeroCfg>  allCfg = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
+		for(ActivityLimitHeroCfg cfg:allCfg){
+			if(cfg.getStartTime() >= cfg.getEndTime()){
+				GameLog.cfgError(LogModule.ComActivityLimitHero, null, "时间开启关闭冲突；id =" + cfg.getId() );
+			}
+			for(ActivityLimitHeroCfg cfgTmp:allCfg){
+				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+					continue;
+				}
+				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
+					continue;
+				}
+				GameLog.cfgError(LogModule.ComActivityLimitHero, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
+			}			
+		}	
 		
 	}
+	
+	
 }

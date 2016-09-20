@@ -66,4 +66,6 @@ public enum EPrivilegeDef {
 	FASHION_BUY_OPEN,
 	/**签到补签开放*/
 	RESIGN_OPEN,
+	/**举报玩家*/
+	ISALLOW_REPORT,
 }

@@ -1,25 +1,30 @@
 package com.playerdata.activity.rateType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
+import com.playerdata.readonly.ItemInfoIF;
+import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
@@ -61,37 +66,57 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	private void checkNewOpen(Player player) {
 		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
 				.getInstance();
-		List<ActivityRateTypeCfg> allCfgList = ActivityRateTypeCfgDAO
-				.getInstance().getAllCfg();
-		for (ActivityRateTypeCfg activityRateTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityRateTypeCfg)) {
+		String userId = player.getUserId();
+		List<ActivityRateTypeItem> addItemList = null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+		if (addItemList != null) {
+			dataHolder.addItemList(player, addItemList);
+		}		
+	}
+	
+	public List<ActivityRateTypeItem> creatItems(String userId ,MapItemStore<ActivityRateTypeItem> itemStore){
+		List<ActivityRateTypeItem> addItemList = null;
+		List<ActivityRateTypeCfg> allCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityRateTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
 			}
 			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum
-					.getById(activityRateTypeCfg.getEnumId());
+					.getById(cfg.getEnumId());
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
 			}
-			ActivityRateTypeItem targetItem = dataHolder.getItem(
-					player.getUserId(), typeEnum);// 已在之前生成数据的活动
-			if(targetItem != null){
-				continue;
+			String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
+			if(itemStore != null){
+				if(itemStore.getItem(itemId)!=null){
+					continue;
+				}
 			}
-			targetItem = ActivityRateTypeCfgDAO.getInstance().newItem(
-					player, activityRateTypeCfg);// 生成新开启活动的数据
-			if (targetItem != null) {
-				dataHolder.addItem(player, targetItem);
+			ActivityRateTypeItem item = new ActivityRateTypeItem();
+			item.setId(itemId);
+			item.setCfgId(cfg.getId());
+			item.setEnumId(cfg.getEnumId());
+			item.setUserId(userId);
+			item.setVersion(cfg.getVersion());
+			item.setMultiple(cfg.getMultiple());
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityRateTypeItem>();
 			}
+			addItemList.add(item);	
 		}
+		return addItemList;
 	}
+	
+	
 	
 	private void checkVersion(Player player) {
 		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder.getInstance();
+		ActivityRateTypeCfgDAO activityRateTypeCfgDAO = ActivityRateTypeCfgDAO.getInstance();
 		List<ActivityRateTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for(ActivityRateTypeItem item : itemList){
-			ActivityRateTypeCfg cfg = ActivityRateTypeCfgDAO.getInstance().getCfgByEnumId(item);
+			ActivityRateTypeCfg cfg = activityRateTypeCfgDAO.getCfgByEnumId(item);
 			if(cfg == null){				
 				continue;
 			}
@@ -111,15 +136,15 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		long currentTime = System.currentTimeMillis();
 		isopen = currentTime < endTime && currentTime >= startTime ? true
 				: false;
-
-		if (isopen) {
-			int hour = DateUtils.getCurrentHour();
-			for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg
-					.getStartAndEnd()) {
-				isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
-				if (isopen) {
-					break;
-				}
+		if(!isopen){
+			return isopen;
+		}
+		
+		int hour = DateUtils.getCurrentHour();
+		for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg.getStartAndEnd()) {
+			isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
+			if (isopen) {
+				return isopen;
 			}
 		}
 		return isopen;
@@ -140,35 +165,17 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private boolean isClose(ActivityRateTypeItem ActivityRateTypeItem) {
-		boolean isclose = false;
 		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
 				.getCfgById(ActivityRateTypeItem.getCfgId());
 		if(cfgById == null){
-			GameLog.error(LogModule.ComActivityRate, null, "通用活动找不到配置文件", null);
 			return false;
-		}
-		
+		}		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
-		long startTime = cfgById.getStartTime();
-		isclose = currentTime > endTime ? true : false;
-		if (!isclose) {
-			isclose = currentTime < startTime ? true : false;
-		}
-
-		if (!isclose) {// 活动期间的小时区间是否开启
-			int hour = DateUtils.getCurrentHour();
-			for (ActivityRateTypeStartAndEndHourHelper timebyhour : cfgById
-					.getStartAndEnd()) {
-				isclose = hour >= timebyhour.getStarthour()
-						&& hour < timebyhour.getEndhour() ? false : true;
-				if (!isclose) {
-					break;
-				}
-			}
-		}
-		return isclose;
-	}	
+		return currentTime > endTime;
+	}
+	
+	
 	
 	/**
 	 * 
@@ -178,12 +185,24 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
 	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 	
-		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
-		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
+		float multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
+		float multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
+
+		List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+		if(!privList.isEmpty()){
+			for(PrivilegeDescItem iteminfo : privList){
+				if(iteminfo.getItemID() == eSpecialItemId.PlayerExp.getValue()){
+					multiplePlayerExp += iteminfo.getValue();
+				}
+				if(iteminfo.getItemID() == eSpecialItemId.Coin.getValue()){
+					multipleCoin += iteminfo.getValue();
+				}
+			}
+		}
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,(int)(copyCfg.getPlayerExp()*multiplePlayerExp),0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,(int)(copyCfg.getCoin()*multipleCoin));
 	}
 	
 	/**
@@ -192,8 +211,11 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	public Map<Integer, Integer> getEspecialItemtypeAndEspecialWithTime(Player player,int copyType){
 		Map<Integer, Integer> especialItemtypeAndEspecialWithTime = new HashMap<Integer, Integer>();
 		List<ActivityRateTypeCfg> cfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		ActivityRateTypeMgr activityRateTypeMgr = ActivityRateTypeMgr.getInstance();
+		
+		
 		for(ActivityRateTypeCfg cfg : cfgList){
-			if(!ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, cfg)){
+			if(!activityRateTypeMgr.isActivityOnGoing(player, cfg)){
 				continue;
 			}
 			Map<Integer, List<Integer>> map = cfg.getCopyTypeMap();
@@ -203,7 +225,6 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			//当前玩家通关的副本类型在这个活动里有对应的双倍奖励
 			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 			if(eNum == null){
-				GameLog.error(LogModule.ComActivityRate, player.getUserId(), "配置活动有某副本双倍数据，代码无枚举", null);
 				continue;
 			}
 			
@@ -234,7 +255,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				checkNewOpen(player);				
 				return false;
 			}
-			return !ActivityRateTypeMgr.getInstance().isClose(targetItem)&&player.getLevel() >= cfg.getLevelLimit();			
+			return ActivityRateTypeMgr.getInstance().isOpen(cfg)&&player.getLevel() >= cfg.getLevelLimit();			
 		}
 	}
 	
@@ -266,17 +287,35 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		}
 		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 		if(rateEnum == null){
-			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
 		}
 		ActivityRateTypeItem dataItem = activityCountTypeItemHolder.getItem(player.getUserId(),rateEnum);
 		if(dataItem == null){
-			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if(!dataItem.isTouchRedPoint()){
 			dataItem.setTouchRedPoint(true);
 			activityCountTypeItemHolder.updateItem(player, dataItem);
 		}		
+	}
+
+	public boolean isOpen(MapItemValidateParam param) {
+		List<ActivityRateTypeCfg> list = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRateTypeCfg cfg : list){
+			if(isOpen(cfg,param)){
+				return true;
+			}			
+		}
+		return false;
+	}
+
+	private boolean isOpen(ActivityRateTypeCfg cfg, MapItemValidateParam param) {
+		if (cfg != null) {
+			long startTime = cfg.getStartTime();
+			long endTime = cfg.getEndTime();
+			long currentTime = param.getCurrentTime();
+			return currentTime < endTime && currentTime >= startTime;
+		}
+		return false;
 	}
 }

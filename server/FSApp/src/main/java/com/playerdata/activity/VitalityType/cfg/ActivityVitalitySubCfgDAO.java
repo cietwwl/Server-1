@@ -1,6 +1,7 @@
 package com.playerdata.activity.VitalityType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,16 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		return SpringContextUtil.getBean(ActivityVitalitySubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityVitalitySubCfg>> subCfgListMap ;
 	
 	@Override
 	public Map<String, ActivityVitalitySubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeSubCfg.csv", ActivityVitalitySubCfg.class);			
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeSubCfg.csv", ActivityVitalitySubCfg.class);	
+		HashMap<String, List<ActivityVitalitySubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityVitalitySubCfg>>();
+		for(ActivityVitalitySubCfg subCfg: cfgCacheMap.values()){
+			ActivityTypeHelper.add(subCfg, subCfg.getType(), subCfgListMapTmp);
+		}
+		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
@@ -49,13 +56,14 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 	}
 	
 	private ActivityVitalitySubCfg getVitalityOne(String subId) {
-		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(ActivityVitalityTypeEnum.Vitality.getCfgId());
+		if(cfgList == null){
+			return null;
+		}
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
 		for(ActivityVitalityCfg cfg : cfgList){
-			if (StringUtils.equals(
-					ActivityVitalityTypeEnum.Vitality.getCfgId(),
-					cfg.getEnumID())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+			if (activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}
@@ -69,8 +77,11 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		ActivityVitalityCfg cfg = openCfgList.get(0);		
 		int day = ActivityVitalityCfgDAO.getInstance().getday(cfg) ;
 		ActivityVitalitySubCfg target = null;
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg subcfg : allCfg) {
+		List<ActivityVitalitySubCfg> subCfgListByType = subCfgListMap.get(subId);
+		if(subCfgListByType == null){
+			return target;
+		}
+		for (ActivityVitalitySubCfg subcfg : subCfgListByType) {
 			if (StringUtils.equals(subcfg.getType(), subId)
 					&& subcfg.getDay() == day
 					&& StringUtils.equals(cfg.getId(), subcfg.getActiveType()
@@ -83,13 +94,14 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 	}
 	
 	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
-		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(ActivityVitalityTypeEnum.VitalityTwo.getCfgId());
+		if(cfgList == null){
+			return null;
+		}
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
 		for(ActivityVitalityCfg cfg : cfgList){
-			if (StringUtils.equals(
-					ActivityVitalityTypeEnum.VitalityTwo.getCfgId(),
-					cfg.getEnumID())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+			if (activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}
@@ -102,8 +114,11 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		}
 		ActivityVitalityCfg cfg = openCfgList.get(0);	
 		ActivityVitalitySubCfg target = null;
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg subcfg : allCfg) {
+		List<ActivityVitalitySubCfg> subCfgListByType = subCfgListMap.get(subId);
+		if(subCfgListByType == null){
+			return target;
+		}
+		for (ActivityVitalitySubCfg subcfg : subCfgListByType) {
 			if (!StringUtils.equals(subcfg.getType(), subId)) {
 				continue;				
 			}

@@ -17,32 +17,44 @@ import com.rwproto.RequestProtos.Request;
  * @author 
  *
  */
-public class SaveTeaminfoToServerService implements FsService {
+public class SaveTeaminfoToServerService implements FsService<BattleCommonReqMsg, RequestType> {
 
 	private SaveTeaminfoToServerHandler mHandler = SaveTeaminfoToServerHandler.getInstance();
 
 	@SuppressWarnings("finally")
-	public ByteString doTask(Request request, Player player) {
+	@Override
+	public ByteString doTask(BattleCommonReqMsg request, Player player) {
+		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			BattleCommonReqMsg msgMSRequest = BattleCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
-			RequestType msType = msgMSRequest.getReqType();
+			RequestType msType = request.getReqType();
 
 			switch (msType) {
 			case Updata:
-				result = mHandler.putTeamInfoToServer(player, msgMSRequest);
+				result = mHandler.putTeamInfoToServer(player, request);
 				break;
 			
 			default:
 				GameLog.error("阵容存储", player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
-			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
 		} catch (Exception e) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
 		} finally {
 			return result;
 		}
+	}
+
+	@Override
+	public BattleCommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		BattleCommonReqMsg msgMSRequest = BattleCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return msgMSRequest;
+	}
+
+	@Override
+	public RequestType getMsgType(BattleCommonReqMsg request) {
+		// TODO Auto-generated method stub
+		return request.getReqType();
 	}
 }

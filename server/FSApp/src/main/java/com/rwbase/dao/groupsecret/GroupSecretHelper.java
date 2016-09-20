@@ -21,6 +21,7 @@ import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.attrdata.AttrData;
@@ -175,7 +176,7 @@ public class GroupSecretHelper {
 
 //					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
 //						hero.getLevel(), isMainRole, false, heroPos, null));
-					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getStarLevel(),
+					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(),
 							hero.getLevel(), isMainRole, false, heroPos, null));
 				}
 
@@ -253,7 +254,7 @@ public class GroupSecretHelper {
 				if (heroLeftInfo == null) {
 //					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
 					AttrData totalData = hero.getAttrMgr().getTotalAttrData();
-					heroLeftInfo = new HeroLeftInfoSynData(totalData.getLife(), 0, totalData.getLife(), totalData.getEnergy());
+					heroLeftInfo = new HeroLeftInfoSynData((int)totalData.getLife(), 0, (int)totalData.getLife(), totalData.getEnergy());
 					isHasLife = true;
 				} else {
 					int leftLife = heroLeftInfo.getLife();
@@ -266,7 +267,7 @@ public class GroupSecretHelper {
 
 //				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
 //					.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
-				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), heroId
+				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), heroId
 						.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
 			}
 

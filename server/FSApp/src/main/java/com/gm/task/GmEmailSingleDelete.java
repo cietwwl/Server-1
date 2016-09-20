@@ -41,7 +41,7 @@ public class GmEmailSingleDelete implements IGmTask {
 					EmailMgr emailMgr = targetPlayer.getEmailMgr();
 					EmailItem emailItem = emailMgr.getEmailItem(mailId);
 					if (emailItem != null) {
-						emailMgr.delEmail(mailId);
+						emailMgr.delEmail(mailId, false);
 					} else {
 						GameLog.info(LogModule.GM.getName(),
 								"GmEmailSingleDelete",

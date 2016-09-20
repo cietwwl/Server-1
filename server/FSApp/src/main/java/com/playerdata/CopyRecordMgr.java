@@ -1,16 +1,18 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.readonly.CopyCfgIF;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.CopyRecordMgrIF;
-import com.playerdata.readonly.CopyRewardsIF;
-import com.playerdata.readonly.ItemInfoIF;
 import com.rw.service.copy.CommonTip;
-import com.rw.service.copy.CopyRewards;
 import com.rw.service.copy.PvECommonHelper;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
@@ -22,6 +24,8 @@ import com.rwbase.dao.copy.common.CopySubType;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.gift.ComGiftCfg;
+import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
@@ -33,8 +37,8 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	private CopyLevelRecordHolder copyLevelRecordHolder;
 	private CopyMapRecordHolder copyMapRecordHolder;
 
-	// 战斗副本奖励,因为是战斗前获取的所以要做临时保存
-	private CopyRewards copyRewards;
+	// // 战斗副本奖励,因为是战斗前获取的所以要做临时保存
+	// private CopyRewards copyRewards;
 
 	private Player m_pPlayer = null;
 
@@ -56,13 +60,13 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		copyMapRecordHolder.flush();
 	}
 
-	public CopyRewardsIF getCopyRewards() {
-		return copyRewards;
-	}
-
-	public void setCopyRewards(CopyRewards copyRewards) {
-		this.copyRewards = copyRewards;
-	}
+	// public CopyRewardsIF getCopyRewards() {
+	// return copyRewards;
+	// }
+	//
+	// public void setCopyRewards(CopyRewards copyRewards) {
+	// this.copyRewards = copyRewards;
+	// }
 
 	public boolean save() {
 		// do nothing
@@ -101,12 +105,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	/**
 	 * 添加关卡记录
 	 * 
-	 * @param levelID
-	 *            关卡id
-	 * @param nPassStar
-	 *            关卡获得的星级
-	 * @param times
-	 *            战斗次数
+	 * @param levelID 关卡id
+	 * @param nPassStar 关卡获得的星级
+	 * @param times 战斗次数
 	 * @return
 	 */
 	public String updateLevelRecord(int levelID, int nPassStar, int times) {
@@ -115,6 +116,10 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 
 	public String buyLevel(int levelID) {
 		return copyLevelRecordHolder.buyLevel(m_pPlayer, levelID);
+	}
+
+	public boolean isCopyLevelPassed(int levelID) {
+		return copyLevelRecordHolder.isCopyLevelPassed(m_pPlayer, levelID);
 	}
 
 	public CopyLevelRecordIF getLevelRecord(int levelID) {
@@ -129,10 +134,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		List<CopyCfgIF> list = new ArrayList<CopyCfgIF>();
 		int start = map.getStartLevelId();
 		int end = map.getEndLevelId();
-
-		CopyCfg copyCfg;
+		CopyCfgDAO cfgDAO = CopyCfgDAO.getInstance();
 		for (int i = start; i <= end; i++) {
-			copyCfg = CopyCfgDAO.getInstance().getCfg(i);
+			CopyCfg copyCfg = cfgDAO.getCfg(i);
 			if (copyCfg != null) {
 				list.add(copyCfg);
 			}
@@ -145,11 +149,12 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	 */
 	public MsgCopyResponse.Builder setMapByGM(MapCfg mapCfg) {
 		int nMapID = mapCfg.getId();
+		MapCfgDAO mapCfgDAO = MapCfgDAO.getInstance();
 		for (int i = 1001; i <= nMapID; i++) {
-			MapCfg map = MapCfgDAO.getInstance().getCfg(i);
+			MapCfg map = mapCfgDAO.getCfg(i);
 			if (map != null) {
 				List<CopyCfgIF> list = GetAllCopyCfgByMap(map);
-				for (int j = 0; j < list.size(); j++) {
+				for (int j = 0, size = list.size(); j < size; j++) {
 					updateLevelRecord(list.get(j).getLevelID(), 3, 1);
 				}
 			}
@@ -194,8 +199,7 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 	/**
 	 * 
 	 * @param mapID
-	 * @param index
-	 *            这里的index是从1开始(不要问我为什么 我也想吐槽)
+	 * @param index 这里的index是从1开始(不要问我为什么 我也想吐槽)
 	 * @return
 	 */
 	public String getGift(int mapID, int frontIndex) {
@@ -230,24 +234,27 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 
 	private void addGiftToItemBag(int mapID, int index) {
 		MapCfg map = MapCfgDAO.getInstance().getCfg(mapID);
-		List<ItemInfoIF> list = getGiftList(map, index);
-		for (int i = 0; i < list.size(); i++) {
-			ItemInfoIF itemInfo = list.get(i);
-			m_pPlayer.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
-		}
+		List<ItemInfo> list = getGiftList(map, index);
+		// for (int i = 0; i < list.size(); i++) {
+		// ItemInfoIF itemInfo = list.get(i);
+		// m_pPlayer.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
+		// }
+		m_pPlayer.getItemBagMgr().addItem(list);
 	}
 
-	private List<ItemInfoIF> getGiftList(MapCfg mapCfg, int index) {
+	// private List<ItemInfoIF> getGiftList(MapCfg mapCfg, int index) {
+	private List<ItemInfo> getGiftList(MapCfg mapCfg, int index) {
 		String str = mapCfg.getRewardGain();
 		String[] arr = str.split(",");
 		str = arr[index];
 		GiftCfg giftCfg = GiftCfgDAO.getInstance().getCfg(str);
-		List<ItemInfoIF> list = departStringToItemInfoList(giftCfg.getReward());
+		List<ItemInfo> list = departStringToItemInfoList(giftCfg.getReward());
 		return list;
 	}
 
-	private List<ItemInfoIF> departStringToItemInfoList(String rewards) {
-		List<ItemInfoIF> list = new ArrayList<ItemInfoIF>();
+	// private List<ItemInfoIF> departStringToItemInfoList(String rewards) {
+	private List<ItemInfo> departStringToItemInfoList(String rewards) {
+		List<ItemInfo> list = new ArrayList<ItemInfo>();
 		String[] rewardArray = rewards.split(",");
 		for (int i = 0; i < rewardArray.length; i++) {
 			String strItem = rewardArray[i];
@@ -291,10 +298,9 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		}
 		List<CopyCfgIF> listCopyCfg = GetAllCopyCfgByMap(map);
 		int star = 0;
-		CopyLevelRecordIF copyRecord;
 		for (CopyCfgIF copyCfg : listCopyCfg) {
 			if (ShouldCountStar(copyCfg)) {
-				copyRecord = getLevelRecord(copyCfg.getLevelID());
+				CopyLevelRecordIF copyRecord = getLevelRecord(copyCfg.getLevelID());
 				if (copyRecord != null) {
 					star += copyRecord.getPassStar();
 				}
@@ -359,5 +365,106 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		return true;
 	}
 
+	/**
+	 * 领取关卡宝箱
+	 * 
+	 * @param mapId
+	 * @param copy
+	 * @return
+	 */
+	public boolean getCopyBox(int mapId, int copy) {
+		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(copy);
+		if (copyCfg == null) {
+			m_pPlayer.NotifyCommonMsg("找不到目标关卡，id:" + copy);
+			return false;
+		}
+		if (!isOpen(copyCfg)) {
+			m_pPlayer.NotifyCommonMsg("目标关卡还没有通关");
+			return false;
+		}
+		if (!StringUtils.isNotBlank(copyCfg.getRewardInfo())) {
+			m_pPlayer.NotifyCommonMsg("目标关卡没有可领取的宝箱");
+			return false;
+		}
+		CopyMapRecord mapReord = copyMapRecordHolder.getMapReord(mapId);
+		if (mapReord == null) {
+			mapReord = copyMapRecordHolder.addMapRecord(m_pPlayer, mapId);
+		}
+		List<Integer> rewardLvList = mapReord.getRewardLvList();
+		if (rewardLvList.contains(copy)) {
+			m_pPlayer.NotifyCommonMsg("目标关卡宝箱已经被领取");
+			return false;
+		}
+
+		ComGiftCfg config = ComGiftCfgDAO.getInstance().getConfig(copyCfg.getRewardInfo());
+		if (config == null) {
+			m_pPlayer.NotifyCommonMsg("找不到奖励数据");
+			return false;
+		}
+		List<ItemInfo> list = getItemListFromMap(config.getGiftMap());
+
+		boolean take = m_pPlayer.getItemBagMgr().addItem(list);
+		if (take) {
+			take = copyMapRecordHolder.takeCopyBox(m_pPlayer, mapReord, copy);
+
+		}
+		return take;
+
+	}
+
+	private List<ItemInfo> getItemListFromMap(Map<String, Integer> map) {
+		List<ItemInfo> list = new ArrayList<ItemInfo>();
+		for (Iterator<Entry<String, Integer>> itr = map.entrySet().iterator(); itr.hasNext();) {
+			Entry<String, Integer> entry = itr.next();
+			ItemInfo info = new ItemInfo();
+			info.setItemID(Integer.parseInt(entry.getKey()));
+			info.setItemNum(entry.getValue());
+			list.add(info);
+		}
+
+		return list;
+	}
+
+	/**
+	 * 领取天尊锦囊
+	 * 
+	 * @param mapID
+	 * @return
+	 */
+	public boolean getGodGiftBox(int mapID) {
+		MapCfg cfg = MapCfgDAO.getInstance().getCfg(mapID);
+		if (cfg == null) {
+			m_pPlayer.NotifyCommonMsg("找不到目标章节地图");
+			return false;
+		}
+		if (!isMapClear(mapID)) {
+			m_pPlayer.NotifyCommonMsg("当前章节还没有通关");
+			return false;
+		}
+		if (cfg.getGodBoxID() == 0) {
+			m_pPlayer.NotifyCommonMsg("当前章节没有奖励可以领取");
+			return false;
+		}
+		CopyMapRecord mapReord = copyMapRecordHolder.getMapReord(mapID);
+		if (mapReord == null) {
+			mapReord = copyMapRecordHolder.addMapRecord(m_pPlayer, mapID);
+		}
+		if (mapReord.isReceiveChapterReward()) {
+			m_pPlayer.NotifyCommonMsg("当前章节的奖励已经领取");
+			return false;
+		}
+		ComGiftCfg config = ComGiftCfgDAO.getInstance().getConfig(String.valueOf(cfg.getGodBoxID()));
+		if (config == null) {
+			m_pPlayer.NotifyCommonMsg("找不到奖励数据");
+			return false;
+		}
+		List<ItemInfo> list = getItemListFromMap(config.getGiftMap());
+
+		boolean take = m_pPlayer.getItemBagMgr().addItem(list);
+		if (take) {
+			take = copyMapRecordHolder.takeGodBox(m_pPlayer, mapReord, mapID);
+		}
+		return take;
+	}
 
 }

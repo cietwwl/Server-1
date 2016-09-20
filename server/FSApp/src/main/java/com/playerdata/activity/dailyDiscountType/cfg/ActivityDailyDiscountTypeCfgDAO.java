@@ -1,6 +1,7 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,17 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-import com.playerdata.activity.countType.ActivityCountTypeHelper;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
@@ -34,7 +25,10 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	public static ActivityDailyDiscountTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityDailyDiscountTypeCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityDailyDiscountTypeCfg>> enumIdCfgMapping;
+	
+	
 	@Override
 	public Map<String, ActivityDailyDiscountTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(
@@ -43,6 +37,13 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		for (ActivityDailyDiscountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}
+		HashMap<String, List<ActivityDailyDiscountTypeCfg>> enumIdCfgMapping_ = new HashMap<String, List<ActivityDailyDiscountTypeCfg>>();
+		for (ActivityDailyDiscountTypeCfg typeCfg : cfgCacheMap.values()) {
+			ActivityTypeHelper.add(typeCfg, typeCfg.getEnumId(), enumIdCfgMapping_);
+		}
+		this.enumIdCfgMapping = enumIdCfgMapping_;
+		
+		
 		return cfgCacheMap;
 	}
 
@@ -54,22 +55,22 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);	
 	}
 
-	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
-		if(cfg!=null){
-			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
-			item.setId(itemId);
-			item.setEnumId(cfg.getEnumId());
-			item.setUserId(player.getUserId());
-			item.setCfgId(cfg.getId());
-			item.setVersion(cfg.getVersion());
-			item.setLastTime(System.currentTimeMillis());
-			item.setSubItemList(newSubItemList(cfg));
-			return item;
-		}else{
-			return null;
-		}	
-	}
+//	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
+//		if(cfg!=null){
+//			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
+//			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
+//			item.setId(itemId);
+//			item.setEnumId(cfg.getEnumId());
+//			item.setUserId(player.getUserId());
+//			item.setCfgId(cfg.getId());
+//			item.setVersion(cfg.getVersion());
+//			item.setLastTime(System.currentTimeMillis());
+//			item.setSubItemList(newSubItemList(cfg));
+//			return item;
+//		}else{
+//			return null;
+//		}	
+//	}
 	
 	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeCfg cfg) {
 		int day ;
@@ -77,18 +78,20 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 			day = 0;
 		}else{
 			day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
-		}
-		
-		
+		}		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
+		if(subCfgList == null){
+			return subItemList;
+		}
+		ActivityDailyDiscountItemCfgDao activityDailyDiscountItemCfgDao = ActivityDailyDiscountItemCfgDao.getInstance();
 		for(ActivityDailyDiscountTypeSubCfg activityVitalitySubCfg : subCfgList){
 			if(activityVitalitySubCfg.getAfterSomeDays() != day){
 				continue;
 			}
 			
 			for(Integer itemId:activityVitalitySubCfg.getItemList()){
-				ActivityDailyDiscountItemCfg itemCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(itemId+"");
+				ActivityDailyDiscountItemCfg itemCfg = activityDailyDiscountItemCfgDao.getCfgById(itemId+"");
 				if(itemCfg == null){
 					continue;
 				}
@@ -110,12 +113,16 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
 	 */
 	public ActivityDailyDiscountTypeCfg getCfgByItem(ActivityDailyDiscountTypeItem item) {
+		ActivityDailyDiscountTypeMgr activityDailyDiscountTypeMgr = ActivityDailyDiscountTypeMgr.getInstance();
 		String id = item.getCfgId();
 		String enumId = item.getEnumId();
-		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();
+		List<ActivityDailyDiscountTypeCfg> cfglist = enumIdCfgMapping.get(enumId);
+		if(cfglist == null){
+			return null;
+		}
 		List<ActivityDailyDiscountTypeCfg> cfgListByItem = new ArrayList<ActivityDailyDiscountTypeCfg>();
 		for(ActivityDailyDiscountTypeCfg cfg : cfglist){
-			if(!StringUtils.equals(cfg.getId(),id)&&StringUtils.equals(enumId, cfg.getEnumId())&&ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
+			if(!StringUtils.equals(cfg.getId(),id)&&activityDailyDiscountTypeMgr.isOpen(cfg)){
 				cfgListByItem.add(cfg);
 			}			
 		}
@@ -126,10 +133,12 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 			return cfgListByItem.get(0);
 		}		
 		return null;
+	}	
+	
+	public boolean isCfgByItemEmuidEmpty(String enumId){
+
+		return enumIdCfgMapping.get(enumId) == null || enumIdCfgMapping.get(enumId).isEmpty();		
 	}
-	
-	
-	
 	
 	
 	

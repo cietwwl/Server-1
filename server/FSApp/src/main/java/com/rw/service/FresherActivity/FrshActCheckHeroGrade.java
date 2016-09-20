@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.enu.EHeroQuality;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
@@ -72,7 +73,7 @@ public class FrshActCheckHeroGrade implements IFrshActCheckTask{
 		for (Enumeration e = herosEnumeration; herosEnumeration
 				.hasMoreElements();) {
 			Hero hero = (Hero) e.nextElement();
-			int heroQuality = hero.GetHeroQuality();
+			int heroQuality = FSHeroMgr.getInstance().getHeroQuality(hero);
 			
 			for (EHeroQuality eHeroQuality : qualityValue) {
 				if(heroQuality >= eHeroQuality.ordinal()){

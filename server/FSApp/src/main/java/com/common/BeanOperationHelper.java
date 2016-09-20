@@ -1,9 +1,7 @@
 package com.common;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -226,7 +224,7 @@ public class BeanOperationHelper {
 	}
 	
 	private static boolean canDoOperation(Class<?> type){
-		return type == int.class || type == float.class || type == double.class;
+		return type == int.class || type == float.class || type == double.class || type == long.class;
 	}
 	
 	

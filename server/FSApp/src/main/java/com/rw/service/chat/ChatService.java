@@ -1,6 +1,7 @@
 package com.rw.service.chat;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
@@ -12,9 +13,10 @@ import com.rwproto.ChatServiceProtos.MsgChatRequestPrivateChats;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
+import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.Request;
 
-public class ChatService implements FsService {
+public class ChatService implements FsService<Request, Command> {
 
 	private ChatHandler chatHandler = ChatHandler.getInstance();
 
@@ -85,4 +87,17 @@ public class ChatService implements FsService {
 			return null;
 		}
 	}
+
+	@Override
+	public Request parseMsg(Request request) throws InvalidProtocolBufferException {
+		// TODO Auto-generated method stub
+		return request;
+	}
+
+	@Override
+	public Command getMsgType(Request request) {
+		// TODO Auto-generated method stub
+		return request.getHeader().getCommand();
+	}
+
 }

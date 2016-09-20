@@ -2,6 +2,7 @@ package com.playerdata.activity.VitalityType.cfg;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -33,12 +35,19 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return SpringContextUtil.getBean(ActivityVitalityCfgDAO.class);
 	}
 	
+	private HashMap<String, List<ActivityVitalityCfg>> cfgListMap;
+	
 	@Override
 	public Map<String, ActivityVitalityCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeCfg.csv", ActivityVitalityCfg.class);
 		for (ActivityVitalityCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
-		}		
+		}
+		HashMap<String, List<ActivityVitalityCfg>> cfgListMapTmp = new HashMap<String, List<ActivityVitalityCfg>>();
+		for(ActivityVitalityCfg cfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(cfg, cfg.getEnumID(), cfgListMapTmp);			
+		}
+		this.cfgListMap = cfgListMapTmp;
 		return cfgCacheMap;
 	}
 
@@ -58,15 +67,15 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	 * @param subdaysNum  无数据记录的玩家根据第几天开始参与活跃之王来生成数据
 	 * @return
 	 */
-	public ActivityVitalityTypeItem newItem(Player player,ActivityVitalityCfg cfgById){
+	public ActivityVitalityTypeItem newItem(String userId,ActivityVitalityCfg cfgById){
 		if(cfgById!=null){
 			int day = ActivityVitalityCfgDAO.getInstance().getday(cfgById) ;
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
-			String itemId = ActivityVitalityTypeHelper.getItemId(player.getUserId(), ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
+			String itemId = ActivityVitalityTypeHelper.getItemId(userId, ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
 			item.setId(itemId);
 			item.setEnumId(cfgById.getEnumID());
 			item.setCfgId(cfgById.getId());
-			item.setUserId(player.getUserId());
+			item.setUserId(userId);
 			item.setVersion(cfgById.getVersion());
 			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day,cfgById));
@@ -206,10 +215,14 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 
 	public ActivityVitalityCfg getCfgByItemOfVersion(ActivityVitalityTypeItem item) {
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
-		for(ActivityVitalityCfg cfg : getAllCfg()){
-			if (StringUtils.equals(item.getEnumId(), cfg.getEnumID())
-					&& !StringUtils.equals(item.getCfgId(), cfg.getId())
-					&& ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
+		List<ActivityVitalityCfg> listByEnumId = cfgListMap.get(item.getEnumId());
+		if(listByEnumId == null){
+			return null;
+		}		
+		for(ActivityVitalityCfg cfg : listByEnumId){
+			if (!StringUtils.equals(item.getCfgId(), cfg.getId())
+					&& activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}
 			
@@ -224,5 +237,12 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return null;
 	}
 	
+	public List<ActivityVitalityCfg> getCfgListByEnumId(String enumId){
+		List<ActivityVitalityCfg> cfgList = cfgListMap.get(enumId);
+		if(cfgList == null){
+			cfgList = new ArrayList<ActivityVitalityCfg>();
+		}
+		return cfgList;		
+	}
 
 }

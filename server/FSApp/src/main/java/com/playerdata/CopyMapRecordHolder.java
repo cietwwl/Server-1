@@ -100,4 +100,30 @@ public class CopyMapRecordHolder{
 		return cache.getMapItemStore(userId, CopyMapRecord.class);
 	}
 
+	public boolean takeCopyBox(Player player, CopyMapRecord mapRecord, int copyID){
+		boolean suc = mapRecord.takeCopyBox(copyID);
+		if(suc){
+			getCopyMapRecord().updateItem(mapRecord);
+			ClientDataSynMgr.updateData(player, mapRecord, eSynType.COPY_MAP_RECORD, eSynOpType.UPDATE_SINGLE);
+		}
+		return suc;
+	}
+
+	/**
+	 * 设置领取天尊锦囊
+	 * @param m_pPlayer
+	 * @param mapReord
+	 * @param mapID
+	 * @return
+	 */
+	public boolean takeGodBox(Player m_pPlayer, CopyMapRecord mapReord,
+			int mapID) {
+		mapReord.setReceiveChapterReward(true);
+		boolean updateItem = getCopyMapRecord().updateItem(mapReord);
+		if(updateItem){
+			ClientDataSynMgr.updateData(m_pPlayer, mapReord, eSynType.COPY_MAP_RECORD, eSynOpType.UPDATE_SINGLE);
+		}
+		return updateItem;
+	}
+
 }

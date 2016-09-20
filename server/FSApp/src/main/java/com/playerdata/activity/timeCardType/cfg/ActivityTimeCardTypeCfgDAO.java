@@ -37,16 +37,15 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 		return cfg;
 	}
 	
-	public ActivityTimeCardTypeItem newItem(Player player, ActivityTimeCardTypeEnum typeEnum){
-		
-		String cfgId = typeEnum.getCfgId();
-		ActivityTimeCardTypeCfg cfgById = getCfgById(cfgId );
+	public ActivityTimeCardTypeItem newItem(Player player){
+		//在不改配置文件的情况下，只修改itemid方便插入数据库；
+		ActivityTimeCardTypeCfg cfgById = getCfgById("1");
 		if(cfgById!=null){			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
-			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), typeEnum);
+			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), ActivityTimeCardTypeEnum.Month);
 			item.setId(itemId);
 			item.setUserId(player.getUserId());
-			item.setCfgId(cfgId);
+			item.setCfgId(cfgById.getId());
 			newAndAddSubItemList(item);
 			
 			return item;
@@ -60,6 +59,9 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 	private void newAndAddSubItemList(ActivityTimeCardTypeItem item) {
 		List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 		List<ActivityTimeCardTypeSubCfg> subItemCfgList = ActivityTimeCardTypeSubCfgDAO.getInstance().getByParentCfgId(item.getCfgId());
+		if(subItemCfgList == null){
+			subItemCfgList = new ArrayList<ActivityTimeCardTypeSubCfg>();
+		}
 		for (ActivityTimeCardTypeSubCfg tmpSubCfg : subItemCfgList) {
 			subItemList.add(ActivityTimeCardTypeSubItem.newItem(tmpSubCfg));
 		}

@@ -9,9 +9,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.ItemChangedEventType_1;
-import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
@@ -171,16 +168,11 @@ public class UserGameDataMgr {
 	// }
 
 	public int addCoin(int nValue) {
-		UserGameData tableUserOther = userGameDataHolder.get();
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		if (marjorData.getCoin() + nValue >= 0) {
 			marjorData.setCoin(marjorData.getCoin() + nValue);
 			majorDataHolder.addCoin(player, marjorData);
 
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, marjorData.getCoin());
 			if (nValue < 0) {
 				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
 			}
@@ -321,10 +313,6 @@ public class UserGameDataMgr {
 		majordata.setGiftGold(majordata.getGiftGold() + value);
 		majordata.updateGold();
 
-		String scenceId = null;// 暂时留空
-		ItemChangedEventType_1 type_1 = null; // 暂时留空
-		ItemChangedEventType_2 type_2 = null;// 暂时留空
-		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, majordata.getGiftGold());
 
 		return 0;
 	}
@@ -389,10 +377,6 @@ public class UserGameDataMgr {
 			result = -1;
 		}
 		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
 			UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
@@ -422,13 +406,7 @@ public class UserGameDataMgr {
 		} else {
 			result = -1;
 		}
-		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
-			// UserEventMgr.getInstance().UseGold(player, -value);
-		}
+		
 		return result;
 	}
 

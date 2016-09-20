@@ -22,7 +22,9 @@ import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -60,7 +62,8 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 	public ActivityFortuneCatTypeItem newItem(Player player, ActivityFortuneCatTypeCfg cfg) {
 		if(cfg!=null){
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(player.getUserId());
+			String itemID = ActivityFortuneCatHelper.getItemId(player.getUserId(), ActivityFortuneTypeEnum.FortuneCat);
+			item.setId(itemID);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());
@@ -75,6 +78,9 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 	public List<ActivityFortuneCatTypeSubItem> newSubItemList(ActivityFortuneCatTypeCfg cfg) {		
 		List<ActivityFortuneCatTypeSubItem> subItemList = new ArrayList<ActivityFortuneCatTypeSubItem>();
 		List<ActivityFortuneCatTypeSubCfg> subCfgList = ActivityFortuneCatTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
+		if(subCfgList == null){
+			return subItemList;
+		}
 		for(ActivityFortuneCatTypeSubCfg subCfg : subCfgList){
 			ActivityFortuneCatTypeSubItem item = new ActivityFortuneCatTypeSubItem();
 			item.setCfgId(subCfg.getId()+"");
@@ -89,6 +95,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 
 	public ActivityFortuneCatTypeCfg getCfgListByItem(
 			ActivityFortuneCatTypeItem targetItem) {
+		ActivityFortuneCatTypeMgr activityFortuneCatTypeMgr = ActivityFortuneCatTypeMgr.getInstance();
 		String cfgId = targetItem.getCfgId();
 		List<ActivityFortuneCatTypeCfg>  cfgList = getAllCfg();
 		List<ActivityFortuneCatTypeCfg>  cfgListByItem = new ArrayList<ActivityFortuneCatTypeCfg>();
@@ -100,7 +107,7 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 		
 		List<ActivityFortuneCatTypeCfg>  cfgListIsOpen = new ArrayList<ActivityFortuneCatTypeCfg>();//激活的下一个活动，只有0或1个；
 		for(ActivityFortuneCatTypeCfg cfg : cfgListByItem){
-			if(ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)){
+			if(activityFortuneCatTypeMgr.isOpen(cfg)){
 				cfgListIsOpen.add(cfg);
 			}			
 		}

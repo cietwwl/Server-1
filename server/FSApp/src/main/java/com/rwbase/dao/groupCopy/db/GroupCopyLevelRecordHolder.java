@@ -6,7 +6,11 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.groupCopy.GroupCopyLevelBL;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.battleVerify.MonsterCfg;
+import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -48,12 +52,38 @@ public class GroupCopyLevelRecordHolder {
 			} else if (record.getProgress() == null) {
 				record.setProgress(GroupCopyLevelBL.createProgress(cfg.getId()));
 				getItemStore().updateItem(record);
+				
+			}else{
+				//检查已经存在怪物的关卡，怪物数据是否与配置表一致，如果不匹配，则全部怪物重新生成   ----by Alex 8.30.2016
+				GroupCopyProgress progress = record.getProgress();
+				double percent = progress.getProgress();
+				if(percent == 1.0){
+					continue;
+				}
+				List<GroupCopyMonsterSynStruct> datas = progress.getmDatas();
+				boolean reset = false;
+				for (GroupCopyMonsterSynStruct struct : datas) {
+					MonsterCfg monster = MonsterCfgDao.getInstance().getConfig(struct.getId());
+					if(monster == null){
+						reset = true;
+						break;
+					}
+				}
+				
+				if(reset){
+					GameLog.info(LogModule.GroupCopy.name(), "GroupCopyLevelRecordHolder", "帮派副本发现副本[" + cfg.getId() +"]里的怪物与配置不匹配，进行重新生成");
+					GroupCopyProgress p = GroupCopyLevelBL.createProgress(cfg.getId());
+					p.calculateMonsterFromProgress(percent);//TODO 是否还要处理一下章节的进度？
+					record.setProgress(p);
+					getItemStore().updateItem(record);
+				}
 			}
 		}
 		if (addList != null) {
 			try {
 				getItemStore().addItem(addList);
 			} catch (DuplicatedKeyException e) {
+				GameLog.error(LogModule.GroupCopy, GroupCopyLevelRecordHolder.class.getName(), "检查副本数据时发现异常", e);
 				e.printStackTrace();
 			}
 		}
@@ -85,11 +115,11 @@ public class GroupCopyLevelRecordHolder {
 	 */
 	public List<GroupCopyLevelRecord> getItemList() {
 		List<GroupCopyLevelRecord> itemList = new ArrayList<GroupCopyLevelRecord>();
-
+		MapItemStore<GroupCopyLevelRecord> itemStore = getItemStore();
 		List<GroupCopyLevelCfg> allCfg = GroupCopyLevelCfgDao.getInstance().getAllCfg();
 		GroupCopyLevelRecord item;
 		for (GroupCopyLevelCfg cfg : allCfg) {
-			item = getItemStore().getItem(getRecordID(cfg.getId()));
+			item = itemStore.getItem(getRecordID(cfg.getId()));
 			if (item != null) {
 				itemList.add(item);
 			}

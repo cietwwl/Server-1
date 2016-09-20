@@ -1,0 +1,40 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FightGrowthProto";
+
+message EmptyMessage{
+}
+
+//MSG_FIGHTING_GROWTH_REQUEST_UPGRADE
+message UpgradeFightingTitleResponse {
+	required bool success = 1; // 是否成功 成功会推送消息MSG_FIGHTING_PUSH_DATA，UserFightingGrowthSynData
+	required string tips = 2; // 提示信息
+}
+
+// 道具需求
+message UpgradeItemRequired {
+	required fixed32 itemCfgId = 1; // 道具编号
+	required fixed32 itemCount = 2; // 需求的数量
+}
+
+// 玩家战力提升数据成长途径数据
+message UserFightingGrowthWaySynData {
+	required string key = 1; // 关键索引
+	required string name = 2; // 名字
+	required fixed32 currentFighting = 3; // 当前的战斗力
+	required fixed32 maxFighting = 4; // 最大的战斗力
+	repeated fixed32 gainWay = 5; // 获取途径
+	required fixed32 gotoType = 6; // 打开的功能类型
+}
+
+// 玩家战力提升数据 MSG_FIGHTING_GROWTH_REQUEST_UI_DATA
+message UserFightingGrowthSynData {
+	required string userId = 1; // 战力提升数据的userId
+	required string currentTitle = 2; // 当前的称号
+	required string titleIcon = 3; // 当前的称号图片
+	required fixed32 fightingRequired = 4; // 升级所需要的战斗力
+	required bool hasNextTitle = 5; // 是否有下一个
+	repeated UpgradeItemRequired upgradeItemRequired= 6; // 升级所需要的道具
+	repeated UserFightingGrowthWaySynData growthWayData = 7; // 成长途径数据
+	required string currentUpKey = 8;//当前升级配置的ID
+}

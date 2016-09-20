@@ -11,6 +11,8 @@ import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatHelper;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
@@ -55,17 +57,9 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 	
 	public ActivityFortuneCatTypeItem getItem(String userId){
-		return getItemStore(userId).getItem(userId);
+		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
+		return getItemStore(userId).getItem(itemID);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityFortuneCatTypeItem item){
 	
@@ -111,7 +105,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityFortuneCatTypeItem> cache = MapItemStoreFactory.getActivityFortuneCatTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityFortuneCatTypeItem.class);
 	}

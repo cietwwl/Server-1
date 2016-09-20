@@ -94,13 +94,13 @@ public class GFOnlineKillRankMgr {
 		List<GFOnlineKillItem> result = new ArrayList<GFOnlineKillItem>();
 		
 		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
-		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration();
+		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration(1, size);
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
 			GFOnlineKillComparable killComparable = entry.getComparable();
 			if(killComparable.getResourceID() != resourceID) continue;
 			GFOnlineKillItem killItem = entry.getExtendedAttribute();
-			if(StringUtils.equals(killItem.getGroupID(), groupID) && result.size() < size){
+			if(StringUtils.equals(killItem.getGroupID(), groupID)){
 				killItem.setTotalKill(killComparable.getTotalKill());
 				result.add(killItem);
 			}
@@ -118,12 +118,13 @@ public class GFOnlineKillRankMgr {
 		try {
 			List<GFOnlineKillItem> killRank = getGFKillRankList(resourceID);
 			Iterator<GFOnlineKillItem> it = killRank.iterator();
-			int rewardCfgCount = GFightOnlineDefeatRankDAO.getInstance().getEntryCount();
+			GFightOnlineDefeatRankDAO defeatRankDAO = GFightOnlineDefeatRankDAO.getInstance();
+			int rewardCfgCount = defeatRankDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
 				if (i != 1)
-					startRank = GFightOnlineDefeatRankDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				GFightOnlineDefeatRankCfg rewardCfg = GFightOnlineDefeatRankDAO.getInstance().getCfgById(String.valueOf(i));
+					startRank = defeatRankDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				GFightOnlineDefeatRankCfg rewardCfg = defeatRankDAO.getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;
