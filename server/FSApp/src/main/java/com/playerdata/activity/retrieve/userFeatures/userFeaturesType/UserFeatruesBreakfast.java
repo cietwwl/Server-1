@@ -32,7 +32,7 @@ public class UserFeatruesBreakfast implements IUserFeatruesHandler{
 		subItem.setPerfectReward(cfg.getPerfectRewards());
 		subItem.setPerfectType(cfg.getPerfectCostType());
 		subItem.setPerfectCost(cfg.getPerfectCost());
-		
+		subItem.setIstaken(false);
 		
 		return subItem;
 	}

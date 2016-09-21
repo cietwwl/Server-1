@@ -5,6 +5,8 @@ public class RewardBackSubItem {
 	private int maxCount;//今天最大次数
 	private int count;//今天已参与次数
 	
+	private boolean istaken;//如果有找回动作，标记让客户端显示
+	
 	private String normalReward;//普通奖励
 	private int normalType;
 	private int normalCost;
@@ -65,6 +67,12 @@ public class RewardBackSubItem {
 	}
 	public void setPerfectCost(int perfectCost) {
 		this.perfectCost = perfectCost;
+	}
+	public boolean isIstaken() {
+		return istaken;
+	}
+	public void setIstaken(boolean istaken) {
+		this.istaken = istaken;
 	}
 	
 	

@@ -91,5 +91,12 @@ public class ActivityRetrieveTypeMgr {
 				dataHolder.updateItem(player, item);
 			}			
 		}		
-	}	
+	}
+	
+	
+	
+	
+	
+	
+	
 }
