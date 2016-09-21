@@ -59,6 +59,7 @@ public class ClientDataSynMgr {
 				SynData.Builder synData = transferToClientData(serverData,jsonOpt);
 				msgDataSyn.addSynData(synData);
 			}
+			msgDataSyn.setOptMap(jsonOpt.getOptMapStr());
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
 			msgDataSyn.setVersion(newVersion);
@@ -96,6 +97,7 @@ public class ClientDataSynMgr {
 				SynData.Builder synData = transferToClientData(serverData,jsonOpt);
 				msgDataSyn.addSynData(synData);
 			}
+			msgDataSyn.setOptMap(jsonOpt.getOptMapStr());
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
 			msgDataSyn.setVersion(newVersion);
@@ -140,6 +142,7 @@ public class ClientDataSynMgr {
 			JsonOpt jsonOpt = JsonOpt.newWithOpt();
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			SynData.Builder synData = transferToClientData(serverData, jsonOpt);
+			msgDataSyn.setOptMap(jsonOpt.getOptMapStr());
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -157,6 +160,7 @@ public class ClientDataSynMgr {
 			SynData.Builder synData = transferToClientData(serverData, fieldNameList,jsonOpt);
 
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			msgDataSyn.setOptMap(jsonOpt.getOptMapStr());
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -176,6 +180,7 @@ public class ClientDataSynMgr {
 			SynData.Builder synData = transferToClientData(serverData, fieldNameList, jsonOpt);
 
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			msgDataSyn.setOptMap(jsonOpt.getOptMapStr());
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -225,7 +230,7 @@ public class ClientDataSynMgr {
 
 		String jsonData = null;
 		try {
-			JsonOpt noOpt = JsonOpt.newNoOpt();
+			JsonOpt noOpt = JsonOpt.newWithoutOpt();
 			jsonData = serverClassInfo.toJson(serverData,noOpt);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), serverData.getClass().toString(), "ClientDataSynMgr[toClientData]", e);

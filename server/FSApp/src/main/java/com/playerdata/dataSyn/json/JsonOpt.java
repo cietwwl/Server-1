@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -18,15 +19,15 @@ public class JsonOpt {
 	@IgnoreSynField
 	private boolean doOpt = false;
 	
+	private static JsonOpt noOptInstance = new JsonOpt();
+	
 	public static JsonOpt newWithOpt(){
 		JsonOpt jsonOpt = new JsonOpt();
 		jsonOpt.doOpt = true;
 		return jsonOpt;
 	}
-	public static JsonOpt newNoOpt(){
-		JsonOpt jsonOpt = new JsonOpt();
-		jsonOpt.doOpt = false;
-		return jsonOpt;
+	public static JsonOpt newWithoutOpt(){		
+		return noOptInstance;
 	}
 	
 	public String getShort(String target){
@@ -40,6 +41,10 @@ public class JsonOpt {
 		}
 		
 		return oriShortMap.get(target);
+	}
+	
+	public String getOptMapStr(){
+		return ClientDataSynMgr.toClientData(this);
 	}
 	
 	
