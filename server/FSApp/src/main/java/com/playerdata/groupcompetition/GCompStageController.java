@@ -133,7 +133,11 @@ public class GCompStageController {
 	 * @param firstStageStartTime
 	 */
 	public void start(long firstStageStartTime) {
-		createTimerTask(new StageStartConsumer(), firstStageStartTime);
+		if(firstStageStartTime < System.currentTimeMillis()) {
+			this.moveToNextStage();
+		} else {
+			createTimerTask(new StageStartConsumer(), firstStageStartTime);
+		}
 		GCompBaseInfoMgr.getInstance().update(firstStageStartTime);
 	}
 	
