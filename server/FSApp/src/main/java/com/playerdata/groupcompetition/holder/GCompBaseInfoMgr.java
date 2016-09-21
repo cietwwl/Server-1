@@ -19,4 +19,8 @@ public class GCompBaseInfoMgr {
 	public void sendBaseInfo(Player player) {
 		this._dataHolder.syn(player);
 	}
+	
+	public void sendBaseInfoToAll() {
+		this._dataHolder.synToAll();
+	}
 }

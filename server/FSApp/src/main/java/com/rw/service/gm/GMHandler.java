@@ -1,13 +1,16 @@
 package com.rw.service.gm;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -213,6 +216,9 @@ public class GMHandler {
 		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
+		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
+		funcCallBackMap.put("moveGroupCompStage".toLowerCase(), "moveGroupCompStage");
+		funcCallBackMap.put("moveGroupCompStage".toLowerCase(), "moveGroupCompStage");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1475,6 +1481,18 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
+	
+	public boolean requestGCompMatchData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetMatchView).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
 
 	/**
 	 * 批量添加物品
@@ -1572,6 +1590,73 @@ public class GMHandler {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public boolean moveGroupCompStage(String[] arrCommandContents, Player player) {
+		try {
+			Field wheelField = com.rwbase.common.timer.core.FSGameTimer.class.getDeclaredField("_wheel");
+			Field taskField = com.rwbase.common.timer.core.FSGameTimeSignal.class.getDeclaredField("_task");
+			Field timerInstanceField  = com.rwbase.common.timer.core.FSGameTimerMgr.class.getDeclaredField("_timerInstance");
+			Field consumerField = com.playerdata.groupcompetition.util.GCompCommonTask.class.getDeclaredField("_task");
+			wheelField.setAccessible(true);
+			taskField.setAccessible(true);
+			consumerField.setAccessible(true);
+			timerInstanceField.setAccessible(true);
+			com.playerdata.groupcompetition.util.GCompStageType stageType = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentStageType();
+			boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
+			@SuppressWarnings("unchecked")
+			Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
+					.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
+			List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
+			Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
+			outter: for (int i = 0, length = wheel.length; i < length; i++) {
+				Set<com.rwbase.common.timer.core.FSGameTimeSignal> set = wheel[i];
+				for (Iterator<com.rwbase.common.timer.core.FSGameTimeSignal> itr = set.iterator(); itr.hasNext();) {
+					com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = itr.next();
+					Object obj = taskField.get(timeSignal);
+					if (obj.getClass().equals(taskClazz)) {
+						Object consumerObj = consumerField.get(obj);
+						String consumerName = consumerObj.getClass().getName();
+						if (isEvents) {
+							if (consumerName.contains("EventStatusSwitcher")) {
+								// 具体赛事状态的切换器
+								list.add(timeSignal);
+								itr.remove();
+								break outter;
+							} else if (consumerName.contains("EventStatusSwitcher")) {
+								// 赛事类型切换
+								list.add(timeSignal);
+								itr.remove();
+								break outter;
+							}
+						} else {
+							if (consumerName.contains("StageStartConsumer")) {
+								list.add(timeSignal);
+								itr.remove();
+							} else if (consumerName.contains("StageEndMonitorConsumer")) {
+								list.add(0, timeSignal);
+								itr.remove();
+							}
+							if (list.size() == 2) {
+								break outter;
+							}
+						}
+					}
+				}
+			}
+			for (int i = 0; i < list.size(); i++) {
+				com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
+				timeSignal.getTask().onTimeSignal(timeSignal);
+			}
+			wheelField.setAccessible(false);
+			taskField.setAccessible(false);
+			consumerField.setAccessible(false);
+			timerInstanceField.setAccessible(false);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

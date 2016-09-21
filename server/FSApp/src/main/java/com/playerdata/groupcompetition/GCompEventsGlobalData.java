@@ -51,7 +51,7 @@ class GCompEventsGlobalData {
 		this._relativeGroups.put(type, new ArrayList<String>(relativeGroups));
 	}
 
-	public GCEventsType getCurrentStatus() {
+	public GCEventsType getCurrentEventsType() {
 		return _currentStatus;
 	}
 

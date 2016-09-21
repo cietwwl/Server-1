@@ -27,7 +27,9 @@ public class GCompMatchDataHolder {
 	}
 	
 	public void syn(Player toPlayer) {
-		ClientDataSynMgr.synData(toPlayer, this.get(), _synType, eSynOpType.UPDATE_SINGLE);
+		GCompMatchSynData synData = this.get();
+		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
+		System.err.println("同步数据：" + synData);
 	}
 	
 	public void synToAll() {

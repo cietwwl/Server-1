@@ -53,6 +53,14 @@ public class GCOnlineMemberHolder {
 	 * @param groupId
 	 */
 	public void addOnlineMember(Player player, String groupId) {
+		List<GCompOnlineMember> onlineMembers = _dao.getOnlineMembers(groupId);
+		String playerUserId = player.getUserId();
+		for(int i = 0, size = onlineMembers.size(); i < size; i++) {
+			GCompOnlineMember temp = onlineMembers.get(i);
+			if(temp.getUserId().equals(playerUserId)) {
+				return;
+			}
+		}
 		GCompOnlineMember member = new GCompOnlineMember(player);
 		_dao.addOnlineMembers(groupId, member);
 		// 同步
@@ -72,5 +80,9 @@ public class GCOnlineMemberHolder {
 			// 同步
 			this.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
 		}
+	}
+	
+	void reset() {
+		this._dao.reset();
 	}
 }

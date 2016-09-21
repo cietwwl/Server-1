@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 
@@ -37,5 +38,9 @@ public class GCOnlineMemberMgr {
 		if(groupId != null) {
 			_dataHolder.removeOnlineMember(player, groupId);
 		}
+	}
+	
+	public void onEventsStart(GCEventsType type) {
+		_dataHolder.reset();
 	}
 }

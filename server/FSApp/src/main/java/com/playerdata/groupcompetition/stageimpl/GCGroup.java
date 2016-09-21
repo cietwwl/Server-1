@@ -76,4 +76,9 @@ public class GCGroup implements IGCGroup {
 		
 	}
 
+	@Override
+	public String toString() {
+		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
+	}
+
 }

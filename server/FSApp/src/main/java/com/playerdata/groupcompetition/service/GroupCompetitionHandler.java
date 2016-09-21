@@ -8,7 +8,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
+import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -104,6 +104,16 @@ public class GroupCompetitionHandler {
 		selectionRspDataBuilder.setSelectionEndTime(GroupCompetitionMgr.getInstance().getCurrentStageEndTime());
 		rspBuilder.setSelectionData(selectionRspDataBuilder.build());
 	}
+	
+	private CommonGetDataRspMsg.Builder createGetDataRspBuilder(GCResultType resultType, String tips) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		builder.setReqType(GCRequestType.GetSelectionData);
+		builder.setRstType(resultType);
+		if (tips != null) {
+			builder.setTipMsg(tips);
+		}
+		return builder;
+	}
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
@@ -129,28 +139,37 @@ public class GroupCompetitionHandler {
 		return gcRsp.build().toByteString();
 	}
 	
-	// 获取海选信息
-	public ByteString getSelectionData(Player player) {
+	// 检查是否处于某个阶段
+	private GCResultType checkStageValidate(GCompStageType targetStageType) {
 		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
-		String tips;
 		GCResultType resultType;
-		if (stageType != GCompStageType.SELECTION) {
+		if (stageType != targetStageType) {
 			resultType = GCResultType.DATA_ERROR;
-			tips = GCompTips.getTipsNotSelectionStageNow();
 		} else {
 			resultType = GCResultType.SUCCESS;
-			tips = null;
 		}
-		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		builder.setReqType(GCRequestType.GetSelectionData);
-		builder.setRstType(resultType);
-		if (tips != null) {
-			builder.setTipMsg(tips);
-		}
+		return resultType;
+	}
+	
+	// 获取海选信息
+	public ByteString getSelectionData(Player player) {
+		GCResultType resultType = this.checkStageValidate(GCompStageType.SELECTION);
+		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotSelectionStageNow() : null);
 		if (resultType == GCResultType.SUCCESS) {
 			this.packSelectionData(builder, player);
 		}
 		GCompSelectionDataMgr.getInstance().sendLastMatchData(player);
+		return builder.build().toByteString();
+	}
+	
+	// 获取赛事对阵
+	public ByteString getMatchData(Player player) {
+		GCResultType resultType = this.checkStageValidate(GCompStageType.EVENTS);
+		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotMatchStageNow() : null);
+		if (resultType == GCResultType.SUCCESS) {
+			// 成功才有数据
+			GCompMatchDataMgr.getInstance().sendMatchData(player);
+		}
 		return builder.build().toByteString();
 	}
 }

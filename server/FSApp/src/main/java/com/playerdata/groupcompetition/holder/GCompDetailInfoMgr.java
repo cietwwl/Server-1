@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.holder;
 
+import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
 
 public class GCompDetailInfoMgr {
@@ -19,5 +20,9 @@ public class GCompDetailInfoMgr {
 	public void onEventsAgainstAssign(int matchId, String idOfGroupA, String idOfGroupB) {
 		GCompDetailInfo detailInfo = GCompDetailInfo.createNew(matchId, idOfGroupA, idOfGroupB);
 		_dataHolder.add(detailInfo);
+	}
+	
+	public void sendDetailInfo(int matchId, Player player) {
+		_dataHolder.syn(matchId, player);
 	}
 }

@@ -7,12 +7,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
+import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
+import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
+import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
+import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -119,11 +124,56 @@ public class GroupCompetitionMgr {
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
 		this._dataHolder.update();
+		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
+	/**
+	 * 
+	 * 玩家登录游戏
+	 * 
+	 * @param player
+	 */
 	public void onPlayerLogin(Player player) {
 		try {
-			GCompBaseInfoMgr.getInstance().sendBaseInfo(player);
+			GCompBaseInfoMgr.getInstance().sendBaseInfo(player); // 同步帮派争霸基础数据
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * 通知玩家进入备战区
+	 * 
+	 * @param player
+	 */
+	public void onPlayerEnterPrepareArea(Player player) {
+		// 同步Team数据、在线角色数据、帮战详细数据
+		GroupCompetitionGlobalData globalData = _dataHolder.get();
+		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
+			try {
+				int matchId = GCompMatchDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsData().getCurrentEventsType());
+				if (matchId > 0) {
+					GCTeamDataMgr.getInstance().sendTeamData(matchId, player);
+					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
+					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
+					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 通知玩家离开备战区
+	 * 
+	 * @param player
+	 */
+	public void onPlayerLeavePrepareArea(Player player) {
+		try {
+			GCOnlineMemberMgr.getInstance().removeOnlineMembers(player);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

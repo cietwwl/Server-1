@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
+import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
@@ -15,6 +16,8 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
+import com.playerdata.groupcompetition.util.GCompTips;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.dao.groupcompetition.GroupCompetitionAgainstCfgDAO;
@@ -46,6 +49,12 @@ public class GCompEventsStage implements IGCompStage {
 		_stageCfgId = cfg.getCfgId();
 	}
 	
+	private void fireEventsStart() {
+		GCTeamDataMgr.getInstance().onEventsStart(this._currentEventsType); // 通知赛事开始
+		GCOnlineMemberMgr.getInstance().onEventsStart(this._currentEventsType);
+		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(this._currentEventsType.chineseName));
+	}
+	
 	private void submitEventsStatusSwitchTask() {
 		long endTimeMillis = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(_events.getCurrentStatus().getLastMinutes());
 		System.err.println("提交赛事状态控制任务！当前状态：" + _events.getCurrentStatus() + "，deadLine：" + _dateFormatter.format(new Date(endTimeMillis)));
@@ -66,7 +75,7 @@ public class GCompEventsStage implements IGCompStage {
 		_events = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo).build();
 		_events.start();
 		this.submitEventsStatusSwitchTask();
-		GCTeamDataMgr.getInstance().onEventsStart(this._currentEventsType); // 通知赛事开始
+		this.fireEventsStart();
 	}
 	
 	/**
@@ -178,6 +187,7 @@ public class GCompEventsStage implements IGCompStage {
 		GCompMatchDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据
 		this.moveToEventsType(startType, topCountGroups);
 		this._stageEndTime = calculateEndTime(startType, false);
+		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsStage());
 	}
 	
 	@Override

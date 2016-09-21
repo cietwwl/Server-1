@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynType;
@@ -47,6 +48,7 @@ public class PrepareAreaMgr {
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
 			}
+			GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 		}
 	}
 
@@ -96,6 +98,7 @@ public class PrepareAreaMgr {
 		}
 		SameSceneContainer.getInstance().removeUserFromScene(groupScene.get(groupId), player.getUserId());
 		gcRsp.setRstType(GCResultType.SUCCESS);
+		GroupCompetitionMgr.getInstance().onPlayerLeavePrepareArea(player);
 	}
 	
 	/**

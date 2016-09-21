@@ -5,19 +5,19 @@ public enum GCEventsType {
 	/**
 	 * 16强
 	 */
-	TOP_16(1),
+	TOP_16(1, "16强"),
 	/**
 	 * 8强
 	 */
-	TOP_8(2),
+	TOP_8(2, "8强"),
 	/**
 	 * 4强
 	 */
-	QUATER(3),
+	QUATER(3, "4强"),
 	/**
 	 * 决赛
 	 */
-	FINAL(4),
+	FINAL(4, "决赛"),
 	;
 	
 	static {
@@ -40,11 +40,13 @@ public enum GCEventsType {
 	 * 类型的数字标记
 	 */
 	public final int sign;
+	public final String chineseName;
 	private GCEventsType _next;
 	private int daysNeededToFinal; // 本阶段到总决赛需要多少天
 	
-	private GCEventsType(int pSign) {
+	private GCEventsType(int pSign, String chineseName) {
 		this.sign = pSign;
+		this.chineseName = chineseName;
 	}
 	
 	public boolean hasNext() {
