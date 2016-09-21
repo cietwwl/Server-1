@@ -1,10 +1,16 @@
 package com.playerdata.activity.retrieve.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /**
  * 记录当天各功能的数据
  * @author Administrator
  *
  */
+@SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RewardBackTodaySubItem {
 	private int id;//功能id
 	private int maxCount;//今天最大次数

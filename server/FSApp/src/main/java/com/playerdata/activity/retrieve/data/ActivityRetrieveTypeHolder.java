@@ -103,7 +103,8 @@ public class ActivityRetrieveTypeHolder{
 	
 	public void synAllData(Player player){
 		List<RewardBackItem> itemList = getItemList(player.getUserId());
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		RewardBackItem item = itemList.get(0);
+		ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
 	
