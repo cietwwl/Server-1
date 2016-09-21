@@ -119,6 +119,8 @@ enum Command {
 	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
 	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
 	
+	MSG_BENEFIT_ITEM = 220;//精准营销消息协议
+	
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
