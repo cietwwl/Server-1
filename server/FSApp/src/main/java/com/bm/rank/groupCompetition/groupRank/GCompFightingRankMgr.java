@@ -30,8 +30,6 @@ import com.rwbase.dao.ranking.pojo.RankingLevelData;
 public class GCompFightingRankMgr {
 	
 	public static int MAX_RANK_COUNT = 30;
-	
-	public static int PERSONAL_FIGHT_RANK_COUNT = 1000;
 
 	/**
 	 * 更新某个帮派的排行
@@ -188,10 +186,10 @@ public class GCompFightingRankMgr {
 		}
 		HashSet<String> needRefreshGroup = new HashSet<String>();
 		/**
-		 * 取出个人战力排行榜前1000名的所属帮派
+		 * 取出个人五人小队战力排行榜玩家所属帮派
 		 */
-		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
-		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration(1, PERSONAL_FIGHT_RANK_COUNT);
+		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
+		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration();
 		for (; personalItor.hasMoreElements();) {
 			MomentRankingEntry<FightingComparable, RankingLevelData> entry = personalItor.nextElement();
 			String groupId = GroupHelper.getUserGroupId(entry.getKey());
