@@ -121,6 +121,8 @@ enum Command {
 	MSG_GROUP_COMPETITION_GET_MATCH_VIEW = 218; // 帮派争霸：获取对阵信息（带一个empty的body即可）
 	MSG_GROUP_COMPETITION_GET_SELECTION_VIEW = 219; // 帮派争霸：获取海选榜数据
 	
+	MSG_BENEFIT_ITEM = 220;//精准营销消息协议
+	
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
