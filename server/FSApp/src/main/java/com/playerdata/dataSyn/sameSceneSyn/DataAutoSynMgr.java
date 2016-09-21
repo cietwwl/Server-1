@@ -9,9 +9,6 @@ import java.util.Map.Entry;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.prepare.PositionInfo;
-import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
-import com.playerdata.groupcompetition.prepare.SameSceneSynData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -65,11 +62,12 @@ public class DataAutoSynMgr {
 				return;
 			}
 			SameSceneDataBaseIF oneValue = SameSceneContainer.getInstance().checkType(sceneId);
-			if(null == oneValue){
-				continue;
-			}
-			if(oneValue instanceof PositionInfo){
-				synCount += synData(sceneId, PrepareAreaMgr.synType, new SameSceneSynData());
+			SameSceneType sceneType = SameSceneType.getEnum(oneValue);
+			if(null != sceneType){
+				SameSceneSynDataIF dataIF = sceneType.getSynDataObject();
+				if(null != dataIF){
+					synCount += synData(sceneId, sceneType.getSynType(), dataIF);
+				}
 			}
 		}
 	}
@@ -212,5 +210,27 @@ public class DataAutoSynMgr {
 		synObject.setSynData(synData);
 		//多个用户同步相同的数据
 		ClientDataSynMgr.synData(player, synObject, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	/**
+	 * 给同屏所有玩家同步某个数据
+	 * @param sceneId
+	 * @param synType
+	 * @param synObject
+	 */
+	public void synDataToPlayersInScene(long sceneId, eSynType synType, Object synObject){
+		List<String> sceneUserIds = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
+		if(null == sceneUserIds || null == synObject || sceneUserIds.isEmpty() || sceneId <= 0){
+			return;
+		}
+		List<Player> players = new ArrayList<Player>();
+		for(String userId : sceneUserIds){
+			Player player = PlayerMgr.getInstance().findPlayerFromMemory(userId);
+			if (null != player) {
+				players.add(player);
+			}
+		}
+		//多个用户同步相同的数据
+		ClientDataSynMgr.synDataMutiple(players, synObject, synType, eSynOpType.UPDATE_SINGLE);
 	}
 }
