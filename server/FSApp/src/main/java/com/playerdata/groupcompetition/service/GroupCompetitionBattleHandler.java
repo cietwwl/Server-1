@@ -127,6 +127,7 @@ public class GroupCompetitionBattleHandler {
 
 		ArmyInfoSimple enemyArmyInfoSimple = enemyMemberList.get(mineIndex).getArmyInfo();
 		if (enemyArmyInfoSimple == null) {
+			GameLog.error("帮派争霸开始战斗", userId, "获取不到敌人对应的ArmyInfo信息");
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
@@ -142,7 +143,8 @@ public class GroupCompetitionBattleHandler {
 
 		// 设置一下自己开始战斗
 		mine.setResult(GCompBattleResult.Fighting);
-		mine.setStartBattleTime(System.currentTimeMillis());
+		long now = System.currentTimeMillis();
+		mine.setStartBattleTime(now);
 
 		IGCGroup groupA = gcAgainstOfGroup.getGroupA();
 		IGCGroup groupB = gcAgainstOfGroup.getGroupB();
@@ -159,6 +161,15 @@ public class GroupCompetitionBattleHandler {
 		battleStartRsp.setEnemyArmyInfo(enemyArmyInfoJson);
 		battleStartRsp.setMatchGroupInfo(matchGroupInfo);
 		rsp.setBattleStartRsp(battleStartRsp);
+
+		// 战斗进入成功之后，把机器人的状态全部设置成战斗
+		for (int i = 0, size = members.size(); i < size; i++) {
+			GCompTeamMember member = members.get(i);
+			if (member.isRobot() && member.getResult() == GCompBattleResult.NonStart && !member.getUserId().equals(userId)) {
+				member.setResult(GCompBattleResult.Fighting);
+				member.setStartBattleTime(now + 5000);// 机器人进入战斗时间延伸5秒，因为机器人也要模拟有加载时间限制
+			}
+		}
 
 		return rsp.setIsSuccess(true).build().toByteString();
 	}
@@ -220,7 +231,7 @@ public class GroupCompetitionBattleHandler {
 		// 如果有人
 		if (!playerIdList.isEmpty()) {
 			ByteString hpMsg = GCompMatchBattleCmdHelper.buildPushHpInfoMsg(mineIndex, req.getMineHpPercent(), req.getEnemyHpPercent());
-			
+
 			PlayerMgr playerMgr = PlayerMgr.getInstance();
 			for (int i = 0, size = playerIdList.size(); i < size; i++) {
 				Player p = playerMgr.find(playerIdList.get(i));
@@ -307,7 +318,7 @@ public class GroupCompetitionBattleHandler {
 		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
 		GCompMatchData matchData = holder.getMatchData(userId);
 		if (matchData == null) {
-			return fillFailMsg(rsp, "您当前没有匹配到对手");
+			return fillFailMsg(rsp, "当前阶段已经结束");
 		}
 
 		int matchState = matchData.getMatchState();
