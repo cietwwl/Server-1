@@ -35,7 +35,7 @@ public class Server {
 	public static void main(String[] args) {
 		GameWorldFactory.init(64, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-
+		System.setProperty("io.netty.recycler.maxCapacity.default", "1024");
 		GameManager.initServerProperties();
 		System.out.println("start init...");
 		ServerSwitch.initProperty();
