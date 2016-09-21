@@ -47,11 +47,11 @@ public class FieldInfo {
 		return name;
 	}
 
-	public Object toJson(Object target) throws Exception {
+	public Object toJson(Object target, JsonOpt jsonOpt) throws Exception {
 
 		Object json = null;
 		try {
-			json = fieldToJson.toJson(target);
+			json = fieldToJson.toJson(target, jsonOpt);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), target.getClass().toString(), fieldToJson.getLogInfo(), e);
 			throw (e);
