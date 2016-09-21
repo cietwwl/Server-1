@@ -32,4 +32,8 @@ public class GCompBaseInfoMgr {
 	public void update(GCompStageType currentStage) {
 		this._dataHolder.update(currentStage);
 	}
+	
+	public GCompStageType getCurrentStageType() {
+		return this._dataHolder.getCurrentStageType();
+	}
 }

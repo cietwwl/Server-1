@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
@@ -42,9 +43,8 @@ public class GroupCompetitionMgr {
 		return instance.getTimeInMillis();
 	}
 	
-	private void startStageController(GCompStartType startType, long relativeTime) {
+	private List<IGCompStage> getStageList(GCompStartType startType) {
 		GroupCompetitionStageCfgDAO groupCompetitionStageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
-		long startTimeMillis = GCompUtil.calculateGroupCompetitionStartTime(startType, relativeTime);
 		GroupCompetitionStageControlCfg cfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(startType.sign);
 		List<Integer> stageDetail = cfg.getStageDetailList();
 		List<IGCompStage> stageList = new ArrayList<IGCompStage>();
@@ -52,25 +52,73 @@ public class GroupCompetitionMgr {
 			GroupCompetitionStageCfg stageCfg = groupCompetitionStageCfgDAO.getCfgById(String.valueOf(stageDetail.get(i)));
 			stageList.add(GCompStageFactory.createStageByType(stageCfg.getStageType(), stageCfg));
 		}
+		return stageList;
+	}
+	
+	private void createAndStartController(List<IGCompStage> stageList, long startTime) {
 		GCompStageController controller = new GCompStageController(stageList);
-		controller.start(startTimeMillis); // controller开始
+		controller.start(startTime); // controller开始
+	}
+	
+	private void startStageController(GCompStartType startType, long relativeTime) {
+		long startTimeMillis = GCompUtil.calculateGroupCompetitionStartTime(startType, relativeTime);
+		List<IGCompStage> stageList = this.getStageList(startType);
+		this.createAndStartController(stageList, startTimeMillis);
+	}
+	
+	private void continueOldStageController(GroupCompetitionGlobalData data) {
+		if (data.getHeldTimes() == 1) {
+			// 还是处于首次的状态
+			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, getServerStartTime());
+		} else {
+			List<IGCompStage> stageList = this.getStageList(GCompStartType.NUTRAL_TIME_OFFSET);
+			this.createAndStartController(stageList, System.currentTimeMillis());
+		}
 	}
 	
 	private void checkStartGroupCompetition() {
-		GroupCompetitionSaveData data = _dataHolder.get();
+		GroupCompetitionGlobalData data = _dataHolder.get();
 		if(data.getHeldTimes() > 0) {
 			// 有举办过赛事
-			GroupCompetitionSaveData saveData = _dataHolder.get();
+			switch (data.getCurrentStageType()) {
+			case SELECTION:
+				this.continueOldStageController(data);
+				break;
+			case EVENTS:
+				break;
+			default:
+				break;
+			}
 		} else {
 			// 没有举办过
 			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
 		}
 	}
 	
+	void allStageEndOfCurrentRound() {
+		this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
+	}
+	
+	void notifyStageChange(IGCompStage currentStage) {
+		GroupCompetitionGlobalData saveData = _dataHolder.get();
+		if (currentStage.getStageType() == GCompStageType.SELECTION) {
+			saveData.increaseHeldTimes();
+			saveData.updateLastHeldTime(System.currentTimeMillis());
+			GCompEventsGlobalData currentData = saveData.getCurrentEventsData();
+			if (currentData != null) {
+				currentData.reset();
+			}
+		}
+		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
+		saveData.setCurrentStageType(currentStage.getStageType());
+		this._dataHolder.update();
+	}
+	
 	/**
 	 * 服务器启动完毕的通知
 	 */
 	public void serverStartComplete() {
+		this._dataHolder.loadGroupCompetitionGlobalData();
 		this._againstIdGenerator.set(this._dataHolder.get().getAgainstIdRecord());
 		this.checkStartGroupCompetition();
 	}
@@ -85,45 +133,47 @@ public class GroupCompetitionMgr {
 	 * @return 本次帮派争霸开始的比赛类型
 	 */
 	public GCEventsType getFisrtTypeOfCurrent() {
-		return _dataHolder.get().getCurrentData().getFirstEventsType();
-	}
-	
-	void allStageEndOfCurrentRound() {
-		this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
+		return _dataHolder.get().getCurrentEventsData().getFirstEventsType();
 	}
 	
 	/**
 	 * 
-	 * 更新最后一次举办时间
+	 * 更新当前赛事的状态
 	 * 
-	 * @param time
+	 * @param eventsType
+	 * @param relativeGroupIds
 	 */
-	void updateLaseHeldTime(long time) {
-		GroupCompetitionSaveData saveData = _dataHolder.get();
-		saveData.increaseHeldTimes();
-		saveData.updateLastHeldTime(time);
-		GCompCurrentData currentData = saveData.getCurrentData();
-		if(currentData != null) {
-			currentData.reset();
+	public void updateCurrenEventstData(GCEventsType eventsType, List<String> relativeGroupIds) {
+		GroupCompetitionGlobalData globalData = _dataHolder.get();
+		GCompEventsGlobalData currentEventsData = globalData.getCurrentEventsData();
+		if(currentEventsData == null) {
+			currentEventsData = new GCompEventsGlobalData();
+			currentEventsData.setHeldTime(globalData.getLastHeldTimeMillis());
+			currentEventsData.setFirstEventsType(eventsType);
+			globalData.setCurrentData(currentEventsData);
 		}
+		currentEventsData.setCurrentStatus(eventsType);
+		currentEventsData.setCurrentStatusFinished(false);
+		currentEventsData.addRelativeGroups(eventsType, relativeGroupIds);
 		this._dataHolder.update();
 	}
 	
-	public void updateCurrentData(GCEventsType startType, List<String> relativeGroupIds) {
-		GroupCompetitionSaveData saveData = _dataHolder.get();
-		GCompCurrentData currentData = saveData.getCurrentData();
-		if(currentData == null) {
-			currentData = new GCompCurrentData();
-			currentData.setHeldTime(saveData.getLastHeldTimeMillis());
-			currentData.setFirstEventsType(startType);
-			saveData.setCurrentData(currentData);
-		}
-		currentData.setCurrentStatus(startType);
-		currentData.setCurrentStatusFinished(false);
-		currentData.addRelativeGroups(startType, relativeGroupIds);
-		this._dataHolder.update();
+	/**
+	 * 
+	 * 获取当前阶段的结束时间
+	 * 
+	 * @return
+	 */
+	public long getCurrentStageEndTime() {
+		return this._dataHolder.get().getCurrentStageEndTime();
 	}
 	
+	/**
+	 * 
+	 * 获取下一个对阵id
+	 * 
+	 * @return
+	 */
 	public int getNextAgainstId() {
 		int id = _againstIdGenerator.incrementAndGet();
 		this._dataHolder.get().setAgainstIdRecord(id);

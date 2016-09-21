@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
+import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.IConsumer;
@@ -77,9 +78,7 @@ public class GCompStageController {
 	
 	private void fireStageChangeEvent(GCompStageType currentStageType) {
 		GCompBaseInfoMgr.getInstance().update(currentStageType);
-		if (currentStageType == GCompStageType.SELECTION) {
-			GroupCompetitionMgr.getInstance().updateLaseHeldTime(System.currentTimeMillis());
-		}
+		GroupCompetitionMgr.getInstance().notifyStageChange(_currentStage);
 	}
 	
 	private void scheduleNextStageStartTask() {
@@ -129,8 +128,9 @@ public class GCompStageController {
 	/**
 	 * 
 	 * 第一阶段开始的时间
+	 * 如果firstStageStartTime比当前时间要小，则会直接开始
 	 * 
-	 * @param firstStageStartTime
+	 * @param firstStageStartTime 第一次开始的时间
 	 */
 	public void start(long firstStageStartTime) {
 		if(firstStageStartTime < System.currentTimeMillis()) {

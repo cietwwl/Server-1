@@ -17,9 +17,14 @@ public class GCompSelectionDataDAO {
 			synchronized (this) {
 				if (_data == null) {
 					_data = new GCompSelectionData();
+					// 从数据库取数据
 				}
 			}
 		}
 		return _data;
+	}
+	
+	public void update() {
+		
 	}
 }

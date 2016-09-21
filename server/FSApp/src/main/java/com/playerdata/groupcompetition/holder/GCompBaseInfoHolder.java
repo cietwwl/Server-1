@@ -40,4 +40,8 @@ public class GCompBaseInfoHolder {
 	public void update(GCompStageType currentStage) {
 		this._dao.updateStage(currentStage);
 	}
+	
+	public GCompStageType getCurrentStageType() {
+		return _dao.getBaseInfoTemplate().getCurrentStageType();
+	}
 }

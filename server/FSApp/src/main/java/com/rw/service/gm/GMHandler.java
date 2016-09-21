@@ -78,6 +78,7 @@ import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
+import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef.Command;
@@ -211,6 +212,7 @@ public class GMHandler {
 
 		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
+		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1458,6 +1460,18 @@ public class GMHandler {
 		requestBuilder.setHeader(headerBuilder.build());
 		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
 		bodyBuilder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestGCompSelectionData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetSelectionData).build().toByteString());
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}

@@ -2,6 +2,8 @@ package com.playerdata.groupcompetition.holder;
 
 import java.util.List;
 
+import com.playerdata.Player;
+
 public class GCompSelectionDataMgr {
 
 	private static final GCompSelectionDataMgr _instance = new GCompSelectionDataMgr();
@@ -21,5 +23,9 @@ public class GCompSelectionDataMgr {
 	
 	public List<String> getSelectedGroupIds() {
 		return this._dataHolder.getSelectedGroupIds();
+	}
+	
+	public void sendLastMatchData(Player player) {
+		this._dataHolder.syn(player);
 	}
 }

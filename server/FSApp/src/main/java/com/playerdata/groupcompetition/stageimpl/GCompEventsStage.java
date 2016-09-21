@@ -61,7 +61,7 @@ public class GCompEventsStage implements IGCompStage {
 		} else {
 			againstInfo = Collections.emptyList();
 		}
-		GroupCompetitionMgr.getInstance().updateCurrentData(eventsType, groupIds);
+		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
 		_currentEventsType = eventsType;
 		_events = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo).build();
 		_events.start();

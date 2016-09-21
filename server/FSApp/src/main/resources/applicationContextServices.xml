@@ -114,6 +114,7 @@
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UI_DATA" value-ref="userFightingGrowthService" />
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
      			<entry key="MSG_GROUP_COMPETITION" value-ref="groupCompetitionService" />
+     			<entry key="MSG_GROUP_COMPETITION_GET_DATA" value-ref="groupCompetitionDataService" />
 			</map>
 		</property>
 	</bean>
@@ -202,5 +203,6 @@
 	
 	<bean id="userFightingGrowthService" class="com.rw.service.fightinggrowth.FSUserFightingGrowthService" />
 	<bean id="groupCompetitionService" class="com.playerdata.groupcompetition.service.GroupCompetitionService" />
+	<bean id="groupCompetitionDataService" class="com.playerdata.groupcompetition.service.GroupCompetitionGetDataService" />
 
 </beans>  

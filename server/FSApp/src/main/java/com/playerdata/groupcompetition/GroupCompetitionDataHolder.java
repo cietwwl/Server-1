@@ -8,25 +8,28 @@ public class GroupCompetitionDataHolder {
 
 	private static final GroupCompetitionDataHolder _instance = new GroupCompetitionDataHolder();
 	
-	private GroupCompetitionSaveData _data;
+	private GroupCompetitionGlobalData _data;
 	
 	public static GroupCompetitionDataHolder getInstance() {
 		return _instance;
 	}
 	
-	GroupCompetitionSaveData get() {
+	void loadGroupCompetitionGlobalData() {
 		if (_data == null) {
 			synchronized (this) {
 				if (_data == null) {
 					String attrData = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION);
 					if (attrData != null) {
-						_data = JsonUtil.readValue(attrData, GroupCompetitionSaveData.class);
+						_data = JsonUtil.readValue(attrData, GroupCompetitionGlobalData.class);
 					} else {
-						_data = GroupCompetitionSaveData.createEmpty();
+						_data = GroupCompetitionGlobalData.createEmpty();
 					}
 				}
 			}
 		}
+	}
+	
+	GroupCompetitionGlobalData get() {
 		return _data;
 	}
 	
