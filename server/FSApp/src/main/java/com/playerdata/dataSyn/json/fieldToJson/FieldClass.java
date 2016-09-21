@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldClass implements IFieldToJson{
 	
@@ -18,13 +19,13 @@ public class FieldClass implements IFieldToJson{
 	}
 
 	@Override
-	public Object toJson(Object target) throws Exception {
+	public Object toJson(Object target,JsonOpt jsonOpt) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
 		}		
 		
-		return classInfo.toJsonObject(objectValue);
+		return classInfo.toJsonObject(objectValue, jsonOpt);
 	}
 
 	@Override

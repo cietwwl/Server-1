@@ -15,11 +15,16 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
+import com.playerdata.readonly.ItemInfoIF;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
@@ -180,12 +185,24 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
 	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 	
-		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
-		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
+		float multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
+		float multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
+
+		List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+		if(privList!=null && !privList.isEmpty()){
+			for(PrivilegeDescItem iteminfo : privList){
+				if(iteminfo.getItemID() == eSpecialItemId.PlayerExp.getValue()){
+					multiplePlayerExp += iteminfo.getValue();
+				}
+				if(iteminfo.getItemID() == eSpecialItemId.Coin.getValue()){
+					multipleCoin += iteminfo.getValue();
+				}
+			}
+		}
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,(int)(copyCfg.getPlayerExp()*multiplePlayerExp),0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,(int)(copyCfg.getCoin()*multipleCoin));
 	}
 	
 	/**

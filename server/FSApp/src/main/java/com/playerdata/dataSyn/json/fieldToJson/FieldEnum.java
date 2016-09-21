@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldEnum implements IFieldToJson{
 	
@@ -14,7 +15,7 @@ public class FieldEnum implements IFieldToJson{
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
@@ -22,7 +23,7 @@ public class FieldEnum implements IFieldToJson{
 
 		Enum<?> value = (Enum<?>)objectValue;
 		
-		return String.valueOf(value.ordinal()) ;
+		return jsonOpt.getShort(String.valueOf(value.ordinal())) ;
 	}
 	
 
