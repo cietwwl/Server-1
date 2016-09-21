@@ -92,7 +92,11 @@ public class ClassInfo4Client {
 		for (FieldInfo fieldTmp : clientFiledList) {
 			Object jsonValue = fieldTmp.toJson(target, jsonOpt);
 			if(jsonValue!=null){
-				clientData.put(fieldTmp.getName(), jsonValue);
+				
+				String sName = jsonOpt.getShort(fieldTmp.getName());
+				
+				clientData.put(sName, jsonValue);
+				
 			}
 		}
 		
@@ -121,7 +125,8 @@ public class ClassInfo4Client {
 			if(fieldList.contains(fieldTmp.getName())){
 				Object jsonValue = fieldTmp.toJson(target,jsonOpt);
 				if(jsonValue!=null){
-					clientData.put(fieldTmp.getName(), jsonValue);
+					String sName = jsonOpt.getShort(fieldTmp.getName());
+					clientData.put(sName, jsonValue);
 				}				
 			}
 		}

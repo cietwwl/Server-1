@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwproto.DataSynProtos.MsgDataSyn;
 
 @SynClass
 public class JsonOpt {
@@ -19,6 +20,7 @@ public class JsonOpt {
 	@IgnoreSynField
 	private boolean doOpt = false;
 	
+	@IgnoreSynField
 	private static JsonOpt noOptInstance = new JsonOpt();
 	
 	public static JsonOpt newWithOpt(){
@@ -31,7 +33,7 @@ public class JsonOpt {
 	}
 	
 	public String getShort(String target){
-		if(!doOpt){
+		if(!doOpt || target == null){
 			return target;
 		}
 		
@@ -43,8 +45,12 @@ public class JsonOpt {
 		return oriShortMap.get(target);
 	}
 	
-	public String getOptMapStr(){
-		return ClientDataSynMgr.toClientData(this);
+	public String setOptMapStr(MsgDataSyn.Builder msgDataSyn){
+		String clientData = ClientDataSynMgr.toClientData(this);
+		if(clientData!=null){
+			msgDataSyn.setOptMap(clientData);
+		}
+		return clientData;
 	}
 	
 	
