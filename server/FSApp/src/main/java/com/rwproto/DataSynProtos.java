@@ -760,13 +760,21 @@ public final class DataSynProtos {
      */
     ActivityDailyRechargeType(71, 76),
     /**
+     * <code>ActivityRetrieveType = 77;</code>
+     *
+     * <pre>
+     *每日找回活动
+     * </pre>
+     */
+    ActivityRetrieveType(72, 77),
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
      *反馈问题列表	
      * </pre>
      */
-    QuestionList(72, 80),
+    QuestionList(73, 80),
     /**
      * <code>GFBiddingData = 81;</code>
      *
@@ -774,7 +782,7 @@ public final class DataSynProtos {
      *在线帮战个人压标数据
      * </pre>
      */
-    GFBiddingData(73, 81),
+    GFBiddingData(74, 81),
     /**
      * <code>GFDefendArmyData = 82;</code>
      *
@@ -782,7 +790,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍信息
      * </pre>
      */
-    GFDefendArmyData(74, 82),
+    GFDefendArmyData(75, 82),
     /**
      * <code>GFightOnlineGroupData = 83;</code>
      *
@@ -790,7 +798,7 @@ public final class DataSynProtos {
      *在线帮战帮派信息
      * </pre>
      */
-    GFightOnlineGroupData(75, 83),
+    GFightOnlineGroupData(76, 83),
     /**
      * <code>GFightOnlinePersonalData = 84;</code>
      *
@@ -798,7 +806,7 @@ public final class DataSynProtos {
      *在线帮战个人信息
      * </pre>
      */
-    GFightOnlinePersonalData(76, 84),
+    GFightOnlinePersonalData(77, 84),
     /**
      * <code>GFightOnlineResourceData = 85;</code>
      *
@@ -806,7 +814,7 @@ public final class DataSynProtos {
      *在线帮战资源点信息
      * </pre>
      */
-    GFightOnlineResourceData(77, 85),
+    GFightOnlineResourceData(78, 85),
     /**
      * <code>MajorData = 86;</code>
      *
@@ -814,7 +822,7 @@ public final class DataSynProtos {
      *关键数据
      * </pre>
      */
-    MajorData(78, 86),
+    MajorData(79, 86),
     /**
      * <code>GFightSimpleLeader = 87;</code>
      *
@@ -822,7 +830,7 @@ public final class DataSynProtos {
      *在线帮战防守队伍简要信息
      * </pre>
      */
-    GFightSimpleLeader(79, 87),
+    GFightSimpleLeader(80, 87),
     /**
      * <code>GFightFinalReward = 88;</code>
      *
@@ -830,7 +838,7 @@ public final class DataSynProtos {
      *在线帮战最终的奖励
      * </pre>
      */
-    GFightFinalReward(80, 88),
+    GFightFinalReward(81, 88),
     /**
      * <code>EmbattleInfo = 89;</code>
      *
@@ -838,7 +846,7 @@ public final class DataSynProtos {
      *阵容站位
      * </pre>
      */
-    EmbattleInfo(81, 89),
+    EmbattleInfo(82, 89),
     /**
      * <code>MAGICEQUIP_FETTER = 90;</code>
      *
@@ -846,7 +854,7 @@ public final class DataSynProtos {
      *法宝神器羁绊
      * </pre>
      */
-    MAGICEQUIP_FETTER(82, 90),
+    MAGICEQUIP_FETTER(83, 90),
     /**
      * <code>USER_TEAM_BATTLE = 91;</code>
      *
@@ -854,7 +862,7 @@ public final class DataSynProtos {
      *组队战斗，玩家信息
      * </pre>
      */
-    USER_TEAM_BATTLE(83, 91),
+    USER_TEAM_BATTLE(84, 91),
     /**
      * <code>TEAM_BATTLE_TEAM = 92;</code>
      *
@@ -862,7 +870,7 @@ public final class DataSynProtos {
      *组队战斗，队伍信息
      * </pre>
      */
-    TEAM_BATTLE_TEAM(84, 92),
+    TEAM_BATTLE_TEAM(85, 92),
     /**
      * <code>WB_DATA = 93;</code>
      *
@@ -870,7 +878,7 @@ public final class DataSynProtos {
      *世界boss数据
      * </pre>
      */
-    WB_DATA(85, 93),
+    WB_DATA(86, 93),
     /**
      * <code>WB_USER_DATA = 94;</code>
      *
@@ -878,7 +886,7 @@ public final class DataSynProtos {
      *世界boss个人数据
      * </pre>
      */
-    WB_USER_DATA(86, 94),
+    WB_USER_DATA(87, 94),
     /**
      * <code>RANDOM_BOSS_DATA = 95;</code>
      *
@@ -886,7 +894,7 @@ public final class DataSynProtos {
      *随机boss数据
      * </pre>
      */
-    RANDOM_BOSS_DATA(87, 95),
+    RANDOM_BOSS_DATA(88, 95),
     /**
      * <code>WB_RANK_DATA = 96;</code>
      *
@@ -894,7 +902,7 @@ public final class DataSynProtos {
      *世界boss排行数据
      * </pre>
      */
-    WB_RANK_DATA(88, 96),
+    WB_RANK_DATA(89, 96),
     /**
      * <code>GC_PREPARE_POSITION = 97;</code>
      *
@@ -902,7 +910,7 @@ public final class DataSynProtos {
      *帮派争霸赛，备战区的位置信息同步
      * </pre>
      */
-    GC_PREPARE_POSITION(89, 97),
+    GC_PREPARE_POSITION(90, 97),
     /**
      * <code>FIGHTING_GROWTH_DATA = 98;</code>
      *
@@ -910,7 +918,7 @@ public final class DataSynProtos {
      * 战力提升数据
      * </pre>
      */
-    FIGHTING_GROWTH_DATA(90, 98),
+    FIGHTING_GROWTH_DATA(91, 98),
     /**
      * <code>GCompBase = 100;</code>
      *
@@ -918,7 +926,7 @@ public final class DataSynProtos {
      *帮派争霸基本信息
      * </pre>
      */
-    GCompBase(91, 100),
+    GCompBase(92, 100),
     /**
      * <code>GCompAudition = 101;</code>
      *
@@ -926,7 +934,7 @@ public final class DataSynProtos {
      *帮派争霸海选
      * </pre>
      */
-    GCompAudition(92, 101),
+    GCompAudition(93, 101),
     /**
      * <code>GCompDetailInfo = 102;</code>
      *
@@ -934,7 +942,7 @@ public final class DataSynProtos {
      *帮派争霸直播
      * </pre>
      */
-    GCompDetailInfo(93, 102),
+    GCompDetailInfo(94, 102),
     /**
      * <code>GCompFightingRecord = 103;</code>
      *
@@ -942,7 +950,7 @@ public final class DataSynProtos {
      *帮派争霸战斗记录
      * </pre>
      */
-    GCompFightingRecord(94, 103),
+    GCompFightingRecord(95, 103),
     /**
      * <code>GCompMatch = 104;</code>
      *
@@ -950,7 +958,7 @@ public final class DataSynProtos {
      *帮派争霸对阵信息
      * </pre>
      */
-    GCompMatch(95, 104),
+    GCompMatch(96, 104),
     /**
      * <code>GCompOnlineMember = 105;</code>
      *
@@ -958,7 +966,7 @@ public final class DataSynProtos {
      *帮派争霸在线成员
      * </pre>
      */
-    GCompOnlineMember(96, 105),
+    GCompOnlineMember(97, 105),
     /**
      * <code>GCompTeamHolder = 106;</code>
      *
@@ -966,7 +974,7 @@ public final class DataSynProtos {
      *帮派争霸组队
      * </pre>
      */
-    GCompTeamHolder(97, 106),
+    GCompTeamHolder(98, 106),
     /**
      * <code>BENEFIT_SELL_DATA = 107;</code>
      *
@@ -974,7 +982,7 @@ public final class DataSynProtos {
      *精准营销数据
      * </pre>
      */
-    BENEFIT_SELL_DATA(98, 107),
+    BENEFIT_SELL_DATA(99, 107),
     /**
      * <code>ACHIEVEMENT_DATA = 108;</code>
      *
@@ -982,7 +990,7 @@ public final class DataSynProtos {
      *成就数据
      * </pre>
      */
-    ACHIEVEMENT_DATA(99, 108),
+    ACHIEVEMENT_DATA(100, 108),
     ;
 
     /**
@@ -1562,6 +1570,14 @@ public final class DataSynProtos {
      */
     public static final int ActivityDailyRechargeType_VALUE = 76;
     /**
+     * <code>ActivityRetrieveType = 77;</code>
+     *
+     * <pre>
+     *每日找回活动
+     * </pre>
+     */
+    public static final int ActivityRetrieveType_VALUE = 77;
+    /**
      * <code>QuestionList = 80;</code>
      *
      * <pre>
@@ -1863,6 +1879,7 @@ public final class DataSynProtos {
         case 74: return ActivityFortuneCatType;
         case 75: return ActivityLimitHeroType;
         case 76: return ActivityDailyRechargeType;
+        case 77: return ActivityRetrieveType;
         case 80: return QuestionList;
         case 81: return GFBiddingData;
         case 82: return GFDefendArmyData;
@@ -7979,7 +7996,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\204\021\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\236\021\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8019,23 +8036,24 @@ public final class DataSynProtos {
       "ipDiscountType\020H\022\033\n\027ActivityRedEnvelopeT" +
       "ype\020I\022\032\n\026ActivityFortuneCatType\020J\022\031\n\025Act" +
       "ivityLimitHeroType\020K\022\035\n\031ActivityDailyRec" +
-      "hargeType\020L\022\020\n\014QuestionList\020P\022\021\n\rGFBiddi" +
-      "ngData\020Q\022\024\n\020GFDefendArmyData\020R\022\031\n\025GFight",
-      "OnlineGroupData\020S\022\034\n\030GFightOnlinePersona" +
-      "lData\020T\022\034\n\030GFightOnlineResourceData\020U\022\r\n" +
-      "\tMajorData\020V\022\026\n\022GFightSimpleLeader\020W\022\025\n\021" +
-      "GFightFinalReward\020X\022\020\n\014EmbattleInfo\020Y\022\025\n" +
-      "\021MAGICEQUIP_FETTER\020Z\022\024\n\020USER_TEAM_BATTLE" +
-      "\020[\022\024\n\020TEAM_BATTLE_TEAM\020\\\022\013\n\007WB_DATA\020]\022\020\n" +
-      "\014WB_USER_DATA\020^\022\024\n\020RANDOM_BOSS_DATA\020_\022\020\n" +
-      "\014WB_RANK_DATA\020`\022\027\n\023GC_PREPARE_POSITION\020a" +
-      "\022\030\n\024FIGHTING_GROWTH_DATA\020b\022\r\n\tGCompBase\020" +
-      "d\022\021\n\rGCompAudition\020e\022\023\n\017GCompDetailInfo\020",
-      "f\022\027\n\023GCompFightingRecord\020g\022\016\n\nGCompMatch" +
-      "\020h\022\025\n\021GCompOnlineMember\020i\022\023\n\017GCompTeamHo" +
-      "lder\020j\022\025\n\021BENEFIT_SELL_DATA\020k\022\024\n\020ACHIEVE" +
-      "MENT_DATA\020l*\034\n\013RequestType\022\r\n\tSynByType\020" +
-      "\001B\034\n\013com.rwprotoB\rDataSynProtos"
+      "hargeType\020L\022\030\n\024ActivityRetrieveType\020M\022\020\n" +
+      "\014QuestionList\020P\022\021\n\rGFBiddingData\020Q\022\024\n\020GF",
+      "DefendArmyData\020R\022\031\n\025GFightOnlineGroupDat" +
+      "a\020S\022\034\n\030GFightOnlinePersonalData\020T\022\034\n\030GFi" +
+      "ghtOnlineResourceData\020U\022\r\n\tMajorData\020V\022\026" +
+      "\n\022GFightSimpleLeader\020W\022\025\n\021GFightFinalRew" +
+      "ard\020X\022\020\n\014EmbattleInfo\020Y\022\025\n\021MAGICEQUIP_FE" +
+      "TTER\020Z\022\024\n\020USER_TEAM_BATTLE\020[\022\024\n\020TEAM_BAT" +
+      "TLE_TEAM\020\\\022\013\n\007WB_DATA\020]\022\020\n\014WB_USER_DATA\020" +
+      "^\022\024\n\020RANDOM_BOSS_DATA\020_\022\020\n\014WB_RANK_DATA\020" +
+      "`\022\027\n\023GC_PREPARE_POSITION\020a\022\030\n\024FIGHTING_G" +
+      "ROWTH_DATA\020b\022\r\n\tGCompBase\020d\022\021\n\rGCompAudi",
+      "tion\020e\022\023\n\017GCompDetailInfo\020f\022\027\n\023GCompFigh" +
+      "tingRecord\020g\022\016\n\nGCompMatch\020h\022\025\n\021GCompOnl" +
+      "ineMember\020i\022\023\n\017GCompTeamHolder\020j\022\025\n\021BENE" +
+      "FIT_SELL_DATA\020k\022\024\n\020ACHIEVEMENT_DATA\020l*\034\n" +
+      "\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com.rwpro" +
+      "toB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
