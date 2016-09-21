@@ -156,8 +156,9 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg,activityLimitHeroCfgDAO.newSubItemList(targetCfg));
-				dataHolder.updateItem(player, targetItem);				
-				ServerCommonData scdData = scdhDataHolder.get();
+				dataHolder.updateItem(player, targetItem);
+				
+				ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 				if(scdData == null){
 					continue;
 				}
@@ -220,7 +221,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private void checkRankRewards(Player player, ActivityLimitHeroTypeItem item) {
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		ActivityLimitHeroCfgDAO activityLimitHeroCfgDAO = ActivityLimitHeroCfgDAO.getInstance();
 		ActivityLimitHeroRankCfgDAO activityLimitHeroRankCfgDAO = ActivityLimitHeroRankCfgDAO.getInstance();
 		if(scdData == null){
@@ -508,7 +509,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	private void reFreshIntegralRank(Player player,
 			ActivityLimitHeroTypeItem dataItem,ActivityLimitHeroCfg cfg) {
 		ServerCommonDataHolder serverCommonDataHolder = ServerCommonDataHolder.getInstance();
-		ServerCommonData scdData = serverCommonDataHolder.get();
+		ServerCommonData scdData = serverCommonDataHolder.get("2");
 		if(scdData == null){
 			return;
 		}
@@ -615,7 +616,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			ActivityCommonReqMsg commonReq, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		result.setReason("");
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if(scdData == null){
 			result.setSuccess(true);
 			result.setReason("排行榜是空的");
