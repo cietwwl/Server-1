@@ -131,7 +131,7 @@ public class GroupCompetitionHandler {
 	
 	// 获取海选信息
 	public ByteString getSelectionData(Player player) {
-		GCompStageType stageType = GCompBaseInfoMgr.getInstance().getCurrentStageType();
+		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
 		String tips;
 		GCResultType resultType;
 		if (stageType != GCompStageType.SELECTION) {

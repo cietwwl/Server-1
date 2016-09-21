@@ -48,7 +48,7 @@ class GroupCompetitionGlobalData {
 	/**
 	 * 更新举办次数，使举办次数+1
 	 */
-	public void increaseHeldTimes() {
+	void increaseHeldTimes() {
 		this._heldTimes++;
 	}
 
@@ -68,7 +68,7 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param timeMillis
 	 */
-	public void updateLastHeldTime(long timeMillis) {
+	void updateLastHeldTime(long timeMillis) {
 		_lastHeldTimeMillis = timeMillis;
 	}
 	
@@ -86,7 +86,7 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param data
 	 */
-	public void setCurrentData(GCompEventsGlobalData data) {
+	void setCurrentData(GCompEventsGlobalData data) {
 		this._currentEventsData = data;
 	}
 	
@@ -112,7 +112,7 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param pId
 	 */
-	public void setAgainstIdRecord(int pId) {
+	void setAgainstIdRecord(int pId) {
 		this._againstIdRecord = pId;
 	}
 	
@@ -132,7 +132,7 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param currentStageType
 	 */
-	public void setCurrentStageType(GCompStageType currentStageType) {
+	void setCurrentStageType(GCompStageType currentStageType) {
 		this._currentStageType = currentStageType;
 	}
 	
@@ -152,7 +152,7 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param endTime
 	 */
-	public void setCurrentStageEndTime(long endTime) {
+	void setCurrentStageEndTime(long endTime) {
 		this._currentStageEndTime = endTime;
 	}
 }

@@ -5,7 +5,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
+import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
+import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
@@ -56,7 +59,9 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void createAndStartController(List<IGCompStage> stageList, long startTime) {
-		GCompStageController controller = new GCompStageController(stageList);
+		GroupCompetitionGlobalData data = _dataHolder.get();
+		int heldTimes = data.getHeldTimes();
+		GCompStageController controller = new GCompStageController(stageList, heldTimes > 0 ? heldTimes : 1);
 		controller.start(startTime); // controller开始
 	}
 	
@@ -85,6 +90,7 @@ public class GroupCompetitionMgr {
 				this.continueOldStageController(data);
 				break;
 			case EVENTS:
+				// TODO 处理赛事阶段期间停服，然后起服
 				break;
 			default:
 				break;
@@ -99,9 +105,10 @@ public class GroupCompetitionMgr {
 		this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
 	}
 	
-	void notifyStageChange(IGCompStage currentStage) {
+	void notifyStageChange(IGCompStage currentStage, int sessionId) {
 		GroupCompetitionGlobalData saveData = _dataHolder.get();
-		if (currentStage.getStageType() == GCompStageType.SELECTION) {
+		if (currentStage.getStageType() == GCompStageType.SELECTION && sessionId != saveData.getHeldTimes()) {
+			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());
 			GCompEventsGlobalData currentData = saveData.getCurrentEventsData();
@@ -112,6 +119,14 @@ public class GroupCompetitionMgr {
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
 		this._dataHolder.update();
+	}
+	
+	public void onPlayerLogin(Player player) {
+		try {
+			GCompBaseInfoMgr.getInstance().sendBaseInfo(player);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -170,6 +185,14 @@ public class GroupCompetitionMgr {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public GCompStageType getCurrentStageType() {
+		return this._dataHolder.get().getCurrentStageType();
+	}
+	
+	/**
+	 * 
 	 * 获取下一个对阵id
 	 * 
 	 * @return
@@ -179,5 +202,24 @@ public class GroupCompetitionMgr {
 		this._dataHolder.get().setAgainstIdRecord(id);
 		this._dataHolder.update();
 		return id;
+	}
+	
+	public GCompBaseInfo createBaseInfoSynData() {
+		GroupCompetitionGlobalData globalData = this._dataHolder.get();
+		GCompBaseInfo baseInfo = new GCompBaseInfo();
+		if (globalData.getCurrentStageType() != null) {
+			switch (globalData.getCurrentStageType()) {
+			case EVENTS:
+			case SELECTION:
+				baseInfo.setCurrentStageType(globalData.getCurrentStageType());
+				baseInfo.setEndTime(globalData.getCurrentStageEndTime());
+				baseInfo.setStartTime(globalData.getLastHeldTimeMillis());
+				baseInfo.setStart(true);
+				break;
+			default:
+				baseInfo.setStart(false);
+			}
+		}
+		return baseInfo;
 	}
 }

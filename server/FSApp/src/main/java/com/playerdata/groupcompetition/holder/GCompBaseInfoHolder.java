@@ -2,8 +2,8 @@ package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.dao.GCompBaseInfoDAO;
-import com.playerdata.groupcompetition.util.GCompStageType;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -16,32 +16,20 @@ public class GCompBaseInfoHolder {
 	}
 	
 	private eSynType _synType = eSynType.GCompBase;
-	private GCompBaseInfoDAO _dao;
 	protected GCompBaseInfoHolder() {
-		this._dao = GCompBaseInfoDAO.getInstance();
+	}
+	
+	private GCompBaseInfo createBaseInfo() {
+		return GroupCompetitionMgr.getInstance().createBaseInfoSynData();
 	}
 	
 	public void syn(Player player) {
-		ClientDataSynMgr.synData(player, _dao.getBaseInfo(), _synType, eSynOpType.UPDATE_SINGLE);
+		GCompBaseInfo baseInfo = createBaseInfo();
+		ClientDataSynMgr.synData(player, baseInfo, _synType, eSynOpType.UPDATE_SINGLE);
+		System.err.println("----------同步数据，baseInfo：" + baseInfo + "----------");
 	}
 	
 	public void synToAll() {
-		SynToAllTask.createNewTaskAndSubmit(_dao.getBaseInfo(), _synType, eSynOpType.UPDATE_SINGLE);
-	}
-	
-	public void update(long startTime) {
-		this._dao.updateStartTime(startTime);
-	}
-	
-	public void update(boolean start) {
-		this._dao.update(start);
-	}
-
-	public void update(GCompStageType currentStage) {
-		this._dao.updateStage(currentStage);
-	}
-	
-	public GCompStageType getCurrentStageType() {
-		return _dao.getBaseInfoTemplate().getCurrentStageType();
+		SynToAllTask.createNewTaskAndSubmit(createBaseInfo(), _synType, eSynOpType.UPDATE_SINGLE);
 	}
 }

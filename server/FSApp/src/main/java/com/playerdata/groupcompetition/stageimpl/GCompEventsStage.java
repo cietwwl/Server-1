@@ -102,12 +102,12 @@ public class GCompEventsStage implements IGCompStage {
 	 * 
 	 * 计算本阶段的结束时间
 	 * 
-	 * @param startStatus
+	 * @param startType
 	 * @param startOnNextDay
 	 * @return
 	 */
-	private long calculateEndTime(GCEventsType startStatus, boolean startOnNextDay) {
-		int lastDays = startStatus.getDaysNeededToFinal();
+	private long calculateEndTime(GCEventsType startType, boolean startOnNextDay) {
+		int lastDays = startType.getDaysNeededToFinal();
 		if(startOnNextDay) {
 			lastDays++;
 		}
