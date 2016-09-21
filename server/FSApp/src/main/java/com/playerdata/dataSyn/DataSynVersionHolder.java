@@ -337,11 +337,7 @@ public class DataSynVersionHolder {
 				ActivityFortuneCatTypeMgr.getInstance().synFortuneCatTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityFortuneCatType);
-		
-		
-		
-		
+		orderList.add(eSynType.ActivityFortuneCatType);		
 		
 		versionMap.put(eSynType.ActivityLimitHeroType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -350,6 +346,15 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityLimitHeroType);
+		
+		versionMap.put(eSynType.ActivityLimitHeroType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityLimitHeroTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityLimitHeroType);
+		
 		
 		
 		

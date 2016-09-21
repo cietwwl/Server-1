@@ -32,7 +32,7 @@ public class ActivityRetrieveTypeHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityLimitHeroType;
+	final private eSynType synType = eSynType.ActivityRetrieveType;
 	
 	
 	/*

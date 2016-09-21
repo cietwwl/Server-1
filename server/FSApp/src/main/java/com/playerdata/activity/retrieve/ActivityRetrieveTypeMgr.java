@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
@@ -19,6 +20,11 @@ public class ActivityRetrieveTypeMgr {
 	public static ActivityRetrieveTypeMgr getInstance(){
 		return instance;
 	}
+	
+	public void synCountTypeData(Player player) {
+		ActivityRetrieveTypeHolder.getInstance().synAllData(player);
+	}
+	
 	
 	/**
 	 * 类月卡和在线礼包模式，登陆生成，每日更新
