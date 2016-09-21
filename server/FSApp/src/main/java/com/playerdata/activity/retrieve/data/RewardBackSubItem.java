@@ -1,5 +1,12 @@
 package com.playerdata.activity.retrieve.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.playerdata.dataSyn.annotation.SynClass;
+
+
+@SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RewardBackSubItem {
 	private int id;//功能id
 	private int maxCount;//今天最大次数
