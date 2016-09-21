@@ -24,6 +24,7 @@ public class ServerSwitch {
 	private static boolean printEncode = false;
 	private static boolean openCacheLog = true;
 	private static boolean openTraceLogger = true;
+	private static int targetSellTestModel;//精准营销是否为测试模式：0否，1是
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -39,6 +40,7 @@ public class ServerSwitch {
 			if (openTraceLogger_ != null) {
 				openTraceLogger = Boolean.parseBoolean(openTraceLogger_);
 			}
+			targetSellTestModel = Integer.parseInt(props.getProperty("targetSellTestModel"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,6 +71,10 @@ public class ServerSwitch {
 
 	public static boolean isOpenTraceLogger() {
 		return openTraceLogger;
+	}
+
+	public static int getTargetSellTest() {
+		return targetSellTestModel;
 	}
 
 }

@@ -1,19 +1,22 @@
 package com.bm.targetSell;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import sun.util.resources.OpenListResourceBundle;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.TargetSellOpType;
 import com.bm.targetSell.param.RoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
+import com.bm.targetSell.param.TargetSellApplyRoleItemParam;
 import com.bm.targetSell.param.TargetSellData;
 import com.bm.targetSell.param.TargetSellHeartBeatParam;
 import com.bm.targetSell.param.TargetSellRoleDataParam;
 import com.bm.targetSell.param.TargetSellSendRoleItems;
 import com.bm.targetSell.param.TargetSellServerErrorParam;
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -23,8 +26,9 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
-import com.rw.service.log.infoPojo.ClientInfo;
-import com.rwbase.common.PlayerDataMgr;
+import com.rw.manager.ServerSwitch;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.targetSell.BenefitDataDAO;
@@ -35,7 +39,9 @@ import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
-import com.rwproto.StoreProtos.tagCommodity;
+import com.rwproto.TargetSellProto.UpdateBenefitScore;
+import com.rwproto.TargetSellProto.UpdateBenefitScore.Builder;
+import com.sun.tools.internal.ws.wsdl.document.soap.SOAP12Binding;
 
 
 /**
@@ -47,15 +53,17 @@ import com.rwproto.StoreProtos.tagCommodity;
 public class TargetSellManager {
 	
 	
-	public final static String appKey = "6489CD1B7E9AE5BD8311435";
+	public final static String publicKey = "6489CD1B7E9AE5BD8311435";
 	public final static String appId = "1012";
+	public final static int linkId = 90173356;//这个id是随意定的，银汉那边并不做特殊要求
+	public final static String ACTION_NAME = "all"; //默认的actionName
 	
-	public final String Heart_Beat_MD5_Str;
-	
+	public final static String MD5_Str = MD5.getMD5String(appId + "," + linkId + "," + publicKey);
+
 	private static TargetSellManager manager = new TargetSellManager();
 	private BenefitDataDAO dataDao;
-	private TargetSellManager(){
-		Heart_Beat_MD5_Str = MD5.getMD5String("appId=" +appId+"||"+ appKey);
+
+	private TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
 	}
 	
@@ -73,22 +81,86 @@ public class TargetSellManager {
 		String str = FastJsonUtil.serialize(obj);
 		return JSONObject.parseObject(str);
 	}
+
+	/**
+	 * 初始化一些默认的公共参数
+	 * @param p
+	 * @return
+	 */
+	private <T extends TargetSellHeartBeatParam> T initDefaultParam(T p) {
+		if (p == null) {
+			return null;
+		}
+		p.setAppId(appId);
+		p.setTime((int) (System.currentTimeMillis() / 1000));
+		p.setLinkId(linkId);
+		p.setIsTest(ServerSwitch.getTargetSellTest());
+		return p;
+	}
+	
+	
+	private <T extends TargetSellAbsArgs> T iniCommonParam(T p, String channelID, String userID, String account){
+		if(p == null){
+			return null;
+		}
+		p = initDefaultParam(p);
+		p.setChannelId(channelID);
+		p.setRoleId(userID);
+		p.setUserId(account);
+		return p;
+	}
 	
 	/**
 	 * 获取心跳消息参数
 	 * @return
 	 */
-	public String getHeartBeatMsgData(){
+	public String getHeartBeatMsgData() {
 		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5001);
 		TargetSellHeartBeatParam param = new TargetSellHeartBeatParam();
-		param.setAppId(appId);
-		param.setTime((int) (System.currentTimeMillis()/ 1000));
-		data.setOpType(TargetSellOpType.OPTYPE_5001);
-		data.setSign(Heart_Beat_MD5_Str);
+		param = initDefaultParam(param);
 		data.setArgs(manager.toJsonObj(param));
 		String jsonString = manager.toJsonString(data);
 		return jsonString;
 	}
+	
+	
+	/**
+	 * <pre>
+	 * 玩家充值通知   
+	 * 这里会检查是否有目标玩家的精准营销充值前置记录，
+	 * 如果存在就发送物品，如果没有就将金额转为优惠积分·
+	 * </pre>
+	 * @param player
+	 * @param charge
+	 */
+	public void playerCharge(Player player, float charge) {
+		TargetSellRecord record = dataDao.get(player.getUserId());
+		if(record == null){
+			record = new TargetSellRecord();
+			record.setBenefitScore((int) charge);
+			record.setNextClearScoreTime(getNextRefreshTimeMils());
+			dataDao.commit(record);
+		}else{
+			int score = record.getBenefitScore();
+			score += charge;
+			record.setBenefitScore(score);
+			dataDao.update(record);
+		}
+		
+		//通知前端
+//		player.SendMsg(Command., pBuffer);
+		
+		
+		
+	}
+	
+	private ByteString getUpdateBenefitScoreMsgData(int score){
+		Builder msg = UpdateBenefitScore.newBuilder();
+		msg.setScore(score);
+		return msg.build().toByteString();
+	}
+	
+	
 	
 	/**
 	 * 玩家充值后总金额变化通知
@@ -104,16 +176,11 @@ public class TargetSellManager {
 		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
 		
 		TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
-		roleData.setAppId(appId);
-		roleData.setChannelId(user.getChannelId());
-		roleData.setRoleId(userID);
-		roleData.setUserId(user.getAccount());
-		roleData.setTime((int)(System.currentTimeMillis()/1000));
+		roleData = iniCommonParam(roleData, user.getChannelId(), userID, user.getAccount());
 		RoleAttrs attrs = new RoleAttrs();
 		attrs.setCharge(totalChargeMoney);
 		roleData.setArgs(attrs);
 		data.setArgs(toJsonObj(roleData));
-		data.setSign(roleData.initMD5Str());
 		sendMsg(toJsonString(data));
 	}
 
@@ -122,13 +189,18 @@ public class TargetSellManager {
 	 * @param player
 	 */
 	public void checkBenefitScoreAndSynData(Player player){
+		//向精准服请求一下，让它知道角色登录
+		applyRoleBenefitItem(player);
 		
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
 			return;
 		}
 		if(System.currentTimeMillis() >= record.getNextClearScoreTime()){
-			//到达清0时间，重置并设置下次清0时间
+			//到达清0时间，购买物品重置并设置下次清0时间
+			//TODO 这里还要添加自动购买物品的逻辑
+			
+			//-------------------重置--------------------------------
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(getNextRefreshTimeMils());
 			dataDao.update(record);
@@ -222,12 +294,7 @@ public class TargetSellManager {
 			Player player = PlayerMgr.getInstance().find(data.getRoleId());
 			
 			
-			
-			roleData.setAppId(appId);
-			roleData.setChannelId(user.getChannelId());
-			roleData.setRoleId(data.getRoleId());
-			roleData.setUserId(user.getAccount());
-			roleData.setTime((int)(System.currentTimeMillis()/1000));
+			roleData = iniCommonParam(roleData, user.getChannelId(), player.getUserId(), user.getAccount());
 			
 			//TODO 组装角色所有属性，这部分后面要抽取出来
 			RoleAttrs attrs = new RoleAttrs();
@@ -238,7 +305,6 @@ public class TargetSellManager {
 			
 			roleData.setArgs(attrs);
 			sellData.setArgs(toJsonObj(roleData));
-			sellData.setSign(roleData.initMD5Str());
 			sendMsg(toJsonString(sellData));
 			
 			
@@ -296,11 +362,28 @@ public class TargetSellManager {
 	private void processError(TargetSellServerErrorParam data) {
 		TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5008);
 		sellData.setArgs(toJsonObj(data));
-		sellData.setSign(data.initMD5Str());
 		sendMsg(toJsonString(sellData));
 	}
 	
-	
+	/**
+	 * 向精准服请求玩家优惠物品数据
+	 * @param player
+	 */
+	public void applyRoleBenefitItem(Player player){
+		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
+		if(user == null){
+			GameLog.error("TargetSell", "TargetSell[applyRoleBenefitItem]", "玩家充值后精准营销系统无法找到User数据", null);
+			return;
+		}
+		
+		TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5006);
+		TargetSellApplyRoleItemParam roleItemP = new TargetSellApplyRoleItemParam();
+		roleItemP = iniCommonParam(roleItemP, user.getChannelId(), player.getUserId(), user.getAccount());
+		roleItemP.setActionName(ACTION_NAME);
+		sellData.setArgs(toJsonObj(roleItemP));
+		sendMsg(toJsonString(sellData));
+		
+	}
 	
 	/**
 	 * 发送数据到精准服
@@ -319,12 +402,10 @@ public class TargetSellManager {
 	
 	
 	public static void main(String[] args){
-//		TargetSellData data = new TargetSellData();
+//		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5001);
 //		TargetSellHeartBeatParam param = new TargetSellHeartBeatParam();
 //		param.setAppId("58");
 //		param.setTime((int) (System.currentTimeMillis()/ 1000));
-//		data.setOpType(5001);
-//		data.setSign(param.initMD5Str());
 //		data.setArgs(manager.toJsonObj(param));
 //		String jsonString = manager.toJsonString(data);
 //		
@@ -334,10 +415,12 @@ public class TargetSellManager {
 //		TargetSellData t = FastJsonUtil.deserialize(jsonString, TargetSellData.class);
 //		TargetSellHeartBeatParam p = JSONObject.toJavaObject(t.getArgs(), TargetSellHeartBeatParam.class);
 //		
-//		System.out.println(p.getAppId()+"_"+p.getTime());
+//		System.out.println(t.getOpType()+"_"+t.getSign()+"_" + p.getAppId());
 		
 
 	}
+
+	
 
 	
 

@@ -1,6 +1,7 @@
 package com.bm.targetSell.param;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bm.targetSell.TargetSellManager;
 
 
 public class TargetSellData {
@@ -11,11 +12,18 @@ public class TargetSellData {
 	
 	private JSONObject args;
 
+	
+	private TargetSellData() {
+	}
+
 	public static TargetSellData create(int opType){
 		TargetSellData data = new TargetSellData();
 		data.opType = opType;
+		data.sign = TargetSellManager.MD5_Str;
 		return data;
 	}
+	
+	
 	
 	public int getOpType() {
 		return opType;

@@ -38,11 +38,6 @@ public class TargetSellAbsArgs extends TargetSellHeartBeatParam {
 	
 	
 	@Override
-	public String initMD5Str() {
-		return MD5.getMD5String("appId="+getAppId()+"&userId="+userId+"&channelId="
-				+channelId+"&roleId="+roleId+"||"+ TargetSellManager.appKey);
-	}
-	@Override
 	public void handlerMsg(int msgType) {
 		TargetSellManager.getInstance().pushRoleAttrOrCleanItems(this, msgType);
 	}

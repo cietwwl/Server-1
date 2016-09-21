@@ -8,8 +8,8 @@ package com.bm.targetSell.param;
  */
 public class TargetSellApplyRoleItemParam extends TargetSellAbsArgs{
 
-	//触发动作，充值后的请求动作为recharge,无充值则为reward
-	private String actionName;
+	//触发动作，默认为all，请求所有符合条件道具
+	private String actionName = "all";
 
 	public String getActionName() {
 		return actionName;

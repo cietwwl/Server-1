@@ -28,7 +28,6 @@ public class BenefitItems {
 	private String itemIds;
 	
 	/**充值金额，如果actionName=reward时，没有此字段*/
-	@IgnoreSynField
 	private int	recharge;
 	
 	/**标题*/

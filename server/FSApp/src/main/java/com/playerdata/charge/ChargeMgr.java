@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.targetSell.TargetSellManager;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
@@ -184,7 +185,8 @@ public class ChargeMgr {
 				}
 			}
 			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
-			
+			//这里检查一下精准营销有没有此角色的充值请求
+			TargetSellManager.getInstance().playerCharge(player, chargeContentPojo.getFee());
 			if(success){
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
