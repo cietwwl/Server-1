@@ -50,7 +50,7 @@ public class DataAccessStaticSupport {
 		}
 		List<String> likeList = template.queryForList("show tables like '" + tableName + "%'", String.class);
 		int size = likeList.size();
-		if (size == 0) {
+		if (size == 0) {			
 			throw new ExceptionInInitializerError("不存在该表：" + tableName);
 		}
 		int len = tableName.length();
