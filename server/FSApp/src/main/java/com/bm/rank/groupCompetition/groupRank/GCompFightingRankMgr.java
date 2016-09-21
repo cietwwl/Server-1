@@ -32,6 +32,10 @@ public class GCompFightingRankMgr {
 	
 	public static int PERSONAL_FIGHT_RANK_COUNT = 1000;
 
+	/**
+	 * 更新某个帮派的排行
+	 * @param groupId
+	 */
 	public static void addOrUpdateGroupFightRank(String groupId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		if (ranking == null) {
@@ -54,6 +58,11 @@ public class GCompFightingRankMgr {
 		}
 	}
 	
+	/**
+	 * 计算帮派战斗力
+	 * @param group
+	 * @return
+	 */
 	private static long getGroupFighting(Group group){
 		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
 		if(null == personalRanking){
@@ -88,10 +97,20 @@ public class GCompFightingRankMgr {
 		return ranking.getRanking(groupID);
 	}
 
+	/**
+	 * 获取排行榜
+	 * (默认50名)
+	 * @return
+	 */
 	public static List<GCompFightingItem> getFightingRankList() {
 		return getFightingRankList(MAX_RANK_COUNT);
 	}
 	
+	/**
+	 * 获取排行榜
+	 * @param topCount 前面多少名
+	 * @return
+	 */
 	public static List<GCompFightingItem> getFightingRankList(int topCount) {
 		List<GCompFightingItem> itemList = new ArrayList<GCompFightingItem>();
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
@@ -105,6 +124,22 @@ public class GCompFightingRankMgr {
 			itemList.add(fightingItem);
 		}
 		return itemList;
+	}
+	
+	/**
+	 * 获取某个帮派的战力排行实体
+	 * @param groupID
+	 * @return
+	 */
+	public static GCompFightingItem getFightingRankItem(String groupID) {
+		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);		
+		RankingEntry<GCompFightingComparable, GCompFightingItem> entry = ranking.getRankingEntry(groupID);
+		if(null == entry) return null;
+		GCompFightingComparable fightingComparable = entry.getComparable();
+		GCompFightingItem fightingItem = entry.getExtendedAttribute();
+		fightingItem.setGroupFight(fightingComparable.getGroupFight());
+		fightingItem.setLastRank(fightingComparable.getLastRank());
+		return fightingItem;
 	}
 	
 	public static void clearRank(){
