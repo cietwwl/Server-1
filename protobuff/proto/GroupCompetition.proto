@@ -15,6 +15,8 @@ enum GCRequestType{
 	AllGuess = 6; //所有竞猜信息
 	NewGuess = 7; //发起新的竞猜
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
+	GetMatchView = 9; // 获取对阵信息
+	GetSelectionData = 10; // 获取海选信息
 }
 
 enum GCResultType {
@@ -26,6 +28,10 @@ message CommonReqMsg{
 	required GCRequestType reqType = 1;		//请求功能协议类型
 	optional AreaPosition position = 2;		//玩家当前在备战区的位置
 	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
+}
+
+message CommonGetDataReqMsg {
+	required GCRequestType reqType = 1; // 请求的类型
 }
 
 message CommonRspMsg{

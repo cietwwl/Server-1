@@ -191,7 +191,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		float multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
 
 		List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
-		if(!privList.isEmpty()){
+		if(privList!=null && !privList.isEmpty()){
 			for(PrivilegeDescItem iteminfo : privList){
 				if(iteminfo.getItemID() == eSpecialItemId.PlayerExp.getValue()){
 					multiplePlayerExp += iteminfo.getValue();
