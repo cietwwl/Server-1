@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
+import com.common.RefInt;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
@@ -319,10 +320,10 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result.setReason("钻石不足");
 			return result;
 		}
-		int guatanteeTimes = 0;
+		RefInt guatanteeTimes = new RefInt();
 		int type = getType(dataItem,planCfg,commonReq,isFree,guatanteeTimes);
 		Gamble handler = ActivityLimitGambleMap.get(type);
-		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes);
+		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes.value);
 		dataHolder.updateItem(player, dataItem);
 		doDropList(player,response,map);		
 		result.setSuccess(true);
@@ -364,8 +365,9 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	/**获取方案，以及触发的保底次数
 	 * @param guatanteeTimes */
 	private int getType(ActivityLimitHeroTypeItem dataItem,
-			ActivityLimitGamblePlanCfg planCfg, ActivityCommonReqMsg commonReq, boolean isFree, int guatanteeTimes) {
+			ActivityLimitGamblePlanCfg planCfg, ActivityCommonReqMsg commonReq, boolean isFree, RefInt guatanteeTimes) {
 		int type = TYPE_SINGAL_GAMBLE;
+		int guatanteeTime = 0;
 		type = getBaseType(commonReq,isFree,type);		
 		int count = planCfg.getDropItemCount();
 		//根据单十抽来判断是否触发保底
@@ -373,28 +375,29 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			
 			for(Integer time : planCfg.getGuaranteeList()){
 				if(time == (dataItem.getGuarantee() + count)){
-					guatanteeTimes  ++;
+					guatanteeTime  ++;
 					break;
 				}
 			}
 			if(dataItem.getGuarantee()!=0 &&(dataItem.getGuarantee() + count)%planCfg.getMaxGuarantee() == 0){
-				guatanteeTimes ++;
+				guatanteeTime ++;
 			}
 			dataItem.setGuarantee(dataItem.getGuarantee() + count);
 		}else if (commonReq.getGambleType() == GambleType.TEN){
 			int lastGuarantee = dataItem.getGuarantee() + count;			
 			for(Integer time : planCfg.getGuaranteeList()){
 				if(lastGuarantee >= time&&dataItem.getGuarantee() < time){
-					guatanteeTimes++;					
+					guatanteeTime++;					
 				}
 			}
 			for(int i = dataItem.getGuarantee()+1;i < lastGuarantee+1;i++){
 				if(i%planCfg.getMaxGuarantee() == 0&&dataItem.getGuarantee() != 0){
-					guatanteeTimes++;
+					guatanteeTime++;
 				}
 			}
 			dataItem.setGuarantee(dataItem.getGuarantee() + count);
 		}		
+		guatanteeTimes.value = guatanteeTime;
 		return type;
 	}
 	
