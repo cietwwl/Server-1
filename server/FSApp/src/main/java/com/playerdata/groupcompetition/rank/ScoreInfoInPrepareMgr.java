@@ -36,6 +36,7 @@ public class ScoreInfoInPrepareMgr {
 		List<GCompMixRankData> rankDatas = new ArrayList<GCompMixRankData>();
 		List<GCompMember> gcMemsInfo = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(groupId);
 		for(GCompMember mem : gcMemsInfo){
+			if(mem.getScore() == 0 && mem.getMaxContinueWins() == 0 && mem.getTotalWinTimes() == 0) continue;
 			GCompMixRankData data = new GCompMixRankData(mem.getUserId(), mem.getUserName(), mem.getScore(), mem.getTotalWinTimes(), mem.getMaxContinueWins());
 			rankDatas.add(data);
 		}
