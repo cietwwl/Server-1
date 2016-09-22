@@ -23,7 +23,6 @@ public class TeamMember {
 	@IgnoreSynField
 	private String userName;
 	
-	@IgnoreSynField
 	private boolean isRobot = false;
 	
 	@IgnoreSynField
