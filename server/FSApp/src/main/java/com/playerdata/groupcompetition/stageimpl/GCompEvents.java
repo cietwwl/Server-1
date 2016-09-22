@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
-import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
@@ -82,6 +83,10 @@ public class GCompEvents {
 		GCompMatchDataMgr.getInstance().addEvents(eventsData, eventsType);
 	}
 	
+	private void fireEventsStatusChange(GCompEventsStatus status) {
+		GroupCompetitionMgr.getInstance().updateEventsStatus(status);
+	}
+	
 	/**
 	 * 
 	 * 把赛事的状态切换到下个状态
@@ -97,6 +102,7 @@ public class GCompEvents {
 			for (int i = 0, size = againsts.size(); i < size; i++) {
 				againsts.get(i).setCurrentStatus(nextStatus);
 			}
+			fireEventsStatusChange(nextStatus);
 			return true;
 		} else {
 			// 没有下个状态

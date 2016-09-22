@@ -14,6 +14,7 @@ import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -202,6 +203,16 @@ public class GroupCompetitionMgr {
 	}
 	
 	/**
+	 * <pre>
+	 * 获取本次帮派争霸的当前赛事类型
+	 * </pre>
+	 * @return
+	 */
+	public GCEventsType getCurrentEventsType() {
+		return _dataHolder.get().getCurrentEventsData().getCurrentEventsType();
+	}
+	
+	/**
 	 * 
 	 * 更新当前赛事的状态
 	 * 
@@ -217,10 +228,17 @@ public class GroupCompetitionMgr {
 			currentEventsData.setFirstEventsType(eventsType);
 			globalData.setCurrentData(currentEventsData);
 		}
-		currentEventsData.setCurrentStatus(eventsType);
+		currentEventsData.setCurrentEventsType(eventsType);
 		currentEventsData.setCurrentStatusFinished(false);
 		currentEventsData.addRelativeGroups(eventsType, relativeGroupIds);
+		currentEventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		this._dataHolder.update();
+	}
+	
+	public void updateEventsStatus(GCompEventsStatus status) {
+		GroupCompetitionGlobalData globalData = _dataHolder.get();
+		globalData.getCurrentEventsData().setCurrentStatus(status);
+		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
 	/**
@@ -265,6 +283,9 @@ public class GroupCompetitionMgr {
 				baseInfo.setEndTime(globalData.getCurrentStageEndTime());
 				baseInfo.setStartTime(globalData.getLastHeldTimeMillis());
 				baseInfo.setStart(true);
+				if(globalData.getCurrentStageType() == GCompStageType.EVENTS) {
+					baseInfo.setEventStatus(globalData.getCurrentEventsData().getCurrentStatus());
+				}
 				break;
 			default:
 				baseInfo.setStart(false);

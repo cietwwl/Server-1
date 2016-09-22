@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -29,11 +30,14 @@ class GCompEventsGlobalData {
 	@JsonProperty("2")
 	private Map<GCEventsType, List<String>> _relativeGroups = new HashMap<GCEventsType, List<String>>(); // 参与的帮派
 	@JsonProperty("3")
-	private GCEventsType _currentStatus; // 当前的赛事阶段（16强，8强。。。）
+	private GCEventsType _currentEventsType; // 当前的赛事阶段（16强，8强。。。）
 	@JsonProperty("4")
 	private boolean _currentStatusFinished; // 当前的赛事阶段是否已经完结
 	@JsonProperty("5")
 	private GCEventsType _firstEventsType; // 是从哪一强开始比赛的
+	@JsonProperty("6")
+	private GCompEventsStatus _currentStatus; // 当前的状态
+	
 
 	public long getHeldTime() {
 		return _heldTime;
@@ -52,11 +56,11 @@ class GCompEventsGlobalData {
 	}
 
 	public GCEventsType getCurrentEventsType() {
-		return _currentStatus;
+		return _currentEventsType;
 	}
 
-	public void setCurrentStatus(GCEventsType currentStatus) {
-		this._currentStatus = currentStatus;
+	public void setCurrentEventsType(GCEventsType currentEventsType) {
+		this._currentEventsType = currentEventsType;
 	}
 
 	public boolean isCurrentStatusFinished() {
@@ -81,11 +85,20 @@ class GCompEventsGlobalData {
 		this._firstEventsType = firstEventsType;
 	}
 	
+	public GCompEventsStatus getCurrentStatus() {
+		return _currentStatus;
+	}
+
+	public void setCurrentStatus(GCompEventsStatus currentStatus) {
+		this._currentStatus = currentStatus;
+	}
+	
 	void reset() {
 		this._heldTime = 0;
 		this._relativeGroups.clear();
-		this._currentStatus = null;
+		this._currentEventsType = null;
 		this._currentStatusFinished = false;
 		this._firstEventsType = null;
+		this._currentStatus = null;
 	}
 }
