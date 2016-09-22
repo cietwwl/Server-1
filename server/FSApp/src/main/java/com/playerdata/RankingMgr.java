@@ -293,11 +293,14 @@ public class RankingMgr {
 		ArrayList<RankingEntityOfRank<ArenaRankingComparable, RankingLevelData>> currentList = new ArrayList<RankingEntityOfRank<ArenaRankingComparable, RankingLevelData>>(total);
 		String oldChampion = null;
 		String currentChampoin = null;
+		WorshipMgr.getInstance().changeFirstRanking(copyType);
 		for (int i = 1; i <= size; i++) {
 			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
 			String key = entry.getKey();
+			RankingLevelData levelData = RankingUtils.createRankingLevelData(entry);
 			if (i == 1) {
 				RankingEntry<ArenaRankingComparable, RankingLevelData> lastChampion = ranking.getRankingEntry(1);
+				
 				if (lastChampion == null) {
 					// 第一名悬空
 					currentChampoin = key;
@@ -307,11 +310,16 @@ public class RankingMgr {
 					if (!oldKey.equals(key)) {
 						currentChampoin = key;
 						oldChampion = oldKey;
+						RankingLevelData extendedAttribute = lastChampion.getExtendedAttribute();
+						WorshipMgr.getInstance().sendFailEmail(ECareer.valueOf(extendedAttribute.getJob()), extendedAttribute.getUserId());
 					}
 				}
+				
+				//发送膜拜邮件
+				WorshipMgr.getInstance().sendSuccessEmail(ECareer.valueOf(levelData.getJob()), levelData.getUserId());
 			}
 
-			RankingLevelData levelData = RankingUtils.createRankingLevelData(entry);
+			
 			ArenaSettleComparable sc = new ArenaSettleComparable();
 			sc.setRanking(i);
 			ArenaSettlement settlement = new ArenaSettlement();
