@@ -25,4 +25,9 @@ public class GCompPersonalScore {
 	public int getContinueWin() {
 		return continueWin;
 	}
+
+	@Override
+	public String toString() {
+		return "GCompPersonalScore [name=" + name + ", score=" + score + ", continueWin=" + continueWin + "]";
+	}
 }

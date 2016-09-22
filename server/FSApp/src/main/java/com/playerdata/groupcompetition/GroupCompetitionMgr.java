@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
-import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
@@ -156,7 +156,7 @@ public class GroupCompetitionMgr {
 			try {
 				int matchId = GCompMatchDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsData().getCurrentEventsType());
 				if (matchId > 0) {
-					GCTeamDataMgr.getInstance().sendTeamData(matchId, player);
+					GCompTeamMgr.getInstance().sendTeamData(matchId, player);
 					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);

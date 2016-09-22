@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
-import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
@@ -89,7 +89,7 @@ public class GCompEvents {
 	
 	private void fireEventsStart() {
 		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(_type);
-		GCTeamDataMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
+		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 	}

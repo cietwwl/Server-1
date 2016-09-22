@@ -4,6 +4,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompDetailInfoDAO;
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -24,6 +25,7 @@ public class GCompDetailInfoHolder {
 	public void syn(int matchId, Player player) {
 		GCompDetailInfo detailInfo = _dao.getDetailInfo(matchId);
 		ClientDataSynMgr.synData(player, detailInfo, eSynType.GCompDetailInfo, eSynOpType.UPDATE_SINGLE);
+		GCompUtil.log("---------- 同步DetailInfo数据：{} ----------", detailInfo);
 	}
 	
 	public void add(GCompDetailInfo detailInfo) {

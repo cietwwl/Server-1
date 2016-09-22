@@ -37,4 +37,9 @@ public class GCompGroupScore {
 	public String getGroupIcon() {
 		return groupIcon;
 	}
+
+	@Override
+	public String toString() {
+		return "GCompGroupScore [groupId=" + groupId + ", score=" + score + "]";
+	}
 }
