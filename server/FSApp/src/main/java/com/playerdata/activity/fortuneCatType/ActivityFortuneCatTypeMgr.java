@@ -36,7 +36,7 @@ import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 
 public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
-
+	private final static int recordLength = 3;
 	private static Random r = new Random();
 
 	private static ActivityFortuneCatTypeMgr instance = new ActivityFortuneCatTypeMgr();
@@ -265,7 +265,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		record.setUid(player.getUserId());
 		record.setGetGold(getGold);
 
-		if (map.size() < 3) {
+		if (map.size() < recordLength) {
 			record.setId(map.size());
 			map.put(map.size(), record);
 			ServerCommonDataHolder.getInstance().update(scdData);
@@ -285,8 +285,8 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 			i++;
 		}
 		map.remove(num);
-		record.setId(num + 3);
-		map.put(num + 3, record);
+		record.setId(num + recordLength);
+		map.put(num + recordLength, record);
 		ServerCommonDataHolder.getInstance().update(scdData);
 	}
 
