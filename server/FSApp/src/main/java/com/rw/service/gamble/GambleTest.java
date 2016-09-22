@@ -19,7 +19,7 @@ import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
 
 public class GambleTest {
-	private static boolean TestGamble = true;
+	private static boolean TestGamble = false;
 	/**
 	 * 仅用于概率测试，请不要调用 测试概率，统计一百万次的情况下，免费/收费的掉落情况，存放在一个文本里面，需要纪录测试时间和配置版本
 	 */
@@ -112,6 +112,8 @@ public class GambleTest {
 		try {
 			String freeTip = isFree ? "free" : "charge";
 			File resultFile = new File("GambleProbability/GambleTest_" + gambleTime + "_" + cfgKey + "_" + freeTip + ".txt");
+			resultFile.getParentFile().mkdirs();
+
 			fos = new FileOutputStream(resultFile);
 			PrintWriter logger = new PrintWriter(new OutputStreamWriter(fos, "UTF-8"));
 			logger.println("use time:" + (endTime - startTime) + "ms");
